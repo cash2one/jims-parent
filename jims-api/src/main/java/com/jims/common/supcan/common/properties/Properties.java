@@ -3,14 +3,14 @@
  */
 package com.jims.common.supcan.common.properties;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.jims.common.supcan.annotation.common.properties.SupExpress;
 import com.jims.common.supcan.annotation.common.properties.SupProperties;
 import com.jims.common.utils.ObjectUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import java.util.List;
 
 /**
  * 硕正TreeList Properties

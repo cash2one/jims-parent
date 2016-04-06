@@ -3,13 +3,13 @@
  */
 package com.jims.common.supcan.common;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.jims.common.supcan.common.fonts.Font;
 import com.jims.common.supcan.common.properties.Properties;
 import com.jims.common.utils.IdGen;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import java.util.List;
 
 /**
  * 硕正Common

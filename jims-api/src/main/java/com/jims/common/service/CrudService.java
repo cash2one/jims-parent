@@ -3,7 +3,7 @@
  */
 package com.jims.common.service;
 
-import com.jims.common.persistence.CrudDao;
+
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;

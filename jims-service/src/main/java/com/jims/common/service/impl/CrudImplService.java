@@ -6,7 +6,6 @@ package com.jims.common.service.impl;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.persistence.Page;
-import com.jims.common.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
