@@ -1,5 +1,7 @@
 package com.jims.demo.api;
 
+
+import com.jims.common.service.CrudService;
 import com.jims.demo.entity.DemoUser;
 
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.List;
 /**
  * Created by heren on 2016/4/5.
  */
-public interface SayHelloApi {
+public interface SayHelloApi extends CrudService<DemoUser> {
 
     /**
      *
@@ -18,6 +20,5 @@ public interface SayHelloApi {
 
     public List<DemoUser> getDemo() ;
 
-    public DemoUser getDemo1();
 
 }

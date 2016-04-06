@@ -30,13 +30,11 @@ public class HelloRest  {
         return sayHelloApi.sayHello(user) ;
     }
     @GET
-        @Path("get")
-        public List<DemoUser> getDemo(){
-        return sayHelloApi.getDemo() ;
-    }
-    @GET
-    @Path("get1")
-    private DemoUser getDemo1(){
-        return sayHelloApi.getDemo1() ;
-    }
+    @Path("get")
+    public List<DemoUser> getDemo(){
+    return sayHelloApi.getDemo() ;
+}
+
+
+
 }

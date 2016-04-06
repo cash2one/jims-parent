@@ -1,6 +1,7 @@
 package com.jims.demo.SayHelloService;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.service.impl.CrudImplService;
 import com.jims.demo.api.SayHelloApi;
 import com.jims.demo.entity.DemoUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by heren on 2016/4/5.
  */
 @Service(version = "1.0.0")
-public class SayHelloImpl implements SayHelloApi  {
+public class SayHelloImpl extends CrudImplService<SayHelloDao,DemoUser> implements SayHelloApi{
 
     @Autowired
     private SayHelloDao sayHelloDao;
@@ -29,13 +30,6 @@ public class SayHelloImpl implements SayHelloApi  {
     public List<DemoUser> getDemo() {
         List<DemoUser> list= sayHelloDao.findAllList(new DemoUser());
         return list;
-    }
-    @Override
-    public DemoUser getDemo1() {
-        DemoUser demoUser=new DemoUser();
-        demoUser.setPassword("123000");
-        demoUser.setUserName("1111");
-        return demoUser;
     }
 
 
