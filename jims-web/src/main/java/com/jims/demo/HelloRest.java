@@ -9,12 +9,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by heren on 2016/4/5.
  */
 @Component
-@Produces("application/json")
+@Produces(MediaType.APPLICATION_JSON)
 @Path("hello")
 public class HelloRest  {
 
@@ -27,5 +30,17 @@ public class HelloRest  {
         User user = new User(userName,password) ;
         return sayHelloApi.sayHello(user) ;
     }
+
+    @GET
+    @Path("list")
+    public List<User> usersHello(){
+        List<User> users = new ArrayList<User>() ;
+        for( int i = 0 ;i<10;i++){
+            User user = new User(""+i,"+i") ;
+            users.add(user) ;
+        }
+        return users ;
+    }
+
 
 }

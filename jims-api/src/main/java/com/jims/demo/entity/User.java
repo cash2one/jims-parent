@@ -1,10 +1,12 @@
 package com.jims.demo.entity;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  * Created by JIMS on 2016/4/5.
  */
+@XmlRootElement
 public class User implements Serializable {
 
     private String userName ;
