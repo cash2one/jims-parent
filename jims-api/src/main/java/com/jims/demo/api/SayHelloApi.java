@@ -9,14 +9,14 @@ import java.util.List;
 /**
  * Created by heren on 2016/4/5.
  */
-public interface SayHelloApi extends CrudService<DemoUser> {
+public interface SayHelloApi{
 
     /**
      *
      * @param user
      * @return
      */
-    public String sayHello(DemoUser user) ;
+    public String sayHello(DemoUser user);
 
     public List<DemoUser> getDemo() ;
 

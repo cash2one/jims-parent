@@ -14,6 +14,7 @@ import java.util.List;
  * Created by heren on 2016/4/5.
  */
 @Service(version = "1.0.0")
+@Transactional
 public class SayHelloImpl extends CrudImplService<SayHelloDao,DemoUser> implements SayHelloApi{
 
     @Autowired
