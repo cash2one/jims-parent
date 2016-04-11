@@ -39,7 +39,7 @@
     </repositories>
     <properties>
         <jersey.version>1.19.1</jersey.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <slf4j.version>1.7.7</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-io.version>2.4</commons-io.version>
@@ -84,7 +84,7 @@
         <cglib_version>2.2</cglib_version>
         <webx_version>3.0.8</webx_version>
         <!-- Log libs -->
-        <slf4j_version>1.6.2</slf4j_version>
+        <slf4j_version>1.7.7</slf4j_version>
         <jcl_version>1.1</jcl_version>
         <log4j_version>1.2.16</log4j_version>
         <logback_version>1.0.6</logback_version>
@@ -156,6 +156,11 @@
                 <version>${jetty.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>2.5.1</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.javassist</groupId>

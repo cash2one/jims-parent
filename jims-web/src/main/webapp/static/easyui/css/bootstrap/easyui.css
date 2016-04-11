@@ -351,6 +351,7 @@
   text-align: center;
   vertical-align: middle;
   line-height: normal;
+
 }
 .l-btn-plain {
   border-width: 0;
@@ -474,24 +475,21 @@
   width: 32px;
 }
 .l-btn {
-  color: #444;
-  background: #f5f5f5;
+    height:40px;
+  color: #fff;
+  background: #97cb28;
   background-repeat: repeat-x;
-  border: 1px solid #bbb;
-  background: -webkit-linear-gradient(top,#ffffff 0,#e6e6e6 100%);
-  background: -moz-linear-gradient(top,#ffffff 0,#e6e6e6 100%);
-  background: -o-linear-gradient(top,#ffffff 0,#e6e6e6 100%);
-  background: linear-gradient(to bottom,#ffffff 0,#e6e6e6 100%);
+  background: -webkit-linear-gradient(top,#97cb28 0,#698f18 100%);
+  background: -moz-linear-gradient(top,#97cb28 0,#698f18 100%);
+  background: -o-linear-gradient(top,#97cb28 0,#698f18 100%);
+  background: linear-gradient(to bottom,#97cb28 0,#698f18 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#e6e6e6,GradientType=0);
-  -moz-border-radius: 5px 5px 5px 5px;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#97cb28,endColorstr=#698f18,GradientType=0);
+
 }
 .l-btn:hover {
   background: #e6e6e6;
   color: #00438a;
-  border: 1px solid #ddd;
   filter: none;
 }
 .l-btn-plain {
