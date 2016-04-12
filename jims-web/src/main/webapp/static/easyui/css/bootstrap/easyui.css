@@ -351,7 +351,6 @@
   text-align: center;
   vertical-align: middle;
   line-height: normal;
-
 }
 .l-btn-plain {
   border-width: 0;
@@ -475,21 +474,24 @@
   width: 32px;
 }
 .l-btn {
-    height:40px;
-  color: #fff;
-  background: #97cb28;
+  color: #444;
+  background: #f5f5f5;
   background-repeat: repeat-x;
-  background: -webkit-linear-gradient(top,#97cb28 0,#698f18 100%);
-  background: -moz-linear-gradient(top,#97cb28 0,#698f18 100%);
-  background: -o-linear-gradient(top,#97cb28 0,#698f18 100%);
-  background: linear-gradient(to bottom,#97cb28 0,#698f18 100%);
+  border: 1px solid #bbb;
+  background: -webkit-linear-gradient(top,#ffffff 0,#e6e6e6 100%);
+  background: -moz-linear-gradient(top,#ffffff 0,#e6e6e6 100%);
+  background: -o-linear-gradient(top,#ffffff 0,#e6e6e6 100%);
+  background: linear-gradient(to bottom,#ffffff 0,#e6e6e6 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#97cb28,endColorstr=#698f18,GradientType=0);
-
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#e6e6e6,GradientType=0);
+  -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
 }
 .l-btn:hover {
   background: #e6e6e6;
   color: #00438a;
+  border: 1px solid #ddd;
   filter: none;
 }
 .l-btn-plain {
@@ -1550,8 +1552,8 @@
   cursor: default;
 }
 .datagrid-row-selected {
-  background: #0081c2;
-  color: #fff;
+    background: rgba(151,203,40,0.4);
+    color: #698f18;
 }
 .datagrid-row-editing .textbox,
 .datagrid-row-editing .textbox-text {
@@ -2871,3 +2873,24 @@
   background: transparent;
   color: #333;
 }
+/****/
+.fitem
+{
+    padding: 5px;
+    border-bottom: 1px dashed rgb(204, 204, 204);
+    margin-bottom: 10px;
+}
+.validatebox-text
+{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    height: 25px;
+    box-shadow: 0px 0px 2px #ccc;
+    width: 60%;
+}
+.validatebox-text:focus
+{
+    box-shadow: 0px 0px 2px #9ccd3d;
+}
+/****/
+
