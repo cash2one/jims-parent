@@ -4,6 +4,43 @@
 
 <web-app>
 
+    <!-- 激活Tomcat的defaultServlet来处理静态文件 -->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.gif</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.png</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        　　<!-- Override init parameter to avoid nasty -->
+        　　<!-- file locking issue on windows. -->
+        　　<servlet-name>default</servlet-name>
+        　　<init-param>
+        　　<param-name>useFileMappedBuffer</param-name>
+        　　<param-value>false</param-value>
+        　　</init-param>
+    </servlet>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath*:/*.xml</param-value>
@@ -37,6 +74,8 @@
         <url-pattern>/service/*</url-pattern>
     </servlet-mapping>
 
+
+
     <!-- Validate code -->
     <servlet>
         <servlet-name>ValidateCodeServlet</servlet-name>
@@ -46,6 +85,7 @@
         <servlet-name>ValidateCodeServlet</servlet-name>
         <url-pattern>/servlet/validateCodeServlet</url-pattern>
     </servlet-mapping>
+
 
     <welcome-file-list>
         <welcome-file>/modules/sys/login.html</welcome-file>
