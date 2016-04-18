@@ -1,16 +1,16 @@
-create table DEPT_DICT
+                 create table DEPT_DICT
 (
    ID                   VARCHAR2(64)         not null,
    PAREN_IDT            VARCHAR2(64),
    DEPT_NAME            VARCHAR2(100),
    DEPT_CODE            VARCHAR(20),
    DEPT_PROPERTITY      VARCHAR(100),
-   CAREATE_BY           VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
+   REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
+   CREATE_BY           VARCHAR2(64),
    UPDATE_DATE          DATE,
    DEL_FLAG             VARCHAR(2),
-   CREATE_TIME          DATE,
+   CREATE_DATE          DATE,
    constraint PK_DEPT_DICT primary key (ID)
 );
 

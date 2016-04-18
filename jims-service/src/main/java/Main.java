@@ -45,9 +45,9 @@ public class Main {
     }
 
 
-    ///**
-    // * 数据库版本控制
-    // */
+    /**
+    * 数据库版本控制
+    */
     public static void migrationDb(){
 
         Flyway flyway = new Flyway();
