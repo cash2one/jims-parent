@@ -8,7 +8,7 @@ function onloadMethod(){
         border: true,
         collapsible:false,//是否可折叠的
         fit: true,//自动大小
-        url:'/modules/doctor/datagrid_data2.json',
+        url:basePath+'',
         //sortName: 'code',
         //sortOrder: 'desc',
         remoteSort:false,
@@ -17,11 +17,12 @@ function onloadMethod(){
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'id',title:'病人姓名',width:'28%',align:'center'},
-            {field:'text',title:'性别',width:'10%',align:'center'},
-            {field:'age',title:'年龄',width:'10%',align:'center'},
-            {field:'type',title:'病人类型',width:'18%',align:'center'},
-            {field:'itemid',title:'操作',width:'30%',align:'center',formatter:function(value, row, index){
+            {field:'value',title:'键值',width:'10%',align:'center'},
+            {field:'label',title:'标签',width:'10%',align:'center'},
+            {field:'type',title:'类型',width:'10%',align:'center'},
+            {field:'description',title:'描述',width:'18%',align:'center'},
+            {field:'sort',title:'排序',width:'18%',align:'center'},
+            {field:'id',title:'操作',width:'30%',align:'center',formatter:function(value, row, index){
                 return '<a href="#">查看</a>&nbsp<a href="#">修改</a>&nbsp<a href="#">删除</a>';
             }}
         ]],
@@ -32,13 +33,13 @@ function onloadMethod(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
-                $("#dlg").dialog({title: '添加病人信息'}).dialog("open")
+                $("#dlg").dialog({title: '添加字典信息'}).dialog("open")
             }
         }, '-', {
             text: '修改',
             iconCls: 'icon-edit',
             handler: function() {
-                $("#dlg").dialog({title: '修改病人信息'}).dialog("open")
+                $("#dlg").dialog({title: '修改字典信息'}).dialog("open")
             }
         }, '-',{
             text: '删除',
