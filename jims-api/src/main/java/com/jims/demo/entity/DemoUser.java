@@ -1,21 +1,25 @@
 package com.jims.demo.entity;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import com.jims.common.persistence.DataEntity;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by JIMS on 2016/4/5.
  */
+
 @XmlRootElement
-public class User implements Serializable {
+public class DemoUser extends DataEntity<DemoUser>  {
 
     private String userName ;
     private String password ;
 
-    public User() {
+    public DemoUser() {
+        super();
     }
 
-    public User(String userName, String password) {
+    public DemoUser(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }

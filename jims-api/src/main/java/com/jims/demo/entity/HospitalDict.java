@@ -1,19 +1,12 @@
 package com.jims.demo.entity;
 
 
-
-
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * HospitalDict entity. @author MyEclipse Persistence Tools
  */
-@Entity
-@Table(name = "HOSPITAL_DICT", schema = "JIMS")
-@XmlRootElement
+
 public class HospitalDict implements java.io.Serializable {
 
 	// Fields
@@ -33,7 +26,7 @@ public class HospitalDict implements java.io.Serializable {
 	public HospitalDict() {
 	}
 
-    @PrePersist
+
     public void prePersist(){
     }
 
@@ -50,11 +43,7 @@ public class HospitalDict implements java.io.Serializable {
         this.inputCode = inputCode;
     }
 
-	// Property accessors
-    @GenericGenerator(name = "generator", strategy = "uuid.hex")
-    @Id
-    @GeneratedValue(generator = "generator")
-    @Column(name = "ID", unique = true, nullable = false, length = 64)
+
 	public String getId() {
 		return this.id;
 	}
@@ -63,7 +52,7 @@ public class HospitalDict implements java.io.Serializable {
 		this.id = id;
 	}
 
-    @Column(name = "parent_hospital")
+
     public String getParentHospital() {
         return parentHospital;
     }
@@ -72,7 +61,6 @@ public class HospitalDict implements java.io.Serializable {
         this.parentHospital = parentHospital;
     }
 
-    @Column(name = "hospital_name", length = 100)
 	public String getHospitalName() {
 		return this.hospitalName;
 	}
@@ -81,7 +69,6 @@ public class HospitalDict implements java.io.Serializable {
 		this.hospitalName = hospitalName;
 	}
 
-	@Column(name = "unit_code", length = 11)
 	public String getUnitCode() {
 		return this.unitCode;
 	}
@@ -90,7 +77,6 @@ public class HospitalDict implements java.io.Serializable {
 		this.unitCode = unitCode;
 	}
 
-	@Column(name = "location", length = 100)
 	public String getLocation() {
 		return this.location;
 	}
@@ -99,7 +85,6 @@ public class HospitalDict implements java.io.Serializable {
 		this.location = location;
 	}
 
-	@Column(name = "zip_code", length = 6)
 	public String getZipCode() {
 		return this.zipCode;
 	}
@@ -108,7 +93,6 @@ public class HospitalDict implements java.io.Serializable {
 		this.zipCode = zipCode;
 	}
 
-	@Column(name = "ORGANIZATION_FULL_CODE", length = 30)
 	public String getOrganizationFullCode() {
 		return this.organizationFullCode;
 	}
@@ -117,7 +101,6 @@ public class HospitalDict implements java.io.Serializable {
 		this.organizationFullCode = organizationFullCode;
 	}
 
-    @Transient
     public String getInputCode() {
         return inputCode;
     }
