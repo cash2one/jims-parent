@@ -1,10 +1,10 @@
-create table PAT_MASTER_INDEX
+﻿create table PAT_MASTER_INDEX
 (
   id                    VARCHAR2(64) not null,
   hospId                VARCHAR2(64),
   PATIENT_ID            VARCHAR2(10),
   INP_NO                VARCHAR2(10),
-  NAME                  VARCHAR2(20),
+  NAME                  VARCHAR2(20 char),
   NAME_PHONETIC         VARCHAR2(16),
   SEX                   VARCHAR2(4),
   DATE_OF_BIRTH         DATE,
