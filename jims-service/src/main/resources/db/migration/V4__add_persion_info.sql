@@ -3,17 +3,17 @@ create table PERSION_INFO
    ID                   VARCHAR(64)          not null,
    NAME                 VARCHAR(100),
    SEX                  VARCHAR(2),
-   NATIION              VARCHAR(64),
+   NATION              VARCHAR(64),
    CARD_NO              VARCHAR(20),
    PHONE_NUM            VARCHAR(11),
-   CAREATE_BY           VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
-   UPDATE_BY            VARCHAR(64),
-   UPDATE_DATE          DATE,
-   DEL_FLAG             VARCHAR(2),
-   CREATE_TIME          DATE,
    EMAIL                VARCHAR(100),
    NICK_NAME            VARCHAR(100),
+   REMARKS              VARCHAR2(2000),
+   UPDATE_BY            VARCHAR(64),
+   CREATE_BY           VARCHAR2(64),
+   UPDATE_DATE          DATE,
+   DEL_FLAG             VARCHAR(2),
+   CREATE_DATE          DATE,
    constraint PK_PERSION_INFO primary key (ID)
 );
 
@@ -29,7 +29,7 @@ comment on column PERSION_INFO.NAME is
 comment on column PERSION_INFO.SEX is
 '性别';
 
-comment on column PERSION_INFO.NATIION is
+comment on column PERSION_INFO.NATION is
 '民族';
 
 comment on column PERSION_INFO.CARD_NO is

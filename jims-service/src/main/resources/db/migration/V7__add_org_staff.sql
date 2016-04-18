@@ -4,12 +4,12 @@ create table ORG_STAFF
    DEPT_ID              VARCHAR(64),
    ORG_ID               VARCHAR(64),
    TITLE                VARCHAR(20),
-   CAREATE_BY           VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
+   REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
+   CREATE_BY           VARCHAR2(64),
    UPDATE_DATE          DATE,
    DEL_FLAG             VARCHAR(2),
-   CREATE_TIME          DATE,
+   CREATE_DATE          DATE,
    constraint PK_ORG_STAFF primary key (ID)
 );
 

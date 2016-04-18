@@ -6,19 +6,14 @@ create table PERSION_SERVICE_LIST
    FLAG                 VARCHAR(2),
    SERVICE_START_DATE   DATE,
    SERVICE_END_DATE     DATE,
-   CAREATE_BY           VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
+   REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
+   CREATE_BY           VARCHAR2(64),
    UPDATE_DATE          DATE,
    DEL_FLAG             VARCHAR(2),
-   CREATE_TIME          DATE,
+   CREATE_DATE          DATE,
    constraint PK_PERSION_SERVICE_LIST primary key (ID)
 );
-
-comment on table PERSION_SERVICE_LIST is
-'人员拥有服务
-1，系统默认服务
-2，购买的增值服务';
 
 comment on column PERSION_SERVICE_LIST.ID is
 '主键';

@@ -4,13 +4,13 @@ create table SYS_USER
    LOGIN_NAME           VARCHAR(20),
    PASSWORD             VARCHAR(100),
    LAST_LOGIN_TIME      DATE,
-   CAREATE_BY           VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
+   PERISON_ID           VARCHAR(64),
+   REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
+   CREATE_BY           VARCHAR2(64),
    UPDATE_DATE          DATE,
    DEL_FLAG             VARCHAR(2),
-   CREATE_TIME          DATE,
-   PERISON_ID           VARCHAR(64),
+   CREATE_DATE          DATE,
    constraint PK_SYS_USER primary key (ID)
 );
 
