@@ -1,4 +1,4 @@
-create table SYS_COMPANY
+create table SYS_COMPANY 
 (
    ID                   VARCHAR2(64)         not null,
    PARENT_ID            VARCHAR2(64),
@@ -10,13 +10,13 @@ create table SYS_COMPANY
    APPLY_STATUS         VARCHAR2(2 CHAR),
    ADDRESS              VARCHAR2(500 CHAR),
    EMAIL                VARCHAR2(50),
-   CAREATE_BY           VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
+   CREATE_BY           VARCHAR2(64),
    UPDATE_BY            VARCHAR(64),
    UPDATE_DATE          DATE,
    DEL_FLAG             VARCHAR(2),
-   CREATE_TIME          DATE,
    OWNER                VARCHAR(64),
+   REMARKS              VARCHAR2(2000),
+   CREATE_DATE          DATE,
    constraint PK_SYS_COMPANY primary key (ID)
 );
 

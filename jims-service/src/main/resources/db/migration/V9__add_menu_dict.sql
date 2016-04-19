@@ -6,12 +6,12 @@ create table MENU_DICT
    ICON                 VARCHAR(100),
    SORT                 NUMBER,
    TARGET               VARCHAR(100),
-   CAREATE_BY           VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
+   REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
+   CREATE_BY           VARCHAR2(64),
    UPDATE_DATE          DATE,
    DEL_FLAG             VARCHAR(2),
-   CREATE_TIME          DATE,
+   CREATE_DATE          DATE,
    constraint PK_MENU_DICT primary key (ID)
 );
 
