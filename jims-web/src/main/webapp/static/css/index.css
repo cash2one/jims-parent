@@ -402,3 +402,67 @@ ul.cus-list li a span.cus-name
     border-right:none;
 }
 /***/
+
+
+
+/*病历文书*/
+.label,.badge {
+    display: inline-block;
+    padding: 2px 4px;
+    font-size: 11.844px;
+    font-weight: bold;
+    line-height: 14px;
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #999
+}
+
+.label {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px
+}
+
+.badge {
+    padding-right: 9px;
+    padding-left: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px
+}
+
+
+.label-info,.badge-info {
+    background-color: #3a87ad
+}
+
+.label-info[href],.badge-info[href] {
+    background-color: #2d6987
+}
+.goh-sign-tab
+{
+    margin:0 auto;
+    margin-bottom:20px;
+}
+.goh-sign-tab tr td
+{
+    height:30px;
+    padding-top:10px;
+}
+.goh-sign-tab tr td:nth-child(odd)
+{
+    text-align:right;
+    font-weight:bold;
+}
+.goh-sign-tab tr td:nth-child(even)
+{
+    padding-left:10px;
+    border-bottom:1px dashed #ccc;
+}
+.goh-sign-tab.goh-notdborder tr td:nth-child(even)
+{
+    border-bottom:none;
+}
+
