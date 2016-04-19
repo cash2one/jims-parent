@@ -345,7 +345,7 @@ ul.cus-list li a span.cus-name
 /**2016-04-18 13:49:36，处方，chentianqi**/
 .inp-tab-left{
     float:left;
-    width:50%;
+    width:63%;
     height: 35%;
     margin-top:10px;
 }
@@ -360,11 +360,33 @@ ul.cus-list li a span.cus-name
 }
 .inp-tab-center{
     float:left;
-    width:20%;
-    margin-top:10px;
+    width:80px;
+    margin-top:60px;
+    margin-left:10px;
 }
-.inp-tab-center button{
-    float: left;
+.inp-tab-center a.easyui-linkbutton{
+    display:block;
+    text-align:left;
+    margin-bottom:5px;
+    width:70px;
+    height:35px;
+    line-height:35px;
+}
+.inp-tab-center a.easyui-linkbutton .l-btn-icon-left .l-btn-text
+{
+    margin: 5px 4px 0 24px;
+}
+.tab_cf_r tr td:first-child
+{
+    text-align:right !important;
+}
+.tab_cf_r tr td
+{
+    text-align:left !important;
+}
+.tab_cf_r tr td select.easyui-combobox
+{
+    width:200px;
 }
 .fitem label
 {
@@ -427,3 +449,4 @@ ul.cus-list li a span.cus-name
     border-right:none;
 }
 /***/
+
