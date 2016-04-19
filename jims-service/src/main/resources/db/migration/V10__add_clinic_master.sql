@@ -68,8 +68,6 @@ comment on column CLINIC_MASTER.VISIT_TIME_DESC
   is '就诊时间描述';
 comment on column CLINIC_MASTER.SERIAL_NO
   is '号码';
-comment on column CLINIC_MASTER.PATIENT_ID
-  is '病人标识号';
 comment on column CLINIC_MASTER.NAME
   is '姓名';
 comment on column CLINIC_MASTER.NAME_PHONETIC
