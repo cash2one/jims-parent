@@ -101,47 +101,6 @@ $('#list_data').datagrid({
                 editRow = 0;
             }
         }
-    }, '-', {
-        text: '保存', iconCls: 'icon-save', handler: function () {
-            $("#list_data").datagrid('endEdit', editRow);
-
-            //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
-
-            //使用JSON序列化datarow对象，发送到后台。
-            var rows = $("#list_data").datagrid('getChanges');
-
-            var rowstr = JSON.stringify(rows);
-            $.post('/Home/Create', rowstr, function (data) {
-
-            });
-        }
-    }, '-', {
-        text: '修改',
-        iconCls: 'icon-edit',
-        handler: function() {
-            var row = $("#list_data").datagrid('getSelected');
-            if (row !=null) {
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-
-                if (editRow == undefined) {
-                    var index = $("#list_data").datagrid('getRowIndex', row);
-                    $("#list_data").datagrid('beginEdit', index);
-                    editRow = index;
-                    $("#list_data").datagrid('unselectAll');
-                }
-            } else {
-
-            }
-        }
-    }, '-',{
-        text: '删除',
-        iconCls: 'icon-remove',
-        handler: function(){
-            //doDelete();
-            var row = $("#list_data").datagrid('getSelections');
-        }
     }],onAfterEdit: function (rowIndex, rowData, changes) {
         editRow = undefined;
     },onDblClickRow:function (rowIndex, rowData) {
