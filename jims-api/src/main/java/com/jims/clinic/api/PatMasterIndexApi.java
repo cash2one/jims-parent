@@ -11,3 +11,4 @@ package com.jims.clinic.api;
 public interface PatMasterIndexApi {
 
 }
+
