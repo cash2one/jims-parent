@@ -89,7 +89,7 @@ $('#list_data').datagrid({
         text: '添加',
         iconCls: 'icon-add',
         handler: function() {
-            if (editRow != undefined) {
+            /* if (editRow != undefined) {
                 $("#list_data").datagrid('endEdit', editRow);
             }
             if (editRow == undefined) {
@@ -99,6 +99,12 @@ $('#list_data').datagrid({
                 });
                 $("#list_data").datagrid('beginEdit', 0);
                 editRow = 0;
+             }*/
+            //$('#btnsave').linkbutton('enable');
+            //alert('add');
+            var rows = $('#test').datagrid('getSelections');
+            for (var i = 0; i < rows.length; i++) {
+                $('#list_data').datagrid('appendRow', rows[i]);//这里循环添加在另一个datagrid选择的行
             }
         }
     }],onAfterEdit: function (rowIndex, rowData, changes) {
