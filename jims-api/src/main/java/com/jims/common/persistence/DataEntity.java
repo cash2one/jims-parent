@@ -19,7 +19,6 @@ import java.util.Date;
  * @author zhangyao
  * @version 2016-04-6
  */
-
 public abstract class DataEntity<T> extends BaseEntity<T> {
 
 	private static final long serialVersionUID = 1L;

@@ -6,9 +6,10 @@ function onloadMethod(){
         nowrap: false,
         striped: true,
         border: true,
+        method:'get',
         collapsible:false,//是否可折叠的
         fit: true,//自动大小
-        url:basePath+'',
+        url:basePath+'/dict/list',
         //sortName: 'code',
         //sortOrder: 'desc',
         remoteSort:false,
