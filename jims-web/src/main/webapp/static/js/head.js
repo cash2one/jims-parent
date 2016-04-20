@@ -21,3 +21,26 @@ function getRootPath(){
     return(localhostPaht);
 }
 
+//病历文书页面保存时需要的
+function formSubmitInput(fromId){
+    $("#"+btnUpdateId).remove();
+    $(".check-history").remove();
+    var zhuyuanId=$("#zhuyuanIdHidden").val();
+    var patientId=$("#patientIdHidden").val();
+    var zhuyuanHiddenId=$("#zhuyuanBasicInfoHiddenId").val();
+    var patientHiddenId=$("#patientBasicInfoHiddenId").val();
+    if(zhuyuanHiddenId!="" && zhuyuanHiddenId==null){
+        if(patientHiddenId!="" && patientHiddenId==null){
+            var newHtml='<input type="hidden" id="zhuyuanBasicInfoHiddenId" name="zhuyuanBasicInfo.id" value="'+zhuyuanId+'" />'
+                        +'<input type="hidden" id="patientBasicInfoHiddenId"  name="patientBasicInfo.id" value="'+patientId+'" />';
+            $("#"+fromId).append(newHtml);
+        }
+    }
+
+    $("#"+fromId+" div").each(function(){
+        var inputId=$(this).attr("submit_id");
+        var html=$(this).html();
+        $("#"+inputId).val(html);
+    })
+}
+
