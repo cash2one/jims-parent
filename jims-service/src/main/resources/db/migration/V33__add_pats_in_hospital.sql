@@ -32,8 +32,9 @@ create table PATS_IN_HOSPITAL
   BED_WARD_CODE          VARCHAR2(10 CHAR),
   DEPT_CODE_LEND         VARCHAR2(10 CHAR),
   LEND_INDICATOR         NUMBER(1),
-  IS_NEWBORN             NUMBER(1)
-)
+  IS_NEWBORN             NUMBER(1),
+  constraint PK_PATS_IN_HOSPITAL primary key (ID)
+);
 -- Add comments to the table 
 comment on table PATS_IN_HOSPITAL
   is '在院病人记录';
