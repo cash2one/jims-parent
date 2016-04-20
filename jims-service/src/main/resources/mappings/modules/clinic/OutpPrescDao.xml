@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.OutpPrescDao">
+    
+	<sql id="outpPrescColumns">
+		a.id AS "id",
+		a.visit_date AS "visitDate",
+		a.visit_no AS "visitNo",
+		a.serial_no AS "serialNo",
+		a.presc_no AS "prescNo",
+		a.item_no AS "itemNo",
+		a.item_class AS "itemClass",
+		a.drug_code AS "drugCode",
+		a.drug_name AS "drugName",
+		a.drug_spec AS "drugSpec",
+		a.firm_id AS "firmId",
+		a.units AS "units",
+		a.amount AS "amount",
+		a.dosage AS "dosage",
+		a.dosage_units AS "dosageUnits",
+		a.administration AS "administration",
+		a.frequency AS "frequency",
+		a.provided_indicator AS "providedIndicator",
+		a.costs AS "costs",
+		a.charges AS "charges",
+		a.charge_indicator AS "chargeIndicator",
+		a.dispensary AS "dispensary",
+		a.repetition AS "repetition",
+		a.order_no AS "orderNo",
+		a.sub_order_no AS "subOrderNo",
+		a.freq_detail AS "freqDetail",
+		a.getdrug_flag AS "getdrugFlag",
+		a.presc_attr AS "prescAttr",
+		a.abidance AS "abidance",
+		a.perform_nurse AS "performNurse",
+		a.perform_result AS "performResult",
+		a.skin_flag AS "skinFlag",
+		a.presc_psno AS "prescPsno",
+		a.skin_result AS "skinResult",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpPrescJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpPresc">
+		SELECT 
+			<include refid="outpPrescColumns"/>
+		FROM outp_presc a
+		<include refid="outpPrescJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpPresc">
+		SELECT 
+			<include refid="outpPrescColumns"/>
+		FROM outp_presc a
+		<include refid="outpPrescJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpPresc">
+		SELECT 
+			<include refid="outpPrescColumns"/>
+		FROM outp_presc a
+		<include refid="outpPrescJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO outp_presc(
+			id,
+			visit_date,
+			visit_no,
+			serial_no,
+			presc_no,
+			item_no,
+			item_class,
+			drug_code,
+			drug_name,
+			drug_spec,
+			firm_id,
+			units,
+			amount,
+			dosage,
+			dosage_units,
+			administration,
+			frequency,
+			provided_indicator,
+			costs,
+			charges,
+			charge_indicator,
+			dispensary,
+			repetition,
+			order_no,
+			sub_order_no,
+			freq_detail,
+			getdrug_flag,
+			presc_attr,
+			abidance,
+			perform_nurse,
+			perform_result,
+			skin_flag,
+			presc_psno,
+			skin_result,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{visitDate},
+			#{visitNo},
+			#{serialNo},
+			#{prescNo},
+			#{itemNo},
+			#{itemClass},
+			#{drugCode},
+			#{drugName},
+			#{drugSpec},
+			#{firmId},
+			#{units},
+			#{amount},
+			#{dosage},
+			#{dosageUnits},
+			#{administration},
+			#{frequency},
+			#{providedIndicator},
+			#{costs},
+			#{charges},
+			#{chargeIndicator},
+			#{dispensary},
+			#{repetition},
+			#{orderNo},
+			#{subOrderNo},
+			#{freqDetail},
+			#{getdrugFlag},
+			#{prescAttr},
+			#{abidance},
+			#{performNurse},
+			#{performResult},
+			#{skinFlag},
+			#{prescPsno},
+			#{skinResult},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_presc SET 	
+			visit_date = #{visitDate},
+			visit_no = #{visitNo},
+			serial_no = #{serialNo},
+			presc_no = #{prescNo},
+			item_no = #{itemNo},
+			item_class = #{itemClass},
+			drug_code = #{drugCode},
+			drug_name = #{drugName},
+			drug_spec = #{drugSpec},
+			firm_id = #{firmId},
+			units = #{units},
+			amount = #{amount},
+			dosage = #{dosage},
+			dosage_units = #{dosageUnits},
+			administration = #{administration},
+			frequency = #{frequency},
+			provided_indicator = #{providedIndicator},
+			costs = #{costs},
+			charges = #{charges},
+			charge_indicator = #{chargeIndicator},
+			dispensary = #{dispensary},
+			repetition = #{repetition},
+			order_no = #{orderNo},
+			sub_order_no = #{subOrderNo},
+			freq_detail = #{freqDetail},
+			getdrug_flag = #{getdrugFlag},
+			presc_attr = #{prescAttr},
+			abidance = #{abidance},
+			perform_nurse = #{performNurse},
+			perform_result = #{performResult},
+			skin_flag = #{skinFlag},
+			presc_psno = #{prescPsno},
+			skin_result = #{skinResult},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_presc SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
