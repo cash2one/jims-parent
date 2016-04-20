@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.OutpOrdersCostsDao">
+    
+	<sql id="outpOrdersCostsColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.visit_date AS "visitDate",
+		a.visit_no AS "visitNo",
+		a.serial_no AS "serialNo",
+		a.order_class AS "orderClass",
+		a.order_no AS "orderNo",
+		a.order_sub_no AS "orderSubNo",
+		a.item_no AS "itemNo",
+		a.item_class AS "itemClass",
+		a.item_name AS "itemName",
+		a.item_code AS "itemCode",
+		a.item_spec AS "itemSpec",
+		a.units AS "units",
+		a.repetition AS "repetition",
+		a.amount AS "amount",
+		a.ordered_by_dept AS "orderedByDept",
+		a.ordered_by_doctor AS "orderedByDoctor",
+		a.performed_by AS "performedBy",
+		a.class_on_rcpt AS "classOnRcpt",
+		a.costs AS "costs",
+		a.charges AS "charges",
+		a.rcpt_no AS "rcptNo",
+		a.bill_desc_no AS "billDescNo",
+		a.bill_item_no AS "billItemNo",
+		a.charge_indicator AS "chargeIndicator",
+		a.class_on_reckoning AS "classOnReckoning",
+		a.subj_code AS "subjCode",
+		a.price_quotiety AS "priceQuotiety",
+		a.item_price AS "itemPrice",
+		a.clinic_no AS "clinicNo",
+		a.bill_date AS "billDate",
+		a.bill_no AS "billNo",
+		a.ward_code AS "wardCode",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpOrdersCostsJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpOrdersCosts">
+		SELECT 
+			<include refid="outpOrdersCostsColumns"/>
+		FROM outp_orders_costs a
+		<include refid="outpOrdersCostsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpOrdersCosts">
+		SELECT 
+			<include refid="outpOrdersCostsColumns"/>
+		FROM outp_orders_costs a
+		<include refid="outpOrdersCostsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpOrdersCosts">
+		SELECT 
+			<include refid="outpOrdersCostsColumns"/>
+		FROM outp_orders_costs a
+		<include refid="outpOrdersCostsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO outp_orders_costs(
+			id,
+			patient_id,
+			visit_date,
+			visit_no,
+			serial_no,
+			order_class,
+			order_no,
+			order_sub_no,
+			item_no,
+			item_class,
+			item_name,
+			item_code,
+			item_spec,
+			units,
+			repetition,
+			amount,
+			ordered_by_dept,
+			ordered_by_doctor,
+			performed_by,
+			class_on_rcpt,
+			costs,
+			charges,
+			rcpt_no,
+			bill_desc_no,
+			bill_item_no,
+			charge_indicator,
+			class_on_reckoning,
+			subj_code,
+			price_quotiety,
+			item_price,
+			clinic_no,
+			bill_date,
+			bill_no,
+			ward_code,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{visitDate},
+			#{visitNo},
+			#{serialNo},
+			#{orderClass},
+			#{orderNo},
+			#{orderSubNo},
+			#{itemNo},
+			#{itemClass},
+			#{itemName},
+			#{itemCode},
+			#{itemSpec},
+			#{units},
+			#{repetition},
+			#{amount},
+			#{orderedByDept},
+			#{orderedByDoctor},
+			#{performedBy},
+			#{classOnRcpt},
+			#{costs},
+			#{charges},
+			#{rcptNo},
+			#{billDescNo},
+			#{billItemNo},
+			#{chargeIndicator},
+			#{classOnReckoning},
+			#{subjCode},
+			#{priceQuotiety},
+			#{itemPrice},
+			#{clinicNo},
+			#{billDate},
+			#{billNo},
+			#{wardCode},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_orders_costs SET 	
+			patient_id = #{patientId},
+			visit_date = #{visitDate},
+			visit_no = #{visitNo},
+			serial_no = #{serialNo},
+			order_class = #{orderClass},
+			order_no = #{orderNo},
+			order_sub_no = #{orderSubNo},
+			item_no = #{itemNo},
+			item_class = #{itemClass},
+			item_name = #{itemName},
+			item_code = #{itemCode},
+			item_spec = #{itemSpec},
+			units = #{units},
+			repetition = #{repetition},
+			amount = #{amount},
+			ordered_by_dept = #{orderedByDept},
+			ordered_by_doctor = #{orderedByDoctor},
+			performed_by = #{performedBy},
+			class_on_rcpt = #{classOnRcpt},
+			costs = #{costs},
+			charges = #{charges},
+			rcpt_no = #{rcptNo},
+			bill_desc_no = #{billDescNo},
+			bill_item_no = #{billItemNo},
+			charge_indicator = #{chargeIndicator},
+			class_on_reckoning = #{classOnReckoning},
+			subj_code = #{subjCode},
+			price_quotiety = #{priceQuotiety},
+			item_price = #{itemPrice},
+			clinic_no = #{clinicNo},
+			bill_date = #{billDate},
+			bill_no = #{billNo},
+			ward_code = #{wardCode},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_orders_costs SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

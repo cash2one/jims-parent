@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.ClinicMasterDao">
+    
+	<sql id="clinicMasterColumns">
+		a.id AS "id",
+		a.hosid AS "hosid",
+		a.visit_date AS "visitDate",
+		a.visit_no AS "visitNo",
+		a.clinic_label AS "clinicLabel",
+		a.visit_time_desc AS "visitTimeDesc",
+		a.serial_no AS "serialNo",
+		a.name AS "name",
+		a.name_phonetic AS "namePhonetic",
+		a.sex AS "sex",
+		a.age AS "age",
+		a.identity AS "identity",
+		a.charge_type AS "chargeType",
+		a.insurance_type AS "insuranceType",
+		a.insurance_no AS "insuranceNo",
+		a.unit_in_contract AS "unitInContract",
+		a.clinic_type AS "clinicType",
+		a.first_visit_indicator AS "firstVisitIndicator",
+		a.visit_dept AS "visitDept",
+		a.visit_special_clinic AS "visitSpecialClinic",
+		a.doctor AS "doctor",
+		a.mr_provide_indicator AS "mrProvideIndicator",
+		a.registration_status AS "registrationStatus",
+		a.registering_date AS "registeringDate",
+		a.symptom AS "symptom",
+		a.regist_fee AS "registFee",
+		a.clinic_fee AS "clinicFee",
+		a.other_fee AS "otherFee",
+		a.clinic_charge AS "clinicCharge",
+		a.operator AS "operator",
+		a.returned_date AS "returnedDate",
+		a.returned_operator AS "returnedOperator",
+		a.mode_code AS "modeCode",
+		a.card_name AS "cardName",
+		a.card_no AS "cardNo",
+		a.acct_date_time AS "acctDateTime",
+		a.acct_no AS "acctNo",
+		a.pay_way AS "payWay",
+		a.mr_provided_indicator AS "mrProvidedIndicator",
+		a.invoice_no AS "invoiceNo",
+		a.clinic_no AS "clinicNo",
+		a.mr_no AS "mrNo",
+		a.isprn AS "isprn",
+		a.pat_type AS "patType",
+		a.valid_date AS "validDate",
+		a.auto_flag AS "autoFlag",
+		a.print_operator AS "printOperator",
+		a.pe_visit_id AS "peVisitId",
+		a.mailing_address AS "mailingAddress",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="clinicMasterJoins">
+	</sql>
+    
+	<select id="get" resultType="ClinicMaster">
+		SELECT 
+			<include refid="clinicMasterColumns"/>
+		FROM clinic_master a
+		<include refid="clinicMasterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClinicMaster">
+		SELECT 
+			<include refid="clinicMasterColumns"/>
+		FROM clinic_master a
+		<include refid="clinicMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ClinicMaster">
+		SELECT 
+			<include refid="clinicMasterColumns"/>
+		FROM clinic_master a
+		<include refid="clinicMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO clinic_master(
+			id,
+			hosid,
+			visit_date,
+			visit_no,
+			clinic_label,
+			visit_time_desc,
+			serial_no,
+			name,
+			name_phonetic,
+			sex,
+			age,
+			identity,
+			charge_type,
+			insurance_type,
+			insurance_no,
+			unit_in_contract,
+			clinic_type,
+			first_visit_indicator,
+			visit_dept,
+			visit_special_clinic,
+			doctor,
+			mr_provide_indicator,
+			registration_status,
+			registering_date,
+			symptom,
+			regist_fee,
+			clinic_fee,
+			other_fee,
+			clinic_charge,
+			operator,
+			returned_date,
+			returned_operator,
+			mode_code,
+			card_name,
+			card_no,
+			acct_date_time,
+			acct_no,
+			pay_way,
+			mr_provided_indicator,
+			invoice_no,
+			clinic_no,
+			mr_no,
+			isprn,
+			pat_type,
+			valid_date,
+			auto_flag,
+			print_operator,
+			pe_visit_id,
+			mailing_address,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{hosid},
+			#{visitDate},
+			#{visitNo},
+			#{clinicLabel},
+			#{visitTimeDesc},
+			#{serialNo},
+			#{name},
+			#{namePhonetic},
+			#{sex},
+			#{age},
+			#{identity},
+			#{chargeType},
+			#{insuranceType},
+			#{insuranceNo},
+			#{unitInContract},
+			#{clinicType},
+			#{firstVisitIndicator},
+			#{visitDept},
+			#{visitSpecialClinic},
+			#{doctor},
+			#{mrProvideIndicator},
+			#{registrationStatus},
+			#{registeringDate},
+			#{symptom},
+			#{registFee},
+			#{clinicFee},
+			#{otherFee},
+			#{clinicCharge},
+			#{operator},
+			#{returnedDate},
+			#{returnedOperator},
+			#{modeCode},
+			#{cardName},
+			#{cardNo},
+			#{acctDateTime},
+			#{acctNo},
+			#{payWay},
+			#{mrProvidedIndicator},
+			#{invoiceNo},
+			#{clinicNo},
+			#{mrNo},
+			#{isprn},
+			#{patType},
+			#{validDate},
+			#{autoFlag},
+			#{printOperator},
+			#{peVisitId},
+			#{mailingAddress},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE clinic_master SET 	
+			hosid = #{hosid},
+			visit_date = #{visitDate},
+			visit_no = #{visitNo},
+			clinic_label = #{clinicLabel},
+			visit_time_desc = #{visitTimeDesc},
+			serial_no = #{serialNo},
+			name = #{name},
+			name_phonetic = #{namePhonetic},
+			sex = #{sex},
+			age = #{age},
+			identity = #{identity},
+			charge_type = #{chargeType},
+			insurance_type = #{insuranceType},
+			insurance_no = #{insuranceNo},
+			unit_in_contract = #{unitInContract},
+			clinic_type = #{clinicType},
+			first_visit_indicator = #{firstVisitIndicator},
+			visit_dept = #{visitDept},
+			visit_special_clinic = #{visitSpecialClinic},
+			doctor = #{doctor},
+			mr_provide_indicator = #{mrProvideIndicator},
+			registration_status = #{registrationStatus},
+			registering_date = #{registeringDate},
+			symptom = #{symptom},
+			regist_fee = #{registFee},
+			clinic_fee = #{clinicFee},
+			other_fee = #{otherFee},
+			clinic_charge = #{clinicCharge},
+			operator = #{operator},
+			returned_date = #{returnedDate},
+			returned_operator = #{returnedOperator},
+			mode_code = #{modeCode},
+			card_name = #{cardName},
+			card_no = #{cardNo},
+			acct_date_time = #{acctDateTime},
+			acct_no = #{acctNo},
+			pay_way = #{payWay},
+			mr_provided_indicator = #{mrProvidedIndicator},
+			invoice_no = #{invoiceNo},
+			clinic_no = #{clinicNo},
+			mr_no = #{mrNo},
+			isprn = #{isprn},
+			pat_type = #{patType},
+			valid_date = #{validDate},
+			auto_flag = #{autoFlag},
+			print_operator = #{printOperator},
+			pe_visit_id = #{peVisitId},
+			mailing_address = #{mailingAddress},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE clinic_master SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
