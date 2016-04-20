@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.common.clinic.dao;
+package com.jims.clinic.dao;
 
 import com.jims.clinic.entity.PatMasterIndex;
 import com.jims.common.persistence.CrudDao;
