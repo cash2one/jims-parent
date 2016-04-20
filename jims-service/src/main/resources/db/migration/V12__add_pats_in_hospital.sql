@@ -1,4 +1,9 @@
-﻿create table PATS_IN_HOSPITAL
+﻿drop table PATS_IN_HOSPITAL cascade constraints;
+
+/*==============================================================*/
+/* Table: PATS_IN_HOSPITAL      在院病人记录                                */
+/*==============================================================*/
+create table PATS_IN_HOSPITAL
 (
   ID                     VARCHAR2(64 CHAR) not null,
   HOSID                  VARCHAR2(64 CHAR),

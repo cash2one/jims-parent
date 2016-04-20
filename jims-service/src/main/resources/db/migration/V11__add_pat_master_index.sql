@@ -1,4 +1,9 @@
-﻿create table PAT_MASTER_INDEX
+﻿drop table PAT_MASTER_INDEX cascade constraints;
+
+/*==============================================================*/
+/* Table: PAT_MASTER_INDEX     病人主索引                                 */
+/*==============================================================*/
+create table PAT_MASTER_INDEX
 (
   ID                    VARCHAR2(64 CHAR) not null,
   HOSID                 VARCHAR2(64 CHAR),

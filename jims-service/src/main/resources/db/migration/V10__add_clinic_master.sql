@@ -1,4 +1,9 @@
-﻿create table CLINIC_MASTER
+﻿drop table CLINIC_MASTER cascade constraints;
+
+/*==============================================================*/
+/* Table: CLINIC_MASTER   病人就诊记录信息                                      */
+/*==============================================================*/
+create table CLINIC_MASTER
 (
   ID                    VARCHAR2(64 CHAR )not null,
   HOSID                 VARCHAR2(64 CHAR ),
