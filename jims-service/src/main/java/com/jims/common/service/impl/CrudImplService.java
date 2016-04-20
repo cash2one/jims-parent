@@ -69,7 +69,7 @@ public abstract class CrudImplService<D extends CrudDao<T>, T extends DataEntity
 	 * @param entity
 	 */
 	@Transactional(readOnly = false)
-	public void save(T entity) {
+	public String save(T entity) {
 		if (entity.getIsNewRecord()){
 			entity.preInsert();
 			dao.insert(entity);
@@ -77,6 +77,7 @@ public abstract class CrudImplService<D extends CrudDao<T>, T extends DataEntity
 			entity.preUpdate();
 			dao.update(entity);
 		}
+        return "";
 	}
 	
 	/**
@@ -84,8 +85,9 @@ public abstract class CrudImplService<D extends CrudDao<T>, T extends DataEntity
 	 * @param entity
 	 */
 	@Transactional(readOnly = false)
-	public void delete(T entity) {
+	public String delete(T entity) {
 		dao.delete(entity);
+        return "";
 	}
 
 }
