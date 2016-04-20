@@ -32,14 +32,5 @@ public class DictServiceImpl extends CrudImplService<DictDao, Dict> implements D
 		return dao.findTypeList(new Dict());
 	}
 
-	@Transactional(readOnly = false)
-	public void save(Dict dict) {
-		super.save(dict);
-	}
-
-	@Transactional(readOnly = false)
-	public void delete(Dict dict) {
-		super.delete(dict);
-	}
 
 }

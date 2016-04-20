@@ -28,12 +28,12 @@ public interface DictService {
      * 保存修改方法
      * @param dict
      */
-	public void save(Dict dict);
+	public String save(Dict dict);
 
     /**
      * 删除方法
      * @param dict
      */
-	public void delete(Dict dict);
+	public String delete(Dict dict);
 
 }
