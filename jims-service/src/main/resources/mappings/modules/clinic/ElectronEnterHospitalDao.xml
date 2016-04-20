@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.ElectronEnterHospitalDao">
+    
+	<sql id="electronEnterHospitalColumns">
+		a.id AS "id",
+		a.zhuyuan_id AS "zhuyuanId",
+		a.patient_id AS "patientId",
+		a.zhusu AS "zhusu",
+		a.xianbingshi AS "xianbingshi",
+		a.fabingqingkuang AS "fabingqingkuang",
+		a.jiwangshi AS "jiwangshi",
+		a.gerenshi AS "gerenshi",
+		a.hunyushi AS "hunyushi",
+		a.jiazushi AS "jiazushi",
+		a.tiwen AS "tiwen",
+		a.maibo AS "maibo",
+		a.huxi AS "huxi",
+		a.xueya AS "xueya",
+		a.zhuankeqingkuang AS "zhuankeqingkuang",
+		a.fuzhujiancha AS "fuzhujiancha",
+		a.chubuzhenduan AS "chubuzhenduan",
+		a.xiuzhengzhenduan AS "xiuzhengzhenduan",
+		a.zhuguanyisheng AS "zhuguanyisheng",
+		a.shangjiyishi AS "shangjiyishi",
+		a.riqi AS "riqi",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.bingshichenshuzhe AS "bingshichenshuzhe",
+		a.yuejingshi AS "yuejingshi",
+		a.tigejiancha AS "tigejiancha",
+		a.xiaojieyufenxi AS "xiaojieyufenxi",
+		a.caijiriqi AS "caijiriqi",
+		a.isdepend AS "isdepend"
+	</sql>
+	
+	<sql id="electronEnterHospitalJoins">
+	</sql>
+    
+	<select id="get" resultType="ElectronEnterHospital">
+		SELECT 
+			<include refid="electronEnterHospitalColumns"/>
+		FROM electron_enter_hospital a
+		<include refid="electronEnterHospitalJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ElectronEnterHospital">
+		SELECT 
+			<include refid="electronEnterHospitalColumns"/>
+		FROM electron_enter_hospital a
+		<include refid="electronEnterHospitalJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ElectronEnterHospital">
+		SELECT 
+			<include refid="electronEnterHospitalColumns"/>
+		FROM electron_enter_hospital a
+		<include refid="electronEnterHospitalJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO electron_enter_hospital(
+			id,
+			zhuyuan_id,
+			patient_id,
+			zhusu,
+			xianbingshi,
+			fabingqingkuang,
+			jiwangshi,
+			gerenshi,
+			hunyushi,
+			jiazushi,
+			tiwen,
+			maibo,
+			huxi,
+			xueya,
+			zhuankeqingkuang,
+			fuzhujiancha,
+			chubuzhenduan,
+			xiuzhengzhenduan,
+			zhuguanyisheng,
+			shangjiyishi,
+			riqi,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			bingshichenshuzhe,
+			yuejingshi,
+			tigejiancha,
+			xiaojieyufenxi,
+			caijiriqi,
+			isdepend
+		) VALUES (
+			#{id},
+			#{zhuyuanId},
+			#{patientId},
+			#{zhusu},
+			#{xianbingshi},
+			#{fabingqingkuang},
+			#{jiwangshi},
+			#{gerenshi},
+			#{hunyushi},
+			#{jiazushi},
+			#{tiwen},
+			#{maibo},
+			#{huxi},
+			#{xueya},
+			#{zhuankeqingkuang},
+			#{fuzhujiancha},
+			#{chubuzhenduan},
+			#{xiuzhengzhenduan},
+			#{zhuguanyisheng},
+			#{shangjiyishi},
+			#{riqi},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{bingshichenshuzhe},
+			#{yuejingshi},
+			#{tigejiancha},
+			#{xiaojieyufenxi},
+			#{caijiriqi},
+			#{isdepend}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE electron_enter_hospital SET 	
+			zhuyuan_id = #{zhuyuanId},
+			patient_id = #{patientId},
+			zhusu = #{zhusu},
+			xianbingshi = #{xianbingshi},
+			fabingqingkuang = #{fabingqingkuang},
+			jiwangshi = #{jiwangshi},
+			gerenshi = #{gerenshi},
+			hunyushi = #{hunyushi},
+			jiazushi = #{jiazushi},
+			tiwen = #{tiwen},
+			maibo = #{maibo},
+			huxi = #{huxi},
+			xueya = #{xueya},
+			zhuankeqingkuang = #{zhuankeqingkuang},
+			fuzhujiancha = #{fuzhujiancha},
+			chubuzhenduan = #{chubuzhenduan},
+			xiuzhengzhenduan = #{xiuzhengzhenduan},
+			zhuguanyisheng = #{zhuguanyisheng},
+			shangjiyishi = #{shangjiyishi},
+			riqi = #{riqi},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bingshichenshuzhe = #{bingshichenshuzhe},
+			yuejingshi = #{yuejingshi},
+			tigejiancha = #{tigejiancha},
+			xiaojieyufenxi = #{xiaojieyufenxi},
+			caijiriqi = #{caijiriqi},
+			isdepend = #{isdepend}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE electron_enter_hospital SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
