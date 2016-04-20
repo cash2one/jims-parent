@@ -107,7 +107,7 @@
         <java_source_version>1.5</java_source_version>
         <java_target_version>1.5</java_target_version>
         <file_encoding>UTF-8</file_encoding>
-        <oracle.driver.version>11.2.0.1.0</oracle.driver.version>
+        <oracle.driver.version>10.2.0.1.0</oracle.driver.version>
         <flyway.version>3.0</flyway.version>
     </properties>
 
@@ -499,7 +499,7 @@
             <!--jdbc-->
             <dependency>
                 <groupId>com.oracle</groupId>
-                <artifactId>ojdbc6</artifactId>
+                <artifactId>ojdbc14</artifactId>
                 <version>${oracle.driver.version}</version>
                 <scope>runtime</scope>
             </dependency>
