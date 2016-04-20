@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
@@ -14,6 +15,7 @@ import java.util.Date;
  * @author yangruidong
  * @version 2016-04-13
  */
+@XmlRootElement
 public class SysUser extends DataEntity<SysUser> {
 	
 	private static final long serialVersionUID = 1L;
@@ -21,8 +23,9 @@ public class SysUser extends DataEntity<SysUser> {
 	private String password;		// 密码
 	private Date lastLoginTime;		// 最后登陆时间
 	private String perisonId;		// 人员
-	
-	public SysUser() {
+
+
+    public SysUser() {
 		super();
 	}
 

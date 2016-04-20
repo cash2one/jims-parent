@@ -6,23 +6,26 @@ package com.jims.sys.entity;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 人员信息Entity
  * @author yangruidong
  * @version 2016-04-13
  */
+@XmlRootElement
 public class PersionInfo extends DataEntity<PersionInfo> {
-	
-	private static final long serialVersionUID = 1L;
-	private String name;		// 姓名
-	private String sex;		// 性别
-	private String nation;		// 民族
-	private String cardNo;		// 身份证号
-	private String phoneNum;		// 联系电话
-	private String email;		// 邮箱
-	private String nickName;		// 昵称
-	
-	public PersionInfo() {
+    private static final long serialVersionUID = 1L;
+	private String name; // 姓名
+	private String sex;// 性别
+	private String nation; // 民族
+	private String cardNo; // 身份证号
+	private String phoneNum; // 联系电话
+	private String email; // 邮箱
+	private String nickName; // 昵称
+
+
+    public PersionInfo() {
 		super();
 	}
 
