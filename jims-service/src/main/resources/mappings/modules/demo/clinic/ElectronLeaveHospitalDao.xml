@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.ElectronLeaveHospitalDao">
+    
+	<sql id="electronLeaveHospitalColumns">
+		a.id AS "id",
+		a.zhuyuanxinxi_id AS "zhuyuanxinxiId",
+		a.patient_id AS "patientId",
+		a.chuyuanshijian AS "chuyuanshijian",
+		a.chuyaunzhenduan AS "chuyaunzhenduan",
+		a.zhenliaojieguo AS "zhenliaojieguo",
+		a.chuyuanqingkuang AS "chuyuanqingkuang",
+		a.chuyuanyizhu AS "chuyuanyizhu",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.ruyuanbingqing AS "ruyuanbingqing"
+	</sql>
+	
+	<sql id="electronLeaveHospitalJoins">
+	</sql>
+    
+	<select id="get" resultType="ElectronLeaveHospital">
+		SELECT 
+			<include refid="electronLeaveHospitalColumns"/>
+		FROM electron_leave_hospital a
+		<include refid="electronLeaveHospitalJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ElectronLeaveHospital">
+		SELECT 
+			<include refid="electronLeaveHospitalColumns"/>
+		FROM electron_leave_hospital a
+		<include refid="electronLeaveHospitalJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ElectronLeaveHospital">
+		SELECT 
+			<include refid="electronLeaveHospitalColumns"/>
+		FROM electron_leave_hospital a
+		<include refid="electronLeaveHospitalJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO electron_leave_hospital(
+			id,
+			zhuyuanxinxi_id,
+			patient_id,
+			chuyuanshijian,
+			chuyaunzhenduan,
+			zhenliaojieguo,
+			chuyuanqingkuang,
+			chuyuanyizhu,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			ruyuanbingqing
+		) VALUES (
+			#{id},
+			#{zhuyuanxinxiId},
+			#{patientId},
+			#{chuyuanshijian},
+			#{chuyaunzhenduan},
+			#{zhenliaojieguo},
+			#{chuyuanqingkuang},
+			#{chuyuanyizhu},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{ruyuanbingqing}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE electron_leave_hospital SET 	
+			zhuyuanxinxi_id = #{zhuyuanxinxiId},
+			patient_id = #{patientId},
+			chuyuanshijian = #{chuyuanshijian},
+			chuyaunzhenduan = #{chuyaunzhenduan},
+			zhenliaojieguo = #{zhenliaojieguo},
+			chuyuanqingkuang = #{chuyuanqingkuang},
+			chuyuanyizhu = #{chuyuanyizhu},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			ruyuanbingqing = #{ruyuanbingqing}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE electron_leave_hospital SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
