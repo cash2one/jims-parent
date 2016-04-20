@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.common.clinic.dao.PatMasterIndexDao">
+    
+	<sql id="patMasterIndexColumns">
+		a.id AS "id",
+		a.hosid AS "hosid",
+		a.inp_no AS "inpNo",
+		a.name AS "name",
+		a.name_phonetic AS "namePhonetic",
+		a.sex AS "sex",
+		a.date_of_birth AS "dateOfBirth",
+		a.birth_place AS "birthPlace",
+		a.citizenship AS "citizenship",
+		a.nation AS "nation",
+		a.id_no AS "idNo",
+		a.identity AS "identity",
+		a.charge_type AS "chargeType",
+		a.unit_in_contract AS "unitInContract",
+		a.mailing_address AS "mailingAddress",
+		a.zip_code AS "zipCode",
+		a.phone_number_home AS "phoneNumberHome",
+		a.phone_number_business AS "phoneNumberBusiness",
+		a.next_of_kin AS "nextOfKin",
+		a.relationship AS "relationship",
+		a.next_of_kin_addr AS "nextOfKinAddr",
+		a.next_of_kin_zip_code AS "nextOfKinZipCode",
+		a.next_of_kin_phone AS "nextOfKinPhone",
+		a.last_visit_date AS "lastVisitDate",
+		a.vip_indicator AS "vipIndicator",
+		a.create_date AS "createDate",
+		a.operator AS "operator",
+		a.service_agency AS "serviceAgency",
+		a.business_zip_code AS "businessZipCode",
+		a.photo AS "photo",
+		a.patient_class AS "patientClass",
+		a.degree AS "degree",
+		a.race AS "race",
+		a.religion AS "religion",
+		a.mother_language AS "motherLanguage",
+		a.foreign_language AS "foreignLanguage",
+		a.id_type AS "idType",
+		a.vip_no AS "vipNo",
+		a.e_name AS "eName",
+		a.occupation AS "occupation",
+		a.next_of_id AS "nextOfId",
+		a.next_of_bath AS "nextOfBath",
+		a.next_of_sex AS "nextOfSex",
+		a.insur_nh_no AS "insurNhNo",
+		a.insurance_no AS "insuranceNo",
+		a.alergy_drugs AS "alergyDrugs",
+		a.native_place AS "nativePlace",
+		a.mailing_address_code AS "mailingAddressCode",
+		a.healthy_card_no AS "healthyCardNo",
+		a.address_now AS "addressNow",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="patMasterIndexJoins">
+	</sql>
+    
+	<select id="get" resultType="PatMasterIndex">
+		SELECT 
+			<include refid="patMasterIndexColumns"/>
+		FROM pat_master_index a
+		<include refid="patMasterIndexJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PatMasterIndex">
+		SELECT 
+			<include refid="patMasterIndexColumns"/>
+		FROM pat_master_index a
+		<include refid="patMasterIndexJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PatMasterIndex">
+		SELECT 
+			<include refid="patMasterIndexColumns"/>
+		FROM pat_master_index a
+		<include refid="patMasterIndexJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pat_master_index(
+			id,
+			hosid,
+			inp_no,
+			name,
+			name_phonetic,
+			sex,
+			date_of_birth,
+			birth_place,
+			citizenship,
+			nation,
+			id_no,
+			identity,
+			charge_type,
+			unit_in_contract,
+			mailing_address,
+			zip_code,
+			phone_number_home,
+			phone_number_business,
+			next_of_kin,
+			relationship,
+			next_of_kin_addr,
+			next_of_kin_zip_code,
+			next_of_kin_phone,
+			last_visit_date,
+			vip_indicator,
+			create_date,
+			operator,
+			service_agency,
+			business_zip_code,
+			photo,
+			patient_class,
+			degree,
+			race,
+			religion,
+			mother_language,
+			foreign_language,
+			id_type,
+			vip_no,
+			e_name,
+			occupation,
+			next_of_id,
+			next_of_bath,
+			next_of_sex,
+			insur_nh_no,
+			insurance_no,
+			alergy_drugs,
+			native_place,
+			mailing_address_code,
+			healthy_card_no,
+			address_now,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{hosid},
+			#{inpNo},
+			#{name},
+			#{namePhonetic},
+			#{sex},
+			#{dateOfBirth},
+			#{birthPlace},
+			#{citizenship},
+			#{nation},
+			#{idNo},
+			#{identity},
+			#{chargeType},
+			#{unitInContract},
+			#{mailingAddress},
+			#{zipCode},
+			#{phoneNumberHome},
+			#{phoneNumberBusiness},
+			#{nextOfKin},
+			#{relationship},
+			#{nextOfKinAddr},
+			#{nextOfKinZipCode},
+			#{nextOfKinPhone},
+			#{lastVisitDate},
+			#{vipIndicator},
+			#{createDate},
+			#{operator},
+			#{serviceAgency},
+			#{businessZipCode},
+			#{photo},
+			#{patientClass},
+			#{degree},
+			#{race},
+			#{religion},
+			#{motherLanguage},
+			#{foreignLanguage},
+			#{idType},
+			#{vipNo},
+			#{eName},
+			#{occupation},
+			#{nextOfId},
+			#{nextOfBath},
+			#{nextOfSex},
+			#{insurNhNo},
+			#{insuranceNo},
+			#{alergyDrugs},
+			#{nativePlace},
+			#{mailingAddressCode},
+			#{healthyCardNo},
+			#{addressNow},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pat_master_index SET 	
+			hosid = #{hosid},
+			inp_no = #{inpNo},
+			name = #{name},
+			name_phonetic = #{namePhonetic},
+			sex = #{sex},
+			date_of_birth = #{dateOfBirth},
+			birth_place = #{birthPlace},
+			citizenship = #{citizenship},
+			nation = #{nation},
+			id_no = #{idNo},
+			identity = #{identity},
+			charge_type = #{chargeType},
+			unit_in_contract = #{unitInContract},
+			mailing_address = #{mailingAddress},
+			zip_code = #{zipCode},
+			phone_number_home = #{phoneNumberHome},
+			phone_number_business = #{phoneNumberBusiness},
+			next_of_kin = #{nextOfKin},
+			relationship = #{relationship},
+			next_of_kin_addr = #{nextOfKinAddr},
+			next_of_kin_zip_code = #{nextOfKinZipCode},
+			next_of_kin_phone = #{nextOfKinPhone},
+			last_visit_date = #{lastVisitDate},
+			vip_indicator = #{vipIndicator},
+			operator = #{operator},
+			service_agency = #{serviceAgency},
+			business_zip_code = #{businessZipCode},
+			photo = #{photo},
+			patient_class = #{patientClass},
+			degree = #{degree},
+			race = #{race},
+			religion = #{religion},
+			mother_language = #{motherLanguage},
+			foreign_language = #{foreignLanguage},
+			id_type = #{idType},
+			vip_no = #{vipNo},
+			e_name = #{eName},
+			occupation = #{occupation},
+			next_of_id = #{nextOfId},
+			next_of_bath = #{nextOfBath},
+			next_of_sex = #{nextOfSex},
+			insur_nh_no = #{insurNhNo},
+			insurance_no = #{insuranceNo},
+			alergy_drugs = #{alergyDrugs},
+			native_place = #{nativePlace},
+			mailing_address_code = #{mailingAddressCode},
+			healthy_card_no = #{healthyCardNo},
+			address_now = #{addressNow},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE pat_master_index SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
