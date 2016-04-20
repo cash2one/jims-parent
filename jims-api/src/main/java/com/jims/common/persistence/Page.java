@@ -4,11 +4,13 @@
 package com.jims.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.jims.common.utils.CookieUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -19,10 +21,10 @@ import java.util.regex.Pattern;
  * @version 2013-7-2
  * @param <T>
  */
-public class Page<T> {
+public class Page<T> implements Serializable {
 	
 	private int pageNo = 1; // 当前页码
-	private int pageSize = Integer.valueOf(10); // 页面大小，设置为“-1”表示不进行分页（分页无效）
+	private int pageSize = Integer.valueOf(20); // 页面大小，设置为“-1”表示不进行分页（分页无效）
 	
 	private long count;// 总记录数，设置为“-1”表示不查询总数
 	
@@ -68,23 +70,23 @@ public class Page<T> {
 	 */
 	public Page(HttpServletRequest request, HttpServletResponse response, int defaultPageSize){
 		// 设置页码参数（传递repage参数，来记住页码）
-		String no = request.getParameter("pageNo");
+		String no = request.getParameter("page");
 		if (StringUtils.isNumeric(no)){
-			CookieUtils.setCookie(response, "pageNo", no);
+			CookieUtils.setCookie(response, "page", no);
 			this.setPageNo(Integer.parseInt(no));
 		}else if (request.getParameter("repage")!=null){
-			no = CookieUtils.getCookie(request, "pageNo");
+			no = CookieUtils.getCookie(request, "page");
 			if (StringUtils.isNumeric(no)){
 				this.setPageNo(Integer.parseInt(no));
 			}
 		}
 		// 设置页面大小参数（传递repage参数，来记住页码大小）
-		String size = request.getParameter("pageSize");
+		String size = request.getParameter("rows");
 		if (StringUtils.isNumeric(size)){
-			CookieUtils.setCookie(response, "pageSize", size);
+			CookieUtils.setCookie(response, "rows", size);
 			this.setPageSize(Integer.parseInt(size));
 		}else if (request.getParameter("repage")!=null){
-			no = CookieUtils.getCookie(request, "pageSize");
+			no = CookieUtils.getCookie(request, "rows");
 			if (StringUtils.isNumeric(size)){
 				this.setPageSize(Integer.parseInt(size));
 			}
