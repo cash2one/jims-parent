@@ -6,6 +6,7 @@ package com.jims.sys.entity;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
@@ -16,7 +17,7 @@ import org.hibernate.validator.constraints.Length;
  * @author ThinkGem
  * @version 2013-05-15
  */
-@XmlRootElement
+
 public class Dict extends DataEntity<Dict> {
 
 	private static final long serialVersionUID = 1L;

@@ -70,14 +70,19 @@ public abstract class CrudImplService<D extends CrudDao<T>, T extends DataEntity
 	 */
 	@Transactional(readOnly = false)
 	public String save(T entity) {
-		if (entity.getIsNewRecord()){
-			entity.preInsert();
-			dao.insert(entity);
-		}else{
-			entity.preUpdate();
-			dao.update(entity);
-		}
-        return "";
+        int i=0;
+        try{
+            if (entity.getIsNewRecord()){
+                entity.preInsert();
+                i=dao.insert(entity);
+            }else{
+                entity.preUpdate();
+                i=dao.update(entity);
+            }
+        }catch(Exception e){
+            return i+"";
+        }
+        return i+"";
 	}
 	
 	/**
@@ -86,8 +91,30 @@ public abstract class CrudImplService<D extends CrudDao<T>, T extends DataEntity
 	 */
 	@Transactional(readOnly = false)
 	public String delete(T entity) {
-		dao.delete(entity);
-        return "";
+        int i=0;
+        try{
+            dao.delete(entity);
+        }catch(Exception e){
+            return i+"";
+        }
+        return i+"";
 	}
-
+    /**
+     * 删除数据
+     * @param entity
+     */
+    @Transactional(readOnly = false)
+    public String delete(String ids) {
+        int i=0;
+        try {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++){
+                dao.delete(id[j]);
+                i++;
+            }
+        }catch(Exception e){
+            return i+"";
+        }
+        return i+"";
+    }
 }

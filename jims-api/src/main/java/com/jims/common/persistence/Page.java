@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 public class Page<T> implements Serializable {
 	
 	private int pageNo = 1; // 当前页码
-	private int pageSize = Integer.valueOf(20); // 页面大小，设置为“-1”表示不进行分页（分页无效）
+	private int pageSize = Integer.valueOf(15); // 页面大小，设置为“-1”表示不进行分页（分页无效）
 	
 	private long count;// 总记录数，设置为“-1”表示不查询总数
 	
@@ -74,7 +74,7 @@ public class Page<T> implements Serializable {
 		if (StringUtils.isNumeric(no)){
 			CookieUtils.setCookie(response, "page", no);
 			this.setPageNo(Integer.parseInt(no));
-		}else if (request.getParameter("repage")!=null){
+		}else if (request.getParameter("page")!=null){
 			no = CookieUtils.getCookie(request, "page");
 			if (StringUtils.isNumeric(no)){
 				this.setPageNo(Integer.parseInt(no));
@@ -85,7 +85,7 @@ public class Page<T> implements Serializable {
 		if (StringUtils.isNumeric(size)){
 			CookieUtils.setCookie(response, "rows", size);
 			this.setPageSize(Integer.parseInt(size));
-		}else if (request.getParameter("repage")!=null){
+		}else if (request.getParameter("page")!=null){
 			no = CookieUtils.getCookie(request, "rows");
 			if (StringUtils.isNumeric(size)){
 				this.setPageSize(Integer.parseInt(size));

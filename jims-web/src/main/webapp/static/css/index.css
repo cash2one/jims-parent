@@ -1,3 +1,21 @@
+.clearfix:before,
+.clearfix:after
+{
+    display: table;
+    content: " ";
+}
+.clearfix:after
+{
+    clear: both;
+}
+.fd-left
+{
+    float:left;
+}
+.fd-right
+{
+    float:right;
+}
 ul
 {
     margin:0px;
@@ -324,13 +342,12 @@ ul.cus-list li a span.cus-name
     box-shadow:0px 0px 5px #ccc;
     padding:10px;
     float:left;
-    width:70%;
+    width:60%;
 }
 .inp-tab
 {
     float:right;
     width:30%;
-    height: 35%;
     margin-top:10px;
 }
 .inp-tab table tr th
@@ -513,4 +530,164 @@ ul.cus-list li a span.cus-name
 {
     border-bottom:none;
 }
+/**手术申请**/
+.close-btn
+{
+    display:block;
+    width:15px;
+    height:15px;
+    color:#fff;
+    background:#f00;
+    border-radius:50%;
+    line-height:15px;
+    text-align:center;
+    margin:0 auto;
+}
+.validatebox-text-xs
+{
+    width:10%
+}
+.validatebox-text-s
+{
+    width:20%
+}
+.validatebox-text-m
+{
+    width:50%
+}
+.validatebox-text-l
+{
+    width:80%
+}
+.apply-tab
+{
+    margin-bottom:10px;
+}
+.apply-tab tr td
+{
+    padding:10px 0 ;
+    border-bottom:1px dashed #ccc;
+}
+.paddt-10
+{
+    padding-top:10px;
+}
+.validatebox-text-sh
+{
+    height:50px;
+    vertical-align:top;
+}
+.inp-tab table tr td input[type="checkbox"]
+{
+    margin:auto 5px;
+}
+/****/
+.easy-nbtn-s
+{
+    padding:0;
 
+}
+
+/**检验页面**/
+.tab-autoline,.tab-rlist
+{
+    border-bottom:1px solid #ccc;
+    border-right:1px solid #ccc;
+}
+.tab-autoline tr th,.tab-autoline tr td,.tab-rlist tr td,.tab-rlist tr th
+{
+    border-top:1px solid #ccc;
+    border-left:1px solid #ccc;
+    height:30px;
+}
+.tab-autoline tr th
+{
+    background:#f8f8f8;
+
+}
+.tab-autoline tr td,.tab-rlist tr td
+{
+    text-align:center;
+}
+.nonbor-inp
+{
+    border:none;
+    width:98%;
+
+}
+.inp-tab table.tab-rlist tr th
+{
+    background-color: #F2F2F2;
+    background: -webkit-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+    background: -moz-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+    background: -o-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+    background: linear-gradient(to bottom,#ffffff 0,#F2F2F2 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#F2F2F2,GradientType=0);
+}
+.inp-tab table tr td.text-left
+{
+    text-align:left;
+}
+.padd-5
+{
+    padding:5px;
+}
+.easy-nbtn
+{
+    border:none;
+    background:#ccc;
+    border-radius:3px;
+    padding:2px 5px;
+    cursor:pointer;
+    color:#fff;
+    margin:5px;
+}
+.easy-nbtn img
+{
+    vertical-align:middle;
+    margin-right:5px;
+}
+.easy-nbtn-s
+{
+    padding:0;
+
+}
+.easy-nbtn-success
+{
+    background:#97cb28;
+}
+.easy-nbtn-warning
+{
+    background:#ff6858;
+
+}
+.easy-nbtn-info
+{
+    background:#5bc0de;
+}
+.tab-bbtn
+{
+    padding-top:10px;
+}
+.margb-10
+{
+    margin-bottom:10px;
+}
+.text-right
+{
+    text-align:right;
+}
+.vt-text-percent
+{
+    width:85%;
+}
+.inp-tab table tr td.text-right
+{
+    text-align:right;
+}
+.inp-tab table tr td.text-left,.tab-autoline tr td.text-left, .tab-rlist tr td.text-left
+{
+    text-align:left;
+}
+/****/
