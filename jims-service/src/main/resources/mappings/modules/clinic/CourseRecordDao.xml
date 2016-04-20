@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.CourseRecordDao">
+    
+	<sql id="courseRecordColumns">
+		a.id AS "id",
+		a.zhuyuan_id AS "zhuyuanId",
+		a.patient_id AS "patientId",
+		a.luru_shijian AS "luruShijian",
+		a.canyu_doctor AS "canyuDoctor",
+		a.type AS "type",
+		a.create_date AS "createDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.update_date AS "updateDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.zhuyuan_dept AS "zhuyuanDept",
+		a.zhuyuan_bingq AS "zhuyuanBingq",
+		a.bing_ch AS "bingCh",
+		a.zhuyuan_changetime AS "zhuyuanChangetime",
+		a.luru_datetime AS "luruDatetime"
+	</sql>
+	
+	<sql id="courseRecordJoins">
+	</sql>
+    
+	<select id="get" resultType="CourseRecord">
+		SELECT 
+			<include refid="courseRecordColumns"/>
+		FROM course_record a
+		<include refid="courseRecordJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CourseRecord">
+		SELECT 
+			<include refid="courseRecordColumns"/>
+		FROM course_record a
+		<include refid="courseRecordJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CourseRecord">
+		SELECT 
+			<include refid="courseRecordColumns"/>
+		FROM course_record a
+		<include refid="courseRecordJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO course_record(
+			id,
+			zhuyuan_id,
+			patient_id,
+			luru_shijian,
+			canyu_doctor,
+			type,
+			create_date,
+			del_flag,
+			remarks,
+			update_date,
+			create_by,
+			update_by,
+			zhuyuan_dept,
+			zhuyuan_bingq,
+			bing_ch,
+			zhuyuan_changetime,
+			luru_datetime
+		) VALUES (
+			#{id},
+			#{zhuyuanId},
+			#{patientId},
+			#{luruShijian},
+			#{canyuDoctor},
+			#{type},
+			#{createDate},
+			#{delFlag},
+			#{remarks},
+			#{updateDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{zhuyuanDept},
+			#{zhuyuanBingq},
+			#{bingCh},
+			#{zhuyuanChangetime},
+			#{luruDatetime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE course_record SET 	
+			zhuyuan_id = #{zhuyuanId},
+			patient_id = #{patientId},
+			luru_shijian = #{luruShijian},
+			canyu_doctor = #{canyuDoctor},
+			type = #{type},
+			remarks = #{remarks},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			zhuyuan_dept = #{zhuyuanDept},
+			zhuyuan_bingq = #{zhuyuanBingq},
+			bing_ch = #{bingCh},
+			zhuyuan_changetime = #{zhuyuanChangetime},
+			luru_datetime = #{luruDatetime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE course_record SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
