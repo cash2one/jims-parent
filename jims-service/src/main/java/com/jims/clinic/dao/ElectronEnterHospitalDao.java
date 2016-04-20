@@ -14,5 +14,7 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface ElectronEnterHospitalDao extends CrudDao<ElectronEnterHospital> {
+
+  public ElectronEnterHospital getEnter(ElectronEnterHospital electronEnterHospital);
 	
 }

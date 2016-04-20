@@ -31,4 +31,13 @@ public  class ElectronEnterHospitalService extends CrudImplService<ElectronEnter
 	public void saveElectronEnterHos(ElectronEnterHospital electronEnterHospital){
       this.save(electronEnterHospital);
 	}
+
+  /**
+   * 根据住院Id查找入院记录
+   * @param electronEnterHospital
+   * @return
+   */
+       public ElectronEnterHospital getEnter(ElectronEnterHospital electronEnterHospital){
+	return  electronEnterHospitalDao.getEnter(electronEnterHospital);
+       }
 }

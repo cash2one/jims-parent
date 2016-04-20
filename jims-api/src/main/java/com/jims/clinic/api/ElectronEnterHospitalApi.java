@@ -15,4 +15,15 @@ public interface ElectronEnterHospitalApi {
       * @param electronEnterHospital
      */
     public void saveElectronEnterHos(ElectronEnterHospital electronEnterHospital);
+
+    /**
+     * 查询  病历文书--入院记录
+     * @param electronEnterHospital
+     * @return
+     */
+    public ElectronEnterHospital getEnter(ElectronEnterHospital electronEnterHospital);
+
+
+
+
 }
