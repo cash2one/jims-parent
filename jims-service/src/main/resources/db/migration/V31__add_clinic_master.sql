@@ -53,8 +53,9 @@ create table CLINIC_MASTER
   AUTO_FLAG             VARCHAR2(2 CHAR ),
   PRINT_OPERATOR        VARCHAR2(8 CHAR ),
   PE_VISIT_ID           NUMBER(3),
-  MAILING_ADDRESS       VARCHAR2(200 CHAR )
-)
+  MAILING_ADDRESS       VARCHAR2(200 CHAR ),
+  constraint PK_CLINIC_MASTER primary key (ID)
+);
 -- Add comments to the table 
 comment on table CLINIC_MASTER
   is '就诊记录';

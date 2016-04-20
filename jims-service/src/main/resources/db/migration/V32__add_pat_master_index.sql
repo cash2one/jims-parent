@@ -54,8 +54,9 @@ create table PAT_MASTER_INDEX
   NATIVE_PLACE          VARCHAR2(6 CHAR),
   MAILING_ADDRESS_CODE  VARCHAR2(30 CHAR),
   HEALTHY_CARD_NO       VARCHAR2(30 CHAR),
-  ADDRESS_NOW           VARCHAR2(200 CHAR)
-)
+  ADDRESS_NOW           VARCHAR2(200 CHAR),
+  constraint PK_PAT_MASTER_INDEX primary key (ID)
+);
 -- Add comments to the table
 comment on table PAT_MASTER_INDEX
   is '病人主索引';
