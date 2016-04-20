@@ -6,11 +6,7 @@ package com.jims.clinic.entity;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.validator.constraints.Length;
-
-
 import com.jims.common.persistence.DataEntity;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
