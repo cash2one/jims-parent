@@ -10,6 +10,7 @@
 <body class="easyui-layout">
 <form id="enter">
 <div class="container width_90">
+    <script type="text/javascript" src="../doctor/js/enterHosptial.js"></script>
     <div class="clearfix goh-sign">
         <div  style="margin-bottom: 10px;text-align: right; ">
             <label class="label label-info">首次记录时间:</label>
@@ -41,9 +42,9 @@
         <div class="detail-wrapp">
             <div class="sub_title_em">主诉</div>
             <div id="zhusuDiv"
-                 class="pborder" submit_id="zhusuId"
+                 class="pborder" submit_id="zhusu"
                  contenteditable="true"></div>
-                <input id="zhusuId" name="zhusu" type="hidden" class="easyui-validatebox"  >
+                <input id="zhusu" name="zhusu" type="hidden" class="easyui-validatebox"  >
 
 
         </div>
@@ -142,12 +143,13 @@
         </div>
     </div>
 </div>
+    <input name="id" id="id" type="hidden">
 </form>
 
-<div id="dlg-buttons" style="text-align: center">
-    <a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn" iconcls="icon-save">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')"
-       iconcls="icon-cancel">取消</a>
+<div id="dlg-buttons" style="text-align: center;">
+    <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok"  style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"  style="width:90px">关闭</a>
 </div>
+
 </body>
 </html>
