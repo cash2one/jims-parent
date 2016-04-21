@@ -137,8 +137,8 @@ function onloadMethod() {
     /**
      * 保存方法
      */
-    function saveDice() {
-        $.postForm(basePath + '/DrugDispensProperty/save', 'fm', function (data) {
+    function saveDict() {
+        $.postForm(basePath + '/DrugDispensProperty/save', 'drugDispensPropertyForm', function (data) {
             if (data.data == 'success') {
                 $.messager.alert("提示消息", data.code + "条记录，保存成功");
                 $("#dlg").dialog('close');
@@ -166,7 +166,7 @@ function onloadMethod() {
             'data': id = id,
             'dataType': 'json',
             'success': function (data) {
-                $('#dictForm').form('load', data);
+                $('#drugDispensPropertyForm').form('load', data);
             }
         });
     }
@@ -185,7 +185,7 @@ function onloadMethod() {
             'data': id = id,
             'dataType': 'json',
             'success': function (data) {
-                $('#fm').form('load', data);
+                $('#drugDispensPropertyForm').form('load', data);
             }
         });
     }

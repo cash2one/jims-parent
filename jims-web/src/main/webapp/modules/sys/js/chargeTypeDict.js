@@ -138,8 +138,8 @@ function onloadMethod() {
     /**
      * 保存方法
      */
-    function saveDice() {
-        $.postForm(basePath + '/ChargeTypeDict/save', 'fm', function (data) {
+    function saveDict() {
+        $.postForm(basePath + '/ChargeTypeDict/save', 'chargeTypeDictForm', function (data) {
             if (data.data == 'success') {
                 $.messager.alert("提示消息", data.code + "条记录，保存成功");
                 $("#dlg").dialog('close');
@@ -167,7 +167,7 @@ function onloadMethod() {
             'data': id = id,
             'dataType': 'json',
             'success': function (data) {
-                $('#dictForm').form('load', data);
+                $('#chargeTypeDictForm').form('load', data);
             }
         });
     }
@@ -186,7 +186,7 @@ function onloadMethod() {
             'data': id = id,
             'dataType': 'json',
             'success': function (data) {
-                $('#fm').form('load', data);
+                $('#chargeTypeDictForm').form('load', data);
             }
         });
     }
