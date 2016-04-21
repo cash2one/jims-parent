@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 public class DrugDispensProperty extends DataEntity<DrugDispensProperty> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hospitalId;		// 医院id
+	private String hosId;		// 医院id
 	private String dispensary;		// 调配药房
 	private String drugCode;		// 药品代码
 	private String dispensingProperty;		// 摆药类别
@@ -32,15 +32,14 @@ public class DrugDispensProperty extends DataEntity<DrugDispensProperty> {
 		super(id);
 	}
 
-	@Length(min=0, max=64, message="医院id长度必须介于 0 和 64 之间")
-	public String getHospitalId() {
-		return hospitalId;
+	public String getHosId() {
+		return hosId;
 	}
 
-	public void setHospitalId(String hospitalId) {
-		this.hospitalId = hospitalId;
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
 	}
-	
+
 	@Length(min=0, max=8, message="调配药房长度必须介于 0 和 8 之间")
 	public String getDispensary() {
 		return dispensary;

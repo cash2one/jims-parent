@@ -17,7 +17,7 @@ import java.util.Date;
 public class ChargePriceSchedule extends DataEntity<ChargePriceSchedule> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hospitalId;		// 医院id
+	private String hosId;		// 医院id
 	private String chargeType;		// 费别
 	private String priceCoeffNumerator;		// 收费系数分子(住院)
 	private String priceCoeffDenominator;		// 收费系数分母(住院)
@@ -33,14 +33,15 @@ public class ChargePriceSchedule extends DataEntity<ChargePriceSchedule> {
 		super(id);
 	}
 
-	@Length(min=0, max=64, message="医院id长度必须介于 0 和 64 之间")
-	public String getHospitalId() {
-		return hospitalId;
+	public String getHosId() {
+		return hosId;
 	}
 
-	public void setHospitalId(String hospitalId) {
-		this.hospitalId = hospitalId;
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
 	}
+
+
 	
 	@Length(min=0, max=8, message="费别长度必须介于 0 和 8 之间")
 	public String getChargeType() {

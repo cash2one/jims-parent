@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 public class DeptVsWard extends DataEntity<DeptVsWard> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hospitalId;		// 医院id
+	private String hosId;		// 医院id
 	private String deptCode;		// 科室代码
 	private String wardCode;		// 病房代码
 	
@@ -27,15 +27,14 @@ public class DeptVsWard extends DataEntity<DeptVsWard> {
 		super(id);
 	}
 
-	@Length(min=0, max=64, message="医院id长度必须介于 0 和 64 之间")
-	public String getHospitalId() {
-		return hospitalId;
+	public String getHosId() {
+		return hosId;
 	}
 
-	public void setHospitalId(String hospitalId) {
-		this.hospitalId = hospitalId;
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
 	}
-	
+
 	@Length(min=0, max=8, message="科室代码长度必须介于 0 和 8 之间")
 	public String getDeptCode() {
 		return deptCode;
