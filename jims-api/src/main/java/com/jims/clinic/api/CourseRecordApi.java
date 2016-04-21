@@ -1,6 +1,7 @@
 package com.jims.clinic.api;
 
 import com.jims.clinic.entity.CourseRecord;
+import com.jims.common.persistence.Page;
 
 import java.util.List;
 
@@ -19,11 +20,11 @@ public interface CourseRecordApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public List<CourseRecord> findPage(CourseRecord courseRecord);
+    public Page<CourseRecord> findPage(Page<CourseRecord> page,CourseRecord courseRecord);
     /**
      * 保存或编辑
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public void saveCourseRecord(CourseRecord courseRecord);
+    public String saveCourseRecord(CourseRecord courseRecord);
 }
