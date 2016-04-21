@@ -7,9 +7,7 @@ import java.util.List;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.demo.dao.SayHelloDao;
-import com.jims.demo.entity.DemoUser;
-import com.jims.sys.api.DictService;
+import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
 
@@ -23,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
-public class DictServiceImpl extends CrudImplService<DictDao, Dict> implements DictService {
+public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implements DictServiceApi {
 	
 	/**
      * 查询字段类型列表
