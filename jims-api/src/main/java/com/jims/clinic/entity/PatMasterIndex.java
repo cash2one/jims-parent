@@ -15,7 +15,6 @@ import java.util.Date;
  * @author zhaoning
  * @version 2016-04-19
  */
-@XmlRootElement
 public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	
 	private static final long serialVersionUID = 1L;
