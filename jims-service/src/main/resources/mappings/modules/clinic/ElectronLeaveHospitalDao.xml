@@ -124,5 +124,11 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getLeaveHosByVisit" resultType="ElectronLeaveHospital">
+		SELECT
+		<include refid="electronLeaveHospitalColumns"/>
+		FROM electron_leave_hospital a
+		<include refid="electronLeaveHospitalJoins"/>
+		WHERE a.zhuyuanxinxi_id = #{patVisitId}
+	</select>
 </mapper>

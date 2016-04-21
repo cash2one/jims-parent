@@ -3,7 +3,7 @@
  */
 package com.jims.clinic.service;
 
-import com.jims.clinic.api.ElectronEnterHospitalApi;
+import com.jims.clinic.api.ElectronEnterHospitalServiceApi;
 import com.jims.clinic.dao.ElectronEnterHospitalDao;
 import com.jims.clinic.entity.ElectronEnterHospital;
 import com.jims.common.service.impl.CrudImplService;
@@ -18,17 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(readOnly = true)
-public  class ElectronEnterHospitalService extends CrudImplService<ElectronEnterHospitalDao,ElectronEnterHospital> implements ElectronEnterHospitalApi {
+public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronEnterHospitalDao,ElectronEnterHospital> implements ElectronEnterHospitalServiceApi {
     @Autowired
 	private ElectronEnterHospitalDao electronEnterHospitalDao;
 
-	/**
-	 * 新增、修改 病历文书
-	 * @param electronEnterHospital
-	 */
 	@Override
-	@Transactional(readOnly = false)
-	public void saveElectronEnterHos(ElectronEnterHospital electronEnterHospital){
-      this.save(electronEnterHospital);
+	public ElectronEnterHospital getElectronEnteHos(String patVisitId) {
+		return electronEnterHospitalDao.getElectronEnteHos(patVisitId);
 	}
 }

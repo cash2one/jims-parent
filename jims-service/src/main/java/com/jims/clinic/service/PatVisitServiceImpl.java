@@ -1,7 +1,7 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.PatVisitApi;
+import com.jims.clinic.api.PatVisitServiceApi;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.clinic.entity.PatVisit;
 import com.jims.common.service.impl.CrudImplService;
@@ -13,18 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(readOnly = true)
-public class PatVisitService extends CrudImplService<PatVisitDao,PatVisit> implements PatVisitApi {
+public class PatVisitServiceImpl extends CrudImplService<PatVisitDao,PatVisit> implements PatVisitServiceApi {
    @Autowired
     private   PatVisitDao  patVisitDao;
 
-    /**
-     *新增修改病人住院记录信息
-     * @param patVisit
-     * @author che
-     * @version 2016-04-19
-     */
-    @Override
-    public void savePatVisit(PatVisit patVisit) {
-          this.save(patVisit);
-    }
+
 }

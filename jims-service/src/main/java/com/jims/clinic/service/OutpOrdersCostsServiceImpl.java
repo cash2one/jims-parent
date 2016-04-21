@@ -3,22 +3,18 @@
  */
 package com.jims.clinic.service;
 
-
-import com.jims.clinic.api.PatMasterIndexApi;
-import com.jims.clinic.entity.PatMasterIndex;
-import com.jims.clinic.dao.PatMasterIndexDao;
+import com.jims.clinic.dao.OutpOrdersCostsDao;
+import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
 /**
- * 病人主索引Service
+ * 门诊医生收费明细Service
  * @author zhaoning
- * @version 2016-04-19
+ * @version 2016-04-20
  */
 @Service
 @Transactional(readOnly = true)
-public  class PatMasterIndexService extends CrudImplService<PatMasterIndexDao, PatMasterIndex> implements PatMasterIndexApi {
+public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsDao, OutpOrdersCosts> {
 
 }
