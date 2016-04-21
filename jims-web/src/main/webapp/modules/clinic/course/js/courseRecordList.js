@@ -1,3 +1,4 @@
+
 function onloadMethod(){
     $('#list_data').datagrid({
         iconCls:'icon-edit',//Í¼±ê
