@@ -38,7 +38,7 @@ function onloadMethod(){
             iconCls: 'icon-add',
             handler: function() {
                 $("#saveBut").show();
-
+                $("#dictForm").form('clear');
                 $("#dlg").dialog({title: '添加字典信息'}).dialog("open")
             }
         }, '-', {
