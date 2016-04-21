@@ -28,7 +28,7 @@
         <repository>
             <id>Oracle</id>
             <name>Oracle Corporation</name>
-            <url>http://repo.maven.apache.org/maven2</url>
+            <url>http://git.oschina.net/thinkgem/repos/raw/master</url>
         </repository>
         <repository>
             <id>JBossMavenRepo</id>
@@ -112,7 +112,7 @@
         <java_source_version>1.5</java_source_version>
         <java_target_version>1.5</java_target_version>
         <file_encoding>UTF-8</file_encoding>
-        <oracle.driver.version>10.2.0.4.0</oracle.driver.version>
+        <oracle.driver.version>10.2.0.1.0</oracle.driver.version>
         <flyway.version>3.0</flyway.version>
     </properties>
 
