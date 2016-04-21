@@ -29,7 +29,7 @@
         FROM course_record_stage a
         WHERE a.id = #{id}
     </select>
-    <select id="getBycourseRecordId" resultType="CourseRecordStage">
+    <select id="getRecordByCourseRecordId" resultType="CourseRecordStage">
         SELECT
         <include refid="courseRecordStageColumns"/>
         FROM course_record_stage a
