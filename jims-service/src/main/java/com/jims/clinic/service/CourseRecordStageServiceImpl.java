@@ -8,6 +8,6 @@ import com.jims.common.service.impl.CrudImplService;
 /**
  * Created by qinlongxin on 2016/4/21.
  */
-public class CourseRecordStageService extends CrudImplService<CourseRecordStageDao,CourseRecordStage> {
+public class CourseRecordStageServiceImpl extends CrudImplService<CourseRecordStageDao,CourseRecordStage> {
 
 }
