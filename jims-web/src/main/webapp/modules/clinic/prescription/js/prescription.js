@@ -1,30 +1,86 @@
 var editRow = undefined;
-$('#list_data').datagrid({
-    iconCls:'icon-edit',//图标
-    width: '80%',
-    height: 'auto',
-    nowrap: false,
-    striped: true,
-    border: true,
-    collapsible:false,//是否可折叠的
-    fit: true,//自动大小
-    url:'/modules/doctor/datagrid_data2.json',
-    //sortName: 'code',
-    //sortOrder: 'desc',
-    remoteSort:false,
-    idField:'fldId',
-    singleSelect:false,//是否单选
-    pagination:true,//分页控件
-    rownumbers:true,//行号
-    columns:[[      //每个列具体内容
-        {field:'orderNo',title:'处方号',width:'5%',align:'center'},
-        {field:'drugName',title:'药名',width:'10%',align:'center',/*formatter:function(value){
-            for(var i=0; i<products.length; i++){
-                if (products[i].productid == value) return products[i].name;
-            }
-            return value;
-        },*/
-            editor:{
+var visitDate='2015-06-09';
+var visitNo='410';
+var prescNo ='';
+var serialNo='';
+var itemClass='西、成药';
+var chargeIndicator='新开';
+var administration = [{ "value": "口服", "text": "口服" }, { "value": "静脉注射", "text": "静脉注射" }, { "value": "小儿头皮静脉", "text": "小儿头皮静脉" }, { "value": "静脉输液", "text": "静脉输液" }, { "value": "续静滴", "text": "续静滴" }];
+var frequency = [{ "value": "一日一次", "text": "一日一次" }, { "value": "一日二次", "text": "一日二次" }, { "value": "一日三次", "text": "一日三次" }];
+$(function(){
+
+    $('#list_data').datagrid({
+        title: '门诊处方',
+        singleSelect: false,
+        fit: true,
+        nowrap: false,
+        method:'GET',
+        url:basePath+'/outppresc/list',
+        columns:[[      //每个列具体内容
+            {field:'orderNo',title:'处方号',width:'5%',align:'center'},
+            {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
+                type:'text',
+                options:{
+                    data :administration,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {field:'drugSpec',title:'规格',width:'5%',align:'center'},
+            {field:'firmId',title:'厂家',width:'5%',align:'center'},
+            {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'units',title:'单位',width:'5%',align:'center'},
+            {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'text'},
+            {field:'dosageUnits',title:'用量单位',width:'5%',align:'center'},
+            {field:'administration',title:'途径',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :administration,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :frequency,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
+            {field:'charges',title:'实收',width:'5%',align:'center'},
+            {field:'itemClass',title:'药局',width:'5%',align:'center'},
+            {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
+            {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
+                type:'combobox',
+                /* method: 'get',
+                 url: basePath+'dict/',
+                 valueField: 'id',
+                 textField: 'name',
+                 filter: function (q, row) {
+                 var ret = false;
+                 //拼音
+                 var spell = row['spell'];
+                 if (spell && spell.indexOf(q) >= 0) {
+                 ret = true;
+                 }
+                 //textField
+                 if (row[$(this).combobox('options').textField].indexOf(q) >= 0) {
+                 ret = true;
+                 }
+                 return ret;
+                 },*/
+                options:{
+                    required:true
+                }
+            }},
+            /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
+            {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
                 type:'combobox',
                 options:{
                     valueField:'productid',
@@ -32,111 +88,132 @@ $('#list_data').datagrid({
                     data:1,
                     required:true
                 }
-            }},
-        {field:'drugSpec',title:'规格',width:'5%',align:'center'},
-        {field:'firmId',title:'厂家',width:'5%',align:'center'},
-        {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
-        {field:'units',title:'单位',width:'5%',align:'center'},
-        {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
-        {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'text'},
-        {field:'dosageUnits',title:'用量单位',width:'5%',align:'center'},
-        {field:'administration',title:'途径',width:'5%',align:'center',editor:{
-            type:'combobox',
-            options:{
-                valueField:'productid',
-                textField:'name',
-                data:1,
-                required:true
+            }}
+        ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function() {
+                if (editRow != undefined) {
+                    $("#list_data").datagrid('endEdit', editRow);
+                }
+                if (editRow == undefined) {
+                    $("#list_data").datagrid('insertRow', {
+                        index: 0,
+                        row:{}
+                    });
+                    $("#list_data").datagrid('beginEdit', 0);
+                    editRow = 0;
+                }
             }
-        }},
-        {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
-            type:'combobox',
-            options:{
-                valueField:'productid',
-                textField:'name',
-                data:1,
-                required:true
+        }, '-', {
+            text: '保存', iconCls: 'icon-save', handler: function () {
+                $("#list_data").datagrid('endEdit', editRow);
+
+                //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
+
+                //使用JSON序列化datarow对象，发送到后台。
+                var rows = $("#list_data").datagrid('getChanges');
+
+                var rowstr = JSON.stringify(rows);
+                $.post(basePath+'/outppresc/save', rowstr, function (data) {
+
+                });
             }
-        }},
-        {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
-        {field:'charges',title:'实收',width:'5%',align:'center'},
-        {field:'itemClass',title:'药局',width:'5%',align:'center'},
-        {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
-        {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
-            type:'combobox',
-            options:{
-                valueField:'productid',
-                textField:'name',
-                data:1,
-                required:true
-            }
-        }},
-     /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
-        {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
-            type:'combobox',
-            options:{
-                valueField:'productid',
-                textField:'name',
-                data:1,
-                required:true
-            }
-        }}
-    ]],
-    frozenColumns:[[
-        {field:'ck',checkbox:true}
-    ]],
-    toolbar: [{
-        text: '添加',
-        iconCls: 'icon-add',
-        handler: function() {
-            /* if (editRow != undefined) {
+        }],onAfterEdit: function (rowIndex, rowData, changes) {
+            editRow = undefined;
+        },onDblClickRow:function (rowIndex, rowData) {
+            if (editRow != undefined) {
                 $("#list_data").datagrid('endEdit', editRow);
             }
+
             if (editRow == undefined) {
-                $("#list_data").datagrid('insertRow', {
-                    index: 0,
-                    row: {}
-                });
-                $("#list_data").datagrid('beginEdit', 0);
-                editRow = 0;
-             }*/
-            //$('#btnsave').linkbutton('enable');
-            //alert('add');
-            var rows = $('#test').datagrid('getSelections');
-            for (var i = 0; i < rows.length; i++) {
-                $('#list_data').datagrid('appendRow', rows[i]);//这里循环添加在另一个datagrid选择的行
+                $("#list_data").datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
             }
-        }
-    }],onAfterEdit: function (rowIndex, rowData, changes) {
-        editRow = undefined;
-    },onDblClickRow:function (rowIndex, rowData) {
-        if (editRow != undefined) {
-            $("#list_data").datagrid('endEdit', editRow);
-        }
+        },
+        onClickRow:function(rowIndex,rowData){
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
 
-        if (editRow == undefined) {
-            $("#list_data").datagrid('beginEdit', rowIndex);
-            editRow = rowIndex;
-        }
-    },
-    onClickRow:function(rowIndex,rowData){
-        if (editRow != undefined) {
-            $("#list_data").datagrid('endEdit', editRow);
+            }
 
         }
+    });
 
-    }
+
+    $('#leftList').datagrid({
+        title: '门诊处方',
+        singleSelect: false,
+        fit: true,
+        nowrap: false,
+        method:'GET',
+        url:basePath+'/outppresc/list',
+        columns:[[      //每个列具体内容
+            {field:'visitDate',title:'就诊时间',width:'20%',align:'center'},
+            {field:'visitNo',title:'就诊序号',width:'15%',align:'center'},
+            {field:'serialNo',title:'开单序号',width:'15%',align:'center'},
+            {field:'prescNo',title:'处方号',width:'15%',align:'center'},
+            {field:'itemClass',title:'处方分类',width:'15%',align:'center'},
+            {field:'chargeIndicator',title:'收费状态',width:'15%',align:'center'}
+        ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function() {
+                if (editRow != undefined) {
+                    $("#list_data").datagrid('endEdit', editRow);
+                }
+                if (editRow == undefined) {
+                    $("#list_data").datagrid('insertRow', {
+                        index: 0,
+                        row:{}
+                    });
+                    $("#list_data").datagrid('beginEdit', 0);
+                    editRow = 0;
+                }
+            }
+        }, '-', {
+            text: '保存', iconCls: 'icon-save', handler: function () {
+                $("#list_data").datagrid('endEdit', editRow);
+
+                //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
+
+                //使用JSON序列化datarow对象，发送到后台。
+                var rows = $("#list_data").datagrid('getChanges');
+
+                var rowstr = JSON.stringify(rows);
+                $.post(basePath+'/outppresc/save', rowstr, function (data) {
+
+                });
+            }
+        }],onAfterEdit: function (rowIndex, rowData, changes) {
+            editRow = undefined;
+        },onDblClickRow:function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
+            }
+
+            if (editRow == undefined) {
+                $("#list_data").datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
+
+            }
+
+        }
+    });
 });
-//设置分页控件
-var p = $('#list_data').datagrid('getPager');
-$(p).pagination({
-    pageSize: 10,//每页显示的记录条数，默认为10
-    pageList: [5,10,15],//可以设置每页记录条数的列表
-    beforePageText: '第',//页数文本框前显示的汉字
-    afterPageText: '页    共 {pages} 页',
-    displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-});
-
 //删除用户数据
 function doDelete() {
     //把你选中的 数据查询出来。
@@ -161,9 +238,31 @@ function doDelete() {
     })
 }
 
-function addPre(){
-    $('#leftList').datagrid('appendRow', {
-        FlowTypeName: 'new name',
-        FlowTypeCode: 30
+function addPre(){//点击新方
+    $('#leftList').datagrid('insertRow', {
+        url:{},//
+        index:0,	// index start with 0
+        row: {
+            visitDate: visitDate,
+            visitNo: visitNo,
+            serialNo: serialNo,
+            prescNo: prescNo,
+            itemClass:itemClass,
+            chargeIndicator:chargeIndicator
+        }
     });
+}
+
+function savePre(){
+    $.postForm(basePath+'/outppresc/save','prescForm',function(data){
+        if(data.data=='success'){
+            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $('#list_data').datagrid('load');
+            $('#list_data').datagrid('clearChecked');
+        }else{
+            $.messager.alert('提示',"保存失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"保存失败", "error");
+    })
 }
