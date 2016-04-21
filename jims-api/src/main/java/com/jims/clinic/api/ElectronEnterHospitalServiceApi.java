@@ -8,11 +8,18 @@ import com.jims.clinic.entity.ElectronEnterHospital;
  * @Author zhaoning
  * @version 2016-04-20
  */
-public interface ElectronEnterHospitalApi {
+public interface ElectronEnterHospitalServiceApi {
+
+    /**
+     * 根据病人住院ID查询入院记录信息
+     * @param patVisitId
+     * @return
+     */
+    public ElectronEnterHospital getElectronEnteHos(String patVisitId);
 
     /**
      * 保存/修改  病历文书--入院记录
       * @param electronEnterHospital
      */
-    public void saveElectronEnterHos(ElectronEnterHospital electronEnterHospital);
+    public String save(ElectronEnterHospital electronEnterHospital);
 }

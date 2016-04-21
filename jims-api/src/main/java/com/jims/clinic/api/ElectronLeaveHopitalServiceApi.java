@@ -8,11 +8,19 @@ import com.jims.clinic.entity.ElectronLeaveHospital;
  * @Author zhaoning
  * @version 2015-04-20
  */
-public interface ElectronLeaveHopitalApi {
+public interface ElectronLeaveHopitalServiceApi {
+
+
+    /**
+     * 根据病人住院ID 查询出院信息
+     * @param patVisitId
+     * @return
+     */
+    public ElectronLeaveHospital getLeaveByVisit(String patVisitId);
 
     /**
      * 新增\修改 出院记录信息
      * @param electronLeaveHospital
      */
-    public void saveElectronLeaveHos(ElectronLeaveHospital electronLeaveHospital);
+    public String save(ElectronLeaveHospital electronLeaveHospital);
 }

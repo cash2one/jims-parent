@@ -8,7 +8,7 @@ package com.jims.clinic.api;
  * @author zhaoning
  * @version 2016-04-19
  */
-public interface PatMasterIndexApi {
+public interface PatMasterIndexServiceApi {
 
 }
 

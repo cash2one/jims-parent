@@ -3,19 +3,18 @@
  */
 package com.jims.clinic.service;
 
-import com.jims.clinic.dao.ClinicMasterDao;
-import com.jims.clinic.entity.ClinicMaster;
+import com.jims.clinic.dao.OutpOrdersCostsDao;
+import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 /**
- * 病人就诊记录Service
+ * 门诊医生收费明细Service
  * @author zhaoning
  * @version 2016-04-20
  */
 @Service
 @Transactional(readOnly = true)
-public class ClinicMasterService extends CrudImplService<ClinicMasterDao, ClinicMaster> {
+public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsDao, OutpOrdersCosts> {
 
 }

@@ -6,6 +6,7 @@ package com.jims.clinic.dao;
 import com.jims.clinic.entity.ElectronLeaveHospital;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -15,5 +16,12 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface ElectronLeaveHospitalDao extends CrudDao<ElectronLeaveHospital> {
-	
+    /**
+     * 根据住院ID查询出院记录
+     * @param patVisitId
+     * @return
+     * @Author zhaoning
+     * @version 2016-04-21
+     */
+    public ElectronLeaveHospital getLeaveHosByVisit(@Param("patVisitId")String patVisitId);
 }
