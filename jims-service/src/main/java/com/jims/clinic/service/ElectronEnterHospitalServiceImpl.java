@@ -26,4 +26,13 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 	public ElectronEnterHospital getElectronEnteHos(String patVisitId) {
 		return electronEnterHospitalDao.getElectronEnteHos(patVisitId);
 	}
+
+  /**
+   * 根据住院Id查找入院记录
+   * @param electronEnterHospital
+   * @return
+   */
+       public ElectronEnterHospital getEnter(ElectronEnterHospital electronEnterHospital){
+	return  electronEnterHospitalDao.getEnter(electronEnterHospital);
+       }
 }
