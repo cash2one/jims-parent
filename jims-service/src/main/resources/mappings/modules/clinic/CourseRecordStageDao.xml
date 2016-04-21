@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.CourseRecordRescueDao">
+
+    <sql id="courseRecordStageColumns">
+		a.id AS "id",
+		a.bingcheng_id AS "courseRecord.id",
+		a.yibanqingkuang AS "yibanqingkuang",
+		a.ruyuanzhenduan AS "ruyuanzhenduan",
+		a.zhenliaojingguo AS "zhenliaojingguo",
+		a.muqianqingkuang AS "muqianqingkuang",
+		a.muqianzhenduan AS "muqianzhenduan",
+		a.zhenliaojihua AS "zhenliaojihua",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.zhusu AS "zhusu",
+		a.lasttime AS "lasttime",
+		a.nowtime AS "nowtime",
+		a.del_flag AS "delFlag"
+	</sql>
+
+
+    <select id="get" resultType="CourseRecordStage">
+        SELECT
+        <include refid="courseRecordStageColumns"/>
+        FROM course_record_stage a
+        WHERE a.id = #{id}
+    </select>
+    <select id="getBycourseRecordId" resultType="CourseRecordStage">
+        SELECT
+        <include refid="courseRecordStageColumns"/>
+        FROM course_record_stage a
+        WHERE a.bingcheng_id = #{courseRecord.id}
+    </select>
+    <select id="findList" resultType="CourseRecordStage">
+        SELECT
+        <include refid="courseRecordStageColumns"/>
+        FROM course_record_stage a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="CourseRecordStage">
+        SELECT
+        <include refid="courseRecordStageColumns"/>
+        FROM course_record_stage a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+		INSERT INTO course_record_stage(
+			id,
+			bingcheng_id,
+			yibanqingkuang,
+			ruyuanzhenduan,
+			zhenliaojingguo,
+			muqianqingkuang,
+			muqianzhenduan,
+			zhenliaojihua,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			zhusu,
+			lasttime,
+			nowtime,
+			del_flag
+		) VALUES (
+			#{id},
+			#{courseRecord.id},
+			#{yibanqingkuang},
+			#{ruyuanzhenduan},
+			#{zhenliaojingguo},
+			#{muqianqingkuang},
+			#{muqianzhenduan},
+			#{zhenliaojihua},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{zhusu},
+			#{lasttime},
+			#{nowtime},
+			#{delFlag}
+		)
+	</insert>
+
+    <update id="update">
+        UPDATE course_record_stage SET
+        <if test="courseRecord != null and courseRecord.id != '' and courseRecord.id !=null ">
+            bingcheng_id = #{courseRecord.id},
+        </if>
+        <if test="yibanqingkuang != null and yibanqingkuang != '' ">
+            yibanqingkuang = #{yibanqingkuang},
+        </if>
+        <if test="ruyuanzhenduan != null and ruyuanzhenduan != '' ">
+            ruyuanzhenduan = #{ruyuanzhenduan},
+        </if>
+        <if test="zhenliaojingguo != null and zhenliaojingguo != '' ">
+            zhenliaojingguo = #{zhenliaojingguo},
+        </if>
+        <if test="muqianqingkuang != null and muqianqingkuang != '' ">
+            muqianqingkuang = #{muqianqingkuang},
+        </if>
+        <if test="muqianzhenduan != null and muqianzhenduan != '' ">
+            muqianzhenduan = #{muqianzhenduan},
+        </if>
+        <if test="zhenliaojihua != null and zhenliaojihua != '' ">
+            zhenliaojihua = #{zhenliaojihua},
+        </if>
+        <if test="updateBy != null and updateBy.id != '' and updateBy.id !=null ">
+            update_by = #{updateBy.id},
+        </if>
+        <if test="updateDate != null and updateDate != '' ">
+            update_date = #{updateDate},
+        </if>
+        <if test="lasttime != null and lasttime != '' ">
+            lasttime = #{lasttime},
+        </if>
+        <if test="nowtime != null and nowtime != '' ">
+            nowtime = #{nowtime},
+        </if>
+        <if test="zhusu != null and zhusu != '' ">
+            zhusu = #{zhusu},
+        </if>
+        remarks = #{remarks}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+		UPDATE course_record_stage SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+</mapper>
