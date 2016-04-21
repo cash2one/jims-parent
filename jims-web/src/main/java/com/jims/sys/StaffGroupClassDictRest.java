@@ -1,5 +1,6 @@
 package com.jims.sys;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
@@ -25,7 +26,7 @@ import javax.ws.rs.core.Context;
 @Path("StaffGroupClassDict")
 public class StaffGroupClassDictRest {
 
-    @Autowired
+    @Reference(version = "1.0.0")
     private StaffGroupClassDictApi staffGroupClassDictApi;
 
     @Path("list")

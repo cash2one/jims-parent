@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head >
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../sys/js/chargeTypeDict.js"></script>
+</head>
+<body onload="onloadMethod()">
+
+<table id="list_data" width="100%"  cellspacing="0" cellpadding="0">
+
+</table>
+<div id="dlg" class="easyui-dialog" style="width: 30%; height: 53%; padding: 10px 20px;"
+     closed="true" buttons="#dlg-buttons">
+    <form id="chargeTypeDictForm" method="post">
+        <input name="id"  type="hidden" name="id"/>
+        <div class="fitem fitem_pop">
+            <label>
+                医院：
+            </label>
+            <input name="AccountCode" class="easyui-validatebox" required="true" />
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                费别代码：
+            </label>
+            <input name="AccountName" class="easyui-validatebox" required="true" />
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                费别姓名：
+            </label>
+            <input name="AccountName" class="easyui-validatebox" required="true" />
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                享受优惠价格标志：
+            </label>
+            <input name="AccountName" class="easyui-validatebox" required="true" />
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                五笔码：
+            </label>
+            <input name="AccountName" class="easyui-validatebox" required="true" />
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                是否是医保级别：
+            </label>
+            <input name="AccountName" class="easyui-validatebox" required="true" />
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                费别分组号：
+            </label>
+            <input name="AccountName" class="easyui-validatebox" required="true" />
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                费别分组名称：
+            </label>
+            <input name="AccountName" class="easyui-validatebox" required="true" />
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                院长查询用的医保类别：
+            </label>
+            <input name="AccountName" class="easyui-validatebox" required="true" />
+        </div>
+    </form>
+    <!--<div class="fitem fitem_pop">-->
+    <!--<label>-->
+    <!--病人类型：-->
+    <!--</label>-->
+    <!--<select  class="easyui-combobox"  style="width:200px;height: 30px">-->
+    <!--<option>待诊病人</option>-->
+    <!--<option>诊疗中</option>-->
+    <!--<option>已诊病人</option>-->
+    <!--</select>-->
+    <!--</div>-->
+    <!--<input type="hidden" name="action" id="hidtype" />-->
+    <!--<input type="hidden" name="ID" id="Nameid" />-->
+
+    <!--</div>-->
+
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveDict()" iconcls="icon-save">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')"
+           iconcls="icon-cancel">取消</a>
+    </div>
+</div>
+</body>
+</html>
