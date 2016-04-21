@@ -7,27 +7,26 @@ import com.jims.sys.entity.User;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  */
-@XmlRootElement
-@XmlSeeAlso(Dict.class)
-public class PageData<T>  implements Serializable{
 
-    private List<T> rows;
+public class PageData<T> implements Serializable{
+    private List rows;
 
     private Long total;
 
-    public List<T> getRows() {
-        return rows;
-    }
     public PageData() {
 
     }
 
-    public void setRows(List<T> rows) {
+    public List getRows() {
+        return rows;
+    }
+    public void setRows(List rows) {
         this.rows = rows;
     }
 
@@ -38,4 +37,5 @@ public class PageData<T>  implements Serializable{
     public void setTotal(Long total) {
         this.total = total;
     }
+
 }

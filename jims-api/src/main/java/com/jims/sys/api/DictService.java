@@ -20,7 +20,14 @@ import java.util.List;
 public interface DictService {
 
     /**
-     * 查询字段类型列表
+     * 获取单条数据
+     * @param id
+     * @return
+     */
+    public Dict get(String id);
+
+    /**
+     * 查询字典类型列表
      * @return
      */
     public Page<Dict> findPage(Page<Dict> page, Dict dict);
@@ -28,7 +35,7 @@ public interface DictService {
 
 
     /**
-     * 查询字段类型列表
+     * 查询html类型列表
      * @return
      */
 	public List<String> findTypeList();
@@ -41,8 +48,9 @@ public interface DictService {
 
     /**
      * 删除方法
-     * @param dict
+     * @param ids
      */
-	public String delete(Dict dict);
+	public String delete(String ids);
+
 
 }
