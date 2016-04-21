@@ -9,7 +9,7 @@ function onloadMethod(){
         method:'get',
         collapsible:false,//是否可折叠的
         fit: true,//自动大小
-        url:basePath+'/dict/list',
+        url:basePath+'/courseRecord/list',
         remoteSort:false,
         idField:'fldId',
         singleSelect:false,//是否单选
@@ -18,11 +18,9 @@ function onloadMethod(){
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'value',title:'键值',width:'5%',align:'center'},
-            {field:'label',title:'标签',width:'18%',align:'center'},
-            {field:'type',title:'类型',width:'18%',align:'center'},
-            {field:'description',title:'描述',width:'20%',align:'center'},
-            {field:'sort',title:'排序',width:'5%',align:'center'},
+            {field:'luruShijian',title:'病程时间',width:'5%',align:'center'},
+            {field:'type',title:'病程类型',width:'18%',align:'center'},
+            {field:'remark',title:'状态',width:'20%',align:'center'},
             {field:'id',title:'操作',width:'30%',align:'center',formatter:function(value, row, index){
                 var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\''+value+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
                     '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\''+value+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
@@ -39,7 +37,7 @@ function onloadMethod(){
             handler: function() {
                 $("#saveBut").show();
 
-                $("#dlg").dialog({title: '添加字典信息'}).dialog("open")
+                $("#dlg").dialog({title: '添加病程记录信息'}).dialog("open")
             }
         }, '-', {
             text: '修改',
@@ -47,7 +45,7 @@ function onloadMethod(){
             handler: function() {
                 var selectRows = $('#list_data').datagrid("getSelections");
                 if (selectRows.length < 1) {
-                    $.messager.alert("提示消息", "请选中要删的数据!");
+                    $.messager.alert("提示消息", "请选中要修改的数据!");
                     return;
                 }
                 get(selectRows[0].id);
@@ -109,7 +107,7 @@ function deleteRow(id) {
 function del(id){
     $.ajax({
         'type': 'POST',
-        'url': basePath+'/dict/del',
+        'url': basePath+'/courseRecord/del',
         'contentType': 'application/json',
         'data': id=id,
         'dataType': 'json',
@@ -131,7 +129,7 @@ function del(id){
  * 保存方法
  */
 function saveDice(){
-    $.postForm(basePath+'/dict/save','dictForm',function(data){
+    $.postForm(basePath+'/courseRecord/save','dictForm',function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
             $("#dlg").dialog('close');
@@ -150,10 +148,10 @@ function saveDice(){
  */
 function get(id){
     $("#saveBut").show();
-    $("#dlg").dialog({title: '修改字典信息'}).dialog("open");
+    $("#dlg").dialog({title: '修改病程记录'}).dialog("open");
     $.ajax({
         'type': 'post',
-        'url': basePath+'/dict/get',
+        'url': basePath+'/courseRecord/get',
         'contentType': 'application/json',
         'data': id=id,
         'dataType': 'json',
@@ -167,11 +165,11 @@ function get(id){
  * @param id
  */
 function look(id){
-    $("#dlg").dialog({title: '查看字典信息'}).dialog("open");
+    $("#dlg").dialog({title: '查看病程记录'}).dialog("open");
     $("#saveBut").hide();
     $.ajax({
         'type': 'post',
-        'url': basePath+'/dict/get',
+        'url': basePath+'/courseRecord/get',
         'contentType': 'application/json',
         'data': id=id,
         'dataType': 'json',
