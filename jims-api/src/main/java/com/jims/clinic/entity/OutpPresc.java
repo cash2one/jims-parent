@@ -16,10 +16,10 @@ import java.util.Date;
  * @author zhaoning
  * @version 2016-04-20
  */
-@XmlRootElement
 public class OutpPresc extends DataEntity<OutpPresc> {
 	
 	private static final long serialVersionUID = 1L;
+	private String clinicId;//病人就诊记录ID
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
 	private String serialNo;		// 流水号

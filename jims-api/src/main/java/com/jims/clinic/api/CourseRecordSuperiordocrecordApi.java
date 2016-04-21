@@ -17,11 +17,11 @@ public interface CourseRecordSuperiordocrecordApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public void saveCourseRecordSuperiordoc(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor);
+    public String save(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor);
     /**
-     * 通过病程记录主要表bingcheng_id查询每日病程
+     * 通过病程记录主要表bingcheng_id查询上级医师查房
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public CourseRecordSuperiordocrecor getDocrecorByCourseRecordId(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor);
+    public CourseRecordSuperiordocrecor getDocrecorByCourseRecordId(String  courseRecordId);
 }

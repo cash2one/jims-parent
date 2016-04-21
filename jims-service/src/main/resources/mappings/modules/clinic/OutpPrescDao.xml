@@ -4,6 +4,7 @@
     
 	<sql id="outpPrescColumns">
 		a.id AS "id",
+		a.clinicId AS "clinic_id",
 		a.visit_date AS "visitDate",
 		a.visit_no AS "visitNo",
 		a.serial_no AS "serialNo",
@@ -95,6 +96,7 @@
 	<insert id="insert">
 		INSERT INTO outp_presc(
 			id,
+			clinic_id,
 			visit_date,
 			visit_no,
 			serial_no,
@@ -136,6 +138,7 @@
 			del_flag
 		) VALUES (
 			#{id},
+			#{clinicId},
 			#{visitDate},
 			#{visitNo},
 			#{serialNo},
@@ -179,7 +182,8 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE outp_presc SET 	
+		UPDATE outp_presc SET
+		    clinic_id =#{clinicId},
 			visit_date = #{visitDate},
 			visit_no = #{visitNo},
 			serial_no = #{serialNo},
@@ -224,5 +228,16 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getOutpPresc" resultType="OutpPresc">
+		 SELECT DISTINCT "OUTP_PRESC"."VISIT_DATE",
+         "OUTP_PRESC"."VISIT_NO",
+         "OUTP_PRESC"."SERIAL_NO",
+         "OUTP_PRESC"."PRESC_NO",
+         "OUTP_PRESC"."ITEM_CLASS",
+         "OUTP_PRESC"."CHARGE_INDICATOR",
+         "OUTP_PRESC"."DISPENSARY",
+         "OUTP_PRESC"."PRESC_ATTR"
+         FROM "OUTP_PRESC",
+         WHERE "OUTP_PRESC"."clinic_id"=#{clinicId}
+	</select>
 </mapper>
