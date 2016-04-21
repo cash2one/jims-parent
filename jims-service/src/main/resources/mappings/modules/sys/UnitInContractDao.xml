@@ -4,7 +4,7 @@
     
 	<sql id="unitInContractColumns">
 		a.id AS "id",
-		a.hospital_id AS "hospitalId",
+		a.hosId AS "hosId",
 		a.unit_code AS "unitCode",
 		a.unit_name AS "unitName",
 		a.input_code AS "inputCode",
@@ -74,7 +74,7 @@
 	<insert id="insert">
 		INSERT INTO unit_in_contract(
 			id,
-			hospital_id,
+			hosId,
 			unit_code,
 			unit_name,
 			input_code,
@@ -94,7 +94,7 @@
 			remarks
 		) VALUES (
 			#{id},
-			#{hospitalId},
+			#{hosId},
 			#{unitCode},
 			#{unitName},
 			#{inputCode},
@@ -117,7 +117,7 @@
 	
 	<update id="update">
 		UPDATE unit_in_contract SET 	
-			hospital_id = #{hospitalId},
+			hosId = #{hosId},
 			unit_code = #{unitCode},
 			unit_name = #{unitName},
 			input_code = #{inputCode},
@@ -137,7 +137,7 @@
 	
 	<update id="delete">
 		UPDATE unit_in_contract SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

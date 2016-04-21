@@ -4,7 +4,7 @@
     
 	<sql id="chargeTypeVsIdentityColumns">
 		a.id AS "id",
-		a.hospital_id AS "hospitalId",
+		a.hosId AS "hosId",
 		a.charge_type AS "chargeType",
 		a.identity_serial_no AS "identitySerialNo",
 		a.identity AS "identity",
@@ -66,7 +66,7 @@
 	<insert id="insert">
 		INSERT INTO charge_type_vs_identity(
 			id,
-			hospital_id,
+			hosId,
 			charge_type,
 			identity_serial_no,
 			identity,
@@ -78,7 +78,7 @@
 			remarks
 		) VALUES (
 			#{id},
-			#{hospitalId},
+			#{hosId},
 			#{chargeType},
 			#{identitySerialNo},
 			#{identity},
@@ -93,7 +93,7 @@
 	
 	<update id="update">
 		UPDATE charge_type_vs_identity SET 	
-			hospital_id = #{hospitalId},
+			hosId = #{hosId},
 			charge_type = #{chargeType},
 			identity_serial_no = #{identitySerialNo},
 			identity = #{identity},
@@ -105,7 +105,7 @@
 	
 	<update id="delete">
 		UPDATE charge_type_vs_identity SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

@@ -50,13 +50,19 @@ function onloadMethod() {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
+                $("#chargeTypeDictForm").form('clear');
                 $("#dlg").dialog({title: '添加'}).dialog("open")
             }
-        }, '-', {
+        },'-', {
             text: '修改',
             iconCls: 'icon-edit',
-            handler: function () {
-                $("#dlg").dialog({title: '修改'}).dialog("open")
+            handler: function() {
+                var selectRows = $('#list_data').datagrid("getSelections");
+                if (selectRows.length < 1) {
+                    $.messager.alert("提示消息", "请选中要删的数据!");
+                    return;
+                }
+                get(selectRows[0].id);
             }
         }, '-', {
             text: '删除',
@@ -98,96 +104,98 @@ function onloadMethod() {
         })
     }
 
+
+}
+
 //列删除
-    function deleteRow(id) {
-        //真删除数据
-        //提醒用户是否是真的删除数据
-        $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
-            if (r) {
-                del(id);
-            }
-        })
-    }
+function deleteRow(id) {
+    //真删除数据
+    //提醒用户是否是真的删除数据
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        if (r) {
+            del(id);
+        }
+    })
+}
 
-    /**
-     * 删除方法
-     * @param id
-     */
-    function del(id) {
-        $.ajax({
-            'type': 'POST',
-            'url': basePath + '/ChargeTypeDict/del',
-            'contentType': 'application/json',
-            'data': id = id,
-            'dataType': 'json',
-            'success': function (data) {
-                if (data.data == 'success') {
-                    $.messager.alert("提示消息", data.code + "条记录，已经删除");
-                    $('#list_data').datagrid('load');
-                    $('#list_data').datagrid('clearChecked');
-                } else {
-                    $.messager.alert('提示', "删除失败", "error");
-                }
-            },
-            'error': function (data) {
-                $.messager.alert('提示', "保存失败", "error");
-            }
-        });
-    }
-
-    /**
-     * 保存方法
-     */
-    function saveDict() {
-        $.postForm(basePath + '/ChargeTypeDict/save', 'chargeTypeDictForm', function (data) {
+/**
+ * 删除方法
+ * @param id
+ */
+function del(id) {
+    $.ajax({
+        'type': 'POST',
+        'url': basePath + '/ChargeTypeDict/del',
+        'contentType': 'application/json',
+        'data': id = id,
+        'dataType': 'json',
+        'success': function (data) {
             if (data.data == 'success') {
-                $.messager.alert("提示消息", data.code + "条记录，保存成功");
-                $("#dlg").dialog('close');
+                $.messager.alert("提示消息", data.code + "条记录，已经删除");
                 $('#list_data').datagrid('load');
                 $('#list_data').datagrid('clearChecked');
             } else {
-                $.messager.alert('提示', "保存失败", "error");
+                $.messager.alert('提示', "删除失败", "error");
             }
-        }, function (data) {
+        },
+        'error': function (data) {
             $.messager.alert('提示', "保存失败", "error");
-        })
-    }
+        }
+    });
+}
 
-    /**
-     * 修改字典
-     * @param id
-     */
-    function get(id) {
-        $("#saveBut").show();
-        $("#dlg").dialog({title: '修改字典信息'}).dialog("open");
-        $.ajax({
-            'type': 'post',
-            'url': basePath + '/ChargeTypeDict/get',
-            'contentType': 'application/json',
-            'data': id = id,
-            'dataType': 'json',
-            'success': function (data) {
-                $('#chargeTypeDictForm').form('load', data);
-            }
-        });
-    }
+/**
+ * 保存方法
+ */
+function saveDict() {
+    $.postForm(basePath + '/ChargeTypeDict/save', 'chargeTypeDictForm', function (data) {
+        if (data.data == 'success') {
+            $.messager.alert("提示消息", data.code + "条记录，保存成功");
+            $("#dlg").dialog('close');
+            $('#list_data').datagrid('load');
+            $('#list_data').datagrid('clearChecked');
+        } else {
+            $.messager.alert('提示', "保存失败", "error");
+        }
+    }, function (data) {
+        $.messager.alert('提示', "保存失败", "error");
+    })
+}
 
-    /**
-     * 查看字典
-     * @param id
-     */
-    function look(id) {
-        $("#dlg").dialog({title: '查看字典信息'}).dialog("open");
-        $("#saveBut").hide();
-        $.ajax({
-            'type': 'post',
-            'url': basePath + '/ChargeTypeDict/get',
-            'contentType': 'application/json',
-            'data': id = id,
-            'dataType': 'json',
-            'success': function (data) {
-                $('#chargeTypeDictForm').form('load', data);
-            }
-        });
-    }
+/**
+ * 修改字典
+ * @param id
+ */
+function get(id) {
+    $("#saveBut").show();
+    $("#dlg").dialog({title: '修改字典信息'}).dialog("open");
+    $.ajax({
+        'type': 'post',
+        'url': basePath + '/ChargeTypeDict/get',
+        'contentType': 'application/json',
+        'data': id = id,
+        'dataType': 'json',
+        'success': function (data) {
+            $('#chargeTypeDictForm').form('load', data);
+        }
+    });
+}
+
+/**
+ * 查看字典
+ * @param id
+ */
+function look(id) {
+    $("#dlg").dialog({title: '查看字典信息'}).dialog("open");
+    $("#saveBut").hide();
+    $.ajax({
+        'type': 'post',
+        'url': basePath + '/ChargeTypeDict/get',
+        'contentType': 'application/json',
+        'data': id = id,
+        'dataType': 'json',
+        'success': function (data) {
+            $('#chargeTypeDictForm').form('load', data);
+        }
+    });
 }

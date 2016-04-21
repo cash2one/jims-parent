@@ -4,9 +4,10 @@
     
 	<sql id="staffGroupClassDictColumns">
 		a.id AS "id",
+		a.hosId AS "hosId"
 		a.serial_no AS "serialNo",
 		a.group_class AS "groupClass",
-		a.hospital_id AS "hospitalId"
+
 	</sql>
 	
 	<sql id="staffGroupClassDictJoins">
@@ -57,27 +58,29 @@
 	<insert id="insert">
 		INSERT INTO staff_group_class_dict(
 			id,
+			hosId
 			serial_no,
 			group_class,
-			hospital_id
 		) VALUES (
 			#{id},
+			#{hosId}
 			#{serialNo},
 			#{groupClass},
-			#{hospitalId}
+
 		)
 	</insert>
 	
 	<update id="update">
-		UPDATE staff_group_class_dict SET 	
+		UPDATE staff_group_class_dict SET
+			hosId = #{hosId}
 			serial_no = #{serialNo},
 			group_class = #{groupClass},
-			hospital_id = #{hospitalId}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		DELETE FROM staff_group_class_dict
+		DELETE FROM staff_group_class_dict SET
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

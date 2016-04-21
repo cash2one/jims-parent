@@ -4,7 +4,7 @@
     
 	<sql id="chargePriceScheduleColumns">
 		a.id AS "id",
-		a.hospital_id AS "hospitalId",
+		a.hosId AS "hosId",
 		a.charge_type AS "chargeType",
 		a.price_coeff_numerator AS "priceCoeffNumerator",
 		a.price_coeff_denominator AS "priceCoeffDenominator",
@@ -14,7 +14,7 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.uupdate_date AS "uupdateDate",
+		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
 		a.remarks AS "remarks"
 	</sql>
@@ -67,7 +67,7 @@
 	<insert id="insert">
 		INSERT INTO charge_price_schedule(
 			id,
-			hospital_id,
+			hosid,
 			charge_type,
 			price_coeff_numerator,
 			price_coeff_denominator,
@@ -77,12 +77,12 @@
 			create_by,
 			create_date,
 			update_by,
-			uupdate_date,
+			update_date,
 			del_flag,
 			remarks
 		) VALUES (
 			#{id},
-			#{hospitalId},
+			#{hosId},
 			#{chargeType},
 			#{priceCoeffNumerator},
 			#{priceCoeffDenominator},
@@ -92,7 +92,7 @@
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
-			#{uupdateDate},
+			#{updateDate},
 			#{delFlag},
 			#{remarks}
 		)
@@ -100,7 +100,7 @@
 	
 	<update id="update">
 		UPDATE charge_price_schedule SET 	
-			hospital_id = #{hospitalId},
+			hosid = #{hosId},
 			charge_type = #{chargeType},
 			price_coeff_numerator = #{priceCoeffNumerator},
 			price_coeff_denominator = #{priceCoeffDenominator},
@@ -108,14 +108,14 @@
 			numerator_outp = #{numeratorOutp},
 			denominator_outp = #{denominatorOutp},
 			update_by = #{updateBy.id},
-			uupdate_date = #{uupdateDate},
+			update_date = #{updateDate},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE charge_price_schedule SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

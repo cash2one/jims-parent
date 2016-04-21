@@ -4,7 +4,7 @@
     
 	<sql id="deptVsWardColumns">
 		a.id AS "id",
-		a.hospital_id AS "hospitalId",
+		a.hosId AS "hosId",
 		a.dept_code AS "deptCode",
 		a.ward_code AS "wardCode",
 		a.update_by AS "updateBy.id",
@@ -65,7 +65,7 @@
 	<insert id="insert">
 		INSERT INTO dept_vs_ward(
 			id,
-			hospital_id,
+			hosId,
 			dept_code,
 			ward_code,
 			update_by,
@@ -76,7 +76,7 @@
 			remarks
 		) VALUES (
 			#{id},
-			#{hospitalId},
+			#{hosId},
 			#{deptCode},
 			#{wardCode},
 			#{updateBy.id},
@@ -90,7 +90,7 @@
 	
 	<update id="update">
 		UPDATE dept_vs_ward SET 	
-			hospital_id = #{hospitalId},
+			hosId = #{hosId},
 			dept_code = #{deptCode},
 			ward_code = #{wardCode},
 			update_by = #{updateBy.id},
@@ -101,7 +101,7 @@
 	
 	<update id="delete">
 		UPDATE dept_vs_ward SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

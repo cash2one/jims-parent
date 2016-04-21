@@ -6,7 +6,7 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/js/head.js"></script>
-    <script type="text/javascript" src="../sys/js/chargePriceSchedule.js"></script>
+    <script type="text/javascript" src="/modules/sys/js/chargePriceSchedule.js"></script>
 </head>
 <body onload="onloadMethod()">
 
@@ -21,43 +21,43 @@
             <label>
                 医院：
             </label>
-            <input name="AccountCode" class="easyui-validatebox" required="true" />
+            <input name="hosId" class="easyui-validatebox" required="true" />
         </div>
         <div class="fitem fitem_pop">
             <label>
                 费别：
             </label>
-            <input name="AccountName" class="easyui-validatebox" required="true" />
+            <input name="chargeType" class="easyui-validatebox" required="true" />
         </div>
         <div class="fitem fitem_pop">
             <label>
                 收费系数分子(住院)：
             </label>
-            <input name="AccountName" class="easyui-validatebox" required="true" />
+            <input name="priceCoeffNumerator" class="easyui-validatebox" required="true" />
         </div>
         <div class="fitem fitem_pop">
             <label>
                 收费系数分母(住院)：
             </label>
-            <input name="AccountName" class="easyui-validatebox" required="true" />
+            <input name="priceCoeffDenominator" class="easyui-validatebox" required="true" />
         </div>
         <div class="fitem fitem_pop">
             <label>
                 适用特殊收适用特殊收费项目标志：
             </label>
-            <input name="AccountName" class="easyui-validatebox" required="true" />
+            <input name="chargeSpecialIndicator" class="easyui-validatebox" required="true" />
         </div>
         <div class="fitem fitem_pop">
             <label>
                 收费系数分子(门诊)：
             </label>
-            <input name="AccountName" class="easyui-validatebox" required="true" />
+            <input name="numeratorOutp" class="easyui-validatebox" required="true" />
         </div>
         <div class="fitem fitem_pop">
             <label>
                 收费系数分母(门诊)：
             </label>
-            <input name="AccountName" class="easyui-validatebox" required="true" />
+            <input name="denominatorOutp" class="easyui-validatebox" required="true" />
         </div>
     </form>
 
