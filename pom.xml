@@ -27,7 +27,7 @@
         </repository>
         <repository>
             <id>Oracle</id>
-            <name>Oracle Corporation</name>http://download.java.net/maven/2/
+            <name>Oracle Corporation</name>
             <url>http://repo.maven.apache.org/maven2</url>
         </repository>
         <repository>
