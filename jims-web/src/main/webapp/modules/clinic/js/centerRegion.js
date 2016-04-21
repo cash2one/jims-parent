@@ -10,8 +10,10 @@ $(function(){
     // 刷新当前标签页
     $("#refresh").bind("click",function(){
         var currTab = $('#tabs-header').tabs('getSelected'); //获得当前tab
-        var url = $(currTab.panel('options').content).attr('src');
-        currTab.panel('refresh', url);
+        var frameObj=$("iframe",currTab);
+        $(frameObj).attr("src", $(frameObj).attr("src"))
+        //var url = $(currTab.panel('options').content).attr('src');
+        //currTab.panel('refresh', url);
     });
 
     //关闭当前标签页
@@ -69,13 +71,15 @@ $(function(){
  */
 function addTabs(id,name,url,lia){
     $(lia).parent().parent().find("li a").removeClass();
-    $(lia).addClass("active")
+    $(lia).addClass("active");
+    var content = '<iframe scrolling="no" frameborder="0" src="'+url+'" style="width:100%;height:100%;"></iframe>';
     if(!$("#tabs-header").tabs('exists',name)){
         $('#tabs-header').tabs('add',{
             id:id,
             title: name,
             selected: true,
-            href:url,
+            content:content,
+            //href:url,
             closable:true
         });
     }else $('#tabs-header').tabs('select',name);

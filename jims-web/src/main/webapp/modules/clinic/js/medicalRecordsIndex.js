@@ -1,86 +1,85 @@
-$(function(){
-    //添加Tabs
-    $(".tabs-header").bind('contextmenu',function(e){
-        e.preventDefault();
-        $('#rcmenu').menu('show', {
-            left: e.pageX,
-            top: e.pageY
-        });
+function onloadMethod(){
+    $('#list_data').datagrid({
+        iconCls:'icon-edit',//图标
+        width: 'auto',
+        height: 'auto',
+        nowrap: false,
+        striped: true,
+        border: true,
+        collapsible:false,//是否可折叠的
+        fit: true,//自动大小
+        url:'/modules/clinic/datagrid_data2.json',
+        //sortName: 'code',
+        //sortOrder: 'desc',
+        remoteSort:false,
+        idField:'fldId',
+        singleSelect:false,//是否单选
+        pagination:true,//分页控件
+        rownumbers:true,//行号
+        columns:[[      //每个列具体内容
+            {field:'id',title:'病人姓名',width:'28%',align:'center'},
+            {field:'text',title:'性别',width:'10%',align:'center'},
+            {field:'age',title:'年龄',width:'10%',align:'center'},
+            {field:'type',title:'病人类型',width:'18%',align:'center'},
+            {field:'itemid',title:'操作',width:'30%',align:'center',formatter:function(value, row, index){
+                return '<a href="#">查看</a>&nbsp<a href="#">修改</a>&nbsp<a href="#">删除</a>';
+            }}
+        ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function() {
+                $("#dlg").dialog({title: '添加病人信息'}).dialog("open")
+            }
+        }, '-', {
+            text: '修改',
+            iconCls: 'icon-edit',
+            handler: function() {
+                $("#dlg").dialog({title: '修改病人信息'}).dialog("open")
+            }
+        }, '-',{
+            text: '删除',
+            iconCls: 'icon-remove',
+            handler: function(){
+                doDelete();
+            }
+        }]
     });
-    // 刷新当前标签页
-    $("#refresh").bind("click",function(){
-        var currTab = $('#tabs-header').tabs('getSelected'); //获得当前tab
-        var frameObj=$("iframe",currTab);
-        $(frameObj).attr("src", $(frameObj).attr("src"))
-        //var url = $(currTab.panel('options').content).attr('src');
-        //currTab.panel('refresh', url);
+    //设置分页控件
+    var p = $('#list_data').datagrid('getPager');
+    $(p).pagination({
+        pageSize: 10,//每页显示的记录条数，默认为10
+        pageList: [5,10,15],//可以设置每页记录条数的列表
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
 
-    //关闭当前标签页
-    $("#closecur").bind("click",function(){
-        var tab = $('#tabs-header').tabs('getSelected');
-        var index = $('#tabs-header').tabs('getTabIndex',tab);
-        $('#tabs-header').tabs('close',index);
-    });
-    //关闭所有标签页
-    $("#closeall").bind("click",function(){
-        var tablist = $('#tabs-header').tabs('tabs');
-        for(var i=tablist.length-1;i>=0;i--){
-            $('#tabs-header').tabs('close',i);
-        }
-    });
-    //关闭非当前标签页（先关闭右侧，再关闭左侧）
-    $("#closeother").bind("click",function(){
-        var tablist = $('#tabs-header').tabs('tabs');
-        var tab = $('#tabs-header').tabs('getSelected');
-        var index = $('#tabs-header').tabs('getTabIndex',tab);
-        for(var i=tablist.length-1;i>index;i--){
-            $('#tabs-header').tabs('close',i);
-        }
-        var num = index-1;
-        for(var i=num;i>=0;i--){
-            $('#tabs-header').tabs('close',0);
-        }
-    });
-    //关闭当前标签页右侧标签页
-    $("#closeright").bind("click",function(){
-        var tablist = $('#tabs-header').tabs('tabs');
-        var tab = $('#tabs-header').tabs('getSelected');
-        var index = $('#tabs-header').tabs('getTabIndex',tab);
-        for(var i=tablist.length-1;i>index;i--){
-            $('#tabs-header').tabs('close',i);
-        }
-    });
-    //关闭当前标签页左侧标签页
-    $("#closeleft").bind("click",function(){
-        var tab = $('#tabs-header').tabs('getSelected');
-        var index = $('#tabs-header').tabs('getTabIndex',tab);
-        var num = index-1;
-        for(var i=0;i<=num;i++){
-            $('#tabs-header').tabs('close',0);
-        }
-    });
-});
+}
 
-/**
- * tabs 增加
- * @param id
- * @param name
- * @param url
- * @param lia
- */
-function addTabs(id,name,url,lia){
-    $(lia).parent().parent().find("li a").removeClass();
-    $(lia).addClass("active");
-    var content = '<iframe scrolling="no" frameborder="0" src="'+url+'" style="width:100%;height:100%;"></iframe>';
-    if(!$("#tabs-header").tabs('exists',name)){
-        $('#tabs-header').tabs('add',{
-            id:id,
-            title: name,
-            selected: true,
-            content:content,
-            //href:url,
-            closable:true
-        });
-    }else $('#tabs-header').tabs('select',name);
+//删除用户数据
+function doDelete() {
+    //把你选中的 数据查询出来。
+    var selectRows = $('#list_data').datagrid("getSelections");
+    if (selectRows.length < 1) {
+        $.messager.alert("提示消息", "请选中要删的数据!");
+        return;
+    }
+
+    //真删除数据
+    //提醒用户是否是真的删除数据
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        if (r) {
+            //真删除了  1,3,4
+            var strIds = "";
+            for (var i = 0; i < selectRows.length; i++) {
+                strIds += selectRows[i].id + ",";
+            }
+            strIds = strIds.substr(0, strIds.length - 1);
+            $.messager.alert("提示消息","删除成功~~");
+        }
+    })
 }
