@@ -27,8 +27,8 @@
         </repository>
         <repository>
             <id>Oracle</id>
-            <name>Oracle Corporation</name>
-            <url>https://maven.alfresco.com/nexus/content/groups/public</url>
+            <name>Oracle Corporation</name>http://download.java.net/maven/2/
+            <url>http://repo.maven.apache.org/maven2</url>
         </repository>
         <repository>
             <id>JBossMavenRepo</id>
