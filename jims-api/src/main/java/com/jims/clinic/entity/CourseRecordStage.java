@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by qinlongxin on 2016/4/20.
  */
 @XmlRootElement
-public class CourseRecordStage extends DataEntity<CourseRecord> {
+public class CourseRecordStage extends DataEntity<CourseRecordStage> {
     private static final long serialVersionUID = 1L;
     private CourseRecord courseRecord;		// 日常病程id
     private String yibanqingkuang;		// 一般情况
