@@ -23,7 +23,8 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
 	private Date bingchengjilutime;		// bingchengjilutime
 	private String content;		// 内容
 	private String docQianming;		// 医师签名
-	
+
+	private CourseRecord courseRecord;//病程主记录
 	public CourseRecordEachdis() {
 		super();
 	}
@@ -66,5 +67,12 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
 	public void setDocQianming(String docQianming) {
 		this.docQianming = docQianming;
 	}
-	
+
+	public CourseRecord getCourseRecord() {
+		return courseRecord;
+	}
+
+	public void setCourseRecord(CourseRecord courseRecord) {
+		this.courseRecord = courseRecord;
+	}
 }

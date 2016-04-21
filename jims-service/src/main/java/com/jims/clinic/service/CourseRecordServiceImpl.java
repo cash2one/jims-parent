@@ -3,11 +3,13 @@
  */
 package com.jims.clinic.service;
 
+import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.clinic.api.CourseRecordApi;
 import com.jims.clinic.dao.CourseRecordDao;
 import com.jims.clinic.entity.CourseRecord;
 import com.jims.common.service.impl.CrudImplService;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 
 /**
@@ -15,9 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author zhaoning
  * @version 2016-04-20
  */
-@Service
+@Service(version = "1.0.0")
 @Transactional(readOnly = true)
-public class CourseRecordServiceImpl extends CrudImplService<CourseRecordDao, CourseRecord> {
+public class CourseRecordServiceImpl extends CrudImplService<CourseRecordDao, CourseRecord> implements CourseRecordApi {
 
-	
 }

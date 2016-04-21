@@ -24,6 +24,6 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 
 	@Override
 	public ElectronEnterHospital getElectronEnteHos(String patVisitId) {
-		return null;
+		return electronEnterHospitalDao.getElectronEnteHos(patVisitId);
 	}
 }
