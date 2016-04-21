@@ -7,7 +7,7 @@ import com.jims.clinic.entity.CourseRecordEachdis;
  */
 public interface CourseRecordEachdisApi {
     /**
-     * 根据病程id查询每日病程记录信息
+     * 根据每日病程id查询每日病程记录信息
      * @author qinlongxin
      * @version 2016/4/20
      */
