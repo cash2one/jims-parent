@@ -15,7 +15,6 @@ import java.util.Date;
  * @author zhaonig
  * @version 2016-04-20
  */
-@XmlRootElement
 public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 	private static final long serialVersionUID = 1L;
 	private String zhuyuanId;		// 住院信息表外键

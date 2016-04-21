@@ -14,7 +14,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author che
  * @version 2016-04-19
  */
-@XmlRootElement
 public class PatVisit extends DataEntity<PatVisit> {
 
     private static final long serialVersionUID = 1L;
