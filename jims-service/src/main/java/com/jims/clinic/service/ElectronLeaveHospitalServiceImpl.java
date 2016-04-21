@@ -3,9 +3,8 @@
  */
 package com.jims.clinic.service;
 
-import com.jims.clinic.api.ElectronLeaveHopitalApi;
+import com.jims.clinic.api.ElectronLeaveHopitalServiceApi;
 import com.jims.clinic.dao.ElectronLeaveHospitalDao;
-import com.jims.clinic.entity.ElectronEnterHospital;
 import com.jims.clinic.entity.ElectronLeaveHospital;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(readOnly = true)
-public class ElectronLeaveHospitalService extends CrudImplService<ElectronLeaveHospitalDao, ElectronLeaveHospital> implements ElectronLeaveHopitalApi {
+public class ElectronLeaveHospitalServiceImpl extends CrudImplService<ElectronLeaveHospitalDao, ElectronLeaveHospital> implements ElectronLeaveHopitalServiceApi {
 
 	@Autowired
 	private ElectronLeaveHospitalDao electronLeaveHospitalDao;
+
 	/**
-	 * 新增、修改 出院记录信息
-	 * @param electronLeaveHospital
-	 * @author zhaoning
-	 * @version 2016-04-20
+	 * 根据住院ID查询出院记录
+ 	 * @param patVisitId
+	 * @return
+	 * @Author zhaoning
+	 * @version 2016-04-21
 	 */
 	@Override
-	public void saveElectronLeaveHos(ElectronLeaveHospital electronLeaveHospital) {
-      this.save(electronLeaveHospital);
+	public ElectronLeaveHospital getLeaveByVisit(String patVisitId) {
+		return  electronLeaveHospitalDao.getLeaveHosByVisit(patVisitId);
 	}
 }

@@ -196,5 +196,13 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+	<select id="getElectronEnteHos" resultType="ElectronEnterHospital">
+		SELECT
+		<include refid="electronEnterHospitalColumns"/>
+		FROM electron_enter_hospital a
+		<where>
+           a.zhuyuan_id=#{patVisitId}
+		</where>
+	</select>
 </mapper>

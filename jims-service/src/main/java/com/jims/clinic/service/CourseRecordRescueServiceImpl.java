@@ -3,18 +3,19 @@
  */
 package com.jims.clinic.service;
 
-import com.jims.clinic.dao.CourseRecordSuperiordocrecorDao;
-import com.jims.clinic.entity.CourseRecordSuperiordocrecor;
+import com.jims.clinic.dao.CourseRecordRescueDao;
+import com.jims.clinic.entity.CourseRecordRescue;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 /**
- * 病程记录--上级医师查房记录Service
+ * 病程记录--抢救记录Service
  * @author zhaoning
  * @version 2016-04-20
  */
 @Service
 @Transactional(readOnly = true)
-public class CourseRecordSuperiordocrecorService extends CrudImplService<CourseRecordSuperiordocrecorDao, CourseRecordSuperiordocrecor> {
+public class CourseRecordRescueServiceImpl extends CrudImplService<CourseRecordRescueDao, CourseRecordRescue> {
 
 }
