@@ -18,7 +18,7 @@ function onloadMethod(){
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'luruShijian',title:'键值',width:'5%',align:'center'},
+            {field:'luruShijian',title:'病程日期',width:'5%',align:'center'},
             {field:'type',title:'类型',width:'18%',align:'center'},
             {field:'id',title:'操作',width:'30%',align:'center',formatter:function(value, row, index){
                 var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\''+value+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
