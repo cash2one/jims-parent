@@ -48,7 +48,20 @@
 		<include refid="electronEnterHospitalJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+	<select id="getEnter" resultType="ElectronEnterHospital">
+		SELECT
+		<include refid="electronEnterHospitalColumns"/>
+		FROM electron_enter_hospital a
+		<include refid="electronEnterHospitalJoins"/>
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="zhuyuanId !=null">
+			a.zhuyuan_id = #{zhuyuanId}
+		</if>
+	</select>
+
+
+
 	<select id="findList" resultType="ElectronEnterHospital">
 		SELECT 
 			<include refid="electronEnterHospitalColumns"/>

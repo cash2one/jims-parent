@@ -15,7 +15,6 @@ import java.util.Date;
  * @author zhaoning
  * @version 2016-04-20
  */
-@XmlRootElement
 public class OutpOrders extends DataEntity<OutpOrders> {
 	
 	private static final long serialVersionUID = 1L;

@@ -9,7 +9,6 @@ import java.util.Date;
 /**阶段小结实体
  * Created by qinlongxin on 2016/4/20.
  */
-@XmlRootElement
 public class CourseRecordStage extends DataEntity<CourseRecord> {
     private static final long serialVersionUID = 1L;
     private CourseRecord courseRecord;		// 日常病程id
