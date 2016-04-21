@@ -160,12 +160,25 @@ function get(id){
     });
 }
 /**
- * 查看字典
+ * 根据病程记录type查询字典
  * @param id
  */
-function look(id){
+function Change(){
     $("#dlg").dialog({title: '查看字典信息'}).dialog("open");
     $("#saveBut").hide();
+    $.ajax({
+        'type': 'post',
+        'url': basePath+'/courseRecord/get',
+        'contentType': 'application/json',
+        'data': id=id,
+        'dataType': 'json',
+        'success': function(data){
+            $('#courseRecordForm').form('load',data);
+        }
+    });
+}
+function changage(id){
+    var strValue = $("#sel").find("option:checked").attr("id");
     $.ajax({
         'type': 'post',
         'url': basePath+'/courseRecord/get',
