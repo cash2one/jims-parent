@@ -17,11 +17,11 @@ public interface CourseRecordStageApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public void saveCourseRecordStage(CourseRecordStage courseRecordStage);
+    public void save(CourseRecordStage courseRecordStage);
     /**
      * 通过病程记录主要表bingcheng_id查询阶段小结
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public CourseRecordStage getRecordByCourseRecordId(CourseRecordStage courseRecordStage);
+    public CourseRecordStage getRecordByCourseRecordId(String courseRecordId);
 }
