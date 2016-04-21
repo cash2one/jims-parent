@@ -15,12 +15,12 @@ create table COURSE_RECORD_RESCUE  (
    QIANGJIUJINGGUO      CLOB,
    CANJIARENYUAN        VARCHAR2(200),
    CREATE_BY            VARCHAR2(64)                    not null,
-   CREATE_DATE          DATE                            not null,
+   CREATE_DATE          TIMESTAMP                            not null,
    UPDATE_BY            VARCHAR2(64)                    not null,
-   UPDATE_DATE          DATE                            not null,
+   UPDATE_DATE          TIMESTAMP                            not null,
    REMARKS              VARCHAR2(225 CHAR),
    DEL_FLAG             CHAR(1)                        default '0' not null,
-   QIANGJIUSHIJIAN      DATE
+   QIANGJIUSHIJIAN      TIMESTAMP
 );
 
 comment on table COURSE_RECORD_RESCUE is

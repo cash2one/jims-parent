@@ -12,11 +12,11 @@ create table SYS_COMPANY
    EMAIL                VARCHAR2(50),
    CREATE_BY           VARCHAR2(64),
    UPDATE_BY            VARCHAR(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR(2),
    OWNER                VARCHAR(64),
    REMARKS              VARCHAR2(2000),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    constraint PK_SYS_COMPANY primary key (ID)
 );
 

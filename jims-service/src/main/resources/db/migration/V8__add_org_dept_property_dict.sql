@@ -9,9 +9,9 @@ create table ORG_DEPT_PROPERTY_DICT
    REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
    CREATE_BY           VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR(2),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    constraint PK_ORG_DEPT_PROPERTY_DICT primary key (ID)
 );
 

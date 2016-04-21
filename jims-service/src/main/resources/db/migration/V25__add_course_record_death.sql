@@ -6,17 +6,17 @@ drop table COURSE_RECORD_DEATH cascade constraints;
 create table COURSE_RECORD_DEATH  (
    ID                   VARCHAR2(64)                    not null,
    BINGCHENG_ID         VARCHAR2(64)                    not null,
-   RUYUANSHIJIAN        DATE,
-   SIWANGSHIJIAN        DATE,
+   RUYUANSHIJIAN        TIMESTAMP,
+   SIWANGSHIJIAN        TIMESTAMP,
    RUANYUANZHENDUAN     CLOB,
    RUYUANQINGKUANG      CLOB,
    ZHENLIAOJINGGUO      CLOB,
    SIWANGYUANYIN        CLOB,
    SIWANGZHENDUAN       CLOB,
    JIASHUSHIFOU         VARCHAR2(64),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(225 CHAR),
    DEL_FLAG             CHAR(1)                        default '0'
 );

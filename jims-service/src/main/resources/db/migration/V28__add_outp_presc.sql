@@ -5,7 +5,7 @@
 create table OUTP_PRESC
 (
    ID                   VARCHAR2(64 CHAR)    not null,
-   VISIT_DATE           DATE,
+   VISIT_DATE           TIMESTAMP,
    VISIT_NO             NUMBER(5),
    SERIAL_NO            VARCHAR2(64 CHAR)    not null,
    PRESC_NO             NUMBER(5)            not null,
@@ -38,9 +38,9 @@ create table OUTP_PRESC
    SKIN_FLAG            VARCHAR2(64 CHAR),
    PRESC_PSNO           NUMBER(2),
    SKIN_RESULT          VARCHAR2(64 CHAR),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(64 CHAR),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64 CHAR),
    REMARKS              VARCHAR2(200 CHAR),
    DEL_FLAG             NUMBER(1),

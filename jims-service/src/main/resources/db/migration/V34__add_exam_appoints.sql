@@ -14,7 +14,7 @@ create table EXAM_APPOINTS
   NAME                VARCHAR2(20 CHAR),
   NAME_PHONETIC       VARCHAR2(20 CHAR),
   SEX                 VARCHAR2(64 CHAR),
-  DATE_OF_BIRTH       DATE,
+  DATE_OF_BIRTH       TIMESTAMP,
   BIRTH_PLACE         VARCHAR2(64 CHAR),
   IDENTITY            VARCHAR2(64 CHAR),
   CHARGE_TYPE         VARCHAR2(64 CHAR),
@@ -33,11 +33,11 @@ create table EXAM_APPOINTS
   PERFORMED_BY        VARCHAR2(64 CHAR),
   PATIENT_SOURCE      VARCHAR2(64 CHAR),
   FACILITY            VARCHAR2(20 CHAR),
-  REQ_DATE_TIME       DATE,
+  REQ_DATE_TIME       TIMESTAMP,
   REQ_DEPT            VARCHAR2(64 CHAR),
   REQ_PHYSICIAN       VARCHAR2(20 CHAR),
   REQ_MEMO            VARCHAR2(60 CHAR),
-  SCHEDULED_DATE      DATE,
+  SCHEDULED_DATE      TIMESTAMP,
   NOTICE              VARCHAR2(400 CHAR),
   COSTS               NUMBER(8,2),
   CHARGES             NUMBER(8,2),
@@ -68,84 +68,84 @@ create table EXAM_APPOINTS
   constraint PK_EXAM_APPOINTS primary key (ID)
 );
 -- Add comments to the table
-comment on table EXAM.EXAM_APPOINTS
+comment on table EXAM_APPOINTS
   is '检查预约记录';
 -- Add comments to the columns
-comment on column EXAM.EXAM_APPOINTS.ID
-  is '检查预约记录ID'
-comment on column EXAM.EXAM_APPOINTS.EXAM_NO
+comment on column EXAM_APPOINTS.ID
+  is '检查预约记录ID';
+comment on column EXAM_APPOINTS.EXAM_NO
   is '申请序号';
-comment on column EXAM.EXAM_APPOINTS.PATIENT_ID
+comment on column EXAM_APPOINTS.PATIENT_ID
   is '病人标识号';
-comment on column EXAM.EXAM_APPOINTS.VISIT_ID
+comment on column EXAM_APPOINTS.VISIT_ID
   is '住院标识';
-comment on column EXAM.EXAM_APPOINTS.LOCAL_ID_CLASS
+comment on column EXAM_APPOINTS.LOCAL_ID_CLASS
   is '检查号类别';
-comment on column EXAM.EXAM_APPOINTS.PATIENT_LOCAL_ID
+comment on column EXAM_APPOINTS.PATIENT_LOCAL_ID
   is '检查标识号';
-comment on column EXAM.EXAM_APPOINTS.NAME
+comment on column EXAM_APPOINTS.NAME
   is '姓名';
-comment on column EXAM.EXAM_APPOINTS.NAME_PHONETIC
+comment on column EXAM_APPOINTS.NAME_PHONETIC
   is '姓名拼音';
-comment on column EXAM.EXAM_APPOINTS.SEX
+comment on column EXAM_APPOINTS.SEX
   is '性别';
-comment on column EXAM.EXAM_APPOINTS.DATE_OF_BIRTH
+comment on column EXAM_APPOINTS.DATE_OF_BIRTH
   is '出生日期';
-comment on column EXAM.EXAM_APPOINTS.BIRTH_PLACE
+comment on column EXAM_APPOINTS.BIRTH_PLACE
   is '出生地';
-comment on column EXAM.EXAM_APPOINTS.IDENTITY
+comment on column EXAM_APPOINTS.IDENTITY
   is '身份';
-comment on column EXAM.EXAM_APPOINTS.CHARGE_TYPE
+comment on column EXAM_APPOINTS.CHARGE_TYPE
   is '费别';
-comment on column EXAM.EXAM_APPOINTS.MAILING_ADDRESS
+comment on column EXAM_APPOINTS.MAILING_ADDRESS
   is '通信地址';
-comment on column EXAM.EXAM_APPOINTS.ZIP_CODE
+comment on column EXAM_APPOINTS.ZIP_CODE
   is '邮政编码';
-comment on column EXAM.EXAM_APPOINTS.PHONE_NUMBER
+comment on column EXAM_APPOINTS.PHONE_NUMBER
   is '联系电话';
-comment on column EXAM.EXAM_APPOINTS.EXAM_CLASS
+comment on column EXAM_APPOINTS.EXAM_CLASS
   is '检查类别';
-comment on column EXAM.EXAM_APPOINTS.EXAM_SUB_CLASS
+comment on column EXAM_APPOINTS.EXAM_SUB_CLASS
   is '检查子类';
-comment on column EXAM.EXAM_APPOINTS.CLIN_SYMP
+comment on column EXAM_APPOINTS.CLIN_SYMP
   is '临床症状';
-comment on column EXAM.EXAM_APPOINTS.PHYS_SIGN
+comment on column EXAM_APPOINTS.PHYS_SIGN
   is '体征';
-comment on column EXAM.EXAM_APPOINTS.RELEVANT_LAB_TEST
+comment on column EXAM_APPOINTS.RELEVANT_LAB_TEST
   is '相关化验结果';
-comment on column EXAM.EXAM_APPOINTS.RELEVANT_DIAG
+comment on column EXAM_APPOINTS.RELEVANT_DIAG
   is '其他诊断';
-comment on column EXAM.EXAM_APPOINTS.CLIN_DIAG
+comment on column EXAM_APPOINTS.CLIN_DIAG
   is '临床诊断';
-comment on column EXAM.EXAM_APPOINTS.EXAM_MODE
+comment on column EXAM_APPOINTS.EXAM_MODE
   is '检查方式';
-comment on column EXAM.EXAM_APPOINTS.EXAM_GROUP
+comment on column EXAM_APPOINTS.EXAM_GROUP
   is '检查分组';
-comment on column EXAM.EXAM_APPOINTS.PERFORMED_BY
+comment on column EXAM_APPOINTS.PERFORMED_BY
   is '执行科室';
-comment on column EXAM.EXAM_APPOINTS.PATIENT_SOURCE
+comment on column EXAM_APPOINTS.PATIENT_SOURCE
   is '病人来源';
-comment on column EXAM.EXAM_APPOINTS.FACILITY
+comment on column EXAM_APPOINTS.FACILITY
   is '外来医疗单位名称';
-comment on column EXAM.EXAM_APPOINTS.REQ_DATE_TIME
+comment on column EXAM_APPOINTS.REQ_DATE_TIME
   is '申请日期及时间';
-comment on column EXAM.EXAM_APPOINTS.REQ_DEPT
+comment on column EXAM_APPOINTS.REQ_DEPT
   is '申请科室';
-comment on column EXAM.EXAM_APPOINTS.REQ_PHYSICIAN
+comment on column EXAM_APPOINTS.REQ_PHYSICIAN
   is '申请医生';
-comment on column EXAM.EXAM_APPOINTS.REQ_MEMO
+comment on column EXAM_APPOINTS.REQ_MEMO
   is '申请备注';
-comment on column EXAM.EXAM_APPOINTS.SCHEDULED_DATE
+comment on column EXAM_APPOINTS.SCHEDULED_DATE
   is '预约日期及时间';
-comment on column EXAM.EXAM_APPOINTS.NOTICE
+comment on column EXAM_APPOINTS.NOTICE
   is '注意事项';
-comment on column EXAM.EXAM_APPOINTS.COSTS
+comment on column EXAM_APPOINTS.COSTS
   is '费用';
-comment on column EXAM.EXAM_APPOINTS.CHARGES
+comment on column EXAM_APPOINTS.CHARGES
   is '应收费用';
-comment on column EXAM.EXAM_APPOINTS.DOCTOR_USER
+comment on column EXAM_APPOINTS.DOCTOR_USER
   is '申请医生用户名';
-comment on column EXAM.EXAM_APPOINTS.WARD_CODE
+comment on column EXAM_APPOINTS.WARD_CODE
   is '护理单元';
-comment on column EXAM.EXAM_APPOINTS.RCPT_NO
+comment on column EXAM_APPOINTS.RCPT_NO
   is '收据号';

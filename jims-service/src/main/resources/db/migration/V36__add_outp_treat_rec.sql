@@ -6,7 +6,7 @@
 create table OUTP_TREAT_REC
 (
   ID               VARCHAR2(64 CHAR) not null,
-  VISIT_DATE       DATE,
+  VISIT_DATE       TIMESTAMP,
   VISIT_NO         NUMBER(5),
   SERIAL_NO        VARCHAR2(10 CHAR),
   ITEM_NO          NUMBER(4),
@@ -28,20 +28,11 @@ create table OUTP_TREAT_REC
   EXPLANATION      VARCHAR2(100),
   RCPT_NO          VARCHAR2(20),
   BILL_VISIT_NO    NUMBER(5),
-  BILL_VISIT_DATE  DATE,
+  BILL_VISIT_DATE  TIMESTAMP,
   OPERATOR_TRTURN  VARCHAR2(20),
-  DATE_TRTURN      DATE
-)
-tablespace TSP_OUTPADM
-  pctfree 10
-  initrans 1
-  maxtrans 255
-  storage
-  (
-    initial 64
-    minextents 1
-    maxextents unlimited
-  );
+  DATE_TRTURN      TIMESTAMP
+);
+
 -- Add comments to the table 
 comment on table OUTP_TREAT_REC
   is '检查治疗医嘱明细记录';
