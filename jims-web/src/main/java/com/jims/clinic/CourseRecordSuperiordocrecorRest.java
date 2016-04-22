@@ -26,25 +26,18 @@ public class CourseRecordSuperiordocrecorRest {
     @Reference(version = "1.0.0")
     private CourseRecordApi courseRecordApi;
 
-    @GET
-    @Path("list")
-    public CourseRecordSuperiordocrecor list(){
-
-        CourseRecordSuperiordocrecor courseRecordSuperiordocrecor=new CourseRecordSuperiordocrecor();
-        courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
-        return courseRecordSuperiordocrecor;
-    }
 
     @POST
     @Path("save")
     public StringData save(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
         CourseRecord courseRecord=new CourseRecord();
         courseRecord.setType("1221");
-     //   courseRecordApi.save(courseRecord);
+        courseRecordSuperiordocrecor.setCourseRecord(courseRecord);
         String num=courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
         StringData stringData=new StringData();
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
     }
+
 }
