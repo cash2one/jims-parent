@@ -33,8 +33,8 @@ public class OutpPrescRest {
         String clinicMasterId ="1";
         List<OutpPresc> list = Lists.newArrayList();
         try {
-            list = outpPrescServiceApi.getOutpPresc(clinicMasterId);
-            /*op.setId("1");
+            //list = outpPrescServiceApi.getOutpPresc(clinicMasterId);
+            op.setId("1");
             op.setVisitDate(DateUtils.parseDate("2015-06-09 00:00:00", "yyyy-MM-dd HH:mm:ss"));
             op.setVisitNo(410);
             op.setSerialNo("2501263");
@@ -62,7 +62,7 @@ public class OutpPrescRest {
             op.setGetdrugFlag(1);
             op.setPrescAttr("门诊处方");
             op.setAbidance(4);
-            list.add(op);*/
+            list.add(op);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class OutpPrescRest {
 
     @Path("save")
     @POST
-    public StringData save(List<OutpPresc> list){
+    public StringData save(OutpPresc outpPresc){
         StringData stringData=new StringData();
        /* String num=dictService.save(dict);
         stringData.setCode(num);

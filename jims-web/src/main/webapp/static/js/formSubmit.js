@@ -18,3 +18,20 @@ function getDiv(fromId){
         }
     })
 }
+
+/**
+ * 获取form表单转json
+ * @param formId
+ * @returns {*}
+ */
+function fromJson(formId){
+    var json = '{';
+    $($('#'+formId).serializeArray()).each(function (index, element) {
+        if(element.value!=null && element.value!=''){
+            json=json+'"'+element.name+'"'+':'+'"'+element.value+'",'
+        }
+    })
+    json = json.substring(0, json.length - 1);
+    json=json+'}';
+    return json;
+}
