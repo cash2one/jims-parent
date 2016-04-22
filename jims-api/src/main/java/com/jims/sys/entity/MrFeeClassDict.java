@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 public class MrFeeClassDict extends DataEntity<MrFeeClassDict> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hospitalId;		// 医院id
+	private String hosId;		// 医院id
 	private String mrFeeClassCode;		// 费用分类代码
 	private String mrFeeClassName;		// 费用分类名称
 	private String inputCode;		// 输入码
@@ -28,15 +28,14 @@ public class MrFeeClassDict extends DataEntity<MrFeeClassDict> {
 		super(id);
 	}
 
-	@Length(min=0, max=64, message="医院id长度必须介于 0 和 64 之间")
-	public String getHospitalId() {
-		return hospitalId;
+	public String getHosId() {
+		return hosId;
 	}
 
-	public void setHospitalId(String hospitalId) {
-		this.hospitalId = hospitalId;
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
 	}
-	
+
 	@Length(min=0, max=1, message="费用分类代码长度必须介于 0 和 1 之间")
 	public String getMrFeeClassCode() {
 		return mrFeeClassCode;

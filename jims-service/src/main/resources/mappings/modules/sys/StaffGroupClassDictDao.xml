@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.sys.dao.StaffGroupClassDictDao">
+    
+	<sql id="staffGroupClassDictColumns">
+		a.id AS "id",
+		a.hosId AS "hosId"
+		a.serial_no AS "serialNo",
+		a.group_class AS "groupClass",
+
+	</sql>
+	
+	<sql id="staffGroupClassDictJoins">
+	</sql>
+    
+	<select id="get" resultType="StaffGroupClassDict">
+		SELECT 
+			<include refid="staffGroupClassDictColumns"/>
+		FROM staff_group_class_dict a
+		<include refid="staffGroupClassDictJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="StaffGroupClassDict">
+		SELECT 
+			<include refid="staffGroupClassDictColumns"/>
+		FROM staff_group_class_dict a
+		<include refid="staffGroupClassDictJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="StaffGroupClassDict">
+		SELECT 
+			<include refid="staffGroupClassDictColumns"/>
+		FROM staff_group_class_dict a
+		<include refid="staffGroupClassDictJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO staff_group_class_dict(
+			id,
+			hosId
+			serial_no,
+			group_class,
+		) VALUES (
+			#{id},
+			#{hosId}
+			#{serialNo},
+			#{groupClass},
+
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE staff_group_class_dict SET
+			hosId = #{hosId}
+			serial_no = #{serialNo},
+			group_class = #{groupClass},
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM staff_group_class_dict SET
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
