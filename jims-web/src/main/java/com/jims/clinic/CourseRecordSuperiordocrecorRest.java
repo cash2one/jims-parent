@@ -23,15 +23,12 @@ import javax.ws.rs.Produces;
 public class CourseRecordSuperiordocrecorRest {
     @Reference(version = "1.0.0")
     private CourseRecordSuperiordocrecordApi courseRecordSuperiordocrecordApi;
-    @Reference(version = "1.0.0")
-    private CourseRecordApi courseRecordApi;
-
 
     @POST
     @Path("save")
     public StringData save(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
         CourseRecord courseRecord=new CourseRecord();
-        courseRecord.setType("1221");
+        courseRecord.setType("3");
         courseRecordSuperiordocrecor.setCourseRecord(courseRecord);
         String num=courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
         StringData stringData=new StringData();
