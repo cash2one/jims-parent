@@ -104,5 +104,10 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getSuperiordByCourse" resultType="CourseRecordSuperiordocrecor">
+		SELECT
+		<include refid="courseRecordSuperiordocrecorColumns"/>
+		FROM course_record_superiordocrecor a
+		WHERE a.bingcheng_id=#{courseRecordId}
+	</select>
 </mapper>
