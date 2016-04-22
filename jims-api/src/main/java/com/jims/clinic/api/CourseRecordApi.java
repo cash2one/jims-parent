@@ -27,4 +27,10 @@ public interface CourseRecordApi {
      * @version 2016/4/20
      */
     public String save(CourseRecord courseRecord);
+    /**
+     * 删除病程记录主要数据
+     * @author qinlongxin
+     * @version 2016/4/20
+     */
+    public String delete(String ids);
 }

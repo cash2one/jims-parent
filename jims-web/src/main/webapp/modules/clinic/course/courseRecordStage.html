@@ -7,8 +7,10 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
 </head>
-<body class="easyui-layout">
-<div class="container width_90">
+<body>
+<script type="text/javascript" src="/modules/clinic/course/js/coureseRecordState.js"></script>
+<form id="courseRecordStateForm">
+    <div class="container width_90">
     <div class="clearfix goh-sign">
         <div style="border: 1px solid rgba(51, 51, 51, 0.27);">
             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="goh-sign-tab goh-notdborder ">
@@ -25,44 +27,45 @@
         </div>
         <div class="detail-wrapp">
             <div class="sub_title_em">主诉</div>
-            <div class="pborder position-re" submit_id="gerenshiId" contenteditable="true">
-                1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间 患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号 门诊时间
-                患者号 姓名1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间 患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号
-                门诊时间 患者号 姓名1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间 患者号 姓名 头痛 111 {症状} 稳定 门诊号
-                门诊患者号 门诊时间 患者号 姓名
-            </div>
+            <div class="pborder position-re" submit_id="zhusu" contenteditable="true"></div>
+            <input type="hidden" id="zhusu" name="zhusu">
         </div>
         <div class="detail-wrapp">
             <div class="sub_title_em">入院情况</div>
-            <p class="pborder" contenteditable="true">1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间
-                患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号 门诊时间 患者号 姓名 </p>
+            <div class="pborder position-re" submit_id="yibanqingkuang" contenteditable="true"></div>
+            <input type="hidden" id="yibanqingkuang" name="yibanqingkuang">
         </div>
         <div class="detail-wrapp">
             <div class="sub_title_em">入院诊断</div>
-            <p class="pborder" contenteditable="true">1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间
-                患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号 门诊时间 患者号 姓名 </p>
+            <div class="pborder position-re" submit_id="ruyuanzhenduan" contenteditable="true"></div>
+            <input type="hidden" id="ruyuanzhenduan" name="ruyuanzhenduan">
         </div>
         <div class="detail-wrapp">
             <div class="sub_title_em">本月诊疗经过</div>
-            <p class="pborder" contenteditable="true">1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间
-                患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号 门诊时间 患者号 姓名 </p>
+            <div class="pborder position-re" submit_id="zhenliaojingguo" contenteditable="true"></div>
+            <input type="hidden" id="zhenliaojingguo" name="zhenliaojingguo">
         </div>
         <div class="detail-wrapp">
             <div class="sub_title_em">目前情况</div>
-            <p class="pborder" contenteditable="true">1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间
-                患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号 门诊时间 患者号 姓名 </p>
+            <div class="pborder position-re" submit_id="muqianqingkuang" contenteditable="true"></div>
+            <input type="hidden" id="muqianqingkuang" name="muqianqingkuang">
         </div>
         <div class="detail-wrapp">
             <div class="sub_title_em">目前诊断</div>
-            <p class="pborder" contenteditable="true">1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间
-                患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号 门诊时间 患者号 姓名 </p>
+            <div class="pborder position-re" submit_id="muqianzhenduan" contenteditable="true"></div>
+            <input type="hidden" id="muqianzhenduan" name="muqianzhenduan">
         </div>
         <div class="detail-wrapp">
             <div class="sub_title_em">诊疗计划</div>
-            <p class="pborder" contenteditable="true">1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间
-                患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号 门诊时间 患者号 姓名 </p>
+            <div class="pborder position-re" submit_id="zhenliaojihua" contenteditable="true"></div>
+            <input type="hidden" id="zhenliaojihua" name="zhenliaojihua">
         </div>
     </div>
+</div>
+</form>
+<div id="dlg-buttons" style="text-align: center;">
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveStateForm();" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" style="width:90px">关闭</a>
 </div>
 </body>
 </html>
