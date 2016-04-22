@@ -6,24 +6,19 @@
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
-
+    <script type="text/javascript" src="/modules/clinic/course/js/courseRecord.js"></script>
 </head>
 <body onload="onloadMethod()">
-<script type="text/javascript" src="/modules/clinic/course/js/courseRecord.js"></script>
-<table id="list_data" width="100%"  cellspacing="0" cellpadding="0">
-
-</table>
-<div id="dlg" class="easyui-dialog" style="width: 80%; height: 97%; padding: 10px 20px;" closed="true" buttons="#dlg-buttons">
+<div class="inp-form" style="width: 55%">
     <form id="fm" method="post">
-
         <div class="fitem fitem_pop">
             <label>
                 病程记录类型：
             </label>
             <select   onchange="Change()" required id="sel" class="easyui-combobox"  style="width:200px;height: 30px">
                 <option>--请选择--</option>
-                <option id="1">上级医师查房</option>
-                <option  id="2">每日病程</option>
+                <option  id="1">每日病程</option>
+                <option  id="2">上级医师查房</option>
                 <option  id="3">阶段小结</option>
             </select>
         </div>
@@ -33,27 +28,12 @@
             </label>
             <input name="AccountCode" class="easyui-validatebox" required="true" />
         </div>
-        <div>
-
-        </div>
-        <input type="hidden" name="action" id="hidtype" />
-        <input type="hidden" name="ID" id="Nameid" />
-        <div class="container width_90">
-            <div class="clearfix goh-sign">
-                <div class="detail-wrapp">
-                    <div class="sub_title_em">病程内容</div>
-                    <div class="pborder position-re" submit_id="gerenshiId" contenteditable="true">
-
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
     </form>
 </div>
+<div class="inp-tab" style="width: 41%">
+    <table id="list_data" width="100%"  cellspacing="0" cellpadding="0">
 
-
-
+    </table>
+</div>
 </body>
 </html>

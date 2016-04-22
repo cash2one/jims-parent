@@ -3,13 +3,13 @@ function saveEachdis() {
     formSubmitInput("eachdisForm");
     $.postForm(basePath + "/courseRecordeachdis/save", "eachdisForm", function (data) {
         if (data.code == "1") {
-            $.messager.alert("ÌáÊ¾ÐÅÏ¢", "±£´æ³É¹¦");
-        } else {
-            $.messager.alert("ÌáÊ¾ÐÅÏ¢", "±£´æÊ§°Ü", "error");
-        }
+            $.messager.alert("ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢", "ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
+} else {
+    $.messager.alert("ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢", "ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½", "error");
+}
 
-    }), function (data) {
-        $.messager.alert("ÌáÊ¾ÐÅÏ¢", "±£´æÊ§°Ü", "error");
-    }
+}), function (data) {
+    $.messager.alert("ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢", "ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½", "error");
+}
 }
 

@@ -16,11 +16,10 @@ function onloadMethod(){
         pagination:true,//分页控件
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
-        rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'luruShijian',title:'病程日期',width:'5%',align:'center'},
-            {field:'type',title:'类型',width:'18%',align:'center'},
-            {field:'id',title:'操作',width:'30%',align:'center',formatter:function(value, row, index){
+            {field:'luruShijian',title:'病程日期',width:'30%',align:'center'},
+            {field:'type',title:'类型',width:'30%',align:'center'},
+            {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
                 var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\''+value+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
                     '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\''+value+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
@@ -31,14 +30,6 @@ function onloadMethod(){
             {field:'ck',checkbox:true}
         ]],
         toolbar: [{
-            text: '添加',
-            iconCls: 'icon-add',
-            handler: function() {
-                $("#saveBut").show();
-
-                $("#dlg").dialog({title: '病程记录信息'}).dialog("open")
-            }
-        }, '-', {
             text: '修改',
             iconCls: 'icon-edit',
             handler: function() {
@@ -59,11 +50,7 @@ function onloadMethod(){
     });
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
-    $(p).pagination({
-        beforePageText: '第',//页数文本框前显示的汉字
-        afterPageText: '页    共 {pages} 页',
-        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-    });
+
 
 }
 //批量删除
