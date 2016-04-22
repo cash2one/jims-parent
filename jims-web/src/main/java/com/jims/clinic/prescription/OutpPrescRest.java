@@ -29,10 +29,11 @@ public class OutpPrescRest {
     @Path("list")
     @GET
     public List<OutpPresc> list(){
-        String listToJson = "";
         OutpPresc op = new OutpPresc();
+        String clinicMasterId ="1";
         List<OutpPresc> list = Lists.newArrayList();
         try {
+            //list = outpPrescServiceApi.getOutpPresc(clinicMasterId);
             op.setId("1");
             op.setVisitDate(DateUtils.parseDate("2015-06-09 00:00:00", "yyyy-MM-dd HH:mm:ss"));
             op.setVisitNo(410);
@@ -67,14 +68,12 @@ public class OutpPrescRest {
             e.printStackTrace();
         }
 
-     /*Page<OutpPresc> page = outpPrescService.findPage(new Page<OutpPresc>(request,response), new OutpPresc());
-        return page.getList();*/
         return list;
     }
 
     @Path("save")
     @POST
-    public StringData save(List<OutpPresc> list){
+    public StringData save(OutpPresc outpPresc){
         StringData stringData=new StringData();
        /* String num=dictService.save(dict);
         stringData.setCode(num);

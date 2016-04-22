@@ -258,7 +258,13 @@ function addPre(){//点击新方
 }
 
 function savePre(){
-    $.postForm(basePath+'/outppresc/save','prescForm',function(data){
+    $("#list_data").datagrid('endEdit', editRow);
+    var  rows=$('#list_data').datagrid('getRows');
+    var formJson=fromJson('prescForm');
+    formJson = formJson.substring(0, formJson.length - 1);
+    var tableJson=JSON.stringify(rows);
+    var submitJson=formJson+",\"list\":"+tableJson+"}";
+    $.postJSON(basePath+'/outppresc/save',submitJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
             $('#list_data').datagrid('load');

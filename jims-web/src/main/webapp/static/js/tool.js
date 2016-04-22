@@ -180,8 +180,18 @@ $.extend({
             'dataType': 'json',
             'success': callback,
             'error': error
+        })
+    },
+    postJSON: function (url, data, callback, error) {
+        return jQuery.ajax({
+            'type': 'POST',
+            'url': url,
+            'contentType': 'application/json',
+            'data': data,
+            'dataType': 'json',
+            'success': callback,
+            'error': error
         });
-
     }
 })
 
