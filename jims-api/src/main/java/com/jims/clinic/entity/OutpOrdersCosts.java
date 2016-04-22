@@ -20,6 +20,7 @@ public class OutpOrdersCosts extends DataEntity<OutpOrdersCosts> {
 	
 	private static final long serialVersionUID = 1L;
 	private String patientId;		// ID号
+	private String masterId;//主记录ID（处方  检查 检验）
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
 	private String serialNo;		// 流水号
@@ -345,5 +346,12 @@ public class OutpOrdersCosts extends DataEntity<OutpOrdersCosts> {
 	public void setWardCode(String wardCode) {
 		this.wardCode = wardCode;
 	}
-	
+
+	public String getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(String masterId) {
+		this.masterId = masterId;
+	}
 }

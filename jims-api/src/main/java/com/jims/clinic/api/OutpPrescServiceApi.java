@@ -17,4 +17,11 @@ public interface OutpPrescServiceApi {
      * @return
      */
     public List<OutpPresc> getOutpPresc(String clinicMasterId);
+
+    /**
+     * 保存处方信息
+     * @param outpPresc
+     * @return
+     */
+    public String save(OutpPresc outpPresc);
 }

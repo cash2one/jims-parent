@@ -45,6 +45,9 @@ public class CourseRecordEachdisServiceImpl extends CrudImplService<CourseRecord
                 courseRecordDao.update(courseRecord);
             }
         }//保存病程主记录
+        if(courseRecord!=null && courseRecord.getId()!=null){
+            courseRecordEachdis.setBingchengId(courseRecord.getId());//设置病程ID
+        }
         return super.save(courseRecordEachdis);//保存每日病程
     }
     /**
