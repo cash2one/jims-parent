@@ -6,14 +6,17 @@
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/static/js/formSubmit.js"></script>
+
+    <script type="text/javascript" src="../enterHospital/js/enterHosptial.js"></script>
 </head>
-<body class="easyui-layout">
-<script type="text/javascript" src="../clinic/enterHospital/js/enterHosptial.js"></script>
+<body >
+
 <form id="enterForm">
     <div class="container width_90">
 
         <div class="clearfix goh-sign">
-            <div  style="margin-bottom: 10px;text-align: right; ">
+            <!--<div  style="margin-bottom: 10px;text-align: right; ">
                 <label class="label label-info">首次记录时间:</label>
                 <label class="label label-default">
                     暂无
@@ -30,63 +33,63 @@
 
                         <td width="25%"><input readonly="true" id="bingchengjilutime" name="caijiRiqi" type="text"
                                                class="easyui-validatebox"
-                            ></td>
+                                ></td>
                         <td width="15%">病史陈述者及可靠性:</td>
                         <td width="25%"><input type="text" class="easyui-validatebox" name="bingshichenshuzhe"  id="bingshichenshuzhe" style="width: 20%;">&nbsp;&nbsp;
                             <input type="text" class="easyui-validatebox" name="isDepend" id="isdepend" style="width: 20%;"> </td>
                         <td></td>
                     </tr>
                 </table>
-            </div>
+            </div>-->
 
 
             <div class="detail-wrapp">
-              <div class="sub_title_em">主诉</div>
+                <div class="sub_title_em">主诉</div>
                 <div id="zhusuDiv"
                      class="pborder" submit_id="zhusu"
                      contenteditable="true"></div>
-                <input id="zhusu" name="zhusu" type="hidden" class="easyui-validatebox"  >
+                <input id="zhusu" name="zhusu" type="hidden" class="easyui-validatebox intOrFloat"  >
             </div>
-             <div class="detail-wrapp">
-                 <div class="sub_title_em">现病史</div>
-                 <div id="xianbingshiDiv"
-                      class="pborder" submit_id="xianbingshi"
-                      contenteditable="true"></div>
-                 <input id="xianbingshi" name="xianbingshi" type="hidden" class="easyui-validatebox"  >
-             </div>
-             <div class="detail-wrapp">
-                 <div class="sub_title_em">个人史</div>
-                 <div id="gerenshiDiv"
-                      class="pborder" submit_id="gerenshi"
-                      contenteditable="true"></div>
-                 <input id="gerenshi" name="gerenshi" type="hidden" class="easyui-validatebox"  >
+            <div class="detail-wrapp">
+                <div class="sub_title_em">现病史</div>
+                <div id="xianbingshiDiv"
+                     class="pborder" submit_id="xianbingshi"
+                     contenteditable="true"></div>
+                <input id="xianbingshi" name="xianbingshi" type="hidden" class="easyui-validatebox"  >
+            </div>
+            <div class="detail-wrapp">
+                <div class="sub_title_em">个人史</div>
+                <div id="gerenshiDiv"
+                     class="pborder" submit_id="gerenshi"
+                     contenteditable="true"></div>
+                <input id="gerenshi" name="gerenshi" type="hidden" class="easyui-validatebox"  >
 
-             </div>
-             <div class="detail-wrapp">
-                 <div class="sub_title_em">既往史</div>
-                 <div id="jiwangshiDiv"
-                      class="pborder" submit_id="jiwangshi"
-                      contenteditable="true"></div>
-                 <input id="jiwangshi" name="jiwangshi" type="hidden" class="easyui-validatebox"  >
+            </div>
+            <div class="detail-wrapp">
+                <div class="sub_title_em">既往史</div>
+                <div id="jiwangshiDiv"
+                     class="pborder" submit_id="jiwangshi"
+                     contenteditable="true"></div>
+                <input id="jiwangshi" name="jiwangshi" type="hidden" class="easyui-validatebox"  >
 
-             </div>
-             <div class="detail-wrapp">
-                 <div class="sub_title_em">婚育史</div>
-                 <div id="hunyushiDiv"
-                      class="pborder" submit_id="hunyushi"
-                      contenteditable="true"></div>
-                 <input id="hunyushi" name="hunyushi" type="hidden" class="easyui-validatebox"  >
+            </div>
+            <div class="detail-wrapp">
+                <div class="sub_title_em">婚育史</div>
+                <div id="hunyushiDiv"
+                     class="pborder" submit_id="hunyushi"
+                     contenteditable="true"></div>
+                <input id="hunyushi" name="hunyushi" type="hidden" class="easyui-validatebox"  >
 
-             </div>
+            </div>
 
-             <div class="detail-wrapp">
-                 <div class="sub_title_em">家族史</div>
-                 <div id="jiazushiDiv"
-                      class="pborder" submit_id="jiazushi"
-                      contenteditable="true"></div>
-                 <input id="jiazushi" name="jiazushi" type="hidden" class="easyui-validatebox"  >
+            <div class="detail-wrapp">
+                <div class="sub_title_em">家族史</div>
+                <div id="jiazushiDiv"
+                     class="pborder" submit_id="jiazushi"
+                     contenteditable="true"></div>
+                <input id="jiazushi" name="jiazushi" type="hidden" class="easyui-validatebox"  >
 
-             </div>
+            </div>
         </div>
 
         <div >
@@ -96,15 +99,15 @@
 
             <div class="padding10">
                 <div>
-                    T：<input type="text" class="easyui-validatebox "  name="tiwen" id="tiwen" style="width: 15%;"/>°C
+                    T：<input type="text" class="easyui-validatebox " data-options="required:'true',validType:'intOrFloat'" name="tiwen" id="tiwen" style="width: 15%;"/>°C
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    P：<input type="text" class="easyui-validatebox"  name="maibo" id="maibo" style="width: 15%;"/>次/分&nbsp;&nbsp;&nbsp;&nbsp;
-                    R：<input type="text" class="easyui-validatebox"  name="huxi" id="huxi" style="width: 15%;"/>次/分&nbsp;&nbsp;&nbsp;&nbsp;
-                    BP：<input type="text" class="easyui-validatebox"  name="xueya" id="xueya"  style="width: 15%;"/>mmHg
+                    P：<input type="text" class="easyui-validatebox " data-options="required:'true',validType:'intOrFloat'" name="maibo" id="maibo" style="width: 15%;"/>次/分&nbsp;&nbsp;&nbsp;&nbsp;
+                    R：<input type="text" class="easyui-validatebox " data-options="required:'true',validType:'intOrFloat'" name="huxi" id="huxi" style="width: 15%;"/>次/分&nbsp;&nbsp;&nbsp;&nbsp;
+                    BP：<input type="text" class="easyui-validatebox " data-options="required:'true',validType:'intOrFloat'"  name="xueya" id="xueya"  style="width: 15%;"/>mmHg
                 </div>
                 <div class="row-fluid clearfix goh-sign">
                     <div class="detail-wrapp">
-                    <div class="sub_title_em">体格检查</div>
+                        <div class="sub_title_em">体格检查</div>
                         <div class="pborder position-re" contenteditable="true" submit_id="tigejiancha"></div>
                         <input type="hidden" id="tigejiancha" name="tigejiancha"  class="easyui-validatebox" style="width: 1110px;">
                     </div>
@@ -123,14 +126,14 @@
                         <input type="hidden" id="fuzhujiancha" name="fuzhujiancha"
                                style="width: 1110px;">
                     </div>
-              <!--      <div class="detail-wrapp">
-                        <div class="sub_title_em">辨病辨证依据</div>
-                        <div class="pborder position-re" submit_id="bianbingbianzheng"
-                             contenteditable="true"></div>
-                        <input type="hidden" id="bianbingbianzheng" name="bianbingbianzheng"
-                               class="sub_title_em"
-                               style="width: 1110px;">
-                    </div>-->
+                    <!--      <div class="detail-wrapp">
+                              <div class="sub_title_em">辨病辨证依据</div>
+                              <div class="pborder position-re" submit_id="bianbingbianzheng"
+                                   contenteditable="true"></div>
+                              <input type="hidden" id="bianbingbianzheng" name="bianbingbianzheng"
+                                     class="sub_title_em"
+                                     style="width: 1110px;">
+                          </div>-->
 
 
                     <div class="detail-wrapp">
@@ -144,15 +147,15 @@
         </div>
 
 
-        </div>
     </div>
-
-
+    </div>
+  <input name="zhuyuanId" type="hidden" value="10d4d0beef2b419cacfe806e96117ae8">
+    <input name="patientId" type="hidden" value="10d4d0beef2b419cacfe806e96117ae8">
     <input name="id" id="id" type="hidden">
 </form>
 
 <div id="dlg-buttons" style="text-align: center;">
-    <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok"  style="width:90px">保存</a>
+    <a href="javascript:void(0)"  class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">保存</a>
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"  style="width:90px">关闭</a>
 </div>
 
