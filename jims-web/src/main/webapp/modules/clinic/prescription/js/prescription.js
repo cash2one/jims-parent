@@ -10,8 +10,7 @@ var frequency = [{ "value": "一日一次", "text": "一日一次" }, { "value":
 $(function(){
 
     $('#list_data').datagrid({
-        title: '门诊处方',
-        singleSelect: false,
+        singleSelect: true,
         fit: true,
         nowrap: false,
         method:'GET',
@@ -150,8 +149,7 @@ $(function(){
 
 
     $('#leftList').datagrid({
-        title: '门诊处方',
-        singleSelect: false,
+        singleSelect: true,
         fit: true,
         nowrap: false,
         method:'GET',
@@ -183,23 +181,10 @@ $(function(){
                     editRow = 0;
                 }
             }
-        }, '-', {
-            text: '保存', iconCls: 'icon-save', handler: function () {
-                $("#list_data").datagrid('endEdit', editRow);
-
-                //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
-
-                //使用JSON序列化datarow对象，发送到后台。
-                var rows = $("#list_data").datagrid('getChanges');
-
-                var rowstr = JSON.stringify(rows);
-                $.post(basePath+'/outppresc/save', rowstr, function (data) {
-
-                });
-            }
         }],onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
         },onDblClickRow:function (rowIndex, rowData) {
+            $("#list_data").datagrid('endEdit', editRow);
             if (editRow != undefined) {
                 $("#list_data").datagrid('endEdit', editRow);
             }
@@ -208,8 +193,7 @@ $(function(){
                 $("#list_data").datagrid('beginEdit', rowIndex);
                 editRow = rowIndex;
             }
-        },
-        onClickRow:function(rowIndex,rowData){
+        }, onClickRow:function(rowIndex,rowData){
             if (editRow != undefined) {
                 $("#list_data").datagrid('endEdit', editRow);
 

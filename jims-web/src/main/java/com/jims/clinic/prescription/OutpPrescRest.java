@@ -21,6 +21,7 @@ import java.util.List;
 @Produces("application/json")
 @Path("outppresc")
 public class OutpPrescRest {
+
     @Reference(version = "1.0.0")
     OutpPrescServiceApi outpPrescServiceApi;
 
@@ -28,46 +29,13 @@ public class OutpPrescRest {
 
     @Path("list")
     @GET
-    public List<OutpPresc> list(){
-        OutpPresc op = new OutpPresc();
-        String clinicMasterId ="1";
+    public List<OutpPresc> list(OutpPresc outpPresc){
         List<OutpPresc> list = Lists.newArrayList();
         try {
-            //list = outpPrescServiceApi.getOutpPresc(clinicMasterId);
-            op.setId("1");
-            op.setVisitDate(DateUtils.parseDate("2015-06-09 00:00:00", "yyyy-MM-dd HH:mm:ss"));
-            op.setVisitNo(410);
-            op.setSerialNo("2501263");
-            op.setPrescNo(1094);
-            op.setItemNo(1);
-            op.setItemClass("A");
-            op.setDrugCode("A0201KL00");
-            op.setDrugName("补血颗粒");
-            op.setDrugSpec("4mg*10");
-            op.setFirmId("万达");
-            op.setUnits("袋");
-            op.setAmount(1.0000);
-            op.setDosage(4.0000);
-            op.setDosageUnits("mg");
-            op.setAdministration("冲服");
-            op.setFrequency("3/日");
-            op.setProvidedIndicator(0);
-            op.setCosts(24.5000);
-            op.setCharges(24.5000);
-            op.setChargeIndicator(0);
-            op.setDispensary("150520");
-            op.setRepetition(1);
-            op.setOrderNo(4);
-            op.setSubOrderNo(1);
-            op.setGetdrugFlag(1);
-            op.setPrescAttr("门诊处方");
-            op.setAbidance(4);
-            list.add(op);
-
+            list = outpPrescServiceApi.findList(outpPresc);
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return list;
     }
 
