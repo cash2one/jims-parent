@@ -30,7 +30,7 @@ public class OutpPrescRest {
     @GET
     public List<OutpPresc> list(){
         OutpPresc op = new OutpPresc();
-        String clinicMasterId ="";
+        String clinicMasterId ="1";
         List<OutpPresc> list = Lists.newArrayList();
         try {
             list = outpPrescServiceApi.getOutpPresc(clinicMasterId);
