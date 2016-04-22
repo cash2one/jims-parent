@@ -23,11 +23,13 @@ import javax.ws.rs.Produces;
 public class CourseRecordSuperiordocrecorRest {
     @Reference(version = "1.0.0")
     private CourseRecordSuperiordocrecordApi courseRecordSuperiordocrecordApi;
+    @Reference(version = "1.0.0")
     private CourseRecordApi courseRecordApi;
 
     @GET
     @Path("list")
     public CourseRecordSuperiordocrecor list(){
+
         CourseRecordSuperiordocrecor courseRecordSuperiordocrecor=new CourseRecordSuperiordocrecor();
         courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
         return courseRecordSuperiordocrecor;
@@ -35,14 +37,14 @@ public class CourseRecordSuperiordocrecorRest {
 
     @POST
     @Path("save")
-    public CourseRecordSuperiordocrecor save(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
+    public StringData save(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
         CourseRecord courseRecord=new CourseRecord();
-        courseRecordSuperiordocrecor.setBingchengId(courseRecordApi.save(courseRecord));
-        courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
-//        String num=courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
-//        StringData stringData=new StringData();
-//        stringData.setCode(num);
-//        stringData.setData("success");
-        return courseRecordSuperiordocrecor;
+        courseRecord.setType("1221");
+     //   courseRecordApi.save(courseRecord);
+        String num=courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
+        StringData stringData=new StringData();
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
     }
 }
