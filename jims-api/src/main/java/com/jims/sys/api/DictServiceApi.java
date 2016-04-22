@@ -17,7 +17,7 @@ import java.util.List;
  * @version 2016-04-18
  */
 
-public interface DictService {
+public interface DictServiceApi {
 
     /**
      * 获取单条数据

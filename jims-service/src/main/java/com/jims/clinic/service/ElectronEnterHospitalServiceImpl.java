@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author zhaonig
  * @version 2016-04-20
  */
-@Service
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronEnterHospitalDao,ElectronEnterHospital> implements ElectronEnterHospitalServiceApi {
     @Autowired
@@ -24,6 +24,8 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 
 	@Override
 	public ElectronEnterHospital getElectronEnteHos(String patVisitId) {
-		return null;
+		return electronEnterHospitalDao.getElectronEnteHos(patVisitId);
 	}
+
+
 }

@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 public class ChargeTypeVsIdentity extends DataEntity<ChargeTypeVsIdentity> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hospitalId;		// 医院id
+	private String hosId;		// 医院id
 	private String chargeType;		// 费别
 	private String identitySerialNo;		// 身份
 	private String identity;		// 身份序号
@@ -27,15 +27,14 @@ public class ChargeTypeVsIdentity extends DataEntity<ChargeTypeVsIdentity> {
 		super(id);
 	}
 
-	@Length(min=0, max=64, message="医院id长度必须介于 0 和 64 之间")
-	public String getHospitalId() {
-		return hospitalId;
+	public String getHosId() {
+		return hosId;
 	}
 
-	public void setHospitalId(String hospitalId) {
-		this.hospitalId = hospitalId;
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
 	}
-	
+
 	@Length(min=0, max=8, message="费别长度必须介于 0 和 8 之间")
 	public String getChargeType() {
 		return chargeType;
