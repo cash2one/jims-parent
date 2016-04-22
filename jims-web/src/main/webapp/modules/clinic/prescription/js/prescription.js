@@ -200,31 +200,7 @@ $(function(){
                     index:0,
                     row:{}
                 });
-                //if (editRow != undefined) {
-                //    $("#list_data").datagrid('endEdit', editRow);
-                //}
-                //if (editRow == undefined) {
-                //    $("#list_data").datagrid('insertRow', {
-                //        index: 0,
-                //        row:{}
-                //    });
-                //    $("#list_data").datagrid('beginEdit', 0);
-                //    editRow = 0;
-                //}
-            }
-        }, '-', {
-            text: '保存', iconCls: 'icon-save', handler: function () {
-                $.postRows(basePath+'/outppresc/save','list_data',function(data){
-                    if(data.data=='success'){
-                        $.messager.alert("提示消息",data.code+"条记录，已经删除");
-                        $('#list_data').datagrid('load');
-                        $('#list_data').datagrid('clearChecked');
-                    }else{
-                        $.messager.alert('提示',"保存失败", "error");
-                    }
-                },function(data){
-                    $.messager.alert('提示',"保存失败", "error");
-                })
+
             }
         }],onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
@@ -240,11 +216,7 @@ $(function(){
 
 
 });
-function formatItem(row){
-    var s = '<option value="1">' + 1 + '</option>' +
-        '<option value="2">' + 2 + '</option>';
-    return s;
-}
+
 
 //删除用户数据
 function doDelete() {
@@ -286,9 +258,9 @@ function addPre(){//点击新方
 }
 
 function savePre(){
-    $.postForm(basePath+'/outppresc/save','prescForm',function(data){
+    $.postRows(basePath+'/outppresc/save','list_data',function(data){
         if(data.data=='success'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $.messager.alert("提示消息",data.code+"条记录，已经删除");
             $('#list_data').datagrid('load');
             $('#list_data').datagrid('clearChecked');
         }else{
