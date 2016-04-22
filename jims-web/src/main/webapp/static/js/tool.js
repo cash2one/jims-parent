@@ -167,6 +167,21 @@ $.extend({
         }else{
             return false;
         }
+    },
+    postRows: function (url,tableId,callback, error) {
+        $("#"+tableId).datagrid('endEdit', editRow);
+        var  rows=$('#'+tableId).datagrid('getRows');
+        return jQuery.ajax({
+            cache: true,
+            'type': 'POST',
+            'url': url,
+            'contentType': 'application/json',
+            'data': JSON.stringify(rows),
+            'dataType': 'json',
+            'success': callback,
+            'error': error
+        });
+
     }
 })
 

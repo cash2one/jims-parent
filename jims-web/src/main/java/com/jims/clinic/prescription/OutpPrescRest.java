@@ -73,7 +73,7 @@ public class OutpPrescRest {
 
     @Path("save")
     @POST
-    public StringData save(OutpPresc outpPresc){
+    public StringData save(List<OutpPresc> list){
         StringData stringData=new StringData();
        /* String num=dictService.save(dict);
         stringData.setCode(num);
