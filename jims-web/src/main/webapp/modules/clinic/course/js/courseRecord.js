@@ -36,7 +36,7 @@ function onloadMethod(){
             handler: function() {
                 $("#saveBut").show();
 
-                $("#dlg").dialog({title: '添加字典信息'}).dialog("open")
+                $("#dlg").dialog({title: '病程记录信息'}).dialog("open")
             }
         }, '-', {
             text: '修改',
