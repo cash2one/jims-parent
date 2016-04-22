@@ -5,7 +5,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
-import com.jims.sys.api.DictService;
+import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.entity.Dict;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 /**
  * Created by heren on 2016/4/5.
@@ -25,7 +23,7 @@ import java.util.List;
 public class DictRest {
 
     @Reference(version = "1.0.0")
-    private DictService dictService ;
+    private DictServiceApi dictService ;
 
     /**
      * 异步加载表格

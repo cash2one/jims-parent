@@ -15,7 +15,6 @@ import java.util.Date;
  * @author zhaoning
  * @version 2016-04-20
  */
-@XmlRootElement
 public class CourseRecordRescue extends DataEntity<CourseRecordRescue> {
 	
 	private static final long serialVersionUID = 1L;

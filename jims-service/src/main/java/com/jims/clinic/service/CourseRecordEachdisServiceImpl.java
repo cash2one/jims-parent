@@ -3,10 +3,14 @@
  */
 package com.jims.clinic.service;
 
+import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.clinic.api.CourseRecordEachdisApi;
+import com.jims.clinic.dao.CourseRecordDao;
 import com.jims.clinic.dao.CourseRecordEachdisDao;
+import com.jims.clinic.entity.CourseRecord;
 import com.jims.clinic.entity.CourseRecordEachdis;
 import com.jims.common.service.impl.CrudImplService;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -14,8 +18,44 @@ import org.springframework.transaction.annotation.Transactional;
  * @author zhaoning
  * @version 2016-04-20
  */
-@Service
+@Service(version ="1.0.0")
 @Transactional(readOnly = true)
-public class CourseRecordEachdisServiceImpl extends CrudImplService<CourseRecordEachdisDao, CourseRecordEachdis> {
+public class CourseRecordEachdisServiceImpl extends CrudImplService<CourseRecordEachdisDao, CourseRecordEachdis> implements CourseRecordEachdisApi {
 
+    @Autowired
+    private CourseRecordEachdisDao courseRecordEachdisDao;
+    @Autowired
+    private CourseRecordDao courseRecordDao;
+
+    /**
+     * 保存每日病程记录
+     * @param courseRecordEachdis
+     * @return String
+     * @Author zhaoning
+     * @version 2016-04-21
+     */
+    public String save(CourseRecordEachdis courseRecordEachdis){
+        CourseRecord courseRecord =  courseRecordEachdis.getCourseRecord();
+        if(courseRecord!=null){
+            if (courseRecord.getIsNewRecord()){
+                courseRecord.preInsert();
+                courseRecordDao.insert(courseRecord);
+            }else{
+                courseRecord.preUpdate();
+                courseRecordDao.update(courseRecord);
+            }
+        }//保存病程主记录
+        return super.save(courseRecordEachdis);//保存每日病程
+    }
+    /**
+     * 根据病程主记录查询 每日病程
+     * @param courseRecordId
+     * @return CourseRecordEachdis
+     * @Author zhaoning
+     * @version 2016-04-21
+     */
+    @Override
+    public CourseRecordEachdis getEachdisByCourseRecordId(String  courseRecordId) {
+        return  courseRecordEachdisDao.getEachdisByCourse(courseRecordId);
+    }
 }
