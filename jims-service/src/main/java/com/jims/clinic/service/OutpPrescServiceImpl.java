@@ -26,6 +26,19 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     private OutpPrescDao outpPrescDao;
 
     /**
+     * 保存处方信息
+     * @param outpPresc
+     * @return
+     */
+    @Override
+    public String save(OutpPresc outpPresc){
+        //处方医嘱明细信息
+        //门诊收费明细信息
+        //门诊医嘱信息
+    return "";
+    }
+
+    /**
      * 根据病人诊断记录查询处方主记录
      * @param clinicMasterId
      * @return

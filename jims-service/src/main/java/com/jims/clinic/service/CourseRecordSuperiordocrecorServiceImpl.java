@@ -44,6 +44,9 @@ public class CourseRecordSuperiordocrecorServiceImpl extends CrudImplService<Cou
                 }
             }//保存病程主记录
         }
+        if(courseRecord!=null && courseRecord.getId()!=null){
+            courseRecordSuperiordocrecor.setBingchengId(courseRecord.getId());//设置病程ID
+        }
         return super.save(courseRecordSuperiordocrecor);//保存上级医师查房
     }
 

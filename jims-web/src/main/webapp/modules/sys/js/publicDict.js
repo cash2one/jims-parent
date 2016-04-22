@@ -38,7 +38,7 @@ function onloadMethod(){
             iconCls: 'icon-add',
             handler: function() {
                 $("#saveBut").show();
-
+                $("#dictForm").form('clear');
                 $("#dlg").dialog({title: '添加字典信息'}).dialog("open")
             }
         }, '-', {
@@ -150,7 +150,7 @@ function saveDice(){
  */
 function get(id){
     $("#saveBut").show();
-    $("#dlg").dialog({title: '修改字典信息'}).dialog("open");
+
     $.ajax({
         'type': 'post',
         'url': basePath+'/dict/get',
@@ -158,6 +158,7 @@ function get(id){
         'data': id=id,
         'dataType': 'json',
         'success': function(data){
+            $("#dlg").dialog({title: '修改字典信息'}).dialog("open");
             $('#dictForm').form('load',data);
         }
     });
