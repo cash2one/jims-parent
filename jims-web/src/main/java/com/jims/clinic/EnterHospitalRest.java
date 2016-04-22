@@ -5,7 +5,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.ElectronEnterHospitalServiceApi;
 import com.jims.clinic.entity.ElectronEnterHospital;
 import com.jims.common.data.StringData;
-import com.jims.sys.api.DictService;
 import com.jims.sys.entity.Dict;
 
 import org.springframework.stereotype.Component;
