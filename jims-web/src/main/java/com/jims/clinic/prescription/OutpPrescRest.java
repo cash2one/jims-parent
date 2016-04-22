@@ -29,11 +29,12 @@ public class OutpPrescRest {
     @Path("list")
     @GET
     public List<OutpPresc> list(){
-        String listToJson = "";
         OutpPresc op = new OutpPresc();
+        String clinicMasterId ="";
         List<OutpPresc> list = Lists.newArrayList();
         try {
-            op.setId("1");
+            list = outpPrescServiceApi.getOutpPresc(clinicMasterId);
+            /*op.setId("1");
             op.setVisitDate(DateUtils.parseDate("2015-06-09 00:00:00", "yyyy-MM-dd HH:mm:ss"));
             op.setVisitNo(410);
             op.setSerialNo("2501263");
@@ -61,14 +62,12 @@ public class OutpPrescRest {
             op.setGetdrugFlag(1);
             op.setPrescAttr("门诊处方");
             op.setAbidance(4);
-            list.add(op);
+            list.add(op);*/
 
         }catch (Exception e){
             e.printStackTrace();
         }
 
-     /*Page<OutpPresc> page = outpPrescService.findPage(new Page<OutpPresc>(request,response), new OutpPresc());
-        return page.getList();*/
         return list;
     }
 
