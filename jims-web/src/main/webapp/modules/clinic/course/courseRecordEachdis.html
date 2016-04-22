@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta  charset="UTF-8">
     <title>每日病程</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
@@ -11,25 +11,17 @@
 <script type="text/javascript" src="/modules/clinic/course/js/courseRecordEachdis.js"></script>
 <form id="eachdisForm">
     <input type="hidden" name="id">
-    <div class="container width_90">
-    <div class="clearfix goh-sign">
-        <div class="detail-wrapp">
-            <div class="sub_title_em">病程记录内容</div>
-            <div class="pborder position-re" submit_id="contentId" contenteditable="true">
-                1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间 患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号 门诊时间
-                患者号 姓名1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间 患者号 姓名 头痛 111 {症状} 稳定 门诊号 门诊患者号
-                门诊时间 患者号 姓名1月{症状} 呕吐 稳定 { 1年{症状} {持续时间} {症状} {药物} {是否稳定} {频率}门诊号 门诊患者号 门诊时间 患者号 姓名 头痛 111 {症状} 稳定 门诊号
-                门诊患者号 门诊时间 患者号 姓名
-            </div>
-            <input type="hidden" id="contentId" name="content">
-        </div>
+    <div class="detail-wrapp">
+        <div class="sub_title_em">病程记录内容</div>
+        <div class="pborder position-re" submit_id="content"
+             contenteditable="true"></div>
+        <input type="hidden" id="content" name="content"
+               style="width: 1110px;">
     </div>
-</div>
 </form>
-<div id="dlg-buttons">
-    <a href="javascript:void(0)" class="easyui-linkbutton" id="saveBut" onclick="saveEachdis()" iconcls="icon-save">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')"
-       iconcls="icon-cancel">取消</a>
+<div id="dlg-buttons" style="text-align: center;">
+    <a href="javascript:void(0)"  class="easyui-linkbutton"  onclick="saveEachdis();" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"  style="width:90px">关闭</a>
 </div>
 </body>
 </html>

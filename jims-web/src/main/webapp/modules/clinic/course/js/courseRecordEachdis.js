@@ -1,6 +1,4 @@
-/**
- * Created by qinlongxin on 2016/4/22.
- */
+
 function saveEachdis() {
     formSubmitInput("eachdisForm");
     $.postForm(basePath + "/courseRecordeachdis/save", "eachdisForm", function (data) {
