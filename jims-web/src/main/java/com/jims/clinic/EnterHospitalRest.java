@@ -5,19 +5,17 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.ElectronEnterHospitalServiceApi;
 import com.jims.clinic.entity.ElectronEnterHospital;
 import com.jims.common.data.StringData;
-import com.jims.sys.api.DictService;
-import com.jims.sys.entity.Dict;
+
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
+
 
 /**
- * 出院记录
+ * 入院记录
  */
 @Component
 @Produces("application/json")
@@ -43,6 +41,17 @@ public class EnterHospitalRest {
     data.setData("success");
     return data;
 
+  }
+
+  /**
+   * 查询
+   * @return
+   */
+  @Path("get")
+  @POST
+  public ElectronEnterHospital get(String id){
+     ElectronEnterHospital electronEnterHospital=electronEnterHospitalApi.getElectronEnteHos(id);
+    return electronEnterHospital;
   }
 
 
