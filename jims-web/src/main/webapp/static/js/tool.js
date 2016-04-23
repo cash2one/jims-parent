@@ -154,6 +154,7 @@ $.extend({
             })
             dict = dict.substring(0, dict.length - 1);
             dict=dict+'}'
+
             return jQuery.ajax({
                 cache: true,
                 'type': 'POST',
