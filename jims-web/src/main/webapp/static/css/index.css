@@ -302,20 +302,23 @@ ul.cus-list li a span.cus-name
     height: 25px;
     font-size: 14px;
     position: absolute;
-    top: -23px;
+    top: -8px;
     left: 25px;
     background: rgba(156, 205, 61,1);
     padding: 0 10px;
     line-height: 25px;
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px;
+    z-index: 1;
 }
-.pborder{
+
+.pborder {
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 15px 10px 10px;
+    padding: 20px 10px 10px;
     background: #fff;
     margin: 10px;
     font-size: 15px;
+    min-height: 50px;
 }
 .position-re {
     position: relative;
@@ -325,12 +328,10 @@ ul.cus-list li a span.cus-name
     width:98%;
     margin:0 auto;
 }
-.detail-wrapp
-{
-    background: rgba(156, 205, 61,0.2);
+.detail-wrapp {
     position: relative;
     padding: 1px;
-    margin:25px 0 10px 0;
+    margin: 25px 0 10px 0;
 }
 /***/
 /**表单填写页面**/
@@ -338,8 +339,8 @@ ul.cus-list li a span.cus-name
 {
     margin-left:20px;
     margin-top:10px;
-    border-radius:20px;
-    box-shadow:0px 0px 5px #ccc;
+    /*border-radius:20px;*/
+    /*box-shadow:0px 0px 5px #ccc;*/
     padding:10px;
     float:left;
     width:70%;
@@ -415,7 +416,7 @@ ul.cus-list li a span.cus-name
     vertical-align:top;
 }
 .fitem_pop label{
-    width:80px;
+    width:120px;
 }
 .inp-form .fitem input
 {
@@ -692,3 +693,123 @@ ul.cus-list li a span.cus-name
     text-align:left;
 }
 /****/
+
+.btn-save{
+    top: 15px;
+    position: fixed;
+    z-index: 2;
+    right: 43%;
+}
+.easy-nbtn-padd
+{
+    padding:8px 15px;
+}
+/**收缩展开-患者信息**/
+#class1content {display:none;}
+.cus-sel-info,.cus-more-info
+{
+    background:#F8F8F8;
+}
+.cus-def-info > ul > li
+{
+    float:left;
+    padding:8px;
+}
+.cus-more-info > ul > li
+{
+    float:left;
+    padding:0 8px 8px 8px;
+}
+.cus-def-info ul li span,.cus-more-info ul li span
+{
+    color:#698f18;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.2);
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+}
+.customer-info ul.docname-sel li {
+    padding-right: 5px;
+    width: 80px;
+    display: inline-block;
+}
+.customer-info ul li {
+    display: inline-block;
+    padding-right: 20px;
+    line-height: 27px;
+
+}
+.dropdown-menu > li
+{
+    min-width:45%;
+    display: inline-block;
+}
+.dropdown-menu > li > a {
+    display: block;
+    padding: 3px 10px;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+}
+.open {
+    *z-index: 1000;
+}
+.dropup, .dropdown {
+    position: relative;
+}
+.open > .dropdown-menu {
+    display: block;
+}
+.dropdown-toggle:active, .open .dropdown-toggle {
+    outline: 0;
+}
+a.dropma-color {
+    color: #0088CC;
+}
+.showhid-icon
+{
+    position:absolute;
+    top:8px;
+    right:80px;
+    color:#0088CC;
+}
+.showhid-icon a
+{
+    color:#0088CC;
+}
+.show-hid-img
+{
+    width:10px;
+    height:10px;
+
+}
+.orange-color
+{
+    color:#0088CC;
+}
+/***/

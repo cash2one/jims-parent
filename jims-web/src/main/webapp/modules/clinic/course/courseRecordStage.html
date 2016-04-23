@@ -1,27 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>阶段小结</title>
-    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
-    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="/static/js/head.js"></script>
-</head>
-<body>
-<script type="text/javascript" src="/modules/clinic/course/js/coureseRecordState.js"></script>
-<form id="courseRecordStateForm">
-    <div class="container width_90">
+<div class="container width_90">
     <div class="clearfix goh-sign">
-        <div style="border: 1px solid rgba(51, 51, 51, 0.27);">
+        <div style="border: 0px solid rgba(51, 51, 51, 0.27);">
             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="goh-sign-tab goh-notdborder ">
                 <tr>
                     <td width="17%">入院时间:</td>
 
-                    <td width="25%"><input readonly="true" id="bingchengjilutime" name="caijiRiqi" type="text"
-                                           class="easyui-validatebox"></td>
+                    <td width="25%"><input readonly="true" name="caijiRiqi" type="text"
+                                           class="easyui-datetimebox"></td>
                     <td width="15%">本次阶段小结时间:</td>
-                    <td width="25%"><input type="text" class="easyui-validatebox" name="bingshichenshuzhe"
-                                           style="width: 20%;"></td>
+                    <td width="25%"><input type="text" class="easyui-datetimebox" name="bingshichenshuzhe"></td>
                 </tr>
             </table>
         </div>
@@ -62,10 +49,4 @@
         </div>
     </div>
 </div>
-</form>
-<div id="dlg-buttons" style="text-align: center;">
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveStateForm();" style="width:90px">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" style="width:90px">关闭</a>
-</div>
-</body>
-</html>
+
