@@ -18,10 +18,9 @@ function onloadMethod(){
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
             {field:'luruShijian',title:'病程日期',width:'30%',align:'center'},
-            {field:'type',title:'类型',width:'30%',align:'center'},
+            {field:'type',title:'类型',width:'28%',align:'center'},
             {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
-                var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\''+value+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
-                    '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\''+value+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
+                var html='<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\''+value+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                 return html;
             }}
@@ -35,7 +34,7 @@ function onloadMethod(){
             handler: function() {
                 var selectRows = $('#list_data').datagrid("getSelections");
                 if (selectRows.length < 1) {
-                    $.messager.alert("提示消息", "请选中要删的数据!");
+                    $.messager.alert("提示消息", "请选中需要修改的数据");
                     return;
                 }
                 get(selectRows[0].id);
@@ -51,7 +50,21 @@ function onloadMethod(){
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
 
-
+    $("#childrenType").combobox({
+        onChange: function (n,o) {
+            var html="";
+            if(n=='0'){
+                return false;
+            }else if(n=='1'){
+                html="/modules/clinic/course/courseRecordEachdis.html";
+            }else if(n=='2'){
+                html="/modules/clinic/course/courseRecordSuperiorDocrecor.html";
+            }else if(n=='3'){
+                html="/modules/clinic/course/courseRecordStage.html";
+            }
+            $("#childrenDiv").load(html);
+        }
+    });
 }
 //批量删除
 function doDelete() {
@@ -99,9 +112,13 @@ function del(id){
         'dataType': 'json',
         'success': function(data){
             if(data.data=='success'){
-                $.messager.alert("提示消息",data.code+"条记录，已经删除");
-                $('#list_data').datagrid('load');
-                $('#list_data').datagrid('clearChecked');
+                if(data.code>0){
+                    $.messager.alert("提示消息",data.code+"条记录，已经删除");
+                    $('#list_data').datagrid('load');
+                    $('#list_data').datagrid('clearChecked');
+                }else{
+                    $.messager.alert('提示',"删除失败", "error");
+                }
             }else{
                 $.messager.alert('提示',"删除失败", "error");
             }
@@ -133,8 +150,6 @@ function saveDice(){
  * @param id
  */
 function get(id){
-    $("#saveBut").show();
-    $("#dlg").dialog({title: '修改字典信息'}).dialog("open");
     $.ajax({
         'type': 'post',
         'url': basePath+'/courseRecord/get',
@@ -146,35 +161,11 @@ function get(id){
         }
     });
 }
-/**
- * 根据病程记录type查询字典
- * @param id
- */
-function Change(){
-    $("#dlg").dialog({title: '查看字典信息'}).dialog("open");
-    $("#saveBut").hide();
-    $.ajax({
-        'type': 'post',
-        'url': basePath+'/courseRecord/get',
-        'contentType': 'application/json',
-        'data': id=id,
-        'dataType': 'json',
-        'success': function(data){
-            $('#courseRecordForm').form('load',data);
-        }
-    });
+
+
+function saveCourseRecord(){
+
 }
-function changage(id){
-    var strValue = $("#sel").find("option:checked").attr("id");
-    $.ajax({
-        'type': 'post',
-        'url': basePath+'/courseRecord/get',
-        'contentType': 'application/json',
-        'data': id=id,
-        'dataType': 'json',
-        'success': function(data){
-            $('#courseRecordForm').form('load',data);
-        }
-    });
-}
+
+
 

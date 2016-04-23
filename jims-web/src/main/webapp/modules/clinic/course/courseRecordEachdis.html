@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta  charset="UTF-8">
-    <title>每日病程</title>
-    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
-    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="/static/js/head.js"></script>
-    <script type="text/javascript" src="/static/js/formSubmit.js"></script>
-</head>
-<body>
-<script type="text/javascript" src="/modules/clinic/course/js/courseRecordEachdis.js"></script>
-<form id="eachdisForm">
     <input type="hidden" name="id">
     <div class="detail-wrapp">
         <div class="sub_title_em">病程记录内容</div>
         <div class="pborder position-re" submit_id="content"
              contenteditable="true"></div>
-        <input type="text" id="content" name="content">
+        <input type="hidden" id="content"  name="content">
     </div>
-</form>
-<div id="dlg-buttons" style="text-align: center;">
-    <a href="javascript:void(0)"  class="easyui-linkbutton"  onclick="saveEachdis();" style="width:90px">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"  style="width:90px">关闭</a>
-</div>
-</body>
-</html>
+
