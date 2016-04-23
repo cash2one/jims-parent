@@ -813,3 +813,57 @@ a.dropma-color {
     color:#0088CC;
 }
 /***/
+/**左侧页签**/
+.left-label li
+{
+    float:left;
+    display:block;
+    width:50%;
+    height:30px;
+    text-align:center;
+    line-height:30px;
+    border-top:1px solid #f1f1f1;
+    background-color: #f8f8f8;
+    background-image: -moz-linear-gradient(top,#ffffff,#f8f8f8);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#ffffff),to(#f8f8f8));
+    background-image: -webkit-linear-gradient(top,#ffffff,#f8f8f8);
+    background-image: -o-linear-gradient(top,#ffffff,#f8f8f8);
+    background-image: linear-gradient(to bottom,#ffffff,#f8f8f8);
+    background-repeat: repeat-x;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+
+}
+.left-label li a
+{
+    display:block;
+}
+.left-label li.active
+{
+    background-color: #698f18;
+    background-image: -moz-linear-gradient(top,#698f18,#97cb28);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#698f18),to(#97cb28));
+    background-image: -webkit-linear-gradient(top,#698f18,#97cb28);
+    background-image: -o-linear-gradient(top,#698f18,#97cb28);
+    background-image: linear-gradient(to bottom,#698f18,#97cb28);
+    background-repeat: repeat-x;
+    border: none;
+
+}
+.left-label li.active a
+{
+    color:#fff;
+    border-left: 1px solid #6f9a13;
+    border-right: 1px solid #6f9a13;
+}
+.rad-choice
+{
+    background:#f8f8f8;
+    padding:7px 0 7px 7px;
+}
+.rad-choice input[type="radio"]
+{
+    margin-right:3px;
+    vertical-align: middle;
+}
+/****/
