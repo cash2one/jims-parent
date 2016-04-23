@@ -10,7 +10,7 @@ $("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/circularNa
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
-
+$("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
 basePath=getRootPath()+"/service";
 function getRootPath(){
     //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
@@ -22,4 +22,5 @@ function getRootPath(){
     var localhostPaht=curWwwPath.substring(0,pos);
     return(localhostPaht);
 }
+
 

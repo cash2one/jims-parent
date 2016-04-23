@@ -6,88 +6,20 @@
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
-    <script type="text/javascript" src="../sys/js/index.js"></script>
+    <script type="text/javascript" src="../clinic/js/centerRegion.js"></script>
+
 </head>
-<script>
-    function addTabs(id,name,url,lia){
-            $(lia).parent().parent().find("li a").removeClass();
-            $(lia).addClass("active")
-            if(!$("#tabs-header").tabs('exists',name)){
-                $('#tabs-header').tabs('add',{
-                    id:id,
-                    title: name,
-                    selected: true,
-                    href:url,
-                    closable:true
-                });
-            }else $('#tabs-header').tabs('select',name);
-    }
-    $(function(){
-        //添加Tabs
-
-        $(".tabs-header").bind('contextmenu',function(e){
-            e.preventDefault();
-            $('#rcmenu').menu('show', {
-                left: e.pageX,
-                top: e.pageY
-            });
-        });
-        // 刷新当前标签页
-        $("#refresh").bind("click",function(){
-            var currTab = $('#tabs-header').tabs('getSelected'); //获得当前tab
-            var url = $(currTab.panel('options').content).attr('src');
-            currTab.panel('refresh', url);
-        });
-
-        //关闭当前标签页
-        $("#closecur").bind("click",function(){
-            var tab = $('#tabs-header').tabs('getSelected');
-            var index = $('#tabs-header').tabs('getTabIndex',tab);
-            $('#tabs-header').tabs('close',index);
-        });
-        //关闭所有标签页
-        $("#closeall").bind("click",function(){
-            var tablist = $('#tabs-header').tabs('tabs');
-            for(var i=tablist.length-1;i>=0;i--){
-                $('#tabs-header').tabs('close',i);
-            }
-        });
-        //关闭非当前标签页（先关闭右侧，再关闭左侧）
-        $("#closeother").bind("click",function(){
-            var tablist = $('#tabs-header').tabs('tabs');
-            var tab = $('#tabs-header').tabs('getSelected');
-            var index = $('#tabs-header').tabs('getTabIndex',tab);
-            for(var i=tablist.length-1;i>index;i--){
-                $('#tabs-header').tabs('close',i);
-            }
-            var num = index-1;
-            for(var i=num;i>=0;i--){
-                $('#tabs-header').tabs('close',0);
-            }
-        });
-        //关闭当前标签页右侧标签页
-        $("#closeright").bind("click",function(){
-            var tablist = $('#tabs-header').tabs('tabs');
-            var tab = $('#tabs-header').tabs('getSelected');
-            var index = $('#tabs-header').tabs('getTabIndex',tab);
-            for(var i=tablist.length-1;i>index;i--){
-                $('#tabs-header').tabs('close',i);
-            }
-        });
-        //关闭当前标签页左侧标签页
-        $("#closeleft").bind("click",function(){
-            var tab = $('#tabs-header').tabs('getSelected');
-            var index = $('#tabs-header').tabs('getTabIndex',tab);
-            var num = index-1;
-            for(var i=0;i<=num;i++){
-                $('#tabs-header').tabs('close',0);
-            }
-        });
-
-    });
-</script>
 <body class="easyui-layout">
 <div data-options="region:'west',split:true" style="width:150px;overflow:hidden">
+    <div class="rad-choice">
+        <input type="radio" name="rad05"/>住院中
+        <input type="radio" name="rad05"/>已出院
+
+    </div>
+    <ul class="left-label clearfix">
+        <li class="active"><a href="#">我的病人</a></li>
+        <li><a href="#">全科病人</a></li>
+    </ul>
     <ul class="cus-list">
         <li>
             <a href="#" class="active">
@@ -155,11 +87,63 @@
         </li>
 
     </ul>
-
 </div>
 <div data-options="region:'east',split:true,collapsed:true,title:'右'" style="width:100px;padding:10px;">右部分</div>
 <div data-options="region:'center'">
-    <div class="easyui-tabs"  id="tabs-header" style="width:100%;height:95%">
+    <div>
+        <div class="cus-sel-info clearfix">
+            <div class="cus-def-info ">
+                <ul>
+                    <li>年龄：<span>47岁</span></li>
+                    <li>性别：<span>男</span></li>
+                    <li>住院号：<span>1301446-9</span></li>
+                    <li>病床号：<span>109床</span></li>
+                    <li>所在病区：<span>1病区</span></li>
+                </ul>
+
+            </div>
+            <div class="showhid-icon">
+                <a href="javascript:void(0)" id="stateBut" onClick="$use('class1content','stateBut')">
+                    <img src="/static/images/index/down-icon.png" class="show-hid-img"/>&nbsp;&nbsp;展开
+                </a>
+            </div>
+
+        </div>
+
+        <div class="cus-more-info" id="class1content">
+
+            <ul class="clearfix">
+                <li>住院状态：<span>住院中</span></li>
+                <li>入院日期：<span>2015-05-13 10：20：15</span></li>
+            </ul>
+            <ul>
+                <li><b class="orange-color">相关责任医师：</b></li>
+                <li>主治医师：<b class="orange-color">张医生</b></li>
+                <li role="presentation" class="dropdown active">
+                    科主任：
+                    <a id="drop4" href="#" class="dropdown-toggle dropma-color" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        选择
+                    </a>
+                    <ul id="menu1" class="dropdown-menu docname-sel" aria-labelledby="drop4">
+                        <li><a href="#">耿医生</a></li>
+                        <li><a href="#">慈医</a></li>
+                        <li><a href="#">张医</a></li>
+                        <li><a href="#">耿医</a></li>
+                        <li><a href="#">慈医师</a></li>
+                        <li><a href="#">张医生</a></li>
+                    </ul>
+                </li>
+                <li>主（副）任医师：耿医生</li>
+                <li>住院医师：慈医师</li>
+
+            </ul>
+
+
+        </div>
+
+
+    </div>
+    <div class="easyui-tabs"  id="tabs-header" style="width:100%;height:90%">
 
     </div>
         <div class="bot-menu">
@@ -168,7 +152,7 @@
                     <li><a class="active" onclick="addTabs('1','病人信息','/modules/clinic/medicalRecordsIndex.html',this)"><span>病人信息</span></a></li>
                     <li><a href="#"><span>病案首页</span></a></li>
                     <li><a  onclick="addTabs('2','病历文书','/modules/clinic/medicalRecordsDocument.html',this)"><span>病历文书</span></a></li>
-                    <li><a href="#"><span>病程记录</span></a></li>
+                    <li><a  onclick="addTabs('2','病程记录','/modules/clinic/course/courseRecordList.html',this)"><span>病程记录</span></a></li>
                     <li><a onclick="addTabs('3','检查申请','/modules/clinic/inspect.html',this)"><span>检查申请</span></a></li>
                     <li><a href="#"><span>检验申请</span></a></li>
                     <li><a onclick="addTabs('7','处方','/modules/clinic/prescription/prescriptionList.html',this)"><span>处方</span></a></li>

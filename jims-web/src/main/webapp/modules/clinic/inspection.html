@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="panel-fit"><head>
+	<meta charset="UTF-8">
+	<title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+</head>
+
+<body>
+
+<div class="inp-form">
+    <form id="fm" method="post">
+        <div class="fitem">
+            <label>
+                临床诊断：
+            </label>
+            <input title="" name="AccountCode" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+        </div>
+        <div class="fitem">
+            <label>
+                检验科室：
+            </label>
+            <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+        </div>	       
+        <div class="fitem">
+            <label>
+                类别：
+            </label>
+             <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+        </div>
+        <div class="fitem">
+            <label>
+                标本：
+            </label>
+            <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+        </div>
+        <div class="fitem">
+            <label>
+                标本说明：
+            </label>
+			<textarea class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>           
+        </div>
+        <div class="fitem">
+            <label>
+                送检医师：
+            </label>
+            <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+        </div>
+        <div class="fitem">
+            <label>
+                申请时间：
+            </label>
+            <input style="display: none;" class="easyui-datebox datebox-f combo-f textbox-f"><span style="width: 260px; height: 22px;" class="textbox combo datebox"><span style="right: 0px;" class="textbox-addon textbox-addon-right"><a style="width: 18px; height: 20px;" href="javascript:void(0)" class="textbox-icon combo-arrow" icon-index="0" tabindex="-1"></a></span><input style="margin-left: 0px; margin-right: 18px; padding-top: 0px; padding-bottom: 0px; height: 20px; line-height: 20px; width: 240px;" placeholder="" class="textbox-text validatebox-text textbox-prompt" autocomplete="off" type="text"><input value="" name="" class="textbox-value" type="hidden"></span>
+        </div>
+        <div>
+			<table cellpadding="0" cellspacing="0" width="100%" class="tab-autoline">
+				<thead>
+					<tr>
+						<Th><input type="checkbox"></th>
+						<th>项目名称</th>
+						<th>项目子项</th>
+						<th>估计金额</th>
+						<th>操作</th>
+					</tr>
+
+				</thead>
+				<tbody>
+					<tr>
+						<Td><input type="checkbox"></td>
+						<td><select class="nonbor-inp" style="width:200px;"/><option>请选择</option><option>凝血六项</option></select></td>
+						<td class="text-left padd-5">
+							1.凝血一项&nbsp;&nbsp;
+							2.凝血二项&nbsp;&nbsp;
+							3.凝血三项&nbsp;&nbsp;
+							4.凝血四项&nbsp;&nbsp;
+							3.凝血五项&nbsp;&nbsp;
+							3.凝血六项&nbsp;&nbsp;
+						</td>
+						<td>20.0</td>
+						<td><a href="#">删除</a></td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<div class="tab-bbtn">
+				<button class="easy-nbtn easy-nbtn-info">添加</button>
+				<button class="easy-nbtn easy-nbtn-warning">删除</button>
+			</div>
+
+		</div>
+        <div class="form-btn">
+            <button class="save-btn">保&nbsp;存</button>
+			&nbsp;&nbsp;<a href="#">直接发送</a>
+        </div>
+    </form>
+</div>
+
+<div class="inp-tab">
+	<div class="margb-10">
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td class="text-right">申请日期：</td>
+				<td><input type="text" class="validatebox-text vt-text-percent"/></td>
+				<td class="text-right">检验项目名称：</td>
+				<td><input type="text" class="validatebox-text vt-text-percent"/></td>
+			</tr>
+			<tr>
+				<td class="text-right">检验科室：</td>
+				<td><input type="text" class="validatebox-text vt-text-percent"/></td>
+				<td class="text-right">标本：</td>
+				<td><input type="text" class="validatebox-text vt-text-percent"/></td>
+			</tr>
+			<tr>
+				<td class="text-right">结果状态：</td>
+				<td><input type="text" class="validatebox-text vt-text-percent"/></td>
+				<td>
+					<button class="easy-nbtn easy-nbtn-info">查询</button>
+				</td>
+				<td class="fd-right" style="padding-top:5px; padding-right:5px;">
+					<button class="easy-nbtn easy-nbtn-success">发送</button>
+				</td>
+				
+			</tr>
+			
+		</table>	
+		
+	</div>
+    <table cellpadding="0" cellspacing="0" width="100%" class="tab-rlist">
+        <thead>
+		 <tr>
+				<Th><input type="checkbox"></th>
+				<th>申请日期</th>
+				<th>标本</th>
+				<th>检验项目名称</th>
+				<th>检验科室</th>
+				<th>结果状态</th>
+				<th>操作</th>
+			</tr>
+        </thead>
+        <tbody>
+			<tr>
+				<Td><input type="checkbox"></td>
+				<td>2015.12.15</td>
+				<td>皮肤</td>
+				<td class="text-left padd-5">
+					<a href="#">1.寄生虫镜检</a><br/>
+					<a href="#">2.凝血六项</a><br/>
+					<a href="#">3.血细胞分析+五分类</a>
+				</td>
+				<td>皮肤科</td>
+				<td>新增项</td>
+				<td><a href="#">发送</a>&nbsp;&nbsp;<a href="#">删除</a></td>
+			</tr>
+			<tr>
+				<Td><input type="checkbox"></td>
+				<td>2015.12.15</td>
+				<td>皮肤</td>
+				<td class="text-left padd-5">
+					<a href="#">1.寄生虫镜检</a><br/>
+					<a href="#">2.凝血六项</a><br/>
+					<a href="#">3.血细胞分析+五分类</a>
+				</td>
+				<td>皮肤科</td>
+				<td>已出结果</td>
+				<td><a href="#">查看</a></td>
+			</tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+
+
+</html>

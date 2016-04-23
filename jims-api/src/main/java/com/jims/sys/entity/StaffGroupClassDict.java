@@ -16,7 +16,7 @@ public class StaffGroupClassDict extends DataEntity<StaffGroupClassDict> {
 	private static final long serialVersionUID = 1L;
 	private String serialNo;		// 序号
 	private String groupClass;		// GROUP_CLASS
-	private String hospitalId;		// 医院id
+	private String hosId;		// 医院id
 	
 	public StaffGroupClassDict() {
 		super();
@@ -42,14 +42,12 @@ public class StaffGroupClassDict extends DataEntity<StaffGroupClassDict> {
 	public void setGroupClass(String groupClass) {
 		this.groupClass = groupClass;
 	}
-	
-	@Length(min=0, max=64, message="医院id长度必须介于 0 和 64 之间")
-	public String getHospitalId() {
-		return hospitalId;
+
+	public String getHosId() {
+		return hosId;
 	}
 
-	public void setHospitalId(String hospitalId) {
-		this.hospitalId = hospitalId;
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
 	}
-	
 }

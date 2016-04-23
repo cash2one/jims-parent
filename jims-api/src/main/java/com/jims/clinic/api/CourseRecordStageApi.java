@@ -17,7 +17,7 @@ public interface CourseRecordStageApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public void save(CourseRecordStage courseRecordStage);
+    public String save(CourseRecordStage courseRecordStage);
     /**
      * 通过病程记录主要表bingcheng_id查询阶段小结
      * @author qinlongxin

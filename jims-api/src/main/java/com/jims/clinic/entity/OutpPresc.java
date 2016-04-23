@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 处方医嘱明细记录Entity
@@ -53,6 +54,7 @@ public class OutpPresc extends DataEntity<OutpPresc> {
 	private String skinFlag;		// skin_flag
 	private Integer prescPsno;		// presc_psno
 	private String skinResult;		// skin_result
+    private List<OutpPresc> list;
 	
 	public OutpPresc() {
 		super();
@@ -345,5 +347,12 @@ public class OutpPresc extends DataEntity<OutpPresc> {
 	public void setSkinResult(String skinResult) {
 		this.skinResult = skinResult;
 	}
-	
+
+    public List<OutpPresc> getList() {
+        return list;
+    }
+
+    public void setList(List<OutpPresc> list) {
+        this.list = list;
+    }
 }
