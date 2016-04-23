@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.materiel.dao.DrugPriceListDao">
+    
+	<sql id="drugPriceListColumns">
+		a.id AS "id",
+		a.drug_code AS "drugCode",
+		a.drug_spec AS "drugSpec",
+		a.firm_id AS "firmId",
+		a.units AS "units",
+		a.trade_price AS "tradePrice",
+		a.retail_price AS "retailPrice",
+		a.amount_per_package AS "amountPerPackage",
+		a.min_spec AS "minSpec",
+		a.min_units AS "minUnits",
+		a.start_date AS "startDate",
+		a.stop_date AS "stopDate",
+		a.memos AS "memos",
+		a.class_on_inp_rcpt AS "classOnInpRcpt",
+		a.class_on_outp_rcpt AS "classOnOutpRcpt",
+		a.class_on_reckoning AS "classOnReckoning",
+		a.subj_code AS "subjCode",
+		a.class_on_mr AS "classOnMr",
+		a.hlimit_price AS "hlimitPrice",
+		a.price_class AS "priceClass",
+		a.pass_no AS "passNo",
+		a.gmp AS "gmp",
+		a.org_id AS "orgId",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="drugPriceListJoins">
+	</sql>
+    
+	<select id="get" resultType="DrugPriceList">
+		SELECT 
+			<include refid="drugPriceListColumns"/>
+		FROM drug_price_list a
+		<include refid="drugPriceListJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DrugPriceList">
+		SELECT 
+			<include refid="drugPriceListColumns"/>
+		FROM drug_price_list a
+		<include refid="drugPriceListJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DrugPriceList">
+		SELECT 
+			<include refid="drugPriceListColumns"/>
+		FROM drug_price_list a
+		<include refid="drugPriceListJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO drug_price_list(
+			id,
+			drug_code,
+			drug_spec,
+			firm_id,
+			units,
+			trade_price,
+			retail_price,
+			amount_per_package,
+			min_spec,
+			min_units,
+			start_date,
+			stop_date,
+			memos,
+			class_on_inp_rcpt,
+			class_on_outp_rcpt,
+			class_on_reckoning,
+			subj_code,
+			class_on_mr,
+			hlimit_price,
+			price_class,
+			pass_no,
+			gmp,
+			org_id,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{drugCode},
+			#{drugSpec},
+			#{firmId},
+			#{units},
+			#{tradePrice},
+			#{retailPrice},
+			#{amountPerPackage},
+			#{minSpec},
+			#{minUnits},
+			#{startDate},
+			#{stopDate},
+			#{memos},
+			#{classOnInpRcpt},
+			#{classOnOutpRcpt},
+			#{classOnReckoning},
+			#{subjCode},
+			#{classOnMr},
+			#{hlimitPrice},
+			#{priceClass},
+			#{passNo},
+			#{gmp},
+			#{orgId},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_price_list SET 	
+			drug_code = #{drugCode},
+			drug_spec = #{drugSpec},
+			firm_id = #{firmId},
+			units = #{units},
+			trade_price = #{tradePrice},
+			retail_price = #{retailPrice},
+			amount_per_package = #{amountPerPackage},
+			min_spec = #{minSpec},
+			min_units = #{minUnits},
+			start_date = #{startDate},
+			stop_date = #{stopDate},
+			memos = #{memos},
+			class_on_inp_rcpt = #{classOnInpRcpt},
+			class_on_outp_rcpt = #{classOnOutpRcpt},
+			class_on_reckoning = #{classOnReckoning},
+			subj_code = #{subjCode},
+			class_on_mr = #{classOnMr},
+			hlimit_price = #{hlimitPrice},
+			price_class = #{priceClass},
+			pass_no = #{passNo},
+			gmp = #{gmp},
+			org_id = #{orgId},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_price_list SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
