@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.CourseRecordSuperiordocrecorDao">
-    
+    <resultMap id="superRecord" type="CourseRecordSuperiordocrecor">
+		<id column="id" property="id"></id>
+		<result column="bingcheng_id" property="bingchengId"></result>
+		<result column="content" property="content"></result>
+		<result column="create_date" property="createDate"></result>
+		<result column="del_flag" property="delFlag"></result>
+		<result column="remarks" property="remarks"></result>
+		<result column="update_date" property="updateDate"></result>
+		<result column="create_by" property="createBy.id"></result>
+		<result column="update_by" property="updateBy.id"></result>
+		<association property="courseRecord" column="bingchengId" select="com.jims.clinic.dao.CourseRecordDao.get"></association>
+	</resultMap>
 	<sql id="courseRecordSuperiordocrecorColumns">
 		a.id AS "id",
 		a.bingcheng_id AS "bingchengId",
@@ -18,7 +29,7 @@
 	<sql id="courseRecordSuperiordocrecorJoins">
 	</sql>
     
-	<select id="get" resultType="CourseRecordSuperiordocrecor">
+	<select id="get" resultMap="superRecord">
 		SELECT 
 			<include refid="courseRecordSuperiordocrecorColumns"/>
 		FROM course_record_superiordocrecor a
@@ -104,7 +115,7 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	<select id="getSuperiordByCourse" resultType="CourseRecordSuperiordocrecor">
+	<select id="getSuperiordByCourse" resultMap="superRecord">
 		SELECT
 		<include refid="courseRecordSuperiordocrecorColumns"/>
 		FROM course_record_superiordocrecor a

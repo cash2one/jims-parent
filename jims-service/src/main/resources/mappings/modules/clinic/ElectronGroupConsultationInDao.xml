@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ElectronGroupConsultationInDao">
-    
+    <resultMap id="groupConsulationIn" type="ElectronGroupConsultationIn">
+		<id property="id" column="id"></id>
+		<result property="doctorId" column="doctor_id"></result>
+		<result property="huizhenId" column="huizhen_id"></result>
+		<result property="huizhenyijian" column="huizhenyijian"></result>
+		<result property="createDate" column="create_date"></result>
+		<result property="updateDate" column="updateDate"></result>
+		<result property="createBy.id" column="create_by"></result>
+		<result property="updateBy.id" column="update_by"></result>
+		<result property="qianmingstype" column="qianmingstype"></result>
+		<result property="qianmingshijian" column="qianmingshijian"></result>
+		<result property="qianmingId" column="qianming_id"></result>
+		<association property="electronGroupConsultation" column="huizhenId" select="com.jims.clinic.dao.ElectronGroupConsultationDao.get"></association>
+	</resultMap>
 	<sql id="electronGroupConsultationInColumns">
 		a.id AS "id",
 		a.doctor_id AS "doctorId",
@@ -108,5 +121,10 @@
 		DELETE FROM electron_group_consultation_in
 		WHERE id = #{id}
 	</update>
-	
+	<select id="consulaionId" resultType="groupConsulationIn">
+		SELECT
+		<include refid="electronGroupConsultationInColumns"/>
+		FROM electron_group_consultation_in a
+		WHERE a.huizhen_id=#{consulaionId}
+	</select>
 </mapper>

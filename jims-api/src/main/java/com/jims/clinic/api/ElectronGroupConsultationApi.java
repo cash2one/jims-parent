@@ -25,7 +25,7 @@ public interface ElectronGroupConsultationApi {
      * @author xueyx
      * @version 2016/4/22
      */
-    public String save(ElectronGroupConsultation electronGroupConsultation);
+    public void saveGroupConsulation(ElectronGroupConsultation electronGroupConsultation);
     /**
      * 根据会诊主表ID 查询会诊信息
      * @param-ElectronGroupConsultation.id

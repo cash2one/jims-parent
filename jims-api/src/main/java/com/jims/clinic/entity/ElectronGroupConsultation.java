@@ -8,6 +8,7 @@ import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 会诊记录Entity
@@ -26,6 +27,8 @@ public class ElectronGroupConsultation extends DataEntity<ElectronGroupConsultat
 	private String huizhenliyou;		// 会诊理由
 	private String huizhenyijian;		// 会诊意见
 	private String fabuflag;		// 发布标志
+
+	private List<ElectronGroupConsultationIn> electronGroupConsultationInList;
 	
 	public ElectronGroupConsultation() {
 		super();
@@ -112,5 +115,12 @@ public class ElectronGroupConsultation extends DataEntity<ElectronGroupConsultat
 	public void setFabuflag(String fabuflag) {
 		this.fabuflag = fabuflag;
 	}
-	
+
+	public List<ElectronGroupConsultationIn> getElectronGroupConsultationInList() {
+		return electronGroupConsultationInList;
+	}
+
+	public void setElectronGroupConsultationInList(List<ElectronGroupConsultationIn> electronGroupConsultationInList) {
+		this.electronGroupConsultationInList = electronGroupConsultationInList;
+	}
 }

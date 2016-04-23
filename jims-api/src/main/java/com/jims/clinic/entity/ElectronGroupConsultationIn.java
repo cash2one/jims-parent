@@ -8,6 +8,7 @@ import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 参与会诊信息Entity
@@ -23,6 +24,9 @@ public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsult
 	private String qianmingstype;		// 签名类型
 	private Date qianmingshijian;		// 签名时间
 	private String qianmingId;		// 医生签名
+
+	private ElectronGroupConsultation electronGroupConsultation;
+	private List<ElectronGroupConsultation> list;
 	
 	public ElectronGroupConsultationIn() {
 		super();
@@ -84,5 +88,20 @@ public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsult
 	public void setQianmingId(String qianmingId) {
 		this.qianmingId = qianmingId;
 	}
-	
+
+	public ElectronGroupConsultation getElectronGroupConsultation() {
+		return electronGroupConsultation;
+	}
+
+	public void setElectronGroupConsultation(ElectronGroupConsultation electronGroupConsultation) {
+		this.electronGroupConsultation = electronGroupConsultation;
+	}
+
+	public List<ElectronGroupConsultation> getList() {
+		return list;
+	}
+
+	public void setList(List<ElectronGroupConsultation> list) {
+		this.list = list;
+	}
 }
