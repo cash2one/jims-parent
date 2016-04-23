@@ -1,7 +1,6 @@
 package com.jims.clinic.course;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.CourseRecordApi;
 import com.jims.clinic.api.CourseRecordEachdisApi;
 import com.jims.clinic.entity.CourseRecord;
 import com.jims.clinic.entity.CourseRecordEachdis;
@@ -18,7 +17,7 @@ import javax.ws.rs.Produces;
 @Component
 @Produces("application/json")
 @Path("courseRecordeachdis")
-public class CourseRecordeachdisRest {
+public class CourseRecordeachdisRest{
     @Reference(version = "1.0.0")
     private CourseRecordEachdisApi courseRecordEachdisApi ;
     /**

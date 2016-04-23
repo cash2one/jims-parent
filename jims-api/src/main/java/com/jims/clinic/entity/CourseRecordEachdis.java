@@ -4,6 +4,7 @@
 package com.jims.clinic.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -84,11 +85,10 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
         this.type = type;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
     public Date getLuruShijian() {
         return luruShijian;
     }
-
     public void setLuruShijian(Date luruShijian) {
         this.luruShijian = luruShijian;
     }
