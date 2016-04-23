@@ -55,5 +55,6 @@ public class CourseRecordRest {
         stringData.setData("success");
         return stringData;
     }
+
 }
 

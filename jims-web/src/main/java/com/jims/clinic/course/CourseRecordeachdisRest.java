@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.CourseRecordEachdisApi;
 import com.jims.clinic.entity.CourseRecord;
 import com.jims.clinic.entity.CourseRecordEachdis;
+import com.jims.clinic.entity.CourseRecordStage;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
@@ -40,5 +41,19 @@ public class CourseRecordeachdisRest{
         data.setCode(num);
         data.setData("success");
         return data;
+    }
+
+    /**
+     * 获取单条数据
+     * @param id
+     * @return
+     */
+    @Path("get")
+    @POST
+    public CourseRecordEachdis get(String id){
+        CourseRecordEachdis courseRecordEachdis=courseRecordEachdisApi.getEachdisByCourseRecordId(id);
+        courseRecordEachdis.setLuruShijian(courseRecordEachdis.getCourseRecord().getLuruShijian());
+        courseRecordEachdis.setType(courseRecordEachdis.getCourseRecord().getType());
+        return courseRecordEachdis;
     }
 }
