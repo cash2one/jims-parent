@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ElectronGroupConsultationDao">
-    
+    <resultMap id="groupConsulation" type="ElectronGroupConsultation">
+		<id property="id" column="id"></id>
+		<result property="zhuyuanId" column="zhuyuan_id"></result>
+		<result property="patientId" column="patient_id"></result>
+		<result property="doctorId" column="doctor_id"></result>
+		<result property="grouptype" column="grouptype"></result>
+		<result property="shenqingshijian" column="shenqingshijian"></result>
+		<result property="bingqingzhaiyao" column="bingqingzhaiyao"></result>
+		<result property="huizhenliyou" column="huizhenliyou"></result>
+		<result property="huizhenyijian" column="huizhenyijian"></result>
+		<result property="createDate" column="create_date"></result>
+		<result property="updateDate"  column="update_date"></result>
+		<result property="createBy.id" column="create_by"></result>
+		<result property="updateBy.id" column="update_by"></result>
+		<result property="fabuflag" column="fabuflag"></result>
+		<result property="delFlag" column="del_flag"></result>
+		<collection property="electronGroupConsultationInList"  column="id" select="com.jims.clinic.dao.ElectronGroupConsultationInDao.consulaionId"></collection>
+	</resultMap>
 	<sql id="electronGroupConsultationColumns">
 		a.id AS "id",
 		a.zhuyuan_id AS "zhuyuanId",
@@ -23,7 +40,7 @@
 	<sql id="electronGroupConsultationJoins">
 	</sql>
     
-	<select id="get" resultType="ElectronGroupConsultation">
+	<select id="get" resultMap="groupConsulation">
 		SELECT 
 			<include refid="electronGroupConsultationColumns"/>
 		FROM electron_group_consultation a
@@ -38,6 +55,13 @@
 		<include refid="electronGroupConsultationJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="patientId!=null and patientId!='' ">
+				AND a.patient_id=#{patientId}
+			</if>
+			<if test="doctorId!=null and doctorId!='' ">
+				AND a.doctor_id=#{doctorId}
+			</if>
+
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
