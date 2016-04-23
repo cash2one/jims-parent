@@ -1,3 +1,4 @@
+var postUrl="";
 function onloadMethod(){
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
@@ -54,13 +55,17 @@ function onloadMethod(){
         onChange: function (n,o) {
             var html="";
             if(n=='0'){
+                postUrl="";
                 return false;
             }else if(n=='1'){
                 html="/modules/clinic/course/courseRecordEachdis.html";
+                postUrl=basePath + "/courseRecordeachdis/save";
             }else if(n=='2'){
                 html="/modules/clinic/course/courseRecordSuperiorDocrecor.html";
+                postUrl=basePath+"/courseRecordSuperiorDocrecor/save";
             }else if(n=='3'){
                 html="/modules/clinic/course/courseRecordStage.html";
+                postUrl=basePath + "/courseRecordState/save";
             }
             $("#childrenDiv").load(html);
         }
@@ -128,43 +133,28 @@ function del(id){
         }
     });
 }
+
 /**
- * 保存方法
+ * 保存病程记录
  */
-function saveDice(){
-    $.postForm(basePath+'/courseRecord/save','courseRecordForm',function(data){
+function saveCourseRecord(){
+    formSubmitInput("courseRecordForm");
+    $.postForm(postUrl,'courseRecordForm',function(data){
         if(data.data=='success'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $("#dlg").dialog('close');
-            $('#list_data').datagrid('load');
-            $('#list_data').datagrid('clearChecked');
+            if(data.code>0){
+                $.messager.alert("提示消息",data.code+"条记录，保存成功");
+                $('#list_data').datagrid('load');
+                $('#list_data').datagrid('clearChecked');
+                $("#courseRecordForm").form('clear');
+            }else{
+                $.messager.alert('提示',"保存失败", "error");
+            }
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }
     },function(data){
         $.messager.alert('提示',"保存失败", "error");
     })
-}
-/**
- * 修改字典
- * @param id
- */
-function get(id){
-    $.ajax({
-        'type': 'post',
-        'url': basePath+'/courseRecord/get',
-        'contentType': 'application/json',
-        'data': id=id,
-        'dataType': 'json',
-        'success': function(data){
-            $('#courseRecordForm').form('load',data);
-        }
-    });
-}
-
-
-function saveCourseRecord(){
-
 }
 
 

@@ -28,7 +28,8 @@ public class CourseRecordeachdisRest {
     @POST
     public StringData save(CourseRecordEachdis courseRecordEachdis) {
         CourseRecord courseRecord=new CourseRecord();
-        courseRecord.setType("2");
+        courseRecord.setType(courseRecordEachdis.getType());
+        courseRecord.setLuruShijian(courseRecordEachdis.getLuruShijian());
         courseRecord.setPatientId("16013020");
         courseRecord.setZhuyuanId("c1a84181-c0e0-11e5-8417-0894ef010b21");
         courseRecordEachdis.setCourseRecord(courseRecord);
