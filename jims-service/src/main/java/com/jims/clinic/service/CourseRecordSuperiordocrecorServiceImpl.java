@@ -4,7 +4,7 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.CourseRecordSuperiordocrecordApi;
+import com.jims.clinic.api.CourseRecordSuperiorDocrecorApi;
 import com.jims.clinic.dao.CourseRecordDao;
 import com.jims.clinic.dao.CourseRecordSuperiordocrecorDao;
 import com.jims.clinic.entity.CourseRecord;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
-public class CourseRecordSuperiordocrecorServiceImpl extends CrudImplService<CourseRecordSuperiordocrecorDao, CourseRecordSuperiordocrecor> implements CourseRecordSuperiordocrecordApi {
+public class CourseRecordSuperiordocrecorServiceImpl extends CrudImplService<CourseRecordSuperiordocrecorDao, CourseRecordSuperiordocrecor> implements CourseRecordSuperiorDocrecorApi {
 
     @Autowired
     private CourseRecordSuperiordocrecorDao courseRecordSuperiordocrecorDao;
