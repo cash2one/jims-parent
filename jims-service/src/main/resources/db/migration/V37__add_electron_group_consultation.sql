@@ -20,7 +20,7 @@ create table ELECTRON_GROUP_CONSULTATION
    UPDATE_BY            VARCHAR2(255),
    FABUFLAG             VARCHAR2(10),
    DEL_FLAG             VARCHAR2(1),
-   constraint "PK_electron_group_consultation" primary key (ID)
+   constraint "PK_electron_group" primary key (ID)
 );
 
 comment on table ELECTRON_GROUP_CONSULTATION is

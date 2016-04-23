@@ -3,7 +3,10 @@
 /*==============================================================*/
 /* Table: ELECTRON_GROUP_CONSULTATION_IN      参与会诊表                  */
 /*==============================================================*/
-create table ELECTRON_GROUP_CONSULTATION_IN 
+
+
+
+create table ELECTRON_GROUP_CONSULTATION_IN
 (
    ID                   VARCHAR2(64)         not null,
    DOCTOR_ID            VARCHAR2(64),
@@ -16,7 +19,7 @@ create table ELECTRON_GROUP_CONSULTATION_IN
    QIANMINGSTYPE        VARCHAR2(1),
    QIANMINGSHIJIAN      TIMESTAMP,
    QIANMING_ID          VARCHAR2(64),
-   constraint "PK_electron_group_consultation_into" primary key (ID)
+   constraint "PK_electron_group_into" primary key (ID)
 );
 
 comment on table ELECTRON_GROUP_CONSULTATION_IN is
