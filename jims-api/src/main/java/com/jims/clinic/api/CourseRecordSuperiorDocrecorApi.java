@@ -5,7 +5,7 @@ import com.jims.clinic.entity.CourseRecordSuperiordocrecor;
 /**
  * Created by qinlongxin on 2016/4/20.
  */
-public interface CourseRecordSuperiordocrecordApi {
+public interface CourseRecordSuperiorDocrecorApi {
     /**
      * id查询上级医师查房信息
      * @author qinlongxin

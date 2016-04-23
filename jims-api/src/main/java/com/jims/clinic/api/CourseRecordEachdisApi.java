@@ -13,6 +13,13 @@ public interface CourseRecordEachdisApi {
      */
     public CourseRecordEachdis get(CourseRecordEachdis courseRecordEachdis);
     /**
+     * 根据每日病程id查询每日病程记录信息
+     * @author zhangyao
+     * @version 2016/4/23
+     */
+    public CourseRecordEachdis get(String id);
+    /**
+     *
      * 保存或编辑
      * @author qinlongxin
      * @version 2016/4/20

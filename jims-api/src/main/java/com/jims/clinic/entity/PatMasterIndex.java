@@ -66,6 +66,8 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private String mailingAddressCode;		// 户口地址行政区划
 	private String healthyCardNo;		// healthy_card_no
 	private String addressNow;		// 现住址
+	private PatVisit patVisit;//病人住院记录信息
+	private ClinicMaster clinicMaster;//病人就诊记录
 	
 	public PatMasterIndex() {
 		super();
@@ -505,5 +507,28 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setAddressNow(String addressNow) {
 		this.addressNow = addressNow;
 	}
-	
+
+	public String geteName() {
+		return eName;
+	}
+
+	public void seteName(String eName) {
+		this.eName = eName;
+	}
+
+	public PatVisit getPatVisit() {
+		return patVisit;
+	}
+
+	public void setPatVisit(PatVisit patVisit) {
+		this.patVisit = patVisit;
+	}
+
+	public ClinicMaster getClinicMaster() {
+		return clinicMaster;
+	}
+
+	public void setClinicMaster(ClinicMaster clinicMaster) {
+		this.clinicMaster = clinicMaster;
+	}
 }

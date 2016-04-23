@@ -15,6 +15,13 @@ public interface CourseRecordApi {
      * @version 2016/4/20
      */
     public CourseRecord get(CourseRecord courseRecord);
+
+    /**
+     * 根据病程id查询病程记录主表信息
+     * @author zhangyao
+     * @version 2016/4/23
+     */
+    public CourseRecord get(String id);
     /**
      * 查询病程记录主表分页信息
      * @author qinlongxin

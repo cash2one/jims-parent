@@ -25,7 +25,6 @@ $("#look").on("click",function(){
                    $('#enterForm').form('load',data);
                    getDiv('enterForm');
 
-
                }
            });
 

@@ -4,6 +4,7 @@
 package com.jims.clinic.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -22,8 +23,9 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
 	private Date bingchengjilutime;		// bingchengjilutime
 	private String content;		// 内容
 	private String docQianming;		// 医师签名
-
 	private CourseRecord courseRecord;//病程主记录
+    private Date luruShijian;		// 录入时间
+    private String type;		// 病程类型
 	public CourseRecordEachdis() {
 		super();
 	}
@@ -74,4 +76,20 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
 	public void setCourseRecord(CourseRecord courseRecord) {
 		this.courseRecord = courseRecord;
 	}
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
+    public Date getLuruShijian() {
+        return luruShijian;
+    }
+    public void setLuruShijian(Date luruShijian) {
+        this.luruShijian = luruShijian;
+    }
 }
