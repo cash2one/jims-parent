@@ -7,12 +7,7 @@ import com.jims.common.persistence.Page;
  * Created by xueyx on 2016/4/22.
  */
 public interface ElectronGroupConsultationApi {
-    /**
-     * 根据病程id查询病程记录主表信息
-     * @author xueyx
-     * @version 2016/4/22
-     */
-    public ElectronGroupConsultation get(ElectronGroupConsultation clectronGroupConsultation);
+
     /**
      * 对当前患者-当前医生用户的发起的会诊+其他医生用户发起的并且发布的会诊（当前医生用户参与）
      * @param对当前患者 patientId
@@ -21,7 +16,7 @@ public interface ElectronGroupConsultationApi {
      * @author xueyx
      * @version 2016/4/22
      */
-    public Page<ElectronGroupConsultation> findPatientGroupPage(Page<ElectronGroupConsultation> page, ElectronGroupConsultation electronGroupConsultation);
+    public Page<ElectronGroupConsultation> findPage(Page<ElectronGroupConsultation> page, ElectronGroupConsultation electronGroupConsultation);
     /**
      * 保存或编辑
      * 整个会诊信息主表、字表list
@@ -36,7 +31,7 @@ public interface ElectronGroupConsultationApi {
      * @param-ElectronGroupConsultation.id
      * @return 需要返回主表包括所有的子表（ElectronGroupConsultationIn）信息List
      */
-    public ElectronGroupConsultation getLeaveByVisit(String id);
+    public ElectronGroupConsultation get(String id);
     /**
      * 删除会诊主表方法
      * @param id 会诊主表id
