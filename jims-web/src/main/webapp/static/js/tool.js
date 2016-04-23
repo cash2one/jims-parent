@@ -154,6 +154,7 @@ $.extend({
             })
             dict = dict.substring(0, dict.length - 1);
             dict=dict+'}'
+
             return jQuery.ajax({
                 cache: true,
                 'type': 'POST',
@@ -167,6 +168,31 @@ $.extend({
         }else{
             return false;
         }
+    },
+    postRows: function (url,tableId,callback, error) {
+        $("#"+tableId).datagrid('endEdit', editRow);
+        var  rows=$('#'+tableId).datagrid('getRows');
+        return jQuery.ajax({
+            cache: true,
+            'type': 'POST',
+            'url': url,
+            'contentType': 'application/json',
+            'data': JSON.stringify(rows),
+            'dataType': 'json',
+            'success': callback,
+            'error': error
+        })
+    },
+    postJSON: function (url, data, callback, error) {
+        return jQuery.ajax({
+            'type': 'POST',
+            'url': url,
+            'contentType': 'application/json',
+            'data': data,
+            'dataType': 'json',
+            'success': callback,
+            'error': error
+        });
     }
 })
 

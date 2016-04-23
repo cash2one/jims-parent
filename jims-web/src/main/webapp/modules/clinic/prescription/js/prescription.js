@@ -97,31 +97,35 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-                if (editRow == undefined) {
-                    $("#list_data").datagrid('insertRow', {
-                        index: 0,
-                        row:{}
-                    });
-                    $("#list_data").datagrid('beginEdit', 0);
-                    editRow = 0;
-                }
+                $("#list_data").datagrid('insertRow', {
+                    index:0,
+                    row:{}
+                });
+                //if (editRow != undefined) {
+                //    $("#list_data").datagrid('endEdit', editRow);
+                //}
+                //if (editRow == undefined) {
+                //    $("#list_data").datagrid('insertRow', {
+                //        index: 0,
+                //        row:{}
+                //    });
+                //    $("#list_data").datagrid('beginEdit', 0);
+                //    editRow = 0;
+                //}
             }
         }, '-', {
             text: '保存', iconCls: 'icon-save', handler: function () {
-                $("#list_data").datagrid('endEdit', editRow);
-
-                //如果调用acceptChanges(),使用getChanges()则获取不到编辑和新增的数据。
-
-                //使用JSON序列化datarow对象，发送到后台。
-                var rows = $("#list_data").datagrid('getChanges');
-
-                var rowstr = JSON.stringify(rows);
-                $.post(basePath+'/outppresc/save', rowstr, function (data) {
-
-                });
+                $.postRows(basePath+'/outppresc/save','list_data',function(data){
+                    if(data.data=='success'){
+                        $.messager.alert("提示消息",data.code+"条记录，已经删除");
+                        $('#list_data').datagrid('load');
+                        $('#list_data').datagrid('clearChecked');
+                    }else{
+                        $.messager.alert('提示',"保存失败", "error");
+                    }
+                },function(data){
+                    $.messager.alert('提示',"保存失败", "error");
+                })
             }
         }],onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
@@ -254,7 +258,13 @@ function addPre(){//点击新方
 }
 
 function savePre(){
-    $.postForm(basePath+'/outppresc/save','prescForm',function(data){
+    $("#list_data").datagrid('endEdit', editRow);
+    var  rows=$('#list_data').datagrid('getRows');
+    var formJson=fromJson('prescForm');
+    formJson = formJson.substring(0, formJson.length - 1);
+    var tableJson=JSON.stringify(rows);
+    var submitJson=formJson+",\"list\":"+tableJson+"}";
+    $.postJSON(basePath+'/outppresc/save',submitJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
             $('#list_data').datagrid('load');

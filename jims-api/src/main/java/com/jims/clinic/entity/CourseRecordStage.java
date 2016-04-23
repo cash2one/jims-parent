@@ -9,7 +9,7 @@ import java.util.Date;
 /**阶段小结实体
  * Created by qinlongxin on 2016/4/20.
  */
-public class CourseRecordStage extends DataEntity<CourseRecord> {
+public class CourseRecordStage extends DataEntity<CourseRecordStage> {
     private static final long serialVersionUID = 1L;
     private CourseRecord courseRecord;		// 日常病程id
     private String yibanqingkuang;		// 一般情况
@@ -21,7 +21,7 @@ public class CourseRecordStage extends DataEntity<CourseRecord> {
     private String zhusu;		        // 主诉
     protected Date lasttime;	// 上传时间
     protected Date nowtime;	// 本次时间
-
+    private  String setBingchengId;
     public Date getLasttime() {
         return lasttime;
     }
@@ -115,4 +115,11 @@ public class CourseRecordStage extends DataEntity<CourseRecord> {
         this.zhenliaojihua = zhenliaojihua;
     }
 
+    public String getSetBingchengId() {
+        return setBingchengId;
+    }
+
+    public void setSetBingchengId(String setBingchengId) {
+        this.setBingchengId = setBingchengId;
+    }
 }
