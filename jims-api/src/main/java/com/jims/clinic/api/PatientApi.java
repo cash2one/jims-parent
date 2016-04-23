@@ -20,5 +20,12 @@ public interface PatientApi {
      */
     public String savePatient(PatVisit patVisit,PatMasterIndex patMasterIndex,ClinicMaster clinicMaster);
 
+    /**
+     * 查询病人基本信息
+     * @param patientId
+     * @return
+     */
+    public PatMasterIndex getPatient(String patientId);
+
 
 }
