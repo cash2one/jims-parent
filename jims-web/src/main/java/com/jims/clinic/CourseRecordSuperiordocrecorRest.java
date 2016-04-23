@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
  */
 @Component
 @Produces("application/json")
-@Path("courseRecordSuperiordocrecor")
+@Path("courseRecordSuperiorDocrecor")
 public class CourseRecordSuperiordocrecorRest {
     @Reference(version = "1.0.0")
     private CourseRecordSuperiorDocrecorApi courseRecordSuperiordocrecordApi;
