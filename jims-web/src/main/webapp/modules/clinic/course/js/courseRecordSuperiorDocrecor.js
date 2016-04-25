@@ -1,7 +1,7 @@
 //保存
 function save(){
-    formSubmitInput("enterForm");
-    $.postForm(basePath+"/courseRecordSuperiorDocrecor/save","enterForm",function(data){
+    formSubmitInput("courseRecordForm");
+    $.postForm(basePath+"/courseRecordSuperiorDocrecor/save","courseRecordForm",function(data){
         if(data.code=="1"){
             $.messager.alert("提示信息","保存成功");
         }else{
