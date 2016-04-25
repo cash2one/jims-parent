@@ -1,4 +1,4 @@
-﻿drop table PAT_MASTER_INDEX cascade constraints;
+﻿-- drop table PAT_MASTER_INDEX cascade constraints;
 
 /*==============================================================*/
 /* Table: PAT_MASTER_INDEX     病人主索引                                 */

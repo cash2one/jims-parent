@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>极目云医工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/static/js/formSubmit.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+</head>
+
+<body>
+
+<div  class="inp-form" style="width: 95%">
+    <form   id="xinxiForm"  method="post"  >
+        <input type="hidden"  name="patientId">
+        <input type="hidden"  name="visitId">
+        <input type="hidden"  name="hospId">
+        <table cellpadding="0" cellspacing="0" width="100%" class="apply-tab">
+
+            <tr>
+                <td colspan="3">
+                    健康卡号：<input name="healthyCardNo" style="width: 30%;" class="validatebox-text" required="true">
+                    住院号：<input  name="inpNo" style="width: 30%;" class="validatebox-text" required="true">
+                    姓名：<input  name="name" class="validatebox-text validatebox-text-xs" required="true">
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="3">
+                  <!--  病人Id号 <input  name="name" style="width: 20%;" class="validatebox-text" required="true">-->
+                    住院次数 <input  name="visitId" class="validatebox-text validatebox-text-xs" required="true">
+                    国籍  <select class="validatebox-text validatebox-text-s" name="citizenship">
+                                <option>请选择</option>
+                                <option>1111</option>
+                          </select>
+                    出生日期 <input  name="dateOfBirth" class="easyui-datebox datebox-f combo-f textbox-f validatebox-text-s">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                  身份证号 <input  name="idNo" style="width: 25%;" class="validatebox-text validatebox-text-xs" required="true">
+                  民    族  <select class="validatebox-text validatebox-text-s" name="nation">
+                                <option>请选择</option>
+                                <option>汉</option>
+                            </select>
+                  职    业 <select class="validatebox-text validatebox-text-s" name="occupation">
+                                <option>请选择</option>
+                                <option>医生</option>
+                            </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    出生地：<input  name="birthPlace" class="validatebox-text" required="true">
+                </td>
+                <!--<td>籍贯：<select class="validatebox-text validatebox-text-s" name="identity">
+                                <option>请选择</option>
+                                <option>陕西</option>
+                            </select>
+                </td>-->
+            </tr>
+            <tr>
+                <td colspan="3">
+                    身份：<input  name="identity" class="validatebox-text validatebox-text-xs" required="true">
+                    费别：<input  name="serviceSystemIndicator" class="validatebox-text validatebox-text-xs" required="true">
+                    婚姻状况：<input  name="maritalStatus" class="validatebox-text validatebox-text-xs" required="true">
+                    性别：<input  name="sex" type="radio">男  <input  name="sex" type="radio" >女
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                现住址：<input  name="addressNow" class="validatebox-text" required="true">
+                </td>
+                <td>
+                    电话：<input  name="nextOfKinPhone" class="validatebox-text " required="true">
+                    邮编：<input  name="zipCode" style="width: 20%;" class="validatebox-text" required="true">
+                </td>
+            </tr>
+           <!-- <tr>
+                <td colspan="3">
+                    现住详细地址<input  name="addressNow" class="validatebox-text" required="true">
+                </td>
+            </tr>-->
+            <tr>
+                <td colspan="3">
+                   户口地址行政区划：<input  name="mailingAddressCode" class="validatebox-text" required="true">
+                    </td>
+               <!-- <td>
+                    邮编<input  name="addressNow" style="width: 25%;" class="validatebox-text" required="true">
+                </td>-->
+            </tr>
+           <!-- <tr>
+                <td colspan="3">
+                  户口详细地址<input  name="addressNow" class="validatebox-text" required="true">
+                </td>
+            </tr>-->
+             <tr>
+                 <td colspan="2">
+                     工作单位及地址：<input  name="insuranceType" class="validatebox-text" required="true">
+                 </td>
+                 <td>
+                     电话：<input  name="phoneNumberBusiness" class="validatebox-text " required="true">
+                    <!-- 邮编 <input  name="addressNow" style="width: 20%;" class="validatebox-text" required="true">-->
+                 </td>
+             </tr>
+            <tr>
+                <td colspan="3">
+                    联系人名：<input  name="nextOfKin" class="validatebox-text validatebox-text-xs" required="true">
+                    关系：<input  name="relationship" class="validatebox-text validatebox-text-xs" required="true">
+                    电话： <input  name="nextOfKinPhone" style="width: 25%;" class="validatebox-text" required="true">
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                   联系人地址：<input  name="nextOfKinAddr" class="validatebox-text" required="true">
+                </td>
+            </tr>
+
+</table>
+    </form>
+
+        <div class="col-xs-12 text-center">
+            <input type="button" value="保存"  class="easyui-linkbutton c6" id="savePat" iconCls="icon-ok" style="width:90px">
+        </div>
+
+</div>
+</body>

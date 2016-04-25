@@ -1,4 +1,4 @@
-﻿drop table CLINIC_MASTER cascade constraints;
+﻿-- drop table CLINIC_MASTER cascade constraints;
 
 /*==============================================================*/
 /* Table: CLINIC_MASTER   病人就诊记录信息                                      */

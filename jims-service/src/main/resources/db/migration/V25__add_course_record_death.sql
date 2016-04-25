@@ -1,4 +1,4 @@
-drop table COURSE_RECORD_DEATH cascade constraints;
+-- drop table COURSE_RECORD_DEATH cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_DEATH     死亡记录                              */

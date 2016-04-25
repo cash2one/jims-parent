@@ -13,11 +13,19 @@ public interface CourseRecordStageApi {
      */
     public CourseRecordStage get(CourseRecordStage courseRecordStage);
     /**
+     * 通过id查询阶段小结主要表信息
+     * @author zhangyao
+     * @version 2016/4/23
+     */
+    public CourseRecordStage get(String id);
+
+
+    /**
      * 保存或编辑
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public void save(CourseRecordStage courseRecordStage);
+    public String save(CourseRecordStage courseRecordStage);
     /**
      * 通过病程记录主要表bingcheng_id查询阶段小结
      * @author qinlongxin

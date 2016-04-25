@@ -1,6 +1,6 @@
-drop index RICHANGBINGLI_ID;
+-- drop index RICHANGBINGLI_ID;
 
-drop table COURSE_RECORD_INTODEPT cascade constraints;
+-- drop table COURSE_RECORD_INTODEPT cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_INTODEPT   转科转入                             */

@@ -1,6 +1,6 @@
-drop index BINGCHENG_ID2;
+-- drop index BINGCHENG_ID2;
 
-drop table COURSE_RECORD_INTRACTABLECASE cascade constraints;
+-- drop table COURSE_RECORD_INTRACTABLECASE cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_INTRACTABLECASE     疑难病例讨论                      */
@@ -30,7 +30,7 @@ create table COURSE_RECORD_INTRACTABLECASE  (
    ZHUCHIRENZHICHENG    VARCHAR2(64),
    BINGQINGJIESHAO      CLOB,
    TAOLUNMUDI           CLOB,
-   constraint "PK_course_record_intractablecase" primary key (ID)
+   constraint "PK_course_record_intrac" primary key (ID)
 );
 
 comment on table COURSE_RECORD_INTRACTABLECASE is

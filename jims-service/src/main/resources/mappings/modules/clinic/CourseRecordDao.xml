@@ -129,7 +129,7 @@
 	
 	<update id="delete">
 		UPDATE course_record SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

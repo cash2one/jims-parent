@@ -1,6 +1,6 @@
-drop index BINGCHANG_ID;
+-- drop index BINGCHANG_ID;
 
-drop table COURSE_RECORD_STAGE cascade constraints;
+-- drop table COURSE_RECORD_STAGE cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_STAGE   阶段小结                                */

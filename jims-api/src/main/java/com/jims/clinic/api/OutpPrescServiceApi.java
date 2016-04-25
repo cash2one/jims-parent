@@ -11,10 +11,18 @@ import java.util.List;
  * @version 2016-04-21
  */
 public interface OutpPrescServiceApi {
+    public List<OutpPresc> findList(OutpPresc outpPresc);
     /**
      * 根据病人就诊记录ID查询处方主记录
      * @param clinicMasterId
      * @return
      */
     public List<OutpPresc> getOutpPresc(String clinicMasterId);
+
+    /**
+     * 保存处方信息
+     * @param outpPresc
+     * @return
+     */
+    public String save(OutpPresc outpPresc);
 }

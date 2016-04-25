@@ -1,4 +1,4 @@
-﻿drop table OUTP_PRESC cascade constraints;
+﻿﻿drop table OUTP_PRESC cascade constraints;
 /*==============================================================*/
 /* Table: OUTP_PRESC         处方医嘱明细记录                                   */
 /*==============================================================*/

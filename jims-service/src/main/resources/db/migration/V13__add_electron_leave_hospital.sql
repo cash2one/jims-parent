@@ -1,4 +1,4 @@
-drop table ELECTRON_LEAVE_HOSPITAL cascade constraints;
+--  drop table ELECTRON_LEAVE_HOSPITAL cascade constraints;
 
 /*==============================================================*/
 /* Table: ELECTRON_LEAVE_HOSPITAL   出院记录                             */

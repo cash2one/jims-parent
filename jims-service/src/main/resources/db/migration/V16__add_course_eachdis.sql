@@ -1,4 +1,4 @@
-drop table COURSE_RECORD_EACHDIS cascade constraints;
+-- drop table COURSE_RECORD_EACHDIS cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_EACHDIS       日常病程记录                           */

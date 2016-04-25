@@ -1,4 +1,4 @@
-﻿drop table OUTP_ORDERS cascade constraints;
+﻿-- drop table OUTP_ORDERS cascade constraints;
 /*==============================================================*/
 /* Table: OUTP_ORDERS         门诊医嘱主记录                                */
 /*==============================================================*/

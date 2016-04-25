@@ -1,6 +1,6 @@
-drop index BINGCHENG_ID;
+-- drop index BINGCHENG_ID;
 
-drop table COURSE_RECORD_SUPERIORDOCRECOR cascade constraints;
+-- drop table COURSE_RECORD_SUPERIORDOCRECOR cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_SUPERIORDOCRECOR   上级医师查房记录                       */

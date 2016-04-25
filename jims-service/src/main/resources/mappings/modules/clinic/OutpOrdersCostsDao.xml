@@ -4,6 +4,7 @@
     
 	<sql id="outpOrdersCostsColumns">
 		a.id AS "id",
+		a.master_id AS "masterId",
 		a.patient_id AS "patientId",
 		a.visit_date AS "visitDate",
 		a.visit_no AS "visitNo",
@@ -95,6 +96,7 @@
 	<insert id="insert">
 		INSERT INTO outp_orders_costs(
 			id,
+			master_id,
 			patient_id,
 			visit_date,
 			visit_no,
@@ -136,6 +138,7 @@
 			del_flag
 		) VALUES (
 			#{id},
+			#{masterId},
 			#{patientId},
 			#{visitDate},
 			#{visitNo},
@@ -179,7 +182,8 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE outp_orders_costs SET 	
+		UPDATE outp_orders_costs SET
+		    master_id=#{masterId},
 			patient_id = #{patientId},
 			visit_date = #{visitDate},
 			visit_no = #{visitNo},
@@ -224,5 +228,10 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getOutpCosts" resultType="OutpOrdersCosts">
+		SELECT
+		<include refid="outpOrdersCostsColumns"/>
+		FROM outp_orders_costs a
+		WHERE a.masterId=#{masterId} AND a.patientId=#{clinicId}
+	</select>
 </mapper>

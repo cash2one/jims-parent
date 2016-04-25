@@ -1,4 +1,4 @@
-drop table EMR_DIAGNOSIS cascade constraints;
+-- drop table EMR_DIAGNOSIS cascade constraints;
 
 /*==============================================================*/
 /* Table: EMR_DIAGNOSIS       诊断列表                                    */

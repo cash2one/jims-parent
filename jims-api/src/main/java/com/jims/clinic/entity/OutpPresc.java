@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 处方医嘱明细记录Entity
@@ -42,17 +43,18 @@ public class OutpPresc extends DataEntity<OutpPresc> {
 	private Integer chargeIndicator;		// 收费标记
 	private String dispensary;		// 摆药药局
 	private Integer repetition;		// repetition
-	private Integer orderNo;		// order_no
-	private Integer subOrderNo;		// sub_order_no
+	private Integer orderNo;		// 医嘱组别
+	private Integer subOrderNo;		// 子医嘱组别
 	private String freqDetail;		// 执行时间详细描述
 	private Integer getdrugFlag;		// 取药标志
-	private String prescAttr;		// presc_attr
+	private String prescAttr;		// 处方属性
 	private Integer abidance;		// abidance
 	private String performNurse;		// perform_nurse
 	private String performResult;		// perform_result
 	private String skinFlag;		// skin_flag
 	private Integer prescPsno;		// presc_psno
 	private String skinResult;		// skin_result
+    private List<OutpPresc> list;
 	
 	public OutpPresc() {
 		super();
@@ -345,5 +347,20 @@ public class OutpPresc extends DataEntity<OutpPresc> {
 	public void setSkinResult(String skinResult) {
 		this.skinResult = skinResult;
 	}
-	
+
+    public List<OutpPresc> getList() {
+        return list;
+    }
+
+    public void setList(List<OutpPresc> list) {
+        this.list = list;
+    }
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
+	}
 }

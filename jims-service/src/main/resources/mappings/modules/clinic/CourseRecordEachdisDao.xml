@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.CourseRecordEachdisDao">
-    
+    <resultMap id="eachdisColums" type="CourseRecordEachdis">
+      <id property="id" column="id"></id>
+		<result property="bingchengId" column="bingcheng_id"></result>
+		<result property="bingchengjilutime" column="bingchengjilutime"></result>
+		<result property="content" column="content"></result>
+		<result property="docQianming" column="doc_qianming"></result>
+		<result property="createDate" column="create_date"></result>
+		<result property="delFlag" column="del_flag"></result>
+		<result property="remarks" column="remarks"></result>
+		<result property="updateDate" column="updateDate"></result>
+		<result property="createBy.id" column="create_by"></result>
+		<result property="updateBy.id" column="update_by"></result>
+		<association property="courseRecord" column="bingchengId" select="com.jims.clinic.dao.CourseRecordDao.get"></association>
+	</resultMap>
 	<sql id="courseRecordEachdisColumns">
 		a.id AS "id",
 		a.bingcheng_id AS "bingchengId",
@@ -19,7 +32,7 @@
 	<sql id="courseRecordEachdisJoins">
 	</sql>
     
-	<select id="get" resultType="CourseRecordEachdis">
+	<select id="get" resultMap="eachdisColums">
 		SELECT 
 			<include refid="courseRecordEachdisColumns"/>
 		FROM course_record_eachdis a
@@ -108,11 +121,9 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-
-	<select id="getEachdisByCourse" resultType="CourseRecordEachdis">
-		SELECT
-		<include refid="courseRecordEachdisColumns"/>
+	<select id="getEachdisByCourse" resultMap="eachdisColums">
+		SELECT <include refid="courseRecordEachdisColumns"/>
 		FROM course_record_eachdis a
-		WHERE a.bingcheng_id=#{courseRecordId}
+		WHERE a.bingcheng_id=#{bingcheng_id}
 	</select>
 </mapper>

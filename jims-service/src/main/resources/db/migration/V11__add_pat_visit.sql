@@ -1,4 +1,4 @@
-drop table PAT_VISIT cascade constraints;
+-- drop table PAT_VISIT cascade constraints;
 
 /*==============================================================*/
 /* Table: PAT_VISIT   病人住院主记录                             */
@@ -207,7 +207,7 @@ create table PAT_VISIT
   DIALECTICAL_NURSING          VARCHAR2(80),
   YB_INP                       VARCHAR2(50),
   NHZZ_TYPE                    VARCHAR2(80),
-  constraint "PK_electron_leave_hospital" primary key (ID)
+  constraint "PK_pat_visit" primary key (ID)
 );
 -- Add comments to the table
 comment on table PAT_VISIT

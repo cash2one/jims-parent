@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.ElectronGroupConsultationDao">
+    <resultMap id="groupConsulation" type="ElectronGroupConsultation">
+		<id property="id" column="id"></id>
+		<result property="zhuyuanId" column="zhuyuan_id"></result>
+		<result property="patientId" column="patient_id"></result>
+		<result property="doctorId" column="doctor_id"></result>
+		<result property="grouptype" column="grouptype"></result>
+		<result property="shenqingshijian" column="shenqingshijian"></result>
+		<result property="bingqingzhaiyao" column="bingqingzhaiyao"></result>
+		<result property="huizhenliyou" column="huizhenliyou"></result>
+		<result property="huizhenyijian" column="huizhenyijian"></result>
+		<result property="createDate" column="create_date"></result>
+		<result property="updateDate"  column="update_date"></result>
+		<result property="createBy.id" column="create_by"></result>
+		<result property="updateBy.id" column="update_by"></result>
+		<result property="fabuflag" column="fabuflag"></result>
+		<result property="delFlag" column="del_flag"></result>
+		<collection property="electronGroupConsultationInList"  column="id" select="com.jims.clinic.dao.ElectronGroupConsultationInDao.consulaionId"></collection>
+	</resultMap>
+	<sql id="electronGroupConsultationColumns">
+		a.id AS "id",
+		a.zhuyuan_id AS "zhuyuanId",
+		a.patient_id AS "patientId",
+		a.doctor_id AS "doctorId",
+		a.grouptype AS "grouptype",
+		a.shenqingshijian AS "shenqingshijian",
+		a.bingqingzhaiyao AS "bingqingzhaiyao",
+		a.huizhenliyou AS "huizhenliyou",
+		a.huizhenyijian AS "huizhenyijian",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.fabuflag AS "fabuflag",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="electronGroupConsultationJoins">
+	</sql>
+    
+	<select id="get" resultMap="groupConsulation">
+		SELECT 
+			<include refid="electronGroupConsultationColumns"/>
+		FROM electron_group_consultation a
+		<include refid="electronGroupConsultationJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ElectronGroupConsultation">
+		SELECT 
+			<include refid="electronGroupConsultationColumns"/>
+		FROM electron_group_consultation a
+		<include refid="electronGroupConsultationJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="patientId!=null and patientId!='' ">
+				AND a.patient_id=#{patientId}
+			</if>
+			<if test="doctorId!=null and doctorId!='' ">
+				AND a.doctor_id=#{doctorId}
+			</if>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ElectronGroupConsultation">
+		SELECT 
+			<include refid="electronGroupConsultationColumns"/>
+		FROM electron_group_consultation a
+		<include refid="electronGroupConsultationJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO electron_group_consultation(
+			id,
+			zhuyuan_id,
+			patient_id,
+			doctor_id,
+			grouptype,
+			shenqingshijian,
+			bingqingzhaiyao,
+			huizhenliyou,
+			huizhenyijian,
+			create_date,
+			update_date,
+			create_by,
+			update_by,
+			fabuflag,
+			del_flag
+		) VALUES (
+			#{id},
+			#{zhuyuanId},
+			#{patientId},
+			#{doctorId},
+			#{grouptype},
+			#{shenqingshijian},
+			#{bingqingzhaiyao},
+			#{huizhenliyou},
+			#{huizhenyijian},
+			#{createDate},
+			#{updateDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{fabuflag},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE electron_group_consultation SET 	
+			zhuyuan_id = #{zhuyuanId},
+			patient_id = #{patientId},
+			doctor_id = #{doctorId},
+			grouptype = #{grouptype},
+			shenqingshijian = #{shenqingshijian},
+			bingqingzhaiyao = #{bingqingzhaiyao},
+			huizhenliyou = #{huizhenliyou},
+			huizhenyijian = #{huizhenyijian},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			fabuflag = #{fabuflag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE electron_group_consultation SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,4 +1,4 @@
-drop table ELECTRON_ENTER_HOSPITAL cascade constraints;
+-- drop table ELECTRON_ENTER_HOSPITAL cascade constraints;
 
 /*==============================================================*/
 /* Table: ELECTRON_ENTER_HOSPITAL     入院记录                          */
@@ -37,7 +37,7 @@ create table ELECTRON_ENTER_HOSPITAL  (
    XIAOJIEYUFENXI       CLOB,
    CAIJIRIQI            TIMESTAMP,
    ISDEPEND             VARCHAR2(50),
-   constraint "PK_electron_enter_hospital" primary key (ZHUYUAN_ID, PATIENT_ID)
+   constraint "PK_electron_enter_hospital" primary key (ID)
 );
 
 comment on table ELECTRON_ENTER_HOSPITAL is

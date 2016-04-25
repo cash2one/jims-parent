@@ -1,6 +1,6 @@
-drop index BINGCHANG_ID2;
+-- drop index BINGCHANG_ID2;
 
-drop table COURSE_RECORD_CASEDISCUS cascade constraints;
+-- drop table COURSE_RECORD_CASEDISCUS cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_CASEDISCUS  死亡病例讨论记录                             */

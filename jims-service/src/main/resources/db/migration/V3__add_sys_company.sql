@@ -1,4 +1,5 @@
-create table SYS_COMPANY 
+
+create table SYS_COMPANY
 (
    ID                   VARCHAR2(64)         not null,
    PARENT_ID            VARCHAR2(64),

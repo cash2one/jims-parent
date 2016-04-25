@@ -1,4 +1,4 @@
-drop table COURSE_RECORD_SHIFTRECORDS cascade constraints;
+-- drop table COURSE_RECORD_SHIFTRECORDS cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_SHIFTRECORDS    交班记录                        */

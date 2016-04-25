@@ -1,4 +1,4 @@
-drop table COURSE_RECORD cascade constraints;
+-- drop table COURSE_RECORD cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD      病程记录                                     */

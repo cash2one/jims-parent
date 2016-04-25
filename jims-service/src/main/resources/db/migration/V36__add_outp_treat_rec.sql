@@ -1,4 +1,4 @@
-﻿drop table OUTP_TREAT_REC cascade constraints;
+﻿-- ﻿drop table OUTP_TREAT_REC cascade constraints;
 
 /*==============================================================*/
 /* Table: OUTP_TREAT_REC      检查治疗医嘱明细记录                                */

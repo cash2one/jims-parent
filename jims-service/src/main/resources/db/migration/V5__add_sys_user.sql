@@ -1,3 +1,4 @@
+
 create table SYS_USER
 (
    ID                   VARCHAR(64)          not null,

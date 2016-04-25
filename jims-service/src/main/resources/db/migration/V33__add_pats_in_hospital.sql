@@ -1,4 +1,4 @@
-﻿drop table PATS_IN_HOSPITAL cascade constraints;
+﻿-- drop table PATS_IN_HOSPITAL cascade constraints;
 
 /*==============================================================*/
 /* Table: PATS_IN_HOSPITAL      在院病人记录                                */

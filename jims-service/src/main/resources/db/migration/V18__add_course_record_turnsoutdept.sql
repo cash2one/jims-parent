@@ -1,4 +1,4 @@
-drop table COURSE_RECORD_TURNSOUTDEPT cascade constraints;
+-- drop table COURSE_RECORD_TURNSOUTDEPT cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_TURNSOUTDEPT    转科（转出）记录                         */

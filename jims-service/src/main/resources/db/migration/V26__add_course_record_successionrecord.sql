@@ -1,4 +1,4 @@
-drop table COURSE_RECORD_SUCCESSIONRECORD cascade constraints;
+-- drop table COURSE_RECORD_SUCCESSIONRECORD cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_SUCCESSIONRECORD     接班记录                   */
@@ -15,7 +15,7 @@ create table COURSE_RECORD_SUCCESSIONRECORD  (
    UPDATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(255),
    UPDATE_BY            VARCHAR2(255),
-   constraint "PK_course_record_successionrecords" primary key (ID)
+   constraint "PK_course_record_succession" primary key (ID)
 );
 
 comment on table COURSE_RECORD_SUCCESSIONRECORD is

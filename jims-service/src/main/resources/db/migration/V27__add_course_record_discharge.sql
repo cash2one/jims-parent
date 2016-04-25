@@ -1,6 +1,6 @@
-drop index BINGCHANG_ID3;
+-- drop index BINGCHANG_ID3;
 
-drop table COURSE_RECORD_DISCHARGE cascade constraints;
+-- drop table COURSE_RECORD_DISCHARGE cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_DISCHARGE      出院记录                         */

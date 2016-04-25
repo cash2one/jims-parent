@@ -1,4 +1,4 @@
-﻿drop table OUTP_ORDERS_COSTS cascade constraints;;
+﻿-- drop table OUTP_ORDERS_COSTS cascade constraints;;
 /*==============================================================*/
 /* Table: OUTP_ORDERS_COSTS         门诊医师收费明细                                   */
 /*==============================================================*/

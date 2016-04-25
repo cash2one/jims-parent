@@ -1,4 +1,4 @@
-                 create table DEPT_DICT
+   create table DEPT_DICT
 (
    ID                   VARCHAR2(64)         not null,
    PAREN_IDT            VARCHAR2(64),
