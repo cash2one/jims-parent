@@ -121,7 +121,7 @@
 		DELETE FROM electron_group_consultation_in
 		WHERE id = #{id}
 	</update>
-	<select id="consulaionId" resultType="groupConsulationIn">
+	<select id="consulaionId" resultMap="groupConsulationIn">
 		SELECT
 		<include refid="electronGroupConsultationInColumns"/>
 		FROM electron_group_consultation_in a
