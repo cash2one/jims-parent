@@ -15,33 +15,30 @@ create table OUTP_TREAT_REC
   ITEM_NAME        VARCHAR2(100),
   ITEM_SPEC        VARCHAR2(50),
   UNITS            VARCHAR2(8),
-  AMOUNT           NUMBER(8,2),
-  FREQUENCY        VARCHAR2(16),
-  PERFORMED_BY     VARCHAR2(8),
-  COSTS            NUMBER(8,2),
-  CHARGES          NUMBER(8,2),
-  CHARGE_INDICATOR NUMBER(1),
+  AMOUNT            NUMBER(8,2),
+  FREQUENCY         VARCHAR2(16),
+  PERFORMED_BY      VARCHAR2(8),
+  COSTS             NUMBER(8,2),
+  CHARGES           NUMBER(8,2),
+  CHARGE_INDICATOR   NUMBER(1),
   APPOINT_NO       VARCHAR2(10),
-  APPOINT_ITEM_NO  NUMBER(2),
-  FREQ_DETAIL      VARCHAR2(80),
-  WARD_CODE        VARCHAR2(20),
-  EXPLANATION      VARCHAR2(100),
-  RCPT_NO          VARCHAR2(20),
-  BILL_VISIT_NO    NUMBER(5),
-  BILL_VISIT_DATE  DATE,
-  OPERATOR_TRTURN  VARCHAR2(20),
-  DATE_TRTURN      DATE
-)
-tablespace TSP_OUTPADM
-  pctfree 10
-  initrans 1
-  maxtrans 255
-  storage
-  (
-    initial 64
-    minextents 1
-    maxextents unlimited
-  );
+  APPOINT_ITEM_NO    NUMBER(2),
+  FREQ_DETAIL        VARCHAR2(80),
+  WARD_CODE          VARCHAR2(20),
+  EXPLANATION        VARCHAR2(100),
+  RCPT_NO            VARCHAR2(20),
+  BILL_VISIT_NO       NUMBER(5),
+  BILL_VISIT_DATE     TIMESTAMP (6),
+  OPERATOR_TRTURN     VARCHAR2(20),
+  DATE_TRTURN         TIMESTAMP (6),
+  CREATE_DATE         TIMESTAMP (6),
+  CREATE_BY            VARCHAR2(64 CHAR),
+  UPDATE_DATE          TIMESTAMP (6),
+  UPDATE_BY            VARCHAR2(64 CHAR),
+  REMARKS              VARCHAR2(255 CHAR),
+  DEL_FLAG             NUMBER (1),
+  constraint PK_OUTP_TREAT_REC primary key (ID)
+);
 -- Add comments to the table 
 comment on table OUTP_TREAT_REC
   is '检查治疗医嘱明细记录';
@@ -96,3 +93,15 @@ comment on column OUTP_TREAT_REC.OPERATOR_TRTURN
   is '退费医生';
 comment on column OUTP_TREAT_REC.DATE_TRTURN
   is '退费日期';
+comment on column OUTP_TREAT_REC.CREATE_DATE
+  is '创建日期';
+comment on column OUTP_TREAT_REC.CREATE_BY
+  is '创建人';
+comment on column OUTP_TREAT_REC.UPDATE_DATE
+  is '修改日期';
+comment on column OUTP_TREAT_REC.UPDATE_BY
+  is '修改人';
+comment on column OUTP_TREAT_REC.REMARKS
+  is '备注信息';
+comment on column OUTP_TREAT_REC.DEL_FLAG
+  is '删除标志';
