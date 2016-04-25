@@ -21,17 +21,40 @@ public class CourseRecordSuperiordocrecorRest {
     @Reference(version = "1.0.0")
     private CourseRecordSuperiorDocrecorApi courseRecordSuperiordocrecordApi;
 
+    /**
+     * 保存上级医师查房记录
+     * @param courseRecordSuperiordocrecor
+     * @return
+     */
     @POST
     @Path("save")
     public StringData save(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
         CourseRecord courseRecord=new CourseRecord();
-        courseRecord.setType("3");
+        courseRecord.setType(courseRecordSuperiordocrecor.getType());
+        courseRecord.setLuruShijian(courseRecordSuperiordocrecor.getLuruShijian());
+        courseRecord.setPatientId("16013020");
+        courseRecord.setZhuyuanId("c1a84181-c0e0-11e5-8417-0894ef010b21");
+        courseRecord.setType("2");
         courseRecordSuperiordocrecor.setCourseRecord(courseRecord);
-        String num=courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
+        String num=courseRecordSuperiordocrecordApi.saveSuperior(courseRecordSuperiordocrecor);
         StringData stringData=new StringData();
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
     }
 
+    /**
+     * 通过病程Id查询上级医师查房记录
+     * @param courseRecordId
+     * @return
+     */
+    @POST
+    @Path("get")
+    public CourseRecordSuperiordocrecor get(String courseRecordId){
+        CourseRecordSuperiordocrecor courseRecordSuperiordocrecor= courseRecordSuperiordocrecordApi.getDocrecorByCourseRecordId(courseRecordId);
+        courseRecordSuperiordocrecor.setLuruShijian(courseRecordSuperiordocrecor.getCourseRecord().getLuruShijian());
+        courseRecordSuperiordocrecor.setType(courseRecordSuperiordocrecor.getCourseRecord().getType());
+        return courseRecordSuperiordocrecor;
+
+    }
 }

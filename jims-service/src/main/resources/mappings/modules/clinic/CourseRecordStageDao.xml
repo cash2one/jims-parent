@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.CourseRecordStageDao">
+    <resultMap id="BaseResultMap" type="com.jims.clinic.entity.CourseRecordStage" >
+        <result column="id" property="id"  />
+        <result column="bingcheng_id" property="bingchengId"/>
+        <result column="create_by" property="createBy.id"  />
+        <result column="create_date" property="createDate"  />
+        <result column="update_by" property="updateBy.id"  />
+        <result column="update_date" property="updateDate" />
+        <result column="remarks" property="remarks"  />
+        <result column="del_flag" property="delFlag"  />
+        <result column="lasttime" property="lasttime" />
+        <result column="nowtime" property="nowtime"  />
+        <result column="yibanqingkuang" property="yibanqingkuang"  />
+        <result column="ruyuanzhenduan" property="ruyuanzhenduan"  />
+        <result column="zhenliaojingguo" property="zhenliaojingguo"  />
+        <result column="muqianqingkuang" property="muqianqingkuang" />
+        <result column="muqianzhenduan" property="muqianzhenduan"  />
+        <result column="zhenliaojihua" property="zhenliaojihua"/>
+        <result column="zhusu" property="zhusu" />
+        <association property="courseRecord" column="bingchengId" select="com.jims.clinic.dao.CourseRecordDao.get"></association>
+    </resultMap>
+
+
+
 
     <sql id="courseRecordStageColumns">
 		a.id AS "id",
@@ -29,11 +52,14 @@
         FROM course_record_stage a
         WHERE a.id = #{id}
     </select>
-    <select id="getRecordByCourseRecordId" resultType="CourseRecordStage">
+
+
+
+    <select id="getByCourseId" resultMap="BaseResultMap">
         SELECT
         <include refid="courseRecordStageColumns"/>
         FROM course_record_stage a
-        WHERE a.bingcheng_id = #{courseRecord.id}
+        WHERE a.bingcheng_id = #{courseRecordId}
     </select>
     <select id="findList" resultType="CourseRecordStage">
         SELECT
