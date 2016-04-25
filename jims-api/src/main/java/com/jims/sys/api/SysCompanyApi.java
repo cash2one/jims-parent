@@ -18,6 +18,9 @@ public interface SysCompanyApi {
      */
     public SysCompany get(String id);
 
+
+    public int update(SysCompany sysCompany);
+
     /**
      * 查询字典类型列表
      *

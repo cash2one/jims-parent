@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.SysCompanyApi;
 import com.jims.sys.dao.SysCompanyDao;
+import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.SysCompany;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,5 +57,13 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
     @Override
     public List<SysCompany> findListByName() {
         return dao.findListByName();
+    }
+
+
+
+    public int update(SysCompany sysCompany) {
+        sysCompany.preUpdate();
+        int i = dao.update(sysCompany);
+        return i;
     }
 }

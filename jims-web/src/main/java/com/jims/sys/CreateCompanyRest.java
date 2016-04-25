@@ -2,16 +2,12 @@ package com.jims.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jims.common.data.PageData;
-import com.jims.common.persistence.Page;
+import com.jims.common.data.StringData;
 import com.jims.sys.api.SysCompanyApi;
 import com.jims.sys.entity.SysCompany;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -24,6 +20,8 @@ import java.util.List;
 @Path("sys-company")
 public class CreateCompanyRest {
 
+
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Reference(version = "1.0.0")
     private SysCompanyApi sysCompanyApi;
@@ -47,31 +45,46 @@ public class CreateCompanyRest {
     }
 
     /**
-     * 异步加载表格
-     *
-     * @param request
-     * @param response
-     * @return
-     */
-    @Path("list")
-    @GET
-    public PageData list(@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        Page<SysCompany> page = sysCompanyApi.findPage(new Page<SysCompany>(request, response), new SysCompany());
-        PageData pageData = new PageData();
-        pageData.setRows(page.getList());
-        pageData.setTotal(page.getCount());
-        return pageData;
-    }
-
-    /**
      * 查询父机构
      *
      * @return
      */
-    @GET
+    @POST
     @Path("select")
     public List<SysCompany> findAllByName() {
         return sysCompanyApi.findListByName();
     }
 
+    /**
+     * 查询组织机构信息
+     * @param
+     * @return
+     */
+    @GET
+    @Path("get")
+    public SysCompany get()
+    {
+        return sysCompanyApi.get("d4850942-9a61-4c89-958b-1ba36e5bd21f");
+    }
+
+    /**
+     * 查询组织机构信息
+     *
+     * @param
+     * @return
+     */
+    @POST
+    @Path("update")
+    public StringData update(SysCompany sysCompany) {
+        System.out.print(sysCompany.getId());
+        int num=sysCompanyApi.update(sysCompany);
+        if(num!=0)
+        {
+            StringData stringData = new StringData();
+            stringData.setData("success");
+            return stringData;
+        }
+        return null;
+
+    }
 }

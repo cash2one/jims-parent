@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.sys.dao.DeptDictDao">
+    
+	<sql id="deptDictColumns">
+		a.id AS "id",
+		a.paren_idt AS "parenIdt",
+		a.dept_name AS "deptName",
+		a.dept_code AS "deptCode",
+		a.dept_propertity AS "deptPropertity",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="deptDictJoins">
+	</sql>
+    
+	<select id="get" resultType="DeptDict">
+		SELECT 
+			<include refid="deptDictColumns"/>
+		FROM dept_dict a
+		<include refid="deptDictJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DeptDict">
+		SELECT 
+			<include refid="deptDictColumns"/>
+		FROM dept_dict a
+		<include refid="deptDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAll" resultType="DeptDict">
+		SELECT * FROM  dept_dict
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO dept_dict(
+			id,
+			parent_id,
+			dept_name,
+			dept_code,
+			dept_propertity,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{id},
+			#{parentId},
+			#{deptName},
+			#{deptCode},
+			#{deptPropertity},
+			#{remarks},
+			#{updateBy},
+			#{createBy},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE dept_dict SET 	
+			parent_id = #{parentId},
+			dept_name = #{deptName},
+			dept_code = #{deptCode},
+			dept_propertity = #{deptPropertity},
+			remarks = #{remarks},
+			update_by = #{updateBy},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE dept_dict SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+    <select id="findProperty" resultType="DeptDict">
+        SELECT dept_propertity
+        FROM dept_dict
+    </select>
+	
+</mapper>

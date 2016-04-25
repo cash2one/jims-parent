@@ -32,8 +32,8 @@
             #{applyStatus},
             #{address},
             #{email},
-            #{createBy.id},
-            #{updateBy.id},
+            #{createBy},
+            #{updateBy},
             #{updateDate},
             #{delFlag},
             #{owner},
@@ -41,10 +41,34 @@
             #{createDate}
             )
     </insert>
-
+    <update id="update">
+        UPDATE sys_company SET
+        parent_id = #{parentId},
+        org_name = #{orgName},
+        org_code = #{orgCode},
+        zip_code = #{zipCode},
+        link_man = #{linkMan},
+        link_phone_num = #{linkPhoneNum},
+        apply_status = #{applyStatus},
+        address = #{address},
+        email = #{email},
+        update_by = #{updateBy},
+        update_date = #{updateDate},
+        owner = #{owner},
+        remarks = #{remarks}
+        WHERE id = #{id}
+    </update>
 
     <select id="findListByName" resultType="SysCompany">
         SELECT id, org_name FROM  sys_company
+    </select>
+
+
+    <select id="get" resultType="SysCompany">
+        SELECT
+        *
+        FROM sys_company
+        WHERE id=#{id}
     </select>
 
 
