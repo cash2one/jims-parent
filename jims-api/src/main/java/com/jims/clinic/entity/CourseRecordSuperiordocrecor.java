@@ -22,7 +22,8 @@ public class CourseRecordSuperiordocrecor extends DataEntity<CourseRecordSuperio
 	private String bingchengId;		// bingcheng_id
 	private String content;		// content
 	private Date jilushijian;		// jilushijian
-
+	private Date luruShijian;
+	private String type;		// 病程类型
 	private CourseRecord courseRecord;//病程记录
 	public CourseRecordSuperiordocrecor() {
 		super();
@@ -64,5 +65,21 @@ public class CourseRecordSuperiordocrecor extends DataEntity<CourseRecordSuperio
 
 	public void setCourseRecord(CourseRecord courseRecord) {
 		this.courseRecord = courseRecord;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Date getLuruShijian() {
+		return luruShijian;
+	}
+
+	public void setLuruShijian(Date luruShijian) {
+		this.luruShijian = luruShijian;
 	}
 }

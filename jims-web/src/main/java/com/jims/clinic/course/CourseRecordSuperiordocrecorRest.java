@@ -25,7 +25,8 @@ public class CourseRecordSuperiordocrecorRest {
     @Path("save")
     public StringData save(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
         CourseRecord courseRecord=new CourseRecord();
-        courseRecord.setType("3");
+        courseRecord.setType(courseRecordSuperiordocrecor.getType());
+        courseRecord.setLuruShijian(courseRecordSuperiordocrecor.getLuruShijian());
         courseRecordSuperiordocrecor.setCourseRecord(courseRecord);
         String num=courseRecordSuperiordocrecordApi.save(courseRecordSuperiordocrecor);
         StringData stringData=new StringData();
