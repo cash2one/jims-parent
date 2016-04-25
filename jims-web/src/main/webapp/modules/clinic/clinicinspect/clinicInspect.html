@@ -12,7 +12,9 @@
 <div class="easyui-layout" style="width:100%;height:100%;">
 
     <div data-options="region:'east',split:true"  style="width:41%;">
+        <table id="list_data"   cellspacing="0" cellpadding="0">
 
+        </table>
     </div>
 
     <div data-options="region:'center',iconCls:'icon-ok'">
@@ -22,17 +24,23 @@
                     <label>
                         类别：
                     </label>
-                    <!--<select  class="easyui-combotree" url="" name="type" style="width:130px;">-->
-                    <!--</select>-->
-                    <!--<select  class="easyui-combotree" url="" name="ddd" style="width:130px;">-->
-                    <!--</select>-->
                     <input name="contact.province"  id="province" style="width: 145px;" >
                     <input   name="contact.city" id="city" style="width: 145px;">
-                    <!--<input name="contact.county"  id="county" style="width: 150px;" >-->
-                    &nbsp;发往科室：
-                    <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;" required="true">
+                    &nbsp;
+                    <input title="" placeholder="发往科室"  name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;" required="true">
                 </div>
-                <div class="fitem">
+                    <div class="fitem">
+                        <label>
+                            项目：
+                        </label>
+                        <textarea class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea"></textarea>
+                        <div class="tarea-cbtn">
+                            <button class="tlr-btn">&lt;&lt;</button><br/>
+                            <button class="tlr-btn" style="margin:10px 0;">&gt;&gt;</button>
+                        </div>
+                        <textarea class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea" ></textarea>
+                    </div>
+                    <div class="fitem">
                     <label>
                         症状：
                     </label>
@@ -68,14 +76,11 @@
                     </label>
                     <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
                 </div>
-                <div class="fitem">
-                    <label>
-                        项目：
-                    </label>
-                    <textarea class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
-                </div>
             </div>
         </form>
+        <div id="dlg-buttons" class="btn-save">
+            <a href="javascript:void(0)"  class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="saveCourseRecord();" style="width: 90px">保存</a>
+        </div>
     </div>
 </div>
 </body>
