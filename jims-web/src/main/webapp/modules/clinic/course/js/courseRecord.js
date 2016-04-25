@@ -63,16 +63,18 @@ function getHtmlPath(n){
     if(n=='0'){
         postUrl="";
         return false;
-    }else if(n=='1'){
+    }else if(n=='1'){//每ribingcheng
         html="/modules/clinic/course/courseRecordEachdis.html";
         postUrl=basePath + "/courseRecordeachdis/save";
-        getUrl=basePath + "/courseRecordState/get";
+        getUrl=basePath + "/courseRecordeachdis/get";
     }else if(n=='2'){
         html="/modules/clinic/course/courseRecordSuperiorDocrecor.html";
         postUrl=basePath+"/courseRecordSuperiorDocrecor/save";
+        getUrl=basePath + "/courseRecordSuperiorDocrecor/get";
     }else if(n=='3'){
         html="/modules/clinic/course/courseRecordStage.html";
         postUrl=basePath + "/courseRecordState/save";
+        getUrl=basePath + "/courseRecordState/get";
     }
     return html;
 }
@@ -168,6 +170,7 @@ function saveCourseRecord(){
  */
 function get(id,type){
     $("#childrenDiv").load(getHtmlPath(type));
+    alert(1);
     $.ajax({
         'type': 'post',
         'url': getUrl,

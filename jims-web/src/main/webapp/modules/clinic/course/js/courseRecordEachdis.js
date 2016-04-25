@@ -1,15 +1,15 @@
 
 function saveEachdis() {
-    formSubmitInput("eachdisForm");
-    $.postForm(basePath + "/courseRecordeachdis/save", "eachdisForm", function (data) {
+    formSubmitInput("courseRecordForm");
+    $.postForm(basePath + "/courseRecordeachdis/save", "courseRecordForm", function (data) {
         if (data.code == "1") {
-            $.messager.alert("��ʾ��Ϣ", "����ɹ�");
+            $.messager.alert("提示信息","保存成功");
 } else {
-    $.messager.alert("��ʾ��Ϣ", "����ʧ��", "error");
+    $.messager.alert("提示信息","保存失败","error");
 }
 
 }), function (data) {
-    $.messager.alert("��ʾ��Ϣ", "����ʧ��", "error");
+    $.messager.alert("提示信息","保存失败","error");
 }
 }
 
