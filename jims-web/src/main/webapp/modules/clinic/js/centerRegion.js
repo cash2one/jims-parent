@@ -84,3 +84,19 @@ function addTabs(id,name,url,lia){
         });
     }else $('#tabs-header').tabs('select',name);
 }
+
+/**
+ * 显示DIV
+ * @param id
+ */
+function showDiv(targetid,objN){
+    var d=$(targetid);
+    var sb=$(objN);
+    if (d.css('display')=="block"){
+        d.show();
+        sb.html("<img src='/static/images/index/down-icon.png' class='show-hid-img'/>&nbsp;展开")
+    } else {
+        d.hide();
+        sb.html("<img src='/static/images/index/up-icon.png' class='show-hid-img'/>&nbsp;收缩")
+    }
+}
