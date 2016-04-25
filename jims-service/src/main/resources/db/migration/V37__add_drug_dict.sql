@@ -1,4 +1,4 @@
-﻿drop table DRUG_DICT cascade constraints;
+﻿-- drop table DRUG_DICT cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: DRUG_DICT      药品字典表                                */

@@ -1,4 +1,4 @@
-﻿drop table DRUG_NAME_DICT cascade constraints;
+﻿-- drop table DRUG_NAME_DICT cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: DRUG_NAME_DICT      药品名称                                */
