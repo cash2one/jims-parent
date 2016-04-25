@@ -103,14 +103,14 @@
 
             </div>
             <div class="showhid-icon">
-                <a href="javascript:void(0)" id="stateBut" onClick="$use('class1content','stateBut')">
+                <a href="javascript:void(0)" id="stateBut" onClick="showDiv('class1content','stateBut')">
                     <img src="/static/images/index/down-icon.png" class="show-hid-img"/>&nbsp;&nbsp;展开
                 </a>
             </div>
 
         </div>
 
-        <div class="cus-more-info" id="class1content">
+        <div class="cus-more-info clearfix" id="class1content">
 
             <ul class="clearfix">
                 <li>住院状态：<span>住院中</span></li>
@@ -121,10 +121,10 @@
                 <li>主治医师：<b class="orange-color">张医生</b></li>
                 <li role="presentation" class="dropdown active">
                     科主任：
-                    <a id="drop4" href="#" class="dropdown-toggle dropma-color" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a id="drop4" href="#" onclick="showDoctor('doctor')">
                         选择
                     </a>
-                    <ul id="menu1" class="dropdown-menu docname-sel" aria-labelledby="drop4">
+                    <ul  class="dropdown-menu docname-sel" aria-labelledby="drop4" id="doctor">
                         <li><a href="#">耿医生</a></li>
                         <li><a href="#">慈医</a></li>
                         <li><a href="#">张医</a></li>
