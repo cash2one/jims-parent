@@ -17,6 +17,7 @@ import java.util.List;
  */
 @MyBatisDao
 public interface OutpPrescDao extends CrudDao<OutpPresc> {
+
     /**
      * 根据就诊记录ID查询病人处方主记录
      * @param clinicId

@@ -5,7 +5,11 @@ var prescNo ='';
 var serialNo='';
 var itemClass='西、成药';
 var chargeIndicator='新开';
-
+var drugName = [{ "value": "氨茶碱注射液", "text": "氨茶碱注射液" }, { "value": "奥氮平（奥兰之）", "text": "奥氮平（奥兰之）" }, { "value": "奥氮平片", "text": "奥氮平片" }, { "value": "胺碘酮注射液", "text": "胺碘酮注射液" }, { "value": "阿司匹林肠溶片", "text": "阿司匹林肠溶片" }];
+var administration = [{ "value": "口服", "text": "口服" }, { "value": "静脉注射", "text": "静脉注射" }, { "value": "小儿头皮静脉", "text": "小儿头皮静脉" }, { "value": "静脉输液", "text": "静脉输液" }, { "value": "续静滴", "text": "续静滴" }];
+var frequency = [{ "value": "一日一次", "text": "一日一次" }, { "value": "一日二次", "text": "一日二次" }, { "value": "一日三次", "text": "一日三次" }];
+var providedIndicator = [{ "value": "1", "text": "取药" }];
+var skinFlag =  [{ "value": "1", "text": "阴性" }, { "value": "2", "text": "阳性" }, { "value": "3", "text": "无皮试" }];
 $(function(){
 
     $('#leftList').datagrid({
@@ -31,32 +35,44 @@ $(function(){
         fit: true,
         nowrap: false,
         method:'GET',
-        url:basePath+'/outppresc/list',
+        url:basePath+'/outppresc/sublist',
         columns:[[      //每个列具体内容
-            {field:'orderNo',title:'处方号',width:'5%',align:'center',formatter: remarkFormater},
+            {field:'orderNo',title:'处方号',width:'5%',align:'center'},
             {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
                 type:'combobox',
-                options:{required:true,
-                    url: basePath+'/outppresc/dictlist',
-                    valueField: 'value',
-                    textField: 'label',
-                    method: 'GET',
-                    onLoadSuccess: function () {
-                        var data = $(this).combobox('getData');
-                        $(this).combobox('select', data[0].label);
-                    }
+                options:{
+                    data :drugName,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
                 }
+                /*options:{required:true,
+                 url: basePath+'/outppresc/dictlist',
+                 valueField: 'value',
+                 textField: 'label',
+                 method: 'GET',
+                 onLoadSuccess: function () {
+                 var data = $(this).combobox('getData');
+                 $(this).combobox('select', data[0].label);
+                 }
+                 }*/
             }},
-            {field:'drugSpec',title:'规格',width:'5%',align:'center'},
-            {field:'firmId',title:'厂家',width:'5%',align:'center'},
+            {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
+            {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
             {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
-            {field:'units',title:'单位',width:'5%',align:'center'},
+            {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
             {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
-            {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'text'},
-            {field:'dosageUnits',title:'用量单位',width:'5%',align:'center'},
+            {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
             {field:'administration',title:'途径',width:'5%',align:'center',editor:{
                 type:'combobox',
-                options:{required:true,
+                options:{
+                    data :administration,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+                /*options:{required:true,
                     url: basePath+'/outppresc/dictlist',
                     valueField: 'value',
                     textField: 'label',
@@ -65,11 +81,17 @@ $(function(){
                         var data = $(this).combobox('getData');
                         $(this).combobox('select', data[0].label);
                     }
-                }
+                }*/
             }},
             {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
                 type:'combobox',
-                options:{required:true,
+                options:{
+                    data :frequency,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+               /* options:{required:true,
                     url: basePath+'/outppresc/dictlist',
                     valueField: 'value',
                     textField: 'label',
@@ -78,15 +100,21 @@ $(function(){
                         var data = $(this).combobox('getData');
                         $(this).combobox('select', data[0].label);
                     }
-                }
+                }*/
             }},
             {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
-            {field:'charges',title:'实收',width:'5%',align:'center'},
+            {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
             {field:'itemClass',title:'药局',width:'5%',align:'center'},
             {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
             {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
                 type:'combobox',
-                options:{required:true,
+                options:{
+                    data :providedIndicator,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+                /*options:{required:true,
                     url: basePath+'/outppresc/dictlist',
                     valueField: 'value',
                     textField: 'label',
@@ -95,12 +123,18 @@ $(function(){
                         var data = $(this).combobox('getData');
                         $(this).combobox('select', data[0].label);
                     }
-                }
+                }*/
             }},
             /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
             {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
                 type:'combobox',
-                options:{required:true,
+                options:{
+                    data :skinFlag,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+               /* options:{required:true,
                     url: basePath+'/outppresc/dictlist',
                     valueField: 'value',
                     textField: 'label',
@@ -109,8 +143,13 @@ $(function(){
                         var data = $(this).combobox('getData');
                         $(this).combobox('select', data[0].label);
                     }
-                }
-            }}
+                }*/
+            }},
+            {field:'subOrderNo',title:'子处方',hidden:'true'},
+            {field:'orderNo',title:'处方号',hidden:'true'},
+            {field:'itemNo',title:'项目序号',hidden:'true'},
+            {field:'itemClass',title:'项目类别',hidden:'true'},
+            {field:'drugCode',title:'药品编号',hidden:'true'},
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
@@ -252,3 +291,5 @@ var remarkFormater=function(value, row, index) {
     }
     return content;
 }
+
+

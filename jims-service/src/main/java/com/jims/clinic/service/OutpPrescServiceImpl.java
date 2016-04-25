@@ -8,7 +8,6 @@ import com.jims.clinic.api.OutpPrescServiceApi;
 import com.jims.clinic.dao.OutpPrescDao;
 import com.jims.clinic.entity.OutpPresc;
 import com.jims.common.service.impl.CrudImplService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,21 +21,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPresc> implements OutpPrescServiceApi{
 
-    @Autowired
-    private OutpPrescDao outpPrescDao;
-
-    /**
-     * 保存处方信息
-     * @param outpPresc
-     * @return
-     */
-    @Override
-    public String save(OutpPresc outpPresc){
-        //处方医嘱明细信息
-        //门诊收费明细信息
-        //门诊医嘱信息
-    return "";
-    }
 
     /**
      * 根据病人诊断记录查询处方主记录
@@ -45,6 +29,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      */
     @Override
     public List<OutpPresc> getOutpPresc(String clinicMasterId) {
-        return outpPrescDao.getOutpPresc(clinicMasterId);
+        return dao.getOutpPresc(clinicMasterId);
     }
 }

@@ -3,19 +3,20 @@
  */
 package com.jims.clinic.service;
 
+import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.clinic.api.OutpOrdersServiceApi;
 import com.jims.clinic.dao.OutpOrdersDao;
 import com.jims.clinic.entity.OutpOrders;
 import com.jims.common.service.impl.CrudImplService;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * 门诊医嘱记录Service
  * @author zhaoning
  * @version 2016-04-20
  */
-@Service
+@Service(version = "1.0.0")
 @Transactional(readOnly = true)
-public class OutpOrdersServiceImpl extends CrudImplService<OutpOrdersDao, OutpOrders> {
+public class OutpOrdersServiceImpl extends CrudImplService<OutpOrdersDao, OutpOrders> implements OutpOrdersServiceApi {
 
 	
 }
