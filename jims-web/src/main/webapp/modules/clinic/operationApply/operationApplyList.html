@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>手术申请</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/clinic/operationApply/js/operationApply.js"></script>
+</head>
+<body class="easyui-layout">
+<div class="easyui-layout" style="width:100%;height:100%;">
+    <div data-options="region:'east',split:true" style="width:41%;">
+        <div class="inp-tab" style="width:100%">
+            <table cellpadding="0" cellspacing="0" width="100%" border="1" style="border-collapse:collapse;"
+                   borderColor="#ccc">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>开单科室</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>123</td>
+                    <td>血常规</td>
+                    <td>检查检验科</td>
+                    <td>查看|修改|删除</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div data-options="region:'center',iconCls:'icon-ok'">
+        <form id="operationApplyForm" method="post">
+            <div class="fitem fitem_pop" style="height: 50px;">
+
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    拟实施手术名称：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+                <label>
+                    等级：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    术前诊断：
+                </label>
+                <input title="" class="easyui-validatebox validatebox-text validatebox-invalid"
+                       required="true">
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    病情：
+                </label>
+                <select id="deomo" class="easyui-combobox" required="true" style="width:30%;height: 30px">
+                    <option value="0">请选择</option>
+                    <option value="1">严重</option>
+                    <option value="2">病危</option>
+                    <option value="3">一般</option>
+                </select>
+                <label>
+                    手术时间：
+                </label>
+                <input class="easyui-datebox" style="width:30%;" required="true"/>
+
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    手术室：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+                <label>
+                    手术间：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    台次：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+                <label>
+                    隔离标志：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    台手术等级：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+                <label>
+                    手术科室：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    手术医师：
+                </label>
+                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+                <label>
+                    申请时间：
+                </label>
+                <input class="easyui-datebox" style="width:30%;" required="true"/>
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    助手：
+                </label>
+                <select id="zhushou1" class="easyui-combobox" required="true"
+                        style="width:18%;height: 30px">
+                    <option value="0">请选择</option>
+                    <option value="1">李明</option>
+                    <option value="2">李会</option>
+                    <option value="3">李会</option>
+                </select>
+                <select id="zhushou2" class="easyui-combobox" required="true"
+                        style="width:18%;height: 30px">
+                    <option value="0">请选择</option>
+                    <option value="1">李明</option>
+                    <option value="2">李会</option>
+                    <option value="3">李会</option>
+                </select>
+                <select id="zhushou3" class="easyui-combobox" required="true"
+                        style="width:18%;height: 30px">
+                    <option value="0">请选择</option>
+                    <option value="1">李明</option>
+                    <option value="2">李会</option>
+                    <option value="3">李会</option>
+                </select>
+                <select id="zhushou4" class="easyui-combobox" required="true"
+                        style="width:18%;height: 30px">
+                    <option value="0">请选择</option>
+                    <option value="1">李明</option>
+                    <option value="2">李会</option>
+                    <option value="3">李会</option>
+                </select>
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    输血医师：
+                </label>
+                <input name="luruShijian" class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+                <label>
+                    输/供血方式：
+                </label>
+                <input name="luruShijian" class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    麻醉医师：
+                </label>
+                <input name="luruShijian" class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+                <label>
+                    麻醉方法：
+                </label>
+                <input name="luruShijian" class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    备注：
+                </label>
+                <input name="luruShijian" class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+                <label>
+                    申请医师：
+                </label>
+                <input name="luruShijian" class="easyui-validatebox validatebox-text validatebox-invalid"
+                       style="width:30%;" required="true"/>
+            </div>
+            <div id="childrenDiv">
+
+            </div>
+        </form>
+        <div id="dlg-buttons" class="btn-save">
+            <a href="javascript:void(0)" class="easy-nbtn easy-nbtn-info easy-nbtn-padd" onclick="savePperationApply();"
+               style="width: 90px">保存</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
