@@ -63,15 +63,15 @@ function getHtmlPath(n){
     if(n=='0'){
         postUrl="";
         return false;
-    }else if(n=='1'){//每ribingcheng
+    }else if(n=='1'){//每日病程
         html="/modules/clinic/course/courseRecordEachdis.html";
         postUrl=basePath + "/courseRecordeachdis/save";
         getUrl=basePath + "/courseRecordeachdis/get";
-    }else if(n=='2'){
+    }else if(n=='2'){//上级医师查房
         html="/modules/clinic/course/courseRecordSuperiorDocrecor.html";
         postUrl=basePath+"/courseRecordSuperiorDocrecor/save";
         getUrl=basePath + "/courseRecordSuperiorDocrecor/get";
-    }else if(n=='3'){
+    }else if(n=='3'){//阶段小结
         html="/modules/clinic/course/courseRecordStage.html";
         postUrl=basePath + "/courseRecordState/save";
         getUrl=basePath + "/courseRecordState/get";
@@ -169,19 +169,20 @@ function saveCourseRecord(){
  * @param data
  */
 function getRowData(id,type){
-    $.ajax({
-        'type': 'post',
-        'url': getUrl,
-        'contentType': 'application/json',
-        'data': id=id,
-        'dataType': 'json',
-        'success': function(data){
-            $('#courseRecordForm').form('load',data);
-            getDiv('courseRecordForm');
-        }
-    })
-    $("#childrenDiv").load(getHtmlPath(type),'',function(){
 
+    $("#childrenDiv").load(getHtmlPath(type),'',function(){
+        $.ajax({
+            'type': 'post',
+            'url': getUrl,
+            'contentType': 'application/json',
+            'data': id=id,
+            'dataType': 'json',
+            'success': function(data){
+                $('#courseRecordForm').form('load',data);
+                getDiv('courseRecordForm');
+                return false;
+            }
+        })
     });
 
 }
