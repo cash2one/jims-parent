@@ -33,6 +33,7 @@ public class CourseRecordSuperiordocrecorServiceImpl extends CrudImplService<Cou
      */
     public String saveSuperior(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
         CourseRecord courseRecord =courseRecordSuperiordocrecor.getCourseRecord();
+        courseRecord.setId(courseRecordSuperiordocrecor.getBingchengId());
         if(courseRecord!=null){
             if(courseRecord!=null){
                 if (courseRecord.getIsNewRecord()){
@@ -47,7 +48,7 @@ public class CourseRecordSuperiordocrecorServiceImpl extends CrudImplService<Cou
         if(courseRecord!=null && courseRecord.getId()!=null){
             courseRecordSuperiordocrecor.setBingchengId(courseRecord.getId());//设置病程ID
         }
-        return super.save(courseRecordSuperiordocrecor);//保存上级医师查房
+        return save(courseRecordSuperiordocrecor);//保存上级医师查房
     }
 
     /**
