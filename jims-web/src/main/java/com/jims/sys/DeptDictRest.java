@@ -8,10 +8,7 @@ import com.jims.sys.entity.Dict;
 import com.jims.sys.entity.SysCompany;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -27,18 +24,20 @@ public class DeptDictRest {
 
 
     @Path("list")
-    @POST
+    @GET
     public List<DeptDict> merge() {
 
         List<DeptDict> list = deptDictApi.findAllList();
         return list;
     }
 
-    @Path("selectProperty")
-    @POST
-    public List<DeptDict> findProperty() {
 
-        List<DeptDict> list = deptDictApi.findProperty();
+
+    @Path("selectParent")
+    @POST
+    public List<DeptDict> findParent() {
+
+        List<DeptDict> list = deptDictApi.findParent();
         return list;
     }
 
@@ -51,9 +50,18 @@ public class DeptDictRest {
     @Path("add")
     @POST
     public StringData save(DeptDict deptDict) {
-        int num = deptDictApi.add(deptDict);
+
+       /* int num = deptDictApi.add(deptDict);
+        if(num!=0)
+        {
+            StringData stringData = new StringData();
+            stringData.setData("success");
+            return stringData;
+        }
+           return null;*/
+        System.out.print(deptDict.getId());
+        String num= deptDictApi.save(deptDict);
         StringData stringData = new StringData();
-       // stringData.setCode(num);
         stringData.setData("success");
         return stringData;
     }
@@ -70,5 +78,15 @@ public class DeptDictRest {
         }
         return null;
 
+    }
+
+    @Path("del")
+    @POST
+    public StringData del(String ids) {
+        String num = deptDictApi.delete(ids);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
     }
 }

@@ -7,10 +7,7 @@ import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.api.DeptPropertyDictApi;
 import com.jims.sys.api.SysCompanyApi;
-import com.jims.sys.entity.Dict;
-import com.jims.sys.entity.DrugDispensProperty;
-import com.jims.sys.entity.OrgDeptPropertyDict;
-import com.jims.sys.entity.SysCompany;
+import com.jims.sys.entity.*;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +42,13 @@ public class DeptPropertyDictRest {
         return pageData;
     }
 
+    @Path("selectProperty")
+    @POST
+    public List<OrgDeptPropertyDict> findProperty() {
+
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findProperty();
+        return list;
+    }
     /**
      * 获取单条数据
      *

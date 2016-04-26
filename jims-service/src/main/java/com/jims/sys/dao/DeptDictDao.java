@@ -20,7 +20,8 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
 
     public List<DeptDict> findAll();
 
-
     public List<DeptDict> findProperty();
+
+    public List<DeptDict> findParent();
 	
 }

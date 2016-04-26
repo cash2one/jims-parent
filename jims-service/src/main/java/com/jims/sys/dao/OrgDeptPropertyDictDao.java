@@ -30,4 +30,6 @@ public interface OrgDeptPropertyDictDao extends CrudDao<OrgDeptPropertyDict> {
     public List<OrgDeptPropertyDict> findNameByType();
 
 
+    public List<OrgDeptPropertyDict> findProperty();
+
 }

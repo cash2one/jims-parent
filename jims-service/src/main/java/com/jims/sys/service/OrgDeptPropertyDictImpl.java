@@ -40,4 +40,9 @@ public class OrgDeptPropertyDictImpl extends CrudImplService<OrgDeptPropertyDict
     public List<OrgDeptPropertyDict> findNameByType() {
         return dao.findNameByType();
     }
+
+    @Override
+    public List<OrgDeptPropertyDict> findProperty() {
+        return dao.findProperty();
+    }
 }
