@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.examclassdict.dao.ExamClassDictDao">
+    
+	<sql id="examClassDictColumns">
+		a.id AS "id",
+		a.serial_no AS "serialNo",
+		a.exam_class_code AS "examClassCode",
+		a.exam_class_name AS "examClassName",
+		a.input_code AS "inputCode",
+		a.perform_by AS "performBy",
+		a.print_style AS "printStyle",
+		a.specialties_dept AS "specialtiesDept",
+		a.loacal_id_class AS "loacalIdClass",
+		a.performed_by AS "performedBy",
+		a.seq_name AS "seqName",
+		a.creatr_by AS "creatrBy",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="examClassDictJoins">
+	</sql>
+    
+	<select id="get" resultType="ExamClassDict">
+		SELECT 
+			<include refid="examClassDictColumns"/>
+		FROM exam_class_dict a
+		<include refid="examClassDictJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ExamClassDict">
+		SELECT 
+			<include refid="examClassDictColumns"/>
+		FROM exam_class_dict a
+		<include refid="examClassDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ExamClassDict">
+		SELECT 
+			<include refid="examClassDictColumns"/>
+		FROM exam_class_dict a
+		<include refid="examClassDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO exam_class_dict(
+			id,
+			serial_no,
+			exam_class_code,
+			exam_class_name,
+			input_code,
+			perform_by,
+			print_style,
+			specialties_dept,
+			loacal_id_class,
+			performed_by,
+			seq_name,
+			creatr_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{serialNo},
+			#{examClassCode},
+			#{examClassName},
+			#{inputCode},
+			#{performBy},
+			#{printStyle},
+			#{specialtiesDept},
+			#{loacalIdClass},
+			#{performedBy},
+			#{seqName},
+			#{creatrBy},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE exam_class_dict SET 	
+			serial_no = #{serialNo},
+			exam_class_code = #{examClassCode},
+			exam_class_name = #{examClassName},
+			input_code = #{inputCode},
+			perform_by = #{performBy},
+			print_style = #{printStyle},
+			specialties_dept = #{specialtiesDept},
+			loacal_id_class = #{loacalIdClass},
+			performed_by = #{performedBy},
+			seq_name = #{seqName},
+			creatr_by = #{creatrBy},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE exam_class_dict SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
