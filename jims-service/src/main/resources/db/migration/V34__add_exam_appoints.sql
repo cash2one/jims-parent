@@ -1,4 +1,4 @@
-﻿﻿-- drop table EXAM_APPOINTS cascade constraints;
+﻿
 
 /*==============================================================*/
 /* Table: EXAM_APPOINTS      检查预约记录                                */

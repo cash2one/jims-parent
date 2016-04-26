@@ -16,7 +16,7 @@ create table COURSE_RECORD_SUPERIORDOCRECOR  (
    UPDATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(255),
    UPDATE_BY            VARCHAR2(255),
-   constraint "PK_course_record_superiordocrecord" primary key (ID)
+   constraint "PK_course_record_superiordoc" primary key (ID)
 );
 
 comment on table COURSE_RECORD_SUPERIORDOCRECOR is
