@@ -115,10 +115,11 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	<select id="getSuperiordByCourse" resultMap="superRecord">
+	<select id="getSuperiordByCourse" resultType="CourseRecordSuperiordocrecor">
 		SELECT
-		<include refid="courseRecordSuperiordocrecorColumns"/>
-		FROM course_record_superiordocrecor a
+	    a.id AS "id",a.bingcheng_id AS "bingchengId",a.content AS "content",b.type as "type",b.luru_shijian as "luruShijian"
+		FROM course_record_superiordocrecor a left join  course_record b
+        on a.bingcheng_id = b.id
 		WHERE a.bingcheng_id=#{courseRecordId}
 	</select>
 </mapper>

@@ -33,6 +33,7 @@ public class CourseRecordStageServiceImpl extends CrudImplService<CourseRecordSt
      */
     public String saveStage( CourseRecordStage courseRecordStage){
         CourseRecord courseRecord =  courseRecordStage.getCourseRecord();
+        courseRecord.setId(courseRecordStage.getBingchengId());
         if(courseRecord!=null){
             if (courseRecord.getIsNewRecord()){
                 courseRecord.preInsert();
@@ -43,7 +44,7 @@ public class CourseRecordStageServiceImpl extends CrudImplService<CourseRecordSt
             }
         }//保存阶段小结
         if(courseRecord!=null && courseRecord.getId()!=null){
-            courseRecordStage.setSetBingchengId(courseRecord.getId());//设置病程ID
+            courseRecordStage.setBingchengId(courseRecord.getId());//设置病程ID
         }
         return save(courseRecordStage);//保存阶段小结
     }
