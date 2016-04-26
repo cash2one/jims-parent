@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 public class DeptDict extends DataEntity<DeptDict> {
 	
 	private static final long serialVersionUID = 1L;
-	private String parenIdt;		// 父部门
+	private String parentId;		// 父部门
 	private String deptName;		// 部门名称
 	private String deptCode;		// 部门代码
 	private String deptPropertity;		// 科室属性
@@ -28,12 +28,12 @@ public class DeptDict extends DataEntity<DeptDict> {
 	}
 
 	@Length(min=0, max=64, message="父部门长度必须介于 0 和 64 之间")
-	public String getParenIdt() {
-		return parenIdt;
+	public String getParentId() {
+		return parentId;
 	}
 
-	public void setParenIdt(String parenIdt) {
-		this.parenIdt = parenIdt;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 	
 	@Length(min=0, max=100, message="部门名称长度必须介于 0 和 100 之间")
