@@ -1,4 +1,4 @@
-drop table ELECTRON_ENTER_HOSPITAL cascade constraints;
+-- drop table ELECTRON_ENTER_HOSPITAL cascade constraints;
 
 /*==============================================================*/
 /* Table: ELECTRON_ENTER_HOSPITAL     入院记录                          */
@@ -24,20 +24,20 @@ create table ELECTRON_ENTER_HOSPITAL  (
    XIUZHENGZHENDUAN     CLOB,
    ZHUGUANYISHENG       VARCHAR2(100),
    SHANGJIYISHI         VARCHAR2(100),
-   RIQI                 DATE,
+   RIQI                 TIMESTAMP,
    CREATE_BY            VARCHAR2(64),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(100 CHAR),
    DEL_FLAG             CHAR(1)                        default '0',
    BINGSHICHENSHUZHE    VARCHAR2(100),
    YUEJINGSHI           CLOB,
    TIGEJIANCHA          CLOB,
    XIAOJIEYUFENXI       CLOB,
-   CAIJIRIQI            DATE,
+   CAIJIRIQI            TIMESTAMP,
    ISDEPEND             VARCHAR2(50),
-   constraint "PK_electron_enter_hospital" primary key (ZHUYUAN_ID, PATIENT_ID)
+   constraint "PK_electron_enter_hospital" primary key (ID)
 );
 
 comment on table ELECTRON_ENTER_HOSPITAL is

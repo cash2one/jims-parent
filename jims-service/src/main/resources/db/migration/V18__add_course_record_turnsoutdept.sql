@@ -1,4 +1,4 @@
-drop table COURSE_RECORD_TURNSOUTDEPT cascade constraints;
+-- drop table COURSE_RECORD_TURNSOUTDEPT cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_TURNSOUTDEPT    转科（转出）记录                         */
@@ -6,7 +6,7 @@ drop table COURSE_RECORD_TURNSOUTDEPT cascade constraints;
 create table COURSE_RECORD_TURNSOUTDEPT  (
    ID                   VARCHAR2(64)                    not null,
    BINGCHENG_ID         VARCHAR2(64)                    not null,
-   RIQI                 DATE,
+   RIQI                 TIMESTAMP,
    ZHUSU                CLOB,
    RUYUANQINGKUANG      CLOB,
    RUYUANZHENDUAN       CLOB,
@@ -15,11 +15,11 @@ create table COURSE_RECORD_TURNSOUTDEPT  (
    MUQIANZHENDUAN       CLOB,
    ZHUANKEMUDI          CLOB,
    ZHUYISHIXIANG        CLOB,
-   SHIJIAN              DATE,
-   CREATE_DATE          DATE,
+   SHIJIAN              TIMESTAMP,
+   CREATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR2(1),
    REMARKS              VARCHAR2(255 CHAR),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(255),
    UPDATE_BY            VARCHAR2(255),
    constraint "PK_course_record_turnsoutdept" primary key (ID)

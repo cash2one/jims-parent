@@ -1,4 +1,4 @@
-﻿drop table EXAM_APPOINTS cascade constraints;
+﻿﻿-- drop table EXAM_APPOINTS cascade constraints;
 
 /*==============================================================*/
 /* Table: EXAM_APPOINTS      检查预约记录                                */
@@ -14,7 +14,7 @@ create table EXAM_APPOINTS
   NAME                VARCHAR2(20 CHAR),
   NAME_PHONETIC       VARCHAR2(20 CHAR),
   SEX                 VARCHAR2(64 CHAR),
-  DATE_OF_BIRTH       DATE,
+  DATE_OF_BIRTH       TIMESTAMP,
   BIRTH_PLACE         VARCHAR2(64 CHAR),
   IDENTITY            VARCHAR2(64 CHAR),
   CHARGE_TYPE         VARCHAR2(64 CHAR),
@@ -33,11 +33,11 @@ create table EXAM_APPOINTS
   PERFORMED_BY        VARCHAR2(64 CHAR),
   PATIENT_SOURCE      VARCHAR2(64 CHAR),
   FACILITY            VARCHAR2(20 CHAR),
-  REQ_DATE_TIME       DATE,
+  REQ_DATE_TIME       TIMESTAMP,
   REQ_DEPT            VARCHAR2(64 CHAR),
   REQ_PHYSICIAN       VARCHAR2(20 CHAR),
   REQ_MEMO            VARCHAR2(60 CHAR),
-  SCHEDULED_DATE      DATE,
+  SCHEDULED_DATE      TIMESTAMP,
   NOTICE              VARCHAR2(400 CHAR),
   COSTS               NUMBER(8,2),
   CHARGES             NUMBER(8,2),
@@ -65,12 +65,6 @@ create table EXAM_APPOINTS
   PRINT_STATUS        NUMBER(1),
   WARD_CODE           VARCHAR2(64 CHAR),
   RCPT_NO             VARCHAR2(20 CHAR),
-  CREATE_DATE         TIMESTAMP (6),
-  CREATE_BY            VARCHAR2(64 CHAR),
-  UPDATE_DATE          TIMESTAMP (6),
-  UPDATE_BY            VARCHAR2(64 CHAR),
-  REMARKS              VARCHAR2(255 CHAR),
-  DEL_FLAG             NUMBER (1),
   constraint PK_EXAM_APPOINTS primary key (ID)
 );
 -- Add comments to the table
@@ -155,15 +149,3 @@ comment on column EXAM_APPOINTS.WARD_CODE
   is '护理单元';
 comment on column EXAM_APPOINTS.RCPT_NO
   is '收据号';
-comment on column EXAM_APPOINTS.CREATE_DATE
-  is '创建日期';
-comment on column EXAM_APPOINTS.CREATE_BY
-  is '创建人';
-comment on column EXAM_APPOINTS.UPDATE_DATE
-  is '修改日期';
-comment on column EXAM_APPOINTS.UPDATE_BY
-  is '修改人';
-comment on column EXAM_APPOINTS.REMARKS
-  is '备注信息';
-comment on column EXAM_APPOINTS.DEL_FLAG
-  is '删除标志';  

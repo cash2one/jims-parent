@@ -1,4 +1,4 @@
-﻿drop table EXAM_ITEMS cascade constraints;
+﻿-- drop table EXAM_ITEMS cascade constraints;
 
 /*==============================================================*/
 /* Table: EXAM_ITEMS      检查项目                                */

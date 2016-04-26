@@ -1,6 +1,6 @@
-drop index BINGCHANG_ID;
+-- drop index BINGCHANG_ID;
 
-drop table COURSE_RECORD_STAGE cascade constraints;
+-- drop table COURSE_RECORD_STAGE cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_STAGE   阶段小结                                */
@@ -15,14 +15,14 @@ create table COURSE_RECORD_STAGE  (
    MUQIANZHENDUAN       CLOB,
    ZHENLIAOJIHUA        CLOB,
    CREATE_BY            VARCHAR2(64)                    not null,
-   CREATE_DATE          DATE                            not null,
+   CREATE_DATE          TIMESTAMP                            not null,
    UPDATE_BY            VARCHAR2(64)                    not null,
-   UPDATE_DATE          DATE                            not null,
+   UPDATE_DATE          TIMESTAMP                            not null,
    REMARKS              VARCHAR2(225 CHAR),
    DEL_FLAG             CHAR(1)                        default '0' not null,
    ZHUSU                CLOB,
-   LASTTIME             DATE,
-   NOWTIME              DATE
+   LASTTIME             TIMESTAMP,
+   NOWTIME              TIMESTAMP
 );
 
 comment on table COURSE_RECORD_STAGE is

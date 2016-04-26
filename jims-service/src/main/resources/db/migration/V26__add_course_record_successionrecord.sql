@@ -1,4 +1,4 @@
-drop table COURSE_RECORD_SUCCESSIONRECORD cascade constraints;
+-- drop table COURSE_RECORD_SUCCESSIONRECORD cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_SUCCESSIONRECORD     接班记录                   */
@@ -6,16 +6,16 @@ drop table COURSE_RECORD_SUCCESSIONRECORD cascade constraints;
 create table COURSE_RECORD_SUCCESSIONRECORD  (
    ID                   VARCHAR2(64)                    not null,
    BINGCHENG_ID         VARCHAR2(64)                    not null,
-   RIQI                 DATE,
+   RIQI                 TIMESTAMP,
    JIEBANQINGKUANG      CLOB,
    JIEBANZHENLIAO       CLOB,
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR2(1),
    REMARKS              VARCHAR2(255 CHAR),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(255),
    UPDATE_BY            VARCHAR2(255),
-   constraint "PK_course_record_successionrecords" primary key (ID)
+   constraint "PK_course_record_succession" primary key (ID)
 );
 
 comment on table COURSE_RECORD_SUCCESSIONRECORD is

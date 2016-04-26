@@ -1,4 +1,4 @@
-﻿drop table ELECTRON_GROUP_CONSULTATION cascade constraints;
+﻿-- drop table ELECTRON_GROUP_CONSULTATION cascade constraints;
 
 /*==============================================================*/
 /* Table: ELECTRON_GROUP_CONSULTATION     会诊主表                      */

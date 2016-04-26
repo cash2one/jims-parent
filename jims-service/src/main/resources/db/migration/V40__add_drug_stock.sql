@@ -1,4 +1,4 @@
-﻿drop table DRUG_STOCK cascade constraints;
+﻿-- drop table DRUG_STOCK cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: DRUG_STOCK      药品库存                                */
