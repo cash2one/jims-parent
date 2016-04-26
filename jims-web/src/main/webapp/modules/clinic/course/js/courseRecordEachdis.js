@@ -5,7 +5,7 @@ function saveEachdis() {
         if (data.code == "1") {
             $.messager.alert("��ʾ��Ϣ", "����ɹ�");
 } else {
-    $.messager.alert("��ʾ��Ϣ", "����ʧ��", "error");
+    $.messager.alert("��ʾ��Ϣ", "����ʧ  ��", "error");
 }
 
 }), function (data) {
