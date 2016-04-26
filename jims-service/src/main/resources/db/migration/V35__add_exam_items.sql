@@ -14,6 +14,12 @@ create table EXAM_ITEMS
   BILLING_INDICATOR NUMBER(1) default 0,
   RCPT_NO           VARCHAR2(20 CHAR),
   EXPLANATION       VARCHAR2(100 CHAR),
+  CREATE_DATE         TIMESTAMP (6),
+  CREATE_BY            VARCHAR2(64 CHAR),
+  UPDATE_DATE          TIMESTAMP (6),
+  UPDATE_BY            VARCHAR2(64 CHAR),
+  REMARKS              VARCHAR2(255 CHAR),
+  DEL_FLAG             NUMBER (1),
  constraint PK_EXAM_ITEMS primary key (ID)
 );
 -- Add comments to the table
@@ -34,3 +40,15 @@ comment on column EXAM_ITEMS.RCPT_NO
   is '收据号';
 comment on column EXAM_ITEMS.EXPLANATION
   is '退费说明';
+comment on column EXAM_ITEMS.CREATE_DATE
+  is '创建日期';
+comment on column EXAM_ITEMS.CREATE_BY
+  is '创建人';
+comment on column EXAM_ITEMS.UPDATE_DATE
+  is '修改日期';
+comment on column EXAM_ITEMS.UPDATE_BY
+  is '修改人';
+comment on column EXAM_ITEMS.REMARKS
+  is '备注信息';
+comment on column EXAM_ITEMS.DEL_FLAG
+  is '删除标志';  

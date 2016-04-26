@@ -124,6 +124,6 @@
 	<select id="getEachdisByCourse" resultMap="eachdisColums">
 		SELECT <include refid="courseRecordEachdisColumns"/>
 		FROM course_record_eachdis a
-		WHERE a.bingcheng_id=#{bingcheng_id}
+		WHERE a.bingcheng_id=#{courseRecordId}
 	</select>
 </mapper>
