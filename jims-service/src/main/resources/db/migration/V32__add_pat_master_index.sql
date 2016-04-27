@@ -1,4 +1,4 @@
-﻿drop table PAT_MASTER_INDEX cascade constraints;
+﻿-- drop table PAT_MASTER_INDEX cascade constraints;
 
 /*==============================================================*/
 /* Table: PAT_MASTER_INDEX     病人主索引                                 */
@@ -11,7 +11,7 @@ create table PAT_MASTER_INDEX
   NAME                  VARCHAR2(20 CHAR),
   NAME_PHONETIC         VARCHAR2(16 CHAR),
   SEX                   VARCHAR2(4 CHAR),
-  DATE_OF_BIRTH         DATE,
+  DATE_OF_BIRTH         TIMESTAMP,
   BIRTH_PLACE           VARCHAR2(100 CHAR),
   CITIZENSHIP           VARCHAR2(2 CHAR),
   NATION                VARCHAR2(10 CHAR),
@@ -28,9 +28,9 @@ create table PAT_MASTER_INDEX
   NEXT_OF_KIN_ADDR      VARCHAR2(100 CHAR),
   NEXT_OF_KIN_ZIP_CODE  VARCHAR2(6 CHAR),
   NEXT_OF_KIN_PHONE     VARCHAR2(16 CHAR),
-  LAST_VISIT_DATE       DATE,
+  LAST_VISIT_DATE       TIMESTAMP,
   VIP_INDICATOR         NUMBER(1),
-  CREATE_DATE           DATE,
+  CREATE_DATE           TIMESTAMP,
   OPERATOR              VARCHAR2(20 CHAR),
   SERVICE_AGENCY        VARCHAR2(40 CHAR),
   BUSINESS_ZIP_CODE     VARCHAR2(6 CHAR),

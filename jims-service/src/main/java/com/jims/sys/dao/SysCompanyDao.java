@@ -8,6 +8,8 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.SysCompany;
 
+import java.util.List;
+
 /**
  * 组织结构DAO接口
  * @author yangruidong
@@ -15,5 +17,17 @@ import com.jims.sys.entity.SysCompany;
  */
 @MyBatisDao
 public interface SysCompanyDao extends CrudDao<SysCompany> {
-	
+
+    /**
+     * 创建组织机构
+     * @param sysCompany
+     * @return
+     */
+ //   public int createSysCompany(SysCompany sysCompany);
+
+   /* public List<SysCompany> findAllList();*/
+
+    public List<SysCompany> findListByName();
+
+
 }

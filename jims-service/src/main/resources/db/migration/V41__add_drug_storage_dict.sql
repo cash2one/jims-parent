@@ -1,4 +1,4 @@
-﻿drop table DRUG_STORAGE_DEPT cascade constraints;
+﻿-- drop table DRUG_STORAGE_DEPT cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: DRUG_STORAGE_DEPT      药品库存单位字典                                */

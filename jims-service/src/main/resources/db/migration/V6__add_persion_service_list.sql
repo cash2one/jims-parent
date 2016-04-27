@@ -4,14 +4,14 @@ create table PERSION_SERVICE_LIST
    PERSION_ID           VARCHAR(64),
    MENU_ID              VARCHAR(64),
    FLAG                 VARCHAR(2),
-   SERVICE_START_DATE   DATE,
-   SERVICE_END_DATE     DATE,
+   SERVICE_START_DATE   TIMESTAMP,
+   SERVICE_END_DATE     TIMESTAMP,
    REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
    CREATE_BY           VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR(2),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    constraint PK_PERSION_SERVICE_LIST primary key (ID)
 );
 
