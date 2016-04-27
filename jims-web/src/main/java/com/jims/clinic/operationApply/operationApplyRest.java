@@ -1,13 +1,12 @@
 package com.jims.clinic.operationApply;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.google.common.collect.Lists;
 import com.jims.clinic.api.OperatioinSerivceApi;
-import com.jims.clinic.entity.*;
+import com.jims.clinic.entity.Operatioin;
+import com.jims.clinic.entity.OperationGrade;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +43,29 @@ public class operationApplyRest {
         pageData.setTotal(page.getCount());
         return pageData;
     }
+
     /**
-     *
+     * 保存申请记录
+     */
+    @Path("save")
+    @POST
+    public StringData save(Operatioin operatioin) {
+        OperationGrade operationGrade=new OperationGrade();
+        operationGrade.setOperatioin(operatioin);
+        List<OperationGrade> list=new ArrayList<OperationGrade>();
+        list.add(operationGrade);
+        operatioin.setList(list);
+        StringData data = new StringData();
+        String num = data.getCode();
+        if (operatioin != null) {
+            num = operatioinServiceApi.saveOperatioin(operatioin);
+        }
+        data.setCode(num);
+        data.setData("success");
+        return data;
+    }
+    /**
+     *删除手术申请
      * @param ids
      * @return
      */
@@ -59,22 +79,4 @@ public class operationApplyRest {
         return stringData;
     }
 
-    /**
-     * 保存每日病程
-     */
-    @Path("save")
-    @POST
-    public StringData save(Operatioin operatioin) {
-        StringData data = new StringData();
-        String num = data.getCode();
-        OperationGrade operationGrade=new OperationGrade();
-        operationGrade.setOperatioin(operatioin);
-        List<OperationGrade> list=new ArrayList<OperationGrade>();
-        list.add(operationGrade);
-        operatioin.setList(list);
-        num=operatioinServiceApi.saveOperatioin(operatioin);
-        data.setCode("1");
-        data.setData("success");
-        return data;
-    }
 }
