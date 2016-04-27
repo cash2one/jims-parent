@@ -1,4 +1,3 @@
-drop table SYS_DICT cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: SYS_DEPT      公共字典                                */

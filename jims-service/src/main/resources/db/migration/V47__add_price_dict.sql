@@ -199,7 +199,6 @@ values ('99', '手术费', 'G', 'INP_RCPT_FEE_DICT', '住院收据类别', 10, n
 insert into SYS_DICT (ID, LABEL, VALUE, TYPE, DESCRIPTION, SORT, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG, INPUT_CODE)
 values ('100', '化验费', 'H', 'INP_RCPT_FEE_DICT', '住院收据类别', 10, null, null, null, null, null, '0', 'HYF');
 commit;
-prompt 100 records committed...
 insert into SYS_DICT (ID, LABEL, VALUE, TYPE, DESCRIPTION, SORT, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG, INPUT_CODE)
 values ('101', '其他费', 'I', 'INP_RCPT_FEE_DICT', '住院收据类别', 10, null, null, null, null, null, '0', 'QTF');
 insert into SYS_DICT (ID, LABEL, VALUE, TYPE, DESCRIPTION, SORT, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG, INPUT_CODE)
