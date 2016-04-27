@@ -43,7 +43,6 @@ public class operationApplyRest {
         pageData.setTotal(page.getCount());
         return pageData;
     }
-
     /**
      * 保存申请记录
      */
@@ -72,11 +71,10 @@ public class operationApplyRest {
     @Path("del")
     @POST
     public StringData del(String ids){
-        String num=operatioinServiceApi.delete(ids);
         StringData stringData=new StringData();
+        String num=operatioinServiceApi.delete(ids);
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
     }
-
 }
