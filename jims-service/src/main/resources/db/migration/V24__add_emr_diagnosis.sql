@@ -1,4 +1,4 @@
-drop table EMR_DIAGNOSIS cascade constraints;
+-- drop table EMR_DIAGNOSIS cascade constraints;
 
 /*==============================================================*/
 /* Table: EMR_DIAGNOSIS       诊断列表                                    */
@@ -11,9 +11,9 @@ create table EMR_DIAGNOSIS  (
    DIAGNOSIS_ID          VARCHAR2(500),
    ITEM_NO               INTEGER,
    CREATE_BY            VARCHAR2(64),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(100 CHAR),
    DEL_FLAG             CHAR(1),
    DESCRIPTION          CLOB,

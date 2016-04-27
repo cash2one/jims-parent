@@ -1,4 +1,4 @@
-﻿drop table OUTP_ORDERS_COSTS cascade constraints;;
+﻿-- drop table OUTP_ORDERS_COSTS cascade constraints;;
 /*==============================================================*/
 /* Table: OUTP_ORDERS_COSTS         门诊医师收费明细                                   */
 /*==============================================================*/
@@ -6,7 +6,7 @@ create table OUTP_ORDERS_COSTS
 (
    ID                   VARCHAR2(64 CHAR)    not null,
    PATIENT_ID           VARCHAR2(64 CHAR),
-   VISIT_DATE           DATE,
+   VISIT_DATE           TIMESTAMP,
    VISIT_NO             NUMBER(10),
    SERIAL_NO            VARCHAR2(10 CHAR )   not null,
    ORDER_CLASS          VARCHAR2(2 CHAR)     not null,
@@ -35,12 +35,12 @@ create table OUTP_ORDERS_COSTS
    PRICE_QUOTIETY       NUMBER(7,4),
    ITEM_PRICE           NUMBER(10,4),
    CLINIC_NO            VARCHAR2(20 CHAR),
-   BILL_DATE            DATE,
+   BILL_DATE            TIMESTAMP,
    BILL_NO              NUMBER(5),
    WARD_CODE            VARCHAR2(64 CHAR),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(64 CHAR),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64 CHAR),
    REMARKS              VARCHAR2(200 CHAR),
    DEL_FLAG             NUMBER(1),

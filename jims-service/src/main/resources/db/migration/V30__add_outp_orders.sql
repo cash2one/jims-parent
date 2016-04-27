@@ -1,4 +1,4 @@
-﻿drop table OUTP_ORDERS cascade constraints;
+﻿-- drop table OUTP_ORDERS cascade constraints;
 /*==============================================================*/
 /* Table: OUTP_ORDERS         门诊医嘱主记录                                */
 /*==============================================================*/
@@ -6,19 +6,19 @@ create table OUTP_ORDERS
 (
    ID                   VARCHAR2(64 CHAR)    not null,
    PATIENT_ID           VARCHAR2(64 CHAR),
-   VISIT_DATE           DATE,
+   VISIT_DATE           TIMESTAMP,
    VISIT_NO             NUMBER(5),
    SERIAL_NO            VARCHAR2(10),
    ORDERED_BY           VARCHAR2(8),
    DOCTOR               VARCHAR2(20),
-   ORDER_DATE           DATE,
+   ORDER_DATE           TIMESTAMP,
    CLINIC_NO            VARCHAR2(15),
    DOCTOR_NO            VARCHAR2(16),
    NURSE                VARCHAR2(16),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(64 CHAR),
    UPDATE_BY            VARCHAR2(64 CHAR),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(200 CHAR),
    DEL_FLAG             NUMBER(1),
    constraint PK_OUTP_ORDERS primary key (ID)

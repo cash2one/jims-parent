@@ -3,9 +3,10 @@
  */
 package com.jims.sys.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 组织结构Entity
@@ -15,7 +16,7 @@ import org.hibernate.validator.constraints.Length;
 public class SysCompany extends DataEntity<SysCompany> {
 	
 	private static final long serialVersionUID = 1L;
-	private SysCompany parent;		// 父机构ID
+	private String parentId;		// 父机构ID
 	private String orgName;		// 组织结构名称
 	private String orgCode;		// 组织结构代码
 	private String zipCode;		// zip_code
@@ -34,16 +35,15 @@ public class SysCompany extends DataEntity<SysCompany> {
 		super(id);
 	}
 
-	@JsonBackReference
-	public SysCompany getParent() {
-		return parent;
-	}
+    public String getParentId() {
+        return parentId;
+    }
 
-	public void setParent(SysCompany parent) {
-		this.parent = parent;
-	}
-	
-	@Length(min=0, max=50, message="组织结构名称长度必须介于 0 和 50 之间")
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    @Length(min=0, max=50, message="组织结构名称长度必须介于 0 和 50 之间")
 	public String getOrgName() {
 		return orgName;
 	}

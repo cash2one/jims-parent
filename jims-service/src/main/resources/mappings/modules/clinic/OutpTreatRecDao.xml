@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.OutpTreatRecDao">
+    
+	<sql id="outpTreatRecColumns">
+		a.id AS "id",
+		a.visit_date AS "visitDate",
+		a.visit_no AS "visitNo",
+		a.serial_no AS "serialNo",
+		a.item_no AS "itemNo",
+		a.item_class AS "itemClass",
+		a.item_code AS "itemCode",
+		a.item_name AS "itemName",
+		a.item_spec AS "itemSpec",
+		a.units AS "units",
+		a.amount AS "amount",
+		a.frequency AS "frequency",
+		a.performed_by AS "performedBy",
+		a.costs AS "costs",
+		a.charges AS "charges",
+		a.charge_indicator AS "chargeIndicator",
+		a.appoint_no AS "appointNo",
+		a.appoint_item_no AS "appointItemNo",
+		a.freq_detail AS "freqDetail",
+		a.ward_code AS "wardCode",
+		a.explanation AS "explanation",
+		a.rcpt_no AS "rcptNo",
+		a.bill_visit_no AS "billVisitNo",
+		a.bill_visit_date AS "billVisitDate",
+		a.operator_trturn AS "operatorTrturn",
+		a.date_trturn AS "dateTrturn",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpTreatRecJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpTreatRec">
+		SELECT 
+			<include refid="outpTreatRecColumns"/>
+		FROM outp_treat_rec a
+		<include refid="outpTreatRecJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpTreatRec">
+		SELECT 
+			<include refid="outpTreatRecColumns"/>
+		FROM outp_treat_rec a
+		<include refid="outpTreatRecJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpTreatRec">
+		SELECT 
+			<include refid="outpTreatRecColumns"/>
+		FROM outp_treat_rec a
+		<include refid="outpTreatRecJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO outp_treat_rec(
+			id,
+			visit_date,
+			visit_no,
+			serial_no,
+			item_no,
+			item_class,
+			item_code,
+			item_name,
+			item_spec,
+			units,
+			amount,
+			frequency,
+			performed_by,
+			costs,
+			charges,
+			charge_indicator,
+			appoint_no,
+			appoint_item_no,
+			freq_detail,
+			ward_code,
+			explanation,
+			rcpt_no,
+			bill_visit_no,
+			bill_visit_date,
+			operator_trturn,
+			date_trturn,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{visitDate},
+			#{visitNo},
+			#{serialNo},
+			#{itemNo},
+			#{itemClass},
+			#{itemCode},
+			#{itemName},
+			#{itemSpec},
+			#{units},
+			#{amount},
+			#{frequency},
+			#{performedBy},
+			#{costs},
+			#{charges},
+			#{chargeIndicator},
+			#{appointNo},
+			#{appointItemNo},
+			#{freqDetail},
+			#{wardCode},
+			#{explanation},
+			#{rcptNo},
+			#{billVisitNo},
+			#{billVisitDate},
+			#{operatorTrturn},
+			#{dateTrturn},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_treat_rec SET 	
+			visit_date = #{visitDate},
+			visit_no = #{visitNo},
+			serial_no = #{serialNo},
+			item_no = #{itemNo},
+			item_class = #{itemClass},
+			item_code = #{itemCode},
+			item_name = #{itemName},
+			item_spec = #{itemSpec},
+			units = #{units},
+			amount = #{amount},
+			frequency = #{frequency},
+			performed_by = #{performedBy},
+			costs = #{costs},
+			charges = #{charges},
+			charge_indicator = #{chargeIndicator},
+			appoint_no = #{appointNo},
+			appoint_item_no = #{appointItemNo},
+			freq_detail = #{freqDetail},
+			ward_code = #{wardCode},
+			explanation = #{explanation},
+			rcpt_no = #{rcptNo},
+			bill_visit_no = #{billVisitNo},
+			bill_visit_date = #{billVisitDate},
+			operator_trturn = #{operatorTrturn},
+			date_trturn = #{dateTrturn},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_treat_rec SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

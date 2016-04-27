@@ -1,6 +1,6 @@
-drop index RICHANGBINGLI_ID;
+-- drop index RICHANGBINGLI_ID;
 
-drop table COURSE_RECORD_INTODEPT cascade constraints;
+-- drop table COURSE_RECORD_INTODEPT cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_INTODEPT   转科转入                             */
@@ -16,9 +16,9 @@ create table COURSE_RECORD_INTODEPT  (
    MUQIANZHENDUAN       CLOB,
    ZHENLIAOJIHUA        CLOB,
    CREATE_BY            VARCHAR2(64),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(225 CHAR),
    DEL_FLAG             CHAR(1),
    constraint "PK_course_record_intodept" primary key (ID, BINGCHENG_ID)
