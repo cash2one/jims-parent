@@ -1,7 +1,6 @@
 package com.jims.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
@@ -11,8 +10,12 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import java.util.List;
 
 /**
  * Created by heren on 2016/4/5.
@@ -80,5 +83,21 @@ public class DictRest {
             stringData.setCode(num);
             stringData.setData("success");
             return stringData;
+        }
+
+        /**
+         * 获取指定类型的数据
+         * @param type
+         * @return
+         */
+        @Path("findType")
+        @GET
+        public List<String> findListType(String type){
+            List<String> data =dictService.findListType(type);
+            for(int i=0;i<data.size();i++){
+               String b=  data.get(i);
+                System.out.print("b="+b);
+            }
+            return data;
         }
 }
