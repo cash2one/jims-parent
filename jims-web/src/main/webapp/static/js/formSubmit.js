@@ -14,7 +14,6 @@ function getDiv(fromId){
         var inputId=$(this).attr("submit_id");
         if(typeof(inputId) != "undefined"){
             $(this).html( $("#"+inputId).val());
-
         }
     })
 }

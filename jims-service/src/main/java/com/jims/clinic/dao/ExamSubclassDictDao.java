@@ -3,18 +3,19 @@
  */
 package com.jims.clinic.dao;
 
-import com.jims.clinic.entity.ExamClassDict;
+
+import com.jims.clinic.entity.ExamSubclassDict;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 
 import java.util.List;
 
 /**
- * ExamClassDictDAO接口
+ * ExamSubclassDictDAO接口
  * @author zhangpeng
- * @version 2016-04-26
+ * @version 2016-04-27
  */
 @MyBatisDao
-public interface ExamClassDictDao extends CrudDao<ExamClassDict> {
-    public List getEx();
+public interface ExamSubclassDictDao extends CrudDao<ExamSubclassDict> {
+	public List getEx(String examClassName);
 }

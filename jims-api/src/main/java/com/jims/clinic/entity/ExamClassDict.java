@@ -3,9 +3,8 @@
  */
 package com.jims.clinic.entity;
 
+import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
-
-import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
  * ExamClassDictEntity

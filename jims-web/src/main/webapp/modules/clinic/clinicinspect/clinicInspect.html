@@ -17,58 +17,65 @@
         </table>
     </div>
 
-    <div data-options="region:'center',iconCls:'icon-ok'">
-        <form id="fm" method="post">
+    <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
+        <form id="clinicInspectForm" method="post">
             <div class="fitem fitem_pop">
                 <div class="fitem">
                     <label>
                         类别：
                     </label>
-                    <input name="contact.province"  id="province" style="width: 145px;" >
-                    <input   name="contact.city" id="city" style="width: 145px;">
+                    <input name="examClassName"  id="examClassNameId" style="width: 145px;" >
+                    <input name="examSubclassName" id="examSubclassNameId" style="width: 145px;">
                     &nbsp;
-                    <input title="" placeholder="发往科室"  name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;" required="true">
+                    <input title="" placeholder="发往科室"  name="reqDept" class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;" required="true">
                 </div>
                     <div class="fitem">
                         <label>
                             项目：
                         </label>
-                        <textarea class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea"></textarea>
+                        <div  id="target" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea">
+                        </div>
                         <div class="tarea-cbtn">
                             <button class="tlr-btn">&lt;&lt;</button><br/>
                             <button class="tlr-btn" style="margin:10px 0;">&gt;&gt;</button>
                         </div>
-                        <textarea class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea" ></textarea>
+                        <div id="descriptionId" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea">
+                            <div id="d1" class="drag">
+
+                            </div>
+
+                        </div>
+
                     </div>
                     <div class="fitem">
                     <label>
                         症状：
                     </label>
-                    <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                    <input title="" name="clinSymp" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
                 </div>
                 <div class="fitem">
                     <label>
                         体征：
                     </label>
-                    <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                    <input title="" name="physSign" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
                 </div>
                 <div class="fitem">
                     <label>
                         临床诊断：
                     </label>
-                    <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                    <input title="" name="clinDiag" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
                 </div>
                 <div class="fitem">
                     <label>
                         其他诊断：
                     </label>
-                    <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                    <input title="" name="relevantDiag" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
                 </div>
                 <div class="fitem">
                     <label>
                         相关化验结果：
                     </label>
-                    <textarea class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
+                    <textarea id="relevantLabTest" class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
                 </div>
                 <div class="fitem">
                     <label>

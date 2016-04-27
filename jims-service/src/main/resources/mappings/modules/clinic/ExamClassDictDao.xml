@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.thinkgem.jeesite.modules.examclassdict.dao.ExamClassDictDao">
+<mapper namespace="com.jims.clinic.dao.ExamClassDictDao">
     
 	<sql id="examClassDictColumns">
 		a.id AS "id",
@@ -133,5 +133,16 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+	<select id="getEx" resultType="ExamClassDict">
+		SELECT
+			id,
+			exam_class_code,
+			exam_class_name,
+			perform_by,
+			loacal_id_class,
+			performed_by
+			FROM exam_class_dict
+	</select>
 	
 </mapper>
