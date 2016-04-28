@@ -79,6 +79,13 @@ public class ElectronGroupConsultationInService extends CrudImplService<Electron
      */
     public void saveOtherIdea(ElectronGroupConsultationIn electronGroupConsultationIn){
         dao.saveOtherIdea(electronGroupConsultationIn);
+        electronGroupConsultationIn = get(electronGroupConsultationIn.getId());
+           if(electronGroupConsultationIn!=null) {
+               ElectronGroupConsultation electronGroupConsultation =electronGroupConsultationDao.
+               get(electronGroupConsultationIn.getHuizhenId());
+               electronGroupConsultation.setIdeaFlag("1");
+               electronGroupConsultationDao.update(electronGroupConsultation);
+           }
     }
 
     /**
