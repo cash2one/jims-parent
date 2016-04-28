@@ -21,7 +21,8 @@ create table ELECTRON_GROUP_CONSULTATION
   FABUFLAG        NUMBER (1),
   DEL_FLAG        NUMBER (1),
   IDEA_FLAG       NUMBER (1),
-   constraint "PK_electron_group" primary key (ID);
+   constraint "PK_electron_group" primary key (ID)
+   );
 -- Add comments to the table
 comment on table ELECTRON_GROUP_CONSULTATION
   is '会诊记录';
