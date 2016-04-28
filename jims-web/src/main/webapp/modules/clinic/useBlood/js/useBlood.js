@@ -10,7 +10,7 @@ function onloadMethod(){
         method:'get',
         collapsible:false,//是否可折叠的
         fit: true,//自动大小
-        url:basePath+'/operationApply/list',
+        url:basePath+'',
         remoteSort:false,
         idField:'fldId',
         singleSelect:false,//是否单选
@@ -18,12 +18,13 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'mazuifangfa',title:'麻醉方法',width:'18%',align:'center'},
-            {field:'shoushuDoctor',title:'手术医师',width:'18%',align:'center'},
-            {field:'shoushuDate',title:'手术时间',width:'30%',align:'center',formatter:formatDateBoxFull},
+            {field:'mazuifangfa',title:'科室',width:'18%',align:'center'},
+            {field:'shoushuDoctor',title:'血源',width:'18%',align:'center'},
+            {field:'shoushuDoctor',title:'用血量',width:'18%',align:'center'},
+            {field:'shoushuDoctor',title:'血液成分',width:'18%',align:'center'},
+            {field:'shoushuDate',title:'申请时间',width:'30%',align:'center',formatter:formatDateBoxFull},
             {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
-                var state="1";
-                var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\''+row.id+'\',\''+state+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
+                var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
                     '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                 return html;
@@ -113,10 +114,7 @@ function doDelete() {
  * 显示修改
  * @param data
  */
-function getOperation(id,state){
-    if(state=="1"){
-        $("#pperationApply").hide();
-    }
+function getOperation(id){
     $.ajax({
         'type': 'post',
         'url': basePath+'/operationApply/getOperation',
@@ -158,6 +156,4 @@ function del(id){
         }
     });
 }
-
-
 
