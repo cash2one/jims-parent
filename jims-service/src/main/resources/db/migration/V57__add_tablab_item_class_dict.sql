@@ -10,13 +10,7 @@ create table LAB_ITEM_CLASS_DICT
   UPDATE_DATE TIMESTAMP(6),
   DEL_FLAG    VARCHAR2(2),
   CREATE_DATE TIMESTAMP(6),
-  ORG_ID      VARCHAR2(64),
-  REMARKS                VARCHAR2(2000),
-  UPDATE_BY              VARCHAR2(64),
-  CREATE_BY              VARCHAR2(64),
-  UPDATE_DATE            TIMESTAMP(6),
-  DEL_FLAG               VARCHAR2(2),
-  CREATE_DATE            TIMESTAMP(6)
+  ORG_ID      VARCHAR2(64)
 );
 -- Add comments to the table 
 comment on table LAB_ITEM_CLASS_DICT
