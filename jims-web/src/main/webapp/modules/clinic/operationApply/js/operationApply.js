@@ -117,6 +117,10 @@ function getOperation(id,state){
     if(state=="1"){
         $("#pperationApply").hide();
     }
+    else
+    {
+        $("#pperationApply").show();
+    }
     $.ajax({
         'type': 'post',
         'url': basePath+'/operationApply/getOperation',
