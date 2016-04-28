@@ -22,7 +22,8 @@ function onloadMethod(){
             {field:'shoushuDoctor',title:'手术医师',width:'18%',align:'center'},
             {field:'shoushuDate',title:'手术时间',width:'30%',align:'center',formatter:formatDateBoxFull},
             {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
-                var html='<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
+                var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
+                    '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                 return html;
             }}
@@ -57,11 +58,14 @@ function onloadMethod(){
  * @param id
  */
 function savePperationApply() {
+    $("#patientId").attr("value","123");
+    $("#zhuyuanId").attr("value","123");
     $.postForm(basePath + "/operationApply/save", "operationApplyForm", function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
             $('#list_data').datagrid('load');
             $('#list_data').datagrid('clearChecked');
+            $("#operationApplyForm").form("clear");
             //$("#operationApplyForm").form('clear');
         } else {
             $.messager.alert("提示信息", "保存失败", "error");
