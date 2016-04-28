@@ -1,7 +1,6 @@
 -- Create table
 create table EXAM_SUBCLASS_DICT
 (
-  SERIAL_NO          NUMBER(4),
   EXAM_CLASS_NAME    VARCHAR2(10) not null,
   EXAM_SUBCLASS_NAME VARCHAR2(12) not null,
   INPUT_CODE         VARCHAR2(8),
@@ -18,8 +17,6 @@ create table EXAM_SUBCLASS_DICT
 comment on table EXAM_SUBCLASS_DICT
   is '检查项目子类';
 -- Add comments to the columns
-comment on column EXAM_SUBCLASS_DICT.SERIAL_NO
-  is '序号';
 comment on column EXAM_SUBCLASS_DICT.EXAM_CLASS_NAME
   is '检查类别名称';
 comment on column EXAM_SUBCLASS_DICT.EXAM_SUBCLASS_NAME
