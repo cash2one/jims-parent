@@ -1,4 +1,4 @@
-drop table COURSE_RECORD_SHIFTRECORDS cascade constraints;
+-- drop table COURSE_RECORD_SHIFTRECORDS cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_SHIFTRECORDS    交班记录                        */
@@ -6,7 +6,7 @@ drop table COURSE_RECORD_SHIFTRECORDS cascade constraints;
 create table COURSE_RECORD_SHIFTRECORDS  (
    ID                   VARCHAR2(64)                    not null,
    BINGCHENG_ID         VARCHAR2(64)                    not null,
-   JILURIQI             DATE,
+   JILURIQI             TIMESTAMP,
    ZHUSU                CLOB,
    RUYUANQINGKUANG      CLOB,
    RUYUANZHENDUAN       CLOB,
@@ -14,10 +14,10 @@ create table COURSE_RECORD_SHIFTRECORDS  (
    MUQIANQINGKUANG      CLOB,
    MUQIANZHENDUAN       CLOB,
    ZHUYISHIXIANG        CLOB,
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR2(1),
    REMARKS              VARCHAR2(225 CHAR),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(255),
    UPDATE_BY            VARCHAR2(255),
    constraint "PK_course_record_shiftrecords" primary key (ID)

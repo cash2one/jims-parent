@@ -1,6 +1,6 @@
-drop index BINGCHANG_ID2;
+-- drop index BINGCHANG_ID2;
 
-drop table COURSE_RECORD_CASEDISCUS cascade constraints;
+-- drop table COURSE_RECORD_CASEDISCUS cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_CASEDISCUS  死亡病例讨论记录                             */
@@ -8,7 +8,7 @@ drop table COURSE_RECORD_CASEDISCUS cascade constraints;
 create table COURSE_RECORD_CASEDISCUS  (
    ID                   VARCHAR2(64)                    not null,
    BINGCHENG_ID         VARCHAR2(64)                    not null,
-   TAOLUNRIQI           DATE,
+   TAOLUNRIQI           TIMESTAMP,
    TAOLUNDIDIAN         CLOB,
    TAOLUNMUDI           CLOB,
    CANJIARENYUAN        CLOB,
@@ -19,7 +19,7 @@ create table COURSE_RECORD_CASEDISCUS  (
    ZHUCHIRENZONG        CLOB,
    CREATE_DATE          CLOB,
    UPDATE_BY            CLOB,
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              CLOB,
    DEL_FLAG             CHAR(1)                        default '0',
    ZHUCHIRENZHICHENG    VARCHAR2(64),

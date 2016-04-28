@@ -41,6 +41,15 @@
 		GROUP BY type
 		ORDER BY type
 	</select>
+
+    <select id="findListType" resultType="string">
+        SELECT
+            label
+        FROM sys_dict
+        WHERE type =#{type}
+        Group BY label
+        ORDER BY label
+    </select>
 	
 	<insert id="insert">
 		INSERT INTO sys_dict(

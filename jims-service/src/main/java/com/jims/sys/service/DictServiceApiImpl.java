@@ -3,15 +3,14 @@
  */
 package com.jims.sys.service;
 
-import java.util.List;
-
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -31,5 +30,7 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
 		return dao.findTypeList(new Dict());
 	}
 
-
+    public List<String> findListType(String dict){
+        return dao.findListType(dict);
+    }
 }

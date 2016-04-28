@@ -5,8 +5,6 @@ package com.jims.sys.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.Dict;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,5 +50,10 @@ public interface DictServiceApi {
      */
 	public String delete(String ids);
 
-
+    /**
+     * 获取指定类型列表
+     * @param type
+     * @return
+     */
+    public List<String> findListType(String type);
 }
