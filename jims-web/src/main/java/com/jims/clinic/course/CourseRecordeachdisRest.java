@@ -52,8 +52,6 @@ public class CourseRecordeachdisRest{
     @POST
     public CourseRecordEachdis get(String id){
         CourseRecordEachdis courseRecordEachdis=courseRecordEachdisApi.getEachdisByCourseRecordId(id);
-        courseRecordEachdis.setLuruShijian(courseRecordEachdis.getCourseRecord().getLuruShijian());
-        courseRecordEachdis.setType(courseRecordEachdis.getCourseRecord().getType());
         return courseRecordEachdis;
     }
 }
