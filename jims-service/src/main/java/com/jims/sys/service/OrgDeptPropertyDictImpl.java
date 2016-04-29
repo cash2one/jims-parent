@@ -17,9 +17,9 @@ import java.util.List;
 
 
 /**
- * 字典Service
- * @author zhangyao
- * @version 2014-05-18
+ * 科室属性Service
+ * @author yangruidongr
+ * @version 2016-04-23
  */
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
@@ -37,12 +37,68 @@ public class OrgDeptPropertyDictImpl extends CrudImplService<OrgDeptPropertyDict
      * @return
      */
     @Override
-    public List<OrgDeptPropertyDict> findNameByType() {
-        return dao.findNameByType();
+    public List<OrgDeptPropertyDict> findNameByType(String propertyType) {
+        return dao.findNameByType(propertyType);
     }
 
+    /**
+     * 根据属性类型和属性值查询属性名称
+     * @param propertyType
+     * @param propertyValue
+     * @return
+     */
+    @Override
+    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue) {
+        return dao.findNameByTypeAndValue(propertyType,propertyValue);
+    }
+
+    /**
+     *  查询所有的属性类型
+     * @return
+     */
     @Override
     public List<OrgDeptPropertyDict> findProperty() {
         return dao.findProperty();
     }
+
+    /**
+     * 查询所有的属性信息
+     * @return
+     */
+    @Override
+    public List<OrgDeptPropertyDict> findList() {
+        return dao.findList();
+    }
+
+    /**
+     * 根据条件查询所有的属性信息
+     * @param orgDeptPropertyDict
+     * @return
+     */
+    @Override
+    public List<OrgDeptPropertyDict> findByCondition(OrgDeptPropertyDict orgDeptPropertyDict) {
+
+        return dao.findByCondition(orgDeptPropertyDict);
+    }
+
+    /**
+     * 查询属性的名称
+     * @param propertyType
+     * @return
+     */
+    @Override
+    public List<OrgDeptPropertyDict> findName(String propertyType) {
+        return dao.findName(propertyType);
+    }
+
+    /**
+     * 查询最大的排序值
+     * @return
+     */
+    @Override
+    public OrgDeptPropertyDict findSort() {
+        return dao.findSort();
+    }
+
+
 }

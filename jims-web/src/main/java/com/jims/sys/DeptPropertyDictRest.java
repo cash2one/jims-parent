@@ -27,11 +27,18 @@ import java.util.List;
 public class DeptPropertyDictRest {
 
     @Reference(version = "1.0.0")
-    private DeptPropertyDictApi  deptPropertyDictApi;
+    private DeptPropertyDictApi deptPropertyDictApi;
 
     @Reference(version = "1.0.0")
     private SysCompanyApi sysCompanyApi;
 
+    /**
+     * 分页查询科室属性信息
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     @GET
     @Path("list")
     public PageData list(@Context HttpServletRequest request, @Context HttpServletResponse response) {
@@ -42,13 +49,34 @@ public class DeptPropertyDictRest {
         return pageData;
     }
 
-    @Path("selectProperty")
+
+    /**
+     * 根据条件查询科室属性信息
+     *
+     * @param orgDeptPropertyDict
+     * @return
+     */
     @POST
+    @Path("findByCondition")
+    public List<OrgDeptPropertyDict> findByCondition(OrgDeptPropertyDict orgDeptPropertyDict) {
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findByCondition(orgDeptPropertyDict);
+        return list;
+    }
+
+
+    /**
+     * 查询属性信息
+     *
+     * @return
+     */
+    @Path("selectProperty")
+    @GET
     public List<OrgDeptPropertyDict> findProperty() {
 
         List<OrgDeptPropertyDict> list = deptPropertyDictApi.findProperty();
         return list;
     }
+
     /**
      * 获取单条数据
      *
@@ -79,11 +107,13 @@ public class DeptPropertyDictRest {
      * @return
      */
     @POST
-    @Path("selectName")
-    public List<OrgDeptPropertyDict> findNameByType() {
-        return deptPropertyDictApi.findNameByType();
-    }
+    @Path("selectName/{deptPropertity}")
+    public List<OrgDeptPropertyDict> findNameByType(@PathParam("deptPropertity") String deptPropertity) {
 
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findNameByType(deptPropertity);
+        System.out.print(list.toString());
+        return list;
+    }
 
 
     /**
@@ -96,9 +126,21 @@ public class DeptPropertyDictRest {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public StringData save(OrgDeptPropertyDict orgDeptPropertyDict) {
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findName(orgDeptPropertyDict.getPropertyType());
+        OrgDeptPropertyDict sort = deptPropertyDictApi.findSort();
+        if (list.size() > 0) {
+            orgDeptPropertyDict.setSort(null);
+        } else {
+            if (sort.getSort() == null) {
+                orgDeptPropertyDict.setSort(0L);
+            } else {
+                orgDeptPropertyDict.setSort(sort.getSort() + 1);
+            }
+
+        }
+
         int num = deptPropertyDictApi.add(orgDeptPropertyDict);
-        if(num!=0)
-        {
+        if (num != 0) {
             StringData stringData = new StringData();
             stringData.setData("success");
             return stringData;
