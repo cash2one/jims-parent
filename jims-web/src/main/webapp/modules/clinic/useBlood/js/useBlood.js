@@ -1,7 +1,10 @@
 var editRow = undefined;
 var serialNo='';
-var administration = [{ "value": "1", "text": "科室1" }, { "value": "2", "text": "科室2" }, { "value": "3", "text": "科室3" }, { "value": "4", "text": "科室4" }, { "value": "5", "text": "科室5" }];
-var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医生" }, { "value": "3", "text": "医生" }, { "value": "4", "text": "医生" }, { "value": "5", "text": "医生" }];
+var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
+var userBlood = [{"value": "1", "text": "全血"}, {"value": "2", "text": "全血1"}, {
+    "value": "3",
+    "text": "全血2"
+}, {"value": "4", "text": "全血3"}];
 $(function(){
     $('#list_doctor').datagrid({
         singleSelect: true,
@@ -11,29 +14,25 @@ $(function(){
         url:basePath+'/operationApply/list',
         columns:[[
             {field:'id',title:'id',hidden:true,align:'center'},
+            {field: 'description', title: '用血方式', width: '20%', align: 'center', editor: 'text'},
             //每个列具体内容
-            {field:'officeId',title:'科室',width:'50%',align:'center',editor:{
+            {field: 'description', title: '预订输血时间', width: '20%', align: 'center', editor: 'text'},
+            {field: 'description', title: '血量', width: '20%', align: 'center', editor: 'text'},
+            {
+                field: 'doctorId', title: '单位', width: '20%', align: 'center', editor: {
                 type:'combobox',
                 options:{
-                    data :administration,
+                    data: units,
                     valueField:'value',
                     textField:'text',
                     required:true
                 }
             }},
-            {field:'doctorId',title:'参与医生',width:'50%',align:'center',editor:{
+            {
+                field: 'doctorId', title: '血液要求', width: '20%', align: 'center', editor: {
                 type:'combobox',
                 options:{
-                    data :doctors,
-                    valueField:'value',
-                    textField:'text',
-                    required:true
-                }
-            }},
-            {field:'doctorId',title:'参与医生',width:'50%',align:'center',editor:{
-                type:'combobox',
-                options:{
-                    data :doctors,
+                    data: userBlood,
                     valueField:'value',
                     textField:'text',
                     required:true
@@ -52,13 +51,22 @@ $(function(){
                     row:{}
                 });
             }
-        }, '-',{
+        }, {
             text: '删除',
             iconCls: 'icon-remove',
             handler: function(){
                 inDoDelete();
             }
-        }],onAfterEdit: function (rowIndex, rowData, changes) {
+        }, {
+            text: '保存',
+            iconCls: 'icon-save',
+            handler: function () {
+                inDoDelete();
+            }
+        }
+        ],
+
+        onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
         },onDblClickRow:function (rowIndex, rowData) {
             if (editRow != undefined) {
