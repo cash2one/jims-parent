@@ -25,7 +25,7 @@ import java.util.List;
 @Component
 @Produces("application/json")
 @Path("operationApply")
-public class operationApplyRest {
+public class OperationApplRest {
     @Reference(version = "1.0.0")
     private OperatioinSerivceApi operatioinServiceApi ;
     /**
