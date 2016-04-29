@@ -1,4 +1,3 @@
-﻿drop table SYS_DICT cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: SYS_DEPT      公共字典                                */
@@ -15,7 +14,8 @@ CREATE TABLE "SYS_DICT" (
   UPDATE_BY VARCHAR2(64 BYTE) NULL ,
   UPDATE_DATE TIMESTAMP(7)  NULL ,
   REMARKS VARCHAR2(255 BYTE) NULL ,
-  DEL_FLAG CHAR(1 BYTE) DEFAULT '0'  NOT NULL
+  DEL_FLAG CHAR(1 BYTE) DEFAULT '0'  NOT NULL,
+  INPUT_CODE VARCHAR2(8 BYTE) NULL
 );
 COMMENT ON TABLE "SYS_DICT" IS '字典表';
 COMMENT ON COLUMN "SYS_DICT"."ID" IS '编号';
@@ -31,6 +31,6 @@ COMMENT ON COLUMN "SYS_DICT"."UPDATE_DATE" IS '更新时间';
 COMMENT ON COLUMN "SYS_DICT"."REMARKS" IS '备注信息';
 COMMENT ON COLUMN "SYS_DICT"."DEL_FLAG" IS '删除标记';
 
--- Create/Recreate primary, unique and foreign key constraints 
+-- Create/Recreate primary, unique and foreign key constraints
 alter table SYS_DICT
   add constraint PK_SYS_DICT primary key (id);

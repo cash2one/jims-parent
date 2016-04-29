@@ -8,6 +8,8 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.DeptDict;
 
+import java.util.List;
+
 /**
  * 部门信息DAO接口
  * @author yangruidong
@@ -15,5 +17,23 @@ import com.jims.sys.entity.DeptDict;
  */
 @MyBatisDao
 public interface DeptDictDao extends CrudDao<DeptDict> {
+
+    /**
+     * 查询所有的科室信息
+     * @return
+     */
+    public List<DeptDict> findAll();
+
+    /**
+     * 查询科室属性信息
+     * @return
+     */
+    public List<DeptDict> findProperty();
+
+    /**
+     * 查询上级科室信息
+     * @return
+     */
+    public List<DeptDict> findParent();
 	
 }

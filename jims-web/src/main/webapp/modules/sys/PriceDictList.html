@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../sys/js/priceDictList.js"></script>
+</head>
+<body class="easyui-layout">
+<div >
+    <form id="prescForm" method="post">
+        <table class="tab_cf_r" id="list_data" width="100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>项目类别</td>
+                <td>
+                    <select class="easyui-combobox" id="aa">
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>项目代码</td>
+                <td>
+                    <input  name="itemCode"  required="true">
+                </td>
+                <td>物价码</td>
+                <td></td>
+                <td>项目规格</td>
+                <td>
+                    <input name="itemSpec"  required="true">
+                </td>
+                <td>计价单位</td>
+                <td>
+                    <input name="units"  required="true">
+                </td>
+            </tr>
+            <tr>
+                <td>项目名称</td>
+                <td>
+                    <input name="itemName"  required="true">
+                </td>
+                <td>拼音码</td>
+                <td>
+                    <input name="inputCode"  required="true">
+                </td>
+            </tr>
+            <tr>
+                <td>标准价格</td>
+                <td>
+                    <input name="price" class="easyui-validatebox validatebox-text validatebox-invalid" value="0.000" required="true">
+                </td>
+                <td>优惠价格</td>
+                <td>
+                    <input name="preferPrice" class="easyui-validatebox validatebox-text validatebox-invalid" value="0.000" required="true">
+                </td>
+                <td>外宾价格</td>
+                <td>
+                    <input name="foreignerPrice" class="easyui-validatebox validatebox-text validatebox-invalid" value="0.000" required="true">
+                </td>
+            </tr>
+            <tr>
+                <td>起用日期</td>
+                <td>
+                    <input name="startDate" type="text" id="dt">
+                </td>
+                <td>执行科室</td>
+                <td>
+                    <input name="performedBy"  required="true">
+                </td>
+                <td>
+                    <input type="checkbox" name="feeTypeMask" >自费
+                </td>
+            </tr>
+            <tr>
+                <td>项目类别分类</td>
+            </tr>
+            <tr>
+                <td>会计科目</td>
+                <td>
+                    <select class="easyui-combobox" id="bb">
+
+                    </select>
+                </td>
+                <td>门诊收据</td>
+                <td>
+                    <select class="easyui-combobox" id="cc">
+
+                    </select>
+                </td>
+                <td>住院收据</td>
+                <td>
+                    <select class="easyui-combobox" id="dd">
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>病案首页</td>
+                <td>
+                    <select class="easyui-combobox" id="ee">
+
+                    </select>
+                </td>
+                <td>核算项目</td>
+                <td>
+                    <select class="easyui-combobox" id="ff">
+
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveDict()" iconcls="icon-save">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')"
+       iconcls="icon-cancel">取消</a>
+</div>
+
+</body>
+</html>

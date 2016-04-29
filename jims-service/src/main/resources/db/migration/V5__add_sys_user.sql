@@ -1,16 +1,17 @@
+
 create table SYS_USER
 (
    ID                   VARCHAR(64)          not null,
    LOGIN_NAME           VARCHAR(20),
    PASSWORD             VARCHAR(100),
-   LAST_LOGIN_TIME      DATE,
+   LAST_LOGIN_TIME      TIMESTAMP,
    PERISON_ID           VARCHAR(64),
    REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
    CREATE_BY           VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR(2),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    constraint PK_SYS_USER primary key (ID)
 );
 

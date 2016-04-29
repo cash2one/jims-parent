@@ -1,4 +1,4 @@
-﻿drop table PATS_IN_HOSPITAL cascade constraints;
+﻿-- drop table PATS_IN_HOSPITAL cascade constraints;
 
 /*==============================================================*/
 /* Table: PATS_IN_HOSPITAL      在院病人记录                                */
@@ -11,21 +11,21 @@ create table PATS_IN_HOSPITAL
   WARD_CODE              VARCHAR2(10 CHAR),
   DEPT_CODE              VARCHAR2(10 CHAR),
   BED_NO                 NUMBER(8),
-  ADMISSION_DATE_TIME    DATE,
-  ADM_WARD_DATE_TIME     DATE,
+  ADMISSION_DATE_TIME    TIMESTAMP,
+  ADM_WARD_DATE_TIME     TIMESTAMP,
   DIAGNOSIS              VARCHAR2(100 CHAR),
   PATIENT_CONDITION      VARCHAR2(64 CHAR),
   NURSING_CLASS          VARCHAR2(64 CHAR),
   DOCTOR_IN_CHARGE       VARCHAR2(20 CHAR),
-  OPERATING_DATE         DATE,
-  BILLING_DATE_TIME      DATE,
+  OPERATING_DATE         TIMESTAMP,
+  BILLING_DATE_TIME      TIMESTAMP,
   PREPAYMENTS            NUMBER(10,2),
   TOTAL_COSTS            NUMBER(12,4),
   TOTAL_CHARGES          NUMBER(12,4),
   GUARANTOR              VARCHAR2(8 CHAR),
   GUARANTOR_ORG          VARCHAR2(40 CHAR),
   GUARANTOR_PHONE_NUM    VARCHAR2(16 CHAR),
-  BILL_CHECKED_DATE_TIME DATE,
+  BILL_CHECKED_DATE_TIME TIMESTAMP,
   SETTLED_INDICATOR      NUMBER(1),
   LEND_BED_NO            NUMBER(3),
   BED_DEPT_CODE          VARCHAR2(10 CHAR),
