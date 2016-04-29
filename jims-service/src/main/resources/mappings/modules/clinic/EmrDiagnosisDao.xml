@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.EmrDiagnosisDao">
+    <resultMap id="BasicColums" type="EmrDiagnosis">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
+        <result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="diagnosisId" property="diagnosisId" jdbcType="VARCHAR" />
+        <result column="description" property="description" />
+        <result column="basis" property="basis" />
+		<result column="itemNo" property="itemNo"></result>
+        <result column="diagnosis_type" ></result>
+		<result column="create_by" property="createBy.id" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate"  />
+		<result column="update_by" property="updateBy.id" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate"  />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+        <association property="dict" column="{value=type,type=diagnosis_type}" select="com.jims.emr.modules.sys.dao.DictDao.getDictLabel"></association>
+        <association property="emrDiagnosisList" column="{id=id}" select="findListChildren"></association>
+	</resultMap>
+	<sql id="DiagnosisColumns">
+		a.id AS "id",
+		a.parent_id AS "parentId",
+		a.parent_ids as "parentIds",
+		a.type as "type",
+		a.description as "description",
+		a.basis as "basis",
+		a.diagnosis_id AS "diagnosisId",
+		a.ITEM_NO AS "itemNo",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+		/*"diagnosis_type" as "diagnosis_type"*/
+	</sql>
+
+	<sql id="deathDiagnosisJoins">
+          ,(SELECT @rownum:=0) b
+	</sql>
+    
+	<select id="get" resultMap="BasicColums">
+		SELECT 
+			<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		<include refid="deathDiagnosisJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+    <select id="findListChildren" resultMap="BasicColums">
+        SELECT
+        <include refid="DiagnosisColumns"/>
+        FROM emr_diagnosis a
+        <include refid="deathDiagnosisJoins"/>
+        <where>
+            a.del_flag ='0'
+
+                <!--and parent_ids=#{id}-->
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY  a.create_date ASC,a.item_no ASC
+            </otherwise>
+        </choose>
+
+    </select>
+	
+	<select id="findList"  resultType="EmrDiagnosis">
+		SELECT 
+			<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+     <!--   <include refid="deathDiagnosisJoins"/>-->
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="parentId!=null and parentId!=''">
+				AND a.parent_id=#{parentId}
+			</if>
+            <if test="isno==true">
+                AND a.parent_id in (
+                <foreach collection="list" item="item" index="index" separator="," >
+                    #{item.id}
+                </foreach>
+                )
+            </if>
+            <if test="parentIds!=null and parentIds!=''">
+                AND a.parent_ids=#{parentIds}
+            </if>
+		</where>
+
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY  a.type  ASC,a.create_date ASC,a.item_no ASC
+			</otherwise>
+		</choose>
+
+	</select>
+	
+	<select id="findAllList" resultType="EmrDiagnosis">
+		SELECT 
+			<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		<include refid="deathDiagnosisJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO emr_diagnosis(
+			id,
+			parent_id,
+			diagnosis_id,
+			item_no,
+			type,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			description,
+			basis,
+			parent_ids
+		) VALUES (
+			#{id},
+			#{parentId},
+			#{diagnosisId},
+			#{itemNo},
+			#{type},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{description},
+			#{basis},
+			#{parentIds}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE emr_diagnosis SET
+			diagnosis_id = #{diagnosisId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			basis=#{basis}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE emr_diagnosis SET 
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="findAllListByParent" resultMap="BasicColums">
+		SELECT
+		<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		LEFT JOIN electron_death24_hospital2 b ON a.parent_id=b.id
+		LEFT JOIN patient_basic_info c ON b.patient_id=c.id
+		<include refid="deathDiagnosisJoins"/>
+		<where>
+			a.del_flag = '0'
+          AND  a.parent_id=#{parent}
+		</where>
+
+				ORDER BY a.item_no ASC
+
+	</select>
+<select id="findAllDiagby" resultMap="BasicColums">
+	SELECT
+	<include refid="DiagnosisColumns"/>
+	FROM emr_diagnosis a
+	<include refid="deathDiagnosisJoins"/>
+	<where>
+		a.del_flag = '0'
+		AND  a.parent_id=#{parent} GROUP  BY a.type
+	</where>
+</select>
+  <select id="findAllListByType" resultMap="BasicColums">
+	  SELECT
+	  <include refid="DiagnosisColumns"/>
+	  FROM emr_diagnosis a
+	  <include refid="deathDiagnosisJoins"/>
+	  <where>
+		  a.del_flag = '0' AND  a.parent_ids='0'
+		  AND  a.parent_id=#{parent} AND a.type=#{type}
+	  </where>
+	  ORDER BY a.create_date ASC,a.item_no ASC
+  </select>
+</mapper>
