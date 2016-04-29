@@ -1,6 +1,6 @@
 function saveStateForm() {
-    formSubmitInput("courseRecordForm");
-    $.postForm(basePath + "/courseRecordState/save", "courseRecordForm", function (data) {
+    formSubmitInput("courseRecordStateForm");
+    $.postForm(basePath + "/courseRecordState/save", "courseRecordStateForm", function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
         } else {

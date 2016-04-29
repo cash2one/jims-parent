@@ -16,15 +16,33 @@ public interface DeptDictApi {
      */
     public List<DeptDict> findAllList();
 
-    public int add(DeptDict deptDict);
 
+
+    /**
+     * 查询所有的科室属性类型
+     * @return
+     */
     public List<DeptDict> findProperty();
 
-    public int update(DeptDict deptDict);
 
+
+    /**
+     * 查询上级科室
+     * @return
+     */
     public List<DeptDict> findParent();
 
+    /**
+     * 保存或修改
+     * @param deptDict
+     * @return
+     */
     public  String save(DeptDict deptDict);
 
+    /**
+     * 删除
+     * @param ids
+     * @return
+     */
     public String delete(String ids);
 }

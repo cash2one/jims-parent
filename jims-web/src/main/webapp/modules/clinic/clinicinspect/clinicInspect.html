@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>病程记录</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../clinicinspect/js/clinicInspect.js"></script>
+</head>
+<body  class="easyui-layout" onload="onloadMethod()">
+<div class="easyui-layout" style="width:100%;height:100%;">
+
+    <div data-options="region:'east',split:true"  style="width:41%;">
+        <table id="list_data"   cellspacing="0" cellpadding="0">
+
+        </table>
+    </div>
+
+    <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
+        <form id="clinicInspectForm" method="post">
+            <div class="fitem fitem_pop">
+                <div class="fitem">
+                    <label>
+                        类别：
+                    </label>
+                    <input name="examClassName"  id="examClassNameId" style="width: 145px;" >
+                    <input name="examSubclassName" id="examSubclassNameId" style="width: 145px;">
+                    &nbsp;
+                    <input title="" placeholder="发往科室"  name="reqDept" class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;" required="true">
+                </div>
+                    <div class="fitem">
+                        <label>
+                            项目：
+                        </label>
+                        <div  id="target" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea">
+                        </div>
+                        <div class="tarea-cbtn">
+                            <button class="tlr-btn">&lt;&lt;</button><br/>
+                            <button class="tlr-btn" style="margin:10px 0;">&gt;&gt;</button>
+                        </div>
+                        <div id="descriptionId" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea">
+                            <div id="d1" class="drag">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="fitem">
+                    <label>
+                        症状：
+                    </label>
+                    <input title="" name="clinSymp" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        体征：
+                    </label>
+                    <input title="" name="physSign" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        临床诊断：
+                    </label>
+                    <input title="" name="clinDiag" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        其他诊断：
+                    </label>
+                    <input title="" name="relevantDiag" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                </div>
+                <div class="fitem">
+                    <label>
+                        相关化验结果：
+                    </label>
+                    <textarea id="relevantLabTest" class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
+                </div>
+                <div class="fitem">
+                    <label>
+                        申请注意事项：
+                    </label>
+                    <input title="" name="AccountName" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
+                </div>
+            </div>
+        </form>
+        <div id="dlg-buttons" class="btn-save">
+            <a href="javascript:void(0)"  class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="saveCourseRecord();" style="width: 90px">保存</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

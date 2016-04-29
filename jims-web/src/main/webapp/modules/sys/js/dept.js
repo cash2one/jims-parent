@@ -1,7 +1,10 @@
-$(document).ready(function () {
-    $(function () {
+$(function () {
+
+        var property = [];
+
         //设置列
         $("#tt").treegrid({
+            //fit: true,
             fit: true,
 
             idField: "id",
@@ -15,19 +18,18 @@ $(document).ready(function () {
             }, {
 
                 title: '科室名称',
-                field: 'deptName'
+                field: 'deptName',
+                width:'200'
 
             }, {
                 title: '科室编码',
-                field: 'deptCode'
+                field: 'deptCode' ,
+                width: '200'
 
             }, {
                 title: '科室属性',
-                field: 'deptPropertity'
-
-            }, {
-                title: '属性名称',
-                field: 'propertyName'
+                field: 'deptPropertity'  ,
+                width: '200'
 
             }
             ]]
@@ -38,7 +40,6 @@ $(document).ready(function () {
             var depts = [];
             var treeDepts = [];
             var loadPromise = $.get("/service/dept-dict/list", function (data) {
-                //$("#tt").treegrid('loadData',data);
                 $.each(data, function (index, item) {
                     var obj = {};
                     obj.deptName = item.deptName;
@@ -75,96 +76,131 @@ $(document).ready(function () {
             })
         }
         loadDept();
+
+
+        $("#cancelBtn").on('click', function () {
+            //清空
+            $("#deptPropertity").html("");
+            $('#dlg').dialog('close');
+        });
+        var propertyId;
+        var deptPropertitys;
         /**
          * 添加科室信息
          */
         $("#addBtn").on('click', function () {
-            // clearInput();
 
+            $("#parentId").combobox('setValue',"");
+            $("#deptCode").textbox('setValue', "");
+            $("#deptName").textbox('setValue', "");
+            $("#deptPropertity").html("");
             $("#dlg").dialog("open").dialog("setTitle", "添加科室");
+
+            $.ajax({
+                url: "/service/dept-property/selectProperty",
+                type: 'get',
+                dataType: 'json',
+                error: function (data) {
+                    alert("加载json 文件出错！");
+                },
+                success: function (data1) {
+                    console.log(data1);
+                    var data2 = eval(data1);
+                    deptPropertitys = data2;
+                    for (var i = 0; i < data2.length; i++) {
+                        deptPropertity = data2[i].propertyType;
+                        propertyId = "propertyName" + i;
+                        var propertyFitem = "propertyFitem" + i;
+                        $("#deptPropertity").append("<div class='fitem' id='" + propertyFitem + "'>")
+                        $("#" + propertyFitem).append("<label>" + deptPropertity + ": </label>");
+                        $("#" + propertyFitem).append("<select style='width: 173px;' name='propertyName' id='" + propertyId + "'/><br/>");
+
+                        $("#" + propertyId).combobox({
+                            'url': '/service/dept-property/selectName/' + deptPropertity,
+                            valueField: 'propertyValue',
+                            textField: 'propertyName'
+                        });
+
+                        $("#deptPropertity").append("</div>")
+                    }
+                }
+            });
+
             //  clearInput();
-            //给上级科室的下拉列表赋值
+
             $("#parentId").combobox({
                 'url': '/service/dept-dict/selectParent',
                 valueField: 'id',
                 textField: 'deptName'
             });
 
-            //给科室属性的下拉列表赋值
-            $("#deptPropertity").combobox({
-                'url': '/service/dept-property/selectProperty',
-                valueField: 'propertyType',
-                textField: 'propertyType'
-            });
-
         });
 
-
+        //给上级科室的下拉列表赋值
+        $("#parentId").combobox({
+            'url': '/service/dept-dict/selectParent',
+            valueField: 'id',
+            textField: 'deptName'
+        });
         /**
          * 添加科室信息
          */
         $("#addBtnProperty").on('click', function () {
-            // clearInput();
+
 
             $("#dlg_property").dialog("open").dialog("setTitle", "添加科室属性");
-            //clearInput();
-            //给所属组织的下拉列表赋值
-            $("#orgId").combobox({
-                url: '/service/sys-company/select',
-                valueField: 'id',
-                textField: 'orgName'
-            });
-            //给属性名称的下拉列表赋值
-            $("#propertyName").combobox({
-                'url': '/service/dept-property/selectName',
-                valueField: 'propertyName',
-                textField: 'propertyName'
-            });
 
 
         });
-
-
 
 
         /**
          * 保存信息
          */
         $("#saveBtn").on('click', function () {
-            console.log($("#parentId").combobox('getValue'));
-            var deptDict = {};
-            deptDict.id = $("#id").val();
-            deptDict.deptCode = $("#deptCode").val();
-            deptDict.deptName = $("#deptName").val();
-            deptDict.parentId = $("#parentId").combobox('getValue');
-            deptDict.deptPropertity = $("#deptPropertity").combobox('getValue');
+            //用于存放属性值的数组
+            var deptProperty = [];
+            //用于存放所有保存的数组
+            var deptDictVo = {};
+            //console.log($("#parentId").combobox('getValue'));
+            //var deptDict = {};
+            deptDictVo.id = $("#id").val();
+            deptDictVo.deptCode = $("#deptCode").val();
+            deptDictVo.deptName = $("#deptName").val();
+            deptDictVo.parentId = $("#parentId").combobox('getValue');
+            for (var i = 0; i < deptPropertitys.length; i++) {
+                var propertyIds = "propertyName" + i;
+                console.log(propertyIds);
+                var deptIds = $("#" + propertyIds).combobox('getValue');
+                deptProperty.push(deptIds);
 
-            if ($("#fm").form()) {
-                jQuery.ajax({
-                    'type': 'POST',
-                    'url': "/service/dept-dict/add",
-                    'contentType': 'application/json',
-                    'data': JSON.stringify(deptDict),
-                    'dataType': 'json',
-                    'success': function (data) {
-                        console.log(data);
-                        if (data.data == "success") {
-                            $.messager.alert("系统提示", "保存成功");
-                            loadDept();
-                            clearInput();
-                            $("#dlg").dialog('close');
-                        }
-                    },
-                    'error': function (data) {
-                        $.messager.alert("系统提示", "保存失败");
-                    }
-                });
             }
+            deptDictVo.array = deptProperty;
+            console.log(deptDictVo);
+            jQuery.ajax({
+                'type': 'POST',
+                'url': "/service/dept-dict/add",
+                'contentType': 'application/json',
+                'data': JSON.stringify(deptDictVo),
+                'dataType': 'json',
+                'success': function (data) {
+                    console.log(data);
+                    if (data.data == "success") {
+                        $.messager.alert("系统提示", "保存成功");
+                        loadDept();
+                        clearInput();
+                        $("#deptPropertity").html("");
+                        $("#dlg").dialog('close');
+                    }
+                },
+                'error': function (data) {
+                    $.messager.alert("系统提示", "保存失败");
+                }
+            });
+
         });
-
-
         /**
-         * 保存信息
+         * 保存科室属性信息
          */
         $("#savePropertyBtn").on('click', function () {
             var orgDeptProperty = {};
@@ -183,8 +219,14 @@ $(document).ready(function () {
                     'success': function (data) {
                         if (data.data == "success") {
                             $.messager.alert("系统提示", "保存成功");
-                            clearInput();
+                            //      clearInput();
+                            $("#propertyType").textbox('setValue', "");
+                            $("#propertyName").textbox('setValue', "");
+                            $("#propertyValue").textbox('setValue', "");
+                            $('#dg').datagrid('reload');
                             $("#dlg_property").dialog('close');
+
+
                         }
                     },
                     'error': function (data) {
@@ -200,19 +242,77 @@ $(document).ready(function () {
          */
 
         $("#editBtn").on('click', function () {
+            $("#deptPropertity").html("");
             var node = $("#tt").treegrid("getSelected");
             if (!node) {
                 $.messager.alert("系统提示", "请选择要修改的科室");
                 return;
             }
+
+
             $("#id").val(node.id);
             $("#deptCode").textbox('setValue', node.deptCode);
             $("#deptName").textbox('setValue', node.deptName);
-            $("#deptPropertity").combobox('setValue', node.deptPropertity);
+
             $("#parentId").combobox('setValue', node.parentId);
+
+            //给上级科室的下拉列表赋值
+
             $("#dlg").dialog('open').dialog('setTitle', "科室修改");
 
+
+            $.ajax({
+                url: "/service/dept-property/selectProperty",
+                type: 'get',
+                dataType: 'json',
+                error: function (data) {
+                    alert("加载json 文件出错！");
+                },
+                success: function (data1) {
+                    console.log(data1);
+                    var data2 = eval(data1);
+                    deptPropertitys = data2;
+                    for (var i = 0; i < data2.length; i++) {
+                        deptPropertity = data2[i].propertyType;
+                        propertyId = "propertyName" + i;
+                        var propertyFitem = "propertyFitem" + i;
+                        $("#deptPropertity").append("<div class='fitem' id='" + propertyFitem + "'>")
+                        $("#" + propertyFitem).append("<label>" + deptPropertity + ": </label>");
+                        $("#" + propertyFitem).append("<select style='width: 173px;' name='propertyName' id='" + propertyId + "'/><br/>");
+                        $("#" + propertyId).combobox({
+                            'url': '/service/dept-property/selectName/' + deptPropertity,
+                            valueField: 'propertyValue',
+                            textField: 'propertyName'
+                        });
+                      /*  var deptArray = [];
+
+
+                        console.log(propertyIds);
+
+
+                        var deptPro = node.deptPropertity;
+                        var dept = [];
+                        dept = deptPro.split(" ");
+                        console.log(dept);
+
+                        $("#" + propertyId).combobox({
+                            onLoadSuccess: function () {
+                                for (var item = 0; item < dept.length; item++) {
+                                   // var propertyIds = "propertyName" + item;
+                                    $("#" + propertyId).combobox("setValue", dept[item]);
+
+                                }
+                            }
+                        });*/
+                        $("#deptPropertity").append("</div>")
+                    }
+                }
+            });
+
+
+
         });
+
         /**
          * 删除
          */
@@ -258,13 +358,56 @@ $(document).ready(function () {
         var clearInput = function () {
             $("#deptCode").textbox('setValue', "");
             $("#deptName").textbox('setValue', "");
-            $("#parentId").textbox('setValue', "");
+            $("#parentId").combobox('setValue', "");
             $("#deptProperty").combobox('setValue', "");
+
+            $("#propertyType").remove();
         }
 
-    });
+        //查询
+        $("#selectPropertyBtn").on('click',function(){
+            var orgDeptPropertyDict={};
+            orgDeptPropertyDict.propertyType=  $("#propertyType").textbox('getValue');
+            orgDeptPropertyDict.propertyName=$("#propertyName").textbox('getValue');
+            orgDeptPropertyDict.propertyValue=$("#propertyValue").textbox('getValue');
+
+            $.ajax({
+                'type': 'POST',
+                'url': "/service/dept-property/findByCondition",
+                'contentType': 'application/json',
+                'data': JSON.stringify(orgDeptPropertyDict),
+                'dataType': 'json',
+                'success': function (data) {
+                        $('#dg').datagrid("loadData", data);
+                }
+            });
+        });
+
+        $('#dg').datagrid({
+            iconCls: 'icon-edit',//图标
+            nowrap: false,
+            striped: true,
+            border: true,
+            method: 'get',
+            url: '/service/dept-property/list',
+            collapsible: false,//是否可折叠的
+            remoteSort: false,
+            idField: 'id',
+            singleSelect: false,//是否单选
+            pagination: true,//分页控件
+            pageSize: 15,
+            pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
+            rownumbers: true,//行号
+            columns: [[
+                {field: 'propertyType', title: '属性类型', width: 235, align: 'center'},
+                {field: 'propertyName', title: '属性名称', width: 235, align: 'center'},
+                {field: 'propertyValue', title: '属性值', width: 240, align: 'center'}
+            ]]
+
+        });
+    }
+);
 
 
-});
 
 

@@ -7,7 +7,7 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/js/formSubmit.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <script type="text/javascript" src="../enterHospital/js/enterHosptial.js"></script>
 </head>
 <body >
@@ -99,11 +99,11 @@
 
             <div class="padding10">
                 <div>
-                    T：<input type="text" class="easyui-validatebox " data-options="required:'true',validType:'intOrFloat'" name="tiwen" id="tiwen" style="width: 15%;"/>°C
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    P：<input type="text" class="easyui-validatebox " data-options="required:'true',validType:'intOrFloat'" name="maibo" id="maibo" style="width: 15%;"/>次/分&nbsp;&nbsp;&nbsp;&nbsp;
-                    R：<input type="text" class="easyui-validatebox " data-options="required:'true',validType:'intOrFloat'" name="huxi" id="huxi" style="width: 15%;"/>次/分&nbsp;&nbsp;&nbsp;&nbsp;
-                    BP：<input type="text" class="easyui-validatebox " data-options="required:'true',validType:'intOrFloat'"  name="xueya" id="xueya"  style="width: 15%;"/>mmHg
+                    T：<input type="text" class="easyui-validatebox" data-options="required:'true',validType:'intOrFloat'" name="tiwen" id="tiwen" style="width: 10%;"/>°C
+                    &nbsp;
+                    P：<input type="text" class="easyui-validatebox" data-options="required:'true',validType:'intOrFloat'" name="maibo" id="maibo" style="width: 10%;"/>次/分&nbsp;
+                    R：<input type="text" class="easyui-validatebox" data-options="required:'true',validType:'intOrFloat'" name="huxi" id="huxi" style="width: 10%;"/>次/分&nbsp;
+                    BP：<input type="text" class="easyui-validatebox"  data-options="required:'true',"  name="xueya" id="xueya" style="width: 10%;" />mmHg
                 </div>
                 <div class="row-fluid clearfix goh-sign">
                     <div class="detail-wrapp">
@@ -149,15 +149,12 @@
 
     </div>
     </div>
-  <input name="zhuyuanId" type="hidden" value="10d4d0beef2b419cacfe806e96117ae8">
-    <input name="patientId" type="hidden" value="10d4d0beef2b419cacfe806e96117ae8">
+  <input name="zhuyuanId" type="hidden" value="10d4d1beef2b519cacfe806e96117ae8">
+    <input name="patientId" type="hidden" value="10d4d1beef5b419cacfe806e96117ae8">
     <input name="id" id="id" type="hidden">
 </form>
 
-<div id="dlg-buttons" style="text-align: center;">
-    <a href="javascript:void(0)"  class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"  style="width:90px">关闭</a>
-</div>
+
 
 </body>
 </html>
