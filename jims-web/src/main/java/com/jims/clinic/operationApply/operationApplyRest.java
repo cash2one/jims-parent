@@ -37,10 +37,10 @@ public class operationApplyRest {
     @Path("list")
     @GET
     public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-       /* Page<Operatioin> page = operatioinServiceApi.findPage(new Page<Operatioin>(request,response), new Operatioin());
+       Page<Operatioin> page = operatioinServiceApi.findPage(new Page<Operatioin>(request,response), new Operatioin());
         PageData pageData=new PageData();
         pageData.setRows(page.getList());
-        pageData.setTotal(page.getCount());*/
+        pageData.setTotal(page.getCount());
         return null;
     }
 
