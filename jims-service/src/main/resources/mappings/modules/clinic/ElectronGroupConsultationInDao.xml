@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ElectronGroupConsultationInDao">
-    <resultMap id="groupConsulationIn" type="ElectronGroupConsultationIn">
+	<resultMap id="groupConsulationIn" type="ElectronGroupConsultationIn">
 		<id property="id" column="id"></id>
+		<result property="officeId" column="office_id"></result>
 		<result property="doctorId" column="doctor_id"></result>
 		<result property="huizhenId" column="huizhen_id"></result>
-		<result property="huizhenyijian" column="huizhenyijian"></result>
+		<result property="inHuizhenyijian" column="in_huizhenyijian"></result>
 		<result property="createDate" column="create_date"></result>
 		<result property="updateDate" column="updateDate"></result>
 		<result property="createBy.id" column="create_by"></result>
 		<result property="updateBy.id" column="update_by"></result>
+		<result property="delFlag" column="del_flag"></result>
 		<result property="qianmingstype" column="qianmingstype"></result>
 		<result property="qianmingshijian" column="qianmingshijian"></result>
 		<result property="qianmingId" column="qianming_id"></result>
@@ -17,36 +19,38 @@
 	</resultMap>
 	<sql id="electronGroupConsultationInColumns">
 		a.id AS "id",
+		a.office_id AS "officeId",
 		a.doctor_id AS "doctorId",
 		a.huizhen_id AS "huizhenId",
-		a.huizhenyijian AS "huizhenyijian",
+		a.in_huizhenyijian AS "inHuizhenyijian",
 		a.create_date AS "createDate",
 		a.update_date AS "updateDate",
 		a.create_by AS "createBy.id",
 		a.update_by AS "updateBy.id",
 		a.qianmingstype AS "qianmingstype",
 		a.qianmingshijian AS "qianmingshijian",
-		a.qianming_id AS "qianmingId"
+		a.qianming_id AS "qianmingId",
+		a.del_flag AS "delFlag"
 	</sql>
-	
+
 	<sql id="electronGroupConsultationInJoins">
 	</sql>
-    
+
 	<select id="get" resultType="ElectronGroupConsultationIn">
-		SELECT 
-			<include refid="electronGroupConsultationInColumns"/>
+		SELECT
+		<include refid="electronGroupConsultationInColumns"/>
 		FROM electron_group_consultation_in a
 		<include refid="electronGroupConsultationInJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
 	<select id="findList" resultType="ElectronGroupConsultationIn">
-		SELECT 
-			<include refid="electronGroupConsultationInColumns"/>
+		SELECT
+		<include refid="electronGroupConsultationInColumns"/>
 		FROM electron_group_consultation_in a
 		<include refid="electronGroupConsultationInJoins"/>
 		<where>
-			
+
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -57,15 +61,37 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="getListByMain" resultType="ElectronGroupConsultationIn">
+		SELECT
+		<include refid="electronGroupConsultationInColumns"/>
+		FROM electron_group_consultation_in a
+		<where>
+			a.huizhen_id =#{id}
+			and	a.del_flag = '0'
+		</where>
+		ORDER BY a.update_date DESC
+	</select>
+
+	<select id="getByMainIdAndDoctorId" resultType="ElectronGroupConsultationIn">
+		SELECT
+		<include refid="electronGroupConsultationInColumns"/>
+		FROM electron_group_consultation_in a
+		<where>
+			a.huizhen_id =#{huizhenId}
+			and a.doctor_id = #{doctorId}
+			and	a.del_flag = '0'
+		</where>
+	</select>
+
 	<select id="findAllList" resultType="ElectronGroupConsultationIn">
-		SELECT 
-			<include refid="electronGroupConsultationInColumns"/>
+		SELECT
+		<include refid="electronGroupConsultationInColumns"/>
 		FROM electron_group_consultation_in a
 		<include refid="electronGroupConsultationInJoins"/>
 		<where>
-			
-		</where>		
+
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -75,56 +101,75 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO electron_group_consultation_in(
-			id,
-			doctor_id,
-			huizhen_id,
-			huizhenyijian,
-			create_date,
-			update_date,
-			create_by,
-			update_by,
-			qianmingstype,
-			qianmingshijian,
-			qianming_id
+		id,
+		office_id，
+		doctor_id,
+		huizhen_id,
+		in_huizhenyijian,
+		create_date,
+		update_date,
+		create_by,
+		update_by,
+		qianmingstype,
+		qianmingshijian,
+		qianming_id,
+		del_flag
 		) VALUES (
-			#{id},
-			#{doctorId},
-			#{huizhenId},
-			#{huizhenyijian},
-			#{createDate},
-			#{updateDate},
-			#{createBy.id},
-			#{updateBy.id},
-			#{qianmingstype},
-			#{qianmingshijian},
-			#{qianmingId}
+		#{id},
+		#{officeId},
+		#{doctorId},
+		#{huizhenId},
+		#{inHuizhenyijian},
+		#{createDate},
+		#{updateDate},
+		#{createBy.id},
+		#{updateBy.id},
+		#{qianmingstype},
+		#{qianmingshijian},
+		#{qianmingId},
+		#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
-		UPDATE electron_group_consultation_in SET 	
-			doctor_id = #{doctorId},
-			huizhen_id = #{huizhenId},
-			huizhenyijian = #{huizhenyijian},
-			update_date = #{updateDate},
-			update_by = #{updateBy.id},
-			qianmingstype = #{qianmingstype},
-			qianmingshijian = #{qianmingshijian},
-			qianming_id = #{qianmingId}
+		UPDATE electron_group_consultation_in SET
+		office_id = #{officeId},
+		doctor_id = #{doctorId},
+		huizhen_id = #{huizhenId},
+		in_huizhenyijian = #{inHuizhenyijian},
+		update_date = #{updateDate},
+		update_by = #{updateBy.id},
+		qianmingstype = #{qianmingstype},
+		qianmingshijian = #{qianmingshijian},
+		qianming_id = #{qianmingId}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
-		DELETE FROM electron_group_consultation_in
+		UPDATE electron_group_consultation_in SET
+		del_flag = '1'
 		WHERE id = #{id}
 	</update>
+
 	<select id="consulaionId" resultMap="groupConsulationIn">
 		SELECT
 		<include refid="electronGroupConsultationInColumns"/>
 		FROM electron_group_consultation_in a
 		WHERE a.huizhen_id=#{consulaionId}
+		and	a.del_flag = '0'
 	</select>
+
+	<update id="saveOtherIdea">
+		UPDATE electron_group_consultation_in SET
+		in_huizhenyijian = #{inHuizhenyijian}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delByMain">
+		delete from electron_group_consultation_in
+		WHERE huizhen_id = #{id}
+	</update>
 </mapper>

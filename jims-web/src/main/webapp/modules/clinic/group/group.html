@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../group/js/group.js"></script>
+    <script type="text/javascript" src="/static/js/formSubmit.js"></script>
+</head>
+<body  class="easyui-layout">
+<div class="easyui-layout" style="width:100%;height:100%;">
+    <div data-options="region:'east',split:true"  style="width:41%;">
+        <table id="list_data"   cellspacing="0" cellpadding="0">
+
+        </table>
+    </div>
+    <div data-options="region:'center',iconCls:'icon-ok'">
+        <form id="form" method="post">
+            <div class="fitem" style="padding-top: 14px">
+                <input id="id" type="hidden" name="id" value="">
+                <input id="doctorId" type="hidden" name="doctorId" value="5">
+                <input id="zhuyuanId" type="hidden" name="zhuyuanId" value="03e681f7-ba5e-11e5-bb7f-0894ef010b21">
+                <input id="patientId" type="hidden" name="patientId" value="06b45a7a-b286-11e5-b259-0894ef010b20">
+                <label>
+                    申请时间：
+                </label>
+                <input style="display: none;" name="shenqingshijian" class="easyui-datebox">
+            </div>
+            <div class="fitem">
+                <label>
+                    会诊类型：</label>
+                <select class="easyui-combobox" name="grouptype">
+                    <option value="0">-请选择-</option>
+                    <option value="1">一般</option>
+                    <option value="2">紧急</option>
+                </select>
+            </div>
+            <div class="clearfix goh-sign" style="clear:both">
+                <div class="detail-wrapp">
+                    <div class="sub_title_em">病情摘要</div>
+                    <div class="pborder position-re" submit_id="bingqingzhaiyao"
+                         contenteditable="true"></div>
+                    <input type="hidden" id="bingqingzhaiyao" name="bingqingzhaiyao"
+                           class="sub_title_em"
+                           style="width: 1110px;">
+                </div>
+                <div class="detail-wrapp">
+                    <div class="sub_title_em">会诊目的以及理由</div>
+                    <div class="pborder position-re" submit_id="huizhenliyou"
+                         contenteditable="true"></div>
+                    <input type="hidden" id="huizhenliyou" name="huizhenliyou"
+                           class="sub_title_em"
+                           style="width: 1110px;">
+                </div>
+                <div class="detail-wrapp"  id="huizhenyijianDiv">
+                    <div class="sub_title_em">我的意见</div>
+                    <div class="pborder position-re" submit_id="huizhenyijian"
+                         contenteditable="true"></div>
+                    <input type="hidden" id="huizhenyijian" name="huizhenyijian"
+                           class="sub_title_em"
+                           style="width: 1110px;">
+                </div>
+                <div class="detail-wrapp"  id="inHuizhenyijianDiv">
+                    <div class="sub_title_em">会诊意见</div>
+                    <div class="pborder position-re" submit_id="inHuizhenyijian"
+                         contenteditable="true"></div>
+                    <input type="hidden" id="inHuizhenyijian" name="inHuizhenyijian"
+                           class="sub_title_em"
+                           style="width: 1110px;">
+                </div>
+                <table id="list_doctor"   cellspacing="0" cellpadding="0">
+
+                </table>
+
+            </div>
+        </form>
+        <div id="dlg-buttons" class="btn-save">
+            <a href="javascript:void(0)" id="saveBut"  class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="save();" style="width: 90px">保存</a>
+            <a href="javascript:void(0)" id="saveMainOnlyBut"  class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="saveMainOnlyBut();" style="width: 90px">保存main</a>
+            <a href="javascript:void(0)" id="saveOtherBut"  class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="saveOtherBut();" style="width: 90px">保存Other</a>
+            <!--<a href="javascript:void(0)" id="saveBut1"  class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="addidea();" style="width: 90px">意见</a>-->
+        </div>
+    </div>
+</div>
+</body>
+</html>
