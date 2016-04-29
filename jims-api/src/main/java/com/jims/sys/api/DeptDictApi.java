@@ -21,4 +21,10 @@ public interface DeptDictApi {
     public List<DeptDict> findProperty();
 
     public int update(DeptDict deptDict);
+
+    public List<DeptDict> findParent();
+
+    public  String save(DeptDict deptDict);
+
+    public String delete(String ids);
 }

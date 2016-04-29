@@ -1,4 +1,4 @@
-                 create table DEPT_DICT
+   create table DEPT_DICT
 (
    ID                   VARCHAR2(64)         not null,
    PAREN_IDT            VARCHAR2(64),
@@ -8,9 +8,9 @@
    REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
    CREATE_BY           VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR(2),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    constraint PK_DEPT_DICT primary key (ID)
 );
 

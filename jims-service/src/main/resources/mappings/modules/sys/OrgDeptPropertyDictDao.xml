@@ -74,4 +74,10 @@
 
     </select>
 
+    <select id="findProperty" resultType="OrgDeptPropertyDict">
+        SELECT property_type
+        FROM ORG_DEPT_PROPERTY_DICT
+
+    </select>
+
 </mapper>

@@ -1,6 +1,6 @@
-drop index BINGCHENG_ID2;
+-- drop index BINGCHENG_ID2;
 
-drop table COURSE_RECORD_INTRACTABLECASE cascade constraints;
+-- drop table COURSE_RECORD_INTRACTABLECASE cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_INTRACTABLECASE     疑难病例讨论                      */
@@ -9,12 +9,12 @@ create table COURSE_RECORD_INTRACTABLECASE  (
    ID                   VARCHAR2(64)                    not null,
    BINGCHENG_ID         VARCHAR2(64)                    not null,
    CONTENT              CLOB,
-   JILUSHIJIAN          DATE,
-   CREATE_DATE          DATE,
+   JILUSHIJIAN          TIMESTAMP,
+   CREATE_DATE          TIMESTAMP,
    DEL_FLAG             VARCHAR2(1),
    CANJIARENYUAN        CLOB,
    REMARKS              VARCHAR2(255 CHAR),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(255),
    UPDATE_BY            VARCHAR2(255),
    TAOLUNDIDIAN         VARCHAR2(100),
@@ -26,11 +26,11 @@ create table COURSE_RECORD_INTRACTABLECASE  (
    JINGZHIYISHI         VARCHAR2(64),
    TAOLUNYIJIAN         CLOB,
    ZHICHIRENYIJIAN      CLOB,
-   TAOLUNSHIJIAN        DATE,
+   TAOLUNSHIJIAN        TIMESTAMP,
    ZHUCHIRENZHICHENG    VARCHAR2(64),
    BINGQINGJIESHAO      CLOB,
    TAOLUNMUDI           CLOB,
-   constraint "PK_course_record_intractablecase" primary key (ID)
+   constraint "PK_course_record_intrac" primary key (ID)
 );
 
 comment on table COURSE_RECORD_INTRACTABLECASE is

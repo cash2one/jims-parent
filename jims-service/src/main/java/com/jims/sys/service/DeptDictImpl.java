@@ -23,6 +23,7 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
 
     @Override
     public int add(DeptDict deptDict) {
+
         deptDict.preInsert();
         int i = dao.insert(deptDict);
         return i;
@@ -37,5 +38,10 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
         deptDict.preUpdate();
         int i = dao.update(deptDict);
         return i;
+    }
+
+    @Override
+    public List<DeptDict> findParent() {
+        return dao.findParent();
     }
 }

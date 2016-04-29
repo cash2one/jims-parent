@@ -19,6 +19,8 @@ public class MenuDict extends DataEntity<MenuDict> {
 	private String icon;		// 图标
 	private Long sort;		// 排序
 	private String target;		// 打开方式
+    private String pid; //父id
+    private String menuLevel;//菜单级别
 	
 	public MenuDict() {
 		super();
@@ -71,5 +73,20 @@ public class MenuDict extends DataEntity<MenuDict> {
 	public void setTarget(String target) {
 		this.target = target;
 	}
-	
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getMenuLevel() {
+        return menuLevel;
+    }
+
+    public void setMenuLevel(String menuLevel) {
+        this.menuLevel = menuLevel;
+    }
 }

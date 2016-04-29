@@ -44,5 +44,7 @@ public interface DeptPropertyDictApi {
 
     public List<OrgDeptPropertyDict> findNameByType();
 
+    public List<OrgDeptPropertyDict> findProperty();
+
 
 }

@@ -1,6 +1,6 @@
-drop index BINGCHANG_ID3;
+-- drop index BINGCHANG_ID3;
 
-drop table COURSE_RECORD_DISCHARGE cascade constraints;
+-- drop table COURSE_RECORD_DISCHARGE cascade constraints;
 
 /*==============================================================*/
 /* Table: COURSE_RECORD_DISCHARGE      出院记录                         */
@@ -8,11 +8,11 @@ drop table COURSE_RECORD_DISCHARGE cascade constraints;
 create table COURSE_RECORD_DISCHARGE  (
    ID                   VARCHAR2(64)                    not null,
    BINGCHENG_ID         VARCHAR2(64)                    not null,
-   CHUYUANRIQI          DATE,
+   CHUYUANRIQI          TIMESTAMP,
    CREATE_BY            VARCHAR2(64),
-   CREATE_DATE          DATE,
+   CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
-   UPDATE_DATE          DATE,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(225 CHAR),
    DEL_FLAG             CHAR(1)                        default '0'
 );

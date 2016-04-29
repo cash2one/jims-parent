@@ -44,9 +44,9 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	<select id="findAll" resultType="DeptDict">
-		SELECT * FROM  dept_dict
+
+    <select id="findAll" resultType="DeptDict">
+        SELECT * FROM dept_dict  WHERE del_flag = '0'
 	</select>
 	
 	<insert id="insert">
@@ -90,13 +90,18 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE dept_dict SET 
-			del_flag = #{DEL_FLAG_DELETE}
+	UPDATE dept_dict SET
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 
     <select id="findProperty" resultType="DeptDict">
         SELECT dept_propertity
+        FROM dept_dict
+    </select>
+
+    <select id="findParent" resultType="DeptDict">
+        SELECT id,dept_name
         FROM dept_dict
     </select>
 	
