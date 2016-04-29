@@ -1,31 +1,29 @@
 package com.jims.clinic.api;
 
 import com.jims.clinic.entity.ExamAppoints;
+import com.jims.clinic.entity.ExamClassDict;
 import com.jims.common.persistence.Page;
 
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/4/25.
- * 检查预约记录Api接口
- * @author zhaoning
- * @version 2016-04-25
+ * Created by Administrator on 2016/4/26.
  */
-public interface ExamAppointsServiceApi {
+public interface ExamClassDictApi {
     /**
      * 查询字段列表
      * @param page
-     * @param examAppoints
+     * @param examClassDict
      * @return
      */
-    public Page<ExamAppoints> findPage(Page<ExamAppoints> page, ExamAppoints examAppoints);
+    public Page<ExamClassDict> findPage(Page<ExamClassDict> page, ExamClassDict examClassDict);
 
     /**
      * 保存修改数据
-     * @param examAppoints
+     * @param examClassDict
      * @return
      */
-    public String save(ExamAppoints examAppoints);
+    public String save(ExamClassDict examClassDict);
 
     /**
      * 删除数据
@@ -39,6 +37,7 @@ public interface ExamAppointsServiceApi {
      * @param id
      * @return
      */
-    public ExamAppoints get(String id);
-}
+    public ExamClassDict get(String id);
 
+    public List<ExamClassDict> getEx();
+}

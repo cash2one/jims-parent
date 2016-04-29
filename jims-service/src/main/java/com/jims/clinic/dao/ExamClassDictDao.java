@@ -3,14 +3,18 @@
  */
 package com.jims.clinic.dao;
 
-import com.jims.clinic.entity.ClinicMaster;
+import com.jims.clinic.entity.ExamClassDict;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+
+import java.util.List;
+
 /**
- * 病人就诊记录DAO接口
- * @author zhaoning
- * @version 2016-04-20
+ * ExamClassDictDAO接口
+ * @author zhangpeng
+ * @version 2016-04-26
  */
 @MyBatisDao
-public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
+public interface ExamClassDictDao extends CrudDao<ExamClassDict> {
+    public List getEx();
 }
