@@ -334,5 +334,145 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+	<insert id="saveExamAppionts">
+		INSERT INTO exam_appoints(
+		id,
+		exam_no,
+		patient_id,
+		visit_id,
+		local_id_class,
+		patient_local_id,
+		name,
+		name_phonetic,
+		sex,
+		date_of_birth,
+		birth_place,
+		identity,
+		charge_type,
+		mailing_address,
+		zip_code,
+		phone_number,
+		exam_class,
+		exam_sub_class,
+		clin_symp,
+		phys_sign,
+		relevant_lab_test,
+		relevant_diag,
+		clin_diag,
+		exam_mode,
+		exam_group,
+		performed_by,
+		patient_source,
+		facility,
+		req_date_time,
+		req_dept,
+		req_physician,
+		req_memo,
+		scheduled_date,
+		notice,
+		costs,
+		charges,
+		doctor_user,
+		worked_indicator,
+		isread,
+		emergency_indicator,
+		billing_indicator,
+		cnslt_state,
+		queue_no,
+		device,
+		time_interval,
+		equipment_no,
+		visit_no,
+		register,
+		reg_prn_flag,
+		cnslt_no,
+		exam_reason,
+		priority_indicator,
+		special_indicator,
+		share_exam_no,
+		pause_indicator,
+		db_user,
+		cnslt_name,
+		print_status,
+		ward_code
+		) VALUES (
+		#{id},
+		#{examNo},
+		#{patientId},
+		#{visitId},
+		#{localIdClass},
+		#{patientLocalId},
+		#{name},
+		#{namePhonetic},
+		#{sex},
+		#{dateOfBirth},
+		#{birthPlace},
+		#{identity},
+		#{chargeType},
+		#{mailingAddress},
+		#{zipCode},
+		#{phoneNumber},
+		#{examClass},
+		#{examSubClass},
+		#{clinSymp},
+		#{physSign},
+		#{relevantLabTest},
+		#{relevantDiag},
+		#{clinDiag},
+		#{examMode},
+		#{examGroup},
+		#{performedBy},
+		#{patientSource},
+		#{facility},
+		#{reqDateTime},
+		#{reqDept},
+		#{reqPhysician},
+		#{reqMemo},
+		#{scheduledDate},
+		#{notice},
+		#{costs},
+		#{charges},
+		#{doctorUser},
+		#{workedIndicator},
+		#{isread},
+		#{emergencyIndicator},
+		#{billingIndicator},
+		#{cnsltState},
+		#{queueNo},
+		#{device},
+		#{timeInterval},
+		#{equipmentNo},
+		#{visitNo},
+		#{register},
+		#{regPrnFlag},
+		#{cnsltNo},
+		#{examReason},
+		#{priorityIndicator},
+		#{specialIndicator},
+		#{shareExamNo},
+		#{pauseIndicator},
+		#{dbUser},
+		#{cnsltName},
+		#{printStatus},
+		#{wardCode}
+		)
+	</insert>
+
+	<select id="getExamAppionts" resultType="ExamAppoints">
+
+		SELECT
+		<include refid="examAppointsColumns"/>
+		FROM exam_appoints a
+		WHERE
+		a.patient_id = #{patientId}
+	</select>
+	<select id="getMaxExamNo" resultType="Integer">
+		SELECT MAX (exam_no) FROM exam_appoints
+	</select>
+	<update id="delExamAppointsByExamNo">
+		DELETE FROM exam_appoints
+		WHERE
+		exam_no = #{examNo}
+	</update>
 </mapper>

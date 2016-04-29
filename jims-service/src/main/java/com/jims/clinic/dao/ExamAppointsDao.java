@@ -7,12 +7,44 @@ import com.jims.clinic.entity.ExamAppoints;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 
+import java.util.List;
+
 /**
  * 检查预约记录DAO接口
+ *
  * @author zhaoning
  * @version 2016-04-25
  */
 @MyBatisDao
 public interface ExamAppointsDao extends CrudDao<ExamAppoints> {
-	
+    /**
+     * 查询检查预约记录
+     *
+     * @param patientId
+     * @return
+     */
+    public List<ExamAppoints> getExamAppionts(String patientId);
+
+    /**
+     * 保存预约记录
+     *
+     * @param examAppoints
+     * @return
+     */
+    public Integer saveExamAppionts(ExamAppoints examAppoints);
+
+    /**
+     * 删除预约记录
+     *
+     * @param examNo
+     * @return
+     */
+    public Integer deleteExamAppionts(String examNo);
+
+    /**
+     * 获得最大的申请序号
+     *
+     * @return
+     */
+    public Integer getMaxExamNo();
 }

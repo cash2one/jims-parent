@@ -40,5 +40,14 @@ public interface ExamAppointsServiceApi {
      * @return
      */
     public ExamAppoints get(String id);
+
+    //查询检查预约记录
+    public List<ExamAppoints> getExamAppionts(String patientId);
+    //保存预约记录
+    public  Integer saveExamAppionts(ExamAppoints examAppoints);
+    // 删除预约记录
+    public Integer deleteExamAppionts( String examNo);
+    //获得最大的申请序号
+    public Integer getMaxExamNo();
 }
 

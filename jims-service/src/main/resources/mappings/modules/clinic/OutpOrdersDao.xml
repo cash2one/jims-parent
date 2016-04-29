@@ -21,7 +21,21 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
-	
+	<sql id="outpOrdersColumnsFy">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.visit_date AS "visitDate",
+		a.visit_no   AS "visitNo",
+		a.serial_no  AS "serialNo",
+		(select dept_name from dept_dict where dept_code=a.ordered_by) AS "orderedBy",
+		a.doctor     AS "doctor",
+		a.order_date AS "orderDate",
+		a.clinic_no  AS "clinicNo",
+		a.doctor_no  AS "doctorNo",
+		a.nurse      AS "nurse"
+	</sql>
+
+
 	<sql id="outpOrdersJoins">
 	</sql>
     
@@ -132,5 +146,51 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getSerialNo" resultType="OutpOrders">
+		select  outp_order_serial_no.Nextval from dual
+	</select>
+
+	<select id="findListFy" resultType="OutpOrders">
+		SELECT
+		<include refid="outpOrdersColumnsFy"/>
+		FROM outp_orders a
+		<where>
+			<trim suffixOverrides="AND">
+				<if test="visitDate != null">
+					a.visit_date = #{visitDate} AND
+				</if>
+				<if test="visitNo != null">
+					a.visit_no =#{visitNo} AND
+				</if>
+			</trim>
+		</where>
+	</select>
+
+	<insert id="saveOutpOrders">
+	INSERT INTO outp_orders(
+	id
+	patient_id,
+	visit_date,
+	visit_no,
+	serial_no,
+	ordered_by,
+	doctor,
+	order_date,
+	clinic_no,
+	doctor_no,
+	nurse
+	) VALUES (
+	#{id}
+	#{patientId},
+	#{visitDate},
+	#{visitNo},
+	#{serialNo},
+	#{orderedBy},
+	#{doctor},
+	#{orderDate},
+	#{clinicNo},
+	#{doctorNo},
+	#{nurse}
+	)
+	</insert>
 </mapper>

@@ -27,7 +27,44 @@ function onloadMethod() {
                 data: description = data.examSubclassName,
                 dataType: "json",
                 success: function (data) {
-                    $("#d1").draggable("options",data);
+                  //  $('.drag').draggable("options",data);
+                    var html='';
+                    var ids="";
+                    var hidden="";
+                    for(var i= 0;i<data.length;i++){
+                        hidden='<input type="hidden" name="description" id="descriptionId'+data[i].inputCode+i+'">';
+                        html+='<div id="descriptionId'+data[i].inputCode+i+'"  style="height:20px " submit_id="descriptionId'+data[i].inputCode+i+'" class="drag">'+data[i].description+hidden+'</div>';
+
+                        ids+="#descriptionId"+data[i].inputCode+i+",";
+                    }
+
+                    ids = ids.substring(0, ids.length - 1);
+                    $("#descriptionId").html(html);
+                    $('#target').droppable({
+                        accept:ids,
+                        onDragEnter:function(e,descriptionId){
+                            $(descriptionId).draggable('options').cursor='auto';
+                            $(descriptionId).draggable('proxy').css('border','1px solid red');
+                        },
+                        onDragLeave:function(e,descriptionId){
+                            $(descriptionId).draggable('options').cursor='not-allowed';
+                            $(descriptionId).draggable('proxy').css('border','1px solid #ccc');
+                        },
+                        onDrop:function(e,descriptionId){
+                            $(this).append(descriptionId)
+                        }
+                    });
+                    $('.drag').draggable({
+                        proxy:'clone',
+                        revert:true,
+                        cursor:'auto',
+                        onStartDrag:function(){
+                            $(this).draggable('options').cursor='not-allowed';
+                        },
+                        onStopDrag:function(){
+                            $(this).draggable('options').cursor='auto';
+                        }
+                    });
                 }
             });
             //$('#descriptionId').combobox({
@@ -35,32 +72,6 @@ function onloadMethod() {
             //    valueField: 'description',
             //    textField: 'description'
             //});
-        }
-    });
-
-    $('.drag').draggable({
-        proxy:'clone',
-        revert:true,
-        cursor:'auto',
-        onStartDrag:function(){
-            $(this).draggable('options').cursor='not-allowed';
-        },
-        onStopDrag:function(){
-            $(this).draggable('options').cursor='auto';
-        }
-    });
-    $('#target').droppable({
-        accept:'#d1,#d2,#d3',
-        onDragEnter:function(e,descriptionId){
-            $(descriptionId).draggable('options').cursor='auto';
-            $(descriptionId).draggable('proxy').css('border','1px solid red');
-        },
-        onDragLeave:function(e,descriptionId){
-            $(descriptionId).draggable('options').cursor='not-allowed';
-            $(descriptionId).draggable('proxy').css('border','1px solid #ccc');
-        },
-        onDrop:function(e,descriptionId){
-            $(this).append(descriptionId)
         }
     });
 
@@ -161,5 +172,20 @@ function get(id) {
             $('#clinicInspectForm').form('load', data);
         }
     });
+
+    //保存
+    function save(){
+        formSubmitInput("clinicInspectForm");
+        $.postForm(basePath+"/courseRecordSuperiorDocrecor/save","enterForm",function(data){
+            if(data.code=="1"){
+                $.messager.alert("提示信息","保存成功");
+            }else{
+                $.messager.alert("提示信息","保存失败","error");
+            }
+
+        }),function(data){
+            $.messager.alert("提示信息","保存失败","error");
+        }
+    }
 
 }
