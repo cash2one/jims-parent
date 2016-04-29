@@ -6,6 +6,7 @@ alter table EMR_DIAGNOSIS add OPER_TREAT_INDICATOR NUMBER(1);
 alter table EMR_DIAGNOSIS add PATHOLOGY_NO VARCHAR2(40);
 alter table EMR_DIAGNOSIS add DIAGNOSIS_DOC VARCHAR2(64);
 alter table EMR_DIAGNOSIS add INOROUT_FLAG CHAR(1);
+alter table EMR_DIAGNOSIS add  DIAGNOSIS_DATE TIMESTAMP(6)
 -- Add comments to the columns
 comment on column EMR_DIAGNOSIS.PATIENT_ID
   is '病人标识';
@@ -21,3 +22,5 @@ comment on column EMR_DIAGNOSIS.DIAGNOSIS_DOC
   is '诊断医生';
 comment on column EMR_DIAGNOSIS.INOROUT_FLAG
   is '门诊/住院';
+comment on column EMR_DIAGNOSIS.DIAGNOSIS_DATE
+  is '诊断日期';
