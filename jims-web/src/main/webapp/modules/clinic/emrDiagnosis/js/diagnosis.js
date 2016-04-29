@@ -1,8 +1,6 @@
 var administration = [{ "value": "1", "text": "初步诊断" }, { "value": "2", "text": "鉴别诊断" }, { "value": "4", "text": "入院诊断" }];
 var editRow = undefined;
 $(function(){
-    alert(1111111111111);
-   var parentId='24ba6528c0004041a9a2b391fe3839d3';
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
@@ -30,7 +28,8 @@ $(function(){
              },
             {field:'diagnosisId',title:'诊断名称',width:'30%',align:'center',editor:{
                 type:'combobox',
-                options:{required:true,
+                options:{
+                    required:true,
                     url: basePath+'/dataicd/autoComplete',
                     valueField: 'code',
                     textField: 'keywordShuoming',
@@ -158,7 +157,7 @@ $(function(){
 function save(){
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
-    alert("tableJson="+tableJson);
+
 
     $.postJSON(basePath+'/diagnosis/save',tableJson,function(data){
         if(data.data=='success'){
