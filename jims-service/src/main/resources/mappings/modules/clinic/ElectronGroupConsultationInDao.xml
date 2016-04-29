@@ -153,10 +153,7 @@
 		del_flag = '1'
 		WHERE id = #{id}
 	</update>
-	<<<<<<< HEAD
 
-	=======
-	>>>>>>> cae246d2aa06a1d4e74721e32f3f572d30380fd1
 	<select id="consulaionId" resultMap="groupConsulationIn">
 		SELECT
 		<include refid="electronGroupConsultationInColumns"/>
