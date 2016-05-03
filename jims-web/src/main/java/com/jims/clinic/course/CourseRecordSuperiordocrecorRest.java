@@ -34,8 +34,6 @@ public class CourseRecordSuperiordocrecorRest {
         stringData.setData("success");
         return stringData;
     }
-
-<<<<<<< HEAD
     /**
      * 通过病程Id查询上级医师查房记录
      * @param courseRecordId
@@ -48,6 +46,4 @@ public class CourseRecordSuperiordocrecorRest {
         return courseRecordSuperiordocrecor;
 
     }
-=======
->>>>>>> f2eedef40fe03ae998e8d39e6333c24ac9bd2c55
 }
