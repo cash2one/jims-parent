@@ -39,7 +39,7 @@ public class BloodApplyRest {
         PageData pageData=new PageData();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
-        return null;
+        return pageData;
     }
     /**
      * 保存用血申请记录

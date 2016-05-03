@@ -100,15 +100,14 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'mazuifangfa',title:'科室',width:'18%',align:'center'},
+            {field:'deptCode',title:'科室',width:'18%',align:'center'},
             {field:'applyNum',title:'申请单号',width:'18%',align:'center'},
-            {field:'shoushuDoctor',title:'血源',width:'18%',align:'center'},
-            {field:'shoushuDoctor',title:'诊断',width:'18%',align:'center'},
-            {field:'shoushuDoctor',title:'血型',width:'18%',align:'center'},
-            {field:'shoushuDoctor',title:'方式',width:'18%',align:'center'},
-            {field:'shoushuDoctor',title:'用血量',width:'18%',align:'center'},
-            {field:'shoushuDoctor',title:'血液成分',width:'18%',align:'center'},
-            {field:'shoushuDate',title:'手术时间',width:'30%',align:'center',formatter:formatDateBoxFull},
+            {field:'bloodInuse',title:'血源',width:'18%',align:'center'},
+            {field:'bloodDiagnose',title:'诊断',width:'18%',align:'center'},
+            {field:'preBloodType',title:'血型',width:'18%',align:'center'},
+            {field:'bloodInuse',title:'方式',width:'18%',align:'center'},
+            {field:'bloodSum',title:'用血量',width:'18%',align:'center'},
+            {field:'gatherDate',title:'申请时间',width:'30%',align:'center',formatter:formatDateBoxFull},
             {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
                 var state="1";
                 var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\''+row.id+'\',\''+state+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
