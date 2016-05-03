@@ -4,12 +4,11 @@
 package com.jims.clinic.service;
 
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.BloodCapacityServiceApi;
 import com.jims.clinic.dao.BloodCapacityDao;
 import com.jims.clinic.entity.BloodCapacity;
-import com.jims.common.service.CrudService;
 import com.jims.common.service.impl.CrudImplService;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,6 +20,6 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = true)
-public class BloodCapacityService extends CrudImplService<BloodCapacityDao, BloodCapacity> implements BloodCapacityServiceApi {
+public class BloodCapacityServiceImpl extends CrudImplService<BloodCapacityDao, BloodCapacity> implements BloodCapacityServiceApi {
 
 }
