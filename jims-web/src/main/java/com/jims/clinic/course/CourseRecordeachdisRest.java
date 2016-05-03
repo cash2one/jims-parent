@@ -36,7 +36,7 @@ public class CourseRecordeachdisRest{
         StringData data = new StringData();
         String num = data.getCode();
         if (courseRecordEachdis != null) {
-            num = courseRecordEachdisApi.saveEachdis(courseRecordEachdis);
+            num = courseRecordEachdisApi.save(courseRecordEachdis);
         }
         data.setCode(num);
         data.setData("success");
@@ -52,8 +52,6 @@ public class CourseRecordeachdisRest{
     @POST
     public CourseRecordEachdis get(String id){
         CourseRecordEachdis courseRecordEachdis=courseRecordEachdisApi.getEachdisByCourseRecordId(id);
-        courseRecordEachdis.setLuruShijian(courseRecordEachdis.getCourseRecord().getLuruShijian());
-        courseRecordEachdis.setType(courseRecordEachdis.getCourseRecord().getType());
         return courseRecordEachdis;
     }
 }

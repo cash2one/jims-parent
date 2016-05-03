@@ -26,24 +26,24 @@
 
 
     <sql id="courseRecordStageColumns">
-		a.id AS "id",
-		a.bingcheng_id AS "courseRecord.id",
-		a.yibanqingkuang AS "yibanqingkuang",
-		a.ruyuanzhenduan AS "ruyuanzhenduan",
-		a.zhenliaojingguo AS "zhenliaojingguo",
-		a.muqianqingkuang AS "muqianqingkuang",
-		a.muqianzhenduan AS "muqianzhenduan",
-		a.zhenliaojihua AS "zhenliaojihua",
-		a.create_by AS "createBy.id",
-		a.create_date AS "createDate",
-		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate",
-		a.remarks AS "remarks",
-		a.zhusu AS "zhusu",
-		a.lasttime AS "lasttime",
-		a.nowtime AS "nowtime",
-		a.del_flag AS "delFlag"
-	</sql>
+        a.id AS "id",
+        a.bingcheng_id AS "courseRecord.id",
+        a.yibanqingkuang AS "yibanqingkuang",
+        a.ruyuanzhenduan AS "ruyuanzhenduan",
+        a.zhenliaojingguo AS "zhenliaojingguo",
+        a.muqianqingkuang AS "muqianqingkuang",
+        a.muqianzhenduan AS "muqianzhenduan",
+        a.zhenliaojihua AS "zhenliaojihua",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.remarks AS "remarks",
+        a.zhusu AS "zhusu",
+        a.lasttime AS "lasttime",
+        a.nowtime AS "nowtime",
+        a.del_flag AS "delFlag"
+    </sql>
 
 
     <select id="get" resultType="CourseRecordStage">
@@ -55,10 +55,13 @@
 
 
 
-    <select id="getByCourseId" resultMap="BaseResultMap">
+    <select id="getByCourseId" resultType="CourseRecordStage">
         SELECT
-        <include refid="courseRecordStageColumns"/>
-        FROM course_record_stage a
+        a.id AS "id",a.bingcheng_id AS "bingchengId",a.yibanqingkuang AS "yibanqingkuang",a.ruyuanzhenduan AS "ruyuanzhenduan",
+		a.zhenliaojingguo AS "zhenliaojingguo",a.muqianqingkuang AS "muqianqingkuang",a.muqianzhenduan AS "muqianzhenduan",a.zhenliaojihua AS "zhenliaojihua",
+		a.zhusu AS "zhusu",a.lasttime AS "lasttime",a.nowtime AS "nowtime",b.type as "type",b.luru_shijian as "luruShijian"
+        FROM course_record_stage a left join  course_record b
+        on a.bingcheng_id = b.id
         WHERE a.bingcheng_id = #{courseRecordId}
     </select>
     <select id="findList" resultType="CourseRecordStage">
@@ -116,7 +119,7 @@
 			del_flag
 		) VALUES (
 			#{id},
-			#{courseRecord.id},
+			#{bingchengId},
 			#{yibanqingkuang},
 			#{ruyuanzhenduan},
 			#{zhenliaojingguo},

@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 
 /**
  * Created by qinlongxin on 2016/4/22.
- * 阶段小结
  */
 
 @Component
@@ -24,27 +23,27 @@ public class CourseRecordStateRest {
     @Reference( version = "1.0.0")
     private CourseRecordStageApi courseRecordStageApi;
     /**
-     * 保存
+     * 保存每日病程
      */
     @Path("save")
     @POST
     public StringData save(CourseRecordStage courseRecordStage) {
         CourseRecord courseRecord=new CourseRecord();
-        courseRecord.setLuruShijian(courseRecordStage.getLuruShijian());
-        courseRecord.setType("3");
+        courseRecord.setType("2");
         courseRecord.setPatientId("16013020");
         courseRecord.setZhuyuanId("c1a84181-c0e0-11e5-8417-0894ef010b21");
         courseRecordStage.setCourseRecord(courseRecord);
         StringData data = new StringData();
         String num = data.getCode();
         if (courseRecordStage != null) {
-            num = courseRecordStageApi.saveStage(courseRecordStage);
+            num = courseRecordStageApi.save(courseRecordStage);
         }
         data.setCode(num);
         data.setData("success");
         return data;
     }
 
+<<<<<<< HEAD
     /**
      * 获取阶段小结
      */
@@ -52,12 +51,12 @@ public class CourseRecordStateRest {
     @POST
     public CourseRecordStage get(String id){
         CourseRecordStage courseRecordStage=courseRecordStageApi.getByCourseId(id);
-        courseRecordStage.setLuruShijian(courseRecordStage.getLuruShijian());
-        courseRecordStage.setType(courseRecordStage.getType());
         return  courseRecordStage;
 
     }
 
 
+=======
+>>>>>>> f2eedef40fe03ae998e8d39e6333c24ac9bd2c55
 
 }

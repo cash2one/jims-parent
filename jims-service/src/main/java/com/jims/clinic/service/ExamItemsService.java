@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author zhaoning
  * @version 2016-04-25
  */
-@Service
+@Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public class ExamItemsService extends CrudImplService<ExamItemsDao, ExamItems> implements ExamItemsServiceApi {
 

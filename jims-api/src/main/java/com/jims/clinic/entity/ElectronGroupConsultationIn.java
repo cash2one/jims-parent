@@ -16,18 +16,19 @@ import java.util.List;
  * @version 2016-04-23
  */
 public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsultationIn> {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String doctorId;		// 医生ID
+	private String officeId;		// 科室ID
 	private String huizhenId;		// 参与会诊ID
-	private String huizhenyijian;		// 会诊意见
+	private String inHuizhenyijian;		// 会诊意见
 	private String qianmingstype;		// 签名类型
 	private Date qianmingshijian;		// 签名时间
 	private String qianmingId;		// 医生签名
 
 	private ElectronGroupConsultation electronGroupConsultation;
 	private List<ElectronGroupConsultation> list;
-	
+
 	public ElectronGroupConsultationIn() {
 		super();
 	}
@@ -44,7 +45,7 @@ public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsult
 	public void setDoctorId(String doctorId) {
 		this.doctorId = doctorId;
 	}
-	
+
 	@Length(min=0, max=64, message="参与会诊ID长度必须介于 0 和 64 之间")
 	public String getHuizhenId() {
 		return huizhenId;
@@ -53,15 +54,15 @@ public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsult
 	public void setHuizhenId(String huizhenId) {
 		this.huizhenId = huizhenId;
 	}
-	
-	public String getHuizhenyijian() {
-		return huizhenyijian;
+
+	public String getInHuizhenyijian() {
+		return inHuizhenyijian;
 	}
 
-	public void setHuizhenyijian(String huizhenyijian) {
-		this.huizhenyijian = huizhenyijian;
+	public void setInHuizhenyijian(String inHuizhenyijian) {
+		this.inHuizhenyijian = inHuizhenyijian;
 	}
-	
+
 	@Length(min=0, max=1, message="签名类型长度必须介于 0 和 1 之间")
 	public String getQianmingstype() {
 		return qianmingstype;
@@ -70,7 +71,7 @@ public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsult
 	public void setQianmingstype(String qianmingstype) {
 		this.qianmingstype = qianmingstype;
 	}
-	
+
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getQianmingshijian() {
 		return qianmingshijian;
@@ -79,7 +80,7 @@ public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsult
 	public void setQianmingshijian(Date qianmingshijian) {
 		this.qianmingshijian = qianmingshijian;
 	}
-	
+
 	@Length(min=0, max=64, message="医生签名长度必须介于 0 和 64 之间")
 	public String getQianmingId() {
 		return qianmingId;
@@ -103,5 +104,13 @@ public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsult
 
 	public void setList(List<ElectronGroupConsultation> list) {
 		this.list = list;
+	}
+
+	public String getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(String officeId) {
+		this.officeId = officeId;
 	}
 }

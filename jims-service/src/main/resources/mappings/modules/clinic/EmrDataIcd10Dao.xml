@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.EmrDataIcd10Dao">
+    
+	<sql id="emrDataIcd10Columns">
+		a.id AS "id",
+		a.pid AS "pid",
+		a.code AS "code",
+		a.zhongwen_mingcheng AS "zhongwenMingcheng",
+		a.pinyin_index AS "pinyinIndex",
+		a.keyword_shuoming AS "keywordShuoming",
+		a.yingwen_mingcheng AS "yingwenMingcheng",
+		a.shuoming AS "shuoming",
+		a.other_info AS "otherInfo",
+		a.sub_direct_number AS "subDirectNumber",
+		a.sub_total_number AS "subTotalNumber",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="emrDataIcd10Joins">
+	</sql>
+    
+	<select id="get" resultType="EmrDataIcd10">
+		SELECT 
+			<include refid="emrDataIcd10Columns"/>
+		FROM emr_data_icd10 a
+		<include refid="emrDataIcd10Joins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="EmrDataIcd10">
+		SELECT 
+			<include refid="emrDataIcd10Columns"/>
+		FROM emr_data_icd10 a
+		<include refid="emrDataIcd10Joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="keywordShuoming!=null and keywordShuoming!=''">
+			 and	a.keyword_shuoming  LIKE "%${keywordShuoming}%"
+			</if>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="EmrDataIcd10">
+		SELECT 
+			<include refid="emrDataIcd10Columns"/>
+		FROM emr_data_icd10 a
+		<include refid="emrDataIcd10Joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO emr_data_icd10(
+			id,
+			pid,
+			code,
+			zhongwen_mingcheng,
+			pinyin_index,
+			keyword_shuoming,
+			yingwen_mingcheng,
+			shuoming,
+			other_info,
+			sub_direct_number,
+			sub_total_number,
+			del_flag
+		) VALUES (
+			#{id},
+			#{pid},
+			#{code},
+			#{zhongwenMingcheng},
+			#{pinyinIndex},
+			#{keywordShuoming},
+			#{yingwenMingcheng},
+			#{shuoming},
+			#{otherInfo},
+			#{subDirectNumber},
+			#{subTotalNumber},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE emr_data_icd10 SET 	
+			pid = #{pid},
+			code = #{code},
+			zhongwen_mingcheng = #{zhongwenMingcheng},
+			pinyin_index = #{pinyinIndex},
+			keyword_shuoming = #{keywordShuoming},
+			yingwen_mingcheng = #{yingwenMingcheng},
+			shuoming = #{shuoming},
+			other_info = #{otherInfo},
+			sub_direct_number = #{subDirectNumber},
+			sub_total_number = #{subTotalNumber}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE emr_data_icd10 SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

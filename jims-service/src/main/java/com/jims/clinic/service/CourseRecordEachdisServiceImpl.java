@@ -34,8 +34,10 @@ public class CourseRecordEachdisServiceImpl extends CrudImplService<CourseRecord
      * @Author zhaoning
      * @version 2016-04-21
      */
-    public String saveEachdis(CourseRecordEachdis courseRecordEachdis){
+    public String save(CourseRecordEachdis courseRecordEachdis){
         CourseRecord courseRecord =  courseRecordEachdis.getCourseRecord();
+        courseRecord.setId(courseRecordEachdis.getBingchengId());
+
         if(courseRecord!=null){
             if (courseRecord.getIsNewRecord()){
                 courseRecord.preInsert();
@@ -48,7 +50,7 @@ public class CourseRecordEachdisServiceImpl extends CrudImplService<CourseRecord
         if(courseRecord!=null && courseRecord.getId()!=null){
             courseRecordEachdis.setBingchengId(courseRecord.getId());//设置病程ID
         }
-        return super.save(courseRecordEachdis);//保存每日病程
+        return save(courseRecordEachdis);//保存每日病程
     }
     /**
      * 根据病程主记录查询 每日病程

@@ -24,7 +24,7 @@ public interface CourseRecordEachdisApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public  String  saveEachdis(CourseRecordEachdis courseRecordEachdis);
+    public  String  save(CourseRecordEachdis courseRecordEachdis);
     /**
      * 通过病程记录主要表bingcheng_id查询每日病程
      * @author qinlongxin

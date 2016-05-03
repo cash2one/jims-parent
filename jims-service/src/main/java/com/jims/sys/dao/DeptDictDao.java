@@ -18,10 +18,22 @@ import java.util.List;
 @MyBatisDao
 public interface DeptDictDao extends CrudDao<DeptDict> {
 
+    /**
+     * 查询所有的科室信息
+     * @return
+     */
     public List<DeptDict> findAll();
 
+    /**
+     * 查询科室属性信息
+     * @return
+     */
     public List<DeptDict> findProperty();
 
+    /**
+     * 查询上级科室信息
+     * @return
+     */
     public List<DeptDict> findParent();
 	
 }

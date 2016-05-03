@@ -13,5 +13,4 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
-	
 }
