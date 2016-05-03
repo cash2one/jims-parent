@@ -26,8 +26,8 @@ public class ExamItemsServiceImpl extends CrudImplService<ExamItemsDao, ExamItem
     private ExamItemsDao examItemsDao;
 
     @Override
-    public Integer saveExamItem(ExamItems examItems) {
-        return examItemsDao.saveExamItems(examItems);
+    public void saveExamItem(ExamItems examItems) {
+         examItemsDao.saveExamItems(examItems);
     }
 
     @Override

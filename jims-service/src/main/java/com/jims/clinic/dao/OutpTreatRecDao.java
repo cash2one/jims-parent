@@ -33,7 +33,7 @@ public interface OutpTreatRecDao extends CrudDao<OutpTreatRec> {
      *
      * @param outpTreatRec
      */
-    public Integer saveTreatRec(OutpTreatRec outpTreatRec);
+    public void saveTreatRec(OutpTreatRec outpTreatRec);
 
     /**
      * 删除治疗医嘱主记录

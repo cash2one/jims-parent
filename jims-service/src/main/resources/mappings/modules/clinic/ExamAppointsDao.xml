@@ -88,7 +88,7 @@
 		FROM exam_appoints a
 		<include refid="examAppointsJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.del_flag ='0'
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
@@ -474,5 +474,10 @@
 		DELETE FROM exam_appoints
 		WHERE
 		exam_no = #{examNo}
+	</update>
+
+	<update id="deleteExamAppionts">
+		DELETE FROM exam_appoints
+		WHERE exam_no = #{examNo}
 	</update>
 </mapper>

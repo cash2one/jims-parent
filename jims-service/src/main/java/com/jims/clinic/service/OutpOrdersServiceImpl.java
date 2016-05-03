@@ -27,8 +27,8 @@ public class OutpOrdersServiceImpl extends CrudImplService<OutpOrdersDao, OutpOr
 
 
     @Override
-    public Integer saveOutpOrders(OutpOrders outpOrders) {
-        return outpOrdersDao.saveOutpOrders(outpOrders);
+    public void saveOutpOrders(OutpOrders outpOrders) {
+         outpOrdersDao.saveOutpOrders(outpOrders);
     }
 
     @Override

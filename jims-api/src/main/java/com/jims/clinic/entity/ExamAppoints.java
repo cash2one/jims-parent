@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 检查预约记录Entity
@@ -77,7 +78,36 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private Integer printStatus;		// print_status
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
-	
+
+	//扩展
+	private List<OutpTreatRec> outpTreatRecs;
+	private List<ExamItems> examItemses;
+	private List<OutpOrdersCosts> outpOrdersCostses;
+
+	public List<OutpOrdersCosts> getOutpOrdersCostses() {
+		return outpOrdersCostses;
+	}
+
+	public void setOutpOrdersCostses(List<OutpOrdersCosts> outpOrdersCostses) {
+		this.outpOrdersCostses = outpOrdersCostses;
+	}
+
+	public List<ExamItems> getExamItemses() {
+		return examItemses;
+	}
+
+	public void setExamItemses(List<ExamItems> examItemses) {
+		this.examItemses = examItemses;
+	}
+
+	public List<OutpTreatRec> getOutpTreatRecs() {
+		return outpTreatRecs;
+	}
+
+	public void setOutpTreatRecs(List<OutpTreatRec> outpTreatRecs) {
+		this.outpTreatRecs = outpTreatRecs;
+	}
+
 	public ExamAppoints() {
 		super();
 	}

@@ -23,7 +23,7 @@ public interface OutpOrdersDao extends CrudDao<OutpOrders> {
      * @param outpOrders
      * @return
      */
-    public Integer saveOutpOrders(OutpOrders outpOrders);
+    public void saveOutpOrders(OutpOrders outpOrders);
 
 
     /**

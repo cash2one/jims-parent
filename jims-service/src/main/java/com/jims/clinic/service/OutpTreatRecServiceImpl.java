@@ -33,8 +33,8 @@ public class OutpTreatRecServiceImpl extends CrudImplService<OutpTreatRecDao, Ou
     }
 
     @Override
-    public Integer saveTreatRec(OutpTreatRec outpTreatRec) {
-        return outpTreatRecDao.saveTreatRec(outpTreatRec);
+    public void saveTreatRec(OutpTreatRec outpTreatRec) {
+         outpTreatRecDao.saveTreatRec(outpTreatRec);
     }
 
     @Override

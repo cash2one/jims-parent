@@ -23,7 +23,7 @@ public interface OutpTreatRecServiceApi {
      * 保存检查治疗医嘱明细记录
      * @param outpTreatRec
      */
-    public  Integer saveTreatRec(OutpTreatRec outpTreatRec);
+    public  void saveTreatRec(OutpTreatRec outpTreatRec);
 
     /**
      * 删除治疗医嘱主记录

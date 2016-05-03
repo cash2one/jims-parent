@@ -35,7 +35,7 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
      * @param outpOrdersCosts
      * @return
      */
-    public String saveOrdersCosts(OutpOrdersCosts outpOrdersCosts);
+    public void saveOrdersCosts(OutpOrdersCosts outpOrdersCosts);
 
     public List<OutpOrdersCosts> loadOutpOrders(Date visitDate, Integer visitNo, String itemClass);
 

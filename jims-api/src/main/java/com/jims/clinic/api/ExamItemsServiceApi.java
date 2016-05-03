@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface ExamItemsServiceApi {
     //检查项目保存
-    public Integer saveExamItem(ExamItems examItems);
+    public void saveExamItem(ExamItems examItems);
 
     /**
      * 根据申请序号查询项目

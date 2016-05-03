@@ -19,7 +19,7 @@ public interface ExamItemsDao extends CrudDao<ExamItems> {
     /**
      *  检查项目保存
      */
-    public  Integer saveExamItems(ExamItems examItems);
+    public  void saveExamItems(ExamItems examItems);
 
     /**
      * 根据申请序号查询检查项目

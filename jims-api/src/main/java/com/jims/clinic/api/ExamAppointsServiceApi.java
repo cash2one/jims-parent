@@ -4,6 +4,7 @@ import com.jims.clinic.entity.ExamAppoints;
 import com.jims.common.persistence.Page;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/4/25.
@@ -41,13 +42,37 @@ public interface ExamAppointsServiceApi {
      */
     public ExamAppoints get(String id);
 
-    //查询检查预约记录
+    /**
+     * 查询检查预约记录
+     * @param patientId
+     * @return
+     */
     public List<ExamAppoints> getExamAppionts(String patientId);
-    //保存预约记录
-    public  Integer saveExamAppionts(ExamAppoints examAppoints);
-    // 删除预约记录
+
+    /**
+     * 保存预约记录
+     * @param examAppoints
+     */
+    public  void saveExamAppionts(ExamAppoints examAppoints);
+
+    /**
+     * 删除预约记录
+     * @param examNo
+     * @return
+     */
+
     public Integer deleteExamAppionts( String examNo);
-    //获得最大的申请序号
+
+    /**
+     * 获得最大的申请序号
+     * @return
+     */
     public Integer getMaxExamNo();
+    /**
+     * 检查申请保存
+     * @param
+     * @return
+     */
+    public int batchSave(ExamAppoints examAppoints);
 }
 

@@ -31,7 +31,7 @@ public interface ExamAppointsDao extends CrudDao<ExamAppoints> {
      * @param examAppoints
      * @return
      */
-    public Integer saveExamAppionts(ExamAppoints examAppoints);
+    public int saveExamAppionts(ExamAppoints examAppoints);
 
     /**
      * 删除预约记录

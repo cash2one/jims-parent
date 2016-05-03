@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface OutpOrdersServiceApi {
     //保存门诊医嘱主记录
-    public Integer saveOutpOrders(OutpOrders outpOrders);
+    public void saveOutpOrders(OutpOrders outpOrders);
     //查询序列号
     public String getSerialNo();
 

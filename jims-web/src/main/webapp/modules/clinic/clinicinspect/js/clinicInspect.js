@@ -27,12 +27,11 @@ function onloadMethod() {
                 data: description = data.examSubclassName,
                 dataType: "json",
                 success: function (data) {
-                  //  $('.drag').draggable("options",data);
                     var html='';
                     var ids="";
                     var hidden="";
                     for(var i= 0;i<data.length;i++){
-                        hidden='<input type="hidden" name="description" id="descriptionId'+data[i].inputCode+i+'">';
+                        hidden='<input type="hidden" class="submitName"  value="'+data[i].description+'" id="descriptionId'+data[i].inputCode+i+'">';
                         html+='<div id="descriptionId'+data[i].inputCode+i+'"  style="height:20px " submit_id="descriptionId'+data[i].inputCode+i+'" class="drag">'+data[i].description+hidden+'</div>';
 
                         ids+="#descriptionId"+data[i].inputCode+i+",";
@@ -138,6 +137,68 @@ function onloadMethod() {
 
 }
 
+//批量删除
+function doDelete() {
+    //把你选中的 数据查询出来。
+    var selectRows = $('#list_data').datagrid("getSelections");
+    if (selectRows.length < 1) {
+        $.messager.alert("提示消息", "请选中要删的数据!");
+        return;
+    }
+
+    //真删除数据
+    //提醒用户是否是真的删除数据
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        if (r) {
+            //真删除了  1,3,4
+            var strIds = "";
+            for (var i = 0; i < selectRows.length; i++) {
+                strIds += selectRows[i].id + ",";
+            }
+            strIds = strIds.substr(0, strIds.length - 1);
+            del(strIds);
+        }
+    })
+}
+
+//列删除
+function deleteRow(id) {
+    //真删除数据
+    //提醒用户是否是真的删除数据
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        if (r) {
+            del(id);
+        }
+    })
+}
+
+/**
+ * 删除方法
+ * @param id
+ */
+function del(id) {
+    $.ajax({
+        'type': 'POST',
+        'url': basePath + '/clinicInspect/del',
+        'contentType': 'application/json',
+        'data': id = id,
+        'dataType': 'json',
+        'success': function (data) {
+            if (data.data == 'success') {
+                $.messager.alert("提示消息", data.code + "条记录，已经删除");
+                $('#list_data').datagrid('load');
+                $('#list_data').datagrid('clearChecked');
+            } else {
+                $.messager.alert('提示', "删除失败", "error");
+            }
+        },
+        'error': function (data) {
+            $.messager.alert('提示', "保存失败", "error");
+        }
+    });
+}
+
+
 /**
  * 查看字典
  * @param id
@@ -172,13 +233,23 @@ function get(id) {
             $('#clinicInspectForm').form('load', data);
         }
     });
-
+}
     //保存
-    function save(){
-        formSubmitInput("clinicInspectForm");
-        $.postForm(basePath+"/courseRecordSuperiorDocrecor/save","enterForm",function(data){
+    function saveClinicInspect(){
+        var formJson=fromJson('clinicInspectForm');
+        formJson = formJson.substring(0, formJson.length - 1);
+        var divJson="";
+        $('#target .submitName').each(function (index, element) {
+            divJson+="{\"itemName\":\""+$(this).val()+"\"},";
+        })
+        divJson = divJson.substring(0, divJson.length - 1);
+        var submitJson=formJson+",\"outpOrdersCostses\":["+divJson+"]}";
+
+        $.postJSON(basePath+"/clinicInspect/saveExamAppoints",submitJson,function(data){
             if(data.code=="1"){
                 $.messager.alert("提示信息","保存成功");
+                $('#list_data').datagrid('load');
+                $("#clinicInspectForm").form('clear');
             }else{
                 $.messager.alert("提示信息","保存失败","error");
             }
@@ -186,6 +257,5 @@ function get(id) {
         }),function(data){
             $.messager.alert("提示信息","保存失败","error");
         }
-    }
-
 }
+

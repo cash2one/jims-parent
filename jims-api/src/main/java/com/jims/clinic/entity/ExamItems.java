@@ -6,6 +6,8 @@ package com.jims.clinic.entity;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 /**
  * 检查项目记录Entity
  * @author zhaoning
@@ -22,7 +24,9 @@ public class ExamItems extends DataEntity<ExamItems> {
 	private Integer billingIndicator;		// billing_indicator
 	private String rcptNo;		// 收据号
 	private String explanation;		// 退费说明
-	
+
+
+
 	public ExamItems() {
 		super();
 	}

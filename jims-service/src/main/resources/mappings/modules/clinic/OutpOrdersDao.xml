@@ -168,7 +168,7 @@
 
 	<insert id="saveOutpOrders">
 	INSERT INTO outp_orders(
-	id
+	id,
 	patient_id,
 	visit_date,
 	visit_no,
@@ -180,7 +180,7 @@
 	doctor_no,
 	nurse
 	) VALUES (
-	#{id}
+	#{id},
 	#{patientId},
 	#{visitDate},
 	#{visitNo},
