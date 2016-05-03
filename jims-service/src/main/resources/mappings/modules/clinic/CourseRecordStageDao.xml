@@ -55,15 +55,15 @@
 
 
 
-    <select id="getByCourseId" resultType="CourseRecordStage">
-        SELECT
-        a.id AS "id",a.bingcheng_id AS "bingchengId",a.yibanqingkuang AS "yibanqingkuang",a.ruyuanzhenduan AS "ruyuanzhenduan",
-		a.zhenliaojingguo AS "zhenliaojingguo",a.muqianqingkuang AS "muqianqingkuang",a.muqianzhenduan AS "muqianzhenduan",a.zhenliaojihua AS "zhenliaojihua",
-		a.zhusu AS "zhusu",a.lasttime AS "lasttime",a.nowtime AS "nowtime",b.type as "type",b.luru_shijian as "luruShijian"
-        FROM course_record_stage a left join  course_record b
-        on a.bingcheng_id = b.id
-        WHERE a.bingcheng_id = #{courseRecordId}
-    </select>
+    <!--<select id="getByCourseId" resultType="CourseRecordStage">-->
+        <!--SELECT-->
+        <!--a.id AS "id",a.bingcheng_id AS "bingchengId",a.yibanqingkuang AS "yibanqingkuang",a.ruyuanzhenduan AS "ruyuanzhenduan",-->
+		<!--a.zhenliaojingguo AS "zhenliaojingguo",a.muqianqingkuang AS "muqianqingkuang",a.muqianzhenduan AS "muqianzhenduan",a.zhenliaojihua AS "zhenliaojihua",-->
+		<!--a.zhusu AS "zhusu",a.lasttime AS "lasttime",a.nowtime AS "nowtime",b.type as "type",b.luru_shijian as "luruShijian"-->
+        <!--FROM course_record_stage a left join  course_record b-->
+        <!--on a.bingcheng_id = b.id-->
+        <!--WHERE a.bingcheng_id = #{courseRecordId}-->
+    <!--</select>-->
     <select id="findList" resultType="CourseRecordStage">
         SELECT
         <include refid="courseRecordStageColumns"/>

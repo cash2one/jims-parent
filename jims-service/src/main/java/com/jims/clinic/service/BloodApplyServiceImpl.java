@@ -5,7 +5,7 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.BloodApplyServiceApi;
-import com.jims.clinic.dao.BloodApplyDao;
+import com.jims.clinic.dao.BloodApplylDao;
 import com.jims.clinic.entity.BloodApply;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service(version ="1.0.0")
 @Transactional(readOnly = true)
-public class BloodApplyServiceImpl extends CrudImplService<BloodApplyDao,BloodApply> implements BloodApplyServiceApi {
+public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao,BloodApply> implements BloodApplyServiceApi {
 
 }
