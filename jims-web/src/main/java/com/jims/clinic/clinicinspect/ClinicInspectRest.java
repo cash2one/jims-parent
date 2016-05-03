@@ -76,63 +76,10 @@ public class ClinicInspectRest {
     @POST
     public StringData deleteExamAppionts(String id) {
         StringData stringData = new StringData();
-        ExamAppoints examAppoints = examAppointsServiceApi.get(id);
-        String examNo = examAppoints.getExamNo();
-        int num = examAppointsServiceApi.deleteExamAppionts(examNo);
+        int num = examAppointsServiceApi.deleteExamAppionts(id);
             stringData.setCode(num+"");
             stringData.setData("success");
             return stringData;
 
     }
-
-//
-//    OutpOrdersCosts getOutpOrdersCosts(ExamAppoints examAppoints,OutpOrdersCosts outpOrdersCosts){
-//        Integer serialNo;
-//        String serialTemp;
-//        outpOrdersCosts.setPatientId(examAppoints.getPatientId());
-//        outpOrdersCosts.setVisitNo(examAppoints.getVisitNo());
-//        outpOrdersCosts.setVisitDate(examAppoints.getVisitDate());
-//        Integer itemNo = outpOrdersCostsServiceApi.getMaxItemNo(examAppoints.getVisitDate(), examAppoints.getVisitNo(), examAppoints.getExamClass());
-//        if(itemNo!=null){
-//            outpOrdersCosts.setItemNo(itemNo+1);
-//        }else{
-//            outpOrdersCosts.setItemNo(1);
-//        }
-//
-//        serialNo =  outpOrdersCostsServiceApi.getSerialNo();
-//
-//        Integer orderNo ;
-//        Integer subOrderNo = 1;
-//
-//        outpOrdersCosts.setSerialNo(serialNo+"");
-//        outpOrdersCosts.setOrderClass("D");
-//        orderNo = outpOrdersCostsServiceApi.getMaxOrderNo(examAppoints.getVisitDate(),examAppoints.getVisitNo(),serialNo+"");
-//        if (orderNo==null) {
-//            orderNo=1;
-//        }
-//        outpOrdersCosts.setOrderNo(orderNo);
-//
-//        outpOrdersCosts.setOrderSubNo(subOrderNo);
-//
-//        return  outpOrdersCosts;
-//    }
-//
-//    OutpTreatRec getOutpTreatRec(OutpOrdersCosts outpOrdersCosts){
-//        OutpTreatRec outpTreatRec=new OutpTreatRec();
-//        outpTreatRec.setVisitDate(outpOrdersCosts.getVisitDate());
-//        outpTreatRec.setVisitNo(outpOrdersCosts.getVisitNo());
-//        outpTreatRec.setItemNo(outpOrdersCosts.getItemNo());
-//        outpTreatRec.setItemClass(outpOrdersCosts.getItemClass());
-//        outpTreatRec.setItemName(outpOrdersCosts.getItemName());
-//        outpTreatRec.setItemCode(outpOrdersCosts.getItemCode());
-//        outpTreatRec.setItemSpec(outpOrdersCosts.getItemSpec());
-//        outpTreatRec.setUnits(outpOrdersCosts.getUnits());
-//        outpTreatRec.setAmount(outpOrdersCosts.getAmount());
-//        outpTreatRec.setSerialNo(outpOrdersCosts.getSerialNo());
-//        outpTreatRec.setPerformedBy(outpOrdersCosts.getPerformedBy());
-//        outpTreatRec.setCosts(outpOrdersCosts.getCosts());
-//        outpTreatRec.setCharges(outpOrdersCosts.getCharges());
-//        outpTreatRec.setChargeIndicator(outpOrdersCosts.getChargeIndicator());
-//        return outpTreatRec;
-//    }
 }

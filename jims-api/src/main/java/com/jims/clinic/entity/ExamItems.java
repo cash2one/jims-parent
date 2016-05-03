@@ -24,8 +24,15 @@ public class ExamItems extends DataEntity<ExamItems> {
 	private Integer billingIndicator;		// billing_indicator
 	private String rcptNo;		// 收据号
 	private String explanation;		// 退费说明
+	private String appointsId; //主记录id
 
+	public String getAppointsId() {
+		return appointsId;
+	}
 
+	public void setAppointsId(String appointsId) {
+		this.appointsId = appointsId;
+	}
 
 	public ExamItems() {
 		super();

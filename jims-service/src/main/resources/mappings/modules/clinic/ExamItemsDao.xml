@@ -17,7 +17,8 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.appoints_id AS appointsId
 	</sql>
 	
 	<sql id="examItemsJoins">
@@ -83,7 +84,8 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag
+			del_flag,
+			appoints_id
 		) VALUES (
 			#{id},
 			#{examNo},
@@ -99,7 +101,8 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{appointsId}
 		)
 	</insert>
 	
@@ -115,7 +118,8 @@
 			explanation = #{explanation},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			appoints_id = #{appointsId}
 		WHERE id = #{id}
 	</update>
 	
@@ -133,7 +137,8 @@
 		exam_item,
 		exam_item_code,
 		costs,
-		billing_indicator
+		billing_indicator,
+		appoints_id
 		) VALUES (
 		#{id},
 		#{examNo},
@@ -141,7 +146,8 @@
 		#{examItem},
 		#{examItemCode},
 		#{costs},
-		#{billingIndicator}
+		#{billingIndicator},
+		#{appointsId}
 		)
 	</insert>
 	<select id="loadExamItems" resultType="ExamItems">
@@ -153,6 +159,6 @@
 
 	<update id="deleteItems">
 		DELETE FROM exam_items
-		WHERE exam_no = #{examNo}
+		WHERE appoints_id = #{appointsId}
 	</update>
 </mapper>

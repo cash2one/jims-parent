@@ -31,8 +31,8 @@ public interface ExamItemsDao extends CrudDao<ExamItems> {
 
     /**
      * 删除检查项目
-     * @param examNo
+     * @param appointsId
      * @return
      */
-    public Integer deleteItems(String examNo);
+    public Integer deleteItems(String appointsId);
 }

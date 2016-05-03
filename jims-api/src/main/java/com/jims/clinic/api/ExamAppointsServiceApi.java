@@ -57,11 +57,11 @@ public interface ExamAppointsServiceApi {
 
     /**
      * 删除预约记录
-     * @param examNo
+     * @param id
      * @return
      */
 
-    public Integer deleteExamAppionts( String examNo);
+    public Integer deleteExamAppionts( String id);
 
     /**
      * 获得最大的申请序号

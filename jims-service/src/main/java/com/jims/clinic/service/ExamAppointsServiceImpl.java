@@ -61,14 +61,24 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
     /**
      * 删除预约记录
      *
-     * @param examNo
+     * @param ids
      * @return
      */
     @Override
-    public Integer deleteExamAppionts(String examNo) {
-       int delApp= examAppointsDao.deleteExamAppionts(examNo);
-        examItemsDao.deleteItems(examNo);
-        return delApp;
+    public Integer deleteExamAppionts(String ids) {
+        int i=0;
+        try {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++){
+                examAppointsDao.deleteExamAppionts(id[j]);
+                examItemsDao.deleteItems(id[j]);
+                i++;
+            }
+        }catch(Exception e){
+            return i;
+        }
+        return i;
+
     }
 
     /**
@@ -83,31 +93,50 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
 
     @Override
     public int batchSave(ExamAppoints examAppoints) {
-        //保存检查预约记录
-        if(examAppointsDao.getMaxExamNo()!=null){
-            examAppoints.setExamNo(examAppointsDao.getMaxExamNo()+1+"");
-        }else{
-            examAppoints.setExamNo("1");
-        }
-        examAppoints.setCnsltState(1);
+        int  num=0;
+//        //保存检查预约记录
+//        if(examAppointsDao.getMaxExamNo()!=null){
+//            examAppoints.setExamNo(examAppointsDao.getMaxExamNo()+1+"");
+//        }else{
+//            examAppoints.setExamNo("1");
+//        }
 
-        List<ExamItems> examItemses=examAppoints.getExamItemses();
-        List<OutpTreatRec> outpTreatRecs=examAppoints.getOutpTreatRecs();
+
+
+//
+//        List<ExamItems> examItemses=examAppoints.getExamItemses();
+//        List<OutpTreatRec> outpTreatRecs=examAppoints.getOutpTreatRecs();
         List<OutpOrdersCosts> outpOrdersCostses=examAppoints.getOutpOrdersCostses();
         for(int i=0;i<outpOrdersCostses.size();i++){
+
+            examAppoints.setCnsltState(1);
+            examAppoints.preInsert();
+            examAppoints.setPatientId("1111");
+            examAppoints.setVisitId(1);
+            examAppoints.setVisitNo(22);
+            examAppoints.setPatientLocalId("1");
+            examAppoints.setChargeType("1");
+            //   examAppoints.setExamSubClass(outpOrdersCosts.);
+            // examAppoints.setReqDateTime("215年8月5 2:21");
+            num = examAppointsDao.saveExamAppionts(examAppoints);
+
             OutpOrdersCosts outpOrdersCosts=outpOrdersCostses.get(i);
             outpOrdersCosts.preInsert();
+            outpOrdersCosts.setPatientId("1111");
+            outpOrdersCosts.setOrderNo(22);
+            outpOrdersCosts.setItemNo(1);
+            outpOrdersCosts.setItemClass("1");
+            outpOrdersCosts.setItemCode("123");
             outpOrdersCosts.setPatientId(examAppoints.getPatientId());
             outpOrdersCosts.setVisitNo(examAppoints.getVisitNo());
             outpOrdersCosts.setVisitDate(examAppoints.getReqDateTime());
+            //流水号,医嘱号
+            outpOrdersCosts.setOrderClass("A");
+            outpOrdersCosts.setSerialNo("111");
             outpOrdersCostsDao.saveOrdersCosts(outpOrdersCosts);
-            ExamItems examItems=new ExamItems();
-        //    ExamItems examItems=examItemses.get(i);
-            examItems.setExamNo(examAppoints.getExamNo());
-            examItems.preInsert();
-            examItemsDao.saveExamItems(examItems);
 
-         //   OutpTreatRec outpTreatRec=outpTreatRecs.get(i);
+
+
             OutpTreatRec outpTreatRec=new OutpTreatRec();
             outpTreatRec.preInsert();
             outpTreatRec.setVisitDate(outpOrdersCosts.getVisitDate());
@@ -135,17 +164,16 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             outpOrders.setClinicNo(outpOrdersCosts.getClinicNo());
             outpOrders.setOrderedBy(outpOrdersCosts.getOrderedByDept());
             outpOrders.setSerialNo(outpOrdersCosts.getSerialNo());
-        //    outpOrders.setDoctor(outpOrdersCostsDto.getDoctorName());
+            outpOrders.setDoctor("张三");
             outpOrdersDao.saveOutpOrders(outpOrders);
-
         }
-//        for(int i=0;i<outpTreatRecs.size();i++){
-//            OutpTreatRec outpTreatRec=outpTreatRecs.get(i);
-//            outpTreatRec.preInsert();
-//            outpTreatRecDao.saveTreatRec(outpTreatRec);
-//        };
-        examAppoints.preInsert();
-        int  num = examAppointsDao.saveExamAppionts(examAppoints);
+        ExamItems examItems=new ExamItems();
+        //    ExamItems examItems=examItemses.get(i);
+        examItems.setAppointsId(examAppoints.getId());
+        examItems.preInsert();
+        examItemsDao.saveExamItems(examItems);
+
+
         return  num;
     }
 

@@ -78,11 +78,17 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private Integer printStatus;		// print_status
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
-
+	private ExamItems examItems;
 	//扩展
-	private List<OutpTreatRec> outpTreatRecs;
-	private List<ExamItems> examItemses;
 	private List<OutpOrdersCosts> outpOrdersCostses;
+
+	public ExamItems getExamItems() {
+		return examItems;
+	}
+
+	public void setExamItems(ExamItems examItems) {
+		this.examItems = examItems;
+	}
 
 	public List<OutpOrdersCosts> getOutpOrdersCostses() {
 		return outpOrdersCostses;
@@ -92,21 +98,6 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 		this.outpOrdersCostses = outpOrdersCostses;
 	}
 
-	public List<ExamItems> getExamItemses() {
-		return examItemses;
-	}
-
-	public void setExamItemses(List<ExamItems> examItemses) {
-		this.examItemses = examItemses;
-	}
-
-	public List<OutpTreatRec> getOutpTreatRecs() {
-		return outpTreatRecs;
-	}
-
-	public void setOutpTreatRecs(List<OutpTreatRec> outpTreatRecs) {
-		this.outpTreatRecs = outpTreatRecs;
-	}
 
 	public ExamAppoints() {
 		super();
