@@ -10,12 +10,11 @@
     </select>
 
 
-    <select id="findAllList" resultType="OrgDeptPropertyDict">
+    <select id="findList" resultType="OrgDeptPropertyDict">
         SELECT
         *
         FROM ORG_DEPT_PROPERTY_DICT
-        WHERE del_flag = #{DEL_FLAG_NORMAL}
-        ORDER BY  sort, update_date DESC
+
     </select>
 
 
@@ -69,15 +68,44 @@
     </update>
 
     <select id="findNameByType" resultType="OrgDeptPropertyDict">
-        SELECT property_name
-        FROM ORG_DEPT_PROPERTY_DICT
+        SELECT *
+        FROM ORG_DEPT_PROPERTY_DICT WHERE property_type=#{propertyType}
+    </select>
 
+    <select id="findNameByTypeAndValue" resultType="OrgDeptPropertyDict">
+        SELECT property_name
+        FROM ORG_DEPT_PROPERTY_DICT WHERE property_type=#{0} and property_value=#{1}
     </select>
 
     <select id="findProperty" resultType="OrgDeptPropertyDict">
-        SELECT property_type
-        FROM ORG_DEPT_PROPERTY_DICT
-
+     select property_type,sum(sort) as sort from org_dept_property_dict
+     group by property_type order by sort
     </select>
+
+    <select id="findName" resultType="OrgDeptPropertyDict">
+        select * from ORG_DEPT_PROPERTY_DICT where property_type=#{propertyType}
+    </select>
+
+    <select id="findSort" resultType="OrgDeptPropertyDict">
+        select max(sort) as sort from ORG_DEPT_PROPERTY_DICT
+    </select>
+
+    <select id="findByCondition" resultType="OrgDeptPropertyDict">
+        SELECT
+        *
+        FROM ORG_DEPT_PROPERTY_DICT
+        <where>
+            <if test="propertyType!=null and propertyType!='' ">
+                property_type =#{propertyType}
+            </if>
+            <if test="propertyName!= null and propertyName!= '' ">
+                AND property_name = #{propertyName}
+            </if>
+            <if test="propertyValue!=null and propertyValue!= '' ">
+                AND property_value = #{propertyValue}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

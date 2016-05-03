@@ -29,12 +29,38 @@ public interface ElectronGroupConsultationApi {
     /**
      * 根据会诊主表ID 查询会诊信息
      * @param-ElectronGroupConsultation.id
-     * @return 需要返回主表包括所有的子表（ElectronGroupConsultationIn）信息List
+     * @return 需要返回主表
      */
     public ElectronGroupConsultation get(String id);
+
+    /**
+     * 根据保存会诊主表
+     * @param-ElectronGroupConsultation
+     * @return
+     */
+    //public String save(ElectronGroupConsultation electronGroupConsultation);
+
     /**
      * 删除会诊主表方法
      * @param id 会诊主表id
      */
     public String delete(String id);
+
+    /**
+     * 发布会诊主表方法
+     * @param "ElectronGroupConsultation.id 会诊主表id"
+     * @author xueyx
+     * @version 2016-04-26
+     */
+    public void fabu(ElectronGroupConsultation electronGroupConsultation);
+
+    /**
+     * 保存发布会诊人的意见
+     * @param "ElectronGroupConsultation.id 会诊主表id"
+     * @param "ElectronGroupConsultation.huizhenyijian "
+     * @author xueyx
+     * @version 2016-04-26
+     */
+    public void saveMainOnly(ElectronGroupConsultation electronGroupConsultation);
+
 }

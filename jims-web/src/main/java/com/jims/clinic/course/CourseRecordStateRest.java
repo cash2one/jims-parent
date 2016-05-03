@@ -43,5 +43,20 @@ public class CourseRecordStateRest {
         return data;
     }
 
+<<<<<<< HEAD
+    /**
+     * 获取阶段小结
+     */
+    @Path("get")
+    @POST
+    public CourseRecordStage get(String id){
+        CourseRecordStage courseRecordStage=courseRecordStageApi.getByCourseId(id);
+        return  courseRecordStage;
+
+    }
+
+
+=======
+>>>>>>> f2eedef40fe03ae998e8d39e6333c24ac9bd2c55
 
 }

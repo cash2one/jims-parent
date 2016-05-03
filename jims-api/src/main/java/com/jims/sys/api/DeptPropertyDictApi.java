@@ -41,10 +41,52 @@ public interface DeptPropertyDictApi {
      */
     public String delete(String ids);
 
+    /**
+     * 根据属性类型查询属性名称
+     * @param propertyType
+     * @return
+     */
+    public List<OrgDeptPropertyDict> findNameByType(String propertyType);
 
-    public List<OrgDeptPropertyDict> findNameByType();
+    /**
+     * 根据属性类型和属性值来查询属性名称
+     * @param propertyType
+     * @param propertyValue
+     * @return
+     */
+    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType,String propertyValue);
 
+    /**
+     * 查询所有的属性类型
+     * @return
+     */
     public List<OrgDeptPropertyDict> findProperty();
 
+    /**
+     * 查询所有的科室信息
+     * @return
+     */
+    public List<OrgDeptPropertyDict> findList();
 
+    /**
+     * 根据条件查询所有的属性信息
+     * @param orgDeptPropertyDict
+     * @return
+     */
+    public List<OrgDeptPropertyDict> findByCondition(OrgDeptPropertyDict orgDeptPropertyDict);
+
+    /**
+     * 查询属性名称
+     * @param propertyName
+     * @return
+     */
+    public List<OrgDeptPropertyDict> findName(String propertyType);
+
+    /**
+     * 查询最大的排序值
+     *
+     * @param
+     * @return
+     */
+    public OrgDeptPropertyDict findSort();
 }

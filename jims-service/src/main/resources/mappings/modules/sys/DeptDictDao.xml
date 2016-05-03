@@ -88,7 +88,10 @@
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
-	
+
+
+
+
 	<update id="delete">
 	UPDATE dept_dict SET
 			del_flag = '1'

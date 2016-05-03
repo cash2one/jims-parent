@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.OperatioinDao">
+    
+	<sql id="operatioinColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.zhuyuan_id AS "zhuyuanId",
+		a.bingqing AS "bingqing",
+		a.shoushu_date AS "shoushuDate",
+		a.shoushushi AS "shoushushi",
+		a.shoushujian AS "shoushujian",
+		a.taici AS "taici",
+		a.gelibiaozhi AS "gelibiaozhi",
+		a.taishoushu_grade AS "taishoushuGrade",
+		a.shoushu_dept AS "shoushuDept",
+		a.shoushu_doctor AS "shoushuDoctor",
+		a.shenqing_date AS "shenqingDate",
+		a.zhushouone AS "zhushouone",
+		a.zhushoutwo AS "zhushoutwo",
+		a.zhushouthree AS "zhushouthree",
+		a.zhushoufour AS "zhushoufour",
+		a.shuxueysihi AS "shuxueysihi",
+		a.gongxuefangshi AS "gongxuefangshi",
+		a.mazui_doctor AS "mazuiDoctor",
+		a.mazuifangfa AS "mazuifangfa",
+		a.beizhu AS "beizhu",
+		a.shenqing_doctor AS "shenqingDoctor",
+		a.beiyong1 AS "beiyong1",
+		a.beiyong2 AS "beiyong2",
+		a.beiyong3 AS "beiyong3",
+		a.beiyong4 AS "beiyong4",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.pemarks AS "pemarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="operatioinJoins">
+	</sql>
+    
+	<select id="get" resultType="Operatioin">
+		SELECT 
+			<include refid="operatioinColumns"/>
+		FROM operatioin a
+		<include refid="operatioinJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Operatioin">
+		SELECT 
+			<include refid="operatioinColumns"/>
+		FROM operatioin a
+		<include refid="operatioinJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Operatioin">
+		SELECT 
+			<include refid="operatioinColumns"/>
+		FROM operatioin a
+		<include refid="operatioinJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO operatioin(
+			id,
+			patient_id,
+			zhuyuan_id,
+			bingqing,
+			shoushu_date,
+			shoushushi,
+			shoushujian,
+			taici,
+			gelibiaozhi,
+			taishoushu_grade,
+			shoushu_dept,
+			shoushu_doctor,
+			shenqing_date,
+			zhushouone,
+			zhushoutwo,
+			zhushouthree,
+			zhushoufour,
+			shuxueysihi,
+			gongxuefangshi,
+			mazui_doctor,
+			mazuifangfa,
+			beizhu,
+			shenqing_doctor,
+			beiyong1,
+			beiyong2,
+			beiyong3,
+			beiyong4,
+			create_date,
+			update_by,
+			update_date,
+			pemarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{zhuyuanId},
+			#{bingqing},
+			#{shoushuDate},
+			#{shoushushi},
+			#{shoushujian},
+			#{taici},
+			#{gelibiaozhi},
+			#{taishoushuGrade},
+			#{shoushuDept},
+			#{shoushuDoctor},
+			#{shenqingDate},
+			#{zhushouone},
+			#{zhushoutwo},
+			#{zhushouthree},
+			#{zhushoufour},
+			#{shuxueysihi},
+			#{gongxuefangshi},
+			#{mazuiDoctor},
+			#{mazuifangfa},
+			#{beizhu},
+			#{shenqingDoctor},
+			#{beiyong1},
+			#{beiyong2},
+			#{beiyong3},
+			#{beiyong4},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{pemarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE operatioin SET 	
+			patient_id = #{patientId},
+			zhuyuan_id = #{zhuyuanId},
+			bingqing = #{bingqing},
+			shoushu_date = #{shoushuDate},
+			shoushushi = #{shoushushi},
+			shoushujian = #{shoushujian},
+			taici = #{taici},
+			gelibiaozhi = #{gelibiaozhi},
+			taishoushu_grade = #{taishoushuGrade},
+			shoushu_dept = #{shoushuDept},
+			shoushu_doctor = #{shoushuDoctor},
+			shenqing_date = #{shenqingDate},
+			zhushouone = #{zhushouone},
+			zhushoutwo = #{zhushoutwo},
+			zhushouthree = #{zhushouthree},
+			zhushoufour = #{zhushoufour},
+			shuxueysihi = #{shuxueysihi},
+			gongxuefangshi = #{gongxuefangshi},
+			mazui_doctor = #{mazuiDoctor},
+			mazuifangfa = #{mazuifangfa},
+			beizhu = #{beizhu},
+			shenqing_doctor = #{shenqingDoctor},
+			beiyong1 = #{beiyong1},
+			beiyong2 = #{beiyong2},
+			beiyong3 = #{beiyong3},
+			beiyong4 = #{beiyong4},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			pemarks = #{pemarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE operatioin SET 
+			del_flag ='1'
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

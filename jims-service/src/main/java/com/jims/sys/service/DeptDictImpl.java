@@ -17,29 +17,28 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> implements DeptDictApi {
 
+    /**
+     * 查询所有的科室信息
+     * @return
+     */
     public List<DeptDict> findAllList() {
         return dao.findAll();
+
     }
 
-    @Override
-    public int add(DeptDict deptDict) {
-
-        deptDict.preInsert();
-        int i = dao.insert(deptDict);
-        return i;
-    }
-
+    /**
+     * 查询所有的科室属性的类型
+     * @return
+     */
     @Override
     public List<DeptDict> findProperty() {
         return dao.findProperty();
     }
 
-    public int update(DeptDict deptDict) {
-        deptDict.preUpdate();
-        int i = dao.update(deptDict);
-        return i;
-    }
-
+    /**
+     * 查询所有的上级科室
+     * @return
+     */
     @Override
     public List<DeptDict> findParent() {
         return dao.findParent();

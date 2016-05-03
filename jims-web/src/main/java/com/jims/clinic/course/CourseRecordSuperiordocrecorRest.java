@@ -35,4 +35,19 @@ public class CourseRecordSuperiordocrecorRest {
         return stringData;
     }
 
+<<<<<<< HEAD
+    /**
+     * 通过病程Id查询上级医师查房记录
+     * @param courseRecordId
+     * @return
+     */
+    @POST
+    @Path("get")
+    public CourseRecordSuperiordocrecor get(String courseRecordId){
+        CourseRecordSuperiordocrecor courseRecordSuperiordocrecor= courseRecordSuperiordocrecordApi.getDocrecorByCourseRecordId(courseRecordId);
+        return courseRecordSuperiordocrecor;
+
+    }
+=======
+>>>>>>> f2eedef40fe03ae998e8d39e6333c24ac9bd2c55
 }

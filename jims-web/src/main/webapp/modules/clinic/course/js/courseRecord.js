@@ -22,7 +22,7 @@ function onloadMethod(){
             {field:'luruShijian',title:'病程日期',width:'30%',align:'center',formatter:formatDateBoxFull},
             {field:'type',title:'类型',width:'28%',align:'center'},
             {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
-                var html='<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\''+row.id+'\',\''+row.type+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
+                var html='<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getRowData(\''+row.id+'\',\''+row.type+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                 return html;
             }}
@@ -39,10 +39,10 @@ function onloadMethod(){
                     $.messager.alert("提示消息", "请选中需要修改的数据");
                     return;
                 }
-                get(selectRows[0].id);
+                getRowData(selectRows[0].id);
             }
         }, '-',{
-            text: '批量删除',
+            text: '删除',
             iconCls: 'icon-remove',
             handler: function(){
                 doDelete();
@@ -63,16 +63,18 @@ function getHtmlPath(n){
     if(n=='0'){
         postUrl="";
         return false;
-    }else if(n=='1'){
+    }else if(n=='1'){//每日病程
         html="/modules/clinic/course/courseRecordEachdis.html";
         postUrl=basePath + "/courseRecordeachdis/save";
-        getUrl=basePath + "/courseRecordState/get";
-    }else if(n=='2'){
+        getUrl=basePath + "/courseRecordeachdis/get";
+    }else if(n=='2'){//上级医师查房
         html="/modules/clinic/course/courseRecordSuperiorDocrecor.html";
         postUrl=basePath+"/courseRecordSuperiorDocrecor/save";
-    }else if(n=='3'){
+        getUrl=basePath + "/courseRecordSuperiorDocrecor/get";
+    }else if(n=='3'){//阶段小结
         html="/modules/clinic/course/courseRecordStage.html";
         postUrl=basePath + "/courseRecordState/save";
+        getUrl=basePath + "/courseRecordState/get";
     }
     return html;
 }
@@ -166,19 +168,23 @@ function saveCourseRecord(){
  * 显示修改
  * @param data
  */
-function get(id,type){
-    $("#childrenDiv").load(getHtmlPath(type));
-    $.ajax({
-        'type': 'post',
-        'url': getUrl,
-        'contentType': 'application/json',
-        'data': id=id,
-        'dataType': 'json',
-        'success': function(data){
-            $('#courseRecordForm').form('load',data);
-            getDiv('courseRecordForm');
-        }
-    })
+function getRowData(id,type){
+
+    $("#childrenDiv").load(getHtmlPath(type),'',function(){
+        $.ajax({
+            'type': 'post',
+            'url': getUrl,
+            'contentType': 'application/json',
+            'data': id=id,
+            'dataType': 'json',
+            'success': function(data){
+                $('#courseRecordForm').form('load',data);
+                getDiv('courseRecordForm');
+                return false;
+            }
+        })
+    });
+
 }
 
 

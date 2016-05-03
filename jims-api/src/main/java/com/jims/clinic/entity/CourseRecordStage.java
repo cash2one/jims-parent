@@ -22,6 +22,9 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
     protected Date lasttime;	// 上传时间
     protected Date nowtime;	// 本次时间
     private  String setBingchengId;
+    private Date luruShijian;		// 录入时间
+    private String type;		// 病程类型
+    private String bingchengId;//
     public Date getLasttime() {
         return lasttime;
     }
@@ -121,5 +124,30 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
 
     public void setSetBingchengId(String setBingchengId) {
         this.setBingchengId = setBingchengId;
+    }
+
+
+    public Date getLuruShijian() {
+        return luruShijian;
+    }
+
+    public void setLuruShijian(Date luruShijian) {
+        this.luruShijian = luruShijian;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getBingchengId() {
+        return bingchengId;
+    }
+
+    public void setBingchengId(String bingchengId) {
+        this.bingchengId = bingchengId;
     }
 }
