@@ -1,5 +1,6 @@
 package com.jims.clinic.useBlood;
 
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.BloodApplyServiceApi;
 import com.jims.clinic.entity.BloodApply;
@@ -53,7 +54,6 @@ public class BloodApplyRest {
 //        operatioin.setList(list);
         StringData data = new StringData();
         String num = data.getCode();
-        bloodApply.setId("79ae571cca1e4f6b90ae47bb22089ed0");
         if (bloodApply != null) {
             num = bloodApplyServiceApi.save(bloodApply);
         }

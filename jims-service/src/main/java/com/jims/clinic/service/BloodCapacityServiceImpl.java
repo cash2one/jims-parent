@@ -3,7 +3,6 @@
  */
 package com.jims.clinic.service;
 
-
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.BloodCapacityServiceApi;
 import com.jims.clinic.dao.BloodCapacityDao;
@@ -18,7 +17,7 @@ import java.util.List;
  * @author qlx
  * @version 2016-04-28
  */
-@Service
+@Service(version ="1.0.0")
 @Transactional(readOnly = true)
 public class BloodCapacityServiceImpl extends CrudImplService<BloodCapacityDao, BloodCapacity> implements BloodCapacityServiceApi {
 
