@@ -26,24 +26,24 @@
 
 
     <sql id="courseRecordStageColumns">
-		a.id AS "id",
-		a.bingcheng_id AS "courseRecord.id",
-		a.yibanqingkuang AS "yibanqingkuang",
-		a.ruyuanzhenduan AS "ruyuanzhenduan",
-		a.zhenliaojingguo AS "zhenliaojingguo",
-		a.muqianqingkuang AS "muqianqingkuang",
-		a.muqianzhenduan AS "muqianzhenduan",
-		a.zhenliaojihua AS "zhenliaojihua",
-		a.create_by AS "createBy.id",
-		a.create_date AS "createDate",
-		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate",
-		a.remarks AS "remarks",
-		a.zhusu AS "zhusu",
-		a.lasttime AS "lasttime",
-		a.nowtime AS "nowtime",
-		a.del_flag AS "delFlag"
-	</sql>
+        a.id AS "id",
+        a.bingcheng_id AS "courseRecord.id",
+        a.yibanqingkuang AS "yibanqingkuang",
+        a.ruyuanzhenduan AS "ruyuanzhenduan",
+        a.zhenliaojingguo AS "zhenliaojingguo",
+        a.muqianqingkuang AS "muqianqingkuang",
+        a.muqianzhenduan AS "muqianzhenduan",
+        a.zhenliaojihua AS "zhenliaojihua",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.remarks AS "remarks",
+        a.zhusu AS "zhusu",
+        a.lasttime AS "lasttime",
+        a.nowtime AS "nowtime",
+        a.del_flag AS "delFlag"
+    </sql>
 
 
     <select id="get" resultType="CourseRecordStage">

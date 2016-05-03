@@ -34,7 +34,7 @@ public class CourseRecordEachdisServiceImpl extends CrudImplService<CourseRecord
      * @Author zhaoning
      * @version 2016-04-21
      */
-    public String saveEachdis(CourseRecordEachdis courseRecordEachdis){
+    public String save(CourseRecordEachdis courseRecordEachdis){
         CourseRecord courseRecord =  courseRecordEachdis.getCourseRecord();
         courseRecord.setId(courseRecordEachdis.getBingchengId());
 

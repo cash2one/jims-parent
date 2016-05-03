@@ -31,7 +31,7 @@ public class CourseRecordSuperiordocrecorServiceImpl extends CrudImplService<Cou
      * @param courseRecordSuperiordocrecor
      * @return
      */
-    public String saveSuperior(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
+    public String save(CourseRecordSuperiordocrecor courseRecordSuperiordocrecor){
         CourseRecord courseRecord =courseRecordSuperiordocrecor.getCourseRecord();
         courseRecord.setId(courseRecordSuperiordocrecor.getBingchengId());
         if(courseRecord!=null){

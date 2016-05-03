@@ -867,3 +867,31 @@ a.dropma-color {
     vertical-align: middle;
 }
 /****/
+
+/*检查--选择项目**/
+
+.tlr-textarea
+{
+    width:32%;
+    display:inline-block;
+    vertical-align:middle;
+}
+.tlr-btn
+{
+    border:1px solid #ccc;
+    width:40px;
+    height:25px;
+    cursor:pointer;
+    background-color: #F2F2F2;
+    background: -webkit-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+    background: -moz-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+    background: -o-linear-gradient(top,#ffffff 0,#F2F2F2 100%);
+    background: linear-gradient(to bottom,#ffffff 0,#F2F2F2 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#F2F2F2,GradientType=0);
+}
+.tarea-cbtn
+{
+    display:inline-block;
+}
+/****/
