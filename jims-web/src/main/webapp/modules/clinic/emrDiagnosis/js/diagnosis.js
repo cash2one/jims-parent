@@ -41,7 +41,8 @@ $(function(){
                 }
             }},
             {field:'basis',title:'诊断依据',width:'30%',align:'center',editor:'text'},
-            {field:'description',title:'诊断描述',width:'30%',align:'center',editor:'text'}
+            {field:'description',title:'诊断描述',width:'30%',align:'center',editor:'text'},
+            {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text'}
 
         ]],
       /*  frozenColumns:[[
