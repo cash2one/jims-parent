@@ -22,7 +22,8 @@ function onloadMethod(){
             {field:'shoushuDoctor',title:'手术医师',width:'18%',align:'center'},
             {field:'shoushuDate',title:'手术时间',width:'30%',align:'center',formatter:formatDateBoxFull},
             {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
-                var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
+                var state="1";
+                var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\''+row.id+'\',\''+state+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
                     '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                 return html;
@@ -112,7 +113,14 @@ function doDelete() {
  * 显示修改
  * @param data
  */
-function getOperation(id){
+function getOperation(id,state){
+    if(state=="1"){
+        $("#pperationApply").hide();
+    }
+    else
+    {
+        $("#pperationApply").show();
+    }
     $.ajax({
         'type': 'post',
         'url': basePath+'/operationApply/getOperation',
@@ -154,4 +162,6 @@ function del(id){
         }
     });
 }
+
+
 

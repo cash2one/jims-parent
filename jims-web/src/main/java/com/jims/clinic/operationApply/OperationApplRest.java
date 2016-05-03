@@ -25,7 +25,7 @@ import java.util.List;
 @Component
 @Produces("application/json")
 @Path("operationApply")
-public class operationApplyRest {
+public class OperationApplRest {
     @Reference(version = "1.0.0")
     private OperatioinSerivceApi operatioinServiceApi ;
     /**
@@ -37,7 +37,7 @@ public class operationApplyRest {
     @Path("list")
     @GET
     public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-        Page<Operatioin> page = operatioinServiceApi.findPage(new Page<Operatioin>(request,response), new Operatioin());
+       Page<Operatioin> page = operatioinServiceApi.findPage(new Page<Operatioin>(request,response), new Operatioin());
         PageData pageData=new PageData();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
