@@ -10,7 +10,7 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 
 /**
  * 用血申请DAO接口
- * @author qinlongxin
+ * @author qinlongxi
  * @version 2016-04-28
  */
 @MyBatisDao
