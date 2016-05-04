@@ -189,17 +189,15 @@
 	
 	<update id="delete">
 		UPDATE outp_treat_rec SET 
-			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+			del_flag = '1'
+		WHERE a.visit_no=#{visitNo}
 	</update>
 
 	<update id="deleteTreatRec">
-		DELETE FROM outp_treat_rec
+		UPDATE outp_treat_rec SET
+			del_flag = '1'
 		WHERE
-		visit_date = #{visitDate} AND
-		visit_no = #{visitNo} AND
-		serial_no=#{serialNo} AND
-		item_no=#{itemNo}
+		visit_no = #{visitNo}
 	</update>
 
 	<select id="loadItems" resultType="Integer">

@@ -143,8 +143,8 @@
 	
 	<update id="delete">
 		UPDATE outp_orders SET 
-			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+			del_flag = '1'
+		WHERE a.visit_no=#{visitNo}
 	</update>
 	<select id="getSerialNo" resultType="OutpOrders">
 		select  outp_order_serial_no.Nextval from dual
@@ -193,4 +193,10 @@
 	#{nurse}
 	)
 	</insert>
+
+	<update id="deleteOutpOrders">
+		UPDATE outp_orders SET
+		del_flag = '1'
+		WHERE a.visit_no=#{visitNo}
+	</update>
 </mapper>
