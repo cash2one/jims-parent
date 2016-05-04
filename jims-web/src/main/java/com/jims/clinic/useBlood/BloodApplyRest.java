@@ -3,7 +3,9 @@ package com.jims.clinic.useBlood;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.BloodApplyServiceApi;
+import com.jims.clinic.api.BloodCapacityServiceApi;
 import com.jims.clinic.entity.BloodApply;
+import com.jims.clinic.entity.BloodCapacity;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
@@ -16,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import java.util.List;
 
 /**用血申请
  * Created by qinlongxin on 2016/4/29.
@@ -26,6 +29,8 @@ import javax.ws.rs.core.Context;
 public class BloodApplyRest {
     @Reference(version = "1.0.0")
     private BloodApplyServiceApi bloodApplyServiceApi ;
+    @Reference(version = "1.0.0")
+    private BloodCapacityServiceApi bloodCapacityServiceApi;
     /**
      * 异步加载表格
      * @param request
@@ -76,5 +81,14 @@ public class BloodApplyRest {
     public BloodApply getBloodApply(String id) {
         BloodApply bloodApply= bloodApplyServiceApi.get(id);
         return bloodApply;
+    }
+    /**
+     * 根据id查询手术申请表信息
+     */
+    @Path("getBloodCapacityList")
+    @POST
+    public List<BloodCapacity> getBloodCapacityList(String applyNum) {
+        List<BloodCapacity> bloodCapacityList= bloodCapacityServiceApi.getBloodCapacityList(applyNum);
+        return bloodCapacityList;
     }
 }

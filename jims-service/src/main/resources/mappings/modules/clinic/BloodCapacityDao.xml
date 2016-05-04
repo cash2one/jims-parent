@@ -50,14 +50,23 @@
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="BloodCapacity">
+	<select id="getBloodCapacityList" resultType="BloodCapacity">
 		SELECT 
 			<include refid="bloodCapacityColumns"/>
 		FROM blood_capacity a
 		<include refid="bloodCapacityJoins"/>
 		<where>
+			a.apply_num = #{applyNum}
+		</where>
+	</select>
+	<select id="findAllList" resultType="BloodCapacity">
+		SELECT
+		<include refid="bloodCapacityColumns"/>
+		FROM blood_capacity a
+		<include refid="bloodCapacityJoins"/>
+		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -67,7 +76,6 @@
 			</otherwise>
 		</choose>
 	</select>
-	
 	<insert id="insert">
 		INSERT INTO blood_capacity(
 			apply_num,

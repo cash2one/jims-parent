@@ -8,8 +8,10 @@ import com.jims.clinic.api.BloodCapacityServiceApi;
 import com.jims.clinic.dao.BloodCapacityDao;
 import com.jims.clinic.entity.BloodCapacity;
 import com.jims.common.service.impl.CrudImplService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,5 +22,10 @@ import java.util.List;
 @Service(version ="1.0.0")
 @Transactional(readOnly = true)
 public class BloodCapacityServiceImpl extends CrudImplService<BloodCapacityDao, BloodCapacity> implements BloodCapacityServiceApi {
-
+    @Autowired
+    private BloodCapacityDao bloodCapacityDao;
+    public List<BloodCapacity> getBloodCapacityList(String applyNum){
+        List<BloodCapacity> list=bloodCapacityDao.getBloodCapacityList(applyNum);
+        return list;
+    }
 }

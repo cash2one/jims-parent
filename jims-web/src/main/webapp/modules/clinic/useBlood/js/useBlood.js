@@ -14,7 +14,7 @@ $(function(){
         fit: true,
         nowrap: false,
         method:'post',
-        url:basePath+'/operationApply/list',
+        url:basePath+'/bloodApply/getBloodCapacityList',
         columns:[[
             {field:'id',title:'id',hidden:true,align:'center'},
             {field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: 'text'},
@@ -107,7 +107,7 @@ function onloadMethod(){
             {field:'preBloodType',title:'血型',width:'18%',align:'center'},
             {field:'bloodInuse',title:'方式',width:'18%',align:'center'},
             {field:'bloodSum',title:'用血量',width:'18%',align:'center'},
-            {field:'gatherDate',title:'申请时间',width:'30%',align:'center',formatter:formatDateBoxFull},
+            {field:'applyDate',title:'申请时间',width:'30%',align:'center',formatter:formatDateBoxFull},
             {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
                 var state="1";
                 var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getBloodApply(\''+row.id+'\',\''+state+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
@@ -141,8 +141,6 @@ function onloadMethod(){
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
 }
-
-
 /**
  * 保存
  * @param id
@@ -253,6 +251,8 @@ function getBloodApply(id,state){
         'dataType': 'json',
         'success': function(data){
             $('#useBloodForm').form('load',data);
+            var ss="121212";
+            $('#list_doctor').datagrid({ url:basePath+"/bloodApply/getBloodCapacityList",queryParams:{'applyNum':ss},method:"post"});
         }
     })
 }
