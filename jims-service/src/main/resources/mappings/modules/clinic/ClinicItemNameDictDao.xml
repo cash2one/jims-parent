@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.ClinicItemNameDictDao">
+    
+	<sql id="clinicItemNameDictColumns">
+		a.item_class AS "itemClass",
+		a.item_name AS "itemName",
+		a.item_code AS "itemCode",
+		a.std_indicator AS "stdIndicator",
+		a.input_code AS "inputCode",
+		a.input_code_wb AS "inputCodeWb",
+		a.expand1 AS "expand1",
+		a.expand2 AS "expand2",
+		a.expand3 AS "expand3",
+		a.expand4 AS "expand4",
+		a.expand5 AS "expand5",
+		a.item_status AS "itemStatus",
+		a.bbsm AS "bbsm",
+		a.user_grant AS "userGrant",
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="clinicItemNameDictJoins">
+	</sql>
+    
+	<select id="get" resultType="ClinicItemNameDict">
+		SELECT 
+			<include refid="clinicItemNameDictColumns"/>
+		FROM clinic_item_name_dict a
+		<include refid="clinicItemNameDictJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClinicItemNameDict">
+		SELECT 
+			<include refid="clinicItemNameDictColumns"/>
+		FROM clinic_item_name_dict a
+		<include refid="clinicItemNameDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+            AND a.item_class = #{itemClass}
+            AND a.item_code = #{itemCode}
+            <if test="orgId != null and orgId != ''">
+                AND t.org_id = #{orgId}
+            </if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.std_indicator, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ClinicItemNameDict">
+		SELECT 
+			<include refid="clinicItemNameDictColumns"/>
+		FROM clinic_item_name_dict a
+		<include refid="clinicItemNameDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO clinic_item_name_dict(
+			item_class,
+			item_name,
+			item_code,
+			std_indicator,
+			input_code,
+			input_code_wb,
+			expand1,
+			expand2,
+			expand3,
+			expand4,
+			expand5,
+			item_status,
+			bbsm,
+			user_grant,
+			id,
+			org_id,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{itemClass},
+			#{itemName},
+			#{itemCode},
+			#{stdIndicator},
+			#{inputCode},
+			#{inputCodeWb},
+			#{expand1},
+			#{expand2},
+			#{expand3},
+			#{expand4},
+			#{expand5},
+			#{itemStatus},
+			#{bbsm},
+			#{userGrant},
+			#{id},
+			#{orgId},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE clinic_item_name_dict SET 	
+			item_class = #{itemClass},
+			item_name = #{itemName},
+			item_code = #{itemCode},
+			std_indicator = #{stdIndicator},
+			input_code = #{inputCode},
+			input_code_wb = #{inputCodeWb},
+			expand1 = #{expand1},
+			expand2 = #{expand2},
+			expand3 = #{expand3},
+			expand4 = #{expand4},
+			expand5 = #{expand5},
+			item_status = #{itemStatus},
+			bbsm = #{bbsm},
+			user_grant = #{userGrant},
+			org_id = #{orgId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE clinic_item_name_dict SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE
+		<if test="id != null and id != ''">
+            id = #{id}
+        </if>
+		<if test="id == null or id == ''">
+            a.item_class = #{itemClass}
+            AND a.item_code = #{itemCode}
+            <if test="orgId != null and orgId != ''">
+                AND t.org_id = #{orgId}
+            </if>
+        </if>
+	</update>
+	
+</mapper>
