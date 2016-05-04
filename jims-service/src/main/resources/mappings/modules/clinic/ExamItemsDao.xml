@@ -29,7 +29,7 @@
 			<include refid="examItemsColumns"/>
 		FROM exam_items a
 		<include refid="examItemsJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.appoints_id = #{appointsId}
 	</select>
 	
 	<select id="findList" resultType="ExamItems">
