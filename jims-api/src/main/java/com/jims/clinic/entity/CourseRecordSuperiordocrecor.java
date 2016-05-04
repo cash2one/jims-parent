@@ -17,70 +17,70 @@ import java.util.Date;
  */
 @XmlRootElement
 public class CourseRecordSuperiordocrecor extends DataEntity<CourseRecordSuperiordocrecor> {
+	
+	private static final long serialVersionUID = 1L;
+	private String bingchengId;		// bingcheng_id
+	private String content;		// content
+	private Date jilushijian;		// jilushijian
+	private Date luruShijian;		// 录入时间
+	private String type;		// 病程类型
 
-    private static final long serialVersionUID = 1L;
-    private String bingchengId;		// bingcheng_id
-    private String content;		// content
-    private Date jilushijian;		// jilushijian
-    private Date luruShijian;		// 录入时间
-    private String type;		// 病程类型
+	private CourseRecord courseRecord;//病程记录
+	public CourseRecordSuperiordocrecor() {
+		super();
+	}
 
-    private CourseRecord courseRecord;//病程记录
-    public CourseRecordSuperiordocrecor() {
-        super();
-    }
+	public CourseRecordSuperiordocrecor(String id){
+		super(id);
+	}
 
-    public CourseRecordSuperiordocrecor(String id){
-        super(id);
-    }
+	@Length(min=1, max=64, message="bingcheng_id长度必须介于 1 和 64 之间")
+	public String getBingchengId() {
+		return bingchengId;
+	}
 
-    @Length(min=1, max=64, message="bingcheng_id长度必须介于 1 和 64 之间")
-    public String getBingchengId() {
-        return bingchengId;
-    }
+	public void setBingchengId(String bingchengId) {
+		this.bingchengId = bingchengId;
+	}
+	
+	public String getContent() {
+		return content;
+	}
 
-    public void setBingchengId(String bingchengId) {
-        this.bingchengId = bingchengId;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	public Date getJilushijian() {
+		return jilushijian;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public void setJilushijian(Date jilushijian) {
+		this.jilushijian = jilushijian;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public CourseRecord getCourseRecord() {
+		return courseRecord;
+	}
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getJilushijian() {
-        return jilushijian;
-    }
+	public void setCourseRecord(CourseRecord courseRecord) {
+		this.courseRecord = courseRecord;
+	}
 
-    public void setJilushijian(Date jilushijian) {
-        this.jilushijian = jilushijian;
-    }
+	public Date getLuruShijian() {
+		return luruShijian;
+	}
 
-    public CourseRecord getCourseRecord() {
-        return courseRecord;
-    }
+	public void setLuruShijian(Date luruShijian) {
+		this.luruShijian = luruShijian;
+	}
 
-    public void setCourseRecord(CourseRecord courseRecord) {
-        this.courseRecord = courseRecord;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public Date getLuruShijian() {
-        return luruShijian;
-    }
-
-    public void setLuruShijian(Date luruShijian) {
-        this.luruShijian = luruShijian;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 }
