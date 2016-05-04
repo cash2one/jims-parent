@@ -6,6 +6,7 @@ package com.jims.clinic.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.DateUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -89,7 +90,7 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
     public Date getLuruShijian() {
         return luruShijian;
     }
-    public void setLuruShijian(Date luruShijian) {
-        this.luruShijian = luruShijian;
+    public void setLuruShijian(String luruShijian) {
+        this.luruShijian= DateUtils.parseDate(luruShijian);
     }
 }
