@@ -8,25 +8,25 @@ import com.jims.common.persistence.Page;
  */
 public interface OperatioinSerivceApi {
     /**
-     * ¸ù¾İÊÖÊõÉêÇë±íid²éÑ¯¸Ã±í
+     * æ ¹æ®æ‰‹æœ¯ç”³è¯·è¡¨idæŸ¥è¯¢è¯¥è¡¨
      * @author qinlongxin
      * @version 2016/4/23
      */
     public Operatioin get(String id);
     /**
-     * ²éÑ¯ÊõÉêÇë±í·ÖÒ³ĞÅÏ¢
+     * æŸ¥è¯¢æœ¯ç”³è¯·è¡¨åˆ†é¡µä¿¡æ¯
      * @author qinlongxin
      * @version 2016/4/20
      */
     public Page<Operatioin> findPage(Page<Operatioin> page, Operatioin operatioin);
     /**
-     * ±£´æ»ò±à¼­
+     * ä¿å­˜æˆ–ç¼–è¾‘
      * @author qinlongxin
      * @version 2016/4/20
      */
     public String saveOperatioin(Operatioin operatioin);
     /**
-     * É¾³ı²¡ÊõÉêÇë±íÊı¾İ
+     * åˆ é™¤ç—…æœ¯ç”³è¯·è¡¨æ•°æ®
      * @author qinlongxin
      * @version 2016/4/20
      */
