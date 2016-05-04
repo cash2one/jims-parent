@@ -3,18 +3,14 @@
  */
 package com.jims.common.utils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Jedis Cache 工具类
@@ -165,7 +161,7 @@ public class JedisUtils {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
                 List<byte[]> list = jedis.lrange(getBytesKey(key), 0, -1);
-                value = Lists.newArrayList();
+                value = new ArrayList<Object>();
                 for (byte[] bs : list) {
                     value.add(toObject(bs));
                 }
@@ -224,7 +220,7 @@ public class JedisUtils {
             if (jedis.exists(getBytesKey(key))) {
                 jedis.del(key);
             }
-            List<byte[]> list = Lists.newArrayList();
+            List<byte[]> list = new ArrayList<byte[]>();
             for (Object o : value) {
                 list.add(toBytes(o));
             }
@@ -275,7 +271,7 @@ public class JedisUtils {
         Jedis jedis = null;
         try {
             jedis = getResource();
-            List<byte[]> list = Lists.newArrayList();
+            List<byte[]> list = new ArrayList<byte[]>();
             for (Object o : value) {
                 list.add(toBytes(o));
             }
@@ -324,7 +320,7 @@ public class JedisUtils {
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
-                value = Sets.newHashSet();
+                value = new HashSet<Object>();
                 Set<byte[]> set = jedis.smembers(getBytesKey(key));
                 for (byte[] bs : set) {
                     value.add(toObject(bs));
@@ -384,7 +380,7 @@ public class JedisUtils {
             if (jedis.exists(getBytesKey(key))) {
                 jedis.del(key);
             }
-            Set<byte[]> set = Sets.newHashSet();
+            Set<byte[]> set = new HashSet<byte[]>();
             for (Object o : value) {
                 set.add(toBytes(o));
             }
@@ -435,7 +431,7 @@ public class JedisUtils {
         Jedis jedis = null;
         try {
             jedis = getResource();
-            Set<byte[]> set = Sets.newHashSet();
+            Set<byte[]> set = new HashSet<byte[]>();
             for (Object o : value) {
                 set.add(toBytes(o));
             }
@@ -484,7 +480,7 @@ public class JedisUtils {
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
-                value = Maps.newHashMap();
+                value = new HashMap<String, Object>();
                 Map<byte[], byte[]> map = jedis.hgetAll(getBytesKey(key));
                 for (Map.Entry<byte[], byte[]> e : map.entrySet()) {
                     value.put(StringUtils.toString(e.getKey()), toObject(e.getValue()));
@@ -544,7 +540,7 @@ public class JedisUtils {
             if (jedis.exists(getBytesKey(key))) {
                 jedis.del(key);
             }
-            Map<byte[], byte[]> map = Maps.newHashMap();
+            Map<byte[], byte[]> map = new HashMap<byte[], byte[]>();
             for (Map.Entry<String, Object> e : value.entrySet()) {
                 map.put(getBytesKey(e.getKey()), toBytes(e.getValue()));
             }
@@ -595,7 +591,7 @@ public class JedisUtils {
         Jedis jedis = null;
         try {
             jedis = getResource();
-            Map<byte[], byte[]> map = Maps.newHashMap();
+            Map<byte[], byte[]> map = new HashMap<byte[], byte[]>();
             for (Map.Entry<String, Object> e : value.entrySet()) {
                 map.put(getBytesKey(e.getKey()), toBytes(e.getValue()));
             }

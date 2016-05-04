@@ -3,7 +3,7 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -72,7 +72,7 @@ public class ElectronGroupConsultationIn extends DataEntity<ElectronGroupConsult
 		this.qianmingstype = qianmingstype;
 	}
 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getQianmingshijian() {
 		return qianmingshijian;
 	}

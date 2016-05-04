@@ -3,8 +3,7 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import com.jims.common.persistence.DataEntity;
 import com.jims.sys.entity.Dict;
 
@@ -73,7 +72,7 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> {
     public void setDiagnosisId(String diagnosisId) {
         this.diagnosisId = diagnosisId;
     }
-    @JsonProperty("_parentId")
+
     public String getParentId() {
         return parentId;
     }
@@ -142,7 +141,7 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> {
 
 
 
-    @JsonIgnore
+
     public static void sortList(List<EmrDiagnosis> list, List<EmrDiagnosis> sourcelist, String parentId, boolean cascade){
         for (int i=0; i<sourcelist.size(); i++){
             EmrDiagnosis e = sourcelist.get(i);
@@ -164,7 +163,7 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> {
         }
     }
 
-    @JsonIgnore
+
     public static String getParentIdsId(){
         return "0";
     }
