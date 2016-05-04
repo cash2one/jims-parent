@@ -61,4 +61,25 @@ public class BloodApplyRest {
         data.setData("success");
         return data;
     }
+    /**
+     * 保存用血申请记录
+     */
+    @Path("del")
+    @POST
+    public StringData del(String ids) {
+        StringData stringData=new StringData();
+        String num=bloodApplyServiceApi.delete(ids);
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
+    /**
+     * 根据id查询手术申请表信息
+     */
+    @Path("getBloodApply")
+    @POST
+    public BloodApply getBloodApply(String id) {
+        BloodApply operatioin= bloodApplyServiceApi.get(id);
+        return operatioin;
+    }
 }
