@@ -62,7 +62,7 @@ function onloadMethod() {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'reqDateTime', title: '申请日期', width: '20%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'examItems.examItem', title: '检查项目', width: '20%', align: 'center'},
+            {field: 'rcptNo', title: '检查项目', width: '20%', align: 'center'},
             {field: 'reqDept', title: '检查科室', width: '20%', align: 'center'},
             {
                 field: 'id',
