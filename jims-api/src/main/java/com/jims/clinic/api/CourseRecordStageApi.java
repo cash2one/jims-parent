@@ -4,6 +4,7 @@ import com.jims.clinic.entity.CourseRecordStage;
 
 /**
  * Created by qinlongxin on 2016/4/20.
+ * 阶段小结
  */
 public interface CourseRecordStageApi {
     /**
@@ -25,11 +26,11 @@ public interface CourseRecordStageApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public String save(CourseRecordStage courseRecordStage);
+    public String saveStage(CourseRecordStage courseRecordStage);
     /**
      * 通过病程记录主要表bingcheng_id查询阶段小结
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public CourseRecordStage getRecordByCourseRecordId(String courseRecordId);
+    public CourseRecordStage getByCourseId(String courseRecordId);
 }

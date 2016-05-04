@@ -326,7 +326,7 @@ $.fn.datebox.defaults.formatter = function(value){
  * @returns {*}
  */
 $.fn.datebox.defaults.parser = function(s){
-    if (s != null || s != '') {
+    if (!isNaN(s)) {
         var dt = parseToDate(s);
         if(dt!=undefined){
             s=dt.format("yyyy-MM-dd")
