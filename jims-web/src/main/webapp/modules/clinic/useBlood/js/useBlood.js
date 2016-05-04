@@ -161,6 +161,8 @@ function saveUseBloodApply() {
     var tableJson=JSON.stringify(rows);
     var submitJson=formJson+",\"bloodCapacityList\":"+tableJson+"}";
     $("#inpNo").attr("value","123");
+    $("#applyNum").attr("value","123");
+    $("#matchSubNum").attr("value","1");
     $.postJSON(basePath + "/bloodApply/save", submitJson, function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
