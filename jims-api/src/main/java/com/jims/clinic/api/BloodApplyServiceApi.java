@@ -24,7 +24,7 @@ public interface BloodApplyServiceApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public String save(BloodApply bloodApply);
+    public String saveBloodApply(BloodApply bloodApply);
     /**
      * 删除
      * @author qinlongxin

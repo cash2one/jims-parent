@@ -14,5 +14,5 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface BloodCapacityDao extends CrudDao<BloodCapacity> {
-	
+	public  void delBloodCapacity(String applyNum);
 }

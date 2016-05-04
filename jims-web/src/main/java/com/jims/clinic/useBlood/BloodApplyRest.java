@@ -47,15 +47,10 @@ public class BloodApplyRest {
     @Path("save")
     @POST
     public StringData save(BloodApply bloodApply) {
-//        BloodApply operationGrade=new BloodApply();
-//        operationGrade.setOperatioin(operatioin);
-//        List<OperationGrade> list=new ArrayList<OperationGrade>();
-//        list.add(operationGrade);
-//        operatioin.setList(list);
         StringData data = new StringData();
         String num = data.getCode();
         if (bloodApply != null) {
-            num = bloodApplyServiceApi.save(bloodApply);
+            num = bloodApplyServiceApi.saveBloodApply(bloodApply);
         }
         data.setCode(num);
         data.setData("success");

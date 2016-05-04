@@ -128,5 +128,8 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<update id="delBloodCapacity">
+		DELETE FROM blood_apply
+		WHERE apply_num = #{applyNum}
+	</update>
 </mapper>
