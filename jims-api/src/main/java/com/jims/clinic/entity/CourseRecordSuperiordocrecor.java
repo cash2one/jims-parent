@@ -5,6 +5,7 @@ package com.jims.clinic.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.DateUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -72,9 +73,9 @@ public class CourseRecordSuperiordocrecor extends DataEntity<CourseRecordSuperio
 		return luruShijian;
 	}
 
-	public void setLuruShijian(Date luruShijian) {
-		this.luruShijian = luruShijian;
-	}
+    public void setLuruShijian(String luruShijian) {
+        this.luruShijian= DateUtils.parseDate(luruShijian);
+    }
 
 	public String getType() {
 		return type;
