@@ -17,12 +17,12 @@ $(function(){
         url:basePath+'/operationApply/list',
         columns:[[
             {field:'id',title:'id',hidden:true,align:'center'},
-            {field: 'description', title: '用血方式', width: '20%', align: 'center', editor: 'text'},
+            {field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: 'text'},
             //每个列具体内容
-            {field: 'description', title: '预订输血时间', width: '20%', align: 'center', editor: 'text'},
-            {field: 'description', title: '血量', width: '20%', align: 'center', editor: 'text'},
+            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'text'},
+            {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: 'text'},
             {
-                field: 'doctorId', title: '单位', width: '20%', align: 'center', editor: {
+                field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
                 type:'combobox',
                 options:{
                     data: units,
@@ -32,7 +32,7 @@ $(function(){
                 }
             }},
             {
-                field: 'doctorId', title: '血液要求', width: '20%', align: 'center', editor: {
+                field: 'bloodType', title: '血液要求', width: '20%', align: 'center', editor: {
                 type:'combobox',
                 options:{
                     data: userBlood,
@@ -64,7 +64,7 @@ $(function(){
             text: '保存',
             iconCls: 'icon-save',
             handler: function () {
-                inDoDelete();
+                saveUseBloodApply();
             }
         }
         ],
@@ -154,8 +154,14 @@ function onloadMethod(){
  * @param id
  */
 function saveUseBloodApply() {
+    $("#list_doctor").datagrid('endEdit', editRow);
+    var  rows=$('#list_doctor').datagrid('getRows');
+    var formJson=fromJson('useBloodForm');
+    formJson = formJson.substring(0, formJson.length - 1);
+    var tableJson=JSON.stringify(rows);
+    var submitJson=formJson+",\"bloodCapacityList\":"+tableJson+"}";
     $("#inpNo").attr("value","123");
-    $.postForm(basePath + "/bloodApply/save", "useBloodForm", function (data) {
+    $.postForm(basePath + "/bloodApply/save", submitJson, function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
             $('#list_data').datagrid('load');

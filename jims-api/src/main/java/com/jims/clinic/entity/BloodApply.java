@@ -54,7 +54,7 @@ public class BloodApply extends DataEntity<BloodApply> {
 	private String shineBlood;		// 辐照血
 	private String preBloodType;		// 预输血型
 	private String orgId;		// 所属结构
-	private List<BloodCapacity> list=new ArrayList<BloodCapacity>();
+	private List<BloodCapacity> bloodCapacityList=new ArrayList<BloodCapacity>();
 	public BloodApply() {
 		super();
 	}
@@ -62,7 +62,13 @@ public class BloodApply extends DataEntity<BloodApply> {
 	public BloodApply(String id){
 		super(id);
 	}
+	public List<BloodCapacity> getBloodCapacityList() {
+		return bloodCapacityList;
+	}
 
+	public void setBloodCapacityList(List<BloodCapacity> bloodCapacityList) {
+		this.bloodCapacityList = bloodCapacityList;
+	}
 	@Length(min=1, max=6, message="申请单号长度必须介于 1 和 6 之间")
 	public String getApplyNum() {
 		return applyNum;
