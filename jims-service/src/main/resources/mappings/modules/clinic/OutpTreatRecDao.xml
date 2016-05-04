@@ -192,5 +192,70 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+	<update id="deleteTreatRec">
+		DELETE FROM outp_treat_rec
+		WHERE
+		visit_date = #{visitDate} AND
+		visit_no = #{visitNo} AND
+		serial_no=#{serialNo} AND
+		item_no=#{itemNo}
+	</update>
+
+	<select id="loadItems" resultType="Integer">
+		SELECT
+		max (item_no)
+		FROM outp_treat_rec a
+		WHERE  a.visit_date=#{visitDate} AND  a.visit_no=#{visitNo} AND a.item_class=#{itemClass}
+	</select>
+	<select id="getSerialNo" resultType="Integer">
+		select max(serial_no)
+		from outp_treat_rec
+	</select>
+
+	<insert id="saveTreatRec">
+		INSERT INTO outp_treat_rec(
+		id,
+		visit_date,
+		visit_no,
+		serial_no,
+		item_no,
+		item_class,
+		item_code,
+		item_name,
+		item_spec,
+		units,
+		amount,
+		frequency,
+		performed_by,
+		costs,
+		charges,
+		charge_indicator,
+		appoint_no,
+		appoint_item_no,
+		freq_detail,
+		ward_code
+		) VALUES (
+		#{id},
+		#{visitDate},
+		#{visitNo},
+		#{serialNo},
+		#{itemNo},
+		#{itemClass},
+		#{itemCode},
+		#{itemName},
+		#{itemSpec},
+		#{units},
+		#{amount},
+		#{frequency},
+		#{performedBy},
+		#{costs},
+		#{charges},
+		#{chargeIndicator},
+		#{appointNo},
+		#{appointItemNo},
+		#{freqDetail},
+		#{wardCode}
+		)
+	</insert>
 </mapper>
