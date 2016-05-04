@@ -238,6 +238,7 @@
 	<insert id="saveOrdersCosts">
 		INSERT INTO outp_orders_costs(
 		id,
+		master_id ,
 		patient_id,
 		visit_date,
 		visit_no,
@@ -273,6 +274,7 @@
 		ward_code
 		) VALUES (
 		#{id},
+		#{masterId},
 		#{patientId},
 		#{visitDate},
 		#{visitNo},
@@ -366,12 +368,10 @@
 	</select>
 
 	<update id="deleteOutpOrders">
-		DELETE FROM outp_orders_costs a
+		UPDATE outp_orders_costs SET
+			del_flag = '1'
 		WHERE
-		a.serial_no=#{serialNo} AND
-		a.order_class=#{orderClass} AND
-		a.order_no=#{orderNo} AND
-		a.order_sub_no=#{orderSubNo} AND
-		a.item_no=#{itemNo}
+		a.master_id=#{masterId} AND
+		a.visit_no=#{visitNo}
 	</update>
 </mapper>

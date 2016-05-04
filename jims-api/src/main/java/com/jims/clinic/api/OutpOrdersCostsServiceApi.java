@@ -41,9 +41,9 @@ public interface OutpOrdersCostsServiceApi {
     public  Integer getMaxItemNo(Date visitDate ,Integer visitNo, String itemClass);
     /**
      * 删除收费明细
-     * @param outpOrdersCosts
+     * @param masterId
      */
-    public Integer deleteOutpOrders(OutpOrdersCosts outpOrdersCosts);
+    public Integer deleteOutpOrders(String masterId,int visitNo);
     /**
      * 删除收费明细治疗
      * @param outpOrdersCosts

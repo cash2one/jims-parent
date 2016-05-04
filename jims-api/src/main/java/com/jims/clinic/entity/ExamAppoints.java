@@ -79,6 +79,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
 	private ExamItems examItems;
+
 	//扩展
 	private List<OutpOrdersCosts> outpOrdersCostses;
 

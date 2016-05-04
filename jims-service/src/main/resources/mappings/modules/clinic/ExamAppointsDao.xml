@@ -69,7 +69,11 @@
 		<result property="updateBy.id" column="update_by"></result>
 		<result property="remarks" column="remarks"></result>
 		<result property="delFlag" column="del_flag"></result>
-		<association property="examItem" column="appointsId" select="com.jims.clinic.dao.ExamItemsDao.get"></association>
+		<association property="examItem" column="appointsId"
+					 select="com.jims.clinic.dao.ExamItemsDao.get"></association>
+		<association property="outpOrdersCostses" column="visitNo"
+					 select="com.jims.clinic.dao.OutpTreatRecDao.get"></association>
+
 	</resultMap>
     
 	<sql id="examAppointsColumns">
@@ -144,7 +148,6 @@
 
 	
 	<sql id="examAppointsJoins">
-		LEFT JOIN exam_items e ON a.id=e.appoints_id
 	</sql>
     
 	<select id="get" resultType="ExamAppoints">
@@ -157,8 +160,7 @@
 	
 	<select id="findList" resultMap="examAppointsMap">
 		SELECT 
-			<include refid="examAppointsColumns"/>,
-		e.exam_item
+		<include refid="examAppointsColumns"/>
 		FROM exam_appoints a
 		<include refid="examAppointsJoins"/>
 		<where>
@@ -551,7 +553,8 @@
 	</update>
 
 	<update id="deleteExamAppionts">
-		DELETE FROM exam_appoints
+		UPDATE exam_appoints SET
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 </mapper>
