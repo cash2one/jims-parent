@@ -23,6 +23,7 @@ public class ExamRptPattern extends DataEntity<ExamRptPattern> {
 	private String description;		// 描述
 	private String descriptionCode;		// 描述代码
 	private String inputCode;		// 描述名称输入码
+    private String orgId;//机构id
 	
 	public ExamRptPattern() {
 		super();
@@ -94,5 +95,12 @@ public class ExamRptPattern extends DataEntity<ExamRptPattern> {
 	public void setInputCode(String inputCode) {
 		this.inputCode = inputCode;
 	}
-	
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
 }

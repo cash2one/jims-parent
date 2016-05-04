@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ExamClassDictDao">
-    
+    <select id="findListByOrgId" resultType="ExamClassDict">
+        SELECT *
+        FROM exam_class_dict a
+        WHERE a.org_id = #{orgId}
+        and a.del_flag = '0'
+    </select>
 	<sql id="examClassDictColumns">
 		a.id AS "id",
 		a.serial_no AS "serialNo",
@@ -24,14 +29,12 @@
 	
 	<sql id="examClassDictJoins">
 	</sql>
-    
-	<select id="get" resultType="ExamClassDict">
-		SELECT 
-			<include refid="examClassDictColumns"/>
-		FROM exam_class_dict a
-		<include refid="examClassDictJoins"/>
-		WHERE a.id = #{id}
-	</select>
+
+    <select id="get" resultType="ExamClassDict">
+        SELECT *
+        FROM exam_class_dict a
+        WHERE a.id = #{id}
+    </select>
 	
 	<select id="findList" resultType="ExamClassDict">
 		SELECT 
@@ -50,24 +53,23 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	<select id="findAllList" resultType="ExamClassDict">
-		SELECT 
-			<include refid="examClassDictColumns"/>
-		FROM exam_class_dict a
-		<include refid="examClassDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
+
+    <select id="findAllList" resultType="ExamClassDict">
+        SELECT
+        *
+        FROM exam_class_dict a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
 	
 	<insert id="insert">
 		INSERT INTO exam_class_dict(
@@ -102,7 +104,7 @@
 			#{seqName},
 			#{creatrBy},
 			#{createDate},
-			#{updateBy.id},
+			#{updateBy},
 			#{updateDate},
 			#{remarks},
 			#{delFlag}
@@ -122,7 +124,7 @@
 			performed_by = #{performedBy},
 			seq_name = #{seqName},
 			creatr_by = #{creatrBy},
-			update_by = #{updateBy.id},
+			update_by = #{updateBy},
 			update_date = #{updateDate},
 			remarks = #{remarks}
 		WHERE id = #{id}
@@ -130,7 +132,7 @@
 	
 	<update id="delete">
 		UPDATE exam_class_dict SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 

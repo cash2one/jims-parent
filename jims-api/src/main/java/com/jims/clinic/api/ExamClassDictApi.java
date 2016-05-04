@@ -40,4 +40,16 @@ public interface ExamClassDictApi {
     public ExamClassDict get(String id);
 
     public List<ExamClassDict> getEx();
+    /**
+     * 查询全部数据
+     * @return
+     */
+    public List<ExamClassDict> findAll();
+
+    /**
+     * 通过orgID获取检查类别列表
+     * @param orgId 机构id
+     * @return 集合
+     */
+    public List<ExamClassDict> findListByOrgId(String orgId);
 }
