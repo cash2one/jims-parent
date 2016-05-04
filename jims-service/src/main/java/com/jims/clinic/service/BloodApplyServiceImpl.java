@@ -27,7 +27,7 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao,BloodA
     private BloodCapacityDao bloodCapacityDao;
     /**
      * 保存用血申请和用血量申请
-     * @author qlx
+     * @author qinlongxin
      * @version 2016-04-28
      */
     @Transactional(readOnly = false)
