@@ -60,13 +60,7 @@ $(function(){
             handler: function(){
                 inDoDelete();
             }
-        }, {
-            text: '保存',
-            iconCls: 'icon-save',
-            handler: function () {
-                saveUseBloodApply();
-            }
-        }
+        },
         ],
 
         onAfterEdit: function (rowIndex, rowData, changes) {

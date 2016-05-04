@@ -129,7 +129,7 @@
 		WHERE id = #{id}
 	</update>
 	<update id="delBloodCapacity">
-		DELETE FROM blood_apply
+		DELETE FROM blood_capacity
 		WHERE apply_num = #{applyNum}
 	</update>
 </mapper>

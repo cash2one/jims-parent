@@ -35,6 +35,7 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao,BloodA
         bloodCapacityDao.delBloodCapacity(bloodApply.getId());
         if (bloodApply.getBloodCapacityList()!=null&&bloodApply.getBloodCapacityList().size()>0){
             for (BloodCapacity column:bloodApply.getBloodCapacityList()){
+                column.setApplyNum(bloodApply.getId());
                 column.preInsert();
                 bloodCapacityDao.insert(column);
             }
