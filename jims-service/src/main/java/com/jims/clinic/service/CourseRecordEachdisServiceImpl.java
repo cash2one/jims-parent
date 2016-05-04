@@ -61,6 +61,7 @@ public class CourseRecordEachdisServiceImpl extends CrudImplService<CourseRecord
      */
     @Override
     public CourseRecordEachdis getEachdisByCourseRecordId(String  courseRecordId) {
-        return  courseRecordEachdisDao.getEachdisByCourse(courseRecordId);
+        CourseRecordEachdis courseRecordEachdis=courseRecordEachdisDao.getEachdisByCourse(courseRecordId);
+        return  courseRecordEachdis;
     }
 }

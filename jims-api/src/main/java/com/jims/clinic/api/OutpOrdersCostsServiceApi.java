@@ -1,7 +1,9 @@
 package com.jims.clinic.api;
 
 import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.clinic.entity.OutpTreatRec;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,4 +21,33 @@ public interface OutpOrdersCostsServiceApi {
      * @return
      */
      public List<OutpOrdersCosts> getOutpCosts(String masterId ,String clinicId);
+
+    public OutpOrdersCosts get(String id);
+
+    public Integer getSerialNo();
+
+    /**
+     * 查询出最大的医嘱号
+     */
+    public Integer getMaxOrderNo(Date visitDate ,Integer visitNo, String serialNo);
+
+    /**
+     * 查询出最大的收费序号
+     * @param visitDate
+     * @param visitNo
+     * @param itemClass
+     * @return
+     */
+    public  Integer getMaxItemNo(Date visitDate ,Integer visitNo, String itemClass);
+    /**
+     * 删除收费明细
+     * @param outpOrdersCosts
+     */
+    public Integer deleteOutpOrders(OutpOrdersCosts outpOrdersCosts);
+    /**
+     * 删除收费明细治疗
+     * @param outpOrdersCosts
+     */
+    public Integer deleteOutpOrdersTreatRec(OutpOrdersCosts outpOrdersCosts,OutpTreatRec outpTreatRec);
+
 }

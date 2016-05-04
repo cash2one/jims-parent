@@ -9,7 +9,7 @@ import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.Dict;
 import com.jims.sys.entity.OrgDeptPropertyDict;
 import com.jims.sys.entity.SysCompany;
-import com.jims.sys.vo.DeptDictVo;
+//import com.jims.sys.vo.DeptDictVo;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -89,34 +89,34 @@ public class DeptDictRest {
      * @param
      * @return
      */
-    @Path("add")
-    @POST
-    public StringData save(DeptDictVo deptDictVo) {
-
-        System.out.print(deptDictVo);
-        DeptDict deptDict = new DeptDict();
-        deptDict.setParentId(deptDictVo.getParentId());
-
-        deptDict.setId(deptDictVo.getId());
-
-        deptDict.setDeptCode(deptDictVo.getDeptCode());
-        deptDict.setDeptName(deptDictVo.getDeptName());
-
-        StringBuilder sb = new StringBuilder();
-        String deptPropertity[] = deptDictVo.getArray();
-        for (int i = 0; i < deptPropertity.length; i++) {
-
-                sb.append(deptPropertity[i] + ";");
-        }
-
-        deptDict.setDeptPropertity(sb.toString());
-
-
-        String num = deptDictApi.save(deptDict);
-        StringData stringData = new StringData();
-        stringData.setData("success");
-        return stringData;
-    }
+//    @Path("add")
+//    @POST
+//    public StringData save(DeptDictVo deptDictVo) {
+//
+//        System.out.print(deptDictVo);
+//        DeptDict deptDict = new DeptDict();
+//        deptDict.setParentId(deptDictVo.getParentId());
+//
+//        deptDict.setId(deptDictVo.getId());
+//
+//        deptDict.setDeptCode(deptDictVo.getDeptCode());
+//        deptDict.setDeptName(deptDictVo.getDeptName());
+//
+//        StringBuilder sb = new StringBuilder();
+//        String deptPropertity[] = deptDictVo.getArray();
+//        for (int i = 0; i < deptPropertity.length; i++) {
+//
+//                sb.append(deptPropertity[i] + ";");
+//        }
+//
+//        deptDict.setDeptPropertity(sb.toString());
+//
+//
+//        String num = deptDictApi.save(deptDict);
+//        StringData stringData = new StringData();
+//        stringData.setData("success");
+//        return stringData;
+//    }
 
 
     /**

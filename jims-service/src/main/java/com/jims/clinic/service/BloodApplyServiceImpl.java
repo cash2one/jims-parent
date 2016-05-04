@@ -4,18 +4,19 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.ExamAppointsServiceApi;
-import com.jims.clinic.dao.ExamAppointsDao;
-import com.jims.clinic.entity.ExamAppoints;
+import com.jims.clinic.api.BloodApplyServiceApi;
+import com.jims.clinic.dao.BloodApplylDao;
+import com.jims.clinic.entity.BloodApply;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.transaction.annotation.Transactional;
+
 /**
- * 检查预约记录Service
- * @author zhaoning
- * @version 2016-04-25
+ * 用血申请Service
+ * @author qlx
+ * @version 2016-04-28
  */
-@Service(version = "1.0.0")
+@Service(version ="1.0.0")
 @Transactional(readOnly = true)
-public class ExamAppointsService extends CrudImplService<ExamAppointsDao, ExamAppoints> implements ExamAppointsServiceApi {
+public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao,BloodApply> implements BloodApplyServiceApi {
 
 }
