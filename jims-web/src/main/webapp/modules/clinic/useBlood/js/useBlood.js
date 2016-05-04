@@ -229,7 +229,7 @@ function del(id){
  * 显示修改
  * @param data
  */
-function getgetBloodApply(id,state){
+function getBloodApply(id,state){
     if(state=="1"){
         $("#saveUseBlood").hide();
     }
@@ -239,7 +239,7 @@ function getgetBloodApply(id,state){
     }
     $.ajax({
         'type': 'post',
-        'url': basePath+'/operationApply/getBloodApply',
+        'url': basePath+'/bloodApply/getBloodApply',
         'contentType': 'application/json',
         'data': id=id,
         'dataType': 'json',

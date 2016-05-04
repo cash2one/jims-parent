@@ -79,7 +79,7 @@ public class BloodApplyRest {
     @Path("getBloodApply")
     @POST
     public BloodApply getBloodApply(String id) {
-        BloodApply operatioin= bloodApplyServiceApi.get(id);
-        return operatioin;
+        BloodApply bloodApply= bloodApplyServiceApi.get(id);
+        return bloodApply;
     }
 }
