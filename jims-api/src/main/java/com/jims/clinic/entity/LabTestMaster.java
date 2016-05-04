@@ -6,7 +6,7 @@ package com.jims.clinic.entity;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * 检验主记录Entity
@@ -107,7 +107,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 		this.workingId = workingId;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getExecuteDate() {
 		return executeDate;
 	}
@@ -196,7 +196,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 		this.notesForSpcm = notesForSpcm;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getSpcmReceivedDateTime() {
 		return spcmReceivedDateTime;
 	}
@@ -205,7 +205,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 		this.spcmReceivedDateTime = spcmReceivedDateTime;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getSpcmSampleDateTime() {
 		return spcmSampleDateTime;
 	}
@@ -214,7 +214,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 		this.spcmSampleDateTime = spcmSampleDateTime;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getRequestedDateTime() {
 		return requestedDateTime;
 	}
@@ -259,7 +259,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 		this.resultStatus = resultStatus;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getResultsRptDateTime() {
 		return resultsRptDateTime;
 	}

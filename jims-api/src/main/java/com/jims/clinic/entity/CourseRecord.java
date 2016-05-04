@@ -3,7 +3,7 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -54,12 +54,12 @@ public class CourseRecord extends DataEntity<CourseRecord> {
 	public void setPatientId(String patientId) {
 		this.patientId = patientId;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getLuruShijian() {
 		return luruShijian;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setLuruShijian(Date luruShijian) {
 		this.luruShijian = luruShijian;
 	}
@@ -108,21 +108,21 @@ public class CourseRecord extends DataEntity<CourseRecord> {
 	public void setBingCh(String bingCh) {
 		this.bingCh = bingCh;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getZhuyuanChangetime() {
 		return zhuyuanChangetime;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setZhuyuanChangetime(Date zhuyuanChangetime) {
 		this.zhuyuanChangetime = zhuyuanChangetime;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getLuruDatetime() {
 		return luruDatetime;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setLuruDatetime(Date luruDatetime) {
 		this.luruDatetime = luruDatetime;
 	}

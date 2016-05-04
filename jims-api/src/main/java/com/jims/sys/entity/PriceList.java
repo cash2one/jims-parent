@@ -3,7 +3,7 @@
  */
 package com.jims.sys.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -207,7 +207,7 @@ public class PriceList extends DataEntity<PriceList> {
 		this.memo = memo;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	@NotNull(message="启用日期不能为空")
 	public Date getStartDate() {
 		return startDate;
@@ -217,7 +217,7 @@ public class PriceList extends DataEntity<PriceList> {
 		this.startDate = startDate;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getStopDate() {
 		return stopDate;
 	}
@@ -235,7 +235,7 @@ public class PriceList extends DataEntity<PriceList> {
 		this.operator = operator;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getEnterDate() {
 		return enterDate;
 	}
