@@ -50,6 +50,5 @@ comment on column EMR_DATA_ICD10.SUB_DIRECT_NUMBER is
 
 comment on column EMR_DATA_ICD10.SUB_TOTAL_NUMBER is
 '所有子元素个数 1:是 0:否';
-);
 
 

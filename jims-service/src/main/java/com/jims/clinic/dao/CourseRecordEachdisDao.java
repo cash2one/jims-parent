@@ -23,5 +23,5 @@ public interface CourseRecordEachdisDao extends CrudDao<CourseRecordEachdis> {
      * @Author zhaoning
      * @version 2016-04-20
      */
-    public CourseRecordEachdis getEachdisByCourse(@Param("courseRecordId")String courseRecordId);
+    public CourseRecordEachdis getEachdisByCourse(@Param("courseRecordId") String courseRecordId);
 }

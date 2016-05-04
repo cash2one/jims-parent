@@ -1,11 +1,55 @@
 <div class="container width_90">
     <div class="clearfix goh-sign">
+        <div style="border: 0px solid rgba(51, 51, 51, 0.27);">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="goh-sign-tab goh-notdborder ">
+                <tr>
+                    <td width="17%">入院时间:</td>
+
+                    <td width="25%"><input  name="caijiRiqi" class="easyui-datebox datebox-f combo-f textbox-f"
+                                             required="true"> </td>
+
+                    <td width="15%">本次阶段小结时间:</td>
+                    <td width="25%"><input  class="easyui-datebox datebox-f combo-f textbox-f" name="bingshichenshuzhe"   required="true"></td>
+                </tr>
+            </table>
+        </div>
         <div class="detail-wrapp">
-            <div class="sub_title_em">查房记录</div>
-            <div class="pborder position-re" submit_id="gerenshiId" contenteditable="true"></div>
-            <input type="hidden" id="gerenshiId" name="content">
+            <div class="sub_title_em">主诉</div>
+            <div class="pborder position-re" submit_id="zhusu" contenteditable="true"></div>
+            <input type="hidden" id="zhusu" name="zhusu">
+        </div>
+        <div class="detail-wrapp">
+            <div class="sub_title_em">入院情况</div>
+            <div class="pborder position-re" submit_id="yibanqingkuang" contenteditable="true"></div>
+            <input type="hidden" id="yibanqingkuang" name="yibanqingkuang">
+        </div>
+        <div class="detail-wrapp">
+            <div class="sub_title_em">入院诊断</div>
+            <div class="pborder position-re" submit_id="ruyuanzhenduan" contenteditable="true"></div>
+            <input type="hidden" id="ruyuanzhenduan" name="ruyuanzhenduan">
+        </div>
+        <div class="detail-wrapp">
+            <div class="sub_title_em">本月诊疗经过</div>
+            <div class="pborder position-re" submit_id="zhenliaojingguo" contenteditable="true"></div>
+            <input type="hidden" id="zhenliaojingguo" name="zhenliaojingguo">
+        </div>
+        <div class="detail-wrapp">
+            <div class="sub_title_em">目前情况</div>
+            <div class="pborder position-re" submit_id="muqianqingkuang" contenteditable="true"></div>
+            <input type="hidden" id="muqianqingkuang" name="muqianqingkuang">
+        </div>
+        <div class="detail-wrapp">
+            <div class="sub_title_em">目前诊断</div>
+            <div class="pborder position-re" submit_id="muqianzhenduan" contenteditable="true"></div>
+            <input type="hidden" id="muqianzhenduan" name="muqianzhenduan">
+        </div>
+        <div class="detail-wrapp">
+            <div class="sub_title_em">诊疗计划</div>
+            <div class="pborder position-re" submit_id="zhenliaojihua" contenteditable="true"></div>
+            <input type="hidden" id="zhenliaojihua" name="zhenliaojihua">
         </div>
     </div>
 </div>
+
 <input type="hidden" name="id">
 <input type="hidden" name="bingchengId">

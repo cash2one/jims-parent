@@ -176,6 +176,8 @@ function getRowData(id,type){
             'url': getUrl,
             'contentType': 'application/json',
             'data': id=id,
+            'async':false,
+            'cache':false,
             'dataType': 'json',
             'success': function(data){
                 $('#courseRecordForm').form('load',data);
