@@ -15,7 +15,7 @@ import java.util.Date;
  * @version 2016-04-28
  */
 public class BloodCapacity extends DataEntity<BloodCapacity> {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String applyNum;		// 申请单号
 	private String matchSubNum;		// 申请单子号
