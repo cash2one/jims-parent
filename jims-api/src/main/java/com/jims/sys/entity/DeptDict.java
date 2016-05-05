@@ -21,6 +21,8 @@ public class DeptDict extends DataEntity<DeptDict> {
     private String orgId;       //组织机构ID
     private String inputCode;   //拼音码
 
+
+
     public String getInputCode() {
         return inputCode;
     }
