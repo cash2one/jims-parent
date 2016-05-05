@@ -1,0 +1,15 @@
+{"total":4,"rows":[
+	{"id":1,"prescriptionNum":"98876","treatmentDate":"3/20/2016","drugName":"碳酸锂片","specifications":"0.25g","manufactor":"千金药业","skinTest":"是","result":"正常","number":68.00,"company":"片","agentsNum":"1","consumption":"1",
+	  "consumptionCompany":"mg","channel":"口服","frequency":"一日两次","drugsDays":"30","netReceipts":"103.52","drugAdministration":"西药局",
+	  "childDrug":"西药房","docDetial":"主治医生","quyaoshuxing":"取药","prescriptionshuxing":"门诊处方","money":"5"},
+	{"id":2,"prescriptionNum":"98876","treatmentDate":"3/20/2016","drugName":"碳酸锂片","specifications":"0.25g","manufactor":"千金药业","skinTest":"是","result":"正常","number":68.00,"company":"片","agentsNum":"1","consumption":"1",
+	  "consumptionCompany":"mg","channel":"口服","frequency":"一日两次","drugsDays":"30","netReceipts":"103.52","drugAdministration":"西药局",
+	  "childDrug":"西药房","docDetial":"主治医生","quyaoshuxing":"取药","prescriptionshuxing":"门诊处方","money":"5"},
+	{"id":21,"prescriptionNum":"98876","treatmentDate":"3/20/2016","drugName":"碳酸锂片","specifications":"0.25g","manufactor":"千金药业","skinTest":"是","result":"正常","number":68.00,"company":"片","agentsNum":"1","consumption":"1",
+	  "consumptionCompany":"mg","channel":"口服","frequency":"一日两次","drugsDays":"30","netReceipts":"103.52","drugAdministration":"西药局",
+	  "childDrug":"西药房","docDetial":"主治医生","quyaoshuxing":"取药","prescriptionshuxing":"门诊处方","money":"5"},
+	{"id":22,"prescriptionNum":"98876","treatmentDate":"3/20/2016","drugName":"碳酸锂片","specifications":"0.25g","manufactor":"千金药业","skinTest":"是","result":"正常","number":68.00,"company":"片","agentsNum":"1","consumption":"1",
+	  "consumptionCompany":"mg","channel":"口服","frequency":"一日两次","drugsDays":"30","netReceipts":"103.52","drugAdministration":"西药局",
+	  "childDrug":"西药房","docDetial":"主治医生","quyaoshuxing":"取药","prescriptionshuxing":"门诊处方","money":"5"}
+
+]}

@@ -17,5 +17,5 @@ import java.util.List;
 @MyBatisDao
 public interface BloodCapacityDao extends CrudDao<BloodCapacity> {
 	public  void delBloodCapacity(String applyNum);
-	public List<BloodCapacity> getBloodCapacityList(String applyNum);
+	public List<BloodCapacity> getBloodCapacityList(BloodCapacity bloodCapacity);
 }

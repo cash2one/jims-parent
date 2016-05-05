@@ -43,10 +43,22 @@ public interface EmrDiagnosisServiceApi {
      */
     public String saveDiagnosis( List<EmrDiagnosis> emrDiagnosis);
 
+/**
+ * 删除
+ *
+ */
+    public String delete(String id);
+
     /**
-     * 删除
-     * @param ids
+     * 保存住院诊断
+     */
+
+    public String save(EmrDiagnosis emrDiagnosis);
+
+    /**
+     * 查询子诊断
+     * @param id
      * @return
      */
-    public String delete(String ids);
+    public List<EmrDiagnosis> findListChildren(String id);
 }
