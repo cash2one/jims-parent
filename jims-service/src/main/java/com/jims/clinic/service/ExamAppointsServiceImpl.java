@@ -35,6 +35,8 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
     private OutpOrdersCostsDao outpOrdersCostsDao;
     @Autowired
     private OutpOrdersDao outpOrdersDao;
+    @Autowired
+    private ExamMasterDao examMasterDao;
 
     /**
      * 查询预约主记录
@@ -113,6 +115,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         examAppoints.setChargeType("1");
         //设置就诊序号
         examAppoints.setVisitNo((int) Math.random() + 1000);
+
         List<OutpOrdersCosts> outpOrdersCostses=examAppoints.getOutpOrdersCostses();
         for(int i=0;i<outpOrdersCostses.size();i++){
 
@@ -179,6 +182,36 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             examItemsDao.saveExamItems(examItems);
         }
 
+        ExamMaster examMaster=new ExamMaster();
+        examMaster.setExamNo(examAppoints.getExamNo());
+        examMaster.setLocalIdClass(examAppoints.getLocalIdClass());
+        examMaster.setPatientLocalId(examAppoints.getPatientLocalId());
+        examMaster.setPatientId(examAppoints.getPatientId());
+        examMaster.setVisitId(examAppoints.getVisitId());
+        examMaster.setName(examAppoints.getName());
+        examMaster.setSex(examAppoints.getSex());
+        examMaster.setDateOfBirth(examAppoints.getDateOfBirth());
+        examMaster.setExamClass(examAppoints.getExamClass());
+        examMaster.setExamSubClass(examAppoints.getExamSubClass());
+        examMaster.setSpmRecvedDate(examAppoints.getScheduledDate());
+        examMaster.setClinSymp(examAppoints.getClinSymp());
+        examMaster.setPhysSign(examAppoints.getPhysSign());
+        examMaster.setRelevantLabTest(examAppoints.getRelevantLabTest());
+        examMaster.setRelevantDiag(examAppoints.getRelevantDiag());
+        examMaster.setClinDiag(examAppoints.getClinDiag());
+        examMaster.setExamMode(examAppoints.getExamMode());
+        examMaster.setExamGroup(examAppoints.getExamGroup());
+        examMaster.setDevice(examAppoints.getDevice());
+        examMaster.setPerformedBy(examAppoints.getPerformedBy());
+        examMaster.setPatientSource(examAppoints.getPatientSource());
+        examMaster.setFacility(examAppoints.getFacility());
+        examMaster.setReqDateTime(examAppoints.getReqDateTime());
+        examMaster.setReqDept(examAppoints.getReqDept());
+        examMaster.setReqPhysician(examAppoints.getReqPhysician());
+        examMaster.setReqMemo(examAppoints.getReqMemo());
+        examMaster.setScheduledDateTime(examAppoints.getScheduledDate());
+        examMaster.setNotice(examAppoints.getNotice());
+        examMasterDao.insert(examMaster);
 
         num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;

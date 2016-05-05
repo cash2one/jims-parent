@@ -4,6 +4,8 @@
 package com.jims.clinic.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -158,8 +160,8 @@ public class ExamMaster extends DataEntity<ExamMaster> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
@@ -185,8 +187,8 @@ public class ExamMaster extends DataEntity<ExamMaster> {
 	public void setExamSubClass(String examSubClass) {
 		this.examSubClass = examSubClass;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getSpmRecvedDate() {
 		return spmRecvedDate;
 	}
@@ -293,8 +295,8 @@ public class ExamMaster extends DataEntity<ExamMaster> {
 	public void setFacility(String facility) {
 		this.facility = facility;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getReqDateTime() {
 		return reqDateTime;
 	}
@@ -329,8 +331,8 @@ public class ExamMaster extends DataEntity<ExamMaster> {
 	public void setReqMemo(String reqMemo) {
 		this.reqMemo = reqMemo;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getScheduledDateTime() {
 		return scheduledDateTime;
 	}
@@ -347,8 +349,8 @@ public class ExamMaster extends DataEntity<ExamMaster> {
 	public void setNotice(String notice) {
 		this.notice = notice;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getExamDateTime() {
 		return examDateTime;
 	}
@@ -356,8 +358,8 @@ public class ExamMaster extends DataEntity<ExamMaster> {
 	public void setExamDateTime(Date examDateTime) {
 		this.examDateTime = examDateTime;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getReportDateTime() {
 		return reportDateTime;
 	}

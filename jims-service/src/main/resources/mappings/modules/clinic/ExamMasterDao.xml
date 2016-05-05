@@ -74,6 +74,12 @@
 		a.pacs_flag AS "pacsFlag",
 		a.pacs_paths AS "pacsPaths",
 		a.rcpt_no AS "rcptNo"
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
 	</sql>
 	
 	<sql id="examMasterJoins">
@@ -93,7 +99,7 @@
 		FROM exam_master a
 		<include refid="examMasterJoins"/>
 		<where>
-			
+			a.del_flag ='0'
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
@@ -116,7 +122,7 @@
 		FROM exam_master a
 		<include refid="examMasterJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -200,6 +206,12 @@
 			pacs_flag,
 			pacs_paths,
 			rcpt_no
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
 		) VALUES (
 			#{examNo},
 			#{localIdClass},
@@ -272,6 +284,12 @@
 			#{pacsFlag},
 			#{pacsPaths},
 			#{rcptNo}
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
 		)
 	</insert>
 	
@@ -348,11 +366,15 @@
 			pacs_flag = #{pacsFlag},
 			pacs_paths = #{pacsPaths},
 			rcpt_no = #{rcptNo}
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
-		DELETE FROM exam_master
+		UPDATE exam_master SET
+			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 	
