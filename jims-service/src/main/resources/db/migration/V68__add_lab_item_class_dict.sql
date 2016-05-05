@@ -30,3 +30,5 @@ comment on column LAB_ITEM_CLASS_DICT.CLASS_CODE
 is '类别代码';
 comment on column LAB_ITEM_CLASS_DICT.CLASS_NAME
 is '类别名称';
+comment on column LAB_ITEM_CLASS_DICT.DEPT_CODE
+is '科室代码';
