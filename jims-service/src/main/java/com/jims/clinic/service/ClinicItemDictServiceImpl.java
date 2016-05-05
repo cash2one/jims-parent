@@ -31,18 +31,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     @Autowired
     private ClinicVsChargeDao vsDao;
 
-    public ClinicItemDict get(String id) {
-		return super.get(id);
-	}
-
-	public List<ClinicItemDict> findList(ClinicItemDict clinicItemDict) {
-		return super.findList(clinicItemDict);
-	}
-
-    public Page<ClinicItemDict> findPage(Page<ClinicItemDict> page, ClinicItemDict clinicItemDict) {
-        return super.findPage(page, clinicItemDict);
+    @Override
+    public boolean codeOrNameHas(ClinicItemDict entity){
+        List<ClinicItemDict> list = dao.findExisted(entity);
+        return list != null && list.size() > 0 ? true : false;
     }
 
+    @Transactional(readOnly = false)
     public String save(List<ClinicItemDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -56,6 +51,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String deleteCascade(ClinicItemDict entity) {
         try{
             deleteName(entity);
@@ -68,6 +64,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String deleteCascade(String ids) {
         int i=0;
         try {
@@ -87,11 +84,14 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     @Override
     public List<ClinicItemNameDict> findNameList(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
-        BeanUtils.copyProperties(entity,itemName);
+        itemName.setOrgId(entity.getOrgId());
+        itemName.setItemClass(entity.getItemClass());
+        itemName.setItemCode(entity.getItemCode());
         return nameDao.findList(itemName);
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String save(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -109,6 +109,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String saveNameList(List<ClinicItemNameDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -122,13 +123,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String deleteName(String ids) {
         int i=0;
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                nameDao.delete(id[j]);
-                i++;
+                i += nameDao.delete(id[j]);
             }
         }catch(Exception e){
             return i+"";
@@ -137,10 +138,15 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String delete(ClinicItemNameDict entity) {
         int i=0;
         try{
-            i = nameDao.delete(entity);
+            if(entity.getId() == null){
+                i = nameDao.deleteNoId(entity);
+            } else {
+                i = nameDao.delete(entity);
+            }
         }catch(Exception e){
             return i+"";
         }
@@ -148,9 +154,12 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String deleteName(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
-        BeanUtils.copyProperties(entity,itemName);
+        itemName.setOrgId(entity.getOrgId());
+        itemName.setItemClass(entity.getItemClass());
+        itemName.setItemCode(entity.getItemCode());
         return delete(itemName);
     }
 
@@ -164,6 +173,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String save(ClinicVsCharge entity) {
         int i=0;
         try{
@@ -181,6 +191,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String saveVsList(List<ClinicVsCharge> entityList){
         int i = 0;
         if(entityList != null){
@@ -194,10 +205,15 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String delete(ClinicVsCharge entity) {
         int i=0;
         try{
-            i = vsDao.delete(entity);
+            if(entity.getId() == null){
+                i = vsDao.deleteNoId(entity);
+            } else {
+                i = vsDao.delete(entity);
+            }
         }catch(Exception e){
             return i+"";
         }
@@ -205,6 +221,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String deleteVs(String ids) {
         int i=0;
         try {
@@ -219,9 +236,12 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String deleteVs(ClinicItemDict entity) {
         ClinicVsCharge vs = new ClinicVsCharge();
-        BeanUtils.copyProperties(entity,vs);
+        vs.setOrgId(entity.getOrgId());
+        vs.setClinicItemClass(entity.getItemClass());
+        vs.setClinicItemCode(entity.getItemCode());
         return delete(vs);
     }
 

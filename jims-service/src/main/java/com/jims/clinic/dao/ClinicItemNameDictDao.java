@@ -11,5 +11,11 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface ClinicItemNameDictDao extends CrudDao<ClinicItemNameDict> {
-	
+
+    /**
+     * 不根据主键进行删除
+     * @param entity
+     * @return
+     */
+    public int deleteNoId(ClinicItemNameDict entity);
 }

@@ -28,6 +28,12 @@ public class ClinicItemRest {
         return clinicItemApi.findList(clinicItemDict);
     }
 
+    @GET
+    @Path("codeOrNameHas")
+    public String codeOrNameHas(ClinicItemDict clinicItemDict){
+        return clinicItemApi.codeOrNameHas(clinicItemDict) ? "1" : "0";
+    }
+
     @POST
     @Path("findNameList")
     public List<ClinicItemNameDict> findNameList(ClinicItemDict clinicItemDict){

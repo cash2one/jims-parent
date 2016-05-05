@@ -26,7 +26,7 @@
                 <label style="margin-left: 20px" for="code_gps">拼音码定位</label>
                 <input id="code_gps" class="easyui-textbox"  style="width:100px">
                 <label style="margin-left: 20px" for="code_filter">拼音码筛选</label>
-                <input id="code_filter" class="easyui-textbox"  style="width:100px">
+                <input id="code_filter" class="easyui-textbox"  style="width:100px" dataoption="onblur:alert()">
             </div>
         </div>
     </div>
@@ -63,24 +63,14 @@
             </tr>
             <tr>
                 <td>门诊科室:</td>
-                <td><select id="clinic_org" class="easyui-combobox">
-                    <option value="1">测试1</option>
-                    <option value="2">测试2</option>
-                </select></td>
-            </tr>
-            <tr>
-                <td>住院科室:</td>
-                <td><select id="chospital_org" class="easyui-combobox" >
-                    <option value="1">测试1</option>
-                    <option value="2">测试2</option>
-                </select></td>
+                <td><input id="clinic_org" class="easyui-combobox" data-options="valueField: 'value', textField: 'label'"></td>
             </tr>
             <tr>
                 <td>项目代码:</td>
-                <td><input id="item_code" class="easyui-textbox" style="width: 250px"></td>
+                <td><input id="item_code" class="easyui-validatebox" style="width: 250px"></td>
             </tr><tr>
             <td>项目名称:</td>
-            <td><input id="item_name" class="easyui-textbox" style="width: 250px"></td>
+            <td><input id="item_name" class="easyui-validatebox" data-options="required:true,missingMessage:'项目名称必填'" style="width: 250px"></td>
         </tr>
         </table>
     </form>
