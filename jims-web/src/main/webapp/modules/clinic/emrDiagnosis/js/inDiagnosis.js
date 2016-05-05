@@ -258,7 +258,7 @@ function insert(){
         $('#dlg').dialog('open').dialog('center').dialog('setTitle', '添加同级诊断');
         $('#fm').form('clear');
     //    $("#parentId").val(node._parentId);
-        $("#parentId").textbox('setValue', node._parentId);
+        $("#parentId").val(node._parentId);
         $('#type').combobox({
             data :administration,
             valueField:'value',
