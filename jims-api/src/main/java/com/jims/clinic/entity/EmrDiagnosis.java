@@ -3,13 +3,21 @@
  */
 package com.jims.clinic.entity;
 
+import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import com.jims.sys.entity.Dict;
 
 
+import javax.xml.bind.annotation.XmlElement;
+import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,21 +25,35 @@ import java.util.List;
  * @author pq
  * @version 2015-04-26
  * */
-public class EmrDiagnosis extends DataEntity<EmrDiagnosis> {
+public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+
+
 	private String parentId;		// 父级id
+    private String _parentId;
 	private String diagnosisId;		// 诊断id
     private String type; //诊断类型 1：初步诊断
     private String parentIds; // 诊断父级
 	private Integer itemNo;		// 诊断序号
-	private List<EmrDiagnosis> emrDiagnosisList;
+    private List<EmrDiagnosis> children;
     private String icdMingcheng  ;  //icd10中文名称
     private Dict dict;
     private String description;   //诊断描述
     private String basis; // 诊断依据
     private List list=new ArrayList();   //父类ID集合
     private boolean isno;  //判断查询全部集合
+    private String patientId;//病人标识
+    private Integer treatDays;//治疗天数
+    private String treatResult;//治疗结果
+    private String operTreatIndicator;//手术治疗标志
+    private String pathologyNo;//病理号
+    private String diagnosisDoc;//诊断医生
+    private String inOrOutFlag;//是否住院标识
+    private Date diagnosisDate;//诊断日期
+    private String state;
+
+
 	public EmrDiagnosis() {
 		super();
         isno=false;
@@ -73,7 +95,8 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> {
     public void setDiagnosisId(String diagnosisId) {
         this.diagnosisId = diagnosisId;
     }
-    @JsonProperty("_parentId")
+
+
     public String getParentId() {
         return parentId;
     }
@@ -108,13 +131,6 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> {
 
 
 
-    public List<EmrDiagnosis> getEmrDiagnosisList() {
-        return emrDiagnosisList;
-    }
-
-    public void setEmrDiagnosisList(List<EmrDiagnosis> emrDiagnosisList) {
-        this.emrDiagnosisList = emrDiagnosisList;
-    }
 
     public String getIcdMingcheng() {
         return icdMingcheng;
@@ -167,5 +183,95 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> {
     @JsonIgnore
     public static String getParentIdsId(){
         return "0";
+    }
+
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    public Integer getTreatDays() {
+        return treatDays;
+    }
+
+    public void setTreatDays(Integer treatDays) {
+        this.treatDays = treatDays;
+    }
+
+    public String getTreatResult() {
+        return treatResult;
+    }
+
+    public void setTreatResult(String treatResult) {
+        this.treatResult = treatResult;
+    }
+
+    public String getOperTreatIndicator() {
+        return operTreatIndicator;
+    }
+
+    public void setOperTreatIndicator(String operTreatIndicator) {
+        this.operTreatIndicator = operTreatIndicator;
+    }
+
+    public String getPathologyNo() {
+        return pathologyNo;
+    }
+
+    public void setPathologyNo(String pathologyNo) {
+        this.pathologyNo = pathologyNo;
+    }
+
+    public String getDiagnosisDoc() {
+        return diagnosisDoc;
+    }
+
+    public void setDiagnosisDoc(String diagnosisDoc) {
+        this.diagnosisDoc = diagnosisDoc;
+    }
+
+    public String getInOrOutFlag() {
+        return inOrOutFlag;
+    }
+
+    public void setInOrOutFlag(String inOrOutFlag) {
+        this.inOrOutFlag = inOrOutFlag;
+    }
+
+    public Date getDiagnosisDate() {
+        return diagnosisDate;
+    }
+
+    public void setDiagnosisDate(Date diagnosisDate) {
+        this.diagnosisDate = diagnosisDate;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String get_parentId() {
+        return parentId;
+    }
+
+    public void set_parentId(String _parentId) {
+        this.parentId = _parentId;
+    }
+
+
+    public List<EmrDiagnosis> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<EmrDiagnosis> children) {
+        this.children = children;
     }
 }
