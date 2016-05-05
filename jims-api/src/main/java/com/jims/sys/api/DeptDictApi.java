@@ -14,7 +14,7 @@ public interface DeptDictApi {
      *
      * @return
      */
-    public List<DeptDict> findAllList();
+    public List<DeptDict> findAllList(String orgId);
 
 
 

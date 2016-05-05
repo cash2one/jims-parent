@@ -65,10 +65,10 @@ public class OrgDeptPropertyDictImpl extends CrudImplService<OrgDeptPropertyDict
      * 查询所有的属性信息
      * @return
      */
-    @Override
+   /* @Override
     public List<OrgDeptPropertyDict> findList() {
         return dao.findList();
-    }
+    }*/
 
     /**
      * 根据条件查询所有的属性信息
