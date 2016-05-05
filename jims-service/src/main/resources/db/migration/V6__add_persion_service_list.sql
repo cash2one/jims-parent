@@ -15,6 +15,9 @@ create table PERSION_SERVICE_LIST
    constraint PK_PERSION_SERVICE_LIST primary key (ID)
 );
 
+comment on table DEPT_DICT is
+'人员拥有服务  1，系统默认服务 2，购买的增值服务';
+
 comment on column PERSION_SERVICE_LIST.ID is
 '主键';
 
