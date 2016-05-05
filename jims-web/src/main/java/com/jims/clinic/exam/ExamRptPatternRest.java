@@ -6,6 +6,8 @@ import com.jims.clinic.entity.ExamRptPattern;
 import com.jims.clinic.vo.ExamRptPatternVo;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.PinYin2Abbreviation;
+import com.jims.sys.api.PriceListApi;
+import com.jims.sys.entity.PriceList;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +35,9 @@ public class ExamRptPatternRest {
 
     @Reference(version = "1.0.0")
     private ExamRptPatternApi examRptPatternApi;
+
+    @Reference(version = "1.0.0")
+    private PriceListApi priceListApi;
 
     /**
      * 异步加载表格
@@ -157,6 +162,22 @@ public class ExamRptPatternRest {
             e.printStackTrace();
         }
         list = examRptPatternApi.listByClass(orgId,className,subClassName);
+        return list;
+    }
+
+    /**
+     * 通过项目代码对照项目价格
+     * @param request
+     * @param response
+     * @return
+     */
+    @Path("findListByItem")
+    @GET
+    public List<PriceList> findListByItem(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+        List<PriceList> list = new ArrayList<PriceList>();
+        String orgId = request.getParameter("orgId");
+        String clinicItemCode = request.getParameter("clinicItemCode");
+        list = priceListApi.findListByItem(clinicItemCode,orgId);
         return list;
     }
 }

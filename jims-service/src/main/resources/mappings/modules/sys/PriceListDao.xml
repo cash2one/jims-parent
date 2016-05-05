@@ -45,7 +45,12 @@
 	
 	<sql id="priceListJoins">
 	</sql>
-    
+    <select id="findListByItem" resultType="PriceList">
+      select b.* from clinic_vs_charge a,price_list b
+      where a.charge_item_code = b.item_code
+      and a.clinic_item_code = #{0}
+      and a.org_id = #{1}
+    </select>
 	<select id="get" resultType="PriceList">
 		SELECT 
 			<include refid="priceListColumns"/>

@@ -31,7 +31,7 @@ $(function () {
                     idField: 'itemName',
                     textField: 'itemName',
                     method: 'GET',
-                    url: basePath +  "/clinicItem/itemListByOrgId?orgId=1",
+                    url: basePath +  "/clinicItem/itemListByOrgId?orgId="+parent.config.org_id,
                     columns:[[
                         {field:'itemClass',title:'项目类别',width:60},
                         {field:'itemName',title:'项目名称',width:100},
@@ -85,20 +85,80 @@ $(function () {
             field: 'inputCode',
             width: '30%',
             hidden: true
-        }]]
-        //onDblClickRow: function (rowIndex, rowData) {
-        //    var options = $("#examSubclassGrid").datagrid('options');
-        //    options.url = basePath + "/examSubclassDict/list-by-class?orgId=" + 1+ "&className=" + rowData.examClassName;
-        //    $("#examSubclassGrid").datagrid('reload');
-        //}
+        }]],
+        onDblClickRow: function (rowIndex, rowData) {
+            $('#itemDetail').dialog('open');
+            var url = basePath + "/examRptPattern/findListByItem?orgId=" + parent.config.org_id + "&clinicItemCode=" + rowData.descriptionCode;
+            $('#itemDetailGrid').datagrid('reload', url);
+
+        }
     });
 
+
+    //明细列表弹出框
+    $('#itemDetail').dialog({
+        title: '对照明细',
+        width: 700,
+        height: 200
+    });
+
+    //明细列表
+    $("#itemDetailGrid").datagrid({
+        fit: true,
+        fitColumns: true,
+        striped: true,
+        singleSelect: true,
+        rownumbers:true,
+        method: 'GET',
+        url:'',
+        loadMsg: '数据正在加载中，请稍后.....',
+        columns: [[{
+            title: 'id',
+            field: "id",
+            hidden: true
+        }, {
+            title: '类别',
+            field: 'itemClass',
+            width: '5%',
+            editor:{type:'textbox',options:{
+                disabled:true
+            }}
+        }, {
+            title: '代码',
+            field: 'itemCode',
+            width: '20%',
+            editor:{type:'textbox',options:{
+                disabled:true
+            }}
+        }, {
+            title: '名称',
+            field: 'itemName',
+            width: '35%',
+            editor:{type:'textbox',options:{
+                disabled:true
+            }}
+        }, {
+            title: '规格',
+            field: 'itemSpec',
+            width: '20%',
+            editor:{type:'textbox',options:{
+                disabled:true
+            }}
+        }, {
+            title: '单位',
+            field: 'units',
+            width: '20%',
+            editor:{type:'textbox',options:{
+                disabled:true
+            }}
+        }]]
+    });
     //类别项目下拉框   ===============start=============================
     $("#examClass").combobox({
         valueField: 'examClassName',
         textField: 'examClassName',
         method: 'GET',
-        url: basePath +  "/examClassDict/listByOrgId?orgId=1",
+        url: basePath +  "/examClassDict/listByOrgId?orgId="+parent.config.org_id,
         onLoadSuccess: function () {
             var data = $(this).combobox('getData');
             if (data.length > 0) {
@@ -113,7 +173,7 @@ $(function () {
             $('#examRptPatternGrid').datagrid('loadData', { total: 0, rows: [] });
             $('#examSubClass').combobox('clear');
 
-            var url = basePath + "/examSubclassDict/list-by-class?orgId=" + 1 + "&className=" + rowData.examClassName;
+            var url = basePath + "/examSubclassDict/list-by-class?orgId=" + parent.config.org_id + "&className=" + rowData.examClassName;
             $('#examSubClass').combobox('reload', url);
         }
 
@@ -127,12 +187,12 @@ $(function () {
             var data = $(this).combobox('getData');
             if (data.length > 0) {
                 $(this).combobox('setValue', data[0].examSubclassName);
-                var url = basePath + "/examRptPattern/list-by-class?orgId=" + 1+ "&className=" + data[0].examClassName+ "&subClassName=" + data[0].examSubclassName;
+                var url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_id+ "&className=" + data[0].examClassName+ "&subClassName=" + data[0].examSubclassName;
                 $('#examRptPatternGrid').datagrid('reload', url);
             }
         },
         onSelect: function(rowData){
-            var url = basePath + "/examRptPattern/list-by-class?orgId=" + 1+ "&className=" + rowData.examClassName+ "&subClassName=" + rowData.examSubclassName;
+            var url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_id+ "&className=" + rowData.examClassName+ "&subClassName=" + rowData.examSubclassName;
             $('#examRptPatternGrid').datagrid('reload', url);
         }
     });
@@ -225,7 +285,7 @@ $(function () {
                 if (r) {
                     $.postJSON(basePath +  "/examRptPattern/del",row.id, function (data) {
                         $.messager.alert('系统提示', '删除成功', 'info');
-                        var url = basePath + "/examRptPattern/list-by-class?orgId=" + 1+ "&className=" + examClassName+ "&subClassName=" + examSubClassName;
+                        var url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_id+ "&className=" + examClassName+ "&subClassName=" + examSubClassName;
                         $('#examRptPatternGrid').datagrid('reload', url);
                     })
                 }

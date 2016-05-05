@@ -13,7 +13,7 @@ $(function () {
         striped: true,
         singleSelect: true,
         toolbar: '#classft',
-        url: basePath +  "/examClassDict/listByOrgId?orgId=1",
+        url: basePath +  "/examClassDict/listByOrgId?orgId="+parent.config.org_id,
         method: 'GET',
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
@@ -43,7 +43,7 @@ $(function () {
         }]],
         onClickRow: function (rowIndex, rowData) {
             var options = $("#examSubclassGrid").datagrid('options');
-            options.url = basePath + "/examSubclassDict/list-by-class?orgId=" + 1+ "&className=" + rowData.examClassName;
+            options.url = basePath + "/examSubclassDict/list-by-class?orgId=" + parent.config.org_id+ "&className=" + rowData.examClassName;
             $("#examSubclassGrid").datagrid('reload');
         }
     });
@@ -56,7 +56,7 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers:true,
-        url: basePath + "/examSubclassDict/listByOrgId?orgId=" + 1,
+        url: basePath + "/examSubclassDict/listByOrgId?orgId=" + parent.config.org_id,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
@@ -106,7 +106,7 @@ $(function () {
         valueField: 'examClassName',
         textField: 'examClassName',
         method: 'GET',
-        url: basePath +  "/examClassDict/listByOrgId?orgId=1",
+        url: basePath +  "/examClassDict/listByOrgId?orgId="+parent.config.org_id,
         onLoadSuccess: function () {
             var data = $(this).combobox('getData');
             if (data.length > 0) {
@@ -205,7 +205,7 @@ $(function () {
             return;
         }
         //首先判断有没有子项目
-        var promise = $.get(basePath + "/examSubclassDict/list-by-class?orgId=" + 1+ "&className=" + row.examClassName, function (data) {
+        var promise = $.get(basePath + "/examSubclassDict/list-by-class?orgId=" + parent.config.org_id+ "&className=" + row.examClassName, function (data) {
             if (data.length > 0) {
                 $.messager.alert("系统提示", '存在该类别的子类别，不允许删除！', 'error');
                 return;
