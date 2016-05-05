@@ -251,8 +251,8 @@ function getBloodApply(id,state){
         'dataType': 'json',
         'success': function(data){
             $('#useBloodForm').form('load',data);
-            var ss="121212";
-            $('#list_doctor').datagrid({ url:basePath+"/bloodApply/getBloodCapacityList",queryParams:{'applyNum':ss},method:"post"});
+            var applyNum=$("#applyNum").val();
+            $('#list_doctor').datagrid({ url:basePath+"/bloodApply/getBloodCapacityList",queryParams:{'applyNum':applyNum},method:"post"});
         }
     })
 }
