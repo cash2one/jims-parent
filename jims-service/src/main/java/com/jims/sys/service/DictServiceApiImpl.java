@@ -15,22 +15,24 @@ import java.util.List;
 
 /**
  * 字典Service
+ *
  * @author zhangyao
  * @version 2014-05-18
  */
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implements DictServiceApi {
-	
-	/**
-     * 查询字段类型列表
-     * @return
-	 */
-	public List<String> findTypeList(){
-		return dao.findTypeList(new Dict());
-	}
 
-    public List<String> findListType(String dict){
+    /**
+     * 查询字段类型列表
+     *
+     * @return
+     */
+    public List<String> findTypeList() {
+        return dao.findTypeList(new Dict());
+    }
+
+    public List<Dict> findListType(String dict) {
         return dao.findListType(dict);
     }
 }

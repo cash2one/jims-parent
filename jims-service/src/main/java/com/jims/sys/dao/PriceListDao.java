@@ -10,10 +10,12 @@ import com.jims.sys.entity.PriceList;
 
 /**
  * 价格表DAO接口
+ *
  * @author 罗海昆
  * @version 2016-04-26
  */
 @MyBatisDao
 public interface PriceListDao extends CrudDao<PriceList> {
-	
+
+    public String findSeqences();
 }

@@ -12,14 +12,15 @@ import java.util.List;
 
 /**
  * 字典DAO接口
+ *
  * @author zhangyao
  * @version 2016-04-18
  */
 @MyBatisDao
 public interface DictDao extends CrudDao<Dict> {
 
-	public List<String> findTypeList(Dict dict);
+    public List<String> findTypeList(Dict dict);
 
-    public List<String> findListType(String dict);
-	
+    public List<Dict> findListType(String dict);
+
 }

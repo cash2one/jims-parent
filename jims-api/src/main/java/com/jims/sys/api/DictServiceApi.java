@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * 字典Service
+ *
  * @author zhangyao
  * @version 2016-04-18
  */
@@ -19,6 +20,7 @@ public interface DictServiceApi {
 
     /**
      * 获取单条数据
+     *
      * @param id
      * @return
      */
@@ -26,34 +28,38 @@ public interface DictServiceApi {
 
     /**
      * 查询字典类型列表
+     *
      * @return
      */
     public Page<Dict> findPage(Page<Dict> page, Dict dict);
 
 
-
     /**
      * 查询html类型列表
+     *
      * @return
      */
-	public List<String> findTypeList();
+    public List<String> findTypeList();
 
     /**
      * 保存修改方法
+     *
      * @param dict
      */
-	public String save(Dict dict);
+    public String save(Dict dict);
 
     /**
      * 删除方法
+     *
      * @param ids
      */
-	public String delete(String ids);
+    public String delete(String ids);
 
     /**
      * 获取指定类型列表
+     *
      * @param type
      * @return
      */
-    public List<String> findListType(String type);
+    public List<Dict> findListType(String type);
 }
