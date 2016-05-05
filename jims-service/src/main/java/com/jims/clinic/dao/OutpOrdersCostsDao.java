@@ -62,7 +62,8 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
      * @param visitNo
      * @return
      */
-    public Integer deleteOutpOrders(int  visitNo);
+    public Integer deleteOutpOrders(@Param("visitNo")String  visitNo);
+
 
     /**
      * 查询出最大的序号

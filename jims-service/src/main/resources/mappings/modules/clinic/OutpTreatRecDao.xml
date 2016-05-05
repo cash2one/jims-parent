@@ -194,10 +194,10 @@
 	</update>
 
 	<update id="deleteTreatRec">
-		UPDATE outp_treat_rec SET
+		UPDATE outp_treat_rec a SET
 			del_flag = '1'
 		WHERE
-		visit_no = #{visitNo}
+		a.visit_no = #{visitNo}
 	</update>
 
 	<select id="loadItems" resultType="Integer">

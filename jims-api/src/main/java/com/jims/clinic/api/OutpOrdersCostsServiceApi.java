@@ -45,7 +45,7 @@ public interface OutpOrdersCostsServiceApi {
      * @param visitNo
      * @return
      */
-    public Integer deleteOutpOrders(int  visitNo);
+    public Integer deleteOutpOrders(String  visitNo);
     /**
      * 删除收费明细治疗
      * @param outpOrdersCosts

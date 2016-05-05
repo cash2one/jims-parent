@@ -6,6 +6,7 @@ package com.jims.clinic.dao;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -41,7 +42,7 @@ public interface OutpTreatRecDao extends CrudDao<OutpTreatRec> {
      * @param visitNo
      * @return
      */
-    public Integer deleteTreatRec(int visitNo);
+    public Integer deleteTreatRec(@Param("visitNo")String  visitNo);
 
     /**
      * 获得检查治疗医嘱最大的流水号
