@@ -158,6 +158,6 @@ public interface ClinicItemApi {
      */
     public String deleteVs(ClinicItemDict entity);
 
-
+    public String test();
 
 }
