@@ -3,7 +3,7 @@
  */
 package com.jims.common.supcan.treelist.cols;
 
-import com.google.common.collect.Lists;
+
 import com.jims.common.supcan.annotation.treelist.cols.SupGroup;
 import com.jims.common.utils.ObjectUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,7 +99,7 @@ public class Group {
 	
 	public List<Object> getCols() {
 		if (cols == null){
-			cols = Lists.newArrayList();
+			cols = new ArrayList<Object>();
 		}
 		return cols;
 	}

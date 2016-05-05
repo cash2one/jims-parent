@@ -3,8 +3,8 @@
  */
 package com.jims.common.persistence;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.jims.common.utils.IdGen;
 import com.jims.sys.entity.User;
 import com.jims.common.utils.UserUtils;
@@ -89,16 +89,17 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 		this.createBy = createBy;
 	}
 
-	@JsonFormat(pattern = "yyyy年MM月dd日 HH:mm")
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getCreateDate() {
 		return createDate;
 	}
 
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
-	@JsonIgnore
+
 	public User getUpdateBy() {
 		return updateBy;
 	}
@@ -107,16 +108,16 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 		this.updateBy = updateBy;
 	}
 
-    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm")
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getUpdateDate() {
 		return updateDate;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
 
-	@JsonIgnore
+
 	@Length(min=1, max=1)
 	public String getDelFlag() {
 		return delFlag;

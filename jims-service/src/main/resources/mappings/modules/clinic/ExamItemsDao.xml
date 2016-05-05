@@ -29,7 +29,7 @@
 			<include refid="examItemsColumns"/>
 		FROM exam_items a
 		<include refid="examItemsJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.appoints_id = #{appointsId}
 	</select>
 	
 	<select id="findList" resultType="ExamItems">
@@ -158,7 +158,8 @@
 	</select>
 
 	<update id="deleteItems">
-		DELETE FROM exam_items
+		UPDATE exam_items SET
+			del_flag = '1'
 		WHERE appoints_id = #{appointsId}
 	</update>
 </mapper>

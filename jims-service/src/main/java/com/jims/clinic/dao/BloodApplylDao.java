@@ -10,10 +10,10 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 
 /**
  * 用血申请DAO接口
- * @author qlx
+ * @author qinlongxin
  * @version 2016-04-28
  */
 @MyBatisDao
-public interface BloodApplylDao extends CrudDao<BloodApply> {
+public interface BloodApplylDao  extends CrudDao<BloodApply> {
 	
 }

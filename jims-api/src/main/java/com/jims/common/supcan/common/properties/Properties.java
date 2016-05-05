@@ -3,13 +3,14 @@
  */
 package com.jims.common.supcan.common.properties;
 
-import com.google.common.collect.Lists;
+
 import com.jims.common.supcan.annotation.common.properties.SupExpress;
 import com.jims.common.supcan.annotation.common.properties.SupProperties;
 import com.jims.common.utils.ObjectUtils;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -183,7 +184,7 @@ public class Properties {
 		if (supProperties.expresses() != null){
 			for (SupExpress supExpress : supProperties.expresses()){
 				if (this.expresses == null){
-					this.expresses = Lists.newArrayList();
+					this.expresses = new ArrayList<Express>();
 				}
 				this.expresses.add(new Express(supExpress));
 			}

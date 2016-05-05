@@ -3,7 +3,7 @@
  */
 package com.jims.sys.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -58,7 +58,7 @@ public class PersionServiceList extends DataEntity<PersionServiceList> {
 		this.flag = flag;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getServiceStartDate() {
 		return serviceStartDate;
 	}
@@ -67,7 +67,7 @@ public class PersionServiceList extends DataEntity<PersionServiceList> {
 		this.serviceStartDate = serviceStartDate;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getServiceEndDate() {
 		return serviceEndDate;
 	}

@@ -25,7 +25,7 @@ import java.util.List;
 @Component
 @Produces("application/json")
 @Path("operationApply")
-public class OperationApplRest {
+public class operationApplyRest {
     @Reference(version = "1.0.0")
     private OperatioinSerivceApi operatioinServiceApi ;
     /**
@@ -37,7 +37,7 @@ public class OperationApplRest {
     @Path("list")
     @GET
     public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-       Page<Operatioin> page = operatioinServiceApi.findPage(new Page<Operatioin>(request,response), new Operatioin());
+        Page<Operatioin> page = operatioinServiceApi.findPage(new Page<Operatioin>(request,response), new Operatioin());
         PageData pageData=new PageData();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
@@ -52,7 +52,8 @@ public class OperationApplRest {
     public Operatioin getOperation(String id) {
         Operatioin operatioin= operatioinServiceApi.get(id);
         return operatioin;
-    }/**
+    }
+    /**
      * 保存申请记录
      */
     @Path("save")

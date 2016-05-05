@@ -20,7 +20,7 @@ comment on table DEPT_DICT is
 comment on column DEPT_DICT.ID is
 '主键';
 
-comment on column DEPT_DICT.PAREN_IDT is
+comment on column DEPT_DICT.PARENT_ID is
 '父部门';
 
 comment on column DEPT_DICT.DEPT_NAME is

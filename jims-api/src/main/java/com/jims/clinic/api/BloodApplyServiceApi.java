@@ -8,25 +8,25 @@ import com.jims.common.persistence.Page;
  */
 public interface BloodApplyServiceApi {
     /**
-     * ¸ù¾İid²éÑ¯ÓÃÑª±íĞÅÏ¢
+     * æ ¹æ®idæŸ¥è¯¢ç”¨è¡€è¡¨ä¿¡æ¯
      * @author zhangyao
      * @version 2016/4/23
      */
     public BloodApply  get(String id);
     /**
-     * ²éÑ¯ÓÃÑªÖ÷±í·ÖÒ³ĞÅÏ¢
+     * æŸ¥è¯¢ç”¨è¡€ä¸»è¡¨åˆ†é¡µä¿¡æ¯
      * @author qinlongxin
      * @version 2016/4/20
      */
     public Page<BloodApply> findPage(Page<BloodApply> page, BloodApply bloodApply);
     /**
-     * ±£´æ»ò±à¼­
+     * ä¿å­˜æˆ–ç¼–è¾‘
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public String save(BloodApply bloodApply);
+    public String saveBloodApply(BloodApply bloodApply);
     /**
-     * É¾³ı
+     * åˆ é™¤
      * @author qinlongxin
      * @version 2016/4/20
      */

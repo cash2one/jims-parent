@@ -169,20 +169,22 @@ function saveCourseRecord(){
  * @param data
  */
 function getRowData(id,type){
-
+    $('#childrenType').combobox("setValue",type);
     $("#childrenDiv").load(getHtmlPath(type),'',function(){
         $.ajax({
             'type': 'post',
             'url': getUrl,
             'contentType': 'application/json',
             'data': id=id,
+            'async':false,
+            'cache':false,
             'dataType': 'json',
             'success': function(data){
                 $('#courseRecordForm').form('load',data);
                 getDiv('courseRecordForm');
-                return false;
             }
         })
+        return false;
     });
 
 }

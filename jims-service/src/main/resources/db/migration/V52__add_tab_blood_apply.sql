@@ -14,12 +14,12 @@ create table BLOOD_APPLY
   BLOOD_INUSE     VARCHAR2(40),
   BLOOD_DIAGNOSE  VARCHAR2(80),
   BLOOD_TABOO     VARCHAR2(40),
-  HEMATIN         NUMBER(50),
-  PLATELET        NUMBER(50),
-  LEUCOCYTE       NUMBER(50),
+  HEMATIN         NUMBER(38),
+  PLATELET        NUMBER(38),
+  LEUCOCYTE       NUMBER(38),
   PAT_BLOOD_GROUP VARCHAR2(40),
   RH              VARCHAR2(40),
-  BLOOD_SUM       NUMBER(50),
+  BLOOD_SUM       NUMBER(6),
   APPLY_DATE      DATE,
   GATHER_DATE     DATE,
   DIRECTOR        VARCHAR2(200),
@@ -39,14 +39,10 @@ create table BLOOD_APPLY
   REMARKS         VARCHAR2(2000),
   UPDATE_BY       VARCHAR2(64),
   CREATE_BY       VARCHAR2(64),
-  UPDATE_DATE     TIMESTAMP(60),
+  UPDATE_DATE     date,
   DEL_FLAG        VARCHAR2(100),
-  CREATE_DATE     TIMESTAMP(60)
-)
-tablespace JIMS_DATA
-  pctfree 10
-  initrans 1
-  maxtrans 255;
+  CREATE_DATE     DATE
+);
 -- Add comments to the table 
 comment on table BLOOD_APPLY
   is '用血申请';
