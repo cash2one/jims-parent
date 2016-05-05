@@ -9,6 +9,7 @@ import com.jims.clinic.entity.BloodCapacity;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,7 +89,13 @@ public class BloodApplyRest {
     @Path("getBloodCapacityList")
     @POST
     public List<BloodCapacity> getBloodCapacityList(String applyNum) {
-        List<BloodCapacity> bloodCapacityList= bloodCapacityServiceApi.getBloodCapacityList(applyNum);
+        BloodCapacity bloodCapacity=new BloodCapacity();
+        if (StringUtils.isNotBlank(applyNum)){
+
+            int index = applyNum.indexOf("=");
+            bloodCapacity.setApplyNum(applyNum.substring(index+1));
+        }
+        List<BloodCapacity> bloodCapacityList= bloodCapacityServiceApi.getBloodCapacityList(bloodCapacity);
         return bloodCapacityList;
     }
 }

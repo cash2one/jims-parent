@@ -11,5 +11,5 @@ public interface BloodCapacityServiceApi {
     /**
      * 根据用血申请单号查询用血数量申请
      */
-    public List<BloodCapacity> getBloodCapacityList(String applyNum);
+    public List<BloodCapacity> getBloodCapacityList(BloodCapacity bloodCapacity);
 }
