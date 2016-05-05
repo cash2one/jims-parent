@@ -9,6 +9,12 @@
         and a.del_flag = '0'
 
     </select>
+    <select id="findListByOrgId" resultType="ExamSubclassDict">
+        SELECT *
+        FROM exam_subclass_dict a
+        WHERE a.org_id = #{orgId}
+        and a.del_flag = '0'
+    </select>
 	<sql id="examSubclassDictColumns">
 		a.id AS "id",
 		a.serial_no AS "serialNo",
@@ -69,7 +75,6 @@
 
     <insert id="insert">
         INSERT INTO exam_subclass_dict(
-        serial_no,
         exam_class_name,
         exam_subclass_name,
         input_code,
@@ -82,7 +87,6 @@
         del_flag,
         create_date
         ) VALUES (
-        #{serialNo},
         #{examClassName},
         #{examSubclassName},
         #{inputCode},

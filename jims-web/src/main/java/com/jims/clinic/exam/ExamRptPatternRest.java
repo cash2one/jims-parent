@@ -93,7 +93,7 @@ public class ExamRptPatternRest {
             ExamRptPattern examRptPattern = new ExamRptPattern();
             examRptPattern = (ExamRptPattern)examRptPatternVo.getInserted().get(i);
             examRptPattern.setDescription(examRptPattern.getDescription());
-            examRptPattern.setDescItem("1");
+            examRptPattern.setDescItem("检查项目");
             examRptPattern.setDescName("2");
             examRptPattern.setDescriptionCode(examRptPattern.getDescriptionCode());
             examRptPattern.setInputCode(PinYin2Abbreviation.cn2py(examRptPattern.getDescription()));

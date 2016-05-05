@@ -27,17 +27,24 @@ $(function () {
             field: 'description',
             width: '35%',
             editor: {
-                type: 'combobox', options: {
-                    valueField: 'examClassName',
-                    textField: 'examClassName',
+                type: 'combogrid', options: {
+                    valueField: 'itemCode',
+                    textField: 'itemName',
                     method: 'GET',
-                    url: basePath +  "/examClassDict/listByOrgId?orgId=1",
+                    url: basePath +  "/clinicItem/itemListByOrgId?orgId=1",
+                    columns:[[
+                        {field:'项目类别',title:'itemClass',width:60},
+                        {field:'项目名称',title:'itemName',width:100},
+                        {field:'项目代码',title:'itemCode',width:120},
+                        {field:'输入码',title:'inputCode',width:100},
+                        {field:'价格',title:'sumPrice',width:100}
+                    ]],
                     onSelect: function(rowData){
-                        $.get(basePath +  "/examClassDict/listByOrgId?orgId=1", function (data) {
+                        $.get(basePath +  "/clinicItem/itemListByOrgId?orgId=1", function (data) {
                             var selectedRow = $("#examRptPatternGrid").datagrid("getSelected");
                             var rowIndex = $("#examRptPatternGrid").datagrid('getRowIndex',selectedRow);
                             var obj = $("#examRptPatternGrid").datagrid("getEditor", {index:rowIndex,field:'descriptionCode'});
-                            $(obj.target).textbox("setValue",rowData.examClassName);
+                            $(obj.target).textbox("setValue",rowData.itemCode);
                         });
                     }
                 }
@@ -75,6 +82,12 @@ $(function () {
             }
         },
         onSelect: function(rowData){
+            if (editorRow || editorRow == 0) {
+                $("#examRptPatternGrid").datagrid('endEdit', editorRow);
+                editorRow = undefined;
+            }
+            $('#examRptPatternGrid').datagrid('reload');
+            $('#examSubClass').combobox('clear');
             var url = basePath + "/examSubclassDict/list-by-class?orgId=" + 1+ "&className=" + rowData.examClassName;
             $('#examSubClass').combobox('reload', url);
         }
@@ -132,7 +145,7 @@ $(function () {
     $("#addBtn").on('click', function () {
         var examClassName = $("#examClass").combobox('getValue');
         var examSubClassName = $("#examSubClass").combobox('getValue');
-        if (!examClassName && !examSubClassName) {
+        if (!examClassName|| !examSubClassName) {
             $.messager.alert("系统提示", "请先选择检查类别或子类！");
             return;
         }
@@ -150,7 +163,6 @@ $(function () {
             } else {
                 editorRow = $("#examRptPatternGrid").datagrid('getRowIndex', rows[rows.length - 1]);
             }
-
             $("#examRptPatternGrid").datagrid('selectRow', editorRow);
             $("#examRptPatternGrid").datagrid('beginEdit', editorRow);
         }

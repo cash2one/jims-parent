@@ -116,29 +116,30 @@ $(function () {
     });
     //执行科室下拉框
     $("#performBy").combobox({
-        valueField: 'menuName',
-        textField: 'menuName',
+        valueField: 'deptCode',
+        textField: 'deptName',
         method: 'GET',
-        url: basePath + "/menuDict/list",
+        url: basePath + "/dept-dict/list",
         onLoadSuccess: function () {
             var data = $(this).combobox('getData');
             if (data.length > 0) {
-                $(this).combobox('setValue', data[0].menuName);
+                $(this).combobox('setValue', data[0].deptCode);
             }
         }
     });
     //打印格式下拉框
     $("#printStyle").combobox({
-        valueField: 'sort',
-        textField: 'menuName',
+        valueField: 'value',
+        textField: 'text',
         method: 'GET',
-        url: basePath + "/menuDict/list",
-        onLoadSuccess: function () {
-            var data = $(this).combobox('getData');
-            if (data.length > 0) {
-                $(this).combobox('setValue', data[0].sort);
-            }
-        }
+        data: [{
+            value: '0',
+            text: '打印',
+            selected: true
+        }, {
+            value: '1',
+            text: '传真'
+        }]
     });
     //特殊科室下拉框
     $("#specialtiesDept").combobox({
@@ -185,8 +186,8 @@ $(function () {
         saveObj.performBy = $("#performBy").combobox('getValue');
         saveObj.printStyle = $("#printStyle").combobox('getValue');
         saveObj.specialtiesDept = $("#specialtiesDept").combobox('getValue');
-        saveObj.orgId = 1;
-
+        saveObj.orgId = '1';
+        console.log(saveObj);
         $.postJSON(basePath + "/examClassDict/save", JSON.stringify(saveObj), function (data) {
             $("#classWin").window('close');
             $.messager.alert('系统提示', '分类添加成功');
@@ -230,7 +231,7 @@ $(function () {
             saveObj.examClassName = $('#examSubClassNameParent').combobox('getValue');
             saveObj.examSubclassName = $("#examSubClassName").val();
             saveObj.inputCode = "";
-            saveObj.orgId = 1;
+            saveObj.orgId = '1';
             saveObj.id =  $("#id").textbox('getValue');
 
 
