@@ -91,11 +91,11 @@ public class BloodApplyRest {
     public List<BloodCapacity> getBloodCapacityList(String applyNum) {
         BloodCapacity bloodCapacity=new BloodCapacity();
         if (StringUtils.isNotBlank(applyNum)){
-
             int index = applyNum.indexOf("=");
             bloodCapacity.setApplyNum(applyNum.substring(index+1));
+            List<BloodCapacity> bloodCapacityList= bloodCapacityServiceApi.getBloodCapacityList(bloodCapacity);
+           return bloodCapacityList;
         }
-        List<BloodCapacity> bloodCapacityList= bloodCapacityServiceApi.getBloodCapacityList(bloodCapacity);
-        return bloodCapacityList;
+        return null;
     }
 }
