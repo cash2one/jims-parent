@@ -37,6 +37,11 @@ public class OutpTreatRecServiceImpl extends CrudImplService<OutpTreatRecDao, Ou
          outpTreatRecDao.saveTreatRec(outpTreatRec);
     }
 
+    @Override
+    public Integer deleteTreatRec(int visitNo) {
+        return outpTreatRecDao.deleteTreatRec(visitNo);
+    }
+
 //    @Override
 //    public Integer deleteTreatRec(int visitNo) {
 //        return outpTreatRecDao.deleteTreatRec(visitNo);

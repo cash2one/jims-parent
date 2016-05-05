@@ -142,12 +142,13 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++) {
+                ExamAppoints examAppoints=examAppointsDao.get(id[j]);
+                int visitNo=examAppoints.getVisitNo();
                 examAppointsDao.deleteExamAppionts(id[j]);
                 examItemsDao.deleteItems(id[j]);
-//                outpOrdersCostsDao.deleteOutpOrders(id[j], outpOrdersCostsDao.get(id[j]).getVisitNo());
-//                outpTreatRecDao.deleteTreatRec(outpOrdersCostsDao.get(id[j]).getVisitNo());
-//                outpOrdersDao.deleteOutpOrders(outpOrdersDao.get(id[j]).getVisitNo());
-// i++;
+                outpOrdersCostsDao.deleteOutpOrders(visitNo);
+                outpTreatRecDao.deleteTreatRec(visitNo);
+                i=outpOrdersDao.deleteOutpOrders(visitNo);
             }
         } catch (Exception e) {
             return i;
@@ -166,10 +167,11 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         return examAppointsDao.getMaxExamNo();
     }
 
+    //保存检查预约记录
     @Override
     public int batchSave(ExamAppoints examAppoints) {
         int num = 0;
-//        //保存检查预约记录
+//
 //        if(examAppointsDao.getMaxExamNo()!=null){
 //            examAppoints.setExamNo(examAppointsDao.getMaxExamNo()+1+"");
 //        }else{
@@ -180,7 +182,6 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         examAppoints.preInsert();
         examAppoints.setPatientId("1111");
         examAppoints.setVisitId(1);
-        examAppoints.setVisitNo(22);
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");
         //设置就诊序号
@@ -208,7 +209,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             OutpTreatRec outpTreatRec = new OutpTreatRec();
             outpTreatRec.preInsert();
             outpTreatRec.setVisitDate(outpOrdersCosts.getVisitDate());
-            outpTreatRec.setVisitNo(outpOrdersCosts.getVisitNo());
+            outpTreatRec.setVisitNo(examAppoints.getVisitNo());
             outpTreatRec.setItemNo(outpOrdersCosts.getItemNo());
             outpTreatRec.setItemClass(outpOrdersCosts.getItemClass());
             outpTreatRec.setItemName(outpOrdersCosts.getItemName());
