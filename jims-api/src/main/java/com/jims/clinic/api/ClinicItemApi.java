@@ -28,6 +28,12 @@ public interface ClinicItemApi {
     public List<ClinicItemDict> findList(ClinicItemDict entity);
 
     /**
+     * 编码或名称是否已存在
+     * @return
+     */
+    public boolean codeOrNameHas(ClinicItemDict entity);
+
+    /**
      * 查询临床诊疗项目分页数据
      * @param page 分页对象
      * @param entity
