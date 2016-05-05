@@ -227,7 +227,7 @@ function del(id){
             }
         },
         'error': function(data){
-            $.messager.alert('提示',"保存失败", "error");
+            $.messager.alert('提示',"删除失败", "error");
         }
     });
 }
@@ -255,5 +255,26 @@ function getBloodApply(id,state){
             $('#list_doctor').datagrid({ url:basePath+"/bloodApply/getBloodCapacityList",queryParams:{'applyNum':applyNum},method:"post"});
         }
     })
+}
+/**
+ * 删除动态行
+ * @param data
+ */
+function inDoDelete() {
+    var rows = $('#list_doctor').datagrid("getSelections");
+    if (rows.length < 1) {
+        $.messager.alert("提示消息", "请选中要删的数据!");
+        return;
+    }
+    var copyRows = [];
+    for ( var j= 0; j < rows.length; j++) {
+        copyRows.push(rows[j]);
+    }
+    for(var i =0;i<copyRows.length;i++){
+        if (typeof(copyRows[i].id) != "undefined") {
+        }
+        var index = $('#list_doctor').datagrid('getRowIndex',copyRows[i]);
+        $('#list_doctor').datagrid('deleteRow',index);
+    }
 }
 
