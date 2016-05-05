@@ -73,7 +73,7 @@
 		a.rep_indicator AS "repIndicator",
 		a.pacs_flag AS "pacsFlag",
 		a.pacs_paths AS "pacsPaths",
-		a.rcpt_no AS "rcptNo"
+		a.rcpt_no AS "rcptNo",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
@@ -205,7 +205,7 @@
 			rep_indicator,
 			pacs_flag,
 			pacs_paths,
-			rcpt_no
+			rcpt_no,
 			create_date,
 			create_by,
 			update_date,
@@ -283,7 +283,7 @@
 			#{repIndicator},
 			#{pacsFlag},
 			#{pacsPaths},
-			#{rcptNo}
+			#{rcptNo},
 			#{createDate},
 			#{createBy.id},
 			#{updateDate},
@@ -365,7 +365,7 @@
 			rep_indicator = #{repIndicator},
 			pacs_flag = #{pacsFlag},
 			pacs_paths = #{pacsPaths},
-			rcpt_no = #{rcptNo}
+			rcpt_no = #{rcptNo},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
 			remarks = #{remarks}

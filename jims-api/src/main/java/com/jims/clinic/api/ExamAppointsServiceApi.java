@@ -22,11 +22,11 @@ public interface ExamAppointsServiceApi {
     public Page<ExamAppoints> findPage(Page<ExamAppoints> page, ExamAppoints examAppoints);
 
     /**
-     * 保存修改数据
+     * 修改数据
      * @param examAppoints
      * @return
      */
-    public String save(ExamAppoints examAppoints);
+    public Integer updateExamAppoints(ExamAppoints examAppoints);
 
     /**
      * 删除数据
@@ -49,11 +49,6 @@ public interface ExamAppointsServiceApi {
      */
     public List<ExamAppoints> getExamAppionts(String patientId);
 
-    /**
-     * 保存预约记录
-     * @param examAppoints
-     */
-    public  void saveExamAppionts(ExamAppoints examAppoints);
 
     /**
      * 删除预约记录

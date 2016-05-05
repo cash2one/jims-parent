@@ -39,11 +39,11 @@ public interface OutpOrdersCostsServiceApi {
      * @return
      */
     public  Integer getMaxItemNo(Date visitDate ,Integer visitNo, String itemClass);
-    /**
-     * 删除收费明细
-     * @param masterId
-     */
-    public Integer deleteOutpOrders(String masterId,int visitNo);
+//    /**
+//     * 删除收费明细
+//     * @param masterId
+//     */
+//    public Integer deleteOutpOrders(String masterId,int visitNo);
     /**
      * 删除收费明细治疗
      * @param outpOrdersCosts

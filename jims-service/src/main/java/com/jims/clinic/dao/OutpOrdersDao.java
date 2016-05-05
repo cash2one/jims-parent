@@ -41,6 +41,11 @@ public interface OutpOrdersDao extends CrudDao<OutpOrders> {
      */
     public List<OutpOrders> findListFy(OutpOrders outpOrders);
 
-    public int deleteOutpOrders(int visitNo);
+    /**
+     * 删除数据
+     * @param outpOrders
+     * @return
+     */
+    public int deleteOutpOrders(OutpOrders outpOrders);
 
 }
