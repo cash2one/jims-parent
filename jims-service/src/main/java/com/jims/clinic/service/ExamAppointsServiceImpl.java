@@ -45,7 +45,10 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
      */
     @Override
     public Integer updateExamAppoints(ExamAppoints examAppoints) {
-        //修改EXAM_APPOINTS 相应字段
+
+        /**
+         * 修改EXAM_APPOINTS 相应字段
+         */
         examAppoints.setCnsltState(1);
         examAppoints.preUpdate();
         examAppoints.setPatientId("1111");
@@ -167,7 +170,11 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         return examAppointsDao.getMaxExamNo();
     }
 
-    //保存检查预约记录
+    /**
+     * 保存检查预约记录
+     * @param examAppoints
+     * @return
+     */
     @Override
     public int batchSave(ExamAppoints examAppoints) {
         int num = 0;
