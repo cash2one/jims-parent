@@ -7,6 +7,7 @@
         WHERE a.org_id = #{0}
         AND a.exam_class = #{1}
         AND a.exam_sub_class = #{2}
+        and a.desc_item = '检查项目'
         and a.del_flag = '0'
 
     </select>
