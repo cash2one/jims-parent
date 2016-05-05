@@ -5,7 +5,7 @@ package com.jims.clinic.entity;
 
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -251,7 +251,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.deptAdmissionTo = deptAdmissionTo;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getAdmissionDateTime() {
         return admissionDateTime;
     }
@@ -269,7 +269,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.deptDischargeFrom = deptDischargeFrom;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getDischargeDateTime() {
         return dischargeDateTime;
     }
@@ -474,7 +474,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.admissionCause = admissionCause;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getConsultingDate() {
         return consultingDate;
     }
@@ -761,7 +761,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.totalPayments = totalPayments;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getCatalogDate() {
         return catalogDate;
     }
@@ -857,7 +857,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.nurseOfControlQuality = nurseOfControlQuality;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getDateOfControlQuality() {
         return dateOfControlQuality;
     }
@@ -1080,7 +1080,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.deathReason = deathReason;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getDeathDateTime() {
         return deathDateTime;
     }
@@ -1263,7 +1263,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.changeIndicator = changeIndicator;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getDocumDate() {
         return documDate;
     }
@@ -1298,7 +1298,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.zymosisIndicator = zymosisIndicator;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getZymosisDate() {
         return zymosisDate;
     }
@@ -1462,7 +1462,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.gzFlag = gzFlag;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getVisitDate() {
         return visitDate;
     }
@@ -1506,7 +1506,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.catalogStatus = catalogStatus;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getLockedDate() {
         return lockedDate;
     }
@@ -1515,7 +1515,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.lockedDate = lockedDate;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getDiagnoseDate() {
         return diagnoseDate;
     }
@@ -1533,7 +1533,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.medicalPayWay = medicalPayWay;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getStatisticsDiagnoseDate() {
         return statisticsDiagnoseDate;
     }
@@ -1750,7 +1750,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.operator = operator;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getEnterDate() {
         return enterDate;
     }
@@ -1767,7 +1767,7 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.parityNo = parityNo;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getOnsetDate() {
         return onsetDate;
     }

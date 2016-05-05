@@ -27,7 +27,7 @@
                 <label>
                     单号：
                 </label>
-                <input name="applyNum" class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input name="applyNum" required="true" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:30%;"/>
                 <label>
                     血库收到日期：
@@ -210,7 +210,7 @@
             </table>
         </div>
         <div id="dlg-buttons" class="btn-save">
-            <a href="javascript:void(0)" class="easy-nbtn easy-nbtn-info easy-nbtn-padd" onclick="saveUseBloodApply();"
+            <a href="javascript:void(0)" id="saveUseBlood" class="easy-nbtn easy-nbtn-info easy-nbtn-padd" onclick="saveUseBloodApply();"
                style="width: 90px">保存</a>
         </div>
     </div>

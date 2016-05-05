@@ -58,7 +58,7 @@ comment on column PRICE_ITEM_NAME_DICT.CREATE_BY
   is '创建者';
 comment on column PRICE_ITEM_NAME_DICT.CREATE_DATE
   is '创建时间';
-comment on column PRICE_ITEM_NAME_DICT.UPDATE_BY
+comment on column PRICE_ITEM_NAME_DICT.UPDATE_BYdifa
   is '更新者';
 comment on column PRICE_ITEM_NAME_DICT.UPDATE_DATE
   is '更新时间';

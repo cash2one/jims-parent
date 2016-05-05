@@ -46,18 +46,15 @@ create table LAB_TEST_MASTER
   JIANYI                  VARCHAR2(500 CHAR),
   WSW                     VARCHAR2(1 CHAR),
   SAMPLEID                VARCHAR2(40 CHAR),
-  DEL_FLAG                NUMBER(1)
-)
-tablespace USERS
-  pctfree 10
-  initrans 1
-  maxtrans 255
-  storage
-  (
-    initial 64
-    minextents 1
-    maxextents unlimited
-  );
+  DEL_FLAG                NUMBER(1),
+  REMARKS VARCHAR2(2000  CHAR),
+  UPDATE_BY VARCHAR2(64  CHAR),
+  CREATE_BY VARCHAR2(64  CHAR),
+  UPDATE_DATE TIMESTAMP(6),
+  CREATE_DATE TIMESTAMP(6),
+   constraint "PK_LAB_TEST_MASTER" primary key (ID)
+);
+
 -- Add comments to the table
 comment on table LAB_TEST_MASTER
   is '检验主记录';
@@ -128,17 +125,3 @@ comment on column LAB_TEST_MASTER.JIANYI
   is 'LIS建议';
 comment on column LAB_TEST_MASTER.SAMPLEID
   is 'LIS接口主键';
--- Create/Recreate primary, unique and foreign key constraints
-alter table LAB_TEST_MASTER
-  add constraint PK_LAB_TEST_MASTER primary key (ID)
-  using index
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255
-  storage
-  (
-    initial 64K
-    minextents 1
-    maxextents unlimited
-  );

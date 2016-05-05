@@ -3,7 +3,6 @@
  */
 package com.jims.common.persistence;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.jims.common.utils.CookieUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -341,7 +340,7 @@ public class Page<T> implements Serializable {
 	 * 首页索引
 	 * @return
 	 */
-	@JsonIgnore
+
 	public int getFirst() {
 		return first;
 	}
@@ -350,7 +349,7 @@ public class Page<T> implements Serializable {
 	 * 尾页索引
 	 * @return
 	 */
-	@JsonIgnore
+
 	public int getLast() {
 		return last;
 	}
@@ -359,7 +358,7 @@ public class Page<T> implements Serializable {
 	 * 获取页面总数
 	 * @return getLast();
 	 */
-	@JsonIgnore
+
 	public int getTotalPage() {
 		return getLast();
 	}
@@ -368,7 +367,7 @@ public class Page<T> implements Serializable {
 	 * 是否为第一页
 	 * @return
 	 */
-	@JsonIgnore
+
 	public boolean isFirstPage() {
 		return firstPage;
 	}
@@ -377,7 +376,7 @@ public class Page<T> implements Serializable {
 	 * 是否为最后一页
 	 * @return
 	 */
-	@JsonIgnore
+
 	public boolean isLastPage() {
 		return lastPage;
 	}
@@ -386,7 +385,7 @@ public class Page<T> implements Serializable {
 	 * 上一页索引值
 	 * @return
 	 */
-	@JsonIgnore
+
 	public int getPrev() {
 		if (isFirstPage()) {
 			return pageNo;
@@ -399,7 +398,7 @@ public class Page<T> implements Serializable {
 	 * 下一页索引值
 	 * @return
 	 */
-	@JsonIgnore
+
 	public int getNext() {
 		if (isLastPage()) {
 			return pageNo;
@@ -430,7 +429,6 @@ public class Page<T> implements Serializable {
 	 * 获取查询排序字符串
 	 * @return
 	 */
-	@JsonIgnore
 	public String getOrderBy() {
 		// SQL过滤，防止注入 
 		String reg = "(?:')|(?:--)|(/\\*(?:.|[\\n\\r])*?\\*/)|"
@@ -454,7 +452,7 @@ public class Page<T> implements Serializable {
 	 * function ${page.funcName}(pageNo){location="${ctx}/list-${category.id}${urlSuffix}?pageNo="+i;}
 	 * @return
 	 */
-	@JsonIgnore
+
 	public String getFuncName() {
 		return funcName;
 	}
@@ -471,7 +469,7 @@ public class Page<T> implements Serializable {
 	 * 获取分页函数的附加参数
 	 * @return
 	 */
-	@JsonIgnore
+
 	public String getFuncParam() {
 		return funcParam;
 	}
@@ -496,7 +494,7 @@ public class Page<T> implements Serializable {
 	 * 分页是否有效
 	 * @return this.pageSize==-1
 	 */
-	@JsonIgnore
+
 	public boolean isDisabled() {
 		return this.pageSize==-1;
 	}
@@ -505,7 +503,7 @@ public class Page<T> implements Serializable {
 	 * 是否进行总数统计
 	 * @return this.count==-1
 	 */
-	@JsonIgnore
+
 	public boolean isNotCount() {
 		return this.count==-1;
 	}

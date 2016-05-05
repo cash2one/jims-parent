@@ -1,76 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ExamAppointsDao">
-    
-	<sql id="examAppointsColumns">
-		a.id AS "id",
-		a.exam_no AS "examNo",
-		a.patient_id AS "patientId",
-		a.visit_id AS "visitId",
-		a.local_id_class AS "localIdClass",
-		a.patient_local_id AS "patientLocalId",
-		a.name AS "name",
-		a.name_phonetic AS "namePhonetic",
-		a.sex AS "sex",
-		a.date_of_birth AS "dateOfBirth",
-		a.birth_place AS "birthPlace",
-		a.identity AS "identity",
-		a.charge_type AS "chargeType",
-		a.mailing_address AS "mailingAddress",
-		a.zip_code AS "zipCode",
-		a.phone_number AS "phoneNumber",
-		a.exam_class AS "examClass",
-		a.exam_sub_class AS "examSubClass",
-		a.clin_symp AS "clinSymp",
-		a.phys_sign AS "physSign",
-		a.relevant_lab_test AS "relevantLabTest",
-		a.relevant_diag AS "relevantDiag",
-		a.clin_diag AS "clinDiag",
-		a.exam_mode AS "examMode",
-		a.exam_group AS "examGroup",
-		a.performed_by AS "performedBy",
-		a.patient_source AS "patientSource",
-		a.facility AS "facility",
-		a.req_date_time AS "reqDateTime",
-		a.req_dept AS "reqDept",
-		a.req_physician AS "reqPhysician",
-		a.req_memo AS "reqMemo",
-		a.scheduled_date AS "scheduledDate",
-		a.notice AS "notice",
-		a.costs AS "costs",
-		a.charges AS "charges",
-		a.doctor_user AS "doctorUser",
-		a.worked_indicator AS "workedIndicator",
-		a.isread AS "isread",
-		a.emergency_indicator AS "emergencyIndicator",
-		a.billing_indicator AS "billingIndicator",
-		a.cnslt_state AS "cnsltState",
-		a.queue_no AS "queueNo",
-		a.device AS "device",
-		a.time_interval AS "timeInterval",
-		a.equipment_no AS "equipmentNo",
-		a.visit_no AS "visitNo",
-		a.register AS "register",
-		a.reg_prn_flag AS "regPrnFlag",
-		a.cnslt_no AS "cnsltNo",
-		a.exam_reason AS "examReason",
-		a.priority_indicator AS "priorityIndicator",
-		a.special_indicator AS "specialIndicator",
-		a.share_exam_no AS "shareExamNo",
-		a.pause_indicator AS "pauseIndicator",
-		a.db_user AS "dbUser",
-		a.cnslt_name AS "cnsltName",
-		a.print_status AS "printStatus",
-		a.ward_code AS "wardCode",
-		a.rcpt_no AS "rcptNo",
-		a.create_date AS "createDate",
-		a.create_by AS "createBy.id",
-		a.update_date AS "updateDate",
-		a.update_by AS "updateBy.id",
-		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
-		e.appoints_id AS examItems.appointsId
-	</sql>
 
 	<resultMap id="examAppointsMap" type="com.jims.clinic.entity.ExamAppoints">
 		<result property="id" column="id"></result>
@@ -139,11 +69,85 @@
 		<result property="updateBy.id" column="update_by"></result>
 		<result property="remarks" column="remarks"></result>
 		<result property="delFlag" column="del_flag"></result>
-		<association property="examItem" column="appoints_id" select="com.jims.clinic.dao.ExamItemsDao.get"></association>
+		<association property="examItem" column="appointsId"
+					 select="com.jims.clinic.dao.ExamItemsDao.get"></association>
+		<association property="outpOrdersCostses" column="visitNo"
+					 select="com.jims.clinic.dao.OutpTreatRecDao.get"></association>
+
 	</resultMap>
+    
+	<sql id="examAppointsColumns">
+		a.id AS "id",
+		a.exam_no AS "examNo",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId",
+		a.local_id_class AS "localIdClass",
+		a.patient_local_id AS "patientLocalId",
+		a.name AS "name",
+		a.name_phonetic AS "namePhonetic",
+		a.sex AS "sex",
+		a.date_of_birth AS "dateOfBirth",
+		a.birth_place AS "birthPlace",
+		a.identity AS "identity",
+		a.charge_type AS "chargeType",
+		a.mailing_address AS "mailingAddress",
+		a.zip_code AS "zipCode",
+		a.phone_number AS "phoneNumber",
+		a.exam_class AS "examClass",
+		a.exam_sub_class AS "examSubClass",
+		a.clin_symp AS "clinSymp",
+		a.phys_sign AS "physSign",
+		a.relevant_lab_test AS "relevantLabTest",
+		a.relevant_diag AS "relevantDiag",
+		a.clin_diag AS "clinDiag",
+		a.exam_mode AS "examMode",
+		a.exam_group AS "examGroup",
+		a.performed_by AS "performedBy",
+		a.patient_source AS "patientSource",
+		a.facility AS "facility",
+		a.req_date_time AS "reqDateTime",
+		a.req_dept AS "reqDept",
+		a.req_physician AS "reqPhysician",
+		a.req_memo AS "reqMemo",
+		a.scheduled_date AS "scheduledDate",
+		a.notice AS "notice",
+		a.costs AS "costs",
+		a.charges AS "charges",
+		a.doctor_user AS "doctorUser",
+		a.worked_indicator AS "workedIndicator",
+		a.isread AS "isread",
+		a.emergency_indicator AS "emergencyIndicator",
+		a.billing_indicator AS "billingIndicator",
+		a.cnslt_state AS "cnsltState",
+		a.queue_no AS "queueNo",
+		a.device AS "device",
+		a.time_interval AS "timeInterval",
+		a.equipment_no AS "equipmentNo",
+		a.visit_no AS "visitNo",
+		a.register AS "register",
+		a.reg_prn_flag AS "regPrnFlag",
+		a.cnslt_no AS "cnsltNo",
+		a.exam_reason AS "examReason",
+		a.priority_indicator AS "priorityIndicator",
+		a.special_indicator AS "specialIndicator",
+		a.share_exam_no AS "shareExamNo",
+		a.pause_indicator AS "pauseIndicator",
+		a.db_user AS "dbUser",
+		a.cnslt_name AS "cnsltName",
+		a.print_status AS "printStatus",
+		a.ward_code AS "wardCode",
+		a.rcpt_no AS "rcptNo",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+
 	
 	<sql id="examAppointsJoins">
-		LEFT JOIN exam_items e ON a.id=e.appoints_id
 	</sql>
     
 	<select id="get" resultType="ExamAppoints">
@@ -156,7 +160,7 @@
 	
 	<select id="findList" resultMap="examAppointsMap">
 		SELECT 
-			<include refid="examAppointsColumns"/>
+		<include refid="examAppointsColumns"/>
 		FROM exam_appoints a
 		<include refid="examAppointsJoins"/>
 		<where>
@@ -549,7 +553,8 @@
 	</update>
 
 	<update id="deleteExamAppionts">
-		DELETE FROM exam_appoints
+		UPDATE exam_appoints SET
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 </mapper>

@@ -36,7 +36,7 @@ public class CourseRecordeachdisRest{
         StringData data = new StringData();
         String num = data.getCode();
         if (courseRecordEachdis != null) {
-            num = courseRecordEachdisApi.save(courseRecordEachdis);
+            num = courseRecordEachdisApi.saveEachdis(courseRecordEachdis);
         }
         data.setCode(num);
         data.setData("success");

@@ -3,7 +3,7 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -71,7 +71,7 @@ public class OutpOrdersCosts extends DataEntity<OutpOrdersCosts> {
 		this.patientId = patientId;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getVisitDate() {
 		return visitDate;
 	}
@@ -321,7 +321,7 @@ public class OutpOrdersCosts extends DataEntity<OutpOrdersCosts> {
 		this.clinicNo = clinicNo;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getBillDate() {
 		return billDate;
 	}
