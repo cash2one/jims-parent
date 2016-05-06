@@ -3,7 +3,7 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.CustomDateSerializer;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -490,8 +490,8 @@ public class ExamMaster extends DataEntity<ExamMaster> {
 	public void setPhotoStatus(String photoStatus) {
 		this.photoStatus = photoStatus;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getConfirmDateTime() {
 		return confirmDateTime;
 	}
