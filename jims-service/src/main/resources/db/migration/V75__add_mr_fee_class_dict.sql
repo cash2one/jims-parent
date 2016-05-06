@@ -1,58 +1,57 @@
--- drop table MR_FEE_CLASS_DICT cascade constraints;     
--- Create table
+-- drop table MR_FEE_CLASS_DICT cascade constraints;
+
 /*==============================================================*/
-/* Table: MR_FEE_CLASS_DICT      ≤°∞∏ ◊“≥¿‡±  
-/* CREATE_DATE: 2016-05-05                                 */
-/* CREATE_BY :  zp      
+/* Table: MR_FEE_CLASS_DICT    ÁóÖÊ°àÈ¶ñÈ°µÁ±ªÂà´                     */
+/* CREATE_DATE: 2016-05-05                                      */
+/* CREATE_BY :  zp                                              */
 /*==============================================================*/
 create table MR_FEE_CLASS_DICT 
 (
-   id                   varchar2(64 char)              not null,
-   MR_FEE_CLASS_CODE    char(1)                        null,
-   MR_FEE_CLASS_NAME    char(4)                        null,
-   INPUT_CODE           char(8)                        null,
-   MR_FEE_CLASS_DESC    char(50)                       null,
-   CREATE_BY            varchar2(64 char)              null,
-   CREATE_DATE          timestamp                      null,
-   UPDATE_BY            varchar2(64 char)              null,
-   UPDATE_DATE          timestamp                      null,
-   DEL_FLAG             char(1)                        null,
-   REMARKS              varchar2(2000 char)            null,
-   constraint PK_MR_FEE_CLASS_DICT primary key (id)
-);
+   ID                   VARCHAR2(64 char)    not null,
+   MR_FEE_CLASS_CODE    CHAR,
+   MR_FEE_CLASS_NAME    CHAR(4),
+   INPUT_CODE           CHAR(8),
+   MR_FEE_CLASS_DESC    CHAR(50),
+   CREATE_BY            VARCHAR2(64 char),
+   CREATE_DATE          TIMESTAMP,
+   UPDATE_BY            VARCHAR2(64 char),
+   UPDATE_DATE          TIMESTAMP,
+   DEL_FLAG             CHAR,
+   REMARKS              VARCHAR2(2000 char),
+   constraint PK_MR_FEE_CLASS_DICT primary key (ID)
+  );
+comment on table MR_FEE_CLASS_DICT is
+'ÁóÖÊ°àÈ¶ñÈ°µÁ±ªÂà´';
 
-comment on table MR_FEE_CLASS_DICT is 
-'≤°∞∏ ◊“≥¿‡±';
+comment on column MR_FEE_CLASS_DICT.ID is
+'‰∏ªÈîÆ';
 
-comment on column MR_FEE_CLASS_DICT.id is 
-'÷˜º¸';
+comment on column MR_FEE_CLASS_DICT.MR_FEE_CLASS_CODE is
+'Ë¥πÁî®ÂàÜÁ±ª‰ª£Á†Å';
 
-comment on column MR_FEE_CLASS_DICT.MR_FEE_CLASS_CODE is 
-'∑—”√∑÷¿‡¥˙¬Î';
+comment on column MR_FEE_CLASS_DICT.MR_FEE_CLASS_NAME is
+'Ë¥πÁî®ÂàÜÁ±ªÂêçÁß∞';
 
-comment on column MR_FEE_CLASS_DICT.MR_FEE_CLASS_NAME is 
-'∑—”√∑÷¿‡√˚≥∆';
+comment on column MR_FEE_CLASS_DICT.INPUT_CODE is
+'ËæìÂÖ•Á†Å';
 
-comment on column MR_FEE_CLASS_DICT.INPUT_CODE is 
-' ‰»Î¬Î';
+comment on column MR_FEE_CLASS_DICT.MR_FEE_CLASS_DESC is
+'Ë¥πÁî®ÂàÜÁ±ªÊèèËø∞';
 
-comment on column MR_FEE_CLASS_DICT.MR_FEE_CLASS_DESC is 
-'∑—”√∑÷¿‡√Ë ˆ';
+comment on column MR_FEE_CLASS_DICT.CREATE_BY is
+'ÂàõÂª∫‰∫∫';
 
-comment on column MR_FEE_CLASS_DICT.CREATE_BY is 
-'¥¥Ω®»À';
+comment on column MR_FEE_CLASS_DICT.CREATE_DATE is
+'ÂàõÂª∫Êó∂Èó¥';
 
-comment on column MR_FEE_CLASS_DICT.CREATE_DATE is 
-'¥¥Ω® ±º‰';
+comment on column MR_FEE_CLASS_DICT.UPDATE_BY is
+'‰øÆÊîπ‰∫∫';
 
-comment on column MR_FEE_CLASS_DICT.UPDATE_BY is 
-'–ﬁ∏ƒ»À';
+comment on column MR_FEE_CLASS_DICT.UPDATE_DATE is
+'‰øÆÊîπÊó∂Èó¥';
 
-comment on column MR_FEE_CLASS_DICT.UPDATE_DATE is 
-'–ﬁ∏ƒ ±º‰';
+comment on column MR_FEE_CLASS_DICT.DEL_FLAG is
+'Âà†Èô§Ê†áËÆ∞';
 
-comment on column MR_FEE_CLASS_DICT.DEL_FLAG is 
-'…æ≥˝±Íº«';
-
-comment on column MR_FEE_CLASS_DICT.REMARKS is 
-'±∏◊¢–≈œ¢';
+comment on column MR_FEE_CLASS_DICT.REMARKS is
+'Â§áÊ≥®‰ø°ÊÅØ';
