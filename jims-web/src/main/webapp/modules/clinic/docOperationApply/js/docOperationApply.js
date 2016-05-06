@@ -1,75 +1,4 @@
 
-/**
- * 设置动态行
- * @param id
- */
-
-var editRow = undefined;
-var serialNo='';
-var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
-var userBlood = [{"value": "1", "text": "全血"}, {"value": "2", "text": "全血1"}, {"value": "3", "text": "全血2"}, {"value": "4", "text": "全血3"}];
-$(function(){
-    $('#list_doctor').datagrid({
-        singleSelect: true,
-        fit: true,
-        nowrap: false,
-        method:'post',
-        url:basePath+'/bloodApply/getBloodCapacityList',
-        columns:[[
-            {field:'id',title:'id',hidden:true,align:'center'},
-            {field: 'fastSlow', title: '拟手术名称', width: '20%', align: 'center', editor: 'text'},
-            //每个列具体内容
-            {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: 'text'},
-            {
-                field: 'unit', title: '等级', width: '20%', align: 'center', editor: {
-                type:'combobox',
-                options:{
-                    data: units,
-                    valueField:'value',
-                    textField:'text',
-                    required:true
-                }
-            }},
-        ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
-        ]],
-        toolbar: [{
-            text: '添加',
-            iconCls: 'icon-add',
-            handler: function() {
-                $("#list_doctor").datagrid('insertRow', {
-                    index:0,
-                    row:{}
-                });
-            }
-        }, {
-            text: '删除',
-            iconCls: 'icon-remove',
-            handler: function(){
-                inDoDelete();
-            }
-        },
-        ],
-
-        onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        },onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
-            }
-            if (editRow == undefined) {
-                $("#list_doctor").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        },onClickRow:function(rowIndex,rowData){
-            //tooltips选中行，药品价目列表信息
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
-            }
-        }
-    });
-});
 function onloadMethod(){
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
@@ -91,7 +20,7 @@ function onloadMethod(){
         columns:[[      //每个列具体内容
             {field:'mazuifangfa',title:'麻醉方法',width:'18%',align:'center'},
             {field:'shoushuDoctor',title:'手术医师',width:'18%',align:'center'},
-            {field:'shoushuDate',title:'手术时间',width:'30%',align:'center',formatter:formatDateBoxFull},
+            {field:'yuyueDate',title:'预约时间',width:'30%',align:'center',formatter:formatDateBoxFull},
             {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
                 var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
                     '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
