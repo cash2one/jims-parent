@@ -4,6 +4,7 @@
 package com.jims.clinic.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.sys.entity.DeptDict;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -24,7 +25,17 @@ public class ExamClassDict extends DataEntity<ExamClassDict> {
 	private String loacalIdClass;		// 检查号类别
 	private String performedBy;		// 执行科室
 	private String seqName;		// 产生检查号时所用的序列
-	
+
+	private DeptDict deptDict;
+
+	public DeptDict getDeptDict() {
+		return deptDict;
+	}
+
+	public void setDeptDict(DeptDict deptDict) {
+		this.deptDict = deptDict;
+	}
+
 	public ExamClassDict() {
 		super();
 	}

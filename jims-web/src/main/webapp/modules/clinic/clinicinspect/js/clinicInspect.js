@@ -5,6 +5,7 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
+            $("#reqDept").val(data.deptDict.deptName);
             $.ajax({
                 type: "POST",
                 url: basePath + '/examClassDict/getExamSubclass',
