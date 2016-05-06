@@ -3,19 +3,15 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import com.jims.sys.entity.Dict;
 
 
-import javax.xml.bind.annotation.XmlElement;
+
 import java.io.Serializable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +27,7 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
 
 
 	private String parentId;		// 父级id
-    private String _parentId;
+   // private String _parentId;
 	private String diagnosisId;		// 诊断id
     private String type; //诊断类型 1：初步诊断
     private String parentIds; // 诊断父级
@@ -156,30 +152,6 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
         this.dict = dict;
     }
 
-
-
-    @JsonIgnore
-    public static void sortList(List<EmrDiagnosis> list, List<EmrDiagnosis> sourcelist, String parentId, boolean cascade){
-        for (int i=0; i<sourcelist.size(); i++){
-            EmrDiagnosis e = sourcelist.get(i);
-            if (e.getParentIds()!=null && e.getParentIds()!=null
-                    && e.getParentIds().equals(parentId)){
-                list.add(e);
-                if (cascade){
-                    // 判断是否还有子节点, 有则继续获取子节点
-                    for (int j=0; j<sourcelist.size(); j++){
-                        EmrDiagnosis child = sourcelist.get(j);
-                        if (child.getParentIds()!=null && child.getParentIds()!=null
-                                && child.getParentIds().equals(e.getId())){
-                            sortList(list, sourcelist, e.getId(), true);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     @JsonIgnore
     public static String getParentIdsId(){
         return "0";
@@ -258,13 +230,13 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
         this.state = state;
     }
 
-    public String get_parentId() {
+/*    public String get_parentId() {
         return parentId;
     }
 
     public void set_parentId(String _parentId) {
         this.parentId = _parentId;
-    }
+    }*/
 
 
     public List<EmrDiagnosis> getChildren() {
