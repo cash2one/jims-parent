@@ -26,7 +26,7 @@ public interface ExamAppointsServiceApi {
      * @param examAppoints
      * @return
      */
-    public Integer updateExamAppoints(ExamAppoints examAppoints);
+    public String updateExamAppoints(ExamAppoints examAppoints);
 
     /**
      * 删除数据
@@ -56,7 +56,7 @@ public interface ExamAppointsServiceApi {
      * @return
      */
 
-    public Integer deleteExamAppionts( String id);
+    public String deleteExamAppionts( String id);
 
     /**
      * 获得最大的申请序号
@@ -68,6 +68,6 @@ public interface ExamAppointsServiceApi {
      * @param
      * @return
      */
-    public int batchSave(ExamAppoints examAppoints);
+    public String batchSave(ExamAppoints examAppoints);
 }
 

@@ -25,5 +25,5 @@ public interface OutpOrdersServiceApi {
      * @param visitNo
      * @return
      */
-    public int deleteOutpOrders(String visitNo);
+    public String deleteOutpOrders(String visitNo);
 }

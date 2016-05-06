@@ -44,7 +44,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
      * @return
      */
     @Override
-    public Integer updateExamAppoints(ExamAppoints examAppoints) {
+    public String updateExamAppoints(ExamAppoints examAppoints) {
 
         /**
          * 修改EXAM_APPOINTS 相应字段
@@ -119,7 +119,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             examItemsDao.update(examAppoints.getExamItems());
         }
         int nun = examAppointsDao.update(examAppoints);
-        return nun;
+        return nun+"";
     }
 
     /**
@@ -140,7 +140,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
      * @return
      */
     @Override
-    public Integer deleteExamAppionts(String ids) {
+    public String deleteExamAppionts(String ids) {
         int i = 0;
         try {
             String[] id = ids.split(",");
@@ -155,9 +155,9 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
                 i=examAppointsDao.deleteExamAppionts(id[j]);
             }
         } catch (Exception e) {
-            return i;
+            return i+"";
         }
-        return i;
+        return i+"";
 
     }
 
@@ -177,7 +177,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
      * @return
      */
     @Override
-    public int batchSave(ExamAppoints examAppoints) {
+    public String batchSave(ExamAppoints examAppoints) {
         int num = 0;
 //
 //        if(examAppointsDao.getMaxExamNo()!=null){
@@ -255,6 +255,6 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             examItemsDao.insert(examItems);
         }
         num = examAppointsDao.insert(examAppoints);
-        return num;
+        return num+"";
     }
 }
