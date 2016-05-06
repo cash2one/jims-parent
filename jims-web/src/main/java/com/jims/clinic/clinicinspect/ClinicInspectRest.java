@@ -82,4 +82,13 @@ public class ClinicInspectRest {
             return stringData;
 
     }
+    @Path("update")
+    @POST
+    public StringData update(ExamAppoints examAppoints){
+        StringData stringData=new StringData();
+        int num= examAppointsServiceApi.updateExamAppoints(examAppoints);
+        stringData.setCode(num+"");
+        stringData.setData("success");
+        return stringData;
+    }
 }

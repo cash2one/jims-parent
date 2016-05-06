@@ -3,9 +3,13 @@
  */
 package com.jims.clinic.entity;
 
-import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.annotate.JsonAnySetter;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.DateUtils;
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -69,12 +73,14 @@ public class CourseRecordSuperiordocrecor extends DataEntity<CourseRecordSuperio
 		this.courseRecord = courseRecord;
 	}
 
-	public Date getLuruShijian() {
-		return luruShijian;
-	}
-
-    public void setLuruShijian(String luruShijian) {
-        this.luruShijian= DateUtils.parseDate(luruShijian);
+    @JsonSerialize(using = CustomDateSerializer.class)
+    //@JsonProperty("HQ")
+    public Date getLuruShijian() {
+        return luruShijian;
+    }
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
+    public void setLuruShijian(Date luruShijian) {
+        this.luruShijian= luruShijian;
     }
 
 	public String getType() {

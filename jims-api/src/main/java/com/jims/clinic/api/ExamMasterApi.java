@@ -1,32 +1,28 @@
 package com.jims.clinic.api;
 
-import com.jims.clinic.entity.ExamAppoints;
+import com.jims.clinic.entity.ExamMaster;
 import com.jims.common.persistence.Page;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by Administrator on 2016/4/25.
- * 检查预约记录Api接口
- * @author zhaoning
- * @version 2016-04-25
+ * Created by Administrator on 2016/5/4.
  */
-public interface ExamAppointsServiceApi {
+public interface ExamMasterApi {
     /**
      * 查询字段列表
      * @param page
-     * @param examAppoints
+     * @param examMaster
      * @return
      */
-    public Page<ExamAppoints> findPage(Page<ExamAppoints> page, ExamAppoints examAppoints);
+    public Page<ExamMaster> findPage(Page<ExamMaster> page, ExamMaster examMaster);
 
     /**
-     * 修改数据
-     * @param examAppoints
+     * 保存修改数据
+     * @param examMaster
      * @return
      */
-    public Integer updateExamAppoints(ExamAppoints examAppoints);
+    public String save(ExamMaster examMaster);
 
     /**
      * 删除数据
@@ -40,15 +36,20 @@ public interface ExamAppointsServiceApi {
      * @param id
      * @return
      */
-    public ExamAppoints get(String id);
+    public ExamMaster get(String id);
 
     /**
      * 查询检查预约记录
      * @param patientId
      * @return
      */
-    public List<ExamAppoints> getExamAppionts(String patientId);
+    public List<ExamMaster> getExamAppionts(String patientId);
 
+    /**
+     * 保存预约记录
+     * @param examMaster
+     */
+    public  void saveExamAppionts(ExamMaster examMaster);
 
     /**
      * 删除预约记录
@@ -68,6 +69,5 @@ public interface ExamAppointsServiceApi {
      * @param
      * @return
      */
-    public int batchSave(ExamAppoints examAppoints);
+    public int batchSave(ExamMaster examMaster);
 }
-

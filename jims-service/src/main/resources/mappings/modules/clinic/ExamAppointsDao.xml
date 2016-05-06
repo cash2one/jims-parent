@@ -158,7 +158,7 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultMap="examAppointsMap">
+	<select id="findList" resultType="ExamAppoints">
 		SELECT 
 		<include refid="examAppointsColumns"/>
 		FROM exam_appoints a

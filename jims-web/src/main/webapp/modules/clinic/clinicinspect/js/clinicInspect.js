@@ -16,7 +16,7 @@ function onloadMethod() {
             });
         }
     });
-
+//联动下拉框 子项目
     $('#examSubclassNameId').combobox({
         valueField: 'examSubclassName',
         textField: 'examSubclassName',
@@ -34,11 +34,6 @@ function onloadMethod() {
                     $("#descriptionId").html(checkbox);
                 }
             });
-            //$('#descriptionId').combobox({
-            //    panelHeight: '150',//自动高度适合
-            //    valueField: 'description',
-            //    textField: 'description'
-            //});
         }
     });
 
@@ -61,13 +56,15 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'patientId', title: '病人', width: '20%', align: 'center', formatter: formatDateBoxFull},
+            {field: 'examNo', title: '检查单号', width: '20%', align: 'center', formatter: formatDateBoxFull},
             {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center'},
+            {field: 'reqDept', title: '开单科室', width: '20%', align: 'center'},
             {field: 'reqDept', title: '检查科室', width: '20%', align: 'center'},
+            {field: 'flag', title: '状态', width: '20%', align: 'center'},
             {
                 field: 'id',
                 title: '操作',
-                width: '40%',
+                width: '38%',
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
@@ -212,6 +209,7 @@ function get(id) {
         'data': id = id,
         'dataType': 'json',
         'success': function (data) {
+            $("#modify").val("2");
             $('#clinicInspectForm').form('load', data);
         }
     });
@@ -227,7 +225,14 @@ function saveClinicInspect() {
     divJson = divJson.substring(0, divJson.length - 1);
     var submitJson = formJson + ",\"outpOrdersCostses\":[" + divJson + "]}";
 
-    $.postJSON(basePath + "/clinicInspect/saveExamAppoints", submitJson, function (data) {
+    var save=$("#modify").val();
+    var url="";
+    if(save=="1"){
+        url=basePath + "/clinicInspect/saveExamAppoints";
+    }else{
+        url=basePath + "/clinicInspect/update";
+    }
+    $.postJSON( url, submitJson, function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
             $('#list_data').datagrid('load');
