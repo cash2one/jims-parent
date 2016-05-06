@@ -146,12 +146,13 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++) {
                 ExamAppoints examAppoints=examAppointsDao.get(id[j]);
-                int visitNo=examAppoints.getVisitNo();
-                examAppointsDao.deleteExamAppionts(id[j]);
-                examItemsDao.deleteItems(id[j]);
+                String visitNo=examAppoints.getVisitNo().toString();
+
                 outpOrdersCostsDao.deleteOutpOrders(visitNo);
                 outpTreatRecDao.deleteTreatRec(visitNo);
-                i=outpOrdersDao.deleteOutpOrders(visitNo);
+                outpOrdersDao.deleteOutpOrders(visitNo);
+                examItemsDao.deleteItems(id[j]);
+                i=examAppointsDao.deleteExamAppionts(id[j]);
             }
         } catch (Exception e) {
             return i;
@@ -192,7 +193,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");
         //设置就诊序号
-        examAppoints.setVisitNo((int) Math.random() * 1000);
+        examAppoints.setVisitNo((int)(Math.random()*10000));
         List<OutpOrdersCosts> outpOrdersCostses = examAppoints.getOutpOrdersCostses();
         for (int i = 0; i < outpOrdersCostses.size(); i++) {
             OutpOrdersCosts outpOrdersCosts = outpOrdersCostses.get(i);

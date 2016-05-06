@@ -3,12 +3,12 @@
  */
 package com.jims.clinic.entity;
 
+
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.CustomDateSerializer;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 /**
@@ -490,8 +490,8 @@ public class ExamMaster extends DataEntity<ExamMaster> {
 	public void setPhotoStatus(String photoStatus) {
 		this.photoStatus = photoStatus;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getConfirmDateTime() {
 		return confirmDateTime;
 	}
