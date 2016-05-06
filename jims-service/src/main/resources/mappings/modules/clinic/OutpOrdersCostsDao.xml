@@ -368,7 +368,7 @@
 	</select>
 
 	<update id="deleteOutpOrders">
-		UPDATE outp_orders_costs SET
+		UPDATE outp_orders_costs a SET
 			del_flag = '1'
 		WHERE
 		a.visit_no=#{visitNo}

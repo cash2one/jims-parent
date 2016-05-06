@@ -80,7 +80,7 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
     }
 
     @Override
-    public Integer deleteOutpOrders(int  visitNo) {
+    public Integer deleteOutpOrders(String  visitNo) {
         return outpOrdersCostsDao.deleteOutpOrders(visitNo);
     }
 
