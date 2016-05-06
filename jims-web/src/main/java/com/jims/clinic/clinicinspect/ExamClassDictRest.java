@@ -29,7 +29,10 @@ public class ExamClassDictRest {
     @Reference(version = "1.0.0")
     private ExamRptPatternApi examRptPatternApi;
 
-
+    /**
+     * 获取联动中的检查项目类别
+     * @return
+     */
     @Path("getEx")
     @POST
     public List getEx() {
@@ -37,6 +40,11 @@ public class ExamClassDictRest {
         return list;
     }
 
+    /**
+     * 获取联动中的检查项目
+     * @param examClassName
+     * @return
+     */
     @Path("getExamSubclass")
     @POST
     public List getExamSubclass(String examClassName){
@@ -44,6 +52,11 @@ public class ExamClassDictRest {
        return examSubclassDictList;
     }
 
+    /**
+     * 获取联动中检查子项目
+     * @param examSubClass
+     * @return
+     */
     @Path("getExamRptPattern")
     @POST
     public List getExamRptPattern(String examSubClass){

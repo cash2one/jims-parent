@@ -32,24 +32,16 @@ public interface OutpOrdersCostsServiceApi {
     public Integer getMaxOrderNo(Date visitDate ,Integer visitNo, String serialNo);
 
     /**
-     * 查询出最大的收费序号
-     * @param visitDate
-     * @param visitNo
-     * @param itemClass
-     * @return
-     */
-    public  Integer getMaxItemNo(Date visitDate ,Integer visitNo, String itemClass);
-    /**
      * 删除门诊医师收费
      *
      * @param visitNo
      * @return
      */
-    public Integer deleteOutpOrders(String  visitNo);
+    public String deleteOutpOrders(String  visitNo);
     /**
      * 删除收费明细治疗
      * @param outpOrdersCosts
      */
-    public Integer deleteOutpOrdersTreatRec(OutpOrdersCosts outpOrdersCosts,OutpTreatRec outpTreatRec);
+    public String deleteOutpOrdersTreatRec(OutpOrdersCosts outpOrdersCosts,OutpTreatRec outpTreatRec);
 
 }
