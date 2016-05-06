@@ -52,8 +52,6 @@ public class CourseRecordStateRest {
     @POST
     public CourseRecordStage get(String id){
         CourseRecordStage courseRecordStage=courseRecordStageApi.getByCourseId(id);
-        courseRecordStage.setLuruShijian(courseRecordStage.getLuruShijian());
-        courseRecordStage.setType(courseRecordStage.getType());
         return  courseRecordStage;
 
     }

@@ -1,6 +1,11 @@
 package com.jims.clinic.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import com.jims.common.utils.DateUtils;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,6 +29,7 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
     private  String setBingchengId;
     private Date luruShijian;		// 录入时间
     private String type;		// 病程类型
+    private String bingchengId;//
     public Date getLasttime() {
         return lasttime;
     }
@@ -32,13 +38,15 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
         this.lasttime = lasttime;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getNowtime() {
         return nowtime;
     }
-
-    public void setNowtime(Date nowtime) {
-        this.nowtime = nowtime;
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
+    public void setNowtime(Date nowtimes) {
+        this.nowtime = nowtimes;
     }
+
 
     public CourseRecordStage() {
         super();
@@ -50,22 +58,6 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
 
     public String getZhusu() {
         return zhusu;
-    }
-
-    public Date getLuruShijian() {
-        return luruShijian;
-    }
-
-    public void setLuruShijian(Date luruShijian) {
-        this.luruShijian = luruShijian;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public void setZhusu(String zhusu) {
@@ -139,5 +131,30 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
 
     public void setSetBingchengId(String setBingchengId) {
         this.setBingchengId = setBingchengId;
+    }
+
+
+    @JsonSerialize(using = CustomDateSerializer.class)
+    public Date getLuruShijian() {
+        return luruShijian;
+    }
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
+    public void setLuruShijian(Date luruShijian) {
+        this.luruShijian= luruShijian;
+    }
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getBingchengId() {
+        return bingchengId;
+    }
+
+    public void setBingchengId(String bingchengId) {
+        this.bingchengId = bingchengId;
     }
 }

@@ -1,6 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ExamAppointsDao">
+
+	<resultMap id="examAppointsMap" type="com.jims.clinic.entity.ExamAppoints">
+		<result property="id" column="id"></result>
+		<result property="examNo" column="exam_no"></result>
+		<result property="patientId" column="patient_id"></result>
+		<result property="visitId" column="visit_id"></result>
+		<result property="localIdClass" column="local_id_class"></result>
+		<result property="patientLocalId" column="patient_local_id"></result>
+		<result property="name" column="name"></result>
+		<result property="namePhonetic" column="name_phonetic"></result>
+		<result property="sex" column="sex"></result>
+		<result property="dateOfBirth" column="date_of_birth"></result>
+		<result property="birthPlace" column="birth_place"></result>
+		<result property="identity" column="identity"></result>
+		<result property="chargeType" column="charge_type"></result>
+		<result property="mailingAddress" column="mailing_address"></result>
+		<result property="zipCode" column="zip_code"></result>
+		<result property="phoneNumber" column="phone_number"></result>
+		<result property="examClass" column="exam_class"></result>
+		<result property="examSubClass" column="exam_sub_class"></result>
+		<result property="clinSymp" column="clin_symp"></result>
+		<result property="physSign" column="phys_sign"></result>
+		<result property="relevantLabTest" column="relevant_lab_test"></result>
+		<result property="relevantDiag" column="relevant_diag"></result>
+		<result property="clinDiag" column="clin_diag"></result>
+		<result property="examMode" column="exam_mode"></result>
+		<result property="examGroup" column="exam_group"></result>
+		<result property="performedBy" column="performed_by"></result>
+		<result property="patientSource" column="patient_source"></result>
+		<result property="facility" column="facility"></result>
+		<result property="reqDateTime" column="req_date_time"></result>
+		<result property="reqDept" column="req_dept"></result>
+		<result property="reqPhysician" column="req_physician"></result>
+		<result property="reqMemo" column="req_memo"></result>
+		<result property="scheduledDate" column="scheduled_date"></result>
+		<result property="notice" column="notice"></result>
+		<result property="costs" column="costs"></result>
+		<result property="charges" column="charges"></result>
+		<result property="doctorUser" column="doctor_user"></result>
+		<result property="workedIndicator" column="worked_indicator"></result>
+		<result property="isread" column="isread"></result>
+		<result property="emergencyIndicator" column="emergency_indicator"></result>
+		<result property="billingIndicator" column="billing_indicator"></result>
+		<result property="cnsltState" column="cnslt_state"></result>
+		<result property="queueNo" column="queue_no"></result>
+		<result property="device" column="device"></result>
+		<result property="timeInterval" column="time_interval"></result>
+		<result property="equipmentNo" column="equipment_no"></result>
+		<result property="visitNo" column="visit_no"></result>
+		<result property="register" column="register"></result>
+		<result property="regPrnFlag" column="reg_prn_flag"></result>
+		<result property="cnsltNo" column="cnslt_no"></result>
+		<result property="examReason" column="exam_reason"></result>
+		<result property="priorityIndicator" column="priority_indicator"></result>
+		<result property="specialIndicator" column="special_indicator"></result>
+		<result property="shareExamNo" column="share_exam_no"></result>
+		<result property="pauseIndicator" column="pause_indicator"></result>
+		<result property="dbUser" column="db_user"></result>
+		<result property="cnsltName" column="cnslt_name"></result>
+		<result property="printStatus" column="print_status"></result>
+		<result property="wardCode" column="ward_code"></result>
+		<result property="rcptNo" column="rcpt_no"></result>
+		<result property="createDate" column="create_date"></result>
+		<result property="createBy.id" column="create_by"></result>
+		<result property="updateDate" column="update_date"></result>
+		<result property="updateBy.id" column="update_by"></result>
+		<result property="remarks" column="remarks"></result>
+		<result property="delFlag" column="del_flag"></result>
+		<association property="examItem" column="appointsId"
+					 select="com.jims.clinic.dao.ExamItemsDao.get"></association>
+		<association property="outpOrdersCostses" column="visitNo"
+					 select="com.jims.clinic.dao.OutpTreatRecDao.get"></association>
+
+	</resultMap>
     
 	<sql id="examAppointsColumns">
 		a.id AS "id",
@@ -70,6 +144,8 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
+
+
 	
 	<sql id="examAppointsJoins">
 	</sql>
@@ -84,11 +160,11 @@
 	
 	<select id="findList" resultType="ExamAppoints">
 		SELECT 
-			<include refid="examAppointsColumns"/>
+		<include refid="examAppointsColumns"/>
 		FROM exam_appoints a
 		<include refid="examAppointsJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.del_flag ='0'
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
@@ -334,5 +410,151 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+	<insert id="saveExamAppionts">
+		INSERT INTO exam_appoints(
+		id,
+		exam_no,
+		patient_id,
+		visit_id,
+		local_id_class,
+		patient_local_id,
+		name,
+		name_phonetic,
+		sex,
+		date_of_birth,
+		birth_place,
+		identity,
+		charge_type,
+		mailing_address,
+		zip_code,
+		phone_number,
+		exam_class,
+		exam_sub_class,
+		clin_symp,
+		phys_sign,
+		relevant_lab_test,
+		relevant_diag,
+		clin_diag,
+		exam_mode,
+		exam_group,
+		performed_by,
+		patient_source,
+		facility,
+		req_date_time,
+		req_dept,
+		req_physician,
+		req_memo,
+		scheduled_date,
+		notice,
+		costs,
+		charges,
+		doctor_user,
+		worked_indicator,
+		isread,
+		emergency_indicator,
+		billing_indicator,
+		cnslt_state,
+		queue_no,
+		device,
+		time_interval,
+		equipment_no,
+		visit_no,
+		register,
+		reg_prn_flag,
+		cnslt_no,
+		exam_reason,
+		priority_indicator,
+		special_indicator,
+		share_exam_no,
+		pause_indicator,
+		db_user,
+		cnslt_name,
+		print_status,
+		ward_code
+		) VALUES (
+		#{id},
+		#{examNo},
+		#{patientId},
+		#{visitId},
+		#{localIdClass},
+		#{patientLocalId},
+		#{name},
+		#{namePhonetic},
+		#{sex},
+		#{dateOfBirth},
+		#{birthPlace},
+		#{identity},
+		#{chargeType},
+		#{mailingAddress},
+		#{zipCode},
+		#{phoneNumber},
+		#{examClass},
+		#{examSubClass},
+		#{clinSymp},
+		#{physSign},
+		#{relevantLabTest},
+		#{relevantDiag},
+		#{clinDiag},
+		#{examMode},
+		#{examGroup},
+		#{performedBy},
+		#{patientSource},
+		#{facility},
+		#{reqDateTime},
+		#{reqDept},
+		#{reqPhysician},
+		#{reqMemo},
+		#{scheduledDate},
+		#{notice},
+		#{costs},
+		#{charges},
+		#{doctorUser},
+		#{workedIndicator},
+		#{isread},
+		#{emergencyIndicator},
+		#{billingIndicator},
+		#{cnsltState},
+		#{queueNo},
+		#{device},
+		#{timeInterval},
+		#{equipmentNo},
+		#{visitNo},
+		#{register},
+		#{regPrnFlag},
+		#{cnsltNo},
+		#{examReason},
+		#{priorityIndicator},
+		#{specialIndicator},
+		#{shareExamNo},
+		#{pauseIndicator},
+		#{dbUser},
+		#{cnsltName},
+		#{printStatus},
+		#{wardCode}
+		)
+	</insert>
+
+	<select id="getExamAppionts" resultType="ExamAppoints">
+
+		SELECT
+		<include refid="examAppointsColumns"/>
+		FROM exam_appoints a
+		WHERE
+		a.patient_id = #{patientId}
+	</select>
+	<select id="getMaxExamNo" resultType="Integer">
+		SELECT MAX (exam_no) FROM exam_appoints
+	</select>
+	<update id="delExamAppointsByExamNo">
+		DELETE FROM exam_appoints
+		WHERE
+		exam_no = #{examNo}
+	</update>
+
+	<update id="deleteExamAppionts">
+		UPDATE exam_appoints SET
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
 </mapper>

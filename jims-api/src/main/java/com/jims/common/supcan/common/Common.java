@@ -3,12 +3,13 @@
  */
 package com.jims.common.supcan.common;
 
-import com.google.common.collect.Lists;
+
 import com.jims.common.supcan.common.fonts.Font;
 import com.jims.common.supcan.common.properties.Properties;
 import com.jims.common.utils.IdGen;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,9 +33,11 @@ public class Common {
 
 	public Common() {
 		properties = new Properties(IdGen.uuid());
-		fonts = Lists.newArrayList(
-                new Font("宋体", "134", "-12"),
-                new Font("宋体", "134", "-13", "700"));
+		fonts = new ArrayList<Font>();
+        fonts.add(new Font("宋体", "134", "-13", "700"));
+        fonts.add(new Font("宋体", "134", "-12"));
+
+
 	}
 	
 	public Common(Properties properties) {

@@ -4,6 +4,7 @@ import com.jims.clinic.entity.CourseRecordStage;
 
 /**
  * Created by qinlongxin on 2016/4/20.
+ * 阶段小结
  */
 public interface CourseRecordStageApi {
     /**

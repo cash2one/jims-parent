@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.LabTestItemsDao">
+    
+	<sql id="labTestItemsColumns">
+		a.id AS "id",
+		a.test_no AS "testNo",
+		a.item_no AS "itemNo",
+		a.item_name AS "itemName",
+		a.item_code AS "itemCode",
+		a.billing_indicator AS "billingIndicator",
+		a.test_by AS "testBy",
+		a.rcpt_no AS "rcptNo",
+		a.explanation AS "explanation",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="labTestItemsJoins">
+	</sql>
+    
+	<select id="get" resultType="LabTestItems">
+		SELECT 
+			<include refid="labTestItemsColumns"/>
+		FROM lab_test_items a
+		<include refid="labTestItemsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="LabTestItems">
+		SELECT 
+			<include refid="labTestItemsColumns"/>
+		FROM lab_test_items a
+		<include refid="labTestItemsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="LabTestItems">
+		SELECT 
+			<include refid="labTestItemsColumns"/>
+		FROM lab_test_items a
+		<include refid="labTestItemsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO lab_test_items(
+			id,
+			test_no,
+			item_no,
+			item_name,
+			item_code,
+			billing_indicator,
+			test_by,
+			rcpt_no,
+			explanation,
+			del_flag,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			create_date
+		) VALUES (
+			#{id},
+			#{testNo},
+			#{itemNo},
+			#{itemName},
+			#{itemCode},
+			#{billingIndicator},
+			#{testBy},
+			#{rcptNo},
+			#{explanation},
+			#{delFlag},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE lab_test_items SET 	
+			test_no = #{testNo},
+			item_no = #{itemNo},
+			item_name = #{itemName},
+			item_code = #{itemCode},
+			billing_indicator = #{billingIndicator},
+			test_by = #{testBy},
+			rcpt_no = #{rcptNo},
+			explanation = #{explanation},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE lab_test_items SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

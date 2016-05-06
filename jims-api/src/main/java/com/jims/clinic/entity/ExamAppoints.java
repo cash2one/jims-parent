@@ -3,12 +3,13 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 检查预约记录Entity
@@ -77,7 +78,28 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private Integer printStatus;		// print_status
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
-	
+	private ExamItems examItems;
+
+	//扩展
+	private List<OutpOrdersCosts> outpOrdersCostses;
+
+	public ExamItems getExamItems() {
+		return examItems;
+	}
+
+	public void setExamItems(ExamItems examItems) {
+		this.examItems = examItems;
+	}
+
+	public List<OutpOrdersCosts> getOutpOrdersCostses() {
+		return outpOrdersCostses;
+	}
+
+	public void setOutpOrdersCostses(List<OutpOrdersCosts> outpOrdersCostses) {
+		this.outpOrdersCostses = outpOrdersCostses;
+	}
+
+
 	public ExamAppoints() {
 		super();
 	}
@@ -157,7 +179,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 		this.sex = sex;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
@@ -328,7 +350,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 		this.facility = facility;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getReqDateTime() {
 		return reqDateTime;
 	}
@@ -364,7 +386,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 		this.reqMemo = reqMemo;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getScheduledDate() {
 		return scheduledDate;
 	}

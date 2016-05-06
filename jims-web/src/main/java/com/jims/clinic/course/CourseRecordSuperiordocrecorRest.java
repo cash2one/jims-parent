@@ -52,8 +52,6 @@ public class CourseRecordSuperiordocrecorRest {
     @Path("get")
     public CourseRecordSuperiordocrecor get(String courseRecordId){
         CourseRecordSuperiordocrecor courseRecordSuperiordocrecor= courseRecordSuperiordocrecordApi.getDocrecorByCourseRecordId(courseRecordId);
-        courseRecordSuperiordocrecor.setLuruShijian(courseRecordSuperiordocrecor.getCourseRecord().getLuruShijian());
-        courseRecordSuperiordocrecor.setType(courseRecordSuperiordocrecor.getCourseRecord().getType());
         return courseRecordSuperiordocrecor;
 
     }

@@ -14,5 +14,27 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface ElectronGroupConsultationDao extends CrudDao<ElectronGroupConsultation> {
-	
+
+    /**
+     * 保存或编辑会诊主表方法
+     * @paramElectronGroupConsultation
+     */
+    public String saveGroupConsulation(ElectronGroupConsultation electronGroupConsultation);
+
+    /**
+     * 发布会诊主表方法
+     * @param "ElectronGroupConsultation.id 会诊主表id"
+     * @author xueyx
+     * @version 2016-04-26
+     */
+    public void fabu(ElectronGroupConsultation electronGroupConsultation);
+
+    /**
+     * 保存发布会诊人的意见
+     * @param "ElectronGroupConsultation.id 会诊主表id"
+     * @param "ElectronGroupConsultation.huizhenyijian "
+     * @author xueyx
+     * @version 2016-04-26
+     */
+    public void saveMainOnly(ElectronGroupConsultation electronGroupConsultation);
 }

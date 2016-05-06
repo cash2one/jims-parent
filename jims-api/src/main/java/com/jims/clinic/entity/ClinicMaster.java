@@ -3,7 +3,10 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -83,12 +86,12 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	public void setHosid(String hosid) {
 		this.hosid = hosid;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getVisitDate() {
 		return visitDate;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setVisitDate(Date visitDate) {
 		this.visitDate = visitDate;
 	}
@@ -266,12 +269,13 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	public void setRegistrationStatus(Integer registrationStatus) {
 		this.registrationStatus = registrationStatus;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getRegisteringDate() {
 		return registeringDate;
 	}
 
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setRegisteringDate(Date registeringDate) {
 		this.registeringDate = registeringDate;
 	}
@@ -325,12 +329,13 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getReturnedDate() {
 		return returnedDate;
 	}
 
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setReturnedDate(Date returnedDate) {
 		this.returnedDate = returnedDate;
 	}
@@ -370,12 +375,12 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	public void setCardNo(String cardNo) {
 		this.cardNo = cardNo;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getAcctDateTime() {
 		return acctDateTime;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setAcctDateTime(Date acctDateTime) {
 		this.acctDateTime = acctDateTime;
 	}
@@ -449,12 +454,12 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	public void setPatType(String patType) {
 		this.patType = patType;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getValidDate() {
 		return validDate;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setValidDate(Date validDate) {
 		this.validDate = validDate;
 	}

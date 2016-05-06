@@ -15,5 +15,5 @@ public interface CourseRecordStageDao extends CrudDao<CourseRecordStage> {
      *通过病程主表Id
      * 拿到阶段小结
      */
-  public CourseRecordStage getByCourseId(@Param("courseRecordId")String courseRecordId);
+  public CourseRecordStage getByCourseId(@Param("courseRecordId") String courseRecordId);
 }

@@ -7,31 +7,94 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.OutpOrdersCostsServiceApi;
 import com.jims.clinic.dao.OutpOrdersCostsDao;
 import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.Date;
 import java.util.List;
 
 /**
  * 门诊医生收费明细Service
+ *
  * @author zhaoning
  * @version 2016-04-20
  */
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
-public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsDao, OutpOrdersCosts> implements OutpOrdersCostsServiceApi{
+public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsDao, OutpOrdersCosts> implements OutpOrdersCostsServiceApi {
     @Autowired
     private OutpOrdersCostsDao outpOrdersCostsDao;
 
     /**
      * 根据就诊ID和主记录信息查询明细信息
+     *
      * @param masterId
      * @param clinicId
      * @return
      */
     @Override
     public List<OutpOrdersCosts> getOutpCosts(String masterId, String clinicId) {
-        return outpOrdersCostsDao.getOutpCosts(masterId,clinicId);
+        return outpOrdersCostsDao.getOutpCosts(masterId, clinicId);
     }
+
+    public OutpOrdersCosts get(String id) {
+        return super.get(id);
+    }
+
+    public Integer getSerialNo() {
+        return outpOrdersCostsDao.getSerialNo();
+    }
+
+
+    /**
+     * 查询门诊信息
+     *
+     * @param visitDate
+     * @param visitNo
+     * @return
+     */
+    public List<OutpOrdersCosts> getOutpOrders(Date visitDate, Integer visitNo, String itemClass) {
+        return outpOrdersCostsDao.loadOutpOrders(visitDate, visitNo, itemClass);
+    }
+
+    /**
+     * 查询出最大的医嘱号
+     */
+    public Integer getMaxOrderNo(Date visitDate, Integer visitNo, String serialNo) {
+        return outpOrdersCostsDao.getMaxOrderNo(visitDate, visitNo, serialNo);
+    }
+
+    /**
+     * 查询出最大的收费序号
+     *
+     * @param visitDate
+     * @param visitNo
+     * @param itemClass
+     * @return
+     */
+    public Integer getMaxItemNo(Date visitDate, Integer visitNo, String itemClass) {
+        return outpOrdersCostsDao.getMaxOrderNo(visitDate, visitNo, itemClass);
+    }
+
+    @Override
+    public Integer deleteOutpOrders(int  visitNo) {
+        return outpOrdersCostsDao.deleteOutpOrders(visitNo);
+    }
+
+
+    /**
+     * 删除收费明细治疗
+     *
+     * @param outpOrdersCosts
+     */
+    @Override
+    public Integer deleteOutpOrdersTreatRec(OutpOrdersCosts outpOrdersCosts, OutpTreatRec outpTreatRec) {
+        return null;
+    }
+
+
+
 }

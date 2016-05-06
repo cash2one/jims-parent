@@ -3,9 +3,9 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.DateUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,12 +42,12 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
 	public void setBingchengId(String bingchengId) {
 		this.bingchengId = bingchengId;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getBingchengjilutime() {
 		return bingchengjilutime;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setBingchengjilutime(Date bingchengjilutime) {
 		this.bingchengjilutime = bingchengjilutime;
 	}
@@ -85,11 +85,12 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
         this.type = type;
     }
 
-
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getLuruShijian() {
         return luruShijian;
     }
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
     public void setLuruShijian(Date luruShijian) {
-        this.luruShijian = luruShijian;
+        this.luruShijian= luruShijian;
     }
 }

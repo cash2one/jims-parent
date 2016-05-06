@@ -234,4 +234,143 @@
 		FROM outp_orders_costs a
 		WHERE a.masterId=#{masterId} AND a.patientId=#{clinicId}
 	</select>
+
+	<insert id="saveOrdersCosts">
+		INSERT INTO outp_orders_costs(
+		id,
+		master_id ,
+		patient_id,
+		visit_date,
+		visit_no,
+		serial_no,
+		order_class,
+		order_no,
+		order_sub_no,
+		item_no,
+		item_class,
+		item_name,
+		item_code,
+		item_spec,
+		units,
+		repetition,
+		amount,
+		ordered_by_dept,
+		ordered_by_doctor,
+		performed_by,
+		class_on_rcpt,
+		costs,
+		charges,
+		rcpt_no,
+		bill_desc_no,
+		bill_item_no,
+		charge_indicator,
+		class_on_reckoning,
+		subj_code,
+		price_quotiety,
+		item_price,
+		clinic_no,
+		bill_date,
+		bill_no,
+		ward_code
+		) VALUES (
+		#{id},
+		#{masterId},
+		#{patientId},
+		#{visitDate},
+		#{visitNo},
+		#{serialNo},
+		#{orderClass},
+		#{orderNo},
+		#{orderSubNo},
+		#{itemNo},
+		#{itemClass},
+		#{itemName},
+		#{itemCode},
+		#{itemSpec},
+		#{units},
+		#{repetition},
+		#{amount},
+		#{orderedByDept},
+		#{orderedByDoctor},
+		#{performedBy},
+		#{classOnRcpt},
+		#{costs},
+		#{charges},
+		#{rcptNo},
+		#{billDescNo},
+		#{billItemNo},
+		#{chargeIndicator},
+		#{classOnReckoning},
+		#{subjCode},
+		#{priceQuotiety},
+		#{itemPrice},
+		#{clinicNo},
+		#{billDate},
+		#{billNo},
+		#{wardCode}
+		)
+	</insert>
+
+	<select id="loadOutpOrders" resultType="OutpOrdersCosts">
+		SELECT A.*,B.DEPT_NAME FROM (SELECT "OUTP_TREAT_REC"."VISIT_DATE",
+		"OUTP_TREAT_REC"."VISIT_NO",
+		"OUTP_TREAT_REC"."SERIAL_NO",
+		"OUTP_TREAT_REC"."ITEM_NO",
+		"OUTP_TREAT_REC"."ITEM_CLASS",
+		"OUTP_TREAT_REC"."ITEM_CODE",
+		"OUTP_TREAT_REC"."ITEM_NAME",
+		"OUTP_TREAT_REC"."ITEM_SPEC",
+		"OUTP_TREAT_REC"."UNITS",
+		"OUTP_TREAT_REC"."AMOUNT",
+		"OUTP_TREAT_REC"."FREQUENCY",
+		"OUTP_TREAT_REC"."PERFORMED_BY",
+		"OUTP_TREAT_REC"."COSTS",
+		"OUTP_TREAT_REC"."CHARGES",
+		"OUTP_TREAT_REC"."CHARGE_INDICATOR",
+		"OUTP_TREAT_REC"."APPOINT_NO",
+		"OUTP_TREAT_REC"."APPOINT_ITEM_NO",
+		"OUTP_TREAT_REC"."FREQ_DETAIL",
+		"OUTP_TREAT_REC"."WARD_CODE",
+		"OUTPDOCT"."OUTP_ORDERS"."DOCTOR_NO",
+		"CLINIC_ITEM_CLASS_DICT"."CLASS_NAME"
+		FROM "OUTP_TREAT_REC",
+		"OUTPDOCT"."OUTP_ORDERS",
+		"CLINIC_ITEM_CLASS_DICT"
+		WHERE ( "OUTP_TREAT_REC"."VISIT_DATE" = "OUTPDOCT"."OUTP_ORDERS"."VISIT_DATE" ) AND
+		( "OUTP_TREAT_REC"."VISIT_NO" = "OUTPDOCT"."OUTP_ORDERS"."VISIT_NO" ) AND
+		( "OUTP_TREAT_REC"."SERIAL_NO" = "OUTPDOCT"."OUTP_ORDERS"."SERIAL_NO" ) AND
+		( "OUTP_TREAT_REC"."ITEM_CLASS" = "CLINIC_ITEM_CLASS_DICT"."CLASS_CODE") AND
+		( "OUTP_TREAT_REC"."VISIT_DATE" = #{visitDate} ) AND
+		<if test="itemClass!=null">
+			("OUTP_TREAT_REC"."ITEM_CLASS" = #{itemClass}) AND
+		</if>
+		( "OUTP_TREAT_REC"."VISIT_NO" =#{visitNo} ) ) A LEFT JOIN DEPT_DICT B ON A.PERFORMED_BY=B.DEPT_CODE
+	</select>
+
+	<select id="getMaxOrderNo" resultType="Integer">
+		SELECT MAX (order_no) FROM outp_orders_costs a
+		WHERE
+		a.visit_date = #{visitDate} and
+		a.visit_no=#{visitNo} and
+		a.serial_no=#{serialNo}
+	</select>
+
+	<select id="getSerialNo" resultType="Integer">
+		select max(SERIAL_NO)
+		from outp_orders_costs
+	</select>
+	<select id="getMaxItemNo" resultType="Integer">
+		SELECT MAX (item_no) FROM outp_orders_costs a
+		WHERE
+		a.visit_date = #{visitDate} and
+		a.visit_no=#{visitNo} and
+		a.item_class=#{itemClass}
+	</select>
+
+	<update id="deleteOutpOrders">
+		UPDATE outp_orders_costs SET
+			del_flag = '1'
+		WHERE
+		a.visit_no=#{visitNo}
+	</update>
 </mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.OperationGradeDao">
+	<sql id="operationGradeColumns">
+		a.id AS "id",
+		a.operation_id AS "operatioin.id",
+		a.shoushuxu_no AS "shoushuxuNo",
+		a.shoushudengji AS "shoushudengji",
+		a.beiyong3 AS "beiyong3",
+		a.beiyong4 AS "beiyong4",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="operationGradeJoins">
+	</sql>
+    
+	<select id="get" resultType="OperationGrade">
+		SELECT 
+			<include refid="operationGradeColumns"/>
+		FROM operation_grade a
+		<include refid="operationGradeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OperationGrade">
+		SELECT 
+			<include refid="operationGradeColumns"/>
+		FROM operation_grade a
+		<include refid="operationGradeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OperationGrade">
+		SELECT 
+			<include refid="operationGradeColumns"/>
+		FROM operation_grade a
+		<include refid="operationGradeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO operation_grade(
+			id,
+			operation_id,
+			shoushuxu_no,
+			shoushudengji,
+			beiyong3,
+			beiyong4,
+			create_date,
+			update_by,
+			update_date,
+			remark,
+			del_flag
+		) VALUES (
+			#{id},
+			#{operatioin.id},
+			#{shoushuxuNo},
+			#{shoushudengji},
+			#{beiyong3},
+			#{beiyong4},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remark},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE operation_grade SET 	
+			operation_id = #{operatioin.id},
+			shoushuxu_no = #{shoushuxuNo},
+			shoushudengji = #{shoushudengji},
+			beiyong3 = #{beiyong3},
+			beiyong4 = #{beiyong4},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remark = #{remark}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE operation_grade SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<update id="delOperation">
+		DELETE FROM operation_grade
+		WHERE operation_id = #{operationId}
+	</update>
+	
+</mapper>

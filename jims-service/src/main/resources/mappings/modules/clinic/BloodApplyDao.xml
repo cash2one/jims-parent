@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.BloodApplylDao">
+    
+	<sql id="bloodApplyColumns">
+		a.apply_num AS "applyNum",
+		a.inp_no AS "inpNo",
+		a.id_no AS "idNo",
+		a.dept_code AS "deptCode",
+		a.pat_name AS "patName",
+		a.pat_sex AS "patSex",
+		a.birthday AS "birthday",
+		a.fee_type AS "feeType",
+		a.pat_source AS "patSource",
+		a.blood_paper AS "bloodPaper",
+		a.blood_inuse AS "bloodInuse",
+		a.blood_diagnose AS "bloodDiagnose",
+		a.blood_taboo AS "bloodTaboo",
+		a.hematin AS "hematin",
+		a.platelet AS "platelet",
+		a.leucocyte AS "leucocyte",
+		a.pat_blood_group AS "patBloodGroup",
+		a.rh AS "rh",
+		a.blood_sum AS "bloodSum",
+		a.apply_date AS "applyDate",
+		a.gather_date AS "gatherDate",
+		a.director AS "director",
+		a.physician AS "physician",
+		a.doctor AS "doctor",
+		a.price AS "price",
+		a.hct AS "hct",
+		a.alt AS "alt",
+		a.hbsag AS "hbsag",
+		a.hcv AS "hcv",
+		a.hiv AS "hiv",
+		a.anti_md AS "antiMd",
+		a.shine_blood AS "shineBlood",
+		a.pre_blood_type AS "preBloodType",
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="bloodApplyJoins">
+	</sql>
+    
+	<select id="get" resultType="BloodApply">
+		SELECT 
+			<include refid="bloodApplyColumns"/>
+		FROM blood_apply a
+		<include refid="bloodApplyJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BloodApply">
+		SELECT 
+			<include refid="bloodApplyColumns"/>
+		FROM blood_apply a
+		<include refid="bloodApplyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BloodApply">
+		SELECT 
+			<include refid="bloodApplyColumns"/>
+		FROM blood_apply a
+		<include refid="bloodApplyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO blood_apply(
+			apply_num,
+			inp_no,
+			id_no,
+			dept_code,
+			pat_name,
+			pat_sex,
+			birthday,
+			fee_type,
+			pat_source,
+			blood_paper,
+			blood_inuse,
+			blood_diagnose,
+			blood_taboo,
+			hematin,
+			platelet,
+			leucocyte,
+			pat_blood_group,
+			rh,
+			blood_sum,
+			apply_date,
+			gather_date,
+			director,
+			physician,
+			doctor,
+			price,
+			hct,
+			alt,
+			hbsag,
+			hcv,
+			hiv,
+			anti_md,
+			shine_blood,
+			pre_blood_type,
+			id,
+			org_id,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{applyNum},
+			#{inpNo},
+			#{idNo},
+			#{deptCode},
+			#{patName},
+			#{patSex},
+			#{birthday},
+			#{feeType},
+			#{patSource},
+			#{bloodPaper},
+			#{bloodInuse},
+			#{bloodDiagnose},
+			#{bloodTaboo},
+			#{hematin},
+			#{platelet},
+			#{leucocyte},
+			#{patBloodGroup},
+			#{rh},
+			#{bloodSum},
+			#{applyDate},
+			#{gatherDate},
+			#{director},
+			#{physician},
+			#{doctor},
+			#{price},
+			#{hct},
+			#{alt},
+			#{hbsag},
+			#{hcv},
+			#{hiv},
+			#{antiMd},
+			#{shineBlood},
+			#{preBloodType},
+			#{id},
+			#{orgId},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE blood_apply SET 	
+			apply_num = #{applyNum},
+			inp_no = #{inpNo},
+			id_no = #{idNo},
+			dept_code = #{deptCode},
+			pat_name = #{patName},
+			pat_sex = #{patSex},
+			birthday = #{birthday},
+			fee_type = #{feeType},
+			pat_source = #{patSource},
+			blood_paper = #{bloodPaper},
+			blood_inuse = #{bloodInuse},
+			blood_diagnose = #{bloodDiagnose},
+			blood_taboo = #{bloodTaboo},
+			hematin = #{hematin},
+			platelet = #{platelet},
+			leucocyte = #{leucocyte},
+			pat_blood_group = #{patBloodGroup},
+			rh = #{rh},
+			blood_sum = #{bloodSum},
+			apply_date = #{applyDate},
+			gather_date = #{gatherDate},
+			director = #{director},
+			physician = #{physician},
+			doctor = #{doctor},
+			price = #{price},
+			hct = #{hct},
+			alt = #{alt},
+			hbsag = #{hbsag},
+			hcv = #{hcv},
+			hiv = #{hiv},
+			anti_md = #{antiMd},
+			shine_blood = #{shineBlood},
+			pre_blood_type = #{preBloodType},
+			org_id = #{orgId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE blood_apply SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

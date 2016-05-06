@@ -23,5 +23,5 @@ public interface CourseRecordSuperiordocrecorDao extends CrudDao<CourseRecordSup
      * @author zhaoning
      * @version 2016-04-21
      */
-    public CourseRecordSuperiordocrecor getSuperiordByCourse(@Param("courseRecordId")String courseRecordId);
+    public CourseRecordSuperiordocrecor getSuperiordByCourse(@Param("courseRecordId") String courseRecordId);
 }
