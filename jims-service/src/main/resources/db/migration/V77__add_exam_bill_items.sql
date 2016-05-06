@@ -1,114 +1,113 @@
--- drop table EXAM_BILL_ITEMS cascade constraints;     
--- Create table
+-- drop table EXAM_BILL_ITEMS cascade constraints;
+
 /*==============================================================*/
-/* Table: EXAM_BILL_ITEMS      ºÏ≤Èº∆º€œÓƒø
-/* CREATE_DATE: 2016-05-05                             */
-/* CREATE_BY :  zp
+/* Table: EXAM_BILL_ITEMS    Ê£ÄÊü•ËÆ°‰ª∑È°πÁõÆ                       */
+/* CREATE_DATE: 2016-05-05                                      */
+/* CREATE_BY :  zp                                              */
 /*==============================================================*/
 create table EXAM_BILL_ITEMS 
 (
-   id                   varchar2(64 char)              not null,
-   EXAM_NO              varchar2(10 char)              null,
-   EXAM_ITEM_NO         number(11)                     null,
-   CHARGE_ITEM_NO       number(11)                     null,
-   PATIENT_ID           varchar2(10 char)              null,
-   VISIT_ID             number(11)                     null,
-   ITEM_CLASS           char(1)                        null,
-   ITEM_NAME            varchar2(100 char)             null,
-   ITEM_CODE            varchar2(64 char)              null,
-   ITEM_SPEC            varchar2(64 char)              null,
-   AMOUNT               number(6,2)                    null,
-   UNITS                varchar2(10 char)              null,
-   ORDERED_BY           varchar2(10 char)              null,
-   PERFORMED_BY         varchar2(10 char)              null,
-   COSTS                number(8,2)                    null,
-   CHARGES              number(8,2)                    null,
-   BILLING_DATE_TIME    TIMESTAMP                      null,
-   OPERATOR_NO          varchar2(4 char)               null,
-   VERIFIED_INDICATOR   number(11)                     null,
-   CREATE_BY            varchar2(64 char)              null,
-   CREATE_DATE          TIMESTAMP                      null,
-   UPDATE_BY            varchar2(64 char)              null,
-   UPDATE_DATE          TIMESTAMP                      null,
-   DEL_FLAG             char(1)                        null,
-   REMARKES             varchar2(64 char)              null,
-   constraint PK_EXAM_BILL_ITEMS primary key  (id)
-);
+   ID                   VARCHAR2(64 char)    not null,
+   EXAM_NO              VARCHAR2(10 char),
+   EXAM_ITEM_NO         NUMBER(11),
+   CHARGE_ITEM_NO       NUMBER(11),
+   PATIENT_ID           VARCHAR2(10 char),
+   VISIT_ID             NUMBER(11),
+   ITEM_CLASS           CHAR,
+   ITEM_NAME            VARCHAR2(100 char),
+   ITEM_CODE            VARCHAR2(64 char),
+   ITEM_SPEC            VARCHAR2(64 char),
+   AMOUNT               NUMBER(6,2),
+   UNITS                VARCHAR2(10 char),
+   ORDERED_BY           VARCHAR2(10 char),
+   PERFORMED_BY         VARCHAR2(10 char),
+   COSTS                NUMBER(8,2),
+   CHARGES              NUMBER(8,2),
+   BILLING_DATE_TIME    TIMESTAMP,
+   OPERATOR_NO          VARCHAR2(4 char),
+   VERIFIED_INDICATOR   NUMBER(11),
+   CREATE_BY            VARCHAR2(64 char),
+   CREATE_DATE          TIMESTAMP,
+   UPDATE_BY            VARCHAR2(64 char),
+   UPDATE_DATE          TIMESTAMP,
+   DEL_FLAG             CHAR,
+   REMARKES             VARCHAR2(64 char),
+   constraint PK_EXAM_BILL_ITEMS primary key (ID)
+  );
+comment on table EXAM_BILL_ITEMS is
+'Ê£ÄÊü•ËÆ°‰ª∑È°πÁõÆ';
 
-comment on table EXAM_BILL_ITEMS is 
-'ºÏ≤Èº∆º€œÓƒø';
+comment on column EXAM_BILL_ITEMS.ID is
+'‰∏ªÈîÆ';
 
-comment on column EXAM_BILL_ITEMS.id is 
-'÷˜º¸';
+comment on column EXAM_BILL_ITEMS.EXAM_NO is
+'Áî≥ËØ∑Â∫èÂè∑';
 
-comment on column EXAM_BILL_ITEMS.EXAM_NO is 
-'…Í«Î–Ú∫≈';
+comment on column EXAM_BILL_ITEMS.EXAM_ITEM_NO is
+'È°πÁõÆÂ∫èÂè∑';
 
-comment on column EXAM_BILL_ITEMS.EXAM_ITEM_NO is 
-'œÓƒø–Ú∫≈';
+comment on column EXAM_BILL_ITEMS.CHARGE_ITEM_NO is
+'ËÆ°‰ª∑È°πÁõÆÂ∫èÂè∑';
 
-comment on column EXAM_BILL_ITEMS.CHARGE_ITEM_NO is 
-'º∆º€œÓƒø–Ú∫≈';
+comment on column EXAM_BILL_ITEMS.PATIENT_ID is
+'ÁóÖ‰∫∫Ê†áËØÜÂè∑';
 
-comment on column EXAM_BILL_ITEMS.PATIENT_ID is 
-'≤°»À±Í ∂∫≈';
+comment on column EXAM_BILL_ITEMS.VISIT_ID is
+'ÁóÖ‰∫∫Êú¨Ê¨°‰ΩèÈô¢Ê†áËØÜ';
 
-comment on column EXAM_BILL_ITEMS.VISIT_ID is 
-'≤°»À±æ¥Œ◊°‘∫±Í ∂';
+comment on column EXAM_BILL_ITEMS.ITEM_CLASS is
+'È°πÁõÆÁ±ªÂà´';
 
-comment on column EXAM_BILL_ITEMS.ITEM_CLASS is 
-'œÓƒø¿‡±';
+comment on column EXAM_BILL_ITEMS.ITEM_NAME is
+'È°πÁõÆÂêçÁß∞';
 
-comment on column EXAM_BILL_ITEMS.ITEM_NAME is 
-'œÓƒø√˚≥∆';
+comment on column EXAM_BILL_ITEMS.ITEM_CODE is
+'È°πÁõÆ‰ª£Á†Å';
 
-comment on column EXAM_BILL_ITEMS.ITEM_CODE is 
-'œÓƒø¥˙¬Î';
+comment on column EXAM_BILL_ITEMS.ITEM_SPEC is
+'È°πÁõÆËßÑÊ†º';
 
-comment on column EXAM_BILL_ITEMS.ITEM_SPEC is 
-'œÓƒøπÊ∏Ò';
+comment on column EXAM_BILL_ITEMS.AMOUNT is
+'Êï∞Èáè';
 
-comment on column EXAM_BILL_ITEMS.AMOUNT is 
-' ˝¡ø';
+comment on column EXAM_BILL_ITEMS.UNITS is
+'Âçï‰Ωç';
 
-comment on column EXAM_BILL_ITEMS.UNITS is 
-'µ•Œª';
+comment on column EXAM_BILL_ITEMS.ORDERED_BY is
+'ÂºÄÂçïÁßëÂÆ§';
 
-comment on column EXAM_BILL_ITEMS.ORDERED_BY is 
-'ø™µ•ø∆ “';
+comment on column EXAM_BILL_ITEMS.PERFORMED_BY is
+'ÊâßË°åÁßëÂÆ§';
 
-comment on column EXAM_BILL_ITEMS.PERFORMED_BY is 
-'÷¥––ø∆ “';
+comment on column EXAM_BILL_ITEMS.COSTS is
+'Ë¥πÁî®';
 
-comment on column EXAM_BILL_ITEMS.COSTS is 
-'∑—”√';
+comment on column EXAM_BILL_ITEMS.CHARGES is
+'Â∫îÊî∂Ë¥πÁî®';
 
-comment on column EXAM_BILL_ITEMS.CHARGES is 
-'”¶ ’∑—”√';
+comment on column EXAM_BILL_ITEMS.BILLING_DATE_TIME is
+'ËÆ°‰ª∑Êó•ÊúüÂèäÊó∂Èó¥';
 
-comment on column EXAM_BILL_ITEMS.BILLING_DATE_TIME is 
-'º∆º€»’∆⁄º∞ ±º‰';
+comment on column EXAM_BILL_ITEMS.OPERATOR_NO is
+'ËÆ°‰ª∑ÂëòÂè∑';
 
-comment on column EXAM_BILL_ITEMS.OPERATOR_NO is 
-'º∆º€‘±∫≈';
+comment on column EXAM_BILL_ITEMS.VERIFIED_INDICATOR is
+'Âàí‰ª∑Á°ÆËÆ§Ê†áÂøó';
 
-comment on column EXAM_BILL_ITEMS.VERIFIED_INDICATOR is 
-'ªÆº€»∑»œ±Í÷æ';
+comment on column EXAM_BILL_ITEMS.CREATE_BY is
+'ÂàõÂª∫‰∫∫';
 
-comment on column EXAM_BILL_ITEMS.CREATE_BY is 
-'¥¥Ω®»À';
+comment on column EXAM_BILL_ITEMS.CREATE_DATE is
+'ÂàõÂª∫Êó∂Èó¥';
 
-comment on column EXAM_BILL_ITEMS.CREATE_DATE is 
-'¥¥Ω® ±º‰';
+comment on column EXAM_BILL_ITEMS.UPDATE_BY is
+'‰øÆÊîπ‰∫∫';
 
-comment on column EXAM_BILL_ITEMS.UPDATE_BY is 
-'–ﬁ∏ƒ»À';
+comment on column EXAM_BILL_ITEMS.UPDATE_DATE is
+'‰øÆÊîπÊó∂Èó¥';
 
-comment on column EXAM_BILL_ITEMS.UPDATE_DATE is 
-'–ﬁ∏ƒ ±º‰';
+comment on column EXAM_BILL_ITEMS.DEL_FLAG is
+'Âà†Èô§Ê†áËÆ∞';
 
-comment on column EXAM_BILL_ITEMS.DEL_FLAG is 
-'…æ≥˝±Íº«';
-
-comment on column EXAM_BILL_ITEMS.REMARKES is 
-'±∏◊¢–≈œ¢';
+comment on column EXAM_BILL_ITEMS.REMARKES is
+'Â§áÊ≥®‰ø°ÊÅØ';

@@ -1,54 +1,54 @@
--- drop table DEPT_VS_WARD cascade constraints;     
--- Create table
+-- drop table DEPT_VS_WARD cascade constraints;
+
 /*==============================================================*/
-/* Table: DEPT_VS_WARD      ¡Ÿ¥≤ø∆ “”Î≤°∑ø£®«¯£©∂‘’’ 
-/* CREATE_DATE: 2016-05-05                                */
-/* CREATE_BY :  zp      
+/* Table: DEPT_VS_WARD    ‰∏¥Â∫äÁßëÂÆ§‰∏éÁóÖÊàøÔºàÂå∫ÔºâÂØπÁÖß         */
+/* CREATE_DATE: 2016-05-05                                      */
+/* CREATE_BY :  zp                                              */
 /*==============================================================*/
 create table DEPT_VS_WARD 
 (
-   id                   varchar2(64 char)              not null,
-   HOSPITAL_ID          varchar2(64 char)              null,
-   DEPT_CODE            char(8)                        null,
-   WARD_CODE            char(8)                        null,
-   UPDATE_BY            varchar2(64 char)              null,
-   UPDATE_DATE          timestamp                      null,
-   CREATE_BY            varchar2(64 char)              null,
-   CREATE_DATE          timestamp                      null,
-   DEL_FLAG             char(1)                        null,
-   REMARKS              varchar2(2000 char)            null,
-   constraint PK_DEPT_VS_WARD primary key  (id)
+   ID                   VARCHAR2(64 char)    not null,
+   HOSPITAL_ID          VARCHAR2(64 char),
+   DEPT_CODE            CHAR(8),
+   WARD_CODE            CHAR(8),
+   UPDATE_BY            VARCHAR2(64 char),
+   UPDATE_DATE          TIMESTAMP,
+   CREATE_BY            VARCHAR2(64 char),
+   CREATE_DATE          TIMESTAMP,
+   DEL_FLAG             CHAR,
+   REMARKS              VARCHAR2(2000 char),
+   constraint PK_DEPT_VS_WARD primary key (ID)
+      
 );
+comment on table DEPT_VS_WARD is
+'‰∏¥Â∫äÁßëÂÆ§‰∏éÁóÖÊàøÔºàÂå∫ÔºâÂØπÁÖß';
 
-comment on table DEPT_VS_WARD is 
-'¡Ÿ¥≤ø∆ “”Î≤°∑ø£®«¯£©∂‘’’';
+comment on column DEPT_VS_WARD.ID is
+'‰∏ªÈîÆ';
 
-comment on column DEPT_VS_WARD.id is 
-'÷˜º¸';
+comment on column DEPT_VS_WARD.HOSPITAL_ID is
+'ÂåªÈô¢id';
 
-comment on column DEPT_VS_WARD.HOSPITAL_ID is 
-'“Ω‘∫id';
+comment on column DEPT_VS_WARD.DEPT_CODE is
+'ÁßëÂÆ§‰ª£Á†Å';
 
-comment on column DEPT_VS_WARD.DEPT_CODE is 
-'ø∆ “¥˙¬Î';
+comment on column DEPT_VS_WARD.WARD_CODE is
+'ÁóÖÊàø‰ª£Á†Å';
 
-comment on column DEPT_VS_WARD.WARD_CODE is 
-'≤°∑ø¥˙¬Î';
+comment on column DEPT_VS_WARD.UPDATE_BY is
+'‰øÆÊîπ‰∫∫';
 
-comment on column DEPT_VS_WARD.UPDATE_BY is 
-'–ﬁ∏ƒ»À';
+comment on column DEPT_VS_WARD.UPDATE_DATE is
+'‰øÆÊîπÊó∂Èó¥';
 
-comment on column DEPT_VS_WARD.UPDATE_DATE is 
-'–ﬁ∏ƒ ±º‰';
+comment on column DEPT_VS_WARD.CREATE_BY is
+'ÂàõÂª∫‰∫∫';
 
-comment on column DEPT_VS_WARD.CREATE_BY is 
-'¥¥Ω®»À';
+comment on column DEPT_VS_WARD.CREATE_DATE is
+'ÂàõÂª∫Êó∂Èó¥';
 
-comment on column DEPT_VS_WARD.CREATE_DATE is 
-'¥¥Ω® ±º‰';
+comment on column DEPT_VS_WARD.DEL_FLAG is
+'Âà†Èô§Ê†áËÆ∞';
 
-comment on column DEPT_VS_WARD.DEL_FLAG is 
-'…æ≥˝±Íº«';
-
-comment on column DEPT_VS_WARD.REMARKS is 
-'±∏◊¢–≈œ¢';
+comment on column DEPT_VS_WARD.REMARKS is
+'Â§áÊ≥®‰ø°ÊÅØ';

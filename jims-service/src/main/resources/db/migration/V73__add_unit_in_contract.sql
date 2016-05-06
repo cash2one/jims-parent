@@ -1,86 +1,86 @@
--- drop table UNIT_IN_CONTRACT cascade constraints;     
--- Create table
+drop table UNIT_IN_CONTRACT cascade constraints;
+
 /*==============================================================*/
-/* Table: UNIT_IN_CONTRACT      ∫œÕ¨µ•Œªº«¬º
-/* CREATE_DATE: 2016-05-05                                 */
-/* CREATE_BY :  zp      
+/* Table: UNIT_IN_CONTRACT    ÂêàÂêåÂçï‰ΩçËÆ∞ÂΩï                      */
+/* CREATE_DATE: 2016-05-05                                      */
+/* CREATE_BY :  zp                                              */
 /*==============================================================*/
 create table UNIT_IN_CONTRACT 
 (
-   id                   varchar2(64 char)              not null,
-   UNIT_CODE            char(11)                       null,
-   UNIT_NAME            char(40)                       null,
-   INPUT_CODE           char(8)                        null,
-   ADDRESS              char(40)                       null,
-   UNIT_TYPE            char(1)                        null,
-   SUBORDINATE_TO       char(11)                       null,
-   DISTANCE_TO_HOSPITAL number(4,2)                    null,
-   REGULAR_NUM          number(4,2)                    null,
-   TEMP_NUM             number(4,2)                    null,
-   RETIRED_NUM          number(4,2)                    null,
-   INPUT_CODE_WB        number(8,2)                    null,
-   CREATE_BY            varchar2(64 char)              null,
-   CREATE_DATE          timestamp                      null,
-   UPDATE_BY            varchar2(64 char)              null,
-   UPDATE_DATE          timestamp                      null,
-   DEL_FLAG             char(1)                        null,
-   REMARKS              varchar2(2000 char)            null,
-   constraint PK_UNIT_IN_CONTRACT primary key (id)
+   ID                   VARCHAR2(64 char)    not null,
+   UNIT_CODE            CHAR(11),
+   UNIT_NAME            CHAR(40),
+   INPUT_CODE           CHAR(8),
+   ADDRESS              CHAR(40),
+   UNIT_TYPE            CHAR,
+   SUBORDINATE_TO       CHAR(11),
+   DISTANCE_TO_HOSPITAL NUMBER(4,2),
+   REGULAR_NUM          NUMBER(4,2),
+   TEMP_NUM             NUMBER(4,2),
+   RETIRED_NUM          NUMBER(4,2),
+   INPUT_CODE_WB        NUMBER(8,2),
+   CREATE_BY            VARCHAR2(64 char),
+   CREATE_DATE          TIMESTAMP,
+   UPDATE_BY            VARCHAR2(64 char),
+   UPDATE_DATE          TIMESTAMP,
+   DEL_FLAG             CHAR,
+   REMARKS              VARCHAR2(2000 char),
+   constraint PK_UNIT_IN_CONTRACT primary key (ID)
+
 );
+comment on table UNIT_IN_CONTRACT is
+'ÂêàÂêåÂçï‰ΩçËÆ∞ÂΩï';
 
-comment on table UNIT_IN_CONTRACT is 
-'∫œÕ¨µ•Œªº«¬º';
+comment on column UNIT_IN_CONTRACT.ID is
+'‰∏ªÈîÆ';
 
-comment on column UNIT_IN_CONTRACT.id is 
-'÷˜º¸';
+comment on column UNIT_IN_CONTRACT.UNIT_CODE is
+'ÂêàÂêåÂçï‰Ωç‰ª£Á†Å';
 
-comment on column UNIT_IN_CONTRACT.UNIT_CODE is 
-'∫œÕ¨µ•Œª¥˙¬Î';
+comment on column UNIT_IN_CONTRACT.UNIT_NAME is
+'ÂêàÂêåÂçï‰ΩçÂêçÁß∞';
 
-comment on column UNIT_IN_CONTRACT.UNIT_NAME is 
-'∫œÕ¨µ•Œª√˚≥∆';
+comment on column UNIT_IN_CONTRACT.INPUT_CODE is
+'ËæìÂÖ•Á†Å';
 
-comment on column UNIT_IN_CONTRACT.INPUT_CODE is 
-' ‰»Î¬Î';
+comment on column UNIT_IN_CONTRACT.ADDRESS is
+'Âçï‰ΩçÂú∞ÂùÄ';
 
-comment on column UNIT_IN_CONTRACT.ADDRESS is 
-'µ•Œªµÿ÷∑';
+comment on column UNIT_IN_CONTRACT.UNIT_TYPE is
+'Âçï‰ΩçÊÄßË¥®';
 
-comment on column UNIT_IN_CONTRACT.UNIT_TYPE is 
-'µ•Œª–‘÷ ';
+comment on column UNIT_IN_CONTRACT.SUBORDINATE_TO is
+'Èö∂Â±ûÂçï‰Ωç';
 
-comment on column UNIT_IN_CONTRACT.SUBORDINATE_TO is 
-'¡• Ùµ•Œª';
+comment on column UNIT_IN_CONTRACT.DISTANCE_TO_HOSPITAL is
+'Â∞±ÂåªË∑ùÁ¶ª';
 
-comment on column UNIT_IN_CONTRACT.DISTANCE_TO_HOSPITAL is 
-'æÕ“Ωæ‡¿Î';
+comment on column UNIT_IN_CONTRACT.REGULAR_NUM is
+'Âú®Áºñ‰∫∫Êï∞';
 
-comment on column UNIT_IN_CONTRACT.REGULAR_NUM is 
-'‘⁄±‡»À ˝';
+comment on column UNIT_IN_CONTRACT.TEMP_NUM is
+'ÈùûÁºñ‰∫∫Êï∞';
 
-comment on column UNIT_IN_CONTRACT.TEMP_NUM is 
-'∑«±‡»À ˝';
+comment on column UNIT_IN_CONTRACT.RETIRED_NUM is
+'Á¶ªÈÄÄ‰ºë‰∫∫Êï∞';
 
-comment on column UNIT_IN_CONTRACT.RETIRED_NUM is 
-'¿ÎÕÀ–›»À ˝';
+comment on column UNIT_IN_CONTRACT.INPUT_CODE_WB is
+'‰∫îÁ¨îÁ†Å';
 
-comment on column UNIT_IN_CONTRACT.INPUT_CODE_WB is 
-'ŒÂ± ¬Î';
+comment on column UNIT_IN_CONTRACT.CREATE_BY is
+'ÂàõÂª∫‰∫∫';
 
-comment on column UNIT_IN_CONTRACT.CREATE_BY is 
-'¥¥Ω®»À';
+comment on column UNIT_IN_CONTRACT.CREATE_DATE is
+'ÂàõÂª∫Êó∂Èó¥';
 
-comment on column UNIT_IN_CONTRACT.CREATE_DATE is 
-'¥¥Ω® ±º‰';
+comment on column UNIT_IN_CONTRACT.UPDATE_BY is
+'‰øÆÊîπ‰∫∫';
 
-comment on column UNIT_IN_CONTRACT.UPDATE_BY is 
-'–ﬁ∏ƒ»À';
+comment on column UNIT_IN_CONTRACT.UPDATE_DATE is
+'‰øÆÊîπÊó∂Èó¥';
 
-comment on column UNIT_IN_CONTRACT.UPDATE_DATE is 
-'–ﬁ∏ƒ ±º‰';
+comment on column UNIT_IN_CONTRACT.DEL_FLAG is
+'Âà†Èô§Ê†áËÆ∞';
 
-comment on column UNIT_IN_CONTRACT.DEL_FLAG is 
-'…æ≥˝±Íº«';
-
-comment on column UNIT_IN_CONTRACT.REMARKS is 
-'±∏◊¢–≈œ¢';
+comment on column UNIT_IN_CONTRACT.REMARKS is
+'Â§áÊ≥®‰ø°ÊÅØ';

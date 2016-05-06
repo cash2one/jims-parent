@@ -1,74 +1,73 @@
--- drop table DRUG_DISPENS_PROPERTY cascade constraints;     
--- Create table
+-- drop table DRUG_DISPENS_PROPERTY cascade constraints;
+
 /*==============================================================*/
-/* Table: DRUG_DISPENS_PROPERTY      “©∆∑∞⁄“©∑÷¿‡∂®“Â 
-/* CREATE_DATE: 2016-05-05                                 */
-/* CREATE_BY :  zp      
+/* Table: DRUG_DISPENS_PROPERTY    ËçØÂìÅÊëÜËçØÂàÜÁ±ªÂÆö‰πâ                 */
+/* CREATE_DATE: 2016-05-05                                      */
+/* CREATE_BY :  zp                                              */
 /*==============================================================*/
 create table DRUG_DISPENS_PROPERTY 
 (
-   id                   varchar2(64 char)              not null,
-   HOSPITAL_ID          varchar(64 char)               null,
-   DISPENSARY           char(8)                        null,
-   DRUG_CODE            char(20)                       null,
-   DISPENSING_PROPERTY  char(10)                       null,
-   DRUG_SPEC            varchar2(64 char)              null,
-   DISPENSING_CUMULATE  number(11,2)                   null,
-   SEPARABLE            number(11,2)                   null,
-   VIRTUAL_CABINET      number(11,2)                   null,
-   CREATE_BY            varchar2(64 char)              null,
-   CREATE_DATE          timestamp                           null,
-   UPDATE_BY            varchar2(64 char)              null,
-   UPDATE_DATE          timestamp                           null,
-   DEL_FLAG             char(1)                        null,
-   REMARKS              varchar2(2000 char)            null,
-   constraint PK_DRUG_DISPENS_PROPERTY primary key  (id)
-);
+   ID                   VARCHAR2(64 char)    not null,
+   HOSPITAL_ID          VARCHAR2(64 char),
+   DISPENSARY           CHAR(8),
+   DRUG_CODE            CHAR(20),
+   DISPENSING_PROPERTY  CHAR(10),
+   DRUG_SPEC            VARCHAR2(64 char),
+   DISPENSING_CUMULATE  NUMBER(11,2),
+   SEPARABLE            NUMBER(11,2),
+   VIRTUAL_CABINET      NUMBER(11,2),
+   CREATE_BY            VARCHAR2(64 char),
+   CREATE_DATE          TIMESTAMP,
+   UPDATE_BY            VARCHAR2(64 char),
+   UPDATE_DATE          TIMESTAMP,
+   DEL_FLAG             CHAR,
+   REMARKS              VARCHAR2(2000 char),
+   constraint PK_DRUG_DISPENS_PROPERTY primary key (ID)
+  );
+comment on table DRUG_DISPENS_PROPERTY is
+'ËçØÂìÅÊëÜËçØÂàÜÁ±ªÂÆö‰πâ';
 
-comment on table DRUG_DISPENS_PROPERTY is 
-'“©∆∑∞⁄“©∑÷¿‡∂®“Â';
+comment on column DRUG_DISPENS_PROPERTY.ID is
+'‰∏ªÈîÆ';
 
-comment on column DRUG_DISPENS_PROPERTY.id is 
-'÷˜º¸';
+comment on column DRUG_DISPENS_PROPERTY.HOSPITAL_ID is
+'ÂåªÈô¢id';
 
-comment on column DRUG_DISPENS_PROPERTY.HOSPITAL_ID is 
-'“Ω‘∫id';
+comment on column DRUG_DISPENS_PROPERTY.DISPENSARY is
+'Ë∞ÉÈÖçËçØÊàø';
 
-comment on column DRUG_DISPENS_PROPERTY.DISPENSARY is 
-'µ˜≈‰“©∑ø';
+comment on column DRUG_DISPENS_PROPERTY.DRUG_CODE is
+'ËçØÂìÅ‰ª£Á†Å';
 
-comment on column DRUG_DISPENS_PROPERTY.DRUG_CODE is 
-'“©∆∑¥˙¬Î';
+comment on column DRUG_DISPENS_PROPERTY.DISPENSING_PROPERTY is
+'ÊëÜËçØÁ±ªÂà´';
 
-comment on column DRUG_DISPENS_PROPERTY.DISPENSING_PROPERTY is 
-'∞⁄“©¿‡±';
+comment on column DRUG_DISPENS_PROPERTY.DRUG_SPEC is
+'ËçØÂìÅËßÑÊ†º';
 
-comment on column DRUG_DISPENS_PROPERTY.DRUG_SPEC is 
-'“©∆∑πÊ∏Ò';
+comment on column DRUG_DISPENS_PROPERTY.DISPENSING_CUMULATE is
+'ÊëÜËçØÁ¥ØÁßØ';
 
-comment on column DRUG_DISPENS_PROPERTY.DISPENSING_CUMULATE is 
-'∞⁄“©¿€ª˝';
+comment on column DRUG_DISPENS_PROPERTY.SEPARABLE is
+'ÂèØÂàÜÂâ≤Âê¶';
 
-comment on column DRUG_DISPENS_PROPERTY.SEPARABLE is 
-'ø…∑÷∏Ó∑Ò';
+comment on column DRUG_DISPENS_PROPERTY.VIRTUAL_CABINET is
+'ËôöÊãüËçØÊüú';
 
-comment on column DRUG_DISPENS_PROPERTY.VIRTUAL_CABINET is 
-'–Èƒ‚“©πÒ';
+comment on column DRUG_DISPENS_PROPERTY.CREATE_BY is
+'ÂàõÂª∫‰∫∫';
 
-comment on column DRUG_DISPENS_PROPERTY.CREATE_BY is 
-'¥¥Ω®»À';
+comment on column DRUG_DISPENS_PROPERTY.CREATE_DATE is
+'ÂàõÂª∫Êó∂Èó¥';
 
-comment on column DRUG_DISPENS_PROPERTY.CREATE_DATE is 
-'¥¥Ω® ±º‰';
+comment on column DRUG_DISPENS_PROPERTY.UPDATE_BY is
+'‰øÆÊîπ‰∫∫';
 
-comment on column DRUG_DISPENS_PROPERTY.UPDATE_BY is 
-'–ﬁ∏ƒ»À';
+comment on column DRUG_DISPENS_PROPERTY.UPDATE_DATE is
+'‰øÆÊîπÊó∂Èó¥';
 
-comment on column DRUG_DISPENS_PROPERTY.UPDATE_DATE is 
-'–ﬁ∏ƒ ±º‰';
+comment on column DRUG_DISPENS_PROPERTY.DEL_FLAG is
+'Âà†Èô§Ê†áËÆ∞';
 
-comment on column DRUG_DISPENS_PROPERTY.DEL_FLAG is 
-'…æ≥˝±Íº«';
-
-comment on column DRUG_DISPENS_PROPERTY.REMARKS is 
-'±∏◊¢–≈œ¢';
+comment on column DRUG_DISPENS_PROPERTY.REMARKS is
+'Â§áÊ≥®‰ø°ÊÅØ';
