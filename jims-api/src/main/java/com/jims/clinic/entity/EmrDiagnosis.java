@@ -4,7 +4,7 @@
 package com.jims.clinic.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.jims.common.persistence.DataEntity;
 import com.jims.sys.entity.Dict;
 
@@ -152,10 +152,6 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
         this.dict = dict;
     }
 
-    @JsonIgnore
-    public static String getParentIdsId(){
-        return "0";
-    }
 
 
     public String getPatientId() {
