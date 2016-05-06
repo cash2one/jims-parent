@@ -1,54 +1,53 @@
--- drop table STAFF_GROUP_CLASS_DICT cascade constraints;     
--- Create table
+-- drop table STAFF_GROUP_CLASS_DICT cascade constraints;
+
 /*==============================================================*/
-/* Table: STAFF_GROUP_CLASS_DICT      π§◊˜◊È¿‡◊÷µ‰
-/* CREATE_DATE: 2016-05-05                                 */
-/* CREATE_BY :  zp      
+/* Table: STAFF_GROUP_CLASS_DICT    Â∑•‰ΩúÁªÑÁ±ªÂ≠óÂÖ∏                 */
+/* CREATE_DATE: 2016-05-05                                      */
+/* CREATE_BY :  zp                                              */
 /*==============================================================*/
 create table STAFF_GROUP_CLASS_DICT 
 (
-   ID                   varchar2(64 char)              null,
-   SERIAL_NO            number(11,2)                   null,
-   GROUP_CLASS          char(16)                       null,
-   HOSPITAL_ID          varchar2(64 char)              null,
-   CREATE_BY            varchar(64 char)               null,
-   CREATE_DATE          timestamp                      null,
-   UPDATE_BY            varchar(64 char)               null,
-   UPDATE_DATE          timestamp                      null,
-   DEL_FLAG             char(1)                        null,
-   REMARKS              varchar2(2000 char)            null,
-    constraint PK_STAFF_GROUP_CLASS_DICT primary key  (id)
+   ID                   VARCHAR2(64 char)    not null,
+   SERIAL_NO            NUMBER(11,2),
+   GROUP_CLASS          CHAR(16),
+   HOSPITAL_ID          VARCHAR2(64 char),
+   CREATE_BY            VARCHAR2(64 char),
+   CREATE_DATE          TIMESTAMP,
+   UPDATE_BY            VARCHAR2(64 char),
+   UPDATE_DATE          TIMESTAMP,
+   DEL_FLAG             CHAR,
+   REMARKS              VARCHAR2(2000 char),
+   constraint PK_STAFF_GROUP_CLASS_DICT primary key (ID)
 );
+comment on table STAFF_GROUP_CLASS_DICT is
+'Â∑•‰ΩúÁªÑÁ±ªÂ≠óÂÖ∏';
 
-comment on table STAFF_GROUP_CLASS_DICT is 
-'π§◊˜◊È¿‡◊÷µ‰';
+comment on column STAFF_GROUP_CLASS_DICT.ID is
+'‰∏ªÈîÆ';
 
-comment on column STAFF_GROUP_CLASS_DICT.ID is 
-'÷˜º¸';
+comment on column STAFF_GROUP_CLASS_DICT.SERIAL_NO is
+'Â∫èÂè∑(ÂèçÊò†È°πÁõÆÁöÑÊéíÂàóÈ°∫Â∫è)';
 
-comment on column STAFF_GROUP_CLASS_DICT.SERIAL_NO is 
-'–Ú∫≈(∑¥”≥œÓƒøµƒ≈≈¡–À≥–Ú)';
+comment on column STAFF_GROUP_CLASS_DICT.GROUP_CLASS is
+'ÁªÑÁ±ª';
 
-comment on column STAFF_GROUP_CLASS_DICT.GROUP_CLASS is 
-'◊È¿‡';
+comment on column STAFF_GROUP_CLASS_DICT.HOSPITAL_ID is
+'ÂåªÈô¢id';
 
-comment on column STAFF_GROUP_CLASS_DICT.HOSPITAL_ID is 
-'“Ω‘∫id';
+comment on column STAFF_GROUP_CLASS_DICT.CREATE_BY is
+'ÂàõÂª∫‰∫∫';
 
-comment on column STAFF_GROUP_CLASS_DICT.CREATE_BY is 
-'¥¥Ω®»À';
+comment on column STAFF_GROUP_CLASS_DICT.CREATE_DATE is
+'ÂàõÂª∫Êó∂Èó¥';
 
-comment on column STAFF_GROUP_CLASS_DICT.CREATE_DATE is 
-'¥¥Ω® ±º‰';
+comment on column STAFF_GROUP_CLASS_DICT.UPDATE_BY is
+'‰øÆÊîπ‰∫∫';
 
-comment on column STAFF_GROUP_CLASS_DICT.UPDATE_BY is 
-'–ﬁ∏ƒ»À';
+comment on column STAFF_GROUP_CLASS_DICT.UPDATE_DATE is
+'‰øÆÊîπÊó∂Èó¥';
 
-comment on column STAFF_GROUP_CLASS_DICT.UPDATE_DATE is 
-'–ﬁ∏ƒ ±º‰';
+comment on column STAFF_GROUP_CLASS_DICT.DEL_FLAG is
+'Âà†Èô§Ê†áËÆ∞';
 
-comment on column STAFF_GROUP_CLASS_DICT.DEL_FLAG is 
-'…æ≥˝±Íº«';
-
-comment on column STAFF_GROUP_CLASS_DICT.REMARKS is 
-'±∏◊¢–≈œ¢';
+comment on column STAFF_GROUP_CLASS_DICT.REMARKS is
+'Â§áÊ≥®‰ø°ÊÅØ';

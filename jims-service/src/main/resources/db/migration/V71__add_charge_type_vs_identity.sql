@@ -1,59 +1,66 @@
--- drop table CHARGE_TYPE_VS_IDENTITY cascade constraints;     
--- Create table
+-- drop table CHARGE_PRICE_SCHEDULE cascade constraints;
+
 /*==============================================================*/
-/* Table: CHARGE_TYPE_VS_IDENTITY      …Ì∑›”Î∑—±∂‘’’
-/* CREATE_DATE: 2016-05-05 13:33                                */
-/* CREATE_BY :  zp      
+/* Table: CHARGE_PRICE_SCHEDULE    Êî∂Ë¥πÁ≥ªÊï∞                     */
+/* CREATE_DATE: 2016-05-05                                      */
+/* CREATE_BY :  zp                                              */
 /*==============================================================*/
-create table CHARGE_TYPE_VS_IDENTITY 
+create table CHARGE_PRICE_SCHEDULE 
 (
-   id                   varchar2(64 char)              not null,
-   HOSPITAL_ID          varchar2(64 char)              null,
-   CHARGE_TYPE          char(8)                        null,
-   IDENTITY_SERIAL_NO   number(11,2)                   null,
-   IDENTITY             char(10)                       null,
-   CREATE_BY            varchar2(64 char)              null,
-   CREATE_DATE          timestamp                      null,
-   UPDATE_BY            varchar2(64 char)              null,
-   UPDATE_DATE          timestamp                      null,
-   DEL_FLAG             char(1)                        null,
-   REMARKS              varchar2(2000 char)            null,
-   constraint PK_CHARGE_TYPE_VS_IDENTITY  primary key (id) 
-  
-   );
+   ID                   VARCHAR2(64 char)    not null,
+   HOSPITAL_ID          CHAR(10),
+   CHARGE_TYPE          CHAR(8),
+   PRICE_COEFF_NUMERATOR NUMBER(11,2)         not null,
+   PRICE_COEFF_DENOMINATOR NUMBER(11,2)         not null,
+   CHARGE_SPECIAL_INDICATOR NUMBER(11,1),
+   NUMERATOR_OUTP       NUMBER(11,2),
+   DENOMINATOR_OUTP     NUMBER(11,1),
+   CREATE_BY            VARCHAR2(64 char),
+   CREATE_DATE          TIMESTAMP,
+   UPDATE_BY            VARCHAR2(64 char),
+   UUPDATE_DATE         TIMESTAMP,
+   DEL_FLAG             CHAR,
+   REMARKS              VARCHAR2(2000 char),
+   constraint PK_CHARGE_PRICE_SCHEDULE primary key (ID)
+  );
+comment on table CHARGE_PRICE_SCHEDULE is
+'Êî∂Ë¥πÁ≥ªÊï∞';
 
-comment on table CHARGE_TYPE_VS_IDENTITY is 
-'…Ì∑›”Î∑—±∂‘’’';
+comment on column CHARGE_PRICE_SCHEDULE.ID is
+'‰∏ªÈîÆ';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.id is 
-'÷˜º¸';
+comment on column CHARGE_PRICE_SCHEDULE.CHARGE_TYPE is
+'Ë¥πÂà´';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.HOSPITAL_ID is 
-'“Ω‘∫id';
+comment on column CHARGE_PRICE_SCHEDULE.PRICE_COEFF_NUMERATOR is
+'Êî∂Ë¥πÁ≥ªÊï∞ÂàÜÂ≠ê(‰ΩèÈô¢)';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.CHARGE_TYPE is 
-'∑—±';
+comment on column CHARGE_PRICE_SCHEDULE.PRICE_COEFF_DENOMINATOR is
+'Êî∂Ë¥πÁ≥ªÊï∞ÂàÜÊØç(‰ΩèÈô¢)';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.IDENTITY_SERIAL_NO is 
-'…Ì∑›–Ú∫≈';
+comment on column CHARGE_PRICE_SCHEDULE.CHARGE_SPECIAL_INDICATOR is
+'ÈÄÇÁî®ÁâπÊÆäÊî∂ÈÄÇÁî®ÁâπÊÆäÊî∂Ë¥πÈ°πÁõÆÊ†áÂøó';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.IDENTITY is 
-'…Ì∑›';
+comment on column CHARGE_PRICE_SCHEDULE.NUMERATOR_OUTP is
+'Êî∂Ë¥πÁ≥ªÊï∞ÂàÜÂ≠ê(Èó®ËØä)';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.CREATE_BY is 
-'¥¥Ω®»À';
+comment on column CHARGE_PRICE_SCHEDULE.DENOMINATOR_OUTP is
+'Êî∂Ë¥πÁ≥ªÊï∞ÂàÜÊØç(ÂàÜÊØç)';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.CREATE_DATE is 
-'¥¥Ω® ±º‰';
+comment on column CHARGE_PRICE_SCHEDULE.CREATE_BY is
+'ÂàõÂª∫‰∫∫';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.UPDATE_BY is 
-'–ﬁ∏ƒ»À';
+comment on column CHARGE_PRICE_SCHEDULE.CREATE_DATE is
+'ÂàõÂª∫Êó∂Èó¥';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.UPDATE_DATE is 
-'–ﬁ∏ƒ ±º‰';
+comment on column CHARGE_PRICE_SCHEDULE.UPDATE_BY is
+'‰øÆÊîπ‰∫∫';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.DEL_FLAG is 
-'…æ≥˝±Íº«';
+comment on column CHARGE_PRICE_SCHEDULE.UUPDATE_DATE is
+'‰øÆÊîπÊó∂Èó¥';
 
-comment on column CHARGE_TYPE_VS_IDENTITY.REMARKS is 
-'±∏◊¢–≈œ¢';
+comment on column CHARGE_PRICE_SCHEDULE.DEL_FLAG is
+'Âà†Èô§Ê†áËÆ∞';
+
+comment on column CHARGE_PRICE_SCHEDULE.REMARKS is
+'Â§áÊ≥®‰ø°ÊÅØ';
