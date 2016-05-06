@@ -1,7 +1,7 @@
 -- drop table PERFORM_FREQ_DICT cascade constraints;
 
 /*==============================================================*/
-/* Table: PERFORM_FREQ_DICT    Ò½ÖöÖ´ĞĞÆµÂÊ×Öµä                 */
+/* Table: PERFORM_FREQ_DICT    åŒ»å˜±æ‰§è¡Œé¢‘ç‡å­—å…¸                 */
 /* CREATE_DATE: 2016-05-05                                      */
 /* CREATE_BY :  zp                                              */
 /*==============================================================*/
@@ -23,40 +23,40 @@ create table PERFORM_FREQ_DICT
 
 );
 comment on table PERFORM_FREQ_DICT is
-'Ò½ÖöÖ´ĞĞÆµÂÊ×Öµä';
+'åŒ»å˜±æ‰§è¡Œé¢‘ç‡å­—å…¸';
 
 comment on column PERFORM_FREQ_DICT.ID is
-'Ö÷¼ü';
+'ä¸»é”®';
 
 comment on column PERFORM_FREQ_DICT.HOSPITAL_ID is
-'Ò½Ôºid';
+'åŒ»é™¢id';
 
 comment on column PERFORM_FREQ_DICT.FREQ_DESC is
-'Ö´ĞĞÆµÂÊÃèÊö';
+'æ‰§è¡Œé¢‘ç‡æè¿°';
 
 comment on column PERFORM_FREQ_DICT.FREQ_COUNTER is
-'ÆµÂÊ´ÎÊı';
+'é¢‘ç‡æ¬¡æ•°';
 
 comment on column PERFORM_FREQ_DICT.FREQ_INTERVAL is
-'ÆµÂÊ¼ä¸ô';
+'é¢‘ç‡é—´éš”';
 
 comment on column PERFORM_FREQ_DICT.FREQ_INTERVAL_UNITS is
-'ÆµÂÊ¼ä¸ôµ¥Î»';
+'é¢‘ç‡é—´éš”å•ä½';
 
 comment on column PERFORM_FREQ_DICT.CREATE_BY is
-'´´½¨ÈË';
+'åˆ›å»ºäºº';
 
 comment on column PERFORM_FREQ_DICT.CREATE_DATE is
-'´´½¨Ê±¼ä';
+'åˆ›å»ºæ—¶é—´';
 
 comment on column PERFORM_FREQ_DICT.UPDATE_BY is
-'ĞŞ¸ÄÈË';
+'ä¿®æ”¹äºº';
 
 comment on column PERFORM_FREQ_DICT.UPDATE_DATE is
-'ĞŞ¸ÄÊ±¼ä';
+'ä¿®æ”¹æ—¶é—´';
 
 comment on column PERFORM_FREQ_DICT.DEL_FLAG is
-'É¾³ı±ê¼Ç';
+'åˆ é™¤æ ‡è®°';
 
 comment on column PERFORM_FREQ_DICT.REMARKS is
-'±¸×¢ĞÅÏ¢';
+'å¤‡æ³¨ä¿¡æ¯';
