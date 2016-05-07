@@ -6,6 +6,12 @@ function onloadMethod() {
         textField: 'examClassName',
         onSelect: function (data) {
             $("#reqDept").val(data.deptDict.deptName);
+            //清空二级联动
+            $("#examSubclassNameId").combobox("clear");
+            //清空子项目div
+            $("#target").empty();
+            $("#descriptionId").empty();
+
             $.ajax({
                 type: "POST",
                 url: basePath + '/examClassDict/getExamSubclass',
