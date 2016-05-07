@@ -3,7 +3,6 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -61,8 +60,7 @@ public class DocBloodCapacity extends DataEntity<DocBloodCapacity> {
 	public void setFastSlow(String fastSlow) {
 		this.fastSlow = fastSlow;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
 	public Date getTransDate() {
 		return transDate;
 	}

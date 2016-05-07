@@ -7,9 +7,12 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.DocOperationApplyServiceApi;
 
 import com.jims.clinic.dao.DocOperationApplyDao;
+import com.jims.clinic.dao.DocOperationGradeDao;
 import com.jims.clinic.entity.DocBloodApply;
 import com.jims.clinic.entity.DocOperationApply;
+import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.service.impl.CrudImplService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,8 +25,19 @@ import java.util.List;
 @Service(version ="1.0.0")
 @Transactional(readOnly = true)
 public class DocOperationApplyServiceImpl extends CrudImplService<DocOperationApplyDao, DocOperationApply> implements DocOperationApplyServiceApi {
+    @Autowired
+    private DocOperationGradeDao docOperationGradeDao;
     //保存门诊手术信息
+    @Transactional(readOnly = false)
     public String saveDocOperationApply(DocOperationApply docOperationApply){
-        return null;
+        String strState=super.save(docOperationApply);
+        docOperationGradeDao.delDocOperationGrade(docOperationApply.getId());
+        if (docOperationApply.getList().size()>0){
+            for (DocOperationGrade docOperationGrade:docOperationApply.getList()){
+                docOperationGrade.preInsert();
+                docOperationGradeDao.insert(docOperationGrade);
+            }
+        }
+        return strState;
     }
 }

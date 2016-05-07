@@ -24,7 +24,7 @@ public interface DocOperationApplyServiceApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public String saveDocOperationApply(DocOperationApply docBloodCapacity);
+    public String saveDocOperationApply(DocOperationApply docOperationApply);
     /**
      * 删除
      * @author qinlongxin

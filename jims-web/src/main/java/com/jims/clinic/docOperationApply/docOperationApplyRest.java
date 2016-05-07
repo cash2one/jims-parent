@@ -1,12 +1,16 @@
 package com.jims.clinic.docOperationApply;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.clinic.api.DocBloodCapacityServiceApi;
 import com.jims.clinic.api.DocOperationApplyServiceApi;
+import com.jims.clinic.api.DocOperationGradeServiceApi;
 import com.jims.clinic.entity.DocBloodApply;
 import com.jims.clinic.entity.DocOperationApply;
+import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +20,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import java.util.List;
 
 /**
  * Created by qinlongxin on 2016/5/6.
@@ -26,6 +31,8 @@ import javax.ws.rs.core.Context;
 public class docOperationApplyRest {
     @Reference(version = "1.0.0")
     private DocOperationApplyServiceApi docOperationApplyServiceApi ;
+    @Reference(version = "1.0.0")
+    private DocOperationGradeServiceApi docOperationGradeServiceApi;
     /**
      * 异步加载表格
      * @param request
@@ -45,9 +52,9 @@ public class docOperationApplyRest {
     /**
      * 根据id查询手术申请表信息
      */
-    @Path("getOperation")
+    @Path("getDocOperationApply")
     @POST
-    public DocOperationApply getOperation(String id) {
+    public DocOperationApply getDocOperationApply(String id) {
         DocOperationApply docOperationApply= docOperationApplyServiceApi.get(id);
         return docOperationApply;
     }
@@ -79,5 +86,20 @@ public class docOperationApplyRest {
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
+    }
+    /**
+     * 根据id查询手术申请表信息
+     */
+    @Path("getBloodCapacityList")
+    @POST
+    public List<DocOperationGrade> getDocOperationApplyList(String operrationId) {
+        DocOperationGrade docOperationGrade=new DocOperationGrade();
+        if (StringUtils.isNotBlank(operrationId)){
+            int index = operrationId.indexOf("=");
+            docOperationGrade.setOperationId(operrationId.substring(index + 1));
+            List<DocOperationGrade> docOperationGradeList= docOperationGradeServiceApi.getDocOperationGradeList(operrationId);
+            return docOperationGradeList;
+        }
+        return null;
     }
 }

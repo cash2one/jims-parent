@@ -6,10 +6,12 @@ package com.jims.clinic.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.DocBloodCapacityServiceApi;
 import com.jims.clinic.dao.DocBloodCapacityDao;
+import com.jims.clinic.entity.BloodCapacity;
 import com.jims.clinic.entity.DocBloodCapacity;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.CrudService;
 import com.jims.common.service.impl.CrudImplService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,7 +24,9 @@ import java.util.List;
 @Service(version ="1.0.0")
 @Transactional(readOnly = true)
 public class DocBloodCapacityServiceImpl extends CrudImplService<DocBloodCapacityDao, DocBloodCapacity> implements DocBloodCapacityServiceApi {
-
-
-	
+   @Autowired
+   private DocBloodCapacityDao docBloodCapacityDao;
+    public List<DocBloodCapacity> getDocBloodCapacityList(String applyNum){
+        return docBloodCapacityDao.getDocOperationGradeList(applyNum);
+    }
 }

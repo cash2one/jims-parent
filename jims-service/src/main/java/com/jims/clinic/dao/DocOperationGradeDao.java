@@ -6,6 +6,8 @@ import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 
+import java.util.List;
+
 /**
  * 门诊手术等级表DAO接口
  * @author qlx
@@ -13,5 +15,6 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface DocOperationGradeDao extends CrudDao<DocOperationGrade> {
-	
+    public void delDocOperationGrade(String operationId);
+    public List<DocOperationGrade> getDocOperationGradeList(String operationId);
 }
