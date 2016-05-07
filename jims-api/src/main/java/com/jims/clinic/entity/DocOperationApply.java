@@ -2,9 +2,9 @@
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
 package com.jims.clinic.entity;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
@@ -93,12 +93,12 @@ public class DocOperationApply extends DataEntity<DocOperationApply> {
 	public void setJizhen(String jizhen) {
 		this.jizhen = jizhen;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getYuyueDate() {
 		return yuyueDate;
 	}
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public void setYuyueDate(Date yuyueDate) {
 		this.yuyueDate = yuyueDate;
 	}
