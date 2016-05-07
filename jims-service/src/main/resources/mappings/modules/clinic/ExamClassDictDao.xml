@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ExamClassDictDao">
-    
+    <select id="findListByOrgId" resultType="ExamClassDict">
+        SELECT *
+        FROM exam_class_dict a
+        WHERE a.org_id = #{orgId}
+        and a.del_flag = '0'
+    </select>
 	<sql id="examClassDictColumns">
 		a.id AS "id",
 		a.serial_no AS "serialNo",
@@ -24,14 +29,12 @@
 	
 	<sql id="examClassDictJoins">
 	</sql>
-    
-	<select id="get" resultType="ExamClassDict">
-		SELECT 
-			<include refid="examClassDictColumns"/>
-		FROM exam_class_dict a
-		<include refid="examClassDictJoins"/>
-		WHERE a.id = #{id}
-	</select>
+
+    <select id="get" resultType="ExamClassDict">
+        SELECT *
+        FROM exam_class_dict a
+        WHERE a.id = #{id}
+    </select>
 	
 	<select id="findList" resultType="ExamClassDict">
 		SELECT 
@@ -50,67 +53,73 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	<select id="findAllList" resultType="ExamClassDict">
-		SELECT 
-			<include refid="examClassDictColumns"/>
-		FROM exam_class_dict a
-		<include refid="examClassDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
-		INSERT INTO exam_class_dict(
-			id,
-			serial_no,
-			exam_class_code,
-			exam_class_name,
-			input_code,
-			perform_by,
-			print_style,
-			specialties_dept,
-			loacal_id_class,
-			performed_by,
-			seq_name,
-			creatr_by,
-			create_date,
-			update_by,
-			update_date,
-			remarks,
-			del_flag
-		) VALUES (
-			#{id},
-			#{serialNo},
-			#{examClassCode},
-			#{examClassName},
-			#{inputCode},
-			#{performBy},
-			#{printStyle},
-			#{specialtiesDept},
-			#{loacalIdClass},
-			#{performedBy},
-			#{seqName},
-			#{creatrBy},
-			#{createDate},
-			#{updateBy.id},
-			#{updateDate},
-			#{remarks},
-			#{delFlag}
-		)
-	</insert>
-	
-	<update id="update">
-		UPDATE exam_class_dict SET 	
+
+    <select id="findAllList" resultType="ExamClassDict">
+        SELECT
+        *
+        FROM exam_class_dict a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO exam_class_dict(
+        id,
+        org_id,
+        serial_no,
+        exam_class_code,
+        exam_class_name,
+        input_code,
+        perform_by,
+        print_style,
+        specialties_dept,
+        loacal_id_class,
+        ward_code,
+        http_ip,
+        memo,
+        outp_perform,
+        remarks,
+        update_by,
+        create_by,
+        update_date,
+        del_flag,
+        create_date
+        ) VALUES (
+        #{id},
+        #{orgId},
+        #{serialNo},
+        #{examClassCode},
+        #{examClassName},
+        #{inputCode},
+        #{performBy},
+        #{printStyle},
+        #{specialtiesDept},
+        #{loacalIdClass},
+        #{wardCode},
+        #{httpIp},
+        #{memo},
+        #{outpPerform},
+        #{remarks},
+        #{updateBy},
+        #{createBy},
+        #{updateDate},
+        #{delFlag},
+        #{createDate}
+        )
+    </insert>
+
+    <update id="update">
+		UPDATE exam_class_dict SET
+			org_id = #{orgId},
 			serial_no = #{serialNo},
 			exam_class_code = #{examClassCode},
 			exam_class_name = #{examClassName},
@@ -119,18 +128,19 @@
 			print_style = #{printStyle},
 			specialties_dept = #{specialtiesDept},
 			loacal_id_class = #{loacalIdClass},
-			performed_by = #{performedBy},
-			seq_name = #{seqName},
-			creatr_by = #{creatrBy},
-			update_by = #{updateBy.id},
-			update_date = #{updateDate},
-			remarks = #{remarks}
+			ward_code = #{wardCode},
+			http_ip = #{httpIp},
+			memo = #{memo},
+			outp_perform = #{outpPerform},
+			remarks = #{remarks},
+			update_by = #{updateBy},
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE exam_class_dict SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 

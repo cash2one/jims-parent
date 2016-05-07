@@ -5,9 +5,13 @@ import com.jims.clinic.api.ClinicItemApi;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.ClinicVsCharge;
+import com.jims.clinic.vo.ClinicItemPriceVo;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -119,4 +123,16 @@ public class ClinicItemRest {
                 + "条。成功删除诊疗项目" + delResult + "条以及关联别名和对照，其他别名" + delNameResult + "条，其他对照" + delVsResult + "条。\"}";
         return resultMsg;
     }
+
+    /**
+     * 获取检查项目价格列表
+     * @param request
+     * @param response
+     * @return
+     */
+    @GET
+    @Path("itemListByOrgId")
+    public List<ClinicItemPriceVo> itemListByOrgId(@Context HttpServletRequest request, @Context HttpServletResponse response){
+        return clinicItemApi.itemListByOrgId(request.getParameter("orgId"));
+    };
 }
