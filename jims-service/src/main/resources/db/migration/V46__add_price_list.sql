@@ -43,17 +43,8 @@ create table PRICE_LIST
   ZYSJ_WY            VARCHAR2(24),
   GROUP_FLAG         CHAR(1),
   STOP_OPERATOR      VARCHAR2(20)
-)
-tablespace TSP_COMM
-  pctfree 10
-  initrans 1
-  maxtrans 255
-  storage
-  (
-    initial 1
-    minextents 1
-    maxextents unlimited
-  );
+);
+
 -- Add comments to the columns
 comment on column PRICE_LIST.CHANGED_MEMO
   is '价格变更原因包括调价和停用等都可以录入保存原因';
