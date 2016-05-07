@@ -4,7 +4,6 @@
 package com.jims.clinic.entity;
 
 import com.jims.common.persistence.DataEntity;
-import com.jims.sys.entity.DeptDict;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -23,19 +22,16 @@ public class ExamClassDict extends DataEntity<ExamClassDict> {
 	private String printStyle;		// 打印单样式
 	private Long specialtiesDept;		// 是否按样式单打印
 	private String loacalIdClass;		// 检查号类别
-	private String performedBy;		// 执行科室
-	private String seqName;		// 产生检查号时所用的序列
-
-	private DeptDict deptDict;
-
-	public DeptDict getDeptDict() {
-		return deptDict;
-	}
-
-	public void setDeptDict(DeptDict deptDict) {
-		this.deptDict = deptDict;
-	}
-
+//===========不知道这是什么=========
+//	private String performedBy;		// 执行科室
+//	private String seqName;		// 产生检查号时所用的序列
+//=================================
+    private String orgId;//机构id
+    private String wardCode;		// 护理单元
+    private String httpIp;		// 结果反馈地址
+    private String memo;		// memo
+    private String outpPerform;		// 适用于门诊检查不可选控制
+	
 	public ExamClassDict() {
 		super();
 	}
@@ -113,23 +109,44 @@ public class ExamClassDict extends DataEntity<ExamClassDict> {
 	public void setLoacalIdClass(String loacalIdClass) {
 		this.loacalIdClass = loacalIdClass;
 	}
-	
-	@Length(min=0, max=128, message="执行科室长度必须介于 0 和 128 之间")
-	public String getPerformedBy() {
-		return performedBy;
-	}
 
-	public void setPerformedBy(String performedBy) {
-		this.performedBy = performedBy;
-	}
-	
-	@Length(min=0, max=128, message="产生检查号时所用的序列长度必须介于 0 和 128 之间")
-	public String getSeqName() {
-		return seqName;
-	}
+    public String getOrgId() {
+        return orgId;
+    }
 
-	public void setSeqName(String seqName) {
-		this.seqName = seqName;
-	}
-	
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getWardCode() {
+        return wardCode;
+    }
+
+    public void setWardCode(String wardCode) {
+        this.wardCode = wardCode;
+    }
+
+    public String getHttpIp() {
+        return httpIp;
+    }
+
+    public void setHttpIp(String httpIp) {
+        this.httpIp = httpIp;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public String getOutpPerform() {
+        return outpPerform;
+    }
+
+    public void setOutpPerform(String outpPerform) {
+        this.outpPerform = outpPerform;
+    }
 }

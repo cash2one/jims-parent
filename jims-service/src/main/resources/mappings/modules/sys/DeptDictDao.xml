@@ -46,7 +46,7 @@
 	</select>
 
     <select id="findAll" resultType="DeptDict">
-        SELECT * FROM dept_dict  WHERE del_flag = '0'
+        SELECT * FROM dept_dict  WHERE del_flag = '0' and org_id=#{orgId}
 	</select>
 	
 	<insert id="insert">
@@ -56,6 +56,8 @@
 			dept_name,
 			dept_code,
 			dept_propertity,
+			org_id,
+			input_code,
 			remarks,
 			update_by,
 			create_by,
@@ -68,6 +70,8 @@
 			#{deptName},
 			#{deptCode},
 			#{deptPropertity},
+			#{orgId} ,
+			#{inputCode},
 			#{remarks},
 			#{updateBy},
 			#{createBy},
@@ -83,6 +87,8 @@
 			dept_name = #{deptName},
 			dept_code = #{deptCode},
 			dept_propertity = #{deptPropertity},
+			org_id=#{orgId},
+			input_code=#{inputCode},
 			remarks = #{remarks},
 			update_by = #{updateBy},
 			update_date = #{updateDate}
