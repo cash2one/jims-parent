@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.sys.dao.SpecimanDictDao">
+<mapper namespace="com.jims.sys.dao.LabItemClassDictDao">
     
-	<sql id="specimanDictColumns">
+	<sql id="labItemClassDictColumns">
 		a.id AS "id",
 		a.serial_no AS "serialNo",
-		a.speciman_code AS "specimanCode",
-		a.speciman_name AS "specimanName",
-		a.input_code AS "inputCode",
+		a.class_code AS "classCode",
+		a.class_name AS "className",
 		a.dept_code AS "deptCode",
 		a.remarks AS "remarks",
 		a.update_by AS "updateBy.id",
@@ -17,22 +16,22 @@
 		a.create_date AS "createDate"
 	</sql>
 	
-	<sql id="specimanDictJoins">
+	<sql id="labItemClassDictJoins">
 	</sql>
     
-	<select id="get" resultType="SpecimanDict">
+	<select id="get" resultType="LabItemClassDict">
 		SELECT 
-			<include refid="specimanDictColumns"/>
-		FROM speciman_dict a
-		<include refid="specimanDictJoins"/>
+			<include refid="labItemClassDictColumns"/>
+		FROM lab_item_class_dict a
+		<include refid="labItemClassDictJoins"/>
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="SpecimanDict">
+	<select id="findList" resultType="LabItemClassDict">
 		SELECT 
-			<include refid="specimanDictColumns"/>
-		FROM speciman_dict a
-		<include refid="specimanDictJoins"/>
+			<include refid="labItemClassDictColumns"/>
+		FROM lab_item_class_dict a
+		<include refid="labItemClassDictJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>
@@ -46,11 +45,11 @@
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="SpecimanDict">
+	<select id="findAllList" resultType="LabItemClassDict">
 		SELECT 
-			<include refid="specimanDictColumns"/>
-		FROM speciman_dict a
-		<include refid="specimanDictJoins"/>
+			<include refid="labItemClassDictColumns"/>
+		FROM lab_item_class_dict a
+		<include refid="labItemClassDictJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
@@ -65,12 +64,11 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO speciman_dict(
+		INSERT INTO lab_item_class_dict(
 			id,
 			serial_no,
-			speciman_code,
-			speciman_name,
-			input_code,
+			class_code,
+			class_name,
 			dept_code,
 			remarks,
 			update_by,
@@ -81,9 +79,8 @@
 		) VALUES (
 			#{id},
 			#{serialNo},
-			#{specimanCode},
-			#{specimanName},
-			#{inputCode},
+			#{classCode},
+			#{className},
 			#{deptCode},
 			#{remarks},
 			#{updateBy.id},
@@ -95,11 +92,10 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE speciman_dict SET 	
+		UPDATE lab_item_class_dict SET 	
 			serial_no = #{serialNo},
-			speciman_code = #{specimanCode},
-			speciman_name = #{specimanName},
-			input_code = #{inputCode},
+			class_code = #{classCode},
+			class_name = #{className},
 			dept_code = #{deptCode},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
@@ -108,15 +104,15 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE speciman_dict SET 
+		UPDATE lab_item_class_dict SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 
-	<select id="findListByDeptCode" resultType="SpecimanDict">
+	<select id="findListByDeptCode" resultType="LabItemClassDict">
 		SELECT
-		<include refid="specimanDictColumns"/>
-		FROM speciman_dict a
+		<include refid="labItemClassDictColumns"/>
+		FROM lab_item_class_dict a
 		WHERE a.dept_code = #{deptCode}
 	</select>
 </mapper>
