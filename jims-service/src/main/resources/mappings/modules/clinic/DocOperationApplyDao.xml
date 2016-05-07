@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.em.dao.DocOperationApplyDao">
+
+    <sql id="docOperationApplyColumns">
+		a.id AS "id",
+		a.inp_no AS "inpNo",
+		a.shouqianzhenduan AS "shouqianzhenduan",
+		a.bingqing AS "bingqing",
+		a.geli AS "geli",
+		a.jizhen AS "jizhen",
+		a.yuyue_date AS "yuyueDate",
+		a.shoushu_grade AS "shoushuGrade",
+		a.shoushushi AS "shoushushi",
+		a.shoushujian AS "shoushujian",
+		a.shoushu_doctor AS "shoushuDoctor",
+		a.zhushounone AS "zhushounone",
+		a.zhushoutwo AS "zhushoutwo",
+		a.zhushouthree AS "zhushouthree",
+		a.zhushoufour AS "zhushoufour",
+		a.mazuifangfa AS "mazuifangfa",
+		a.mazuiyishi AS "mazuiyishi",
+		a.zhushou AS "zhushou",
+		a.gongxueyishi AS "gongxueyishi",
+		a.beizhu AS "beizhu",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remark AS "remark",
+		a.create_by AS "createBy.id"
+	</sql>
+
+    <sql id="docOperationApplyJoins">
+    </sql>
+
+    <select id="get" resultType="DocOperationApply">
+        SELECT
+        <include refid="docOperationApplyColumns"/>
+        FROM doc_operation_apply a
+        <include refid="docOperationApplyJoins"/>
+        WHERE a.id = #{id} and a.del_flag = '0'
+    </select>
+
+    <select id="findList" resultType="DocOperationApply">
+        SELECT
+        <include refid="docOperationApplyColumns"/>
+        FROM doc_operation_apply a
+        <include refid="docOperationApplyJoins"/>
+        <where>
+            a.del_flag = '0'
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="DocOperationApply">
+        SELECT
+        <include refid="docOperationApplyColumns"/>
+        FROM doc_operation_apply a
+        <include refid="docOperationApplyJoins"/>
+        <where>
+            a.del_flag = '0'
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+		INSERT INTO doc_operation_apply(
+			id,
+			inp_no,
+			shouqianzhenduan,
+			bingqing,
+			geli,
+			jizhen,
+			yuyue_date,
+			shoushu_grade,
+			shoushushi,
+			shoushujian,
+			shoushu_doctor,
+			zhushounone,
+			zhushoutwo,
+			zhushouthree,
+			zhushoufour,
+			mazuifangfa,
+			mazuiyishi,
+			zhushou,
+			gongxueyishi,
+			beizhu,
+			create_date,
+			update_date,
+			update_by,
+			remark,
+			create_by,
+			del_flag
+		) VALUES (
+			#{id},
+			#{inpNo},
+			#{shouqianzhenduan},
+			#{bingqing},
+			#{geli},
+			#{jizhen},
+			#{yuyueDate},
+			#{shoushuGrade},
+			#{shoushushi},
+			#{shoushujian},
+			#{shoushuDoctor},
+			#{zhushounone},
+			#{zhushoutwo},
+			#{zhushouthree},
+			#{zhushoufour},
+			#{mazuifangfa},
+			#{mazuiyishi},
+			#{zhushou},
+			#{gongxueyishi},
+			#{beizhu},
+			#{createDate},
+			#{updateDate},
+			#{updateBy.id},
+			#{remark},
+			#{createBy.id},
+			#{del_flag}
+		)
+	</insert>
+
+    <update id="update">
+		UPDATE doc_operation_apply SET 	
+			inp_no = #{inpNo},
+			shouqianzhenduan = #{shouqianzhenduan},
+			bingqing = #{bingqing},
+			geli = #{geli},
+			jizhen = #{jizhen},
+			yuyue_date = #{yuyueDate},
+			shoushu_grade = #{shoushuGrade},
+			shoushushi = #{shoushushi},
+			shoushujian = #{shoushujian},
+			shoushu_doctor = #{shoushuDoctor},
+			zhushounone = #{zhushounone},
+			zhushoutwo = #{zhushoutwo},
+			zhushouthree = #{zhushouthree},
+			zhushoufour = #{zhushoufour},
+			mazuifangfa = #{mazuifangfa},
+			mazuiyishi = #{mazuiyishi},
+			zhushou = #{zhushou},
+			gongxueyishi = #{gongxueyishi},
+			beizhu = #{beizhu},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remark = #{remark},
+			del_flag = #{del_flag}
+		WHERE id = #{id}
+	</update>
+    <update id="delete">
+		UPDATE doc_operation_apply SET
+		del_flag = '1'
+		WHERE id = #{id}
+	</update>
+</mapper>
