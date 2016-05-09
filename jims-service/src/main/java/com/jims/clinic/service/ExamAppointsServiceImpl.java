@@ -65,22 +65,21 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
      * @return
      */
     @Override
-    public Integer deleteExamAppionts(String ids) {
-        int i=0;
+    public String deleteExamAppionts(String ids) {
+        String num="";
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
                 examAppointsDao.deleteExamAppionts(id[j]);
                 examItemsDao.deleteItems(id[j]);
-//                outpOrdersCostsDao.deleteOutpOrders(id[j], outpOrdersCostsDao.get(id[j]).getVisitNo());
-//                outpTreatRecDao.deleteTreatRec(outpOrdersCostsDao.get(id[j]).getVisitNo());
-//                outpOrdersDao.deleteOutpOrders(outpOrdersDao.get(id[j]).getVisitNo());
-                i++;
+                ExamAppoints examAppoints=examAppointsDao.get(id[j]);
+                outpTreatRecDao.deleteTreatRec(examAppoints.getId());
+                num=outpOrdersCostsDao.deleteOutpOrders(examAppoints.getId());
             }
         }catch(Exception e){
-            return i;
+            return num;
         }
-        return i;
+        return num;
 
     }
 
@@ -146,10 +145,19 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             outpOrdersCosts.setSerialNo("111");
             outpOrdersCostsDao.saveOrdersCosts(outpOrdersCosts);
 
-
+            OutpOrders outpOrders = new OutpOrders();
+            outpOrders.preInsert();
+            //设置就诊序号
+            outpOrders.setPatientId(outpOrdersCosts.getPatientId());
+            outpOrders.setClinicNo(outpOrdersCosts.getClinicNo());
+            outpOrders.setOrderedBy(outpOrdersCosts.getOrderedByDept());
+            outpOrders.setSerialNo("1111");
+            outpOrders.setDoctor("张三");
+            outpOrdersDao.saveOutpOrders(outpOrders);
 
             OutpTreatRec outpTreatRec=new OutpTreatRec();
             outpTreatRec.preInsert();
+            outpTreatRec.setAppointNo(examAppoints.getId());
             outpTreatRec.setVisitDate(outpOrdersCosts.getVisitDate());
             outpTreatRec.setVisitNo(outpOrdersCosts.getVisitNo());
             outpTreatRec.setItemNo(outpOrdersCosts.getItemNo());
@@ -169,18 +177,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             outpTreatRec.setVisitNo(examAppoints.getVisitNo());
             outpTreatRecDao.saveTreatRec(outpTreatRec);
 
-            OutpOrders outpOrders = new OutpOrders();
-            outpOrders.preInsert();
-            //设置就诊序号
-            outpOrders.setVisitNo(examAppoints.getVisitNo());
-            outpOrders.setPatientId(outpOrdersCosts.getPatientId());
-            outpOrders.setVisitDate(outpOrdersCosts.getVisitDate());
-            outpOrders.setVisitNo(outpOrdersCosts.getVisitNo());
-            outpOrders.setClinicNo(outpOrdersCosts.getClinicNo());
-            outpOrders.setOrderedBy(outpOrdersCosts.getOrderedByDept());
-            outpOrders.setSerialNo(outpOrdersCosts.getSerialNo());
-            outpOrders.setDoctor("张三");
-            outpOrdersDao.saveOutpOrders(outpOrders);
+
         }
         num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;

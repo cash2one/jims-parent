@@ -76,7 +76,7 @@ public class ClinicInspectRest {
     @POST
     public StringData deleteExamAppionts(String id) {
         StringData stringData = new StringData();
-        int num = examAppointsServiceApi.deleteExamAppionts(id);
+        String num = examAppointsServiceApi.deleteExamAppionts(id);
             stringData.setCode(num+"");
             stringData.setData("success");
             return stringData;
