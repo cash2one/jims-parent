@@ -251,7 +251,6 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
                 i=vsDao.update(entity);
             }
         }catch(Exception e){
-            e.printStackTrace();
             return i+"";
         }
         return i+"";

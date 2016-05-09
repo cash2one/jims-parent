@@ -18,4 +18,14 @@ public interface ClinicItemNameDictDao extends CrudDao<ClinicItemNameDict> {
      * @return
      */
     public int deleteNoId(ClinicItemNameDict entity);
+
+    /**
+     * 查询检验项目
+     * @param标本expand1
+     * @param检验类别expand2
+     * @param科室expand3
+     * @author xueyx
+     * @version 2016/5/06
+     */
+    public List<ClinicItemNameDict> selectLabItem(ClinicItemNameDict clinicItemNameDict);
 }

@@ -84,7 +84,7 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
      *
      * @param masterId
      */
-    public Integer deleteOutpOrders(String masterId,int visitNo) {
+    public Integer deleteOutpOrders(String masterId,String visitNo) {
         return outpOrdersCostsDao.deleteOutpOrders(masterId,visitNo);
     }
 

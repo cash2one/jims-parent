@@ -8,6 +8,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,18 +22,25 @@ import java.util.List;
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implements DictServiceApi {
-	
+
+
 	/**
      * 查询字段类型列表
      * @return
-	 */
-	public List<String> findTypeList(){
-		return dao.findTypeList(new Dict());
-	}
+     */
+    public List<String> findTypeList() {
+        return dao.findTypeList(new Dict());
+    }
 
-    public List<String> findListType(String dict){
+    public List<String> findListType(String dict) {
         return dao.findListType(dict);
     }
+
+	public String getLabel(String type,String value){
+       return dao.getLabel(type,value);
+	}
+
+
 
     /**
      * 根据类型检索字典

@@ -866,6 +866,18 @@ a.dropma-color {
     margin-right:3px;
     vertical-align: middle;
 }
+.sel-office
+{
+    padding:5px;
+    background:#f2f2f2;
+}
+.so-sel
+{
+    width:100%;
+    height: 28px;
+    border:1px solid #aaa;
+}
+
 /****/
 
 /*检查--选择项目**/

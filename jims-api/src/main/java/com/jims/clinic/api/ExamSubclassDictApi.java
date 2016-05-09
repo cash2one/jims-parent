@@ -47,4 +47,25 @@ public interface ExamSubclassDictApi {
      * @return
      */
     public List getEx(String examClassName);
+
+
+    /**
+     * 通过orgID获取检查类别列表
+     * @param orgId 机构id
+     * @return 集合
+     */
+    public List<ExamSubclassDict> findListByOrgId(String orgId);
+    /**
+     * 获取当前类别子类项目
+     * @param orgId 机构id
+     * @param className 父类别
+     * @return
+     */
+    public List<ExamSubclassDict> listByClass(String orgId, String className);
+    /**
+     * 查询全部数据
+     * @return
+     */
+    public List<ExamSubclassDict> findAll();
+
 }

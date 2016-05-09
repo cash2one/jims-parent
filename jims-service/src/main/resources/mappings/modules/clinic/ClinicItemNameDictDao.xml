@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ClinicItemNameDictDao">
-
-    <sql id="clinicItemNameDictColumns">
+    
+	<sql id="clinicItemNameDictColumns">
 		a.item_class AS "itemClass",
 		a.item_name AS "itemName",
 		a.item_code AS "itemCode",
@@ -26,60 +26,75 @@
 		a.del_flag AS "delFlag",
 		a.create_date AS "createDate"
 	</sql>
-
-    <sql id="clinicItemNameDictJoins">
-    </sql>
-
-    <select id="get" resultType="ClinicItemNameDict">
-        SELECT
-        <include refid="clinicItemNameDictColumns"/>
-        FROM clinic_item_name_dict a
-        <include refid="clinicItemNameDictJoins"/>
-        WHERE a.id = #{id}
-    </select>
-
-    <select id="findList" resultType="ClinicItemNameDict">
-        SELECT
-        <include refid="clinicItemNameDictColumns"/>
-        FROM clinic_item_name_dict a
-        <include refid="clinicItemNameDictJoins"/>
-        <where>
-            a.del_flag = #{DEL_FLAG_NORMAL}
+	
+	<sql id="clinicItemNameDictJoins">
+	</sql>
+    
+	<select id="get" resultType="ClinicItemNameDict">
+		SELECT 
+			<include refid="clinicItemNameDictColumns"/>
+		FROM clinic_item_name_dict a
+		<include refid="clinicItemNameDictJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClinicItemNameDict">
+		SELECT 
+			<include refid="clinicItemNameDictColumns"/>
+		FROM clinic_item_name_dict a
+		<include refid="clinicItemNameDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
             AND a.item_class = #{itemClass}
             AND a.item_code = #{itemCode}
             <if test="orgId != null and orgId != ''">
-                AND a.org_id = #{orgId}
+                AND t.org_id = #{orgId}
             </if>
-        </where>
-        <choose>
-            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
-                ORDER BY ${page.orderBy}
-            </when>
-            <otherwise>
-                ORDER BY a.std_indicator, a.update_date DESC
-            </otherwise>
-        </choose>
-    </select>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.std_indicator, a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ClinicItemNameDict">
+		SELECT 
+			<include refid="clinicItemNameDictColumns"/>
+		FROM clinic_item_name_dict a
+		<include refid="clinicItemNameDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
 
-    <select id="findAllList" resultType="ClinicItemNameDict">
-        SELECT
-        <include refid="clinicItemNameDictColumns"/>
-        FROM clinic_item_name_dict a
-        <include refid="clinicItemNameDictJoins"/>
-        <where>
-            a.del_flag = #{DEL_FLAG_NORMAL}
-        </where>
-        <choose>
-            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
-                ORDER BY ${page.orderBy}
-            </when>
-            <otherwise>
-                ORDER BY a.update_date DESC
-            </otherwise>
-        </choose>
-    </select>
+	<select id="selectLabItem" resultType="ClinicItemNameDict">
+		SELECT
+		a.price,
+		<include refid="clinicItemNameDictColumns"/>
+		FROM clinic_item_name_dict a
+		LEFT  JOIN clinic_vs_charge c ON  c.clinic_item_class ='c' AND c.clinic_item_code =a.item_code
+		LEFT JOIN current_price_list p ON p.item_class ='c' AND p.item_code =a.item_code AND p.item_spec =c.charge_item_spec AND p.units =c.units
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.expand1 = #{expand1}
+			and a.expand2 = #{expand2}
+			and a.expand3 = #{expand3}
+		</where>
+	</select>
 
-    <insert id="insert">
+	<insert id="insert">
 		INSERT INTO clinic_item_name_dict(
 			item_class,
 			item_name,
@@ -128,8 +143,8 @@
 			#{createDate}
 		)
 	</insert>
-
-    <update id="update">
+	
+	<update id="update">
 		UPDATE clinic_item_name_dict SET 	
 			item_class = #{itemClass},
 			item_name = #{itemName},
