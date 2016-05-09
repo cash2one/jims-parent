@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ExamSubclassDictDao">
-    <select id="listByClass" resultType="ExamSubclassDict">
-        SELECT *
-        FROM exam_subclass_dict a
-        WHERE a.org_id = #{0}
-        AND a.exam_class_name = #{1}
-        and a.del_flag = '0'
-
-    </select>
-    <select id="findListByOrgId" resultType="ExamSubclassDict">
-        SELECT *
-        FROM exam_subclass_dict a
-        WHERE a.org_id = #{orgId}
-        and a.del_flag = '0'
-    </select>
+    
 	<sql id="examSubclassDictColumns">
 		a.id AS "id",
 		a.serial_no AS "serialNo",
@@ -31,92 +18,96 @@
 	
 	<sql id="examSubclassDictJoins">
 	</sql>
-
-    <select id="get" resultType="ExamSubclassDict">
-        SELECT
-        *
-        FROM exam_subclass_dict a
-        WHERE a.id = #{id}
-    </select>
-
-    <select id="findList" resultType="ExamSubclassDict">
-        SELECT
-        *
-        FROM exam_subclass_dict a
-        <where>
-            a.del_flag = #{DEL_FLAG_NORMAL}
-        </where>
-        <choose>
-            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
-                ORDER BY ${page.orderBy}
-            </when>
-            <otherwise>
-                ORDER BY a.update_date DESC
-            </otherwise>
-        </choose>
-    </select>
-
-    <select id="findAllList" resultType="ExamSubclassDict">
-        SELECT
-        *
-        FROM exam_subclass_dict a
-        <where>
-            a.del_flag = #{DEL_FLAG_NORMAL}
-        </where>
-        <choose>
-            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
-                ORDER BY ${page.orderBy}
-            </when>
-            <otherwise>
-                ORDER BY a.update_date DESC
-            </otherwise>
-        </choose>
-    </select>
-
-    <insert id="insert">
-        INSERT INTO exam_subclass_dict(
-        exam_class_name,
-        exam_subclass_name,
-        input_code,
-        id,
-        org_id,
-        remarks,
-        update_by,
-        create_by,
-        update_date,
-        del_flag,
-        create_date
-        ) VALUES (
-        #{examClassName},
-        #{examSubclassName},
-        #{inputCode},
-        #{id},
-        #{orgId},
-        #{remarks},
-        #{updateBy},
-        #{createBy},
-        #{updateDate},
-        #{delFlag},
-        #{createDate}
-        )
-    </insert>
-
-    <update id="update">
-        UPDATE exam_subclass_dict SET
-        serial_no = #{serialNo},
-        exam_class_name = #{examClassName},
-        exam_subclass_name = #{examSubclassName},
-        input_code = #{inputCode},
-        org_id = #{orgId},
-        remarks = #{remarks},
-        update_by = #{updateBy},
-        update_date = #{updateDate}
-        WHERE id = #{id}
-    </update>
-
-    <update id="delete">
-		UPDATE exam_subclass_dict SET
-			del_flag = '1'
+    
+	<select id="get" resultType="ExamSubclassDict">
+		SELECT 
+			<include refid="examSubclassDictColumns"/>
+		FROM exam_subclass_dict a
+		<include refid="examSubclassDictJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ExamSubclassDict">
+		SELECT 
+			<include refid="examSubclassDictColumns"/>
+		FROM exam_subclass_dict a
+		<include refid="examSubclassDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ExamSubclassDict">
+		SELECT 
+			<include refid="examSubclassDictColumns"/>
+		FROM exam_subclass_dict a
+		<include refid="examSubclassDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO exam_subclass_dict(
+			id,
+			serial_no,
+			exam_class_name,
+			exam_subclass_name,
+			input_code,
+			craete_by,
+			craete_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{serialNo},
+			#{examClassName},
+			#{examSubclassName},
+			#{inputCode},
+			#{craeteBy},
+			#{craeteDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE exam_subclass_dict SET 	
+			serial_no = #{serialNo},
+			exam_class_name = #{examClassName},
+			exam_subclass_name = #{examSubclassName},
+			input_code = #{inputCode},
+			craete_by = #{craeteBy},
+			craete_date = #{craeteDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE exam_subclass_dict SET 
+			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 

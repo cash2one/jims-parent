@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
  */
 @Component
 @Produces("application/json")
-@Path("operationApply")
+@Path("docUseBlood")
 public class docUseBloodRest {
 
 }

@@ -5,7 +5,10 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.SpecimanDictServiceApi;
 import com.jims.sys.dao.SpecimanDictDao;
 import com.jims.sys.entity.SpecimanDict;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 标本字典
@@ -16,5 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class SpecimanDictServiceImpl extends CrudImplService<SpecimanDictDao, SpecimanDict> implements SpecimanDictServiceApi {
 
+    @Autowired
+    private SpecimanDictDao dpecimanDictDao;
+    /**
+     * 查询科室代码下的检验标本
+     * @param检验科室编码 deptCode
+     * @return
+     */
+    public List<SpecimanDict> findListByDeptCode(String deptCode){
+        return dpecimanDictDao.findListByDeptCode(deptCode);
+    }
 
 }

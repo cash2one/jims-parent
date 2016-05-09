@@ -10,6 +10,7 @@ import com.jims.common.service.impl.CrudImplService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,5 +24,9 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     @Override
     public List<ClinicMaster> getClinicMaster(String visitDept) {
         return null;
+    }
+
+    public ClinicMaster getMasterInfo(Date visitDate ,Integer visitNo ){
+        return dao.getMasterInfo(visitDate,visitNo);
     }
 }

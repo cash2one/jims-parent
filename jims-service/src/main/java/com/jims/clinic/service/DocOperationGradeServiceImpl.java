@@ -10,6 +10,7 @@ import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.CrudService;
 import com.jims.common.service.impl.CrudImplService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,5 +23,9 @@ import java.util.List;
 @Service(version ="1.0.0")
 @Transactional(readOnly = true)
 public class DocOperationGradeServiceImpl extends CrudImplService<DocOperationGradeDao, DocOperationGrade> implements DocOperationGradeServiceApi {
-
+    @Autowired
+    private DocOperationGradeDao docOperationGradeDao;
+    public List<DocOperationGrade> getDocOperationGradeList(String operationId){
+        return docOperationGradeDao.getDocOperationGradeList(operationId);
+    }
 }

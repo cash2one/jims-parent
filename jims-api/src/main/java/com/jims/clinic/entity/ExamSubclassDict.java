@@ -23,7 +23,6 @@ public class ExamSubclassDict extends DataEntity<ExamSubclassDict> {
 	private String inputCode;		// 输入码
 	private String craeteBy;		// 创建人
 	private Date craeteDate;		// 创建时间
-    private String orgId;//机构id
 	
 	public ExamSubclassDict() {
 		super();
@@ -85,12 +84,5 @@ public class ExamSubclassDict extends DataEntity<ExamSubclassDict> {
 	public void setCraeteDate(Date craeteDate) {
 		this.craeteDate = craeteDate;
 	}
-
-    public String getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
-    }
+	
 }

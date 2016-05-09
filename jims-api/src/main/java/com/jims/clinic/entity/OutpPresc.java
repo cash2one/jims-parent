@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * @author zhaoning
  * @version 2016-04-20
  */
-public class OutpPresc extends DataEntity<OutpPresc> {
+public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String clinicId;//病人就诊记录ID

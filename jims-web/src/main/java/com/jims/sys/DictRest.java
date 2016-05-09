@@ -101,4 +101,16 @@ public class DictRest {
             }
             return data;
         }
+
+    /**
+     * 获得字典label值
+     * @param type
+     * @param value
+     * @return
+     */
+    @Path("getLabel")
+    @GET
+    public String findLabel(String type,String value){
+       return dictService.getLabel(type,value);
+    }
 }

@@ -7,6 +7,8 @@ import com.jims.clinic.entity.DocBloodCapacity;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 
+import java.util.List;
+
 /**
  * 门诊用血量申请DAO接口
  * @author qlx
@@ -14,5 +16,6 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface DocBloodCapacityDao extends CrudDao<DocBloodCapacity> {
-	
+	public void delBloodCapacity(String applyNum);
+    public List<DocBloodCapacity> getDocOperationGradeList(String applyNum);
 }

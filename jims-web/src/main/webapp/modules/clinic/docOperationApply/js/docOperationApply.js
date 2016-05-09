@@ -1,4 +1,86 @@
 
+/**
+ * 设置动态行
+ * @param id
+ */
+
+var editRow = undefined;
+var serialNo='';
+var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
+var userBlood = [{"value": "1", "text": "全血"}, {"value": "2", "text": "全血1"}, {"value": "3", "text": "全血2"}, {"value": "4", "text": "全血3"}];
+$(function(){
+    $('#list_doctor').datagrid({
+        singleSelect: true,
+        fit: true,
+        nowrap: false,
+        method:'post',
+        url:basePath+'/bloodApply/getBloodCapacityList',
+        columns:[[
+            {field:'id',title:'id',hidden:true,align:'center'},
+            {field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: 'text'},
+            //每个列具体内容
+            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'text'},
+            {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: 'text'},
+            {
+                field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
+                type:'combobox',
+                options:{
+                    data: units,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {
+                field: 'bloodType', title: '血液要求', width: '20%', align: 'center', editor: {
+                type:'combobox',
+                options:{
+                    data: userBlood,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+        ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function() {
+                $("#list_doctor").datagrid('insertRow', {
+                    index:0,
+                    row:{}
+                });
+            }
+        }, {
+            text: '删除',
+            iconCls: 'icon-remove',
+            handler: function(){
+                inDoDelete();
+            }
+        },
+        ],
+
+        onAfterEdit: function (rowIndex, rowData, changes) {
+            editRow = undefined;
+        },onDblClickRow:function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $("#list_doctor").datagrid('endEdit', editRow);
+            }
+            if (editRow == undefined) {
+                $("#list_doctor").datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
+            }
+        },onClickRow:function(rowIndex,rowData){
+            //tooltips选中行，药品价目列表信息
+            if (editRow != undefined) {
+                $("#list_doctor").datagrid('endEdit', editRow);
+            }
+        }
+    });
+});
 function onloadMethod(){
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
@@ -60,7 +142,7 @@ function onloadMethod(){
 function saveUseBloodApply() {
     $("#list_doctor").datagrid('endEdit', editRow);
     var  rows=$('#list_doctor').datagrid('getRows');
-    var formJson=fromJson('useBloodForm');
+    var formJson=fromJson('docOperationForm');
     formJson = formJson.substring(0, formJson.length - 1);
     var tableJson=JSON.stringify(rows);
     var submitJson=formJson+",\"bloodCapacityList\":"+tableJson+"}";
@@ -72,7 +154,7 @@ function saveUseBloodApply() {
             $.messager.alert("提示信息", "保存成功");
             $('#list_data').datagrid('load');
             $('#list_data').datagrid('clearChecked');
-            $("#useBloodForm").form("clear");
+            $("#docOperationForm").form("clear");
         } else {
             $.messager.alert("提示信息", "保存失败", "error");
         }
@@ -162,7 +244,7 @@ function getBloodApply(id,state){
         'data': id=id,
         'dataType': 'json',
         'success': function(data){
-            $('#useBloodForm').form('load',data);
+            $('#docOperationForm').form('load',data);
             var applyNum=$("#applyNum").val();
             $('#list_doctor').datagrid({ url:basePath+"/docOperationApply/getBloodCapacityList",queryParams:{'applyNum':applyNum},method:"post"});
         }

@@ -3,10 +3,10 @@
  */
 package com.jims.clinic.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -117,12 +117,12 @@ public class DocBloodApply extends DataEntity<DocBloodApply> {
 	public void setPatSex(String patSex) {
 		this.patSex = patSex;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getBirthday() {
 		return birthday;
 	}
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
@@ -230,21 +230,21 @@ public class DocBloodApply extends DataEntity<DocBloodApply> {
 	public void setBloodSum(Integer bloodSum) {
 		this.bloodSum = bloodSum;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getApplyDate() {
 		return applyDate;
 	}
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public void setApplyDate(Date applyDate) {
 		this.applyDate = applyDate;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getGatherDate() {
 		return gatherDate;
 	}
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public void setGatherDate(Date gatherDate) {
 		this.gatherDate = gatherDate;
 	}

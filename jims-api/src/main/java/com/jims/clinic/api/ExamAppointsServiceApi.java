@@ -22,11 +22,11 @@ public interface ExamAppointsServiceApi {
     public Page<ExamAppoints> findPage(Page<ExamAppoints> page, ExamAppoints examAppoints);
 
     /**
-     * 修改数据
+     * 保存修改数据
      * @param examAppoints
      * @return
      */
-    public String updateExamAppoints(ExamAppoints examAppoints);
+    public String save(ExamAppoints examAppoints);
 
     /**
      * 删除数据
@@ -49,6 +49,11 @@ public interface ExamAppointsServiceApi {
      */
     public List<ExamAppoints> getExamAppionts(String patientId);
 
+    /**
+     * 保存预约记录
+     * @param examAppoints
+     */
+    public  void saveExamAppionts(ExamAppoints examAppoints);
 
     /**
      * 删除预约记录
@@ -56,7 +61,7 @@ public interface ExamAppointsServiceApi {
      * @return
      */
 
-    public String deleteExamAppionts( String id);
+    public Integer deleteExamAppionts( String id);
 
     /**
      * 获得最大的申请序号
@@ -68,6 +73,6 @@ public interface ExamAppointsServiceApi {
      * @param
      * @return
      */
-    public String batchSave(ExamAppoints examAppoints);
+    public int batchSave(ExamAppoints examAppoints);
 }
 

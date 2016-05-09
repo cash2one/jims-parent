@@ -19,11 +19,4 @@ public interface OutpOrdersServiceApi {
      * @return
      */
     public List<OutpOrders> findListFy(OutpOrders outpOrders);
-
-    /**
-     * 删除数据
-     * @param visitNo
-     * @return
-     */
-    public String deleteOutpOrders(String visitNo);
 }

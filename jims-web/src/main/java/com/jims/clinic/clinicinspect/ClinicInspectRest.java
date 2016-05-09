@@ -41,12 +41,6 @@ public class ClinicInspectRest {
     @Reference(version = "1.0.0")
     private OutpTreatRecServiceApi outpTreatRecServiceApi;
 
-    /**
-     * 获取检查预约记录列表
-     * @param request
-     * @param response
-     * @return
-     */
     @Path("list")
     @GET
     public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response){
@@ -69,48 +63,23 @@ public class ClinicInspectRest {
         return examAppoints;
     }
 
-    /**
-     * 检查申请保存
-     * @param examAppoints
-     * @return
-     */
     @POST
     @Path("saveExamAppoints")
     public StringData saveExamAppoints(ExamAppoints examAppoints){
         StringData stringData=new StringData();
-        String num= examAppointsServiceApi.batchSave(examAppoints);
-        stringData.setCode(num);
+        int num= examAppointsServiceApi.batchSave(examAppoints);
+        stringData.setCode(num+"");
         return stringData;
     }
 
-    /**
-     * 删除检查记录
-     * @param id
-     * @return
-     */
     @Path("del")
     @POST
     public StringData deleteExamAppionts(String id) {
         StringData stringData = new StringData();
-        String num = examAppointsServiceApi.deleteExamAppionts(id);
-            stringData.setCode(num);
+        int num = examAppointsServiceApi.deleteExamAppionts(id);
+            stringData.setCode(num+"");
             stringData.setData("success");
             return stringData;
 
-    }
-
-    /**
-     * 修改检查记录
-     * @param examAppoints
-     * @return
-     */
-    @Path("update")
-    @POST
-    public StringData update(ExamAppoints examAppoints){
-        StringData stringData=new StringData();
-        String  num= examAppointsServiceApi.updateExamAppoints(examAppoints);
-        stringData.setCode(num);
-        stringData.setData("success");
-        return stringData;
     }
 }

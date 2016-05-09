@@ -60,7 +60,6 @@ public class CourseRecordSuperiordocrecorServiceImpl extends CrudImplService<Cou
      */
     @Override
     public CourseRecordSuperiordocrecor getDocrecorByCourseRecordId(String courseRecordId) {
-        CourseRecordSuperiordocrecor courseRecordSuperiordocrecor=courseRecordSuperiordocrecorDao.getSuperiordByCourse(courseRecordId);
-        return courseRecordSuperiordocrecor;
+        return courseRecordSuperiordocrecorDao.getSuperiordByCourse(courseRecordId);
     }
 }

@@ -8,7 +8,6 @@ import com.jims.clinic.dao.ClinicVsChargeDao;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.ClinicVsCharge;
-import com.jims.clinic.vo.ClinicItemPriceVo;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.BeanUtils;
@@ -56,7 +55,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
-    @Override
+    //@Override
     public String deleteCascade(ClinicItemDict entity) {
         try{
             deleteName(entity);
@@ -68,7 +67,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return "1";
     }
 
-    @Override
+    //@Override
     public String deleteCascade(String ids) {
         int i=0;
         try {
@@ -85,14 +84,14 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    @Override
+    //@Override
     public List<ClinicItemNameDict> findNameList(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
         BeanUtils.copyProperties(entity,itemName);
         return nameDao.findList(itemName);
     }
 
-    @Override
+    //@Override
     public String save(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -109,7 +108,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    @Override
+    //@Override
     public String saveNameList(List<ClinicItemNameDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -122,7 +121,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
-    @Override
+    //@Override
     public String deleteName(String ids) {
         int i=0;
         try {
@@ -137,7 +136,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    @Override
+    //@Override
     public String delete(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -224,16 +223,6 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         ClinicVsCharge vs = new ClinicVsCharge();
         BeanUtils.copyProperties(entity,vs);
         return delete(vs);
-    }
-
-    /**
-     * 获取检查项目价格列表
-     * @param orgId
-     * @return
-     */
-    @Override
-    public List<ClinicItemPriceVo> itemListByOrgId(String orgId) {
-        return dao.itemListByOrgId(orgId);
     }
 
 }

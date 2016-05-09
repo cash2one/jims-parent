@@ -110,9 +110,15 @@ comment on column BLOOD_APPLY.ORG_ID
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table BLOOD_APPLY
   add constraint BLOOD_APPLY_PK primary key (ID)
-  using index ;
-
+  using index 
+  tablespace JIMS_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255;
 alter table BLOOD_APPLY
   add constraint BLOOD_APPLY_UK unique (APPLY_NUM)
-  using index;
-
+  using index 
+  tablespace JIMS_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255;

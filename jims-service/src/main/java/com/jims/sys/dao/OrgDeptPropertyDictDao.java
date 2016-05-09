@@ -57,7 +57,7 @@ public interface OrgDeptPropertyDictDao extends CrudDao<OrgDeptPropertyDict> {
      * 查询所有的科室属性信息
      * @return
      */
-   // public List<OrgDeptPropertyDict> findList();
+    public List<OrgDeptPropertyDict> findList();
 
     /**
      * 查询属性名称

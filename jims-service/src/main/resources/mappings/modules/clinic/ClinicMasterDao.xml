@@ -290,5 +290,13 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getMasterInfo" resultType="ClinicMaster">
+
+		SELECT
+		<include refid="clinicMasterColumns"/>
+		FROM CLINIC_MASTER a
+		WHERE
+		a.visit_date=#{visitDate} and
+		a.visit_no=#{visitNo}
+	</select>
 </mapper>

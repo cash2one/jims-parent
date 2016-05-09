@@ -3,6 +3,8 @@ package com.jims.clinic.api;
 import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.persistence.Page;
 
+import java.util.List;
+
 /**
  * Created by qinlongxin on 2016/5/6.
  */
@@ -25,4 +27,8 @@ public interface DocOperationGradeServiceApi {
      * @version 2016/4/20
      */
     public String delete(String ids);
+    /**
+     * 根据用血申请单号查询用血数量申请
+     */
+    public List<DocOperationGrade> getDocOperationGradeList(String operationId);
 }

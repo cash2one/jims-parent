@@ -6,7 +6,12 @@ package com.jims.clinic.entity;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
-import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
+import java.util.List;
+
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * 检验主记录Entity
@@ -55,11 +60,12 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	private String jianyi;		// LIS建议
 	private String wsw;		// wsw
 	private String sampleid;		// LIS接口主键
-	
+	private String labItemClass;  //检验项目类别
 	public LabTestMaster() {
 		super();
 	}
 
+	private List<LabTestItems> list;
 	public LabTestMaster(String id){
 		super(id);
 	}
@@ -407,5 +413,20 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	public void setSampleid(String sampleid) {
 		this.sampleid = sampleid;
 	}
-	
+
+	public String getLabItemClass() {
+		return labItemClass;
+	}
+
+	public void setLabItemClass(String labItemClass) {
+		this.labItemClass = labItemClass;
+	}
+
+	public List<LabTestItems> getList() {
+		return list;
+	}
+
+	public void setList(List<LabTestItems> list) {
+		this.list = list;
+	}
 }
