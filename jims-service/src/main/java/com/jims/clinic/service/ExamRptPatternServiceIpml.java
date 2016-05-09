@@ -29,4 +29,24 @@ public class ExamRptPatternServiceIpml extends CrudImplService<ExamRptPatternDao
     public List getExamRptPattern(String examSubClass) {
       return examRptPatternDao.getExamRptPattern(examSubClass);
     }
+    /**
+     *
+     * 获取检查子类别字典列表
+     * @return 集合
+     */
+    @Override
+    public List<ExamRptPattern> findAll() {
+        return dao.findAllList(new ExamRptPattern());
+    }
+
+    /**
+     * 获取当前类别子类项目
+     * @param orgId 机构id
+     * @param className 父类别
+     * @return
+     */
+    @Override
+    public List<ExamRptPattern> listByClass(String orgId, String className,String subClassName) {
+        return dao.listByClass(orgId,className,subClassName);
+    }
 }
