@@ -84,6 +84,19 @@ public class DeptDictRest {
     }
 
     /**
+     * 查询所有的下级科室
+     *
+     * @return
+     */
+    @Path("findListByCode")
+    @POST
+    public List<DeptDict> findListByCode(String code) {
+        int index = code.indexOf("=");
+        code =code.substring(index+1);
+        List<DeptDict> list = deptDictApi.findListByCode(code);
+        return list;
+    }
+    /**
      * 保存修改方法
      *
      * @param

@@ -12,9 +12,16 @@ import java.util.List;
  */
 public interface ClinicMasterServiceApi {
     /**
-     * 根据当前登录人所在科室查询 病人列表
-     * @param visitDept
+     * 根据当前登录人 查询 病人列表(待诊病人)
+     * @param doctorID
      * @return
      */
-    public List<ClinicMaster> getClinicMaster(String visitDept);
+    public List<ClinicMaster> getClinicMasterList(String doctorID);
+
+    /**
+     * 根据当前登录人 查询  病人列表（已诊病人）
+     * @param doctorID
+     * @return
+     */
+    public List<ClinicMaster> getClinicMasterDiagnosed(String doctorID);
 }

@@ -41,7 +41,7 @@ public interface OutpTreatRecDao extends CrudDao<OutpTreatRec> {
      * @param visitNo
      * @return
      */
-    public Integer deleteTreatRec(int visitNo);
+    public Integer deleteTreatRec(String visitNo);
 
     /**
      * 获得检查治疗医嘱最大的流水号

@@ -12,16 +12,17 @@
 <body class="easyui-layout">
 <div data-options="region:'west',split:true" style="width:150px;overflow:hidden">
     <div class="rad-choice">
-        <input type="radio" name="rad05"/>住院中
-        <input type="radio" name="rad05"/>已出院
+        <input type="radio" name="rad05" id="dai" checked="checked" onclick="patientList('0');"/>待诊
+        <input type="radio" name="rad05" id="yi" onclick="patientList('1');"/>已诊
 
     </div>
     <ul class="left-label clearfix">
         <li class="active"><a href="#">我的病人</a></li>
         <li><a href="#">全科病人</a></li>
     </ul>
+    <div class="sel-office"><select class="so-sel"><option>选择科室</option></select></div>
     <ul class="cus-list">
-        <li>
+      <!--  <li>
             <a href="#" class="active">
                 <span class="cus-lbor"></span>
                 <span class="cus-name">程崇伟</span>
@@ -84,7 +85,7 @@
                 男
                 46岁
             </a>
-        </li>
+        </li>-->
 
     </ul>
 </div>
@@ -154,11 +155,13 @@
                     <li><a  onclick="addTabs('2','病历文书','/modules/clinic/enterHospital/enterHosptial.html',this)"><span>病历文书</span></a></li>
                     <li><a  onclick="addTabs('2','病程记录','/modules/clinic/course/courseRecordList.html',this)"><span>病程记录</span></a></li>
                     <li><a onclick="addTabs('4','检查申请','/modules/clinic/clinicinspect/clinicInspect.html',this)"><span>检查申请</span></a></li>
-                    <li><a href="#"><span>检验申请</span></a></li>
+                    <li><a  onclick="addTabs('6','检验申请','/modules/clinic/labTest/labTest.html',this)"><span>检验申请</span></a></li>
                     <li><a onclick="addTabs('7','处方','/modules/clinic/prescription/prescriptionList.html',this)"><span>处方</span></a></li>
                     <li><a href="#"><span>医嘱</span></a></li>
                     <li><a   onclick="addTabs('8','手术申请','/modules/clinic/operationApply/operationApplyList.html',this)"><span>手术申请</span></a></li>
-                    <li><a href="#"><span>用血申请</span></a></li>
+                    <li><a   onclick="addTabs('9','用血申请','/modules/clinic/useBlood/useBloodList.html',this)"><span>用血申请</span></a></li>
+                    <li><a   onclick="addTabs('15','门诊手术申请','/modules/clinic/docOperationApply/docOperationApplyList.html',this)"><span>门诊手术申请</span></a></li>
+                    <li><a  href="#"><span>门诊用血申请</span></a></li>
                     <li><a  onclick="addTabs('12','会诊申请','/modules/clinic/group/group.html',this)"><span>会诊申请</span></a></li>
                     <li><a href="#"><span>出院通知</span></a></li>
                     <li><a  onclick="addTabs('13','出院记录','/modules/clinic/electronleavehospital/electronLeaveHospital.html',this)"><span>出院记录</span></a></li>
@@ -196,7 +199,7 @@
             <li onclick="addTabs('2','病历文书','/modules/clinic/clinicInspect .html',this)"><a><span>病历文书</span></a></li>
             <li><a href="#"><span>病程记录</span></a></li>
             <li onclick="addTabs('4','检查申请','/modules/clinic/clinicinspect/clinicInspect.html',this)"><a><span>检查申请</span></a></li>
-            <li><a href="#"><span>检验申请</span></a></li>
+            <li><a  onclick="addTabs('6','检验申请','/modules/clinic/labTest/labTest.html',this)"><span>检验申请</span></a></li>
             <li><a href="#"><span>处方</span></a></li>
             <li><a href="#"><span>医嘱</span></a></li>
             <li><a href="#"><span>手术申请</span></a></li>

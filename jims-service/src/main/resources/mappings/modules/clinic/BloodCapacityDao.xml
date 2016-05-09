@@ -49,17 +49,13 @@
 			</otherwise>
 		</choose>
 	</select>
-	
 	<select id="getBloodCapacityList" resultType="BloodCapacity">
-		SELECT 
-			<include refid="bloodCapacityColumns"/>
+		SELECT
+		<include refid="bloodCapacityColumns"/>
 		FROM blood_capacity a
 		<include refid="bloodCapacityJoins"/>
-		<where>
-			a.apply_num = #{applyNum}
-			and	a.del_flag = '0'
-		</where>
-		ORDER BY a.update_date DESC
+		WHERE a.apply_num = #{applyNum} AND
+		a.del_flag ='0'
 	</select>
 	<select id="findAllList" resultType="BloodCapacity">
 		SELECT
