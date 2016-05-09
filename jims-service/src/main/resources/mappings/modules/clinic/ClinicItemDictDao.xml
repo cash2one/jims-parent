@@ -59,7 +59,7 @@
                 ORDER BY ${page.orderBy}
             </when>
             <otherwise>
-                ORDER BY a.update_date DESC
+                ORDER BY a.item_code, a.update_date DESC
             </otherwise>
         </choose>
     </select>
