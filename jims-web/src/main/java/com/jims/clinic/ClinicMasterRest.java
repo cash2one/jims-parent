@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,18 @@ public class ClinicMasterRest {
     private ClinicMasterServiceApi clinicMasterServiceApi;
 
 
+
+
+    /**
+     *获取就诊记录
+     * @return
+     */
+    @Path("get")
+    @GET
+    public ClinicMaster getClinicMasterList(@QueryParam("id") String id){
+        ClinicMaster clinicMaster=  clinicMasterServiceApi.get(id);
+        return clinicMaster;
+    }
     /**
      * 根据当前登录医生的 医生ID 查询 ClinicMaster(待诊)
      * @return

@@ -22,149 +22,88 @@
     </ul>
     <div class="sel-office"><select class="so-sel"><option>选择科室</option></select></div>
     <ul class="cus-list">
-      <!--  <li>
-            <a href="#" class="active">
-                <span class="cus-lbor"></span>
-                <span class="cus-name">程崇伟</span>
-                男
-                46岁
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="cus-lbor"></span>
-                <span class="cus-name">程崇伟</span>
-                男
-                46岁
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="cus-lbor"></span>
-                <span class="cus-name">欧阳依依</span>
-                女
-                15岁
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="cus-lbor"></span>
-                <span class="cus-name">李静</span>
-                女
-                46岁
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="cus-lbor"></span>
-                <span class="cus-name">程崇伟</span>
-                男
-                46岁
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="cus-lbor"></span>
-                <span class="cus-name">程崇伟</span>
-                女
-                46岁
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="cus-lbor"></span>
-                <span class="cus-name">程崇伟</span>
-                男
-                46岁
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="cus-lbor"></span>
-                <span class="cus-name">程崇伟</span>
-                男
-                46岁
-            </a>
-        </li>-->
 
     </ul>
 </div>
 <div data-options="region:'east',split:true,collapsed:true,title:'右'" style="width:100px;padding:10px;">右部分</div>
 <div data-options="region:'center'">
+    <form id="patientInfoForm">
     <div>
         <div class="cus-sel-info clearfix">
             <div class="cus-def-info ">
                 <ul>
-                    <li>年龄：<span>47岁</span></li>
-                    <li>性别：<span>男</span></li>
-                    <li>住院号：<span>1301446-9</span></li>
-                    <li>病床号：<span>109床</span></li>
-                    <li>所在病区：<span>1病区</span></li>
+                    <li>姓名：<span id="nameId"></span></li>
+                    <li>年龄：<span id="ageId"></span></li>
+                    <li>性别：<span id="sexId"></span></li>
+                    <!--<li>住院号：<span>1301446-9</span></li>-->
+                    <!--<li>病床号：<span>109床</span></li>-->
+                    <li>所在科室：<span></span></li>
                 </ul>
-
+                <input type="hidden"  id="clinicMasterId">
             </div>
-            <div class="showhid-icon">
-                <a href="javascript:void(0)" id="stateBut" onClick="showDiv('class1content','stateBut')">
-                    <img src="/static/images/index/down-icon.png" class="show-hid-img"/>&nbsp;&nbsp;展开
-                </a>
-            </div>
+            <!--<div class="showhid-icon">-->
+                <!--<a href="javascript:void(0)" id="stateBut" onClick="showDiv('class1content','stateBut')">-->
+                    <!--<img src="/static/images/index/down-icon.png" class="show-hid-img"/>&nbsp;&nbsp;展开-->
+                <!--</a>-->
+            <!--</div>-->
 
         </div>
 
-        <div class="cus-more-info clearfix" id="class1content">
+        <!--<div class="cus-more-info clearfix" id="class1content">-->
 
-            <ul class="clearfix">
-                <li>住院状态：<span>住院中</span></li>
-                <li>入院日期：<span>2015-05-13 10：20：15</span></li>
-            </ul>
-            <ul>
-                <li><b class="orange-color">相关责任医师：</b></li>
-                <li>主治医师：<b class="orange-color">张医生</b></li>
-                <li role="presentation" class="dropdown active">
-                    科主任：
-                    <a id="drop4" href="#" onclick="showDoctor('doctor')">
-                        选择
-                    </a>
-                    <ul  class="dropdown-menu docname-sel" aria-labelledby="drop4" id="doctor">
-                        <li><a href="#">耿医生</a></li>
-                        <li><a href="#">慈医</a></li>
-                        <li><a href="#">张医</a></li>
-                        <li><a href="#">耿医</a></li>
-                        <li><a href="#">慈医师</a></li>
-                        <li><a href="#">张医生</a></li>
-                    </ul>
-                </li>
-                <li>主（副）任医师：耿医生</li>
-                <li>住院医师：慈医师</li>
+            <!--<ul class="clearfix">-->
+                <!--<li>住院状态：<span>住院中</span></li>-->
+                <!--<li>入院日期：<span>2015-05-13 10：20：15</span></li>-->
+            <!--</ul>-->
+            <!--<ul>-->
+                <!--<li><b class="orange-color">相关责任医师：</b></li>-->
+                <!--<li>主治医师：<b class="orange-color">张医生</b></li>-->
+                <!--<li role="presentation" class="dropdown active">-->
+                    <!--科主任：-->
+                    <!--<a id="drop4" href="#" onclick="showDoctor('doctor')">-->
+                        <!--选择-->
+                    <!--</a>-->
+                    <!--<ul  class="dropdown-menu docname-sel" aria-labelledby="drop4" id="doctor">-->
+                        <!--<li><a href="#">耿医生</a></li>-->
+                        <!--<li><a href="#">慈医</a></li>-->
+                        <!--<li><a href="#">张医</a></li>-->
+                        <!--<li><a href="#">耿医</a></li>-->
+                        <!--<li><a href="#">慈医师</a></li>-->
+                        <!--<li><a href="#">张医生</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--<li>主（副）任医师：耿医生</li>-->
+                <!--<li>住院医师：慈医师</li>-->
 
-            </ul>
+            <!--</ul>-->
 
 
-        </div>
+        <!--</div>-->
 
 
     </div>
+    </form>
     <div class="easyui-tabs"  id="tabs-header" style="width:100%;height:91%">
 
     </div>
         <div class="bot-menu">
             <div class="bot-out">
-                <ul>
-                    <li><a class="active" onclick="addTabs('1','病人信息','/modules/clinic/medicalRecordsIndex.html',this)"><span>病人信息</span></a></li>
-                    <li><a href="#"><span>病案首页</span></a></li>
-                    <li><a  onclick="addTabs('2','病历文书','/modules/clinic/enterHospital/enterHosptial.html',this)"><span>病历文书</span></a></li>
-                    <li><a  onclick="addTabs('2','病程记录','/modules/clinic/course/courseRecordList.html',this)"><span>病程记录</span></a></li>
-                    <li><a onclick="addTabs('4','检查申请','/modules/clinic/clinicinspect/clinicInspect.html',this)"><span>检查申请</span></a></li>
-                    <li><a  onclick="addTabs('6','检验申请','/modules/clinic/labTest/labTest.html',this)"><span>检验申请</span></a></li>
-                    <li><a onclick="addTabs('7','处方','/modules/clinic/prescription/prescriptionList.html',this)"><span>处方</span></a></li>
-                    <li><a href="#"><span>医嘱</span></a></li>
-                    <li><a   onclick="addTabs('8','手术申请','/modules/clinic/operationApply/operationApplyList.html',this)"><span>手术申请</span></a></li>
-                    <li><a   onclick="addTabs('9','用血申请','/modules/clinic/useBlood/useBloodList.html',this)"><span>用血申请</span></a></li>
-                    <li><a   onclick="addTabs('15','门诊手术申请','/modules/clinic/docOperationApply/docOperationApplyList.html',this)"><span>门诊手术申请</span></a></li>
-                    <li><a  href="#"><span>门诊用血申请</span></a></li>
-                    <li><a  onclick="addTabs('12','会诊申请','/modules/clinic/group/group.html',this)"><span>会诊申请</span></a></li>
-                    <li><a href="#"><span>出院通知</span></a></li>
-                    <li><a  onclick="addTabs('13','出院记录','/modules/clinic/electronleavehospital/electronLeaveHospital.html',this)"><span>出院记录</span></a></li>
+                <ul id="userMenuId">
+                    <!--<li><a class="active" onclick="addTabs('1','病人信息','/modules/clinic/medicalRecordsIndex.html',this)"><span>病人信息</span></a></li>-->
+                    <!--<li><a href="#"><span>病案首页</span></a></li>-->
+                    <!--<li><a  onclick="addTabs('2','病历文书','/modules/clinic/enterHospital/enterHosptial.html',this)"><span>病历文书</span></a></li>-->
+                    <!--<li><a  onclick="addTabs('2','病程记录','/modules/clinic/course/courseRecordList.html',this)"><span>病程记录</span></a></li>-->
+                    <!--<li><a onclick="addTabs('4','检查申请','/modules/clinic/clinicinspect/clinicInspect.html',this)"><span>检查申请</span></a></li>-->
+                    <!--<li><a  onclick="addTabs('6','检验申请','/modules/clinic/labTest/labTest.html',this)"><span>检验申请</span></a></li>-->
+                    <!--<li><a onclick="addTabs('7','处方','/modules/clinic/prescription/prescriptionList.html',this)"><span>处方</span></a></li>-->
+                    <!--<li><a href="#"><span>医嘱</span></a></li>-->
+                    <!--<li><a   onclick="addTabs('8','手术申请','/modules/clinic/operationApply/operationApplyList.html',this)"><span>手术申请</span></a></li>-->
+                    <!--<li><a   onclick="addTabs('9','用血申请','/modules/clinic/useBlood/useBloodList.html',this)"><span>用血申请</span></a></li>-->
+                    <!--<li><a   onclick="addTabs('15','门诊手术申请','/modules/clinic/docOperationApply/docOperationApplyList.html',this)"><span>门诊手术申请</span></a></li>-->
+                    <!--<li><a  href="#"><span>门诊用血申请</span></a></li>-->
+                    <!--<li><a  onclick="addTabs('12','会诊申请','/modules/clinic/group/group.html',this)"><span>会诊申请</span></a></li>-->
+                    <!--<li><a href="#"><span>出院通知</span></a></li>-->
+                    <!--<li><a  onclick="addTabs('13','出院记录','/modules/clinic/electronleavehospital/electronLeaveHospital.html',this)"><span>出院记录</span></a></li>-->
                 </ul>
             </div>
         </div>
