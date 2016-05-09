@@ -31,6 +31,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     @Autowired
     private ClinicVsChargeDao vsDao;
 
+    /**
+     * 编码或名称已存在个数
+     * @param entity
+     * @return
+     */
     @Override
     public boolean codeOrNameHas(ClinicItemDict entity){
         List<ClinicItemDict> list = dao.findExisted(entity);
@@ -43,6 +48,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return false;
     }
 
+    /**
+     * 批量保存临床诊疗项目数据（插入或更新）
+     * @param entityList
+     * @return 成功个数
+     */
     @Transactional(readOnly = false)
     public String save(List<ClinicItemDict> entityList){
         int i = 0;
@@ -56,6 +66,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
+    /**
+     * 删除诊疗项目数据以及所属名称和价表对照
+     * @param entity
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String deleteCascade(ClinicItemDict entity) {
@@ -69,6 +84,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return "1";
     }
 
+    /**
+     * 删除诊疗项目数据以及所属名称和价表对照
+     * @param ids,多个id以逗号隔开
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String deleteCascade(String ids) {
@@ -87,6 +107,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 获取临床诊疗项目名称（正/别名）信息
+     * @param entity
+     * @return
+     */
     @Override
     public List<ClinicItemNameDict> findNameList(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
@@ -96,6 +121,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return nameDao.findList(itemName);
     }
 
+    /**
+     * 保存临床诊疗项目名称(正/别名)数据（插入或更新）
+     * @param entity
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String save(ClinicItemNameDict entity) {
@@ -114,6 +144,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 批量保存临床诊疗项目名称(正/别名)数据（插入或更新）
+     * @param entityList
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String saveNameList(List<ClinicItemNameDict> entityList){
@@ -128,6 +163,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
+    /**
+     * 删除临床诊疗项目名称(正/别名)数据
+     * @param ids ,多个id以逗号隔开
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String deleteName(String ids) {
@@ -143,6 +183,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 删除临床诊疗项目所有名称(正/别名)数据
+     * @param entity
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String delete(ClinicItemNameDict entity) {
@@ -159,6 +204,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 删除临床诊疗项目所有名称(正/别名)数据
+     * @param entity
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String deleteName(ClinicItemDict entity) {
@@ -169,6 +219,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return delete(itemName);
     }
 
+    /**
+     * 获取临床诊疗与价表对照信息
+     * @param entity
+     * @return
+     */
     @Override
     public List<ClinicVsCharge> findVsList(ClinicItemDict entity) {
         ClinicVsCharge vs = new ClinicVsCharge();
@@ -178,6 +233,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return vsDao.findList(vs);
     }
 
+    /**
+     * 保存临床诊疗与价表对照数据（插入或更新）
+     * @param entity
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String save(ClinicVsCharge entity) {
@@ -197,6 +257,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 批量保存临床诊疗与价表对照数据（插入或更新）
+     * @param entityList
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String saveVsList(List<ClinicVsCharge> entityList){
@@ -211,6 +276,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
+    /**
+     * 删除临床诊疗与价表对照数据
+     * @param entity
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String delete(ClinicVsCharge entity) {
@@ -227,6 +297,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 删除临床诊疗与价表对照数据
+     * @param ids,多个id以逗号隔开
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String deleteVs(String ids) {
@@ -242,6 +317,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 删除临床诊疗与价表对照数据
+     * @param entity
+     * @return
+     */
     @Override
     @Transactional(readOnly = false)
     public String deleteVs(ClinicItemDict entity) {

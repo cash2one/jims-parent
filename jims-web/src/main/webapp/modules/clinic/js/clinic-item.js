@@ -1,8 +1,9 @@
 $(function(){
-    var org_id = "1"
+    var org_id = parent.config.org_id
 
         ,select_index = 0   //诊疗项目默认选择索引，从0开始计算
         ,name_and_vs_obj = {}  //作已修改的别名和对照缓存对象
+
     var type_arr //诊疗项目类别数组
         ,clinic_data_arr // 执行科室数组
         ,hz_arr // 频次数组
@@ -11,7 +12,6 @@ $(function(){
         ,vs_grid_data = {}   // 各类型对照价表数据
         ,vs_type_data = {'1':'A,B'}   // 对照价表类别,1药品，2非药品
         ,price_rules_arr // 计费规则数组
-
     /**
      * 初始化诊疗项目类别下拉框
      * @param data
@@ -89,8 +89,8 @@ $(function(){
     var init_clinic_data = function (){
         $("#clinic_item").datagrid({
             title : "临床诊疗项目列表",
-            iconCls: 'icon-save', //图标
             fit : true,
+            border:0,
             //pagination: true, //显示分页
             //pageSize: 15, //页大小
             //pageList: [15, 30, 45, 60], //页大小下拉选项此项各value是pageSize的倍数
@@ -210,6 +210,7 @@ $(function(){
             fit : true,
             fitColumns: true, //列自适应宽度
             singleSelect : true,
+            border:0,
             columns: [[//显示的列
                 {field: 'id', title: '编号', width: 100,hidden:true},
                 { field: 'stdIndicator', title: '正名', width:30,align:'center',formatter:function(value){
@@ -266,6 +267,7 @@ $(function(){
             fit : true,
             fitColumns: true, //列自适应宽度
             singleSelect : true,
+            border:0,
             columns: [[//显示的列
                 {field: 'id', title: '编号', width: 100,hidden:true},
                 { field: 'priceType', title: '类别', width:30,align:"center",editor:{
@@ -480,10 +482,10 @@ $(function(){
     var load_data = function (index){
         var itemClass = $('#item_class').combobox('getValue') ? $('#item_class').combobox('getValue') : 'A'
         var params = {'itemClass':itemClass}
-        params.itemCode = $(':radio[name="adminFlag"][value="0"]').prop('checked') ? $('#code_filter').val() : ''
-        params.inputCode = $(':radio[name="adminFlag"][value="1"]').prop('checked') ? $('#code_filter').val() : ''
+        params.itemCode = $(':radio[name="adminFlag"][value="0"]').prop('checked') ? $('#code_filter').textbox('getValue').toUpperCase() : ''
+        params.inputCode = $(':radio[name="adminFlag"][value="1"]').prop('checked') ? $('#code_filter').textbox('getValue').toUpperCase() : ''
         params.orgId = org_id
-        $.postJSON('/service/clinicItem/findList',JSON.stringify(params),function(res){
+        parent.$.postJSON('/service/clinicItem/findList',JSON.stringify(params),function(res){
             $('#clinic_item').datagrid('loadData',res)
             if(res && res.length>0 && index > -1){
                 $('#clinic_item').datagrid('selectRow',index)
@@ -499,7 +501,7 @@ $(function(){
      */
     var load_name_data = function (index){
         var row = $('#clinic_item').datagrid('getRows')[index]
-        $.postJSON(base_url+'findNameList',JSON.stringify(row),function(res){
+        parent.$.postJSON(base_url+'findNameList',JSON.stringify(row),function(res){
             load_name_data1(res)
             row.saveNameList = res
         })
@@ -515,7 +517,7 @@ $(function(){
      */
     var load_vs_data = function (index){
         var row = $('#clinic_item').datagrid('getRows')[index]
-        $.postJSON(base_url+'findVsList',JSON.stringify(row),function(res){
+        parent.$.postJSON(base_url+'findVsList',JSON.stringify(row),function(res){
             for(var i=0;i<res.length;i++){
                 var chargeItemClass = res[i].chargeItemClass
                 var type
@@ -534,7 +536,7 @@ $(function(){
      * @param type 类别，1 药品，2 非药品
      */
     var load_price_data = function(type){
-        $.postJSON('/service/price/findList','{"priceType" : "' + (vs_type_data[type]?vs_type_data[type]:'') + '"}',function(res){
+        parent.$.postJSON('/service/price/findList','{"priceType" : "' + (vs_type_data[type]?vs_type_data[type]:'') + '"}',function(res){
             vs_grid_data[type] = res
         })
     }
@@ -743,19 +745,19 @@ $(function(){
     $('#yes_pro_form').click(function(){
         if(!$('#item_code').textbox('isValid') || !$('#item_name').textbox('isValid'))return
         end_other_edit()
-        var inputCode = makePy($('#item_name').val())
+        var inputCode = makePy($('#item_name').textbox('getValue'))
         var new_name_json = [{'stdIndicator':'1'
-            ,'itemName':$('#item_name').val()
-            ,'itemCode':$('#item_code').val()
-            ,'itemClass':$('#item_class').val()
-            ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').val())
+            ,'itemName':$('#item_name').textbox('getValue')
+            ,'itemCode':$('#item_code').textbox('getValue')
+            ,'itemClass':$('#item_class').combobox('getValue')
+            ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').textbox('getValue'))
             ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
             ,'orgId' : org_id
             ,'inputCodeWb': ''}]
-        var pro_obj = {'itemClass':$('#item_class').val()
-            ,'itemCode':$('#item_code').val()
-            ,'itemName':$('#item_name').val()
-            ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').val())
+        var pro_obj = {'itemClass':$('#item_class').combobox('getValue')
+            ,'itemCode':$('#item_code').textbox('getValue')
+            ,'itemName':$('#item_name').textbox('getValue')
+            ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').textbox('getValue'))
             ,'inputCodeWb': ''
             ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
             ,'orgId' : org_id
@@ -926,7 +928,7 @@ $(function(){
         if(name_save.length > 0 || vs_save.length > 0 || name_ids.length > 0 || vs_ids.length > 0){
             item_data_save.push({updateFlag: '1',saveNameList :name_save,saveVsList:vs_save,delNameIds:name_ids,delVsIds:vs_ids})
         }
-        $.postJSON('/service/clinicItem/save',JSON.stringify(item_data_save),function(res){
+        parent.$.postJSON('/service/clinicItem/save',JSON.stringify(item_data_save),function(res){
             if(res.success = '0')
                 $.messager.alert('成功',res.data,'info',function(){
                     window.location.reload()
