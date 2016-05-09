@@ -46,7 +46,4 @@ comment on column EXAM_RPT_PATTERN.ORG_ID
 alter table EXAM_RPT_PATTERN
   add constraint EXAM_RPT_PATTERN_PK primary key (ID)
   using index 
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+

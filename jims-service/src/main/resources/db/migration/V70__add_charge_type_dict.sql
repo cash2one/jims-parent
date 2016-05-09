@@ -1,75 +1,78 @@
--- drop table CHARGE_TYPE_DICT cascade constraints;     
--- Create table
+-- drop table CHARGE_TYPE_DICT cascade constraints;
+
 /*==============================================================*/
-/* Table: CHARGE_TYPE_DICT      ∑—±◊÷µ‰
-/* CREATE_DATE: 2016-05-05 13:33                                */
-/* CREATE_BY :  zp      
+/* Table: CHARGE_TYPE_DICT    Ë¥πÂà´Â≠óÂÖ∏                         */
+/* CREATE_DATE: 2016-05-05                                      */
+/* CREATE_BY :  zp                                              */
 /*==============================================================*/
 create table CHARGE_TYPE_DICT 
 (
-   id                   varchar2(64 char)              not null,
-   HOSPITAL_ID          varchar2(64 char)              null,
-   CHARGE_TYPE_CODE     char(1)                        null,
-   CHARGE_TYPE_NAME     char(8)                        null,
-   CHARGE_PRICE_INDICATOR number(11,2)                 null,
-   INPUT_CODE_WB        char(8)                        null,
-   IS_INSUR             char(1)                        null,
-   GROUP_NO             number(11,2)                   null,
-   GROUP_NAME           varchar2(64 char)              null,
-   INSURANCE_TYPE_INQ   number(11,2)                   null,
-   CREATE_BY            varchar2(64 char)              null,
-   CREATE_DATA          timestamp                      null,
-   UPDATE_BY            varchar2(64 char)              null,
-   UPDATE_DATE          timestamp                      null,
-   DEL_FLAG             char(1)                        null,
-   REMARKS              varchar2(2000 char)            null,
-   constraint PK_CHARGE_TYPE_DICT primary key (id)
-);
+   ID                   VARCHAR2(64 char)    not null,
+   HOSID                VARCHAR2(64 char),
+   CHARGE_TYPE_CODE     CHAR,
+   CHARGE_TYPE_NAME     CHAR(8),
+   CHARGE_PRICE_INDICATOR NUMBER(11,2),
+   INPUT_CODE_WB        CHAR(8),
+   IS_INSUR             CHAR,
+   GROUP_NO             NUMBER(11,2),
+   GROUP_NAME           VARCHAR2(64 char),
+   INSURANCE_TYPE_INQ   NUMBER(11,2),
+   CREATE_BY            VARCHAR2(64 char),
+   CREATE_DATA          TIMESTAMP(7),
+   UPDATE_BY            VARCHAR2(64 char),
+   UPDATE_DATE          TIMESTAMP(7),
+   DEL_FLAG             CHAR,
+   REMARKS              VARCHAR2(2000 char),
+   constraint PK_CHARGE_TYPE_DICT primary key (ID)
+ );
 
-comment on table CHARGE_TYPE_DICT is 
-'∑—±◊÷µ‰';
+comment on table CHARGE_TYPE_DICT is
+'Ë¥πÂà´Â≠óÂÖ∏';
 
-comment on column CHARGE_TYPE_DICT.HOSPITAL_ID is 
-'“Ω‘∫id';
+comment on column CHARGE_TYPE_DICT.ID is
+'Â≠óÂÖ∏ID';
 
-comment on column CHARGE_TYPE_DICT.CHARGE_TYPE_CODE is 
-'∑—±¥˙¬Î';
+comment on column CHARGE_TYPE_DICT.HOSID is
+'ÂåªÈô¢id';
 
-comment on column CHARGE_TYPE_DICT.CHARGE_TYPE_NAME is 
-'∑—±√˚≥∆';
+comment on column CHARGE_TYPE_DICT.CHARGE_TYPE_CODE is
+'Ë¥πÂà´‰ª£Á†Å';
 
-comment on column CHARGE_TYPE_DICT.CHARGE_PRICE_INDICATOR is 
-'œÌ ‹”≈ª›º€∏Ò±Í÷æ';
+comment on column CHARGE_TYPE_DICT.CHARGE_TYPE_NAME is
+'Ë¥πÂà´ÂêçÁß∞';
 
-comment on column CHARGE_TYPE_DICT.INPUT_CODE_WB is 
-'ŒÂ± ¬Î';
+comment on column CHARGE_TYPE_DICT.CHARGE_PRICE_INDICATOR is
+'‰∫´Âèó‰ºòÊÉ†‰ª∑Ê†ºÊ†áÂøó';
 
-comment on column CHARGE_TYPE_DICT.IS_INSUR is 
-' «∑Ò «“Ω±£¿‡±';
+comment on column CHARGE_TYPE_DICT.INPUT_CODE_WB is
+'‰∫îÁ¨îÁ†Å';
 
-comment on column CHARGE_TYPE_DICT.GROUP_NO is 
-'∑—±∑÷◊È∫≈';
+comment on column CHARGE_TYPE_DICT.IS_INSUR is
+'ÊòØÂê¶ÊòØÂåª‰øùÁ±ªÂà´';
 
-comment on column CHARGE_TYPE_DICT.GROUP_NAME is 
-'∑—±∑÷◊È√˚≥∆';
+comment on column CHARGE_TYPE_DICT.GROUP_NO is
+'Ë¥πÂà´ÂàÜÁªÑÂè∑';
 
-comment on column CHARGE_TYPE_DICT.INSURANCE_TYPE_INQ is 
-'‘∫≥§≤È—Ø”√µƒ“Ω±£¿‡±';
+comment on column CHARGE_TYPE_DICT.GROUP_NAME is
+'Ë¥πÂà´ÂàÜÁªÑÂêçÁß∞';
 
-comment on column CHARGE_TYPE_DICT.CREATE_BY is 
-'¥¥Ω®»À';
+comment on column CHARGE_TYPE_DICT.INSURANCE_TYPE_INQ is
+'Èô¢ÈïøÊü•ËØ¢Áî®ÁöÑÂåª‰øùÁ±ªÂà´';
 
-comment on column CHARGE_TYPE_DICT.CREATE_DATA is 
-'¥¥Ω® ±º‰';
+comment on column CHARGE_TYPE_DICT.CREATE_BY is
+'ÂàõÂª∫‰∫∫';
 
-comment on column CHARGE_TYPE_DICT.UPDATE_BY is 
-'–ﬁ∏ƒ»À';
+comment on column CHARGE_TYPE_DICT.CREATE_DATA is
+'ÂàõÂª∫Êó∂Èó¥';
 
-comment on column CHARGE_TYPE_DICT.UPDATE_DATE is 
-'–ﬁ∏ƒ ±º‰';
+comment on column CHARGE_TYPE_DICT.UPDATE_BY is
+'‰øÆÊîπ‰∫∫';
 
-comment on column CHARGE_TYPE_DICT.DEL_FLAG is 
-'…æ≥˝±Í÷æ';
+comment on column CHARGE_TYPE_DICT.UPDATE_DATE is
+'‰øÆÊîπÊó∂Èó¥';
 
-comment on column CHARGE_TYPE_DICT.REMARKS is 
-'…æ≥˝±Í÷æ';
+comment on column CHARGE_TYPE_DICT.DEL_FLAG is
+'Âà†Èô§Ê†áÂøó';
+
+comment on column CHARGE_TYPE_DICT.REMARKS is
+'Â§áÊ≥®‰ø°ÊÅØ';

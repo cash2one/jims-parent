@@ -53,7 +53,4 @@ comment on column EXAM_CLASS_DICT.OUTP_PERFORM
 alter table EXAM_CLASS_DICT
   add constraint EXAM_CLASS_DICT_PK primary key (ID)
   using index 
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+

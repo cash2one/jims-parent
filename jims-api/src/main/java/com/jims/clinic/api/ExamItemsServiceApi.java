@@ -23,6 +23,6 @@ public interface ExamItemsServiceApi {
      * 删除检查项目
      * @param examNo
      */
-    public Integer deleteItems(String examNo);
+    public String deleteItems(String examNo);
 
 }

@@ -67,21 +67,11 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
         return outpOrdersCostsDao.getMaxOrderNo(visitDate, visitNo, serialNo);
     }
 
-    /**
-     * 查询出最大的收费序号
-     *
-     * @param visitDate
-     * @param visitNo
-     * @param itemClass
-     * @return
-     */
-    public Integer getMaxItemNo(Date visitDate, Integer visitNo, String itemClass) {
-        return outpOrdersCostsDao.getMaxOrderNo(visitDate, visitNo, itemClass);
-    }
 
     @Override
-    public Integer deleteOutpOrders(String  visitNo) {
-        return outpOrdersCostsDao.deleteOutpOrders(visitNo);
+    public String deleteOutpOrders(String  visitNo) {
+        int num= outpOrdersCostsDao.deleteOutpOrders(visitNo);
+        return num+"";
     }
 
 
@@ -91,7 +81,7 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
      * @param outpOrdersCosts
      */
     @Override
-    public Integer deleteOutpOrdersTreatRec(OutpOrdersCosts outpOrdersCosts, OutpTreatRec outpTreatRec) {
+    public String deleteOutpOrdersTreatRec(OutpOrdersCosts outpOrdersCosts, OutpTreatRec outpTreatRec) {
         return null;
     }
 
