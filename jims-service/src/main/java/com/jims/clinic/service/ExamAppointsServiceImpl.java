@@ -94,6 +94,11 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         return examAppointsDao.getMaxExamNo();
     }
 
+    /**
+     * 保存检查申请记录
+     * @param examAppoints
+     * @return
+     */
     @Override
     public int batchSave(ExamAppoints examAppoints) {
         int  num=0;
@@ -113,18 +118,23 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         examAppoints.setChargeType("1");
         //设置就诊序号
         examAppoints.setVisitNo((int) Math.random() + 1000);
-        List<OutpOrdersCosts> outpOrdersCostses=examAppoints.getOutpOrdersCostses();
-        for(int i=0;i<outpOrdersCostses.size();i++){
+        List<ExamItems> examItemsList=examAppoints.getExamItemsList();
+        for(int i=0;i<examItemsList.size();i++){
 
+            ExamItems examItems=examItemsList.get(i);
+            examItems.setAppointsId(examAppoints.getId());
+//            examItems.setExamItem(outpOrdersCosts.getItemName());
+            examItems.preInsert();
+            examItemsDao.saveExamItems(examItems);
 
-
-            OutpOrdersCosts outpOrdersCosts=outpOrdersCostses.get(i);
+            OutpOrdersCosts outpOrdersCosts=new OutpOrdersCosts();
             outpOrdersCosts.preInsert();
             outpOrdersCosts.setPatientId("1111");
             outpOrdersCosts.setOrderNo(22);
             outpOrdersCosts.setItemNo(1);
             outpOrdersCosts.setItemClass("1");
             outpOrdersCosts.setItemCode("123");
+            outpOrdersCosts.setItemName(examItems.getExamItem());
             outpOrdersCosts.setPatientId(examAppoints.getPatientId());
             outpOrdersCosts.setVisitNo(examAppoints.getVisitNo());
             outpOrdersCosts.setVisitDate(examAppoints.getReqDateTime());
@@ -171,15 +181,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             outpOrders.setSerialNo(outpOrdersCosts.getSerialNo());
             outpOrders.setDoctor("张三");
             outpOrdersDao.saveOutpOrders(outpOrders);
-
-            ExamItems examItems=new ExamItems();
-            examItems.setAppointsId(examAppoints.getId());
-            examItems.setExamItem(outpOrdersCosts.getItemName());
-            examItems.preInsert();
-            examItemsDao.saveExamItems(examItems);
         }
-
-
         num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;
     }
