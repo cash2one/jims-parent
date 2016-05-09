@@ -5,13 +5,14 @@ package com.jims.sys.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.Dict;
+import com.jims.sys.vo.BeanChangeVo;
 
 import java.util.List;
 
 
 /**
  * 字典Service
- * @author zhangyao
+ * @author fengyuguang
  * @version 2016-04-18
  */
 
@@ -30,7 +31,25 @@ public interface DictServiceApi {
      */
     public Page<Dict> findPage(Page<Dict> page, Dict dict);
 
+    /**
+     * 查询字典表的类型和描述这两个字段
+     * @return
+     */
+    public List<Dict> leftList();
 
+    /**
+     * 根据字典表的类型查询属于该类型的数据列表
+     * @param type
+     * @return
+     */
+    public List<Dict> rightList(String type);
+
+    /**
+     * 保存增删改多条数据
+     * @param beanChangeVo 多条增删改数据的集合
+     * @return
+     */
+    public String merge(BeanChangeVo<Dict> beanChangeVo);
 
     /**
      * 查询html类型列表
