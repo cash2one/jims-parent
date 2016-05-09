@@ -1,13 +1,12 @@
 package com.jims.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.StringData;
 import com.jims.sys.api.LabItemClassDictServiceApi;
 import com.jims.sys.entity.LabItemClassDict;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -32,6 +31,33 @@ public class LabItemClassDictRest {
         code =code.substring(index+1);*/
         List<LabItemClassDict> list = labItemClassDictServiceApi.findListByDeptCode(code);
         return list;
+    }
+
+    @Path("list")
+    @GET
+    public List<LabItemClassDict> list() {
+        List<LabItemClassDict> list = labItemClassDictServiceApi.findAllList();
+        return list;
+    }
+
+    @Path("del")
+    @POST
+    public StringData del(@QueryParam("ids") String ids){
+        String num=labItemClassDictServiceApi.delete(ids);
+        StringData stringData=new StringData();
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
+
+    @Path("save")
+    @POST
+    public StringData save(LabItemClassDict labItemClassDict){;
+        String num=labItemClassDictServiceApi.save(labItemClassDict);
+        StringData stringData=new StringData();
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
     }
 
 }

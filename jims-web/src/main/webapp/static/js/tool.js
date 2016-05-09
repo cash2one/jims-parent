@@ -380,3 +380,6 @@ $.fn.datetimebox.defaults.parser = function(s){
     var _ae5=parseInt(tt[2],10)||0;
     return new Date(d.getFullYear(),d.getMonth(),d.getDate(),hour,_ae4,_ae5);
 };
+
+var config = {} ;
+config.org_id="1234567" ;
