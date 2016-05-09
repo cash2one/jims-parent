@@ -241,4 +241,11 @@
          WHERE patient_id=#{clinicId}
 
 	</select>
+	<select id="getOrderNo" resultType="Integer">
+		select MAX(order_no) FROM outp_presc a
+		where
+		a.visit_date = #{visitDate} and
+		a.visit_no = #{visitNo} and
+		a.serial_no = #{serialNo}
+	</select>
 </mapper>

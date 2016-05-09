@@ -8,6 +8,7 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,4 +25,14 @@ public interface OutpPrescDao extends CrudDao<OutpPresc> {
      * @return
      */
     public List<OutpPresc> getOutpPresc(@Param("clinicId")String clinicId);
+
+    /**
+     * 根据参数查询医嘱组别
+     * @param visitDate
+     * @param visitNo
+     * @param serialNo
+     * @return
+     */
+    public Integer getOrderNo(@Param("visitDate") Date visitDate, @Param("visitNo") Integer visitNo, @Param("serialNo") String serialNo);
+
 }

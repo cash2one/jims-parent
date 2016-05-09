@@ -42,7 +42,7 @@ public class OutpOrdersServiceImpl extends CrudImplService<OutpOrdersDao, OutpOr
     }
 
     @Override
-    public int deleteOutpOrders(String  visitNo) {
-        return outpOrdersDao.deleteOutpOrders(visitNo);
+    public String deleteOutpOrders(String  visitNo) {
+        return String.valueOf(outpOrdersDao.deleteOutpOrders(visitNo));
     }
 }
