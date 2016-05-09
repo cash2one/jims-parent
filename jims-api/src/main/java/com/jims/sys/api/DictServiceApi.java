@@ -63,5 +63,4 @@ public interface DictServiceApi {
      * @return
      */
     public String getLabel(String value,String type);
-    public List<Dict> findListType(String type);
 }
