@@ -40,4 +40,9 @@ public class OutpOrdersServiceImpl extends CrudImplService<OutpOrdersDao, OutpOr
     public List<OutpOrders> findListFy(OutpOrders outpOrders) {
         return outpOrdersDao.findAllList(outpOrders);
     }
+
+    @Override
+    public String deleteOutpOrders(String  visitNo) {
+        return String.valueOf(outpOrdersDao.deleteOutpOrders(visitNo));
+    }
 }
