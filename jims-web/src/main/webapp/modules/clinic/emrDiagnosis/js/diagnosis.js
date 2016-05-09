@@ -1,27 +1,40 @@
 var administration = [{ "value": "1", "text": "初步诊断" }, { "value": "2", "text": "鉴别诊断" }, { "value": "4", "text": "入院诊断" }];
 var editRow = undefined;
 $(function(){
+
+
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
-        nowrap: false,
         method:'GET',
         url:basePath+'/diagnosis/findList',
         idField:'id',
         columns:[[      //每个列具体内容
            // {field:'id',title:'序号',width:'5%',align:'center',editor:'text'},
             /*{field:'itemNo',title:'序号',width:'5%',align:'center',editor:'text'},*/
-             {field:'type',title:'诊断类型',width:'10%',align:'center',editor:'text',editor:{
+             {field:'type',title:'诊断类型',width:'10%',align:'center',editor:{
                  type:'combobox',
                  options:{
+                     required:true,
                      data :administration,
                      valueField:'value',
                      textField:'text',
-                     required:true,
-                     onLoadSuccess: function () {
-                         var data = $(this).combobox('getData');
-                         $(this).combobox('select', data[0].text);
-                     }
+                     required:true
+                   /*  formatter: function(value, row, index){
+                         if (value != "") {
+                             return getLabel("diagnosis_type",row);
+                         }
+                         else {
+                             return value;
+                         }
+                     }*/
+                    /* render:function(value, row, index){
+                         lert("index="+index);
+                        // var el=$('#zhenduan').datagrid('getEditor',{field:'type',index:正在编辑的行号}).target;//
+                        // var row = $('#zhenduan').datagrid('getData').rows[index];
+                         alert("test="+row.type);
+                      //   $(this).select(getLabel("diagnosis_type",row.type));
+                     }*/
                  }
 
              }
@@ -34,15 +47,20 @@ $(function(){
                     valueField: 'code',
                     textField: 'keywordShuoming',
                     method: 'GET',
-                    onLoadSuccess: function () {
+                    onLoadSuccess: function (row) {
                         var data = $(this).combobox('getData');
                         $(this).combobox('select', data[0].keywordShuoming);
                     }
                 }
             }},
-            {field:'basis',title:'诊断依据',width:'30%',align:'center',editor:'text'},
-            {field:'description',title:'诊断描述',width:'30%',align:'center',editor:'text'},
-            {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text'}
+            {field:'basis',title:'诊断依据',width:'30%',align:'center',multiline:true,editor:'text'
+                },
+            {field:'description',title:'诊断描述',width:'30%',align:'center',editor:'text',
+                multiline:true},
+            {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
+                formatter:function(value, row, index){
+                  return "李俊山";
+            }}
 
         ]],
       /*  frozenColumns:[[
@@ -90,39 +108,7 @@ $(function(){
                 }
                 save();
             }
-          }/*,{
-            text:'添加子诊断',
-            iconCls:'easyui-linkbutton c1',
-            handler:function(rowData){
-                var parentIndex = $('#zhenduan').datagrid('getRowIndex',$('#zhenduan').datagrid('getSelected'));
-                alert("parentIndex="+parentIndex);
-                if(parentIndex==-1){
-                   alert("请选择诊断！");
-                }else{
-                    //保存父行数据，用于新增数据。
-                    $('#zhenduan').datagrid('endEdit', parentIndex);
-                    $('#zhenduan').datagrid('updateRow',{index: parentIndex,row:{}});
-                    //获取父行数据，进行新增操作。
-
-                   // $("#zhenduan").datagrid("beginEdit",newIndex);
-                    var newIndex = parentIndex+1;
-
-                    $('#zhenduan').datagrid('selectRow',parentIndex);
-                    var rowParent = $('#zhenduan').datagrid('getSelected');
-                    var newRow = jQuery.extend(true, {}, newIndex);
-                    $("#zhenduan").datagrid("selectRow", 0);
-                    $('#zhenduan').datagrid('insertRow',{
-                        index:newIndex,
-                        row:newRow
-                    });
-
-                }
-
-
-
-            }
-
-        }*/
+          }
 
         ],onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
@@ -135,7 +121,6 @@ $(function(){
                 editRow = rowIndex;
             }
         },onClickRow:function(rowIndex,rowData){
-            //tooltips选中行，药品价目列表信息
             if (editRow != undefined) {
                 $("#zhenduan").datagrid('endEdit', editRow);
             }
@@ -161,7 +146,7 @@ function save(){
 
 
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
-        if(data.data=='success'){
+        if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
             $('#zhenduan').datagrid('load');
             $('#zhenduan').datagrid('clearChecked');
@@ -203,7 +188,7 @@ function doDelete() {
                 'data': id=strIds,
                 'dataType': 'json',
                 'success': function(data){
-                    if(data.data=='success'){
+                    if(data.code=='1'){
                         $.messager.alert("提示消息",data.code+"条记录删除成功！");
                         $('#zhenduan').datagrid('load');
                         $('#zhenduan').datagrid('clearChecked');

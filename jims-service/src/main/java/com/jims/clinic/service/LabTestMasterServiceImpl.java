@@ -5,9 +5,12 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.LabTestMasterServiceApi;
+import com.jims.clinic.dao.LabTestItemsDao;
 import com.jims.clinic.dao.LabTestMasterDao;
+import com.jims.clinic.entity.LabTestItems;
 import com.jims.clinic.entity.LabTestMaster;
 import com.jims.common.service.impl.CrudImplService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,5 +24,36 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao, LabTestMaster> implements LabTestMasterServiceApi {
 
-
+    @Autowired
+    private LabTestItemsDao labTestItemsDao;
+    /**
+     * 保存或编辑
+     * 整个主表、字表list
+     * @param主表LabTestMaster
+     * @param子表List
+     * @author xueyx
+     * @version 2016/5/06
+     */
+    public void saveAll(LabTestMaster labTestMaster){
+        if(labTestMaster!=null && labTestMaster.getId()!=null){
+            //申请序号
+            //优先标志
+            //本次住院标识对门诊病人为空
+            //费别
+            //结果状态
+            labTestMaster.setResultStatus("1");
+            labTestMaster.setDelFlag("0");
+            save(labTestMaster);
+            List<LabTestItems> list = labTestMaster.getList();
+            if(list.size()>0){
+                for (int i= 0; i < list.size();i++){
+                    LabTestItems labTestItems=list.get(i);
+                    labTestItems.setDelFlag("0");
+                    labTestItems.preInsert();
+                    labTestItems.setTestNo(labTestMaster.getTestNo());
+                    labTestItemsDao.insert(labTestItems);
+                }
+            }
+        }
+    }
 }

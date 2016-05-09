@@ -78,7 +78,22 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="selectLabItem" resultType="ClinicItemNameDict">
+		SELECT
+		a.price,
+		<include refid="clinicItemNameDictColumns"/>
+		FROM clinic_item_name_dict a
+		LEFT  JOIN clinic_vs_charge c ON  c.clinic_item_class ='c' AND c.clinic_item_code =a.item_code
+		LEFT JOIN current_price_list p ON p.item_class ='c' AND p.item_code =a.item_code AND p.item_spec =c.charge_item_spec AND p.units =c.units
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.expand1 = #{expand1}
+			and a.expand2 = #{expand2}
+			and a.expand3 = #{expand3}
+		</where>
+	</select>
+
 	<insert id="insert">
 		INSERT INTO clinic_item_name_dict(
 			item_class,

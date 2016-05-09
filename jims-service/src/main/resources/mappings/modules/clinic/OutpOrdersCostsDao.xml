@@ -368,9 +368,10 @@
 	</select>
 
 	<update id="deleteOutpOrders">
-		UPDATE outp_orders_costs a SET
+		UPDATE outp_orders_costs SET
 			del_flag = '1'
 		WHERE
+		a.master_id=#{masterId} AND
 		a.visit_no=#{visitNo}
 	</update>
 </mapper>
