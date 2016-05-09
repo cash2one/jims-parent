@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.sys.dao.PriceItemNameDictDao">
-    
-	<sql id="priceItemNameDictColumns">
+
+    <sql id="priceItemNameDictColumns">
 		a.item_class AS "itemClass",
 		a.item_name AS "itemName",
 		a.item_code AS "itemCode",
@@ -21,101 +21,104 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.org_id AS "orgId"
 	</sql>
-	
-	<sql id="priceItemNameDictJoins">
-	</sql>
-    
-	<select id="get" resultType="PriceItemNameDict">
-		SELECT 
-			<include refid="priceItemNameDictColumns"/>
-		FROM price_item_name_dict a
-		<include refid="priceItemNameDictJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="PriceItemNameDict">
-		SELECT 
-			<include refid="priceItemNameDictColumns"/>
-		FROM price_item_name_dict a
-		<include refid="priceItemNameDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="PriceItemNameDict">
-		SELECT 
-			<include refid="priceItemNameDictColumns"/>
-		FROM price_item_name_dict a
-		<include refid="priceItemNameDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
-		INSERT INTO price_item_name_dict(
-			item_class,
-			item_name,
-			item_code,
-			std_indicator,
-			input_code,
-			stop_flag,
-			input_code_wb,
-			performed_by_mz,
-			ward_flag,
-			teshu_mz_flag,
-			memo,
-			jckflag,
-			id,
-			create_by,
-			create_date,
-			update_by,
-			update_date,
-			remarks,
-			del_flag
-		) VALUES (
-			#{itemClass},
-			#{itemName},
-			#{itemCode},
-			#{stdIndicator},
-			#{inputCode},
-			#{stopFlag},
-			#{inputCodeWb},
-			#{performedByMz},
-			#{wardFlag},
-			#{teshuMzFlag},
-			#{memo},
-			#{jckflag},
-			#{id},
-			#{createBy.id},
-			#{createDate},
-			#{updateBy.id},
-			#{updateDate},
-			#{remarks},
-			#{delFlag}
-		)
-	</insert>
-	
-	<update id="update">
+
+    <sql id="priceItemNameDictJoins">
+    </sql>
+
+    <select id="get" resultType="PriceItemNameDict">
+        SELECT
+        <include refid="priceItemNameDictColumns"/>
+        FROM price_item_name_dict a
+        <include refid="priceItemNameDictJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="PriceItemNameDict">
+        SELECT
+        <include refid="priceItemNameDictColumns"/>
+        FROM price_item_name_dict a
+        <include refid="priceItemNameDictJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="PriceItemNameDict">
+        SELECT
+        <include refid="priceItemNameDictColumns"/>
+        FROM price_item_name_dict a
+        <include refid="priceItemNameDictJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO price_item_name_dict(
+        item_class,
+        item_name,
+        item_code,
+        std_indicator,
+        input_code,
+        stop_flag,
+        input_code_wb,
+        performed_by_mz,
+        ward_flag,
+        teshu_mz_flag,
+        memo,
+        jckflag,
+        id,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag,
+        org_id
+        ) VALUES (
+        #{itemClass},
+        #{itemName},
+        #{itemCode},
+        #{stdIndicator},
+        #{inputCode},
+        #{stopFlag},
+        #{inputCodeWb},
+        #{performedByMz},
+        #{wardFlag},
+        #{teshuMzFlag},
+        #{memo},
+        #{jckflag},
+        #{id},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{remarks},
+        #{delFlag},
+        #{orgId}
+        )
+    </insert>
+
+    <update id="update">
 		UPDATE price_item_name_dict SET 	
 			item_class = #{itemClass},
 			item_name = #{itemName},
@@ -131,14 +134,15 @@
 			jckflag = #{jckflag},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			org_id = #{orgId}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
+
+    <update id="delete">
 		UPDATE price_item_name_dict SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>

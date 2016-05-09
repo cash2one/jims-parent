@@ -26,7 +26,7 @@ import java.util.List;
 public class DictRest {
 
     @Reference(version = "1.0.0")
-    private DictServiceApi dictService ;
+    private DictServiceApi dictService;
 
     /**
      * 异步加载表格
@@ -34,57 +34,58 @@ public class DictRest {
      * @param response
      * @return
      */
-      @Path("list")
-      @GET
-      public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-            Page<Dict> page = dictService.findPage(new Page<Dict>(request,response), new Dict());
-            PageData pageData=new PageData();
-            pageData.setRows(page.getList());
-            pageData.setTotal(page.getCount());
-            return pageData;
-         }
+    @Path("list")
+    @GET
+    public PageData list(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+        Page<Dict> page = dictService.findPage(new Page<Dict>(request, response), new Dict());
+        PageData pageData = new PageData();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
+    }
 
-        /**
-         * 获取单条数据
-         * @param id
-         * @return
-         */
-        @Path("get")
-        @POST
-        public Dict get(String id){
-            Dict dict=dictService.get(id);
-            return dict;
-        }
+    /**
+     * 获取单条数据
+     *
+     * @param id
+     * @return
+     */
+    @Path("get")
+    @POST
+    public Dict get(String id) {
+        Dict dict = dictService.get(id);
+        return dict;
+    }
+
     /**
      * 保存修改方法
      * @param dict
      * @return
      */
-        @Path("save")
-        @POST
-        public StringData save(Dict dict){
-            String num=dictService.save(dict);
-            StringData stringData=new StringData();
-            stringData.setCode(num);
-            stringData.setData("success");
-            return stringData;
-        }
+    @Path("save")
+    @POST
+    public StringData save(Dict dict) {
+        String num = dictService.save(dict);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
 
 
-        /**
-        *
-        * @param ids
-        * @return
-        */
-        @Path("del")
-        @POST
-        public StringData del(String ids){
-            String num=dictService.delete(ids);
-            StringData stringData=new StringData();
-            stringData.setCode(num);
-            stringData.setData("success");
-            return stringData;
-        }
+    /**
+     * @param ids
+     * @return
+     */
+    @Path("del")
+    @POST
+    public StringData del(String ids) {
+        String num = dictService.delete(ids);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
 
         /**
          * 获取指定类型的数据

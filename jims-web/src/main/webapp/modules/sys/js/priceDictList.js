@@ -1,75 +1,139 @@
 $(function () {
+    var bill = $("#bill").val();
     $('#aa').combobox({
-        data:'BILL_ITEM_CLASS_DICT',
-        url: basePath+'/dict/findType',
-        valueField:'label',
-        textField:'label',
-        method:'GET'
+        url: basePath + '/dict/findType/' + bill,
+        valueField: 'value',
+        textField: 'label',
+        method: 'GET'
     });
+    var tally = $("#TALLY").val();
     $('#bb').combobox({
-        data: 'TALLY_SUBJECT_DICT',
-        url: basePath + '/dict/findType',
-        valueField: 'label',
+        url: basePath + '/dict/findType/' + tally,
+        valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
+    var outp = $("#OUTP").val();
     $('#cc').combobox({
-        data: 'OUTP_RCPT_FEE_DICT',
-        url: basePath + '/dict/findType',
-        valueField: 'label',
+        url: basePath + '/dict/findType/' + outp,
+        valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
+    var inp = $("#INP").val();
     $('#dd').combobox({
-        data: 'INP_RCPT_FEE_DICT',
-        url: basePath + '/dict/findType',
-        valueField: 'label',
+        url: basePath + '/dict/findType/' + inp,
+        valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
+    var mr = $("#MR").val();
     $('#ee').combobox({
-        data: 'MR_FEE_CLASS_DICT',
-        url: basePath + '/dict/findType',
-        valueField: 'label',
+        url: basePath + '/dict/findType/' + mr,
+        valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
+    var reck = $("#RECK").val();
     $('#ff').combobox({
-        data: 'RECK_ITEM_CLASS_DICT',
-        url: basePath + '/dict/findType',
-        valueField: 'label',
+        url: basePath + '/dict/findType/' + reck,
+        valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
+
     $('#dt').datetimebox({
         showSeconds: false
     });
-    
+
+    $("#performedBy").combogrid({
+        panelWidth: 300,
+        idField: 'deptCode',
+        textField: 'deptName',
+        method: 'GET',
+        url: basePath + '/dept-dict/list',
+        columns: [[
+            {field: 'deptCode', title: '科室编码', width: 60},
+            {field: 'deptName', title: '科室名称', width: 100}
+        ]]
+    });
+
     $("#feeTypeMask").on("click", function () {
         console.log($("#feeTypeMask").prop("checked"));
-        if ($("#feeTypeMask").prop("checked") == true){
-            value ='1';
-        }else{
-           value ='0';
-        }
-    })
-
-});
-
-/**
- * 保存方法
- */
-function saveDict() {
-    $.postForm(basePath + '/price/save', 'prescForm', function (data) {
-        if (data.data == 'success') {
-            $.messager.alert("提示消息", data.code + "条记录，保存成功");
-            $("#dlg").dialog('close');
-            $('#list_data').datagrid('load');
-            $('#list_data').datagrid('clearChecked');
+        if ($("#feeTypeMask").prop("checked") == true) {
+            $("#feeTypeMask").val(1);
         } else {
-            $.messager.alert('提示', "保存失败", "error");
+            $("#feeTypeMask").val(0);
+        }
+    });
+
+    $("#generate").on("click", function () {
+        var code = $("#aa").combobox("getValue");
+        $.ajax({
+            'type': 'GET',
+            'url': basePath + '/price/code/' + code,
+            'success': function (data) {
+                $("#itemCode").textbox('setValue', data.data);
+                $.messager.alert('提示', "成功", "success");
+
+            },
+            'error': function (data) {
+                $.messager.alert('提示', "获取失败", "error");
+            }
+        });
+    });
+    // 刷新当前标签页
+    $("#refresh").on("click", function () {
+        window.location.reload();
+    });
+    // 关闭当前标签页
+    $("#cancel").on("click", function () {
+        location.window.close();
+    });
+});
+function saveDict() {
+    $.postForm(basePath + "/price/save", "prescForm", function (data) {
+        if (data.data == 'success') {
+            $.messager.alert("提示消息", "保存成功", "success");
+        } else {
+            $.messager.alert('提示消息', data.code, "error");
         }
     }, function (data) {
         $.messager.alert('提示', "保存失败", "error");
     })
+}
+
+function ShowInfo() {
+    var oDiv = $("#itemName").val();
+    if (oDiv.value != "") {
+        $.ajax({
+            'type': 'GET',
+            'url': basePath + '/price/abb/' + oDiv,
+            'success': function (data) {
+                $("#inputCode").textbox('setValue', data.code);
+
+            }
+        });
+    } else {
+        $("#inputCode").textbox('setValue', "");
+    }
+}
+
+function ItemClass() {
+    var code = $("#aa").combobox("getValue");
+    alert(code);
+    if (code != "") {
+        $.ajax({
+            'type': 'GET',
+            'url': basePath + '/price/code/' + code,
+            'success': function (data) {
+                $("#itemCode").textbox('setValue', data.data);
+                $.messager.alert('提示', "成功", "success");
+
+            },
+            'error': function (data) {
+                $.messager.alert('提示', "获取失败", "error");
+            }
+        });
+    }
 }

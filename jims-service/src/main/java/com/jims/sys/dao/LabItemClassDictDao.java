@@ -23,4 +23,10 @@ public interface LabItemClassDictDao extends CrudDao<LabItemClassDict> {
      * @return
      */
     public List<LabItemClassDict> findListByDeptCode(@Param("deptCode")String deptCode);
+
+    /**
+     * 获取列表
+     */
+    public List<LabItemClassDict> findAllList();
+
 }
