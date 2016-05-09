@@ -77,7 +77,7 @@ $(function(){
         });
         $('#close_html').linkbutton({
             onClick : function(){
-                window.close()
+                parent.location.href = parent.getRootPath() + '/modules/clinic/index.html'
             }
         });
 
@@ -96,12 +96,15 @@ $(function(){
             //pageList: [15, 30, 45, 60], //页大小下拉选项此项各value是pageSize的倍数
             fitColumns: true, //列自适应宽度
             singleSelect : true,
+            remoteSort: false,
             idField :'id',
             columns: [[//显示的列
                 {field: 'id', title: '编号', width: 20, hidden:true},
-                { field: 'itemCode', title: '代码', width: 80, sortable: true,align : "center" },
-                { field: 'itemName', title: '项目名称', width: 200},
-                { field: 'expand3', title: '执行科室', width: 120 ,editor:{
+                { field: 'itemCode', title: '代码', width: 80, sortable: true,order:'desc',align : "center" },
+                { field: 'itemName', title: '项目名称', width: 200,align:'center',formatter:function(value){
+                    return '<div style="text-align:left">'+value+'</div>'
+                }},
+                { field: 'expand3', title: '执行科室', width: 120 ,align:'center',editor:{
                     type:'combogrid',
                     options:{
                         panelWidth:300,
@@ -122,10 +125,12 @@ $(function(){
                 },formatter:function(value){
                     if(value == undefined || value == '') return ''
                     for(var i= 0,j= (clinic_data_arr ? clinic_data_arr.length : 0 );i<j;i++){
-                        if(clinic_data_arr[i].deptCode == value)
-                            return clinic_data_arr[i].deptName
+                        if(clinic_data_arr[i].deptCode == value){
+                            value = clinic_data_arr[i].deptName
+                            break
+                        }
                     }
-                    return value;
+                    return '<div style="text-align:left">'+value+'</div>';
                 }},
                 { field: 'expand4', title: '频次',align : "center", width: 80 ,editor:{
                     type:'combobox',
@@ -217,7 +222,7 @@ $(function(){
                     if(value == '1')return '正名'
                     return '别名'
                 }},
-                { field: 'itemName', title: '诊疗项目名称及别名', width:100,editor:{
+                { field: 'itemName', title: '诊疗项目名称及别名',align:'center', width:100,editor:{
                     type : 'textbox',
                     options:{
                         required:true,
@@ -231,6 +236,8 @@ $(function(){
                             $('#clinic_item_name').datagrid('getSelected').inputCode = _temp.toUpperCase()
                         }
                     }
+                },formatter:function(value){
+                    return '<div style="text-align: left">'+value+'</div>'
                 }},
                 { field: 'inputCode', title: '拼音码', width:50,align:'center'},
                 { field: 'inputCodeWb', title: '五笔码', width:50,align:'center'}
@@ -298,7 +305,7 @@ $(function(){
                     return format(price_type_arr,value);
                 }
                 },
-                { field: 'chargeItemCode', title: '名称', width:80,editor:{
+                { field: 'chargeItemCode', title: '名称',align:'center' ,width:80,editor:{
                     type:'combogrid',
                     options:{
                         panelWidth:383,
@@ -338,10 +345,12 @@ $(function(){
                             row.stopDate = data[i].stopDate
                             //row.backbillRule = ''
                             row.count =  + row.price * +row.amount
-                            return data[i].itemName
+                            value = data[i].itemName
+                            break
                         }
                     }
-                    return value;
+
+                    return '<div style="text-align: left">'+value+'</div>'
                 }},
                 { field: 'chargeItemSpec', title: '规格', width:50,align:'center'},
                 { field: 'amount', title: '数量', width:20,align:'center',editor : {type : 'numberbox',options:{required:true,min:1,missingMessage:'数量必填',onChange:function(newV){
