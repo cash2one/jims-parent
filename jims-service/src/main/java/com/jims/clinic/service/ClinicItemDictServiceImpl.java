@@ -34,7 +34,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     @Override
     public boolean codeOrNameHas(ClinicItemDict entity){
         List<ClinicItemDict> list = dao.findExisted(entity);
-        return list != null && list.size() > 0 ? true : false;
+        if(list != null && list.size() > 0){
+            for(int i=0;i<list.size();i++){
+                if(!list.get(i).getId().equals(entity.getId()))
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Transactional(readOnly = false)
@@ -185,6 +191,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
                 i=vsDao.update(entity);
             }
         }catch(Exception e){
+            e.printStackTrace();
             return i+"";
         }
         return i+"";

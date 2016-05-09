@@ -9,6 +9,9 @@
     <script type="text/javascript" src="../../static/easyui/js/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../../static/js/spell.js"></script>
     <script type="text/javascript" src="../../static/js/tool.js"></script>
+    <script>
+
+    </script>
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true">
@@ -17,16 +20,14 @@
         <div id="tb" style="padding:5px;height:auto;">
             <div>
                 类别
-                <select id="item_class" class="easyui-combobox" panelHeight="auto" style="width:100px;">
-                    <option value="A">检验</option>
-                </select>
+                <input id="item_class" name="dept" value="A">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="radio" name="adminFlag" value="0">代码</input>
                 <input type="radio" name="adminFlag" value="1" checked="checked">拼音码</input>
                 <label style="margin-left: 20px" for="code_gps">拼音码定位</label>
-                <input id="code_gps" class="easyui-textbox"  style="width:100px">
+                <input id="code_gps">
                 <label style="margin-left: 20px" for="code_filter">拼音码筛选</label>
-                <input id="code_filter" class="easyui-textbox"  style="width:100px" dataoption="onblur:alert()">
+                <input id="code_filter" >
             </div>
         </div>
     </div>
@@ -53,33 +54,40 @@
     </div>
 </div>
 <div id="add_pro_win">
-    <form id="pro_form" method="post">
-        <table cellpadding="5">
-            <tr>
-                <td colspan="2">
-                    <input type="radio" name="org_type" value="0" checked="checked">全院公用</input>
-                    <input type="radio" name="org_type" value="1">科室专用</input>
-                </td>
-            </tr>
-            <tr>
-                <td>门诊科室:</td>
-                <td><input id="clinic_org" class="easyui-combobox" data-options="valueField: 'value', textField: 'label'"></td>
-            </tr>
-            <tr>
-                <td>项目代码:</td>
-                <td><input id="item_code" class="easyui-validatebox" style="width: 250px"></td>
-            </tr><tr>
-            <td>项目名称:</td>
-            <td><input id="item_name" class="easyui-validatebox" data-options="required:true,missingMessage:'项目名称必填'" style="width: 250px"></td>
-        </tr>
-        </table>
-    </form>
-    <div style="text-align:center;padding:5px">
-        <a href="javascript:void(0)" class="easyui-linkbutton" id="yes_pro_form">确定</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" id="cancle_pro_form">取消</a>
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'north',split:false,height:80,border:0">
+            <form id="pro_form" method="post">
+                <table cellpadding="5">
+                    <tr>
+                        <td style="width: 75px"></td>
+                        <td style="width: 200px">
+                            <input type="radio" name="org_type" value="0" checked="checked">全院公用</input>
+                            <input type="radio" name="org_type" value="1">科室专用</input>
+                        </td>
+                        <td style="width: 75px">门诊科室:</td>
+                        <td style="width: 200px"><input id="clinic_org" class="easyui-combobox" data-options="valueField: 'deptCode', textField: 'deptName'"></td>
+                    </tr>
+                    <tr>
+                        <td>项目代码:</td>
+                        <td><input id="item_code" class="easyui-textbox"  data-options="required:true,missingMessage:'项目代码必填',validType : 'isExisted[{itemCode:true}]'" style="width: 160px"></td>
+                    <td>项目名称:</td>
+                    <td><input id="item_name" class="easyui-textbox" data-options="required:true,missingMessage:'项目名称必填',validType : 'isExisted[{itemName:true}]'" style="width: 160px"></td>
+                </tr>
+                </table>
+            </form>
+        </div>
+        <div data-options="region:'center'" style="padding:10px;border:0">
+            <table id="dept_grid" >
+            </table>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:center;padding:5px 0 15px;">
+            <a href="javascript:void(0)" data-options="iconCls:'icon-ok'" class="easyui-linkbutton" id="yes_pro_form">确定</a>
+            <a href="javascript:void(0)" data-options="iconCls:'icon-cancel'" class="easyui-linkbutton" id="cancle_pro_form">取消</a>
+        </div>
     </div>
 </div>
 <script>
+    var base_url = '/service/clinicItem/'
     $.extend($.fn.datagrid.methods, {
         editCell: function(jq,param){
             return jq.each(function(){
@@ -100,6 +108,68 @@
             });
         }
     });
+
+    $.extend({
+        ajaxAsync : function(url,data,callback,type,async){
+            return $.ajax({
+                type: type,
+                url: url,
+                async : async,   // true 异步,false 同步
+                data: data,
+                success: callback,
+                'contentType': 'application/json'
+            });
+        }
+    })
+    $.extend($.fn.validatebox.defaults.rules, {
+        isExisted: {
+            validator: function(value,param){
+                var rows = $('#clinic_item').datagrid('getRows')
+                var code = ''
+                if(param[0].itemCode)
+                    code = 'itemCode'
+                if(param[0].itemName)
+                    code = 'itemName'
+                for(var index = rows.length - 1;index > -1;index--) {
+                    if(rows[index][code] == value){
+                        return false
+                    }
+                }
+                return true
+//                if(param[0]){
+//                    var p = param[0]
+//                    if(p.itemCode)
+//                       p.itemCode = value
+//                    if(p.itemName)
+//                        p.itemName = value
+//                    if(p.id)
+//                        p.id = $('#clinic_item').datagrid('getSelected').id
+//                }
+//                var r = true
+//                $.ajaxAsync(base_url + 'codeOrNameHas',JSON.stringify(param[0]),function(res){
+//                    if(!isNaN(res) && + res > 0){
+//                        r = false
+//                    }
+//                },'POST',false)
+//                return r
+            },
+            message: '内容已存在'
+        },
+        nameIsExisted :{
+          validator : function(value){
+              var rows = $('#clinic_item_name').datagrid('getRows')
+              var select_index = $('#clinic_item_name').datagrid('getRowIndex',$('#clinic_item_name').datagrid('getSelected'))
+              for(var index = rows.length - 1;index > -1;index--) {
+                  if(index != select_index && rows[index].itemName == value){
+                      return false
+                  }
+              }
+              return true
+          },
+            message : '名称已存在'
+        }
+    });
+
 </script>
 <script src="js/clinic-item.js"></script>
 </body>

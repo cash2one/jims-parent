@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/26.
@@ -66,5 +67,11 @@ public class PriceDictRest {
             stringData.setData("false");
         }
         return stringData;
+    }
+
+    @POST
+    @Path("findList")
+    public List<PriceList> findList(PriceList entity){
+        return priceListApi.findList(entity);
     }
 }

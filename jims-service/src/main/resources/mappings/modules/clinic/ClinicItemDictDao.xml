@@ -50,6 +50,9 @@
             <if test="inputCode != null and inputCode != ''">
                 AND a.input_code LIKE #{inputCode} || '%'
             </if>
+            <if test="orgId != null and orgId != ''">
+                AND a.org_id LIKE #{orgId} || '%'
+            </if>
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -72,6 +75,9 @@
             </if>
             <if test="itemName != null and itemName != ''">
                 AND a.item_name = #{itemName}
+            </if>
+            <if test="orgId != null and orgId != ''">
+                AND a.org_id LIKE #{orgId} || '%'
             </if>
         </where>
     </select>

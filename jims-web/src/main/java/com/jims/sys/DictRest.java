@@ -101,4 +101,10 @@ public class DictRest {
             }
             return data;
         }
+
+        @GET
+        @Path("findListByType")
+        public List<Dict> findListByType(@QueryParam("type") String type){
+            return dictService.findList(type);
+        }
 }

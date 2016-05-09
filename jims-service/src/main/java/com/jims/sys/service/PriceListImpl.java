@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author 罗海昆
  * @version 2016-04-26
  */
-@Service
+@Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> implements PriceListApi {
 	

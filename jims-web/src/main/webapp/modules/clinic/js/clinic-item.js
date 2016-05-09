@@ -1,6 +1,5 @@
 $(function(){
-    var base_url = '/service/clinicItem/'
-        ,org_id = "1"
+    var org_id = "1"
 
         ,select_index = 0   //诊疗项目默认选择索引，从0开始计算
         ,name_and_vs_obj = {}  //作已修改的别名和对照缓存对象
@@ -9,6 +8,21 @@ $(function(){
         ,hz_arr // 频次数组
         ,long_arr //长期临时数组
         ,price_type_arr //对照价表类别
+        ,vs_grid_data = {}   // 各类型对照价表数据
+        ,vs_type_data = {'1':'A,B'}   // 对照价表类别,1药品，2非药品
+        ,price_rules_arr // 计费规则数组
+
+    /**
+     * 初始化诊疗项目类别下拉框
+     * @param data
+     */
+    var init_item_class = function(data){
+        $('#item_class').combobox({
+            data : data,
+            valueField:'value',
+            textField:'label'
+        });
+    }
 
     /**
      * 初始化操作按钮
@@ -46,7 +60,7 @@ $(function(){
         });
         $('#del_vs').linkbutton({
             onClick : function(){
-
+                del_vs()
             }
         });
         $('#reload_html').linkbutton({
@@ -75,95 +89,114 @@ $(function(){
             title : "临床诊疗项目列表",
             iconCls: 'icon-save', //图标
             fit : true,
-            pagination: true, //显示分页
-            pageSize: 15, //页大小
-            pageList: [15, 30, 45, 60], //页大小下拉选项此项各value是pageSize的倍数
+            //pagination: true, //显示分页
+            //pageSize: 15, //页大小
+            //pageList: [15, 30, 45, 60], //页大小下拉选项此项各value是pageSize的倍数
             fitColumns: true, //列自适应宽度
             singleSelect : true,
             idField :'id',
             columns: [[//显示的列
                 {field: 'id', title: '编号', width: 20, hidden:true},
                 { field: 'itemCode', title: '代码', width: 80, sortable: true,align : "center" },
-                { field: 'itemName', title: '项目名称', width: 200,editor:{
-                    type : 'textbox',
+                { field: 'itemName', title: '项目名称', width: 200},
+                { field: 'expand3', title: '执行科室', width: 120 ,editor:{
+                    type:'combogrid',
                     options:{
-                        required:true,
-                        onChange : function(value){
-                            var _temp = makePy(value)
-                            if(_temp){
-                                _temp = _temp[0]
-                            }
-                            $('#clinic_item').datagrid('getSelected').inputCode = _temp
+                        panelWidth:300,
+                        idField:'deptCode',
+                        textField:'deptName',
+                        fitColumns: true,
+                        data : clinic_data_arr,
+                        columns:[[
+                            {field:'deptCode',title:'部门代码',width:60},
+                            {field:'deptName',title:'部门名称',width:100},
+                            {field:'deptPropertity',title:'部门名称',width:100}
+                        ]],
+                        onChange:function(newV,oldV){
+                            if(newV != oldV)
+                            change_name_and_vs(newV,'expand3')
                         }
                     }
-                } },
-                { field: 'expand3', title: '执行科室', width: 120 ,editor:{
-                    type:'combobox',
-                    options:{
-                        valueField:'value',
-                        textField:'label',
-                        data:clinic_data_arr,
-                        required:false
-                    }
                 },formatter:function(value){
-                    return format(clinic_data_arr,value);
+                    if(value == undefined || value == '') return ''
+                    for(var i= 0,j= (clinic_data_arr ? clinic_data_arr.length : 0 );i<j;i++){
+                        if(clinic_data_arr[i].deptCode == value)
+                            return clinic_data_arr[i].deptName
+                    }
+                    return value;
                 }},
-                { field: 'expand4', title: '频次', width: 80 ,editor:{
+                { field: 'expand4', title: '频次',align : "center", width: 80 ,editor:{
                     type:'combobox',
                     options:{
                         valueField:'value',
                         textField:'label',
                         data:hz_arr,
-                        required:false
+                        required:false,
+                        onChange:function(newV,oldV){
+                            if(newV != oldV)
+                            change_name_and_vs(newV,'expand4')
+                        }
                     }
                 },formatter:function(value){
                     return format(hz_arr,value);
                 }},
-                { field: 'expand2', title: '类别', width: 60,editor:'textbox' },
-                { field: 'expand1', title: '标本', width: 60 ,editor:'textbox'},
-                { field: 'expand5', title: '长期临时', width: 60 ,editor:{
+                { field: 'expand2', title: '类别',align : "center", width: 60,editor:{type : 'textbox',options:{
+                    onChange:function(newV,oldV){
+                        if(newV != oldV)
+                        change_name_and_vs(newV,'expand2')
+                    }
+                }} },
+                { field: 'expand1', title: '标本',align : "center", width: 60 ,editor:{type : 'textbox',options:{
+                    onChange:function(newV,oldV){
+                        if(newV != oldV)
+                        change_name_and_vs(newV,'expand1')
+                    }
+                }}},
+                { field: 'expand5', title: '长期临时',align : "center", width: 60 ,editor:{
                     type:'combobox',
                     options:{
                         valueField:'value',
                         textField:'label',
                         data:long_arr,
-                        required:false
+                        required:false,
+                        onChange:function(newV,oldV){
+                            if(newV != oldV)
+                            change_name_and_vs(newV,'expand5')
+                        }
                     }
                 },formatter:function(value){
                     return format(long_arr,value);
                 }},
-                { field: 'inputCode', title: '拼音码', width: 60 },
-                { field: 'inputCodeWb', title: '五笔码', width: 60 },
-                { field: 'itemClass', title: '项目分类', hidden:true},
+                { field: 'inputCode', title: '拼音码',align : "center", width: 60 },
+                { field: 'inputCodeWb', title: '五笔码',align : "center", width: 60 },
+                { field: 'itemClass', title: '项目分类',align : "center", hidden:true},
                 { field: 'itemStatus', title: '', hidden:true},
                 { field: 'memo', hidden:true},
                 { field: 'orgId', title: '所属组织主键', hidden:true}
             ]],
             toolbar: '#tb',
-            onClickCell:onClickCell,
-            onSelect:function(){
-                return false
-            }
+            onClickCell:onClickCell_clinic
         });
-        function endEditing(){
-            if (select_index == undefined){return true}
-            if ($('#clinic_item').datagrid('validateRow', select_index)){
-                $('#clinic_item').datagrid('endEdit', select_index);
-                return true;
-            } else {
-                return false;
-            }
+    }
+    function endEditing_clinic(){
+        if (select_index == undefined){return true}
+        if ($('#clinic_item').datagrid('validateRow', select_index)){
+            $('#clinic_item').datagrid('endEdit', select_index);
+            return true;
+        } else {
+            return false;
         }
-        function onClickCell(index, field){
+    }
+    function onClickCell_clinic(index, field){
+        end_other_edit('clinic_item')
+        if (endEditing_clinic()){
             if(select_index != index) {
                 save_name_and_vs(select_index)
                 handler_name_and_vs(index)
             }
-            if (endEditing()){
-                $('#clinic_item').datagrid('selectRow', index)
-                    .datagrid('editCell', {index:index,field:field});
-                select_index = index;
-            }
+            $('#clinic_item').datagrid('selectRow', index)
+                .datagrid('editCell', {index:index,field:field});
+            select_index = index;
         }
     }
 
@@ -186,12 +219,13 @@ $(function(){
                     options:{
                         required:true,
                         missingMessage:'别名不能为空',
-                        onChange : function(value){
+                        validType : ['nameIsExisted'],
+                        onChange : function(value,oldV){
                             var _temp = makePy(value)
                             if(_temp){
                                 _temp = _temp[0]
                             }
-                            $('#clinic_item_name').datagrid('getSelected').inputCode = _temp
+                            $('#clinic_item_name').datagrid('getSelected').inputCode = _temp.toUpperCase()
                         }
                     }
                 }},
@@ -212,8 +246,9 @@ $(function(){
             }
         }
         function onClickCell(index, field){
-            if(index == 0) return
+            end_other_edit('clinic_item_name')
             if (endEditing()){
+                if(index == 0) return
                 $('#clinic_item_name').datagrid('selectRow', index)
                     .datagrid('editCell', {index:index,field:field});
                 editIndex = index;
@@ -231,37 +266,107 @@ $(function(){
             singleSelect : true,
             columns: [[//显示的列
                 {field: 'id', title: '编号', width: 100,hidden:true},
-                { field: 'prictType', title: '类别', width:30,align:"center",editor:{
+                { field: 'priceType', title: '类别', width:30,align:"center",editor:{
                     type:'combobox',
                     options:{
                         valueField:'value',
                         textField:'label',
                         data:price_type_arr,
-                        required:false
+                        required:true
+                        ,missingMessage:'类别必填',
+                        onChange:function(newV,oldV){
+                            if(oldV && oldV != newV){
+                                var row = $('#clinic_vs_charge').datagrid('getSelected')
+                                row.chargeItemCode = ''
+                                row.chargeItemSpec = ''
+                                row.amount = ''
+                                row.units = ''
+                                row.price = ''
+                                row.stopDate = ''
+                                row.backbillRule = ''
+                                row.chargeItemClass = ''
+                                row.count = ''
+                            }
+
+                        }
                     }
-                },formatter:function(value){
+                },formatter:function(value,row,index){
                     return format(price_type_arr,value);
                 }
                 },
                 { field: 'chargeItemCode', title: '名称', width:80,editor:{
+                    type:'combogrid',
+                    options:{
+                        panelWidth:383,
+                        idField:'itemCode',
+                        textField:'itemName',
+                        fitColumns: true,
+                        required:true
+                        ,missingMessage:'名称必填',
+                        columns:[[
+                            {field:'itemCode',hidden:true},
+                            {field:'itemClass',title:'详细类别',width:60,align:"center"},
+                            {field:'itemName',title:'项目名称',width:100},
+                            {field:'itemSpec',title:'规格',width:60,align:"center"},
+                            {field:'price',title:'单价',width:40,align:"center"},
+                            {field:'stopDate',title:'停止日期',width:120,align:"center",formatter:function(value){
+                                if(value && value.length > 9)
+                                    return value.substr(0,10)
+                                return value
+                            }}
+                        ]],
+                        onSelect:function(index,data){
+                            var row = $('#clinic_vs_charge').datagrid('getSelected')
+                            row.chargeItemSpec = data.itemSpec
+                            row.units = data.units
+                            row.price = data.price
+                            row.stopDate = data.stopDate
+                            row.chargeItemClass = data.itemClass
+                        }
+                    }
+                },formatter:function(value,row,index){
+                    if(value == undefined || value == '') return ''
+                    var type = row.priceType
+                    var data = vs_grid_data[type]
+                    for(var i= 0,j=data.length;i<j;i++){
+                        if(value == data[i].itemCode){
+                            row.price = data[i].price
+                            row.stopDate = data[i].stopDate
+                            //row.backbillRule = ''
+                            row.count =  + row.price * +row.amount
+                            return data[i].itemName
+                        }
+                    }
+                    return value;
+                }},
+                { field: 'chargeItemSpec', title: '规格', width:50,align:'center'},
+                { field: 'amount', title: '数量', width:20,align:'center',editor : {type : 'numberbox',options:{required:true,min:1,missingMessage:'数量必填',onChange:function(newV){
+
+                }}}},
+                { field: 'units', title: '单位', width:20,align:'center'},
+                { field: 'price', title: '单价', width:20,align:'center'},
+                { field: 'stopDate', title: '停止日期', width:30,align:'center',
+                    formatter : function(value){
+                        if(value && value.length >= 10) return value.substr(0,10)
+                        return value
+                    }
+                },
+                { field: 'backbillRule', title: '计费规则', width:30,align:'center',editor:{
                     type:'combobox',
                     options:{
                         valueField:'value',
                         textField:'label',
-                        data:price_type_arr,
-                        required:false
+                        data:price_rules_arr,
+                        required:true
+                        ,missingMessage:'计费规则必填'
                     }
-                },formatter:function(value){
-                    return format(price_type_arr,value);
+                },formatter:function(value,row,index){
+                    return format(price_rules_arr,value);
                 }},
-                { field: 'chargeItemSpec', title: '规格', width:50},
-                { field: 'amount', title: '数量', width:20},
-                { field: 'units', title: '单位', width:20},
-                { field: 'price', title: '单价', width:20},
-                { field: 'stopDate', title: '停止日期', width:20},
-                { field: 'backbillRule', title: '计费规则', width:30},
-                { field: 'chargeItemClass', title: '详细类别', width:30},
-                { field: 'count', title: '小计', width:30}
+                { field: 'chargeItemClass', title: '详细类别', width:30,align:'center',formatter:function(value){
+                    return format(type_arr,value)
+                }},
+                { field: 'count', title: '小计', width:30,align:'center'}
             ]],
             onClickCell:onClickCell
         });
@@ -277,41 +382,92 @@ $(function(){
             }
         }
         function onClickCell(index, field){
+            end_other_edit('clinic_vs_charge')
             if (endEditing()){
                 $('#clinic_vs_charge').datagrid('selectRow', index)
                     .datagrid('editCell', {index:index,field:field});
+                if(field == 'chargeItemCode'){
+                    var editor = $('#clinic_vs_charge').datagrid('getEditor',{index:index,field:'chargeItemCode'})
+                    var type = $('#clinic_vs_charge').datagrid('getSelected').priceType
+                    $(editor.target).combogrid('grid').datagrid('loadData',vs_grid_data[type]);
+                }
                 editIndex = index;
             }
         }
     }
 
     /**
-     * 校验所有别名
+     * 点击时取消其他编辑，并校验，不通过则删除整条数据
+     * @param id
+     */
+    var end_other_edit = function(id){
+        switch (id){
+            case 'clinic_item' :
+                validateNameList()
+                validateVsList()
+                break
+            case 'clinic_item_name' :
+                validateVsList()
+                $('#clinic_item').datagrid('endEdit',select_index)
+                break
+            case 'clinic_vs_charge' :
+                validateNameList()
+                $('#clinic_item').datagrid('endEdit',select_index)
+                break
+            default :
+                $('#clinic_item').datagrid('endEdit',select_index)
+                validateNameList()
+                validateVsList()
+        }
+    }
+
+    /**
+     * 校验所有别名,校验不通过的则移除
      * @returns {boolean}
      */
     var validateNameList = function(){
         var rows = $('#clinic_item_name').datagrid('getRows')
-        for(var index = 0,j = rows.length;index < j;index++) {
-            if (!$('#clinic_item_name').datagrid('validateRow', index)) {
-                return false
+        for(var index = rows.length - 1;index > -1;index--) {
+            $('#clinic_item_name').datagrid('endEdit',index)
+            if (!$('#clinic_item_name').datagrid('validateRow', index) || !rows[index].itemName) {
+                $('#clinic_item_name').datagrid('deleteRow',index)
             }
         }
-        return true
     }
 
     /**
-     * 校验对照
+     * 校验对照,校验不通过的则移除
      * @returns {boolean}
      */
     var validateVsList = function(){
         var rows = $('#clinic_vs_charge').datagrid('getRows')
-        if(!rows || rows.length == 0) return false
-        for(var index = 0,j = rows.length;index < j;index++) {
-            if (!$('#clinic_item_name').datagrid('validateRow', index)) {
-                return false
+        for(var index = rows.length - 1;index > -1;index--) {
+            $('#clinic_vs_charge').datagrid('endEdit',index)
+            if (!$('#clinic_vs_charge').datagrid('validateRow', index) || !rows[index].chargeItemCode || !rows[index].amount || !rows[index].backbillRule) {
+                $('#clinic_vs_charge').datagrid('deleteRow',index)
             }
         }
-        return true
+    }
+
+    /**
+     * 诊疗项目内容更新，则对应别名数据也更新为最新
+     * @param value 更新对象值
+     * @param field 更新域
+     */
+    var change_name_and_vs = function(value,field){
+        var name_rows = $('#clinic_item_name').datagrid('getRows')
+        if(name_rows[0].id) {
+            if (!name_and_vs_obj[name_rows[0].id]) name_and_vs_obj[name_rows[0].id] = {}
+            var name_data_update = name_and_vs_obj[name_rows[0].id].name_data_update
+        }
+        if(name_rows[0].id) {
+            name_and_vs_obj[name_rows[0].id].name_data_update = []
+            for(var i=0;i<name_rows.length;i++){
+                name_rows[i][field] = value
+                $('#clinic_item_name').datagrid('refreshRow', i);
+                name_and_vs_obj[name_rows[0].id].name_data_update.push(name_rows[i])
+            }
+        }
     }
 
     /************************************ 数据加载方法 **********************************/
@@ -321,8 +477,9 @@ $(function(){
      */
     var load_data = function (index){
         var params = {'itemClass':$('#item_class').val()}
-        params.itemCode = $(':radio[name="adminFlag"][value="0"]').attr('checked') ? $('#code_filter').val() : ''
-        params.inputCode = $(':radio[name="adminFlag"][value="1"]').attr('checked') ? $('#code_filter').val() : ''
+        params.itemCode = $(':radio[name="adminFlag"][value="0"]').prop('checked') ? $('#code_filter').val() : ''
+        params.inputCode = $(':radio[name="adminFlag"][value="1"]').prop('checked') ? $('#code_filter').val() : ''
+        params.orgId = org_id
         $.postJSON('/service/clinicItem/findList',JSON.stringify(params),function(res){
             $('#clinic_item').datagrid('loadData',res)
             if(res && res.length>0 && index > -1){
@@ -356,10 +513,94 @@ $(function(){
     var load_vs_data = function (index){
         var row = $('#clinic_item').datagrid('getRows')[index]
         $.postJSON(base_url+'findVsList',JSON.stringify(row),function(res){
+            for(var i=0;i<res.length;i++){
+                var chargeItemClass = res[i].chargeItemClass
+                var type
+                if(vs_type_data['1'].indexOf(chargeItemClass) > -1) type = '1'
+                else type = '2'
+                res[i].priceType = type
+            }
             $('#clinic_vs_charge').datagrid('loadData',res)
             $('#clinic_vs_charge').datagrid('selectRow',0)
             row.saveVsList = res
         })
+    }
+
+    /**
+     * 加载价表数据
+     * @param type 类别，1 药品，2 非药品
+     */
+    var load_price_data = function(type){
+        $.postJSON('/service/price/findList','{"priceType" : "' + (vs_type_data[type]?vs_type_data[type]:'') + '"}',function(res){
+            vs_grid_data[type] = res
+        })
+    }
+
+    /**
+     * 初始化一些码表数据
+     */
+    var init_arr = function (){
+        $.get('/service/dict/findListByType',{type:'CLINIC_ITEM_CLASS_DICT'},function(res){
+            type_arr = res
+            var _temp = ''
+            for(var i= 0,j = res.length; i<j ;i++){
+                if(vs_type_data['1'].indexOf(res[i].value) < 0 )
+                    _temp += "," + res[i].value
+            }
+            vs_type_data['2'] = _temp == '' ? _temp : _temp.substr(0)
+            load_price_data('1')
+            load_price_data('2')
+            init_item_class(res)
+        })
+        if(! clinic_data_arr)
+            clinic_data_arr = [{
+                "value":1,
+                "label":"text1"
+            },{
+                "value":2,
+                "label":"text2"
+            }]
+        $.ajaxAsync('/service/dept-dict/list','',function(res){
+            clinic_data_arr = res
+        },'GET',false)
+        if(!hz_arr)
+            hz_arr = [{
+                "value":1,
+                "label":"一日一次"
+            },{
+                "value":2,
+                "label":"一日两次"
+            }]
+        if(!long_arr)
+            long_arr = [{
+                "value":1,
+                "label":"长期"
+            },{
+                "value":2,
+                "label":"临时"
+            }]
+        if(!price_type_arr)
+            price_type_arr = [{
+                "value":1,
+                "label":"药品"
+            },{
+                "value":2,
+                "label":"非药品"
+            }]
+        if(!price_rules_arr)
+            price_rules_arr = [{
+                "value":1,
+                "label":"按次"
+            },{
+                "value":2,
+                "label":"按日"
+            },{
+                "value":3,
+                "label":"只记一次"
+            },{
+                "value":4,
+                "label":"不计价"
+            }]
     }
     /************************************************************************************/
 
@@ -398,7 +639,7 @@ $(function(){
             var name_data_del = handler_del('clinic_item_name',name_and_vs_obj[row.id] ? name_and_vs_obj[row.id].name_data_del : undefined)
             var vs_data_update = handler_update('clinic_vs_charge',name_and_vs_obj[row.id] ? name_and_vs_obj[row.id].vs_data_update : undefined)
             var vs_data_del = handler_del('clinic_vs_charge',name_and_vs_obj[row.id] ? name_and_vs_obj[row.id].vs_data_del : undefined)
-            if(name_data_add.length > 0 || name_data_update.length > 0 || name_data_del.length > 0 || vs_data_add.length > 0 || vs_data_update.length > 0 || vs_data_update.length > 0){
+            if(name_data_add.length > 0 || name_data_update.length > 0 || name_data_del.length > 0 || vs_data_add.length > 0 || vs_data_update.length > 0 || vs_data_del.length > 0){
                 name_and_vs_obj[row.id] = {}
                 name_and_vs_obj[row.id].name_data_add = name_data_add
                 name_and_vs_obj[row.id].name_data_update = name_data_update
@@ -457,46 +698,84 @@ $(function(){
     /**
      * 新增临床诊疗项目
      */
+    $('#add_pro_win').window({
+        title : '新增临床诊疗项目',
+        width : '550',
+        height : '450',
+        resizable : false
+    })
+    $('#add_pro_win').window('close')
+    $("#dept_grid").datagrid({
+        iconCls: 'icon-save', //图标
+        fit : true,
+        singleSelect : true,
+        columns: [[//显示的列
+            {field:'itemCode',title:'项目编码',width:100,align:"center"},
+            {field:'itemName',title:'项目名称',width:200},
+            {field:'itemSpec',title:'规格',width:73,align:"center"},
+            {field:'price',title:'单价',width:40,align:"center"},
+            {field:'stopDate',title:'停止日期',width:100,align:"center",formatter:function(value){
+                if(value && value.length > 9)
+                    return value.substr(0,10)
+                return value
+            }}
+        ]],
+        onClickRow : function(index,rowData){
+            $('#item_code').textbox('setValue',rowData.itemCode)
+            $('#item_name').textbox('setValue',rowData.itemName)
+        }
+    });
     var init_pro_win = function (){
-        $('#add_pro_win').window({
-            title : '新增临床诊疗项目',
-            width : '350',
-            height : '300',
-            resizable : false
+        $('#dept_grid').datagrid('loadData',vs_grid_data['1'].concat(vs_grid_data['2']))
+        $('#clinic_org').combobox({
+            disabled : true
         })
+        $('#add_pro_win').window('open')
         $('#pro_form input:radio[value="0"]').prop('checked',true)
+        $('#clinic_org').combobox('setValue','')
         $('#clinic_org').combobox('loadData',clinic_data_arr)
-        $('#item_code').val('')
-        $('#item_name').val('')
+        $('#item_code').textbox('setValue','')
+        $('#item_name').textbox('setValue','')
     }
     $('#yes_pro_form').click(function(){
+        if(!$('#item_code').textbox('isValid') || !$('#item_name').textbox('isValid'))return
+        end_other_edit()
         var inputCode = makePy($('#item_name').val())
         var new_name_json = [{'stdIndicator':'1'
             ,'itemName':$('#item_name').val()
             ,'itemCode':$('#item_code').val()
             ,'itemClass':$('#item_class').val()
-            ,'inputCode': (inputCode.length > 0 ? inputCode[0] : $('#item_name').val())
-            ,'expand3': $(':radio[name="org_type"][value="1"]').attr('checked') ? $('#clinic_org').val() : ''
+            ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').val())
+            ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
             ,'orgId' : org_id
             ,'inputCodeWb': ''}]
         var pro_obj = {'itemClass':$('#item_class').val()
             ,'itemCode':$('#item_code').val()
             ,'itemName':$('#item_name').val()
-            ,'inputCode': (inputCode.length > 0 ? inputCode[0] : $('#item_name').val())
+            ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').val())
             ,'inputCodeWb': ''
-            ,'expand3': $(':radio[name="org_type"][value="1"]').attr('checked') ? $('#clinic_org').val() : ''
+            ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
             ,'orgId' : org_id
             ,'saveNameList':new_name_json
         }
         $("#clinic_item").datagrid('appendRow',pro_obj)
         select_index = $("#clinic_item").datagrid('getRows').length-1
-
         $("#clinic_item").datagrid('selectRow',select_index)
-        //handler_name_and_vs(select_index)
+        handler_name_and_vs(select_index)
         $('#add_pro_win').window('close')
     })
     $('#cancle_pro_form').click(function(){
         $('#add_pro_win').window('close')
+    })
+    $(':radio[name="org_type"]').click(function(){
+        if(this.value == '0')
+            $('#clinic_org').combobox({
+                disabled : true
+            })
+        else if(this.value == '1')
+            $('#clinic_org').combobox({
+                disabled : false
+            })
     })
 
     /**
@@ -563,9 +842,10 @@ $(function(){
         var row = $("#clinic_item").datagrid('getSelected')
         if(row){
             var vs_json = {
-                'clinicItemClass':'1',
+                'priceType':'1',
+                'clinicItemClass':row.itemClass,
                 'clinicItemCode':row.itemCode,
-                'chargeItemNo':'',
+                'chargeItemNo':'1',
                 'chargeItemClass':'',
                 'chargeItemCode':'',
                 'chargeItemSpec':'',
@@ -629,6 +909,7 @@ $(function(){
             for(var i=0;i<name_del_data.length;i++){
                 name_ids += ',' + name_del_data[i].id
             }
+
             vs_save = vs_save.concat(obj.vs_data_add ? obj.vs_data_add : [])
             vs_save = vs_save.concat(obj.vs_data_update ? obj.vs_data_update : [])
             var vs_del_data = obj.vs_data_del ? obj.vs_data_del : []
@@ -644,48 +925,10 @@ $(function(){
         }
         $.postJSON('/service/clinicItem/save',JSON.stringify(item_data_save),function(res){
             if(res.success = '0')
-                $.messager.alert('成功',res.msg,'info',function(){
+                $.messager.alert('成功',res.data,'info',function(){
                     window.location.reload()
                 })
         })
-    }
-
-    /**
-     * 初始化一些码表数据
-     */
-    var init_arr = function (){
-        if(! clinic_data_arr)
-            clinic_data_arr = [{
-                "value":1,
-                "label":"text1"
-            },{
-                "value":2,
-                "label":"text2"
-            }]
-        if(!hz_arr)
-            hz_arr = [{
-                "value":1,
-                "label":"一日一次"
-            },{
-                "value":2,
-                "label":"一日两次"
-            }]
-        if(!long_arr)
-            long_arr = [{
-                "value":1,
-                "label":"长期"
-            },{
-                "value":2,
-                "label":"临时"
-            }]
-        if(!price_type_arr)
-            price_type_arr = [{
-                "value":1,
-                "label":"药品"
-            },{
-                "value":2,
-                "label":"非药品"
-            }]
     }
 
     /**
@@ -703,9 +946,33 @@ $(function(){
         return value
     }
 
-
+    $('#code_gps').textbox({
+        buttonText : '定位',
+        width:130,
+        onClickButton : function(){
+            var value = $('#code_gps').textbox('getText')
+            var rows = $('#clinic_item').datagrid('getRows')
+            var code_type = $(':radio[name="adminFlag"]:checked').val()
+            var code = code_type=='1' ? 'inputCode' : 'itemCode'
+            for(var index = 0, j = rows.length;index < j;index ++){
+                if(rows[index][code].toUpperCase().indexOf(value.toUpperCase()) == 0){
+                    //$('#clinic_item').datagrid('selectRow',index)
+                    onClickCell_clinic(index)
+                    return
+                }
+            }
+        }
+    })
+    $('#code_filter').textbox({
+        buttonText : '筛选',
+        width:130,
+        onClickButton : function(){
+            load_data(0)
+        }
+    })
 
     init_arr()
+
     init_clinic_data()
     init_clinic_name_data()
     init_clinic_vs_charge()

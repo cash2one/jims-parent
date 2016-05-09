@@ -56,4 +56,13 @@ public interface DictServiceApi {
      * @return
      */
     public List<String> findListType(String type);
+
+    /**
+     * 根据类型查询字典
+     * @param type
+     * @return
+     */
+    public List<Dict> findList(String type);
+
+
 }

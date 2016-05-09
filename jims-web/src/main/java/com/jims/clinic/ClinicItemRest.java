@@ -5,6 +5,7 @@ import com.jims.clinic.api.ClinicItemApi;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.ClinicVsCharge;
+import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -28,7 +29,7 @@ public class ClinicItemRest {
         return clinicItemApi.findList(clinicItemDict);
     }
 
-    @GET
+    @POST
     @Path("codeOrNameHas")
     public String codeOrNameHas(ClinicItemDict clinicItemDict){
         return clinicItemApi.codeOrNameHas(clinicItemDict) ? "1" : "0";
@@ -90,7 +91,7 @@ public class ClinicItemRest {
 
     @POST
     @Path("save")
-    public String save(List<ClinicItemDict> list){
+    public StringData save(List<ClinicItemDict> list){
         int delResult = 0;
         int saveResult = 0;
         int saveNameResult = 0;
@@ -121,8 +122,10 @@ public class ClinicItemRest {
         } catch (Exception e){
             e.printStackTrace();
         }
-        String resultMsg = "{\"success\":\"0\",\"msg\":\"" + "成功保存诊疗项目" + saveResult + "条，别名" + saveNameResult + "条，对照" + saveVsResult
-                + "条。成功删除诊疗项目" + delResult + "条以及关联别名和对照，其他别名" + delNameResult + "条，其他对照" + delVsResult + "条。\"}";
-        return resultMsg;
+        StringData resultData = new StringData();
+        resultData.setCode("0");
+        resultData.setData("成功保存诊疗项目" + saveResult + "条，别名" + saveNameResult + "条，对照" + saveVsResult
+                + "条。成功删除诊疗项目" + delResult + "条以及关联别名和对照，其他别名" + delNameResult + "条，其他对照" + delVsResult + "条。\"}");
+        return resultData;
     }
 }

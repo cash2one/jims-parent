@@ -60,7 +60,9 @@
 		FROM price_list a
 		<include refid="priceListJoins"/>
 		<where>
-			
+			<if test="priceType != null and priceType != ''">
+                instr(',' || #{priceType} || ',',',' || a.item_class || ',') > 0
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

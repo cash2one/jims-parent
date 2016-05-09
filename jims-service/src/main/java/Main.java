@@ -52,7 +52,7 @@ public class Main {
 
         Flyway flyway = new Flyway();
         //设置数据库链接配置
-        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:oracle","his","his");
+        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:jims","xian","xian");
         //设置schema用户
         flyway.setSchemas("HIS");
         flyway.setTable("SCHEMA_VERSION");

@@ -28,7 +28,7 @@ public interface ClinicItemApi {
     public List<ClinicItemDict> findList(ClinicItemDict entity);
 
     /**
-     * 编码或名称是否已存在
+     * 编码或名称已存在个数
      * @return
      */
     public boolean codeOrNameHas(ClinicItemDict entity);
