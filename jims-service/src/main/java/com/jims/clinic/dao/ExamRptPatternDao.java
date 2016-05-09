@@ -18,4 +18,12 @@ import java.util.List;
 @MyBatisDao
 public interface ExamRptPatternDao extends CrudDao<ExamRptPattern> {
 	public List getExamRptPattern(String examSubClass);
+    /**
+     * 获取检查项目通过类别
+     * @param orgId 机构id
+     * @param className 父类别
+     * @param subClassName 子类别
+     * @return
+     */
+    public List<ExamRptPattern> listByClass(String orgId,String className,String subClassName);
 }
