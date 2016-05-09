@@ -18,4 +18,26 @@ public interface LabItemClassDictServiceApi {
      * @return
      */
     public List<LabItemClassDict> findListByDeptCode(String deptCode);
+
+    /**
+     * 查询全部
+     *zhu
+     * @return
+     */
+    public List<LabItemClassDict> findAllList();
+
+    /**
+     * 保存或修改
+     * @param labItemClassDict
+     * @return
+     */
+    public  String save(LabItemClassDict labItemClassDict);
+
+    /**
+     * 删除
+     * @param ids
+     * @return
+     */
+    public String delete(String ids);
+
 }
