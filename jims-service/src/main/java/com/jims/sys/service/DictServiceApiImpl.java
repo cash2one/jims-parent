@@ -32,7 +32,7 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
         return dao.findTypeList(new Dict());
     }
 
-    public List<Dict> findListType(String dict) {
+    public List<String> findListType(String dict) {
         return dao.findListType(dict);
     }
 
