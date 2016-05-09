@@ -67,4 +67,5 @@ public interface ExamSubclassDictApi {
      * @return
      */
     public List<ExamSubclassDict> findAll();
+
 }
