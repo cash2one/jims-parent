@@ -16,12 +16,14 @@ $(function(){
      * 初始化诊疗项目类别下拉框
      * @param data
      */
-    var init_item_class = function(data){
+    var init_item_class = function(data,default_value){
         $('#item_class').combobox({
             data : data,
             valueField:'value',
             textField:'label'
         });
+        if(default_value)
+            $('#item_class').combobox('setValue',default_value)
     }
 
     /**
@@ -476,7 +478,8 @@ $(function(){
      * @param index 默认选择索引
      */
     var load_data = function (index){
-        var params = {'itemClass':$('#item_class').val()}
+        var itemClass = $('#item_class').combobox('getValue') ? $('#item_class').combobox('getValue') : 'A'
+        var params = {'itemClass':itemClass}
         params.itemCode = $(':radio[name="adminFlag"][value="0"]').prop('checked') ? $('#code_filter').val() : ''
         params.inputCode = $(':radio[name="adminFlag"][value="1"]').prop('checked') ? $('#code_filter').val() : ''
         params.orgId = org_id
@@ -540,7 +543,7 @@ $(function(){
      * 初始化一些码表数据
      */
     var init_arr = function (){
-        $.get('/service/dict/findListByType',{type:'CLINIC_ITEM_CLASS_DICT'},function(res){
+        $.ajaxAsync('/service/dict/findListByType',{type:'CLINIC_ITEM_CLASS_DICT'},function(res){
             type_arr = res
             var _temp = ''
             for(var i= 0,j = res.length; i<j ;i++){
@@ -550,8 +553,8 @@ $(function(){
             vs_type_data['2'] = _temp == '' ? _temp : _temp.substr(0)
             load_price_data('1')
             load_price_data('2')
-            init_item_class(res)
-        })
+            init_item_class(res,'A')
+        },'GET',false)
         if(! clinic_data_arr)
             clinic_data_arr = [{
                 "value":1,
@@ -972,10 +975,10 @@ $(function(){
     })
 
     init_arr()
-
     init_clinic_data()
     init_clinic_name_data()
     init_clinic_vs_charge()
     initButton()
+
     load_data(select_index)
 })
