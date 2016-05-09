@@ -4,9 +4,9 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.ExamSubclassDictApi;
+import com.jims.exam.api.ExamSubclassDictApi;
 import com.jims.clinic.dao.ExamSubclassDictDao;
-import com.jims.clinic.entity.ExamSubclassDict;
+import com.jims.exam.entity.ExamSubclassDict;
 
 import com.jims.common.service.impl.CrudImplService;
 

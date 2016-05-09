@@ -4,9 +4,9 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.ExamItemsServiceApi;
+import com.jims.exam.api.ExamItemsServiceApi;
 import com.jims.clinic.dao.ExamItemsDao;
-import com.jims.clinic.entity.ExamItems;
+import com.jims.exam.entity.ExamItems;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

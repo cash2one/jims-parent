@@ -3,14 +3,18 @@ package com.jims.sys;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.AbbreviationUtils;
+import com.jims.sys.api.PriceItemNameDictApi;
 import com.jims.sys.api.PriceListApi;
+import com.jims.sys.entity.PriceItemNameDict;
+import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceDictListVo;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.util.List;
 
 /**
- * Created by Administrator on 2016/4/28.
+ * Created by Administrator on 2016/4/26.
  */
 @Component
 @Produces("application/json")
@@ -18,8 +22,9 @@ import javax.ws.rs.*;
 public class PriceDictRest {
 
     @Reference(version = "1.0.0")
+    private PriceItemNameDictApi priceItemNameDictApi;
+    @Reference(version = "1.0.0")
     private PriceListApi priceListApi;
-
     @Path("save")
     @POST
     public StringData save(PriceDictListVo priceDictListVo) {
@@ -74,5 +79,11 @@ public class PriceDictRest {
         stringData.setCode(res);
         stringData.setData("success");
         return stringData;
+    }
+
+    @POST
+    @Path("findList")
+    public List<PriceList> findList(PriceList entity){
+        return priceListApi.findList(entity);
     }
 }

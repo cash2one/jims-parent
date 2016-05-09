@@ -41,4 +41,16 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
 	}
 
 
+
+    /**
+     * 根据类型检索字典
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Dict> findList(String type) {
+        Dict d = new Dict();
+        d.setType(type);
+        return dao.findList(d);
+    }
 }

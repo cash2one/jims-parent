@@ -186,7 +186,7 @@ $.extend({
             'type': 'POST',
             'url': url,
             'contentType': 'application/json',
-            'data': data,
+            'data': JSON.stringify(data),
             'dataType': 'json',
             'success': callback,
             'error': error
