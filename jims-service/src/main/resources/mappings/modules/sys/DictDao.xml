@@ -66,58 +66,75 @@
         SELECT
             label
         FROM sys_dict
+        WHERE del_flag = #{DEL_FLAG_NORMAL}
+        ORDER BY type, sort, update_date DESC
+    </select>
+
+    <select id="findTypeList" resultType="string">
+        SELECT
+        type
+        FROM sys_dict
+        WHERE del_flag = #{DEL_FLAG_NORMAL}
+        GROUP BY type
+        ORDER BY type
+    </select>
+
+    <select id="findListType" resultType="Dict">
+        SELECT
+        *
+        FROM sys_dict
         WHERE type =#{type}
         Group BY label
         ORDER BY label
     </select>
-	
-	<insert id="insert">
-		INSERT INTO sys_dict(
-			id, 
-			value, 
-			label, 
-			type, 
-			description, 
-			sort, 
-			create_by, 
-			create_date, 
-			update_by, 
-			update_date, 
-			remarks, 
-			del_flag
-		) VALUES (
-			#{id}, 
-			#{value}, 
-			#{label}, 
-			#{type}, 
-			#{description}, 
-			#{sort}, 
-			#{createBy.id}, 
-			#{createDate}, 
-			#{updateBy.id}, 
-			#{updateDate}, 
-			#{remarks}, 
-			#{delFlag}
-		)
-	</insert>
-	
-	<update id="update">
-		UPDATE sys_dict SET 
-			value = #{value}, 
-			label = #{label}, 
-			type = #{type}, 
-			description = #{description}, 
-			sort = #{sort}, 
-			update_by = #{updateBy.id}, 
-			update_date = #{updateDate}, 
-			remarks = #{remarks}
-		WHERE id = #{id}
-	</update>
-	
-	<update id="delete">
-		UPDATE sys_dict SET 
-			del_flag = '1'
-		WHERE id = #{id}
-	</update>
-	
+
+    <insert id="insert">
+        INSERT INTO sys_dict(
+        id,
+        value,
+        label,
+        type,
+        description,
+        sort,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag
+        ) VALUES (
+        #{id},
+        #{value},
+        #{label},
+        #{type},
+        #{description},
+        #{sort},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{remarks},
+        #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_dict SET
+        value = #{value},
+        label = #{label},
+        type = #{type},
+        description = #{description},
+        sort = #{sort},
+        update_by = #{updateBy.id},
+        update_date = #{updateDate},
+        remarks = #{remarks}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE sys_dict SET
+        del_flag = '1'
+        WHERE id = #{id}
+    </update>
+
 </mapper>

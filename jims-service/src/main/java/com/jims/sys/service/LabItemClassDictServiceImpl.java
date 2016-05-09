@@ -28,4 +28,13 @@ public class LabItemClassDictServiceImpl extends CrudImplService<LabItemClassDic
     public List<LabItemClassDict> findListByDeptCode(String deptCode){
         return clinicItemClassDictDao.findListByDeptCode(deptCode);
     }
+
+    /**
+     * 查询全部
+     * @return
+     */
+    public List<LabItemClassDict> findAllList() {
+        return dao.findAllList();
+    }
+
 }
