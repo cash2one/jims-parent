@@ -11,6 +11,14 @@ import java.util.List;
  * @version 2016-04-22
  */
 public interface ClinicMasterServiceApi {
+
+    /**
+     * 获取就诊记录信息
+     * @param id
+     * @return
+     */
+    public ClinicMaster get(String id);
+
     /**
      * 根据当前登录人 查询 病人列表(待诊病人)
      * @param doctorID
