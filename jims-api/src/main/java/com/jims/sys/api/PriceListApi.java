@@ -57,6 +57,13 @@ public interface PriceListApi {
     public String delete(PriceList priceList);
 
     /**
+     * 删除数据
+     * @param id
+     * @return
+     */
+    public String delete(String id);
+
+    /**
      * 查询序列
      *
      * @return

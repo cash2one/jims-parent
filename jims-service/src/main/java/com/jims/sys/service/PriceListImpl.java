@@ -30,7 +30,6 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
     @Autowired
     private PriceListDao priceListDao;
 
-
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String save(PriceDictListVo dictListVo) {
@@ -42,6 +41,7 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
         priceItemNameDict.setInputCode(dictListVo.getInputCode());
         priceItemNameDict.setMemo(dictListVo.getMemo());
         priceItemNameDict.setStdIndicator(1);
+
         PriceList priceList = new PriceList();
         priceList.setId(IdGen.uuid());
         priceList.setItemClass(dictListVo.getItemClass());
@@ -64,6 +64,7 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
         priceList.setMaterialCode(dictListVo.getInputCode());
         priceList.setInputCode(dictListVo.getInputCode());
         priceList.setMaterialCode(dictListVo.getMaterialCode());
+
         int i = priceItemNameDictDao.insert(priceItemNameDict);
         int j = priceListDao.insert(priceList);
         if (i * j == 1) {
