@@ -1,3 +1,4 @@
+patientList('0');
 $(function(){
     //添加Tabs
     $(".tabs-header").bind('contextmenu',function(e){
@@ -60,6 +61,10 @@ $(function(){
             $('#tabs-header').tabs('close',0);
         }
     });
+
+
+
+
 });
 
 /**
@@ -114,5 +119,34 @@ function showDoctor(targetid){
         d.hide();
     }
 }
+//加载病人列表  默认 我的病人（待诊）
+function patientList(status){
+    var liHtml='';
+    if(status=='0'){
+        $.get(basePath + '/clinicMaster/clinicMasterList', function (data) {
+            for (var i = 0; i < data.length; i++) {
+                liHtml+='<li><a href="#">' +
+                '<span class="cus-lbor"></span>' +
+                '<span class="cus-name">'+data[i].name+'</span>' +
+                ''+data[i].sex+'&nbsp; '+data[i].age+'</a></li>';
+            }
+            $('ul.cus-list').html(liHtml);
+        })
+    }else if(status=='1'){
+        $.get(basePath + '/clinicMaster/clinicMasterDiagnosed', function (data) {
+            for (var i = 0; i < data.length; i++) {
+                liHtml+='<li><a href="#">' +
+                '<span class="cus-lbor"></span>' +
+                '<span class="cus-name">'+data[i].name+'</span>' +
+                ''+data[i].sex+'&nbsp; '+data[i].age+'</a></li>';
+            }
+            $('ul.cus-list').html(liHtml);
+        })
+    }
+
+
+}
+
+
 
 
