@@ -112,5 +112,11 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+	<select id="findListByDeptCode" resultType="SpecimanDict">
+		SELECT
+		<include refid="specimanDictColumns"/>
+		FROM speciman_dict a
+		WHERE a.dept_code = #{deptCode}
+	</select>
 </mapper>

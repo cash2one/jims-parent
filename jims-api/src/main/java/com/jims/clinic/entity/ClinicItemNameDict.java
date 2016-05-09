@@ -26,6 +26,7 @@ public class ClinicItemNameDict extends DataEntity<ClinicItemNameDict> {
 	private String bbsm;		// bbsm
 	private String userGrant;		// user_grant
 	private String orgId;		// 所属结构
+	private String price;
 	
 	public ClinicItemNameDict() {
 		super();
@@ -168,5 +169,12 @@ public class ClinicItemNameDict extends DataEntity<ClinicItemNameDict> {
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
-	
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
 }
