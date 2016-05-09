@@ -6,7 +6,7 @@ $(function() {
         collapsible: true,
         fitColumns: true,
         //url: '/modules/clinic/emrDiagnosis/js/treegrid_data2.json',
-     //  url:basePath+'/diagnosis/findList',
+       url:basePath+'/diagnosis/findList',
         method: 'get',
         idField: 'id',
         treeField: 'type',
@@ -249,12 +249,12 @@ function cancel(){
 
 
 function insert(){
-    var node = $("#tg").treegrid('getSelected');
+ /*   var node = $("#tg").treegrid('getSelected');
     if (!node) {
         $.messager.alert("系统提示", "请选择，所添加诊断的同一级的任意一个诊断");
         return;
     }
-    if (node) {
+    if (node) {*/
         $('#dlg').dialog('open').dialog('center').dialog('setTitle', '添加同级诊断');
         $('#fm').form('clear');
     //    $("#parentId").val(node._parentId);
@@ -277,7 +277,7 @@ function insert(){
         });
 
         //  $("#position").textbox('setValue', node.position);
-    }
+
       /*  var node = $("#tg").treegrid('getSelected');
 
         if (!node) {

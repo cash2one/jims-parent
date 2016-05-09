@@ -27,17 +27,16 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
 
 
 	private String parentId;		// 父级id
-   // private String _parentId;
+
 	private String diagnosisId;		// 诊断id
     private String type; //诊断类型 1：初步诊断
     private String parentIds; // 诊断父级
 	private Integer itemNo;		// 诊断序号
     private List<EmrDiagnosis> children;
     private String icdMingcheng  ;  //icd10中文名称
-    private Dict dict;
+
     private String description;   //诊断描述
     private String basis; // 诊断依据
-    private List list=new ArrayList();   //父类ID集合
     private boolean isno;  //判断查询全部集合
     private String patientId;//病人标识
     private Integer treatDays;//治疗天数
@@ -48,6 +47,7 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
     private String inOrOutFlag;//是否住院标识
     private Date diagnosisDate;//诊断日期
     private String state;
+    private String diagnosisParent;//诊断主表
 
 
 	public EmrDiagnosis() {
@@ -67,13 +67,7 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
 		super(id);
 	}
 
-    public List getList() {
-        return list;
-    }
 
-    public void setList(List list) {
-        this.list = list;
-    }
 
     public String getDescription() {
         return description;
@@ -144,13 +138,6 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
         this.isno = isno;
     }
 
-    public Dict getDict() {
-        return dict;
-    }
-
-    public void setDict(Dict dict) {
-        this.dict = dict;
-    }
 
 
 
@@ -241,5 +228,14 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
 
     public void setChildren(List<EmrDiagnosis> children) {
         this.children = children;
+    }
+
+
+    public String getDiagnosisParent() {
+        return diagnosisParent;
+    }
+
+    public void setDiagnosisParent(String diagnosisParent) {
+        this.diagnosisParent = diagnosisParent;
     }
 }

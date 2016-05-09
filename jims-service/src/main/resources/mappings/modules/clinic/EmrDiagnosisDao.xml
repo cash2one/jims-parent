@@ -42,7 +42,8 @@
         a.PATHOLOGY_NO AS "pathologyNo",
         a.DIAGNOSIS_DOC AS "diagnosisDoc",
         a.INOROUT_FLAG AS "inOrOutFlag",
-        a.diagnosis_date AS "diagnosisDate"
+        a.diagnosis_date AS "diagnosisDate",
+        a.diagnosis_parent AS "diagnosisParent"
 
 		/*"diagnosis_type" as "diagnosis_type"*/
 	</sql>
@@ -134,7 +135,8 @@
             PATHOLOGY_NO,
             DIAGNOSIS_DOC,
             INOROUT_FLAG,
-            diagnosis_date
+            diagnosis_date,
+            diagnosis_parent
 		) VALUES (
 			#{id},
 			#{parentId},
@@ -157,7 +159,8 @@
             #{pathologyNo},
             #{diagnosisDoc},
             #{inOrOutFlag},
-            #{diagnosisDate}
+            #{diagnosisDate},
+            #{diagnosisParent}
 		)
 	</insert>
 	
@@ -175,7 +178,8 @@
 			treat_days = #{treatDays},
 			pathology_no = #{pathologyNo},
 			diagnosis_doc = #{diagnosisDoc},
-			type = #{type}
+			type = #{type},
+			diagnosis_parent = #{diagnosisParent}
 		WHERE id = #{id}
 	</update>
 	
