@@ -9,6 +9,7 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 病人就诊记录DAO接口
@@ -17,6 +18,22 @@ import java.util.Date;
  */
 @MyBatisDao
 public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
+    /**
+     * 根据当前登录人 医生ID查询 门诊病人(待诊病人)
+     * 查询的病人列表是  -----我的病人 列表   非  全科病人列表
+     * @param doctorId
+     * @return
+     * @author zhaoning
+     */
+    public List<ClinicMaster>  getClinicBydoctor(@Param("doctorId")String doctorId);
+
+    /**
+     * 根据当前登录人 医生ID 查询 门诊病人（已诊病人）
+     * @param doctorId
+     * @return
+     * @author zhaoning
+     */
+    public List<ClinicMaster> getClinicMasterDiagnosed(@Param("doctorId")String doctorId);
 
     /**
      * 查询病人就诊记录
@@ -24,5 +41,5 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @param visitNo
      * @return
      */
-    ClinicMaster getMasterInfo(@Param("visitDate") Date visitDate, @Param("visitNo") Integer visitNo);
+    public ClinicMaster getMasterInfo(@Param("visitDate") Date visitDate, @Param("visitNo") Integer visitNo);
 }
