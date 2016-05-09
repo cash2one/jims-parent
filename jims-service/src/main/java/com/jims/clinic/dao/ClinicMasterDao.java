@@ -8,6 +8,7 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,4 +34,12 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @author zhaoning
      */
     public List<ClinicMaster> getClinicMasterDiagnosed(@Param("doctorId")String doctorId);
+
+    /**
+     * 查询病人就诊记录
+     * @param visitDate
+     * @param visitNo
+     * @return
+     */
+    public ClinicMaster getMasterInfo(@Param("visitDate") Date visitDate, @Param("visitNo") Integer visitNo);
 }
