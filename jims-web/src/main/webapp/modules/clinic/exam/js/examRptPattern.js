@@ -39,6 +39,10 @@ $(function () {
                         {field:'inputCode',title:'输入码',width:80},
                         {field:'sumPrice',title:'价格',width:100}
                     ]],
+                    //拼音码检索
+                    //filter: function(q, row){
+                    //    return row.inputCode.indexOf(q) >= 0 ;
+                    //},
                     onSelect: function(rowIndex,rowData){
                         //var examClassName =  $('#examClass').combobox("getValue");
                         //var examSubClassName =  $('#examSubClass').combobox("getValue");
