@@ -7,7 +7,27 @@
 		FROM sys_dict 
 		WHERE id = #{id}
 	</select>
-	
+
+	<select id="getLabel" resultType="java.lang.String">
+		SELECT
+		a.label
+		FROM sys_dict AS a
+		WHERE a.type = #{type}
+		AND a.value = #{value}
+		AND a.del_flag='0'
+	</select>
+
+	<select id="getDictLabel" resultType="Dict">
+		SELECT
+		a.label
+		FROM sys_dict AS a
+		WHERE a.type = #{type}
+		AND a.value = #{value}
+		AND a.del_flag='0'
+	</select>
+
+
+
 	<select id="findList" resultType="Dict">
 		SELECT
         *

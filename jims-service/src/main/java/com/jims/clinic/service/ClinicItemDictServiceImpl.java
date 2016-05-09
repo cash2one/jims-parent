@@ -55,7 +55,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
-    @Override
+    //@Override
     public String deleteCascade(ClinicItemDict entity) {
         try{
             deleteName(entity);
@@ -67,7 +67,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return "1";
     }
 
-    @Override
+    //@Override
     public String deleteCascade(String ids) {
         int i=0;
         try {
@@ -84,14 +84,14 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    @Override
+    //@Override
     public List<ClinicItemNameDict> findNameList(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
         BeanUtils.copyProperties(entity,itemName);
         return nameDao.findList(itemName);
     }
 
-    @Override
+    //@Override
     public String save(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -108,7 +108,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    @Override
+    //@Override
     public String saveNameList(List<ClinicItemNameDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -121,7 +121,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
-    @Override
+    //@Override
     public String deleteName(String ids) {
         int i=0;
         try {
@@ -136,7 +136,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    @Override
+    //@Override
     public String delete(ClinicItemNameDict entity) {
         int i=0;
         try{

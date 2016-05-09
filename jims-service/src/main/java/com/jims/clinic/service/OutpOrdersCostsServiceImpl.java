@@ -79,9 +79,13 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
         return outpOrdersCostsDao.getMaxOrderNo(visitDate, visitNo, itemClass);
     }
 
-    @Override
-    public Integer deleteOutpOrders(String  visitNo) {
-        return outpOrdersCostsDao.deleteOutpOrders(visitNo);
+    /**
+     * 删除收费明细
+     *
+     * @param masterId
+     */
+    public Integer deleteOutpOrders(String masterId,String visitNo) {
+        return outpOrdersCostsDao.deleteOutpOrders(masterId,visitNo);
     }
 
 
