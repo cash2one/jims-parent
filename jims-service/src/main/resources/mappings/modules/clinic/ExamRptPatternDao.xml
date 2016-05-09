@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ExamRptPatternDao">
-    <select id="listByClass" resultType="ExamRptPattern">
-        SELECT *
-        FROM exam_rpt_pattern a
-        WHERE a.org_id = #{0}
-        AND a.exam_class = #{1}
-        AND a.exam_sub_class = #{2}
-        and a.desc_item = '检查项目'
-        and a.del_flag = '0'
-
-    </select>
+    
 	<sql id="examRptPatternColumns">
 		a.exam_class AS "examClass",
 		a.exam_sub_class AS "examSubClass",
@@ -48,25 +39,25 @@
 			</otherwise>
 		</choose>
 	</select>
-
-    <select id="findAllList" resultType="ExamRptPattern">
-        SELECT
-        *
-        FROM exam_rpt_pattern a
-        <where>
-            a.del_flag = '0'
-        </where>
-        <choose>
-            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
-                ORDER BY ${page.orderBy}
-            </when>
-            <otherwise>
-                ORDER BY a.update_date DESC
-            </otherwise>
-        </choose>
-    </select>
-
-    <insert id="insert">
+	
+	<select id="findAllList" resultType="ExamRptPattern">
+		SELECT 
+			<include refid="examRptPatternColumns"/>
+		FROM exam_rpt_pattern a
+		<include refid="examRptPatternJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
 		INSERT INTO exam_rpt_pattern(
 			exam_class,
 			exam_sub_class,
@@ -74,16 +65,7 @@
 			desc_name,
 			description,
 			description_code,
-			input_code,
-			doctor_teshu,
-			id,
-			org_id,
-			remarks,
-			update_by,
-			create_by,
-			update_date,
-			del_flag,
-			create_date
+			input_code
 		) VALUES (
 			#{examClass},
 			#{examSubClass},
@@ -91,39 +73,24 @@
 			#{descName},
 			#{description},
 			#{descriptionCode},
-			#{inputCode},
-			#{doctorTeshu},
-			#{id},
-			#{orgId},
-			#{remarks},
-			#{updateBy},
-			#{createBy},
-			#{updateDate},
-			#{delFlag},
-			#{createDate}
+			#{inputCode}
 		)
 	</insert>
-
-    <update id="update">
-		UPDATE exam_rpt_pattern SET
+	
+	<update id="update">
+		UPDATE exam_rpt_pattern SET 	
 			exam_class = #{examClass},
 			exam_sub_class = #{examSubClass},
 			desc_item = #{descItem},
 			desc_name = #{descName},
 			description = #{description},
 			description_code = #{descriptionCode},
-			input_code = #{inputCode},
-			doctor_teshu = #{doctorTeshu},
-			org_id = #{orgId},
-			remarks = #{remarks},
-			update_by = #{updateBy},
-			update_date = #{updateDate}
+			input_code = #{inputCode}
 		WHERE id = #{id}
 	</update>
-
-    <update id="delete">
-		UPDATE exam_rpt_pattern SET
-			del_flag = '1'
+	
+	<update id="delete">
+		DELETE FROM exam_rpt_pattern
 		WHERE id = #{id}
 	</update>
 	<select id="getExamRptPattern" resultType="ExamRptPattern">

@@ -59,11 +59,10 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
     /**
      * 删除门诊医师收费
      *
-     * @param visitNo
+     * @param masterId
      * @return
      */
-    public Integer deleteOutpOrders(@Param("visitNo")String  visitNo);
-
+    public Integer deleteOutpOrders(String masterId,int visitNo);
 
     /**
      * 查询出最大的序号

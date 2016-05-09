@@ -21,8 +21,8 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
      * 查询所有的科室信息
      * @return
      */
-    public List<DeptDict> findAllList(String orgId) {
-        return dao.findAll(orgId);
+    public List<DeptDict> findAllList() {
+        return dao.findAll();
 
     }
 

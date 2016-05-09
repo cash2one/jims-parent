@@ -27,17 +27,7 @@
 
 	<sql id="clinicItemDictJoins">
 	</sql>
-    <select id="itemListByOrgId" resultType="com.jims.clinic.vo.ClinicItemPriceVo">
-      select a.item_class AS itemClass,a.item_code AS itemCode,a.item_name AS itemName,a.input_code AS inputCode,sum(c.price) as sumPrice
-      from clinic_item_dict a,clinic_vs_charge b,price_list c
-      where a.item_class = 'C'
-      and a.item_code = b.clinic_item_code
-      and b.charge_item_code = c.item_code
-      and a.org_id = #{0}
-     and a.org_id = b.org_id
-    --and b.org_id = c.org_id
-    group by a.item_class,a.item_code,a.item_name,a.input_code
-    </select>
+    
 	<select id="get" resultType="ClinicItemDict">
 		SELECT 
 			<include refid="clinicItemDictColumns"/>

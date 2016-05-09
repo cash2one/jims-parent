@@ -16,4 +16,6 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 @MyBatisDao
 public interface BloodApplylDao  extends CrudDao<BloodApply> {
 	
+
+
 }

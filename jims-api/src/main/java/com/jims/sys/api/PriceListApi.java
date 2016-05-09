@@ -42,12 +42,4 @@ public interface PriceListApi {
      * @param priceList
      */
     public String delete(PriceList priceList);
-
-    /**
-     * 通过项目代码对照项目价格
-     * @param clinicItemCode 项目代码
-     * @param orgId 机构代码
-     * @return
-     */
-    public List<PriceList> findListByItem(String clinicItemCode , String orgId);
 }

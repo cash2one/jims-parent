@@ -160,7 +160,7 @@ function save(){
     var tableJson=JSON.stringify(rows);
 
 
-    $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
+    $.postJSON(basePath+'/diagnosis/save',tableJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
             $('#zhenduan').datagrid('load');

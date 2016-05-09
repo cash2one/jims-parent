@@ -36,8 +36,7 @@ public class ExamItemsServiceImpl extends CrudImplService<ExamItemsDao, ExamItem
     }
 
     @Override
-    public String deleteItems(String examNo) {
-       int num=  examItemsDao.deleteItems(examNo);
-        return num+"";
+    public Integer deleteItems(String examNo) {
+        return examItemsDao.deleteItems(examNo);
     }
 }

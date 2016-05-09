@@ -3,7 +3,6 @@ package com.jims.clinic.api;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.ClinicVsCharge;
-import com.jims.clinic.vo.ClinicItemPriceVo;
 import com.jims.common.persistence.Page;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -152,13 +151,6 @@ public interface ClinicItemApi {
      * @return
      */
     public String deleteVs(ClinicItemDict entity);
-
-    /**
-     * 获取检查项目价格列表
-     * @param orgId
-     * @return
-     */
-    public List<ClinicItemPriceVo> itemListByOrgId(String orgId);
 
 
 

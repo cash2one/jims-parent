@@ -30,24 +30,4 @@ public class ExamClassDictServiceimpl extends CrudImplService<ExamClassDictDao, 
 	public List<ExamClassDict> getEx() {
 		return examClassDictDao.getEx();
 	}
-
-    /**
-     *
-     * 获取检查类别字典列表
-     * @return 集合
-     */
-    @Override
-    public List<ExamClassDict> findAll() {
-        return dao.findAllList(new ExamClassDict());
-    }
-
-    /**
-     * 通过orgID获取检查类别列表
-     * @param orgId 机构id
-     * @return 集合
-     */
-    @Override
-    public List<ExamClassDict> findListByOrgId(String orgId) {
-        return dao.findListByOrgId(orgId);
-    }
 }

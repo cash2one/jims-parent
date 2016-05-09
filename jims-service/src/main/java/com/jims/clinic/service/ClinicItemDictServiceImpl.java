@@ -8,7 +8,6 @@ import com.jims.clinic.dao.ClinicVsChargeDao;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.ClinicVsCharge;
-import com.jims.clinic.vo.ClinicItemPriceVo;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.BeanUtils;
@@ -224,16 +223,6 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         ClinicVsCharge vs = new ClinicVsCharge();
         BeanUtils.copyProperties(entity,vs);
         return delete(vs);
-    }
-
-    /**
-     * 获取检查项目价格列表
-     * @param orgId
-     * @return
-     */
-    @Override
-    public List<ClinicItemPriceVo> itemListByOrgId(String orgId) {
-        return dao.itemListByOrgId(orgId);
     }
 
 }

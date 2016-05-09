@@ -22,7 +22,7 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
      * 查询所有的科室信息
      * @return
      */
-    public List<DeptDict> findAll(String orgId);
+    public List<DeptDict> findAll();
 
     /**
      * 查询科室属性信息

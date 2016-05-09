@@ -38,15 +38,9 @@ public class OutpTreatRecServiceImpl extends CrudImplService<OutpTreatRecDao, Ou
     }
 
     @Override
-    public String deleteTreatRec(String  visitNo) {
-         int num=outpTreatRecDao.deleteTreatRec(visitNo);
-        return num+"";
+    public Integer deleteTreatRec(int visitNo) {
+        return outpTreatRecDao.deleteTreatRec(visitNo);
     }
-
-//    @Override
-//    public Integer deleteTreatRec(int visitNo) {
-//        return outpTreatRecDao.deleteTreatRec(visitNo);
-//    }
 
     @Override
     public Integer getSerialNo() {
