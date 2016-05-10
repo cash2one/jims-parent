@@ -7,6 +7,20 @@
 		FROM sys_dict 
 		WHERE id = #{id}
 	</select>
+
+    <select id="leftList" resultType="Dict">
+      SELECT
+      s.type,s.description
+      FROM sys_dict s
+      GROUP BY s.type,s.description
+    </select>
+
+    <select id="rightList" resultType="Dict">
+      SELECT
+      id,label,value,sort,create_by,create_date,update_by,update_date,remarks,input_code
+      FROM sys_dict
+      WHERE type = #{type}
+    </select>
 	
 	<select id="findList" resultType="Dict">
 		SELECT
@@ -64,7 +78,8 @@
 			update_by, 
 			update_date, 
 			remarks, 
-			del_flag
+			del_flag,
+			input_code
 		) VALUES (
 			#{id}, 
 			#{value}, 
@@ -78,6 +93,7 @@
 			#{updateDate}, 
 			#{remarks}, 
 			#{delFlag}
+			#{inputCode}
 		)
 	</insert>
 	
