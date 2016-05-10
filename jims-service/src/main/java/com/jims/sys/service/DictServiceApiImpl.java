@@ -44,7 +44,7 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
 
     /**
      * 保存增删改多条数据
-     * @param beanChangeVo
+     * @param beanChangeVo 多条数据的Vo类
      * @return
      * @author fengyuguang
      */
