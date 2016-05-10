@@ -50,6 +50,7 @@
 			dept_name,
 			dept_code,
 			dept_propertity,
+			input_code,
 			remarks,
 			update_by,
 			create_by,
@@ -62,6 +63,7 @@
 			#{deptName},
 			#{deptCode},
 			#{deptPropertity},
+			#{inputCode},
 			#{remarks},
 			#{updateBy},
 			#{createBy},
@@ -77,6 +79,7 @@
 			dept_name = #{deptName},
 			dept_code = #{deptCode},
 			dept_propertity = #{deptPropertity},
+			input_code=#{inputCode},
 			remarks = #{remarks},
 			update_by = #{updateBy},
 			update_date = #{updateDate}

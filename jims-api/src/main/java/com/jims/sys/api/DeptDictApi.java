@@ -14,7 +14,7 @@ public interface DeptDictApi {
      *
      * @return
      */
-    public List<DeptDict> findAllList();
+    public List<DeptDict> findAllList(String orgId);
 
 
 
@@ -45,10 +45,4 @@ public interface DeptDictApi {
      * @return
      */
     public String delete(String ids);
-
-    /**
-     * 查询科室代码下的所以科室
-     * @return
-     */
-    public List<DeptDict> findListByCode(String code);
 }
