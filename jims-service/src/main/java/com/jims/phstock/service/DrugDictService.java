@@ -20,5 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DrugDictService extends CrudImplService<DrugDictDao, DrugDict> implements DrugDictServiceApi {
 
-	
+
+    @Override
+    public String getDrugCodeByRule(String secondType, String drugForm) {
+        return null;
+    }
 }
