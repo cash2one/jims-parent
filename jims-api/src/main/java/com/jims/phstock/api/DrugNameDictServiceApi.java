@@ -1,44 +1,44 @@
-package com.jims.materiel.api;
+package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
-import com.jims.materiel.entity.DrugStock;
+import com.jims.phstock.entity.DrugNameDict;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/23.
- * 药品库存Api接口
+ * 药品名称字典Api接口
  * @author zhaoning
  * @version 2016-04-23
  */
-public interface DrugStockServiceApi{
+public interface DrugNameDictServiceApi {
     /**
-     * 保存药品库存
-     * @param drugStock
+     * 保存药品名称
+     * @param drugNameDict
      * @return
      * @author zhaoning
      * @version 2016-04-23
      */
-    public String save(DrugStock drugStock);
+    public String save(DrugNameDict drugNameDict);
 
     /**
      * 分页查询数据
      * @param page
-     * @param drugStock
+     * @param drugNameDict
      * @return
      * @author zhaoning
      * @version 2016-04-23
      */
-    public Page<DrugStock> findPage(Page<DrugStock> page,DrugStock drugStock);
+    public Page<DrugNameDict> findPage(Page<DrugNameDict> page,DrugNameDict drugNameDict);
 
     /**
-     * 列表数据查询
-     * @param drugStock
+     * 查询列表数据
+     * @param drugNameDict
      * @return
      * @author zhaoning
      * @version 2016-04-23
      */
-    public List<DrugStock> findList(DrugStock drugStock);
+    public List<DrugNameDict> findList(DrugNameDict drugNameDict);
 
     /**
      * 获取单个对象
@@ -47,7 +47,7 @@ public interface DrugStockServiceApi{
      * @author zhaoning
      * @version 2016-04-23
      */
-    public DrugStock get(String id);
+    public DrugNameDict get(String id);
 
     /**
      * 删除数据（单条数据删除，批量删除）
@@ -57,4 +57,6 @@ public interface DrugStockServiceApi{
      * @version 2016-04-23
      */
     public String delete(String ids);
+
+
 }

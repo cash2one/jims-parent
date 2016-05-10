@@ -1,14 +1,14 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.materiel.service;
+package com.jims.phstock.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.materiel.api.DrugPriceListServiceApi;
-import com.jims.materiel.dao.DrugPriceListDao;
-import com.jims.materiel.entity.DrugPriceList;
+import com.jims.phstock.api.DrugPriceListServiceApi;
+import com.jims.phstock.dao.DrugPriceListDao;
+import com.jims.phstock.entity.DrugPriceList;
 import org.springframework.transaction.annotation.Transactional;
 
 

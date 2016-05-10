@@ -1,6 +1,8 @@
 function centerRefresh(id, name, url) {
     $(window.parent.document).contents().find("#centerIframe")[0].contentWindow.addTabs(id, name, url);
 }
+var config = {} ;
+config.org_Id = '1';
 $(function () {
     //标题菜单维护
     $.get(basePath + "/menuDict/list", function (data) {

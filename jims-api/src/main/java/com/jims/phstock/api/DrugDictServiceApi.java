@@ -1,7 +1,7 @@
-package com.jims.materiel.api;
+package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
-import com.jims.materiel.entity.DrugDict;
+import com.jims.phstock.entity.DrugDict;
 
 import java.util.List;
 

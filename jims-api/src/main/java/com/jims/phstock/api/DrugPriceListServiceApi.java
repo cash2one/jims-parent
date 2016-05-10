@@ -1,53 +1,53 @@
-package com.jims.materiel.api;
+package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
-import com.jims.materiel.entity.DrugNameDict;
+import com.jims.phstock.entity.DrugPriceList;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/23.
- * 药品名称字典Api接口
- * @author zhaoning
+ * 药品价格Api接口
+ * @author赵宁
  * @version 2016-04-23
  */
-public interface DrugNameDictServiceApi {
+public interface DrugPriceListServiceApi {
     /**
-     * 保存药品名称
-     * @param drugNameDict
+     * 保存药品价格数据
+     * @param drugPriceList
      * @return
      * @author zhaoning
      * @version 2016-04-23
      */
-    public String save(DrugNameDict drugNameDict);
+    public String save(DrugPriceList drugPriceList);
 
     /**
      * 分页查询数据
-     * @param page
-     * @param drugNameDict
+     * @param drugPriceListPage
+     * @param drugPriceList
      * @return
      * @author zhaoning
      * @version 2016-04-23
      */
-    public Page<DrugNameDict> findPage(Page<DrugNameDict> page,DrugNameDict drugNameDict);
+    public Page<DrugPriceList> findPage(Page<DrugPriceList> drugPriceListPage,DrugPriceList drugPriceList);
 
     /**
      * 查询列表数据
-     * @param drugNameDict
+     * @param drugPriceList
      * @return
      * @author zhaoning
      * @version 2016-04-23
      */
-    public List<DrugNameDict> findList(DrugNameDict drugNameDict);
+    public List<DrugPriceList> findList(DrugPriceList drugPriceList);
 
     /**
-     * 获取单个对象
-     * @param id
+     * 获得单条数据
+     * @param drugPriceList
      * @return
      * @author zhaoning
      * @version 2016-04-23
      */
-    public DrugNameDict get(String id);
+    public DrugPriceList get(DrugPriceList drugPriceList);
 
     /**
      * 删除数据（单条数据删除，批量删除）
@@ -57,6 +57,4 @@ public interface DrugNameDictServiceApi {
      * @version 2016-04-23
      */
     public String delete(String ids);
-
-
 }
