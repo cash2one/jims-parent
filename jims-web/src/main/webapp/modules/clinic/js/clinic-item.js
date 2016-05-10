@@ -103,11 +103,12 @@ $(function(){
                 { field: 'itemName', title: '项目名称', width: 200,align:'center',formatter:function(value){
                     return '<div style="text-align:left">'+value+'</div>'
                 }},
-                { field: 'expand3', title: '执行科室', width: 120 ,align:'center',editor:{
+                { field: 'expand3', title: '执行科室', width: 120,align:'center',editor:{
                     type:'combogrid',
                     options:{
                         panelWidth:300,
                         idField:'deptCode',
+                        editable:false,
                         textField:'deptName',
                         fitColumns: true,
                         data : clinic_data_arr,
@@ -137,6 +138,7 @@ $(function(){
                         valueField:'value',
                         textField:'label',
                         data:hz_arr,
+                        editable:false,
                         required:false,
                         onChange:function(newV,oldV){
                             if(newV != oldV)
@@ -163,6 +165,7 @@ $(function(){
                     options:{
                         valueField:'value',
                         textField:'label',
+                        editable:false,
                         data:long_arr,
                         required:false,
                         onChange:function(newV,oldV){
@@ -281,6 +284,7 @@ $(function(){
                     options:{
                         valueField:'value',
                         textField:'label',
+                        editable:false,
                         data:price_type_arr,
                         required:true
                         ,missingMessage:'类别必填',
@@ -309,6 +313,7 @@ $(function(){
                     options:{
                         panelWidth:383,
                         idField:'itemCode',
+                        editable:false,
                         textField:'itemName',
                         fitColumns: true,
                         required:true
@@ -369,6 +374,7 @@ $(function(){
                         valueField:'value',
                         textField:'label',
                         data:price_rules_arr,
+                        editable:false,
                         required:true
                         ,missingMessage:'计费规则必填'
                     }
