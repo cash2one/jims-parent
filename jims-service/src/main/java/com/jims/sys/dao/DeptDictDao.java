@@ -7,6 +7,7 @@ package com.jims.sys.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.DeptDict;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -35,5 +36,11 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
      * @return
      */
     public List<DeptDict> findParent();
+
+    /**
+     * 查询科室代码下的所以科室
+     * @return
+     */
+    public List<DeptDict> findListByCode(@Param("code")String code);
 	
 }

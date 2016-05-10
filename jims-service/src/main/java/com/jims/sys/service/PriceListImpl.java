@@ -24,7 +24,7 @@ import java.util.List;
  * @version 2016-04-26
  */
 @Service(version = "1.0.0")
-@Transactional
+@Transactional(readOnly = true)
 public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> implements PriceListApi {
 
     @Autowired

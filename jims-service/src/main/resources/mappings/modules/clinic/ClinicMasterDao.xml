@@ -290,5 +290,25 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+	<select id="getClinicBydoctor" resultType="ClinicMaster">
+		SELECT <include refid="clinicMasterColumns"/>
+		FROM clinic_master a
+		WHERE 1=1
+		<if test="doctorId!=null and doctorId!=''">
+			 AND  a.doctor =#{doctorId}
+		</if>
+		AND a.registration_status='0'
+		AND a.returned_date is null
+	</select>
+
+	<select id="getClinicMasterDiagnosed" resultType="ClinicMaster">
+		SELECT <include refid="clinicMasterColumns"/>
+		FROM clinic_master a
+		WHERE 1=1
+		<if test="doctorId!=null and doctorId!=''">
+			AND  a.doctor =#{doctorId}
+		</if>
+		AND a.registration_status='1'
+	</select>
 </mapper>

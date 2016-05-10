@@ -5,11 +5,11 @@ package com.jims.clinic.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.OperatioinSerivceApi;
+import com.jims.operation.api.OperatioinSerivceApi;
 import com.jims.clinic.dao.OperatioinDao;
 import com.jims.clinic.dao.OperationGradeDao;
-import com.jims.clinic.entity.Operatioin;
-import com.jims.clinic.entity.OperationGrade;
+import com.jims.operation.entity.Operatioin;
+import com.jims.operation.entity.OperationGrade;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

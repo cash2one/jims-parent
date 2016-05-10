@@ -1,9 +1,9 @@
 package com.jims.clinic.operationApply;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.OperatioinSerivceApi;
-import com.jims.clinic.entity.Operatioin;
-import com.jims.clinic.entity.OperationGrade;
+import com.jims.operation.api.OperatioinSerivceApi;
+import com.jims.operation.entity.Operatioin;
+import com.jims.operation.entity.OperationGrade;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
