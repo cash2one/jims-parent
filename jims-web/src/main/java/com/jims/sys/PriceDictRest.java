@@ -4,10 +4,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.AbbreviationUtils;
 import com.jims.sys.api.PriceListApi;
+import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceDictListVo;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/28.

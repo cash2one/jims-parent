@@ -1,6 +1,5 @@
 $(function(){
-    var org_id = parent.config.org_id
-
+    var org_id = '1'
         ,select_index = 0   //诊疗项目默认选择索引，从0开始计算
         ,name_and_vs_obj = {}  //作已修改的别名和对照缓存对象
 
@@ -891,6 +890,7 @@ $(function(){
      * 保存
      */
     var save_data_handler = function (){
+        end_other_edit()
         save_name_and_vs($('#clinic_item').datagrid('getRowIndex',$('#clinic_item').datagrid('getSelected')))
         // 传输修改的参数
         var item_data_save = []

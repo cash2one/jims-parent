@@ -57,7 +57,18 @@ public class PriceList extends DataEntity<PriceList> {
     private String zysjWy;        // 住院收据对照
     private String groupFlag;        // group_flag
     private String stopOperator;        // stop_operator
+
+    public String getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(String priceType) {
+        this.priceType = priceType;
+    }
+
     private String orgId; //组织机构
+
+    private String priceType;   // 类型，（1药品，2非药品）
 
     public String getOrgId() {
         return orgId;
