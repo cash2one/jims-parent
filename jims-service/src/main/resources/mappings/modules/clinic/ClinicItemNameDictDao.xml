@@ -26,29 +26,29 @@
 		a.del_flag AS "delFlag",
 		a.create_date AS "createDate"
 	</sql>
-	
-	<sql id="clinicItemNameDictJoins">
-	</sql>
-    
-	<select id="get" resultType="ClinicItemNameDict">
-		SELECT 
-			<include refid="clinicItemNameDictColumns"/>
-		FROM clinic_item_name_dict a
-		<include refid="clinicItemNameDictJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="ClinicItemNameDict">
-		SELECT 
-			<include refid="clinicItemNameDictColumns"/>
-		FROM clinic_item_name_dict a
-		<include refid="clinicItemNameDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+
+    <sql id="clinicItemNameDictJoins">
+    </sql>
+
+    <select id="get" resultType="ClinicItemNameDict">
+        SELECT
+        <include refid="clinicItemNameDictColumns"/>
+        FROM clinic_item_name_dict a
+        <include refid="clinicItemNameDictJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="ClinicItemNameDict">
+        SELECT
+        <include refid="clinicItemNameDictColumns"/>
+        FROM clinic_item_name_dict a
+        <include refid="clinicItemNameDictJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
             AND a.item_class = #{itemClass}
             AND a.item_code = #{itemCode}
             <if test="orgId != null and orgId != ''">
-                AND t.org_id = #{orgId}
+                AND a.org_id = #{orgId}
             </if>
 		</where>
 		<choose>
@@ -182,5 +182,14 @@
             </if>
         </if>
 	</update>
-	
+    <update id="deleteNoId">
+        UPDATE clinic_item_name_dict SET
+        del_flag = '1'
+        WHERE
+        item_class = #{itemClass}
+        AND item_code = #{itemCode}
+        <if test="orgId != null and orgId != ''">
+            AND org_id = #{orgId}
+        </if>
+    </update>
 </mapper>

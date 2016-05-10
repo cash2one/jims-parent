@@ -27,12 +27,12 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
 	/**
      * 查询字段类型列表
      * @return
-	 */
-	public List<String> findTypeList(){
-		return dao.findTypeList(new Dict());
-	}
+     */
+    public List<String> findTypeList() {
+        return dao.findTypeList(new Dict());
+    }
 
-    public List<String> findListType(String dict){
+    public List<String> findListType(String dict) {
         return dao.findListType(dict);
     }
 
@@ -41,4 +41,28 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
 	}
 
 
+
+    /**
+     * 根据类型检索字典
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Dict> findList(String type) {
+        Dict d = new Dict();
+        d.setType(type);
+        return dao.findList(d);
+    }
+
+    /**
+     * 根据类型检索字典
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Dict> findList(String type) {
+        Dict d = new Dict();
+        d.setType(type);
+        return dao.findList(d);
+    }
 }

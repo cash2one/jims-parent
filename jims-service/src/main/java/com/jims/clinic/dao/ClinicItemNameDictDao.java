@@ -15,6 +15,13 @@ import java.util.List;
 public interface ClinicItemNameDictDao extends CrudDao<ClinicItemNameDict> {
 
     /**
+     * 不根据主键进行删除
+     * @param entity
+     * @return
+     */
+    public int deleteNoId(ClinicItemNameDict entity);
+
+    /**
      * 查询检验项目
      * @param标本expand1
      * @param检验类别expand2
@@ -23,4 +30,11 @@ public interface ClinicItemNameDictDao extends CrudDao<ClinicItemNameDict> {
      * @version 2016/5/06
      */
     public List<ClinicItemNameDict> selectLabItem(ClinicItemNameDict clinicItemNameDict);
+
+    /**
+     * 不根据主键进行删除
+     * @param entity
+     * @return
+     */
+    public int deleteNoId(ClinicItemNameDict entity);
 }

@@ -1,9 +1,9 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.PatVisitServiceApi;
+import com.jims.patient.api.PatVisitServiceApi;
 import com.jims.clinic.dao.PatVisitDao;
-import com.jims.clinic.entity.PatVisit;
+import com.jims.patient.entity.PatVisit;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

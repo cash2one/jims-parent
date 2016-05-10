@@ -31,18 +31,29 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     @Autowired
     private ClinicVsChargeDao vsDao;
 
-    public ClinicItemDict get(String id) {
-		return super.get(id);
-	}
-
-	public List<ClinicItemDict> findList(ClinicItemDict clinicItemDict) {
-		return super.findList(clinicItemDict);
-	}
-
-    public Page<ClinicItemDict> findPage(Page<ClinicItemDict> page, ClinicItemDict clinicItemDict) {
-        return super.findPage(page, clinicItemDict);
+    /**
+     * 编码或名称已存在个数
+     * @param entity
+     * @return
+     */
+    @Override
+    public boolean codeOrNameHas(ClinicItemDict entity){
+        List<ClinicItemDict> list = dao.findExisted(entity);
+        if(list != null && list.size() > 0){
+            for(int i=0;i<list.size();i++){
+                if(!list.get(i).getId().equals(entity.getId()))
+                    return true;
+            }
+        }
+        return false;
     }
 
+    /**
+     * 批量保存临床诊疗项目数据（插入或更新）
+     * @param entityList
+     * @return 成功个数
+     */
+    @Transactional(readOnly = false)
     public String save(List<ClinicItemDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -55,7 +66,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
-    //@Override
+    /**
+     * 删除诊疗项目数据以及所属名称和价表对照
+     * @param entity
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = false)
     public String deleteCascade(ClinicItemDict entity) {
         try{
             deleteName(entity);
@@ -67,7 +84,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return "1";
     }
 
-    //@Override
+    /**
+     * 删除诊疗项目数据以及所属名称和价表对照
+     * @param ids,多个id以逗号隔开
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = false)
     public String deleteCascade(String ids) {
         int i=0;
         try {
@@ -84,14 +107,27 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    //@Override
+    /**
+     * 获取临床诊疗项目名称（正/别名）信息
+     * @param entity
+     * @return
+     */
+    @Override
     public List<ClinicItemNameDict> findNameList(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
-        BeanUtils.copyProperties(entity,itemName);
+        itemName.setOrgId(entity.getOrgId());
+        itemName.setItemClass(entity.getItemClass());
+        itemName.setItemCode(entity.getItemCode());
         return nameDao.findList(itemName);
     }
 
-    //@Override
+    /**
+     * 保存临床诊疗项目名称(正/别名)数据（插入或更新）
+     * @param entity
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = false)
     public String save(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -108,7 +144,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    //@Override
+    /**
+     * 批量保存临床诊疗项目名称(正/别名)数据（插入或更新）
+     * @param entityList
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = false)
     public String saveNameList(List<ClinicItemNameDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -121,14 +163,19 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
-    //@Override
+    /**
+     * 删除临床诊疗项目名称(正/别名)数据
+     * @param ids ,多个id以逗号隔开
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = false)
     public String deleteName(String ids) {
         int i=0;
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                nameDao.delete(id[j]);
-                i++;
+                i += nameDao.delete(id[j]);
             }
         }catch(Exception e){
             return i+"";
@@ -136,24 +183,47 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
-    //@Override
+    /**
+     * 删除临床诊疗项目所有名称(正/别名)数据
+     * @param entity
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = false)
     public String delete(ClinicItemNameDict entity) {
         int i=0;
         try{
-            i = nameDao.delete(entity);
+            if(entity.getId() == null){
+                i = nameDao.deleteNoId(entity);
+            } else {
+                i = nameDao.delete(entity);
+            }
         }catch(Exception e){
             return i+"";
         }
         return i+"";
     }
 
+    /**
+     * 删除临床诊疗项目所有名称(正/别名)数据
+     * @param entity
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String deleteName(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
-        BeanUtils.copyProperties(entity,itemName);
+        itemName.setOrgId(entity.getOrgId());
+        itemName.setItemClass(entity.getItemClass());
+        itemName.setItemCode(entity.getItemCode());
         return delete(itemName);
     }
 
+    /**
+     * 获取临床诊疗与价表对照信息
+     * @param entity
+     * @return
+     */
     @Override
     public List<ClinicVsCharge> findVsList(ClinicItemDict entity) {
         ClinicVsCharge vs = new ClinicVsCharge();
@@ -163,7 +233,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return vsDao.findList(vs);
     }
 
+    /**
+     * 保存临床诊疗与价表对照数据（插入或更新）
+     * @param entity
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String save(ClinicVsCharge entity) {
         int i=0;
         try{
@@ -175,12 +251,19 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
                 i=vsDao.update(entity);
             }
         }catch(Exception e){
+            e.printStackTrace();
             return i+"";
         }
         return i+"";
     }
 
+    /**
+     * 批量保存临床诊疗与价表对照数据（插入或更新）
+     * @param entityList
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String saveVsList(List<ClinicVsCharge> entityList){
         int i = 0;
         if(entityList != null){
@@ -193,18 +276,34 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
+    /**
+     * 删除临床诊疗与价表对照数据
+     * @param entity
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String delete(ClinicVsCharge entity) {
         int i=0;
         try{
-            i = vsDao.delete(entity);
+            if(entity.getId() == null){
+                i = vsDao.deleteNoId(entity);
+            } else {
+                i = vsDao.delete(entity);
+            }
         }catch(Exception e){
             return i+"";
         }
         return i+"";
     }
 
+    /**
+     * 删除临床诊疗与价表对照数据
+     * @param ids,多个id以逗号隔开
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String deleteVs(String ids) {
         int i=0;
         try {
@@ -218,10 +317,18 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 删除临床诊疗与价表对照数据
+     * @param entity
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String deleteVs(ClinicItemDict entity) {
         ClinicVsCharge vs = new ClinicVsCharge();
-        BeanUtils.copyProperties(entity,vs);
+        vs.setOrgId(entity.getOrgId());
+        vs.setClinicItemClass(entity.getItemClass());
+        vs.setClinicItemCode(entity.getItemCode());
         return delete(vs);
     }
 

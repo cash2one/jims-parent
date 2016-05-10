@@ -3,7 +3,7 @@
  */
 package com.jims.clinic.dao;
 
-import com.jims.clinic.entity.ExamClassDict;
+import com.jims.exam.entity.ExamClassDict;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 
