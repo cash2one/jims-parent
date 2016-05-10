@@ -43,4 +43,11 @@ public interface PerformFreqDictApi {
      * @return
      */
     public PerformFreqDict get(String id);
+
+    /**
+     * 检索频次数据
+     * @param entity
+     * @return
+     */
+    public List<PerformFreqDict> findList(PerformFreqDict entity);
 }

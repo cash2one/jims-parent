@@ -67,4 +67,9 @@ insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('A3B
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('61BD9A78562D42CE814FB14B21E50004','床位','J','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','10',0);
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('6E094F773AAF4C489452771BB61CD243','其他','Z','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','11',0);
 
+insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('62A761458A2A41349650A40F3F2DEA1A','按次','按次','PRICE_RULES_DICT','计费规则字典','1',0);
+insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('7D6AC7717D44412AA02BFBC0E5C0C370','按日','按日','PRICE_RULES_DICT','计费规则字典','2',0);
+insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('220AA85DDB224A53BC1CB42E4F95249E','只记一次','只记一次','PRICE_RULES_DICT','计费规则字典','3',0);
+insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('E5D4C241710C4360B9662BCE2D3EF35E','不计价','不计价','PRICE_RULES_DICT','计费规则字典','4',0);
+
 

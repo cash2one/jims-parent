@@ -6,6 +6,8 @@ $(function(){
     var type_arr //诊疗项目类别数组
         ,clinic_data_arr // 执行科室数组
         ,hz_arr // 频次数组
+        ,speciman_arr  // 检验标本数组
+        ,clinic_type_arr // 检验类别数组
         ,long_arr //长期临时数组
         ,price_type_arr //对照价表类别
         ,vs_grid_data = {}   // 各类型对照价表数据
@@ -19,7 +21,11 @@ $(function(){
         $('#item_class').combobox({
             data : data,
             valueField:'value',
-            textField:'label'
+            textField:'label',
+            editable : false,
+            onSelect : function(r){
+                load_data(0)
+            }
         });
         if(default_value)
             $('#item_class').combobox('setValue',default_value)
@@ -108,7 +114,6 @@ $(function(){
                     options:{
                         panelWidth:300,
                         idField:'deptCode',
-                        editable:false,
                         textField:'deptName',
                         fitColumns: true,
                         data : clinic_data_arr,
@@ -135,8 +140,8 @@ $(function(){
                 { field: 'expand4', title: '频次',align : "center", width: 80 ,editor:{
                     type:'combobox',
                     options:{
-                        valueField:'value',
-                        textField:'label',
+                        valueField:'freqDesc',
+                        textField:'freqDesc',
                         data:hz_arr,
                         editable:false,
                         required:false,
@@ -145,21 +150,43 @@ $(function(){
                             change_name_and_vs(newV,'expand4')
                         }
                     }
-                },formatter:function(value){
-                    return format(hz_arr,value);
                 }},
-                { field: 'expand2', title: '类别',align : "center", width: 60,editor:{type : 'textbox',options:{
-                    onChange:function(newV,oldV){
-                        if(newV != oldV)
-                        change_name_and_vs(newV,'expand2')
+                { field: 'expand2', title: '类别',align : "center", width: 60,editor:{
+                    type:'combobox',
+                    options:{
+                        valueField:'classCode',
+                        textField:'className',
+                        editable:false,
+                        data:clinic_type_arr,
+                        required:false,
+                        onChange:function(newV,oldV){
+                            if(newV != oldV)
+                                change_name_and_vs(newV,'expand2')
+                        }
                     }
-                }} },
-                { field: 'expand1', title: '标本',align : "center", width: 60 ,editor:{type : 'textbox',options:{
-                    onChange:function(newV,oldV){
-                        if(newV != oldV)
-                        change_name_and_vs(newV,'expand1')
+                },formatter:function(value){
+                    for(var i=0;i<clinic_type_arr.length;i++){
+                        if(clinic_type_arr[i].classCode == value)
+                            return clinic_type_arr[i].className
                     }
-                }}},
+                    return value;
+                }},
+                { field: 'expand1', title: '标本',align : "center", width: 60 ,editor:{
+                    type:'combobox',
+                    options:{
+                        valueField:'value',
+                        textField:'label',
+                        editable:false,
+                        data:speciman_arr,
+                        required:false,
+                        onChange:function(newV,oldV){
+                            if(newV != oldV)
+                                change_name_and_vs(newV,'expand1')
+                        }
+                    }
+                },formatter:function(value){
+                    return format(speciman_arr,value);
+                }},
                 { field: 'expand5', title: '长期临时',align : "center", width: 60 ,editor:{
                     type:'combobox',
                     options:{
@@ -202,6 +229,10 @@ $(function(){
             if(select_index != index) {
                 save_name_and_vs(select_index)
                 handler_name_and_vs(index)
+            }
+            if($('#item_class').combobox('getText') != '检验' && (field == 'expand1' || field == 'expand2')){
+                $.messager.alert('警告','非检验项目没有标本和类别！','warning')
+                return
             }
             $('#clinic_item').datagrid('selectRow', index)
                 .datagrid('editCell', {index:index,field:field});
@@ -571,25 +602,23 @@ $(function(){
             load_price_data('2')
             init_item_class(res,'A')
         },'GET',false)
-        if(! clinic_data_arr)
-            clinic_data_arr = [{
-                "value":1,
-                "label":"text1"
-            },{
-                "value":2,
-                "label":"text2"
-            }]
-        $.ajaxAsync('/service/dept-dict/list','',function(res){
-            clinic_data_arr = res
-        },'GET',false)
+        if(!clinic_data_arr)
+            $.ajaxAsync('/service/dept-dict/list','',function(res){
+                clinic_data_arr = res
+                alert(res)
+            },'GET',false)
+        if(!speciman_arr)
+            $.ajaxAsync('/service/dict/findListByType',{type:'SPECIMAN_DICT'},function(res){
+                speciman_arr = res
+            },'GET',false)
         if(!hz_arr)
-            hz_arr = [{
-                "value":1,
-                "label":"一日一次"
-            },{
-                "value":2,
-                "label":"一日两次"
-            }]
+            $.ajaxAsync('/service/PerformFreqDict/findList','',function(res){
+                hz_arr = res
+            },'POST',false)
+        if(!clinic_type_arr)
+            $.ajaxAsync('/service/labitemclass/list','',function(res){
+                clinic_type_arr = res
+            },'GET',false)
         if(!long_arr)
             long_arr = [{
                 "value":1,
@@ -607,19 +636,9 @@ $(function(){
                 "label":"非药品"
             }]
         if(!price_rules_arr)
-            price_rules_arr = [{
-                "value":1,
-                "label":"按次"
-            },{
-                "value":2,
-                "label":"按日"
-            },{
-                "value":3,
-                "label":"只记一次"
-            },{
-                "value":4,
-                "label":"不计价"
-            }]
+            $.ajaxAsync('/service/dict/findListByType',{type:'PRICE_RULES_DICT'},function(res){
+                price_rules_arr = res
+            },'GET',false)
     }
     /************************************************************************************/
 
