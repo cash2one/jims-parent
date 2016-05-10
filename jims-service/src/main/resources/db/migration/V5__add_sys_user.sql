@@ -5,7 +5,7 @@ create table SYS_USER
    LOGIN_NAME           VARCHAR(20),
    PASSWORD             VARCHAR(100),
    LAST_LOGIN_TIME      TIMESTAMP,
-   PERISON_ID           VARCHAR(64),
+   PERSION_ID           VARCHAR(64),
    REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
    CREATE_BY           VARCHAR2(64),
@@ -30,5 +30,5 @@ comment on column SYS_USER.PASSWORD is
 comment on column SYS_USER.LAST_LOGIN_TIME is
 '最后登陆时间';
 
-comment on column SYS_USER.PERISON_ID is
+comment on column SYS_USER.PERSION_ID is
 '人员';

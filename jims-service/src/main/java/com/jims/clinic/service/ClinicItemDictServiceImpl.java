@@ -10,11 +10,11 @@ import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.ClinicVsCharge;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.sys.vo.PriceDictListVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -329,6 +329,18 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         vs.setClinicItemClass(entity.getItemClass());
         vs.setClinicItemCode(entity.getItemCode());
         return delete(vs);
+    }
+
+    @Override
+    public String saveDictList(PriceDictListVo dictListVo) {
+        ClinicItemDict dict = new ClinicItemDict();
+        dict.setItemName(dictListVo.getItemName());
+        dict.setItemClass(dictListVo.getItemClass());
+        dict.setItemCode(dictListVo.getItemCode());
+        dict.setInputCode(dictListVo.getInputCode());
+        dict.setExpand3(dictListVo.getPerformedBy());
+        dict.setMemo(dictListVo.getMemo());
+        return super.save(dict);
     }
 
 }

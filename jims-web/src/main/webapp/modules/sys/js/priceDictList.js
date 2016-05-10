@@ -50,12 +50,19 @@ $(function () {
         panelWidth: 300,
         idField: 'deptCode',
         textField: 'deptName',
+        mode: 'local',
         method: 'GET',
         url: basePath + '/dept-dict/list',
         columns: [[
-            {field: 'deptCode', title: '科室编码', width: 60},
-            {field: 'deptName', title: '科室名称', width: 100}
-        ]]
+            {field: 'deptCode', title: '科室编码', width: 100},
+            {field: 'deptName', title: '科室名称', width: 100},
+            {field: 'inputCode', title: '拼音码', width: 100}
+        ]], filter: function (q, row) {
+
+            return row.inputCode.indexOf(q) == 0;
+        }
+
+
     });
 
     $("#feeTypeMask").on("click", function () {
@@ -64,6 +71,15 @@ $(function () {
             $("#feeTypeMask").val(1);
         } else {
             $("#feeTypeMask").val(0);
+        }
+    });
+
+    $("#clinicDict").on("click", function () {
+        console.log($("#clinicDict").prop("checked"));
+        if ($("#clinicDict").prop("checked") == true) {
+            $("#clinicDict").val(1);
+        } else {
+            $("#clinicDict").val(0);
         }
     });
 

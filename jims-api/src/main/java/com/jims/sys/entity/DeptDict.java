@@ -12,14 +12,34 @@ import org.hibernate.validator.constraints.Length;
  * @version 2016-04-13
  */
 public class DeptDict extends DataEntity<DeptDict> {
-
+	
 	private static final long serialVersionUID = 1L;
 	private String parentId;		// 父部门
 	private String deptName;		// 部门名称
 	private String deptCode;		// 部门代码
 	private String deptPropertity;		// 科室属性
+    private String orgId;       //组织机构ID
+    private String inputCode;   //拼音码
 
-	public DeptDict() {
+
+
+    public String getInputCode() {
+        return inputCode;
+    }
+
+    public void setInputCode(String inputCode) {
+        this.inputCode = inputCode;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public DeptDict() {
 		super();
 	}
 
@@ -44,7 +64,7 @@ public class DeptDict extends DataEntity<DeptDict> {
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
 	}
-
+	
 	@Length(min=0, max=20, message="部门代码长度必须介于 0 和 20 之间")
 	public String getDeptCode() {
 		return deptCode;

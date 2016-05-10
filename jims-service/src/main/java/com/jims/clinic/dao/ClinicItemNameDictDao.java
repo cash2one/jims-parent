@@ -30,4 +30,5 @@ public interface ClinicItemNameDictDao extends CrudDao<ClinicItemNameDict> {
      * @version 2016/5/06
      */
     public List<ClinicItemNameDict> selectLabItem(ClinicItemNameDict clinicItemNameDict);
+
 }

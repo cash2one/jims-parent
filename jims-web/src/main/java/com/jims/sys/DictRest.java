@@ -41,6 +41,7 @@ public class DictRest {
         return pageData;
     }
 
+  
     /**
      * 获取单条数据
      *
@@ -110,6 +111,8 @@ public class DictRest {
         public List<Dict> findListByType(@QueryParam("type") String type){
             return dictService.findList(type);
         }
+
+
 
     /**
      * 获得字典label值

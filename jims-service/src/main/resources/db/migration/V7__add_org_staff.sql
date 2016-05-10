@@ -4,6 +4,7 @@ create table ORG_STAFF
    DEPT_ID              VARCHAR(64),
    ORG_ID               VARCHAR(64),
    TITLE                VARCHAR(20),
+   PERSION_ID           VARCHAR (64),
    REMARKS              VARCHAR2(2000),
    UPDATE_BY            VARCHAR(64),
    CREATE_BY           VARCHAR2(64),
@@ -27,3 +28,6 @@ comment on column ORG_STAFF.ORG_ID is
 
 comment on column ORG_STAFF.TITLE is
 '职称';
+
+comment on column ORG_STAFF.PERSION_ID is
+'人员ID';
