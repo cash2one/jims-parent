@@ -10,14 +10,289 @@ var administration = [{ "value": "口服", "text": "口服" }, { "value": "静�
 var frequency = [{ "value": "一日一次", "text": "一日一次" }, { "value": "一日二次", "text": "一日二次" }, { "value": "一日三次", "text": "一日三次" }];
 var providedIndicator = [{ "value": "1", "text": "取药" }];
 var skinFlag =  [{ "value": "1", "text": "阴性" }, { "value": "2", "text": "阳性" }, { "value": "3", "text": "无皮试" }];
+var xiyaoGrid;
+var zhongyaoGrid;
+
 $(function(){
     var itemClass = $("#itemClass").val();
+    var clinicId = $("#clinicMasterId",parent.document).val();
+    $("#clinicId").val(clinicId);
+    xiyaoGrid= $('#list_data').datagrid({
+        singleSelect: true,
+        fit: true,
+        nowrap: false,
+        /*method:'GET',
+        url:basePath+'/outppresc/sublist',*/
+        columns:[[      //每个列具体内容
+            {field:'orderNo',title:'处方号',width:'5%',align:'center'},
+            {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :drugName,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+                /* options:{required:true,
+                 url: basePath+'/outppresc/dictlist',
+                 valueField: 'value',
+                 textField: 'label',
+                 method: 'GET',
+                 onLoadSuccess: function () {
+                 var data = $(this).combobox('getData');
+                 $(this).combobox('select', data[0].label);
+                 } ,
+                 onChange:function(newValue,oldValue){
+                 alert(newValue+"--"+oldValue);
+                 *//* if(newValue=="退货出库"){
+                 $('#receiver').combogrid('enable');
+                 $.messager.confirm('系统消息', '您要“退货出库”给供应商吗？', function (r) {
+                 if (r) {
+                 depts = new Array;
+                 for(var i = 0 ;i< suppliers.length;i++){
+                 var dept = {};
+                 dept.storageName = suppliers[i].supplierName;
+                 dept.storageCode = suppliers[i].supplierCode;
+                 dept.disburseNoPrefix = suppliers[i].inputCode;
+                 depts.push(dept)
+                 }
+                 $('#receiver').combogrid('grid').datagrid('loadData', depts);
+                 }
+                 });
+                 }*//*
+                 }
+                 }*/
+            }},
+            {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
+            {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
+            {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
+            {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
+            {field:'administration',title:'途径',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :administration,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :frequency,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+
+            }},
+            {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
+            {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
+            {field:'itemClass',title:'药局',width:'5%',align:'center'},
+            {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
+            {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :providedIndicator,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
+            {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :skinFlag,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {field:'subOrderNo',title:'子处方',hidden:'true'},
+            {field:'itemNo',title:'项目序号',hidden:'true'},
+            {field:'drugCode',title:'药品编号',hidden:'true'}
+        ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function() {
+                var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
+                if(selRow!=null&&selRow!=''&&selRow!='undefined'){
+                    $("#list_data").datagrid('insertRow', {
+                        index:0,
+                        row:{}
+                    });
+                }else{
+                    $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
+                    return;
+                }
+            }
+        }, '-',{
+            text: '删除',
+            iconCls: 'icon-remove',
+            handler: function(){
+                doDelete();
+            }
+        }],onAfterEdit: function (rowIndex, rowData, changes) {
+            editRow = undefined;
+        },onDblClickRow:function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
+            }
+            if (editRow == undefined) {
+                $("#list_data").datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
+            }
+        },onClickRow:function(rowIndex,rowData){
+            //tooltips选中行，药品价目列表信息
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
+            }
+        }
+    });
+    zhongyaoGrid = $('#list_data').datagrid({
+        singleSelect: true,
+        fit: true,
+        nowrap: false,
+       /* method:'GET',
+        url:basePath+'/outppresc/sublist',*/
+        columns:[[      //每个列具体内容
+            {field:'orderNo',title:'处方号',width:'5%',align:'center'},
+            {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :drugName,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+                /* options:{required:true,
+                 url: basePath+'/outppresc/dictlist',
+                 valueField: 'value',
+                 textField: 'label',
+                 method: 'GET',
+                 onLoadSuccess: function () {
+                 var data = $(this).combobox('getData');
+                 $(this).combobox('select', data[0].label);
+                 } ,
+                 onChange:function(newValue,oldValue){
+                 alert(newValue+"--"+oldValue);
+                 *//* if(newValue=="退货出库"){
+                 $('#receiver').combogrid('enable');
+                 $.messager.confirm('系统消息', '您要“退货出库”给供应商吗？', function (r) {
+                 if (r) {
+                 depts = new Array;
+                 for(var i = 0 ;i< suppliers.length;i++){
+                 var dept = {};
+                 dept.storageName = suppliers[i].supplierName;
+                 dept.storageCode = suppliers[i].supplierCode;
+                 dept.disburseNoPrefix = suppliers[i].inputCode;
+                 depts.push(dept)
+                 }
+                 $('#receiver').combogrid('grid').datagrid('loadData', depts);
+                 }
+                 });
+                 }*//*
+                 }
+                 }*/
+            }},
+            {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
+            {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
+            {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
+            {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
+            {field:'administration',title:'途径',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :administration,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+
+            }},
+            {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :frequency,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
+            {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
+            {field:'itemClass',title:'药局',width:'5%',align:'center'},
+            {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
+            {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :providedIndicator,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {field:'subOrderNo',title:'子处方',hidden:'true'},
+            {field:'itemNo',title:'项目序号',hidden:'true'},
+            {field:'drugCode',title:'药品编号',hidden:'true'}
+        ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function() {
+                var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
+                if(selRow!=null&&selRow!=''&&selRow!='undefined'){
+                    $("#list_data").datagrid('insertRow', {
+                        index:0,
+                        row:{}
+                    });
+                }else{
+                    $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
+                    return;
+                }
+            }
+        }, '-',{
+            text: '删除',
+            iconCls: 'icon-remove',
+            handler: function(){
+                doDelete();
+            }
+        }],onAfterEdit: function (rowIndex, rowData, changes) {
+            editRow = undefined;
+        },onDblClickRow:function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
+            }
+            if (editRow == undefined) {
+                $("#list_data").datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
+            }
+        },onClickRow:function(rowIndex,rowData){
+            //tooltips选中行，药品价目列表信息
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
+            }
+        }
+    });
     $('#leftList').datagrid({
         singleSelect: true,
         fit: true,
         nowrap: false,
         method:'GET',
-        url:basePath+'/outppresc/list',
+        url:basePath+'/outppresc/list?clinicId='+clinicId,
         columns:[[      //每个列具体内容
             {field:'visitDate',title:'就诊时间',width:'20%',align:'center'},
             {field:'visitNo',title:'就诊序号',width:'15%',align:'center'},
@@ -43,353 +318,160 @@ $(function(){
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
-        ]]
+        ]], onClickRow: function (index, row) {
+            if(row.itemClass=='A'){
+                $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo, function (data) {
+                    $("#list_data").datagrid("loadData", data);
+                });
+            }else{
+                $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo, function (data) {
+                    $("#list_data").datagrid("loadData", data);
+                });
+            }
+
+        }/*, onLoadSuccess: function(){
+            $('#leftList').datagrid('selectRow',0);
+        }*/
     });
+    $('#list_data').datagrid({
+        singleSelect: true,
+        fit: true,
+        fitColumns: true,
+        nowrap: false,
+        columns:[[      //每个列具体内容
+            {field:'prescNo',title:'处方号',width:'5%',align:'center'},
+            {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :drugName,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+                /* options:{required:true,
+                 url: basePath+'/outppresc/dictlist',
+                 valueField: 'value',
+                 textField: 'label',
+                 method: 'GET',
+                 onLoadSuccess: function () {
+                 var data = $(this).combobox('getData');
+                 $(this).combobox('select', data[0].label);
+                 } ,
+                 onChange:function(newValue,oldValue){
+                 alert(newValue+"--"+oldValue);
+                 *//* if(newValue=="退货出库"){
+                 $('#receiver').combogrid('enable');
+                 $.messager.confirm('系统消息', '您要“退货出库”给供应商吗？', function (r) {
+                 if (r) {
+                 depts = new Array;
+                 for(var i = 0 ;i< suppliers.length;i++){
+                 var dept = {};
+                 dept.storageName = suppliers[i].supplierName;
+                 dept.storageCode = suppliers[i].supplierCode;
+                 dept.disburseNoPrefix = suppliers[i].inputCode;
+                 depts.push(dept)
+                 }
+                 $('#receiver').combogrid('grid').datagrid('loadData', depts);
+                 }
+                 });
+                 }*//*
+                 }
+                 }*/
+            }},
+            {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
+            {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
+            {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
+            {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
+            {field:'administration',title:'途径',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :administration,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
+            }},
+            {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :frequency,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
+                }
 
-    if(itemClass=='A'){
-        $('#list_data').datagrid({
-            singleSelect: true,
-            fit: true,
-            nowrap: false,
-            method:'GET',
-            url:basePath+'/outppresc/sublist',
-            columns:[[      //每个列具体内容
-                {field:'orderNo',title:'处方号',width:'5%',align:'center'},
-                {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :drugName,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     } ,
-                     onChange:function(newValue,oldValue){
-                     alert(newValue+"--"+oldValue);
-                     *//* if(newValue=="退货出库"){
-                     $('#receiver').combogrid('enable');
-                     $.messager.confirm('系统消息', '您要“退货出库”给供应商吗？', function (r) {
-                     if (r) {
-                     depts = new Array;
-                     for(var i = 0 ;i< suppliers.length;i++){
-                     var dept = {};
-                     dept.storageName = suppliers[i].supplierName;
-                     dept.storageCode = suppliers[i].supplierCode;
-                     dept.disburseNoPrefix = suppliers[i].inputCode;
-                     depts.push(dept)
-                     }
-                     $('#receiver').combogrid('grid').datagrid('loadData', depts);
-                     }
-                     });
-                     }*//*
-                     }
-                     }*/
-                }},
-                {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
-                {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
-                {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
-                {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
-                {field:'administration',title:'途径',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :administration,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /*options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :frequency,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
-                {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
-                {field:'itemClass',title:'药局',width:'5%',align:'center'},
-                {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
-                {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :providedIndicator,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /*options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
-                {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :skinFlag,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'subOrderNo',title:'子处方',hidden:'true'},
-                {field:'itemNo',title:'项目序号',hidden:'true'},
-                {field:'drugCode',title:'药品编号',hidden:'true'}
-            ]],
-            frozenColumns:[[
-                {field:'ck',checkbox:true}
-            ]],
-            toolbar: [{
-                text: '添加',
-                iconCls: 'icon-add',
-                handler: function() {
-                    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
-                    if(selRow!=null&&selRow!=''&&selRow!='undefined'){
-                        $("#list_data").datagrid('insertRow', {
-                            index:0,
-                            row:{}
-                        });
-                    }else{
-                        $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
-                        return;
-                    }
+            }},
+            {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
+            {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
+            {field:'itemClass',title:'药局',width:'5%',align:'center'},
+            {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
+            {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :providedIndicator,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
                 }
-            }, '-',{
-                text: '删除',
-                iconCls: 'icon-remove',
-                handler: function(){
-                    doDelete();
+            }},
+            /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
+            {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data :skinFlag,
+                    valueField:'value',
+                    textField:'text',
+                    required:true
                 }
-            }],onAfterEdit: function (rowIndex, rowData, changes) {
-                editRow = undefined;
-            },onDblClickRow:function (rowIndex, rowData) {
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-                if (editRow == undefined) {
-                    $("#list_data").datagrid('beginEdit', rowIndex);
-                    editRow = rowIndex;
-                }
-            },onClickRow:function(rowIndex,rowData){
-                //tooltips选中行，药品价目列表信息
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
+            }},
+            {field:'subOrderNo',title:'子处方',hidden:'true'},
+            {field:'itemNo',title:'项目序号',hidden:'true'},
+            {field:'drugCode',title:'药品编号',hidden:'true'}
+        ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function() {
+                var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
+                if(selRow!=null&&selRow!=''&&selRow!='undefined'){
+                    $("#list_data").datagrid('insertRow', {
+                        index:0,
+                        row:{}
+                    });
+                }else{
+                    $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
+                    return;
                 }
             }
-        });
-    }else if(itemClass=='B'){
-        $('#list_data').datagrid({
-            singleSelect: true,
-            fit: true,
-            nowrap: false,
-            method:'GET',
-            url:basePath+'/outppresc/sublist',
-            columns:[[      //每个列具体内容
-                {field:'orderNo',title:'处方号',width:'5%',align:'center'},
-                {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :drugName,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     } ,
-                     onChange:function(newValue,oldValue){
-                     alert(newValue+"--"+oldValue);
-                     *//* if(newValue=="退货出库"){
-                     $('#receiver').combogrid('enable');
-                     $.messager.confirm('系统消息', '您要“退货出库”给供应商吗？', function (r) {
-                     if (r) {
-                     depts = new Array;
-                     for(var i = 0 ;i< suppliers.length;i++){
-                     var dept = {};
-                     dept.storageName = suppliers[i].supplierName;
-                     dept.storageCode = suppliers[i].supplierCode;
-                     dept.disburseNoPrefix = suppliers[i].inputCode;
-                     depts.push(dept)
-                     }
-                     $('#receiver').combogrid('grid').datagrid('loadData', depts);
-                     }
-                     });
-                     }*//*
-                     }
-                     }*/
-                }},
-                {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
-                {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
-                {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
-                {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
-                {field:'administration',title:'途径',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :administration,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /*options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :frequency,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
-                {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
-                {field:'itemClass',title:'药局',width:'5%',align:'center'},
-                {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
-                {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :providedIndicator,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /*options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'subOrderNo',title:'子处方',hidden:'true'},
-                {field:'itemNo',title:'项目序号',hidden:'true'},
-                {field:'drugCode',title:'药品编号',hidden:'true'}
-            ]],
-            frozenColumns:[[
-                {field:'ck',checkbox:true}
-            ]],
-            toolbar: [{
-                text: '添加',
-                iconCls: 'icon-add',
-                handler: function() {
-                    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
-                    if(selRow!=null&&selRow!=''&&selRow!='undefined'){
-                        $("#list_data").datagrid('insertRow', {
-                            index:0,
-                            row:{}
-                        });
-                    }else{
-                        $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
-                        return;
-                    }
-                }
-            }, '-',{
-                text: '删除',
-                iconCls: 'icon-remove',
-                handler: function(){
-                    doDelete();
-                }
-            }],onAfterEdit: function (rowIndex, rowData, changes) {
-                editRow = undefined;
-            },onDblClickRow:function (rowIndex, rowData) {
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-                if (editRow == undefined) {
-                    $("#list_data").datagrid('beginEdit', rowIndex);
-                    editRow = rowIndex;
-                }
-            },onClickRow:function(rowIndex,rowData){
-                //tooltips选中行，药品价目列表信息
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
+        }, '-',{
+            text: '删除',
+            iconCls: 'icon-remove',
+            handler: function(){
+                doDelete();
             }
-        });
-    }
-
-
-
+        }],onAfterEdit: function (rowIndex, rowData, changes) {
+            editRow = undefined;
+        },onDblClickRow:function (rowIndex, rowData) {
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
+            }
+            if (editRow == undefined) {
+                $("#list_data").datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
+            }
+        },onClickRow:function(rowIndex,rowData){
+            //tooltips选中行，药品价目列表信息
+            if (editRow != undefined) {
+                $("#list_data").datagrid('endEdit', editRow);
+            }
+        }
+    });
 });
 //西药/草药单选按钮事件
 function funItem(obj){
@@ -397,346 +479,9 @@ function funItem(obj){
     $("#itemClass").val(obj.value);
     $(obj).attr("checked","true");
     if(itemClass=='A'){
-        $("#combobox").
-        $('#list_data').datagrid({
-            singleSelect: true,
-            fit: true,
-            nowrap: false,
-            method:'GET',
-            url:basePath+'/outppresc/sublist',
-            columns:[[      //每个列具体内容
-                {field:'orderNo',title:'处方号',width:'5%',align:'center'},
-                {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :drugName,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     } ,
-                     onChange:function(newValue,oldValue){
-                     alert(newValue+"--"+oldValue);
-                     *//* if(newValue=="退货出库"){
-                     $('#receiver').combogrid('enable');
-                     $.messager.confirm('系统消息', '您要“退货出库”给供应商吗？', function (r) {
-                     if (r) {
-                     depts = new Array;
-                     for(var i = 0 ;i< suppliers.length;i++){
-                     var dept = {};
-                     dept.storageName = suppliers[i].supplierName;
-                     dept.storageCode = suppliers[i].supplierCode;
-                     dept.disburseNoPrefix = suppliers[i].inputCode;
-                     depts.push(dept)
-                     }
-                     $('#receiver').combogrid('grid').datagrid('loadData', depts);
-                     }
-                     });
-                     }*//*
-                     }
-                     }*/
-                }},
-                {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
-                {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
-                {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
-                {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
-                {field:'administration',title:'途径',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :administration,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /*options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :frequency,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
-                {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
-                {field:'itemClass',title:'药局',width:'5%',align:'center'},
-                {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
-                {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :providedIndicator,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /*options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
-                {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :skinFlag,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'subOrderNo',title:'子处方',hidden:'true'},
-                {field:'itemNo',title:'项目序号',hidden:'true'},
-                {field:'drugCode',title:'药品编号',hidden:'true'}
-            ]],
-            frozenColumns:[[
-                {field:'ck',checkbox:true}
-            ]],
-            toolbar: [{
-                text: '添加',
-                iconCls: 'icon-add',
-                handler: function() {
-                    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
-                    if(selRow!=null&&selRow!=''&&selRow!='undefined'){
-                        $("#list_data").datagrid('insertRow', {
-                            index:0,
-                            row:{}
-                        });
-                    }else{
-                        $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
-                        return;
-                    }
-                }
-            }, '-',{
-                text: '删除',
-                iconCls: 'icon-remove',
-                handler: function(){
-                    doDelete();
-                }
-            }],onAfterEdit: function (rowIndex, rowData, changes) {
-                editRow = undefined;
-            },onDblClickRow:function (rowIndex, rowData) {
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-                if (editRow == undefined) {
-                    $("#list_data").datagrid('beginEdit', rowIndex);
-                    editRow = rowIndex;
-                }
-            },onClickRow:function(rowIndex,rowData){
-                //tooltips选中行，药品价目列表信息
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-            }
-        });
+        xiyaoGrid;
     }else if(itemClass=='B'){
-        $('#list_data').datagrid({
-            singleSelect: true,
-            fit: true,
-            nowrap: false,
-            method:'GET',
-            url:basePath+'/outppresc/sublist',
-            columns:[[      //每个列具体内容
-                {field:'orderNo',title:'处方号',width:'5%',align:'center'},
-                {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :drugName,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     } ,
-                     onChange:function(newValue,oldValue){
-                     alert(newValue+"--"+oldValue);
-                     *//* if(newValue=="退货出库"){
-                     $('#receiver').combogrid('enable');
-                     $.messager.confirm('系统消息', '您要“退货出库”给供应商吗？', function (r) {
-                     if (r) {
-                     depts = new Array;
-                     for(var i = 0 ;i< suppliers.length;i++){
-                     var dept = {};
-                     dept.storageName = suppliers[i].supplierName;
-                     dept.storageCode = suppliers[i].supplierCode;
-                     dept.disburseNoPrefix = suppliers[i].inputCode;
-                     depts.push(dept)
-                     }
-                     $('#receiver').combogrid('grid').datagrid('loadData', depts);
-                     }
-                     });
-                     }*//*
-                     }
-                     }*/
-                }},
-                {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
-                {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
-                {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
-                {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
-                {field:'administration',title:'途径',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :administration,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /*options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :frequency,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /* options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
-                {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
-                {field:'itemClass',title:'药局',width:'5%',align:'center'},
-                {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
-                {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :providedIndicator,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                    /*options:{required:true,
-                     url: basePath+'/outppresc/dictlist',
-                     valueField: 'value',
-                     textField: 'label',
-                     method: 'GET',
-                     onLoadSuccess: function () {
-                     var data = $(this).combobox('getData');
-                     $(this).combobox('select', data[0].label);
-                     }
-                     }*/
-                }},
-                {field:'subOrderNo',title:'子处方',hidden:'true'},
-                {field:'itemNo',title:'项目序号',hidden:'true'},
-                {field:'drugCode',title:'药品编号',hidden:'true'}
-            ]],
-            frozenColumns:[[
-                {field:'ck',checkbox:true}
-            ]],
-            toolbar: [{
-                text: '添加',
-                iconCls: 'icon-add',
-                handler: function() {
-                    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
-                    if(selRow!=null&&selRow!=''&&selRow!='undefined'){
-                        $("#list_data").datagrid('insertRow', {
-                            index:0,
-                            row:{}
-                        });
-                    }else{
-                        $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
-                        return;
-                    }
-                }
-            }, '-',{
-                text: '删除',
-                iconCls: 'icon-remove',
-                handler: function(){
-                    doDelete();
-                }
-            }],onAfterEdit: function (rowIndex, rowData, changes) {
-                editRow = undefined;
-            },onDblClickRow:function (rowIndex, rowData) {
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-                if (editRow == undefined) {
-                    $("#list_data").datagrid('beginEdit', rowIndex);
-                    editRow = rowIndex;
-                }
-            },onClickRow:function(rowIndex,rowData){
-                //tooltips选中行，药品价目列表信息
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-            }
-        });
+        zhongyaoGrid;
     }
 }
 
@@ -799,28 +544,31 @@ function doDelete() {
                 strIds += selectRows[i].id + ",";
             }
             strIds = strIds.substr(0, strIds.length - 1);
-            //真删除数据
-            $.ajax({
-                'type': 'POST',
-                'url': basePath+'/outppresc/delete',
-                'contentType': 'application/json',
-                'data': id=strIds,
-                'dataType': 'json',
-                'success': function(data){
-                    if(data.data=='success'){
-                        $.messager.alert("提示消息",data.code+"条记录删除成功！");
-                        $('#list_data').datagrid('load');
-                        $('#list_data').datagrid('clearChecked');
-                    }else{
-                        $.messager.alert('提示',"删除失败", "error");
-                    }
-                },
-                'error': function(data){
-                    $.messager.alert('提示',"保存失败", "error");
-                }
-            });
+            del(strIds);
         }
     })
+}
+function del(id){
+    //真删除数据
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/outppresc/delete',
+        'contentType': 'application/json',
+        'data': "ids="+id,
+        'dataType': 'json',
+        'success': function(data){
+            if(data.data=='success'){
+                $.messager.alert("提示消息",data.code+"条记录删除成功！");
+                $('#list_data').datagrid('load');
+                $('#list_data').datagrid('clearChecked');
+            }else{
+                $.messager.alert('提示',"删除失败", "error");
+            }
+        },
+        'error': function(data){
+            $.messager.alert('提示',"保存失败", "error");
+        }
+    });
 }
 
 $("#stockRecordDialog").dialog({

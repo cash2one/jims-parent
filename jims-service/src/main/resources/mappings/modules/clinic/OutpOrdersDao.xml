@@ -85,7 +85,7 @@
 	
 	<insert id="insert">
 		INSERT INTO outp_orders(
-		id,
+
 		<if test="patientId!=null">
 			patient_id,
 		</if>
@@ -116,8 +116,9 @@
 		<if test="doctorNo!=null">
 			doctor_no,
 		</if>
+		id
 		) VALUES (
-			sys_guid(),
+
 		<if test="patientId!=null">
 			#{patientId},
 		</if>
@@ -143,11 +144,12 @@
 			#{clinicNo},
 		</if>
 		<if test="nurse!=null">
-			#{nurse}
+			#{nurse},
 		</if>
 		<if test="doctorNo!=null">
-			#{doctorNo}
+			#{doctorNo},
 		</if>
+		sys_guid()
 		)
 	</insert>
 	

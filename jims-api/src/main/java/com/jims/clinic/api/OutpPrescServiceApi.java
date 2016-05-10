@@ -1,6 +1,7 @@
 package com.jims.clinic.api;
 
 import com.jims.clinic.entity.OutpPresc;
+import com.jims.clinic.vo.OutpPrescListVo;
 
 import java.util.List;
 
@@ -25,4 +26,18 @@ public interface OutpPrescServiceApi {
      * @return
      */
     public String save(OutpPresc outpPresc);
+
+    /**
+     * 删除方法
+     * @param ids
+     */
+    public String deletePresc(String ids);
+
+    /**
+     * 根据参数查询处方相关信息
+     * @param outpPresc
+     * @author CTQ
+     * @return
+     */
+    public List<OutpPrescListVo> findListByParams(OutpPresc outpPresc);
 }

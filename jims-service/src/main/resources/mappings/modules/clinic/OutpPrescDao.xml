@@ -223,9 +223,9 @@
 		WHERE id = #{id}
 	</update>
 	
-	<update id="delete">
+	<update id="delete" >
 		UPDATE outp_presc SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	<select id="getOutpPresc" resultType="OutpPresc">
@@ -243,9 +243,73 @@
 	</select>
 	<select id="getOrderNo" resultType="Integer">
 		select MAX(order_no) FROM outp_presc a
-		where
-		a.visit_date = #{visitDate} and
-		a.visit_no = #{visitNo} and
-		a.serial_no = #{serialNo}
+		<where>
+			a.del_flag='0'
+			<if test="clinicId!=null and clinicId!=''">
+			 and a.patient_id = #{clinicId}
+			</if>
+		</where>
+
+
+	</select>
+
+	<resultMap id="prescMap" type="OutpPresc">
+
+	</resultMap>
+	<select id="findListByParams" resultType="OutpPrescListVo">
+	SELECT '0' as "delIndicator",
+			 '普通药品' as "toxiProperty",
+			 1 as "drugIndicator",
+			 '' as "officialCatalog",
+			 0.0 as "doscPerUnit",
+			 0.0 as "amountPerPackage",
+			 0 as "freqCounter",
+			 0 as "freqInterval",
+			 '' as "freqIntervalUnit",
+			 0 as "chkAbidance",
+			 0 as "virtualPrescno",
+			 0 as "nwarn",
+			ID as "id",
+			 /*DECOCTION as "decoction", */
+			 VISIT_DATE as "visitDate",
+			 VISIT_NO as "visitNo",
+			 SERIAL_NO as "serialNo",
+			 PRESC_NO as "prescNo",
+			 ITEM_NO as "itemNo",
+			 ITEM_CLASS as "itemClass",
+			 DRUG_CODE as "drugCode",
+			 DRUG_NAME as "drugName",
+			 DRUG_SPEC as "drugSpec",
+			 FIRM_ID as "firmId",
+			 UNITS as "units",
+			 AMOUNT as "amount",
+			 DOSAGE as "dosage",
+			 DOSAGE_UNITS as "dosageUnits",
+			 ADMINISTRATION as "administration",
+			 FREQUENCY as "frequency",
+			 PROVIDED_INDICATOR as "providedIndicator",
+			 COSTS as "costs",
+			 CHARGES as "charges",
+			 CHARGE_INDICATOR as "chargeIndicator",
+			 DISPENSARY as "dispensary",
+		 /*    DISPENSARY_SUB as "", */
+			 REPETITION as "repetition",
+			 ORDER_NO as "orderNo",
+			 SUB_ORDER_NO as "subOrderNo",
+			 FREQ_DETAIL as "freqDetail",
+			 GETDRUG_FLAG as "getdrugFlag",
+			 PRESC_ATTR as "prescAttr",
+			 ABIDANCE as "abidance",
+			 SKIN_FLAG as "skinFlag",
+			 SKIN_RESULT as "skinResult",
+			 PRESC_PSNO as "prescPsno"
+
+		FROM OUTP_PRESC
+		<where>
+			and del_flag='0'
+			<if test="prescNo!=null and prescNo!=''">
+				and PRESC_NO=#{prescNo}
+			</if>
+		</where>
 	</select>
 </mapper>
