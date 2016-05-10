@@ -8,9 +8,16 @@ import java.util.List;
  * Created by Administrator on 2016/4/28.
  */
 public interface OutpOrdersServiceApi {
-    //保存门诊医嘱主记录
+    /**
+     * 保存门诊医嘱主记录
+     * @param outpOrders
+     */
     public void saveOutpOrders(OutpOrders outpOrders);
-    //查询序列号
+
+    /**
+     * 查询序列号
+     * @return
+     */
     public String getSerialNo();
 
     /**
@@ -19,11 +26,4 @@ public interface OutpOrdersServiceApi {
      * @return
      */
     public List<OutpOrders> findListFy(OutpOrders outpOrders);
-
-    /**
-     * 删除数据
-     * @param visitNo
-     * @return
-     */
-    public int deleteOutpOrders(String visitNo);
 }

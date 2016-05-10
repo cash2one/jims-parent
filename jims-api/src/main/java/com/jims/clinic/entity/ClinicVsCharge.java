@@ -3,6 +3,7 @@ package com.jims.clinic.entity;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
+import javax.xml.crypto.Data;
 
 /**
  * 诊疗项目与价表对照Entity
@@ -21,9 +22,47 @@ public class ClinicVsCharge extends DataEntity<ClinicVsCharge> {
 	private Integer amount;		// 对应价表项目数量
 	private String units;		// 对应价表项目单位
 	private String backbillRule;		// 划价规则
-	private String orgId;		// 所属组织结构
-	
-	public ClinicVsCharge() {
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    private String orgId;		// 所属组织结构
+
+    public String getStopDate() {
+        return stopDate;
+    }
+
+    public void setStopDate(String stopDate) {
+        this.stopDate = stopDate;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    private String priceType; // 类别
+    private String price;
+    private String stopDate;
+    private String count;
+
+    public String getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(String priceType) {
+        this.priceType = priceType;
+    }
+
+    public ClinicVsCharge() {
 		super();
 	}
 

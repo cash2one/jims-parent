@@ -1,11 +1,11 @@
 package com.jims.sys.vo;
 
-import java.util.Date;
+import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016/4/26.
  */
-public class PriceDictListVo {
+public class PriceDictListVo implements Serializable {
     private String itemClass;        // 项目类别
     private String itemCode;        // 项目代码
     private String itemName;        // 项目名称
@@ -22,9 +22,17 @@ public class PriceDictListVo {
     private String subjCode;        // 会计科目
     private String classOnMr;        // 病案首页分类
     private String memo;        // 备注信息
-    private Date startDate;        // 起用日期
+    private String startDate;        // 起用日期
     private String inputCode; //拼音码
+    private String MaterialCode; //物价码
 
+    public String getMaterialCode() {
+        return MaterialCode;
+    }
+
+    public void setMaterialCode(String materialCode) {
+        MaterialCode = materialCode;
+    }
 
     public String getItemClass() {
         return itemClass;
@@ -154,11 +162,11 @@ public class PriceDictListVo {
         this.memo = memo;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 

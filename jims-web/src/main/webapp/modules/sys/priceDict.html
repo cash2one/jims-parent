@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="panel-fit">
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../sys/js/priceDictList.js"></script>
+</head>
+
+<body>
+
+<div class="inp-form">
+    <form id="prescForm" method="post">
+        <div class="spa">
+            <label style="padding-left: 76px;">
+                项目类别：
+            </label>
+            <input id="bill" type="hidden" value="BILL_ITEM_CLASS_DICT">
+            <select id="aa" name="itemClass" class="easyui-validatebox" onblur="ItemClass()" style="width:150px;">
+
+            </select>
+            <label style="padding-left:76px;">
+                生成同名诊疗项目、以及诊疗与价表对照：
+            </label>
+            <input type="checkbox" id="" style="width:15px;">
+        </div>
+        <div class="fitem">
+            <label>
+                项目代码：
+            </label>
+            <input name="itemCode" id="itemCode" class="easyui-textbox">
+            <label>
+                物价码：
+            </label>
+            <input name="materialCode" class="easyui-textbox">
+            <label>
+                项目规格：
+            </label>
+            <input title="" name="itemSpec" class="easyui-textbox">
+            <label>
+                计价单位：
+            </label>
+            <input title="" name="units" class="easyui-textbox">
+        </div>
+        <div class="fitem">
+            <label>
+                项目名称：
+            </label>
+            <!--<input name="itemName" id="itemName" type="text" class="easyui-textbox" >-->
+            <input name="itemName" id="itemName" type="text" onblur="ShowInfo();" class="easyui-validatebox"/>
+            <label>
+                拼音码：
+            </label>
+            <input title="" name="inputCode" id="inputCode" type="text" class="easyui-textbox">
+        </div>
+        <div class="fitem">
+            <label>
+                标准价格：
+            </label>
+            <input title="" name="price" value="0.00" class="easyui-textbox">
+            <label>
+                优惠价格：
+            </label>
+            <input title="" name="preferPrice" value="0.00" class="easyui-textbox">
+            <label>
+                外宾价格：
+            </label>
+            <input title="" name="foreignerPrice" value="0.00" class="easyui-textbox">
+
+        </div>
+        <div class="fitem">
+            <label>
+                起用日期：
+            </label>
+            <input name="startDate" type="text" id="dt" class="easyui-textbox">
+            <label>
+                执行科室：
+            </label>
+            <input title="" name="performedBy" id="performedBy" class="easyui-textbox easyui-combogrid">
+            <label>
+                自费：
+            </label>
+            <input type="checkbox" name="feeTypeMask" id="feeTypeMask" style="width:15px;">
+        </div>
+        <div class="fitem">
+            <label>
+                备注：
+            </label>
+            <textarea name="memo" class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
+        </div>
+        <div class="fitem">
+            <table cellpadding="0" cellspacing="0" width="100%" class="tab-autoline" style="padding-left: 40px;">
+                <tr>
+                    <td colspan="6" style='padding-right:700px;'>项目费用类别分类</td>
+                </tr>
+                <tr>
+                    <input id="TALLY" type="hidden" value="TALLY_SUBJECT_DICT">
+                    <td>会计科目:<select name="subjCode" class="easyui-combobox" id="bb" style="width:150px;">
+
+                    </select>
+                    </td>
+                    <input id="OUTP" type="hidden" value="OUTP_RCPT_FEE_DICT">
+                    <td>门诊收据:<select name="classOnOutpRcpt" class="easyui-combobox" id="cc" style="width:150px;">
+
+                    </select>
+                    </td>
+                    <input id="INP" type="hidden" value="INP_RCPT_FEE_DICT">
+                    <td>住院收据:<select name="classOnInpRcpt" class="easyui-combobox" id="dd" style="width:150px;">
+
+                    </select>
+                    </td>
+                </tr>
+                <tr>
+                    <input id="MR" type="hidden" value="MR_FEE_CLASS_DICT">
+                    <td>病案首页:<select name="classOnMr" class="easyui-combobox" id="ee" style="width:150px;">
+
+                    </select></td>
+                    <input id="RECK" type="hidden" value="RECK_ITEM_CLASS_DICT">
+                    <td colspan="2" style='padding-right:308px;'>核算项目:<select name="classOnReckoning"
+                                                                              class="easyui-combobox" id="ff"
+                                                                              style="width:150px;">
+
+                    </select></td>
+
+                </tr>
+            </table>
+        </div>
+
+        <div class="form-btn">
+            <!--<a  class="easyui-linkbutton" data-options="iconCls:'icon-add'">复制</a>-->
+            <a href="" id="refresh" class="easyui-linkbutton" data-options="iconCls:'icon-mini-refresh'">刷新</a>
+            <a id="generate" class="easyui-linkbutton" data-options="iconCls:'icon-add'">生成代码</a>
+            <a href="javascript:void(0)" onclick="saveDict()" class="easyui-linkbutton" iconcls="icon-save">保存</a>
+            <a href="" id="cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">关闭</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

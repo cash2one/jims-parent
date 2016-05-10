@@ -46,7 +46,7 @@ comment on column CLINIC_ITEM_DICT.EXPAND3
 comment on column CLINIC_ITEM_DICT.EXPAND4
   is '频次';
 comment on column CLINIC_ITEM_DICT.EXPAND5
-  is '长期临时';
+  is '长期临时（1 长期，2 临时）';
 comment on column CLINIC_ITEM_DICT.ORG_ID
   is '所属组织结构';
 -- Create/Recreate primary, unique and foreign key constraints

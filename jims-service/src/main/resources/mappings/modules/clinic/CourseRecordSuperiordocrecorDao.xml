@@ -11,7 +11,7 @@
 		<result column="update_date" property="updateDate"></result>
 		<result column="create_by" property="createBy.id"></result>
 		<result column="update_by" property="updateBy.id"></result>
-        <collection property="courseRecord" select="com.jims.clinic.dao.CourseRecordDao.get" column="bingcheng_id" ofType="courseRecord"></collection>
+		<association property="courseRecord" column="bingchengId" select="com.jims.clinic.dao.CourseRecordDao.get"></association>
 	</resultMap>
 	<sql id="courseRecordSuperiordocrecorColumns">
 		a.id AS "id",
@@ -115,16 +115,11 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	<!--<select id="getSuperiordByCourse" resultType="CourseRecordSuperiordocrecor">-->
-
-    <select id="getSuperiordByCourse" resultMap="superRecord">
-      SELECT *
-		FROM course_record_superiordocrecor a
+	<select id="getSuperiordByCourse" resultType="CourseRecordSuperiordocrecor">
+		SELECT
+	    a.id AS "id",a.bingcheng_id AS "bingchengId",a.content AS "content",b.type as "type",b.luru_shijian as "luruShijian"
+		FROM course_record_superiordocrecor a left join  course_record b
+        on a.bingcheng_id = b.id
 		WHERE a.bingcheng_id=#{courseRecordId}
 	</select>
-   	<!--SELECT-->
-       <!--a.id AS "id",a.bingcheng_id AS "bingchengId",a.content AS "content",b.type as "type",b.luru_shijian as "luruShijian"-->
-  <!--FROM course_record_superiordocrecor a left join  course_record b-->
-   <!--on a.bingcheng_id = b.id-->
-<!--WHERE a.bingcheng_id=#{courseRecordId}-->
 </mapper>

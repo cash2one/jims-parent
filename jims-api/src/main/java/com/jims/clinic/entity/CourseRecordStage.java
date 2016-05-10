@@ -1,11 +1,7 @@
 package com.jims.clinic.entity;
 
 import com.jims.common.persistence.DataEntity;
-import com.jims.common.utils.CustomDateDeSerializer;
-import com.jims.common.utils.CustomDateSerializer;
 import com.jims.common.utils.DateUtils;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,15 +34,17 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
         this.lasttime = lasttime;
     }
 
-    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getNowtime() {
         return nowtime;
     }
-    @JsonDeserialize(using = CustomDateDeSerializer.class)
-    public void setNowtime(Date nowtimes) {
-        this.nowtime = nowtimes;
-    }
 
+//    public void setNowtime(Date nowtimes) {
+//        this.nowtime = nowtimes;
+//    }
+
+    public void setNowtime(String nowtime) {
+        this.nowtime =DateUtils.parseDate(nowtime);
+    }
 
     public CourseRecordStage() {
         super();
@@ -134,14 +132,14 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
     }
 
 
-    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getLuruShijian() {
         return luruShijian;
     }
-    @JsonDeserialize(using = CustomDateDeSerializer.class)
-    public void setLuruShijian(Date luruShijian) {
-        this.luruShijian= luruShijian;
+
+    public void setLuruShijian(String luruShijian) {
+        this.luruShijian=DateUtils.parseDate(luruShijian);
     }
+
     public String getType() {
         return type;
     }

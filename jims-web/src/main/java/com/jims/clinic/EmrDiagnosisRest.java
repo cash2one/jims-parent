@@ -1,7 +1,5 @@
 package com.jims.clinic;
 
-import com.alibaba.dubbo.common.json.JSONArray;
-import com.alibaba.dubbo.common.json.JSONObject;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.EmrDiagnosisServiceApi;
 import com.jims.clinic.entity.EmrDiagnosis;
@@ -17,9 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * EmrDiagnosisRest
@@ -37,38 +33,19 @@ public class EmrDiagnosisRest {
 
     @Path("findList")
     @GET
-    public List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-        EmrDiagnosis emrDiagnosis= new EmrDiagnosis();
-        Page<EmrDiagnosis> page = emrDiagnosisServiceApi.findPage(new Page<EmrDiagnosis>(request,response), emrDiagnosis);
+    public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
+        Page<EmrDiagnosis> page = emrDiagnosisServiceApi.findPage(new Page<EmrDiagnosis>(request,response), new EmrDiagnosis());
         PageData pageData=new PageData();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
-        return page.getList();
+        return pageData;
     }
 
-    /**
-     * 门诊诊断
-     * @param emrDiagnosisList
-     * @return
-     */
-    @Path("saveOut")
+    @Path("save")
     @POST
-    public StringData saveOut(List<EmrDiagnosis> emrDiagnosisList) {
+    public StringData saveDiagnosis(List<EmrDiagnosis> emrDiagnosisList) {
         StringData data=new StringData();
         data.setCode(emrDiagnosisServiceApi.saveDiagnosis(emrDiagnosisList));
-        return data;
-    }
-
-    /**
-     * 住院诊断
-     * @param emrDiagnosisList
-     * @return
-     */
-    @Path("saveIn")
-    @POST
-    public StringData saveIn(EmrDiagnosis emrDiagnosisList) {
-        StringData data=new StringData();
-        data.setCode(emrDiagnosisServiceApi.save(emrDiagnosisList));
         return data;
     }
    @Path("delete")
@@ -78,6 +55,4 @@ public class EmrDiagnosisRest {
        data.setCode(emrDiagnosisServiceApi.delete(id));
        return data;
    }
-
-
 }

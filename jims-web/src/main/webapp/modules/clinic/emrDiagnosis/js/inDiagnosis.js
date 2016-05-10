@@ -5,16 +5,20 @@ $(function() {
         animate: true,
         collapsible: true,
         fitColumns: true,
+<<<<<<< HEAD
         //url: '/modules/clinic/emrDiagnosis/js/treegrid_data2.json',
        url:basePath+'/diagnosis/findList',
+=======
+        url: '/modules/clinic/emrDiagnosis/js/treegrid_data2.json',
+>>>>>>> e2a5ef4bd4b40d39cead9dd2f7db47d13f28467a
         method: 'get',
         idField: 'id',
         treeField: 'type',
-       // showFooter: true,
+        showFooter: true,
         columns:[[      //每个列具体内容
-          //  {field:'id',title:'序号',width:'5%',align:'center',editor:'hidden'},
+            // {field:'id',title:'序号',width:'5%',align:'center',editor:'text'},
             /*{field:'itemNo',title:'序号',width:'5%',align:'center',editor:'text'},*/
-            {field:'type',title:'诊断类型',width:'10%',align:'center',editor:{
+            {field:'type',title:'诊断类型',width:'10%',align:'center',editor:'text',editor:{
                 type:'combobox',
                 options:{
                     data :administration,
@@ -41,99 +45,23 @@ $(function() {
                     url: basePath+'/dataicd/autoComplete',
                     valueField: 'code',
                     textField: 'keywordShuoming',
-                    method: 'GET'
-
+                    method: 'GET',
+                    onLoadSuccess: function () {
+                        var data = $(this).combobox('getData');
+                        $(this).combobox('select', data[0].keywordShuoming);
+                    }
                 }
             }}
 
-        ]],
 
-        toolbar:
-            [
-                {
-                    text: '添加同级诊断',
-                    iconCls: 'icon-add', // handler: InsertData
-                    handler:function(){
-                       insert();
-                    }
-                },
-                {
-                    text: '添加下级诊断',
-                    iconCls: 'icon-add', // handler: InsertData
-                    handler:function(){
-                        addNextLevel();
-                    }
-                },
-                {
-                    text: '编辑',
-                    iconCls: 'icon-edit',
-                    handler:function(){
-                        edit();
-                    }
-                },
-                {
-                    text: '删除',
-                    iconCls: 'icon-del',
-                    handler:function(){
-                        del();
-                    }
-                }
-    ]
+        ]]
+
     });
 });
- function loadMenu() {
-    var menus = [];//菜单列表
-    var menuTreeData = [];//菜单树的列表
-    var menuPromise = $.get(basePath + '/diagnosis/findList', function (data) {
-        $.each(data, function (index, item) {
-            var d = {};
-            d.id = item.id;
-            d.type = item.type;
-            d.description = item.description;
-            d.treatResult = item.treatResult;
-            d.diagnosisDate = formatDatebox(item.diagnosisDate);
-            d.operTreatIndicator = item.operTreatIndicator;
-            d.pathologyNo = item.pathologyNo;
-            d.diagnosisId = item.diagnosisId;
-            d.parentId = item.parentId;
-            d.children = [];
-            menus.push(d);
-        });
 
 
-            for (var i = 0; i < menus.length; i++) {
-                for (var j = 0; j < menus.length; j++) {
-                    if (menus[i].id == menus[j].parentId) {
-                        menus[i].state = 'closed'//有子诊断
-                        menus[i].children.push(menus[j]);
-
-                    }
 
 
-                }
-
-                if (menus[i].children.length > 0 && !menus[i].parentId) {
-                    menus[i].state = 'open'
-                    menuTreeData.push(menus[i]);
-                }
-
-                if (!menus[i].parentId && menus[i].children <= 0) {
-                    menuTreeData.push(menus[i]);
-                }
-                 if(menus[i].parentId=="0"||menus[i].parentId==""){
-                     menuTreeData.push(menus[i]);
-                 }
-
-            }
-
-
-        menuPromise.done(function () {
-            $("#tg").treegrid('loadData', menuTreeData);
-        });
-    })
-
-}
-loadMenu();
 
 
 
@@ -160,84 +88,32 @@ function formatProgress(value){
 }
 var editingId;
 function edit(){
-    var node = $("#tg").treegrid('getSelected');
-    if (node == null) {
-        $.messager.alert("系统提示", "请选中要修改的诊断");
+    if (editingId != undefined){
+        $('#tg').treegrid('select', editingId);
         return;
     }
-    $('#dlg').dialog('open').dialog('center').dialog('setTitle', '修改诊断');
-    $('#fm').form('clear');
-    $('#type').combobox({
-        data :administration,
-        editable:false,
-        valueField:'value',
-        textField:'text',
-        method: 'GET',
-        onLoadSuccess: function () {
-            var data = $(this).combobox('getData');
-            $(this).combobox('select', node.type);
-        }
-    });
-    $("#description").textbox('setValue', node.description);
-    $("#treatResult").textbox('setValue', node.treatResult);
-    $("#diagnosisDate").datebox("setValue",node.diagnosisDate);
-    $("#operTreatIndicator").textbox('setValue', node.operTreatIndicator);
-    $("#pathologyNo").textbox('setValue', node.pathologyNo);
-    $("#id").val(node.id);
-    $("#parentId").val(node._parentId);
-    $('#diagnosisId').combobox({
-        url: basePath+'/dataicd/autoComplete',
-        editable:false,
-        valueField: 'code',
-        textField: 'keywordShuoming',
-        method: 'GET',
-        onLoadSuccess: function () {
-            var data = $(this).combobox('getData');
-            $(this).combobox('select', node.diagnosisId);
-        }
-
-
-
-    });
-}
-
-
-
-
-function save(){
-    if ($("#fm").form('validate')) {
-
-    var d = {};
-    d.id = $("#id").val();
-    d.type =$('#type').combobox('getValue');
-    d.description = $("#description").val();
-    d.treatResult =  $("#treatResult").val();
-    d.diagnosisDate = $("#diagnosisDate").datebox('getValue');
-        d.operTreatIndicator =  $("#operTreatIndicator").val();
-    d.pathologyNo = $("#pathologyNo").val();
-    d.diagnosisId =$('#diagnosisId').combobox('getValue');
-    d.parentId = $("#parentId").val();
-    if($("#parentId").val()==null||$("#parentId").val()=='undefined'||$("#parentId").val()==''){
-        d.parentId='0';
+    var row = $('#tg').treegrid('getSelected');
+    if (row){
+        editingId = row.id
+        $('#tg').treegrid('beginEdit', editingId);
     }
-        $.postJSON(basePath+"/diagnosis/saveIn",  JSON.stringify(d), function (data) {
-            $('#dlg').dialog('close');
-            if(d.id==''|| d.id==null){
-                $("#tg").treegrid('append',{
-                    parent:d.parentId,
-                    data:[d]
-                })
-            }else{
-                $("#tg").treegrid('update',{
-                    id:d.id,
-                    row:d
-                })
+}
+function save(){
+    if (editingId != undefined){
+        var t = $('#tg');
+        t.treegrid('endEdit', editingId);
+        editingId = undefined;
+        var persons = 0;
+        var rows = t.treegrid('getChildren');
+        for(var i=0; i<rows.length; i++){
+            var p = parseInt(rows[i].persons);
+            if (!isNaN(p)){
+                persons += p;
             }
-
-        },function(){
-            $.messager.alert('提示',"保存失败", "error");
-        })
-
+        }
+        var frow = t.treegrid('getFooterRows')[0];
+        frow.persons = persons;
+        t.treegrid('reloadFooter');
     }
 }
 function cancel(){
@@ -245,6 +121,7 @@ function cancel(){
         $('#tg').treegrid('cancelEdit', editingId);
         editingId = undefined;
     }
+<<<<<<< HEAD
 }
 
 
@@ -390,4 +267,6 @@ function del() {
             });
         }
     })
+=======
+>>>>>>> e2a5ef4bd4b40d39cead9dd2f7db47d13f28467a
 }

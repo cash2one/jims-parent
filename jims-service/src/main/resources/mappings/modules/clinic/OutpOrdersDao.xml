@@ -85,41 +85,69 @@
 	
 	<insert id="insert">
 		INSERT INTO outp_orders(
-			id,
+		id,
+		<if test="patientId!=null">
 			patient_id,
+		</if>
+		<if test="visitDate!=null">
 			visit_date,
-			visit_no,
+		</if>
+		<if test="visitNo!=null">
+			visit_no,,
+		</if>
+		<if test="serialNo!=null">
 			serial_no,
+		</if>
+		<if test="orderedBy!=null">
 			ordered_by,
+		</if>
+		<if test="doctor!=null">
 			doctor,
+		</if>
+		<if test="orderDate!=null">
 			order_date,
+		</if>
+		<if test="clinicNo!=null">
 			clinic_no,
-			doctor_no,
+		</if>
+		<if test="nurse!=null">
 			nurse,
-			create_date,
-			create_by,
-			update_by,
-			update_date,
-			remarks,
-			del_flag
+		</if>
+		<if test="doctorNo!=null">
+			doctor_no,
+		</if>
 		) VALUES (
-			#{id},
+			sys_guid(),
+		<if test="patientId!=null">
 			#{patientId},
+		</if>
+		<if test="visitDate!=null">
 			#{visitDate},
+		</if>
+		<if test="visitNo!=null">
 			#{visitNo},
+		</if>
+		<if test="serialNo!=null">
 			#{serialNo},
+		</if>
+		<if test="orderedBy!=null">
 			#{orderedBy},
+		</if>
+		<if test="doctor!=null">
 			#{doctor},
+		</if>
+		<if test="orderDate!=null">
 			#{orderDate},
+		</if>
+		<if test="clinicNo!=null">
 			#{clinicNo},
-			#{doctorNo},
-			#{nurse},
-			#{createDate},
-			#{createBy.id},
-			#{updateBy.id},
-			#{updateDate},
-			#{remarks},
-			#{delFlag}
+		</if>
+		<if test="nurse!=null">
+			#{nurse}
+		</if>
+		<if test="doctorNo!=null">
+			#{doctorNo}
+		</if>
 		)
 	</insert>
 	
@@ -195,7 +223,7 @@
 	</insert>
 
 	<update id="deleteOutpOrders">
-		UPDATE outp_orders a SET
+		UPDATE outp_orders SET
 		del_flag = '1'
 		WHERE a.visit_no=#{visitNo}
 	</update>

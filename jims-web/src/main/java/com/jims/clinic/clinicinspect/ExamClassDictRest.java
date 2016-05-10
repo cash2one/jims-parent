@@ -1,18 +1,17 @@
 package com.jims.clinic.clinicinspect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.ExamClassDictApi;
-import com.jims.clinic.api.ExamRptPatternApi;
-import com.jims.clinic.api.ExamSubclassDictApi;
-import com.jims.clinic.entity.ExamClassDict;
-import com.jims.clinic.entity.ExamRptPattern;
-import com.jims.clinic.entity.ExamSubclassDict;
+import com.jims.exam.api.ExamClassDictApi;
+import com.jims.exam.api.ExamRptPatternApi;
+import com.jims.exam.api.ExamSubclassDictApi;
+import com.jims.exam.entity.ExamClassDict;
+import com.jims.exam.entity.ExamRptPattern;
+import com.jims.exam.entity.ExamSubclassDict;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

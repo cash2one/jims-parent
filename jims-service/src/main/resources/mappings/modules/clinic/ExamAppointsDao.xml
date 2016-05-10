@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ExamAppointsDao">
 
-	<resultMap id="examAppointsMap" type="com.jims.clinic.entity.ExamAppoints">
+	<resultMap id="examAppointsMap" type="com.jims.exam.entity.ExamAppoints">
 		<result property="id" column="id"></result>
 		<result property="examNo" column="exam_no"></result>
 		<result property="patientId" column="patient_id"></result>
@@ -158,7 +158,7 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="ExamAppoints">
+	<select id="findList" resultMap="examAppointsMap">
 		SELECT 
 		<include refid="examAppointsColumns"/>
 		FROM exam_appoints a

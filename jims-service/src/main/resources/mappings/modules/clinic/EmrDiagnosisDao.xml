@@ -2,23 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.EmrDiagnosisDao">
     <resultMap id="BasicColums" type="EmrDiagnosis">
-		<id column="id" property="id" />
-		<result column="parent_id" property="parentId"  />
-        <result column="parent_ids" property="parentIds"  />
-        <result column="type" property="type"  />
-		<result column="diagnosis_id" property="diagnosisId"  />
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
+        <result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="diagnosisId" property="diagnosisId" jdbcType="VARCHAR" />
         <result column="description" property="description" />
         <result column="basis" property="basis" />
-		<result column="ITEM_NO" property="itemNo"></result>
+		<result column="itemNo" property="itemNo"></result>
         <result column="diagnosis_type" ></result>
-		<result column="create_by" property="createBy.id"  />
+		<result column="create_by" property="createBy.id" jdbcType="VARCHAR" />
 		<result column="create_date" property="createDate"  />
-		<result column="update_by" property="updateBy.id"  />
+		<result column="update_by" property="updateBy.id" jdbcType="VARCHAR" />
 		<result column="update_date" property="updateDate"  />
-		<result column="remarks" property="remarks"  />
-		<result column="del_flag" property="delFlag" />
-        <!--<association property="dict" column="{value=type,type=diagnosis_type}" select="com.jims.emr.modules.sys.dao.DictDao.getDictLabel"></association>-->
-        <association property="children" column="id" select="findListChildren"></association>
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+        <association property="dict" column="{value=type,type=diagnosis_type}" select="com.jims.emr.modules.sys.dao.DictDao.getDictLabel"></association>
+        <association property="emrDiagnosisList" column="{id=id}" select="findListChildren"></association>
 	</resultMap>
 	<sql id="DiagnosisColumns">
 		a.id AS "id",
@@ -34,6 +34,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
+
 		a.del_flag AS "delFlag",
         a.patient_id AS "patientId",
         a.TREAT_DAYS AS "treatDays",
@@ -45,6 +46,7 @@
         a.diagnosis_date AS "diagnosisDate",
         a.diagnosis_parent AS "diagnosisParent"
 
+
 		/*"diagnosis_type" as "diagnosis_type"*/
 	</sql>
 
@@ -52,11 +54,11 @@
           ,(SELECT @rownum:=0) b
 	</sql>
     
-	<select id="get" resultType="EmrDiagnosis">
+	<select id="get" resultMap="BasicColums">
 		SELECT 
 			<include refid="DiagnosisColumns"/>
 		FROM emr_diagnosis a
-		<!--<include refid="deathDiagnosisJoins"/>-->
+		<include refid="deathDiagnosisJoins"/>
 		WHERE a.id = #{id}
 	</select>
 
@@ -64,33 +66,53 @@
         SELECT
         <include refid="DiagnosisColumns"/>
         FROM emr_diagnosis a
+        <include refid="deathDiagnosisJoins"/>
         <where>
             a.del_flag ='0'
-                and a.parent_id=#{id}
 
+                <!--and parent_ids=#{id}-->
         </where>
-
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY  a.create_date ASC,a.item_no ASC
+            </otherwise>
+        </choose>
 
     </select>
 	
-	<select id="findList"   resultType="EmrDiagnosis">
+	<select id="findList"  resultType="EmrDiagnosis">
 		SELECT 
 			<include refid="DiagnosisColumns"/>
 		FROM emr_diagnosis a
      <!--   <include refid="deathDiagnosisJoins"/>-->
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-
-			<if test="inOrOutFlag!=null and inOrOutFlag!=''">
-				AND a.INOROUT_FLAG = #{inOrOutFlag}
-					</if>
-
+			<if test="parentId!=null and parentId!=''">
+				AND a.parent_id=#{parentId}
+			</if>
+            <if test="isno==true">
+                AND a.parent_id in (
+                <foreach collection="list" item="item" index="index" separator="," >
+                    #{item.id}
+                </foreach>
+                )
+            </if>
             <if test="parentIds!=null and parentIds!=''">
                 AND a.parent_ids=#{parentIds}
             </if>
 		</where>
 
-
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY  a.type  ASC,a.create_date ASC,a.item_no ASC
+			</otherwise>
+		</choose>
 
 	</select>
 	
@@ -127,7 +149,7 @@
 			del_flag,
 			description,
 			basis,
-			parent_ids,
+
 			patient_id,
             TREAT_DAYS,
             TREAT_RESULT,
@@ -136,7 +158,10 @@
             DIAGNOSIS_DOC,
             INOROUT_FLAG,
             diagnosis_date,
-            diagnosis_parent
+            diagnosis_parent,
+            parent_ids
+
+
 		) VALUES (
 			#{id},
 			#{parentId},
@@ -151,7 +176,6 @@
 			#{delFlag},
 			#{description},
 			#{basis},
-			#{parentIds},
 			#{patientId},
             #{treatDays},
             #{treatResult},
@@ -160,7 +184,9 @@
             #{diagnosisDoc},
             #{inOrOutFlag},
             #{diagnosisDate},
-            #{diagnosisParent}
+            #{diagnosisParent},
+			#{parentIds}
+
 		)
 	</insert>
 	
@@ -180,6 +206,7 @@
 			diagnosis_doc = #{diagnosisDoc},
 			type = #{type},
 			diagnosis_parent = #{diagnosisParent}
+
 		WHERE id = #{id}
 	</update>
 	
