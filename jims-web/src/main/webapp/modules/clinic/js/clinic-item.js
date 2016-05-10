@@ -960,6 +960,15 @@ $(function(){
         return value
     }
 
+    $(':radio[name="adminFlag"][value="0"]').click(function(){
+        $('#code_text').html('　代码定位')
+        $('#filter_text').html('　代码筛选')
+    })
+
+    $(':radio[name="adminFlag"][value="1"]').click(function(){
+        $('#code_text').html('拼音码定位')
+        $('#filter_text').html('拼音码筛选')
+    })
     $('#code_gps').textbox({
         buttonText : '定位',
         width:130,
