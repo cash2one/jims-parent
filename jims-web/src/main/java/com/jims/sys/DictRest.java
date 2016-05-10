@@ -6,14 +6,12 @@ import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.entity.Dict;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.List;
 
@@ -29,7 +27,51 @@ public class DictRest {
     private DictServiceApi dictService ;
 
     /**
-     * 异步加载表格
+     * 异步加载页面左侧表格
+     * @param request   请求
+     * @param response  响应
+     * @return  字典表type和description两个字段的list集合
+     * @author fengyuguang
+     */
+    @GET
+    @Path("left-list")
+    public List<Dict> leftList(@Context HttpServletRequest request,@Context HttpServletResponse response){
+        List<Dict> list = dictService.leftList();
+        return list;
+    }
+
+    /**
+     * 异步加载页面右侧表格
+     * @param type  字典表类型
+     * @return  字典表List集合
+     * @author fengyuguang
+     */
+    @GET
+    @Path("right-list")
+    public List<Dict> rightList(@QueryParam("type") String type){
+        return  dictService.rightList(type);
+    }
+
+    /**
+     * 保存多条增删改数据
+     * @param beanChangeVo  多条增删改数据的集合
+     * @return
+     * @author fengyuguang
+     */
+    @POST
+    @Path("merge")
+    public StringData merge(BeanChangeVo<Dict> beanChangeVo){
+        String num = dictService.merge(beanChangeVo);
+        /*List<Dict> inserted = beanChangeVo.getInserted();
+        for (Dict dict : inserted) {
+            System.out.println("type:" + dict.getType());
+            System.out.println("description:" + dict.getDescription());
+        }*/
+        return null;
+    }
+
+    /**
+     * 异步加载页面表格
      * @param request
      * @param response
      * @return
@@ -42,7 +84,7 @@ public class DictRest {
             pageData.setRows(page.getList());
             pageData.setTotal(page.getCount());
             return pageData;
-         }
+      }
 
         /**
          * 获取单条数据
