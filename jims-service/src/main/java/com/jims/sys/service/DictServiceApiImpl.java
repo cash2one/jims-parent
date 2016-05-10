@@ -9,6 +9,7 @@ import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
 import com.jims.sys.vo.BeanChangeVo;
+import com.thoughtworks.xstream.mapper.Mapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -50,21 +51,41 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
      */
     public String merge(BeanChangeVo<Dict> beanChangeVo) {
         List<Dict> insertedList = beanChangeVo.getInserted();
+        String insertedNum = "";
+        if (insertedList.isEmpty()) {
+            insertedNum = "1";
+        }
         for (Dict dict : insertedList) {
-            String num = save(dict);
-            System.out.println("增加num:" + num);
+            insertedNum = save(dict);
+            System.out.println("增加insertedNum:" + insertedNum);
         }
+
         List<Dict> updatedList = beanChangeVo.getUpdated();
+        String updatedNum = "";
+        if (updatedList.isEmpty()) {
+            updatedNum = "1";
+        }
         for (Dict dict : updatedList) {
-            String num = save(dict);
-            System.out.println("修改num:" + num);
+            updatedNum = save(dict);
+            System.out.println("修改updatedNum:" + updatedNum);
         }
+
         List<Dict> deletedList = beanChangeVo.getDeleted();
-        for (Dict dict : deletedList) {
-            String num = delete(dict);
-            System.out.println("删除num:" + num);
+        String deletedNum = "";
+        if (deletedList.isEmpty()) {
+            deletedNum = "1";
         }
-        return null;
+        for (Dict dict : deletedList) {
+            String dictId = dict.getId();
+            deletedNum = delete(dictId);
+            System.out.println("删除deletedNum:" + deletedNum);
+        }
+
+        if(insertedNum == "1" && updatedNum == "1" && deletedNum == "1"){
+            return "1";
+        }else{
+            return "0";
+        }
     }
 
     /**
