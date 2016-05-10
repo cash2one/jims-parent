@@ -69,4 +69,12 @@ public interface PriceListApi {
      * @return
      */
     public String findSeqences();
+
+    /**
+     * 通过拼音码查询数据
+     *
+     * @param inputCode
+     * @return
+     */
+    public List<PriceList> findCode(String inputCode);
 }

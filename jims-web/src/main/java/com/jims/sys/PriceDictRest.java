@@ -53,10 +53,10 @@ public class PriceDictRest {
             stringData.setCode("起用日期不能为空");
             return stringData;
         }
-        String num = priceListApi.save(priceDictListVo);
         if(priceDictListVo.getClinicDict() == 1){
             clinicItemApi.saveDictList(priceDictListVo);
         }
+        String num = priceListApi.save(priceDictListVo);
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
@@ -119,8 +119,7 @@ public class PriceDictRest {
     @Path("find/{inputCode}")
     @GET
     public List<PriceList> findList(@PathParam("inputCode")String inputCode){
-       PriceList priceList = new PriceList();
-        priceList.setInputCode(inputCode);
-       return priceListApi.findList(priceList);
+        List<PriceList> priceLists = priceListApi.findCode(inputCode+"%");
+        return priceLists;
     }
 }

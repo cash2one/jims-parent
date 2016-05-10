@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../../static/easyui/css/icon.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
-    <script type="text/javascript" src="../sys/js/ceshi.js"></script>
+    <script type="text/javascript" src="../sys/js/price_dict_list.js"></script>
 </head>
 <body>
 
@@ -24,7 +24,7 @@
                 <input type="radio" name="adminFlag" value="0" checked="checked">拼音码</input>
                 <input type="radio" name="adminFlag" value="1">五笔码</input>
                 <label style="margin-left: 20px" for="code_gps">拼音码定位</label>
-                <input id="code_gps" class="easyui-textbox" style="width:100px">
+                <input id="code_gps" class="easyui-validatebox" onblur="load_data();" style="width:100px">
 
             </div>
         </div>
@@ -32,7 +32,7 @@
 
     <div data-options="region:'center',title:'价表管理系统'" iconcls="icon-save">
         <form id="prescForm" method="post">
-            <table cellpadding="20" style="padding-left:95px;font-size: 17px">
+            <table  style="padding-left:95px;font-size: 17px">
                 <tr>
                     <td>项目类别:</td>
                     <td><select id="aa" name="itemClass" class="easyui-validatebox"
@@ -43,7 +43,7 @@
                 <tr>
                     <td>项目代码:</td>
                     <td><input name="itemCode" id="itemCode" class="easyui-textbox"></td>
-                    <td style="padding-left: 15px"> 物价码:</td>
+                    <td style="padding-left: 15px">物价码:</td>
                     <td><input name="materialCode" class="easyui-textbox"></td>
                 </tr>
                 <tr>
@@ -81,7 +81,7 @@
                     <td colspan="4"><textarea name="memo" class="easyui-validatebox validatebox-text validatebox-textarea" style="width: 400px"></textarea></td>
                 </tr>
                 <tr>
-                    <td colspan="6" >项目费用类别分类</td>
+                    <td colspan="4" >项目费用类别分类</td>
                 </tr>
                 <tr>
                     <td>会计科目:</td>
@@ -109,8 +109,8 @@
         <div style="text-align:center;padding:5px">
 
             <a href="javascript:void(0)" id="refresh" class="easyui-linkbutton" data-options="iconCls:'icon-mini-refresh'">刷新</a>
-            <a href="javascript:void(0)"id="generate" class="easyui-linkbutton" data-options="iconCls:'icon-add'">生成代码</a>
-            <a href="javascript:void(0)" onclick="saveDict()" class="easyui-linkbutton" iconcls="icon-save">保存</a>
+            <a href="javascript:void(0)" id="generate" class="easyui-linkbutton" data-options="iconCls:'icon-add'">生成代码</a>
+            <a href="javascript:void(0)" id="saveDict" class="easyui-linkbutton" iconcls="icon-save">保存</a>
             <a href="javascript:void(0)" id="cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">关闭</a>
         </div>
 

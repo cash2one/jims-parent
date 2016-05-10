@@ -3,7 +3,6 @@
  */
 $(function () {
     init_clinic_data()
-    load_data()
     $('#aa').combobox({
         url: basePath + '/dict/findType/' + 'BILL_ITEM_CLASS_DICT',
         valueField: 'value',
@@ -47,6 +46,19 @@ $(function () {
     $('#dt').datetimebox({
         showSeconds: false
     });
+   /* $('#code_gps').textbox('textbox').keydown(function (e) {
+        if (e.keyCode == 13) {
+            var inputCode = $('#code_gps').val();
+            $.ajax({
+                'type': 'GET',
+                'url': basePath + '/price/find/' + inputCode,
+                'success': function (data) {
+                    $("#clinic_item").datagrid('loadData', data);
+
+                }
+            });
+        }
+    });*/
     $("#performedBy").combogrid({
         panelWidth: 300,
         idField: 'deptCode',
@@ -101,13 +113,27 @@ $(function () {
             }
         });
     });
+    //保存当前标签页
+    $("#saveDict").on("click", function () {
+        console.log($("#clinicDict").val());
+        $.postForm(basePath + "/price/save", "prescForm", function (data) {
+            if (data.data == 'success') {
+                $.messager.alert("提示消息", "保存成功", "success");
+            } else {
+                $.messager.alert('提示消息', data.code, "error");
+            }
+        }, function (data) {
+            $.messager.alert('提示', "保存失败", "error");
+        })
+    });
+
     // 刷新当前标签页
     $("#refresh").on("click", function () {
         window.location.reload();
     });
     // 关闭当前标签页
     $("#cancel").on("click", function () {
-        location.window.close();
+
     });
     function init_clinic_data() {
         $("#clinic_item").datagrid({
@@ -233,19 +259,6 @@ function del(id) {
     });
 }
 
-function saveDict() {
-    console.log($("#clinicDict").val());
-    $.postForm(basePath + "/price/save", "prescForm", function (data) {
-        if (data.data == 'success') {
-            $.messager.alert("提示消息", "保存成功", "success");
-        } else {
-            $.messager.alert('提示消息', data.code, "error");
-        }
-    }, function (data) {
-        $.messager.alert('提示', "保存失败", "error");
-    })
-}
-
 function ShowInfo() {
     var oDiv = $("#itemName").val();
     if (oDiv.value != "") {
@@ -275,4 +288,5 @@ function load_data() {
         }
     });
 }
+
 

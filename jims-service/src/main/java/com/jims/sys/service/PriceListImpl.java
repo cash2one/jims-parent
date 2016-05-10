@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * 价格表Service
@@ -30,6 +32,11 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
     @Autowired
     private PriceListDao priceListDao;
 
+    /**
+     * 价表的保存
+     * @param dictListVo
+     * @return
+     */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String save(PriceDictListVo dictListVo) {
@@ -73,8 +80,23 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
         return "0";
     }
 
+    /**
+     * 查询序列
+     *
+     * @return
+     */
     public String findSeqences() {
         return priceListDao.findSeqences();
+    }
+
+    /**
+     * 通过拼音码查询数据
+     *
+     * @param inputCode
+     * @return
+     */
+    public List<PriceList> findCode(String inputCode){
+       return  priceListDao.findCode(inputCode);
     }
 
 }

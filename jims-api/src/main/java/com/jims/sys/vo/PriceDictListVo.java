@@ -25,7 +25,7 @@ public class PriceDictListVo implements Serializable {
     private String startDate;        // 起用日期
     private String inputCode; //拼音码
     private String MaterialCode; //物价码
-    private Integer clinicDict; //诊疗标识
+    private Integer clinicDict = 0; //诊疗标识
 
     public Integer getClinicDict() {
         return clinicDict;
