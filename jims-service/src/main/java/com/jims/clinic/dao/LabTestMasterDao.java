@@ -5,7 +5,7 @@ package com.jims.clinic.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
-import com.jims.clinic.entity.LabTestMaster;
+import com.jims.lab.entity.LabTestMaster;
 
 /**
  * 检验主记录DAO接口

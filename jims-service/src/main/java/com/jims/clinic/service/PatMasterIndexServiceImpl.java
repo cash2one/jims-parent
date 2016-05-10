@@ -4,8 +4,8 @@
 package com.jims.clinic.service;
 
 
-import com.jims.clinic.api.PatMasterIndexServiceApi;
-import com.jims.clinic.entity.PatMasterIndex;
+import com.jims.patient.api.PatMasterIndexServiceApi;
+import com.jims.patient.entity.PatMasterIndex;
 import com.jims.clinic.dao.PatMasterIndexDao;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.stereotype.Service;

@@ -58,7 +58,8 @@ public class PriceList extends DataEntity<PriceList> {
 	private String zysjWy;		// 住院收据对照
 	private String groupFlag;		// group_flag
 	private String stopOperator;		// stop_operator
-	
+    private String orgId; //组织机构
+    
 	public PriceList() {
 		super();
 	}
@@ -67,7 +68,16 @@ public class PriceList extends DataEntity<PriceList> {
 		super(id);
 	}
 
-	@Length(min=1, max=1, message="项目类别长度必须介于 1 和 1 之间")
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+
+    @Length(min=1, max=1, message="项目类别长度必须介于 1 和 1 之间")
 	public String getItemClass() {
 		return itemClass;
 	}
