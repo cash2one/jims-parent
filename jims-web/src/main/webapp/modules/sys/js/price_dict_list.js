@@ -176,13 +176,10 @@ $(function () {
                     doDelete();
                 }
             }],*/
-            toolbar: '#tb',
+            toolbar: '#tb'
            /* frozenColumns: [[
                 {field: 'ck', checkbox: true}
             ]],*/
-            queryParams: {
-                inputCode:'inputCode'
-            }
 
         });
     }
