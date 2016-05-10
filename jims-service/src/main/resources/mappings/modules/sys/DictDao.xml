@@ -92,7 +92,7 @@
 			#{updateBy.id}, 
 			#{updateDate}, 
 			#{remarks}, 
-			#{delFlag}
+			#{delFlag},
 			#{inputCode}
 		)
 	</insert>
