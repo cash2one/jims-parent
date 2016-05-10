@@ -27,7 +27,35 @@ public class PriceDictRest {
     private PriceListApi priceListApi;
     @Path("save")
     @POST
-    public StringData save(PriceDictListVo priceDictListVo) {
+    public StringData save(PriceDictListVo dictListVo){
+        PriceItemNameDict priceItemNameDict = new PriceItemNameDict();
+        priceItemNameDict.setItemClass(dictListVo.getItemClass());
+        priceItemNameDict.setItemName(dictListVo.getItemName());
+        priceItemNameDict.setItemCode(dictListVo.getItemCode());
+        priceItemNameDict.setInputCode(dictListVo.getInputCode());
+        priceItemNameDict.setMemo(dictListVo.getMemo());
+        String num = priceItemNameDictApi.save(priceItemNameDict);
+        PriceList priceList = new PriceList();
+        priceList.setItemClass(dictListVo.getItemClass());
+        priceList.setItemCode(dictListVo.getItemCode());
+        priceList.setItemCode(dictListVo.getItemCode());
+        priceList.setItemSpec(dictListVo.getItemSpec());
+        priceList.setUnits(dictListVo.getUnits());
+        priceList.setPrice(dictListVo.getPrice());
+        priceList.setPreferPrice(dictListVo.getPreferPrice());
+        priceList.setForeignerPrice(dictListVo.getForeignerPrice());
+        priceList.setPerformedBy(dictListVo.getPerformedBy());
+        priceList.setFeeTypeMask(dictListVo.getFeeTypeMask());
+        priceList.setClassOnInpRcpt(dictListVo.getClassOnInpRcpt());
+        priceList.setClassOnOutpRcpt(dictListVo.getClassOnOutpRcpt());
+        priceList.setClassOnReckoning(dictListVo.getClassOnReckoning());
+        priceList.setSubjCode(dictListVo.getSubjCode());
+        priceList.setClassOnMr(dictListVo.getClassOnMr());
+        priceList.setMemo(dictListVo.getMemo());
+        priceList.setStartDate(dictListVo.getStartDate());
+        priceList.setMaterialCode(dictListVo.getInputCode());
+        priceList.setInputCode(dictListVo.getInputCode());
+        String num1 = priceListApi.save(priceList);
         StringData stringData = new StringData();
         if (priceDictListVo.getItemClass() == null) {
             stringData.setCode("项目类别不能为空");
@@ -80,6 +108,8 @@ public class PriceDictRest {
         stringData.setData("success");
         return stringData;
     }
+
+
 
     @POST
     @Path("findList")
