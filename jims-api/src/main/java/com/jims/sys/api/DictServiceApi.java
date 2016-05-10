@@ -33,14 +33,16 @@ public interface DictServiceApi {
 
     /**
      * 查询字典表的类型和描述这两个字段
-     * @return
+     * @return 字典表type和description字段的集合
+     * @author fengyuguang
      */
     public List<Dict> leftList();
 
     /**
      * 根据字典表的类型查询属于该类型的数据列表
-     * @param type
-     * @return
+     * @param type 字典表类型
+     * @return 字典表list集合
+     * @author fengyuguang
      */
     public List<Dict> rightList(String type);
 
@@ -48,6 +50,7 @@ public interface DictServiceApi {
      * 保存增删改多条数据
      * @param beanChangeVo 多条增删改数据的集合
      * @return
+     * @author fengyuguang
      */
     public String merge(BeanChangeVo<Dict> beanChangeVo);
 
