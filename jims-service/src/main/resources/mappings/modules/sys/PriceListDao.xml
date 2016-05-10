@@ -80,6 +80,12 @@
         </choose>
     </select>
 
+    <select id="findCode" resultType="PriceList">
+        SELECT
+        <include refid="priceListColumns"/>
+        FROM price_list a WHERE a.input_code LIKE UPPER(#{inputCode})  and a.del_flag = 0
+    </select>
+
     <select id="findSeqences" resultType="String">
         select PRICE_DICT.Nextval from dual
     </select>
@@ -249,7 +255,7 @@
 
     <update id="delete">
         UPDATE price_list SET
-        del_flag = #{DEL_FLAG_DELETE}
+        del_flag = 1
         WHERE id = #{id}
     </update>
 

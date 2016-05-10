@@ -1,20 +1,25 @@
 package com.jims.sys;
 
+
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.clinic.api.ClinicItemApi;
+import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
+import com.jims.common.persistence.Page;
 import com.jims.common.utils.AbbreviationUtils;
-import com.jims.sys.api.PriceItemNameDictApi;
 import com.jims.sys.api.PriceListApi;
-import com.jims.sys.entity.PriceItemNameDict;
 import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceDictListVo;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/4/26.
+ * Created by Administrator on 2016/4/28.
  */
 @Component
 @Produces("application/json")
@@ -22,9 +27,10 @@ import java.util.List;
 public class PriceDictRest {
 
     @Reference(version = "1.0.0")
-    private PriceItemNameDictApi priceItemNameDictApi;
-    @Reference(version = "1.0.0")
     private PriceListApi priceListApi;
+    @Reference(version = "1.0.0")
+    private ClinicItemApi clinicItemApi;
+
     @Path("save")
     @POST
     public StringData save(PriceDictListVo priceDictListVo) {
@@ -47,6 +53,9 @@ public class PriceDictRest {
         } else if (priceDictListVo.getStartDate() == null) {
             stringData.setCode("起用日期不能为空");
             return stringData;
+        }
+        if(priceDictListVo.getClinicDict() == 1){
+            clinicItemApi.saveDictList(priceDictListVo);
         }
         String num = priceListApi.save(priceDictListVo);
         stringData.setCode(num);
@@ -80,6 +89,42 @@ public class PriceDictRest {
         stringData.setData("success");
         return stringData;
     }
+
+    @Path("find")
+    @GET
+    public PageData findPrice(@Context HttpServletRequest request, @Context HttpServletResponse response){
+        Page<PriceList> page = priceListApi.findPage(new Page<PriceList>(request, response), new PriceList());
+        PageData<PriceList> pageData = new PageData<PriceList>();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
+    }
+
+    @Path("get")
+    @POST
+    public PriceList get(String id){
+        PriceList priceList=  priceListApi.get(id);
+        return priceList;
+    }
+
+    @Path("del")
+    @POST
+    public StringData delete(String id) {
+        StringData stringData = new StringData();
+        String num= priceListApi.delete(id);
+        stringData.setCode(num + "");
+        stringData.setData("success");
+        return stringData;
+    }
+
+    @Path("find/{inputCode}")
+    @GET
+    public List<PriceList> findList(@PathParam("inputCode")String inputCode){
+        List<PriceList> priceLists = priceListApi.findCode(inputCode+"%");
+        return priceLists;
+    }
+
+
 
     @POST
     @Path("findList")

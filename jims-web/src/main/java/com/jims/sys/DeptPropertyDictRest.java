@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.StringUtils;
 import com.jims.sys.api.DeptPropertyDictApi;
 import com.jims.sys.api.SysCompanyApi;
 import com.jims.sys.entity.*;
@@ -41,8 +42,10 @@ public class DeptPropertyDictRest {
      */
     @GET
     @Path("list")
-    public PageData list(@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        Page<OrgDeptPropertyDict> page = deptPropertyDictApi.findPage(new Page<OrgDeptPropertyDict>(request, response), new OrgDeptPropertyDict());
+    public PageData list(@QueryParam("orgId") String orgId,@Context HttpServletRequest request, @Context HttpServletResponse response) {
+        OrgDeptPropertyDict orgDeptPropertyDict=new OrgDeptPropertyDict();
+        orgDeptPropertyDict.setOrgId(orgId);
+        Page<OrgDeptPropertyDict> page = deptPropertyDictApi.findPage(new Page<OrgDeptPropertyDict>(request, response),orgDeptPropertyDict);
         PageData<OrgDeptPropertyDict> pageData = new PageData<OrgDeptPropertyDict>();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
@@ -127,6 +130,7 @@ public class DeptPropertyDictRest {
     @Consumes({MediaType.APPLICATION_JSON})
     public StringData save(OrgDeptPropertyDict orgDeptPropertyDict) {
         List<OrgDeptPropertyDict> list = deptPropertyDictApi.findName(orgDeptPropertyDict.getPropertyType());
+        //给插入的科室属性进行排序
         OrgDeptPropertyDict sort = deptPropertyDictApi.findSort();
         if (list.size() > 0) {
             orgDeptPropertyDict.setSort(null);
@@ -138,13 +142,26 @@ public class DeptPropertyDictRest {
             }
 
         }
-
-        int num = deptPropertyDictApi.add(orgDeptPropertyDict);
-        if (num != 0) {
-            StringData stringData = new StringData();
-            stringData.setData("success");
-            return stringData;
+      //  if(list.get())
+        for(int i=0;i<=list.size();i++)
+        {
+            if(StringUtils.equalsIgnoreCase(orgDeptPropertyDict.getPropertyValue(),list.get(i).getPropertyValue()))
+            {
+                StringData stringData = new StringData();
+                stringData.setData("fail");
+                return stringData;
+            }
+            else{
+                int num = deptPropertyDictApi.add(orgDeptPropertyDict);
+                if (num != 0) {
+                    StringData stringData = new StringData();
+                    stringData.setData("success");
+                    return stringData;
+                }
+            }
         }
+
+
         return null;
 
     }

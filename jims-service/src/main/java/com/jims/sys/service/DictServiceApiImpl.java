@@ -8,7 +8,6 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
