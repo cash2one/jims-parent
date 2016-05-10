@@ -150,11 +150,9 @@ $.extend({
                 if(element.value!=null && element.value!=''){
                     dict=dict+'"'+element.name+'"'+':'+'"'+element.value+'",'
                 }
-
             })
             dict = dict.substring(0, dict.length - 1);
-            dict=dict+'}'
-
+            dict=dict+'}';
             return jQuery.ajax({
                 cache: true,
                 'type': 'POST',
@@ -188,7 +186,7 @@ $.extend({
             'type': 'POST',
             'url': url,
             'contentType': 'application/json',
-            'data': data,
+            'data': JSON.stringify(data),
             'dataType': 'json',
             'success': callback,
             'error': error

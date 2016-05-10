@@ -4,7 +4,7 @@
 package com.jims.clinic.dao;
 
 
-import com.jims.clinic.entity.ExamRptPattern;
+import com.jims.exam.entity.ExamRptPattern;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 

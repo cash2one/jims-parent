@@ -18,8 +18,26 @@ public class DeptDict extends DataEntity<DeptDict> {
 	private String deptName;		// 部门名称
 	private String deptCode;		// 部门代码
 	private String deptPropertity;		// 科室属性
-	
-	public DeptDict() {
+    private String orgId;
+    private String inputCode;
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getInputCode() {
+        return inputCode;
+    }
+
+    public void setInputCode(String inputCode) {
+        this.inputCode = inputCode;
+    }
+
+    public DeptDict() {
 		super();
 	}
 

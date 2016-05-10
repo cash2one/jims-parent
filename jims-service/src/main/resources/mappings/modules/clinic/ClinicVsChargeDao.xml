@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ClinicVsChargeDao">
-    
-	<sql id="clinicVsChargeColumns">
+
+    <sql id="clinicVsChargeColumns">
 		a.id AS "id",
 		a.clinic_item_class AS "clinicItemClass",
 		a.clinic_item_code AS "clinicItemCode",
@@ -21,60 +21,60 @@
 		a.del_flag AS "delFlag",
 		a.create_date AS "createDate"
 	</sql>
-	
-	<sql id="clinicVsChargeJoins">
-	</sql>
-    
-	<select id="get" resultType="ClinicVsCharge">
-		SELECT 
-			<include refid="clinicVsChargeColumns"/>
-		FROM clinic_vs_charge a
-		<include refid="clinicVsChargeJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="ClinicVsCharge">
-		SELECT 
-			<include refid="clinicVsChargeColumns"/>
-		FROM clinic_vs_charge a
-		<include refid="clinicVsChargeJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+
+    <sql id="clinicVsChargeJoins">
+    </sql>
+
+    <select id="get" resultType="ClinicVsCharge">
+        SELECT
+        <include refid="clinicVsChargeColumns"/>
+        FROM clinic_vs_charge a
+        <include refid="clinicVsChargeJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="ClinicVsCharge">
+        SELECT
+        <include refid="clinicVsChargeColumns"/>
+        FROM clinic_vs_charge a
+        <include refid="clinicVsChargeJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
             AND a.clinic_item_class = #{clinicItemClass}
             AND a.clinic_item_code = #{clinicItemCode}
             <if test="orgId != null and orgId != ''">
-                AND t.org_id = #{orgId}
+                AND a.org_id = #{orgId}
             </if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="ClinicVsCharge">
-		SELECT 
-			<include refid="clinicVsChargeColumns"/>
-		FROM clinic_vs_charge a
-		<include refid="clinicVsChargeJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="ClinicVsCharge">
+        SELECT
+        <include refid="clinicVsChargeColumns"/>
+        FROM clinic_vs_charge a
+        <include refid="clinicVsChargeJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO clinic_vs_charge(
 			id,
 			clinic_item_class,
@@ -113,8 +113,8 @@
 			#{createDate}
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE clinic_vs_charge SET 	
 			clinic_item_class = #{clinicItemClass},
 			clinic_item_code = #{clinicItemCode},
@@ -131,21 +131,22 @@
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
-		UPDATE clinic_vs_charge SET 
-			del_flag = #{DEL_FLAG_DELETE}
-		WHERE
-        <if test="id != null and id != ''">
-            id = #{id}
+
+    <update id="delete">
+        UPDATE clinic_vs_charge SET
+        del_flag = '1'
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteNoId">
+        UPDATE clinic_vs_charge SET
+        del_flag = '1'
+        WHERE
+        clinic_item_class = #{clinicItemClass}
+        AND clinic_item_code = #{clinicItemCode}
+        <if test="orgId != null and orgId != ''">
+            AND org_id = #{orgId}
         </if>
-        <if test="id == null or id == ''">
-            a.clinic_item_class = #{clinicItemClass}
-            AND a.clinic_item_code = #{clinicItemCode}
-            <if test="orgId != null and orgId != ''">
-                AND t.org_id = #{orgId}
-            </if>
-        </if>
-	</update>
-	
+    </update>
+
 </mapper>

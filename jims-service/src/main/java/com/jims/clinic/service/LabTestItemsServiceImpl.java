@@ -4,13 +4,11 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.LabTestItemsServiceApi;
+import com.jims.lab.api.LabTestItemsServiceApi;
 import com.jims.clinic.dao.LabTestItemsDao;
-import com.jims.clinic.entity.LabTestItems;
+import com.jims.lab.entity.LabTestItems;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * 检验项目Service

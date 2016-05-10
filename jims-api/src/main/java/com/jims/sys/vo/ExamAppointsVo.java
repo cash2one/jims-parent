@@ -3,6 +3,9 @@
  */
 package com.jims.sys.vo;
 import com.jims.clinic.entity.*;
+import com.jims.exam.entity.ExamAppoints;
+import com.jims.exam.entity.ExamItems;
+
 import java.util.List;
 
 /**
