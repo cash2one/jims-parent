@@ -1,7 +1,8 @@
 ﻿-- drop table DRUG_NAME_DICT cascade constraints;
 -- Create table
 /*==============================================================*/
-/* Table: DRUG_NAME_DICT      药品名称                                */
+/* Table: DRUG_NAME_DICT      药品名称
+   修改 添加drug_code ,drug_nae 唯一约束*/
 /*==============================================================*/
 create table DRUG_NAME_DICT
 (
@@ -51,3 +52,7 @@ alter table DRUG_NAME_DICT
 -- Grant/Revoke object privileges 
 /*grant select, insert, update, delete on DRUG_NAME_DICT to DBA;
 grant select on DRUG_NAME_DICT to PUBLIC;*/
+
+-- Create/Recreate primary, unique and foreign key constraints
+alter table DRUG_NAME_DICT
+  add constraint PK_DRUG_NAME_DICT_UK unique (DRUG_NAME, DRUG_CODE);
