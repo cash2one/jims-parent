@@ -13,7 +13,7 @@
     <select id="findList" resultType="OrgDeptPropertyDict">
         SELECT
         *
-        FROM ORG_DEPT_PROPERTY_DICT WHERE org_id=#{orgId}
+        FROM ORG_DEPT_PROPERTY_DICT
 
     </select>
 
@@ -78,8 +78,8 @@
     </select>
 
     <select id="findProperty" resultType="OrgDeptPropertyDict">
-     select property_type,sum(sort),org_id as sort from org_dept_property_dict
-     group by property_type,org_id order by sort
+     select property_type,sum(sort) as sort from org_dept_property_dict
+     group by property_type order by sort
     </select>
 
     <select id="findName" resultType="OrgDeptPropertyDict">

@@ -1,3 +1,4 @@
+patientList('0');
 $(function(){
     //添加Tabs
     $(".tabs-header").bind('contextmenu',function(e){
@@ -24,10 +25,11 @@ $(function(){
     });
     //关闭所有标签页
     $("#closeall").bind("click",function(){
-        var tablist = $('#tabs-header').tabs('tabs');
-        for(var i=tablist.length-1;i>=0;i--){
-            $('#tabs-header').tabs('close',i);
-        }
+        //var tablist = $('#tabs-header').tabs('tabs');
+        //for(var i=tablist.length-1;i>=0;i--){
+        //    $('#tabs-header').tabs('close',i);
+        //}
+        closeTabs();
     });
     //关闭非当前标签页（先关闭右侧，再关闭左侧）
     $("#closeother").bind("click",function(){
@@ -61,6 +63,12 @@ $(function(){
         }
     });
 });
+function closeTabs(){
+    var tablist = $('#tabs-header').tabs('tabs');
+    for(var i=tablist.length-1;i>=0;i--){
+        $('#tabs-header').tabs('close',i);
+    }
+}
 
 /**
  * tabs 增加
@@ -114,5 +122,70 @@ function showDoctor(targetid){
         d.hide();
     }
 }
+//加载病人列表  默认 我的病人（待诊）
+function patientList(status){
+    var liHtml='';
+    var url='';
+    if(status=='0'){
+        url=basePath + '/clinicMaster/clinicMasterList';
+    }else{
+        url=basePath + '/clinicMaster/clinicMasterDiagnosed';
+    }
+    $.get(url, function (data) {
+        for (var i = 0; i < data.length; i++) {
+            liHtml+='<li><a href="#" onclick="userMenu(\''+data[i].id+'\',this)">' +
+            '<span class="cus-lbor"></span>' +
+            '<span class="cus-name">'+data[i].name+'</span>' +
+            ''+data[i].sex+'&nbsp; '+data[i].age+'</a></li>';
+        }
+        $('ul.cus-list').html(liHtml);
+    })
+}
+
+/**
+ * 获取病人的就诊信息
+ * @param clinicMasterId
+ */
+function userMenu(clinicMasterId,aBtn){
+    $(aBtn).parent().parent().find("li a").removeClass();
+    $(aBtn).addClass("active");
+    closeTabs();
+    $.ajax({
+        'type': 'get',
+        'url': basePath + '/clinicMaster/get',
+        'contentType': 'application/json',
+        'data': {id:clinicMasterId},
+        'dataType': 'json',
+        'success': function(data){
+            $("#nameId").html(data.name);
+            $("#ageId").html(data.age);
+            $("#sexId").html(data.sex);
+            $("#clinicMasterId").val(data.id);
+        },
+        'error': function(){
+
+        }
+    })
+    var html='';
+    html+='<li><a class="active" onclick="addTabs(\'1\',\'病人信息\',\'/modules/clinic/medicalRecordsIndex.html\',this)"><span>病人信息</span></a></li>';
+    html+='<li><a href="#"><span>病案首页</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'2\',\'病历文书\',\'/modules/clinic/enterHospital/enterHosptial.html\',this)"><span>病历文书</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'2\',\'病程记录\',\'/modules/clinic/course/courseRecordList.html\',this)"><span>病程记录</span></a></li>';
+    html+='<li><a onclick="addTabs(\'4\',\'检查申请\',\'/modules/clinic/clinicinspect/clinicInspect.html\',this)"><span>检查申请</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/clinic/labTest/labTest.html\',this)"><span>检验申请</span></a></li>';
+    html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/clinic/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
+    html+='<li><a href="#"><span>医嘱</span></a></li>';
+    html+='<li><a   onclick="addTabs(\'8\',\'手术申请\',\'/modules/clinic/operationApply/operationApplyList.html\',this)"><span>手术申请</span></a></li>';
+    html+='<li><a   onclick="addTabs(\'9\',\'用血申请\',\'/modules/clinic/useBlood/useBloodList.html\',this)"><span>用血申请</span></a></li>';
+    html+='<li><a   onclick="addTabs(\'15\',\'门诊手术申请\',\'/modules/clinic/docOperationApply/docOperationApplyList.html\',this)"><span>门诊手术申请</span></a></li>';
+    html+='<li><a  href="#"><span>门诊用血申请</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'12\',\'会诊申请\',\'/modules/clinic/group/group.html\',this)"><span>会诊申请</span></a></li>';
+    html+='<li><a href="#"><span>出院通知</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'13\',\'出院记录\',\'/modules/clinic/electronleavehospital/electronLeaveHospital.html\',this)"><span>出院记录</span></a></li>';
+    $("#userMenuId").html(html);
+    $("#userMenuId li:first a").click();
+}
+
+
 
 

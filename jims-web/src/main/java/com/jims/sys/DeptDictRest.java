@@ -10,7 +10,6 @@ import com.jims.sys.entity.Dict;
 import com.jims.sys.entity.OrgDeptPropertyDict;
 import com.jims.sys.entity.SysCompany;
 //import com.jims.sys.vo.DeptDictVo;
-import com.jims.sys.vo.DeptDictVo;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -37,40 +36,36 @@ public class DeptDictRest {
      */
     @Path("list")
     @GET
-    public List<DeptDict> list(@QueryParam("orgId") String orgId) {
-
-        System.out.print(orgId);
+    public List<DeptDict> list() {
 
         //查询出所有的科室信息
-        List<DeptDict> list = deptDictApi.findAllList(orgId);
+        List<DeptDict> list = deptDictApi.findAllList();
 
         //查询出所有的科室属性的类型
         List<OrgDeptPropertyDict> listProperty = deptPropertyDictApi.findProperty();
 
-        if (listProperty.size() > 0) {
-            //遍历所有的科室信息
-            for (int i = 0; i < list.size(); i++) {
-                StringBuilder sb = new StringBuilder();
-                //得到每一个对象的科室属性，以；进行切割
-                String[] str = list.get(i).getDeptPropertity().split(";");
-                //遍历获得的数组
-                for (int y = 0; y < str.length; y++) {
-                    //得到每一个切割后的科室属性值
-                    if (StringUtils.isNotBlank(str[y])) {
-                        //拿科室属性值和科室的类型去数据库中查询科室属性名称
-                        OrgDeptPropertyDict listName = deptPropertyDictApi.findNameByTypeAndValue(listProperty.get(y).getPropertyType(), str[y]);
-                        if (listName == null) {
-                            sb.append("");
-                        } else {
+        //遍历所有的科室信息
+        for (int i = 0; i < list.size(); i++) {
+            StringBuilder sb = new StringBuilder();
+            //得到每一个对象的科室属性，以；进行切割
+            String[] str = list.get(i).getDeptPropertity().split(";");
+            //遍历获得的数组
+            for (int y = 0; y < str.length; y++) {
+                //得到每一个切割后的科室属性值
+                if (StringUtils.isNotBlank(str[y])) {
+                    //拿科室属性值和科室的类型去数据库中查询科室属性名称
+                    OrgDeptPropertyDict listName = deptPropertyDictApi.findNameByTypeAndValue(listProperty.get(y).getPropertyType(), str[y]);
+                    if (listName == null) {
+                        sb.append("");
+                    } else {
 
-                            sb.append(listName.getPropertyName() + " ");
-                        }
+                        sb.append(listName.getPropertyName() + " ");
                     }
                 }
-                // sb.deleteCharAt(sb.length() - 1);
-                list.get(i).setDeptPropertity(sb.toString());
-
             }
+           // sb.deleteCharAt(sb.length() - 1);
+            list.get(i).setDeptPropertity(sb.toString());
+
         }
         return list;
     }
@@ -89,40 +84,52 @@ public class DeptDictRest {
     }
 
     /**
+     * 查询所有的下级科室
+     *
+     * @return
+     */
+    @Path("findListByCode")
+    @POST
+    public List<DeptDict> findListByCode(String code) {
+        int index = code.indexOf("=");
+        code =code.substring(index+1);
+        List<DeptDict> list = deptDictApi.findListByCode(code);
+        return list;
+    }
+    /**
      * 保存修改方法
      *
      * @param
      * @return
      */
-    @Path("add")
-    @POST
-    public StringData save(DeptDictVo deptDictVo) {
-
-
-        DeptDict deptDict = new DeptDict();
-        deptDict.setParentId(deptDictVo.getParentId());
-
-        deptDict.setId(deptDictVo.getId());
-
-        deptDict.setDeptCode(deptDictVo.getDeptCode());
-        deptDict.setDeptName(deptDictVo.getDeptName());
-        deptDict.setOrgId(deptDictVo.getOrgId());
-        deptDict.setInputCode(deptDictVo.getInputCode());
-        StringBuilder sb = new StringBuilder();
-        String deptPropertity[] = deptDictVo.getArray();
-        for (int i = 0; i < deptPropertity.length; i++) {
-
-                sb.append(deptPropertity[i] + ";");
-        }
-
-        deptDict.setDeptPropertity(sb.toString());
-
-
-        String num = deptDictApi.save(deptDict);
-        StringData stringData = new StringData();
-        stringData.setData("success");
-        return stringData;
-    }
+//    @Path("add")
+//    @POST
+//    public StringData save(DeptDictVo deptDictVo) {
+//
+//        System.out.print(deptDictVo);
+//        DeptDict deptDict = new DeptDict();
+//        deptDict.setParentId(deptDictVo.getParentId());
+//
+//        deptDict.setId(deptDictVo.getId());
+//
+//        deptDict.setDeptCode(deptDictVo.getDeptCode());
+//        deptDict.setDeptName(deptDictVo.getDeptName());
+//
+//        StringBuilder sb = new StringBuilder();
+//        String deptPropertity[] = deptDictVo.getArray();
+//        for (int i = 0; i < deptPropertity.length; i++) {
+//
+//                sb.append(deptPropertity[i] + ";");
+//        }
+//
+//        deptDict.setDeptPropertity(sb.toString());
+//
+//
+//        String num = deptDictApi.save(deptDict);
+//        StringData stringData = new StringData();
+//        stringData.setData("success");
+//        return stringData;
+//    }
 
 
     /**

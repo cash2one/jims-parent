@@ -4,7 +4,7 @@ import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.ClinicVsCharge;
 import com.jims.common.persistence.Page;
-import org.springframework.transaction.annotation.Transactional;
+import com.jims.sys.vo.PriceDictListVo;
 
 import java.util.List;
 
@@ -26,6 +26,12 @@ public interface ClinicItemApi {
      * @return
      */
     public List<ClinicItemDict> findList(ClinicItemDict entity);
+
+    /**
+     * 编码或名称已存在个数
+     * @return
+     */
+    public boolean codeOrNameHas(ClinicItemDict entity);
 
     /**
      * 查询临床诊疗项目分页数据
@@ -152,6 +158,11 @@ public interface ClinicItemApi {
      */
     public String deleteVs(ClinicItemDict entity);
 
-
+    /**
+     * 保存临床诊疗与价表对照数据
+     * @param priceDictListVo
+     * @return
+     */
+    public String saveDictList(PriceDictListVo priceDictListVo);
 
 }

@@ -66,7 +66,7 @@ public interface DeptPropertyDictApi {
      * 查询所有的科室信息
      * @return
      */
-   // public List<OrgDeptPropertyDict> findList();
+    public List<OrgDeptPropertyDict> findList();
 
     /**
      * 根据条件查询所有的属性信息

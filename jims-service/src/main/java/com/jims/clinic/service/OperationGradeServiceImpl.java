@@ -4,13 +4,11 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.OperatioinGradeSerivceApi;
+import com.jims.operation.api.OperatioinGradeSerivceApi;
 import com.jims.clinic.dao.OperationGradeDao;
-import com.jims.clinic.entity.OperationGrade;
+import com.jims.operation.entity.OperationGrade;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * 手术等级Service

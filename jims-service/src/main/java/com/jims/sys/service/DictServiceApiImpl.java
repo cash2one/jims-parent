@@ -21,19 +21,35 @@ import java.util.List;
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implements DictServiceApi {
-	
+
+
 	/**
      * 查询字段类型列表
      * @return
-	 */
-	public List<String> findTypeList(){
-		return dao.findTypeList(new Dict());
-	}
-
-    public List<String> findListType(String dict){
-        List<String> list=dao.findListType(dict);
-        return list;
+     */
+    public List<String> findTypeList() {
+        return dao.findTypeList(new Dict());
     }
 
+    public List<String> findListType(String dict) {
+        return dao.findListType(dict);
+    }
 
+	public String getLabel(String type,String value){
+       return dao.getLabel(type,value);
+	}
+
+
+
+    /**
+     * 根据类型检索字典
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Dict> findList(String type) {
+        Dict d = new Dict();
+        d.setType(type);
+        return dao.findList(d);
+    }
 }

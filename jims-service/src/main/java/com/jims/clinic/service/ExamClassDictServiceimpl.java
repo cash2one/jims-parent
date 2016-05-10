@@ -6,9 +6,9 @@ package com.jims.clinic.service;
 import java.util.List;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.ExamClassDictApi;
+import com.jims.exam.api.ExamClassDictApi;
 import com.jims.clinic.dao.ExamClassDictDao;
-import com.jims.clinic.entity.ExamClassDict;
+import com.jims.exam.entity.ExamClassDict;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,4 +30,23 @@ public class ExamClassDictServiceimpl extends CrudImplService<ExamClassDictDao, 
 	public List<ExamClassDict> getEx() {
 		return examClassDictDao.getEx();
 	}
+
+    /**
+     *
+     * 获取检查类别字典列表
+     * @return 集合
+     */
+    public List<ExamClassDict> findAll() {
+        return dao.findAllList(new ExamClassDict());
+    }
+
+    /**
+     * 通过orgID获取检查类别列表
+     * @param orgId 机构id
+     * @return 集合
+     */
+    @Override
+    public List<ExamClassDict> findListByOrgId(String orgId) {
+        return dao.findListByOrgId(orgId);
+    }
 }

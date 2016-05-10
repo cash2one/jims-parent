@@ -3,7 +3,7 @@
  */
 package com.jims.clinic.dao;
 
-import com.jims.clinic.entity.BloodCapacity;
+import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 
@@ -17,5 +17,5 @@ import java.util.List;
 @MyBatisDao
 public interface BloodCapacityDao extends CrudDao<BloodCapacity> {
 	public  void delBloodCapacity(String applyNum);
-	public List<BloodCapacity> getBloodCapacityList(String applyNum);
+	public List<BloodCapacity> getBloodCapacityList(BloodCapacity bloodCapacity);
 }

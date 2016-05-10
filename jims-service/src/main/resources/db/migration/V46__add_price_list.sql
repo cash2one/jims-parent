@@ -1,11 +1,11 @@
-﻿
+﻿drop table PRICE_LIST cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: PRICE_LIST                                      */
 /*==============================================================*/
 create table PRICE_LIST
 (
-  ITEM_CLASS         VARCHAR2(1) not null,
+  ITEM_CLASS         VARCHAR2(20) not null,
   ITEM_CODE          VARCHAR2(20) not null,
   ITEM_NAME          VARCHAR2(100),
   ITEM_SPEC          VARCHAR2(50) not null,
@@ -14,11 +14,11 @@ create table PRICE_LIST
   PREFER_PRICE       NUMBER(9,3),
   FOREIGNER_PRICE    NUMBER(9,3),
   PERFORMED_BY       VARCHAR2(8),
-  FEE_TYPE_MASK      NUMBER(1),
-  CLASS_ON_INP_RCPT  VARCHAR2(1),
-  CLASS_ON_OUTP_RCPT VARCHAR2(1),
-  CLASS_ON_RECKONING VARCHAR2(10),
-  SUBJ_CODE          VARCHAR2(3),
+  FEE_TYPE_MASK      NUMBER(1) default 0,
+  CLASS_ON_INP_RCPT  VARCHAR2(20),
+  CLASS_ON_OUTP_RCPT VARCHAR2(20),
+  CLASS_ON_RECKONING VARCHAR2(20),
+  SUBJ_CODE          VARCHAR2(20),
   CLASS_ON_MR        VARCHAR2(4),
   MEMO               VARCHAR2(100),
   START_DATE         DATE not null,
@@ -26,7 +26,7 @@ create table PRICE_LIST
   OPERATOR           VARCHAR2(8),
   ENTER_DATE         DATE,
   HIGH_PRICE         NUMBER(10,4),
-  MATERIAL_CODE      VARCHAR2(20),
+  MATERIAL_CODE      VARCHAR2(100),
   SCORE_1            NUMBER(10,2),
   SCORE_2            NUMBER(10,2),
   PRICE_NAME_CODE    VARCHAR2(20),
@@ -42,10 +42,70 @@ create table PRICE_LIST
   MZSJ_WY            VARCHAR2(24),
   ZYSJ_WY            VARCHAR2(24),
   GROUP_FLAG         CHAR(1),
-  STOP_OPERATOR      VARCHAR2(20)
-);
-
+  STOP_OPERATOR      VARCHAR2(20),
+  ID                 VARCHAR2(64) not null,
+  CREATE_BY          VARCHAR2(64),
+  CREATE_DATE        TIMESTAMP(6),
+  UPDATE_BY          VARCHAR2(64),
+  UPDATE_DATE        TIMESTAMP(6),
+  REMARKS            VARCHAR2(255),
+  DEL_FLAG           CHAR(1) default '0' not null
+)
+tablespace TSP_COMM
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 1
+    minextents 1
+    maxextents unlimited
+  );
 -- Add comments to the columns
+comment on column PRICE_LIST.ITEM_CLASS
+  is '项目类别';
+comment on column PRICE_LIST.ITEM_CODE
+  is '项目代码';
+comment on column PRICE_LIST.ITEM_NAME
+  is '项目名称';
+comment on column PRICE_LIST.ITEM_SPEC
+  is '规格';
+comment on column PRICE_LIST.UNITS
+  is '单位';
+comment on column PRICE_LIST.PRICE
+  is '基本价格';
+comment on column PRICE_LIST.PREFER_PRICE
+  is '优惠价格';
+comment on column PRICE_LIST.FOREIGNER_PRICE
+  is '外宾价格';
+comment on column PRICE_LIST.PERFORMED_BY
+  is '执行科室';
+comment on column PRICE_LIST.FEE_TYPE_MASK
+  is '是否自费';
+comment on column PRICE_LIST.CLASS_ON_INP_RCPT
+  is '住院收据分类';
+comment on column PRICE_LIST.CLASS_ON_OUTP_RCPT
+  is '门诊收据分类';
+comment on column PRICE_LIST.CLASS_ON_RECKONING
+  is '核算科目';
+comment on column PRICE_LIST.SUBJ_CODE
+  is '会计科目';
+comment on column PRICE_LIST.CLASS_ON_MR
+  is '病案首页分类';
+comment on column PRICE_LIST.MEMO
+  is '备注信息';
+comment on column PRICE_LIST.START_DATE
+  is '启用日期';
+comment on column PRICE_LIST.STOP_DATE
+  is '停止日期';
+comment on column PRICE_LIST.OPERATOR
+  is '维护者';
+comment on column PRICE_LIST.ENTER_DATE
+  is '输入日期';
+comment on column PRICE_LIST.HIGH_PRICE
+  is '最高价格';
+comment on column PRICE_LIST.MATERIAL_CODE
+  is '物价码';
 comment on column PRICE_LIST.CHANGED_MEMO
   is '价格变更原因包括调价和停用等都可以录入保存原因';
 comment on column PRICE_LIST.XM_WY
@@ -56,9 +116,23 @@ comment on column PRICE_LIST.MZSJ_WY
   is '门诊收据对照';
 comment on column PRICE_LIST.ZYSJ_WY
   is '住院收据对照';
+comment on column PRICE_LIST.ID
+  is '主键';
+comment on column PRICE_LIST.CREATE_BY
+  is '创建者';
+comment on column PRICE_LIST.CREATE_DATE
+  is '创建时间';
+comment on column PRICE_LIST.UPDATE_BY
+  is '更新者';
+comment on column PRICE_LIST.UPDATE_DATE
+  is '更新时间';
+comment on column PRICE_LIST.REMARKS
+  is '备注信息';
+comment on column PRICE_LIST.DEL_FLAG
+  is '删除标记';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table PRICE_LIST
-  add constraint PK_PRICE_LIST primary key (ITEM_CLASS, ITEM_CODE, ITEM_SPEC, UNITS, START_DATE)
+  add constraint PK_PRICE_LIST primary key (ID)
   using index
   tablespace USERS
   pctfree 10
@@ -70,3 +144,17 @@ alter table PRICE_LIST
     minextents 1
     maxextents unlimited
   );
+-- Create/Recreate indexes
+create unique index UK_PRICE_LIST on PRICE_LIST (ITEM_CLASS, ITEM_CODE, ITEM_SPEC, UNITS, START_DATE)
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter sequence PRICE_DICT maxvalue 999999;
+alter table PRICE_LIST add ORG_ID varchar(64);

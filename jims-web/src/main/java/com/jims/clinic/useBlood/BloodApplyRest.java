@@ -2,13 +2,14 @@ package com.jims.clinic.useBlood;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.BloodApplyServiceApi;
-import com.jims.clinic.api.BloodCapacityServiceApi;
-import com.jims.clinic.entity.BloodApply;
-import com.jims.clinic.entity.BloodCapacity;
+import com.jims.blood.api.BloodApplyServiceApi;
+import com.jims.blood.api.BloodCapacityServiceApi;
+import com.jims.blood.entity.BloodApply;
+import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,7 +89,13 @@ public class BloodApplyRest {
     @Path("getBloodCapacityList")
     @POST
     public List<BloodCapacity> getBloodCapacityList(String applyNum) {
-        List<BloodCapacity> bloodCapacityList= bloodCapacityServiceApi.getBloodCapacityList(applyNum);
-        return bloodCapacityList;
+        BloodCapacity bloodCapacity=new BloodCapacity();
+        if (StringUtils.isNotBlank(applyNum)){
+            int index = applyNum.indexOf("=");
+            bloodCapacity.setApplyNum(applyNum.substring(index+1));
+            List<BloodCapacity> bloodCapacityList= bloodCapacityServiceApi.getBloodCapacityList(bloodCapacity);
+           return bloodCapacityList;
+        }
+        return null;
     }
 }

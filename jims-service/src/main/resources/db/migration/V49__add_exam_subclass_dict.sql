@@ -31,4 +31,7 @@ comment on column EXAM_SUBCLASS_DICT.ORG_ID
 alter table EXAM_SUBCLASS_DICT
   add constraint EXAM_SUBCLASS_DICT_PK primary key (ID)
   using index 
-
+  tablespace JIMS_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255;

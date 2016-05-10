@@ -5,7 +5,7 @@ package com.jims.clinic.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
-import com.jims.clinic.entity.LabTestMaster;
+import com.jims.lab.entity.LabTestMaster;
 
 /**
  * 检验主记录DAO接口
@@ -14,5 +14,14 @@ import com.jims.clinic.entity.LabTestMaster;
  */
 @MyBatisDao
 public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
-	
+
+    /**
+     * 保存或编辑
+     * 整个主表、字表list
+     * @param主表LabTestMaster
+     * @param子表List
+     * @author xueyx
+     * @version 2016/5/06
+     */
+    public void saveAll(LabTestMaster labTestMaster);
 }
