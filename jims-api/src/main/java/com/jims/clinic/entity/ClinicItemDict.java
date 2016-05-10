@@ -39,7 +39,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
     private List<ClinicVsCharge> saveVsList;  // 添加、修改的对照数据
     private String delNameIds;   // 删除的名称主键
     private String delVsIds;    // 删除的对照主键
-    private String updateFlag;
+    private String updateFlag;   //更新标志，值为 1 时不更新
 
     public List<ClinicItemNameDict> getSaveNameList() {
         return saveNameList;

@@ -2,10 +2,10 @@ package com.jims.clinic.useBlood;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.BloodApplyServiceApi;
-import com.jims.clinic.api.BloodCapacityServiceApi;
-import com.jims.clinic.entity.BloodApply;
-import com.jims.clinic.entity.BloodCapacity;
+import com.jims.blood.api.BloodApplyServiceApi;
+import com.jims.blood.api.BloodCapacityServiceApi;
+import com.jims.blood.entity.BloodApply;
+import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;

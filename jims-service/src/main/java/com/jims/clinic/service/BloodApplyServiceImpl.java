@@ -4,16 +4,14 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.BloodApplyServiceApi;
+import com.jims.blood.api.BloodApplyServiceApi;
 import com.jims.clinic.dao.BloodApplylDao;
 import com.jims.clinic.dao.BloodCapacityDao;
-import com.jims.clinic.entity.BloodApply;
-import com.jims.clinic.entity.BloodCapacity;
+import com.jims.blood.entity.BloodApply;
+import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.awt.font.FontRenderContext;
 
 /**
  * 用血申请Service

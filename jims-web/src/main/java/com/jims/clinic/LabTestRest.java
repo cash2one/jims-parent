@@ -1,16 +1,9 @@
 package com.jims.clinic;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.ElectronGroupConsultationApi;
-import com.jims.clinic.api.ElectronGroupConsultationIntoApi;
-import com.jims.clinic.entity.ElectronGroupConsultation;
-import com.jims.clinic.entity.ElectronGroupConsultationIn;
-import com.jims.clinic.entity.LabTestItems;
-import com.jims.clinic.entity.LabTestMaster;
+import com.jims.lab.entity.LabTestItems;
+import com.jims.lab.entity.LabTestMaster;
 import com.jims.common.data.PageData;
-import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
-import com.jims.common.utils.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;

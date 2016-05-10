@@ -1,6 +1,6 @@
 package com.jims.clinic;
 
-import com.jims.clinic.api.PatientApi;
+import com.jims.patient.api.PatientApi;
 
 /**
  * 病人基本信息
