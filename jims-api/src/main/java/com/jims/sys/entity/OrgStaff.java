@@ -17,8 +17,17 @@ public class OrgStaff extends DataEntity<OrgStaff> {
 	private String deptId;		// 所属科室
 	private String orgId;		// 所属组织结构
 	private String title;		// 职称
-	
-	public OrgStaff() {
+    private String persionId;   //人员id
+
+    public String getPersionId() {
+        return persionId;
+    }
+
+    public void setPersionId(String persionId) {
+        this.persionId = persionId;
+    }
+
+    public OrgStaff() {
 		super();
 	}
 

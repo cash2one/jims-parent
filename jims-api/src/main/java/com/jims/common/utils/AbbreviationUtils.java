@@ -17,7 +17,7 @@ public class AbbreviationUtils {
     private static int[] table = new int[27];
 
     // 对应首字母区间表
-    private static char[] initialtable = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 't', 't', 'w', 'x', 'y', 'z',};
+    private static char[] initialtable = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'H', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'T', 'T', 'W', 'X', 'Y', 'Z',};
 
     // 初始化
     static {

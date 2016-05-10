@@ -23,6 +23,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private static final long serialVersionUID = 1L;
 	private String examNo;		// 申请序号
 	private String patientId;		// 病人标识号
+	private String clinicNo; // 就诊序号
 	private Integer visitId;		// 住院标识
 	private String localIdClass;		// 检查号类别
 	private String patientLocalId;		// 检查标识号
@@ -80,26 +81,18 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private Integer printStatus;		// print_status
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
-	private ExamItems examItems;
-
 	//扩展
-	private List<OutpOrdersCosts> outpOrdersCostses;
+	private List<ExamItems> examItemsList;
 
-	public ExamItems getExamItems() {
-		return examItems;
+
+	public List<ExamItems> getExamItemsList() {
+		return examItemsList;
 	}
 
-	public void setExamItems(ExamItems examItems) {
-		this.examItems = examItems;
+	public void setExamItemsList(List<ExamItems> examItemsList) {
+		this.examItemsList = examItemsList;
 	}
 
-	public List<OutpOrdersCosts> getOutpOrdersCostses() {
-		return outpOrdersCostses;
-	}
-
-	public void setOutpOrdersCostses(List<OutpOrdersCosts> outpOrdersCostses) {
-		this.outpOrdersCostses = outpOrdersCostses;
-	}
 
 
 	public ExamAppoints() {
@@ -108,6 +101,14 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 
 	public ExamAppoints(String id){
 		super(id);
+	}
+
+	public String getClinicNo() {
+		return clinicNo;
+	}
+
+	public void setClinicNo(String clinicNo) {
+		this.clinicNo = clinicNo;
 	}
 
 	@Length(min=0, max=128, message="申请序号长度必须介于 0 和 128 之间")

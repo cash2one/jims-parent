@@ -5,7 +5,7 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            $("#reqDept").val(data.deptDict.deptName);
+            //$("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
@@ -119,7 +119,7 @@ function onloadMethod() {
     var p = $('#list_data').datagrid('getPager');
 }
 //检查选中
-function selected() {
+function selecteds() {
     $('#descriptionId input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
         var html=selected.prop("outerHTML");
@@ -243,10 +243,10 @@ function saveClinicInspect() {
     formJson = formJson.substring(0, formJson.length - 1);
     var divJson = "";
     $('#target .submitName').each(function (index, element) {
-        divJson += "{\"itemName\":\"" + $(this).val() + "\"},";
+        divJson += "{\"examItem\":\"" + $(this).val() + "\"},";
     })
     divJson = divJson.substring(0, divJson.length - 1);
-    var submitJson = formJson + ",\"outpOrdersCostses\":[" + divJson + "]}";
+    var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
 
     var save=$("#modify").val();
     var url="";

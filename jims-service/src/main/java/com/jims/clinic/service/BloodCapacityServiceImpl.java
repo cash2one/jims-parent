@@ -23,6 +23,11 @@ import java.util.List;
 public class BloodCapacityServiceImpl extends CrudImplService<BloodCapacityDao, BloodCapacity> implements BloodCapacityServiceApi {
     @Autowired
     private BloodCapacityDao bloodCapacityDao;
+    /**
+     * 根据用血申请编号查询用血量数据
+     * @author qinlongxin
+     * @version 2016-04-28
+     */
     public List<BloodCapacity> getBloodCapacityList(BloodCapacity bloodCapacity){
         List<BloodCapacity> list=bloodCapacityDao.getBloodCapacityList(bloodCapacity);
         return list;

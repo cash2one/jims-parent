@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * 价格表Service
@@ -21,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author 罗海昆
  * @version 2016-04-26
  */
-@Service
+@Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> implements PriceListApi {
 
@@ -30,7 +32,11 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
     @Autowired
     private PriceListDao priceListDao;
 
-
+    /**
+     * 价表的保存
+     * @param dictListVo
+     * @return
+     */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String save(PriceDictListVo dictListVo) {
@@ -42,6 +48,7 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
         priceItemNameDict.setInputCode(dictListVo.getInputCode());
         priceItemNameDict.setMemo(dictListVo.getMemo());
         priceItemNameDict.setStdIndicator(1);
+
         PriceList priceList = new PriceList();
         priceList.setId(IdGen.uuid());
         priceList.setItemClass(dictListVo.getItemClass());
@@ -64,6 +71,7 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
         priceList.setMaterialCode(dictListVo.getInputCode());
         priceList.setInputCode(dictListVo.getInputCode());
         priceList.setMaterialCode(dictListVo.getMaterialCode());
+
         int i = priceItemNameDictDao.insert(priceItemNameDict);
         int j = priceListDao.insert(priceList);
         if (i * j == 1) {
@@ -72,8 +80,23 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
         return "0";
     }
 
+    /**
+     * 查询序列
+     *
+     * @return
+     */
     public String findSeqences() {
         return priceListDao.findSeqences();
+    }
+
+    /**
+     * 通过拼音码查询数据
+     *
+     * @param inputCode
+     * @return
+     */
+    public List<PriceList> findCode(String inputCode){
+       return  priceListDao.findCode(inputCode);
     }
 
 }

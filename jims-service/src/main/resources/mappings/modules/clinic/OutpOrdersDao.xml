@@ -200,6 +200,7 @@
 	INSERT INTO outp_orders(
 	id,
 	patient_id,
+	clinic_id,
 	visit_date,
 	visit_no,
 	serial_no,
@@ -212,6 +213,7 @@
 	) VALUES (
 	#{id},
 	#{patientId},
+	#{clinicId},
 	#{visitDate},
 	#{visitNo},
 	#{serialNo},

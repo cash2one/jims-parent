@@ -1,4 +1,4 @@
-﻿drop table PRICE_ITEM_NAME_DICT cascade constraints;
+﻿--drop table PRICE_ITEM_NAME_DICT cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: PRICE_ITEM_NAME_DICT                                      */
@@ -23,7 +23,8 @@ create table PRICE_ITEM_NAME_DICT
   UPDATE_BY       VARCHAR2(64),
   UPDATE_DATE     TIMESTAMP(6),
   REMARKS         VARCHAR2(255),
-  DEL_FLAG        CHAR(1) default '0' not null
+  DEL_FLAG        CHAR(1) default '0' not null,
+  ORG_ID          VARCHAR2(64)
 )
 tablespace TSP_COMM
   pctfree 10
@@ -95,4 +96,3 @@ create unique index UK_PRICE_ITEM_NAME_DICT on PRICE_ITEM_NAME_DICT (ITEM_CLASS,
     minextents 1
     maxextents unlimited
   );
-alter table PRICE_ITEM_NAME_DICT add ORG_ID varchar(64);

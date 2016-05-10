@@ -18,13 +18,14 @@ public class OutpOrders extends DataEntity<OutpOrders> {
 	
 	private static final long serialVersionUID = 1L;
 	private String patientId;		// 病人标识号
+	private String clinicId;		//就诊id
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
 	private String serialNo;		// 流水号
 	private String orderedBy;		// 开单科室
 	private String doctor;		// 开单医生
 	private Date orderDate;		// 开单日期
-	private String clinicNo;		// clinic_no
+	private String clinicNo;		// 就诊序号
 	private String doctorNo;		// doctor_no
 	private String nurse;		// 护士登录名
 	
@@ -34,6 +35,14 @@ public class OutpOrders extends DataEntity<OutpOrders> {
 
 	public OutpOrders(String id){
 		super(id);
+	}
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
 	}
 
 	@Length(min=0, max=128, message="病人标识号长度必须介于 0 和 128 之间")
