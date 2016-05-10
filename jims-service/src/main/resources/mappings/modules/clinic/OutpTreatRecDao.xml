@@ -197,7 +197,7 @@
 		UPDATE outp_treat_rec SET
 			del_flag = '1'
 		WHERE
-		visit_no = #{visitNo}
+		appoint_no = #{appointNo}
 	</update>
 
 	<select id="loadItems" resultType="Integer">

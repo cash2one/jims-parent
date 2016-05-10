@@ -27,9 +27,9 @@ public interface OutpTreatRecServiceApi {
 
     /**
      * 删除治疗医嘱主记录
-     * @param visitNo
+     * @param appointNo
      */
-    public Integer deleteTreatRec(String visitNo);
+    public Integer deleteTreatRec(String appointNo);
 
     /**
      * 得到检查治疗医嘱的最大流水号

@@ -57,9 +57,24 @@ public interface PriceListApi {
     public String delete(PriceList priceList);
 
     /**
+     * 删除数据
+     * @param id
+     * @return
+     */
+    public String delete(String id);
+
+    /**
      * 查询序列
      *
      * @return
      */
     public String findSeqences();
+
+    /**
+     * 通过拼音码查询数据
+     *
+     * @param inputCode
+     * @return
+     */
+    public List<PriceList> findCode(String inputCode);
 }

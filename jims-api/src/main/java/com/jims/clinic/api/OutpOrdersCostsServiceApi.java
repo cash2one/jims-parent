@@ -43,7 +43,7 @@ public interface OutpOrdersCostsServiceApi {
      * 删除收费明细
      * @param masterId
      */
-    public Integer deleteOutpOrders(String masterId,String visitNo);
+    public String deleteOutpOrders(String masterId);
     /**
      * 删除收费明细治疗
      * @param outpOrdersCosts

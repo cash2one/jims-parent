@@ -49,7 +49,7 @@ public class OutpOrdersCosts extends DataEntity<OutpOrdersCosts> {
 	private String subjCode;		// 会计科目
 	private Double priceQuotiety;		// 收费系数
 	private Double itemPrice;		// 单价
-	private String clinicNo;		// clinic_no
+	private String clinicNo;		// 就诊序号
 	private Date billDate;		// 项目收费日期
 	private Integer billNo;		// 项目收费编号
 	private String wardCode;		// 执行科室
