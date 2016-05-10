@@ -6,7 +6,6 @@ package com.jims.exam.entity;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 住院医嘱Entity
@@ -180,7 +179,6 @@ public class Orders extends DataEntity<Orders> {
 		this.duration = duration;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getStartDateTime() {
 		return startDateTime;
 	}
@@ -189,7 +187,6 @@ public class Orders extends DataEntity<Orders> {
 		this.startDateTime = startDateTime;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getStopDateTime() {
 		return stopDateTime;
 	}
@@ -304,7 +301,6 @@ public class Orders extends DataEntity<Orders> {
 		this.stopNurse = stopNurse;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getEnterDateTime() {
 		return enterDateTime;
 	}
@@ -313,7 +309,6 @@ public class Orders extends DataEntity<Orders> {
 		this.enterDateTime = enterDateTime;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getStopOrderDateTime() {
 		return stopOrderDateTime;
 	}
@@ -347,7 +342,6 @@ public class Orders extends DataEntity<Orders> {
 		this.billingAttr = billingAttr;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getLastPerformDateTime() {
 		return lastPerformDateTime;
 	}
@@ -356,7 +350,6 @@ public class Orders extends DataEntity<Orders> {
 		this.lastPerformDateTime = lastPerformDateTime;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getTime() {
 		return time;
 	}
@@ -365,7 +358,6 @@ public class Orders extends DataEntity<Orders> {
 		this.time = time;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getLastAcctingDateTime() {
 		return lastAcctingDateTime;
 	}
@@ -390,7 +382,6 @@ public class Orders extends DataEntity<Orders> {
 		this.doctorUser = doctorUser;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getVerifyDataTime() {
 		return verifyDataTime;
 	}
@@ -407,7 +398,6 @@ public class Orders extends DataEntity<Orders> {
 		this.orderPrintIndicator = orderPrintIndicator;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getProcessionDateTime() {
 		return processionDateTime;
 	}
@@ -424,7 +414,6 @@ public class Orders extends DataEntity<Orders> {
 		this.processionNurse = processionNurse;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getStopProcessionDateTime() {
 		return stopProcessionDateTime;
 	}
@@ -441,7 +430,6 @@ public class Orders extends DataEntity<Orders> {
 		this.stopProcessionNurse = stopProcessionNurse;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getCancelDateTime() {
 		return cancelDateTime;
 	}
@@ -484,7 +472,6 @@ public class Orders extends DataEntity<Orders> {
 		this.isAdjust = isAdjust;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getConversionDateTime() {
 		return conversionDateTime;
 	}
