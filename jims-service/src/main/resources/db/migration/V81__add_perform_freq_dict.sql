@@ -8,7 +8,6 @@
 create table PERFORM_FREQ_DICT
 (
    ID                   VARCHAR2(64 char)    not null,
-   HOSPITAL_ID          VARCHAR2(64 char),
    FREQ_DESC            CHAR(16),
    FREQ_COUNTER         NUMBER(11,2),
    FREQ_INTERVAL        NUMBER(11,2),
@@ -27,9 +26,6 @@ comment on table PERFORM_FREQ_DICT is
 
 comment on column PERFORM_FREQ_DICT.ID is
 '主键';
-
-comment on column PERFORM_FREQ_DICT.HOSPITAL_ID is
-'医院id';
 
 comment on column PERFORM_FREQ_DICT.FREQ_DESC is
 '执行频率描述';
