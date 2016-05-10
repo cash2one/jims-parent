@@ -8,7 +8,6 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -41,18 +40,6 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
 	}
 
 
-
-    /**
-     * 根据类型检索字典
-     * @param type
-     * @return
-     */
-    @Override
-    public List<Dict> findList(String type) {
-        Dict d = new Dict();
-        d.setType(type);
-        return dao.findList(d);
-    }
 
     /**
      * 根据类型检索字典

@@ -157,4 +157,4 @@ create unique index UK_PRICE_LIST on PRICE_LIST (ITEM_CLASS, ITEM_CODE, ITEM_SPE
     maxextents unlimited
   );
 alter sequence PRICE_DICT maxvalue 999999;
-alter table PRICE_ITEM_NAME_DICT add ORG_ID varchar(64);
+alter table PRICE_LIST add ORG_ID varchar(64);
