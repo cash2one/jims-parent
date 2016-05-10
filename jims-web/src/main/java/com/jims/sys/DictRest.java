@@ -113,6 +113,17 @@ public class DictRest {
         }
 
     /**
+     * 根据类型检索字典
+     * @param type
+     * @return
+     */
+        @GET
+        @Path("findListByType")
+        public List<Dict> findListByType(@QueryParam("type") String type){
+            return dictService.findList(type);
+        }
+
+    /**
      * 获得字典label值
      * @param type
      * @param value

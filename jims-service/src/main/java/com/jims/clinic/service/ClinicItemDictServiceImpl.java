@@ -66,7 +66,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i + "";
     }
 
+    /**
+     * 删除诊疗项目数据以及所属名称和价表对照
+     * @param entity
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String deleteCascade(ClinicItemDict entity) {
         try{
             deleteName(entity);
@@ -78,7 +84,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return "1";
     }
 
+    /**
+     * 删除诊疗项目数据以及所属名称和价表对照
+     * @param ids,多个id以逗号隔开
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String deleteCascade(String ids) {
         int i=0;
         try {
@@ -95,6 +107,11 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 获取临床诊疗项目名称（正/别名）信息
+     * @param entity
+     * @return
+     */
     @Override
     public List<ClinicItemNameDict> findNameList(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
@@ -104,7 +121,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return nameDao.findList(itemName);
     }
 
+    /**
+     * 保存临床诊疗项目名称(正/别名)数据（插入或更新）
+     * @param entity
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String save(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -121,7 +144,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 批量保存临床诊疗项目名称(正/别名)数据（插入或更新）
+     * @param entityList
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String saveNameList(List<ClinicItemNameDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -146,8 +175,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                nameDao.delete(id[j]);
-                i++;
+                i += nameDao.delete(id[j]);
             }
         }catch(Exception e){
             return i+"";
@@ -155,7 +183,13 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return i+"";
     }
 
+    /**
+     * 删除临床诊疗项目所有名称(正/别名)数据
+     * @param entity
+     * @return
+     */
     @Override
+    @Transactional(readOnly = false)
     public String delete(ClinicItemNameDict entity) {
         int i=0;
         try{

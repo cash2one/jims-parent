@@ -166,13 +166,22 @@
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
-
-    <update id="delete">
-        UPDATE clinic_item_name_dict SET
-        del_flag = '1'
-        WHERE id = #{id}
-    </update>
-
+	
+	<update id="delete">
+		UPDATE clinic_item_name_dict SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE
+		<if test="id != null and id != ''">
+            id = #{id}
+        </if>
+		<if test="id == null or id == ''">
+            a.item_class = #{itemClass}
+            AND a.item_code = #{itemCode}
+            <if test="orgId != null and orgId != ''">
+                AND t.org_id = #{orgId}
+            </if>
+        </if>
+	</update>
     <update id="deleteNoId">
         UPDATE clinic_item_name_dict SET
         del_flag = '1'
@@ -183,5 +192,4 @@
             AND org_id = #{orgId}
         </if>
     </update>
-
 </mapper>
