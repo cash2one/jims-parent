@@ -58,4 +58,17 @@ public interface DrugDictServiceApi {
      * @version 2016-04-23
      */
     public String delete(String ids);
+
+
+    /**
+     * 根据商品亚类 药品剂型生成药品代码drug_code
+     * @param secondType
+     * @param drugForm
+     * @return
+     * @author ztq
+     *
+     */
+    public String getDrugCodeByRule(String secondType,String drugForm);
+
+
 }

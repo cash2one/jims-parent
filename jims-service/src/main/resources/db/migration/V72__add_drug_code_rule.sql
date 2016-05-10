@@ -8,7 +8,6 @@ create table DRUG_CODING_RULE
   code_level  NUMBER(1) not null,
   level_width NUMBER(2),
   class_name  VARCHAR2(8),
-  org_id      varchar2(64),
   remarks     VARCHAR2(2000),
   update_by   VARCHAR2(64),
   create_by   VARCHAR2(64),
@@ -27,8 +26,6 @@ comment on column DRUG_CODING_RULE.level_width
   is '级长';
 comment on column DRUG_CODING_RULE.class_name
   is '级名';
-comment on column DRUG_CODING_RULE.org_id
-  is '机构id';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table DRUG_CODING_RULE
   add constraint pk_DRUG_CODING_RULE primary key (ID);
