@@ -8,20 +8,8 @@ $(function () {
 
     //窗体加载时禁用form表单
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //var orgId=parent.config.org_id;
+    var orgId=1;
     var deptId;
     var deptName;
     //检查类别
@@ -47,13 +35,13 @@ $(function () {
             var node = $("#examClassGrid").treegrid("getSelected");
             deptId = node.id;
             deptName = node.deptName;
-            var url = basePath + "/orgStaff/list?orgId=" + parent.config.org_id + "&deptId=" + deptId;
+            var url = basePath + "/orgStaff/list?orgId=" +orgId  + "&deptId=" + deptId;
             $("#staffGrid").datagrid("reload", url);
 
         }
     });
 
-    var orgId = parent.config.org_id;
+   // var orgId = parent.config.org_id;
     //加载树形结构的treegrid数据
     var loadDept = function () {
 
@@ -106,7 +94,7 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers: true,
-        url: basePath + "/orgStaff/list?orgId=" + parent.config.org_id + "&deptId=" + deptId,
+        url: basePath + "/orgStaff/list?orgId=" + orgId + "&deptId=" + deptId,
         loadMsg: '数据正在加载中，请稍后.....',
         pagination: true,//分页控件
         pageSize: 15,
@@ -143,19 +131,19 @@ $(function () {
         }
         ]]
     });
-    /* $('#sex').combobox({
+     $('#sex').combobox({
      url: basePath + '/dict/findListByType?type=SEX_DICT',
-     valueField: 'label',
+     valueField: 'value',
      textField: 'label',
      method: 'GET'
      });
      $('#nation').combobox({
      data: 'type:NATION_DICT',
-     url: basePath + '/dict/findType',
-     valueField: 'label',
+     url: basePath + '/dict/findListByType?type=NATION_DICT',
+     valueField: 'value',
      textField: 'label',
      method: 'GET'
-     });*/
+     });
 
     $('#deptName').combobox({
         url: basePath + '/dept-dict/selectParent',
@@ -251,7 +239,8 @@ $(function () {
         orgStaffVo.password = $("#password").val();
         orgStaffVo.nickName = $("#nickName").val();
         orgStaffVo.deptId = $("#deptName").combobox('getValue');
-        orgStaffVo.orgId = parent.config.org_id;
+       // orgStaffVo.orgId = parent.config.org_id;
+        orgStaffVo.orgId = orgId;
         orgStaffVo.nation = $("#nation").combobox('getValue');
         if (orgStaffVo.cardNo != "" && orgStaffVo.email != "" && orgStaffVo.nickName != "" && orgStaffVo.phoneNum != "") {
             $.postJSON(basePath + "/orgStaff/save", JSON.stringify(orgStaffVo), function (data) {
