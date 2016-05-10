@@ -4,11 +4,11 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.LabTestMasterServiceApi;
+import com.jims.lab.api.LabTestMasterServiceApi;
 import com.jims.clinic.dao.LabTestItemsDao;
 import com.jims.clinic.dao.LabTestMasterDao;
-import com.jims.clinic.entity.LabTestItems;
-import com.jims.clinic.entity.LabTestMaster;
+import com.jims.lab.entity.LabTestItems;
+import com.jims.lab.entity.LabTestMaster;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

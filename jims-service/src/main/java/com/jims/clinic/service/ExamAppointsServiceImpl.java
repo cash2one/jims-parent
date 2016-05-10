@@ -4,16 +4,16 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.ExamAppointsServiceApi;
+import com.jims.exam.api.ExamAppointsServiceApi;
 import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.*;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.exam.entity.ExamAppoints;
+import com.jims.exam.entity.ExamItems;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 检查预约记录Service

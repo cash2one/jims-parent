@@ -17,6 +17,8 @@ import java.util.Date;
  * @version 2016-04-26
  */
 public class PriceList extends DataEntity<PriceList> {
+	
+	
 
     private static final long serialVersionUID = 1L;
     private String itemClass;        // 项目类别
