@@ -4,7 +4,6 @@
     
 	<sql id="performFreqDictColumns">
 		a.id AS "id",
-		a.hosId AS "hosId",
 		a.freq_desc AS "freqDesc",
 		a.freq_counter AS "freqCounter",
 		a.freq_interval AS "freqInterval",
@@ -67,7 +66,6 @@
 	<insert id="insert">
 		INSERT INTO perform_freq_dict(
 			id,
-			hosId,
 			freq_desc,
 			freq_counter,
 			freq_interval,
@@ -80,7 +78,6 @@
 			remarks
 		) VALUES (
 			#{id},
-			#{hosId},
 			#{freqDesc},
 			#{freqCounter},
 			#{freqInterval},
@@ -95,8 +92,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE perform_freq_dict SET 	
-			hosId = #{hosId},
+		UPDATE perform_freq_dict SET
 			freq_desc = #{freqDesc},
 			freq_counter = #{freqCounter},
 			freq_interval = #{freqInterval},
