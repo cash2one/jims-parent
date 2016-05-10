@@ -61,13 +61,16 @@ public class DictRest {
     @POST
     @Path("merge")
     public StringData merge(BeanChangeVo<Dict> beanChangeVo){
-        String num = dictService.merge(beanChangeVo);
-        /*List<Dict> inserted = beanChangeVo.getInserted();
-        for (Dict dict : inserted) {
-            System.out.println("type:" + dict.getType());
-            System.out.println("description:" + dict.getDescription());
-        }*/
-        return null;
+        String num = dictService.merge(beanChangeVo);   //1,0
+        System.out.println("DictRest.num:" + num);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        if(num == "1"){
+            stringData.setData("success");
+        }else{
+            stringData.setData("error");
+        }
+        return stringData;
     }
 
     /**
@@ -79,7 +82,7 @@ public class DictRest {
       @Path("list")
       @GET
       public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-            Page<Dict> page = dictService.findPage(new Page<Dict>(request,response), new Dict());
+            Page<Dict> page = dictService.findPage(new Page<Dict>(request, response), new Dict());
             PageData pageData=new PageData();
             pageData.setRows(page.getList());
             pageData.setTotal(page.getCount());
