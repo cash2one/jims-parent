@@ -57,6 +57,8 @@ insert into sys_dict(id,label,value,type,description,sort,input_code) values(sys
 insert into sys_dict(id,label,value,type,description,sort,input_code) values(sys_guid(),'基诺族','56','NATION_DICT','民族字典表','1','JNZ');
 
 
+
+
 insert into sys_dict(id,label,value,type,description,sort) values(sys_guid(),'女','1','SEX_DICT','性别字典表','1');
 insert into sys_dict(id,label,value,type,description,sort) values(sys_guid(),'男','2','SEX_DICT','性别字典表','1');
 
