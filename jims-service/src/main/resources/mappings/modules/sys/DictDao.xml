@@ -50,7 +50,7 @@
         Group BY label
         ORDER BY label
     </select>
-	
+
 	<insert id="insert">
 		INSERT INTO sys_dict(
 			id, 

@@ -56,4 +56,7 @@ public interface DictServiceApi {
      * @return
      */
     public List<String> findListType(String type);
+
+
+
 }
