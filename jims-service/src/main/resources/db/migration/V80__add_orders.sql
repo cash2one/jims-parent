@@ -63,7 +63,7 @@
    UPDATE_DATE          TIMESTAMP                      null,
    DEL_FLAG             char(1)                        null,
    REMARKS              varchar2(200)                  null,
-   constraint PK_ORDERS primary key(ID)
+   constraint PK_ORDERS primary key  (ID)
 );
 
 comment on table ORDERS is 
