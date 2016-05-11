@@ -18,6 +18,8 @@ public class OutpTreatRec extends DataEntity<OutpTreatRec> {
 	
 	private static final long serialVersionUID = 1L;
 	private Date visitDate;		// 就诊日期
+    private String orgId;    //组织机构id
+    private String clinicId;		//就诊id
 	private Integer visitNo;		// 就诊序号
 	private String serialNo;		// 流水号
 	private Integer itemNo;		// 项目序号
@@ -51,7 +53,23 @@ public class OutpTreatRec extends DataEntity<OutpTreatRec> {
 		super(id);
 	}
 
-	@JsonSerialize(using = CustomDateSerializer.class)
+    public String getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getVisitDate() {
 		return visitDate;
 	}
