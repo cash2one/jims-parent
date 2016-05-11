@@ -2,7 +2,7 @@ var administration = [{ "value": "1", "text": "初步诊断" }, { "value": "2", 
 var editRow = undefined;
 $(function(){
 
-
+var diagnosisParent=$("#clinicId").val();
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
@@ -12,33 +12,7 @@ $(function(){
         columns:[[      //每个列具体内容
            // {field:'id',title:'序号',width:'5%',align:'center',editor:'text'},
             /*{field:'itemNo',title:'序号',width:'5%',align:'center',editor:'text'},*/
-             {field:'type',title:'诊断类型',width:'10%',align:'center',editor:{
-                 type:'combobox',
-                 options:{
-                     required:true,
-                     data :administration,
-                     valueField:'value',
-                     textField:'text',
-                     required:true
-                   /*  formatter: function(value, row, index){
-                         if (value != "") {
-                             return getLabel("diagnosis_type",row);
-                         }
-                         else {
-                             return value;
-                         }
-                     }*/
-                    /* render:function(value, row, index){
-                         lert("index="+index);
-                        // var el=$('#zhenduan').datagrid('getEditor',{field:'type',index:正在编辑的行号}).target;//
-                        // var row = $('#zhenduan').datagrid('getData').rows[index];
-                         alert("test="+row.type);
-                      //   $(this).select(getLabel("diagnosis_type",row.type));
-                     }*/
-                 }
-
-             }
-             },
+             {field:'type',title:'诊断类型',width:'10%',align:'center',editor:'text', required:true},
             {field:'diagnosisId',title:'诊断名称',width:'30%',align:'center',editor:{
                 type:'combobox',
                 options:{
@@ -53,8 +27,10 @@ $(function(){
                     }
                 }
             }},
-            {field:'basis',title:'诊断依据',width:'30%',align:'center',multiline:true,editor:'text'
-                },
+            {field:'basis',title:'诊断依据',width:'30%',align:'center',multiline:true,editor:'text'},
+            {field:'diagnosisParent',title:'诊断依据',width:'30%',align:'center',multiline:true,editor:'hidden', formatter:function(value, row, index){
+                return diagnosisParent;
+            }},
             {field:'description',title:'诊断描述',width:'30%',align:'center',editor:'text',
                 multiline:true},
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',

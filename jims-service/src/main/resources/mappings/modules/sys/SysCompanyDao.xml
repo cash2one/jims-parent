@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper  namespace="com.jims.sys.dao.SysCompanyDao">
-
+  <!--  parameterType="SysCompany" useGeneratedKeys="true" keyProperty="id"-->
     <insert id="insert">
             INSERT INTO sys_company(
             id,
@@ -41,6 +41,48 @@
             #{createDate}
             )
     </insert>
+    <insert id="insertReturnId" >
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            select sys_guid() as id from dual
+        </selectKey>
+        INSERT INTO sys_company(
+        id,
+        parent_id,
+        org_name,
+        org_code,
+        zip_code,
+        link_man,
+        link_phone_num,
+        apply_status,
+        address,
+        email,
+        create_by,
+        update_by,
+        update_date,
+        del_flag,
+        owner,
+        remarks,
+        create_date
+        ) VALUES (
+        #{id},
+        #{parentId},
+        #{orgName},
+        #{orgCode},
+        #{zipCode},
+        #{linkMan},
+        #{linkPhoneNum},
+        #{applyStatus},
+        #{address},
+        #{email},
+        #{createBy.loginName},
+        #{updateBy.loginName},
+        #{updateDate},
+        #{delFlag},
+        #{owner},
+        #{remarks},
+        #{createDate}
+        )
+    </insert>
     <update id="update">
         UPDATE sys_company SET
         parent_id = #{parentId},
@@ -68,8 +110,20 @@
         SELECT
         *
         FROM sys_company
-        WHERE id=#{id}
+        WHERE id=#{id} and DEL_FLAG='0'
     </select>
 
+    <select id="findByName" resultType="SysCompany">
+        SELECT
+        org_name
+        FROM sys_company
+        WHERE org_name=#{orgName} and DEL_FLAG='0'
+    </select>
 
+    <select id="findNameByOwner" resultType="SysCompany">
+        SELECT
+        org_name
+        FROM sys_company
+        WHERE owner=#{owner} and DEL_FLAG='0'
+    </select>
 </mapper>

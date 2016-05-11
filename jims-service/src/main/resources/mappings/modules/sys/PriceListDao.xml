@@ -51,6 +51,7 @@
         a.org_id AS "orgId"
     </sql>
 
+
     <sql id="priceListJoins">
     </sql>
 
@@ -78,6 +79,12 @@
                 ORDER BY a.update_date DESC
             </otherwise>
         </choose>
+    </select>
+
+    <select id="findCode" resultType="PriceList">
+        SELECT
+        <include refid="priceListColumns"/>
+        FROM price_list a WHERE a.input_code LIKE UPPER(#{inputCode})  and a.del_flag = 0
     </select>
 
     <select id="findSeqences" resultType="String">
@@ -249,8 +256,50 @@
 
     <update id="delete">
         UPDATE price_list SET
-        del_flag = #{DEL_FLAG_DELETE}
+        del_flag = 1
         WHERE id = #{id}
     </update>
+
+    <select id="findPriceList" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM current_price_list a,sys_dict b
+        WHERE a.org_id = #{0} and a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT'
+    </select>
+
+    <select id="findOLdPriceList" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM wx.price_list a,sys_dict b
+        WHERE a.org_id = #{0} and a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT'
+    </select>
+
+
+    <select id="getInputCodeNow" resultType="com.jims.sys.vo.PriceListVo">
+    SELECT
+    <include refid="priceListColumns"/>,
+    b.label AS "label"
+    FROM current_price_list a,sys_dict b
+    WHERE a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT' and a.org_id = #{0}
+    and a.input_code LIKE CONCAT(CONCAT('%', #{1}), '%')  and b.label LIKE CONCAT(CONCAT('%',  #{2}), '%')
+    </select>
+
+    <select id="getInputCodeOld" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM wx.price_list a,sys_dict b
+        WHERE a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT' and a.org_id = #{0}
+        and a.input_code LIKE CONCAT(CONCAT('%', #{1}), '%')  and b.label LIKE CONCAT(CONCAT('%',  #{2}), '%')
+    </select>
+
+    <select id="list" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        b.label AS "label"
+        FROM sys_dict b
+        WHERE  b.type='BILL_ITEM_CLASS_DICT'
+    </select>
 
 </mapper>
