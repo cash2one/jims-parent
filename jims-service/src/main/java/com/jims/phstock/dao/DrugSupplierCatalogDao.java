@@ -1,16 +1,18 @@
-package com.jims.phstock.api;
+package com.jims.phstock.dao;
 
+import com.jims.common.persistence.CrudDao;
+import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugSupplierCatalog;
 
 import java.util.List;
 
 /**
- * 供应商、生产商接口
- * Created by heren on 2016/5/10.
+ * Created by wei on 2016/5/10.
  */
-public interface DrugSupplierCatalogApi {
+@MyBatisDao
+public interface DrugSupplierCatalogDao extends CrudDao<DrugSupplierCatalog> {
 
-    //增删改查 --生成添加 。
+
 
     /**
      * 查询所有供货商类别
@@ -21,14 +23,10 @@ public interface DrugSupplierCatalogApi {
     public List<DrugSupplierCatalog> list(String orgId);
 
     /**
-     * 增加数据
-     * @param drugSupplierCatalog
+     * 查询全部数据
+     * @param orgId
      * @return
-     */
-    public String save(DrugSupplierCatalog drugSupplierCatalog);
-    /**
-     * 查询全部
-     * @return
+     * @author wei
      */
     public List<DrugSupplierCatalog> findList(String orgId);
 
@@ -37,7 +35,7 @@ public interface DrugSupplierCatalogApi {
      * @param orgId 组织机构ID
      * @param inputCode 拼音字头
      * @return
-     * @author ztq
+     * @author wei
      *
      */
     public List<DrugSupplierCatalog> listDrugSupplierCatalogByInputCode(String orgId,String inputCode) ;
@@ -47,7 +45,7 @@ public interface DrugSupplierCatalogApi {
      * @param orgId 组织机构ID
      * @param supplierType 厂商类别：生厂商、供应商
      * @return
-     * @author ztq
+     * @author wei
      */
     public List<DrugSupplierCatalog> listDrugSupplierCatalogBySupplierType(String orgId,String supplierType) ;
 }

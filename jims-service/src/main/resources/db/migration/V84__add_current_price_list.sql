@@ -1,0 +1,55 @@
+﻿
+-- Create view
+/*==============================================================*/
+/* view: CURRENT_PRICE_LIST                                      */
+/*==============================================================*/
+create or replace view current_price_list as
+select
+ item_class,
+  item_code,
+  item_name,
+  item_spec,
+  units,
+  price,
+  prefer_price,
+  foreigner_price,
+  performed_by,
+  fee_type_mask,
+  class_on_inp_rcpt,
+  class_on_outp_rcpt,
+  class_on_reckoning,
+  subj_code,
+  class_on_mr,
+  memo,
+  start_date,
+  stop_date,
+  operator,
+  enter_date,
+  high_price,
+  material_code,
+  score_1,
+  score_2,
+  price_name_code,
+  control_flag,
+  input_code,
+  input_code_wb,
+  std_code_1,
+  changed_memo,
+  class_on_insur_mr,
+  cwtj_code,
+  xm_wy,
+  lb_wy,
+  mzsj_wy,
+  zysj_wy,
+  group_flag,
+  stop_operator,
+  id,
+  create_by,
+  create_date,
+  update_by,
+  update_date,
+  remarks,
+  del_flag,
+  org_id
+  from price_list
+  where sysdate>=start_date and (sysdate<stop_date or stop_date is null);
