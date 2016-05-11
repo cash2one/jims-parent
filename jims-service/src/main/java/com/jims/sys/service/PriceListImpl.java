@@ -110,7 +110,7 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
     @Override
     public Page<PriceListVo> findPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo) {
         priceListVo.setPage(page);
-        page.setList(dao.findPriceList(orgId,priceListVo));
+        page.setList(dao.findPriceList(orgId, priceListVo));
         return page;
     }
 
@@ -163,4 +163,17 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
     public List<PriceListVo> list() {
         return dao.list();
     }
+
+
+    /**
+     * 根据诊疗项目获取诊疗项目所对应的价表项目
+     * @param orgId
+     * @param clinicItemCode
+     * @return
+     */
+    @Override
+    public List<PriceListVo> getListByClinicItemCodeAndOrgId(String orgId, String clinicItemCode) {
+        return null;
+    }
+
 }
