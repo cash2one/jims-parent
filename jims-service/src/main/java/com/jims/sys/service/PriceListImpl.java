@@ -1,6 +1,7 @@
 package com.jims.sys.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
 import com.jims.common.utils.IdGen;
@@ -10,6 +11,7 @@ import com.jims.sys.dao.PriceListDao;
 import com.jims.sys.entity.PriceItemNameDict;
 import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceDictListVo;
+import com.jims.sys.vo.PriceListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,5 +100,67 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
     public List<PriceList> findCode(String inputCode){
        return  priceListDao.findCode(inputCode);
     }
+    /**
+     * 现行价格表
+     * @param page
+     * @param priceListVo
+     * @return
+     * @author wei
+     */
+    @Override
+    public Page<PriceListVo> findPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo) {
+        priceListVo.setPage(page);
+        page.setList(dao.findPriceList(orgId,priceListVo));
+        return page;
+    }
 
+    /**
+     * 历史价格表
+     * @param page
+     * @param priceListVo
+     * @return
+     * @author wei
+     */
+    @Override
+    public Page<PriceListVo> findOLdPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo) {
+        priceListVo.setPage(page);
+        page.setList(dao.findOLdPriceList(orgId,priceListVo));
+        return page;
+    }
+
+    /**
+     * 拼音码查询现行价表
+     * @param inputCode
+     * @param label
+     * @return
+     * @author wei
+     */
+    @Override
+    public List<PriceListVo> getInputCodeNow(String orgId,String inputCode,String label) {
+        List<PriceListVo> list =dao.getInputCodeNow(orgId, inputCode, label);
+        return list;
+    }
+
+    /**
+     * 拼音码查询历史价表
+     * @param orgId
+     * @param inputCode
+     * @param label
+     * @return
+     */
+    @Override
+    public List<PriceListVo> getInputCodeOld(String orgId, String inputCode, String label) {
+        List<PriceListVo> list =dao.getInputCodeOld(orgId, inputCode, label);
+        return list;
+    }
+
+    /**
+     * 下拉框查询药品类别
+     * @return
+     * @author wei
+     */
+    @Override
+    public List<PriceListVo> list() {
+        return dao.list();
+    }
 }
