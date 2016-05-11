@@ -518,6 +518,7 @@
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway.version}</version>
             </dependency>
+
             <!-- jackson json -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>

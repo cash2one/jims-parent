@@ -6,7 +6,6 @@ import com.jims.sys.api.DeptDictApi;
 import com.jims.sys.dao.DeptDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.SysCompany;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,15 +17,12 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> implements DeptDictApi {
 
-
-    @Autowired
-    private DeptDictDao deptDictDao;
     /**
      * 查询所有的科室信息
      * @return
      */
-    public List<DeptDict> findAllList() {
-        return dao.findAll();
+    public List<DeptDict> findAllList(String orgId) {
+        return dao.findAll(orgId);
 
     }
 
@@ -34,7 +30,7 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
      * 查询所有的科室属性的类型
      * @return
      */
-    //@Override
+    @Override
     public List<DeptDict> findProperty() {
         return dao.findProperty();
     }
@@ -43,16 +39,8 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
      * 查询所有的上级科室
      * @return
      */
-    //@Override
+    @Override
     public List<DeptDict> findParent() {
         return dao.findParent();
-    }
-
-    /**
-     * 查询科室代码下的所以科室
-     * @return
-     */
-    public List<DeptDict> findListByCode(String code){
-        return deptDictDao.findListByCode(code);
     }
 }

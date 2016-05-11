@@ -22,7 +22,7 @@ public class SysUser extends DataEntity<SysUser> {
 	private String loginName;		// 登录名
 	private String password;		// 密码
 	private Date lastLoginTime;		// 最后登陆时间
-	private String perisonId;		// 人员
+	private String persionId;		// 人员
 
 
     public SysUser() {
@@ -61,12 +61,12 @@ public class SysUser extends DataEntity<SysUser> {
 	}
 	
 	@Length(min=0, max=64, message="人员长度必须介于 0 和 64 之间")
-	public String getPerisonId() {
-		return perisonId;
+	public String getPersionId() {
+		return persionId;
 	}
 
-	public void setPerisonId(String perisonId) {
-		this.perisonId = perisonId;
+	public void setPersionId(String perisonId) {
+		this.persionId = perisonId;
 	}
 	
 }

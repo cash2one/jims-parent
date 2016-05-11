@@ -3,13 +3,18 @@ package com.jims.sys;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.CookieUtils;
+import com.jims.common.utils.StringUtils;
 import com.jims.sys.api.SysCompanyApi;
+import com.jims.sys.api.SysUserApi;
 import com.jims.sys.entity.SysCompany;
+import com.jims.sys.entity.SysUser;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -26,23 +31,79 @@ public class CreateCompanyRest {
     @Reference(version = "1.0.0")
     private SysCompanyApi sysCompanyApi;
 
+    @Reference(version = "1.0.0")
+    private SysUserApi sysUserApi;
+
     /**
-     *创建组织机构
-     * @param sysCompany
+     * 保存修改方法
+     *
+     * @param
      * @return
      */
-    @POST
     @Path("add")
+    @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response createCompany(SysCompany sysCompany) {
+    public StringData save(SysCompany sysCompany) {
+        if (StringUtils.isNotBlank(sysCompany.getOrgName()) && StringUtils.isNotBlank(sysCompany.getOrgCode()) &&
+                StringUtils.isNotBlank(sysCompany.getLinkPhoneNum()) && StringUtils.isNotBlank(sysCompany.getAddress()) && StringUtils.isNotBlank(sysCompany.getEmail())) {
+            sysCompany.setApplyStatus("0");
 
-        int company = sysCompanyApi.createCompany(sysCompany);
-        if (company == 1) {
-            return Response.status(Response.Status.OK).entity(sysCompany).build();
+            if (StringUtils.equalsIgnoreCase(sysCompany.getParentId(), "请选择")) {
+                sysCompany.setParentId(null);
+            }
+            String num = sysCompanyApi.save(sysCompany);
+            StringData stringData = new StringData();
+            stringData.setCode(num);
+            stringData.setData("success");
+            return stringData;
         }
-        return Response.status(Response.Status.OK).entity(null).build();
 
+        return null;
     }
+
+    //存储插入成功后返回的id
+    String id;
+    SysUser user=null;
+
+
+    /**
+     * 保存组织机构并返回id
+     * @param sysCompany
+     * @param request
+     * @return
+     */
+    @Path("insertReturnId")
+    @POST
+    public StringData insertReturnId(SysCompany sysCompany, @Context HttpServletRequest request ) {
+
+        if (StringUtils.isNotBlank(sysCompany.getOrgName()) && StringUtils.isNotBlank(sysCompany.getOrgCode()) &&
+                StringUtils.isNotBlank(sysCompany.getLinkPhoneNum()) && StringUtils.isNotBlank(sysCompany.getAddress()) && StringUtils.isNotBlank(sysCompany.getEmail())) {
+            sysCompany.setApplyStatus("0");
+
+            //设置超级管理员字段 ，登录成功之后从redis中取出
+            String ticket1 = CookieUtils.getCookie(request, "TT_TICKET");
+            if (ticket1 != null) {
+                user = sysUserApi.queryUserByTicket(ticket1);
+                if (user != null) {
+                   sysCompany.setOwner(user.getLoginName());
+                }
+            }
+            //如果没有父机构则向数据库中存入空
+            if (StringUtils.equalsIgnoreCase(sysCompany.getParentId(), "请选择")) {
+                sysCompany.setParentId(null);
+            }
+            //保存
+            id = sysCompanyApi.insertReturnId(sysCompany);
+            if (id != null) {
+                StringData stringData = new StringData();
+                stringData.setData("success");
+                return stringData;
+            }
+        }
+        StringData stringData = new StringData();
+        return stringData;
+    }
+
 
     /**
      * 查询父机构
@@ -52,23 +113,26 @@ public class CreateCompanyRest {
     @POST
     @Path("select")
     public List<SysCompany> findAllByName() {
-        return sysCompanyApi.findListByName();
+
+        List<SysCompany> list = sysCompanyApi.findListByName();
+
+        return list;
     }
 
     /**
-     * 查询组织机构信息
+     * 根据id查询组织机构信息
+     *
      * @param
      * @return
      */
     @GET
     @Path("get")
-    public SysCompany get()
-    {
-        return sysCompanyApi.get("d4850942-9a61-4c89-958b-1ba36e5bd21f");
+    public SysCompany get() {
+        return sysCompanyApi.get(id);
     }
 
     /**
-     * 查询组织机构信息
+     * 修改组织机构信息
      *
      * @param
      * @return
@@ -77,9 +141,8 @@ public class CreateCompanyRest {
     @Path("update")
     public StringData update(SysCompany sysCompany) {
         System.out.print(sysCompany.getId());
-        int num=sysCompanyApi.update(sysCompany);
-        if(num!=0)
-        {
+        int num = sysCompanyApi.update(sysCompany);
+        if (num != 0) {
             StringData stringData = new StringData();
             stringData.setData("success");
             return stringData;

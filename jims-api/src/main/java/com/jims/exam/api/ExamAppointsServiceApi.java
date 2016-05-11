@@ -60,7 +60,7 @@ public interface ExamAppointsServiceApi {
      * @return
      */
 
-    public Integer deleteExamAppionts( String id);
+    public String deleteExamAppionts( String id);
 
     /**
      * 获得最大的申请序号

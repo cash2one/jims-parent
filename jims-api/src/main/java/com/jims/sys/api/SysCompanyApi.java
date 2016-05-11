@@ -22,7 +22,7 @@ public interface SysCompanyApi {
     public int update(SysCompany sysCompany);
 
     /**
-     * 查询字典类型列表
+     * 查询组织机构列表
      *
      * @return
      */
@@ -34,9 +34,29 @@ public interface SysCompanyApi {
      * @param sysCompany
      * @return
      */
-    public int createCompany(SysCompany sysCompany);
+    public String save(SysCompany sysCompany);
 
-    public List<SysCompany> findAllList();
+    public String insertReturnId(SysCompany sysCompany);
 
+    /**
+     * 查询父机构
+     * @return
+     */
     public List<SysCompany> findListByName();
+
+    /**
+     * 查询组织机构名称是否存在
+     * @param orgName
+     * @return
+     */
+    public SysCompany findByName(String orgName);
+
+    /**
+     * 根据创建人查询组织机构的名称
+     * @return
+     */
+   // public SysCompany findNameByCreateBy();
+
+
+
 }
