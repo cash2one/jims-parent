@@ -51,6 +51,7 @@
         a.org_id AS "orgId"
     </sql>
 
+
     <sql id="priceListJoins">
     </sql>
 
@@ -258,5 +259,47 @@
         del_flag = 1
         WHERE id = #{id}
     </update>
+
+    <select id="findPriceList" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM current_price_list a,sys_dict b
+        WHERE a.org_id = #{0} and a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT'
+    </select>
+
+    <select id="findOLdPriceList" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM wx.price_list a,sys_dict b
+        WHERE a.org_id = #{0} and a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT'
+    </select>
+
+
+    <select id="getInputCodeNow" resultType="com.jims.sys.vo.PriceListVo">
+    SELECT
+    <include refid="priceListColumns"/>,
+    b.label AS "label"
+    FROM current_price_list a,sys_dict b
+    WHERE a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT' and a.org_id = #{0}
+    and a.input_code LIKE CONCAT(CONCAT('%', #{1}), '%')  and b.label LIKE CONCAT(CONCAT('%',  #{2}), '%')
+    </select>
+
+    <select id="getInputCodeOld" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM wx.price_list a,sys_dict b
+        WHERE a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT' and a.org_id = #{0}
+        and a.input_code LIKE CONCAT(CONCAT('%', #{1}), '%')  and b.label LIKE CONCAT(CONCAT('%',  #{2}), '%')
+    </select>
+
+    <select id="list" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        b.label AS "label"
+        FROM sys_dict b
+        WHERE  b.type='BILL_ITEM_CLASS_DICT'
+    </select>
 
 </mapper>

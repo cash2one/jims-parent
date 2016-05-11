@@ -3,6 +3,7 @@ package com.jims.sys.api;
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceDictListVo;
+import com.jims.sys.vo.PriceListVo;
 
 import java.util.List;
 
@@ -77,4 +78,48 @@ public interface PriceListApi {
      * @return
      */
     public List<PriceList> findCode(String inputCode);
+
+
+    /**
+     * 根据拼音码查询现行价表数据
+     * @param inputCode
+     * @param label
+     * @return
+     * @author wei
+     */
+    public List<PriceListVo> getInputCodeNow(String orgId,String inputCode,String label);
+
+    /**
+     * 根据拼音码查询历史价表数据
+     * @param orgId
+     * @param inputCode
+     * @param label
+     * @return
+     */
+    public List<PriceListVo> getInputCodeOld(String orgId,String inputCode,String label);
+
+
+    /**
+     * 下拉框查询药品类别
+     * @return
+     * @author wei
+     */
+    public List<PriceListVo> list();
+
+    /**
+     * 现行药价
+     * @param page
+     * @param priceListVo
+     * @return
+     * @author wei
+     */
+    public Page<PriceListVo> findPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo);
+    /**
+     * 历史药价
+     * @param page
+     * @param priceListVo
+     * @return
+     * @author wei
+     */
+    public Page<PriceListVo> findOLdPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo);
 }
