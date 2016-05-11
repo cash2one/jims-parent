@@ -157,3 +157,7 @@ insert into ADMINISTRATION_DICT (id, administration_code, administration_name, i
 values ('2B07BB681D324625B575F153B81314AE', '88', '引流管冲洗', 'YLG', '9', null, null, null, null, '0', null);
 insert into ADMINISTRATION_DICT (id, administration_code, administration_name, input_code, inp_outp_flag, remarks, update_by, create_by, update_date, del_flag, create_date)
 values ('F6023A6BD57F4624868872E3E15833D4', '84', '软组织封闭', 'RZZ', '1', null, null, null, null, '0', null);
+
+
+insert into MENU_DICT (id, menu_name, href, icon, sort, target, remarks, update_by, create_by, update_date, del_flag, create_date, pid, menu_level)
+values ('804696A188E24EB3A5CBCB55E7F051B9', '给药途径管理', '/modules/sys/administration-dict.html', '1', 1, '1', null, null, null, to_timestamp('10-05-2016 21:49:29.427000', 'dd-mm-yyyy hh24:mi:ss.ff'), '1', to_timestamp('10-05-2016 21:49:29.427000', 'dd-mm-yyyy hh24:mi:ss.ff'), '867C72D258484175AAF02A76A1F501A4', '2');

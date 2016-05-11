@@ -3,6 +3,7 @@ package com.jims.sys.api;
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.AdministrationDict;
 import com.jims.sys.entity.Dict;
+import com.jims.sys.vo.AdministrationDictVo;
 
 import java.util.List;
 
@@ -27,6 +28,14 @@ public interface AdministrationDictApi {
      */
     public Page<AdministrationDict> findPage(Page<AdministrationDict> page, AdministrationDict administrationDict);
 
+
+
+    /**
+     * 查询给药途径字典列表,并使用文字回显门诊住院标识
+     * @return
+     *  @author  yangruidong
+     */
+    public List<AdministrationDict> findAllList();
     /**
      * 保存或修改方法
      * @param administrationDict
@@ -34,6 +43,14 @@ public interface AdministrationDictApi {
      *  @author  yangruidong
      */
     public String save(AdministrationDict administrationDict);
+
+    /**
+     * 保存  增删改
+     * @param administrationDictVo
+     * @return
+     *  @author  yangruidong
+     */
+    public List<AdministrationDict> saveAll(AdministrationDictVo<AdministrationDict> administrationDictVo);
 
     /**
      * 删除方法
