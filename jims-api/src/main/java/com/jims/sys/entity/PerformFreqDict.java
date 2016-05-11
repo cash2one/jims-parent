@@ -14,7 +14,6 @@ import org.hibernate.validator.constraints.Length;
 public class PerformFreqDict extends DataEntity<PerformFreqDict> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hosId;		// 医院id
 	private String freqDesc;		// 执行频率描述
 	private String freqCounter;		// 频率次数
 	private String freqInterval;		// 频率间隔
@@ -28,13 +27,7 @@ public class PerformFreqDict extends DataEntity<PerformFreqDict> {
 		super(id);
 	}
 
-	public String getHosId() {
-		return hosId;
-	}
 
-	public void setHosId(String hosId) {
-		this.hosId = hosId;
-	}
 
 	@Length(min=0, max=16, message="执行频率描述长度必须介于 0 和 16 之间")
 	public String getFreqDesc() {
