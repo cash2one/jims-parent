@@ -360,10 +360,7 @@
 
 	<select id="getMaxOrderNo" resultType="Integer">
 		SELECT MAX (order_no) FROM outp_orders_costs a
-		WHERE
-		a.visit_date = #{visitDate} and
-		a.visit_no=#{visitNo} and
-		a.serial_no=#{serialNo}
+		WHERE a.clinic_id=#{clinicId} and a.org_id=#{orgId}
 	</select>
 
 	<select id="getSerialNo" resultType="Integer">
