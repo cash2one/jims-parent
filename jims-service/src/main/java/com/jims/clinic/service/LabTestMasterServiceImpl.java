@@ -5,8 +5,8 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.lab.api.LabTestMasterServiceApi;
-import com.jims.clinic.dao.LabTestItemsDao;
-import com.jims.clinic.dao.LabTestMasterDao;
+import com.jims.lab.dao.LabTestItemsDao;
+import com.jims.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestItems;
 import com.jims.lab.entity.LabTestMaster;
 import com.jims.common.service.impl.CrudImplService;
