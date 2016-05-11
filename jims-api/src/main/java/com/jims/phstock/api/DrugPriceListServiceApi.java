@@ -1,6 +1,7 @@
 package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
+import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
 
 import java.util.List;
@@ -57,4 +58,27 @@ public interface DrugPriceListServiceApi {
      * @version 2016-04-23
      */
     public String delete(String ids);
+
+    /**
+     * 根据当前组织结构获取去本组织结构内所有的药品名称字典。
+     * 关联durg_price_list,drug_name_dict drug_price_list drug_code 去重复。
+     * @param orgId
+     * @return
+     * @author ztq
+     *
+     */
+    public List<DrugNameDict> listDrugNameDict(String orgId) ;
+
+
+    /**
+     * 根据药品代码查询当前组织结构的药品价格
+     * 不同规格、不同厂商，不同单位，不同价格，不同零售价
+     * @param drugCode
+     * @param orgId
+     * @return
+     * @author ztq
+     */
+    public List<DrugPriceList> listDrugPriceList(String drugCode,String orgId) ;
+
+
 }
