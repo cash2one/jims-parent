@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugSupplierCatalogDao">
+    
+	<sql id="drugSupplierCatalogColumns">
+		a.supplier_id AS "supplierId",
+		a.supplier AS "supplier",
+		a.supplier_class AS "supplierClass",
+		a.input_code AS "inputCode",
+		a.memo AS "memo",
+		a.trademark AS "trademark",
+		a.input_code_wb AS "inputCodeWb",
+		a.foreignx AS "foreignx",
+		a.supplier_code AS "supplierCode",
+		a.used_flag AS "usedFlag",
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="drugSupplierCatalogJoins">
+	</sql>
+
+	<select id="findList" resultType="DrugSupplierCatalog">
+		SELECT 
+			<include refid="drugSupplierCatalogColumns"/>
+		FROM drug_supplier_catalog a
+		<where>
+            a.org_id = #{orgId}
+        </where>
+	</select>
+
+    <select id="list" resultType="DrugSupplierCatalog">
+        SELECT
+        a.supplier_class AS "supplierClass"
+        FROM drug_supplier_catalog a
+        <where>
+            a.org_id = #{orgId}
+        </where>
+        GROUP BY  a.supplier_class
+    </select>
+
+
+    <select id="listDrugSupplierCatalogBySupplierType" resultType="DrugSupplierCatalog">
+        SELECT
+        <include refid="drugSupplierCatalogColumns"/>
+        FROM drug_supplier_catalog a
+        <where>
+            a.org_id = #{0} and a.supplier_class = #{1}
+        </where>
+    </select>
+
+
+    <select id="listDrugSupplierCatalogByInputCode" resultType="DrugSupplierCatalog">
+        SELECT
+        <include refid="drugSupplierCatalogColumns"/>
+        FROM drug_supplier_catalog a
+        <where>
+            a.org_id = #{0} and a.input_code = #{1}
+        </where>
+    </select>
+
+
+
+
+	<insert id="insert">
+		INSERT INTO drug_supplier_catalog(
+			supplier_id,
+			supplier,
+			supplier_class,
+			input_code,
+			memo,
+			trademark,
+			input_code_wb,
+			foreignx,
+			supplier_code,
+			used_flag,
+			id,
+			org_id,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{supplierId},
+			#{supplier},
+			#{supplierClass},
+			#{inputCode},
+			#{memo},
+			#{trademark},
+			#{inputCodeWb},
+			#{foreignx},
+			#{supplierCode},
+			#{usedFlag},
+			#{id},
+			#{orgId},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_supplier_catalog SET 	
+			supplier_id = #{supplierId},
+			supplier = #{supplier},
+			supplier_class = #{supplierClass},
+			input_code = #{inputCode},
+			memo = #{memo},
+			trademark = #{trademark},
+			input_code_wb = #{inputCodeWb},
+			foreignx = #{foreignx},
+			supplier_code = #{supplierCode},
+			used_flag = #{usedFlag},
+			org_id = #{orgId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_supplier_catalog SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
