@@ -1,5 +1,4 @@
-﻿--drop table PRICE_LIST cascade constraints;
--- Create table
+﻿-- Create table
 /*==============================================================*/
 /* Table: PRICE_LIST                                      */
 /*==============================================================*/
