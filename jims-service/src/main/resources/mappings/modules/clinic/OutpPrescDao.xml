@@ -4,7 +4,9 @@
     
 	<sql id="outpPrescColumns">
 		a.id AS "id",
-		a.patient_id AS "clinicId",
+		a.patient_id AS "patientId",
+		a.org_id as "orgId",
+		a.clinic_id as "clinicId",
 		a.visit_date AS "visitDate",
 		a.visit_no AS "visitNo",
 		a.serial_no AS "serialNo",
@@ -138,7 +140,7 @@
 			del_flag
 		) VALUES (
 			#{id},
-			#{clinicId},
+			#{patientId},
 			#{visitDate},
 			#{visitNo},
 			#{serialNo},
@@ -183,43 +185,118 @@
 	
 	<update id="update">
 		UPDATE outp_presc SET
-		    patient_id =#{clinicId},
+		<if test="clinicId!=null and clinicId!=''">
+			clinic_id =#{clinicId},
+		</if>
+		<if test="visitDate!=null and visitDate!=''">
 			visit_date = #{visitDate},
+		</if>
+		<if test="visitNo!=null">
 			visit_no = #{visitNo},
+		</if>
+		<if test="serialNo!=null and serialNo!=''">
 			serial_no = #{serialNo},
-			presc_no = #{prescNo},
+		</if>
+
+		<if test="itemNo!=null">
 			item_no = #{itemNo},
+		</if>
+		<if test="itemClass!=null and itemClass!=''">
 			item_class = #{itemClass},
+		</if>
+		<if test="drugCode!=null and drugCode!=''">
 			drug_code = #{drugCode},
+		</if>
+		<if test="drugName!=null and drugName!=''">
 			drug_name = #{drugName},
+		</if>
+		<if test="drugSpec!=null and drugSpec!=''">
 			drug_spec = #{drugSpec},
+		</if>
+		<if test="firmId!=null and firmId!=''">
 			firm_id = #{firmId},
+		</if>
+		<if test="units!=null and units!=''">
 			units = #{units},
+		</if>
+		<if test="amount!=null">
 			amount = #{amount},
+		</if>
+		<if test="dosage!=null">
 			dosage = #{dosage},
+		</if>
+		<if test="dosageUnits!=null and dosageUnits!=''">
 			dosage_units = #{dosageUnits},
+		</if>
+		<if test="administration!=null and administration!=''">
 			administration = #{administration},
+		</if>
+		<if test="frequency!=null and frequency!=''">
 			frequency = #{frequency},
+		</if>
+		<if test="providedIndicator!=null">
 			provided_indicator = #{providedIndicator},
+		</if>
+		<if test="costs!=null">
 			costs = #{costs},
+		</if>
+		<if test="charges!=null">
 			charges = #{charges},
+		</if>
+		<if test="chargeIndicator!=null">
 			charge_indicator = #{chargeIndicator},
+		</if>
+		<if test="dispensary!=null and dispensary!=''">
 			dispensary = #{dispensary},
+		</if>
+		<if test="repetition!=null">
 			repetition = #{repetition},
+		</if>
+		<if test="orderNo!=null">
 			order_no = #{orderNo},
+		</if>
+		<if test="subOrderNo!=null">
 			sub_order_no = #{subOrderNo},
+		</if>
+		<if test="freqDetail!=null and freqDetail!=''">
 			freq_detail = #{freqDetail},
+		</if>
+		<if test="getdrugFlag!=null">
 			getdrug_flag = #{getdrugFlag},
+		</if>
+		<if test="prescAttr!=null and prescAttr!=''">
 			presc_attr = #{prescAttr},
+		</if>
+		<if test="abidance!=null">
 			abidance = #{abidance},
+		</if>
+		<if test="performNurse!=null and performNurse!=''">
 			perform_nurse = #{performNurse},
+		</if>
+		<if test="performResult!=null and performResult!=''">
 			perform_result = #{performResult},
+		</if>
+		<if test="skinFlag!=null and skinFlag!=''">
 			skin_flag = #{skinFlag},
+		</if>
+		<if test="prescPsno!=null">
 			presc_psno = #{prescPsno},
+		</if>
+		<if test="skinResult!=null and skinResult!=''">
 			skin_result = #{skinResult},
+		</if>
+		<if test="updateDate!=null">
 			update_date = #{updateDate},
+		</if>
+		<if test="updateBy!=null and updateBy.id!=null and  updateBy.id!=''">
 			update_by = #{updateBy.id},
-			remarks = #{remarks}
+		</if>
+		<if test="remarks!=null and remarks!=''">
+			remarks = #{remarks},
+		</if>
+		<if test="prescNo!=null">
+			presc_no = #{prescNo}
+		</if>
 		WHERE id = #{id}
 	</update>
 	
@@ -238,7 +315,7 @@
          DISPENSARY AS "dispensary",
          PRESC_ATTR AS "prescAttr"
          FROM OUTP_PRESC
-         WHERE patient_id=#{clinicId}
+         WHERE clinic_id=#{clinicId}
 
 	</select>
 	<select id="getOrderNo" resultType="Integer">
@@ -246,18 +323,16 @@
 		<where>
 			a.del_flag='0'
 			<if test="clinicId!=null and clinicId!=''">
-			 and a.patient_id = #{clinicId}
+			 and a.clinic_id=#{clinicId}
 			</if>
 		</where>
 
 
 	</select>
 
-	<resultMap id="prescMap" type="OutpPresc">
 
-	</resultMap>
-	<select id="findListByParams" resultType="OutpPrescListVo">
-	SELECT '0' as "delIndicator",
+	<select id="findListByParams" resultType="OutpPresc">
+	SELECT/* '0' as "delIndicator",
 			 '普通药品' as "toxiProperty",
 			 1 as "drugIndicator",
 			 '' as "officialCatalog",
@@ -268,7 +343,7 @@
 			 '' as "freqIntervalUnit",
 			 0 as "chkAbidance",
 			 0 as "virtualPrescno",
-			 0 as "nwarn",
+			 0 as "nwarn",*/
 			ID as "id",
 			 /*DECOCTION as "decoction", */
 			 VISIT_DATE as "visitDate",

@@ -1,7 +1,6 @@
 package com.jims.clinic.api;
 
 import com.jims.clinic.entity.OutpPresc;
-import com.jims.clinic.vo.OutpPrescListVo;
 
 import java.util.List;
 
@@ -39,5 +38,5 @@ public interface OutpPrescServiceApi {
      * @author CTQ
      * @return
      */
-    public List<OutpPrescListVo> findListByParams(OutpPresc outpPresc);
+    public List<OutpPresc> findListByParams(OutpPresc outpPresc);
 }

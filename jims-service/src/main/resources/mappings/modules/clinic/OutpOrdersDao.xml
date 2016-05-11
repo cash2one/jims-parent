@@ -86,14 +86,17 @@
 	<insert id="insert">
 		INSERT INTO outp_orders(
 
-		<if test="patientId!=null">
+		<if test="patientId!=null and patientId!=''">
 			patient_id,
+		</if>
+		<if test="clinicId!=null and clinicId!=''">
+			clinic_id,
 		</if>
 		<if test="visitDate!=null">
 			visit_date,
 		</if>
 		<if test="visitNo!=null">
-			visit_no,,
+			visit_no,
 		</if>
 		<if test="serialNo!=null">
 			serial_no,
@@ -119,8 +122,11 @@
 		id
 		) VALUES (
 
-		<if test="patientId!=null">
+		<if test="patientId!=null and patientId!=''">
 			#{patientId},
+		</if>
+		<if test="clinicId!=null and clinicId!=''">
+			#{clinicId},
 		</if>
 		<if test="visitDate!=null">
 			#{visitDate},
@@ -149,7 +155,7 @@
 		<if test="doctorNo!=null">
 			#{doctorNo},
 		</if>
-		sys_guid()
+		#{id}
 		)
 	</insert>
 	

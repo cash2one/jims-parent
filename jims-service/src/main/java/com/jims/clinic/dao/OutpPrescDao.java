@@ -4,12 +4,10 @@
 package com.jims.clinic.dao;
 
 import com.jims.clinic.entity.OutpPresc;
-import com.jims.clinic.vo.OutpPrescListVo;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,12 +34,12 @@ public interface OutpPrescDao extends CrudDao<OutpPresc> {
 
     /**
      * @param outpPresc 传递参
-     * @return List<OutpPrescListVo>    返回类型
+     * @return List<OutpPresc>    返回类型
      * @Title: findListByParams
      * @Descripion: (根据条件查询处方相关信息)
      * @author CTQ
      * @date 2016/5/10
      */
-    public List<OutpPrescListVo> findListByParams(OutpPresc outpPresc);
+    public List<OutpPresc> findListByParams(OutpPresc outpPresc);
 
 }

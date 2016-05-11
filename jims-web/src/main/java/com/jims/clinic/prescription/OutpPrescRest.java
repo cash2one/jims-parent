@@ -2,19 +2,10 @@ package com.jims.clinic.prescription;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
-import com.jims.clinic.api.OutpOrdersCostsServiceApi;
-import com.jims.clinic.api.OutpOrdersServiceApi;
 import com.jims.clinic.api.OutpPrescServiceApi;
-import com.jims.clinic.entity.OutpOrders;
-import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpPresc;
-import com.jims.clinic.vo.OutpPrescListVo;
 import com.jims.common.data.StringData;
-import com.jims.sys.entity.Dict;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
@@ -66,10 +57,10 @@ public class OutpPrescRest {
      */
     @Path("sublist")
     @GET
-    public List<OutpPrescListVo> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("prescNo") Integer prescNo){
+    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("prescNo") Integer prescNo){
         OutpPresc op = new OutpPresc();
         op.setPrescNo(prescNo);
-        List<OutpPrescListVo> list = Lists.newArrayList();
+        List<OutpPresc> list = Lists.newArrayList();
         try {
             list = outpPrescServiceApi.findListByParams(op);
         }catch (Exception e){
@@ -121,5 +112,33 @@ public class OutpPrescRest {
     }
 
 
+    @Path("dictlist")
+    @GET
+    public List<OutpPresc> dictlist(){
+        List<OutpPresc> list = Lists.newArrayList();
+        OutpPresc dict = new OutpPresc();
+        dict.setDrugCode("1");
+        dict.setDrugName("阿莫西林");
+        dict.setDrugSpec("10g*2");
+        dict.setFirmId("YS000023");
+        dict.setDosage(Double.valueOf(1));
+        dict.setDosageUnits("片");
+        dict.setItemClass("A");
+        list.add(dict);
+        return list;
+    }
 
+    @Path("jijia")
+    @GET
+    public List<OutpPresc> jijia(){
+        List<OutpPresc> list = Lists.newArrayList();
+        OutpPresc dict = new OutpPresc();
+        dict.setItemClass("A");
+        dict.setDrugSpec("10g*2阿莫西林");
+        dict.setAmount(Double.valueOf(3));
+        dict.setUnits("片");
+        dict.setCosts(Double.valueOf(0.64));
+        list.add(dict);
+        return list;
+    }
 }

@@ -13,16 +13,13 @@ import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpOrders;
 import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpPresc;
-import com.jims.clinic.vo.OutpPrescListVo;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -72,6 +69,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                        op.setClinicId(outpPresc.getClinicId());
                        op.setItemClass(outpPresc.getItemClass());
                        op.setPrescAttr(outpPresc.getPrescAttr());
+                       op.setItemNo(1);
                        if(StringUtils.isEmpty(op.getSerialNo())) {
                            serialTemp = serialTemp != null ? serialTemp : outpOrdersDao.getSerialNo()+"";
                            op.setSerialNo(serialTemp);
@@ -100,18 +98,25 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                        }
                        // 否则orderNo subOrderNo都按照前台传递的参数存储
                        ordersCostsesList.add(makeOutpOrderCosts(op,clinicMaster));
-                       num = String.valueOf(dao.insert(op));
+                       if(op.getId()!=null && !op.getId().equals("")){
+                           num = String.valueOf(dao.update(op));
+                       }else{
+                           op.preInsert();
+                           num = String.valueOf(dao.insert(op));
+                       }
+
                    }
                }
                 //保存门诊医嘱信息
-                oo.setPatientId(clinicMaster.getId());
+                oo.setClinicId(clinicMaster.getId());
                 oo.setVisitDate(clinicMaster.getVisitDate());
                 oo.setVisitNo(clinicMaster.getVisitNo());
                 oo.setSerialNo(outpPresc.getSerialNo());
                 oo.setOrderedBy(clinicMaster.getVisitDept());
                 oo.setDoctor("李俊山");
-                oo.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd")+oo.getVisitNo());
+                oo.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + oo.getVisitNo());
                 oo.setDoctorNo(clinicMaster.getDoctor());
+                oo.preInsert();
                 outpOrdersDao.insert(oo);
                 //保存门诊处方药品价目表信息
                 saveOutpOrdersCosts(ordersCostsesList);
@@ -146,6 +151,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
         try{
             if(ordersCostsesList!=null&&ordersCostsesList.size()>0){
                 for(OutpOrdersCosts outpOrdersCosts : ordersCostsesList) {
+                    outpOrdersCosts.preInsert();
                     outpOrdersCostsDao.insert(outpOrdersCosts);
                 }
             }
@@ -166,7 +172,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     public OutpOrdersCosts makeOutpOrderCosts(OutpPresc outpPresc,ClinicMaster clinicMaster){
 
         OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
-        outpOrdersCosts.setPatientId(clinicMaster.getId());
+        outpOrdersCosts.setClinicId(clinicMaster.getId());
         outpOrdersCosts.setSerialNo(outpPresc.getSerialNo());
         outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
         outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
@@ -223,7 +229,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     }
     /**
      * @param       outpPresc      传递参数
-     * @return java.util.List<com.jims.clinic.vo.OutpPrescListVo>    返回类型
+     * @return java.util.List<OutpPresc>    返回类型
      * @throws
      * @Title: findListByParams
      * @Description: (根据条件查询处方相关信息)
@@ -231,7 +237,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * @date 2016/5/10
      */
     @Override
-    public List<OutpPrescListVo> findListByParams(OutpPresc outpPresc){
+    public List<OutpPresc> findListByParams(OutpPresc outpPresc){
         return dao.findListByParams(outpPresc);
     }
 }
