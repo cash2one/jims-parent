@@ -22,7 +22,7 @@ public interface LabItemClassDictDao extends CrudDao<LabItemClassDict> {
      * 查询科室代码下的检验类别
      * @return
      */
-    public List<LabItemClassDict> findListByDeptCode(@Param("deptCode")String deptCode);
+    public List<LabItemClassDict> findListByDeptCode(@Param("deptCode") String deptCode, @Param("orgId")String orgId);
 
     /**
      * 获取列表

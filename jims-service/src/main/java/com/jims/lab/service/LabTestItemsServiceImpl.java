@@ -1,11 +1,11 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.service;
+package com.jims.lab.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.lab.api.LabTestItemsServiceApi;
-import com.jims.clinic.dao.LabTestItemsDao;
+import com.jims.lab.dao.LabTestItemsDao;
 import com.jims.lab.entity.LabTestItems;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,5 +20,5 @@ import org.springframework.transaction.annotation.Transactional;
 public class LabTestItemsServiceImpl  extends CrudImplService<LabTestItemsDao, LabTestItems> implements LabTestItemsServiceApi {
 
 
-	
+
 }

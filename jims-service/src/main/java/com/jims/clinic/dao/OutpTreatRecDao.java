@@ -3,9 +3,11 @@
  */
 package com.jims.clinic.dao;
 
+import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -61,5 +63,23 @@ public interface OutpTreatRecDao extends CrudDao<OutpTreatRec> {
     public List<OutpTreatRec> getPrintLab(String serialNo, Date visitDate, Integer visitNo);
     //执行单数据
     //  public List<PrintZhixing> getPrintZhixing(Date visitDate ,Integer visitNo);
+
+
+
+    /**
+     * 通过clinicId查找治疗信息
+     * @param clinicId
+     * @return
+     */
+   public List<OutpTreatRec> findTreatment(@Param(value = "clinicId")String clinicId);
+
+    /**
+     * 通过项目code，itemClass(检查治疗医嘱明细里的code和class)
+     * @param itemCode
+     * @param itemClass
+     * @return
+     */
+    public  List<OutpOrdersCosts> findSubTreatment(@Param(value = "itemCode")String itemCode,@Param(value = "itemClass")String itemClass);
+
 
 }

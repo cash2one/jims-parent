@@ -20,13 +20,13 @@ import java.util.List;
 public class LabItemClassDictServiceImpl extends CrudImplService<LabItemClassDictDao, LabItemClassDict> implements LabItemClassDictServiceApi {
 
     @Autowired
-    private LabItemClassDictDao clinicItemClassDictDao;
+    private LabItemClassDictDao labItemClassDictDao;
     /**
      * 查询科室代码下的检验类别
      * @return
      */
-    public List<LabItemClassDict> findListByDeptCode(String deptCode){
-        return clinicItemClassDictDao.findListByDeptCode(deptCode);
+    public List<LabItemClassDict> findListByDeptCode(String deptCode, String orgId) {
+        return labItemClassDictDao.findListByDeptCode(deptCode,orgId);
     }
 
     /**
