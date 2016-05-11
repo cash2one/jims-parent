@@ -183,7 +183,7 @@ $.extend({
             'error': error
         })
     },
-    postJSON: function (url, data, callback, error) {
+    postJSON: function  (url, data, callback, error) {
         if(typeof(data)==Object){
             data = JSON.stringify(data) ;
         }
