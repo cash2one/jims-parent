@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.exam.dao.OrdersDao">
+    
+	<sql id="ordersColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId",
+		a.order_no AS "orderNo",
+		a.order_sub_no AS "orderSubNo",
+		a.repeat_indicator AS "repeatIndicator",
+		a.order_class AS "orderClass",
+		a.order_text AS "orderText",
+		a.order_code AS "orderCode",
+		a.dosage AS "dosage",
+		a.dosage_units AS "dosageUnits",
+		a.administration AS "administration",
+		a.duration AS "duration",
+		a.start_date_time AS "startDateTime",
+		a.stop_date_time AS "stopDateTime",
+		a.frequency AS "frequency",
+		a.freq_counter AS "freqCounter",
+		a.freq_interval AS "freqInterval",
+		a.freq_interval_unit AS "freqIntervalUnit",
+		a.freq_detail AS "freqDetail",
+		a.perform_schedule AS "performSchedule",
+		a.perform_result AS "performResult",
+		a.ordering_dept AS "orderingDept",
+		a.doctor AS "doctor",
+		a.stop_doctor AS "stopDoctor",
+		a.nurse AS "nurse",
+		a.stop_nurse AS "stopNurse",
+		a.enter_date_time AS "enterDateTime",
+		a.stop_order_date_time AS "stopOrderDateTime",
+		a.order_status AS "orderStatus",
+		a.drug_billing_attr AS "drugBillingAttr",
+		a.billing_attr AS "billingAttr",
+		a.last_perform_date_time AS "lastPerformDateTime",
+		a.time AS "time",
+		a.last_accting_date_time AS "lastAcctingDateTime",
+		a.current_presc_no AS "currentPrescNo",
+		a.doctor_user AS "doctorUser",
+		a.verify_data_time AS "verifyDataTime",
+		a.order_print_indicator AS "orderPrintIndicator",
+		a.procession_date_time AS "processionDateTime",
+		a.procession_nurse AS "processionNurse",
+		a.stop_procession_date_time AS "stopProcessionDateTime",
+		a.stop_procession_nurse AS "stopProcessionNurse",
+		a.cancel_date_time AS "cancelDateTime",
+		a.cancel_doctor AS "cancelDoctor",
+		a.degree AS "degree",
+		a.app_no AS "appNo",
+		a.is_adjust AS "isAdjust",
+		a.conversion_date_time AS "conversionDateTime",
+		a.continue_order_no AS "continueOrderNo",
+		a.stop_flag AS "stopFlag",
+		a.adapt_symptom_indicate AS "adaptSymptomIndicate",
+		a.duty_doctor AS "dutyDoctor",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ordersJoins">
+	</sql>
+    
+	<select id="get" resultType="Orders">
+		SELECT 
+			<include refid="ordersColumns"/>
+		FROM orders a
+		<include refid="ordersJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Orders">
+		SELECT 
+			<include refid="ordersColumns"/>
+		FROM orders a
+		<include refid="ordersJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Orders">
+		SELECT 
+			<include refid="ordersColumns"/>
+		FROM orders a
+		<include refid="ordersJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO orders(
+			id,
+			patient_id,
+			visit_id,
+			order_no,
+			order_sub_no,
+			repeat_indicator,
+			order_class,
+			order_text,
+			order_code,
+			dosage,
+			dosage_units,
+			administration,
+			duration,
+			start_date_time,
+			stop_date_time,
+			frequency,
+			freq_counter,
+			freq_interval,
+			freq_interval_unit,
+			freq_detail,
+			perform_schedule,
+			perform_result,
+			ordering_dept,
+			doctor,
+			stop_doctor,
+			nurse,
+			stop_nurse,
+			enter_date_time,
+			stop_order_date_time,
+			order_status,
+			drug_billing_attr,
+			billing_attr,
+			last_perform_date_time,
+			time,
+			last_accting_date_time,
+			current_presc_no,
+			doctor_user,
+			verify_data_time,
+			order_print_indicator,
+			procession_date_time,
+			procession_nurse,
+			stop_procession_date_time,
+			stop_procession_nurse,
+			cancel_date_time,
+			cancel_doctor,
+			degree,
+			app_no,
+			is_adjust,
+			conversion_date_time,
+			continue_order_no,
+			stop_flag,
+			adapt_symptom_indicate,
+			duty_doctor,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{visitId},
+			#{orderNo},
+			#{orderSubNo},
+			#{repeatIndicator},
+			#{orderClass},
+			#{orderText},
+			#{orderCode},
+			#{dosage},
+			#{dosageUnits},
+			#{administration},
+			#{duration},
+			#{startDateTime},
+			#{stopDateTime},
+			#{frequency},
+			#{freqCounter},
+			#{freqInterval},
+			#{freqIntervalUnit},
+			#{freqDetail},
+			#{performSchedule},
+			#{performResult},
+			#{orderingDept},
+			#{doctor},
+			#{stopDoctor},
+			#{nurse},
+			#{stopNurse},
+			#{enterDateTime},
+			#{stopOrderDateTime},
+			#{orderStatus},
+			#{drugBillingAttr},
+			#{billingAttr},
+			#{lastPerformDateTime},
+			#{time},
+			#{lastAcctingDateTime},
+			#{currentPrescNo},
+			#{doctorUser},
+			#{verifyDataTime},
+			#{orderPrintIndicator},
+			#{processionDateTime},
+			#{processionNurse},
+			#{stopProcessionDateTime},
+			#{stopProcessionNurse},
+			#{cancelDateTime},
+			#{cancelDoctor},
+			#{degree},
+			#{appNo},
+			#{isAdjust},
+			#{conversionDateTime},
+			#{continueOrderNo},
+			#{stopFlag},
+			#{adaptSymptomIndicate},
+			#{dutyDoctor},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE orders SET 	
+			patient_id = #{patientId},
+			visit_id = #{visitId},
+			order_no = #{orderNo},
+			order_sub_no = #{orderSubNo},
+			repeat_indicator = #{repeatIndicator},
+			order_class = #{orderClass},
+			order_text = #{orderText},
+			order_code = #{orderCode},
+			dosage = #{dosage},
+			dosage_units = #{dosageUnits},
+			administration = #{administration},
+			duration = #{duration},
+			start_date_time = #{startDateTime},
+			stop_date_time = #{stopDateTime},
+			frequency = #{frequency},
+			freq_counter = #{freqCounter},
+			freq_interval = #{freqInterval},
+			freq_interval_unit = #{freqIntervalUnit},
+			freq_detail = #{freqDetail},
+			perform_schedule = #{performSchedule},
+			perform_result = #{performResult},
+			ordering_dept = #{orderingDept},
+			doctor = #{doctor},
+			stop_doctor = #{stopDoctor},
+			nurse = #{nurse},
+			stop_nurse = #{stopNurse},
+			enter_date_time = #{enterDateTime},
+			stop_order_date_time = #{stopOrderDateTime},
+			order_status = #{orderStatus},
+			drug_billing_attr = #{drugBillingAttr},
+			billing_attr = #{billingAttr},
+			last_perform_date_time = #{lastPerformDateTime},
+			time = #{time},
+			last_accting_date_time = #{lastAcctingDateTime},
+			current_presc_no = #{currentPrescNo},
+			doctor_user = #{doctorUser},
+			verify_data_time = #{verifyDataTime},
+			order_print_indicator = #{orderPrintIndicator},
+			procession_date_time = #{processionDateTime},
+			procession_nurse = #{processionNurse},
+			stop_procession_date_time = #{stopProcessionDateTime},
+			stop_procession_nurse = #{stopProcessionNurse},
+			cancel_date_time = #{cancelDateTime},
+			cancel_doctor = #{cancelDoctor},
+			degree = #{degree},
+			app_no = #{appNo},
+			is_adjust = #{isAdjust},
+			conversion_date_time = #{conversionDateTime},
+			continue_order_no = #{continueOrderNo},
+			stop_flag = #{stopFlag},
+			adapt_symptom_indicate = #{adaptSymptomIndicate},
+			duty_doctor = #{dutyDoctor},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE orders SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

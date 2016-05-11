@@ -1,6 +1,5 @@
 $(function(){
-    var org_id = parent.config.org_id
-
+    var org_id = '1'
         ,select_index = 0   //诊疗项目默认选择索引，从0开始计算
         ,name_and_vs_obj = {}  //作已修改的别名和对照缓存对象
 
@@ -104,11 +103,12 @@ $(function(){
                 { field: 'itemName', title: '项目名称', width: 200,align:'center',formatter:function(value){
                     return '<div style="text-align:left">'+value+'</div>'
                 }},
-                { field: 'expand3', title: '执行科室', width: 120 ,align:'center',editor:{
+                { field: 'expand3', title: '执行科室', width: 120,align:'center',editor:{
                     type:'combogrid',
                     options:{
                         panelWidth:300,
                         idField:'deptCode',
+                        editable:false,
                         textField:'deptName',
                         fitColumns: true,
                         data : clinic_data_arr,
@@ -138,6 +138,7 @@ $(function(){
                         valueField:'value',
                         textField:'label',
                         data:hz_arr,
+                        editable:false,
                         required:false,
                         onChange:function(newV,oldV){
                             if(newV != oldV)
@@ -164,6 +165,7 @@ $(function(){
                     options:{
                         valueField:'value',
                         textField:'label',
+                        editable:false,
                         data:long_arr,
                         required:false,
                         onChange:function(newV,oldV){
@@ -282,6 +284,7 @@ $(function(){
                     options:{
                         valueField:'value',
                         textField:'label',
+                        editable:false,
                         data:price_type_arr,
                         required:true
                         ,missingMessage:'类别必填',
@@ -310,6 +313,7 @@ $(function(){
                     options:{
                         panelWidth:383,
                         idField:'itemCode',
+                        editable:false,
                         textField:'itemName',
                         fitColumns: true,
                         required:true
@@ -370,6 +374,7 @@ $(function(){
                         valueField:'value',
                         textField:'label',
                         data:price_rules_arr,
+                        editable:false,
                         required:true
                         ,missingMessage:'计费规则必填'
                     }
@@ -891,6 +896,7 @@ $(function(){
      * 保存
      */
     var save_data_handler = function (){
+        end_other_edit()
         save_name_and_vs($('#clinic_item').datagrid('getRowIndex',$('#clinic_item').datagrid('getSelected')))
         // 传输修改的参数
         var item_data_save = []
@@ -960,6 +966,15 @@ $(function(){
         return value
     }
 
+    $(':radio[name="adminFlag"][value="0"]').click(function(){
+        $('#code_text').html('　代码定位')
+        $('#filter_text').html('　代码筛选')
+    })
+
+    $(':radio[name="adminFlag"][value="1"]').click(function(){
+        $('#code_text').html('拼音码定位')
+        $('#filter_text').html('拼音码筛选')
+    })
     $('#code_gps').textbox({
         buttonText : '定位',
         width:130,

@@ -101,7 +101,6 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
     @Override
     public int batchSave(ExamAppoints examAppoints) {
         int  num=0;
-//        //保存检查预约记录
 //        if(examAppointsDao.getMaxExamNo()!=null){
 //            examAppoints.setExamNo(examAppointsDao.getMaxExamNo()+1+"");
 //        }else{
@@ -117,12 +116,21 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         examAppoints.setChargeType("1");
         //设置就诊序号
         examAppoints.setVisitNo((int) Math.random() + 1000);
+
+        OutpOrders outpOrders = new OutpOrders();
+        outpOrders.preInsert();
+        //设置就诊序号
+        outpOrders.setPatientId(examAppoints.getPatientId());
+        outpOrders.setClinicNo(examAppoints.getClinicNo());
+        outpOrders.setOrderedBy(examAppoints.getReqDept());
+        outpOrders.setSerialNo("1111");
+        outpOrders.setDoctor("张三");
+        outpOrdersDao.saveOutpOrders(outpOrders);
+
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
         for(int i=0;i<examItemsList.size();i++){
-
             ExamItems examItems=examItemsList.get(i);
             examItems.setAppointsId(examAppoints.getId());
-//            examItems.setExamItem(outpOrdersCosts.getItemName());
             examItems.preInsert();
             examItemsDao.saveExamItems(examItems);
 
@@ -145,15 +153,6 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             outpOrdersCosts.setSerialNo("111");
             outpOrdersCostsDao.saveOrdersCosts(outpOrdersCosts);
 
-            OutpOrders outpOrders = new OutpOrders();
-            outpOrders.preInsert();
-            //设置就诊序号
-            outpOrders.setPatientId(outpOrdersCosts.getPatientId());
-            outpOrders.setClinicNo(outpOrdersCosts.getClinicNo());
-            outpOrders.setOrderedBy(outpOrdersCosts.getOrderedByDept());
-            outpOrders.setSerialNo("1111");
-            outpOrders.setDoctor("张三");
-            outpOrdersDao.saveOutpOrders(outpOrders);
 
             OutpTreatRec outpTreatRec=new OutpTreatRec();
             outpTreatRec.preInsert();

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugStorageDeptDao">
+    
+	<sql id="drugStorageDeptColumns">
+		a.id AS "id",
+		a.storage_code AS "storageCode",
+		a.storage_name AS "storageName",
+		a.storage_type AS "storageType",
+		a.disburse_no_prefix AS "disburseNoPrefix",
+		a.disburse_no_ava AS "disburseNoAva",
+		a.export_no_ava AS "exportNoAva",
+		a.export_no_prefix AS "exportNoPrefix",
+		a.import_no_ava AS "importNoAva",
+		a.import_no_prefix AS "importNoPrefix",
+		a.storage_flag AS "storageFlag",
+		a.yg_flag AS "ygFlag",
+		a.ward_code AS "wardCode",
+		a.org_id AS "orgId",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="drugStorageDeptJoins">
+	</sql>
+    
+	<select id="get" resultType="DrugStorageDept">
+		SELECT 
+			<include refid="drugStorageDeptColumns"/>
+		FROM drug_storage_dept a
+		<include refid="drugStorageDeptJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DrugStorageDept">
+		SELECT 
+			<include refid="drugStorageDeptColumns"/>
+		FROM drug_storage_dept a
+		<include refid="drugStorageDeptJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DrugStorageDept">
+		SELECT 
+			<include refid="drugStorageDeptColumns"/>
+		FROM drug_storage_dept a
+		<include refid="drugStorageDeptJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO drug_storage_dept(
+			id,
+			storage_code,
+			storage_name,
+			storage_type,
+			disburse_no_prefix,
+			disburse_no_ava,
+			export_no_ava,
+			export_no_prefix,
+			import_no_ava,
+			import_no_prefix,
+			storage_flag,
+			yg_flag,
+			ward_code,
+			org_id,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{storageCode},
+			#{storageName},
+			#{storageType},
+			#{disburseNoPrefix},
+			#{disburseNoAva},
+			#{exportNoAva},
+			#{exportNoPrefix},
+			#{importNoAva},
+			#{importNoPrefix},
+			#{storageFlag},
+			#{ygFlag},
+			#{wardCode},
+			#{orgId},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_storage_dept SET 	
+			storage_code = #{storageCode},
+			storage_name = #{storageName},
+			storage_type = #{storageType},
+			disburse_no_prefix = #{disburseNoPrefix},
+			disburse_no_ava = #{disburseNoAva},
+			export_no_ava = #{exportNoAva},
+			export_no_prefix = #{exportNoPrefix},
+			import_no_ava = #{importNoAva},
+			import_no_prefix = #{importNoPrefix},
+			storage_flag = #{storageFlag},
+			yg_flag = #{ygFlag},
+			ward_code = #{wardCode},
+			org_id = #{orgId},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_storage_dept SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

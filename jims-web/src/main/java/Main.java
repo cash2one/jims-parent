@@ -22,7 +22,7 @@ public class Main {
         if(file.exists()){
             System.out.println(file.getAbsolutePath());
         }else{
-            System.out.println("路径有问题");
+            //System.out.println("路径有问题");
         }
 
         Server server = new Server(Integer.valueOf(webPort));
