@@ -1,4 +1,4 @@
-package com.jims.clinic;
+package com.jims.lab;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.ClinicItemApi;
