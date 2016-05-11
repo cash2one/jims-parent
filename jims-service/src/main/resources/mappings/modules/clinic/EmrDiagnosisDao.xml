@@ -34,7 +34,19 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+
+		a.del_flag AS "delFlag",
+        a.patient_id AS "patientId",
+        a.TREAT_DAYS AS "treatDays",
+        a.TREAT_RESULT AS "treatResult",
+        a.OPER_TREAT_INDICATOR AS "operTreatIndicator",
+        a.PATHOLOGY_NO AS "pathologyNo",
+        a.DIAGNOSIS_DOC AS "diagnosisDoc",
+        a.INOROUT_FLAG AS "inOrOutFlag",
+        a.diagnosis_date AS "diagnosisDate",
+        a.diagnosis_parent AS "diagnosisParent"
+
+
 		/*"diagnosis_type" as "diagnosis_type"*/
 	</sql>
 
@@ -137,7 +149,19 @@
 			del_flag,
 			description,
 			basis,
-			parent_ids
+
+			patient_id,
+            TREAT_DAYS,
+            TREAT_RESULT,
+            OPER_TREAT_INDICATOR,
+            PATHOLOGY_NO,
+            DIAGNOSIS_DOC,
+            INOROUT_FLAG,
+            diagnosis_date,
+            diagnosis_parent,
+            parent_ids
+
+
 		) VALUES (
 			#{id},
 			#{parentId},
@@ -152,7 +176,17 @@
 			#{delFlag},
 			#{description},
 			#{basis},
+			#{patientId},
+            #{treatDays},
+            #{treatResult},
+            #{operTreatIndicator},
+            #{pathologyNo},
+            #{diagnosisDoc},
+            #{inOrOutFlag},
+            #{diagnosisDate},
+            #{diagnosisParent},
 			#{parentIds}
+
 		)
 	</insert>
 	
@@ -161,7 +195,18 @@
 			diagnosis_id = #{diagnosisId},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			basis=#{basis}
+			basis=#{basis},
+			TREAT_RESULT = #{treatResult},
+			OPER_TREAT_INDICATOR = #{operTreatIndicator},
+			INOROUT_FLAG = #{inOrOutFlag},
+			diagnosis_date = #{diagnosisDate},
+			description = #{description},
+			treat_days = #{treatDays},
+			pathology_no = #{pathologyNo},
+			diagnosis_doc = #{diagnosisDoc},
+			type = #{type},
+			diagnosis_parent = #{diagnosisParent}
+
 		WHERE id = #{id}
 	</update>
 	

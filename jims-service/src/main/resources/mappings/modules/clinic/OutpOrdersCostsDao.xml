@@ -74,7 +74,10 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+
+
+
 	<select id="findAllList" resultType="OutpOrdersCosts">
 		SELECT 
 			<include refid="outpOrdersCostsColumns"/>
@@ -226,8 +229,16 @@
 	<update id="delete">
 		UPDATE outp_orders_costs SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE item_code = #{itemCode}
 	</update>
+
+
+	<update id="deleteTreatment">
+		UPDATE outp_orders_costs SET
+		del_flag = '1'
+		WHERE item_code = #{itemCode}
+	</update>
+
 	<select id="getOutpCosts" resultType="OutpOrdersCosts">
 		SELECT
 		<include refid="outpOrdersCostsColumns"/>
