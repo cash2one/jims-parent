@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.dao;
+package com.jims.lab.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
@@ -24,4 +24,11 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @version 2016/5/06
      */
     public void saveAll(LabTestMaster labTestMaster);
+    /**
+     * 生成申请序号
+     * @param主表 当前日期
+     * @author xueyx
+     * @version 2016/5/09
+     */
+    public String creatTestNo();
 }
