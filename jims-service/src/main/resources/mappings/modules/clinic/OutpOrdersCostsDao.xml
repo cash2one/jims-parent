@@ -76,26 +76,6 @@
 	</select>
 
 
-	<select id="findTreatment" resultType="OutpOrdersCosts">
-		SELECT
-        b.expand4 as "frequency",
-		<include refid="outpOrdersCostsColumns"/>
-		FROM outp_orders_costs a  left join CLINIC_ITEM_DICT b on a.item_code=b.item_code
-		left join CLINIC_ITEM_CLASS_DICT c on c.class_code=b.item_class
-		<include refid="outpOrdersCostsJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-			and c.CLASS_CODE = 'C' or c.CLASS_CODE = 'D' or c.CLASS_CODE = 'E' or c.CLASS_CODE = 'F'
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
 
 
 	<select id="findAllList" resultType="OutpOrdersCosts">
@@ -249,8 +229,16 @@
 	<update id="delete">
 		UPDATE outp_orders_costs SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE item_code = #{itemCode}
 	</update>
+
+
+	<update id="deleteTreatment">
+		UPDATE outp_orders_costs SET
+		del_flag = '1'
+		WHERE item_code = #{itemCode}
+	</update>
+
 	<select id="getOutpCosts" resultType="OutpOrdersCosts">
 		SELECT
 		<include refid="outpOrdersCostsColumns"/>

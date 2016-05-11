@@ -46,7 +46,16 @@
 		<include refid="outpOrdersJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+
+	<select id="getByClinicId" resultType="OutpOrders">
+		SELECT
+		<include refid="outpOrdersColumns"/>
+		FROM outp_orders a
+		<include refid="outpOrdersJoins"/>
+		WHERE a.patient_id = #{clinicId}
+	</select>
+
 	<select id="findList" resultType="OutpOrders">
 		SELECT 
 			<include refid="outpOrdersColumns"/>

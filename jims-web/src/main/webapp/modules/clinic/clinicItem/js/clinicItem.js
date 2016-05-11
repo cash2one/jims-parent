@@ -4,8 +4,8 @@ $(function() {
         singleSelect: true,
         fit: true,
         method:'GET',
-     //   url: basePath+'/treatment/findList',
-        url:'/modules/clinic/clinicItem/js/datagrid_data.json',
+        url: basePath+'/treatment/findList',
+       // url:'/modules/clinic/clinicItem/js/datagrid_data.json',
         idField: 'id',
         columns: [[      //每个列具体内容
             {field: 'itemName', title: '项目名称', width: '20%', align: 'center', editor:{
@@ -13,11 +13,11 @@ $(function() {
                 options: {
                     panelWidth: 500,
                     idField: 'itemCode',
-                    textField: 'name',
+                    textField: 'itemName',
                     queryParams:{zjm:''},
                     url: '/modules/clinic/clinicItem/js/clinic_data.json',
                     columns: [[
-                        {field: 'name', title: '项目名称', width: '20%', align: 'center'},
+                        {field: 'itemName', title: '项目名称', width: '20%', align: 'center'},
                         {field: 'itemCode', title: '项目代码', width: '20%', align: 'center'},
                         {field: 'itemClass', title: '项目类型', width: '10%', align: 'center', editor: 'text'},
                         {field: 'inputCode', title: '拼音输入码', width: '10%', align: 'center', editor: 'text'},
@@ -52,10 +52,9 @@ $(function() {
             {field: 'amount', title: '数量', width: '5%', align: 'center', editor: 'text'},
             {field: 'units', title: '单位', width: '5%', align: 'center'},
              {field:'frequency',title:'频次',width:'10%',align:'center',editor:'text'},
-            {field: 'wardCode', title: '执行科室', width: '10%', align: 'center', editor: 'text'},
-             {field:'dept',title:'护理单元',width:'10%',align:'center',editor:'text'},
+            {field: 'performedBy', title: '执行科室', width: '10%', align: 'center', editor: 'text'},
+             {field:'wardCode',title:'护理单元',width:'10%',align:'center',editor:'text'},
             {field: 'charges', title: '实收', width: '5%', align: 'center'},
-            {field:'docDetial',title:'医生说明',width:'20%',align:'center',editor:'text'},
             {field: 'serialNo', title: '开单序号', width: '10%', align: 'center'},
             {field: 'chargeIndicator', title: '收费标识', width: '5%', align: 'center'}
 
@@ -127,16 +126,16 @@ $(function() {
 });
 
     //回显
-    setTimeout(function () {
+   /* setTimeout(function () {
         var old = '';
         var search = true;
         var query = [];
         //var $grid = $('#itemName');
-       /* var $grid = $('#itemName').combogrid('grid');	// 获取表格控件对象
+       *//* var $grid = $('#itemName').combogrid('grid');	// 获取表格控件对象
         var r = g.datagrid('getSelected');	//获取表格当前选中行
         alert(r.itemName);//随便 点出行内各个字段属性值
-        alert(11111111111);*/
-       /* $grid.onChange = function (_new, _old) {
+        alert(11111111111);*//*
+       *//* $grid.onChange = function (_new, _old) {
             alert(22222222222222);
             if (_new != old) {
                 old = _new;
@@ -152,18 +151,18 @@ $(function() {
                     }
                 }, 500);
             }
-        };*/
+        };*//*
 
-      /*  $grid.combogrid('grid').datagrid('options').onSelect = function(){
+      *//*  $grid.combogrid('grid').datagrid('options').onSelect = function(){
             return false;
-        };*/
+        };*//*
 
         $('#itemName').combogrid('grid').datagrid('options').onClickRow = function(index, row) {
             var grid=$("#itemName").combogrid("grid");//获取表格对象
             var row = grid.datagrid('getSelected');//获取行数据
-         /*   $grid.combo('hidePanel');
+         *//*   $grid.combo('hidePanel');
             $grid.combo('setValue', row.aka061);
-            $grid.combo('setText', row.aka061);*/
+            $grid.combo('setText', row.aka061);*//*
             var selectRows = $('#clinicItem').datagrid("getSelected");
             selectRows.units=row.company;//单位
             selectRows.charges=row.guige;//实收
@@ -172,7 +171,7 @@ $(function() {
                 search = true;
             }, 1000);
         }
-    }, 1000);
+    }, 1000);*/
 
 
 
@@ -224,3 +223,63 @@ $(function() {
 
 
 });
+
+
+//删除
+function doDelete(){
+    //把你选中的 数据查询出来。
+    var selectRows = $('#clinicItem').datagrid("getSelections");
+    if (selectRows.length < 1) {
+        $.messager.alert("提示消息", "请选中要删的数据!");
+        return;
+    }
+    //提醒用户是否是真的删除数据
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        if (r) {
+            var strIds = "";
+            for (var i = 0; i < selectRows.length; i++) {
+                strIds += selectRows[i].id + ",";
+            }
+            strIds = strIds.substr(0, strIds.length - 1);
+            //真删除数据
+            $.ajax({
+                'type': 'POST',
+                'url': basePath+'/treatment/delete',
+                'contentType': 'application/json',
+                'data': id=strIds,
+                'dataType': 'json',
+                'success': function(data){
+                    if(data==1){
+                        $.messager.alert("提示消息",data+"条记录删除成功！");
+                        $('#zhenduan').datagrid('load');
+                        $('#zhenduan').datagrid('clearChecked');
+                    }else{
+                        $.messager.alert('提示',"删除失败", "error");
+                    }
+                },
+                'error': function(data){
+                    $.messager.alert('提示',"删除失败", "error");
+                }
+            });
+        }
+    })
+}
+
+
+function save(){
+    var  rows=$('#clinicItem').datagrid('getRows');
+    var tableJson=JSON.stringify(rows);
+
+
+    $.postJSON(basePath+'/treatment/save',tableJson,function(data){
+        if(data.code=='1'){
+            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $('#zhenduan').datagrid('load');
+            $('#zhenduan').datagrid('clearChecked');
+        }else{
+            $.messager.alert('提示',"保存失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"保存失败", "error");
+    })
+}

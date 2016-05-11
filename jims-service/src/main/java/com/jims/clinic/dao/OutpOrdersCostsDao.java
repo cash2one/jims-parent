@@ -74,5 +74,12 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
      */
     public Integer getMaxItemNo(Date visitDate, Integer visitNo, String itemClass);
 
-    public  List<OutpOrdersCosts> findTreatment(OutpOrdersCosts outpOrdersCosts);
+
+    /**
+     * 删除门诊收费明细（处置治疗）
+     * @param itemCode
+     * @return
+     * pq
+     */
+    public int deleteTreatment(@Param(value = "itemCode")String itemCode);
 }

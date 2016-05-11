@@ -12,7 +12,7 @@ public interface OutpOrdersServiceApi {
      * 保存门诊医嘱主记录
      * @param outpOrders
      */
-    public void saveOutpOrders(OutpOrders outpOrders);
+    public String saveOutpOrders(OutpOrders outpOrders);
 
     /**
      * 查询序列号

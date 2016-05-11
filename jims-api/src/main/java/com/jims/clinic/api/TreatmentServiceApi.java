@@ -1,35 +1,50 @@
 package com.jims.clinic.api;
 
-import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.clinic.entity.OutpTreatRec;
 
 import java.util.List;
 
 /**
- * 处置治疗
+ * Treatment
  *
  * @author PangQian
- * @date2016/5/7 0007
+ * @date2016/5/11 0011
  */
 public interface TreatmentServiceApi {
-    /**
-     * 通过病人标识查询处置治疗
-     * @return
-     */
-    public List<OutpOrdersCosts>  findTreatment(OutpOrdersCosts outpOrdersCosts);
+
 
     /**
+     * 通过clinicId查找治疗项目
+     * @param clinicId
+     * @return
+     * pq
+     */
+    public List<OutpTreatRec> findTreatment(String clinicId);
+    /**
      * 保存处置治疗
-     * @param outpOrdersCosts
+     * @param outpTreatRecs
      * @return
      * @author
      */
-    public  String saveClinicItem(List<OutpOrdersCosts> outpOrdersCosts);
+    public  String saveClinicItem(List<OutpTreatRec> outpTreatRecs,String clinicId);
 
     /**
-     * 查询项目名称
+     * 删除处置项目
+     * pq
+     * @param outpTreatRec
+     * @return
      */
-  //  public List<ClinicItemDict> findClinicItem(String itemClass);
+    public int deleteTreat(OutpTreatRec outpTreatRec);
+
+    /**
+     * 通过项目code，itemClass(检查治疗医嘱明细里的code和class)
+     * @param itemCode
+     * @param itemClass
+     * @return
+     */
+  /*   public  List<OutpOrdersCosts> findSubTreatment(String itemCode,String itemClass);*/
+
 
 
 }
