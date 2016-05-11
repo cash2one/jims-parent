@@ -8,6 +8,7 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceListVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -72,4 +73,13 @@ public interface PriceListDao extends CrudDao<PriceList> {
      * @author wei
      */
     public List<PriceListVo> list();
+
+    /**
+     * 查询诊疗项目对应的价表项目
+     * @param orgId
+     * @param clinicItemCode
+     * @return
+     * @author ztq
+     */
+    public List<PriceListVo> listByClinicItemCodeAndOrgId(@Param("orgId")String orgId, @Param("clinicItemCode")String clinicItemCode);
 }

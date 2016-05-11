@@ -173,7 +173,7 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
      */
     @Override
     public List<PriceListVo> getListByClinicItemCodeAndOrgId(String orgId, String clinicItemCode) {
-        return null;
+        return dao.listByClinicItemCodeAndOrgId(orgId,clinicItemCode);
     }
 
 }
