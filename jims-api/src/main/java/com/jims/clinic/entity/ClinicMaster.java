@@ -21,7 +21,9 @@ import java.util.Date;
 public class ClinicMaster extends DataEntity<ClinicMaster> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hosid;		// 医院ID
+    private String orgId;		// 所属组织结构
+    private String clinicId;		//就诊id
+    private String patientId;		// 病人标识号
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
 	private String clinicLabel;		// 号别
@@ -78,14 +80,30 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 		super(id);
 	}
 
-	@Length(min=0, max=128, message="医院ID长度必须介于 0 和 128 之间")
-	public String getHosid() {
-		return hosid;
-	}
 
-	public void setHosid(String hosid) {
-		this.hosid = hosid;
-	}
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
 
     @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getVisitDate() {

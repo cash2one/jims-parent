@@ -42,12 +42,9 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
     /**
      * 查询最大医嘱号
      *
-     * @param visitDate
-     * @param visitNo
-     * @param serialNo
      * @return
      */
-    public Integer getMaxOrderNo(Date visitDate, Integer visitNo, String serialNo);
+    public Integer getMaxOrderNo(@Param("clinicId") String clinicId,@Param("orgId")String orgId);
 
     /**
      * 查询出最大的流水号

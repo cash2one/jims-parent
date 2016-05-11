@@ -19,7 +19,9 @@ import java.util.Date;
 public class OutpOrdersCosts extends DataEntity<OutpOrdersCosts> {
 	
 	private static final long serialVersionUID = 1L;
-	private String patientId;		// ID号
+    private String orgId;		// 所属组织结构
+    private String clinicId;		//就诊id
+    private String patientId;		// 病人标识号
 	private String masterId;//主记录ID（处方  检查 检验）
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
@@ -62,7 +64,23 @@ public class OutpOrdersCosts extends DataEntity<OutpOrdersCosts> {
 		super(id);
 	}
 
-	@Length(min=0, max=128, message="ID号长度必须介于 0 和 128 之间")
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    @Length(min=0, max=128, message="ID号长度必须介于 0 和 128 之间")
 	public String getPatientId() {
 		return patientId;
 	}
