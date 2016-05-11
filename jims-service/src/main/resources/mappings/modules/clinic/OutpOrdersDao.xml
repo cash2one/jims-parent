@@ -225,8 +225,8 @@
 	</insert>
 
 	<update id="deleteOutpOrders">
-		UPDATE outp_orders SET
+		UPDATE outp_orders  a SET
 		del_flag = '1'
-		WHERE a.visit_no=#{visitNo}
+		WHERE a.serial_no=#{serialNo}
 	</update>
 </mapper>

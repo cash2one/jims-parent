@@ -35,7 +35,6 @@ function onloadMethod() {
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
-                    var hidden="";
                     var divHtmls=$('#target .submitName');
                     var isin=true;
                     for (var i = 0; i < data.length; i++) {
@@ -46,9 +45,7 @@ function onloadMethod() {
                             }
                         }
                         if(isin){
-                            var jsonHtml="{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
-
-                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">'+jsonHtml+'</div></div>'
+                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><input class="submitNames" type="hidden" value="'+data[i].descriptionCode+'"/></div>'
                         }else{
                             isin=true;
                         }
@@ -211,12 +208,12 @@ function look(id) {
     $("#saveBut").hide();
     $.ajax({
         'type': 'post',
-        'url': basePath + '/clinicInspect/get',
+        'url': basePath + '/orders/get',
         'contentType': 'application/json',
         'data': id = id,
         'dataType': 'json',
         'success': function (data) {
-            $('#clinicInspectForm').form('load', data);
+            $('#orderForm').form('load', data);
         }
     });
 }
@@ -228,42 +225,48 @@ function look(id) {
 function get(id) {
     $.ajax({
         'type': 'post',
-        'url': basePath + '/clinicInspect/get',
+        'url': basePath + '/orders/get',
         'contentType': 'application/json',
         'data': id = id,
         'dataType': 'json',
         'success': function (data) {
             $("#modify").val("2");
-            $('#clinicInspectForm').form('load', data);
+            $('#orderForm').form('load', data);
         }
     });
 }
 //保存
 function saveClinicInspect() {
-    if(!$("#clinicInspectForm").form("validate")){
+    if(!$("#orderForm").form("validate")){
         return false;
     }
-    var formJson = fromJson('clinicInspectForm');
+    var formJson = fromJson('orderForm');
     formJson = formJson.substring(0, formJson.length - 1);
+
     var divJson = "";
+    var divJsons = "";
     $('#target .submitName').each(function (index, element) {
-        divJson += $(this).html();
+        divJson += "{\"examItem\":\"" + $(this).val() + "\"},";
+    })
+    $('#target .submitNames').each(function (index, element) {
+        divJsons += "{\"examItemCode\":\"" + $(this).val() + "\"},";
     })
     divJson = divJson.substring(0, divJson.length - 1);
-    var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
+    divJsons = divJsons.substring(0, divJsons.length - 1);
+    var submitJson = formJson + ",\"examItemsList\":[" + divJson + ","+divJsons+"]}";
 
     var save=$("#modify").val();
     var url="";
     if(save=="1"){
-        url=basePath + "/clinicInspect/saveExamAppoints";
+        url=basePath + "/orders/saveOrders";
     }else{
-        url=basePath + "/clinicInspect/update";
+        url=basePath + "/orders/update";
     }
     $.postJSON( url, submitJson, function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
             $('#list_data').datagrid('load');
-            $("#clinicInspectForm").form('clear');
+            $("#orderForm").form('clear');
             $("#target").empty();
             $("#descriptionId").empty();
         } else {
