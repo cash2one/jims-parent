@@ -22,6 +22,7 @@ public class LabTestItems extends DataEntity<LabTestItems> {
 	private String testBy;		// test_by
 	private String rcptNo;		// rcpt_no
 	private String explanation;		// 退费说明
+	private Double price;		// 退费说明
 	
 	public LabTestItems() {
 		super();
@@ -100,5 +101,12 @@ public class LabTestItems extends DataEntity<LabTestItems> {
 	public void setExplanation(String explanation) {
 		this.explanation = explanation;
 	}
-	
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 }

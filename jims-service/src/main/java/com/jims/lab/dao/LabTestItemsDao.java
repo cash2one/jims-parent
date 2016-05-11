@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.dao;
+package com.jims.lab.dao;
 
 import com.jims.lab.entity.LabTestItems;
 import com.jims.common.persistence.CrudDao;
