@@ -20,5 +20,5 @@ import org.springframework.transaction.annotation.Transactional;
 public class LabTestItemsServiceImpl  extends CrudImplService<LabTestItemsDao, LabTestItems> implements LabTestItemsServiceApi {
 
 
-	
+
 }
