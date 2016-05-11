@@ -251,6 +251,7 @@
 		id,
 		master_id ,
 		patient_id,
+		clinic_id,
 		visit_date,
 		visit_no,
 		serial_no,
@@ -287,6 +288,7 @@
 		#{id},
 		#{masterId},
 		#{patientId},
+		#{clinicId},
 		#{visitDate},
 		#{visitNo},
 		#{serialNo},
@@ -380,5 +382,16 @@
 			del_flag = '1'
 		WHERE
 		a.master_id=#{masterId}
+	</update>
+
+	<update id="removeByMasterId" >
+		UPDATE outp_orders_costs SET
+			del_flag = '1'
+		<where>
+			and del_flag='0'
+			<if test="masterId!=null and masterId!=''">
+			 and master_id=#{masterId}
+			</if>
+		</where>
 	</update>
 </mapper>

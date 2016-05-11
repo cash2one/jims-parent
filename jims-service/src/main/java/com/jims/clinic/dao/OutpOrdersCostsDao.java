@@ -79,4 +79,16 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
      * pq
      */
     public int deleteTreatment(@Param(value = "itemCode")String itemCode);
+
+    /**
+     * @param outpOrdersCosts 传递参
+     * @return Integer    返回类型
+     *@throws
+     * @Title: removeByParams
+     * @Descripion: (根据参数[处方Id]删除收费项目)
+     * @author CTQ
+     * @date 2016/5/9
+     */
+    public Integer removeByMasterId(OutpOrdersCosts outpOrdersCosts);
+
 }

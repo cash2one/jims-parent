@@ -2,21 +2,14 @@ package com.jims.clinic.prescription;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
-import com.jims.clinic.api.OutpOrdersCostsServiceApi;
-import com.jims.clinic.api.OutpOrdersServiceApi;
 import com.jims.clinic.api.OutpPrescServiceApi;
-import com.jims.clinic.entity.OutpOrders;
-import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpPresc;
 import com.jims.common.data.StringData;
-import com.jims.sys.entity.Dict;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Component;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -31,11 +24,6 @@ public class OutpPrescRest {
     @Reference(version = "1.0.0")
     OutpPrescServiceApi outpPrescServiceApi;
 
-    @Reference(version = "1.0.0")
-    OutpOrdersServiceApi outpOrdersServiceApi;
-
-    @Reference(version = "1.0.0")
-    OutpOrdersCostsServiceApi outpOrdersCostsServiceApi;
 
     /**
      //     * @param             传递参数
@@ -48,10 +36,10 @@ public class OutpPrescRest {
      */
     @Path("list")
     @GET
-    public List<OutpPresc> list(){
+    public List<OutpPresc> list(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicId") String clinicId){
         List<OutpPresc> list = Lists.newArrayList();
         try {
-            list = outpPrescServiceApi.getOutpPresc("1");
+            list = outpPrescServiceApi.getOutpPresc(clinicId);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -69,11 +57,12 @@ public class OutpPrescRest {
      */
     @Path("sublist")
     @GET
-    public List<OutpPresc> sublist(){
+    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("prescNo") Integer prescNo){
         OutpPresc op = new OutpPresc();
+        op.setPrescNo(prescNo);
         List<OutpPresc> list = Lists.newArrayList();
         try {
-            list = outpPrescServiceApi.findList(op);
+            list = outpPrescServiceApi.findListByParams(op);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -95,7 +84,7 @@ public class OutpPrescRest {
        try {
            String data = outpPrescServiceApi.save(outpPresc);
            stringData.setCode(data);
-           stringData.setData(data.compareTo("0")>0?"success":"error");
+           stringData.setData(data.compareTo("0") > 0 ? "success":"error");
        }catch (Exception e){
            e.printStackTrace();
        }
@@ -108,7 +97,7 @@ public class OutpPrescRest {
      * @return StringData    返回类型
     * @throws
      * @Title: delete
-     * @Desription: (处方删除药品)
+     * @Desription: (处方删除药品,同时删除医嘱及计价项目)
      * @author CTQ
      * @date 2016年4月23日15:11:52
      */
@@ -116,20 +105,40 @@ public class OutpPrescRest {
     @POST
     public StringData delete(String ids){
         StringData stringData=new StringData();
-      /*  String num=dictService.delete(ids);
+        String num=outpPrescServiceApi.deletePresc(ids);
         stringData.setCode(num);
-        stringData.setData("success");*/
+        stringData.setData("success");
         return stringData;
     }
+
+
     @Path("dictlist")
     @GET
-    public List<Dict> dictlist(){
-        List<Dict> list = Lists.newArrayList();
-        Dict dict = new Dict();
-        dict.setValue("1");
-        dict.setLabel("一日一次");
+    public List<OutpPresc> dictlist(){
+        List<OutpPresc> list = Lists.newArrayList();
+        OutpPresc dict = new OutpPresc();
+        dict.setDrugCode("1");
+        dict.setDrugName("阿莫西林");
+        dict.setDrugSpec("10g*2");
+        dict.setFirmId("YS000023");
+        dict.setDosage(Double.valueOf(1));
+        dict.setDosageUnits("片");
+        dict.setItemClass("A");
         list.add(dict);
         return list;
     }
 
+    @Path("jijia")
+    @GET
+    public List<OutpPresc> jijia(){
+        List<OutpPresc> list = Lists.newArrayList();
+        OutpPresc dict = new OutpPresc();
+        dict.setItemClass("A");
+        dict.setDrugSpec("10g*2阿莫西林");
+        dict.setAmount(Double.valueOf(3));
+        dict.setUnits("片");
+        dict.setCosts(Double.valueOf(0.64));
+        list.add(dict);
+        return list;
+    }
 }
