@@ -40,4 +40,11 @@ public interface LabItemClassDictServiceApi {
      */
     public String delete(String ids);
 
+    /**
+     * 检索未删除的类别字典
+     * @param labItemClassDict
+     * @return
+     */
+    public List<LabItemClassDict> findList(LabItemClassDict labItemClassDict);
+
 }

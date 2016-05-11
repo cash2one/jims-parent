@@ -125,6 +125,11 @@ $(function(){
                         onChange:function(newV,oldV){
                             if(newV != oldV)
                             change_name_and_vs(newV,'expand3')
+                        },
+                        filter: function(q, row){
+                            if(row.deptCode.indexOf(q) > -1 || row.deptName.indexOf(q) > -1){
+                                return true
+                            }
                         }
                     }
                 },formatter:function(value){
@@ -605,20 +610,19 @@ $(function(){
         if(!clinic_data_arr)
             $.ajaxAsync('/service/dept-dict/list','',function(res){
                 clinic_data_arr = res
-                alert(res)
             },'GET',false)
         if(!speciman_arr)
             $.ajaxAsync('/service/dict/findListByType',{type:'SPECIMAN_DICT'},function(res){
                 speciman_arr = res
             },'GET',false)
         if(!hz_arr)
-            $.ajaxAsync('/service/PerformFreqDict/findList','',function(res){
-                hz_arr = res
-            },'POST',false)
-        if(!clinic_type_arr)
-            $.ajaxAsync('/service/labitemclass/list','',function(res){
-                clinic_type_arr = res
+            $.ajaxAsync('/service/PerformFreqDict/list','',function(res){
+                hz_arr = res.rows
             },'GET',false)
+        if(!clinic_type_arr)
+            $.ajaxAsync('/service/labitemclass/findList','{"orgId":"'+org_id+'"}',function(res){
+                clinic_type_arr = res
+            },'POST',false)
         if(!long_arr)
             long_arr = [{
                 "value":1,

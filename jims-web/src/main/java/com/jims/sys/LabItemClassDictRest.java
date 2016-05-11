@@ -60,4 +60,9 @@ public class LabItemClassDictRest {
         return stringData;
     }
 
+    @Path("findList")
+    @POST
+    public List<LabItemClassDict> findList(LabItemClassDict labItemClassDict){;
+        return labItemClassDictServiceApi.findList(labItemClassDict);
+    }
 }

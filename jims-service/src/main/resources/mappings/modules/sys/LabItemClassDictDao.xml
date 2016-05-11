@@ -30,6 +30,10 @@
 		SELECT 
 			*
 		FROM lab_item_class_dict
+		WHERE del_flag = #{DEL_FLAG_NORMAL}
+        <if test="orgId != null and orgId != ''">
+            AND org_id = #{orgId}
+        </if>
 
 	</select>
 	
