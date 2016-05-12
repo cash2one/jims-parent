@@ -42,7 +42,6 @@ $(function(){
         }]]
     });
 
-
     //弹出框中的下拉列表
     $('#drugParentId').combogrid({
         delay: 300,
