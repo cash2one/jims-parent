@@ -3,12 +3,14 @@
  */
 package com.jims.clinic.entity;
 
-import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +23,9 @@ import java.util.List;
 public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private String clinicId;//病人就诊记录ID
+	private String patientId;    //病人主表ID
+	private String clinicId;    //就诊记录ID
+	private String orgId;      //组织机构ID
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
 	private String serialNo;		// 流水号
@@ -43,7 +47,7 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	private Double charges;		// 实收费用
 	private Integer chargeIndicator;		// 收费标记
 	private String dispensary;		// 摆药药局
-	private Integer repetition;		// repetition
+	private Integer repetition;		// 剂数
 	private Integer orderNo;		// 医嘱组别
 	private Integer subOrderNo;		// 子医嘱组别
 	private String freqDetail;		// 执行时间详细描述
@@ -69,7 +73,7 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	public Date getVisitDate() {
 		return visitDate;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setVisitDate(Date visitDate) {
 		this.visitDate = visitDate;
 	}
@@ -363,5 +367,21 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 
 	public void setClinicId(String clinicId) {
 		this.clinicId = clinicId;
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 }

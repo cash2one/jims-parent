@@ -46,7 +46,16 @@
 		<include refid="outpOrdersJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+
+	<select id="getByClinicId" resultType="OutpOrders">
+		SELECT
+		<include refid="outpOrdersColumns"/>
+		FROM outp_orders a
+		<include refid="outpOrdersJoins"/>
+		WHERE a.patient_id = #{clinicId}
+	</select>
+
 	<select id="findList" resultType="OutpOrders">
 		SELECT 
 			<include refid="outpOrdersColumns"/>
@@ -85,15 +94,18 @@
 	
 	<insert id="insert">
 		INSERT INTO outp_orders(
-		id,
-		<if test="patientId!=null">
+
+		<if test="patientId!=null and patientId!=''">
 			patient_id,
+		</if>
+		<if test="clinicId!=null and clinicId!=''">
+			clinic_id,
 		</if>
 		<if test="visitDate!=null">
 			visit_date,
 		</if>
 		<if test="visitNo!=null">
-			visit_no,,
+			visit_no,
 		</if>
 		<if test="serialNo!=null">
 			serial_no,
@@ -116,10 +128,14 @@
 		<if test="doctorNo!=null">
 			doctor_no,
 		</if>
+		id
 		) VALUES (
-			sys_guid(),
-		<if test="patientId!=null">
+
+		<if test="patientId!=null and patientId!=''">
 			#{patientId},
+		</if>
+		<if test="clinicId!=null and clinicId!=''">
+			#{clinicId},
 		</if>
 		<if test="visitDate!=null">
 			#{visitDate},
@@ -143,11 +159,12 @@
 			#{clinicNo},
 		</if>
 		<if test="nurse!=null">
-			#{nurse}
+			#{nurse},
 		</if>
 		<if test="doctorNo!=null">
-			#{doctorNo}
+			#{doctorNo},
 		</if>
+		#{id}
 		)
 	</insert>
 	
@@ -225,8 +242,8 @@
 	</insert>
 
 	<update id="deleteOutpOrders">
-		UPDATE outp_orders SET
+		UPDATE outp_orders  a SET
 		del_flag = '1'
-		WHERE a.visit_no=#{visitNo}
+		WHERE a.serial_no=#{serialNo}
 	</update>
 </mapper>

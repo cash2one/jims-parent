@@ -17,7 +17,7 @@ public interface LabItemClassDictServiceApi {
      ** @param检验科室编码 deptCode
      * @return
      */
-    public List<LabItemClassDict> findListByDeptCode(String deptCode);
+    public List<LabItemClassDict> findListByDeptCode(String deptCode,String orgId);
 
     /**
      * 查询全部

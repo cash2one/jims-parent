@@ -122,4 +122,13 @@ public interface PriceListApi {
      * @author wei
      */
     public Page<PriceListVo> findOLdPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo);
+
+    /**
+     * 根据诊疗项目获取诊疗项目所对应的价表项目
+     * @param orgId
+     * @param clinicItemCode
+     * @author ztq
+     * @return
+     */
+    public List<PriceListVo> getListByClinicItemCodeAndOrgId(String orgId, String clinicItemCode);
 }

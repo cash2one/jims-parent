@@ -22,7 +22,7 @@
     <select id="get" resultType="DrugClassDict">
         SELECT
             *
-        FROM drug_class_dict ORDER BY class_code DESC
+        FROM drug_class_dict
     </select>
 
     <select id="listDrugClassDictByOrgId" resultType="DrugClassDict">
@@ -30,7 +30,7 @@
             *
         FROM drug_class_dict a
         <where>
-            a.org_id = #{orgId}
+            a.org_id = #{orgId} AND a.del_flag = '0'
         </where>
     </select>
 
@@ -39,7 +39,7 @@
             *
         FROM drug_class_dict a
         <where>
-            a.org_id = #{0} and a.parent_id = #{1}
+            a.org_id = #{0} and a.parent_id = #{1} AND a.del_flag = '0'
         </where>
     </select>
 
@@ -77,6 +77,7 @@
         class_name = #{className},
         parent_id = #{parentId},
         org_id = #{orgId},
+        del_flag = #{delFlag},
         remarks = #{remarks},
         update_by = #{updateBy.id},
         update_date = #{updateDate}
