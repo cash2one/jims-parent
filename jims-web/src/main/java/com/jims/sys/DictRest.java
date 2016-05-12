@@ -112,8 +112,6 @@ public class DictRest {
             return dictService.findList(type);
         }
 
-
-
     /**
      * 获得字典label值
      * @param type

@@ -1,0 +1,14 @@
+{"total":4,"rows":[
+	{"itemClass":"检验静脉采血费","xiangmuName":"放射","guige":"/","number":"50","company":"片",
+	  "netReceipts":"167.90"
+	  },
+	{"itemClass":"检验静脉采血费","xiangmuName":"放射","guige":"/","number":"50","company":"片",
+	"netReceipts":68.00},
+
+	{"itemClass":"检验静脉采血费","xiangmuName":"放射","guige":"/","number":"50","company":"片",
+	  "netReceipts":"167.90"},
+
+	{"itemClass":"检验静脉采血费","xiangmuName":"放射","guige":"/","number":"50","company":"片",
+	 "netReceipts":"167.90"}
+
+]}

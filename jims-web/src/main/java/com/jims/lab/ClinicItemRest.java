@@ -188,4 +188,19 @@ public class ClinicItemRest {
                 + "条。成功删除诊疗项目" + delResult + "条以及关联别名和对照，其他别名" + delNameResult + "条，其他对照" + delVsResult + "条。\"}");*/
         return resultData;
     }
+
+    /**
+     * 根据诊疗项目类别 和组织机构获取本组织机构的所有诊疗项目
+     * @param orgId
+     * @param clinicClass
+     * @return
+     */
+    @Path("list-by-class")
+    @GET
+    public List<ClinicItemDict> listClinicItemDictByOrgIdAndClass(@QueryParam("orgId")String orgId,@QueryParam("clinicClass")String clinicClass){
+        return clinicItemApi.findListByOrgIdAndClinicClass(orgId,clinicClass) ;
+    }
+
+
+
 }

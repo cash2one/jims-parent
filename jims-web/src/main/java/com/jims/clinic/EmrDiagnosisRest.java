@@ -33,19 +33,34 @@ public class EmrDiagnosisRest {
 
     @Path("findList")
     @GET
-    public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-        Page<EmrDiagnosis> page = emrDiagnosisServiceApi.findPage(new Page<EmrDiagnosis>(request,response), new EmrDiagnosis());
-        PageData pageData=new PageData();
-        pageData.setRows(page.getList());
-        pageData.setTotal(page.getCount());
-        return pageData;
+    public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response){
+        List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(new EmrDiagnosis());
+        return page;
     }
 
-    @Path("save")
+    /**
+     * 保存门诊诊断
+     * @param emrDiagnosisList
+     * @return
+     */
+    @Path("saveOut")
     @POST
     public StringData saveDiagnosis(List<EmrDiagnosis> emrDiagnosisList) {
         StringData data=new StringData();
         data.setCode(emrDiagnosisServiceApi.saveDiagnosis(emrDiagnosisList));
+        return data;
+    }
+
+    /**
+     * 保存住院诊断
+     * @param emrDiagnosis
+     * @return
+     */
+    @Path("saveIn")
+    @POST
+    public StringData saveIn(EmrDiagnosis emrDiagnosis) {
+        StringData data=new StringData();
+        data.setCode(emrDiagnosisServiceApi.save(emrDiagnosis));
         return data;
     }
    @Path("delete")

@@ -3,11 +3,13 @@
  */
 package com.jims.clinic.entity;
 
-import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
@@ -19,6 +21,7 @@ public class OutpOrders extends DataEntity<OutpOrders> {
 	
 	private static final long serialVersionUID = 1L;
 	private String patientId;		// 病人标识号
+    private String orgId;    //组织机构id
 	private String clinicId;		//就诊id
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
@@ -38,7 +41,15 @@ public class OutpOrders extends DataEntity<OutpOrders> {
 		super(id);
 	}
 
-	public String getClinicId() {
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getClinicId() {
 		return clinicId;
 	}
 
@@ -59,7 +70,7 @@ public class OutpOrders extends DataEntity<OutpOrders> {
 	public Date getVisitDate() {
 		return visitDate;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setVisitDate(Date visitDate) {
 		this.visitDate = visitDate;
 	}
@@ -103,7 +114,7 @@ public class OutpOrders extends DataEntity<OutpOrders> {
 	public Date getOrderDate() {
 		return orderDate;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}

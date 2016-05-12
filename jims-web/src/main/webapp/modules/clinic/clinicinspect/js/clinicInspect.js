@@ -35,6 +35,7 @@ function onloadMethod() {
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
+                    var hidden="";
                     var divHtmls=$('#target .submitName');
                     var isin=true;
                     for (var i = 0; i < data.length; i++) {
@@ -45,7 +46,9 @@ function onloadMethod() {
                             }
                         }
                         if(isin){
-                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input></div>'
+                            var jsonHtml="{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
+
+                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">'+jsonHtml+'</div></div>'
                         }else{
                             isin=true;
                         }
@@ -123,6 +126,7 @@ function selecteds() {
     $('#descriptionId input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
         var html=selected.prop("outerHTML");
+        alert(html);
         selected.remove();
         $("#target").append(html);
     })
@@ -243,7 +247,7 @@ function saveClinicInspect() {
     formJson = formJson.substring(0, formJson.length - 1);
     var divJson = "";
     $('#target .submitName').each(function (index, element) {
-        divJson += "{\"examItem\":\"" + $(this).val() + "\"},";
+        divJson += $(this).html();
     })
     divJson = divJson.substring(0, divJson.length - 1);
     var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";

@@ -53,5 +53,8 @@ comment on column CLINIC_ITEM_DICT.ORG_ID
 alter table CLINIC_ITEM_DICT
   add constraint CLINIC_ITEM_DICT_PK primary key (ID);
 
+-- Create/Recreate primary, unique and foreign key constraints
+alter table CLINIC_ITEM_DICT
+  add constraint CLINIC_ITEM_DICT_UK unique (ITEM_CODE, ORG_ID);
 
 

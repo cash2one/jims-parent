@@ -25,11 +25,11 @@ public class LabItemClassDictRest {
      * @return
      */
     @Path("findListByDeptCode")
-    @POST
-    public List<LabItemClassDict> findListByDeptCode(String code) {
+    @GET
+    public List<LabItemClassDict> findListByDeptCode(String code,String orgId) {
         /*int index = code.indexOf("=");
         code =code.substring(index+1);*/
-        List<LabItemClassDict> list = labItemClassDictServiceApi.findListByDeptCode(code);
+        List<LabItemClassDict> list = labItemClassDictServiceApi.findListByDeptCode(code,orgId);
         return list;
     }
 

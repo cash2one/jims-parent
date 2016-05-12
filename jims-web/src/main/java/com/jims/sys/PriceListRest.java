@@ -65,6 +65,17 @@ public class PriceListRest {
         return priceListApi.list();
     }
 
+    /**
+     * 根据诊疗项目获取诊疗项目所对应的价表项目
+     * @param orgId
+     * @param clinicItemCode
+     * @return
+     */
+    @GET
+    @Path("list-by-clinic-code")
+    public List<PriceListVo> getListByClinicItemCodeAndOrgId(@QueryParam("orgId")String orgId,@QueryParam("clinicItemCode")String clinicItemCode){
+        return priceListApi.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
+    }
 
 
 

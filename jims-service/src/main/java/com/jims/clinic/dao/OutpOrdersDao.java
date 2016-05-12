@@ -6,6 +6,7 @@ package com.jims.clinic.dao;
 import com.jims.clinic.entity.OutpOrders;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -43,4 +44,9 @@ public interface OutpOrdersDao extends CrudDao<OutpOrders> {
 
     public int deleteOutpOrders(String visitNo);
 
+    /**
+     * 通过clinicId拿到门诊医嘱记录
+     * pq
+     */
+    public OutpOrders getByClinicId(@Param(value = "clinicId")String clinicId);
 }

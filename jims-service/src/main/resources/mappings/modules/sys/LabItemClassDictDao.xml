@@ -93,5 +93,6 @@
 		<include refid="labItemClassDictColumns"/>
 		FROM lab_item_class_dict a
 		WHERE a.dept_code = #{deptCode}
+        AND a.orgId=#{orgId}
 	</select>
 </mapper>

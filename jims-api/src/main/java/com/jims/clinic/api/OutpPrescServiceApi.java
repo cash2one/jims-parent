@@ -25,4 +25,18 @@ public interface OutpPrescServiceApi {
      * @return
      */
     public String save(OutpPresc outpPresc);
+
+    /**
+     * 删除方法
+     * @param ids
+     */
+    public String deletePresc(String ids);
+
+    /**
+     * 根据参数查询处方相关信息
+     * @param outpPresc
+     * @author CTQ
+     * @return
+     */
+    public List<OutpPresc> findListByParams(OutpPresc outpPresc);
 }
