@@ -4,6 +4,8 @@
     
 	<sql id="outpTreatRecColumns">
 		a.id AS "id",
+		a.clinic_id AS "clinicId",
+		a.org_id AS "orgId",
 		a.visit_date AS "visitDate",
 		a.visit_no AS "visitNo",
 		a.serial_no AS "serialNo",
@@ -118,6 +120,8 @@
 	<insert id="insert">
 		INSERT INTO outp_treat_rec(
 			id,
+			clinic_id,
+			org_id,
 			visit_date,
 			visit_no,
 			serial_no,
@@ -151,6 +155,8 @@
 			del_flag
 		) VALUES (
 			#{id},
+			#{clinicId},
+			#{orgId},
 			#{visitDate},
 			#{visitNo},
 			#{serialNo},
@@ -225,18 +231,11 @@
 	</update>
 
 	<update id="deleteTreat">
-		UPDATE outp_treat_rec SET
+		UPDATE outp_treat_rec  SET
 		del_flag = '1'
-		WHERE a.item_code=#{itemCode}
+		WHERE clinic_id=#{clinicId}
 	</update>
 
-
-	<update id="deleteTreatRec">
-		UPDATE outp_treat_rec SET
-			del_flag = '1'
-		WHERE
-		appoint_no = #{appointNo}
-	</update>
 
 	<select id="loadItems" resultType="Integer">
 		SELECT
@@ -252,6 +251,8 @@
 	<insert id="saveTreatRec">
 		INSERT INTO outp_treat_rec(
 		id,
+		clinic_id,
+		org_id,
 		visit_date,
 		visit_no,
 		serial_no,
@@ -273,6 +274,8 @@
 		ward_code
 		) VALUES (
 		#{id},
+		#{clinicId},
+		#{orgId},
 		#{visitDate},
 		#{visitNo},
 		#{serialNo},

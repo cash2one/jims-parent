@@ -12,4 +12,7 @@ public interface OrdersServiceApi {
      * @return
      */
     public String saveOrders(ExamAppoints examAppoints);
+
+    public String deleteOrders(String ids);
+
 }

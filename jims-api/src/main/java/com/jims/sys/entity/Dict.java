@@ -27,6 +27,7 @@ public class Dict extends DataEntity<Dict> {
 	private String description;// 描述
 	private Integer sort;	// 排序
 	private String parentId;//父Id
+    private String inputCode;//输入码
 
 	public Dict() {
 		super();
@@ -97,8 +98,18 @@ public class Dict extends DataEntity<Dict> {
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
-	
-	@Override
+
+    @XmlAttribute
+    @Length(min = 0, max = 8)
+    public String getInputCode() {
+        return inputCode;
+    }
+
+    public void setInputCode(String inputCode) {
+        this.inputCode = inputCode;
+    }
+
+    @Override
 	public String toString() {
 		return label;
 	}

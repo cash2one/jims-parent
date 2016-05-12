@@ -38,6 +38,10 @@ public interface ExamClassDictApi {
      */
     public ExamClassDict get(String id);
 
+    /**
+     * 获得所有部门和所属部门科室
+     * @return
+     */
     public List<ExamClassDict> getEx();
     /**
      * 查询全部数据

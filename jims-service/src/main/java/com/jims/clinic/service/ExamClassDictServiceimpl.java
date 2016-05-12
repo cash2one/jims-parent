@@ -28,7 +28,8 @@ public class ExamClassDictServiceimpl extends CrudImplService<ExamClassDictDao, 
 	private ExamClassDictDao examClassDictDao;
 	@Override
 	public List<ExamClassDict> getEx() {
-		return examClassDictDao.getEx();
+		 List<ExamClassDict> examClassDicts=examClassDictDao.getEx();
+        return examClassDicts;
 	}
 
     /**
