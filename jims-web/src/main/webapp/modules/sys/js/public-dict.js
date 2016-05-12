@@ -392,9 +392,7 @@ $(function(){
         updated = [];
     }
 
-    /**
-     * 添加字典
-     */
+    //添加字典
     $("#addTypeBtn").on('click', function () {
         stopTypeEdit();
         stopLabelEdit();
@@ -416,9 +414,7 @@ $(function(){
         $("#label_value").datagrid('beginEdit', editLabelIndex);  //开始编辑新增加的行数据
 
     });
-    /**
-     * 添加键值
-     */
+    //添加键值
     $("#addChildBtn").on('click',function(){
         stopTypeEdit();
         stopLabelEdit();
