@@ -1,0 +1,23 @@
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('bb65271acf34478aae7e51d16e9e81b1', '2', '赠送入库', '药局', null, null, null, to_date('12-05-2016 09:02:27', 'dd-mm-yyyy hh24:mi:ss'), '1', to_date('12-05-2016 09:02:27', 'dd-mm-yyyy hh24:mi:ss'), null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('f14e4e1cbbe24b90ac070bac3921653d', '2', '赠送入库', '药局', null, null, null, to_date('12-05-2016 08:53:42', 'dd-mm-yyyy hh24:mi:ss'), '1', to_date('12-05-2016 08:53:42', 'dd-mm-yyyy hh24:mi:ss'), null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('f93c4d51bfba42948c3a1c36b60c7170', '1', '赠送入库', '药库', null, null, null, to_date('12-05-2016 08:53:42', 'dd-mm-yyyy hh24:mi:ss'), '1', to_date('12-05-2016 08:53:42', 'dd-mm-yyyy hh24:mi:ss'), null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('1', '正常入库', '发放入库', '药局', null, null, null, null, '1', null, null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('2', '建帐入库', '生产入库', '药库', null, null, null, to_date('11-05-2016 16:11:05', 'dd-mm-yyyy hh24:mi:ss'), '0', null, null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('3', '制剂入库', '生产入库', '药库', null, null, null, to_date('11-05-2016 15:50:25', 'dd-mm-yyyy hh24:mi:ss'), '0', null, null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('4', '纠错入库', '生产入库', '全部', null, null, null, null, '0', null, null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('5', '退药入库', '退药入库', '药库', null, null, null, null, '0', null, null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('6', '盘点入库', '生产入库', '全部', null, null, null, null, '0', null, null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('7', '采购入库', '采购入库', '药库', null, null, null, null, '0', null, null);
+insert into DRUG_IMPORT_CLASS_DICT (ID, IMPORT_CLASS, STATISTIC_CLASS, STORAGE_TYPE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ACCOUNT_FLAG)
+values ('8', '调拨入库', '调整入库', '全部', null, null, null, null, '0', null, null);
+commit;

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugImportClassDictDao">
+    
+	<sql id="drugImportClassDictColumns">
+		a.id AS "id",
+		a.import_class AS "importClass",
+		a.statistic_class AS "statisticClass",
+		a.storage_type AS "storageType",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate",
+		a.account_flag AS "accountFlag"
+	</sql>
+	
+	<sql id="drugImportClassDictJoins">
+	</sql>
+    
+	<select id="get" resultType="DrugImportClassDict">
+		SELECT 
+			<include refid="drugImportClassDictColumns"/>
+		FROM drug_import_class_dict a
+		<include refid="drugImportClassDictJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+    <select id="listDrugImportByStorageType" resultType="DrugImportClassDict">
+        SELECT
+            <include refid="drugImportClassDictColumns"/>
+        FROM drug_import_class_dict a WHERE a.storage_type = #{storageType}
+    </select>
+
+	<select id="findList" resultType="DrugImportClassDict">
+		SELECT 
+			<include refid="drugImportClassDictColumns"/>
+		FROM drug_import_class_dict a
+		<include refid="drugImportClassDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+    <select id="findAll" resultType="DrugImportClassDict">
+        SELECT
+        <include refid="drugImportClassDictColumns"/>
+        FROM drug_import_class_dict a WHERE a.del_flag = 0
+    </select>
+	
+	<select id="findAllList" resultType="DrugImportClassDict">
+		SELECT 
+			<include refid="drugImportClassDictColumns"/>
+		FROM drug_import_class_dict a
+		<include refid="drugImportClassDictJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO drug_import_class_dict(
+		    id,
+			import_class,
+			statistic_class,
+			storage_type,
+			remarks,
+			update_by,
+			update_date,
+			account_flag,
+			del_flag,
+			create_date,
+			create_by
+		) VALUES (
+		    #{id},
+			#{importClass},
+			#{statisticClass},
+			#{storageType},
+			#{remarks},
+			#{updateBy.id},
+			#{updateDate},
+			#{accountFlag},
+			#{delFlag},
+			#{createDate},
+            #{createBy}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_import_class_dict SET
+		    import_class = #{importClass},
+		    statistic_class = #{statisticClass},
+		    storage_type = #{storageType},
+			remarks = #{remarks},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_import_class_dict SET 
+			del_flag = 1
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
