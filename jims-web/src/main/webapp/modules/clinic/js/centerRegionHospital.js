@@ -1,5 +1,6 @@
-patientList('0');
+
 $(function(){
+    addTabs('1','病人列表','/modules/clinic/patientListTable.html');
     //添加Tabs
     $(".tabs-header").bind('contextmenu',function(e){
         e.preventDefault();
@@ -77,9 +78,7 @@ function closeTabs(){
  * @param url
  * @param lia
  */
-function addTabs(id,name,url,lia){
-    $(lia).parent().parent().find("li a").removeClass();
-    $(lia).addClass("active");
+function addTabs(id,name,url){
     var content = '<iframe  src="'+url+'" frameborder="0" scrolling="yes" marginheight="0" marginwidth="0" width="100%" height="99%"></iframe>';
     if(!$("#tabs-header").tabs('exists',name)){
         $('#tabs-header').tabs('add',{
@@ -121,61 +120,6 @@ function showDoctor(targetid){
     } else {
         d.hide();
     }
-}
-//加载病人列表  默认 我的病人（待诊）
-function patientList(status){
-    var liHtml='';
-    var url='';
-    if(status=='0'){
-        url=basePath + '/clinicMaster/clinicMasterList';
-    }else{
-        url=basePath + '/clinicMaster/clinicMasterDiagnosed';
-    }
-    $.get(url, function (data) {
-        for (var i = 0; i < data.length; i++) {
-            liHtml+='<li><a href="#" onclick="userMenu(\''+data[i].id+'\',this)">' +
-            '<span class="cus-lbor"></span>' +
-            '<span class="cus-name">'+data[i].name+'</span>' +
-            ''+data[i].sex+'&nbsp; '+data[i].age+'</a></li>';
-        }
-        $('ul.cus-list').html(liHtml);
-    })
-}
-
-/**
- * 获取病人的就诊信息
- * @param clinicMasterId
- */
-function userMenu(clinicMasterId,aBtn){
-    $(aBtn).parent().parent().find("li a").removeClass();
-    $(aBtn).addClass("active");
-    closeTabs();
-    $.ajax({
-        'type': 'get',
-        'url': basePath + '/clinicMaster/get',
-        'contentType': 'application/json',
-        'data': {id:clinicMasterId},
-        'dataType': 'json',
-        'success': function(data){
-            $("#nameId").html(data.name);
-            $("#ageId").html(data.age);
-            $("#sexId").html(data.sex);
-            $("#clinicMasterId").val(data.id);
-        },
-        'error': function(){
-
-        }
-    })
-    var html='';
-    html+='<li><a class="active" onclick="addTabs(\'1\',\'病人信息\',\'/modules/clinic/medicalRecordsIndex.html\',this)"><span>病人信息</span></a></li>';
-    html+='<li><a  onclick="addTabs(\'2\',\'病历文书\',\'/modules/clinic/enterHospital/enterHosptial.html\',this)"><span>病历文书</span></a></li>';
-    html+='<li><a onclick="addTabs(\'4\',\'检查申请\',\'/modules/clinic/clinicinspect/clinicInspect.html\',this)"><span>检查申请</span></a></li>';
-    html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/clinic/labTest/labTest.html\',this)"><span>检验申请</span></a></li>';
-    html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/clinic/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
-    html+='<li><a   onclick="addTabs(\'8\',\'手术申请\',\'/modules/clinic/operationApply/operationApplyList.html\',this)"><span>手术申请</span></a></li>';
-    html+='<li><a  href="#"><span>用血申请</span></a></li>';
-    $("#userMenuId").html(html);
-    $("#userMenuId li:first a").click();
 }
 
 
