@@ -39,8 +39,10 @@ $(function(){
                 }
             }},
 
-            {field:'description',title:'诊断时间',width:'30%',align:'center',
-                formatter:formatDateBoxFull},
+            {field:'description',title:'诊断时间',width:'30%',align:'center',editor:{type: 'datebox'},
+                formatter:function(value, row, index){
+                    return formatDatebox(value);
+                }},
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
                 formatter:function(value, row, index){
                   return "李俊山";
@@ -132,7 +134,7 @@ function save(){
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#zhenduan').datagrid('load');
+            $('#zhenduan').datagrid('reload');
             $('#zhenduan').datagrid('clearChecked');
         }else{
             $.messager.alert('提示',"保存失败", "error");
