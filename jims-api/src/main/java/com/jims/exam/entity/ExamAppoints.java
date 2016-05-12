@@ -23,7 +23,8 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private static final long serialVersionUID = 1L;
 	private String examNo;		// 申请序号
 	private String patientId;		// 病人标识号
-	private String clinicId; // 就诊序号
+	private String orgId;    //组织机构id
+	private String clinicId;		//就诊id
 	private Integer visitId;		// 住院标识
 	private String localIdClass;		// 检查号类别
 	private String patientLocalId;		// 检查标识号
@@ -109,6 +110,14 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 
 	public void setClinicId(String clinicId) {
 		this.clinicId = clinicId;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 
 	@Length(min=0, max=128, message="申请序号长度必须介于 0 和 128 之间")

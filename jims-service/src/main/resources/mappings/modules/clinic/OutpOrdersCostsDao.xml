@@ -5,6 +5,8 @@
 	<sql id="outpOrdersCostsColumns">
 		a.id AS "id",
 		a.master_id AS "masterId",
+		a.clinic_id AS "clinicId",
+		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.visit_date AS "visitDate",
 		a.visit_no AS "visitNo",
@@ -100,6 +102,8 @@
 		INSERT INTO outp_orders_costs(
 			id,
 			master_id,
+			clinci_id,
+			org_id,
 			patient_id,
 			visit_date,
 			visit_no,
@@ -142,6 +146,8 @@
 		) VALUES (
 			#{id},
 			#{masterId},
+			#{clinicId},
+			#{orgId},
 			#{patientId},
 			#{visitDate},
 			#{visitNo},
@@ -187,6 +193,8 @@
 	<update id="update">
 		UPDATE outp_orders_costs SET
 		    master_id=#{masterId},
+		    clinic_id=#{clinicId},
+		    org_id =#{orgId},
 			patient_id = #{patientId},
 			visit_date = #{visitDate},
 			visit_no = #{visitNo},
@@ -252,6 +260,7 @@
 		master_id ,
 		patient_id,
 		clinic_id,
+		org_id,
 		visit_date,
 		visit_no,
 		serial_no,
@@ -289,6 +298,7 @@
 		#{masterId},
 		#{patientId},
 		#{clinicId},
+		#{orgId},
 		#{visitDate},
 		#{visitNo},
 		#{serialNo},
@@ -381,7 +391,8 @@
 		UPDATE outp_orders_costs  a SET
 			del_flag = '1'
 		WHERE
-		a.master_id=#{masterId}
+		 a.clinic_id=#{clinicId} AND
+		 a.serial_no = #{serialNo}
 	</update>
 
 	<update id="removeByMasterId" >

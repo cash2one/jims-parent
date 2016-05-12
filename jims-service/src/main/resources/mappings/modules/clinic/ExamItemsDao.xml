@@ -4,6 +4,8 @@
     
 	<sql id="examItemsColumns">
 		a.id AS "id",
+		a.clinic_id AS "clinicId",
+		a.org_id AS "orgId",
 		a.exam_no AS "examNo",
 		a.exam_item_no AS "examItemNo",
 		a.exam_item AS "examItem",
@@ -71,6 +73,8 @@
 	<insert id="insert">
 		INSERT INTO exam_items(
 			id,
+			clinic_id,
+			org_id,
 			exam_no,
 			exam_item_no,
 			exam_item,
@@ -88,6 +92,8 @@
 			appoints_id
 		) VALUES (
 			#{id},
+			#{clinicId},
+			#{orgId},
 			#{examNo},
 			#{examItemNo},
 			#{examItem},
@@ -132,6 +138,8 @@
 	<insert id="saveExamItems">
 		INSERT INTO exam_items(
 		id,
+		clinic_id,
+		org_id,
 		exam_no,
 		exam_item_no,
 		exam_item,
@@ -141,6 +149,8 @@
 		appoints_id
 		) VALUES (
 		#{id},
+		#{clinicId},
+		#{orgId},
 		#{examNo},
 		#{examItemNo},
 		#{examItem},

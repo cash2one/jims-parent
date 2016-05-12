@@ -37,7 +37,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
 
     @Override
     public String saveOrders(ExamAppoints examAppoints) {
-
+        int num=0;
         examAppoints.setCnsltState(1);
         examAppoints.preInsert();
         examAppoints.setPatientId("1111");
@@ -53,9 +53,16 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             examItems.setAppointsId(examAppoints.getId());
             examItems.preInsert();
             examItemsDao.saveExamItems(examItems);
+            Orders orders=new Orders();
+            orders.setPatientId(examAppoints.getPatientId());
+            orders.setVisitId((long)examAppoints.getVisitId());
+            orders.setOrderNo((long)123456);
+            orders.setOrderClass("1");
+            orders.setOrderClass("D");
+            orders.setOrderText(examItems.getExamItem());
+            orders.setOrderCode(examItems.getExamItemCode());
+            num=ordersDao.insert(orders);
         }
-
-        String num="";
-        return num;
+        return num+"";
     }
 }

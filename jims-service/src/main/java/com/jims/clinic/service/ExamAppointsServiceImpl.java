@@ -68,20 +68,20 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
      */
     @Override
     public String deleteExamAppionts(String ids) {
-        String num="";
+        int num=0;
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
                 examAppointsDao.deleteExamAppionts(id[j]);
                 examItemsDao.deleteItems(id[j]);
-                ExamAppoints examAppoints=examAppointsDao.get(id[j]);
-                outpTreatRecDao.deleteTreatRec(examAppoints.getId());
-                num=outpOrdersCostsDao.deleteOutpOrders(examAppoints.getId());
+                ExamItems examItems=examItemsDao.get(id[j]);
+                num=outpTreatRecDao.deleteTreat(examItems.getExamItemCode());
+//                num=outpOrdersCostsDao.deleteOutpOrders(examAppoints.getId());
             }
         }catch(Exception e){
-            return num;
+            return num+"";
         }
-        return num;
+        return num+"";
 
     }
 
@@ -137,6 +137,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             outpTreatRec.preInsert();
             outpTreatRec.setItemClass("D");
             outpTreatRec.setItemName(examItems.getExamItem());
+            outpTreatRec.setItemCode(examItems.getExamItemCode());
             outpTreatRec.setPerformedBy(examAppoints.getPerformedBy());
             outpTreatRec.setCosts(examItems.getCosts());
             outpTreatRec.setCharges(examItems.getCosts());

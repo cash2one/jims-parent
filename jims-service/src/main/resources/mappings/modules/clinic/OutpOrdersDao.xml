@@ -4,6 +4,8 @@
     
 	<sql id="outpOrdersColumns">
 		a.id AS "id",
+		a.clinic_id AS "clinicId",
+		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.visit_date AS "visitDate",
 		a.visit_no AS "visitNo",
@@ -23,6 +25,8 @@
 	</sql>
 	<sql id="outpOrdersColumnsFy">
 		a.id AS "id",
+		a.clinic_id AS "clinicId",
+		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.visit_date AS "visitDate",
 		a.visit_no   AS "visitNo",
@@ -101,6 +105,9 @@
 		<if test="clinicId!=null and clinicId!=''">
 			clinic_id,
 		</if>
+		<if test="orgId!=null and orgId!=''">
+			org_id,
+		</if>
 		<if test="visitDate!=null">
 			visit_date,
 		</if>
@@ -136,6 +143,9 @@
 		</if>
 		<if test="clinicId!=null and clinicId!=''">
 			#{clinicId},
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			orgId,
 		</if>
 		<if test="visitDate!=null">
 			#{visitDate},
@@ -216,6 +226,7 @@
 	id,
 	patient_id,
 	clinic_id,
+	org_id,
 	visit_date,
 	visit_no,
 	serial_no,
@@ -229,6 +240,7 @@
 	#{id},
 	#{patientId},
 	#{clinicId},
+	#{orgId},
 	#{visitDate},
 	#{visitNo},
 	#{serialNo},

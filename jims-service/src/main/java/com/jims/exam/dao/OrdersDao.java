@@ -14,5 +14,6 @@ import com.jims.exam.entity.Orders;
  */
 @MyBatisDao
 public interface OrdersDao extends CrudDao<Orders> {
+
 	
 }
