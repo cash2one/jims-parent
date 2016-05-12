@@ -8,6 +8,27 @@
 		WHERE id = #{id}
 	</select>
 
+	<select id="getLabel" resultType="java.lang.String">
+		SELECT
+		a.label
+		FROM sys_dict AS a
+		WHERE a.type = #{type}
+		AND a.value = #{value}
+		AND a.del_flag='0'
+	</select>
+
+	<select id="getDictLabel" resultType="Dict">
+		SELECT
+		a.label
+		FROM sys_dict AS a
+		WHERE a.type = #{type}
+		AND a.value = #{value}
+		AND a.del_flag='0'
+	</select>
+
+
+
+
     <select id="leftList" resultType="Dict">
       SELECT
       s.type,s.description
@@ -68,9 +89,10 @@
 		ORDER BY type
 	</select>
 
-    <select id="findListType" resultType="string">
+
+    <select id="findListType" resultType="Dict">
         SELECT
-            label
+        *
         FROM sys_dict
         WHERE type =#{type}
         Group BY label

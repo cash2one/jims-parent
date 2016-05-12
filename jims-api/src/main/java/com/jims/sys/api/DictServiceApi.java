@@ -87,4 +87,23 @@ public interface DictServiceApi {
      * @return
      */
     public List<String> findListType(String type);
+
+    /**
+     * 通过value值拿到label
+     * @param value
+     * @return
+     */
+    public String getLabel(String value,String type);
+
+    /**
+     * 根据类型查询字典
+     * @param type
+     * @return
+     */
+    public List<Dict> findList(String type);
+
+
+
+
+
 }

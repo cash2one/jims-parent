@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.ClinicItemDictDao">
-    
-	<sql id="clinicItemDictColumns">
-		a.id AS "id",
-		a.item_class AS "itemClass",
-		a.item_code AS "itemCode",
-		a.item_name AS "itemName",
-		a.input_code AS "inputCode",
-		a.input_code_wb AS "inputCodeWb",
-		a.expand1 AS "expand1",
-		a.expand2 AS "expand2",
-		a.expand3 AS "expand3",
-		a.expand4 AS "expand4",
-		a.expand5 AS "expand5",
-		a.item_status AS "itemStatus",
-		a.memo AS "memo",
-		a.remarks AS "remarks",
-		a.update_by AS "updateBy.id",
-		a.create_by AS "createBy.id",
-		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag",
-		a.create_date AS "createDate",
-		a.org_id AS "orgId"
-	</sql>
 
-	<sql id="clinicItemDictJoins">
-	</sql>
-    
-	<select id="get" resultType="ClinicItemDict">
-		SELECT 
-			<include refid="clinicItemDictColumns"/>
-		FROM clinic_item_dict a
-		<include refid="clinicItemDictJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="ClinicItemDict">
-		SELECT 
-			<include refid="clinicItemDictColumns"/>
-		FROM clinic_item_dict a
-		<include refid="clinicItemDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+    <sql id="clinicItemDictColumns">
+        a.id AS "id",
+        a.item_class AS "itemClass",
+        a.item_code AS "itemCode",
+        a.item_name AS "itemName",
+        a.input_code AS "inputCode",
+        a.input_code_wb AS "inputCodeWb",
+        a.expand1 AS "expand1",
+        a.expand2 AS "expand2",
+        a.expand3 AS "expand3",
+        a.expand4 AS "expand4",
+        a.expand5 AS "expand5",
+        a.item_status AS "itemStatus",
+        a.memo AS "memo",
+        a.remarks AS "remarks",
+        a.update_by AS "updateBy.id",
+        a.create_by AS "createBy.id",
+        a.update_date AS "updateDate",
+        a.del_flag AS "delFlag",
+        a.create_date AS "createDate",
+        a.org_id AS "orgId"
+    </sql>
+
+    <sql id="clinicItemDictJoins">
+    </sql>
+
+    <select id="get" resultType="ClinicItemDict">
+        SELECT
+        <include refid="clinicItemDictColumns"/>
+        FROM clinic_item_dict a
+        <include refid="clinicItemDictJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="ClinicItemDict">
+        SELECT
+        <include refid="clinicItemDictColumns"/>
+        FROM clinic_item_dict a
+        <include refid="clinicItemDictJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
             AND a.item_class = #{itemClass}
             <if test="itemCode != null and itemCode != ''">
                 AND a.item_code LIKE #{itemCode} || '%'
@@ -50,108 +50,129 @@
             <if test="inputCode != null and inputCode != ''">
                 AND a.input_code LIKE #{inputCode} || '%'
             </if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
+            <if test="orgId != null and orgId != ''">
+                AND a.org_id LIKE #{orgId} || '%'
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.item_code, a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
 
-	<select id="findAllList" resultType="ClinicItemDict">
+    <select id="findExisted" resultType="ClinicItemDict">
+        SELECT
+        <include refid="clinicItemDictColumns"/>
+        FROM clinic_item_dict a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="itemCode != null and itemCode != ''">
+                AND a.item_code = #{itemCode}
+            </if>
+            <if test="itemName != null and itemName != ''">
+                AND a.item_name = #{itemName}
+            </if>
+            <if test="orgId != null and orgId != ''">
+                AND a.org_id LIKE #{orgId} || '%'
+            </if>
+        </where>
+    </select>
 
-		SELECT 
-			<include refid="clinicItemDictColumns"/>
-		FROM clinic_item_dict a
-		<include refid="clinicItemDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>
+    <select id="findAllList" resultType="ClinicItemDict">
 
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
-		INSERT INTO clinic_item_dict(
-			id,
-			item_class,
-			item_code,
-			item_name,
-			input_code,
-			input_code_wb,
-			expand1,
-			expand2,
-			expand3,
-			expand4,
-			expand5,
-			item_status,
-			memo,
-			remarks,
-			update_by,
-			create_by,
-			update_date,
-			del_flag,
-			create_date,
-			org_id
-		) VALUES (
-			#{id},
-			#{itemClass},
-			#{itemCode},
-			#{itemName},
-			#{inputCode},
-			#{inputCodeWb},
-			#{expand1},
-			#{expand2},
-			#{expand3},
-			#{expand4},
-			#{expand5},
-			#{itemStatus},
-			#{memo},
-			#{remarks},
-			#{updateBy.id},
-			#{createBy.id},
-			#{updateDate},
-			#{delFlag},
-			#{createDate},
-			#{orgId}
-		)
-	</insert>
-	
-	<update id="update">
-		UPDATE clinic_item_dict SET 	
-			item_class = #{itemClass},
-			item_code = #{itemCode},
-			item_name = #{itemName},
-			input_code = #{inputCode},
-			input_code_wb = #{inputCodeWb},
-			expand1 = #{expand1},
-			expand2 = #{expand2},
-			expand3 = #{expand3},
-			expand4 = #{expand4},
-			expand5 = #{expand5},
-			item_status = #{itemStatus},
-			memo = #{memo},
-			remarks = #{remarks},
-			update_by = #{updateBy.id},
-			update_date = #{updateDate},
-			org_id = #{orgId}
-		WHERE id = #{id}
-	</update>
+        SELECT
+        <include refid="clinicItemDictColumns"/>
+        FROM clinic_item_dict a
+        <include refid="clinicItemDictJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
 
-	<update id="delete">
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO clinic_item_dict(
+        id,
+        item_class,
+        item_code,
+        item_name,
+        input_code,
+        input_code_wb,
+        expand1,
+        expand2,
+        expand3,
+        expand4,
+        expand5,
+        item_status,
+        memo,
+        remarks,
+        update_by,
+        create_by,
+        update_date,
+        del_flag,
+        create_date,
+        org_id
+        ) VALUES (
+        #{id},
+        #{itemClass},
+        #{itemCode},
+        #{itemName},
+        #{inputCode},
+        #{inputCodeWb},
+        #{expand1},
+        #{expand2},
+        #{expand3},
+        #{expand4},
+        #{expand5},
+        #{itemStatus},
+        #{memo},
+        #{remarks},
+        #{updateBy.id},
+        #{createBy.id},
+        #{updateDate},
+        #{delFlag},
+        #{createDate},
+        #{orgId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE clinic_item_dict SET
+        item_class = #{itemClass},
+        item_code = #{itemCode},
+        item_name = #{itemName},
+        input_code = #{inputCode},
+        input_code_wb = #{inputCodeWb},
+        expand1 = #{expand1},
+        expand2 = #{expand2},
+        expand3 = #{expand3},
+        expand4 = #{expand4},
+        expand5 = #{expand5},
+        item_status = #{itemStatus},
+        memo = #{memo},
+        remarks = #{remarks},
+        update_by = #{updateBy.id},
+        update_date = #{updateDate},
+        org_id = #{orgId}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
 		UPDATE clinic_item_dict SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>

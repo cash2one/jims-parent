@@ -5,6 +5,13 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
+            //$("#reqDept").val(data.deptDict.deptName);
+            //清空二级联动
+            $("#examSubclassNameId").combobox("clear");
+            //清空子项目div
+            $("#target").empty();
+            $("#descriptionId").empty();
+
             $.ajax({
                 type: "POST",
                 url: basePath + '/examClassDict/getExamSubclass',
@@ -16,7 +23,7 @@ function onloadMethod() {
             });
         }
     });
-
+//联动下拉框 子项目
     $('#examSubclassNameId').combobox({
         valueField: 'examSubclassName',
         textField: 'examSubclassName',
@@ -28,17 +35,28 @@ function onloadMethod() {
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
+                    var hidden="";
+                    var divHtmls=$('#target .submitName');
+                    var isin=true;
                     for (var i = 0; i < data.length; i++) {
-                        checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input></div>'
+                        for (var j = 0; j < divHtmls.length; j++) {
+                            if($(divHtmls[j]).val()==data[i].description ){
+                                isin=false;
+                                break;
+                            }
+                        }
+                        if(isin){
+                            var jsonHtml="{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
+
+                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">'+jsonHtml+'</div></div>'
+                        }else{
+                            isin=true;
+                        }
+
                     }
                     $("#descriptionId").html(checkbox);
                 }
             });
-            //$('#descriptionId').combobox({
-            //    panelHeight: '150',//自动高度适合
-            //    valueField: 'description',
-            //    textField: 'description'
-            //});
         }
     });
 
@@ -61,13 +79,15 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'patientId', title: '病人', width: '20%', align: 'center', formatter: formatDateBoxFull},
+            {field: 'examNo', title: '检查单号', width: '20%', align: 'center'},
             {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center'},
+            {field: 'reqDept', title: '开单科室', width: '20%', align: 'center'},
             {field: 'reqDept', title: '检查科室', width: '20%', align: 'center'},
+            {field: 'flag', title: '状态', width: '20%', align: 'center'},
             {
                 field: 'id',
                 title: '操作',
-                width: '40%',
+                width: '38%',
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
@@ -102,16 +122,17 @@ function onloadMethod() {
     var p = $('#list_data').datagrid('getPager');
 }
 //检查选中
-function Selected() {
+function selecteds() {
     $('#descriptionId input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
         var html=selected.prop("outerHTML");
+        alert(html);
         selected.remove();
         $("#target").append(html);
     })
 };
 //检查取消
-function Cancel(){
+function cancels(){
     $('#target input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
         var html = selected.prop("outerHTML");
@@ -182,7 +203,7 @@ function del(id) {
 
 
 /**
- * 查看字典
+ * 查看
  * @param id
  */
 function look(id) {
@@ -201,7 +222,7 @@ function look(id) {
 }
 
 /**
- * 修改字典
+ * 修改
  * @param id
  */
 function get(id) {
@@ -212,22 +233,33 @@ function get(id) {
         'data': id = id,
         'dataType': 'json',
         'success': function (data) {
+            $("#modify").val("2");
             $('#clinicInspectForm').form('load', data);
         }
     });
 }
 //保存
 function saveClinicInspect() {
+    if(!$("#clinicInspectForm").form("validate")){
+        return false;
+    }
     var formJson = fromJson('clinicInspectForm');
     formJson = formJson.substring(0, formJson.length - 1);
     var divJson = "";
     $('#target .submitName').each(function (index, element) {
-        divJson += "{\"itemName\":\"" + $(this).val() + "\"},";
+        divJson += $(this).html();
     })
     divJson = divJson.substring(0, divJson.length - 1);
-    var submitJson = formJson + ",\"outpOrdersCostses\":[" + divJson + "]}";
+    var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
 
-    $.postJSON(basePath + "/clinicInspect/saveExamAppoints", submitJson, function (data) {
+    var save=$("#modify").val();
+    var url="";
+    if(save=="1"){
+        url=basePath + "/clinicInspect/saveExamAppoints";
+    }else{
+        url=basePath + "/clinicInspect/update";
+    }
+    $.postJSON( url, submitJson, function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
             $('#list_data').datagrid('load');

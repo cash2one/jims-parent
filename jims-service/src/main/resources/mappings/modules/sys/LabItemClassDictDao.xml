@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.sys.dao.LabItemClassDictDao">
+    
+	<sql id="labItemClassDictColumns">
+		a.id AS "id",
+		a.serial_no AS "serialNo",
+		a.class_code AS "classCode",
+		a.class_name AS "className",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate",
+		a.org_id AS "orgId",
+		a.dict_code AS "dictCode"
+	</sql>
+	
+	<sql id="labItemClassDictJoins">
+	</sql>
+    
+	<select id="get" resultType="LabItemClassDict">
+		SELECT 
+			*
+		FROM lab_item_class_dict
+	</select>
+	
+	<select id="findList" resultType="LabItemClassDict">
+		SELECT 
+			*
+		FROM lab_item_class_dict
+
+	</select>
+	
+	<select id="findAllList" resultType="LabItemClassDict">
+		SELECT 
+			*
+		FROM lab_item_class_dict
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO lab_item_class_dict(
+			id,
+			class_code,
+			class_name,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date,
+			org_id,
+			dict_code
+		) VALUES (
+			#{id},
+			#{classCode},
+			#{className},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate},
+			#{orgId},
+			#{dictCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE lab_item_class_dict SET 	
+			class_code = #{classCode},
+			class_name = #{className},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			org_id = #{orgId},
+			dict_code = #{dictCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM lab_item_class_dict
+		WHERE id = #{id}
+	</update>
+
+	<select id="findListByDeptCode" resultType="LabItemClassDict">
+		SELECT
+		<include refid="labItemClassDictColumns"/>
+		FROM lab_item_class_dict a
+		WHERE a.dept_code = #{deptCode}
+        AND a.orgId=#{orgId}
+	</select>
+</mapper>

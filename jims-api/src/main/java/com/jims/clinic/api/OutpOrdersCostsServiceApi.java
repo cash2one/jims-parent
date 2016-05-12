@@ -29,21 +29,13 @@ public interface OutpOrdersCostsServiceApi {
     /**
      * 查询出最大的医嘱号
      */
-    public Integer getMaxOrderNo(Date visitDate ,Integer visitNo, String serialNo);
+    public Integer getMaxOrderNo(String clinicId,String orgId);
 
-    /**
-     * 查询出最大的收费序号
-     * @param visitDate
-     * @param visitNo
-     * @param itemClass
-     * @return
-     */
-    public  Integer getMaxItemNo(Date visitDate ,Integer visitNo, String itemClass);
     /**
      * 删除收费明细
      * @param masterId
      */
-    public Integer deleteOutpOrders(String masterId,int visitNo);
+    public String deleteOutpOrders(String masterId);
     /**
      * 删除收费明细治疗
      * @param outpOrdersCosts

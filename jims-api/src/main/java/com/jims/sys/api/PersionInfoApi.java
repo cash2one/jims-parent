@@ -48,4 +48,11 @@ public interface PersionInfoApi {
      * @return
      */
     public PersionInfo getEmail(PersionInfo persionInfo);
+
+    /**
+     * 根据身份证号查询相关的信息
+     * @param cardNo
+     * @return
+     */
+    public PersionInfo findInfoByCardNo(String cardNo);
 }

@@ -47,7 +47,38 @@
 		<include refid="outpTreatRecJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+
+	<select id="findTreatment" resultType="OutpTreatRec">
+		SELECT
+		<include refid="outpTreatRecColumns"/>
+		FROM outp_treat_rec a
+		<include refid="outpTreatRecJoins"/>
+		<where>
+			a.del_flag = '0'
+		  and	<!--a.patient_id = #{clinicId}  and-->
+			( a.item_class &gt; 'B' )
+		</where>
+
+				ORDER BY a.update_date DESC
+
+	</select>
+
+	<select id="findSubTreatment" resultType="OutpOrdersCosts">
+    SELECT
+         "CLINIC_VS_CHARGE"."CHARGE_ITEM_CLASS" as "itemClass",
+         "CLINIC_VS_CHARGE"."CHARGE_ITEM_SPEC" as "itemSpec",
+         "CLINIC_VS_CHARGE"."CHARGE_ITEM_CODE" as "itemCode",
+         "CLINIC_VS_CHARGE"."UNITS" as "units",
+         "CLINIC_VS_CHARGE"."AMOUNT" as "amount"
+    FROM "CLINIC_VS_CHARGE",
+         "CLINIC_ITEM_NAME_DICT"
+   WHERE ( "CLINIC_VS_CHARGE"."CLINIC_ITEM_CLASS" = "CLINIC_ITEM_NAME_DICT"."ITEM_CLASS" ) and
+         ( "CLINIC_VS_CHARGE"."CLINIC_ITEM_CODE" = "CLINIC_ITEM_NAME_DICT"."ITEM_CODE" ) and
+         ( "CLINIC_ITEM_NAME_DICT"."ITEM_CODE" = #{itemCode} ) AND
+         ( "CLINIC_ITEM_NAME_DICT"."ITEM_CLASS" =#{itemClass} )
+
+			</select>
 	<select id="findList" resultType="OutpTreatRec">
 		SELECT 
 			<include refid="outpTreatRecColumns"/>
@@ -193,11 +224,18 @@
 		WHERE a.visit_no=#{visitNo}
 	</update>
 
+	<update id="deleteTreat">
+		UPDATE outp_treat_rec SET
+		del_flag = '1'
+		WHERE a.item_code=#{itemCode}
+	</update>
+
+
 	<update id="deleteTreatRec">
 		UPDATE outp_treat_rec SET
 			del_flag = '1'
 		WHERE
-		visit_no = #{visitNo}
+		appoint_no = #{appointNo}
 	</update>
 
 	<select id="loadItems" resultType="Integer">

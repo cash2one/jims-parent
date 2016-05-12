@@ -3,7 +3,7 @@
  */
 package com.jims.clinic.dao;
 
-import com.jims.clinic.entity.PatMasterIndex;
+import com.jims.patient.entity.PatMasterIndex;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 

@@ -17,8 +17,7 @@ import java.util.Date;
  * @author 罗海昆
  * @version 2016-04-26
  */
-public class PriceList extends DataEntity<PriceList> {
-	
+public class PriceList extends DataEntity<PriceList> {	
 	private static final long serialVersionUID = 1L;
 	private String itemClass;		// 项目类别
 	private String itemCode;		// 项目代码
@@ -58,7 +57,17 @@ public class PriceList extends DataEntity<PriceList> {
 	private String zysjWy;		// 住院收据对照
 	private String groupFlag;		// group_flag
 	private String stopOperator;		// stop_operator
-	
+    private String orgId; //组织机构
+
+    private String priceType; // 药品分类，多个以逗号隔开（）
+
+    public String getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(String priceType) {
+        this.priceType = priceType;
+    }
 	public PriceList() {
 		super();
 	}
@@ -67,7 +76,16 @@ public class PriceList extends DataEntity<PriceList> {
 		super(id);
 	}
 
-	@Length(min=1, max=1, message="项目类别长度必须介于 1 和 1 之间")
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+
+    @Length(min=1, max=1, message="项目类别长度必须介于 1 和 1 之间")
 	public String getItemClass() {
 		return itemClass;
 	}

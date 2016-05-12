@@ -17,10 +17,29 @@ import java.util.List;
  */
 @MyBatisDao
 public interface OutpPrescDao extends CrudDao<OutpPresc> {
+
     /**
      * 根据就诊记录ID查询病人处方主记录
      * @param clinicId
      * @return
      */
     public List<OutpPresc> getOutpPresc(@Param("clinicId")String clinicId);
+
+    /**
+     * 根据参数查询医嘱组别
+     * @param clinicId
+     * @return
+     */
+    public Integer getOrderNo(@Param("clinicId")String clinicId);
+
+    /**
+     * @param outpPresc 传递参
+     * @return List<OutpPresc>    返回类型
+     * @Title: findListByParams
+     * @Descripion: (根据条件查询处方相关信息)
+     * @author CTQ
+     * @date 2016/5/10
+     */
+    public List<OutpPresc> findListByParams(OutpPresc outpPresc);
+
 }

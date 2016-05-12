@@ -12,6 +12,7 @@ public interface PriceItemNameDictApi {
 
     /**
      * 获取单条数据
+     *
      * @param id
      * @return
      */

@@ -9,6 +9,7 @@ import com.jims.clinic.dao.OutpOrdersCostsDao;
 import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,29 +64,18 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
     /**
      * 查询出最大的医嘱号
      */
-    public Integer getMaxOrderNo(Date visitDate, Integer visitNo, String serialNo) {
-        return outpOrdersCostsDao.getMaxOrderNo(visitDate, visitNo, serialNo);
+    public Integer getMaxOrderNo(String clinicId,String orgId) {
+        return outpOrdersCostsDao.getMaxOrderNo(clinicId,orgId);
     }
 
-    /**
-     * 查询出最大的收费序号
-     *
-     * @param visitDate
-     * @param visitNo
-     * @param itemClass
-     * @return
-     */
-    public Integer getMaxItemNo(Date visitDate, Integer visitNo, String itemClass) {
-        return outpOrdersCostsDao.getMaxOrderNo(visitDate, visitNo, itemClass);
-    }
 
     /**
      * 删除收费明细
      *
      * @param masterId
      */
-    public Integer deleteOutpOrders(String masterId,int visitNo) {
-        return outpOrdersCostsDao.deleteOutpOrders(masterId,visitNo);
+    public String deleteOutpOrders(String masterId) {
+        return outpOrdersCostsDao.deleteOutpOrders(masterId);
     }
 
 

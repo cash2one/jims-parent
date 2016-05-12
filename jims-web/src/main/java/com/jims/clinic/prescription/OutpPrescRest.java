@@ -5,13 +5,11 @@ import com.google.common.collect.Lists;
 import com.jims.clinic.api.OutpPrescServiceApi;
 import com.jims.clinic.entity.OutpPresc;
 import com.jims.common.data.StringData;
-import com.jims.sys.entity.Dict;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Component;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -26,7 +24,29 @@ public class OutpPrescRest {
     @Reference(version = "1.0.0")
     OutpPrescServiceApi outpPrescServiceApi;
 
-    /**根据当前处方信息查询处方医嘱明细记录**/
+
+    /**
+     //     * @param             传递参数
+     * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
+     * @throws
+     * @Title: list
+     * @Description: (根据病人ID查询处方主记录)
+     * @author CTQ
+     * @date 2016/4/25
+     */
+    @Path("list")
+    @GET
+    public List<OutpPresc> list(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicId") String clinicId){
+        List<OutpPresc> list = Lists.newArrayList();
+        try {
+            list = outpPrescServiceApi.getOutpPresc(clinicId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
     /**
      * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
      * @throws
@@ -35,43 +55,14 @@ public class OutpPrescRest {
      * @author CTQ
      * @date 2016/4/23
      */
-    @Path("list")
+    @Path("sublist")
     @GET
-    public List<OutpPresc> list(){
-
+    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("prescNo") Integer prescNo){
         OutpPresc op = new OutpPresc();
+        op.setPrescNo(prescNo);
         List<OutpPresc> list = Lists.newArrayList();
         try {
-//            list = outpPrescServiceApi.findList(outpPresc);
-            op.setId("1");
-            op.setVisitDate(DateUtils.parseDate("2015-06-09 00:00:00", "yyyy-MM-dd HH:mm:ss"));
-            op.setVisitNo(410);
-            op.setSerialNo("2501263");
-            op.setPrescNo(1094);
-            op.setItemNo(1);
-            op.setItemClass("A");
-            op.setDrugCode("A0201KL00");
-            op.setDrugName("补血颗粒");
-            op.setDrugSpec("4mg*10");
-            op.setFirmId("万达");
-            op.setUnits("袋");
-            op.setAmount(1.0000);
-            op.setDosage(4.0000);
-            op.setDosageUnits("mg");
-            op.setAdministration("冲服");
-            op.setFrequency("3/日");
-            op.setProvidedIndicator(0);
-            op.setCosts(24.5000);
-            op.setCharges(24.5000);
-            op.setChargeIndicator(0);
-            op.setDispensary("150520");
-            op.setRepetition(1);
-            op.setOrderNo(4);
-            op.setSubOrderNo(1);
-            op.setGetdrugFlag(1);
-            op.setPrescAttr("门诊处方");
-            op.setAbidance(4);
-            list.add(op);
+            list = outpPrescServiceApi.findListByParams(op);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -90,9 +81,13 @@ public class OutpPrescRest {
     @POST
     public StringData save(OutpPresc outpPresc){
         StringData stringData=new StringData();
-       /* String num=dictService.save(dict);
-        stringData.setCode(num);
-        stringData.setData("success");*/
+       try {
+           String data = outpPrescServiceApi.save(outpPresc);
+           stringData.setCode(data);
+           stringData.setData(data.compareTo("0") > 0 ? "success":"error");
+       }catch (Exception e){
+           e.printStackTrace();
+       }
         return stringData;
     }
 
@@ -102,7 +97,7 @@ public class OutpPrescRest {
      * @return StringData    返回类型
     * @throws
      * @Title: delete
-     * @Desription: (处方删除药品)
+     * @Desription: (处方删除药品,同时删除医嘱及计价项目)
      * @author CTQ
      * @date 2016年4月23日15:11:52
      */
@@ -110,20 +105,40 @@ public class OutpPrescRest {
     @POST
     public StringData delete(String ids){
         StringData stringData=new StringData();
-      /*  String num=dictService.delete(ids);
+        String num=outpPrescServiceApi.deletePresc(ids);
         stringData.setCode(num);
-        stringData.setData("success");*/
+        stringData.setData("success");
         return stringData;
     }
+
+
     @Path("dictlist")
     @GET
-    public List<Dict> dictlist(){
-        List<Dict> list = Lists.newArrayList();
-        Dict dict = new Dict();
-        dict.setValue("一日一次");
-        dict.setLabel("一日一次");
+    public List<OutpPresc> dictlist(){
+        List<OutpPresc> list = Lists.newArrayList();
+        OutpPresc dict = new OutpPresc();
+        dict.setDrugCode("1");
+        dict.setDrugName("阿莫西林");
+        dict.setDrugSpec("10g*2");
+        dict.setFirmId("YS000023");
+        dict.setDosage(Double.valueOf(1));
+        dict.setDosageUnits("片");
+        dict.setItemClass("A");
         list.add(dict);
         return list;
     }
 
+    @Path("jijia")
+    @GET
+    public List<OutpPresc> jijia(){
+        List<OutpPresc> list = Lists.newArrayList();
+        OutpPresc dict = new OutpPresc();
+        dict.setItemClass("A");
+        dict.setDrugSpec("10g*2阿莫西林");
+        dict.setAmount(Double.valueOf(3));
+        dict.setUnits("片");
+        dict.setCosts(Double.valueOf(0.64));
+        list.add(dict);
+        return list;
+    }
 }
