@@ -72,6 +72,14 @@ function onloadMethod(){
         }],
         onDblClickRow: function (rowIndex, rowData) {
             parent.addTabs(rowData.id,rowData.id,'/modules/clinic/patientHospital.html');
+        },onRowContextMenu: function(e, rowIndex, rowData) { //右键时触发事件
+            e.preventDefault(); //阻止浏览器捕获右键事件
+            $(this).datagrid("clearSelections"); //取消所有选中项
+            $(this).datagrid("selectRow", rowIndex); //根据索引选中该行
+            $('#menu').menu('show', {
+                left: e.pageX,//在鼠标点击处显示菜单
+                top: e.pageY
+            });
         }
     });
     //设置分页控件
