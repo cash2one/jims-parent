@@ -553,6 +553,10 @@ ul.cus-list li a span.cus-name
 {
     width:20%
 }
+.validatebox-text-sm
+{
+    width:30%
+}
 .validatebox-text-m
 {
     width:50%
@@ -906,4 +910,38 @@ a.dropma-color {
 {
     display:inline-block;
 }
+/****/
+/**左侧导航**/
+.lefmenu-list
+{
+    padding:5px;
+}
+.lefmenu-list ul li
+{
+    border:1px dashed #ccc;
+    margin-bottom:10px;
+    font-size:14px;
+    line-height:25px;
+}
+.lefmenu-list ul li:hover,.lefmenu-list ul li.active
+{
+    border:1px solid #dce8c4;
+    background:#f8ffe9;
+}
+.lefmenu-list ul li img
+{
+    margin-right:10px;
+    width:25px;
+}
+.lefmenu-list ul li a
+{
+    color:#333;
+    display:block;
+    padding:10px;
+}
+.lefmenu-list ul li a:hover
+{
+    color:#66822a;
+}
+
 /****/
