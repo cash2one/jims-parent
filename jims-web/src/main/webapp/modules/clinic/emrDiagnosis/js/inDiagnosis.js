@@ -31,7 +31,7 @@ $(function() {
             {field:'description',title:'诊断描述',width:'20%',align:'center',editor:'text'},
             {field:'treatResult',title:'治疗结果',width:'20%',align:'center',editor:'text'},
             {field:'operTreatIndicator',title:'手术',width:'5%',align:'center',editor:'text'},
-            {field:'diagnosisDate',title:'诊断日期',width:'15%',align:'center',editor:'datebox'},
+            {field:'diagnosisDate',title:'诊断日期',width:'15%',align:'center',formatter:formatDateBoxFull},
             {field:'pathologyNo',title:'病理号',width:'10%',align:'center',editor:'text'},
             {field:'diagnosisId',title:'诊断名称',width:'20%',align:'center',editor:{
                 type:'combobox',
