@@ -67,7 +67,8 @@ function onloadMethod(){
             text: '切换图标',
             iconCls: 'icon-undo',
             handler: function(){
-
+                $(".datagrid").hide();
+                $("#patientDivId").load("/modules/clinic/patientListView.html");
             }
         }],
         onDblClickRow: function (rowIndex, rowData) {
@@ -91,7 +92,13 @@ function onloadMethod(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
-
 }
-
+/**
+ * 切换病了列表
+ */
+function loadTableList(){
+    var currTab = parent.$('#tabs-header').tabs('getSelected'); //获得当前tab
+    var frameObj=parent.$("iframe",currTab);
+    parent.$(frameObj).attr("src", $(frameObj).attr("src"));
+}
 
