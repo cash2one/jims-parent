@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" ec>
+    <title>手术预约</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+</head>
+<body>
+<div id="cc" style="width:100%;height:99%">
+    <div data-options="region:'north'" style="height:50px">
+        <select class="easyui-combobox" name="dept" style="width:20%">
+            <option value="AL">精神一科病房</option>
+            </select>
+    </div>
+    <div data-options="region:'south'" style="height:50px;">
+        <div style="margin:20px 0; " >
+            <a href="javascript:void(0)" class="easyui-linkbutton"  onclick="addItem()">增加</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="removeItem()">删除</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="removeItem()">保存</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="removeItem()">关闭</a>
+        </div>
+    </div>
+    <div data-options="region:'west'" >
+        <table id="patient"></table>
+    </div>
+    <div data-options="region:'center'">
+        <!--中--->
+    </div>
+</div>
+
+</body>
+</html>
