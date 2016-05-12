@@ -44,47 +44,42 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
     }
 
     /**
+     * 根据类型或描述模糊查询
+     * @param type
+     * @param description
+     * @return 查询到的字典表List集合
+     * @author fengyuguang
+     */
+    public List<Dict> select(String type, String description) {
+        return dao.select(type,description);
+    }
+
+    /**
      * 保存增删改多条数据
      * @param beanChangeVo 多条数据的Vo类
-     * @return
+     * @return 操作数据条数
      * @author fengyuguang
      */
     public String merge(BeanChangeVo<Dict> beanChangeVo) {
         List<Dict> insertedList = beanChangeVo.getInserted();
-        String insertedNum = "";
-        if (insertedList.isEmpty()) {
-            insertedNum = "1";
-        }
+        int inNum = 0 ;
         for (Dict dict : insertedList) {
-            insertedNum = save(dict);
-            System.out.println("增加insertedNum:" + insertedNum);
+            inNum = Integer.valueOf(save(dict));
+            inNum++;
         }
-
+        String insertedNum = inNum + "";
         List<Dict> updatedList = beanChangeVo.getUpdated();
-        String updatedNum = "";
-        if (updatedList.isEmpty()) {
-            updatedNum = "1";
-        }
+
+        int updNum = 0 ;
         for (Dict dict : updatedList) {
-            updatedNum = save(dict);
-            System.out.println("修改updatedNum:" + updatedNum);
+            updNum = dao.update(dict);
+            updNum++;
         }
-
-        List<Dict> deletedList = beanChangeVo.getDeleted();
-        String deletedNum = "";
-        if (deletedList.isEmpty()) {
-            deletedNum = "1";
-        }
-        for (Dict dict : deletedList) {
-            String dictId = dict.getId();
-            deletedNum = delete(dictId);
-            System.out.println("删除deletedNum:" + deletedNum);
-        }
-
-        if(insertedNum == "1" && updatedNum == "1" && deletedNum == "1"){
-            return "1";
-        }else{
+        String updatedNum = updNum +  "";
+        if(insertedNum == "0" && updatedNum == "0"){
             return "0";
+        }else{
+            return "1";
         }
     }
 
