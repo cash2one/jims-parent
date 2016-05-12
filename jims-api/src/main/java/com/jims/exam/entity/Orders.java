@@ -7,7 +7,10 @@ import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.CustomDateSerializer;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.core.annotation.Order;
+
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -70,13 +73,23 @@ public class Orders extends DataEntity<Orders> {
 	private String stopFlag;		// 停止医嘱标志
 	private String adaptSymptomIndicate;		// 适应症标志
 	private String dutyDoctor;		// 责任医师
-	
+
+	private List<Order> orderList;
+
 	public Orders() {
 		super();
 	}
 
 	public Orders(String id){
 		super(id);
+	}
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
 	}
 
 	@Length(min=0, max=64, message="病人标识号长度必须介于 0 和 64 之间")
