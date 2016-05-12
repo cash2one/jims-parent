@@ -49,10 +49,19 @@ public interface DictServiceApi {
     /**
      * 保存增删改多条数据
      * @param beanChangeVo 多条增删改数据的集合
-     * @return
+     * @return 操作的数据条数
      * @author fengyuguang
      */
     public String merge(BeanChangeVo<Dict> beanChangeVo);
+
+    /**
+     * 根据类型或描述模糊查询
+     * @param type
+     * @param description
+     * @return  查询到的字典表List集合
+     * @author fengyuguang
+     */
+    public List<Dict> select(String type,String description);
 
     /**
      * 查询html类型列表
