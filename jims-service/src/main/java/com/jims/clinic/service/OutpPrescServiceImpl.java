@@ -14,6 +14,7 @@ import com.jims.clinic.entity.OutpOrders;
 import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpPresc;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.IdGen;
 import com.jims.common.utils.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +51,10 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     @Override
     public String save(OutpPresc outpPresc){
         String num = "";
-        String serialTemp = null;
         try {
             if(outpPresc!=null){
                 //根据病人就诊ID，查询病人就诊记录信息
-                ClinicMaster clinicMaster = clinicMasterDao.get("1"/*outpPresc.getClinicId()*/);
+                ClinicMaster clinicMaster = clinicMasterDao.get(outpPresc.getClinicId());
                 Integer orderNo ;
                 Integer subOrderNo = 1;//子医嘱号默认值
                 OutpOrders oo = new OutpOrders();
@@ -66,21 +66,13 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                        op.setChargeIndicator(0); // 未收费
                        op.setVisitNo(clinicMaster.getVisitNo());
                        op.setVisitDate(clinicMaster.getVisitDate());
-                       op.setClinicId(outpPresc.getClinicId());
+                       op.setClinicId(clinicMaster.getId());
                        op.setItemClass(outpPresc.getItemClass());
                        op.setPrescAttr(outpPresc.getPrescAttr());
-                       op.setItemNo(1);
-                       if(StringUtils.isEmpty(op.getSerialNo())) {
-                           serialTemp = serialTemp != null ? serialTemp : outpOrdersDao.getSerialNo()+"";
-                           op.setSerialNo(serialTemp);
-                           outpPresc.setSerialNo(serialTemp);
-                       }else{
-                           // 处方修改而非新增
-                           serialTemp = op.getSerialNo();
-                           outpPresc.setSerialNo(op.getSerialNo());
-                       }
-                       if( op.getOrderNo() == null ){  // 修改处方新增子药品
-                           orderNo = dao.getOrderNo(clinicMaster.getId())+1;//根据病人就诊记录ID查询最大orderNo号
+//                       op.setItemNo(1);//暂时不处理
+                       if(op.getOrderNo() == null ){  // 修改处方新增子药品
+                           orderNo = dao.getOrderNo(/*clinicMaster.getOrgId()*/"",clinicMaster.getId());
+                           orderNo = orderNo!=null?orderNo+1:1;//根据病人就诊记录ID查询最大orderNo号
                            if( ++i < lists.size()-1 && lists.get(i).getSubOrderNo() != null ){
                                // 下一条药品为子药品
                                op.setOrderNo(++orderNo);
@@ -97,13 +89,22 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                            ++i;
                        }
                        // 否则orderNo subOrderNo都按照前台传递的参数存储
-                       ordersCostsesList.add(makeOutpOrderCosts(op,clinicMaster));
+
                        if(op.getId()!=null && !op.getId().equals("")){
                            num = String.valueOf(dao.update(op));
+                           ordersCostsesList.add(makeOutpOrderCosts(op,clinicMaster));
                        }else{
+                           /**判断机构下该处方号是否存在，如果存在表示为存在处方增加药品，如果不存在则表示该处方也是新开处方**/
+                           Integer flag = dao.searchPrescNoIfExist(/*clinicMaster.getOrgId()*/"", op.getPrescNo());
+                           if(flag<=0 || flag==null){
+                               op.setPrescNo(dao.getMaxPrescNo(clinicMaster.getOrgId()));
+                           }
+                           op.setSerialNo(IdGen.uuid());
                            op.preInsert();
                            num = String.valueOf(dao.insert(op));
+                           ordersCostsesList.add(makeOutpOrderCosts(op,clinicMaster));
                        }
+
 
                    }
                }
@@ -129,12 +130,13 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     }
     /**
      * 根据病人诊断记录查询处方主记录
-     * @param clinicMasterId
+     * @param orgId,clinicId
+     * updateBy CTQ
      * @return
      */
     @Override
-    public List<OutpPresc> getOutpPresc(String clinicMasterId) {
-        return dao.getOutpPresc(clinicMasterId);
+    public List<OutpPresc> getOutpPresc(String orgId,String clinicId) {
+        return dao.getOutpPresc(orgId,clinicId);
     }
 
 
@@ -172,6 +174,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     public OutpOrdersCosts makeOutpOrderCosts(OutpPresc outpPresc,ClinicMaster clinicMaster){
 
         OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
+        outpOrdersCosts.setMasterId(outpPresc.getId());
         outpOrdersCosts.setClinicId(clinicMaster.getId());
         outpOrdersCosts.setSerialNo(outpPresc.getSerialNo());
         outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());

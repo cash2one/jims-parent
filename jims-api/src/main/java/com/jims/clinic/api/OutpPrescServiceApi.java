@@ -14,10 +14,11 @@ public interface OutpPrescServiceApi {
     public List<OutpPresc> findList(OutpPresc outpPresc);
     /**
      * 根据病人就诊记录ID查询处方主记录
-     * @param clinicMasterId
+     * @param orgId clinicId
+     * @updateBy CTQ
      * @return
      */
-    public List<OutpPresc> getOutpPresc(String clinicMasterId);
+    public List<OutpPresc> getOutpPresc(String orgId,String clinicId);
 
     /**
      * 保存处方信息
