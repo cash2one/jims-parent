@@ -50,7 +50,7 @@ $(function() {
         toolbar:
             [
                 {
-                    text: '添加同级诊断',
+                    text: '添加诊断',
                     iconCls: 'icon-add', // handler: InsertData
                     handler:function(){
                         insert();
@@ -233,16 +233,16 @@ function cancel(){
 
 
 function insert(){
-    var node = $("#tg").treegrid('getSelected');
+   /* var node = $("#tg").treegrid('getSelected');
     if (!node) {
         $.messager.alert("系统提示", "请选择，所添加诊断的同一级的任意一个诊断");
         return;
     }
-    if (node) {
+    if (node) {*/
         $('#dlg').dialog('open').dialog('center').dialog('setTitle', '添加同级诊断');
         $('#fm').form('clear');
         //    $("#parentId").val(node._parentId);
-        $("#parentId").val(node._parentId);
+        $("#parentId").val("0");
         $('#type').combobox({
             data :administration,
             valueField:'value',
@@ -259,7 +259,7 @@ function insert(){
         });
 
         //  $("#position").textbox('setValue', node.position);
-    }
+  //  }
 }
 
 /**
