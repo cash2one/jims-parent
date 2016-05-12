@@ -70,5 +70,12 @@ public interface DrugDictServiceApi {
      */
     public String getDrugCodeByRule(String secondType,String drugForm);
 
+    /**
+     * 通过药品代码查询药品列表
+     * @param drugCode 药品代码
+     * @return
+     * @author txb
+     */
+    public List<DrugDict> listDrugDictByDrugCode(String drugCode);
 
 }

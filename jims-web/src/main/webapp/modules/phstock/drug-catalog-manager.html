@@ -10,44 +10,40 @@
 
 <div class="easyui-layout" id="global">
     <div region="north" title="药品目录管理" border="false">
-        <table id="top" class="easyui-datagrid" style="width:100%"></table>
+        <table id="top" class="easyui-datagrid" style="width:100%;"></table>
     </div>
     <div region="south" border="false">
-        <table id="bottom" class="easyui-datagrid" style="width:100%"></table>
+        <table id="bottom" class="easyui-datagrid" style="width:100%;"></table>
     </div>
-    <div region="west" border="false" style="width:300px;">
+    <div region="west" border="false" style="width:30%;">
         <table id="drugNameDict" class="easyui-datagrid"></table>
     </div>
-    <div region="center" border="false">
+    <div region="center" border="false" >
         <table id="drugDict" class="easyui-datagrid"></table>
     </div>
 </div>
 
 
 <div id="tbNameDict">
-    <a id="addExpName" href="#" class="easyui-linkbutton" iconCls="icon-add">新增</a>
-    <a id="removeExpName" href="#" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+    <a id="addDrugName" href="#" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+    <a id="removeDrugName" href="#" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
 </div>
 <div id="tbDict">
-    <a id="appendExp" href="#" class="easyui-linkbutton" iconCls="icon-add">新增</a>
-    <a id="removeExp" href="#" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
-    <a id="listPrice" href="#" class="easyui-linkbutton" iconCls="icon-remove">价格</a>
+    <a id="appendDrug" href="#" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+    <a id="removeDrug" href="#" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+    <!--<a id="listPrice" href="#" class="easyui-linkbutton" iconCls="icon-remove">价格</a>-->
 </div>
 <div id="tb" style="padding:2px 5px;">
-    <input type="radio" class="radios" name="two" value="0" checked>药品名称：</input>
-    <input id="drugName" title="药品名称" type="text"class="easyui-combogrid"/>
-    </br>
-    <input type="radio" class="radios" name="two" value="1">药品类别：</input>
+    <input type="radio" class="radios" name="two" value="0" checked/>药品名称：
+    <input id="drugName" title="药品名称" type="text"class="easyui-combogrid"/>&nbsp;&nbsp;<br>
+    <input type="radio" class="radios" name="two" value="1"/>药品类别：
     <select id="drugClass" class="easyui-combobox"  ></select>
-    <select id="drugSubClass" class="easyui-combobox" ></select>
-    <input type="radio" class="radios" name="two" value="2" >药品名称：</input>
-    <input type="text"  id="drugCode" title="药品编码" class="easyui-combogrid"/>
-
+    <select id="drugSubClass" class="easyui-combobox" ></select><br><br><br>
 </div>
 <div id="ft">
-    <a href="#" id="filter" class="easyui-linkbutton" iconCls="icon-filter">提取</a>
+    <!--<a href="#" id="filter" class="easyui-linkbutton" iconCls="icon-filter">提取</a>-->
     <a href="#" id="clear" class="easyui-linkbutton" iconCls="icon-clear">清屏</a>
-    <a href="#" id="save" class="easyui-linkbutton" iconCls="icon-save">保存</a>
+    <a href="#" id="save" class="easyui-linkbutton" iconCls="icon-save">保存</a><br><br>
 </div>
 <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/modules/phstock/js/drug-catalog-manager.js"></script>

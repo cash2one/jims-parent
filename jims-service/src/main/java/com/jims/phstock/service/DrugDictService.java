@@ -10,6 +10,8 @@ import com.jims.phstock.dao.DrugDictDao;
 import com.jims.phstock.entity.DrugDict;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * 药品字典Service
@@ -24,5 +26,16 @@ public class DrugDictService extends CrudImplService<DrugDictDao, DrugDict> impl
     @Override
     public String getDrugCodeByRule(String secondType, String drugForm) {
         return null;
+    }
+
+    /**
+     * 通过药品代码查询药品列表
+     * @param drugCode 药品代码
+     * @return
+     * @author txb
+     */
+    @Override
+    public List<DrugDict> listDrugDictByDrugCode(String drugCode) {
+        return dao.listDrugDictByDrugCode(drugCode);
     }
 }

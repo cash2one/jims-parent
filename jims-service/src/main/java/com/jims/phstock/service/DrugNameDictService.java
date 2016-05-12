@@ -10,6 +10,8 @@ import com.jims.phstock.dao.DrugNameDictDao;
 import com.jims.phstock.entity.DrugNameDict;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * 药品名称Service
@@ -20,4 +22,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DrugNameDictService extends CrudImplService<DrugNameDictDao, DrugNameDict> implements DrugNameDictServiceApi {
 
+    /**
+     * 查询所有药品名称列表
+     * @return
+     * @author txb
+     * @version 2016-05-11
+     */
+    @Override
+    public List<DrugNameDict> findDrugNameDictList(String inputCode) {
+        return dao.findDrugNameDictList(inputCode);
+    }
+    /**
+     * 查询所有药品名称列表通过拼音码
+     * @param drugCode 拼音码
+     * @return
+     * @author txb
+     * @version 2016-05-11
+     */
+    @Override
+    public List<DrugNameDict> listDrugNameDictByDrugCode(String drugCode) {
+        return dao.listDrugNameDictByDrugCode(drugCode);
+    }
 }

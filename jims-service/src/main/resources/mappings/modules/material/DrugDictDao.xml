@@ -37,6 +37,13 @@
 		<include refid="drugDictJoins"/>
 		WHERE a.id = #{id}
 	</select>
+    <select id="listDrugDictByDrugCode" resultType="DrugDict">
+		SELECT
+			*
+		FROM drug_dict a
+		WHERE a.drug_code = #{drugCode}
+		and a.del_flag = '0'
+	</select>
 	
 	<select id="findList" resultType="DrugDict">
 		SELECT 

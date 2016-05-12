@@ -28,6 +28,14 @@ public interface ClinicItemApi {
     public List<ClinicItemDict> findList(ClinicItemDict entity);
 
     /**
+     *  查询诊疗项目列表通过组织机构id
+     * @param orgId 组织机构id
+     * @return
+     * @author txb
+     */
+    public List<ClinicItemDict> itemListByOrgId(String orgId);
+
+    /**
      * 编码或名称已存在个数
      * @return
      */

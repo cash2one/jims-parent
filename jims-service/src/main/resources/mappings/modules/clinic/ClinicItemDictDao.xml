@@ -35,6 +35,13 @@
         <include refid="clinicItemDictJoins"/>
         WHERE a.id = #{id}
     </select>
+    <select id="itemListByOrgId" resultType="ClinicItemDict">
+        SELECT
+           *
+        FROM clinic_item_dict a
+        WHERE a.org_id = #{orgId}
+        and a.del_flag = '0'
+    </select>
 
     <select id="findList" resultType="ClinicItemDict">
         SELECT

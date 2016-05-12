@@ -58,5 +58,23 @@ public interface DrugNameDictServiceApi {
      */
     public String delete(String ids);
 
+    /**
+     * 查询所有药品名称列表通过拼音码
+     * @param inputCode 拼音码
+     * @return
+     * @author txb
+     * @version 2016-05-11
+     */
+    public List<DrugNameDict> findDrugNameDictList(String inputCode);
+    /**
+     * 查询所有药品名称列表通过拼音码
+     * @param drugCode 拼音码
+     * @return
+     * @author txb
+     * @version 2016-05-11
+     */
+    public List<DrugNameDict> listDrugNameDictByDrugCode(String drugCode);
+
+
 
 }
