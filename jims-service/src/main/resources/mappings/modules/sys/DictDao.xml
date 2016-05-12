@@ -28,6 +28,33 @@
 
 
 
+
+    <select id="leftList" resultType="Dict">
+      SELECT
+      s.type,s.description
+      FROM sys_dict s
+      WHERE s.del_flag = '0'
+      GROUP BY s.type,s.description
+    </select>
+
+    <select id="rightList" resultType="Dict">
+      SELECT
+      id,label,value,sort,create_by,create_date,update_by,update_date,remarks,input_code
+      FROM sys_dict
+      WHERE del_flag = '0'
+      AND type = #{type}
+    </select>
+
+    <select id="select" resultType="Dict">
+        SELECT
+        t.type AS "type",t.description AS "description"
+        FROM sys_dict t
+        WHERE del_flag = '0'
+            AND t.type LIKE CONCAT(CONCAT('%', #{0}), '%')
+            or t.description LIKE CONCAT(CONCAT('%', #{1}), '%')
+        GROUP BY t.type,t.description
+    </select>
+	
 	<select id="findList" resultType="Dict">
 		SELECT
         *
@@ -71,54 +98,57 @@
         Group BY label
         ORDER BY label
     </select>
-
-    <insert id="insert">
-        INSERT INTO sys_dict(
-        id,
-        value,
-        label,
-        type,
-        description,
-        sort,
-        create_by,
-        create_date,
-        update_by,
-        update_date,
-        remarks,
-        del_flag
-        ) VALUES (
-        #{id},
-        #{value},
-        #{label},
-        #{type},
-        #{description},
-        #{sort},
-        #{createBy.id},
-        #{createDate},
-        #{updateBy.id},
-        #{updateDate},
-        #{remarks},
-        #{delFlag}
-        )
-    </insert>
-
-    <update id="update">
-        UPDATE sys_dict SET
-        value = #{value},
-        label = #{label},
-        type = #{type},
-        description = #{description},
-        sort = #{sort},
-        update_by = #{updateBy.id},
-        update_date = #{updateDate},
-        remarks = #{remarks}
-        WHERE id = #{id}
-    </update>
-
-    <update id="delete">
-        UPDATE sys_dict SET
-        del_flag = '1'
-        WHERE id = #{id}
-    </update>
-
+	
+	<insert id="insert">
+		INSERT INTO sys_dict(
+			id, 
+			value, 
+			label, 
+			type, 
+			description, 
+			sort, 
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			remarks, 
+			del_flag,
+			input_code
+		) VALUES (
+			#{id}, 
+			#{value}, 
+			#{label}, 
+			#{type}, 
+			#{description}, 
+			#{sort}, 
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{delFlag},
+			#{inputCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_dict SET 
+			value = #{value}, 
+			label = #{label}, 
+			type = #{type}, 
+			description = #{description}, 
+			sort = #{sort}, 
+			update_by = #{updateBy.id}, 
+			update_date = #{updateDate}, 
+			remarks = #{remarks},
+			input_code = #{inputCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sys_dict SET 
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+	
 </mapper>
