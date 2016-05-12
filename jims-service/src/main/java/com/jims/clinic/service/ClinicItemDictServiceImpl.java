@@ -354,4 +354,18 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         return super.save(dict);
     }
 
+    /**
+     * 根据组织机构ID和诊疗项目类别获取诊疗项目名称
+     * @param orgId 组织机构Id
+     * @param clinicClass 诊疗项目名称
+     * @author ztq
+     * @return
+     */
+    @Override
+    public List<ClinicItemDict> findListByOrgIdAndClinicClass(String orgId, String clinicClass) {
+        ClinicItemDict clinicItemDict = new ClinicItemDict() ;
+        clinicItemDict.setOrgId(orgId);
+        clinicItemDict.setItemClass(clinicClass);
+        return findList(clinicItemDict);
+    }
 }

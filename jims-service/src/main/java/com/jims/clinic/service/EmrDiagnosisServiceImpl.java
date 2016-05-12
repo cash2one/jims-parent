@@ -57,33 +57,7 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 
 	}
 
-/*    @Transactional(readOnly = false)
-    public  void batchSave(String id,List<EmrDiagnosis> emrDiagnosisList){
-        if(emrDiagnosisList!=null){
-            for (int i = 0; i < emrDiagnosisList.size(); i++) {
-                EmrDiagnosis e=emrDiagnosisList.get(i);
-                if(StringUtils.isNotEmpty(e.getDiagnosisId())){
-                    e.setParentId(id);
-                    this.save(e);
-                }
-            }
-        }
-    }*/
-/*  public List<EmrDiagnosis> getAllDiag(String parentId){
-      List<EmrDiagnosis> emrDiagnosises =new ArrayList<EmrDiagnosis>();
-      EmrDiagnosis diagnosis = new EmrDiagnosis();
-      List<EmrDiagnosis>  list=  emrDiagnosisDao.findAllDiagby(parentId);
-      for(int i=0;i<list.size();i++){
-          diagnosis =list.get(i);
-         String type=  diagnosis.getType();
-         List<EmrDiagnosis> emrDiagnosisList =  emrDiagnosisDao.findAllListByType(parentId, type);
-         diagnosis.setEmrDiagnosisList(emrDiagnosisList);
-          emrDiagnosises.add(diagnosis);
-      }
 
-      return emrDiagnosises;
-  }
-*/
     public List<EmrDiagnosis> findAllListByType(String parentId,String type){
        return emrDiagnosisDao.findAllListByType(parentId,type);
     }

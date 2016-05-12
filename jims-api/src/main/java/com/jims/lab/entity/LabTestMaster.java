@@ -59,6 +59,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	private String wsw;		// wsw
 	private String sampleid;		// LIS接口主键
 	private String labItemClass;  //检验项目类别
+	private String  clinicId;//就诊id
 	public LabTestMaster() {
 		super();
 	}
@@ -426,5 +427,13 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 
 	public void setList(List<LabTestItems> list) {
 		this.list = list;
+	}
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
 	}
 }

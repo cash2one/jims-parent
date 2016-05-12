@@ -49,7 +49,4 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
         return clinicMasterDao.getClinicMasterDiagnosed(doctorID);
     }
 
-    public ClinicMaster getMasterInfo(Date visitDate ,Integer visitNo ){
-        return dao.getMasterInfo(visitDate,visitNo);
-    }
 }
