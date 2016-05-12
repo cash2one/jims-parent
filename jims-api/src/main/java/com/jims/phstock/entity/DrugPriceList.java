@@ -41,7 +41,8 @@ public class DrugPriceList extends DataEntity<DrugPriceList> {
 	private String passNo;		// pass_no
 	private Integer gmp;		// gmp
 	private String orgId;		// 所属组织结构
-	
+	private String drugName ; //药品名称
+
 	public DrugPriceList() {
 		super();
 	}
@@ -243,5 +244,12 @@ public class DrugPriceList extends DataEntity<DrugPriceList> {
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
-	
+
+    public String getDrugName() {
+        return drugName;
+    }
+
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
 }

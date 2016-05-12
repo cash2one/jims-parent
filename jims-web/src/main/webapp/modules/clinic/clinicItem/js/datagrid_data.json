@@ -1,0 +1,10 @@
+{"total":4,"rows":[
+	{"itemName":"检验静脉采血费","amount":"1.00","units":"个","frequency":"一日两次","wardCode":"急诊科",
+	  "huliCode":"药剂","charges":"167.90","docExplain":"医生说明",
+	  "serialNo":"2526171","chargeIndicator":1
+	  },
+	{"itemName":"检验静脉采血费","amount":"1.00","units":"个","frequency":"一日两次","wardCode":"急诊科",
+	  "huliCode":"药剂","charges":"167.90","docExplain":"医生说明",
+	  "serialNo":"2526171","chargeIndicator":1}
+
+]}

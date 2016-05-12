@@ -4,11 +4,14 @@
 package com.jims.exam.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.core.annotation.Order;
 
 import java.util.Date;
 import java.util.List;
+
 
 /**
  * 住院医嘱Entity
@@ -191,7 +194,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getStartDateTime() {
 		return startDateTime;
 	}
@@ -199,7 +203,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setStartDateTime(Date startDateTime) {
 		this.startDateTime = startDateTime;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getStopDateTime() {
 		return stopDateTime;
 	}
@@ -313,7 +318,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setStopNurse(String stopNurse) {
 		this.stopNurse = stopNurse;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getEnterDateTime() {
 		return enterDateTime;
 	}
@@ -321,7 +327,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setEnterDateTime(Date enterDateTime) {
 		this.enterDateTime = enterDateTime;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getStopOrderDateTime() {
 		return stopOrderDateTime;
 	}
@@ -354,7 +361,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setBillingAttr(Integer billingAttr) {
 		this.billingAttr = billingAttr;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getLastPerformDateTime() {
 		return lastPerformDateTime;
 	}
@@ -362,7 +370,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setLastPerformDateTime(Date lastPerformDateTime) {
 		this.lastPerformDateTime = lastPerformDateTime;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getTime() {
 		return time;
 	}
@@ -370,7 +379,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setTime(Date time) {
 		this.time = time;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getLastAcctingDateTime() {
 		return lastAcctingDateTime;
 	}
@@ -394,7 +404,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setDoctorUser(Long doctorUser) {
 		this.doctorUser = doctorUser;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getVerifyDataTime() {
 		return verifyDataTime;
 	}
@@ -410,7 +421,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setOrderPrintIndicator(Long orderPrintIndicator) {
 		this.orderPrintIndicator = orderPrintIndicator;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getProcessionDateTime() {
 		return processionDateTime;
 	}
@@ -426,7 +438,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setProcessionNurse(Integer processionNurse) {
 		this.processionNurse = processionNurse;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getStopProcessionDateTime() {
 		return stopProcessionDateTime;
 	}
@@ -442,7 +455,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setStopProcessionNurse(Integer stopProcessionNurse) {
 		this.stopProcessionNurse = stopProcessionNurse;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getCancelDateTime() {
 		return cancelDateTime;
 	}
@@ -484,7 +498,8 @@ public class Orders extends DataEntity<Orders> {
 	public void setIsAdjust(Integer isAdjust) {
 		this.isAdjust = isAdjust;
 	}
-	
+
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getConversionDateTime() {
 		return conversionDateTime;
 	}
