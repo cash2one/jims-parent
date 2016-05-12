@@ -1,10 +1,13 @@
 function onloadMethod() {
+
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
+            var clinicId= parent.document.getElementById("clinicMasterId").value;
+            $("#clinicId").val(clinicId);
             $("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");

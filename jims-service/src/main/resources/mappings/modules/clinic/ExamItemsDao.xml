@@ -175,8 +175,8 @@
 	</select>
 
 	<update id="deleteItems">
-		UPDATE exam_items SET
+		UPDATE exam_items a SET
 			del_flag = '1'
-		WHERE appoints_id = #{appointsId}
+		WHERE a.appoints_id = #{appointsId}
 	</update>
 </mapper>

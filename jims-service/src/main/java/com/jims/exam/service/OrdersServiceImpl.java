@@ -45,6 +45,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         examAppoints.setVisitNo(22);
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");
+        examAppoints.setInOrOut("1");
         //设置就诊序号
         examAppoints.setVisitNo((int) Math.random() * 1000);
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
@@ -56,7 +57,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             Orders orders=new Orders();
             orders.preInsert();
             orders.setPatientId(examAppoints.getPatientId());
-            orders.setVisitId((long)examAppoints.getVisitId());
+            orders.setVisitId((long) examAppoints.getVisitId());
             orders.setAppNo(examItems.getId());
             orders.setOrderNo((long)123456);
             orders.setOrderClass("1");
@@ -68,4 +69,24 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         num=examAppointsDao.insert(examAppoints);
         return num+"";
     }
+
+    @Override
+    public String deleteOrders(String ids) {
+        int num =0;
+        try {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++){
+                examItemsDao.deleteItems(id[j]);
+                ExamAppoints examAppoints=examAppointsDao.get(id[j]);
+                String clinicId=examAppoints.getClinicId();
+                num = examAppointsDao.deleteExamAppionts(id[j]);
+            }
+        }catch(Exception e){
+            return num+"";
+        }
+        return num+"";
+
+    }
+
+
 }

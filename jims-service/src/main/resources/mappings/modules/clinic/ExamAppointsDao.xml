@@ -144,7 +144,8 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.inorout AS "inOrOut"
 	</sql>
 
 
@@ -271,7 +272,8 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag
+			del_flag,
+			inorout
 		) VALUES (
 			#{id},
 			#{orgId},
@@ -340,7 +342,8 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{inOrOut}
 		)
 	</insert>
 	
@@ -408,7 +411,8 @@
 			rcpt_no = #{rcptNo},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			inorout ={inOrOut}
 		WHERE id = #{id}
 	</update>
 	
@@ -480,7 +484,14 @@
 		db_user,
 		cnslt_name,
 		print_status,
-		ward_code
+		ward_code,
+		inorout,
+		create_date,
+		create_by,
+		update_date,
+		update_by,
+		remarks,
+		del_flag
 		) VALUES (
 		#{id},
 		#{orgId},
@@ -542,7 +553,14 @@
 		#{dbUser},
 		#{cnsltName},
 		#{printStatus},
-		#{wardCode}
+		#{wardCode},
+		#{inOrOut},
+		#{createDate},
+		#{createBy.id},
+		#{updateDate},
+		#{updateBy.id},
+		#{remarks},
+		#{delFlag}
 		)
 	</insert>
 
@@ -564,8 +582,8 @@
 	</update>
 
 	<update id="deleteExamAppionts">
-		UPDATE exam_appoints SET
+		UPDATE exam_appoints a SET
 			del_flag = '1'
-		WHERE id = #{id}
+		WHERE a.id = #{id}
 	</update>
 </mapper>

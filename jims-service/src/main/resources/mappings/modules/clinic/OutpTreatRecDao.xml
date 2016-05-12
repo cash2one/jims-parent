@@ -231,9 +231,9 @@
 	</update>
 
 	<update id="deleteTreat">
-		UPDATE outp_treat_rec a SET
+		UPDATE outp_treat_rec  SET
 		del_flag = '1'
-		WHERE a.item_code=#{itemCode}
+		WHERE clinic_id=#{clinicId}
 	</update>
 
 
@@ -251,6 +251,8 @@
 	<insert id="saveTreatRec">
 		INSERT INTO outp_treat_rec(
 		id,
+		clinic_id,
+		org_id,
 		visit_date,
 		visit_no,
 		serial_no,
@@ -272,6 +274,8 @@
 		ward_code
 		) VALUES (
 		#{id},
+		#{clinicId},
+		#{orgId},
 		#{visitDate},
 		#{visitNo},
 		#{serialNo},

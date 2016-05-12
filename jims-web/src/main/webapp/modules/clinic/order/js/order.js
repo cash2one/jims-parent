@@ -256,7 +256,7 @@ function saveClinicInspect() {
     if(save=="1"){
         url=basePath + "/orders/saveOrders";
     }else{
-        url=basePath + "/clinicInspect/update";
+        url=basePath + "/orders/update";
     }
     $.postJSON( url, submitJson, function (data) {
         if (data.code == "1") {

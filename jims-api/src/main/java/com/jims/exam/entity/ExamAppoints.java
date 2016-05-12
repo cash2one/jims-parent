@@ -82,6 +82,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private Integer printStatus;		// print_status
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
+	private String inOrOut;		//住院标示 0:门诊 ， 1：住院
 	//扩展
 	private List<ExamItems> examItemsList;
 
@@ -638,5 +639,12 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	public void setRcptNo(String rcptNo) {
 		this.rcptNo = rcptNo;
 	}
-	
+
+	public String getInOrOut() {
+		return inOrOut;
+	}
+
+	public void setInOrOut(String inOrOut) {
+		this.inOrOut = inOrOut;
+	}
 }

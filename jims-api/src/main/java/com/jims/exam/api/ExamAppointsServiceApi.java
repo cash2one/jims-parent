@@ -48,11 +48,6 @@ public interface ExamAppointsServiceApi {
      */
     public List<ExamAppoints> getExamAppionts(String patientId);
 
-    /**
-     * 保存预约记录
-     * @param examAppoints
-     */
-    public  void saveExamAppionts(ExamAppoints examAppoints);
 
     /**
      * 删除预约记录
