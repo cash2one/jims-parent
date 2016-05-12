@@ -30,18 +30,23 @@ public interface EmrDiagnosisServiceApi {
 
     /**
      * 分页查询数据
-     * @param page
      * @param emrDiagnosis
      * @return
      */
-    public Page<EmrDiagnosis> findPage(Page<EmrDiagnosis> page, EmrDiagnosis emrDiagnosis);
+    public List<EmrDiagnosis> findList(EmrDiagnosis emrDiagnosis);
 
     /**
-     * 保存
+     * 保存门诊诊断
      * @param emrDiagnosis
      * @return
      */
     public String saveDiagnosis( List<EmrDiagnosis> emrDiagnosis);
+    /**
+     * 保存住院诊断
+     * @param emrDiagnosis
+     * @return
+     */
+    public String saveIn( List<EmrDiagnosis> emrDiagnosis);
 
     /**
      * 删除
@@ -49,4 +54,11 @@ public interface EmrDiagnosisServiceApi {
      * @return
      */
     public String delete(String ids);
+
+    /**
+     * 保存
+     * @param emrDiagnosis
+     * @return
+     */
+    public String save(EmrDiagnosis emrDiagnosis);
 }

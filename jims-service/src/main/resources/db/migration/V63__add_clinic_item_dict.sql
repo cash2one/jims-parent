@@ -53,6 +53,9 @@ comment on column CLINIC_ITEM_DICT.ORG_ID
 alter table CLINIC_ITEM_DICT
   add constraint CLINIC_ITEM_DICT_PK primary key (ID);
 
+-- Create/Recreate primary, unique and foreign key constraints
+alter table CLINIC_ITEM_DICT
+  add constraint CLINIC_ITEM_DICT_UK unique (ITEM_CODE, ORG_ID);
 
 
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('10AFF59F7A184E3782C757E31FCB8645','西药','A','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','1',0);

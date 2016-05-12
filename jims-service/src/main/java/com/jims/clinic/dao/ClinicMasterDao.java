@@ -35,11 +35,5 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      */
     public List<ClinicMaster> getClinicMasterDiagnosed(@Param("doctorId")String doctorId);
 
-    /**
-     * 查询病人就诊记录
-     * @param visitDate
-     * @param visitNo
-     * @return
-     */
-    public ClinicMaster getMasterInfo(@Param("visitDate") Date visitDate, @Param("visitNo") Integer visitNo);
+
 }

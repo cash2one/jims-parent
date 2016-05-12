@@ -51,6 +51,7 @@
         a.org_id AS "orgId"
     </sql>
 
+
     <sql id="priceListJoins">
     </sql>
 
@@ -83,7 +84,7 @@
     <select id="findCode" resultType="PriceList">
         SELECT
         <include refid="priceListColumns"/>
-        FROM price_list a WHERE a.input_code LIKE UPPER(#{inputCode})  and a.del_flag = 0
+        FROM price_list a WHERE a.input_code LIKE UPPER(#{inputCode}) and a.del_flag = 0
     </select>
 
     <select id="findSeqences" resultType="String">
@@ -258,5 +259,62 @@
         del_flag = 1
         WHERE id = #{id}
     </update>
+
+    <select id="findPriceList" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM current_price_list a,sys_dict b
+        WHERE a.org_id = #{0} and a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT'
+    </select>
+
+    <select id="findOLdPriceList" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM price_list a,sys_dict b
+        WHERE a.org_id = #{0} and a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT'
+    </select>
+
+
+    <select id="getInputCodeNow" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM current_price_list a,sys_dict b
+        WHERE a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT' and a.org_id = #{0}
+        and a.input_code LIKE CONCAT(CONCAT('%', #{1}), '%') and b.label LIKE CONCAT(CONCAT('%', #{2}), '%')
+    </select>
+
+    <select id="getInputCodeOld" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>,
+        b.label AS "label"
+        FROM price_list a,sys_dict b
+        WHERE a.item_class=b.value and b.type='BILL_ITEM_CLASS_DICT' and a.org_id = #{0}
+        and a.input_code LIKE CONCAT(CONCAT('%', #{1}), '%') and b.label LIKE CONCAT(CONCAT('%', #{2}), '%')
+    </select>
+
+    <select id="list" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        b.label AS "label"
+        FROM sys_dict b
+        WHERE  b.type='BILL_ITEM_CLASS_DICT'
+    </select>
+
+    <select id="listByClinicItemCodeAndOrgId" resultType="com.jims.sys.vo.PriceListVo">
+        SELECT
+        <include refid="priceListColumns"/>
+        FROM current_price_list a
+        WHERE (a.item_class, a.item_code, a.item_spec) in
+        (SELECT c.charge_item_class,c.charge_item_code,c.charge_item_spec
+        FROM clinic_item_dict b, clinic_vs_charge c
+        WHERE c.clinic_item_class = b.item_class
+        AND c.clinic_item_code = b.item_code
+        AND b.item_code = #{itemCode}
+        AND b.org_id = #{orgId}
+        AND c.org_id = b.org_id)
+        AND a.org_id = #{orgId}
+    </select>
 
 </mapper>

@@ -42,12 +42,9 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
     /**
      * 查询最大医嘱号
      *
-     * @param visitDate
-     * @param visitNo
-     * @param serialNo
      * @return
      */
-    public Integer getMaxOrderNo(Date visitDate, Integer visitNo, String serialNo);
+    public Integer getMaxOrderNo(@Param("clinicId") String clinicId,@Param("orgId")String orgId);
 
     /**
      * 查询出最大的流水号
@@ -73,4 +70,25 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
      * @return
      */
     public Integer getMaxItemNo(Date visitDate, Integer visitNo, String itemClass);
+
+
+    /**
+     * 删除门诊收费明细（处置治疗）
+     * @param itemCode
+     * @return
+     * pq
+     */
+    public int deleteTreatment(@Param(value = "itemCode")String itemCode);
+
+    /**
+     * @param outpOrdersCosts 传递参
+     * @return Integer    返回类型
+     *@throws
+     * @Title: removeByParams
+     * @Descripion: (根据参数[处方Id]删除收费项目)
+     * @author CTQ
+     * @date 2016/5/9
+     */
+    public Integer removeByMasterId(OutpOrdersCosts outpOrdersCosts);
+
 }

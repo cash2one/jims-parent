@@ -46,4 +46,14 @@ public interface OutpTreatRecServiceApi {
      */
     public List<OutpTreatRec> getPrintLab(String serialNo  , Date visitDate ,Integer visitNo);
 
+    /**
+     * 拿到检查治疗医嘱明细
+     * @param id
+     * @return
+     * pq
+     */
+    public OutpTreatRec get(String id);
+
+
+
 }
