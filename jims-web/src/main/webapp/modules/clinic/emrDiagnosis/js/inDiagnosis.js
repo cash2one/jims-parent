@@ -106,16 +106,18 @@ function loadMenu() {
                     menus[i].children.push(menus[j]) ;
                 }
             }
-           menuTreeData.push(menus[i]) ;
             if(menus[i].children.length>0 && !menus[i].parentId){
                 menuTreeData.push(menus[i]) ;
             }
 
-            //if(!menus[i].parentId&&menus[i].children.length<=0){
-            //    menuTreeData.push(menus[i]) ;
-            //}
+            if(!menus[i].parentId&&menus[i].children.length<=0){
+                menuTreeData.push(menus[i]) ;
+            }
+
+            if(menus[i].parentId=="0"||menus[i].parentId==""){
+                menuTreeData.push(menus[i]);
+            }
         }
-        alert(JSON.stringify(menuTreeData));
         $("#tg").treegrid('loadData',menuTreeData) ;
        // $("#tg").treegrid("selectRow", 1);
         return false;
