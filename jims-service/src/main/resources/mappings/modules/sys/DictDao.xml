@@ -12,6 +12,7 @@
       SELECT
       s.type,s.description
       FROM sys_dict s
+      WHERE s.del_flag = '0'
       GROUP BY s.type,s.description
     </select>
 
@@ -19,7 +20,18 @@
       SELECT
       id,label,value,sort,create_by,create_date,update_by,update_date,remarks,input_code
       FROM sys_dict
-      WHERE type = #{type}
+      WHERE del_flag = '0'
+      AND type = #{type}
+    </select>
+
+    <select id="select" resultType="Dict">
+        SELECT
+        t.type AS "type",t.description AS "description"
+        FROM sys_dict t
+        WHERE del_flag = '0'
+            AND t.type LIKE CONCAT(CONCAT('%', #{0}), '%')
+            or t.description LIKE CONCAT(CONCAT('%', #{1}), '%')
+        GROUP BY t.type,t.description
     </select>
 	
 	<select id="findList" resultType="Dict">
@@ -106,7 +118,8 @@
 			sort = #{sort}, 
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
-			remarks = #{remarks}
+			remarks = #{remarks},
+			input_code = #{inputCode}
 		WHERE id = #{id}
 	</update>
 	
