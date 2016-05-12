@@ -6,7 +6,6 @@ $(function() {
         collapsible: true,
         fitColumns: true,
        // url: 'treegrid_data2.json',
-          url:basePath+'/diagnosis/findList',
         method: 'get',
         idField: 'id',
         treeField: 'type',
@@ -81,7 +80,7 @@ $(function() {
             ]
     });
 });
-
+loadMenu();
 function loadMenu() {
     var menus = [];//菜单列表
     var menuTreeData = [];//菜单树的列表
@@ -107,25 +106,26 @@ function loadMenu() {
                     menus[i].children.push(menus[j]) ;
                 }
             }
-        /*    menuTreeData.push(menus[i]) ;*/
-            //判断是不是根节点  start
+           menuTreeData.push(menus[i]) ;
             if(menus[i].children.length>0 && !menus[i].parentId){
                 menuTreeData.push(menus[i]) ;
             }
 
-            if(!menus[i].parentId&&menus[i].children.length<=0){
-                menuTreeData.push(menus[i]) ;
-            }
-
-
+            //if(!menus[i].parentId&&menus[i].children.length<=0){
+            //    menuTreeData.push(menus[i]) ;
+            //}
         }
-
-            $("#tg").treegrid('loadData', menuTreeData);
-
-    })
+        alert(JSON.stringify(menuTreeData));
+        $("#tg").treegrid('loadData',menuTreeData) ;
+       // $("#tg").treegrid("selectRow", 1);
+        return false;
+    });
+    //menuPromise.done(function () {
+    //
+    //});
 
 }
-loadMenu();
+
 function formatProgress(value){
     if (value){
         var s = '<div style="width:100%;border:1px solid #ccc">' +
@@ -180,11 +180,10 @@ function edit(){
 }
 
 
-
+//保存
 
 function save(){
     if ($("#fm").form('validate')) {
-
         var d = {};
         d.id = $("#id").val();
         d.type =$('#type').combobox('getValue');
@@ -261,46 +260,6 @@ function insert(){
 
         //  $("#position").textbox('setValue', node.position);
     }
-    /*  var node = $("#tg").treegrid('getSelected');
-
-     if (!node) {
-     alert(111111111);
-     $.messager.alert("系统提示", "请选择，所添加诊断的同一级的任意一个诊断");
-     return;
-     }
-     if (node) {
-     alert("node="+node);
-     $('#dlg').dialog('center').dialog('setTitle', '添加同级诊断');
-     $('#fm').form('clear');
-     $('#type').combobox({
-     data :administration,
-     valueField:'value',
-     textField:'text',
-     method: 'GET',
-     onLoadSuccess: function (data) {
-     var data = $(this).combobox('getData');
-     $(this).combobox('select', data[0].text);
-     }
-     });
-
-     $("#parentId").val(node._parentId);
-
-     $("#diagnosisId").combobox({
-     required:true,
-     url: basePath+'/dataicd/autoComplete',
-     valueField: 'code',
-     textField: 'keywordShuoming',
-     method: 'GET',
-     onLoadSuccess: function () {
-     var data = $(this).combobox('getData');
-     $(this).combobox('select', data[0].keywordShuoming);
-     }
-     });
-
-     }
-     */
-
-
 }
 
 /**

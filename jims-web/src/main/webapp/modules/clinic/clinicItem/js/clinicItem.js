@@ -25,7 +25,10 @@ $(function() {
                         {field: 'orgId', title: '部门', width: '10%', align: 'center', editor: 'text'},
                         {field: 'guige', title: '规格', width: '10%', align: 'center', editor: 'text'},
                         {field: 'company', title: '单位', width: '10%', align: 'center', editor: 'text'}
-                    ]],
+                    ]],onClickRow: function (index, row) {
+                    var units = $("#clinicItem").datagrid('getEditor',{index:editRow,field:'units'});
+                    $(units.target).textbox('setValue',row.company);
+                },
                     fitColumns: true
                 }
                /* onClickRow: function (index, row) {
@@ -50,7 +53,7 @@ $(function() {
 
                  },
             {field: 'amount', title: '数量', width: '5%', align: 'center', editor: 'text'},
-            {field: 'units', title: '单位', width: '5%', align: 'center'},
+            {field: 'units', title: '单位', width: '5%', align: 'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
              {field:'frequency',title:'频次',width:'10%',align:'center',editor:'text'},
             {field: 'performedBy', title: '执行科室', width: '10%', align: 'center', editor: 'text'},
              {field:'wardCode',title:'护理单元',width:'10%',align:'center',editor:'text'},
