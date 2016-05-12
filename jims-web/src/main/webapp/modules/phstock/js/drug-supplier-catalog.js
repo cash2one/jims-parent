@@ -42,17 +42,16 @@ $(function () {
             field: 'supplierClass',
             width: "10%",
             editor: {
-                type: 'combogrid', options: {
+                type: 'combobox', options: {
                     editable: false,
-                    width: '150px',
-                    idField: 'supplierClass',
-                    textField: 'supplierClass',
-                    method: 'GET',
-                    url: basePath + "/drug-supplier-catalog/list-type?orgId=" + parent.config.org_Id,
-                    mode: 'remote',
-                    columns: [[
-                        {field: 'supplierClass', title: '厂商类别', width: "150px"}
-                    ]]
+                    width: '100px',
+                    idField: 'value',
+                    valueField: 'value',
+                    textField: 'text',
+                    data: [
+                        {'value': '生产商', 'text': '生产商', width: "100px"},
+                        {'value': '批发商', 'text': '批发商', width: "100px"}
+                    ]
                 }
             }
         }, {
@@ -299,6 +298,7 @@ $(function () {
         $.postJSON(basePath + "/drug-supplier-catalog/merge", JSON.stringify(examRptPatternVo), function (data) {
             $.messager.alert('系统提示', '保存成功', 'info');
             loadDict();
+            $('#supplierType').combogrid();
         })
 
 
