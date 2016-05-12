@@ -2,14 +2,15 @@
  * Created by wei on 2016/5/5.
  */
 $(function () {
-    var orgId="1";
+
     var editIndex;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
             $("#dg").datagrid('endEdit', editIndex);
             editIndex = undefined;
         }
-    }
+    };
+
     $("#dg").datagrid({
         title: '信息查询',
         fit: true,//让#dg数据创铺满父类容器
@@ -23,7 +24,7 @@ $(function () {
         border: true,
         method:'get',
         collapsible:false,//是否可折叠的
-        url:'/service/price-list/list-all?orgId='+orgId,
+        url: basePath +'/price-list/list-now?orgId='+parent.config.org_Id,
         idField:'fldId',
         remoteSort:false,
         pagination:true,//分页控件
@@ -61,12 +62,12 @@ $(function () {
         },{
             title: '优惠价格',
             field: 'preferPrice',
-            width: "5%"
+            width: "10%"
 
         },{
             title: '外宾价格',
             field: 'foreignerPrice',
-            width: "5%"
+            width: "10%"
 
         },{
             title: '拼音码',
@@ -101,12 +102,15 @@ $(function () {
             editIndex = index;
         }
     });
+
+
     $('#label').combogrid({
+        editable:false,
         delay: 300,
         width:'196px',
         mode: 'remote',
         method: 'GET',
-        url: '/service/price-list/list',
+        url: basePath +'/price-list/list',
         idField: 'label',
         textField: 'label',
         columns: [[
@@ -118,17 +122,15 @@ $(function () {
     var p = $('#dg').datagrid('getPager');
 
 
-    $("#searchBtn").on("click", function () {
 
+    $("#searchBtn").on("click", function () {
         var inputCode = $("#inputCode").textbox("getValue");
         var label=$("#label").textbox("getValue");
-        console.log(label);
-        console.log(inputCode)
-        $.get("/service/price-list/find-by-input-code-old?inputCode=" + inputCode+"&label="+label+"&orgId="+orgId, function (data) {
+        $.get( basePath +"/price-list/find-by-input-code-now?inputCode=" + inputCode+"&label="+label+"&orgId="+parent.config.org_Id, function (data) {
 
             $("#dg").datagrid('loadData', data);
-
         });
     });
 
-});
+
+})
