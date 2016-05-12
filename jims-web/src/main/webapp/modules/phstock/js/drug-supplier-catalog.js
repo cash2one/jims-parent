@@ -2,7 +2,7 @@
  * Created by wei on 2016/5/10.
  */
 $(function () {
-    var orgId="1";
+
     var editIndex;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -20,50 +20,83 @@ $(function () {
             field: 'id',
             hidden: 'true'
         }, {
-            title: '供应厂商名称',
+            title: '供应厂商别名',
             field: 'supplierId',
             width: "10%",
             editor: {
                 type: 'text', options: {
-                    required: true, validType: 'length[0,8]', missingMessage:'请输入四个以内的汉字'}
+                    required: true
+                }
             }
         }, {
             title: '厂商',
             field: 'supplier',
-            width: "10%",
+            width: "15%",
             editor: {
                 type: 'text', options: {
-                    required: true, validType: 'length[0,8]', missingMessage:'请输入四个以内的汉字'}
+                    required: true
+                }
             }
         }, {
             title: '厂商类别',
             field: 'supplierClass',
             width: "10%",
             editor: {
-                type: 'combogrid', options:{
+                type: 'combogrid', options: {
+                    editable: false,
+                    width: '150px',
                     idField: 'supplierClass',
                     textField: 'supplierClass',
                     method: 'GET',
-                    url: "/service/drug-supplier-catalog/list-type?orgId="+orgId,
+                    url: basePath + "/drug-supplier-catalog/list-type?orgId=" + parent.config.org_Id,
                     mode: 'remote',
                     columns: [[
-                        {field:'supplierClass',title:'厂商类别',width:"160px"}
+                        {field: 'supplierClass', title: '厂商类别', width: "150px"}
                     ]]
                 }
             }
         }, {
             title: '输入码',
             field: 'inputCode',
-            width: "20%",
+            width: "10%"
+
+        }, {
+            title: '备注',
+            field: 'memo',
+            width: "10%",
             editor: {
-                type: 'text', options: {
-                    required: true, validType: 'length[0,8]', missingMessage:'请输入四个以内的汉字'}
+                type: 'textbox', options: {
+                    disabled: false
+                }
             }
+
+        }, {
+            title: '注册商标',
+            field: 'trademark',
+            width: "10%",
+            editor: {
+                type: 'textbox', options: {
+                    disabled: false
+                }
+            }
+
         }, {
             title: '是否国外',
             field: 'foreignx',
-            width: "20%",
-            type: 'checkbox'
+            width: "10%",
+            editor: {
+                type: 'combobox', options: {
+                    editable: false,
+                    width: '100px',
+                    idField: 'value',
+                    valueField: 'value',
+                    textField: 'text',
+                    data: [
+                        {'value': '0', 'text': '是', width: "100px"},
+                        {'value': '1', 'text': '否', width: "100px"}
+                    ]
+                }
+            }
 
         }, {
             title: '厂商代码',
@@ -71,8 +104,27 @@ $(function () {
             width: "20%",
             editor: {
                 type: 'text', options: {
-                    required: true, validType: 'length[0,8]', missingMessage:'请输入四个以内的汉字'}
+                    required: true
+                }
             }
+        }, {
+            title: '是否使用',
+            field: 'usedFlag',
+            width: "5%",
+            editor: {
+                type: 'combobox', options: {
+                    editable: false,
+                    width: '100px',
+                    idField: 'value',
+                    valueField: 'value',
+                    textField: 'text',
+                    data: [
+                        {'value': '0', 'text': '使用', width: "100px"},
+                        {'value': '1', 'text': '停用', width: "100px"}
+                    ]
+                }
+            }
+
         }]],
         onClickRow: function (index, row) {
             stopEdit();
@@ -83,45 +135,55 @@ $(function () {
 
 
     $('#supplierType').combogrid({
+
         delay: 150,
-        width:'150px',
+        width: '150px',
         mode: 'remote',
         method: 'GET',
-        url: '/service/drug-supplier-catalog/list-type?orgId='+orgId,
+        url: basePath + '/drug-supplier-catalog/list-type?orgId=' + parent.config.org_Id,
         idField: 'supplierClass',
         textField: 'supplierClass',
         columns: [[
-            {field:'supplierClass',title:'类别',width:"150px",sortable:true}
+            {field: 'supplierClass', title: '类别', width: "150px", sortable: true}
         ]]
     });
 
-    $('#chk2').click(function(){
+    var reset = function () {
+        $('#chk1').click();
+        $("#inputCode").textbox('setValue', '');
+        $("#inputCode").textbox('disable');
+        $("#supplierType").combogrid('enable');
+    }
+    reset();
 
-            $("#inputCode").textbox('enable');
-            $("#supplierType").combogrid('disable');
+    $('#chk2').click(function () {
+        $("#supplierType").combogrid('setValue', '');
+
+        $("#inputCode").textbox('enable');
+
+        $("#supplierType").combogrid('disable');
     });
-    $('#chk1').click(function(){
-
-            $("#inputCode").textbox('disable');
-            $("#supplierType").combogrid('enable');
+    $('#chk1').click(function () {
+        $("#inputCode").textbox('setValue', '');
+        $("#inputCode").textbox('disable');
+        $("#supplierType").combogrid('enable');
 
     });
-
 
 
     $("#searchBtn").on("click", function () {
-        var inputCode=$("#inputCode").textbox("getValue");
-        var supplierType=$("#supplierType").textbox("getValue");
-        if(supplierType==""){
-                $.get("/service/drug-supplier-catalog/list-supplier-inputCode?orgId=" +orgId+"&inputCode="+inputCode, function (data) {
+        var inputCode = $("#inputCode").textbox("getValue");
+        var supplierType = $("#supplierType").textbox("getValue");
+        if (supplierType == "") {
+            $.get(basePath + "/drug-supplier-catalog/list-supplier-input-code?orgId=" + parent.config.org_Id + "&inputCode=" + inputCode, function (data) {
 
                 $("#dg").datagrid('loadData', data);
             });
-        }else{
-                $.get("/service/drug-supplier-catalog/list-supplier-type?orgId=" + orgId+"&supplierClass="+supplierType, function (data) {
+        } else {
+            $.get(basePath + "/drug-supplier-catalog/list-supplier-type?orgId=" + parent.config.org_Id + "&supplierClass=" + supplierType, function (data) {
 
-            $("#dg").datagrid('loadData', data);
-        });
+                $("#dg").datagrid('loadData', data);
+            });
         }
     });
 
@@ -137,15 +199,31 @@ $(function () {
 
     $("#delBtn").on('click', function () {
         var row = $("#dg").datagrid('getSelected');
-        if (row) {
-            var rowIndex = $("#dg").datagrid('getRowIndex', row);
-            $("#dg").datagrid('deleteRow', rowIndex);
-            if (editIndex == rowIndex) {
-                editIndex = undefined;
-            }
-        } else {
-            $.messager.alert('系统提示', "请选择要删除的行", 'info');
+        if (row == null) {
+            $.messager.alert("系统提示", "请选择要删除的项目");
+            return;
         }
+        if (!row.id) {
+            //判断是否是新加项目
+            var index = $("#dg").datagrid('getRowIndex', row);
+
+            $.messager.confirm('系统提示', '确定要进行删除操作吗', function (r) {
+                if (r) {
+                    $("#dg").datagrid('deleteRow', index);
+                }
+            });
+
+        } else {
+            $.messager.confirm('系统提示', '确定要进行删除操作吗', function (r) {
+                if (r) {
+                    $.postJSON(basePath + "/drug-supplier-catalog/del", row.id, function (data) {
+                        $.messager.alert('系统提示', '删除成功', 'info');
+                        loadDict();
+                    })
+                }
+            });
+        }
+
     });
 
     $("#editBtn").on('click', function () {
@@ -168,42 +246,61 @@ $(function () {
     });
 
     var loadDict = function () {
-        //var name = $("#name").textbox("getValue");
-        $.get("/service/drug-supplier-catalog/list?orgId="+orgId , function (data) {
+
+        $.get(basePath + "/drug-supplier-catalog/list?orgId=" + parent.config.org_Id, function (data) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].foreignx == '0') {
+                    data[i].foreignx = '是'
+                } else {
+                    data[i].foreignx = '否'
+                }
+            }
+            for (var j = 0; j < data.length; j++) {
+                if (data[j].usedFlag == '0') {
+                    data[j].usedFlag = '使用'
+                } else {
+                    data[j].usedFlag = '停用'
+                }
+            }
             $("#dg").datagrid('loadData', data);
+
         });
-    }
+    };
 
     loadDict();
 
-
-    /**
-     * 保存修改的内容
-     * 基础字典的改变，势必会影响其他的统计查询
-     * 基础字典的维护只能在基础数据维护的时候使用。
-     */
     $("#saveBtn").on('click', function () {
         if (editIndex || editIndex == 0) {
             $("#dg").datagrid("endEdit", editIndex);
         }
 
         var insertData = $("#dg").datagrid("getChanges", "inserted");
-        var updateDate = $("#dg").datagrid("getChanges", "updated");
-        var deleteDate = $("#dg").datagrid("getChanges", "deleted");
+        var updateData = $("#dg").datagrid("getChanges", "updated");
 
-        var beanChangeVo = {};
-        beanChangeVo.inserted = insertData;
-        beanChangeVo.deleted = deleteDate;
-        beanChangeVo.updated = updateDate;
+        var examRptPatternVo = {};
+        examRptPatternVo.inserted = insertData;
+        examRptPatternVo.updated = updateData;
+        examRptPatternVo.orgId = parent.config.org_Id;
+        for (var i = 0; i < examRptPatternVo.updated.length; i++) {
+            if (examRptPatternVo.updated[i].usedFlag == '使用') {
+                examRptPatternVo.updated[i].usedFlag = '0';
+            }
+            if (examRptPatternVo.updated[i].usedFlag == '停用') {
+                examRptPatternVo.updated[i].usedFlag = '1';
+            }
+            if (examRptPatternVo.updated[i].foreignx == '是') {
+                examRptPatternVo.updated[i].foreignx = '0';
+            }
+            if (examRptPatternVo.updated[i].foreignx == '否') {
+                examRptPatternVo.updated[i].foreignx = '1';
+            }
 
-
-        if (beanChangeVo) {
-            $.postJSON("/api/exp-coding-rule/merge", beanChangeVo, function (data, status) {
-                $.messager.alert("系统提示", "保存成功", "info");
-                loadDict();
-            }, function (data) {
-                $.messager.alert('提示', data.responseJSON.errorMessage, "error");
-            })
         }
+        $.postJSON(basePath + "/drug-supplier-catalog/merge", JSON.stringify(examRptPatternVo), function (data) {
+            $.messager.alert('系统提示', '保存成功', 'info');
+            loadDict();
+        })
+
+
     });
-})
+});
