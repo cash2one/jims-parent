@@ -160,6 +160,13 @@
 		#{appointsId}
 		)
 	</insert>
+	<select id="getItemList" resultType="ExamItems">
+		SELECT *
+		FROM  exam_items a
+		WHERE
+		a.appoints_id=#{appointsId}
+	</select>
+
 	<select id="loadExamItems" resultType="ExamItems">
 		SELECT
 		<include refid="examItemsColumns"/>

@@ -5,13 +5,12 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            //$("#reqDept").val(data.deptDict.deptName);
+            $("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
             $("#target").empty();
             $("#descriptionId").empty();
-
             $.ajax({
                 type: "POST",
                 url: basePath + '/examClassDict/getExamSubclass',
@@ -126,7 +125,6 @@ function selecteds() {
     $('#descriptionId input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
         var html=selected.prop("outerHTML");
-        alert(html);
         selected.remove();
         $("#target").append(html);
     })

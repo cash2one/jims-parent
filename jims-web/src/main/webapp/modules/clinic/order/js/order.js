@@ -126,7 +126,6 @@ function selecteds() {
     $('#descriptionId input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
         var html=selected.prop("outerHTML");
-        alert(html);
         selected.remove();
         $("#target").append(html);
     })

@@ -73,9 +73,9 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
                 examAppointsDao.deleteExamAppionts(id[j]);
-                examItemsDao.deleteItems(id[j]);
-                ExamItems examItems=examItemsDao.get(id[j]);
-                num=outpTreatRecDao.deleteTreat(examItems.getExamItemCode());
+                ExamItems examItems=examItemsDao.getItemList(id[j]);
+              //  outpTreatRecDao.deleteTreat(itemCode);
+              //  num=examItemsDao.deleteItems(id[j]);
 //                num=outpOrdersCostsDao.deleteOutpOrders(examAppoints.getId());
             }
         }catch(Exception e){

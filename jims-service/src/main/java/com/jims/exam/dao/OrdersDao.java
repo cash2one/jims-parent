@@ -14,6 +14,11 @@ import com.jims.exam.entity.Orders;
  */
 @MyBatisDao
 public interface OrdersDao extends CrudDao<Orders> {
-
+    /**
+     *
+     * @param clinicId
+     * @return
+     */
+    public String deleteOrders(String clinicId);
 	
 }
