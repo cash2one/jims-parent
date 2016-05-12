@@ -10,7 +10,6 @@ $(function(){
     var way = "*";
     var classCodeWay=true;
     var classNameWay=true;
-    var parentWay=true;
 
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -165,8 +164,9 @@ $(function(){
 
     //新增子类药品
     $("#addChildrenBtn").on('click', function () {
-        reset()
-        way = "";
+        reset();
+        $("#drugClassCodeChange").html("");
+        way="z";
         $('#drugParentId').combogrid();
         $("#drugParentId").combogrid('enable');
         $('#dlg').dialog('open').dialog('center').dialog('setTitle', '新增药品子类');
@@ -215,7 +215,7 @@ $(function(){
             all=false;
         }
 
-        if(all){
+        if(all && classCodeWay && classNameWay){
             $('#dlg').dialog('close');
             $.postJSON(basePath + "/drug-class-dict/save", JSON.stringify(drugClassDict), function (data){
                 $.messager.alert("系统提示", "保存成功");
@@ -241,7 +241,6 @@ $(function(){
             $.messager.confirm("系统提示", "确认删除:【" + row.className + "】的类别吗?", function (r) {
                 if (r) {
                     //$.postJSON(basePath + "/menuDict/del" ,row.id, function (data) {
-                    alert(row.parentId);
                     var drugClassDict={};
                     drugClassDict.id=row.id;
                     drugClassDict.classCode=row.classCode;
@@ -265,7 +264,7 @@ $(function(){
         onChange: function (value) {
             var classCode=$("#drugClassCode").textbox('getValue');
             var patrn=/[a-zA-Z0-9]/;
-
+            console.log(way);
             var drugId=$("#drugId").textbox("getValue");
             var parentId=$("#drugParentId").combogrid("getValue");
             if(way!="*"){
@@ -317,7 +316,6 @@ $(function(){
             var className=$("#drugClassName").textbox('getValue');
             var drugId=$("#drugId").textbox("getValue");
             var check=false;
-            console.log(list);
             for(var i=0;i<list.length;i++){
                 if(list[i].className==className &&list[i].id!=drugId){
                     check=true;
