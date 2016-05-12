@@ -1,4 +1,4 @@
-var administration = [{ "value": "1", "text": "初步诊断" }, { "value": "2", "text": "鉴别诊断" }, { "value": "4", "text": "入院诊断" }];
+var administration = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
 var editRow = undefined;
 $(function(){
 
@@ -20,21 +20,6 @@ $(function(){
                      valueField:'value',
                      textField:'text',
                      required:true
-                   /*  formatter: function(value, row, index){
-                         if (value != "") {
-                             return getLabel("diagnosis_type",row);
-                         }
-                         else {
-                             return value;
-                         }
-                     }*/
-                    /* render:function(value, row, index){
-                         lert("index="+index);
-                        // var el=$('#zhenduan').datagrid('getEditor',{field:'type',index:正在编辑的行号}).target;//
-                        // var row = $('#zhenduan').datagrid('getData').rows[index];
-                         alert("test="+row.type);
-                      //   $(this).select(getLabel("diagnosis_type",row.type));
-                     }*/
                  }
 
              }
@@ -53,10 +38,9 @@ $(function(){
                     }
                 }
             }},
-            {field:'basis',title:'诊断依据',width:'30%',align:'center',multiline:true,editor:'text'
-                },
-            {field:'description',title:'诊断描述',width:'30%',align:'center',editor:'text',
-                multiline:true},
+
+            {field:'description',title:'诊断时间',width:'30%',align:'center',editor:{type: 'datebox'}
+            },
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
                 formatter:function(value, row, index){
                   return "李俊山";
