@@ -43,23 +43,7 @@ $(function(){
                     return value;
                 }}
         ]], onClickRow: function (index, row) {
-            //如果选中数据非新开数据，则右侧药局部分禁用
-            if(row.chargeIndicator!='新开'){
-                disableForm('prescForm',true);
-            }else{
-                disableForm('prescForm',false);
-            }
-            if(row.itemClass=='A'){
-                changeRadio('A');
-                $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
-                    $("#list_data").datagrid("loadData", data);
-                });
-            }else{
-                changeRadio('B');
-                $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
-                    $("#list_data").datagrid("loadData", data);
-                });
-            }
+            subLoadData(row);
         }, onLoadSuccess: function(){
             var selRow =  $("#leftList").datagrid("getChecked");
 
@@ -68,23 +52,7 @@ $(function(){
                 $('#leftList').datagrid('selectRow',0);
                 selRow = $("#leftList").datagrid("getChecked");
             }
-            if(selRow[0].itemClass=='A'){
-                changeRadio('A');
-                $.get(basePath+'/outppresc/sublist?prescNo=' + selRow[0].prescNo+"&clinicId="+clinicId, function (data) {
-                    $("#list_data").datagrid("loadData", data);
-                });
-            }else{
-                changeRadio('B');
-                $.get(basePath+'/outppresc/sublist?prescNo=' + selRow[0].prescNo+"&clinicId="+clinicId, function (data) {
-                    $("#list_data").datagrid("loadData", data);
-                });
-            }
-            //如果选中数据非新开数据，则右侧药局部分禁用
-            if(selRow.chargeIndicator!='新开'){
-                disableForm('prescForm',true);
-            }else{
-                disableForm('prescForm',false);
-            }
+            subLoadData(selRow[0]);
         }
     });
     $('#list_data').datagrid({
@@ -277,32 +245,57 @@ $(function(){
         }
     });
 });
+//加载数据时加载子项方法
+function subLoadData(row){
+    //如果选中数据非新开数据，则右侧药局部分禁用
+    if(row.chargeIndicator!='新开'){
+        disableForm('prescForm',true);
+    }else{
+        disableForm('prescForm',false);
+    }
+    if(row.itemClass=='A'){
+        changeRadio('A');
+        $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
+            $("#list_data").datagrid("loadData", data);
+        });
+    }else{
+        changeRadio('B');
+        $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
+            $("#list_data").datagrid("loadData", data);
+        });
+    }
+}
 //西药/草药单选按钮事件
 function funItem(obj){
     itemClass=obj.value;
     $("#itemClass").val(obj.value);
     changeRadio(obj.value);
     var selRow = $('#leftList').datagrid('getChecked');
+    subItem(itemClass,selRow[0]);
+
+}
+//西药/草药单选按钮事件-更新行
+function subItem(itemClass,selRow){
     if(itemClass=='A'){
         $('#leftList').datagrid('updateRow',{
             index: 0,
             row: {
-                visitDate: selRow[0].visitDate,
-                visitNo: selRow[0].visitNo,
-                prescNo: selRow[0].prescNo,
+                visitDate: selRow.visitDate,
+                visitNo: selRow.visitNo,
+                prescNo: selRow.prescNo,
                 itemClass:'西、成药',
-                chargeIndicator:selRow[0].chargeIndicator
+                chargeIndicator:selRow.chargeIndicator
             }
         });
     }else if(itemClass=='B'){
         $('#leftList').datagrid('updateRow',{
             index: 0,
             row: {
-                visitDate: selRow[0].visitDate,
-                visitNo: selRow[0].visitNo,
-                prescNo: selRow[0].prescNo,
+                visitDate: selRow.visitDate,
+                visitNo: selRow.visitNo,
+                prescNo: selRow.prescNo,
                 itemClass:'草药',
-                chargeIndicator:selRow[0].chargeIndicator
+                chargeIndicator:selRow.chargeIndicator
             }
         });
     }
