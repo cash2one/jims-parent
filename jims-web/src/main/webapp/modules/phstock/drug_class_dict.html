@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../static/easyui/css/icon.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../phstock/js/drug_class_dict.js"></script>
+</head>
+<body>
+<style >
+    a:link {
+        color: #000000;
+        font-size: 15px;
+        line-height: 28px;
+    }
+
+    a:hover {
+        color: #0c31ff;
+    }
+
+</style>
+<div class="easyui-layout" data-options="fit:true">
+    <div region="west" split="true" title="字典名称" style="width:160px;">
+        <ul>
+            <li><a href="javascript:void(0)"  id="importDict">药品入库类型字典维护</a></li>
+            <li><a href="javascript:void(0)"  id="exportDict">药品出库类型字典维护</a></li>
+            <li><a href="javascript:void(0)"  id="codingrule">药品编码描述字典维护</a></li>
+            <li><a href="javascript:void(0)"  id="dispproperty">摆药类别字典维护</a></li>
+        </ul>
+    </div>
+    <div id="content" region="center" style="padding:5px;">
+        <table id="drugdict" class="easyui-datagrid">
+
+        </table>
+    </div>
+</div>
+</body>
+</html>

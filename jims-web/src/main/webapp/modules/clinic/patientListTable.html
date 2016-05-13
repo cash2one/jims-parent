@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="panel-fit"><head>
+	<meta charset="UTF-8">
+	<title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../clinic/js/patientListTable.js"></script>
+</head>
+<body class="easyui-layout" onload="onloadMethod()">
+<div class="search-standard clearfix">
+    <ul class="clearfix">
+        <li>医师权限:<select class="validatebox-text"/><option>111</option></select></li>
+        <li>医师权限:<select class="validatebox-text"/><option>111</option></select></li>
+        <li>病历状态:<select class="validatebox-text"/><option>111</option></select></li>
+        <li>按开始日期查询：<input type="text" class="validatebox-text validatebox-text-sm"/> 至  <input type="text" class="validatebox-text validatebox-text-sm"/></li>
+        <li>病人姓名:<input type="text" class="validatebox-text"/></li>
+        <li><button class="easy-nbtn easy-nbtn-info">查询</button></li>
+    </ul>
+</div>
+<div id="patientDivId">
+
+
+</div>
+<table id="list_data" width="100%"   cellspacing="0" cellpadding="0">
+
+</table>
+
+<div id="menu" class="easyui-menu" style="width: 50px; display: none;">
+    <div>病案首页</div>
+    <div>出院通知</div>
+    <div>删除打印记录</div>
+    <div>传输病案</div>
+    <div>下达医嘱</div>
+    <div>检查申请</div>
+    <div>检验申请</div>
+    <div>下达处方</div>
+    <div>会诊申请</div>
+    <div>会诊查询</div>
+    <div>病人信息</div>
+</div>
+
+</body>
+</html>
