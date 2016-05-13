@@ -3,6 +3,7 @@ function centerRefresh(id, name, url) {
 }
 var config = {} ;
 config.org_Id = '1';
+config.currentStorage = '1001';
 $(function () {
     //标题菜单维护
     $.get(basePath + "/menuDict/list", function (data) {

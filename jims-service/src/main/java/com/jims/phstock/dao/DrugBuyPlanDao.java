@@ -4,6 +4,9 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugBuyPlan;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * 药品采购计划DAO接口
  * @author lgx
@@ -18,4 +21,20 @@ public interface DrugBuyPlanDao extends CrudDao<DrugBuyPlan> {
      * @return
      */
     public int deleteByParameter(DrugBuyPlan entity);
+
+    /**
+     * 获取指定日期最大的采购单据号
+     * @param date 日期
+     * @param orgId 所属机构ID
+     * @return
+     */
+    public String getMaxBuyId(Date date,String orgId);
+
+    /**
+     * 根据执行标志获取采购单据号
+     * @param flag
+     * @param orgId 所属机构ID
+     * @return
+     */
+    public List<String> getBuyId(String flag,String orgId);
 }

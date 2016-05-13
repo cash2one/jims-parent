@@ -45,6 +45,14 @@ public class DrugBuyPlan extends DataEntity<DrugBuyPlan> {
 	private Date executedDate;		// 执行日期
 	private String orgId;		// 所属结构
 
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
     private String count;  // 总金额
 	
 	public DrugBuyPlan() {

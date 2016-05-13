@@ -1,9 +1,11 @@
 package com.jims.phstock.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.DateUtils;
 import com.jims.phstock.api.DrugBuyPlanApi;
 import com.jims.phstock.dao.DrugBuyPlanDao;
 import com.jims.phstock.entity.DrugBuyPlan;
@@ -55,5 +57,30 @@ public class DrugBuyPlanService extends CrudImplService<DrugBuyPlanDao, DrugBuyP
             e.printStackTrace();
         }
         return String.valueOf(_success);
+    }
+
+    /**
+     * 获取指定日期的下一个单据号
+     * @param date
+     * @return
+     */
+    @Override
+    public String getNextBuyId(Date date,String orgId){
+        String currentBuyId = dao.getMaxBuyId(date,orgId);
+        if(currentBuyId == null || currentBuyId.trim().length() < 12){
+            return DateUtils.formatDate(date,"yyyyMMdd") + "0001";
+        }
+        String nextBuyIdPrefix = currentBuyId.substring(0,8);
+        String nextBuyIdSuffix = ("000" + (Integer.valueOf(currentBuyId.substring(8)) + 1));
+        return nextBuyIdPrefix + nextBuyIdSuffix.substring(nextBuyIdSuffix.length() - 4);
+    }
+
+    /**
+     * 根据执行标志获取采购单据号
+     * @param flag
+     * @return
+     */
+    public List<String> getBuyId(String flag,String orgId){
+        return dao.getBuyId(flag,orgId);
     }
 }

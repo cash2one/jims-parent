@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.phstock.entity.DrugBuyPlan;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,4 +54,20 @@ public interface DrugBuyPlanApi {
      * @return
      */
     public String delete(String buyId,String orgId);
+
+    /**
+     * 获取指定日期的下一个单据号
+     * @param date
+     * @param orgId 所属机构ID
+     * @return
+     */
+    public String getNextBuyId(Date date,String orgId);
+
+    /**
+     * 根据执行标志获取采购单据号
+     * @param flag
+     * @param orgId 所属机构ID
+     * @return
+     */
+    public List<String> getBuyId(String flag,String orgId);
 }
