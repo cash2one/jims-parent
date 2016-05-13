@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <title>药品库存单位字典表维护</title>
+</head>
+<body>
+<div class="easyui-layout" id="cc">
+    <div data-options="region:'center'" style="background:#eee;">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'center',border:false">
+                <table id="dg" class="easyui-datagrid"></table>
+            </div>
+            <div data-options="region:'south',split:true,border:false" style="height:40px">
+                <table id="bottom" class="easyui-datagrid" style="width:100%">
+                    <a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+                    <a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+                    <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">保存</a>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--<table id="dg" class="easyui-datagrid"></table>-->
+
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../static/easyui/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../static/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../sys/js/drug-storage-dept.js"></script>
+</body>
+</html>
