@@ -62,6 +62,6 @@ public interface OutpPrescDao extends CrudDao<OutpPresc> {
      * @author CTQ
      * @date 2016/5/12
      */
-    public Integer searchPrescNoIfExist(@Param("orgId")String orgId,@Param("prescNo")Integer prescNo);
+    public Integer searchPrescNoIfExist(@Param("orgId")String orgId,@Param("clinicId")String clinicId,@Param("prescNo")Integer prescNo);
 
 }

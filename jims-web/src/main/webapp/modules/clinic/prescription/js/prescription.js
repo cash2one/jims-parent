@@ -38,38 +38,52 @@ $(function(){
             {field:'chargeIndicator',title:'收费状态',width:'20%',align:'center',
                 formatter: function (value, row, index) {
                     if (value == "0") {
-                        value = "新开";
+                        value = "未收费";
                     }
                     return value;
                 }}
-        ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
         ]], onClickRow: function (index, row) {
+            //如果选中数据非新开数据，则右侧药局部分禁用
+            if(row.chargeIndicator!='新开'){
+                disableForm('prescForm',true);
+            }else{
+                disableForm('prescForm',false);
+            }
             if(row.itemClass=='A'){
+                changeRadio('A');
                 $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
                     $("#list_data").datagrid("loadData", data);
                 });
             }else{
+                changeRadio('B');
                 $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
                     $("#list_data").datagrid("loadData", data);
                 });
             }
         }, onLoadSuccess: function(){
             var selRow =  $("#leftList").datagrid("getChecked");
+
             //判断是否有选中行数据，如果没有，则默认选中第一行
             if(selRow==null||selRow==''||selRow=='undefined'){
                 $('#leftList').datagrid('selectRow',0);
                 selRow = $("#leftList").datagrid("getChecked");
             }
-            if(selRow.itemClass=='A'){
+            if(selRow[0].itemClass=='A'){
+                changeRadio('A');
                 $.get(basePath+'/outppresc/sublist?prescNo=' + selRow[0].prescNo+"&clinicId="+clinicId, function (data) {
                     $("#list_data").datagrid("loadData", data);
                 });
             }else{
+                changeRadio('B');
                 $.get(basePath+'/outppresc/sublist?prescNo=' + selRow[0].prescNo+"&clinicId="+clinicId, function (data) {
                     $("#list_data").datagrid("loadData", data);
                 });
+            }
+            //如果选中数据非新开数据，则右侧药局部分禁用
+            if(selRow.chargeIndicator!='新开'){
+                disableForm('prescForm',true);
+            }else{
+                disableForm('prescForm',false);
             }
         }
     });
@@ -174,9 +188,6 @@ $(function(){
             {field:'drugCode',title:'药品编号',hidden:'true',editor:{type:'textbox',options:{editable:false}}}
 
         ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
-        ]],
         toolbar: [{
             text: '添加',
             iconCls: 'icon-add',
@@ -260,18 +271,7 @@ $(function(){
                     width:'15%'
                 }]],
                 onLoadSuccess:function(data){
-                    /*  flag = flag+1;
-                     if(flag==2){
-                     var dat ={};
-                     dat= $("#prescriptionDatagrid").datagrid('getData');
-                     if(dat.total==0 && editIndex!=undefined){
-                     $("#exportDetail").datagrid('endEdit', editIndex);
-                     $.messager.alert('系统提示','库房暂无该产品,请重置产品名称','info');
-                     $("#stockRecordDialog").dialog('close');
-                     $("#exportDetail").datagrid('beginEdit', editIndex);
-                     }
-                     flag=0;
-                     }*/
+
                 }
             });
         }
@@ -279,258 +279,45 @@ $(function(){
 });
 //西药/草药单选按钮事件
 function funItem(obj){
-    var itemClass=obj.value;
+    itemClass=obj.value;
     $("#itemClass").val(obj.value);
-    $(obj).attr("checked","true");
+    changeRadio(obj.value);
+    var selRow = $('#leftList').datagrid('getChecked');
     if(itemClass=='A'){
-        $('#list_data').datagrid({
-            singleSelect: true,
-            fit: true,
-            fitColumns: true,
-            nowrap: false,
-            columns:[[      //每个列具体内容
-                {field:'prescNo',title:'处方号',width:'5%',align:'center'},
-                {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
-                    type:'combogrid',
-                    options: {
-                        panelWidth: 500,
-                        idField: 'drugCode',
-                        textField: 'drugName',
-                        method:'GET',
-                        url: basePath+'/outppresc/dictlist',
-                        columns: [[
-                            {field: 'drugCode', title: '代码', width: '8%', align: 'center'},
-                            {field: 'drugName', title: '名称', width: '15%', align: 'center'},
-                            {field: 'drugSpec', title: '规格', width: '15%', align: 'center'},
-                            {field: 'firmId', title: '厂家', width: '15%', align: 'center'},
-                            {field: 'dosage', title: '单次用量', width: '15%', align: 'center'},
-                            {field: 'dosageUnits', title: '用量单位', width: '15%', align: 'center'},
-                            {field: 'itemClass', title: '药局', width: '15%', align: 'center',
-                                formatter: function (value, row, index) {
-                                    if (value == "A") {
-                                        value = "西药局";
-                                    }
-                                    else if (value == "B") {
-                                        value = "中药局";
-                                    }
-                                    return value;
-                                }}
-                        ]],onClickRow: function (index, row) {
-                            var drugSpec = $("#list_data").datagrid('getEditor',{index:editRow,field:'drugSpec'});
-                            $(drugSpec.target).textbox('setValue',row.drugSpec);
-                            var firmId = $("#list_data").datagrid('getEditor',{index:editRow,field:'firmId'});
-                            $(firmId.target).textbox('setValue',row.firmId);
-                            var dosage = $("#list_data").datagrid('getEditor',{index:editRow,field:'dosage'});
-                            $(dosage.target).textbox('setValue',row.dosage);
-                            var dosageUnits = $("#list_data").datagrid('getEditor',{index:editRow,field:'dosageUnits'});
-                            $(dosageUnits.target).textbox('setValue',row.dosageUnits);
-                            var itemClass = $("#list_data").datagrid('getEditor',{index:editRow,field:'itemClass'});
-                            $(itemClass.target).textbox('setValue',row.itemClass);
-                        }
-                    }
-                }},
-                {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-                {field:'firmId',title:'厂家',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-                {field:'repetition',title:'剂数',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:{type:'textbox',options:{editable:true,disable:false}}},
-                {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-                {field:'administration',title:'途径',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :administration,
-                        valueField:'value',
-                        textField:'text'
-                    }
-                }},
-                {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :frequency,
-                        valueField:'value',
-                        textField:'text'
-                    }
-                }},
-                {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'units',title:'单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-                {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
-                {field:'charges',title:'实收',width:'5%',align:'center',editor:{type:'numberbox',options:{editable:false,disable:false}}},
-                {field:'itemClass',title:'药局',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-                {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
-                {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :providedIndicator,
-                        valueField:'value',
-                        textField:'text'
-                    }
-                }},
-                /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
-                {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :skinFlag,
-                        valueField:'value',
-                        textField:'text'
-                    }
-                }},
-                {field:'subOrderNo',title:'子处方',hidden:'true'},
-                {field:'itemNo',title:'项目序号',hidden:'true'},
-                {field:'drugCode',title:'药品编号',hidden:'true'}
-            ]],
-            frozenColumns:[[
-                {field:'ck',checkbox:true}
-            ]],
-            toolbar: [{
-                text: '添加',
-                iconCls: 'icon-add',
-                handler: function() {
-                    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
-                    if(selRow!=null&&selRow!=''&&selRow!='undefined'){
-                        $("#list_data").datagrid('insertRow', {
-                            index:0,
-                            row:{prescNo:selRow[0].prescNo}
-                        });
-                    }else{
-                        $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
-                        return;
-                    }
-                }
-            }, '-',{
-                text: '删除',
-                iconCls: 'icon-remove',
-                handler: function(){
-                    doDelete();
-                }
-            }],onAfterEdit: function (rowIndex, rowData, changes) {
-                editRow = undefined;
-            },onDblClickRow:function (rowIndex, rowData) {
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-                if (editRow == undefined) {
-                    $("#list_data").datagrid('beginEdit', rowIndex);
-                    editRow = rowIndex;
-                }
-            },onClickRow:function(rowIndex,rowData){
-                $("#prescDialog").dialog('open');
-                //tooltips选中行，药品价目列表信息
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-
+        $('#leftList').datagrid('updateRow',{
+            index: 0,
+            row: {
+                visitDate: selRow[0].visitDate,
+                visitNo: selRow[0].visitNo,
+                prescNo: selRow[0].prescNo,
+                itemClass:'西、成药',
+                chargeIndicator:selRow[0].chargeIndicator
             }
         });
     }else if(itemClass=='B'){
-        $('#list_data').datagrid({
-            singleSelect: true,
-            fit: true,
-            nowrap: false,
-            /* method:'GET',
-             url:basePath+'/outppresc/sublist',*/
-            columns:[[      //每个列具体内容
-                {field:'orderNo',title:'处方号',width:'5%',align:'center'},
-                {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :drugName,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-
-                }},
-                {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:'text'},
-                {field:'firmId',title:'厂家',width:'5%',align:'center',editor:'text'},
-                {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'units',title:'单位',width:'5%',align:'center',editor:'text'},
-                {field:'performNurse',title:'剂量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:'numberbox'},
-                {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:'text'},
-                {field:'administration',title:'途径',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :administration,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-
-                }},
-                {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :frequency,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                }},
-                {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
-                {field:'charges',title:'实收',width:'5%',align:'center',editor:'text'},
-                {field:'itemClass',title:'药局',width:'5%',align:'center'},
-                {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
-                {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
-                    type:'combobox',
-                    options:{
-                        data :providedIndicator,
-                        valueField:'value',
-                        textField:'text',
-                        required:true
-                    }
-                }},
-                {field:'subOrderNo',title:'子处方',hidden:'true'},
-                {field:'itemNo',title:'项目序号',hidden:'true'},
-                {field:'drugCode',title:'药品编号',hidden:'true'}
-            ]],
-            frozenColumns:[[
-                {field:'ck',checkbox:true}
-            ]],
-            toolbar: [{
-                text: '添加',
-                iconCls: 'icon-add',
-                handler: function() {
-                    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
-                    if(selRow!=null&&selRow!=''&&selRow!='undefined'){
-                        $("#list_data").datagrid('insertRow', {
-                            index:0,
-                            row:{}
-                        });
-                    }else{
-                        $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
-                        return;
-                    }
-                }
-            }, '-',{
-                text: '删除',
-                iconCls: 'icon-remove',
-                handler: function(){
-                    doDelete();
-                }
-            }],onAfterEdit: function (rowIndex, rowData, changes) {
-                editRow = undefined;
-            },onDblClickRow:function (rowIndex, rowData) {
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
-                if (editRow == undefined) {
-                    $("#list_data").datagrid('beginEdit', rowIndex);
-                    editRow = rowIndex;
-                }
-            },onClickRow:function(rowIndex,rowData){
-                //tooltips选中行，药品价目列表信息
-                if (editRow != undefined) {
-                    $("#list_data").datagrid('endEdit', editRow);
-                }
+        $('#leftList').datagrid('updateRow',{
+            index: 0,
+            row: {
+                visitDate: selRow[0].visitDate,
+                visitNo: selRow[0].visitNo,
+                prescNo: selRow[0].prescNo,
+                itemClass:'草药',
+                chargeIndicator:selRow[0].chargeIndicator
             }
         });
     }
 }
 //点击新方
 function addPre(){
+    disableForm('prescForm',false);
     //获取处方列表所有行，并取出所有行中处方号prescNo的最大值，加1后作为新处方的处方号
      var rows = $('#leftList').datagrid('getRows');
      if(rows.length>0){
          for(var i=0;i<rows.length;i++){
+             if(rows[i].chargeIndicator=='新开'){
+                 $.messager.alert("提示消息", "已有新开处方，请先保存或者弃方后再试!");
+                 return;
+             }
              for(var j=0;j<rows.length;j++){
                  if(rows[i].prescNo>rows[j].prescNo){
                     prescNo= rows[i].prescNo+1;
@@ -572,6 +359,7 @@ function addPre(){
             $('#leftList').datagrid('selectRow',0);
         }
     })
+    $("#list_data").datagrid();
 }
 //保存处方及药品信息
 function savePre(){
@@ -641,6 +429,34 @@ function del(id){
         },
         'error': function(data){
             $.messager.alert('提示',"删除失败", "error");
+        }
+    });
+}
+//禁用右侧中西药
+function disableForm(formId,isDisabled) {
+    var attr="disable";
+    if(!isDisabled){
+        attr="enable";
+    }
+    $("form[id='"+formId+"'] select").attr("disabled",isDisabled);
+    $("form[id='"+formId+"'] :radio").attr("disabled",isDisabled);
+
+    //禁用jquery easyui中的下拉选（使用select生成的combox）
+    $("#" + formId + " select[class='textbox-text validatebox-text']").each(function () {
+        if (this.id) {
+            alert(this.id);
+            $("#" + this.id).combobox(attr);
+        }
+    });
+}
+//选中处方行，更改radio选中值
+function changeRadio(obj){
+    itemClass=obj;
+    $('input:radio').each(function(){
+        if($(this).val()==obj){
+            $(this).attr("checked",true);
+        }else{
+            $(this).attr("checked",false);
         }
     });
 }
