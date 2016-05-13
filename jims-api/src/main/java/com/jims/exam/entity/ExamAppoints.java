@@ -25,7 +25,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private String patientId;		// 病人标识号
 	private String orgId;    //组织机构id
 	private String clinicId;		//就诊id
-	private Integer visitId;		// 住院标识
+	private Integer visitId;		// 住院标识 0:门诊 ， 1：住院
 	private String localIdClass;		// 检查号类别
 	private String patientLocalId;		// 检查标识号
 	private String name;		// 姓名
@@ -82,7 +82,6 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private Integer printStatus;		// print_status
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
-	private String inOrOut;		//住院标示 0:门诊 ， 1：住院
 	//扩展
 	private List<ExamItems> examItemsList;
 
@@ -640,11 +639,4 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 		this.rcptNo = rcptNo;
 	}
 
-	public String getInOrOut() {
-		return inOrOut;
-	}
-
-	public void setInOrOut(String inOrOut) {
-		this.inOrOut = inOrOut;
-	}
 }
