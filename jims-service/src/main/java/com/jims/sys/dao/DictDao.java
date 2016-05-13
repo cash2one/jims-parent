@@ -19,8 +19,44 @@ import java.util.List;
 @MyBatisDao
 public interface DictDao extends CrudDao<Dict> {
 
+    /**
+     * 查询字典表的类型和描述这两个字段
+     * @return 类型描述的列表list集合
+     * @author fengyuguang
+     */
+    public List<Dict> leftList();
+
+    /**
+     * 根据字典表的类型查询属于该类型的数据列表
+     * @param type 字典表类型
+     * @return 字典表某类的列表集合
+     * @author fengyuguang
+     */
+    public List<Dict> rightList(String type);
+
+    /**
+     * 根据类型或描述模糊查询
+     * @param type
+     * @param description
+     * @return 查询到的字典表List集合
+     * @author fengyuguang
+     */
+    public List<Dict> select(String type,String description);
+
+    /**
+     * 查询所有类型
+     * @param dict 字典表实体类对象
+     * @return 类型列表
+     * @author zhangyao
+     */
 	public List<String> findTypeList(Dict dict);
 
+    /**
+     * 根据类型查询标签列表
+     * @param dict 类型
+     * @return 标签名称列表
+     * @author zhangyao
+     */
     public List<String> findListType(String dict);
 
     public String getLabel(@Param(value = "type")String type,@Param(value = "value")String value );

@@ -5,7 +5,7 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            //$("#reqDept").val(data.deptDict.deptName);
+            $("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
@@ -35,6 +35,7 @@ function onloadMethod() {
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
+                    var hidden="";
                     var divHtmls=$('#target .submitName');
                     var isin=true;
                     for (var i = 0; i < data.length; i++) {
@@ -45,7 +46,9 @@ function onloadMethod() {
                             }
                         }
                         if(isin){
-                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><input class="submitNames" type="hidden" value="'+data[i].descriptionCode+'"/></div>'
+                            var jsonHtml="{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
+
+                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">'+jsonHtml+'</div></div>'
                         }else{
                             isin=true;
                         }
@@ -123,7 +126,6 @@ function selecteds() {
     $('#descriptionId input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
         var html=selected.prop("outerHTML");
-        alert(html);
         selected.remove();
         $("#target").append(html);
     })
@@ -179,7 +181,7 @@ function deleteRow(id) {
 function del(id) {
     $.ajax({
         'type': 'POST',
-        'url': basePath + '/clinicInspect/del',
+        'url': basePath + '/orders/del',
         'contentType': 'application/json',
         'data': id = id,
         'dataType': 'json',
@@ -242,18 +244,12 @@ function saveClinicInspect() {
     }
     var formJson = fromJson('orderForm');
     formJson = formJson.substring(0, formJson.length - 1);
-
     var divJson = "";
-    var divJsons = "";
     $('#target .submitName').each(function (index, element) {
-        divJson += "{\"examItem\":\"" + $(this).val() + "\"},";
-    })
-    $('#target .submitNames').each(function (index, element) {
-        divJsons += "{\"examItemCode\":\"" + $(this).val() + "\"},";
+        divJson += $(this).html();
     })
     divJson = divJson.substring(0, divJson.length - 1);
-    divJsons = divJsons.substring(0, divJsons.length - 1);
-    var submitJson = formJson + ",\"examItemsList\":[" + divJson + ","+divJsons+"]}";
+    var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
 
     var save=$("#modify").val();
     var url="";

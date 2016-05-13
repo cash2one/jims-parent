@@ -29,10 +29,6 @@ public class ClinicInspectRest {
 
     @Reference(version = "1.0.0")
     private ExamAppointsServiceApi examAppointsServiceApi;
-    @Reference(version = "1.0.0")
-    private OutpOrdersCostsServiceApi outpOrdersCostsServiceApi;
-    @Reference(version = "1.0.0")
-    private OutpTreatRecServiceApi outpTreatRecServiceApi;
 
     @Path("list")
     @GET

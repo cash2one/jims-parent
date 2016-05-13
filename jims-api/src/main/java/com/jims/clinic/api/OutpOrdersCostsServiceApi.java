@@ -33,9 +33,9 @@ public interface OutpOrdersCostsServiceApi {
 
     /**
      * 删除收费明细
-     * @param masterId
+     * @param clinicId
      */
-    public String deleteOutpOrders(String masterId);
+    public int deleteOutpOrders(String clinicId);
     /**
      * 删除收费明细治疗
      * @param outpOrdersCosts

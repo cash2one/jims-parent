@@ -14,6 +14,8 @@ import org.hibernate.validator.constraints.Length;
 public class ExamItems extends DataEntity<ExamItems> {
 	
 	private static final long serialVersionUID = 1L;
+	private String orgId;    //组织机构id
+	private String clinicId;		//就诊id
 	private String examNo;		// 申请序号
 	private Integer examItemNo;		// 项目序号
 	private String examItem;		// 检查项目
@@ -48,7 +50,23 @@ public class ExamItems extends DataEntity<ExamItems> {
 	public void setExamNo(String examNo) {
 		this.examNo = examNo;
 	}
-	
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
+	}
+
 	public Integer getExamItemNo() {
 		return examItemNo;
 	}

@@ -17,6 +17,12 @@ import java.util.List;
 @MyBatisDao
 public interface ExamItemsDao extends CrudDao<ExamItems> {
     /**
+     * 通过预约主记录id获取检查项目列表
+     * @param appointsId
+     * @return
+     */
+    public ExamItems getItemList(String appointsId);
+    /**
      *  检查项目保存
      */
     public  void saveExamItems(ExamItems examItems);

@@ -4,6 +4,7 @@
 package com.jims.exam.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.sys.entity.DeptDict;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -32,12 +33,22 @@ public class ExamClassDict extends DataEntity<ExamClassDict> {
     private String memo;		// memo
     private String outpPerform;		// 适用于门诊检查不可选控制
 
+	private DeptDict deptDict; //用于关联查询部门
+
 	public ExamClassDict() {
 		super();
 	}
 
 	public ExamClassDict(String id){
 		super(id);
+	}
+
+	public DeptDict getDeptDict() {
+		return deptDict;
+	}
+
+	public void setDeptDict(DeptDict deptDict) {
+		this.deptDict = deptDict;
 	}
 
 	public Long getSerialNo() {
