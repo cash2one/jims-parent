@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugDict;
+import com.jims.phstock.vo.DrugCatalogBeanVo;
 
 import java.util.List;
 
@@ -77,5 +78,13 @@ public interface DrugDictServiceApi {
      * @author txb
      */
     public List<DrugDict> listDrugDictByDrugCode(String drugCode);
+
+    /**
+     * 药品目录保存
+     * @param drugCatalogBeanVo 药品目录实体vo
+     * @return
+     * @author txb
+     */
+    public String saveDrugCatalog(DrugCatalogBeanVo drugCatalogBeanVo);
 
 }
