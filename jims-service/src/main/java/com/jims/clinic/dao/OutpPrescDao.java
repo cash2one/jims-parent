@@ -20,17 +20,19 @@ public interface OutpPrescDao extends CrudDao<OutpPresc> {
 
     /**
      * 根据就诊记录ID查询病人处方主记录
-     * @param clinicId
+     * @param orgId clinicId
+     * @updateBy CTQ
      * @return
      */
-    public List<OutpPresc> getOutpPresc(@Param("clinicId")String clinicId);
+    public List<OutpPresc> getOutpPresc(@Param("orgId")String orgId,@Param("clinicId")String clinicId);
 
     /**
      * 根据参数查询医嘱组别
-     * @param clinicId
+     * @param orgId clinicId
+     * @updateBy CTQ
      * @return
      */
-    public Integer getOrderNo(@Param("clinicId")String clinicId);
+    public Integer getOrderNo(@Param("orgId")String orgId,@Param("clinicId")String clinicId);
 
     /**
      * @param outpPresc 传递参
@@ -41,5 +43,25 @@ public interface OutpPrescDao extends CrudDao<OutpPresc> {
      * @date 2016/5/10
      */
     public List<OutpPresc> findListByParams(OutpPresc outpPresc);
+    /**
+     * @param       orgId      传递参数
+     * @return java.lang.Integer    返回类型
+     * @throws
+     * @Title: getMaxPrescNo
+     * @Description: (根据机构获取最大处方号并且+1，为下个新方做准备)
+     * @author CTQ
+     * @date 2016/5/12
+     */
+    public Integer getMaxPrescNo(@Param("orgId")String orgId);
+    /**
+     * @param       orgId,prescNo 传递参数
+     * @return java.lang.Integer    返回类型
+     * @throws
+     * @Title: searchPrescNoIfExist
+     * @Description: (查询机构下该处方号是否存在，存在则>0)
+     * @author CTQ
+     * @date 2016/5/12
+     */
+    public Integer searchPrescNoIfExist(@Param("orgId")String orgId,@Param("prescNo")Integer prescNo);
 
 }
