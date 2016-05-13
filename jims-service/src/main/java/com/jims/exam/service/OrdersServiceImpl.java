@@ -45,7 +45,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         examAppoints.setVisitNo(22);
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");
-        examAppoints.setInOrOut("1");
+
         //设置就诊序号
         examAppoints.setVisitNo((int) Math.random() * 1000);
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
