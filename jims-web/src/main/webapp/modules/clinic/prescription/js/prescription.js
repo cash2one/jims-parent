@@ -42,9 +42,6 @@ $(function(){
                     }
                     return value;
                 }}
-        ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
         ]], onClickRow: function (index, row) {
             //如果选中数据非新开数据，则右侧药局部分禁用
             if(row.chargeIndicator!='新开'){
@@ -53,36 +50,40 @@ $(function(){
                 disableForm('prescForm',false);
             }
             if(row.itemClass=='A'){
+                changeRadio('A');
                 $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
                     $("#list_data").datagrid("loadData", data);
                 });
             }else{
+                changeRadio('B');
                 $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
                     $("#list_data").datagrid("loadData", data);
                 });
             }
         }, onLoadSuccess: function(){
-
             var selRow =  $("#leftList").datagrid("getChecked");
+
             //判断是否有选中行数据，如果没有，则默认选中第一行
             if(selRow==null||selRow==''||selRow=='undefined'){
                 $('#leftList').datagrid('selectRow',0);
                 selRow = $("#leftList").datagrid("getChecked");
+            }
+            if(selRow[0].itemClass=='A'){
+                changeRadio('A');
+                $.get(basePath+'/outppresc/sublist?prescNo=' + selRow[0].prescNo+"&clinicId="+clinicId, function (data) {
+                    $("#list_data").datagrid("loadData", data);
+                });
+            }else{
+                changeRadio('B');
+                $.get(basePath+'/outppresc/sublist?prescNo=' + selRow[0].prescNo+"&clinicId="+clinicId, function (data) {
+                    $("#list_data").datagrid("loadData", data);
+                });
             }
             //如果选中数据非新开数据，则右侧药局部分禁用
             if(selRow.chargeIndicator!='新开'){
                 disableForm('prescForm',true);
             }else{
                 disableForm('prescForm',false);
-            }
-            if(selRow.itemClass=='A'){
-                $.get(basePath+'/outppresc/sublist?prescNo=' + selRow[0].prescNo+"&clinicId="+clinicId, function (data) {
-                    $("#list_data").datagrid("loadData", data);
-                });
-            }else{
-                $.get(basePath+'/outppresc/sublist?prescNo=' + selRow[0].prescNo+"&clinicId="+clinicId, function (data) {
-                    $("#list_data").datagrid("loadData", data);
-                });
             }
         }
     });
@@ -187,9 +188,6 @@ $(function(){
             {field:'drugCode',title:'药品编号',hidden:'true',editor:{type:'textbox',options:{editable:false}}}
 
         ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
-        ]],
         toolbar: [{
             text: '添加',
             iconCls: 'icon-add',
@@ -283,12 +281,11 @@ $(function(){
 function funItem(obj){
     itemClass=obj.value;
     $("#itemClass").val(obj.value);
-    $(obj).attr("checked","true");
+    changeRadio(obj.value);
     var selRow = $('#leftList').datagrid('getChecked');
-    var rowIndex = $('#leftList').datagrid('getRowIndex',selRow);
     if(itemClass=='A'){
         $('#leftList').datagrid('updateRow',{
-            index: rowIndex,
+            index: 0,
             row: {
                 visitDate: selRow[0].visitDate,
                 visitNo: selRow[0].visitNo,
@@ -299,7 +296,7 @@ function funItem(obj){
         });
     }else if(itemClass=='B'){
         $('#leftList').datagrid('updateRow',{
-            index: rowIndex,
+            index: 0,
             row: {
                 visitDate: selRow[0].visitDate,
                 visitNo: selRow[0].visitNo,
@@ -312,10 +309,15 @@ function funItem(obj){
 }
 //点击新方
 function addPre(){
+    disableForm('prescForm',false);
     //获取处方列表所有行，并取出所有行中处方号prescNo的最大值，加1后作为新处方的处方号
      var rows = $('#leftList').datagrid('getRows');
      if(rows.length>0){
          for(var i=0;i<rows.length;i++){
+             if(rows[i].chargeIndicator=='新开'){
+                 $.messager.alert("提示消息", "已有新开处方，请先保存或者弃方后再试!");
+                 return;
+             }
              for(var j=0;j<rows.length;j++){
                  if(rows[i].prescNo>rows[j].prescNo){
                     prescNo= rows[i].prescNo+1;
@@ -357,6 +359,7 @@ function addPre(){
             $('#leftList').datagrid('selectRow',0);
         }
     })
+    $("#list_data").datagrid();
 }
 //保存处方及药品信息
 function savePre(){
@@ -443,6 +446,17 @@ function disableForm(formId,isDisabled) {
         if (this.id) {
             alert(this.id);
             $("#" + this.id).combobox(attr);
+        }
+    });
+}
+//选中处方行，更改radio选中值
+function changeRadio(obj){
+    itemClass=obj;
+    $('input:radio').each(function(){
+        if($(this).val()==obj){
+            $(this).attr("checked",true);
+        }else{
+            $(this).attr("checked",false);
         }
     });
 }
