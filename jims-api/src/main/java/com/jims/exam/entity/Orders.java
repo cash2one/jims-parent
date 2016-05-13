@@ -7,7 +7,10 @@ import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.CustomDateSerializer;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.core.annotation.Order;
+
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -20,6 +23,8 @@ public class Orders extends DataEntity<Orders> {
 	private static final long serialVersionUID = 1L;
 	private String patientId;		// 病人标识号
 	private Long visitId;		// 病人本次住院标识
+	private String orgId;    //组织机构id
+	private String clinicId;		//就诊id
 	private Long orderNo;		// 医嘱序号
 	private Long orderSubNo;		// 医嘱子序号
 	private String repeatIndicator;		// 长期医嘱标志
@@ -70,13 +75,39 @@ public class Orders extends DataEntity<Orders> {
 	private String stopFlag;		// 停止医嘱标志
 	private String adaptSymptomIndicate;		// 适应症标志
 	private String dutyDoctor;		// 责任医师
-	
+
+	private List<Order> orderList;
+
 	public Orders() {
 		super();
 	}
 
 	public Orders(String id){
 		super(id);
+	}
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
 	}
 
 	@Length(min=0, max=64, message="病人标识号长度必须介于 0 和 64 之间")

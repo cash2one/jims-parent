@@ -38,12 +38,12 @@ public interface OutpTreatRecDao extends CrudDao<OutpTreatRec> {
     public void saveTreatRec(OutpTreatRec outpTreatRec);
 
     /**
-     * 删除治疗医嘱主记录
+     * 删除治疗医嘱明细记录
      *
-     * @param appointNo
+     * @param clinicId
      * @return
      */
-    public Integer deleteTreatRec(String appointNo);
+    public Integer deleteTreat(String clinicId);
 
     /**
      * 获得检查治疗医嘱最大的流水号

@@ -1,0 +1,509 @@
+/**
+ * Created by fengyuguang on 2016/5/6.
+ */
+$(function(){
+    var editTypeIndex;
+    var editLabelIndex;
+    var sysDictType;    //定义字典表类型
+    var theRowData = {};    //左边datagrid某一行的数据(只有type和description)
+    var datasForType = [];  //某个字典类型下的所有键值数据
+
+    //定义整体多个操作的增删改数据
+    var inserted = [];
+    var updated = [];
+
+    var stopTypeEdit = function () {    //停止编辑左侧列表
+        if (editTypeIndex || editTypeIndex == 0) {
+            $("#descrip").datagrid('endEdit', editTypeIndex);
+            editTypeIndex = undefined;
+        }
+    }
+    var stopLabelEdit = function () {   //停止编辑右侧列表
+        if (editLabelIndex || editLabelIndex == 0) {
+            $("#label_value").datagrid('endEdit', editLabelIndex);
+            editLabelIndex = undefined;
+        }
+    }
+
+    //临时保存增删改数据
+    var tempSave = function () {
+        if (editTypeIndex || editTypeIndex == 0) {
+            $("#descrip").datagrid("endEdit", editTypeIndex);
+        }
+        if (editLabelIndex || editLabelIndex == 0) {
+            $("#label_value").datagrid("endEdit", editLabelIndex);
+        }
+        var insertedData = {};
+        var updatedData = {};
+        //保存刷新之前的左侧列表里面的增删改数据倒数组里面
+        if ($("#descrip").datagrid("getChanges").length > 0) {
+            var typeInsertData = $("#descrip").datagrid("getChanges", "inserted");
+            var typeUpdateData = $("#descrip").datagrid("getChanges", "updated");
+            if (typeInsertData && typeInsertData.length > 0) {
+                for (var i = 0; i < typeInsertData.length; i++) {
+                    if(typeInsertData[i].type == undefined || typeInsertData[i].type == "" || typeInsertData[i].description == undefined || typeInsertData[i].description == ""){
+                        $.messager.alert("提示消息", "类型或描述不能为空!");
+                        $("#descrip").datagrid('reload');
+                        $("#label_value").datagrid('reload');
+                    }else{
+                        var labelInsertData = $("#label_value").datagrid("getChanges", "inserted");
+                        if (labelInsertData && labelInsertData.length > 0) {
+                            for (var j = 0; j < labelInsertData.length; j++) {
+                                insertedData.type = typeInsertData[i].type;
+                                insertedData.description = typeInsertData[i].description;
+                                insertedData.label = labelInsertData[j].label;
+                                insertedData.value = labelInsertData[j].value;
+                                insertedData.sort = labelInsertData[j].sort;
+                                insertedData.remarks = labelInsertData[j].remarks;
+                                insertedData.inputCode = labelInsertData[j].inputCode;
+                                if(insertedData.label == undefined || insertedData.label == ""){
+                                    $.messager.alert("提示消息","标签不能为空!");
+                                }else if(insertedData.value == undefined || insertedData.value == ""){
+                                    $.messager.alert("提示消息", "键值不能为空!");
+                                }else if(insertedData.sort == undefined || insertedData.sort == ""){
+                                    $.messager.alert("提示消息", "请指定排序!");
+                                }else{
+                                    inserted.push(insertedData);
+                                    insertedData = {};
+                                }
+                            }
+                        }
+                    }
+                }
+                $.messager.confirm('提示', '您要保存刚才的操作吗?', function (r) {
+                    if (r) {
+                        save();
+                        $("#descrip").datagrid('load');
+                        loadTypeDict();
+                        loadLabelDict();
+                    } else {
+                        loadTypeDict();
+                        loadLabelDict();
+                    }
+                });
+            }
+            if (typeUpdateData && typeUpdateData.length > 0) {
+                for (var i = 0; i < typeUpdateData.length; i++) {
+                    for(var j=0;j< datasForType.length;j++){
+                        updatedData.id = datasForType[j].id;
+                        updatedData.label = datasForType[j].label;
+                        updatedData.value = datasForType[j].value;
+                        updatedData.remarks = datasForType[j].remarks;
+                        updatedData.inputCode = datasForType[j].inputCode;
+                        updatedData.sort = datasForType[j].sort;
+                        updatedData.type = typeUpdateData[i].type;
+                        updatedData.description = typeUpdateData[i].description;
+                        updated.push(updatedData);
+                        updatedData = {};
+                    }
+                }
+                $.messager.confirm('提示', '您确定修改吗?', function (r) {
+                    if (r) {
+                        save();
+                        $("#descrip").datagrid('load');
+                    } else {
+                        loadTypeDict();
+                        loadLabelDict();
+                    }
+                });
+            }
+        }else if($("#label_value").datagrid("getChanges").length > 0) {
+            var theRowData = $("#descrip").datagrid('getSelected');
+            var labelInsertData = $("#label_value").datagrid("getChanges", "inserted");
+            var labelUpdatedData = $("#label_value").datagrid("getChanges", "updated");
+            if (labelInsertData && labelInsertData.length > 0) {    //插入数据
+                for (var j = 0; j < labelInsertData.length; j++) {
+                    insertedData.type = theRowData.type;
+                    insertedData.description = theRowData.description;
+                    insertedData.label = labelInsertData[j].label;
+                    insertedData.value = labelInsertData[j].value;
+                    insertedData.sort = labelInsertData[j].sort;
+                    insertedData.remarks = labelInsertData[j].remarks;
+                    insertedData.inputCode = labelInsertData[j].inputCode;
+                    if (insertedData.label == undefined || insertedData.label == "") {
+                        $.messager.alert("提示消息", "标签不能为空!");
+                    } else if (insertedData.value == undefined || insertedData.value == "") {
+                        $.messager.alert("提示消息", "键值不能为空!");
+                    } else if (insertedData.sort == undefined || insertedData.sort == "") {
+                        $.messager.alert("提示消息", "请指定排序!");
+                    } else {
+                        inserted.push(insertedData);
+                        insertedData = {};
+                    }
+                }
+                $.messager.confirm('提示', '您要保存刚才的操作吗?', function (r) {
+                    if (r) {
+                        save();
+                        loadTypeDict();
+                        loadLabelDict();
+                    } else {
+                        loadTypeDict();
+                        loadLabelDict();
+                    }
+                });
+            }
+            if(labelUpdatedData && labelUpdatedData.length > 0){    //更新数据
+                for (var i = 0; i < labelUpdatedData.length; i++) {
+                        updatedData.id = datasForType[i].id;
+                        updatedData.label = labelUpdatedData[i].label;
+                        updatedData.value = labelUpdatedData[i].value;
+                        updatedData.remarks = labelUpdatedData[i].remarks;
+                        updatedData.inputCode = labelUpdatedData[i].inputCode;
+                        updatedData.sort = labelUpdatedData[i].sort;
+                        updatedData.type = theRowData.type;
+                        updatedData.description = theRowData.description;
+                        updated.push(updatedData);
+                        updatedData = {};
+                }
+                $.messager.confirm('提示', '您确定修改吗?', function (r) {
+                    if (r) {
+                        save();
+                        $("#descrip").datagrid('load');
+                    } else {
+                        loadTypeDict();
+                        loadLabelDict();
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * 左侧列表显示字典表的类型和描述字段
+     */
+    $("#descrip").datagrid({
+        iconCls: 'icon-edit',//图标
+        width: 'auto',
+        height: 'auto',
+        nowrap: false,  //如果为true，则在同一行中显示数据
+        striped: true,  //显示斑马线效果
+        border: true,
+        method: 'get',
+        collapsible: false,//是否可折叠的
+        fit: true,//自动大小
+        url: basePath + '/dict/type-description-list',
+        remoteSort: false,  //定义从服务器对数据进行排序
+        idField: 'fldId',
+        singleSelect: true,//是否单选
+        columns:[[
+            {
+                title: '类型',
+                field: 'type',
+                width: '40%',
+                align: 'center',
+                editor:{
+                    type: 'textbox',
+                    options:{
+                        required: true
+                    }
+                }
+            },
+            {
+                field: 'description',
+                title: '描述',
+                width: '60%',
+                align: 'center',
+                editor: {
+                    type: 'textbox',
+                    options: {
+                        required: true
+                    }
+                }
+            }
+        ]],
+        onLoadSuccess: function (data) {
+            var defaultRow =  $(this).datagrid('selectRow', 0);   //加载成功默认选中第一行
+            var thisRow = $(this).datagrid('getSelected');      //获取被选中的行
+            $.get(basePath + "/dict/label-value-list?type=" + thisRow.type, function (data) {
+                $("#label_value").datagrid('loadData', data);
+            });
+        },
+        //点击一行触发事件查询属于该类型的所有数据
+        onClickRow:function(rowIndex, rowData){
+            stopTypeEdit();
+            tempSave();
+            theRowData = {};
+            sysDictType = rowData.type;  //赋值给字典表类型
+            $.get(basePath + "/dict/label-value-list?type=" + sysDictType,function(data){
+                $("#label_value").datagrid('loadData',data);
+                var oneData = {};
+                if (datasForType == null) {
+                    for (var a = 0; a < data.length; a++) {
+                        oneData.id = data[a].id;
+                        oneData.label = data[a].label;
+                        oneData.value = data[a].value;
+                        oneData.remarks = data[a].remarks;
+                        oneData.inputCode = data[a].inputCode;
+                        oneData.sort = data[a].sort;
+                        datasForType.push(oneData);
+                        oneData = {};
+                    }
+                }else{
+                    datasForType = [];
+                    for (var a = 0; a < data.length; a++) {
+                        oneData.id = data[a].id;
+                        oneData.label = data[a].label;
+                        oneData.value = data[a].value;
+                        oneData.remarks = data[a].remarks;
+                        oneData.inputCode = data[a].inputCode;
+                        oneData.sort = data[a].sort;
+                        datasForType.push(oneData);
+                        oneData = {};
+                    }
+                }
+            });
+            $("#label_value").datagrid('clearSelections');
+        },
+        //用户双击一行时触发事件编辑
+        onDblClickRow: function (rowIndex, rowData) {
+            stopTypeEdit();
+            stopLabelEdit();
+            $(this).datagrid('beginEdit', rowIndex);
+            editTypeIndex = rowIndex;
+        }
+    });
+
+    /**
+     * 右侧列表显示根据类型查询的数据
+     */
+    $("#label_value").datagrid({
+        iconCls: 'icon-edit',//图标
+        width: 'auto',
+        height: 'auto',
+        nowrap: false,  //如果为true，则在同一行中显示数据
+        striped: true,  //显示斑马线效果
+        border: true,
+        method: 'get',
+        collapsible: false,//是否可折叠的
+        fit: true,//自动大小
+        remoteSort: false,  //定义从服务器对数据进行排序
+        idField: 'fldId',
+        singleSelect: false,//是否单选
+        columns: [[
+            {
+                field: 'id',
+                title: 'ID',
+                hidden: true
+            },
+            {
+                field: 'label',
+                title: '标签',
+                width: '20%',
+                align: 'center',
+                editor: {
+                    type: 'textbox',
+                    options: {
+                        required: true
+                    }
+                }
+            },
+            {
+                field: 'value',
+                title: '键值',
+                width: '20%',
+                align: 'center',
+                editor: {
+                    type: 'textbox',
+                    options: {
+                        required: true
+                    }
+                }
+            },
+            {field: 'remarks', title: '备注', width: '20%', align: 'center', editor: 'text'},
+            {field: 'inputCode', title: '输入码', width: '20%', align: 'center', editor: 'text'},
+            {
+                field: 'sort',
+                title: '排序',
+                width: '20%',
+                align: 'center',
+                editor: {
+                    type: 'numberbox',
+                    options: {
+                        required: true
+                    }
+                }
+            }
+        ]],
+        onLoadSuccess: function (data) {
+            $(this).datagrid('selectRow', 0);   //加载成功默认选中第一行
+        },
+        onClickRow:function(rowIndex, rowData){
+            stopTypeEdit();
+            if(editLabelIndex != null || editLabelIndex != undefined){
+                stopLabelEdit();    //点击一行选中前，先判断有没有别的行处于编辑状态，如果有，则停止编辑
+            }
+        },
+        onDblClickRow: function (rowIndex, rowData) {   //双击一行触发事件编辑
+            stopTypeEdit();
+            stopLabelEdit();
+            $(this).datagrid('clearSelections');    //编辑此行前先清空选择的其他行
+            $(this).datagrid('beginEdit', rowIndex);
+            editLabelIndex = rowIndex;
+            var oneData = {};
+            if (datasForType == null) {
+                oneData.id = rowData.id;
+                oneData.label = rowData.label;
+                oneData.value = rowData.value;
+                oneData.remarks = rowData.remarks;
+                oneData.inputCode = rowData.inputCode;
+                oneData.sort = rowData.sort;
+                datasForType.push(oneData);
+                oneData = {};
+            } else {
+                datasForType = [];
+                oneData.id = rowData.id;
+                oneData.label = rowData.label;
+                oneData.value = rowData.value;
+                oneData.remarks = rowData.remarks;
+                oneData.inputCode = rowData.inputCode;
+                oneData.sort = rowData.sort;
+                datasForType.push(oneData);
+                oneData = {};
+            }
+        }
+    });
+
+    $('#cc').layout('panel', 'south').panel('resize', {height: 'auto'});
+    $("#cc").layout({
+        fit: true
+    });
+
+    var loadTypeDict = function () {
+        //提交成功后刷新左侧datagrid
+        $.get(basePath + '/dict/type-description-list', function (data) {
+            $("#descrip").datagrid('load', data);
+            $("#label_value").datagrid('clearSelections');
+        });
+        //提交完成后重置增删改数据
+        inserted = [];
+        updated = [];
+    }
+
+    var loadLabelDict = function () {
+        //提交成功后刷新右侧datagrid
+        var thisTypeData = $("#descrip").datagrid('getSelected');
+        sysDictType = thisTypeData.type;
+        $.get(basePath + "/dict/label-value-list?type=" + sysDictType, function (data) {
+            $("#label_value").datagrid('load', data);
+            $("#label_value").datagrid('clearSelections');
+        });
+        //提交完成后重置增删改数据
+        inserted = [];
+        updated = [];
+    }
+
+    //添加字典
+    $("#addTypeBtn").on('click', function () {
+        stopTypeEdit();
+        stopLabelEdit();
+        //增加字典
+        $('#descrip').datagrid('appendRow',{});
+        var typeRows = $("#descrip").datagrid('getRows');
+        var addTypeRowIndex = $("#descrip").datagrid('getRowIndex', typeRows[typeRows.length - 1]);
+        editTypeIndex = addTypeRowIndex;
+        $("#descrip").datagrid('selectRow', editTypeIndex);  //选择新增加的一行
+        $("#descrip").datagrid('beginEdit', editTypeIndex);  //开始编辑新增加的行数据
+
+        $("#label_value").datagrid('loadData', {total: 0, rows: []});   //清空右侧表格数据
+        //增加键值
+        $('#label_value').datagrid('appendRow', {});
+        var labelRows = $("#label_value").datagrid('getRows');
+        var addLabelRowIndex = $("#label_value").datagrid('getRowIndex', labelRows[labelRows.length - 1]);
+        editLabelIndex = addLabelRowIndex;
+        $("#label_value").datagrid('selectRow', editLabelIndex);  //选择新增加的一行
+        $("#label_value").datagrid('beginEdit', editLabelIndex);  //开始编辑新增加的行数据
+
+    });
+    //添加键值
+    $("#addChildBtn").on('click',function(){
+        stopTypeEdit();
+        stopLabelEdit();
+        $('#label_value').datagrid('appendRow', {});
+        var labelRows = $("#label_value").datagrid('getRows');
+        var addLabelRowIndex = $("#label_value").datagrid('getRowIndex', labelRows[labelRows.length - 1]);
+        editLabelIndex = addLabelRowIndex;
+        $("#label_value").datagrid('selectRow', editLabelIndex);  //选择新增加的一行
+        $("#label_value").datagrid('beginEdit', editLabelIndex);  //开始编辑新增加的行数据
+    });
+    //批量删除
+    $("#delBtn").on('click', function () {
+        stopTypeEdit();
+        stopLabelEdit();
+        tempSave();
+        var deleteRows = $("#label_value").datagrid('getSelections');	//获取所有被选中的行，即要删除的所有行
+        if (deleteRows.length < 1) {
+            $.messager.alert("提示消息", "请选中要删的数据!");
+            return;
+        }
+        $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+            if(r){
+                var strIds = "";
+                for (var i = 0; i < deleteRows.length; i++) {
+                    strIds += deleteRows[i].id + ",";
+                }
+                strIds = strIds.substr(0, strIds.length - 1);
+                del(strIds);
+            }
+        })
+    });
+
+    //批量删除
+    function del(ids) {
+        $.ajax({
+            'type': 'POST',
+            'url': basePath + '/dict/del',
+            'contentType': 'application/json',
+            'data': ids,
+            'dataType': 'json',
+            'success': function (data) {
+                if (data.data == 'success') {
+                    $.messager.alert("提示消息", data.code + "条记录，已经删除");
+                    loadTypeDict();
+                    loadLabelDict();
+                } else {
+                    $.messager.alert('提示', "删除失败", "error");
+                }
+            },
+            'error': function (data) {
+                $.messager.alert('提示', "保存失败", "error");
+            }
+        });
+    }
+
+    //保存
+    $("#saveBtn").on('click', tempSave);
+
+    function save(){
+        var beanChangeVo = {};
+        beanChangeVo.inserted = inserted;// inserted;
+        beanChangeVo.updated = updated; //updated;
+
+        if (beanChangeVo) {
+            $.postJSON(basePath + '/dict/merge', JSON.stringify(beanChangeVo), function (resp) {
+                if (resp.data == 'success') {
+                    $.messager.alert("提示消息","保存成功!");
+                    loadTypeDict();
+                    loadLabelDict();
+                }else{
+                    $.messager.alert('提示', "保存失败", "error");
+                    loadTypeDict();
+                    loadLabelDict();
+                }
+            }, function (data) {
+                alert(data.data);
+                $.messager.alert('提示', "保存失败", "error");
+                loadTypeDict();
+                loadLabelDict();
+            });
+        }
+    }
+
+    //查询
+    $("#searchBtn").on('click',function(){
+        var selectName = $("#name").val();
+        $.get(basePath + '/dict/search?type='+selectName+'&description='+selectName,function(data){
+            $("#descrip").datagrid('loadData',data);
+            $("#label_value").datagrid('clearSelections');
+        });
+    });
+});

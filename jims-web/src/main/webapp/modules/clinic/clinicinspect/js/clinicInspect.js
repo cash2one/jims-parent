@@ -1,17 +1,19 @@
 function onloadMethod() {
+
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            //$("#reqDept").val(data.deptDict.deptName);
+            var clinicId= parent.document.getElementById("clinicMasterId").value;
+            $("#clinicId").val(clinicId);
+            $("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
             $("#target").empty();
             $("#descriptionId").empty();
-
             $.ajax({
                 type: "POST",
                 url: basePath + '/examClassDict/getExamSubclass',
@@ -35,6 +37,7 @@ function onloadMethod() {
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
+                    var hidden="";
                     var divHtmls=$('#target .submitName');
                     var isin=true;
                     for (var i = 0; i < data.length; i++) {
@@ -45,7 +48,9 @@ function onloadMethod() {
                             }
                         }
                         if(isin){
-                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input></div>'
+                            var jsonHtml="{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
+
+                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">'+jsonHtml+'</div></div>'
                         }else{
                             isin=true;
                         }
@@ -243,7 +248,7 @@ function saveClinicInspect() {
     formJson = formJson.substring(0, formJson.length - 1);
     var divJson = "";
     $('#target .submitName').each(function (index, element) {
-        divJson += "{\"examItem\":\"" + $(this).val() + "\"},";
+        divJson += $(this).html();
     })
     divJson = divJson.substring(0, divJson.length - 1);
     var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";

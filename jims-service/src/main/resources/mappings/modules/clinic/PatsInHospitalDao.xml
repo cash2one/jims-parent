@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.PatsInHospitalDao">
+    
+	<sql id="patsInHospitalColumns">
+		a.id AS "id",
+		a.hosid AS "hosid",
+		a.visit_id AS "visitId",
+		a.ward_code AS "wardCode",
+		a.dept_code AS "deptCode",
+		a.bed_no AS "bedNo",
+		a.admission_date_time AS "admissionDateTime",
+		a.adm_ward_date_time AS "admWardDateTime",
+		a.diagnosis AS "diagnosis",
+		a.patient_condition AS "patientCondition",
+		a.nursing_class AS "nursingClass",
+		a.doctor_in_charge AS "doctorInCharge",
+		a.operating_date AS "operatingDate",
+		a.billing_date_time AS "billingDateTime",
+		a.prepayments AS "prepayments",
+		a.total_costs AS "totalCosts",
+		a.total_charges AS "totalCharges",
+		a.guarantor AS "guarantor",
+		a.guarantor_org AS "guarantorOrg",
+		a.guarantor_phone_num AS "guarantorPhoneNum",
+		a.bill_checked_date_time AS "billCheckedDateTime",
+		a.settled_indicator AS "settledIndicator",
+		a.lend_bed_no AS "lendBedNo",
+		a.bed_dept_code AS "bedDeptCode",
+		a.bed_ward_code AS "bedWardCode",
+		a.dept_code_lend AS "deptCodeLend",
+		a.lend_indicator AS "lendIndicator",
+		a.is_newborn AS "isNewborn",
+		a.org_id AS "orgId",
+		a.clinic_id AS "clinicId",
+		a.patient_id AS "patientId"
+	</sql>
+	
+	<sql id="patsInHospitalJoins">
+	</sql>
+    
+	<select id="get" resultType="PatsInHospital">
+		SELECT 
+			<include refid="patsInHospitalColumns"/>
+		FROM pats_in_hospital a
+		<include refid="patsInHospitalJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PatsInHospital">
+		SELECT 
+			<include refid="patsInHospitalColumns"/>
+		FROM pats_in_hospital a
+		<include refid="patsInHospitalJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PatsInHospital">
+		SELECT 
+			<include refid="patsInHospitalColumns"/>
+		FROM pats_in_hospital a
+		<include refid="patsInHospitalJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pats_in_hospital(
+			id,
+			hosid,
+			visit_id,
+			ward_code,
+			dept_code,
+			bed_no,
+			admission_date_time,
+			adm_ward_date_time,
+			diagnosis,
+			patient_condition,
+			nursing_class,
+			doctor_in_charge,
+			operating_date,
+			billing_date_time,
+			prepayments,
+			total_costs,
+			total_charges,
+			guarantor,
+			guarantor_org,
+			guarantor_phone_num,
+			bill_checked_date_time,
+			settled_indicator,
+			lend_bed_no,
+			bed_dept_code,
+			bed_ward_code,
+			dept_code_lend,
+			lend_indicator,
+			is_newborn,
+			org_id,
+			clinic_id,
+			patient_id
+		) VALUES (
+			#{id},
+			#{hosid},
+			#{visitId},
+			#{wardCode},
+			#{deptCode},
+			#{bedNo},
+			#{admissionDateTime},
+			#{admWardDateTime},
+			#{diagnosis},
+			#{patientCondition},
+			#{nursingClass},
+			#{doctorInCharge},
+			#{operatingDate},
+			#{billingDateTime},
+			#{prepayments},
+			#{totalCosts},
+			#{totalCharges},
+			#{guarantor},
+			#{guarantorOrg},
+			#{guarantorPhoneNum},
+			#{billCheckedDateTime},
+			#{settledIndicator},
+			#{lendBedNo},
+			#{bedDeptCode},
+			#{bedWardCode},
+			#{deptCodeLend},
+			#{lendIndicator},
+			#{isNewborn},
+			#{orgId},
+			#{clinicId},
+			#{patientId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pats_in_hospital SET 	
+			hosid = #{hosid},
+			visit_id = #{visitId},
+			ward_code = #{wardCode},
+			dept_code = #{deptCode},
+			bed_no = #{bedNo},
+			admission_date_time = #{admissionDateTime},
+			adm_ward_date_time = #{admWardDateTime},
+			diagnosis = #{diagnosis},
+			patient_condition = #{patientCondition},
+			nursing_class = #{nursingClass},
+			doctor_in_charge = #{doctorInCharge},
+			operating_date = #{operatingDate},
+			billing_date_time = #{billingDateTime},
+			prepayments = #{prepayments},
+			total_costs = #{totalCosts},
+			total_charges = #{totalCharges},
+			guarantor = #{guarantor},
+			guarantor_org = #{guarantorOrg},
+			guarantor_phone_num = #{guarantorPhoneNum},
+			bill_checked_date_time = #{billCheckedDateTime},
+			settled_indicator = #{settledIndicator},
+			lend_bed_no = #{lendBedNo},
+			bed_dept_code = #{bedDeptCode},
+			bed_ward_code = #{bedWardCode},
+			dept_code_lend = #{deptCodeLend},
+			lend_indicator = #{lendIndicator},
+			is_newborn = #{isNewborn},
+			org_id = #{orgId},
+			clinic_id = #{clinicId},
+			patient_id = #{patientId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM pats_in_hospital
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugCodingRuleDao">
+    
+	<sql id="drugCodingRuleColumns">
+		a.id AS "id",
+		a.code_level AS "codeLevel",
+		a.level_width AS "levelWidth",
+		a.class_name AS "className",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="drugCodingRuleJoins">
+	</sql>
+    
+	<select id="get" resultType="DrugCodingRule">
+		SELECT 
+			<include refid="drugCodingRuleColumns"/>
+		FROM drug_coding_rule a
+		<include refid="drugCodingRuleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DrugCodingRule">
+		SELECT 
+			<include refid="drugCodingRuleColumns"/>
+		FROM drug_coding_rule a
+		<include refid="drugCodingRuleJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DrugCodingRule">
+		SELECT 
+			<include refid="drugCodingRuleColumns"/>
+		FROM drug_coding_rule a
+		<include refid="drugCodingRuleJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+    <select id="findAll" resultType="DrugCodingRule">
+        SELECT
+            <include refid="drugCodingRuleColumns"/>
+        FROM drug_coding_rule a WHERE a.del_flag = 0  ORDER BY a.code_level ASC
+    </select>
+
+    <select id="findLevelWidth" resultType="DrugCodingRule">
+        SELECT
+        <include refid="drugCodingRuleColumns"/>
+        FROM drug_coding_rule a WHERE a.class_name = #{className}
+    </select>
+
+	<insert id="insert">
+		INSERT INTO drug_coding_rule(
+			id,
+			code_level,
+			level_width,
+			class_name,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{id},
+			#{codeLevel},
+			#{levelWidth},
+			#{className},
+			#{remarks},
+			#{updateBy},
+			#{createBy},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_coding_rule SET 	
+			code_level = #{codeLevel},
+			level_width = #{levelWidth},
+			class_name = #{className},
+			remarks = #{remarks},
+			update_by = #{updateBy},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_coding_rule SET 
+			del_flag = 1
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

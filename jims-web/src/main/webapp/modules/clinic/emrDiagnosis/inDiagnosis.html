@@ -7,19 +7,69 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/js/formSubmit.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <script type="text/javascript" src="../emrDiagnosis/js/diagnosis.js"></script>
     <script type="text/javascript" src="../emrDiagnosis/js/inDiagnosis.js"></script>
 </head>
 <body>
-<div style="margin:20px 0;">
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="edit()">Edit</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="save()">Save</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="cancel()">Cancel</a>
-</div>
-<table id="tg" class="easyui-treegrid" title="Editable TreeGrid" style="width:100%;">
+
+
+<table id="tg" class="easyui-treegrid"  style="width:100%;">
     <thead>
 
     </thead>
 </table>
+<div id="dlg" class="easyui-dialog" style="width:70%;height:380px;padding-top: 20px;"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post">
+
+        <div class="fitem">
+            <label>诊断类型:</label>
+            <select   name="type" id="type"  class="easyui-combobox" style="width:200px;"></select>
+        </div>
+        <div class="fitem">
+            <label>诊断描述:</label>
+            <input id="description" name="description" class="easyui-textbox">
+        </div>
+        <div class="fitem">
+            <label>治疗结果</label>
+            <input name="treatResult" id="treatResult" class="easyui-textbox" >
+        </div>
+        <div class="fitem">
+            <label>手术</label>
+            <input name="operTreatIndicator" id="operTreatIndicator" type="checkbox"  value="1">
+        </div>
+        <div class="fitem">
+            <label>诊断日期</label>
+            <input name="diagnosisDate" id="diagnosisDate" class="easyui-datebox">
+        </div>
+        <div class="fitem">
+            <label>病理号</label>
+            <input name="pathologyNo" id="pathologyNo" class="easyui-textbox">
+        </div>
+        <div class="fitem">
+            <label>诊断名称</label>
+            <select   name="diagnosisId" id="diagnosisId" class="easyui-combobox" style="width:200px;" ></select>
+        </div>
+
+        <input name="id" id="id" type="hidden">
+
+
+        <input name="parentId" id="parentId" type="hidden">
+
+
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">关闭</a>
+</div>
+
+<!--<div id="tb">
+    <a href="#" id="addSameLevelBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="insert();">添加同级诊断</a>
+    <a href="#" id="addNextLevelBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="addNextLevel();">添加下级诊断</a>
+    <a href="#" id="removeBtn" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="del();">删除</a>
+    <a href="#" id="updateBtn" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:true" onclick="edit();">修改</a>
+</div>-->
 
 
 

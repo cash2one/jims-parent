@@ -72,10 +72,10 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
     /**
      * 删除收费明细
      *
-     * @param masterId
+     * @param clinicId
      */
-    public String deleteOutpOrders(String masterId) {
-        return outpOrdersCostsDao.deleteOutpOrders(masterId);
+    public int deleteOutpOrders(String clinicId) {
+        return outpOrdersCostsDao.deleteOutpOrders(clinicId);
     }
 
 

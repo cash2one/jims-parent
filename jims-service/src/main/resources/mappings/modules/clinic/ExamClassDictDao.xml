@@ -24,10 +24,12 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		b.dept_name AS "deptDict.deptName"
 	</sql>
 
     <sql id="examClassDictJoins">
+        LEFT JOIN dept_dict b on a.perform_by=b.dept_code
     </sql>
 
     <select id="get" resultType="ExamClassDict">
@@ -146,13 +148,9 @@
 
 	<select id="getEx" resultType="ExamClassDict">
 		SELECT
-			id,
-			exam_class_code,
-			exam_class_name,
-			perform_by,
-			loacal_id_class,
-			performed_by
-			FROM exam_class_dict
+        <include refid="examClassDictColumns"/>
+        FROM exam_class_dict a
+        <include refid="examClassDictJoins"/>
 	</select>
 
 </mapper>

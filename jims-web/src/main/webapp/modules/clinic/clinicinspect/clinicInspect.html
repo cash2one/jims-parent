@@ -27,17 +27,16 @@
                     <input  name="examClass" id="examClassNameId" style="width: 145px;" >
                     <input name="examSubClass" id="examSubclassNameId" style="width: 145px;">
                     &nbsp;
-                    <input title="" placeholder="发往科室"  name="reqDept" class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;" required="true">
+                    <input title="" id="reqDept" readonly= "true " placeholder="发往科室"  name="reqDept" class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;">
                 </div>
                     <div class="fitem">
                         <label>
                             项目：
                         </label>
-                        <div  id="target"style=" overflow-y:scroll; border:1px solid;width: 260px" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea">
-                        </div>
+                        <div  id="target"style=" overflow-y:scroll; border:1px solid;width: 260px" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea"></div>
                         <div class="tarea-cbtn">
                             <button onclick="selecteds();" type="button" class="tlr-btn">&lt;&lt;</button><br/>
-                            <button class="tlr-btn" onclick="cancel();" type="button" style="margin:10px 0;">&gt;&gt;</button>
+                            <button class="tlr-btn" onclick="cancels();" type="button" style="margin:10px 0;">&gt;&gt;</button>
                         </div>
                         <div id="descriptionId" style="width: 210px;" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea">
                         </div>
@@ -80,6 +79,7 @@
                     <input title="" name="notice" class="easyui-validatebox validatebox-text validatebox-invalid" required="true">
                 </div>
             </div>
+            <input type="hidden"  id="clinicId" name="clinicId" value="">
         </form>
         <div id="dlg-buttons" class="btn-save">
             <a href="javascript:void(0)"  class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="saveClinicInspect();" style="width: 90px">保存</a>

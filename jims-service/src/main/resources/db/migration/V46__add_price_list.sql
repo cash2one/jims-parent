@@ -157,4 +157,9 @@ create unique index UK_PRICE_LIST on PRICE_LIST (ITEM_CLASS, ITEM_CODE, ITEM_SPE
     minextents 1
     maxextents unlimited
   );
---alter sequence PRICE_DICT maxvalue 999999;
+create sequence PRICE_DICT
+minvalue  1
+maxvalue  999999
+start  with  1
+increment  by  1
+cache  20;
