@@ -37,4 +37,11 @@ public interface DrugBuyPlanDao extends CrudDao<DrugBuyPlan> {
      * @return
      */
     public List<String> getBuyId(String flag,String orgId);
+
+    /**
+     * 根据主键直接删除数据，而非修改数据中的删除标志
+     * @param id
+     * @return
+     */
+    public int deleteInfo(String id);
 }

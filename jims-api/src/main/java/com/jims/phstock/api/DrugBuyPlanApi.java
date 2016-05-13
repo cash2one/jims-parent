@@ -56,6 +56,13 @@ public interface DrugBuyPlanApi {
     public String delete(String buyId,String orgId);
 
     /**
+     * 根据主键进行删除数据，而非修改数据的删除标志
+     * @param ids ，多个主键以 , 隔开
+     * @return
+     */
+    public String deleteInfo(String ids);
+
+    /**
      * 获取指定日期的下一个单据号
      * @param date
      * @param orgId 所属机构ID

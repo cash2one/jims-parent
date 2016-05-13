@@ -60,6 +60,24 @@ public class DrugBuyPlanService extends CrudImplService<DrugBuyPlanDao, DrugBuyP
     }
 
     /**
+     * 根据主键进行删除数据，而非修改数据的删除标志
+     * @param ids ，多个主键以 , 隔开
+     * @return
+     */
+    public String deleteInfo(String ids){
+        int i=0;
+        try {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++){
+                i += dao.deleteInfo(id[j]);
+            }
+        }catch(Exception e){
+            return i+"";
+        }
+        return i+"";
+    }
+
+    /**
      * 获取指定日期的下一个单据号
      * @param date
      * @return

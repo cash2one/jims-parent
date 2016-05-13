@@ -2,10 +2,63 @@ $(function(){
     var base_url = '/service/drug-buy-plan/'
     var username  = '仓管员'
         ,orgId = parent.config.org_Id
-        ,currentBuyId = ''
+        ,currentBuyId = '' // 当前采购单据号
         ,currentStorage = parent.config.currentStorage
         ,drugDicts = []  // 检索的暂存采购计划单
-        ,initDrugPriceWindowFlag = true
+        ,initDrugPriceWindowFlag = true  // 是否初始化药品价格表弹出框
+
+    var planSelectIndex = 0;   // 购买计划表当前选择行索引
+    // 药品类别
+    var drugIndicators = [
+        {value:'1',label:'西药'},
+        {value:'2',label:'中草药'},
+        {value:'3',label:'中成药'},
+        {value:'5',label:'辅料'},
+        {value:'6',label:'试剂'},
+        {value:'8',label:'材料'},
+        {value:'9',label:'其他'}]
+
+    /**
+     * 格式化数据
+     * @param arr 数组格式类似 [{value:'1',label:'测试'}...]
+     * @param value
+     * @returns {*}
+     */
+    var format = function(arr,value){
+        if(arr){
+            for(var i= 0,len=arr.length;i<len;i++){
+                if(arr[i].value == value)
+                    return arr[i].label
+            }
+        }
+        return value
+
+    }
+    /**
+     * 校验通过则结束编辑
+     * @returns {boolean}
+     */
+    var endEditing = function(){
+        if (planSelectIndex == undefined){return true}
+        if ($('#buyPlanTable').datagrid('validateRow', planSelectIndex)){
+            $('#buyPlanTable').datagrid('endEdit', planSelectIndex);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * 点击datagrid单元格事件
+     * @param index
+     * @param field
+     */
+    var onClickCell = function(index, field){
+        if (endEditing()){
+            $('#buyPlanTable').datagrid('selectRow', index)
+                .datagrid('editCell', {index:index,field:field});
+            planSelectIndex = index;
+        }
+    }
 
     /**
      * 初始化药品购买计划表
@@ -22,10 +75,10 @@ $(function(){
             columns: [[
                 {field: 'id', title: '编号',hidden:true},
                 { field: 'buyNo', title: '采购序号', width: 60,align : "center"},
-                { field: 'drugName', title: '药名', width: 220,align : "center",editor:{
+                { field: 'drugCode', title: '药名', width: 220,align : "center",editor:{
                     type:'combogrid',
                     options:{
-                        panelWidth:443,
+                        panelWidth:463,
                         idField:'drugCode',
                         textField:'drugName',
                         required:true,
@@ -38,8 +91,11 @@ $(function(){
                                 return '<div style="text-align:left">'+value+'</div>'
                             }},
                             {field:'inputCode',title:'输入码',width:70,align : "center"},
-                            {field:'drugForm',title:'剂型',width:50,align : "center"},
-                            {field:'drugIndicator',title:'药品类别',width:60,align : "center"}
+                            {field:'toxiProperty',title:'毒理分类',width:70,align : "center"},
+                            {field:'drugIndicator',title:'药品类别',width:60,align : "center",
+                            formatter:function(value){
+                                return format(drugIndicators,value)
+                            }}
                         ]],
                         onChange:function(newV,oldV){
                             if(newV != oldV)return
@@ -64,9 +120,12 @@ $(function(){
                     }
                     return '<div style="text-align:left">'+value+'</div>';
                 }},
-                { field: 'drugSpec', title: '包装规格', width: 60,align : "center" },
-                { field: 'units', title: '包装单位', width: 60,align : "center" },
-                { field: 'firmId', title: '厂家', width: 200,align : "center" },
+                { field: 'packSpec', title: '包装规格', width: 60,align : "center" },
+                { field: 'packUnit', title: '包装单位', width: 60,align : "center" },
+                { field: 'supplier', title: '厂家', width: 200,align : "center" ,
+                formatter : function(value){
+                    return '<div style="text-align:left">'+value+'</div>';
+                }},
                 { field: 'wantNumber', title: '计划数量', width: 60,align : "center",editor:{
                     type : 'numberbox',
                     options:{
@@ -110,24 +169,7 @@ $(function(){
             toolbar: '#tbn',
             onClickCell:onClickCell
         });
-        var editIndex = undefined;
-        function endEditing(){
-            if (editIndex == undefined){return true}
-            if ($('#buyPlanTable').datagrid('validateRow', editIndex)){
-                $('#buyPlanTable').datagrid('endEdit', editIndex);
-                editIndex = undefined;
-                return true;
-            } else {
-                return false;
-            }
-        }
-        function onClickCell(index, field){
-            if (endEditing()){
-                $('#buyPlanTable').datagrid('selectRow', index)
-                    .datagrid('editCell', {index:index,field:field});
-                editIndex = index;
-            }
-        }
+
     }
 
     /**
@@ -139,6 +181,7 @@ $(function(){
             textField:'label',
             editable : false,
             onSelect:function(record){
+                planSelectIndex = 0
                 loadDrugBuyPlan(record.value,'1')
             }
         })
@@ -185,7 +228,7 @@ $(function(){
             iconCls: 'icon-reload',
             text : '刷新',
             onClick:function(){
-                alert()
+                window.location.reload();
             }
         })
         $('#printButton').linkbutton({
@@ -199,7 +242,7 @@ $(function(){
             iconCls: 'icon-cancel',
             text : '关闭',
             onClick:function(){
-                alert()
+                parent.location.href = parent.getRootPath() + '/modules/clinic/index.html'
             }
         })
     }
@@ -214,30 +257,68 @@ $(function(){
     }
 
     /**
+     * 判断是否已存在此药品的规格
+     * @param o
+     */
+    var chargeDrugExisted = function(o){
+        var _allData = $('#buyPlanTable').datagrid('getRows')
+        for(var i= 0,j = _allData.length;i < j;i++){
+            if(i != planSelectIndex && _allData[i].drugCode == o.drugCode
+                && _allData[i].packSpec == o.packSpec && _allData[i].packUnit == o.packUnit){
+                return true
+            }
+        }
+        return false
+    }
+
+    /**
+     * 药品返回到选择前的值
+     * @param oldV 选择前的值
+     */
+    var rollBack = function(oldV){
+        var editor = $('#buyPlanTable').datagrid('getEditor',{index:planSelectIndex,field:'drugCode'})
+        $(editor.target).combogrid('setValue',oldV)
+        $('#buyPlanTable').datagrid('endEdit',planSelectIndex)
+    }
+
+    /**
      * 展现药品价格表，当参数内只有一条数据时不显示，直接赋值
      * @param drugPrices 药品价格数据
      * @param drugDict 药品字典数据
      */
     var showDrugPriceWindow = function(drugPrices,drugDict){
         if(!drugPrices) return
+        var _buyPlanTableRow = $('#buyPlanTable').datagrid('getSelected')
+        var _oldDrugCode = _buyPlanTableRow.drugCode
+
         var initData = function(drugPrice,drugDict){
-            var _buyPlanTableRow = $('#buyPlanTable').datagrid('getSelected')
-            var _buyPlanTableIndex = $('#buyPlanTable').datagrid('getRowIndex',_buyPlanTableRow)
-            _buyPlanTableRow.drugCode = drugPrice.drugCode
+            var _o = {drugCode:drugPrice.drugCode
+                ,packSpec:drugPrice.drugSpec
+                ,packUnit:drugPrice.units}
+            if(chargeDrugExisted(_o)){
+                $.messager.alert('警告','该规格的药品已存在，请重新选择！','error')
+                rollBack(_oldDrugCode)
+                return
+            }
+            _buyPlanTableRow.drugName = drugDict.drugName
             _buyPlanTableRow.drugSpec = drugPrice.drugSpec
             _buyPlanTableRow.units = drugPrice.units
+            _buyPlanTableRow.packSpec = drugPrice.drugSpec
+            _buyPlanTableRow.packUnit = drugPrice.units
             _buyPlanTableRow.firmId = drugPrice.firmId
-            _buyPlanTableRow.drugForm = drugDict.drugForm
-            _buyPlanTableRow.toxiProperty = drugDict.toxiProperty
+            _buyPlanTableRow.supplier = drugPrice.supplier
+
             _buyPlanTableRow.dosePerUnit = drugDict.dosePerUnit
             _buyPlanTableRow.doseUnits = drugDict.doseUnits
+            _buyPlanTableRow.drugForm = drugDict.drugForm
+            _buyPlanTableRow.toxiProperty = drugDict.toxiProperty
             _buyPlanTableRow.drugIndicator = drugDict.drugIndicator
             _buyPlanTableRow.inputCode = drugDict.inputCode
-            _buyPlanTableRow.packSpec = drugDict.drugSpec
-            _buyPlanTableRow.packUnit = drugDict.units
-            $('#buyPlanTable').datagrid('endEdit',_buyPlanTableIndex)
-        }
 
+            $('#buyPlanTable').datagrid('endEdit',planSelectIndex)
+            _tempFlag = true
+        }
+        var _tempFlag = false
         if(drugPrices.length == 1){
             initData(drugPrices[0],drugDict)
             return
@@ -247,10 +328,18 @@ $(function(){
                 title: '选择药品规格和单位',
                 width: '550',
                 height: '450',
-                resizable: false
+                collapsible :false,
+                minimizable : false,
+                maximizable : false,
+                modal : true,
+                resizable: false,
+                onClose : function(){
+                    if(!_tempFlag){
+                        rollBack(_oldDrugCode)
+                    }
+                }
             })
             $("#drugPriceTable").datagrid({
-                title: "选择药品规格和单位",
                 fit: true,
                 border: 0,
                 fitColumns: true, //列自适应宽度
@@ -261,9 +350,12 @@ $(function(){
                     {field: 'id', title: '编号', hidden: true},
                     {field: 'drugSpec', title: '规格', width: 60, align: "center"},
                     {field: 'units', title: '单位', width: 60, align: "center"},
-                    {field: 'firmId', title: '厂家', width: 200, align: "center"},
+                    {field: 'firmId', title: '厂家主键',hidden:true},
+                    {field: 'supplier', title: '厂家', width: 200, align: "center"},
                     {field: 'tradePrice', title: '批发价', width: 60, align: "center"},
-                    {field: 'retailPrice', title: '零售价', width: 60, align: "center"}
+                    {field: 'retailPrice', title: '零售价', width: 60, align: "center"},
+                    {field: 'minSpec', hidden:true},
+                    {field: 'minUnits',hidden:true},
                 ]],
                 onDblClickRow : function(index,row){
                     initData(row,drugDict)
@@ -284,10 +376,9 @@ $(function(){
      */
     var loadDrugBuyPlan = function(buyId,flag){
         $.get(base_url + 'findList',{buyId:buyId,orgId:orgId,flag:flag},function(res){
-            if(res && res.length > 0){
-                currentBuyId = buyId
-                $('#buyPlanTable').datagrid('loadData',res)
-            }
+            currentBuyId = buyId
+            $('#buyPlanTable').datagrid('loadData',res)
+            $('#buyPlanTable').datagrid('selectRow',planSelectIndex)
         })
     }
 
@@ -311,54 +402,125 @@ $(function(){
         },'GET',false)
     }
 
+    /**
+     * 校验，不通过则会红色显示在需要编辑处
+     * @param row 校验行数据
+     * @returns {boolean} true 通过
+     */
+    var validateRow = function(row){
+        var _index = $('#buyPlanTable').datagrid('getRowIndex',row)
+        if(!row.drugCode){
+            onClickCell(_index,'drugCode')
+            return false
+        }
+        if(isNaN(row.wantNumber)){
+            onClickCell(_index,'wantNumber')
+            return false
+        }
+        if(isNaN(row.purchasePrice)){
+            onClickCell(_index,'purchasePrice')
+            return false
+        }
+        return true
+    }
+
+    /**
+     * 添加行
+     */
     var addRow = function(){
+        var len = $('#buyPlanTable').datagrid('getRows').length
         if(!currentBuyId)
             getNextBuyId()
         var record = {
             buyId : currentBuyId,  // 后台生成
-            buyNo : $('#buyPlanTable').datagrid('getRows').length+1,
+            buyNo : len+1,
             storer : username,
             orgId : orgId,
-            storage : currentStorage
+            flag : '1' , // 默认暂存
+            storage : currentStorage,
+            supplier:''
         }
         $('#buyPlanTable').datagrid('appendRow',record)
+        if(endEditing()) {
+            $('#buyPlanTable').datagrid('selectRow', len)
+            planSelectIndex = len
+        }
     }
+    /**
+     * 删除行
+     */
     var delRow = function(){
         var _row = $('#buyPlanTable').datagrid('getSelected')
         if(_row){
             var _index = $('#buyPlanTable').datagrid('getRowIndex',_row)
             $('#buyPlanTable').datagrid('deleteRow',_index)
+            planSelectIndex = undefined
             var _rows = $('#buyPlanTable').datagrid('getRows')
             for(var len = _rows.length;_index<len;_index++){
                 _rows[_index].buyNo = _index + 1
-                $('#buyPlanTable').datagrid('updateRow',{index: _index,row: _rows})
+                //记录当前记录是否被修改(为隐藏数据，保存时处理)， 1 为修改
+                _rows[_index].hiddenUpdateFlag = 1
+                $('#buyPlanTable').datagrid('refreshRow', _index)
             }
         } else {
             $.messager.alert('警告','请选择要删除的药品！','warning')
         }
     }
+    /**
+     * 保存数据
+     * @param flag
+     */
     var saveData = function(flag){
-        var addData = []
-        var _insertData = $('#buyPlanTable').datagrid('getChanges','inserted')
-        var _updateData = $('#buyPlanTable').datagrid('getChanges','updated')
-        var _deleteData = $('#buyPlanTable').datagrid('getChanges','deleted')
-        // delRow 函数中datagrid的updateRow函数会保留删除的记录，所以通过遍历除去
-        if(_deleteData.length > 0) {
-            for (var i = _updateData.length - 1; i > -1; i--) {
-                for (var j = 0; j < _deleteData.length; j++) {
-                    if (_updateData[i].id == _deleteData[j].id) {
-                        _updateData.splice(i, 1)
-                        break
-                    }
+        if(planSelectIndex != undefined)
+            $('#buyPlanTable').datagrid('endEdit',planSelectIndex)
+
+        var handleData = [] // handleData[0] 添加的数据,handleData[1] 删除的数据
+        var _allData = $('#buyPlanTable').datagrid('getRows')
+        if(flag == '1') {
+            var _saveData = []
+            var _updates = $('#buyPlanTable').datagrid('getChanges', 'updated')
+            var isExisted = function (id) {
+                for (var i = 0, len = _updates.length; i < len; i++) {
+                    if (_updates[i].id == id)
+                        return true
+                }
+                return false
+            }
+            for (var i = 0,len=_allData.length; i < len; i++) {
+                if(!validateRow(_allData[i])) return
+                var _row = _allData[i]
+                if(!_row.id || _row.hiddenUpdateFlag == 1 || isExisted(_row.id)){
+                    delete _row.hiddenUpdateFlag
+                    _saveData.push(_row)
+                    continue
                 }
             }
+            handleData.push(_saveData)
         }
-        addData.push(_insertData,_updateData,_deleteData)
-        for(var i=0;i<addData.length;i++){
-            addData[i].flag = flag
+        else{
+            for(var i=0;i<_allData.length;i++){
+                if(!validateRow(_allData[i])) return
+                _allData[i].flag = flag
+                delete _allData[i].hiddenUpdateFlag
+            }
+            handleData.push(_allData)
         }
-        parent.$.postJSON(base_url + 'saveBatch',JSON.stringify(addData),function(res){
-            alert(res.data)
+        // 删除的数据，只传递需删除的数据的主键（ID）
+        var _deleteData = $('#buyPlanTable').datagrid('getChanges','deleted')
+        var _ids = ''
+        for(var i=0;i<_deleteData.length;i++){
+            _ids += ',' + _deleteData[i].id
+        }
+        var _dels = []
+        if(_ids) {
+            _dels.push({delFlag:'1',id:_ids.substr(1)})
+        }
+        handleData.push(_dels)
+        parent.$.postJSON(base_url + 'saveBatch',JSON.stringify(handleData),function(res){
+            if(res.code = '0')
+                $.messager.alert('成功','保存成功','info',function(){
+                    window.location.reload()
+                })
         })
     }
     var init = function(){

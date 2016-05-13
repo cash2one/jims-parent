@@ -7,6 +7,7 @@ import com.jims.phstock.entity.DrugBuyPlan;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,15 +46,27 @@ public class DrugBuyPlanRest {
     /**
      * 批量保存
      * @param entityBatch,list.get(0)添加的数据
-     *                    list.get(1)修改的数据
-     *                    list.get(2)删除的数据
+     *                    list.get(1)删除的数据
      * @return
      */
     @POST
     @Path("saveBatch")
     public StringData saveBatch(List<List<DrugBuyPlan>> entityBatch){
         StringData result = new StringData();
-        result.setData(drugBuyPlanApi.save(entityBatch.get(0)));
+        List<String> resultList = new ArrayList<String>();
+        List<DrugBuyPlan> delObj = entityBatch.get(1);
+        String deleteResult = "0";
+        if(delObj != null && delObj.size() > 0){
+            String ids = delObj.get(0).getId();
+            if(ids != null && ids.trim().length() > 0){
+                deleteResult = drugBuyPlanApi.deleteInfo(ids);
+            }
+        }
+        // 由于采购单据号、采购单序号唯一，所以必须先删除，才能保证保存的成功
+        resultList.add(drugBuyPlanApi.save(entityBatch.get(0)));
+        resultList.add(deleteResult);
+        result.setDatas(resultList);
+        result.setCode("0");
         return result;
     }
 

@@ -45,6 +45,16 @@ public class DrugBuyPlan extends DataEntity<DrugBuyPlan> {
 	private Date executedDate;		// 执行日期
 	private String orgId;		// 所属结构
 
+    private String supplier; // 厂商名
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
     public String getCount() {
         return count;
     }

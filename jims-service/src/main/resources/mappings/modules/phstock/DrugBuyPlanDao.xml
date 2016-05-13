@@ -57,11 +57,11 @@
 	
 	<select id="findList" resultType="DrugBuyPlan">
 		SELECT 
-			<include refid="drugBuyPlanColumns"/>
-		FROM drug_buy_plan a
-		<include refid="drugBuyPlanJoins"/>
+			<include refid="drugBuyPlanColumns"/>,t.supplier
+		FROM drug_buy_plan a,drug_supplier_catalog t
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.del_flag = #{DEL_FLAG_NORMAL} and a.firm_id = t.id and (t.used_flag is null or t.used_flag = '0')
+            and t.del_flag = '0'
             <if test="buyId != null and buyId != ''">
                 AND a.buy_id = #{buyId}
             </if>
@@ -94,9 +94,10 @@
     </select>
 
     <select id="getBuyId" resultType="java.lang.String">
-        select distinct buy_id from drug_buy_plan where flag = #{0} and del_flag = '0'
-            AND org_id = #{1}
-            order by buy_id
+        select distinct a.buy_id from drug_buy_plan a,drug_supplier_catalog t where a.flag = #{0} and a.del_flag = '0'
+            AND a.firm_id = t.id and (t.used_flag is null or t.used_flag = '0') and t.del_flag = '0'
+            AND a.org_id = #{1}
+            order by a.buy_id desc
     </select>
 	
 	<select id="findAllList" resultType="DrugBuyPlan">
@@ -246,6 +247,10 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+    <delete id="deleteInfo">
+        delete from drug_buy_plan where id = #{id}
+    </delete>
 
     <update id="deleteByParameter">
         UPDATE drug_buy_plan SET
