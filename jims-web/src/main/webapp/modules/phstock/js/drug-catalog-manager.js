@@ -1,13 +1,41 @@
 /**
  * Created by dt on 2016/5/11.
  */
-var expNameCas = [];//产品名称列表
-var expTypes = [];//产品类型列表
-var expCategorys = [];//产品类别列表
-var codeArrays = [];//新生成的expCode数组
 $(function () {
+    $.extend({
+        ajaxAsync : function(url,callback){
+            return $.ajax({
+                type: 'get',
+                url: url,
+                async : false,
+                success: callback,
+                'contentType': 'application/json'
+            });
+        }
+    });
     var editIndex;
-    var drugNameCode;
+    var drugNameCode;//药品编码
+
+    var specUnits = [];//规格单位字典
+    var specUnitPromise =  $.ajaxAsync( basePath + "/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+    var drugFormDict = [];//剂型字典
+    var drugFormDictPromise =  $.ajaxAsync( basePath  + "/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
+        drugFormDict = data;
+    });
+    var drugToxi = [];//毒理属性字典
+    var drugToxiPromise =  $.ajaxAsync( basePath  + "/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT", function (data) {
+        drugToxi = data;
+    });
+    var doseUnit = [];//剂型单位字典
+    var doseUnitPromise =  $.ajaxAsync(  basePath  + "/dict/findListByType?type=dose_unit", function (data) {
+        doseUnit = data;
+    });
+    var drugPreciousFlagDict = [];//贵重等级字典
+    var drugPreciousFlagDictPromise =  $.ajaxAsync(basePath  + "/dict/findListByType?type=DRUG_PRECIOUS_FLAG_DICT", function (data) {
+        drugPreciousFlagDict = data;
+    });
     //停止编辑
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -69,7 +97,7 @@ $(function () {
         textField: 'className',
         width:150,
         method: 'GET',
-        url: basePath +  "/drug-catalog/listSubClassDict?orgId="+parent.config.org_Id+"&parentId=*",
+        url: basePath +  "/drug-class-dict/list-parent?orgId="+parent.config.org_Id+"&parentId=*",
         onSelect: function(rowData) {
             if (editIndex || editIndex == 0) {
                 $("#drugNameDict").datagrid('endEdit', editIndex);
@@ -78,7 +106,7 @@ $(function () {
             $('#drugNameDict').datagrid('loadData', { total: 0, rows: [] });
             $('#drugSubClass').combobox('clear');
             console.log(rowData);
-            var url = basePath + "/drug-catalog/listSubClassDict?orgId=" + parent.config.org_Id + "&parentId=" + rowData.classCode;
+            var url = basePath + "/drug-class-dict/list-parent?orgId=" + parent.config.org_Id + "&parentId=" + rowData.classCode;
             $('#drugSubClass').combobox('reload', url);
         }
     });
@@ -108,7 +136,7 @@ $(function () {
         singleSelect: true,
         fit:true,
         method:'get',
-        url:basePath  + "/drug-catalog/findListType?type=DRUG_FORM_DICT",
+        url:basePath  + "/dict/findListByType?type=DRUG_FORM_DICT",
         columns:[[{
             title: 'id',
             field: 'id',
@@ -123,14 +151,18 @@ $(function () {
             width: "80%"
         }]],
         onDblClickRow: function (rowIndex, rowData) {
-            drugNameCode = "";
-            drugNameCode = drugNameCode + $("#drugSubClass").combobox('getValue') + rowData.value;
-            //===================待开发
-            // drugNameCode + 随机生成码 同过编码规则
-            //=================
+            //var
+            //drugNameCode = "";
+            //drugNameCode = drugNameCode + $("#drugSubClass").combobox('getValue') + rowData.value;
+            $.ajaxAsync(basePath + "/drug-catalog/getDrugCodeByRule?secondType="+$("#drugSubClass").combobox('getValue')+"&drugForm="+rowData.value,function(data){
+                drugNameCode = data.code;
+            });
+            //drugNameCode = drugNameCode +
             stopEdit();
+            $('#clear').click();
+
             $('#drugNameDict').datagrid('appendRow', {
-                drugCode: drugNameCode, drugName: ''
+                drugCode: drugNameCode, drugName: '',stdIndicator:'0'
             });
             var rows = $("#drugNameDict").datagrid("getRows");
             var addRowIndex = $("#drugNameDict").datagrid('getRowIndex', rows[rows.length - 1]);
@@ -168,17 +200,38 @@ $(function () {
             styler: function () {
             return "text-align: center"
             },
-
             formatter:function(value,row,index){
                 if(value==1){
-                    return '<input type="checkbox" name="drugNameDictCheckbox" style="height: 20px;width: 20px" checked="checked">';
-                }
-                else{
-                    return '<input type="checkbox" name="drugNameDictCheckbox" style="height: 20px;width: 20px" >';
+                    return '<input type="checkbox" name="drugNameDictCheckbox" style="height: 25px;width: 25px"  checked="checked">';
+                }else {
+                    return '<input type="checkbox" name="drugNameDictCheckbox" style="height: 25px;width: 25px"  >';
                 }
             }
         }
         ]],
+        onClickCell: function (rowIndex, field, value) {
+            if(field == 'stdIndicator'){
+                var rows =  $(this).datagrid("getRows");
+                var flag = 0;
+                $.each(rows, function (index,row) {
+                    if(row[field] == 1){
+                        var drugNameDictCheckboxs = $("input[name='drugNameDictCheckbox']");
+                        $.messager.alert("提示","选择一个正名","info");
+                        $(drugNameDictCheckboxs.get(rowIndex)).removeAttr("checked");
+                        flag =1;
+                    }
+                });
+
+                var row = rows[rowIndex];
+                if (value == 0 && flag == 0){
+                    row[field] = 1;
+                }else{
+                    row[field] = 0;
+                }
+                console.log(row[field]);
+
+            }
+        },
         onClickRow: function (index, row) {
             //stopEdit();
 
@@ -216,8 +269,17 @@ $(function () {
                     valueField: 'value',
                     textField: 'label',
                     method: 'get',
-                    url: basePath + "/drug-catalog/listMeasuresDict"
+                    url: basePath + "/dict/findListByType?type=spec_unit"
                 }
+            },
+            formatter:function(value,row,index){
+                var label;
+                $.each(specUnits, function (index,item) {
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
+                return label;
             }
         }, {
             title: '剂型',
@@ -230,8 +292,17 @@ $(function () {
                     valueField: 'value',
                     textField: 'label',
                     method: 'get',
-                    url: basePath  + "/drug-catalog/findListType?type=DRUG_FORM_DICT"
+                    url: basePath  + "/dict/findListByType?type=DRUG_FORM_DICT"
                 }
+            },
+            formatter:function(value,row,index){
+                var label;
+                $.each(drugFormDict, function (index,item) {
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
+                return label;
             }
         }, {
             title: '毒理属性',
@@ -244,8 +315,17 @@ $(function () {
                     valueField: 'value',
                     textField: 'label',
                     method: 'get',
-                    url: basePath  + "/drug-catalog/findListType?type=DRUG_TOXI_PROPERTY_DICT"
+                    url: basePath  + "/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT"
                 }
+            },
+            formatter:function(value,row,index){
+                var label;
+                $.each(drugToxi, function (index,item) {
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
+                return label;
             }
         }, {
             title: 'OTC',
@@ -257,10 +337,10 @@ $(function () {
 
             formatter:function(value,row,index){
                 if(value==1){
-                    return '<input type="checkbox" name="drugDictCheckbox" style="height: 20px;width: 20px" checked="checked">';
+                    return '<input type="checkbox" name="drugDictCheckbox" style="height: 22px;width: 22px" checked="checked">';
                 }
                 else{
-                    return '<input type="checkbox" name="drugDictCheckbox" style="height: 20px;width: 20px" >';
+                    return '<input type="checkbox" name="drugDictCheckbox" style="height: 22px;width: 22px" >';
                 }
             }
         }, {
@@ -279,8 +359,17 @@ $(function () {
                     valueField: 'value',
                     textField: 'label',
                     method: 'get',
-                    url: '/api/measures-dict/list'
+                    url: basePath  + "/dict/findListByType?type=dose_unit"
                 }
+            },
+            formatter:function(value,row,index){
+                var label;
+                $.each(doseUnit, function (index,item) {
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
+                return label;
             }
         }, {
             title: '限制等级',
@@ -327,12 +416,17 @@ $(function () {
                     valueField: 'value',
                     textField: 'label',
                     method: 'get',
-                    url:basePath  + "/drug-catalog/findListType?type=DRUG_PRECIOUS_FLAG_DICT"
+                    url:basePath  + "/dict/findListByType?type=DRUG_PRECIOUS_FLAG_DICT"
                 }
             },
             formatter:function(value,row,index){
-
-                return value;
+                var label;
+                    $.each(drugPreciousFlagDict, function (index,item) {
+                        if (item.value == value){
+                            label =   item.label;
+                        }
+                    });
+                return label;
             }
         }, {
             title: '类别',
@@ -345,7 +439,7 @@ $(function () {
                     valueField: 'code',
                     textField: 'name',
                     data: [
-                        {'code': '1', 'name': '西药'},
+                        {'code': '1', 'name': '西药' },
                         {'code': '2', 'name': '中成药'},
                         {'code': '3', 'name': '中草药'},
                         {'code': '4', 'name': '辅料'},
@@ -353,6 +447,27 @@ $(function () {
                         {'code': '6', 'name': '耗材'},
                         {'code': '7', 'name': '其他'}]
                 }
+
+            },
+            formatter:function(value,row,index){
+                if(value  == '1'){
+                    value = "西药";
+                }else if(value=="2"){
+                    value = "中成药";
+                }else if(value=="3"){
+                    value="中草药";
+                }else if(value=="4"){
+                    value = "辅料";
+                }else if(value=="5"){
+                    value = "试剂";
+                }else if(value=="6"){
+                    value = "耗材";
+                }else if(value=="7"){
+                    value = "其他";
+                }else{
+                    value ="";
+                }
+                return value;
             }
         }
         ]],
@@ -360,7 +475,6 @@ $(function () {
             if(field == 'otc'){
                 var rows =  $(this).datagrid("getRows");
                 var row = rows[rowIndex];
-                console.log(row);
                 if (value == 0){
                     row[field] = 1;
                 }else{
@@ -428,74 +542,25 @@ $(function () {
         drugCatalogBeanVo.drugNameDictDrugCatalogBeanVo = drugNameDictChangeVo;
         console.log(drugCatalogBeanVo);
 
-        //if (drugCatalogBeanVo) {
-        //    $.postJSON(basePath + "/drug-catalog/save", JSON.stringify(drugCatalogBeanVo), function (data) {
-        //        $.messager.alert("系统提示", "保存成功", "info");
-        //        $("#clear").click();
-        //        codeArrays = [];
-        //    }, function (data) {
-        //        console.log(data);
-        //        $.messager.alert('提示', "保存失败", "error");
-        //    })
-        //}
+        if (drugCatalogBeanVo) {
+            $.postJSON(basePath + "/drug-catalog/save", JSON.stringify(drugCatalogBeanVo), function (data) {
+                $.messager.alert("系统提示", "保存成功", "info");
+                $("#clear").click();
+            }, function (data) {
+                $.messager.alert('提示', "保存失败", "error");
+            })
+        }
     });
-    //
-    ////生成10位代码
-    //var newCode = "";
-    //var newExpCode = function () {
-    //    var scope = $("#drugSubClass").combobox('getValue');//
-    //    newCode = '0' + scope;
-    //    var category = $("#expCategory").combobox('getValue');//产品类别
-    //    category == '' ? newCode : newCode += category;
-    //    var type = $("#expType").combobox('getValue');//产品类型
-    //    if (type == '') {
-    //        $.messager.alert("系统提示", "产品类型不能为空,请选择产品类型！", "error");
-    //        return '';
-    //    } else {
-    //        type == '' ? newCode : newCode += type;
-    //    }
-    //    var ll_len = newCode.length;
-    //    var max = "";
-    //    var getMax;
-    //    if (ll_len < 10) {
-    //        getMax = $.get("/api/exp-name-dict/list-max-exp-code?length=" + ll_len + "&header=" + newCode, function (data) {
-    //            max = data + "";
-    //            while (10 - newCode.length > max.length) {
-    //                max = '0' + max;
-    //            }
-    //            newCode = newCode + max;
-    //        });
-    //    }
-    //
-    //    return getMax;
-    //}
-    ////当增加多条信息时，newCode从数据库获取的是相同的最大值，这是需要在js里面手动增大max值与前面的固定六位数字拼接
-    //var existCode = function(){
-    //    if(codeArrays.length > 0){
-    //        for (var i = 0; i < codeArrays.length; i++) {
-    //            if (codeArrays[i] == newCode){
-    //                var num = newCode.substr(6, 4);
-    //                num = parseInt(num) + 1;
-    //                var max = num+"";
-    //                newCode = newCode.substr(0, 6);
-    //                while (10 - newCode.length > max.length) {
-    //                    max = '0' + max;
-    //                }
-    //                newCode = newCode + max;
-    //            }
-    //        }
-    //    }
-    //    return newCode;
-    //}
+
     //增加DrugNameDict
     $("#addDrugName").on('click',function(){
         if(!$("#drugSubClass").combobox('getValue')){
-            $.messager.alert("提示","请选择新维护的药品类别信息，药品类别不能为空！");
+            $.messager.alert("提示","请选择新维护的药品类别信息，药品类别不能为空！",'info');
             return;
         }
         stopEdit();
         $('#drugNameDict').datagrid('appendRow', {
-            expCode: drugNameCode, expName: ''
+            drugCode: drugNameCode, drugName: '',stdIndicator:'0'
         });
         var rows = $("#drugNameDict").datagrid("getRows");
         var addRowIndex = $("#drugNameDict").datagrid('getRowIndex', rows[rows.length - 1]);
@@ -531,18 +596,24 @@ $(function () {
         var allRowsBottom = $('#drugDict').datagrid("getRows");
         var code = "";
         var name = "";
-        var row = $('#drugNameDict').datagrid('getSelected');
+        var stdIndicatorRow ;
+        $.each(allRowsTop, function (index,row) {
+            if (row['stdIndicator'] == 1){
+                stdIndicatorRow = row;
+            }
+        });
+
         if (allRowsBottom.length <= 0 && allRowsTop.length <= 0) {
             $.messager.alert("提示", "请首先添加药品名称！", "error");
-        } else if (!row) {
-            $.messager.alert("提示", "请首先选中药品名称！", "error");
+        } else if (!stdIndicatorRow) {
+            $.messager.alert("提示", "请给药品选正名！", "info");
         }else {
-            code = row.drugCode;
-            name = row.drugName;
+            code = stdIndicatorRow.drugCode;
+            name = stdIndicatorRow.drugName;
 
             $('#drugDict').datagrid('appendRow', {
                 drugCode: code, drugName: name, drugSpec: '', units: '', drugForm: '', toxiProperty: '',otc: '0', dosePerUnit: '',
-                doseUnits: '',limitClass:'',preciousFlag:'',  drugIndicator: ''
+                doseUnits: '',limitClass:'',preciousFlag:'',  drugIndicator: '1'
             });
 
             var rows = $("#drugDict").datagrid("getRows");
@@ -569,20 +640,9 @@ $(function () {
             })
         }
     });
-    //
-    ////价格
-    //$("#listPrice").on('click', function () {
-    //    if ($('#drugDict').datagrid("getRows").length > 0) {
-    //        var code = $('#drugDict').datagrid('getData').rows[0].expCode;
-    //        var name = $('#drugDict').datagrid('getData').rows[0].expName;
-    //        setCookie("exp_code", code);
-    //        setCookie("exp_name", name);
-    //        parent.addTab('产品价格维护', '/his/ieqm/exp-price-list');
-    //
-    //    } else {
-    //        $.messager.alert("提示", "请提取查询价格的行", "info");
-    //    }
-    //});
+
+
+
 });
 
 

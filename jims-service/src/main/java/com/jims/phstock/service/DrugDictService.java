@@ -6,9 +6,12 @@ package com.jims.phstock.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.PinYin2Abbreviation;
+import com.jims.common.utils.StringUtils;
 import com.jims.phstock.api.DrugDictServiceApi;
+import com.jims.phstock.dao.DrugCodingRuleDao;
 import com.jims.phstock.dao.DrugDictDao;
 import com.jims.phstock.dao.DrugNameDictDao;
+import com.jims.phstock.entity.DrugCodingRule;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
@@ -33,9 +36,30 @@ public class DrugDictService extends CrudImplService<DrugDictDao, DrugDict> impl
     @Autowired
     private DrugNameDictDao drugNameDictDao;
 
+    @Autowired
+    private DrugCodingRuleDao drugCodingRuleDao;
+
+
+    /**
+     * 根据商品亚类 药品剂型,序号长度生成药品代码drug_code
+     * @param secondType
+     * @param drugForm
+     * @param numLength
+     * @return
+     * @author txb
+     *
+     */
     @Override
-    public String getDrugCodeByRule(String secondType, String drugForm) {
-        return null;
+    public String getDrugCodeByRule(String secondType, String drugForm,String numLength) {
+        numLength = drugCodingRuleDao.findLevelWidth("药品序号").getLevelWidth().toString();
+        String goodsNameLength = drugCodingRuleDao.findLevelWidth("商品名称").getLevelWidth().toString();
+
+        String drugCode = dao.getDrugCodeByRule(secondType,drugForm,numLength);
+        for (int i = 0 ; i < Integer.parseInt(goodsNameLength) ; i++){
+            drugCode = drugCode + '0';
+        }
+
+        return drugCode;
     }
 
     /**

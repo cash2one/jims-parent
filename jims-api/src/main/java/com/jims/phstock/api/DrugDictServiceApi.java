@@ -62,14 +62,15 @@ public interface DrugDictServiceApi {
 
 
     /**
-     * 根据商品亚类 药品剂型生成药品代码drug_code
+     * 根据商品亚类 药品剂型,序号长度生成药品代码drug_code
      * @param secondType
      * @param drugForm
+     * @param numLength
      * @return
      * @author ztq
      *
      */
-    public String getDrugCodeByRule(String secondType,String drugForm);
+    public String getDrugCodeByRule(String secondType,String drugForm,String numLength);
 
     /**
      * 通过药品代码查询药品列表

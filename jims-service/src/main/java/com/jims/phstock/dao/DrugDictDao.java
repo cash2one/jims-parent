@@ -23,4 +23,15 @@ public interface DrugDictDao extends CrudDao<DrugDict> {
      * @author txb
      */
     public List<DrugDict> listDrugDictByDrugCode(String drugCode);
+
+    /**
+     * 根据商品亚类 药品剂型,序号长度生成药品代码drug_code
+     * @param secondType
+     * @param drugForm
+     * @param numLength
+     * @return
+     * @author txb
+     *
+     */
+    public String  getDrugCodeByRule(String secondType,String drugForm,String numLength);
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.phstock.dao.DrugDictDao">
-    
-	<sql id="drugDictColumns">
+
+    <sql id="drugDictColumns">
 		a.id AS "id",
 		a.drug_code AS "drugCode",
 		a.drug_name AS "drugName",
@@ -26,17 +26,30 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
-	
-	<sql id="drugDictJoins">
-	</sql>
-    
-	<select id="get" resultType="DrugDict">
-		SELECT 
-			<include refid="drugDictColumns"/>
-		FROM drug_dict a
-		<include refid="drugDictJoins"/>
-		WHERE a.id = #{id}
+
+    <sql id="drugDictJoins">
+    </sql>
+
+    <select id="getDrugCodeByRule" resultType="String">
+        select
+             case
+                 when max(substr(a.drug_code, length(#{0}) + 1, #{2}))  is null
+                 then  rpad(#{0}, length(#{0}) + #{2},'0') || #{1}
+             else #{0} || lpad(max(substr(a.drug_code, length(#{0}) + 1, #{2})) + 1,#{2},'0') || #{1}
+             end
+         from drug_name_dict a
+          where
+            length(a.drug_code) = (select sum(b.level_width) from drug_coding_rule b )
+            and substr(drug_code,1,length(#{0})) = #{0}
+            and substr(a.drug_code, length(#{0}) + #{2} + 1, length(#{1})) = #{1}
 	</select>
+    <select id="get" resultType="DrugDict">
+        SELECT
+        <include refid="drugDictColumns"/>
+        FROM drug_dict a
+        <include refid="drugDictJoins"/>
+        WHERE a.id = #{id}
+    </select>
     <select id="listDrugDictByDrugCode" resultType="DrugDict">
 		SELECT
 			*
@@ -44,44 +57,44 @@
 		WHERE a.drug_code = #{drugCode}
 		and a.del_flag = '0'
 	</select>
-	
-	<select id="findList" resultType="DrugDict">
-		SELECT 
-			<include refid="drugDictColumns"/>
-		FROM drug_dict a
-		<include refid="drugDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="DrugDict">
-		SELECT 
-			<include refid="drugDictColumns"/>
-		FROM drug_dict a
-		<include refid="drugDictJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+
+    <select id="findList" resultType="DrugDict">
+        SELECT
+        <include refid="drugDictColumns"/>
+        FROM drug_dict a
+        <include refid="drugDictJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="DrugDict">
+        SELECT
+        <include refid="drugDictColumns"/>
+        FROM drug_dict a
+        <include refid="drugDictJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO drug_dict(
 			id,
 			drug_code,
@@ -130,8 +143,8 @@
 			#{delFlag}
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE drug_dict SET 	
 			drug_code = #{drugCode},
 			drug_name = #{drugName},
@@ -153,11 +166,11 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
+
+    <update id="delete">
 		UPDATE drug_dict SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>
