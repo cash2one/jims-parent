@@ -565,6 +565,8 @@ ul.cus-list li a span.cus-name
 {
     width:80%
 }
+
+
 .apply-tab
 {
     margin-bottom:10px;
@@ -948,4 +950,169 @@ a.dropma-color {
 .col-md-3 {
     width: 25%;
     float: left;
+}
+
+
+
+
+
+/**挂号安排**/
+.reg-plan-wrap
+{
+    position:relative;
+    margin:10px;
+}
+.reg-plan-left
+{
+    width:200px;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+.reg-plan-main
+{
+    margin-left:210px;
+}
+.reg-type ul li
+{
+    background:url(../images/rp-icon.png) no-repeat 10px center;
+    margin:0 5px 5px 10px;
+    position:relative;
+    background-size:6px;
+
+}
+.inhos-l
+{
+    top:35px;
+    max-height:510px;
+    overflow:auto;
+}
+.reg-type > ul > li > a
+{
+    display:block;
+    border:1px solid #eee;
+    border-radius:5px;
+    padding:5px 5px 5px 18px;
+}
+.reg-type > ul > li > a:hover,.reg-type > ul > li > a.active
+{
+    border:1px solid #dce8c4;
+    background: #f8ffe9 url(../images/rp-icon.png) no-repeat 10px center;
+    background-size:6px;
+}
+.reg-type ul li a.rp-close
+{
+    position:absolute;
+    z-index:1;
+    top:6px;
+    right:10px;
+    background:#fffae3;
+    border:1px solid #f3ebc5;
+    color:#f6cb00;
+    border-radius:50%;
+    text-shadow:1px 1px 1px #fff;
+    width:15px;
+    height:15px;
+    text-align:center;
+    line-height:13px;
+    font-size:10px;
+    padding:0;
+}
+.btn-newm
+{
+    margin:5px 5px 0 0 ;
+}
+
+
+
+/***/
+/**挂号**/
+
+.reglist-main ul li
+{
+    display:inline-block;
+    margin:5px;
+    border:1px dashed #ccc;
+    padding:10px;
+    font-size:14px;
+    background:#f8f8f8;
+    line-height:25px;
+}
+.reglist-main ul li.active
+{
+    border:1px solid #dce8c4;
+    background:#f8ffe9;
+}
+.reg-cusinfo
+{
+    margin-top:10px;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    padding-top:10px;
+}
+.reg-cusinfo ul li
+{
+    width:48%;
+    display:inline-block;
+    margin-bottom:10px;
+}
+.reg-cusinfo ul li > span
+{
+    width:100px;
+    text-align:right;
+    display:inline-block;
+}
+.bg-gray
+{
+    background:#f8f8f8;
+}
+.rego-main
+{
+    position:relative;
+}
+.rego-left
+{
+    margin-right:220px;
+    margin-top:10px;
+}
+.rego-right
+{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:200px;
+}
+.rego-main ul li
+{
+    padding-bottom:10px;
+}
+.rego-main ul li span
+{
+    width:70px;
+    display:inline-block;
+    text-align:right;
+}
+/****/
+
+
+/*住院手术预约*/
+.validatebox-text-2m
+{
+    width:40%
+}
+.color-blue
+{
+    color:#00f;
+}
+.color-red
+{
+    color:#f00;
+}
+.color-orange
+{
+    color:#ff7200;
+}
+.color-green
+{
+    color:#97cb28;
 }

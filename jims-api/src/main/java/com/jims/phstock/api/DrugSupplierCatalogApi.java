@@ -10,8 +10,13 @@ import java.util.List;
  */
 public interface DrugSupplierCatalogApi {
 
-    //增删改查 --生成添加 。
 
+    /**
+     * 删除数据
+     * @param ids
+     * @return
+     */
+    public String delete(String ids);
     /**
      * 查询所有供货商类别
      * @param orgId

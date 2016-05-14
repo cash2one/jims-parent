@@ -16,6 +16,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/20.
@@ -77,5 +78,16 @@ public class PerformFreqDictRest {
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
+    }
+
+    /**
+     * 检索频次数据
+     * @param entity
+     * @return
+     */
+    @POST
+    @Path("findList")
+    public List<PerformFreqDict> findList(PerformFreqDict entity){
+        return performFreqDictApi.findList(entity);
     }
 }

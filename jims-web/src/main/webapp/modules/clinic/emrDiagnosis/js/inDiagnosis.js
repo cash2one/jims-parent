@@ -271,13 +271,11 @@ function addNextLevel() {
     var node = $("#tg").treegrid('getSelected');
 
     if (node==null) {
-        alert(1);
         $.messager.alert("系统提示", "请选择，所添加诊断的同一级的任意一个诊断");
         return;
     }
 
     if(node.id==''){
-        alert(2);
         $.messager.alert("系统提示",'所选诊断为新添加诊断，请刷新后，添加子诊断','info') ;
         return ;
     }
