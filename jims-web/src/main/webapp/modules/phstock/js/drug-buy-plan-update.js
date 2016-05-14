@@ -1,6 +1,6 @@
 $(function () {
     var base_url = '/service/drug-buy-plan/'
-    var username = '审核员'
+    var username = '采购员'
         , orgId = parent.config.org_Id
         , currentBuyId = '' // 当前采购单据号
         , currentStorage = parent.config.currentStorage
@@ -25,8 +25,8 @@ $(function () {
      */
     var mergeLastCells = function () {
         var _index = $('#buyPlanTable').datagrid('getRows').length - 1
-        $('#buyPlanTable').datagrid('mergeCells', {index: _index, field: 'buyNo', rowspan: null, colspan: 12})
-        $('#buyPlanTable').datagrid('mergeCells', {index: _index, field: 'checkMoney', rowspan: null, colspan: 8})
+        $('#buyPlanTable').datagrid('mergeCells', {index: _index, field: 'buyNo', rowspan: null, colspan: 10})
+        $('#buyPlanTable').datagrid('mergeCells', {index: _index, field: 'stockMoney', rowspan: null, colspan: 7})
     }
 
     /**
@@ -93,7 +93,7 @@ $(function () {
             columns: [[
                 {field: 'id', title: '编号', hidden: true},
                 {field: 'buyNo', title: '采购序号', width: 60, align: "center", formatter: function (value) {
-                    if (value == '审核金额合计') return '<div style="text-align:right">' + value + '：　　　</div>'
+                    if (value == '采购金额合计') return '<div style="text-align:right">' + value + '：　　　</div>'
                     return value
                 }},
                 {field: 'drugCode', title: '药名', width: 220, align: "center", editor: {
@@ -147,48 +147,13 @@ $(function () {
                     }
                     return '<div style="text-align:left">' + value + '</div>';
                 }},
-                {field: 'checkSupplier', title: '审核供应商', width: 200, align: "center", editor: {
-                    type: 'combobox',
-                    options: {
-                        valueField: 'id',
-                        textField: 'supplier',
-                        required: true,
-                        missingMessage: '审核供应商不能为空',
-                        data: suppliers,
-                        onChange: function (newV, oldV) {
-                            if (newV != oldV) return
-                        }
-                    }
-                },formatter:function(value){
-                    for(var i= 0,j=suppliers.length;i<j;i++){
-                        if(suppliers[i].id == value) {
-                            return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
-                        }
-                    }
-                    return ''
-                }},
-                {field: 'supplier', title: '生成厂家', width: 200, align: "center",
+                {field: 'supplier', title: '厂家', width: 200, align: "center",
                     formatter: function (value) {
                         return '<div style="text-align:left">' + value + '</div>';
                     }
                 },
-                {field: 'checkNumber', title: '审核数量', width: 60, align: "center",editor:{
-                    type : 'numberbox',
-                    options:{
-                        required:true,
-                        missingMessage:'审核数量不能为空',
-                        min : 1,
-                        precision : 0
-                    }
-                }},
-                {field: 'checker', title: '审核人', width: 70, align: "center"},
-                {field: 'stockSupplier', title: '供应商', width: 200, align: "center",formatter:function(value){
-                    for(var i= 0,j=suppliers.length;i<j;i++){
-                        if(suppliers[i].id == value) return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
-                    }
-                    return ''
-                }},
-                {field: 'storer', title: '仓管员', width: 70, align: "center"},
+                {field: 'packSpec', title: '包装规格', width: 60, align: "center"},
+                {field: 'packUnit', title: '包装单位', width: 60, align: "center"},
                 {field: 'purchasePrice', title: '进货价', width: 60, align: "center",editor:{
                     type : 'numberbox',
                     options:{
@@ -197,44 +162,67 @@ $(function () {
                         min : 1.0,
                         precision : 1
                     }}},
-                {field: 'monthUsed', title: '月消耗量', width: 60, align: "center"},
-                {field: 'stockNum', title: '库存参考数', width: 90, align: "center"},
-                {field: 'packSpec', title: '包装规格', width: 60, align: "center"},
-                {field: 'checkMoney', title: '审核金额', width: 60, align: "center",formatter:function(value,row,index){
-                    if(row.buyNo == '审核金额合计') return '<div style="text-align:left">　　'+value+'</div>'
-                    var _checkMoney = (isNaN(row.checkMoney) ? 0 : +row.checkMoney)
-                    var _value = ((isNaN(row.checkNumber) ? 0 : +row.checkNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
-                    row.checkMoney = _value
+                {field: 'wantNumber', title: '计划数量', width: 60, align: "center"},
+                {field: 'count', title: '计划金额', width: 60, align: "center", formatter: function (value, row, index) {
+                    var _value = ((isNaN(row.wantNumber) ? 0 : +row.wantNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
+                    return _value
+                }},
+                {field: 'storer', title: '仓管员', width: 70, align: "center"},
+                {field: 'stockNumber', title: '采购数量', width: 60, align: "center",editor:{
+                    type : 'numberbox',
+                    options:{
+                        required:true,
+                        missingMessage:'采购数量不能为空',
+                        min : 1,
+                        precision : 0
+                    }
+                }},
+                {field: 'stockMoney', title: '采购金额', width: 60, align: "center",formatter:function(value,row,index){
+                    if(row.buyNo == '采购金额合计') return '<div style="text-align:left">　　'+value+'</div>'
+                    var _stockMoney = (isNaN(row.stockMoney) ? 0 : +row.stockMoney)
+                    var _value = ((isNaN(row.stockNumber) ? 0 : +row.stockNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
+                    row.stockMoney = _value
 
                     var _allRow = $('#buyPlanTable').datagrid('getRows')
                     var _lastRow = _allRow[_allRow.length - 1]
-                    if(_lastRow.buyNo == '审核金额合计') {
-                        _lastRow.checkMoney = (+_lastRow.checkMoney + +_value - _checkMoney).toFixed(1)
+                    if(_lastRow.buyNo == '采购金额合计') {
+                        _lastRow.stockMoney = (+_lastRow.stockMoney + +_value - _stockMoney).toFixed(1)
                         $('#buyPlanTable').datagrid('refreshRow', _allRow.length - 1)
                         mergeLastCells()
                     }
                     return _value
                 }},
                 {field: 'buyer', title: '采购员', width: 70, align: "center"},
-                {field: 'stockMoney', title: '采购金额', width: 60, align: "center",formatter:function(value,row,index){
-                    return ((isNaN(row.stockNumber) ? 0 : +row.stockNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
-                }},
-                {field: 'count', title: '计划金额', width: 60, align: "center", formatter: function (value, row, index) {
-                    var _value = ((isNaN(row.wantNumber) ? 0 : +row.wantNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
-                    return _value
-                }},
-                {field: 'stockNumber', title: '采购数量', width: 60, align: "center"},
-                {field: 'packUnit', title: '包装单位', width: 60, align: "center"},
-                {field: 'wantNumber', title: '计划数量', width: 60, align: "center"},
-                {field: 'drugForm', title: '剂型', width: 80, align: "center"}
+                {field: 'drugForm', title: '剂型', width: 80, align: "center"},
+                {field: 'stockNum', title: '库存参考数', width: 90, align: "center"},
+                {field: 'monthUsed', title: '月消耗量', width: 60, align: "center"},
+                {field: 'rmb', title: '当前零售价', width: 90, align: "center"},
+                {field: 'stockSupplier', title: '采购供应商', width: 200, align: "center", editor: {
+                    type: 'combobox',
+                    options: {
+                        valueField: 'id',
+                        textField: 'supplier',
+                        required: true,
+                        missingMessage: '采购供应商不能为空',
+                        data: suppliers,
+                        onChange: function (newV, oldV) {
+                            if (newV != oldV) return
+                        }
+                    }
+                },formatter:function(value){
+                    for(var i= 0,j=suppliers.length;i<j;i++){
+                        if(suppliers[i].id == value) return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
+                    }
+                    return ''
+                }}
             ]],
             onClickCell: onClickCell,
             onLoadSuccess: function (data) {
                 var rows = $(this).datagrid('getRows')
                 if (rows.length == 0) return
                 var countRecord = {
-                    buyNo: '审核金额合计',
-                    checkMoney: 0
+                    buyNo: '采购金额合计',
+                    stockMoney: 0
                 }
                 $(this).datagrid('appendRow', countRecord)
                 mergeLastCells()
@@ -253,10 +241,10 @@ $(function () {
             editable: false,
             onSelect: function (record) {
                 planSelectIndex = 0
-                loadDrugBuyPlan(record.value, '3')
+                loadDrugBuyPlan(record.value, '2')
             }
         })
-        $.get(base_url + 'getBuyId', {flag: '3', orgId: orgId}, function (res) {
+        $.get(base_url + 'getBuyId', {flag: '2', orgId: orgId}, function (res) {
             var _temporaryNo = []
             for (var i = 0; i < res.length; i++) {
                 _temporaryNo.push({value: res[i], label: res[i]})
@@ -419,8 +407,8 @@ $(function () {
         $.get(base_url + 'findList', {buyId: buyId, orgId: orgId, flag: flag}, function (res) {
             currentBuyId = buyId
             for(var i=0;i<res.length;i++){
-                res[i].checker = username
-                res[i].flag = '4'
+                res[i].buyer = username
+                res[i].flag = '3'
             }
             $('#buyPlanTable').datagrid('loadData', res)
             $('#buyPlanTable').datagrid('selectRow', planSelectIndex)
@@ -475,16 +463,16 @@ $(function () {
             onClickCell(_index, 'drugCode')
             return false
         }
-        if (!row.checkSupplier) {
-            onClickCell(_index, 'checkSupplier')
-            return false
-        }
-        if (!row.checkNumber) {
-            onClickCell(_index, 'checkNumber')
-            return false
-        }
         if (isNaN(row.purchasePrice)) {
             onClickCell(_index, 'purchasePrice')
+            return false
+        }
+        if (!row.stockNumber) {
+            onClickCell(_index, 'stockNumber')
+            return false
+        }
+        if (!row.stockSupplier) {
+            onClickCell(_index, 'stockSupplier')
             return false
         }
         return true
@@ -496,13 +484,13 @@ $(function () {
     var addRow = function () {
         var len = $('#buyPlanTable').datagrid('getRows').length
         if (!currentBuyId){
-            $.messager.alert('警告','请选择需审核的采购单据号！','warning')
+            $.messager.alert('警告','请选择需调整的采购单据号！','warning')
             return
         }
         if (len == 0) {
             var countRecord = {
-                buyNo: '审核金额合计',
-                checkMoney: '0'
+                buyNo: '采购金额合计',
+                stockMoney: '0'
             }
             $('#buyPlanTable').datagrid('appendRow', countRecord)
             mergeLastCells()
@@ -512,11 +500,10 @@ $(function () {
         var record = {
             buyId: currentBuyId,  // 后台生成
             buyNo: len + 1,
-            checker: username,
+            buyer: username,
             orgId: orgId,
-            flag: '4',
-            wantNumber:'0',
-            stockNumber:'0',
+            flag: '3',
+            wantNumber : '0',
             storage: currentStorage,
             supplier: ''
         }
@@ -566,7 +553,6 @@ $(function () {
         var _allData = $('#buyPlanTable').datagrid('getRows')
         for (var i = 0; i < _allData.length - 1; i++) {
             if (!validateRow(_allData[i])) return
-            delete _allData[i].checkMoney
             delete _allData[i].stockMoney
             delete _allData[i].count
             handleData[0].push(_allData[i])

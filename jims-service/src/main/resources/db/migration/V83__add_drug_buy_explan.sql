@@ -96,7 +96,7 @@ comment on column DRUG_BUY_PLAN.CHECK_SUPPLIER
 comment on column DRUG_BUY_PLAN.CHECKER
   is '审核员';
 comment on column DRUG_BUY_PLAN.FLAG
-  is '执行标志';
+  is '执行标志（1仓管员暂存，2仓管员保存，3采购员保存，4审核员保存，5 已执行，6 已入库）';
 comment on column DRUG_BUY_PLAN.PACK_SPEC
   is '包装规格';
 comment on column DRUG_BUY_PLAN.PACK_UNIT

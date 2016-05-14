@@ -75,7 +75,6 @@ $(function(){
      */
     var initBuyPlanTable = function (){
         $("#buyPlanTable").datagrid({
-            title : "药品购买计划",
             fit : true,
             border:0,
             //fitColumns: true, //列自适应宽度
