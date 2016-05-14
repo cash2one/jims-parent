@@ -99,6 +99,8 @@
 		INSERT INTO outp_presc(
 			id,
 			patient_id,
+			clinic_id,
+			org_id,
 			visit_date,
 			visit_no,
 			serial_no,
@@ -141,6 +143,8 @@
 		) VALUES (
 			#{id},
 			#{patientId},
+			#{clinicId},
+			#{orgId},
 			#{visitDate},
 			#{visitNo},
 			#{serialNo},
@@ -308,15 +312,22 @@
 	<select id="getOutpPresc" resultType="OutpPresc">
 		 SELECT DISTINCT VISIT_DATE AS "visitDate",
          VISIT_NO AS "visitNo",
-         SERIAL_NO AS "serialNo",
          PRESC_NO AS "prescNo",
          ITEM_CLASS AS "itemClass",
          CHARGE_INDICATOR AS "chargeIndicator",
-         DISPENSARY AS "dispensary",
          PRESC_ATTR AS "prescAttr"
          FROM OUTP_PRESC
-         WHERE clinic_id=#{clinicId}
+		<where>
+			del_flag='0'
+			<if test="clinicId!=null and clinicId!=''">
+				and clinic_id=#{clinicId}
+			</if>
+			<if test="orgId!=null and orgId!=''">
+				and org_id=#{orgId}
+			</if>
+		</where>
 
+		ORDER BY PRESC_NO DESC
 	</select>
 	<select id="getOrderNo" resultType="Integer">
 		select MAX(order_no) FROM outp_presc a
@@ -324,6 +335,9 @@
 			a.del_flag='0'
 			<if test="clinicId!=null and clinicId!=''">
 			 and a.clinic_id=#{clinicId}
+			</if>
+			<if test="orgId!=null and orgId!=''">
+				and a.org_id=#{orgId}
 			</if>
 		</where>
 
@@ -385,6 +399,39 @@
 			<if test="prescNo!=null and prescNo!=''">
 				and PRESC_NO=#{prescNo}
 			</if>
+			<if test="orgId!=null and orgId!=''">
+				and org_id=#{orgId}
+			</if>
+			<if test="clinicId!=null and clinicId!=''">
+				and clinic_id=#{clinicId}
+			</if>
 		</where>
 	</select>
+
+	<select id="getMaxPrescNo" resultType="Integer">
+		select max(presc_no)+1 from outp_presc
+		<where>
+			and del_flag='0'
+			<if test="orgId!=null and orgId!=''">
+				and org_id=#{orgId}
+			</if>
+		</where>
+	</select>
+
+	<select id="searchPrescNoIfExist" resultType="Integer">
+		select count(presc_no) from outp_presc
+		<where>
+			and del_flag='0'
+			<if test="prescNo!=null and prescNo!=''">
+				and PRESC_NO=#{prescNo}
+			</if>
+			<if test="clinicId!=null and clinicId!=''">
+				and clinic_id=#{clinicId}
+			</if>
+			<if test="orgId!=null and orgId!=''">
+				and org_id=#{orgId}
+			</if>
+		</where>
+	</select>
+
 </mapper>

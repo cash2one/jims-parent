@@ -2,7 +2,9 @@ package com.jims.clinic.prescription;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
+import com.jims.clinic.api.ClinicMasterServiceApi;
 import com.jims.clinic.api.OutpPrescServiceApi;
+import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpPresc;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
@@ -23,10 +25,12 @@ public class OutpPrescRest {
 
     @Reference(version = "1.0.0")
     OutpPrescServiceApi outpPrescServiceApi;
+    @Reference(version = "1.0.0")
+    ClinicMasterServiceApi clinicMasterServiceApi;
 
 
     /**
-     //     * @param             传递参数
+     * @param       orgId   clinicId   传递参数
      * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
      * @throws
      * @Title: list
@@ -36,16 +40,15 @@ public class OutpPrescRest {
      */
     @Path("list")
     @GET
-    public List<OutpPresc> list(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicId") String clinicId){
+    public List<OutpPresc> list(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orgId") String orgId,@QueryParam("clinicId") String clinicId){
         List<OutpPresc> list = Lists.newArrayList();
         try {
-            list = outpPrescServiceApi.getOutpPresc(clinicId);
+            list = outpPrescServiceApi.getOutpPresc(orgId,clinicId);
         }catch (Exception e){
             e.printStackTrace();
         }
         return list;
     }
-
 
     /**
      * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
@@ -57,9 +60,11 @@ public class OutpPrescRest {
      */
     @Path("sublist")
     @GET
-    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("prescNo") Integer prescNo){
+    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orgId") String orgId,@QueryParam("clinicId") String clinicId,@QueryParam("prescNo") Integer prescNo){
         OutpPresc op = new OutpPresc();
         op.setPrescNo(prescNo);
+        op.setOrgId(orgId);
+        op.setClinicId(clinicId);
         List<OutpPresc> list = Lists.newArrayList();
         try {
             list = outpPrescServiceApi.findListByParams(op);
@@ -68,6 +73,7 @@ public class OutpPrescRest {
         }
         return list;
     }
+
     /**
      * @param          outpPresc   传递参数
      * @return com.jims.common.data.StringData    返回类型
@@ -91,7 +97,6 @@ public class OutpPrescRest {
         return stringData;
     }
 
-
     /**
      * @param ids 传递参数
      * @return StringData    返回类型
@@ -109,6 +114,21 @@ public class OutpPrescRest {
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
+    }
+    /**
+     * @param       id      传递参数
+     * @return com.jims.clinic.entity.ClinicMaster    返回类型
+     * @throws
+     * @Title: getClinicMaster
+     * @Description: (点击新方，获取当前病人的信息)
+     * @author CTQ
+     * @date 2016/5/12
+     */
+    @Path("getClinicMaster")
+    @POST
+    public ClinicMaster getClinicMaster(String id) {
+        ClinicMaster clinicMaster = clinicMasterServiceApi.get(id);
+        return clinicMaster;
     }
 
 
