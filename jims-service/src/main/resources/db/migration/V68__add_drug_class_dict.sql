@@ -29,8 +29,6 @@ comment on column DRUG_CLASS_DICT.CLASS_CODE
   is '类别代码';
 comment on column DRUG_CLASS_DICT.CLASS_NAME
   is '类别名称';
-comment on column DRUG_CLASS_DICT.ORG_ID
-  is '所属结构';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table DRUG_CLASS_DICT
   add constraint DRUG_CLASS_DICT_PK primary key (ID)
