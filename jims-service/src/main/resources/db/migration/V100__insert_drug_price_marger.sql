@@ -1,0 +1,11 @@
+insert into MENU_DICT (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
+values ('B6570E77F0B749A0B0B37DA515711538', '调价记录维护', '/modules/phstock/drug-price-modify-marge.html', '1', 1, '1', null, null, null, to_timestamp('14-05-2016 09:08:08.226000', 'dd-mm-yyyy hh24:mi:ss.ff'), '0', to_timestamp('14-05-2016 09:08:08.226000', 'dd-mm-yyyy hh24:mi:ss.ff'), '065969698a724445b2c03085aad8dfcd', '1');
+insert into MENU_DICT (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
+values ('75A75BA42DE64C4C916C6BB9F6F04668', '药品字典维护管理', '/modules/phstock/drug_class_dict.html', '1', 1, '1', null, null, null, to_timestamp('12-05-2016 13:59:09.842000', 'dd-mm-yyyy hh24:mi:ss.ff'), '0', to_timestamp('12-05-2016 13:57:10.687000', 'dd-mm-yyyy hh24:mi:ss.ff'), '065969698a724445b2c03085aad8dfcd', '1');
+insert into MENU_DICT (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
+values ('2DF5B93096BC483D96F61474308D4516', '药品价格维护', '/modules/phstock/drug-price-marger.html', '1', 1, '1', null, null, null, to_timestamp('14-05-2016 09:04:33.038000', 'dd-mm-yyyy hh24:mi:ss.ff'), '0', to_timestamp('14-05-2016 09:04:33.038000', 'dd-mm-yyyy hh24:mi:ss.ff'), '065969698a724445b2c03085aad8dfcd', '1');
+insert into MENU_DICT (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
+values ('372DDCF727AA40E484D15C7258D93B39', '药品价格查询', '/modules/phstock/drug-price-search.html', '1', 1, '1', null, null, null, to_timestamp('14-05-2016 09:06:07.596000', 'dd-mm-yyyy hh24:mi:ss.ff'), '0', to_timestamp('14-05-2016 09:06:07.596000', 'dd-mm-yyyy hh24:mi:ss.ff'), '065969698a724445b2c03085aad8dfcd', '1');
+insert into MENU_DICT (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
+values ('51D049B7DE194FD7A6A4788CDBCCDA11', '药品进阶查询', '/modules/phstock/drug-price-porchase.html', '1', 1, '1', null, null, null, to_timestamp('14-05-2016 09:07:12.921000', 'dd-mm-yyyy hh24:mi:ss.ff'), '0', to_timestamp('14-05-2016 09:07:12.921000', 'dd-mm-yyyy hh24:mi:ss.ff'), '065969698a724445b2c03085aad8dfcd', '1');
+commit;

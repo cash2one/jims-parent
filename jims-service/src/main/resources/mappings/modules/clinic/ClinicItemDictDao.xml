@@ -51,7 +51,7 @@
                 AND a.input_code LIKE #{inputCode} || '%'
             </if>
             <if test="orgId != null and orgId != ''">
-                AND a.org_id LIKE #{orgId} || '%'
+                AND a.org_id = #{orgId}
             </if>
         </where>
         <choose>
@@ -77,7 +77,7 @@
                 AND a.item_name = #{itemName}
             </if>
             <if test="orgId != null and orgId != ''">
-                AND a.org_id LIKE #{orgId} || '%'
+                AND a.org_id = #{orgId}
             </if>
         </where>
     </select>

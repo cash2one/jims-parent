@@ -30,7 +30,7 @@ create table DRUG_BUY_PLAN
   FLAG               NUMBER(2),
   PACK_SPEC          VARCHAR2(20),
   PACK_UNIT          VARCHAR2(8),
-  FIRM_ID            VARCHAR2(10),
+  FIRM_ID            VARCHAR2(64),
   PURCHASE_PRICE     NUMBER(10,4),
   STORAGE            VARCHAR2(8) not null,
   STOCKQUANTITY_REF  NUMBER(12,2),

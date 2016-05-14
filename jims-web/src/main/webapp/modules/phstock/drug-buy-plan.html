@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>药品购买计划管理</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/js/spell.js"></script>
+
+</head>
+<body>
+
+<div class="easyui-layout" data-options="fit:true,border:1">
+    <div data-options="region:'north'" style="height:90%;border:0">
+        <div id="btn" style="padding:5px;height:auto;">
+            <div>
+                <label for="temporaryNo">暂存单号</label>
+                <input id="temporaryNo">
+            </div>
+        </div>
+        <table id="buyPlanTable"></table>
+    </div>
+    <div data-options="region:'south'" style="height:50px;min-height: 50px">
+        <div style="margin-bottom:5px;margin-top: 15px;">
+            <a href="#" id="addButton"></a>
+            <a href="#" id="delButton"></a>
+            <a href="#" id="exportButton"></a>
+            <a href="#" id="tempButton"></a>
+            <a href="#" id="saveButton"></a>
+            <a href="#" id="flushButton"></a>
+            <a href="#" id="printButton"></a>
+            <a href="#" id="closeButton"></a>
+        </div>
+    </div>
+</div>
+<div id="drugPriceWindow">
+    <table id="drugPriceTable"></table>
+</div>
+<script>
+    $.extend($.fn.datagrid.methods, {
+        editCell: function(jq,param){
+            return jq.each(function(){
+                var opts = $(this).datagrid('options');
+                var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
+                for(var i=0; i<fields.length; i++){
+                    var col = $(this).datagrid('getColumnOption', fields[i]);
+                    col.editor1 = col.editor;
+                    if (fields[i] != param.field){
+                        col.editor = null;
+                    }
+                }
+                $(this).datagrid('beginEdit', param.index);
+                for(var i=0; i<fields.length; i++){
+                    var col = $(this).datagrid('getColumnOption', fields[i]);
+                    col.editor = col.editor1;
+                }
+            });
+        }
+    });
+    $.extend({
+        ajaxAsync : function(url,data,callback,type,async){
+            return $.ajax({
+                type: type,
+                url: url,
+                async : async,   // true 异步,false 同步
+                data: data,
+                success: callback,
+                'contentType': 'application/json'
+            });
+        }
+    })
+</script>
+<script src="js/drug-buy-plan.js"></script>
+</body>
+</html>

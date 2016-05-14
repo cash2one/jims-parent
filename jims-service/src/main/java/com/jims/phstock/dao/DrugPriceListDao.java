@@ -5,7 +5,10 @@ package com.jims.phstock.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugPriceList;
+
+import java.util.List;
 
 /**
  * 药品价格DAO接口
@@ -14,5 +17,11 @@ import com.jims.phstock.entity.DrugPriceList;
  */
 @MyBatisDao
 public interface DrugPriceListDao extends CrudDao<DrugPriceList> {
-	
+
+    /**
+     * 检索当前日期所属机构的药品
+     * @param orgId 机构ID
+     * @return
+     */
+    public List<DrugDict> findDrugDict(String orgId);
 }
