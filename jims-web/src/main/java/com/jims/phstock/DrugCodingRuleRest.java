@@ -6,10 +6,9 @@ import com.jims.phstock.api.DrugCodingRuleApi;
 import com.jims.phstock.entity.DrugCodingRule;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -57,8 +56,14 @@ public class DrugCodingRuleRest {
     //通过编码名称获取编码长度
     @Path("findLevel")
     @GET
-    public StringData findLevelWidth(String className){
-        DrugCodingRule num =drugCodingRuleApi.findLevelWidth(className);
+    public StringData findLevelWidth(@QueryParam("className")String className){
+        DrugCodingRule num = null;
+        try {
+            className = URLDecoder.decode(className, "UTF-8");
+            num = drugCodingRuleApi.findLevelWidth(className);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         StringData stringData = new StringData();
         stringData.setCode(String.valueOf(num.getLevelWidth()));
         stringData.setData("success");

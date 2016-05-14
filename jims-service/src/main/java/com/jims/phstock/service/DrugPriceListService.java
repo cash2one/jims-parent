@@ -36,7 +36,7 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      */
     @Override
     public List<DrugNameDict> listDrugNameDict(String orgId) {
-        return null;
+        return dao.listDrugNameDict(orgId);
     }
 
     /**
@@ -49,7 +49,7 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      */
     @Override
     public List<DrugPriceList> listDrugPriceList(String drugCode, String orgId) {
-        return null;
+        return dao.listDrugPriceList(drugCode,orgId);
     }
 
     /**
