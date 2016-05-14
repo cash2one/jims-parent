@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>调价盈亏统计</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+</head>
+<body class="easyui-layout">
+    <div region="north">
+        <table>
+            <tr>
+                <td>起始时间:</td>
+                <td><input id="date1" type="text" class="easyui-datebox" formatter="yyyy-MM-dd" required="required"
+                           style="height: 30px;width:150px;"></td>
+                <td>截止时间:</td>
+                <td><input id="date2" type="text" class="easyui-datebox" formatter="yyyy-MM-dd" required="required"
+                           style="height: 30px;width:150px;"></td>
+                <td><input type="text" class="easyui-combobox" style="height: 30px;width: 220px"></td>
+            </tr>
+            &nbsp;
+            <tr>
+                <td><input id="radio1" type="radio" name="mRadio">药品名称</td>
+                <td><input id="drugName" type="text" class="easyui-textbox" style="height: 30px;width: 150px"></td>
+                <td><input id="radio2" type="radio" name="mRadio">药品类别</td>
+                <td><input id="drugClass" type="text" class="easyui-combobox" style="height: 30px;width: 150px"></td>
+                <td><input id="check" type="checkbox">调价类型
+                <input id="modifyType" type="text" class="easyui-combobox" style="height: 30px;width: 150px"></td>
+            </tr>
+        </table>
+    </div>
+    <div id="dg" region="center" class="easyui-datagrid"></div>
+    <div region="south" style="height:40px" align="right">
+        <a href="#" class="easyui-linkbutton c1" style="width:60px;height: 80%">提取</a>
+        <a href="#" class="easyui-linkbutton c2" style="width:60px;height: 80%">打印</a>
+        <a href="#" class="easyui-linkbutton c3" style="width:60px;height: 80%" iconCls="icon-save">另存</a>
+        <a href="#" class="easyui-linkbutton c4" style="width:60px;height: 80%">关闭</a>
+    </div>
+
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../static/easyui/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../static/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../phstock/js/drug-modify-price-profile-search.js"></script>
+</body>
+</html>
