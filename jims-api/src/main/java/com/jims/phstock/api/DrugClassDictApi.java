@@ -11,21 +11,19 @@ import java.util.List;
 public interface DrugClassDictApi {
 
     /***
-     *  根据诊疗机构ID获取药品类别
-     * @param orgId 诊疗机构ID
+     * 获取药品类别
      * @return 药品类别集合
      * @author ztq
      */
-    public List<DrugClassDict> listDrugClassDictByOrgId(String orgId) ;
+    public List<DrugClassDict> listDrugClassDict() ;
 
     /***
      * 获取组织机构的某一大类的所有亚类
-     * @param orgId 组织机构ID
      * @param parentId 大类ID
      * @return 返回某一大类的所有亚类
      * @author ztq
      */
-    public List<DrugClassDict> listSubClassDict(String orgId,String parentId) ;
+    public List<DrugClassDict> listSubClassDict(String parentId) ;
 
 
     /**

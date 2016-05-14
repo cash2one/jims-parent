@@ -5,7 +5,7 @@
  -- 诊疗项目维护菜单添加
  INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '诊疗项目维护', '/modules/clinic/clinic-item.html', '1', 1, '1', '9ED7DB110B4F41F7AED1340F9B26CF1C', '1', null, null, null, sysdate, '0', sysdate );
  -- 采购计划生产菜单添加
- INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划生成', '/modules/phstock/drug-buy-plan.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate )
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划生成', '/modules/phstock/drug-buy-plan.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
 --项目类别
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('10AFF59F7A184E3782C757E31FCB8645','西药','A','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','1',0);
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('E11F27EF26BD4ECDA9A1DBEF370C9F3B','中药','B','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','2',0);
