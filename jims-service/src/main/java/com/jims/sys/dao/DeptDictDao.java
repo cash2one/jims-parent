@@ -17,6 +17,12 @@ import java.util.List;
  */
 @MyBatisDao
 public interface DeptDictDao extends CrudDao<DeptDict> {
+    /**
+     * 根据部门名称查询部门对象
+     * @return 部门实体类对象
+     * @author fengyuguang
+     */
+    public List<DeptDict> getByName(String deptName);
 
     /**
      * 查询所有的科室信息
