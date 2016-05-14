@@ -1,6 +1,5 @@
 //药品库存盘点
 $(function(){
-
     var loadDate=function getNowFormatDate() {
         var date = new Date();
         var seperator1 = "-";

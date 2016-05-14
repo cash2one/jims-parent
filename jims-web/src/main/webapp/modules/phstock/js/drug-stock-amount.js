@@ -7,7 +7,7 @@ $(function(){
         striped: true,
         singleSelect: true,
         //toolbar: '#tb',
-        method: 'GET',
+        //method: 'GET',
         rownumbers: true,
         //  url: basePath + "/AdministrationDict/listAll",
 
