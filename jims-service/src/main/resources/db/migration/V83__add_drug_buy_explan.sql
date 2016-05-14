@@ -22,10 +22,10 @@ create table DRUG_BUY_PLAN
   WANT_NUMBER        NUMBER(12,2),
   STORER             VARCHAR2(20),
   STOCK_NUMBER       NUMBER(12,2),
-  STOCK_SUPPLIER     VARCHAR2(10),
+  STOCK_SUPPLIER     VARCHAR2(64),
   BUYER              VARCHAR2(20),
   CHECK_NUMBER       NUMBER(12,2),
-  CHECK_SUPPLIER     VARCHAR2(10),
+  CHECK_SUPPLIER     VARCHAR2(64),
   CHECKER            VARCHAR2(20),
   FLAG               NUMBER(2),
   PACK_SPEC          VARCHAR2(20),
@@ -96,7 +96,7 @@ comment on column DRUG_BUY_PLAN.CHECK_SUPPLIER
 comment on column DRUG_BUY_PLAN.CHECKER
   is '审核员';
 comment on column DRUG_BUY_PLAN.FLAG
-  is '执行标志';
+  is '执行标志（1仓管员暂存，2仓管员保存，3采购员保存，4审核员保存，5 已执行，6 已入库）';
 comment on column DRUG_BUY_PLAN.PACK_SPEC
   is '包装规格';
 comment on column DRUG_BUY_PLAN.PACK_UNIT
