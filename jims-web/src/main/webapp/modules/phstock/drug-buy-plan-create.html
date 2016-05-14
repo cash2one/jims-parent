@@ -7,33 +7,23 @@
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="/static/js/spell.js"></script>
 
 </head>
 <body>
 
-<div class="easyui-layout" data-options="fit:true,border:1">
-    <div data-options="region:'north'" style="height:90%;border:0">
-        <div id="btn" style="padding:5px;height:auto;">
-            <div>
-                <label for="temporaryNo">暂存单号</label>
-                <input id="temporaryNo">
-            </div>
-        </div>
-        <table id="buyPlanTable"></table>
-    </div>
-    <div data-options="region:'south'" style="height:50px;min-height: 50px">
-        <div style="margin-bottom:5px;margin-top: 15px;">
-            <a href="#" id="addButton"></a>
-            <a href="#" id="delButton"></a>
-            <a href="#" id="exportButton"></a>
-            <a href="#" id="tempButton"></a>
-            <a href="#" id="saveButton"></a>
-            <a href="#" id="flushButton"></a>
-            <a href="#" id="printButton"></a>
-            <a href="#" id="closeButton"></a>
-        </div>
-    </div>
+<table id="buyPlanTable"></table>
+<div id="tbn" style="height: 40px; padding-left: 5px;padding-top: 10px">
+    <label for="temporaryNo">暂存单号:</label>
+    <input id="temporaryNo">
+    &nbsp;&nbsp;
+    <a href="#" id="addButton"></a>
+    <a href="#" id="delButton"></a>
+    <a href="#" id="exportButton"></a>
+    <a href="#" id="tempButton"></a>
+    <a href="#" id="saveButton"></a>
+    <a href="#" id="flushButton"></a>
+    <a href="#" id="printButton"></a>
+    <a href="#" id="closeButton"></a>
 </div>
 <div id="drugPriceWindow">
     <table id="drugPriceTable"></table>
@@ -72,6 +62,6 @@
         }
     })
 </script>
-<script src="js/drug-buy-plan.js"></script>
+<script src="js/drug-buy-plan-create.js"></script>
 </body>
 </html>

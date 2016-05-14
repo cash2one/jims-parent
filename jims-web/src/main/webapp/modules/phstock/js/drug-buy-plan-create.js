@@ -4,7 +4,7 @@ $(function(){
         ,orgId = parent.config.org_Id
         ,currentBuyId = '' // 当前采购单据号
         ,currentStorage = parent.config.currentStorage
-        ,drugDicts = []  // 检索的暂存采购计划单
+        ,drugDicts = []  // 检索的药品字典数据
         ,initDrugPriceWindowFlag = true  // 是否初始化药品价格表弹出框
 
     var planSelectIndex = 0;   // 购买计划表当前选择行索引
@@ -78,10 +78,11 @@ $(function(){
             title : "药品购买计划",
             fit : true,
             border:0,
-            fitColumns: true, //列自适应宽度
+            //fitColumns: true, //列自适应宽度
             singleSelect : true,
             remoteSort: false,
             idField :'id',
+            toolbar: '#tbn',
             columns: [[
                 {field: 'id', title: '编号',hidden:true},
                 { field: 'buyNo', title: '采购序号', width: 60,align : "center",formatter:function(value){
@@ -179,15 +180,15 @@ $(function(){
                 { field: 'monthUsed', title: '月消耗量', width: 60,align : "center" },
                 { field: 'rmb', title: '零售价', width: 60,align : "center" }
             ]],
-            toolbar: '#tbn',
             onClickCell:onClickCell,
             onLoadSuccess : function(data){
+                var rows = $(this).datagrid('getRows')
+                if(rows.length == 0) return
                 var countRecord = {
                     buyNo : '合计',
                     count : 0
                 }
                 var _count = 0
-                var rows = $(this).datagrid('getRows')
                 for(var i=0;i<rows.length ;i++){
                     _count += +((isNaN(rows[i].wantNumber) ? 0 : +rows[i].wantNumber) * (isNaN(rows[i].purchasePrice) ? 0 : +rows[i].purchasePrice)).toFixed(1)
                 }
@@ -515,11 +516,9 @@ $(function(){
         if(planSelectIndex != undefined)
             $('#buyPlanTable').datagrid('endEdit',planSelectIndex)
 
-        var handleData = [] // handleData[0] 添加的数据,handleData[1] 删除的数据
+        var handleData = [[]] // handleData[0] 添加的数据,handleData[1] 删除的数据
         var _allData = $('#buyPlanTable').datagrid('getRows')
-        if(_allData.length > 1) _allData.splice(_allData.length - 1, 1)
         if(flag == '1') {
-            var _saveData = []
             var _updates = $('#buyPlanTable').datagrid('getChanges', 'updated')
             var isExisted = function (id) {
                 for (var i = 0, len = _updates.length; i < len; i++) {
@@ -528,24 +527,23 @@ $(function(){
                 }
                 return false
             }
-            for (var i = 0,len=_allData.length; i < len; i++) {
+            for (var i = 0,len=_allData.length - 1; i < len; i++) {
                 if(!validateRow(_allData[i])) return
                 var _row = _allData[i]
                 if(!_row.id || _row.hiddenUpdateFlag == 1 || isExisted(_row.id)){
                     delete _row.hiddenUpdateFlag
-                    _saveData.push(_row)
+                    handleData[0].push(_row)
                     continue
                 }
             }
-            handleData.push(_saveData)
         }
         else{
-            for(var i=0;i<_allData.length;i++){
+            for(var i=0;i<_allData.length - 1;i++){
                 if(!validateRow(_allData[i])) return
                 _allData[i].flag = flag
+                handleData[0].push(_allData[i])
                 delete _allData[i].hiddenUpdateFlag
             }
-            handleData.push(_allData)
         }
         // 删除的数据，只传递需删除的数据的主键（ID）
         var _deleteData = $('#buyPlanTable').datagrid('getChanges','deleted')
