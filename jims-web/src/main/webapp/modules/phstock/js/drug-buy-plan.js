@@ -19,6 +19,15 @@ $(function(){
         {value:'9',label:'其他'}]
 
     /**
+     * 合并合计单元格
+     */
+    var mergeLastCells = function(){
+        var _index = $('#buyPlanTable').datagrid('getRows').length - 1
+        $('#buyPlanTable').datagrid('mergeCells',{index:_index,field:'buyNo',rowspan:null,colspan:7})
+        $('#buyPlanTable').datagrid('mergeCells',{index:_index,field:'count',rowspan:null,colspan:7})
+    }
+
+    /**
      * 格式化数据
      * @param arr 数组格式类似 [{value:'1',label:'测试'}...]
      * @param value
@@ -54,6 +63,7 @@ $(function(){
      */
     var onClickCell = function(index, field){
         if (endEditing()){
+            if(index == $('#buyPlanTable').datagrid('getRows').length - 1) return
             $('#buyPlanTable').datagrid('selectRow', index)
                 .datagrid('editCell', {index:index,field:field});
             planSelectIndex = index;
@@ -74,7 +84,10 @@ $(function(){
             idField :'id',
             columns: [[
                 {field: 'id', title: '编号',hidden:true},
-                { field: 'buyNo', title: '采购序号', width: 60,align : "center"},
+                { field: 'buyNo', title: '采购序号', width: 60,align : "center",formatter:function(value){
+                    if(value == '合计') return '<div style="text-align:right">'+value+'：　　　</div>'
+                    return value
+                }},
                 { field: 'drugCode', title: '药名', width: 220,align : "center",editor:{
                     type:'combogrid',
                     options:{
@@ -132,13 +145,7 @@ $(function(){
                         required:true,
                         missingMessage:'计划数量不能为空',
                         min : 1,
-                        precision : 0,
-                        onChange : function(newV,oldV){
-                            if(newV != oldV){
-                                var _row = $('#buyPlanTable').datagrid('getSelected')
-                                _row.count = +newV * (isNaN(_row.purchasePrice) ? 0 : +_row.purchasePrice)
-                            }
-                        }
+                        precision : 0
                     }
                 }},
                 { field: 'purchasePrice', title: '进货价', width: 60,align : "center" ,editor:{
@@ -147,17 +154,23 @@ $(function(){
                         required:true,
                         missingMessage:'进货价不能为空',
                         min : 1.0,
-                        precision : 1,
-                        onChange : function(newV,oldV){
-                            if(newV != oldV){
-                                var _row = $('#buyPlanTable').datagrid('getSelected')
-                                _row.count = +newV * (isNaN(_row.wantNumber) ? 0 : +_row.wantNumber)
-                            }
-                        }
+                        precision : 1
                     }
                 }},
                 { field: 'count', title: '金额', width: 60,align : "center" ,formatter:function(value,row,index){
-                    return (isNaN(row.wantNumber) ? 0 : +row.wantNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)
+                    if(row.buyNo == '合计') return '<div style="text-align:left">　　'+value+'</div>'
+                    var _count = (isNaN(row.count) ? 0 : +row.count)
+                    var _value = ((isNaN(row.wantNumber) ? 0 : +row.wantNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
+                    row.count = _value
+
+                    var _allRow = $('#buyPlanTable').datagrid('getRows')
+                    var _lastRow = _allRow[_allRow.length - 1]
+                    if(_lastRow.buyNo == '合计') {
+                        _lastRow.count = (+_lastRow.count + +_value - _count).toFixed(1)
+                        $('#buyPlanTable').datagrid('refreshRow', _allRow.length - 1)
+                        mergeLastCells()
+                    }
+                    return _value
                 }},
                 { field: 'drugForm', title: '剂型', width: 80,align : "center" },
                 { field: 'toxiProperty', title: '毒理', width: 150,align : "center" },
@@ -167,7 +180,21 @@ $(function(){
                 { field: 'rmb', title: '零售价', width: 60,align : "center" }
             ]],
             toolbar: '#tbn',
-            onClickCell:onClickCell
+            onClickCell:onClickCell,
+            onLoadSuccess : function(data){
+                var countRecord = {
+                    buyNo : '合计',
+                    count : 0
+                }
+                var _count = 0
+                var rows = $(this).datagrid('getRows')
+                for(var i=0;i<rows.length ;i++){
+                    _count += +((isNaN(rows[i].wantNumber) ? 0 : +rows[i].wantNumber) * (isNaN(rows[i].purchasePrice) ? 0 : +rows[i].purchasePrice)).toFixed(1)
+                }
+                countRecord.count = _count
+                $(this).datagrid('appendRow',countRecord)
+                mergeLastCells()
+            }
         });
 
     }
@@ -262,7 +289,7 @@ $(function(){
      */
     var chargeDrugExisted = function(o){
         var _allData = $('#buyPlanTable').datagrid('getRows')
-        for(var i= 0,j = _allData.length;i < j;i++){
+        for(var i= 0,j = _allData.length-1;i < j;i++){
             if(i != planSelectIndex && _allData[i].drugCode == o.drugCode
                 && _allData[i].packSpec == o.packSpec && _allData[i].packUnit == o.packUnit){
                 return true
@@ -431,6 +458,16 @@ $(function(){
         var len = $('#buyPlanTable').datagrid('getRows').length
         if(!currentBuyId)
             getNextBuyId()
+        var countRecord = {
+            buyNo : '合计',
+            count : '0'
+        }
+        if(len == 0){
+            $('#buyPlanTable').datagrid('appendRow',countRecord)
+            mergeLastCells()
+        } else {
+            len --
+        }
         var record = {
             buyId : currentBuyId,  // 后台生成
             buyNo : len+1,
@@ -440,7 +477,8 @@ $(function(){
             storage : currentStorage,
             supplier:''
         }
-        $('#buyPlanTable').datagrid('appendRow',record)
+
+        $('#buyPlanTable').datagrid('insertRow',{index:len,row:record})
         if(endEditing()) {
             $('#buyPlanTable').datagrid('selectRow', len)
             planSelectIndex = len
@@ -456,7 +494,10 @@ $(function(){
             $('#buyPlanTable').datagrid('deleteRow',_index)
             planSelectIndex = undefined
             var _rows = $('#buyPlanTable').datagrid('getRows')
-            for(var len = _rows.length;_index<len;_index++){
+            if(_rows.length == 1){
+                $('#buyPlanTable').datagrid('deleteRow',0)
+            }
+            for(var len = _rows.length-1;_index<len;_index++){
                 _rows[_index].buyNo = _index + 1
                 //记录当前记录是否被修改(为隐藏数据，保存时处理)， 1 为修改
                 _rows[_index].hiddenUpdateFlag = 1
@@ -476,6 +517,7 @@ $(function(){
 
         var handleData = [] // handleData[0] 添加的数据,handleData[1] 删除的数据
         var _allData = $('#buyPlanTable').datagrid('getRows')
+        if(_allData.length > 1) _allData.splice(_allData.length - 1, 1)
         if(flag == '1') {
             var _saveData = []
             var _updates = $('#buyPlanTable').datagrid('getChanges', 'updated')
