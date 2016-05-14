@@ -55,7 +55,7 @@ $(function(){
         fit: true,//自动大小
         url: basePath + '/drug-storage-dept/list?orgId='+ orgId,
         remoteSort: false,  //定义从服务器对数据进行排序
-        singleSelect: true,//是否单选
+        singleSelect: true,
         columns: [[
             {
                 title: 'ID',
@@ -116,7 +116,7 @@ $(function(){
                 width: '14%',
                 align: 'center',
                 editor: {
-                    type: 'textbox'
+                    type: 'numberbox'
                 }
             }, {
                 title: '出库单前缀',
@@ -168,9 +168,21 @@ $(function(){
         $("#dg").datagrid('beginEdit', editIndex);
     });
 
+    $("#delBtn").on('click', function () {
+        var row = $("#dg").datagrid('getSelected');
+        if (row) {
+            var rowIndex = $("#dg").datagrid('getRowIndex', row);
+            $("#dg").datagrid('deleteRow', rowIndex);
+            if (editIndex == rowIndex) {
+                editIndex = undefined;
+            }
+        } else {
+            $.messager.alert('系统警告', "请选择要删除的行", 'error');
+        }
+    });
+
     $("#saveBtn").on('click', function(){
         addData();
-
         var beanChangeVo = {};
 
         beanChangeVo.inserted = inserted;// inserted;
