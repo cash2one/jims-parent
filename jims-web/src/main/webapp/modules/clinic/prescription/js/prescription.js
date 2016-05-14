@@ -441,22 +441,22 @@ function disableForm(formId,isDisabled) {
     $("form[id='"+formId+"'] select").attr("disabled",isDisabled);
     $("form[id='"+formId+"'] :radio").attr("disabled",isDisabled);
 
-    //禁用jquery easyui中的下拉选（使用select生成的combox）
+    /*//禁用jquery easyui中的下拉选（使用select生成的combox）
     $("#" + formId + " select[class='textbox-text validatebox-text']").each(function () {
         if (this.id) {
-            alert(this.id);
             $("#" + this.id).combobox(attr);
         }
-    });
+    });*/
 }
 //选中处方行，更改radio选中值
 function changeRadio(obj){
+    $("#itemClass").val(obj);
     itemClass=obj;
     $('input:radio').each(function(){
         if($(this).val()==obj){
-            $(this).attr("checked",true);
+            $(this).prop("checked",true);
         }else{
-            $(this).attr("checked",false);
+            $(this).prop("checked",false);
         }
     });
 }
