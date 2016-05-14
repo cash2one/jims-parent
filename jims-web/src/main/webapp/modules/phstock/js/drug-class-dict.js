@@ -48,7 +48,7 @@ $(function(){
         width:'196px',
         mode: 'remote',
         method: 'GET',
-        url: basePath + '/drug-class-dict/list-parent?orgId='+orgId+"&parentId="+"*",
+        url: basePath + '/drug-class-dict/list-parent?parentId='+'*',
         idField: 'classCode',
         textField: 'className',
         columns: [[
@@ -60,7 +60,7 @@ $(function(){
     //为树形准备数据
     var loadDept = function (){
         obj = [];
-        var loadPromise = $.get(basePath + '/drug-class-dict/list?orgId='+orgId, function (data) {
+        var loadPromise = $.get(basePath + '/drug-class-dict/list', function (data) {
             list=data;
             for(var i=0;i<data.length;i++) {
                 if (data[i].parentId == "*" && data[i].delFlag=="0") {

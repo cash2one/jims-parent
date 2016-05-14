@@ -23,23 +23,21 @@ public class DrugClassDictImpl extends CrudImplService<DrugClassDictDao, DrugCla
 
     /***
      *  根据诊疗机构ID获取药品类别
-     * @param orgId 诊疗机构ID
      * @return 药品类别集合
      * @author zq
      */
-    public List<DrugClassDict> listDrugClassDictByOrgId(String orgId){
-        return drugClassDictDao.listDrugClassDictByOrgId(orgId);
+    public List<DrugClassDict> listDrugClassDict(){
+        return drugClassDictDao.listDrugClassDict();
     }
 
     /***
      * 获取组织机构的某一大类的所有亚类
-     * @param orgId 组织机构ID
      * @param parentId 大类ID
      * @return 返回某一大类的所有亚类
      * @author zq
      */
-    public List<DrugClassDict> listSubClassDict( String orgId , String parentId) {
-        return drugClassDictDao.listSubClassDict( orgId , parentId );
+    public List<DrugClassDict> listSubClassDict(String parentId) {
+        return drugClassDictDao.listSubClassDict(parentId );
     }
 
     @Override
