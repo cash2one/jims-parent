@@ -43,7 +43,18 @@ public class DrugPriceList extends DataEntity<DrugPriceList> {
 	private String orgId;		// 所属组织结构
 	private String drugName ; //药品名称
 
-	public DrugPriceList() {
+
+    private String supplier; // 厂商
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public DrugPriceList() {
 		super();
 	}
 
@@ -69,7 +80,7 @@ public class DrugPriceList extends DataEntity<DrugPriceList> {
 		this.drugSpec = drugSpec;
 	}
 	
-	@Length(min=1, max=10, message="厂家标识长度必须介于 1 和 10 之间")
+	@Length(min=1, max=64, message="厂家标识长度必须介于 1 和 64 之间")
 	public String getFirmId() {
 		return firmId;
 	}
