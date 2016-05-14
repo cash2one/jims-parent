@@ -97,7 +97,7 @@ $(function () {
         textField: 'className',
         width:150,
         method: 'GET',
-        url: basePath +  "/drug-class-dict/list-parent?orgId="+parent.config.org_Id+"&parentId=*",
+        url: basePath +  "/drug-class-dict/list-parent?parentId=*",
         onSelect: function(rowData) {
             if (editIndex || editIndex == 0) {
                 $("#drugNameDict").datagrid('endEdit', editIndex);
@@ -106,7 +106,7 @@ $(function () {
             $('#drugNameDict').datagrid('loadData', { total: 0, rows: [] });
             $('#drugSubClass').combobox('clear');
             console.log(rowData);
-            var url = basePath + "/drug-class-dict/list-parent?orgId=" + parent.config.org_Id + "&parentId=" + rowData.classCode;
+            var url = basePath + "/drug-class-dict/list-parent?parentId=" + rowData.classCode;
             $('#drugSubClass').combobox('reload', url);
         }
     });
@@ -547,7 +547,8 @@ $(function () {
                 $.messager.alert("系统提示", "保存成功", "info");
                 $("#clear").click();
             }, function (data) {
-                $.messager.alert('提示', "保存失败", "error");
+                $.messager.alert('提示', "保存失败，请确认是否唯一", "error");
+                $("#clear").click();
             })
         }
     });
@@ -578,7 +579,7 @@ $(function () {
         if (index == -1) {
             $.messager.alert("提示", "请选择删除的行", "info");
         } else {
-            $.get(basePath + "/drug-catalog/listDrugPriceList?orgId=" + parent.config.org_Id + "&drugCode="+row.drugCode, function (data) {
+            $.get(basePath + "/drug-price/listDrugPriceList?orgId=" + parent.config.org_Id + "&drugCode="+row.drugCode, function (data) {
                 if (data.length > 0 && row.id) {
                     $.messager.alert("提示", "已经存在该药品的价格等信息，不允许删除！", "info");
                 } else {
@@ -630,7 +631,7 @@ $(function () {
         if (index == -1) {
             $.messager.alert("提示", "请选择删除的行", "info");
         } else {
-            $.get(basePath + "/drug-catalog/listDrugPriceList?orgId=" + parent.config.org_Id + "&drugCode="+row.drugCode, function (data) {
+            $.get(basePath + "/drug-price/listDrugPriceList?orgId=" + parent.config.org_Id + "&drugCode="+row.drugCode, function (data) {
                 if (data.length > 0&&row.id) {
                     $.messager.alert("提示", "已经存在该药品的价格等信息，不允许删除！", "info");
                 } else {
