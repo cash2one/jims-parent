@@ -62,7 +62,16 @@
 		<include refid="operationScheduleJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+
+	<select id="getScheduleId" resultType="java.lang.Integer">
+          select
+               max ( schedule_id )
+		  from operation_schedule
+		   where patient_id =#{patientId} and visit_id =#{visitId}
+	</select>
+
+
 	<select id="findList" resultType="OperationSchedule">
 		SELECT 
 			<include refid="operationScheduleColumns"/>
