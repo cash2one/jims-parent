@@ -6,7 +6,7 @@
 (
    ID                   varchar2(64)                   not null,
    PATIENT_ID           varchar2(64)                   null,
-   VISIT_ID             number(11)                     null,
+   VISIT_ID             varchar2(64)                    null,
    ORDER_NO             number(11)                     null,
    ORDER_SUB_NO         number(11)                     null,
    REPEAT_INDICATOR     char(1)                        null,
