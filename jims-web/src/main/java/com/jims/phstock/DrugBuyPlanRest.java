@@ -28,7 +28,7 @@ public class DrugBuyPlanRest {
      * 根据购买单号、所属机构以及执行标志检索
      * @param buyId
      * @param orgId
-     * @param flag
+     * @param flag 1仓管员暂存，2仓管员保存，3采购员保存，4审核员保存，5 已执行，6 已入库
      * @return
      */
     @GET
@@ -88,7 +88,8 @@ public class DrugBuyPlanRest {
     @GET
     @Path("getBuyId")
     public List<String> getBuyId(@QueryParam("flag")String flag
+            ,@QueryParam("buyer")String buyer
             ,@QueryParam("orgId")String orgId){
-        return drugBuyPlanApi.getBuyId(flag,orgId);
+        return drugBuyPlanApi.getBuyId(flag,orgId,buyer);
     }
 }

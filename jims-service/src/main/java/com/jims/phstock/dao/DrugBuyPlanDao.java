@@ -3,6 +3,7 @@ package com.jims.phstock.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugBuyPlan;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,15 @@ public interface DrugBuyPlanDao extends CrudDao<DrugBuyPlan> {
      * @return
      */
     public List<String> getBuyId(String flag,String orgId);
+
+    /**
+     * 根据执行标志获取指定采购员的采购单据号
+     * @param flag
+     * @param orgId 所属机构ID
+     * @param buyer 采购员
+     * @return
+     */
+    public List<String> getBuyId(String flag,String orgId,@Param("buyer") String buyer);
 
     /**
      * 根据主键直接删除数据，而非修改数据中的删除标志

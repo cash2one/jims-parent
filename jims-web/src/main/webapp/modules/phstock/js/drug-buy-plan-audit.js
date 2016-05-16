@@ -551,7 +551,6 @@ $(function () {
     }
     /**
      * 保存数据
-     * @param flag
      */
     var saveData = function () {
         if (!currentBuyId){

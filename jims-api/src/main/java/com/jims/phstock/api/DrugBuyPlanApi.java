@@ -77,4 +77,13 @@ public interface DrugBuyPlanApi {
      * @return
      */
     public List<String> getBuyId(String flag,String orgId);
+
+    /**
+     * 根据执行标志获取指定采购员的采购单据号
+     * @param flag
+     * @param orgId 所属机构ID
+     * @param buyer 采购员
+     * @return
+     */
+    public List<String> getBuyId(String flag,String orgId,String buyer);
 }

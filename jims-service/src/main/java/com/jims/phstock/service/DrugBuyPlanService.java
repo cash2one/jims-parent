@@ -96,9 +96,21 @@ public class DrugBuyPlanService extends CrudImplService<DrugBuyPlanDao, DrugBuyP
     /**
      * 根据执行标志获取采购单据号
      * @param flag
+     * @param orgId 所属机构ID
      * @return
      */
     public List<String> getBuyId(String flag,String orgId){
         return dao.getBuyId(flag,orgId);
+    }
+
+    /**
+     * 根据执行标志获取指定采购员的采购单据号
+     * @param flag
+     * @param orgId 所属机构ID
+     * @param buyer 采购员
+     * @return
+     */
+    public List<String> getBuyId(String flag,String orgId,String buyer){
+        return dao.getBuyId(flag,orgId,buyer);
     }
 }
