@@ -10,6 +10,7 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,12 +30,11 @@ public interface PatVisitDao extends CrudDao<PatVisit> {
 
     /**
      * 根据出院科室和出院日期，查询出院病人列表（一周以内的出院病人）
-     * @param deptDischargeFrom
-     * @param dischargeDateTime
+     * @param deptDischargeFrom 出院科室
      * @return
      * @author zhaoning
      */
-    public List<PatientListDto> getPatientListOutHos(@Param("deptDischargeFrom")String deptDischargeFrom,@Param("dischargeDateTime")String dischargeDateTime);
+    public List<PatientListDto> getPatientListOutHos(@Param("deptDischargeFrom")String deptDischargeFrom);
 
     /**
      * 点击用血申请获取病人信息通过patient_id获得

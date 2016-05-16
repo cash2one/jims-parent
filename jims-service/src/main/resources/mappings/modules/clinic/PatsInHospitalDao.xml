@@ -80,7 +80,27 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+
+<select id="getOperationin" resultType="PatsInHospital">
+	 SELECT "PATS_IN_HOSPITAL"."PATIENT_ID" as "patientId",
+         "PATS_IN_HOSPITAL"."VISIT_ID" as "visitId",
+         "PATS_IN_HOSPITAL"."BED_NO" as "bedNo",
+         "PATS_IN_HOSPITAL"."DIAGNOSIS" as "diagnosis",
+         "PAT_MASTER_INDEX"."SEX" as "sex",
+         "PAT_MASTER_INDEX"."DATE_OF_BIRTH" as "birthDay",
+         "PAT_MASTER_INDEX"."CHARGE_TYPE" as "chargeType",
+         "PATS_IN_HOSPITAL"."TOTAL_COSTS" as "totalCosts",
+         "PAT_MASTER_INDEX"."INP_NO" as "inpNo",
+         "PAT_MASTER_INDEX"."NAME" as "name"
+    FROM "PAT_MASTER_INDEX",
+         "PATS_IN_HOSPITAL"
+   WHERE ( "PAT_MASTER_INDEX"."ID" = "PATS_IN_HOSPITAL"."PATIENT_ID" ) and
+         ( ( "PATS_IN_HOSPITAL"."DEPT_CODE" = #{deptCode}  ) OR
+         (              ( "PATS_IN_HOSPITAL"."DEPT_CODE_LEND" = #{deptCode}) AND
+         ("PATS_IN_HOSPITAL"."LEND_INDICATOR" = 1)             )            )
+</select>
+
 	<insert id="insert">
 		INSERT INTO pats_in_hospital(
 			id,

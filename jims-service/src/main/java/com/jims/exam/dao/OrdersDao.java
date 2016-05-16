@@ -22,6 +22,19 @@ public interface OrdersDao extends CrudDao<Orders> {
     public String deleteOrders(String clinicId);
 
     /**
+     * 获取医嘱最大序号
+     * @return
+     */
+    public int getOrderNo(String patientId,String visitId);
+
+    /**
+     * 获取子医嘱最大序号
+     * @param patientId
+     * @return
+     */
+    public int getOrderSubNo(String patientId);
+
+    /**
      * 最大OrderNo
      * @param
      * @parampatient_id
@@ -38,6 +51,5 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @author xueyx
      * @version 2016/5/12
      */
-    public Long creeatOrderNo(Orders orders);
-	
+    public int creeatOrderNo(Orders orders);
 }
