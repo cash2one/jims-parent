@@ -974,6 +974,26 @@
 	              or (b.dept_code_lend = #{deptCode} and b.dept_code_lend is not null)
 	           )
 	</select>
+	<select id="getPatientListOutHos" resultType="com.jims.patient.Dto.PatientListDto">
+		select
+		d.patient_id as patientId,
+		'出院' as bedNo,
+		a.inp_no as inpNo,
+		a.name as name,
+		a.sex as sex,
+		(trunc(d.discharge_date_time) - trunc(d.admission_date_time)) as inpCount,
+		d.admission_date_time as admissionDateTime,
+		d.dept_discharge_from as deptCode,
+		d.discharge_date_time as dischargeDateTime,
+		a.date_of_birth as dataOfbith,
+		d.charge_type as chargeType,
+		d.identity as patIdentity,
+		0 as prepayment,
+		'出院' as ward_code
+		from pat_master_index a , pat_visit d
+		where a.id = d.patient_id
+		and d.dept_discharge_from = #{deptDischargeFrom}
+	</select>
 	<select id="getPatientInformation" resultType="PatVisit">
 		SELECT
 		<include refid="patVisitColumns"/>,<include refid="getMaster"/>

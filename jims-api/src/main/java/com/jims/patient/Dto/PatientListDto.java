@@ -1,7 +1,11 @@
 package com.jims.patient.Dto;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateSerializer;
+import com.jims.common.utils.DateUtils;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -88,8 +92,8 @@ public class PatientListDto extends DataEntity<PatientListDto> {
         this.sex = sex;
     }
 
-    public String getAge() {
-        return age;
+    public String getAge()throws ParseException {
+        return age=DateUtils.getBirthDate(this.dataOfbith);
     }
 
     public void setAge(String age) {
@@ -143,11 +147,11 @@ public class PatientListDto extends DataEntity<PatientListDto> {
     public void setAttendingDoctor(String attendingDoctor) {
         this.attendingDoctor = attendingDoctor;
     }
-
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getDataOfbith() {
         return dataOfbith;
     }
-
+    @JsonSerialize(using = CustomDateSerializer.class)
     public void setDataOfbith(Date dataOfbith) {
         this.dataOfbith = dataOfbith;
     }

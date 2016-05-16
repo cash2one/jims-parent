@@ -9,6 +9,7 @@
 }
 .panel-header,
 .panel-body {
+    overflow: auto;
   border-width: 1px;
   border-style: solid;
 }
