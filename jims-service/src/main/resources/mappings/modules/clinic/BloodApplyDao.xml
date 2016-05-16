@@ -43,10 +43,12 @@
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		a.create_date AS "createDate"
+		a.create_date AS "createDate",
+		a.patient_id AS "patientId"
 	</sql>
 	
 	<sql id="bloodApplyJoins">
+		left join  pat_visit b on a.patient_id =b.patient_id
 	</sql>
     
 	<select id="get" resultType="BloodApply">
@@ -135,7 +137,8 @@
 			create_by,
 			update_date,
 			del_flag,
-			create_date
+			create_date,
+			patient_id
 		) VALUES (
 			#{applyNum},
 			#{inpNo},
@@ -177,7 +180,8 @@
 			#{createBy.id},
 			#{updateDate},
 			#{delFlag},
-			#{createDate}
+			#{createDate},
+			#{patientId}
 		)
 	</insert>
 	
@@ -219,7 +223,8 @@
 			org_id = #{orgId},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			patient_id=#{patientId}
 		WHERE id = #{id}
 	</update>
 	
@@ -228,5 +233,5 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>

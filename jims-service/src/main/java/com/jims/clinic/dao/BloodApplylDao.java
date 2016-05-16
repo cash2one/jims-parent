@@ -15,7 +15,13 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface BloodApplylDao  extends CrudDao<BloodApply> {
-	
 
+//    /**
+//     *点击用血申请获取病人信息通过patient_id获得
+//     * @param patientId
+//     * @param
+//     * @return
+//     */
+//    public BloodApply getPatientInformation(String patientId);
 
 }

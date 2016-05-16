@@ -12,10 +12,8 @@
 <div class="easyui-layout" style="width:100%;height:100%;">
     <div data-options="region:'east',split:true" style="width:41%;">
         <table id="list_data" cellspacing="0" cellpadding="0">
-
          </table>
     </div>
-
     <div data-options="region:'center',iconCls:'icon-ok'">
         <form id="useBloodForm" method="post">
             <input type="hidden" id="inpNo" name="inpNo" value="123">
@@ -39,7 +37,7 @@
                 <label>
                     ID号：
                 </label>
-                <input style="width:30%;" class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input  name="patientId" style="width:30%;" class="easyui-validatebox validatebox-text validatebox-invalid"
                         >
                 <label>
                     住院号：
@@ -140,26 +138,26 @@
                 <label>
                     谷丙转氨酶：
                 </label>
-                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input class="easyui-validatebox validatebox-text validatebox-invalid" name="alt"
                        style="width:25%;"/>U/L
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     乙型肝炎表面抗体：
                 </label>
-                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input class="easyui-validatebox validatebox-text validatebox-invalid" name="hbsag"
                        style="width:30%;"/>
                 <label>
                     丙型肝炎抗体：
                 </label>
-                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input class="easyui-validatebox validatebox-text validatebox-invalid" name="hcv"
                        style="width:30%;"/>
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     人类免疫缺陷病毒：
                 </label>
-                <input class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input class="easyui-validatebox validatebox-text validatebox-invalid" name="hiv"
                        style="width:30%;"/>
                 <label>
                     血红蛋白：
