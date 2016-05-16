@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>工作量统计</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+</head>
+<body>
+    <div class="easyui-layout" id="cc">
+        <div region="north" border="false">
+            <table>
+                <tr>
+                    <td><input id="check" type="checkbox">统计日期
+                        <input id="date1" type="text" class="easyui-datebox" formatter="yyyy-MM-dd" style="height: 30px;width: 150px"></td>
+                    <td>到</td>
+                    <td><input id="date2" type="text" class="easyui-datebox" formatter="yyyy-MM-dd" style="height: 30px;width: 150px"></td>
+                </tr>
+            </table>
+        </div>
+        <div region="center" border="false">
+            <table id="dg" class="easyui-datagrid"></table>
+        </div>
+        <div region="south" border="false">
+            <table id="bottom" class="easyui-datagrid" style="width:100%"></table>
+        </div>
+    </div>
+    <div id="tb" style="height:30px;" align="right">
+        <a href="#" id="getBtn" class="easyui-linkbutton c1" style="width:80px;height: 100%" iconCls="icon-search">提取</a>
+        <a href="#" id="printBtn" class="easyui-linkbutton c2" style="width:80px;height: 100%" iconCls="icon-print">打印</a>
+        <a href="#" id="saveBtn" class="easyui-linkbutton c3" style="width:80px;height: 100%" iconCls="icon-save">另存</a>
+        <a href="#" id="closeBtn" class="easyui-linkbutton c4" style="width:80px;height: 100%" iconCls="icon-cancel">关闭</a>
+    </div>
+
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../static/easyui/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../static/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../phstock/js/drug-workload-caculate.js"></script>
+</body>
+</html>
