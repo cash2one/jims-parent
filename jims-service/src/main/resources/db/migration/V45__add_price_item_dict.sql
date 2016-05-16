@@ -25,17 +25,7 @@ create table PRICE_ITEM_NAME_DICT
   REMARKS         VARCHAR2(255),
   DEL_FLAG        CHAR(1) default '0' not null,
   ORG_ID          VARCHAR2(64)
-)
-tablespace TSP_COMM
-  pctfree 10
-  initrans 1
-  maxtrans 255
-  storage
-  (
-    initial 960
-    minextents 1
-    maxextents unlimited
-  );
+);
 -- Add comments to the table
 comment on table PRICE_ITEM_NAME_DICT
   is '价表项目名称字典';
@@ -72,27 +62,6 @@ comment on column PRICE_ITEM_NAME_DICT.DEL_FLAG
   is '删除标记';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table PRICE_ITEM_NAME_DICT
-  add constraint PK_PRICE_ITEM_NAME_DICT primary key (ID)
-  using index
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255
-  storage
-  (
-    initial 64K
-    minextents 1
-    maxextents unlimited
-  );
+  add constraint PK_PRICE_ITEM_NAME_DICT primary key (ID);
 -- Create/Recreate indexes
-create unique index UK_PRICE_ITEM_NAME_DICT on PRICE_ITEM_NAME_DICT (ITEM_CLASS, ITEM_NAME, ITEM_CODE)
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255
-  storage
-  (
-    initial 64K
-    minextents 1
-    maxextents unlimited
-  );
+create unique index UK_PRICE_ITEM_NAME_DICT on PRICE_ITEM_NAME_DICT (ITEM_CLASS, ITEM_NAME, ITEM_CODE);
