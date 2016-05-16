@@ -1,6 +1,9 @@
 package com.jims.patient.api;
 
+import com.jims.patient.Dto.PatientListDto;
 import com.jims.patient.entity.PatVisit;
+
+import java.util.List;
 
 /**
  * 病人住院记录信息api
@@ -13,5 +16,13 @@ public interface PatVisitServiceApi {
      * @param patVisit
      */
    public String  save(PatVisit patVisit );
+
+    /**
+     * 查询病人列表---住院(根据当前登录医生的科室查询 所在科室的病人)
+     * @return
+     * @author zhaoning
+     *
+     */
+    public List<PatientListDto> getPatientList(String deptCode);
 
 }
