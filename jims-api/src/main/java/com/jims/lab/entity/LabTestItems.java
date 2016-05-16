@@ -23,7 +23,7 @@ public class LabTestItems extends DataEntity<LabTestItems> {
 	private String rcptNo;		// rcpt_no
 	private String explanation;		// 退费说明
 	private Double price;		// 退费说明
-	
+	private String parentId;
 	public LabTestItems() {
 		super();
 	}
@@ -108,5 +108,13 @@ public class LabTestItems extends DataEntity<LabTestItems> {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 }

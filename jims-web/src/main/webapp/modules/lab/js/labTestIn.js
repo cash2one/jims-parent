@@ -3,6 +3,7 @@ var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医
 $(function(){
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
+    var visitId=1;
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -13,7 +14,7 @@ $(function(){
         method: 'get',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/labtest/list',
+        url: basePath + '/labtest/list?visitId='+visitId,
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -97,14 +98,14 @@ $(function(){
 function add(){
     clearForm();
     $("#saveBut").show();
-    var clinicId=1;
+    var visitId=1;
     $.ajax({
         //添加
         url: basePath+"/labtest/zhenduan",
         type: "POST",
         dataType: "json",
         contentType: "application/json", //必须有
-        data: JSON.stringify({"clinicId":clinicId,inOrOutFlag:"0","visitId":null}),
+        data: JSON.stringify({"clinicId":null,inOrOutFlag:"1","visitId":visitId}),//住院visitId不为null
         success: function (data) {
             if (data!= ""&& data!=null) {
                 var d;

@@ -60,6 +60,8 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	private String sampleid;		// LIS接口主键
 	private String labItemClass;  //检验项目类别
 	private String  clinicId;//就诊id
+	private String  orgId;
+	private String inOrOutFlag;//是否住院标识
 	public LabTestMaster() {
 		super();
 	}
@@ -435,5 +437,31 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 
 	public void setClinicId(String clinicId) {
 		this.clinicId = clinicId;
+	}
+
+	private List<LabTestItems> children;
+
+	public List<LabTestItems> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<LabTestItems> children) {
+		this.children = children;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getInOrOutFlag() {
+		return inOrOutFlag;
+	}
+
+	public void setInOrOutFlag(String inOrOutFlag) {
+		this.inOrOutFlag = inOrOutFlag;
 	}
 }
