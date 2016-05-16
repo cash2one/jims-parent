@@ -19,6 +19,8 @@ public class PatVisit extends DataEntity<PatVisit> {
 
     private static final long serialVersionUID = 1L;
     private String hosid;		// 医院ID
+    private String patientId;//病人主索引ID
+    private String clinicId;//病人就诊记录ID
     private Integer visitId;		// 病人本次住院标识
     private String deptAdmissionTo;		// 入院科室
     private Date admissionDateTime;		// 入院日期及时间
@@ -1961,4 +1963,19 @@ public class PatVisit extends DataEntity<PatVisit> {
         this.nhzzType = nhzzType;
     }
 
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    public String getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
+    }
 }
