@@ -28,6 +28,20 @@
 		<include refid="drugNameDictJoins"/>
 		WHERE a.id = #{id}
 	</select>
+    <select id="findDrugNameDictList" resultType="DrugNameDict">
+		SELECT
+			*
+		FROM drug_name_dict a
+		WHERE a.input_code  like UPPER(#{inputCode}) || '%'
+		and a.del_flag = '0'
+	</select>
+    <select id="listDrugNameDictByDrugCode" resultType="DrugNameDict">
+		SELECT
+			*
+		FROM drug_name_dict a
+		WHERE a.drug_code  = #{drugCode}
+		and a.del_flag = '0'
+	</select>
 	
 	<select id="findList" resultType="DrugNameDict">
 		SELECT 
@@ -64,7 +78,7 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO drug_name_dict(
 			id,

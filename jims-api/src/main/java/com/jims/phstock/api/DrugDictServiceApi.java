@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugDict;
+import com.jims.phstock.vo.DrugCatalogBeanVo;
 
 import java.util.List;
 
@@ -61,15 +62,31 @@ public interface DrugDictServiceApi {
 
 
     /**
-     * 根据商品亚类 药品剂型生成药品代码drug_code
+     * 根据商品亚类 药品剂型,序号长度生成药品代码drug_code
      * @param secondType
      * @param drugForm
+     * @param numLength
      * @return
      * @author ztq
      *
      */
-    public String getDrugCodeByRule(String secondType,String drugForm);
+    public String getDrugCodeByRule(String secondType,String drugForm,String numLength);
 
+    /**
+     * 通过药品代码查询药品列表
+     * @param drugCode 药品代码
+     * @return
+     * @author txb
+     */
+    public List<DrugDict> listDrugDictByDrugCode(String drugCode);
+
+    /**
+     * 药品目录保存
+     * @param drugCatalogBeanVo 药品目录实体vo
+     * @return
+     * @author txb
+     */
+    public String saveDrugCatalog(DrugCatalogBeanVo drugCatalogBeanVo);
 
 
 }

@@ -13,13 +13,13 @@ $(function(){
     });
 
     $('#drugType').combobox({
-        panelHeight:"110px",
         mode: 'remote',
         method: 'GET',
-        url: basePath + '/drug-type-dict/list',
-        idField: 'typeName',
-        valueField: 'typeName',
-        textField: 'typeName'
+        url: basePath + '/dict/findListByType?type=drug_type_dict',
+        idField: 'value',
+        valueField: 'value',
+        panelHeight:"110px",
+        textField: 'label'
     });
 
     $("#drug").datagrid({

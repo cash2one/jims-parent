@@ -1,6 +1,8 @@
 package com.jims.exam;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.clinic.api.ClinicItemApi;
+import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.PinYin2Abbreviation;
 import com.jims.exam.api.ExamRptPatternApi;
@@ -12,10 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -38,6 +37,9 @@ public class ExamRptPatternRest {
 
     @Reference(version = "1.0.0")
     private PriceListApi priceListApi;
+
+    @Reference(version = "1.0.0")
+    private ClinicItemApi clinicItemApi;
 
     /**
      * 异步加载表格
@@ -179,5 +181,15 @@ public class ExamRptPatternRest {
         String clinicItemCode = request.getParameter("clinicItemCode");
         //list = priceListApi.findListByItem(clinicItemCode,orgId);
         return list;
+    }
+    /**
+     * 查询诊疗项目列表通过组织机构id
+     * @param orgId
+     * @return
+     */
+    @GET
+    @Path("itemListByOrgId")
+    public List<ClinicItemDict> itemListByOrgId( @QueryParam("orgId")String orgId){
+        return clinicItemApi.itemListByOrgId(orgId);
     }
 }

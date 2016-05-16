@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>药品目录管理</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+
+</head>
+<body>
+
+<div class="easyui-layout" id="global">
+    <div region="north" title="药品目录管理" border="false">
+        <table id="top" class="easyui-datagrid" style="width:100%;"></table>
+    </div>
+    <div region="south" border="false">
+        <table id="bottom" class="easyui-datagrid" style="width:100%;"></table>
+    </div>
+    <div region="west" border="false" style="width:30%;">
+        <table id="drugNameDict" class="easyui-datagrid"></table>
+    </div>
+    <div region="center" border="false" >
+        <table id="drugDict" class="easyui-datagrid"></table>
+    </div>
+</div>
+
+
+<div id="tbNameDict">
+    <a id="addDrugName" href="#" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+    <a id="removeDrugName" href="#" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+</div>
+<div id="tbDict">
+    <a id="appendDrug" href="#" class="easyui-linkbutton" iconCls="icon-add">新增</a>
+    <a id="removeDrug" href="#" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+    <a id="listPrice" href="#" class="easyui-linkbutton" iconCls="icon-remove">价格</a>
+</div>
+<div id="tb" style="padding:2px 5px;">
+    <input type="radio" class="radios" name="two" value="0" checked/>药品名称：
+    <input id="drugName" title="药品名称" type="text"class="easyui-combogrid"/>&nbsp;&nbsp;<br>
+    <input type="radio" class="radios" name="two" value="1"/>药品类别：
+    <select id="drugClass" class="easyui-combobox"  disabled></select>
+    <select id="drugSubClass" class="easyui-combobox" disabled></select>
+    <br><br><br>
+</div>
+<div id="ft">
+    <!--<a href="#" id="filter" class="easyui-linkbutton" iconCls="icon-filter">提取</a>-->
+    <a href="#" id="clear" class="easyui-linkbutton" iconCls="icon-clear">清屏</a>
+    <a href="#" id="save" class="easyui-linkbutton" iconCls="icon-save">保存</a><br><br>
+</div>
+
+<div id="dosageDialog" class="easyui-dialog" style="width:400px;height:500px;padding:10px 20px"
+     closed="true" data-options="modal:true">
+    <div id="dosageDatagrid">
+
+    </div>
+</div>
+<script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/modules/phstock/js/drug-catalog-manager.js"></script>
+<script type="text/javascript" src="/static/js/head.js"></script>
+</body>
+</html>
