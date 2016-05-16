@@ -34,7 +34,7 @@ public class Main {
         root.setParentLoaderPriority(true);
         server.setHandler(root);
         try {
-            //migrationDb();
+            migrationDb();
             server.start();
             server.join();
         }catch (Exception e){
@@ -52,7 +52,7 @@ public class Main {
 
         Flyway flyway = new Flyway();
         //设置数据库链接配置
-        flyway.setDataSource("jdbc:oracle:thin:@192.168.0.130:1521:his","jims","hisuser");
+        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:oracle","his","his");
         //设置schema用户
         flyway.setSchemas("HIS");
         flyway.setTable("SCHEMA_VERSION");
@@ -64,6 +64,8 @@ public class Main {
         flyway.init();
         //执行版本控制
         flyway.migrate();
+
+        //我的测试提交
 
     }
 }

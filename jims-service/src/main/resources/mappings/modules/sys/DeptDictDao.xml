@@ -20,6 +20,14 @@
 		<include refid="deptDictJoins"/>
 		WHERE a.id = #{id}
 	</select>
+
+    <select id="getByName" resultType="DeptDict">
+        SELECT
+        <include refid="deptDictColumns"/>
+        FROM dept_dict a
+        <include refid="deptDictJoins"/>
+        WHERE a.dept_name = #{deptName}
+    </select>
 	
 	<select id="findList" resultType="DeptDict">
 		SELECT 

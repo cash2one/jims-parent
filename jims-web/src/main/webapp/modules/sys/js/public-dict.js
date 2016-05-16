@@ -310,7 +310,7 @@ $(function(){
                 }
             },
             {field: 'remarks', title: '备注', width: '20%', align: 'center', editor: 'text'},
-            {field: 'inputCode', title: '输入码', width: '20%', align: 'center', editor: 'text'},
+            {field: 'inputCode', title: '拼音码', width: '20%', align: 'center'},
             {
                 field: 'sort',
                 title: '排序',

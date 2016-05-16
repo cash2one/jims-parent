@@ -102,7 +102,7 @@
 		INSERT INTO outp_orders_costs(
 			id,
 			master_id,
-			clinci_id,
+			clinic_id,
 			org_id,
 			patient_id,
 			visit_date,

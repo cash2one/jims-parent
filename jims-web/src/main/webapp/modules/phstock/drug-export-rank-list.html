@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" href="/static/easyui/css/color.css">
+    <link rel="stylesheet" href="/static/easyui/css/icon.css">
+</head>
+<body>
+<div id="tb" style="padding:2px 5px;">
+    <input type="radio" name="chk" id="chk1">按金额&nbsp;
+    <input type="radio" name="chk" id="chk2">按数量&nbsp;
+    &nbsp;<input type="radio" name="chk1" id="chk3">全部药品
+    &nbsp;<input type="radio" name="chk1" id="chk4">药品类别<input id="type" editable="false" >
+    前<input type="text" style="width: 50px">名&nbsp;
+    统计日期<input id="date1" editable="false" class="easyui-datebox" formatter="yyyy-MM-dd" >
+    至  <input id="date2" editable="false" class="easyui-datebox" formatter="yyyy-MM-dd" >
+    &nbsp;<input type="checkbox">药房<input type="text">
+    药品定位<input type="text">&nbsp;
+
+    <a href="#"  class="easyui-linkbutton" iconCls="icon-search">查询</a>&nbsp;
+    <a href="#"  class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;
+    <a href="#"  class="easyui-linkbutton" iconCls="icon-undo">导出</a>&nbsp;
+    <a href="#"  class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+
+</div>
+
+<table id="dg" class="easyui-datagrid">
+</table>
+
+
+<script type="text/javascript" src="/static/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/head.js"></script>
+<script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/static/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/modules/phstock/js/drug-export-rank-list.js"></script>
+</body>
+</html>

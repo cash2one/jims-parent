@@ -5,6 +5,7 @@ package com.jims.sys.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.PinYin2Abbreviation;
 import com.jims.sys.api.DictServiceApi;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
@@ -68,6 +69,8 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
         List<Dict> insertedList = beanChangeVo.getInserted();
         int inNum = 0;
         for (Dict dict : insertedList) {
+            String label = dict.getLabel();
+            dict.setInputCode(PinYin2Abbreviation.cn2py(label));
             inNum = Integer.valueOf(save(dict));
             inNum++;
         }

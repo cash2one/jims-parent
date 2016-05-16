@@ -7,6 +7,8 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugNameDict;
 
+import java.util.List;
+
 
 /**
  * 药品名称DAO接口
@@ -15,5 +17,22 @@ import com.jims.phstock.entity.DrugNameDict;
  */
 @MyBatisDao
 public interface DrugNameDictDao extends CrudDao<DrugNameDict> {
+    /**
+     * 查询所有药品名称列表通过拼音码
+     * @param inputCode 拼音码
+     * @return
+     * @author txb
+     * @version 2016-05-11
+     */
+    public List<DrugNameDict> findDrugNameDictList(String inputCode);
+
+    /**
+     * 查询所有药品名称列表通过拼音码
+     * @param drugCode 拼音码
+     * @return
+     * @author txb
+     * @version 2016-05-11
+     */
+    public List<DrugNameDict> listDrugNameDictByDrugCode(String drugCode);
 	
 }

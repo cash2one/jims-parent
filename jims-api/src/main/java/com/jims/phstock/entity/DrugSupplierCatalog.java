@@ -10,27 +10,27 @@ import org.hibernate.validator.constraints.Length;
 public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
 
     private static final long serialVersionUID = 1L;
-    private String supplierId;		// 供应商别名
-    private String supplier;		// 厂商
-    private String supplierClass;		// 厂商类别
-    private String inputCode;		// 输入码
-    private String memo;		// 备注
-    private String trademark;		// 注册商标
-    private String inputCodeWb;		// input_code_wb
-    private Integer foreignx;		// 是否国外
-    private String supplierCode;		// 厂商代码
-    private Integer usedFlag;		// 是否使用1停用0使用
-    private String orgId;		// 所属组织结构
+    private String supplierId;        // 供应商别名
+    private String supplier;        // 厂商
+    private String supplierClass;        // 厂商类别
+    private String inputCode;        // 输入码
+    private String memo;        // 备注
+    private String trademark;        // 注册商标
+    private String inputCodeWb;        // input_code_wb
+    private Integer foreignx;        // 是否国外
+    private String supplierCode;        // 厂商代码
+    private Integer usedFlag;        // 是否使用1停用0使用
+    private String orgId;        // 所属组织结构
 
     public DrugSupplierCatalog() {
         super();
     }
 
-    public DrugSupplierCatalog(String id){
+    public DrugSupplierCatalog(String id) {
         super(id);
     }
 
-    @Length(min=1, max=10, message="供应商别名长度必须介于 1 和 10 之间")
+    @Length(min = 1, max = 10, message = "供应商别名长度必须介于 1 和 10 之间")
     public String getSupplierId() {
         return supplierId;
     }
@@ -39,7 +39,7 @@ public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
         this.supplierId = supplierId;
     }
 
-    @Length(min=0, max=40, message="厂商长度必须介于 0 和 40 之间")
+    @Length(min = 0, max = 40, message = "厂商长度必须介于 0 和 40 之间")
     public String getSupplier() {
         return supplier;
     }
@@ -48,7 +48,7 @@ public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
         this.supplier = supplier;
     }
 
-    @Length(min=0, max=8, message="厂商类别长度必须介于 0 和 8 之间")
+    @Length(min = 0, max = 8, message = "厂商类别长度必须介于 0 和 8 之间")
     public String getSupplierClass() {
         return supplierClass;
     }
@@ -57,7 +57,7 @@ public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
         this.supplierClass = supplierClass;
     }
 
-    @Length(min=0, max=8, message="输入码长度必须介于 0 和 8 之间")
+    @Length(min = 0, max = 8, message = "输入码长度必须介于 0 和 8 之间")
     public String getInputCode() {
         return inputCode;
     }
@@ -66,7 +66,7 @@ public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
         this.inputCode = inputCode;
     }
 
-    @Length(min=0, max=100, message="备注长度必须介于 0 和 100 之间")
+    @Length(min = 0, max = 100, message = "备注长度必须介于 0 和 100 之间")
     public String getMemo() {
         return memo;
     }
@@ -75,7 +75,7 @@ public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
         this.memo = memo;
     }
 
-    @Length(min=0, max=20, message="注册商标长度必须介于 0 和 20 之间")
+    @Length(min = 0, max = 20, message = "注册商标长度必须介于 0 和 20 之间")
     public String getTrademark() {
         return trademark;
     }
@@ -84,7 +84,7 @@ public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
         this.trademark = trademark;
     }
 
-    @Length(min=0, max=8, message="input_code_wb长度必须介于 0 和 8 之间")
+    @Length(min = 0, max = 8, message = "input_code_wb长度必须介于 0 和 8 之间")
     public String getInputCodeWb() {
         return inputCodeWb;
     }
@@ -101,7 +101,7 @@ public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
         this.foreignx = foreignx;
     }
 
-    @Length(min=0, max=10, message="厂商代码长度必须介于 0 和 10 之间")
+    @Length(min = 0, max = 10, message = "厂商代码长度必须介于 0 和 10 之间")
     public String getSupplierCode() {
         return supplierCode;
     }
@@ -118,7 +118,7 @@ public class DrugSupplierCatalog extends DataEntity<DrugSupplierCatalog> {
         this.usedFlag = usedFlag;
     }
 
-    @Length(min=0, max=64, message="所属组织结构长度必须介于 0 和 64 之间")
+    @Length(min = 0, max = 64, message = "所属组织结构长度必须介于 0 和 64 之间")
     public String getOrgId() {
         return orgId;
     }

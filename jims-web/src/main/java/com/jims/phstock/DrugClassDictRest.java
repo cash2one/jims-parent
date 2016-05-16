@@ -22,29 +22,27 @@ public class DrugClassDictRest {
     private DrugClassDictApi drugClassDictApi ;
 
     /**
-     * 根据组织结构ID 获取本组织结构的药品类别字典
-     * @param orgId 组织机构ID
+     * 获取药品类别字典
      * @return
      * @Author zq
      */
     @GET
     @Path("list")
-    public List<DrugClassDict> listDrugClassDictByOrgId(@QueryParam("orgId")String orgId){
-        return drugClassDictApi.listDrugClassDictByOrgId(orgId) ;
+    public List<DrugClassDict> listDrugClassDict(){
+        return drugClassDictApi.listDrugClassDict() ;
     }
 
     /***
      * 获取组织机构的某一大类的所有亚类
-     * @param orgId 组织机构ID
      * @param parentId 大类ID
      * @return 返回某一大类的所有亚类
      * @author zq
      */
     @GET
     @Path("list-parent")
-    public List<DrugClassDict> listSubClassDict(@QueryParam("orgId")String orgId ,@QueryParam("parentId")String parentId){
+    public List<DrugClassDict> listSubClassDict(@QueryParam("parentId")String parentId){
         parentId=parentId;
-        return drugClassDictApi.listSubClassDict(orgId,parentId) ;
+        return drugClassDictApi.listSubClassDict(parentId) ;
     }
 
     /***

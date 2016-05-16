@@ -6,7 +6,6 @@ import com.jims.sys.entity.PerformFreqDict;
 import java.util.List;
 
 /**
- * 检验标本
  * Created by Administrator on 2016/4/18.
  */
 public interface PerformFreqDictApi {
@@ -44,4 +43,11 @@ public interface PerformFreqDictApi {
      * @return
      */
     public PerformFreqDict get(String id);
+
+    /**
+     * 检索频次数据
+     * @param entity
+     * @return
+     */
+    public List<PerformFreqDict> findList(PerformFreqDict entity);
 }
