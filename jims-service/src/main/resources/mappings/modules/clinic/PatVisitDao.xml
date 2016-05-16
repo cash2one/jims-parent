@@ -212,8 +212,61 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
-	
+	<sql id="getMaster">
+		b.id AS "Master.id",
+		b.hosid AS "Master.hosid",
+		b.inp_no AS "Master.inpNo",
+		b.name AS "Master.name",
+		b.name_phonetic AS "Master.namePhonetic",
+		b.sex AS "Master.sex",
+		b.date_of_birth AS "Master.dateOfBirth",
+		b.birth_place AS "Master.birthPlace",
+		b.citizenship AS "Master.citizenship",
+		b.nation AS "Master.nation",
+		b.id_no AS "Master.idNo",
+		b.identity AS "Master.identity",
+		b.charge_type AS "Master.chargeType",
+		b.unit_in_contract AS "Master.unitInContract",
+		b.mailing_address AS "Master.mailingAddress",
+		b.zip_code AS "Master.zipCode",
+		b.phone_number_home AS "Master.phoneNumberHome",
+		b.phone_number_business AS "Master.phoneNumberBusiness",
+		b.next_of_kin AS "Master.nextOfKin",
+		b.relationship AS "Master.relationship",
+		b.next_of_kin_addr AS "Master.nextOfKinAddr",
+		b.next_of_kin_zip_code AS "Master.nextOfKinZipCode",
+		b.next_of_kin_phone AS "Master.nextOfKinPhone",
+		b.last_visit_date AS "Master.lastVisitDate",
+		b.vip_indicator AS "Master.vipIndicator",
+		b.create_date AS "Master.createDate",
+		b.operator AS "Master.operator",
+		b.service_agency AS "Master.serviceAgency",
+		b.business_zip_code AS "Master.businessZipCode",
+		b.photo AS "Master.photo",
+		b.patient_class AS "Master.patientClass",
+		b.degree AS "Master.degree",
+		b.race AS "Master.race",
+		b.religion AS "Master.religion",
+		b.mother_language AS "Master.motherLanguage",
+		b.foreign_language AS "Master.foreignLanguage",
+		b.id_type AS "Master.idType",
+		b.vip_no AS "Master.vipNo",
+		b.e_name AS "Master.eName",
+		b.occupation AS "Master.occupation",
+		b.next_of_id AS "Master.nextOfId",
+		b.next_of_bath AS "Master.nextOfBath",
+		b.next_of_sex AS "Master.nextOfSex",
+		b.insur_nh_no AS "Master.insurNhNo",
+		b.insurance_no AS "Master.insuranceNo",
+		b.alergy_drugs AS "Master.alergyDrugs",
+		b.native_place AS "Master.nativePlace",
+		b.mailing_address_code AS "Master.mailingAddressCode",
+		b.healthy_card_no AS "Master.healthyCardNo",
+		b.address_now AS "Master.addressNow",
+		b.patient_id AS "Master.patientId"
+	</sql>
 	<sql id="patVisitJoins">
+		pat_master_index b left join  pat_visit a on a.patient_id =b.patient_id
 	</sql>
     
 	<select id="get" resultType="PatVisit">
@@ -920,5 +973,13 @@
 	           (b.dept_code = #{deptCode} and b.dept_code_lend is null)
 	              or (b.dept_code_lend = #{deptCode} and b.dept_code_lend is not null)
 	           )
+	</select>
+	<select id="getPatientInformation" resultType="PatVisit">
+		SELECT
+		<include refid="patVisitColumns"/>,<include refid="getMaster"/>
+		FROM
+		<include refid="patVisitJoins"/>
+		WHERE
+		a.patient_id=#{patientId}
 	</select>
 </mapper>

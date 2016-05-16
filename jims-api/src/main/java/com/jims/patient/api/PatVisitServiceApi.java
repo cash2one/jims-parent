@@ -25,4 +25,10 @@ public interface PatVisitServiceApi {
      */
     public List<PatientListDto> getPatientList(String deptCode);
 
+    /**
+     * 点击用血申请获取病人信息通过patient_id获得
+     * @param patientId
+     * @return
+     */
+    public PatVisit getPatientInformation(String patientId);
 }
