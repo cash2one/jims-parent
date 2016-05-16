@@ -23,7 +23,7 @@ public interface PatVisitServiceApi {
      * @author zhaoning
      *
      */
-    public List<PatientListDto> getPatientList(String deptCode);
+    public List<PatientListDto> getPatientList(String deptCode,String status);
 
     /**
      * 点击用血申请获取病人信息通过patient_id获得

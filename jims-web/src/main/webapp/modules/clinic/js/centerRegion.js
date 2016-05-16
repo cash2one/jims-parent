@@ -80,7 +80,7 @@ function closeTabs(){
 function addTabs(id,name,url,lia){
     $(lia).parent().parent().find("li a").removeClass();
     $(lia).addClass("active");
-    var content = '<iframe  src="'+url+'" frameborder="0" border="0" scrolling="yes" marginheight="0" marginwidth="0" width="100%" height="99.6%"></iframe>';
+    var content = '<iframe  src="'+url+'" frameborder="0" border="0" scrolling="yes" marginheight="0" marginwidth="0" width="100%" height="99.5%"></iframe>';
     if(!$("#tabs-header").tabs('exists',name)){
         $('#tabs-header').tabs('add',{
             id:id,
@@ -173,7 +173,8 @@ function userMenu(clinicMasterId,aBtn){
     html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/lab/labTest.html\',this)"><span>检验申请</span></a></li>';
     html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/clinic/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
     html+='<li><a   onclick="addTabs(\'8\',\'手术申请\',\'/modules/clinic/operationApply/operationApplyList.html\',this)"><span>手术申请</span></a></li>';
-    html+='<li><a  href="#"><span>用血申请</span></a></li>';
+    html+='<li><a   onclick="addTabs(\'9\',\'诊断\',\'/modules/clinic/emrDiagnosis/diagnosis.html\',this)"><span>诊断</span></a></li>';
+    html+='<li><a onclick="addTabs(\'10\',\'用血申请\',\'/modules/clinic/docUseBlood/docUseBloodList.html\',this)" ><span>用血申请</span></a></li>';
     $("#userMenuId").html(html);
     $("#userMenuId li:first a").click();
 }

@@ -25,7 +25,6 @@ public class Main {
         }else{
             System.out.println("路径有问题");
         }
-
         Server server = new Server(Integer.valueOf(webPort));
         WebAppContext root = new WebAppContext();
         root.setContextPath("/");
