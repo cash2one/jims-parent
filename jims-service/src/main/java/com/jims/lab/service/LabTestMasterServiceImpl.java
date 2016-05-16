@@ -222,7 +222,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
                 orders.setPatientId(labTestMaster.getPatientId());
                 orders.setVisitId(labTestMaster.getVisitId().toString());
                 orders.setOrderNo(ordersDao.creeatOrderNo(orders));
-                orders.setOrderSubNo(Long.valueOf(i+1));
+                orders.setOrderSubNo(Long.valueOf(1));
                 orders.setStartDateTime(labTestMaster.getRequestedDateTime());
                 orders.setRepeatIndicator("0");
                 orders.setOrderClass("C");
