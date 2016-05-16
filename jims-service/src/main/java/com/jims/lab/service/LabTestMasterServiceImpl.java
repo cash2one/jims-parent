@@ -209,7 +209,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
         save(labTestMaster);
         List<LabTestItems> list = labTestMaster.getList();
         if(list.size()>0){
-            for (int i= 0; i < list.size();i++){
+            for (int i= 0; i < list.size()-1;i++){
                 LabTestItems labTestItems=list.get(i);
                 /*检验项目*/
                 labTestItems.setDelFlag("0");
@@ -220,9 +220,9 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
                 //Orders
                 Orders orders = new  Orders();
                 orders.setPatientId(labTestMaster.getPatientId());
-                orders.setVisitId(labTestMaster.getVisitId().longValue());
+                orders.setVisitId(labTestMaster.getVisitId().toString());
                 orders.setOrderNo(ordersDao.creeatOrderNo(orders));
-                orders.setOrderSubNo(Long.valueOf(1));
+                orders.setOrderSubNo(Long.valueOf(i+1));
                 orders.setStartDateTime(labTestMaster.getRequestedDateTime());
                 orders.setRepeatIndicator("0");
                 orders.setOrderClass("C");
