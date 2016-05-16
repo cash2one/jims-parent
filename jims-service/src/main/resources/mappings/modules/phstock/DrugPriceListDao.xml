@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.phstock.dao.DrugPriceListDao">
 
-	<sql id="drugPriceListColumns">
+    <sql id="drugPriceListColumns">
 		a.id AS "id",
 		a.drug_code AS "drugCode",
 		a.drug_spec AS "drugSpec",
@@ -33,32 +33,44 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
-	
-	<sql id="drugPriceListJoins">
-	</sql>
-    
-	<select id="listDrugPriceList" resultType="DrugPriceList">
-		SELECT 
+
+    <sql id="drugPriceListJoins">
+    </sql>
+
+    <select id="listDrugNameDictByClassCode" resultType="com.jims.phstock.entity.DrugNameDict">
+        select distinct a.drug_code ,a.drug_name from drug_name_dict a ,drug_price_list b
+        where a.drug_code = b.drug_code
+        AND b.org_id = #{0}
+        and b.drug_code like #{1} || '%'
+    </select>
+
+    <select id="listDrugNameDict" resultType="com.jims.phstock.entity.DrugNameDict">
+        select distinct a.drug_code ,a.drug_name from drug_name_dict a ,drug_price_list b
+        where a.drug_code = b.drug_code
+        WHERE a.org_id = #{orgId}
+    </select>
+    <select id="listDrugPriceList" resultType="DrugPriceList">
+		SELECT
 			*
 		FROM drug_price_list a
 		WHERE a.org_id = #{1}
 		and a.drug_code = #{0}
 	</select>
     <select id="get" resultType="DrugPriceList">
-		SELECT
-			<include refid="drugPriceListColumns"/>
-		FROM drug_price_list a
-		<include refid="drugPriceListJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="DrugPriceList">
-		SELECT 
-			<include refid="drugPriceListColumns"/>,t.supplier
-		FROM drug_price_list a
-		,drug_supplier_catalog t
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} and a.firm_id = t.id and (t.used_flag is null or t.used_flag = '0')
+        SELECT
+        <include refid="drugPriceListColumns"/>
+        FROM drug_price_list a
+        <include refid="drugPriceListJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="DrugPriceList">
+        SELECT
+        <include refid="drugPriceListColumns"/>,t.supplier
+        FROM drug_price_list a
+        ,drug_supplier_catalog t
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL} and a.firm_id = t.id and (t.used_flag is null or t.used_flag = '0')
             and t.del_flag = '0'
             <if test="orgId != null and orgId != ''">
                 AND a.org_id=#{orgId}
@@ -67,19 +79,19 @@
                 AND a.drug_code=#{drugCode}
             </if>
             <if test="stopDate != null">
-            AND a.start_date &lt;= #{stopDate}
-            AND (a.stop_date IS NULL OR a.stop_date &gt;= #{stopDate})
-        </if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.drug_code,a.firm_id
-			</otherwise>
-		</choose>
-	</select>
+                AND a.start_date &lt;= #{stopDate}
+                AND (a.stop_date IS NULL OR a.stop_date &gt;= #{stopDate})
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.drug_code,a.firm_id
+            </otherwise>
+        </choose>
+    </select>
 
     <select id="findDrugDict" resultType="com.jims.phstock.entity.DrugDict">
         SELECT
@@ -101,26 +113,26 @@
                 AND (t.stop_date IS NULL OR t.stop_date &gt;= sysdate)
             ) ORDER BY a.drug_code
 	</select>
-	
-	<select id="findAllList" resultType="DrugPriceList">
-		SELECT 
-			<include refid="drugPriceListColumns"/>
-		FROM drug_price_list a
-		<include refid="drugPriceListJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+
+    <select id="findAllList" resultType="DrugPriceList">
+        SELECT
+        <include refid="drugPriceListColumns"/>
+        FROM drug_price_list a
+        <include refid="drugPriceListJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO drug_price_list(
 			id,
 			drug_code,
@@ -183,8 +195,8 @@
 			#{delFlag}
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE drug_price_list SET 	
 			drug_code = #{drugCode},
 			drug_spec = #{drugSpec},
@@ -213,11 +225,11 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
+
+    <update id="delete">
 		UPDATE drug_price_list SET 
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>

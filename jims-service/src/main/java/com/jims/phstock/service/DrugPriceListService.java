@@ -40,6 +40,19 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
     }
 
     /**
+     * 根据当前组织结构，和当前类别获取所有的药品名称字典。
+     * @param orgId  组织机构id
+     * @param classCode 类别代码
+     * @return
+     * @author txb
+     *
+     */
+    @Override
+    public List<DrugNameDict> listDrugNameDictByClassCode(String orgId, String classCode) {
+        return dao.listDrugNameDictByClassCode(orgId,classCode);
+    }
+
+    /**
      * 根据药品代码查询当前组织结构的药品价格
      * 不同规格、不同厂商，不同单位，不同价格，不同零售价
      * @param drugCode

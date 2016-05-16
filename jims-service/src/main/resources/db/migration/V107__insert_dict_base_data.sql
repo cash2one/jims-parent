@@ -153,6 +153,12 @@ insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'�
 insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'非','5','TENDER_PRICE_CLASS','价格类别字典',10);
 insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'门乙','6','TENDER_PRICE_CLASS','价格类别字典',10);
 insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'门甲','7','TENDER_PRICE_CLASS','价格类别字典',10);
-
-
+--插入药品类型字典
+insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'西药','1','drug_type_dict','药品类型字典',10);
+insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'中草药','2','drug_type_dict','药品类型字典',10);
+insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'中成药','3','drug_type_dict','药品类型字典',10);
+insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'辅料','4','drug_type_dict','药品类型字典',10);
+insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'试剂','5','drug_type_dict','药品类型字典',10);
+insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'耗材','6','drug_type_dict','药品类型字典',10);
+insert into sys_dict(id,label,value,type,description,sort) values (sys_guid(),'其他','7','drug_type_dict','药品类型字典',10);
 
