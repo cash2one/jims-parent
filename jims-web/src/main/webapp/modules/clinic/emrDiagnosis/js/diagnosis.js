@@ -7,7 +7,7 @@ $(function(){
         singleSelect: true,
         fit: true,
         method:'GET',
-        url:basePath+'/diagnosis/findList',
+        url:basePath+'/diagnosis/findListOfOut',
         idField:'id',
         columns:[[      //每个列具体内容
            // {field:'id',title:'序号',width:'5%',align:'center',editor:'text'},
