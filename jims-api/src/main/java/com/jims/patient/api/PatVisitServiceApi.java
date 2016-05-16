@@ -14,4 +14,11 @@ public interface PatVisitServiceApi {
      */
    public String  save(PatVisit patVisit );
 
+    /**
+     * 点击用血申请获取病人信息通过patient_id获得
+     * @param patientId
+     * @return
+     */
+    public PatVisit getPatientInformation(String patientId);
+
 }

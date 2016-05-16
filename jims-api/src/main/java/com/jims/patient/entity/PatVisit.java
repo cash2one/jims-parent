@@ -19,6 +19,9 @@ public class PatVisit extends DataEntity<PatVisit> {
 
     private static final long serialVersionUID = 1L;
     private String hosid;		// 医院ID
+    private String patientId; //病人id
+    private String clinicId;    //就诊id
+    private String orgId; //组织机构代码
     private Integer visitId;		// 病人本次住院标识
     private String deptAdmissionTo;		// 入院科室
     private Date admissionDateTime;		// 入院日期及时间
@@ -217,6 +220,8 @@ public class PatVisit extends DataEntity<PatVisit> {
     private String dialecticalNursing;		// dialectical_nursing
     private String ybInp;		// 医保住院号
     private String nhzzType;		// nhzz_type
+//增加，添加 病人主索引 实体
+    private PatMasterIndex Master;
 
     public PatVisit() {
         super();
@@ -224,6 +229,38 @@ public class PatVisit extends DataEntity<PatVisit> {
 
     public PatVisit(String id){
         super(id);
+    }
+
+    public PatMasterIndex getMaster() {
+        return Master;
+    }
+
+    public void setMaster(PatMasterIndex master) {
+        Master = master;
+    }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    public String getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 
     @Length(min=1, max=64, message="医院ID长度必须介于 1 和 64 之间")

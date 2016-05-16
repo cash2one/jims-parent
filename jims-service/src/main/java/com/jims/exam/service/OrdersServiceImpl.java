@@ -41,8 +41,6 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         examAppoints.setCnsltState(1);
         examAppoints.preInsert();
         examAppoints.setPatientId("2222");
-        examAppoints.setVisitId(1);
-        examAppoints.setVisitNo(22);
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");
 
@@ -57,7 +55,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             Orders orders=new Orders();
             orders.preInsert();
             orders.setPatientId(examAppoints.getPatientId());
-            orders.setVisitId((long) examAppoints.getVisitId());
+            orders.setVisitId(examAppoints.getVisitId());
             orders.setAppNo(examItems.getId());
             orders.setOrderNo((long)123456);
             orders.setOrderClass("1");

@@ -5,6 +5,8 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
+            var visitId= parent.document.getElementById("clinicMasterId").value;
+            $("#visitId").val(visitId);
             $("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");

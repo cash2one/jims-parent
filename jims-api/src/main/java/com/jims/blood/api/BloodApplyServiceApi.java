@@ -7,6 +7,13 @@ import com.jims.common.persistence.Page;
  * Created by qinlongxin on 2016/4/28.
  */
 public interface BloodApplyServiceApi {
+//    /**
+//     *点击用血申请获取病人信息通过patient_id获得
+//     * @param patientId
+//     * @param
+//     * @return
+//     */
+//    public BloodApply getPatientInformation(String patientId);
     /**
      * 根据id查询用血表信息
      * @author zhangyao

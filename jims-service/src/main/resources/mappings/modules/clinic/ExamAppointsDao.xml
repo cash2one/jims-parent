@@ -144,7 +144,7 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
+		a.del_flag AS "delFlag"
 	</sql>
 
 
@@ -271,7 +271,7 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag,
+			del_flag
 		) VALUES (
 			#{id},
 			#{orgId},
@@ -340,7 +340,7 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag},
+			#{delFlag}
 		)
 	</insert>
 	

@@ -15,5 +15,11 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface PatVisitDao extends CrudDao<PatVisit> {
+    /**
+     * 点击用血申请获取病人信息通过patient_id获得
+     * @param patientId
+     * @return
+     */
+    public PatVisit getPatientInformation(String patientId);
 	
 }

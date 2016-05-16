@@ -69,6 +69,7 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private String addressNow;		// 现住址
 	private PatVisit patVisit;//病人住院记录信息
 	private ClinicMaster clinicMaster;//病人就诊记录
+	private String patientId; //病人id
 	
 	public PatMasterIndex() {
 		super();
@@ -76,6 +77,14 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 
 	public PatMasterIndex(String id){
 		super(id);
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
 	}
 
 	@Length(min=0, max=128, message="医院ID长度必须介于 0 和 128 之间")
