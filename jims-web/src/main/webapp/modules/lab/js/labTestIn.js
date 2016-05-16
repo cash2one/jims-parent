@@ -313,7 +313,7 @@ function formSubmitInput(){
     var newHtml='<input type="hidden" id="visitId" name="visitId" value="'+visitId+'" />'
         +'<input type="hidden" id="orgId"  name="orgId" value="'+orgId+'" />'
         +'<input type="hidden" id="clinicId"  name="clinicId" value="'+clinicId+'" />';
-    $("#"+form).append(newHtml);
+    $("#form").append(newHtml);
 }
 //行删除
 function deleteRow(id) {
