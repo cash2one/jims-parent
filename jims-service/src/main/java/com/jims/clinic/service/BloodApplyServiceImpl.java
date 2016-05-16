@@ -40,8 +40,8 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao,BloodA
         String strState=super.save(bloodApply);
         bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
         List<BloodCapacity> bloodCapacityList=bloodApply.getBloodCapacityList();
-        if (bloodApply.getBloodCapacityList()!=null&&bloodCapacityList.size()>0){
             for(int i=0;i<bloodApply.getBloodCapacityList().size();i++){
+                if (bloodApply.getBloodCapacityList()!=null&&bloodCapacityList.size()>0){
                 BloodCapacity bloodCapacity=bloodCapacityList.get(i);
                 bloodCapacity.setApplyNum(bloodApply.getApplyNum());
                 bloodCapacity.preInsert();

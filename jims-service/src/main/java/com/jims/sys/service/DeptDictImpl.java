@@ -43,4 +43,12 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
     public List<DeptDict> findParent() {
         return dao.findParent();
     }
+
+    /**
+     * 查询科室代码下的所以科室
+     * @return
+     */
+    public List<DeptDict> findListByCode(String code){
+        return dao.findListByCode(code);
+    }
 }

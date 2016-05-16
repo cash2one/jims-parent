@@ -6,6 +6,8 @@
 		a.id AS "id",
 		a.hosid AS "hosid",
 		a.visit_id AS "visitId",
+		a.patient_id AS "patientId",
+		a.clinic_id AS "clinicId",
 		a.dept_admission_to AS "deptAdmissionTo",
 		a.admission_date_time AS "admissionDateTime",
 		a.dept_discharge_from AS "deptDischargeFrom",
@@ -203,11 +205,13 @@
 		a.dialectical_nursing AS "dialecticalNursing",
 		a.yb_inp AS "ybInp",
 		a.nhzz_type AS "nhzzType",
-		a.org_id AS "orgId",
-		a.clinic_id AS "clinicId",
-		a.patient_id AS "patientId"
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
 	</sql>
-
 	<sql id="getMaster">
 		b.id AS "Master.id",
 		b.hosid AS "Master.hosid",
@@ -261,7 +265,6 @@
 		b.address_now AS "Master.addressNow",
 		b.patient_id AS "Master.patientId"
 	</sql>
-	
 	<sql id="patVisitJoins">
 		pat_master_index b left join  pat_visit a on a.patient_id =b.patient_id
 	</sql>
@@ -280,13 +283,14 @@
 		FROM pat_visit a
 		<include refid="patVisitJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.update_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -297,13 +301,14 @@
 		FROM pat_visit a
 		<include refid="patVisitJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.update_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -311,6 +316,8 @@
 	<insert id="insert">
 		INSERT INTO pat_visit(
 			id,
+			patient_id,
+			clinic_id,
 			hosid,
 			visit_id,
 			dept_admission_to,
@@ -510,11 +517,16 @@
 			dialectical_nursing,
 			yb_inp,
 			nhzz_type,
-			org_id,
-			clinic_id,
-			patient_id
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
 		) VALUES (
 			#{id},
+			#{patientId},
+			#{clinicId},
 			#{hosid},
 			#{visitId},
 			#{deptAdmissionTo},
@@ -714,15 +726,20 @@
 			#{dialecticalNursing},
 			#{ybInp},
 			#{nhzzType},
-			#{orgId},
-			#{clinicId},
-			#{patientId}
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
 		)
 	</insert>
 	
 	<update id="update">
 		UPDATE pat_visit SET 	
 			hosid = #{hosid},
+			patient_id= #{patientId},
+			clinic_id=#{clinicId},
 			visit_id = #{visitId},
 			dept_admission_to = #{deptAdmissionTo},
 			admission_date_time = #{admissionDateTime},
@@ -921,17 +938,42 @@
 			dialectical_nursing = #{dialecticalNursing},
 			yb_inp = #{ybInp},
 			nhzz_type = #{nhzzType},
-			org_id = #{orgId},
-			clinic_id = #{clinicId},
-			patient_id = #{patientId}
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		DELETE FROM pat_visit
+		UPDATE pat_visit SET 
+			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getPatientListInHos" resultType="com.jims.patient.Dto.PatientListDto">
+		select
+               b.patient_id as patientId,
+               a.inp_no as inpNo,
+               a.name as name,
+               a.sex as sex,
+               (trunc(sysdate) - trunc(d.admission_date_time)) as inpCount,
+               d.admission_date_time as admissionDateTime,
+               (case when b.dept_code_lend is null then b.dept_code else b.dept_code_lend end) as deptCode,
+               a.date_of_birth as dataOfbith,
+               d.attending_doctor as attendingDoctor,
+               d.charge_type as chargeType,
+               d.identity as patIdentity,
+               nvl(b.PREPAYMENTS , 0) - nvl(b.TOTAL_CHARGES, 0) as prepayment,
+               b.ward_code as wardCode
+          from pat_master_index a,
+               pats_in_hospital b,
+               pat_visit        d
+         where a.id = b.patient_id
+           and a.id = d.patient_id
+	       and (
+	           (b.dept_code = #{deptCode} and b.dept_code_lend is null)
+	              or (b.dept_code_lend = #{deptCode} and b.dept_code_lend is not null)
+	           )
+	</select>
 	<select id="getPatientInformation" resultType="PatVisit">
 		SELECT
 		<include refid="patVisitColumns"/>,<include refid="getMaster"/>
@@ -940,5 +982,4 @@
 		WHERE
 		a.patient_id=#{patientId}
 	</select>
-	
 </mapper>

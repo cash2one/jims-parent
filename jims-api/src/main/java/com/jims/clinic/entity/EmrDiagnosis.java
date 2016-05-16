@@ -48,9 +48,27 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
     private Date diagnosisDate;//诊断日期
     private String state;
     private String diagnosisParent;//诊断主表
+    private String icdAndTypeNmae;//诊断类型：诊断数据
+    private String visitId;
+    private String clinicId;
 
+    public String getClinicId() {
+        return clinicId;
+    }
 
-	public EmrDiagnosis() {
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public String getVisitId() {
+        return visitId;
+    }
+
+    public void setVisitId(String visitId) {
+        this.visitId = visitId;
+    }
+
+    public EmrDiagnosis() {
 		super();
         isno=false;
 	}
@@ -237,5 +255,13 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
 
     public void setDiagnosisParent(String diagnosisParent) {
         this.diagnosisParent = diagnosisParent;
+    }
+
+    public String getIcdAndTypeNmae() {
+        return icdAndTypeNmae;
+    }
+
+    public void setIcdAndTypeNmae(String icdAndTypeNmae) {
+        this.icdAndTypeNmae = icdAndTypeNmae;
     }
 }
