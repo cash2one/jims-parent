@@ -313,8 +313,10 @@
 
 	</update>
 
-	<select id="creatTestNo">
-		select max(order_no) from orders
-		WHERE patient_id = #{patientId} and visit_id = #{visitId}
+	<select id="getOrderNo" resultType="Orders">
+		SELECT max(order_no) FROM orders
+		WHERE patient_id = #{patientId}
+		AND visit_id=#{visitId}
 	</select>
+	
 </mapper>
