@@ -2,23 +2,72 @@
  * Created by luohk on 2016/5/13.
  */
 $(function () {
+    //ajax同步
+    $.extend({
+        ajaxAsync : function(url,callback){
+            return $.ajax({
+                type: 'get',
+                url: url,
+                async : false,
+                success: callback,
+                'contentType': 'application/json'
+            });
+        }
+    });
     var editIndex;
+    var drugNameSpecList = [];
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
             $("#dg").datagrid('endEdit', editIndex);
             editIndex = undefined;
         }
     };
-    $("#dg").datagrid({
+
+    $("#global").layout({
+        fit: true
+    });
+    $("#datagridLeft").datagrid({
+        title: '药品价格维护',
+        fit: true,
+        fitColumns: true,
+        singleSelect: true,
+        method:'get',
+        toolbar: '#datagridLeftTb',
+        loadMsg: '数据正在加载中，请稍后.....',
+        columns: [[{
+            title: 'drugCode',
+            field: "drugCode",
+            hidden: true
+        }, {
+            title: '药品名称',
+            field: 'drugName',
+            width: '100%'
+        }]],
+        onDblClickRow: function (rowIndex, rowData) {
+            console.log(rowData);
+        },
+        onSelect:function(rowIndex, rowData){
+            $.ajaxAsync(basePath + "/drug-price/listDrugDictByDrugCode?drugCode="+rowData.drugCode , function (data) {
+                $.each(data, function (index,item) {
+                    var spec = {};
+                    spec.drugSpec = item.drugSpec;
+                    drugNameSpecList.push(spec);
+                });
+                console.log(drugNameSpecList);
+            })
+        }
+    });
+    $("#datagridRight").datagrid({
         title: '药品价格维护',
         fit: true,//让#dg数据创铺满父类容器
         //  url: basePath + "/AdministrationDict/listAll",
         idField: 'id',
-        toolbar: '#tb',
+        toolbar: '#datagridRightTb',
+        method:'get',
         singleSelect: true,
         columns: [[{
             title: '药品',
-            field: 'b',
+            field: 'drugCode',
             width: '6%',
             editor: {
                 type: 'text', options: {
@@ -27,7 +76,7 @@ $(function () {
             }
         }, {
             title: '包装数量',
-            field: 'c',
+            field: 'amountPerPackage',
             width: '6%',
             editor: {
                 type: 'text',options: {
@@ -36,27 +85,30 @@ $(function () {
             }
         }, {
             title: '规格',
-            field: 'a',
-            width: '6%',
-            type: 'checkbox'
-        }, {
-            title: '单位',
-            field: 'supplierClass',
+            field: 'drugSpec',
             width: '6%',
             editor: {
                 type: 'combobox', options: {
-                    idField: '',
-                    textField: '',
+                    valueField: 'value',
+                    textField: 'label',
+                    data:drugNameSpecList
+                }
+            }
+        }, {
+            title: '单位',
+            field: 'units',
+            width: '6%',
+            editor: {
+                type: 'combobox', options: {
+                    valueField: 'value',
+                    textField: 'label',
                     method: 'GET',
-                    url: "",
-                    columns: [[
-                        {field: '', width: "160px"}
-                    ]]
+                    url: basePath  + "/dict/findListByType?type=spec_unit"
                 }
             }
         }, {
             title: '厂家',
-            field: 'inputCode',
+            field: 'firmId',
             width: '6%',
             editor: {
                 type: 'combobox', options: {
@@ -71,13 +123,13 @@ $(function () {
             }
         }, {
             title: '停价',
-            field: 'foreignx',
+            field: 'stopDate',
             editor: {
                 type: 'checkbox', options: {on: '1', off: '0'}
             }
         }, {
             title: '批发价',
-            field: 'supplierCode',
+            field: 'tradePrice',
             width: '6%',
             editor: {
                 type: 'text', options: {
@@ -86,7 +138,7 @@ $(function () {
             }
         }, {
             title: '零售价格',
-            field: 'supplierCode',
+            field: 'retailPrice',
             width: '6%',
             editor: {
                 type: 'text', options: {
@@ -95,7 +147,7 @@ $(function () {
             }
         }, {
             title: '最高限价',
-            field: 'supplierCode',
+            field: 'hlimitPrice',
             width: '6%',
             editor: {
                 type: 'text', options: {
@@ -104,22 +156,19 @@ $(function () {
             }
         }, {
             title: '价格类别',
-            field: 'supplierCode',
+            field: 'priceClass',
             width: '6%',
             editor: {
                 type: 'combobox', options: {
-                    idField: '',
-                    textField: '',
+                    valueField: 'value',
+                    textField: 'label',
                     method: 'GET',
-                    url: "",
-                    columns: [[
-                        {field: '', width: "160px"}
-                    ]]
+                    url: basePath + "/dict/findListByType?type=TENDER_PRICE_CLASS"
                 }
             }
         }, {
             title: '批发文号',
-            field: 'supplierCode',
+            field: 'passNo',
             width: '6%',
             editor: {
                 type: 'text', options: {
@@ -128,7 +177,7 @@ $(function () {
             }
         }, {
             title: 'GMP标志',
-            field: 'supplierCode',
+            field: 'gmp',
             width: '6%',
             editor: {
                 type: 'checkbox', options: {on: '1', off: '0'}
@@ -136,97 +185,80 @@ $(function () {
         }, {
             title: '最小规格',
             width: '6%',
-            field: 'd',
-            type: 'checkbox'
+            field: 'minSpec'
         }, {
             title: '最小单位',
-            field: 'e',
-            width: '6%',
-            type: 'checkbox'
+            field: 'minUnits',
+            width: '6%'
         }, {
             title: '住院收据分类',
-            field: 'supplierCode',
-            width: '6%',
+            field: 'classOnInpRcpt',
+            width: '8%',
             color:'bule',
             editor: {
                 type: 'combobox', options: {
-                    idField: '',
+                    valueField: '',
                     textField: '',
                     method: 'GET',
-                    url: "",
-                    columns: [[
-                        {field: '', width: "160px"}
-                    ]]
+                    url: ""
                 }
             }
         }, {
             title: '门诊收据分类',
-            field: 'supplierCode',
-            width: '6%',
+            field: 'classOnOutpRcpt',
+            width: '8%',
             editor: {
                 type: 'combobox', options: {
-                    idField: '',
+                    valueField: '',
                     textField: '',
                     method: 'GET',
-                    url: "",
-                    columns: [[
-                        {field: '', width: "160px"}
-                    ]]
+                    url: ""
                 }
             }
         }, {
             title: '核算分类',
-            field: 'supplierCode',
-            width: '6%',
+            field: 'classOnReckoning',
+            width: '8%',
             editor: {
                 type: 'combobox', options: {
-                    idField: '',
+                    valueField: '',
                     textField: '',
                     method: 'GET',
-                    url: "",
-                    columns: [[
-                        {field: '', width: "160px"}
-                    ]]
+                    url: ""
                 }
             }
         }, {
             title: '会计科目',
-            field: 'supplierCode',
-            width: '6%',
+            field: 'subjCode',
+            width: '8%',
             editor: {
                 type: 'combobox', options: {
-                    idField: '',
+                    valueField: '',
                     textField: '',
                     method: 'GET',
-                    url: "",
-                    columns: [[
-                        {field: '', width: "160px"}
-                    ]]
+                    url: ""
                 }
             }
         }, {
             title: '病案首页分类',
-            field: 'supplierCode',
-            width: '6%',
+            field: 'classOnMr',
+            width: '8%',
             editor: {
                 type: 'combobox', options: {
-                    idField: '',
+                    valueField: '',
                     textField: '',
                     method: 'GET',
-                    url: "",
-                    columns: [[
-                        {field: '', width: "160px"}
-                    ]]
+                    url: ""
                 }
             }
         }, {
             title: '备注',
-            field: 'supplierCode',
+            field: 'memos',
             width: '6%',
             editor: {
                 type: 'text'
             }
-        },
+        }
 
         ]],
         onClickRow: function (index, row) {
@@ -236,21 +268,54 @@ $(function () {
         }
     });
 
+
+
+    //定义药品大类
+    $("#drugClass").combobox({
+        valueField: 'classCode',
+        textField: 'className',
+        width:150,
+        method: 'GET',
+        url: basePath +  "/drug-class-dict/list-parent?parentId=*",
+        onSelect: function(rowData) {
+            if (editIndex || editIndex == 0) {
+                $("#drugNameDict").datagrid('endEdit', editIndex);
+                editIndex = undefined;
+            }
+            $('#datagridLeft').datagrid('loadData', { total: 0, rows: [] });
+            $('#drugSubClass').combobox('clear');
+            var url = basePath + "/drug-class-dict/list-parent?parentId=" + rowData.classCode;
+            $('#drugSubClass').combobox('reload', url);
+        }
+    });
+    //定义药品亚类
+    $("#drugSubClass").combobox({
+        valueField: 'classCode',
+        textField: 'className',
+        width:150,
+        method: 'GET',
+        url: '',
+        onSelect: function(rowData){
+            var url = basePath + "/drug-price/listDrugNameDictByClassCode?orgId=" +parent.config.org_Id +"&classCode="+ rowData.classCode;
+            $('#datagridLeft').datagrid('reload', url);
+        }
+    });
+
     $("#addBtn").on('click', function () {
         stopEdit();
-        $("#dg").datagrid('appendRow', {});
-        var rows = $("#dg").datagrid('getRows');
-        var addRowIndex = $("#dg").datagrid('getRowIndex', rows[rows.length - 1]);
+        $("#datagridRight").datagrid('appendRow', {});
+        var rows = $("#datagridRight").datagrid('getRows');
+        var addRowIndex = $("#datagridRight").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;
-        $("#dg").datagrid('selectRow', editIndex);
-        $("#dg").datagrid('beginEdit', editIndex);
+        $("#datagridRight").datagrid('selectRow', editIndex);
+        $("#datagridRight").datagrid('beginEdit', editIndex);
     });
 
     $("#delBtn").on('click', function () {
-        var row = $("#dg").datagrid('getSelected');
+        var row = $("#datagridRight").datagrid('getSelected');
         if (row) {
-            var rowIndex = $("#dg").datagrid('getRowIndex', row);
-            $("#dg").datagrid('deleteRow', rowIndex);
+            var rowIndex = $("#datagridRight").datagrid('getRowIndex', row);
+            $("#datagridRight").datagrid('deleteRow', rowIndex);
             if (editIndex == rowIndex) {
                 editIndex = undefined;
             }
@@ -260,8 +325,8 @@ $(function () {
     });
 
     $("#editBtn").on('click', function () {
-        var row = $("#dg").datagrid("getSelected");
-        var index = $("#dg").datagrid("getRowIndex", row);
+        var row = $("#datagridRight").datagrid("getSelected");
+        var index = $("#datagridRight").datagrid("getRowIndex", row);
 
         if (index == -1) {
             $.messager.alert("提示", "请选择要修改的行！", "info");
@@ -269,11 +334,11 @@ $(function () {
         }
 
         if (editIndex == undefined) {
-            $("#dg").datagrid("beginEdit", index);
+            $("#datagridRight").datagrid("beginEdit", index);
             editIndex = index;
         } else {
-            $("#dg").datagrid("endEdit", editIndex);
-            $("#dg").datagrid("beginEdit", index);
+            $("#datagridRight").datagrid("endEdit", editIndex);
+            $("#datagridRight").datagrid("beginEdit", index);
             editIndex = index;
         }
     });
@@ -285,12 +350,12 @@ $(function () {
      */
     $("#saveBtn").on('click', function () {
         if (editIndex || editIndex == 0) {
-            $("#dg").datagrid("endEdit", editIndex);
+            $("#datagridRight").datagrid("endEdit", editIndex);
         }
 
-        var insertData = $("#dg").datagrid("getChanges", "inserted");
-        var updateDate = $("#dg").datagrid("getChanges", "updated");
-        var deleteDate = $("#dg").datagrid("getChanges", "deleted");
+        var insertData = $("#datagridRight").datagrid("getChanges", "inserted");
+        var updateDate = $("#datagridRight").datagrid("getChanges", "updated");
+        var deleteDate = $("#datagridRight").datagrid("getChanges", "deleted");
 
         var beanChangeVo = {};
         beanChangeVo.inserted = insertData;
@@ -301,8 +366,8 @@ $(function () {
         if (beanChangeVo) {
             $.postJSON("/api/exp-coding-rule/merge", beanChangeVo, function (data, status) {
                 $.messager.alert("系统提示", "保存成功", "info");
-                $('#dg').datagrid('load');
-                $('#dg').datagrid('clearChecked');
+                $('#datagridRight').datagrid('load');
+                $('#datagridRight').datagrid('clearChecked');
             }, function (data) {
                 $.messager.alert('提示', data.responseJSON.errorMessage, "error");
             })

@@ -70,6 +70,16 @@ public interface DrugPriceListServiceApi {
      */
     public List<DrugNameDict> listDrugNameDict(String orgId) ;
 
+    /**
+     * 根据当前组织结构，和当前类别获取所有的药品名称字典。
+     * @param orgId  组织机构id
+     * @param classCode 类别代码
+     * @return
+     * @author txb
+     *
+     */
+    public List<DrugNameDict> listDrugNameDictByClassCode(String orgId,String classCode) ;
+
 
     /**
      * 根据药品代码查询当前组织结构的药品价格

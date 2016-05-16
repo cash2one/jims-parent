@@ -7,16 +7,22 @@
 
 </head>
 <body>
-<table id="dg" class="easyui-datagrid">
-</table>
+<div class="easyui-layout" id="global">
+    <div region="west"  style="width:15%;">
+        <table id="datagridLeft" class="easyui-datagrid"></table>
+    </div>
+    <div region="center" >
+        <table id="datagridRight" class="easyui-datagrid"></table>
+    </div>
+</div>
 
-<div id="tb" style="padding:2px 5px; height: 40px; padding-top: 5px;" >
-    药品名称：<input id="className" type="text" class="easyui-textbox">
-    &nbsp; &nbsp;
+<div id="datagridLeftTb" style="padding:10px 10px; padding-top: 5px; " >
+    药品类别： <select id="drugClass" class="easyui-combobox"  ></select>
+    <select id="drugSubClass" class="easyui-combobox" ></select>
+</div>
+<div id="datagridRightTb" style="padding:10px 10px; padding-top: 5px; " >
     <a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">添加</a>
-    &nbsp; &nbsp;
     <a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
-    &nbsp; &nbsp;
     <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">保存</a>
 </div>
 
