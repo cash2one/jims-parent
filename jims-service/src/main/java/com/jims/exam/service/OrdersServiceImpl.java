@@ -57,7 +57,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             orders.setPatientId(examAppoints.getPatientId());
             orders.setVisitId(examAppoints.getVisitId());
             orders.setAppNo(examItems.getId());
-            orders.setOrderNo((long)123456);
+            orders.setOrderNo(123456);
             orders.setOrderClass("1");
             orders.setOrderClass("D");
             orders.setOrderText(examItems.getExamItem());

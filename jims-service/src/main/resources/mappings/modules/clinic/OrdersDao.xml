@@ -312,5 +312,11 @@
 		WHERE clinic_id=#{clinicId}
 
 	</update>
+
+	<select id="getOrderNo" resultType="Orders">
+		SELECT max(order_no) FROM orders
+		WHERE patient_id = #{patientId}
+		AND visit_id=#{visitId}
+	</select>
 	
 </mapper>
