@@ -199,7 +199,7 @@ function loadTreeGrid() {
 }
 //保存
 function save(){
-    formSubmitInput();
+    //formSubmitInput();
     //加载值
     //$("#items").datagrid('endEdit', editRow);
     var  rows=$('#items').datagrid('getRows');
