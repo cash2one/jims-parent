@@ -104,7 +104,6 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         examAppoints.setCnsltState(1);
         examAppoints.preInsert();
         examAppoints.setPatientId("1111");
-        examAppoints.setVisitId(0);
         examAppoints.setVisitNo(22);
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");

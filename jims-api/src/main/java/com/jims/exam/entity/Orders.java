@@ -22,7 +22,7 @@ public class Orders extends DataEntity<Orders> {
 	
 	private static final long serialVersionUID = 1L;
 	private String patientId;		// 病人标识号
-	private Long visitId;		// 病人本次住院标识
+	private String visitId;		// 病人本次住院标识
 	private String orgId;    //组织机构id
 	private String clinicId;		//就诊id
 	private Long orderNo;		// 医嘱序号
@@ -118,15 +118,15 @@ public class Orders extends DataEntity<Orders> {
 	public void setPatientId(String patientId) {
 		this.patientId = patientId;
 	}
-	
-	public Long getVisitId() {
+
+	public String getVisitId() {
 		return visitId;
 	}
 
-	public void setVisitId(Long visitId) {
+	public void setVisitId(String visitId) {
 		this.visitId = visitId;
 	}
-	
+
 	public Long getOrderNo() {
 		return orderNo;
 	}
