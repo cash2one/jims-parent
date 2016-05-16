@@ -35,15 +35,12 @@
 		<include refid="scheduledOperationNameJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="scheduleId!=null">
+                a.schedule_id = #{scheduleId}
+			</if>
 		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
 				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
+
 	</select>
 	
 	<select id="findAllList" resultType="ScheduledOperationName">
@@ -95,9 +92,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE scheduled_operation_name SET 	
-			schedule_id = #{scheduleId},
-			operation_no = #{operationNo},
+		UPDATE scheduled_operation_name SET
 			operation = #{operation},
 			operation_scale = #{operationScale},
 			operation_code = #{operationCode},

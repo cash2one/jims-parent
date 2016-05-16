@@ -99,10 +99,6 @@ $(function () {
 
 //用血申请记录列表
 function onloadMethod() {
-    $("#useBloodForm").from('load',function(){
-
-    });
-
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',

@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 手术安排Entity
@@ -59,6 +60,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	private String provideWay;		// 供血方式
 	private Integer operStatus;		// 手术状态
 	private String inOrOut;		// 是否住院
+	private List<ScheduledOperationName> scheduledOperationNameList;
 	
 	public OperationSchedule() {
 		super();
@@ -421,5 +423,12 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public void setInOrOut(String inOrOut) {
 		this.inOrOut = inOrOut;
 	}
-	
+
+	public List<ScheduledOperationName> getScheduledOperationNameList() {
+		return scheduledOperationNameList;
+	}
+
+	public void setScheduledOperationNameList(List<ScheduledOperationName> scheduledOperationNameList) {
+		this.scheduledOperationNameList = scheduledOperationNameList;
+	}
 }

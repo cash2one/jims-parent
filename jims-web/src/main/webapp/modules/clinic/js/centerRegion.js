@@ -80,7 +80,7 @@ function closeTabs(){
 function addTabs(id,name,url,lia){
     $(lia).parent().parent().find("li a").removeClass();
     $(lia).addClass("active");
-    var content = '<iframe  src="'+url+'" frameborder="0" border="0" scrolling="yes" marginheight="0" marginwidth="0" width="100%" height="100%"></iframe>';
+    var content = '<iframe  src="'+url+'" frameborder="0" border="0" scrolling="yes" marginheight="0" marginwidth="0" width="100%" height="99.6%"></iframe>';
     if(!$("#tabs-header").tabs('exists',name)){
         $('#tabs-header').tabs('add',{
             id:id,
@@ -170,7 +170,7 @@ function userMenu(clinicMasterId,aBtn){
     html+='<li><a class="active" onclick="addTabs(\'1\',\'病人信息\',\'/modules/clinic/medicalRecordsIndex.html\',this)"><span>病人信息</span></a></li>';
     html+='<li><a  onclick="addTabs(\'2\',\'病历文书\',\'/modules/clinic/enterHospital/enterHosptial.html\',this)"><span>病历文书</span></a></li>';
     html+='<li><a onclick="addTabs(\'4\',\'检查申请\',\'/modules/clinic/clinicinspect/clinicInspect.html\',this)"><span>检查申请</span></a></li>';
-    html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/clinic/labTest/labTest.html\',this)"><span>检验申请</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/lab/labTest.html\',this)"><span>检验申请</span></a></li>';
     html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/clinic/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
     html+='<li><a   onclick="addTabs(\'8\',\'手术申请\',\'/modules/clinic/operationApply/operationApplyList.html\',this)"><span>手术申请</span></a></li>';
     html+='<li><a  href="#"><span>用血申请</span></a></li>';
