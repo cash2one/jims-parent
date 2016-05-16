@@ -1,8 +1,10 @@
 package com.jims.phstock;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.phstock.api.DrugDictServiceApi;
 import com.jims.phstock.api.DrugPriceListServiceApi;
 import com.jims.phstock.entity.DrugDict;
+import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +27,22 @@ public class DrugPriceListRest {
 
     @Reference(version ="1.0.0")
     private DrugPriceListServiceApi drugPriceListServiceApi ;
+    @Reference(version ="1.0.0")
+    private DrugDictServiceApi drugDictServiceApi ;
 
+    /**
+     * 根据当前组织结构获取去本组织结构内所有的药品名称字典。
+     * 关联durg_price_list,drug_name_dict drug_price_list drug_code 去重复。
+     * @param orgId
+     * @return
+     * @author txb
+     *
+     */
+    @GET
+    @Path("listDrugNameDict")
+    public List<DrugNameDict> listDrugNameDict(@QueryParam("orgId")String orgId){
+        return drugPriceListServiceApi.listDrugNameDict(orgId);
+    }
     /**
      * 检索当前日期所属机构的药品
      * @param orgId 机构ID
@@ -66,5 +83,29 @@ public class DrugPriceListRest {
     @Path("listDrugPriceList")
     public List<DrugPriceList> listDrugPriceList(@QueryParam("drugCode")String drugCode,@QueryParam("orgId")String orgId){
         return drugPriceListServiceApi.listDrugPriceList(drugCode,orgId);
+    } ;
+    /**
+     * 根据药品代码查询当前组织结构的药品价格
+     * 不同规格、不同厂商，不同单位，不同价格，不同零售价
+     * @param classCode
+     * @param orgId
+     * @return
+     * @author txb
+     */
+    @GET
+    @Path("listDrugNameDictByClassCode")
+    public List<DrugNameDict> listDrugNameDictByClassCode(@QueryParam("classCode")String classCode,@QueryParam("orgId")String orgId){
+        return drugPriceListServiceApi.listDrugNameDictByClassCode(orgId,classCode);
+    } ;
+    /**
+     * 通过药品代码查询药品列表
+     * @param drugCode 药品代码
+     * @return
+     * @author txb
+     */
+    @GET
+    @Path("listDrugDictByDrugCode")
+    public List<DrugDict> listDrugDictByDrugCode(@QueryParam("drugCode")String drugCode){
+        return drugDictServiceApi.listDrugDictByDrugCode(drugCode);
     } ;
 }

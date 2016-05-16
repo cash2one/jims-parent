@@ -21,7 +21,9 @@ public class BloodApply extends DataEntity<BloodApply> {
 	private static final long serialVersionUID = 1L;
 	private String applyNum;		// 申请单号
 	private String inpNo;		// 住院号
+	private String visitId;//住院id
 	private String idNo;		// 病人身份证号
+	private String patientId; //病人主表ID
 	private String deptCode;		// 科室代码
 	private String patName;		// 受血者姓名
 	private String patSex;		// 性别
@@ -61,6 +63,15 @@ public class BloodApply extends DataEntity<BloodApply> {
 	public BloodApply(String id){
 		super(id);
 	}
+
+	public String getVisitId() {
+		return visitId;
+	}
+
+	public void setVisitId(String visitId) {
+		this.visitId = visitId;
+	}
+
 	public List<BloodCapacity> getBloodCapacityList() {
 		return bloodCapacityList;
 	}
@@ -76,7 +87,15 @@ public class BloodApply extends DataEntity<BloodApply> {
 	public void setApplyNum(String applyNum) {
 		this.applyNum = applyNum;
 	}
-	
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
 	@Length(min=0, max=10, message="住院号长度必须介于 0 和 10 之间")
 	public String getInpNo() {
 		return inpNo;

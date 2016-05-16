@@ -36,6 +36,10 @@ $(function () {
     var drugPreciousFlagDictPromise =  $.ajaxAsync(basePath  + "/dict/findListByType?type=DRUG_PRECIOUS_FLAG_DICT", function (data) {
         drugPreciousFlagDict = data;
     });
+    var drugTypeDict = [];//药品类型字典
+    var drugTypeDictPromise =  $.ajaxAsync(basePath  + "/dict/findListByType?type=drug_type_dict", function (data) {
+        drugTypeDict = data;
+    });
     //停止编辑
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -198,7 +202,7 @@ $(function () {
             field: 'stdIndicator',
             width: "8%",
             styler: function () {
-            return "text-align: center"
+                return "text-align: center"
             },
             formatter:function(value,row,index){
                 if(value==1){
@@ -332,8 +336,8 @@ $(function () {
             field: 'otc',
             width: "3%",
             styler: function () {
-              return "text-align: center"
-             },
+                return "text-align: center"
+            },
 
             formatter:function(value,row,index){
                 if(value==1){
@@ -421,11 +425,11 @@ $(function () {
             },
             formatter:function(value,row,index){
                 var label;
-                    $.each(drugPreciousFlagDict, function (index,item) {
-                        if (item.value == value){
-                            label =   item.label;
-                        }
-                    });
+                $.each(drugPreciousFlagDict, function (index,item) {
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
                 return label;
             }
         }, {
@@ -436,38 +440,20 @@ $(function () {
                 type: 'combobox',
                 options: {
                     panelHeight: 'auto',
-                    valueField: 'code',
-                    textField: 'name',
-                    data: [
-                        {'code': '1', 'name': '西药' },
-                        {'code': '2', 'name': '中成药'},
-                        {'code': '3', 'name': '中草药'},
-                        {'code': '4', 'name': '辅料'},
-                        {'code': '5', 'name': '试剂'},
-                        {'code': '6', 'name': '耗材'},
-                        {'code': '7', 'name': '其他'}]
+                    valueField: 'value',
+                    textField: 'label',
+                    method: 'get',
+                    url: basePath  + "/dict/findListByType?type=drug_type_dict"
                 }
-
             },
             formatter:function(value,row,index){
-                if(value  == '1'){
-                    value = "西药";
-                }else if(value=="2"){
-                    value = "中成药";
-                }else if(value=="3"){
-                    value="中草药";
-                }else if(value=="4"){
-                    value = "辅料";
-                }else if(value=="5"){
-                    value = "试剂";
-                }else if(value=="6"){
-                    value = "耗材";
-                }else if(value=="7"){
-                    value = "其他";
-                }else{
-                    value ="";
-                }
-                return value;
+                var label;
+                $.each(drugTypeDict, function (index,item) {
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
+                return label;
             }
         }
         ]],

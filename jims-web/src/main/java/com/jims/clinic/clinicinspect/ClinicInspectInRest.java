@@ -1,4 +1,4 @@
-package com.jims.clinic.order;
+package com.jims.clinic.clinicinspect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
@@ -18,7 +18,7 @@ import javax.ws.rs.Produces;
 @Component
 @Produces("application/json")
 @Path("orders")
-public class OrdersRest {
+public class ClinicInspectInRest {
     @Reference(version = "1.0.0")
     private OrdersServiceApi ordersServiceApi;
     @Reference(version = "1.0.0")

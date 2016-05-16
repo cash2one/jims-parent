@@ -7,6 +7,9 @@ package com.jims.clinic.dao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 在院病人记录DAO接口
@@ -15,5 +18,11 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
-	
+    /**
+     * 通过科室ID拿到在院病人的集合(住院-手术预约-病人列表)
+     * @param deptCode
+     * @return
+     * pq
+     */
+    public List<PatsInHospital> getOperationin(@Param(value = "deptCode")String deptCode);
 }

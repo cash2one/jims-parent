@@ -61,4 +61,13 @@ public interface EmrDiagnosisServiceApi {
      * @return
      */
     public String save(EmrDiagnosis emrDiagnosis);
+
+    /**
+     * 查询病人诊断数据数据
+     * @param-inOrOutFlag
+     * @param-clinicId
+     * @paramc-visitId
+     * @return
+     */
+    public List<EmrDiagnosis> findAllDiagnosisForOne(EmrDiagnosis emrDiagnosis);
 }

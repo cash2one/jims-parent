@@ -144,7 +144,7 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
+		a.del_flag AS "delFlag"
 	</sql>
 
 
@@ -167,6 +167,12 @@
 		<include refid="examAppointsJoins"/>
 		<where>
 			a.del_flag ='0'
+			<if test="clinicId!=null and clinicId!='' ">
+				AND a.clinic_id=#{clinicId}
+			</if>
+			<if test="visitId!=null and visitId!='' ">
+				AND a.visit_id=#{visitId}
+			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
@@ -271,7 +277,7 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag,
+			del_flag
 		) VALUES (
 			#{id},
 			#{orgId},
@@ -340,7 +346,7 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag},
+			#{delFlag}
 		)
 	</insert>
 	
@@ -481,7 +487,6 @@
 		cnslt_name,
 		print_status,
 		ward_code,
-		inorout,
 		create_date,
 		create_by,
 		update_date,
@@ -550,7 +555,6 @@
 		#{cnsltName},
 		#{printStatus},
 		#{wardCode},
-		#{inOrOut},
 		#{createDate},
 		#{createBy.id},
 		#{updateDate},

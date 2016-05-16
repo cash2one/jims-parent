@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugStock;
+import com.jims.phstock.vo.DrugWorkCount;
 
 import java.util.List;
 
@@ -57,4 +58,17 @@ public interface DrugStockServiceApi{
      * @version 2016-04-23
      */
     public String delete(String ids);
+
+
+    /**
+     * 查询某库存一段时间内的工作量
+     * @param storage 库存代码
+     * @param startTime 开始时间
+     * @param endDate 结束时间
+     * @param orgId 所属组织结构
+     * @return
+     * @Author ztq
+     *
+     */
+    public List<DrugWorkCount> getWorkCountBy(String storage,String startTime,String endDate,String orgId) ;
 }

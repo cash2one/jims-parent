@@ -93,6 +93,9 @@
 			<if test="parentId!=null and parentId!=''">
 				AND a.parent_id=#{parentId}
 			</if>
+			<if test="inOrOutFlag !=null and inOrOutFlag !=null">
+                AND a.INOROUT_FLAG = #{inOrOutFlag}
+			</if>
             <if test="isno==true">
                 AND a.parent_id in (
                 <foreach collection="list" item="item" index="index" separator="," >
@@ -133,7 +136,31 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="findAllDiagnosisForOne" resultType="EmrDiagnosis">
+		SELECT
+		d.LABEL || ':' ||
+		(CASE
+		WHEN i.ZHONGWEN_MINGCHENG is null
+		THEN a.diagnosis_id
+		ELSE i.ZHONGWEN_MINGCHENG
+		END
+		) AS icdAndTypeNmae,
+		<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		left join sys_dict d on d.type='diagnosis_type' and d.value=a.type
+		left join emr_data_icd10 i on a.diagnosis_id = i.code
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.INOROUT_FLAG = #{inOrOutFlag}
+			<if test='clinicId!=null'>
+			and a.clinic_id = #{clinicId}
+			</if>
+			<if test='visitId!=null'>
+			and a.visit_id = #{visitId}
+			</if>
+		</where>
+	</select>
 	<insert id="insert">
 		INSERT INTO emr_diagnosis(
 			id,

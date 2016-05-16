@@ -95,7 +95,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
     @Override
     public int batchSave(ExamAppoints examAppoints) {
         int  num=0;
-//        if(examAppointsDao.getMaxExamNo()!=null){
+//       if(examAppointsDao.getMaxExamNo()!=null){
 //            examAppoints.setExamNo(examAppointsDao.getMaxExamNo()+1+"");
 //        }else{
 //            examAppoints.setExamNo("1");
@@ -104,7 +104,6 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
         examAppoints.setCnsltState(1);
         examAppoints.preInsert();
         examAppoints.setPatientId("1111");
-        examAppoints.setVisitId(0);
         examAppoints.setVisitNo(22);
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");

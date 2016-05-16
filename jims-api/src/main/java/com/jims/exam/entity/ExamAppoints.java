@@ -25,7 +25,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private String patientId;		// 病人标识号
 	private String orgId;    //组织机构id
 	private String clinicId;		//就诊id
-	private Integer visitId;		// 住院标识 0:门诊 ， 1：住院
+	private String visitId;		// 住院标识
 	private String localIdClass;		// 检查号类别
 	private String patientLocalId;		// 检查标识号
 	private String name;		// 姓名
@@ -137,15 +137,15 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	public void setPatientId(String patientId) {
 		this.patientId = patientId;
 	}
-	
-	public Integer getVisitId() {
+
+	public String getVisitId() {
 		return visitId;
 	}
 
-	public void setVisitId(Integer visitId) {
+	public void setVisitId(String visitId) {
 		this.visitId = visitId;
 	}
-	
+
 	@Length(min=0, max=128, message="检查号类别长度必须介于 0 和 128 之间")
 	public String getLocalIdClass() {
 		return localIdClass;

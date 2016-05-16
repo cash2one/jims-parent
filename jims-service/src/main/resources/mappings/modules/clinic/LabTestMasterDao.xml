@@ -48,7 +48,9 @@
 		a.update_by AS "updateBy.id",
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
-		a.create_date AS "createDate"
+		a.create_date AS "createDate",
+		a.clinic_id AS clinicId,
+		a.org_id AS orgId
 	</sql>
 	
 	<sql id="labTestMasterJoins">
@@ -69,6 +71,15 @@
 		<include refid="labTestMasterJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+			AND a.visit_id = #{visitId}
+			</if>
+			<if test="name != null and name != ''">
+			AND a.clinic_id = #{clinicId}
+			</if>
+			<if test="name != null and name != ''">
+			AND a.org_id = #{orgId}
+			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
@@ -151,6 +162,8 @@
 			update_by,
 			create_by,
 			update_date,
+			clinic_id,
+			org_id,
 			create_date
 		) VALUES (
 			#{id},
@@ -198,6 +211,8 @@
 			#{updateBy.id},
 			#{createBy.id},
 			#{updateDate},
+			#{clinicId},
+			#{orgId},
 			#{createDate}
 		)
 	</insert>
@@ -245,18 +260,18 @@
 			sampleid = #{sampleid},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
+			clinic_id = #{clinicId},
+			org_id = #{orgId},
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE lab_test_master SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
-	<select id="creatTestNo">
-		SELECT
-		FROM lab_test_master a
-		WHERE a.id = #{id}
+	<select id="creatTestNo" resultType="String">
+		select max(test_no) from lab_test_master
 	</select>
 </mapper>
