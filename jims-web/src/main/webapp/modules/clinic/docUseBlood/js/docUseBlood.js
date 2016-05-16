@@ -9,6 +9,8 @@ var serialNo='';
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
 var userBlood = [{"value": "1", "text": "全血"}, {"value": "2", "text": "全血1"}, {"value": "3", "text": "全血2"}, {"value": "4", "text": "全血3"}];
 $(function(){
+    var clinicId= parent.document.getElementById("clinicMasterId").value;
+    $("#clinicId").val(clinicId);
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,

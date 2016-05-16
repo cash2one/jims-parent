@@ -25,6 +25,7 @@ public class ExamItems extends DataEntity<ExamItems> {
 	private String rcptNo;		// 收据号
 	private String explanation;		// 退费说明
 	private String appointsId; //主记录id
+	private String visitId;	//医院id
 
 	public String getAppointsId() {
 		return appointsId;
@@ -40,6 +41,14 @@ public class ExamItems extends DataEntity<ExamItems> {
 
 	public ExamItems(String id){
 		super(id);
+	}
+
+	public String getVisitId() {
+		return visitId;
+	}
+
+	public void setVisitId(String visitId) {
+		this.visitId = visitId;
 	}
 
 	@Length(min=0, max=20, message="申请序号长度必须介于 0 和 20 之间")

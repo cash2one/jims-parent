@@ -20,7 +20,8 @@
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		a.appoints_id AS appointsId
+		a.appoints_id AS appointsId,
+		a.visit_id AS visitId
 	</sql>
 	
 	<sql id="examItemsJoins">
@@ -89,7 +90,8 @@
 			update_by,
 			remarks,
 			del_flag,
-			appoints_id
+			appoints_id,
+			visit_id
 		) VALUES (
 			#{id},
 			#{clinicId},
@@ -108,7 +110,8 @@
 			#{updateBy.id},
 			#{remarks},
 			#{delFlag},
-			#{appointsId}
+			#{appointsId},
+			#{visitId}
 		)
 	</insert>
 	
@@ -146,7 +149,8 @@
 		exam_item_code,
 		costs,
 		billing_indicator,
-		appoints_id
+		appoints_id,
+		visit_id
 		) VALUES (
 		#{id},
 		#{clinicId},
@@ -157,7 +161,8 @@
 		#{examItemCode},
 		#{costs},
 		#{billingIndicator},
-		#{appointsId}
+		#{appointsId},
+		#{visitId}
 		)
 	</insert>
 	<select id="getItemList" resultType="ExamItems">

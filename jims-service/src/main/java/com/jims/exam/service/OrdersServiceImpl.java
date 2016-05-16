@@ -40,7 +40,8 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         int num=0;
         examAppoints.setCnsltState(1);
         examAppoints.preInsert();
-        examAppoints.setPatientId("2222");
+        examAppoints.setPatientId(((int)(Math.random() * 1000))+"");
+        examAppoints.setVisitId(((int)(Math.random() * 1000))+"");
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");
 
@@ -51,18 +52,19 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             ExamItems examItems=examItemsList.get(i);
             examItems.setAppointsId(examAppoints.getId());
             examItems.preInsert();
+            examItems.setVisitId(examAppoints.getVisitId());
             examItemsDao.saveExamItems(examItems);
-//            Orders orders=new Orders();
-//            orders.preInsert();
-//            orders.setPatientId(examAppoints.getPatientId());
-//            orders.setVisitId(examAppoints.getVisitId());
-//            orders.setAppNo(examItems.getId());
-//            orders.setOrderNo(123456);
-//            orders.setOrderClass("1");
-//            orders.setOrderClass("D");
-//            orders.setOrderText(examItems.getExamItem());
-//            orders.setOrderCode(examItems.getExamItemCode());
-//            num=ordersDao.insert(orders);
+            Orders orders=new Orders();
+            orders.preInsert();
+            orders.setPatientId(examAppoints.getPatientId());
+            orders.setVisitId(examAppoints.getVisitId());
+            orders.setAppNo(examItems.getId());
+            orders.setOrderNo(1234);
+            orders.setOrderClass("1");
+            orders.setOrderClass("D");
+            orders.setOrderText(examItems.getExamItem());
+            orders.setOrderCode(examItems.getExamItemCode());
+            num=ordersDao.insert(orders);
         }
         num=examAppointsDao.insert(examAppoints);
         return num+"";
