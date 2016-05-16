@@ -1,4 +1,4 @@
-﻿--drop table PRICE_ITEM_NAME_DICT cascade constraints;
+--drop table PRICE_ITEM_NAME_DICT cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: PRICE_ITEM_NAME_DICT                                      */

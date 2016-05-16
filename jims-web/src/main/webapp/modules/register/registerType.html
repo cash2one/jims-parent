@@ -5,9 +5,10 @@
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/register/js/registerType.js"></script>
 </head>
 
-<body>
+<body onload="onloadMethod()">
 <div class="easyui-layout" style="width:100%;height:100%;">
     <div data-options="region:'center',split:true">
         <div class="reg-plan-left reg-type">
@@ -25,42 +26,10 @@
             <div class="margin10-bot">
                 挂号号类：<input type="text" class="validatebox-text validatebox-text-sm">
             </div>
-            <div class="">
-                <table cellpadding="0" cellspacing="0" width="100%" class="tab-autoline">
-                    <thead>
-                    <tr>
-                        <th width="5%"><input type="checkbox"/></th>
-                        <th width="30%">收费项目</th>
-                        <th width="30%">价表项目</th>
-                        <th>项目名称</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><input type="checkbox"/></td>
-                        <td><select class="nonbor-inp" /><option>诊疗费</option></select></td>
-                        <td><select class="nonbor-inp" /><option>432432</option></select></td>
-                        <td><input type="text" class="nonbor-inp" /></td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"/></td>
-                        <td><select class="nonbor-inp" /><option>挂号费</option></select></td>
-                        <td><select class="nonbor-inp" /><option>32543532</option></select></td>
-                        <td><input type="text" class="nonbor-inp" /></td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-
-
-            <div >
-                <button class="easy-nbtn easy-nbtn-success btn-newm">增加项目</button>
-                <button class="easy-nbtn easy-nbtn-warning btn-newm">删除项目</button>
-                <button class="easy-nbtn easy-nbtn-info btn-newm">保存</button>
-            </div>
         </form>
+        <table id="list_data"   cellspacing="0" cellpadding="0">
+
+        </table>
     </div>
 </div>
 </body>

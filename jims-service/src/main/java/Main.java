@@ -34,7 +34,7 @@ public class Main {
         root.setParentLoaderPriority(true);
         server.setHandler(root);
         try {
-            //migrationDb();
+            migrationDb();
             server.start();
             server.join();
         }catch (Exception e){
@@ -64,6 +64,8 @@ public class Main {
         flyway.init();
         //执行版本控制
         flyway.migrate();
+
+        //我的测试提交
 
     }
 }

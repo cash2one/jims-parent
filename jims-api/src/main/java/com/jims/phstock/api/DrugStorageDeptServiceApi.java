@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugStorageDept;
+import com.jims.sys.vo.BeanChangeVo;
 
 import java.util.List;
 
@@ -12,6 +13,14 @@ import java.util.List;
  * @version 2016-04-23
  */
 public interface DrugStorageDeptServiceApi {
+    /**
+     * 保存增删改数据
+     * @param beanChangeVo 增删改数据集合
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<DrugStorageDept> beanChangeVo);
+
     /**
      * 保存数据
      * @param drugStorageDept

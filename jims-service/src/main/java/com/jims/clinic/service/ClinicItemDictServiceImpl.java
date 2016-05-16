@@ -32,6 +32,17 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
     private ClinicVsChargeDao vsDao;
 
     /**
+     *  查询诊疗项目列表通过组织机构id
+     * @param orgId 组织机构id
+     * @return
+     * @author txb
+     */
+    @Override
+    public List<ClinicItemDict> itemListByOrgId(String orgId) {
+        return dao.itemListByOrgId(orgId);
+    }
+
+    /**
      * 编码或名称已存在个数
      * @param entity
      * @return

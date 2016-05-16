@@ -2,14 +2,14 @@
 function onloadMethod(){
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
-        width: '100%',
-        height: '90%',
+        width: 'auto',
+        height: 'auto',
         nowrap: false,
         striped: true,
         border: true,
         method:'get',
         collapsible:false,//是否可折叠的
-        //fit: true,//自动大小
+        fit: true,//自动大小
         // url:basePath+'/courseRecord/list',
         remoteSort:false,
         idField:'fldId',
@@ -27,19 +27,7 @@ function onloadMethod(){
         frozenColumns:[[
             {field:'ck',checkbox:true}
         ]],
-        toolbar: [{
-            text: '修改',
-            iconCls: 'icon-edit',
-            handler: function() {
-
-            }
-        }, '-',{
-            text: '删除',
-            iconCls: 'icon-remove',
-            handler: function(){
-
-            }
-        }]
+        toolbar: "#ddddddddd"
     });
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');

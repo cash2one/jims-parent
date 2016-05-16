@@ -1,6 +1,7 @@
 package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
+import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
 
@@ -80,5 +81,11 @@ public interface DrugPriceListServiceApi {
      */
     public List<DrugPriceList> listDrugPriceList(String drugCode,String orgId) ;
 
+    /**
+     * 检索当前日期所属机构的药品
+     * @param orgId 机构ID
+     * @return
+     */
+    public List<DrugDict> findDrugDict(String orgId);
 
 }

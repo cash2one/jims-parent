@@ -1,0 +1,117 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>药品月结</title>
+    <link rel="stylesheet" href="/static/easyui/css/color.css">
+    <link rel="stylesheet" href="/static/easyui/css/icon.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/js/head.js"></script>
+
+    <script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/modules/phstock/js/drug-month-summary.js"></script>
+    <style>
+        th{border-bottom:1px solid #eea;}
+    </style>
+
+</head>
+<body class="easyui-layout">
+
+<div region="center" >
+
+    <div id="cc"  class="easyui-layout" style="width:100%;height:99%;">
+        <div region="north"  split="true" style="height:100px;background:#eee;padding:1px;">
+            <table>
+                <tr style="height: 45px;">
+                    <td >
+                        <span style="font-size:20px;">&nbsp;&nbsp;转结月份：</span>
+                    </td>
+                    <td>
+                        <input class="easyui-datebox" data-options="formatter:myformatter,parser:myparser"  style="height: 20px;width: 150px;">
+                    </td>
+                    <td>
+                        <span style="font-size:20px;" >&nbsp; 查找：</span>
+                    </td>
+                    <td>
+                        <input type="text" id="test2" class="easyui-textbox"  style="height: 20px;width: 220px;">
+                    </td>
+                    <td>
+                        &nbsp;<input type="checkbox" name="check1" style="width: 18px;height:18px;zoom:100%;" >
+                    </td>
+                    <td>
+                        <span >过滤掉以下信息：上月结存数、本月入库数、本月出库数、本月结存数都为零的记录</span>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>
+                        &nbsp;<input type="checkbox" name="check1" style="width: 18px;height:18px;zoom:100%;" >
+                    </td>
+                    <td>
+                        <span style="font-size:20px" >药品类别：</span>
+                    </td>
+                    <td>
+                        <input type="text" id="drugType" style="height: 20px;width:150px;">
+                    </td>
+                    <td>
+                        &nbsp;<input type="checkbox" name="check1" style="width: 20px;height:20px;zoom:100%;" >
+                    </td>
+                    <td>
+                        <span style="font-size:20px" >剂型：</span>
+                    </td>
+                    <td>
+                        <input type="text" class="easyui-textbox" style="height: 20px;width:220px;">
+                    </td>
+                    <td>
+                        <span style="font-size:20px" >&nbsp;按子库房过滤：</span>
+                    </td>
+                    <td>
+                        <input type="text" id="storage" , style="height: 20px;width:120px;">
+                    </td>
+                    <td style="width: 3%"></td>
+                    <td><a href="#" id="1Btn" class="easyui-linkbutton" iconCls="icon-search">提 取</a>
+                        <a href="#" id="2Btn" class="easyui-linkbutton" iconCls="icon-add">统 计</a>
+                        <a href="#" id="3Btn" class="easyui-linkbutton" iconCls="icon-search">保 存</a>
+                        <a href="#" id="6Btn" class="easyui-linkbutton" iconCls="icon-add">打 印</a>
+                        <a href="#" id="7Btn" class="easyui-linkbutton" iconCls="icon-search">导 出</a>
+                        <a href="#" id="8Btn" class="easyui-linkbutton" iconCls="icon-remove">关 闭</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div region="center"   split="true" style=" background:#fdfdfd; width: 100%">
+            <div id="drug" class="easyui-datagrid" ></div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<div region="south" split="true" style="height:25px;">北京极目云医院---医院信息系统---药库管理子系统---药品月结</div>
+
+<script type="text/javascript">
+    function myformatter(date){
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        return y+'-'+(m<10?('0'+m):m);
+    }
+    function myparser(s){
+        if (!s) return new Date();
+        var ss = (s.split('-'));
+        var y = parseInt(ss[0],10);
+        var m = parseInt(ss[1],10);
+        if (!isNaN(y) && !isNaN(m)){
+            return new Date(y,m-1);
+        } else {
+            return new Date();
+        }
+    }
+</script>
+
+</body>
+</html>
