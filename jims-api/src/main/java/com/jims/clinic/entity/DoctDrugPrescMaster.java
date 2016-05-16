@@ -48,6 +48,14 @@ public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster> {
 	private String dispensarySub;		// 发药子药局
 	private Date createData;		// 创建时间
 	private Date updateData;		// 更新时间
+
+	//
+	private String bedNo;
+	private String prepayment;
+	private String dianosis;
+	private String bedLabel;
+	private int longTerm;
+	private int tempTerm;
 	
 	public DoctDrugPrescMaster() {
 		super();
@@ -372,4 +380,51 @@ public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster> {
 		this.updateData = updateData;
 	}
 
+	public String getBedNo() {
+		return bedNo;
+	}
+
+	public void setBedNo(String bedNo) {
+		this.bedNo = bedNo;
+	}
+
+	public String getPrepayment() {
+		return prepayment;
+	}
+
+	public void setPrepayment(String prepayment) {
+		this.prepayment = prepayment;
+	}
+
+	public String getDianosis() {
+		return dianosis;
+	}
+
+	public void setDianosis(String dianosis) {
+		this.dianosis = dianosis;
+	}
+
+	public String getBedLabel() {
+		return bedLabel;
+	}
+
+	public void setBedLabel(String bedLabel) {
+		this.bedLabel = bedLabel;
+	}
+
+	public int getLongTerm() {
+		return longTerm;
+	}
+
+	public void setLongTerm(int longTerm) {
+		this.longTerm = longTerm;
+	}
+
+	public int getTempTerm() {
+		return tempTerm;
+	}
+
+	public void setTempTerm(int tempTerm) {
+		this.tempTerm = tempTerm;
+	}
 }

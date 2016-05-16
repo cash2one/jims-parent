@@ -66,7 +66,19 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="findListByPrescMasterId" resultType="DoctDrugPrescDetail">
+		SELECT
+		<include refid="doctDrugPrescDetailColumns"/>
+		FROM doct_drug_presc_detail a
+		<where>
+			a.del_flag = '1'
+			<if test="prescMasterId!=null and prescMasterId!=''">
+				and a.presc_master_id=#{prescMasterId}
+			</if>
+		</where>
+
+	</select>
 	<select id="findAllList" resultType="DoctDrugPrescDetail">
 		SELECT 
 			<include refid="doctDrugPrescDetailColumns"/>
@@ -198,6 +210,17 @@
 		UPDATE doct_drug_presc_detail SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
+	</update>
+
+	<update id="removeByMasterId">
+		UPDATE doct_drug_presc_detail SET
+			del_flag = '1'
+		<where>
+			del_flag = '0'
+			<if test="prescMasterId!=null and prescMasterId!=''">
+				and presc_master_id=#{prescMasterId}
+			</if>
+		</where>
 	</update>
 	
 </mapper>

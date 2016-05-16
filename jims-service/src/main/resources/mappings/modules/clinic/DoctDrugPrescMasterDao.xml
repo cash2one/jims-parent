@@ -230,4 +230,56 @@
 		WHERE id = #{id}
 	</update>
 
+	<select id="findListByParams" resultType="DoctDrugPrescMaster">
+		SELECT pm.PATIENT_ID AS "patientId",
+		pm.VISIT_ID  AS "visitId",
+		pm.NAME AS "name",
+		pm.NAME_PHONETIC AS "namePhonetic",
+		pm.PRESC_DATE AS "prescDate",
+		pm.IDENTITY AS "identity",
+		pm.CHARGE_TYPE AS "chargeType",
+		pm.ORDERED_BY AS "orderedBy",
+		pm.PRESCRIBED_BY AS "prescribedBy",
+		pm.PRESC_ATTR AS "prescAttr",
+		pm.DISPENSARY AS "dispensary",
+		pm.PRESC_SOURCE AS "prescSource",
+		pm.UNIT_IN_CONTRACT AS "unitInContract",
+		pm.PRESC_NO AS "prescNo",
+		pm.PRESC_TYPE AS "prescType",
+		pm.REPETITION AS "repetition",
+		pm.COSTS AS "costs",
+		pm.PAYMENTS AS "payments",
+		pm.ENTERED_BY AS "enteredBy",
+		pm.PRESC_STATUS AS "prescStatus",
+		pm.DISPENSING_PROVIDER AS "dispensingProvider",
+		pm.COUNT_PER_REPETITION AS "countPerRepetition",
+		pm.USAGE AS "usage",
+		ph.BED_NO as "bedNo",
+		nvl(prepayments, 0) - nvl(total_charges, 0) as "prepayment",
+		ph.DIAGNOSIS as "dianosis",
+		pm.BINDING_PRESC_TITLE,
+		pm.DISCHARGE_TAKING_INDICATOR AS "bindingPrescTitle",
+		pm.DOCTOR_USER AS "doctorUser",
+		pm.DECOCTION AS "decoction",
+		pm.NEWLY_PRINT AS "newlyPrint",
+		br.BED_LABEL as "bedLabel",
+		pm.DIAGNOSIS_NAME AS "diagnosisName",
+		pm.DISPENSARY_SUB  AS "dispensarySub",
+		0 as "longTerm",
+		0 as "tempTerm"
+		FROM DOCT_DRUG_PRESC_MASTER pm, PATS_IN_HOSPITAL ph, BED_REC br
+  <where>
+	  pm.del_flag='0' and ph.del_flag='0' and br.del_flag='0'
+	  and (pm.PATIENT_ID = ph.PATIENT_ID)
+	  and (pm.VISIT_ID = ph.VISIT_ID)
+	  and (ph.WARD_CODE = br.WARD_CODE)
+	  and (ph.BED_NO = br.BED_NO)
+	  and (pm.PRESC_STATUS not in (2, 3))
+	  <if test="patientId!=null and patientId!=''">
+		  and (pm.PATIENT_ID = #{patientId})
+	  </if>
+  </where>
+
+
+	</select>
 </mapper>
