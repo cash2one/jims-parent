@@ -327,7 +327,7 @@
 			</if>
 		</where>
 
-
+		ORDER BY PRESC_NO DESC
 	</select>
 	<select id="getOrderNo" resultType="Integer">
 		select MAX(order_no) FROM outp_presc a
@@ -425,9 +425,13 @@
 			<if test="prescNo!=null and prescNo!=''">
 				and PRESC_NO=#{prescNo}
 			</if>
+			<if test="clinicId!=null and clinicId!=''">
+				and clinic_id=#{clinicId}
+			</if>
 			<if test="orgId!=null and orgId!=''">
 				and org_id=#{orgId}
 			</if>
 		</where>
 	</select>
+
 </mapper>

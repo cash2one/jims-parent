@@ -144,8 +144,7 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
-		a.inorout AS "inOrOut"
+		a.del_flag AS "delFlag"
 	</sql>
 
 
@@ -272,8 +271,7 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag,
-			inorout
+			del_flag
 		) VALUES (
 			#{id},
 			#{orgId},
@@ -342,8 +340,7 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag},
-			#{inOrOut}
+			#{delFlag}
 		)
 	</insert>
 	
@@ -412,7 +409,6 @@
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
 			remarks = #{remarks},
-			inorout ={inOrOut}
 		WHERE id = #{id}
 	</update>
 	

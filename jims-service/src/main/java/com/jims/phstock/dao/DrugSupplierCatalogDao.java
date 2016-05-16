@@ -13,9 +13,9 @@ import java.util.List;
 public interface DrugSupplierCatalogDao extends CrudDao<DrugSupplierCatalog> {
 
 
-
     /**
      * 查询所有供货商类别
+     *
      * @param orgId
      * @return
      * @author wei
@@ -24,6 +24,7 @@ public interface DrugSupplierCatalogDao extends CrudDao<DrugSupplierCatalog> {
 
     /**
      * 查询全部数据
+     *
      * @param orgId
      * @return
      * @author wei
@@ -32,20 +33,21 @@ public interface DrugSupplierCatalogDao extends CrudDao<DrugSupplierCatalog> {
 
     /**
      * 根据拼音码查询所属组织机构的供应商和生产商
-     * @param orgId 组织机构ID
+     *
+     * @param orgId     组织机构ID
      * @param inputCode 拼音字头
      * @return
      * @author wei
-     *
      */
-    public List<DrugSupplierCatalog> listDrugSupplierCatalogByInputCode(String orgId,String inputCode) ;
+    public List<DrugSupplierCatalog> listDrugSupplierCatalogByInputCode(String orgId, String inputCode);
 
     /**
      * 根据厂商类别查询所属组织机构的生产商或供应商
-     * @param orgId 组织机构ID
+     *
+     * @param orgId        组织机构ID
      * @param supplierType 厂商类别：生厂商、供应商
      * @return
      * @author wei
      */
-    public List<DrugSupplierCatalog> listDrugSupplierCatalogBySupplierType(String orgId,String supplierType) ;
+    public List<DrugSupplierCatalog> listDrugSupplierCatalogBySupplierType(String orgId, String supplierType);
 }

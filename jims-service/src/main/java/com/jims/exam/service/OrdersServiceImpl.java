@@ -41,11 +41,9 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         examAppoints.setCnsltState(1);
         examAppoints.preInsert();
         examAppoints.setPatientId("2222");
-        examAppoints.setVisitId(1);
-        examAppoints.setVisitNo(22);
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");
-        examAppoints.setInOrOut("1");
+
         //设置就诊序号
         examAppoints.setVisitNo((int) Math.random() * 1000);
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
@@ -57,7 +55,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             Orders orders=new Orders();
             orders.preInsert();
             orders.setPatientId(examAppoints.getPatientId());
-            orders.setVisitId((long) examAppoints.getVisitId());
+            orders.setVisitId(examAppoints.getVisitId());
             orders.setAppNo(examItems.getId());
             orders.setOrderNo((long)123456);
             orders.setOrderClass("1");
@@ -87,6 +85,32 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         return num+"";
 
     }
-
+    /**
+     * 构建最新OrderNo
+     * @parampatient_id
+     * @paramvisit_Id
+     * @author xueyx
+     * @version 2016/5/12
+     */
+    public Long creeatOrderNo(Orders orders) {
+        String maxnoStr =findMaxOrderNo(orders);
+        Long maxno=Long.valueOf(1);;
+        if(maxnoStr!=null){
+            maxno = Long.valueOf(Integer.valueOf(maxnoStr) + 1);
+        }
+        return maxno;
+    }
+    /**
+     * 最大OrderNo
+     * @param
+     * @parampatient_id
+     * @paramvisit_Id
+     * @author xueyx
+     * @version 2016/5/12
+     */
+    //@Override
+    public String findMaxOrderNo(Orders orders){
+        return dao.findMaxOrderNo(orders);
+    }
 
 }

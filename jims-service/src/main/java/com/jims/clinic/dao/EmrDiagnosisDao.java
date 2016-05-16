@@ -48,5 +48,14 @@ public interface EmrDiagnosisDao extends CrudDao<EmrDiagnosis> {
      * @return
      */
     public List<EmrDiagnosis> findAllListByType(@Param("parent") String parent, @Param("type") String type);
+
+    /**
+     * 查询病人诊断数据数据
+     * @param-inOrOutFlag
+     * @param-clinicId
+     * @paramc-visitId
+     * @return
+     */
+    public List<EmrDiagnosis> findAllDiagnosisForOne(EmrDiagnosis emrDiagnosis);
 	
 }

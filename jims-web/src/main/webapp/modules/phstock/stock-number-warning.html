@@ -1,0 +1,81 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>库存限量报警</title>
+    <link rel="stylesheet" href="/static/easyui/css/color.css">
+    <link rel="stylesheet" href="/static/easyui/css/icon.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/js/head.js"></script>
+
+    <script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/modules/phstock/js/stock-number-warning.js"></script>
+    <style>
+        th{border-bottom:1px solid #eea;}
+    </style>
+
+</head>
+<body class="easyui-layout">
+
+<div region="center" >
+
+    <div id="cc"  class="easyui-layout" style="width:100%;height:99%;">
+        <div region="north"  split="true" style="height:100px;background:#eee;padding:1px;">
+            <table>
+                <tr style="height: 45px;">
+                    <td >
+                        <span style="font-size:20px;">&nbsp;药品名称：</span>
+                    </td>
+                    <td>
+                        <input class="easyui-textbox"   style="height: 20px;width: 150px;">
+                    </td>
+                    <td>
+                        <span style="font-size:20px;" >&nbsp; 剂型：</span>
+                    </td>
+                    <td>
+                        <input type="text" id="test2" class="easyui-textbox"  style="height: 20px;width: 220px;">
+                    </td>
+
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>
+                        <span style="font-size:20px" >&nbsp;毒理分类：</span>
+                    </td>
+                    <td>
+                        <input type="text" id="type" style="height: 20px;width:150px;">
+                    </td>
+                    <td>
+                        &nbsp;<input type="radio" name="check1" ><span>上限</span>
+                    </td>
+                    <td>
+                        &nbsp;<input type="radio" name="check1" ><span>下限</span>
+                    </td>
+
+                    
+                    <td  style="width:45%;"></td>
+                    <td><a href="#" id="1Btn" class="easyui-linkbutton" iconCls="icon-search">提 取</a>
+                        <a href="#" id="2Btn" class="easyui-linkbutton" iconCls="icon-add">清 屏</a>
+                        <a href="#" id="6Btn" class="easyui-linkbutton" iconCls="icon-save">打 印</a>
+                        <a href="#" id="7Btn" class="easyui-linkbutton" iconCls="icon-ok">导 出</a>
+                        <a href="#" id="8Btn" class="easyui-linkbutton" iconCls="icon-remove">关 闭</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div region="center"   split="true" style=" background:#fdfdfd; width: 100%">
+            <div id="drug" class="easyui-datagrid" ></div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<div region="south" split="true" style="height:25px;">北京极目云医院---医院信息系统---药库管理子系统---库存限量报警</div>
+
+</body>
+</html>

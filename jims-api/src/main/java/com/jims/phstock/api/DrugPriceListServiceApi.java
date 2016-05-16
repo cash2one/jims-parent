@@ -1,6 +1,7 @@
 package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
+import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
 
@@ -69,6 +70,16 @@ public interface DrugPriceListServiceApi {
      */
     public List<DrugNameDict> listDrugNameDict(String orgId) ;
 
+    /**
+     * 根据当前组织结构，和当前类别获取所有的药品名称字典。
+     * @param orgId  组织机构id
+     * @param classCode 类别代码
+     * @return
+     * @author txb
+     *
+     */
+    public List<DrugNameDict> listDrugNameDictByClassCode(String orgId,String classCode) ;
+
 
     /**
      * 根据药品代码查询当前组织结构的药品价格
@@ -80,5 +91,11 @@ public interface DrugPriceListServiceApi {
      */
     public List<DrugPriceList> listDrugPriceList(String drugCode,String orgId) ;
 
+    /**
+     * 检索当前日期所属机构的药品
+     * @param orgId 机构ID
+     * @return
+     */
+    public List<DrugDict> findDrugDict(String orgId);
 
 }

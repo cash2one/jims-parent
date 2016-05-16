@@ -10,6 +10,7 @@ import com.jims.clinic.dao.BloodCapacityDao;
 import com.jims.blood.entity.BloodApply;
 import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.exam.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,8 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao,BloodA
                 column.setApplyNum(bloodApply.getApplyNum());
                 column.preInsert();
                 bloodCapacityDao.insert(column);
+                Orders orders=new Orders();
+
             }
         }
         return strState;

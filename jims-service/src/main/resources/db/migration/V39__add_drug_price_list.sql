@@ -8,7 +8,7 @@ create table DRUG_PRICE_LIST
   id                 varchar2(64 CHAR),
   DRUG_CODE          VARCHAR2(20 CHAR) not null,
   DRUG_SPEC          VARCHAR2(20 CHAR) not null,
-  FIRM_ID            VARCHAR2(10 CHAR) not null,
+  FIRM_ID            VARCHAR2(64) not null,
   UNITS              VARCHAR2(8 CHAR),
   TRADE_PRICE        NUMBER(10,4),
   RETAIL_PRICE       NUMBER(10,4),

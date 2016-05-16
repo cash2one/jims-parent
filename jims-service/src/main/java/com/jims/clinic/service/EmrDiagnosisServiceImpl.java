@@ -41,7 +41,7 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 	 * @param emrDiagnosis
 	 * @return
 	 */
-	@Override
+	//@Override
 	public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis){
 		if(emrDiagnosis.size()>0){
 			for(int i=0;i<emrDiagnosis.size();i++){
@@ -100,13 +100,22 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 
 
 	public List<EmrDiagnosis> findAllListByType(String parentId,String type){
-		return emrDiagnosisDao.findAllListByType(parentId,type);
+		return emrDiagnosisDao.findAllListByType(parentId, type);
 	}
 
 	public List<EmrDiagnosis> findListChildren(String id){
 		return emrDiagnosisDao.findListChildren(id);
 	}
-
+	/**
+	 * 查询病人诊断数据数据
+	 * @param-inOrOutFlag
+	 * @param-clinicId
+	 * @paramc-visitId
+	 * @return
+	 */
+	public List<EmrDiagnosis> findAllDiagnosisForOne(EmrDiagnosis emrDiagnosis){
+		return dao.findAllDiagnosisForOne(emrDiagnosis);
+	}
 
 
 }

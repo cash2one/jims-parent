@@ -1,0 +1,67 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>全院库存量查询</title>
+    <link rel="stylesheet" href="/static/easyui/css/color.css">
+    <link rel="stylesheet" href="/static/easyui/css/icon.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/js/head.js"></script>
+
+    <script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="/modules/phstock/js/drug-stock-amount.js"></script>
+<style>
+    th{border-bottom:1px solid #eea;}
+</style>
+</head>
+<body class="easyui-layout">
+
+<div region="center" >
+    <div id="cc"  class="easyui-layout" style="width:100%;height:99%;">
+        <div region="north"  split="true" style="height:100px;padding:1px;background:#eee;">
+            <table>
+                <tr style="height: 50px">
+                    <td>&nbsp;&nbsp;&nbsp;<span style="font-size:20px" >药品定位：</span></td>
+                    <td colspan="3"><input type="text" class="easyui-textbox" style="height: 20px;width: 200px;"></td>
+                    <td colspan="4"></td>
+
+                </tr>
+                <tr>
+                    <td>&nbsp;<input type="checkbox" name="check1" style="width: 18px;height:18px;zoom:100%;" >
+                        <span style="font-size:20px" >进价范围：</span>
+                    </td>
+                    <td>
+                        <input type="text" class="easyui-textbox" style="height:20px;width: 84px;"> ～
+                        <input type="text" class="easyui-textbox" style="height: 20px;width: 84px;">
+                    </td>
+                    <td>&nbsp;<input type="checkbox" name="check1" style="width: 18px;height:18px;zoom:100%;" >
+                        <span style="font-size:20px" >库存管理单位：</span>
+                    </td>
+                    <td>
+                        <input type="text" id="test" class="easyui-textbox"  style="height: 20px;width: 105px;">
+                    </td>
+                    <td style="width:35%;"></td>
+                    <td>
+                        <a href="#" id="1Btn" class="easyui-linkbutton" iconCls="icon-search">提 取</a>
+                        <a href="#" id="2Btn" class="easyui-linkbutton" iconCls="icon-add">打 印</a>
+                        <a href="#" id="3Btn" class="easyui-linkbutton" iconCls="icon-save">另 存</a>
+                        <a href="#" id="4Btn" class="easyui-linkbutton" iconCls="icon-remove">关 闭</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div region="center"  title="全院药品库存量查询" split="true" style="padding:5px;background: #fdfdfd;width: 100%">
+            <div id="dg" class="easyui-datagrid"></div>
+        </div>
+
+    </div>
+</div>
+
+<div region="south" split="true" style="height:25px;">
+    北京极目云医院---医院信息系统---药库管理子系统---全院库存量查询
+</div>
+
+</body>
+</html>

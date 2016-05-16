@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="panel-fit"><head>
+	<meta charset="UTF-8">
+	<title>门诊安排-周</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/register/js/registerWeek.js"></script>
+
+</head>
+
+<body onload="onloadMethod()">
+<div class="easyui-layout" style="width:100%;height:100%;">
+<div data-options="region:'center',split:true">
+    <div id="ddddddddd">
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td class="text-right">门诊科室：</td>
+            <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+            <td class="text-right">门诊号名称：</td>
+            <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+        </tr>
+        <tr>
+            <td class="text-right">医生：</td>
+            <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+            <td>
+                <button class="easy-nbtn easy-nbtn-info">查询</button>
+            </td>
+
+        </tr>
+    </table>
+    </div>
+    <table id="list_data"   cellspacing="0" cellpadding="0">
+
+    </table>
+</div>
+<div data-options="region:'east',iconCls:'icon-ok'"  style="width:65%;">
+        <div>
+            <button class="easy-nbtn easy-nbtn-warning">清空</button>
+            <button class="easy-nbtn easy-nbtn-success">保存</button>
+        </div>
+        <table cellpadding="0" cellspacing="0" width="98%" class="tab-rlist">
+            <thead>
+            <tr>
+                <td></td>
+                <th colspan="3">星期一</th>
+                <th colspan="3">星期二</th>
+                <th colspan="3">星期三</th>
+                <th colspan="3">星期四</th>
+                <th colspan="3">星期五</th>
+                <th colspan="3">星期六</th>
+                <th colspan="3">星期日</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td>出诊</td>
+                <td>限号数</td>
+                <td>限约号数</td>
+                <td>出诊</td>
+                <td>限号数</td>
+                <td>限约号数</td>
+                <td>出诊</td>
+                <td>限号数</td>
+                <td>限约号数</td>
+                <td>出诊</td>
+                <td>限号数</td>
+                <td>限约号数</td>
+                <td>出诊</td>
+                <td>限号数</td>
+                <td>限约号数</td>
+                <td>出诊</td>
+                <td>限号数</td>
+                <td>限约号数</td>
+                <td>出诊</td>
+                <td>限号数</td>
+                <td>限约号数</td>
+            </tr>
+            <tr>
+                <td>上午</td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+            </tr>
+            <tr>
+                <td>下午</td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+            </tr>
+            <tr>
+                <td>昼夜</td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="checkbox" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+                <td><input type="text" class="nonbor-inp" /></td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+</div>
+
+</div>
+
+
+
+
+</body>
+
+
+</html>

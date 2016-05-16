@@ -8,6 +8,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugPriceListServiceApi;
 import com.jims.phstock.dao.DrugPriceListDao;
+import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,20 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      */
     @Override
     public List<DrugNameDict> listDrugNameDict(String orgId) {
-        return null;
+        return dao.listDrugNameDict(orgId);
+    }
+
+    /**
+     * 根据当前组织结构，和当前类别获取所有的药品名称字典。
+     * @param orgId  组织机构id
+     * @param classCode 类别代码
+     * @return
+     * @author txb
+     *
+     */
+    @Override
+    public List<DrugNameDict> listDrugNameDictByClassCode(String orgId, String classCode) {
+        return dao.listDrugNameDictByClassCode(orgId,classCode);
     }
 
     /**
@@ -48,6 +62,15 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      */
     @Override
     public List<DrugPriceList> listDrugPriceList(String drugCode, String orgId) {
-        return null;
+        return dao.listDrugPriceList(drugCode,orgId);
+    }
+
+    /**
+     * 检索当前日期所属机构的药品
+     * @param orgId 机构ID
+     * @return
+     */
+    public List<DrugDict> findDrugDict(String orgId){
+        return dao.findDrugDict(orgId);
     }
 }

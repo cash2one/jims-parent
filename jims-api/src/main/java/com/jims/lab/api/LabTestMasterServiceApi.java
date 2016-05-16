@@ -1,6 +1,8 @@
 package com.jims.lab.api;
 
+import com.jims.common.persistence.Page;
 import com.jims.lab.entity.LabTestMaster;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Administrator on 2016/4/28.
@@ -19,4 +21,41 @@ public interface LabTestMasterServiceApi {
      * @version 2016/5/06
      */
     public void saveAll(LabTestMaster labTestMaster);
+
+    /**
+     * 住院保存
+     * 整个主表、字表list
+     * @param主表LabTestMaster
+     * @param子表List
+     * @author xueyx
+     * @version 2016/5/06
+     */
+    @Transactional(readOnly = false)
+    public void saveAllIn(LabTestMaster labTestMaster);
+
+    /**
+     * 生成申请序号
+     * @param主表 当前日期
+     * @author xueyx
+     * @version 2016/5/09
+     */
+    public String creatTestNo();
+
+    /**
+     * 删除申请
+     * @param主表id
+     * @author xueyx
+     * @version 2016/5/09
+     */
+    public void delAll(LabTestMaster labTestMaster);
+
+    /**
+     *
+     * @param
+     * @param
+     * @return
+     * @author xueyx
+     * @version 2016/5/13
+     */
+    public Page<LabTestMaster> findPage(Page<LabTestMaster> page, LabTestMaster labTestMaster);
 }

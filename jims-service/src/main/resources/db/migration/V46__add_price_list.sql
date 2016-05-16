@@ -1,4 +1,4 @@
-﻿--drop table PRICE_LIST cascade constraints;
+--drop table PRICE_LIST cascade constraints;
 -- Create table
 /*==============================================================*/
 /* Table: PRICE_LIST                                      */
@@ -51,17 +51,7 @@ create table PRICE_LIST
   REMARKS            VARCHAR2(255),
   DEL_FLAG           CHAR(1) default '0' not null,
   ORG_ID              VARCHAR2(64)
-)
-tablespace TSP_COMM
-  pctfree 10
-  initrans 1
-  maxtrans 255
-  storage
-  (
-    initial 1
-    minextents 1
-    maxextents unlimited
-  );
+);
 -- Add comments to the columns
 comment on column PRICE_LIST.ITEM_CLASS
   is '项目类别';
@@ -133,30 +123,9 @@ comment on column PRICE_LIST.DEL_FLAG
   is '删除标记';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table PRICE_LIST
-  add constraint PK_PRICE_LIST primary key (ID)
-  using index
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255
-  storage
-  (
-    initial 64K
-    minextents 1
-    maxextents unlimited
-  );
+  add constraint PK_PRICE_LIST primary key (ID);
 -- Create/Recreate indexes
-create unique index UK_PRICE_LIST on PRICE_LIST (ITEM_CLASS, ITEM_CODE, ITEM_SPEC, UNITS, START_DATE)
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255
-  storage
-  (
-    initial 64K
-    minextents 1
-    maxextents unlimited
-  );
+create unique index UK_PRICE_LIST on PRICE_LIST (ITEM_CLASS, ITEM_CODE, ITEM_SPEC, UNITS, START_DATE);
 create sequence PRICE_DICT
 minvalue  1
 maxvalue  999999
