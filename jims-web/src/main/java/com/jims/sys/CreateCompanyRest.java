@@ -48,7 +48,7 @@ public class CreateCompanyRest {
                 StringUtils.isNotBlank(sysCompany.getLinkPhoneNum()) && StringUtils.isNotBlank(sysCompany.getAddress()) && StringUtils.isNotBlank(sysCompany.getEmail())) {
             sysCompany.setApplyStatus("0");
 
-            if (StringUtils.equalsIgnoreCase(sysCompany.getParentId(), "请选择")) {
+            if (StringUtils.equalsIgnoreCase(sysCompany.getParentId(), " ")) {
                 sysCompany.setParentId(null);
             }
             String num = sysCompanyApi.save(sysCompany);
@@ -89,7 +89,7 @@ public class CreateCompanyRest {
                 }
             }
             //如果没有父机构则向数据库中存入空
-            if (StringUtils.equalsIgnoreCase(sysCompany.getParentId(), "请选择")) {
+            if (StringUtils.equalsIgnoreCase(sysCompany.getParentId(), " ")) {
                 sysCompany.setParentId(null);
             }
             //保存

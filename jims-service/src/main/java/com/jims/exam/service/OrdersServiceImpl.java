@@ -85,6 +85,32 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         return num+"";
 
     }
-
+    /**
+     * 构建最新OrderNo
+     * @parampatient_id
+     * @paramvisit_Id
+     * @author xueyx
+     * @version 2016/5/12
+     */
+    public Long creeatOrderNo(Orders orders) {
+        String maxnoStr =findMaxOrderNo(orders);
+        Long maxno=Long.valueOf(1);;
+        if(maxnoStr!=null){
+            maxno = Long.valueOf(Integer.valueOf(maxnoStr) + 1);
+        }
+        return maxno;
+    }
+    /**
+     * 最大OrderNo
+     * @param
+     * @parampatient_id
+     * @paramvisit_Id
+     * @author xueyx
+     * @version 2016/5/12
+     */
+    //@Override
+    public String findMaxOrderNo(Orders orders){
+        return dao.findMaxOrderNo(orders);
+    }
 
 }
