@@ -83,11 +83,11 @@ public class DrugBuyPlanRest {
     /**
      * 根据执行标志获取单据号
      * @param flag
-     * @return
+     * @return String[0] 采购单据号，String[1] 执行状态
      */
     @GET
     @Path("getBuyId")
-    public List<String> getBuyId(@QueryParam("flag")String flag
+    public List<String[]> getBuyId(@QueryParam("flag")String flag
             ,@QueryParam("buyer")String buyer
             ,@QueryParam("orgId")String orgId){
         return drugBuyPlanApi.getBuyId(flag,orgId,buyer);

@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>药品采购计划执行</title>
+    <title>药品采购计划查询</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
@@ -15,9 +15,15 @@
     <label for="temporaryNo">采购单据号:</label>
     <input id="temporaryNo">
     &nbsp;&nbsp;
-    <a href="#" id="saveButton"></a>
-    <a href="#" id="saveAndInStockButton"></a>
-    <a href="#" id="flushButton"></a>
+    <label for="drug_gps">药品定位:</label>
+    <input id="drug_gps">&nbsp;&nbsp;
+    <label for="supplier_gps">厂家定位:</label>
+    <input id="supplier_gps">&nbsp;&nbsp;
+    <label for="stock_gps">采购供应商:</label>
+    <input id="stock_gps">
+    &nbsp;&nbsp;
+
+    <a href="#" id="printButton"></a>
     <a href="#" id="closeButton"></a>
 </div>
 <div id="drugPriceWindow">
@@ -37,6 +43,6 @@
         }
     })
 </script>
-<script src="js/drug-buy-plan-execute.js"></script>
+<script src="js/drug-buy-plan-query.js"></script>
 </body>
 </html>

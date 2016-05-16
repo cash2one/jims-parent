@@ -122,7 +122,7 @@ $(function () {
         $.get(base_url + 'getBuyId', {flag: '4', orgId: orgId,buyer:username}, function (res) {
             var _temporaryNo = []
             for (var i = 0; i < res.length; i++) {
-                _temporaryNo.push({value: res[i], label: res[i]})
+                _temporaryNo.push({value: res[i][0], label: res[i][0]})
             }
             $('#temporaryNo').combobox('loadData', _temporaryNo)
         })
@@ -210,8 +210,11 @@ $(function () {
         parent.$.postJSON(base_url + 'saveBatch', JSON.stringify(handleData), function (res) {
             if (res.code = '0')
                 $.messager.alert('成功', '执行成功', 'info', function () {
-                    inStock()
-
+                    if(doFlag == 'in'){
+                        inStock()
+                    } else {
+                        window.location.reload()
+                    }
                 })
         })
     }

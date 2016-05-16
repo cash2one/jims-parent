@@ -1,5 +1,6 @@
 package com.jims.phstock.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -99,8 +100,8 @@ public class DrugBuyPlanService extends CrudImplService<DrugBuyPlanDao, DrugBuyP
      * @param orgId 所属机构ID
      * @return
      */
-    public List<String> getBuyId(String flag,String orgId){
-        return dao.getBuyId(flag,orgId);
+    public List<String[]> getBuyId(String flag,String orgId){
+        return getBuyId(flag,orgId,null);
     }
 
     /**
@@ -110,7 +111,17 @@ public class DrugBuyPlanService extends CrudImplService<DrugBuyPlanDao, DrugBuyP
      * @param buyer 采购员
      * @return
      */
-    public List<String> getBuyId(String flag,String orgId,String buyer){
-        return dao.getBuyId(flag,orgId,buyer);
+    public List<String[]> getBuyId(String flag,String orgId,String buyer){
+        List<DrugBuyPlan> plans = dao.getBuyId(flag,orgId,buyer);
+        List<String[]> results = new ArrayList<String[]>();
+        if(plans != null && plans.size() > 0){
+            for(DrugBuyPlan o : plans){
+                String[] result = new String[2];
+                result[0] = o.getBuyId();
+                result[1] = o.getFlag().toString();
+                results.add(result);
+            }
+        }
+        return results;
     }
 }

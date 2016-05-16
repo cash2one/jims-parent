@@ -96,8 +96,12 @@
         and rownum &lt; 2 order by buy_id DESC
     </select>
 
-    <select id="getBuyId" resultType="java.lang.String">
-        select distinct a.buy_id from drug_buy_plan a,drug_supplier_catalog t where a.flag = #{0} and a.del_flag = '0'
+    <select id="getBuyId" resultType="DrugBuyPlan">
+        select distinct a.buy_id,a.flag from drug_buy_plan a,drug_supplier_catalog t where
+            a.del_flag = '0'
+            <if test="flag != null and flag != ''">
+                AND a.flag = #{flag}
+            </if>
             AND a.firm_id = t.id and (t.used_flag is null or t.used_flag = '0') and t.del_flag = '0'
             AND a.org_id = #{1}
             <if test="buyer != null and buyer != ''">
