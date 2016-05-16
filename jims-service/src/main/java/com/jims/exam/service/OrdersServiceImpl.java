@@ -76,7 +76,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             for (int j = 0; j < id.length; j++){
                 examItemsDao.deleteItems(id[j]);
                 ExamAppoints examAppoints=examAppointsDao.get(id[j]);
-                String clinicId=examAppoints.getClinicId();
+                String visitId=examAppoints.getVisitId();
                 num = examAppointsDao.deleteExamAppionts(id[j]);
             }
         }catch(Exception e){
