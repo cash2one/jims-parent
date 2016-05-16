@@ -67,9 +67,9 @@ create table ORDERS
    EXEC_OPERATOR        VARCHAR2(20),
    EXEC_DATE_TIME       TIMESTAMP,
    CREATE_BY            VARCHAR2(64),
-   CREATE_DATA          TIMESTAMP,
+   CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
-   UPDATE_DATA          TIMESTAMP,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(200),
   DEL_FLAG             char(1) default '0',
    constraint PK_ORDERS primary key (ID)
