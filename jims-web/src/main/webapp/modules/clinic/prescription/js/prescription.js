@@ -189,7 +189,6 @@ $(function(){
             }
         },onClickRow:function(rowIndex,rowData){
             $("#prescDialog").dialog('open');
-            //tooltips选中行，药品价目列表信息
             if (editRow != undefined) {
                 $("#list_data").datagrid('endEdit', editRow);
             }
