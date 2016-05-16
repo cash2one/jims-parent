@@ -244,8 +244,7 @@
 	<update id="deleteTreatment">
 		UPDATE outp_orders_costs a SET
 		del_flag = '1'
-		WHERE a.clinic_id=#{clinicId}
--- 		 AND item_code = #{itemCode}
+		WHERE item_code = #{itemCode}
 	</update>
 
 	<select id="getOutpCosts" resultType="OutpOrdersCosts">

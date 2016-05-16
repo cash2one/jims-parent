@@ -174,7 +174,7 @@ function userMenu(clinicMasterId,aBtn){
     html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/clinic/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
     html+='<li><a   onclick="addTabs(\'8\',\'手术申请\',\'/modules/clinic/operationApply/operationApplyList.html\',this)"><span>手术申请</span></a></li>';
     html+='<li><a   onclick="addTabs(\'9\',\'门诊诊断\',\'/modules/clinic/emrDiagnosis/diagnosis.html\',this)"><span>门诊诊断</span></a></li>';
-   // html+='<li><a   onclick="addTabs(\'10\',\'手术预约\',\'/modules/operation/operationOrder.html\',this)"><span>手术预约</span></a></li>';
+    html+='<li><a   onclick="addTabs(\'10\',\'手术预约\',\'/modules/operation/operationOrder.html\',this)"><span>手术预约</span></a></li>';
     html+='<li><a  href="#"><span>用血申请</span></a></li>';
     $("#userMenuId").html(html);
     $("#userMenuId li:first a").click();

@@ -12,6 +12,7 @@ import com.jims.operation.entity.ScheduledOperationName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,6 +69,26 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
             } else {
                 operationSchedule.preUpdate();
                 operationScheduleDao.update(operationSchedule);
+                if (operationSchedule.getScheduledOperationNameList() != null) {
+                    List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
+                    for (int i = 0; i < scheduledOperationNameList.size(); i++) {
+                        ScheduledOperationName scheduledOperationName = new ScheduledOperationName();
+                        scheduledOperationName = scheduledOperationNameList.get(i);
+                        if (scheduledOperationName.getIsNewRecord()) {
+                            scheduledOperationName.setOperationNo(i+1);
+                            scheduledOperationName.preInsert();
+                            scheduledOperationName.setPatientId(operationSchedule.getPatientId());
+                            scheduledOperationName.setVisitId(operationSchedule.getVisitId());
+                            scheduledOperationName.setScheduleId(operationSchedule.getScheduleId());
+                            scheduledOperationNameDao.insert(scheduledOperationName);
+                            return "1";
+                        } else {
+                            scheduledOperationName.preUpdate();
+                            scheduledOperationNameDao.update(scheduledOperationName);
+                            return "1";
+                        }
+                    }
+                }
             }
 
             return "1";
@@ -91,5 +112,37 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
             scheduleId=0;
         }
        return scheduleId;
+    }
+
+    /**
+     * 通过patientId、visitId拿到手术安排
+     * @param patientId
+     * @param visitId
+     * @return
+     */
+    public OperationSchedule getSchedule(String patientId,String visitId){
+        OperationSchedule operationSchedule=operationScheduleDao.getSchedule(patientId,visitId);
+        return operationSchedule;
+    }
+
+    /**
+     * 通过patientId、visitId拿到手术名称
+     * @param patientId
+     * @param visitId
+     * @param scheduleId
+     * @return
+     */
+    public List<ScheduledOperationName> getOperationName(String patientId,String visitId,Integer scheduleId){
+        List<ScheduledOperationName>  operationNameList= scheduledOperationNameDao.getOperationName(patientId,visitId,scheduleId);
+      return operationNameList;
+    }
+
+    /**
+     * 删除手术名称
+     * @param id
+     * @return
+     */
+    public int deleteOperationName(String id){
+      return   scheduledOperationNameDao.delete(id);
     }
 }

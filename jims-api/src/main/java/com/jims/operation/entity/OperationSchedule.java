@@ -3,8 +3,10 @@ package com.jims.operation.entity;
 
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
@@ -136,7 +138,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public Date getScheduledDateTime() {
 		return scheduledDateTime;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setScheduledDateTime(Date scheduledDateTime) {
 		this.scheduledDateTime = scheduledDateTime;
 	}
@@ -350,7 +352,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public Date getReqDateTime() {
 		return reqDateTime;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setReqDateTime(Date reqDateTime) {
 		this.reqDateTime = reqDateTime;
 	}
