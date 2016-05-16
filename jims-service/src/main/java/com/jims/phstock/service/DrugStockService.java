@@ -8,7 +8,10 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugStockServiceApi;
 import com.jims.phstock.dao.DrugStockDao;
 import com.jims.phstock.entity.DrugStock;
+import com.jims.phstock.vo.DrugWorkCount;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 药品库存Service
@@ -19,5 +22,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DrugStockService extends CrudImplService<DrugStockDao, DrugStock> implements DrugStockServiceApi{
 
-	
+
+    /**
+     * 查询某库存一段时间内的工作量
+     * @param storage 库存代码
+     * @param startTime 开始时间
+     * @param endDate 结束时间
+     * @param orgId 所属组织结构
+     * @return
+     * @Author ztq
+     *
+     */
+    @Override
+    public List<DrugWorkCount> getWorkCountBy(String storage, String startTime, String endDate, String orgId) {
+        return dao.getWorkCountBy(storage,startTime,endDate,orgId);
+    }
+
 }
