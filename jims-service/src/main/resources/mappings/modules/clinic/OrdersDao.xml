@@ -4,7 +4,7 @@
     
 	<sql id="ordersColumns">
 		a.id AS "id",
-		a.other_id AS "otherId",
+		a.clinic_id AS "clinicId",
 		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.visit_id AS "visitId",
@@ -117,7 +117,7 @@
 	<insert id="insert">
 		INSERT INTO orders(
 			id,
-			other_id,
+			clinic_id,
 			org_id,
 			patient_id,
 			visit_id,
@@ -180,7 +180,7 @@
 			remarks
 		) VALUES (
 			#{id},
-			#{otherId},
+			#{clinicId},
 			#{orgId},
 			#{patientId},
 			#{clinicId},
@@ -312,7 +312,7 @@
 	<update id="deleteOrders">
 		UPDATE orders SET
 			del_flag = '1'
-		WHERE other_id=#{otherId}
+		WHERE clinic_id=#{clinicId}
 
 	</update>
 

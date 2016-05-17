@@ -25,8 +25,7 @@ function onloadMethod(){
                 options: {
                     data: [{value:1,text:'骨科'}],
                     valueField: 'value',
-                    textField: 'text',
-                    required: true
+                    textField: 'text'
                 }
             }},
             {field:'type1',title:'医师',width:'13%',align:'center',editor: {
@@ -34,8 +33,7 @@ function onloadMethod(){
                 options: {
                     data: [{value:1,text:'张三'}],
                     valueField: 'value',
-                    textField: 'text',
-                    required: true
+                    textField: 'text'
                 }
             }},
             {field:'type2',title:'医师职称',width:'10%',align:'center',editor: {
@@ -43,8 +41,7 @@ function onloadMethod(){
                 options: {
                     data: [{value:1,text:'主治医生'}],
                     valueField: 'value',
-                    textField: 'text',
-                    required: true
+                    textField: 'text'
                 }
             }},
             {field:'type3',title:'号类',width:'15%',align:'center',editor: {
@@ -87,14 +84,16 @@ function onloadMethod(){
 
             }
         }],onClickRow: function (rowIndex, rowData) {
+            var dataGrid=$('#list_data');
+            if(!dataGrid.datagrid('validateRow', rowNum)){
+                return false
+            }
             if(rowNum!=rowIndex){
                 if(rowNum>=0){
-                    //$("#list_data").datagrid('cancelEdit',rowNum);
-                    //$('#list_data').datagrid('refreshRow', rowNum);
-                    $('#list_data').datagrid('endEdit', rowNum);
+                    dataGrid.datagrid('endEdit', rowNum);
                 }
                 rowNum=rowIndex;
-                $("#list_data").datagrid('beginEdit', rowIndex);
+                dataGrid.datagrid('beginEdit', rowIndex);
             }
         }
     });

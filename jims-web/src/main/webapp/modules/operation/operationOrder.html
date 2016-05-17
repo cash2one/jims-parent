@@ -13,7 +13,9 @@
 <div class="reg-plan-wrap">
     <form id="operation" method="post">
     <div class="margin10-bot" style="border: 1px;">
-        科室：<select class="easyui-textbox easyui-textbox-s" /><option>诊疗费</option></select>
+        科室：<select id="deptCode" class="easyui-combobox" />
+                    <option value="140102">精神一科房</option>
+               </select>
     </div>
 
     <div style="border: 1px;width:200px;height:500px;position: absolute;" >
@@ -22,12 +24,12 @@
 
     <div class="reg-plan-main" style="border: 1px;">
             <div class="margin10-bot">
-                床号：<input type="text" class="validatebox-text validatebox-text-xs" name="bedNo" disabled/>
-                病人ID：<input type="text" class="validatebox-text validatebox-text-xs" name="patientId" disabled/>
-                住院号：<input type="text" class="validatebox-text validatebox-text-xs" name="visitId" disabled/>
-                姓名：<input type="text" class="validatebox-text validatebox-text-xs" name="name" disabled/>
-                性别：<input type="text" class="validatebox-text validatebox-text-xs" name="sex" disabled/>
-                年龄：<input type="text" class="validatebox-text validatebox-text-xs" name="" disabled/>
+                床号：<input type="text" class="validatebox-text validatebox-text-xs" name="bedNo" id="bedNo" disabled/>
+                病人ID：<input type="text" class="validatebox-text validatebox-text-xs" name="patientId" id="patientId" disabled/>
+                住院号：<input type="text" class="validatebox-text validatebox-text-xs" name="visitId" id="visitId" disabled/>
+                姓名：<input type="text" class="validatebox-text validatebox-text-xs" name="name" id="name" disabled/>
+                性别：<input type="text" class="validatebox-text validatebox-text-xs" name="sex" id="sex" disabled/>
+                年龄：<input type="text" class="validatebox-text validatebox-text-xs" name="" id="" disabled/>
             </div>
             <div>
 
@@ -40,7 +42,7 @@
                 <table cellpadding="0" cellspacing="0" width="100%" class="apply-tab">
                     <tr>
                         <td>术前诊断：</td>
-                        <td colspan="5"><input  name="diagnosis" class="easyui-textbox" ></td>
+                        <td colspan="5"><input  name="diagnosis" class="easyui-textbox" disabled ></td>
                         <td>病情：</td>
                         <td><select name="patientCondition">
                             <option value="1">危重</option>
@@ -51,14 +53,19 @@
                         <td>手术日期时间：</td>
                         <td colspan="2"><input  name="scheduledDateTime" class="easyui-datetimebox" ></td>
                         <td>手术室：</td>
-                        <td colspan="2"><select name="operatingRoom" class="easyui-combobox" >
+                        <td colspan="2">
+                            <select name="operatingRoom" class="easyui-combobox" >
                             <option value="1">手术室组</option>
-                        </select></td>
+                             </select>
+                        </td>
+
                         <td>手术间：</td>
-                        <td><select name="operatingRoomNo" class="easyui-combobox">
+                        <td>
+                            <select name="operatingRoomNo" class="easyui-combobox">
                             <option value="1">1</option>
                             <option value="2">2</option>
-                            </select></td>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>台次：</td>
@@ -162,7 +169,7 @@
                     <Tr>
                         <td>备注：</td>
                         <td colspan="5">
-                            <input  name="state" class="easyui-textbox" >
+                            <input  name="remarks" class="easyui-textbox" >
                         </td>
                         <td>申请医师：</td>
                         <td>
@@ -177,15 +184,12 @@
 
             </div>
 
-
         <input name="id" type="hidden">
-
-<input name="patientId" type="hidden" value="15006135">
+        <input name="scheduleId" type="hidden">
         <input name="visitId" type="hidden" value="1">
     </div>
 </form>
 <div style="text-align: right;">
-    <button class="easy-nbtn easy-nbtn-success btn-newm">增加</button>
     <button class="easy-nbtn easy-nbtn-warning btn-newm">删除</button>
     <button class="easy-nbtn easy-nbtn-info btn-newm" onclick="save();">保存</button>
 </div>
