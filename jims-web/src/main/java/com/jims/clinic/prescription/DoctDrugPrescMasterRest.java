@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -92,5 +93,21 @@ public class DoctDrugPrescMasterRest {
             e.printStackTrace();
         }
         return stringData;
+    }
+
+    @Path("getPrescMaster")
+    @POST
+    public DoctDrugPrescMaster getPrescMaster(String id) {
+        DoctDrugPrescMaster doctDrugPrescMaster = new DoctDrugPrescMaster();
+        try {
+//            doctDrugPrescMaster = doctDrugPrescMasterServiceApi.get(id);
+            //查询该医院下处方的处方号
+            Integer prescNo = doctDrugPrescMasterServiceApi.searchPrescNo(""/*doctDrugPrescMaster.getVisitId()*/);
+            doctDrugPrescMaster.setPrescDate(new Date());
+            doctDrugPrescMaster.setPrescNo(prescNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return doctDrugPrescMaster;
     }
 }

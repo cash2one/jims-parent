@@ -2,15 +2,21 @@ package com.jims.clinic.entity;
 
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 待发药住院处方主记录Entity
  * @author CTQ
  * @version 2016-05-16
  */
-public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster> {
+public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster>  implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String orgId;		// 机构ID
@@ -38,7 +44,7 @@ public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster> {
 	private String enteredBy;		// 确认人代码
 	private Integer prescStatus;		// 处方状态
 	private String dispensingProvider;		// 确认人名称
-	private String usage;		// 说明
+	private String usage;		// 用法
 	private Integer decoction;		// 是否代煎
 	private String doctorUser;		// 医生代码
 	private String newlyPrint;		// 是否重打
@@ -46,13 +52,12 @@ public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster> {
 	private Date verifiedDatetime;		// verified_datetime
 	private String diagnosisName;		// diagnosis_name
 	private String dispensarySub;		// 发药子药局
-	private Date createData;		// 创建时间
-	private Date updateData;		// 更新时间
+	private List<DoctDrugPrescDetail> list;
 
 	//
-	private String bedNo;
-	private String prepayment;
-	private String dianosis;
+	private String bedNo;//床位号
+	private String prepayment;//预交金
+	private String dianosis;//诊断
 	private String bedLabel;
 	private int longTerm;
 	private int tempTerm;
@@ -92,11 +97,11 @@ public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster> {
 		this.visitId = visitId;
 	}
 
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getPrescDate() {
 		return prescDate;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setPrescDate(Date prescDate) {
 		this.prescDate = prescDate;
 	}
@@ -362,24 +367,6 @@ public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster> {
 		this.dispensarySub = dispensarySub;
 	}
 
-
-	public Date getCreateData() {
-		return createData;
-	}
-
-	public void setCreateData(Date createData) {
-		this.createData = createData;
-	}
-
-
-	public Date getUpdateData() {
-		return updateData;
-	}
-
-	public void setUpdateData(Date updateData) {
-		this.updateData = updateData;
-	}
-
 	public String getBedNo() {
 		return bedNo;
 	}
@@ -426,5 +413,13 @@ public class DoctDrugPrescMaster extends DataEntity<DoctDrugPrescMaster> {
 
 	public void setTempTerm(int tempTerm) {
 		this.tempTerm = tempTerm;
+	}
+
+	public List<DoctDrugPrescDetail> getList() {
+		return list;
+	}
+
+	public void setList(List<DoctDrugPrescDetail> list) {
+		this.list = list;
 	}
 }
