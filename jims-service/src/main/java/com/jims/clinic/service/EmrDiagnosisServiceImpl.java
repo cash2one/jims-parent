@@ -48,8 +48,9 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 				EmrDiagnosis diagnosis=emrDiagnosis.get(i);
 				diagnosis.setParentId("0");
 				diagnosis.setInOrOutFlag("0");//门诊
-				return	save(diagnosis);
+				save(diagnosis);
 			}
+			return "1";
 		}
 		return null;
 	}

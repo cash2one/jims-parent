@@ -86,11 +86,11 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
                             scheduledOperationName.setVisitId(operationSchedule.getVisitId());
                             scheduledOperationName.setScheduleId(operationSchedule.getId());
                             scheduledOperationNameDao.insert(scheduledOperationName);
-                            return "1";
+
                         } else {
                             scheduledOperationName.preUpdate();
                             scheduledOperationNameDao.update(scheduledOperationName);
-                            return "1";
+
                         }
                     }
                 }
@@ -151,11 +151,10 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
                             scheduledOperationName.setVisitId(operationSchedule.getVisitId());
                             scheduledOperationName.setScheduleId(operationSchedule.getId());
                             scheduledOperationNameDao.insert(scheduledOperationName);
-                            return "1";
                         } else {
                             scheduledOperationName.preUpdate();
                             scheduledOperationNameDao.update(scheduledOperationName);
-                            return "1";
+
                         }
                     }
                 }
@@ -190,8 +189,8 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @param visitId
      * @return
      */
-    public OperationSchedule getSchedule(String patientId,String visitId){
-        OperationSchedule operationSchedule=operationScheduleDao.getSchedule(patientId,visitId);
+    public OperationSchedule getSchedule(String patientId,String visitId,String clinicId){
+        OperationSchedule operationSchedule=operationScheduleDao.getSchedule(patientId,visitId,clinicId);
         return operationSchedule;
     }
 
@@ -201,9 +200,9 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @param visitId
      * @return
      */
-    public List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId){
-        OperationSchedule operationSchedule=operationScheduleDao.getSchedule(patientId,visitId);
-        List<ScheduledOperationName>  operationNameList= scheduledOperationNameDao.getOperationName(patientId,visitId,clinicId);
+    public List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId,String scheduleId){
+        OperationSchedule operationSchedule=operationScheduleDao.getSchedule(patientId,visitId,clinicId);
+        List<ScheduledOperationName>  operationNameList= scheduledOperationNameDao.getOperationName(patientId,visitId,clinicId,scheduleId);
       return operationNameList;
     }
 

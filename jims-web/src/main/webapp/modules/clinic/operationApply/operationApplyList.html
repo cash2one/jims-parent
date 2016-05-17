@@ -8,19 +8,14 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/clinic/operationApply/js/operationApply.js"></script>
 </head>
-<body onload="onloadMethod()" class="easyui-layout">
+<body  class="easyui-layout">
 <div class="easyui-layout" style="width:100%;height:100%;">
-    <div data-options="region:'east',split:true" style="width:35%;height: 300px;">
-        <table id="list_data" cellspacing="0" cellpadding="0">
-
-        </table>
-    </div>
     <div data-options="region:'center',iconCls:'icon-ok'">
         <form id="operation" method="post">
             <input type="hidden" name="id">
-            <div class="fitem fitem_pop">
+            <div class="fitem fitem_pop" style="width:100%;height: 200px;">
 
-                <table id="operationName"></table>
+                <table id="operationName"  ></table>
             </div>
             <div class="fitem fitem_pop">
                <!-- <label>
@@ -58,8 +53,6 @@
                 </label>
                 <input name="reqDateTime" class="easyui-datetimebox"
                        style="width:30%;"/>
-            </div>
-            <div class="fitem fitem_pop">
                 <label>
                     手术等级：
                 </label>
@@ -153,6 +146,7 @@
                         />
             </div>
             <input type="hidden" name="clinicId" id="clinicId">
+            <input type="hidden" name="inOrOut"  value="0">
 
         </form>
         <div id="dlg-buttons" class="btn-save">

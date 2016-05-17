@@ -63,17 +63,29 @@ public class OperatioinOrderRest {
     }
 
     /**
-     * 通过病人Id拿到手术安排
+     * 通过病人Id拿到手术安排(住院)
      * @param patientId
      * @param visitId
      * @return
      */
-    @Path("getSchedule")
+    @Path("getScheduleIn")
     @POST
-    public OperationSchedule getSchedule(String patientId,String visitId){
-        visitId="1";
-        return operatioinOrderServiceApi.getSchedule(patientId,visitId);
+    public OperationSchedule getScheduleIn(String patientId,String visitId,String clinicId){
+       /* visitId="1";*/
+        return operatioinOrderServiceApi.getSchedule(patientId,visitId,clinicId);
     }
+
+    /**
+     * 通过clinicId拿到手术安排
+     * @param clinicId
+     * @return
+     */
+    @Path("getScheduleOut")
+    @POST
+    public OperationSchedule getScheduleOut(String clinicId){
+        return operatioinOrderServiceApi.getSchedule("","",clinicId);
+    }
+
 
     /**
      * 通过patientId、住院Id拿到手术名称(住院)
@@ -84,18 +96,27 @@ public class OperatioinOrderRest {
      */
     @Path("getOperationName")
     @POST
-    public List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId){
-        patientId ="15006135";
-        visitId="1";
-        OperationSchedule operationSchedule= getSchedule(patientId,visitId);
+    public List<ScheduledOperationName> getOperationNameIn(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId,@QueryParam("clinicId")String clinicId){
+     /*   patientId ="15006135";
+        visitId="1";*/
+        OperationSchedule operationSchedule=new OperationSchedule();
+        if(clinicId!=null && !"".equals(clinicId)){
+             operationSchedule= getScheduleOut(clinicId);
+        }else{
+            operationSchedule= getScheduleIn(patientId, visitId, clinicId);
+        }
         List<ScheduledOperationName> scheduledOperationNames = new ArrayList<ScheduledOperationName>();
         if(operationSchedule!=null){
-            scheduledOperationNames= operatioinOrderServiceApi.getOperationName(patientId, visitId, operationSchedule.getId());
+
+                scheduledOperationNames= operatioinOrderServiceApi.getOperationName(patientId, visitId,clinicId, operationSchedule.getId());
+
+
 
         }
 
         return  scheduledOperationNames;
     }
+
 
     /**
      * 删除手术名称
