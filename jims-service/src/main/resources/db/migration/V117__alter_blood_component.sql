@@ -4,6 +4,6 @@
 /*==============================================================*/
 
 ALTER TABLE BLOOD_COMPONENT ADD CONSTRAINT PK_BLOOD_COMPONENT
-����PRIMARY KEY(ID);
+PRIMARY KEY(ID);
 comment on column BLOOD_COMPONENT.ID
-  is '血液成分字典主键
+  is '血液成分字典主键'
