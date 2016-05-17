@@ -11,6 +11,8 @@ import com.jims.phstock.dao.DrugPriceListDao;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
+import com.jims.phstock.vo.DrugCatalogBeanVo;
+import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -49,7 +51,7 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      */
     @Override
     public List<DrugNameDict> listDrugNameDictByClassCode(String orgId, String classCode) {
-        return dao.listDrugNameDictByClassCode(orgId,classCode);
+        return dao.listDrugNameDictByClassCode(orgId, classCode);
     }
 
     /**
@@ -72,5 +74,37 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      */
     public List<DrugDict> findDrugDict(String orgId){
         return dao.findDrugDict(orgId);
+    }
+    /**
+     * 药品价表保存
+     * @param drugPriceVo 药品价表实体vo
+     * @return
+     * @author txb
+     */
+    @Override
+    public String saveDrugPrice(DrugCatalogChangeVo drugPriceVo) {
+        List<DrugPriceList> insertDicts = drugPriceVo.getInserted();
+        List<DrugPriceList> updateDicts = drugPriceVo.getUpdated();
+        List<DrugPriceList> deleteDicts = drugPriceVo.getDeleted();
+
+        if (insertDicts != null && insertDicts.size() > 0) {
+            for (DrugPriceList drugPriceList : insertDicts) {
+                drugPriceList.preInsert();
+                dao.insert(drugPriceList);
+
+            }
+        }
+        if (updateDicts != null && updateDicts.size() > 0) {
+            for (DrugPriceList drugPriceList : updateDicts) {
+                drugPriceList.preUpdate();
+                dao.update(drugPriceList);
+            }
+        }
+        if (deleteDicts != null && deleteDicts.size() > 0) {
+            for (DrugPriceList drugPriceList : deleteDicts) {
+                dao.delete(drugPriceList);
+            }
+        }
+        return "1";
     }
 }
