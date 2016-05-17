@@ -72,6 +72,17 @@
 	</select>
 
 
+	<select id="getSchedule" resultType="OperationSchedule">
+		select
+		<include refid="operationScheduleColumns"/>
+		from operation_schedule a
+		where patient_id =#{patientId}
+		  <if test="visitId !=null and visitId !=''">
+			  and  a.visit_id =#{visitId}
+		  </if>
+
+	</select>
+
 	<select id="findList" resultType="OperationSchedule">
 		SELECT 
 			<include refid="operationScheduleColumns"/>
@@ -209,12 +220,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE operation_schedule SET 	
-			patient_id = #{patientId},
-			visit_id = #{visitId},
-			clinic_id = #{clinicId},
-			org_id = #{orgId},
-			schedule_id = #{scheduleId},
+		UPDATE operation_schedule SET
 			dept_stayed = #{deptStayed},
 			bed_no = #{bedNo},
 			scheduled_date_time = #{scheduledDateTime},

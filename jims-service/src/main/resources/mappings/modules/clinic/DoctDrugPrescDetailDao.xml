@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.DoctDrugPrescDetailDao">
+    
+	<sql id="doctDrugPrescDetailColumns">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId",
+		a.presc_master_id AS "prescMasterId",
+		a.presc_date AS "prescDate",
+		a.presc_no AS "prescNo",
+		a.item_no AS "itemNo",
+		a.order_no AS "orderNo",
+		a.order_sub_no AS "orderSubNo",
+		a.drug_code AS "drugCode",
+		a.drug_spec AS "drugSpec",
+		a.drug_name AS "drugName",
+		a.firm_id AS "firmId",
+		a.package_spec AS "packageSpec",
+		a.package_units AS "packageUnits",
+		a.quantity AS "quantity",
+		a.dosage AS "dosage",
+		a.dosage_units AS "dosageUnits",
+		a.administration AS "administration",
+		a.costs AS "costs",
+		a.payments AS "payments",
+		a.memo AS "memo",
+		a.amount_per_package AS "amountPerPackage",
+		a.frequency AS "frequency",
+		a.dosage_each AS "dosageEach",
+		a.freq_detail AS "freqDetail",
+		a.batch_no AS "batchNo",
+		a.create_by AS "createBy.id",
+		a.create_data AS "createData",
+		a.update_by AS "updateBy.id",
+		a.update_data AS "updateData",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="doctDrugPrescDetailJoins">
+	</sql>
+    
+	<select id="get" resultType="DoctDrugPrescDetail">
+		SELECT 
+			<include refid="doctDrugPrescDetailColumns"/>
+		FROM doct_drug_presc_detail a
+		<include refid="doctDrugPrescDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DoctDrugPrescDetail">
+		SELECT 
+			<include refid="doctDrugPrescDetailColumns"/>
+		FROM doct_drug_presc_detail a
+		<include refid="doctDrugPrescDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findListByPrescMasterId" resultType="DoctDrugPrescDetail">
+		SELECT
+		<include refid="doctDrugPrescDetailColumns"/>
+		FROM doct_drug_presc_detail a
+		<where>
+			a.del_flag = '1'
+			<if test="prescMasterId!=null and prescMasterId!=''">
+				and a.presc_master_id=#{prescMasterId}
+			</if>
+		</where>
+
+	</select>
+	<select id="findAllList" resultType="DoctDrugPrescDetail">
+		SELECT 
+			<include refid="doctDrugPrescDetailColumns"/>
+		FROM doct_drug_presc_detail a
+		<include refid="doctDrugPrescDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO doct_drug_presc_detail(
+			id,
+			org_id,
+			patient_id,
+			visit_id,
+			presc_master_id,
+			presc_date,
+			presc_no,
+			item_no,
+			order_no,
+			order_sub_no,
+			drug_code,
+			drug_spec,
+			drug_name,
+			firm_id,
+			package_spec,
+			package_units,
+			quantity,
+			dosage,
+			dosage_units,
+			administration,
+			costs,
+			payments,
+			memo,
+			amount_per_package,
+			frequency,
+			dosage_each,
+			freq_detail,
+			batch_no,
+			create_by,
+			create_data,
+			update_by,
+			update_data,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orgId},
+			#{patientId},
+			#{visitId},
+			#{prescMasterId},
+			#{prescDate},
+			#{prescNo},
+			#{itemNo},
+			#{orderNo},
+			#{orderSubNo},
+			#{drugCode},
+			#{drugSpec},
+			#{drugName},
+			#{firmId},
+			#{packageSpec},
+			#{packageUnits},
+			#{quantity},
+			#{dosage},
+			#{dosageUnits},
+			#{administration},
+			#{costs},
+			#{payments},
+			#{memo},
+			#{amountPerPackage},
+			#{frequency},
+			#{dosageEach},
+			#{freqDetail},
+			#{batchNo},
+			#{createBy.id},
+			#{createData},
+			#{updateBy.id},
+			#{updateData},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE doct_drug_presc_detail SET 	
+			org_id = #{orgId},
+			patient_id = #{patientId},
+			visit_id = #{visitId},
+			presc_master_id = #{prescMasterId},
+			presc_date = #{prescDate},
+			presc_no = #{prescNo},
+			item_no = #{itemNo},
+			order_no = #{orderNo},
+			order_sub_no = #{orderSubNo},
+			drug_code = #{drugCode},
+			drug_spec = #{drugSpec},
+			drug_name = #{drugName},
+			firm_id = #{firmId},
+			package_spec = #{packageSpec},
+			package_units = #{packageUnits},
+			quantity = #{quantity},
+			dosage = #{dosage},
+			dosage_units = #{dosageUnits},
+			administration = #{administration},
+			costs = #{costs},
+			payments = #{payments},
+			memo = #{memo},
+			amount_per_package = #{amountPerPackage},
+			frequency = #{frequency},
+			dosage_each = #{dosageEach},
+			freq_detail = #{freqDetail},
+			batch_no = #{batchNo},
+			create_data = #{createData},
+			update_by = #{updateBy.id},
+			update_data = #{updateData},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE doct_drug_presc_detail SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<update id="removeByMasterId">
+		UPDATE doct_drug_presc_detail SET
+			del_flag = '1'
+		<where>
+			del_flag = '0'
+			<if test="prescMasterId!=null and prescMasterId!=''">
+				and presc_master_id=#{prescMasterId}
+			</if>
+		</where>
+	</update>
+	
+</mapper>

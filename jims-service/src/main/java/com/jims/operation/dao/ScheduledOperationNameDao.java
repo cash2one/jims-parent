@@ -7,6 +7,9 @@ package com.jims.operation.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.operation.entity.ScheduledOperationName;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 手术安排名称DAO接口
@@ -15,5 +18,6 @@ import com.jims.operation.entity.ScheduledOperationName;
  */
 @MyBatisDao
 public interface ScheduledOperationNameDao extends CrudDao<ScheduledOperationName> {
-	
+
+   public List<ScheduledOperationName> getOperationName(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param(value = "scheduleId")Integer scheduleId);
 }

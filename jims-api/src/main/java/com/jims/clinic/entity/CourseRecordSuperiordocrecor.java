@@ -68,13 +68,13 @@ public class CourseRecordSuperiordocrecor extends DataEntity<CourseRecordSuperio
 	public void setCourseRecord(CourseRecord courseRecord) {
 		this.courseRecord = courseRecord;
 	}
-
+    @JsonSerialize(using = CustomDateSerializer.class)
 	public Date getLuruShijian() {
 		return luruShijian;
 	}
-
-    public void setLuruShijian(String luruShijian) {
-        this.luruShijian= DateUtils.parseDate(luruShijian);
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
+    public void setLuruShijian(Date luruShijian) {
+        this.luruShijian=luruShijian;
     }
 
 	public String getType() {
