@@ -94,15 +94,16 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                            num = String.valueOf(dao.update(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op,clinicMaster));
                        }else{
+                           Integer prescno = dao.getMaxPrescNo(clinicMaster.getOrgId());
                            /**判断机构下该处方号是否存在，如果存在表示为存在处方增加药品，如果不存在则表示该处方也是新开处方**/
                            Integer flag = dao.searchPrescNoIfExist(/*clinicMaster.getOrgId()*/"","", op.getPrescNo());
                            if(flag<=0 || flag==null){
-                               op.setPrescNo(dao.getMaxPrescNo(clinicMaster.getOrgId()));
+                               op.setPrescNo(prescno!=null?prescno:1);
                            }else{
                               /**如果机构下该处方号存在，则判断是否是当前病人的处方号，如果不是，则重新创建**/
                                flag = dao.searchPrescNoIfExist("",clinicMaster.getId(),op.getPrescNo());
                                if(flag<=0 || flag==null){
-                                   op.setPrescNo(dao.getMaxPrescNo(clinicMaster.getOrgId()));
+                                   op.setPrescNo(prescno!=null?prescno:1);
                                }
                            }
                            op.setSerialNo(IdGen.uuid());

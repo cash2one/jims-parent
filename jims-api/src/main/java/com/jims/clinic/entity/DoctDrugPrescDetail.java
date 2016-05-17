@@ -4,6 +4,7 @@ package com.jims.clinic.entity;
 
 import com.jims.common.persistence.DataEntity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author CTQ
  * @version 2016-05-16
  */
-public class DoctDrugPrescDetail extends DataEntity<DoctDrugPrescDetail> {
+public class DoctDrugPrescDetail extends DataEntity<DoctDrugPrescDetail>  implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private String orgId;		// 机构ID
@@ -41,8 +42,6 @@ public class DoctDrugPrescDetail extends DataEntity<DoctDrugPrescDetail> {
 	private Double dosageEach;		// 单次剂量
 	private String freqDetail;		// 医嘱说明
 	private String batchNo;		// batch_no
-	private Date createData;		// 创建时间
-	private Date updateData;		// 更新时间
 	
 	public DoctDrugPrescDetail() {
 		super();
@@ -293,24 +292,6 @@ public class DoctDrugPrescDetail extends DataEntity<DoctDrugPrescDetail> {
 
 	public void setBatchNo(String batchNo) {
 		this.batchNo = batchNo;
-	}
-
-
-	public Date getCreateData() {
-		return createData;
-	}
-
-	public void setCreateData(Date createData) {
-		this.createData = createData;
-	}
-
-
-	public Date getUpdateData() {
-		return updateData;
-	}
-
-	public void setUpdateData(Date updateData) {
-		this.updateData = updateData;
 	}
 
 }
