@@ -15,6 +15,7 @@ import com.jims.phstock.vo.DrugCatalogBeanVo;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -89,6 +90,10 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
 
         if (insertDicts != null && insertDicts.size() > 0) {
             for (DrugPriceList drugPriceList : insertDicts) {
+//                drugPriceList.setStartDate(drugPriceList.getStartDate());
+                System.out.println(drugPriceList.getStartDate());
+                System.out.println(drugPriceList.getStopDate());
+//                if ()
                 drugPriceList.preInsert();
                 dao.insert(drugPriceList);
 
@@ -96,6 +101,9 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
         }
         if (updateDicts != null && updateDicts.size() > 0) {
             for (DrugPriceList drugPriceList : updateDicts) {
+
+                System.out.println(drugPriceList.getStartDate());
+                System.out.println(drugPriceList.getStopDate());
                 drugPriceList.preUpdate();
                 dao.update(drugPriceList);
             }
