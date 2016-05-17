@@ -1,9 +1,8 @@
 /*==============================================================*/
-/* Table: BLOOD_APPLY    ÓÃÑªÉêÇë                                */
+/* Table: BLOOD_APPLY    ç”³è¯·ç”¨è¡€                                */
 /* CREATE_BY :  zhangpeng                                              */
 /*==============================================================*/
--- Ìí¼ÓÖ÷¼ü
 ALTER TABLE BLOOD_APPLY ADD CONSTRAINT PK_BLOOD_APPLY
-¡¡¡¡PRIMARY KEY(ID);
+PRIMARY KEY(ID);
 comment on column BLOOD_APPLY.ID
-  is 'ÓÃÑªÉêÇëÖ÷¼ü';
+  is 'ç”³è¯·ç”¨è¡€ä¸»é”®';

@@ -1,9 +1,9 @@
 /*==============================================================*/
-/* Table: BLOOD_COMPONENT    ÑªÒº³É·Ö×Öµä                                */
+/* Table: BLOOD_COMPONENT    è¡€æ¶²æˆåˆ†å­—å…¸                               */
 /* CREATE_BY :  zhangpeng                                              */
 /*==============================================================*/
--- Ìí¼ÓÖ÷¼ü
+
 ALTER TABLE BLOOD_COMPONENT ADD CONSTRAINT PK_BLOOD_COMPONENT
-¡¡¡¡PRIMARY KEY(ID);
+PRIMARY KEY(ID);
 comment on column BLOOD_COMPONENT.ID
-  is 'ÑªÒº³É·Ö×ÖµäÖ÷¼ü';
+  is 'è¡€æ¶²æˆåˆ†å­—å…¸ä¸»é”®'
