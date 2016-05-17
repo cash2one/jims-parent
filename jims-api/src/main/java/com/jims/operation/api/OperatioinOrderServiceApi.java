@@ -35,9 +35,27 @@ public interface OperatioinOrderServiceApi {
      * @param visitId
      * @return
      */
-    public int  getScheduleId(String patientId,String visitId);
+     public int  getScheduleId(String patientId,String visitId);
 
+    /**
+     * 通过主表Id拿到手术名称的列表
+     * @param scheduleId
+     * @return
+     */
+     public  List<ScheduledOperationName> getOperationName(String patientId,String visitId,Integer scheduleId);
 
+    /**
+     * 通过病人Id、visitId拿到手术安排
+     * @param patientId
+     * @return
+     */
+     public OperationSchedule getSchedule(String patientId,String visitId);
 
+    /**
+     * 删除手术名称
+     * @param id
+     * @return
+     */
+     public  int deleteOperationName(String id);
 
 }

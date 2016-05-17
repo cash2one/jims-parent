@@ -20,6 +20,8 @@ public class ScheduledOperationName extends DataEntity<ScheduledOperationName> {
 	private String operation;		// 手术
 	private String operationScale;		// 手术等级
 	private String operationCode;		// 手术编码
+	private String patientId;   //病人Id
+	private String visitId;//住院Id
 	
 	public ScheduledOperationName() {
 		super();
@@ -73,5 +75,20 @@ public class ScheduledOperationName extends DataEntity<ScheduledOperationName> {
 	public void setOperationCode(String operationCode) {
 		this.operationCode = operationCode;
 	}
-	
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
+	public String getVisitId() {
+		return visitId;
+	}
+
+	public void setVisitId(String visitId) {
+		this.visitId = visitId;
+	}
 }

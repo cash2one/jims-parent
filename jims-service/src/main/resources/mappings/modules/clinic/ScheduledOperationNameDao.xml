@@ -14,7 +14,9 @@
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		a.create_date AS "createDate"
+		a.create_date AS "createDate",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId"
 	</sql>
 	
 	<sql id="scheduledOperationNameJoins">
@@ -28,21 +30,29 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="ScheduledOperationName">
+	<select id="getOperationName" resultType="ScheduledOperationName">
 		SELECT 
 			<include refid="scheduledOperationNameColumns"/>
 		FROM scheduled_operation_name a
 		<include refid="scheduledOperationNameJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="scheduleId!=null">
-                a.schedule_id = #{scheduleId}
+			a.del_flag = '0'
+			<if test="patientId !=null and patientId !=''">
+              and   a.patient_id = #{patientId}
+			</if>
+			<if test="visitId !=null and visitId !=''">
+              and   a.visit_id = #{visitId}
+			</if>
+				<if test="scheduleId !=null and scheduleId !=''">
+              and   a.schedule_id = #{scheduleId}
 			</if>
 		</where>
 				ORDER BY a.update_date DESC
 
 	</select>
-	
+
+
+
 	<select id="findAllList" resultType="ScheduledOperationName">
 		SELECT 
 			<include refid="scheduledOperationNameColumns"/>
@@ -74,7 +84,9 @@
 			create_by,
 			update_date,
 			del_flag,
-			create_date
+			create_date,
+			patient_id,
+			visit_id
 		) VALUES (
 			#{id},
 			#{scheduleId},
@@ -87,7 +99,9 @@
 			#{createBy.id},
 			#{updateDate},
 			#{delFlag},
-			#{createDate}
+			#{createDate},
+			#{patientId},
+			#{visitId}
 		)
 	</insert>
 	
@@ -104,7 +118,7 @@
 	
 	<update id="delete">
 		UPDATE scheduled_operation_name SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	
