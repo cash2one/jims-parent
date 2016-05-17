@@ -25,7 +25,7 @@ public interface OrdersDao extends CrudDao<Orders> {
      * 获取医嘱最大序号
      * @return
      */
-    public Integer getOrderNo(String patientId,String visitId);
+    public Integer getOrderNo(String patientId,String visitId,String clinicId);
 
     /**
      * 获取子医嘱最大序号

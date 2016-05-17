@@ -26,6 +26,7 @@ public class ExamItems extends DataEntity<ExamItems> {
 	private String explanation;		// 退费说明
 	private String appointsId; //主记录id
 	private String visitId;	//医院id
+	private String patientId;		// 病人标识号
 
 	public String getAppointsId() {
 		return appointsId;
@@ -41,6 +42,14 @@ public class ExamItems extends DataEntity<ExamItems> {
 
 	public ExamItems(String id){
 		super(id);
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
 	}
 
 	public String getVisitId() {
