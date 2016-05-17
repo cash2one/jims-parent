@@ -25,6 +25,7 @@ public class Orders extends DataEntity<Orders> {
 	private static final long serialVersionUID = 1L;
 	private String patientId;		// 病人标识号
 	private String visitId;		// 病人本次住院标识
+	private String clinicId;		//就诊id
 	private String orgId;    //组织机构id
 	private String otherId;		//处方、检查检验等申请表id
 	private int orderNo;		// 医嘱序号
@@ -94,6 +95,14 @@ public class Orders extends DataEntity<Orders> {
 
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
+	}
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
 	}
 
 	public String getOrgId() {
