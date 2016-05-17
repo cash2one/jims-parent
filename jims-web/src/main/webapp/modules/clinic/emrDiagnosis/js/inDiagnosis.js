@@ -84,7 +84,7 @@ loadMenu();
 function loadMenu() {
     var menus = [];//菜单列表
     var menuTreeData = [];//菜单树的列表
-    var menuPromise = $.get(basePath + '/diagnosis/findList', function (data) {
+    var menuPromise = $.get(basePath + '/diagnosis/findListOfIn', function (data) {
         $.each(data, function (index, item) {
             var d = {};
             d.id = item.id;

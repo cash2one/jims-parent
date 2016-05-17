@@ -4,7 +4,9 @@
 package com.jims.patient.entity;
 
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;;
 import org.hibernate.validator.constraints.Length;
@@ -136,7 +138,7 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}

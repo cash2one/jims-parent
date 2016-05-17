@@ -49,6 +49,11 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 	private String orgId;		// 组织机构ID
 	private String clinicId;		// 就诊记录ID
 	private String patientId;		// 病人主表ID
+	/*手术申请的病人列表*/
+	private String name; //病人姓名
+	private String sex;//性别
+	private Date birthDay;//出生日期
+
 	
 	public PatsInHospital() {
 		super();
@@ -301,7 +306,7 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 		this.orgId = orgId;
 	}
 	
-	@Length(min=0, max=6, message="就诊记录ID长度必须介于 0 和 6 之间")
+
 	public String getClinicId() {
 		return clinicId;
 	}
@@ -310,7 +315,7 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 		this.clinicId = clinicId;
 	}
 	
-	@Length(min=0, max=6, message="病人主表ID长度必须介于 0 和 6 之间")
+
 	public String getPatientId() {
 		return patientId;
 	}
@@ -318,5 +323,28 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 	public void setPatientId(String patientId) {
 		this.patientId = patientId;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public Date getBirthDay() {
+		return birthDay;
+	}
+
+	public void setBirthDay(Date birthDay) {
+		this.birthDay = birthDay;
+	}
 }

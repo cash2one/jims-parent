@@ -24,9 +24,8 @@ public class Orders extends DataEntity<Orders> {
 	private String patientId;		// 病人标识号
 	private String visitId;		// 病人本次住院标识
 	private String orgId;    //组织机构id
-	private String clinicId;		//就诊id
-	private Long orderNo;		// 医嘱序号
-	private Long orderSubNo;		// 医嘱子序号
+	private int orderNo;		// 医嘱序号
+	private int orderSubNo;		// 医嘱子序号
 	private String repeatIndicator;		// 长期医嘱标志
 	private String orderClass;		// 医嘱类别
 	private String orderText;		// 医嘱正文
@@ -102,14 +101,6 @@ public class Orders extends DataEntity<Orders> {
 		this.orgId = orgId;
 	}
 
-	public String getClinicId() {
-		return clinicId;
-	}
-
-	public void setClinicId(String clinicId) {
-		this.clinicId = clinicId;
-	}
-
 	@Length(min=0, max=64, message="病人标识号长度必须介于 0 和 64 之间")
 	public String getPatientId() {
 		return patientId;
@@ -127,22 +118,22 @@ public class Orders extends DataEntity<Orders> {
 		this.visitId = visitId;
 	}
 
-	public Long getOrderNo() {
+	public int getOrderNo() {
 		return orderNo;
 	}
 
-	public void setOrderNo(Long orderNo) {
+	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
-	
-	public Long getOrderSubNo() {
+
+	public int getOrderSubNo() {
 		return orderSubNo;
 	}
 
-	public void setOrderSubNo(Long orderSubNo) {
+	public void setOrderSubNo(int orderSubNo) {
 		this.orderSubNo = orderSubNo;
 	}
-	
+
 	@Length(min=0, max=1, message="长期医嘱标志长度必须介于 0 和 1 之间")
 	public String getRepeatIndicator() {
 		return repeatIndicator;

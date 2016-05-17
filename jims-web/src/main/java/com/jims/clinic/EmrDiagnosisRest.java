@@ -31,13 +31,22 @@ public class EmrDiagnosisRest {
     private EmrDiagnosisServiceApi emrDiagnosisServiceApi;
 
 
-    @Path("findList")
+    @Path("findListOfOut")
     @GET
     public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-        List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(new EmrDiagnosis());
+       EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
+        emrDiagnosis.setInOrOutFlag("0");//门诊
+        List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
     }
-
+    @Path("findListOfIn")
+    @GET
+    public  List<EmrDiagnosis> listIn(@Context HttpServletRequest request,@Context HttpServletResponse response){
+        EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
+        emrDiagnosis.setInOrOutFlag("1");//住院
+        List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
+        return page;
+    }
     /**
      * 保存门诊诊断
      * @param emrDiagnosisList

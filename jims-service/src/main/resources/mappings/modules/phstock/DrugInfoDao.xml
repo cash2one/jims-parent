@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugInfoDao">
+
+    <sql id="drugInfoColumns">
+		a.id AS "id",
+		a.drug_code AS "drugCode",
+		a.drug_name AS "drugName",
+		a.drug_e_name AS "drugEName",
+		a.action AS "action",
+		a.indication AS "inDication",
+		a.dosage AS "dosage",
+		a.form AS "form",
+		a.dpharmacokinetics AS "pharmacokinetics",
+		a.adverse_reaction AS "adverseReaction",
+		a.attention AS "attention",
+		a.contraindication AS "contraindication",
+		a.skintest AS "skintest",
+		a.skinTime AS "skinTime",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+
+    <sql id="drugInfoJoins">
+    </sql>
+
+    <select id="getDrugInfoByDrugCode" resultType="DrugInfo">
+        select
+        a.drug_name drugName,
+        a.drug_code,
+        a.drug_form,
+        b.id,
+        b.drug_e_name,
+        b.action,
+        b.dosage,
+        b.form,
+        b.indication,
+        b.pharmacokinetics,
+        b.adverse_reaction,
+        b.attention,
+        b.contraindication,
+        b.skintest,
+        b.skin_time
+        from drug_dict a, drug_info b
+        where a.drug_code = b.drug_code(+) and  a.drug_code = #{drugCode}
+
+    </select>
+
+    <select id="get" resultType="DrugInfo">
+        SELECT
+        <include refid="drugInfoColumns"/>
+        FROM drug_info a
+        <include refid="drugInfoJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+
+    <select id="findList" resultType="DrugInfo">
+        SELECT
+        <include refid="drugInfoColumns"/>
+        FROM drug_info a
+        <include refid="drugInfoJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+    <insert id="insert">
+		INSERT INTO drug_info(
+			id,
+			drug_code,
+			drug_name,
+		    drug_e_name,
+		    action,
+		    indication,
+		    dosage,
+		    form,
+		    pharmacokinetics,
+		    adverse_reaction,
+            attention,
+		    contraindication,
+		    skintest,
+		    skin_time,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{drugCode},
+			#{drugName},
+			#{drugEName},
+			#{action},
+			#{indication},
+			#{dosage},
+			#{form},
+			#{pharmacokinetics},
+			#{adverseReaction},
+			#{attention},
+			#{contraindication},
+			#{skintest},
+			#{skinTime},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+
+    <update id="update">
+		UPDATE drug_info SET
+			drug_code = #{drugCode},
+			drug_name = #{drugName},
+			drug_e_name = #{drugEName},
+			action = #{action},
+			indication = #{indication},
+			dosage = #{dosage},
+			form = #{form},
+			pharmacokinetics = #{pharmacokinetics},
+			adverse_reaction = #{adverseReaction},
+			attention = #{attention},
+			contraindication = #{contraindication},
+			skintest = #{skintest},
+			skin_time = #{skinTime},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+    <update id="delete">
+		UPDATE drug_info SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

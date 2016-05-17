@@ -93,6 +93,9 @@
 			<if test="parentId!=null and parentId!=''">
 				AND a.parent_id=#{parentId}
 			</if>
+			<if test="inOrOutFlag !=null and inOrOutFlag !=null">
+                AND a.INOROUT_FLAG = #{inOrOutFlag}
+			</if>
             <if test="isno==true">
                 AND a.parent_id in (
                 <foreach collection="list" item="item" index="index" separator="," >

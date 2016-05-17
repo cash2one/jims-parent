@@ -21,13 +21,13 @@ $(function(){
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'requestedDateTime', title: '申请日期', width: '30%', align: 'center', formatter: formatDateBoxFull},
+            {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter: formatDateBoxFull},
             {field: 'performedBy', title: '检查科室', width: '25%', align: 'center'},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
             {
                 field: 'id',
                 title: '操作',
-                width: '23%',
+                width: '25%',
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';
@@ -71,7 +71,7 @@ $(function(){
         url: basePath + '/labtest/list',
         columns:[[
             {field:'itemName',title:'项目名称',width:'40%',align:'center'},
-            {field:'itemCode',title:'项目代码',width:'40%',align:'center'},
+            {field:'itemCode',title:'项目代码',width:'35%',align:'center'},
             {field:'price',title:'金额',width:'20%',align:'center'}
         ]],
         frozenColumns:[[
@@ -199,7 +199,7 @@ function loadTreeGrid() {
 }
 //保存
 function save(){
-    formSubmitInput();
+    //formSubmitInput();
     //加载值
     //$("#items").datagrid('endEdit', editRow);
     var  rows=$('#items').datagrid('getRows');
@@ -312,7 +312,7 @@ function formSubmitInput(){
     var newHtml='<input type="hidden" id="visitId" name="visitId" value="'+visitId+'" />'
         +'<input type="hidden" id="orgId"  name="orgId" value="'+orgId+'" />'
         +'<input type="hidden" id="clinicId"  name="clinicId" value="'+clinicId+'" />';
-    $("#"+form).append(newHtml);
+    $("#form").append(newHtml);
 }
 //行删除
 function deleteRow(id) {

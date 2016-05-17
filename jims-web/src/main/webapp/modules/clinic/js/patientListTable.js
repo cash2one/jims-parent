@@ -1,4 +1,4 @@
-function onloadMethod(){
+function onloadMethod(status){
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -9,7 +9,7 @@ function onloadMethod(){
         collapsible:false,//是否可折叠的
         //fit: true,//自动大小
         method:'GET',
-        url:basePath+'/patList/patVistList',
+        url:basePath+'/patList/patVistList?status='+status,
         //sortName: 'code',
         //sortOrder: 'desc',
         remoteSort:false,
@@ -69,13 +69,13 @@ function onloadMethod(){
             handler: function(){
                 $(".datagrid").hide();
                 $("#patientDivId").load("/modules/clinic/patientListView.html",'',function(){
-                    loadPatientListView();
+                    loadPatientListView(status);
                 });
 
             }
         }],
         onDblClickRow: function (rowIndex, rowData) {
-            parent.addTabs(rowData.id,rowData.id,'/modules/clinic/patientHospital.html');
+            parent.addTabs(rowData.name,rowData.name,'/modules/clinic/patientHospital.html');
         },onRowContextMenu: function(e, rowIndex, rowData) { //右键时触发事件
             e.preventDefault(); //阻止浏览器捕获右键事件
             $(this).datagrid("clearSelections"); //取消所有选中项
@@ -107,15 +107,15 @@ function loadTableList(){
 /**
  * 切换图标
  */
-function loadPatientListView(){
+function loadPatientListView(status){
     var listHtml='';
-    $.get(basePath+'/patList/patVistList',function(data){
+    $.get(basePath+'/patList/patVistList?status='+status,function(data){
         if(data!=null&& data.length>0){
             for(var i=0;i<data.length;i++){
               listHtml+='<div class="col-md-3 list-view">\n' +
                         '<div class="iso-thumbnail fd-left">\n'+
                         '<img src="/static/images/index/msex-icon.png" width="34"/>\n'+
-                         '</div>\n'+
+                        '</div>\n'+
                         '<div>\n' +
                         '<strong>'+data[i].name+'</strong></br>\n' +
                         '住院号：'+data[i].inpNo+'\n'+
@@ -123,7 +123,7 @@ function loadPatientListView(){
                         '<div class="docinf_text cusl-info">'+
                         '<ul>'+
                         '<li>床号： --床</li>'+
-                        '<li>年龄：--岁</li>'+
+                        '<li>年龄：'+data[i].age+'岁</li>'+
                         '<li>病情：<span class="bg-color bg-green">普通</span></li>'+
                         '<li>费别：'+data[i].chargeType+'</li>'+
                         '<li>住院天数：'+data[i].inpCount+'</li>'+

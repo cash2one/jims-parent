@@ -18,6 +18,13 @@ public interface DrugInfoApi {
 
     //增删改查
 
+    /**
+     * 保存药品毒理信息
+     * @param drugInfo
+     * @return
+     * @author yangruidong
+     */
+    public String save(DrugInfo drugInfo);
 
 
 }
