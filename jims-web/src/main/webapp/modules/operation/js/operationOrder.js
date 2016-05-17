@@ -26,8 +26,8 @@ $(function(){
             $.ajax({
                 method:"POST",
                 url:basePath+"/operatioinOrder/getScheduleIn",
-                dataType: 'json',
                 contentType: "application/json", //必须有
+                dataType: 'json',
                 data: JSON.stringify({"patientId":row.patientId,"visitId":row.visitId}),
                 success: function(data){
                     $('#operation').form('load',data);
