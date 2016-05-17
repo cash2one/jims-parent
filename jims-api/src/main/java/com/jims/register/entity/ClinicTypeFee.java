@@ -18,6 +18,8 @@ public class ClinicTypeFee extends DataEntity<ClinicTypeFee> {
 	private String chargeItem;		// 费用类型：挂号费、诊疗费、其它费；来自字典表
 	private String priceItem;		// 价表项目
 	private Double price;		// 价格（空，可以用于查询）
+
+	private String itemName;
 	
 	public ClinicTypeFee() {
 		super();
@@ -61,5 +63,12 @@ public class ClinicTypeFee extends DataEntity<ClinicTypeFee> {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
 }

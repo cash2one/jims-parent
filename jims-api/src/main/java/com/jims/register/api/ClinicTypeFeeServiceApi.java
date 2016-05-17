@@ -16,4 +16,18 @@ public interface ClinicTypeFeeServiceApi {
      * @return
      */
     public List<ClinicTypeFee> findList(ClinicTypeFee clinicTypeFee);
+
+    /**
+     * 保存号类
+     * @param clinicTypeFeeList
+     * @return
+     */
+    public String saveList (List<ClinicTypeFee> clinicTypeFeeList,String type,String ClinicTypeId);
+
+    /**
+     * 删除数据
+     * @param id
+     * @return
+     */
+    public String delete(String id);
 }

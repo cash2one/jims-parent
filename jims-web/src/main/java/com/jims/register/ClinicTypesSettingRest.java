@@ -1,16 +1,15 @@
 package com.jims.register;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.StringData;
 import com.jims.register.api.ClinicTypeFeeServiceApi;
 import com.jims.register.api.ClinicTypeSettingServiceApi;
 import com.jims.register.entity.ClinicTypeFee;
 import com.jims.register.entity.ClinicTypeSetting;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,8 +48,37 @@ public class ClinicTypesSettingRest {
     @GET
     public List<ClinicTypeFee> findListItem(@QueryParam("typeId")String typeId){
          ClinicTypeFee clinicTypeFee = new ClinicTypeFee();
-         clinicTypeFee.setTypeId(typeId);
-         List<ClinicTypeFee> list= clinicTypeFeeServiceApi.findList(clinicTypeFee);
+         List<ClinicTypeFee> list = new ArrayList<ClinicTypeFee>();
+        if(typeId!=null && !typeId.equals("")){
+            clinicTypeFee.setTypeId(typeId);
+            list = clinicTypeFeeServiceApi.findList(clinicTypeFee);
+        }
          return list;
+    }
+
+    /**
+     * 保存号类及收费
+     * @param clinicTypeFees
+     * @return
+     */
+    @Path("saveItem")
+    @POST
+    public StringData saveItem(List<ClinicTypeFee> clinicTypeFees,@QueryParam("type")String type,@QueryParam("clinicTypeId")String clinicTypeId){
+        StringData data=new StringData();
+        data.setCode(clinicTypeFeeServiceApi.saveList(clinicTypeFees,type,clinicTypeId));
+        return data;
+    }
+
+    /**
+     * 删除号类子表
+     * @param id
+     * @return
+     */
+    @Path("delete")
+    @POST
+    public StringData delete(String id){
+        StringData data=new StringData();
+        data.setCode(clinicTypeFeeServiceApi.delete(id));
+        return data;
     }
 }

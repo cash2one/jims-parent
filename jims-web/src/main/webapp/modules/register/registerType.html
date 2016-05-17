@@ -24,7 +24,8 @@
     <div data-options="region:'east',iconCls:'icon-ok'"  style="width:75%;">
         <form id="registerTypeForm" method="post">
             <div class="margin10-bot">
-                挂号号类：<input type="text" name="" class="validatebox-text validatebox-text-sm" id="type">
+                挂号号类：<input type="text" name="clinicTypeName" class="validatebox-text validatebox-text-sm" id="type">
+                       <input type="hidden" name="id" id="clinicTypeId">
             </div>
         </form>
         <table id="list_data"   cellspacing="0" cellpadding="0">
