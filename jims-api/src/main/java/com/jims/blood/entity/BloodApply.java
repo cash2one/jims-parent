@@ -55,7 +55,7 @@ public class BloodApply extends DataEntity<BloodApply> {
 	private String shineBlood;		// 辐照血
 	private String preBloodType;		// 预输血型
 	private String orgId;		// 所属结构
-	private List<BloodCapacity> bloodCapacityList=new ArrayList<BloodCapacity>();
+	private List<BloodCapacity> bloodCapacityList;
 	public BloodApply() {
 		super();
 	}
