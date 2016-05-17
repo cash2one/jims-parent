@@ -1,16 +1,10 @@
---drop table ORDERS cascade constraints;
 
-/*==============================================================*/
-/* Table: ORDERS   医嘱						                              */
-/* CREATE_DATE: 2016-05-16 11:52:40                             */
-/* CREATE_BY: CTQ						                                    */
-/*==============================================================*/
 create table ORDERS 
 (
    ID                   VARCHAR2(64)         not null,
    PATIENT_ID           VARCHAR2(64),
    ORG_ID               VARCHAR2(64),
-   OTHER_ID      VARCHAR2(64),
+   CLINIC_ID            VARCHAR2(64),
    VISIT_ID             VARCHAR2(64),
    ORDER_NO             NUMBER(4)            not null,
    ORDER_SUB_NO         NUMBER(2)            not null,
@@ -71,12 +65,21 @@ create table ORDERS
    UPDATE_BY            VARCHAR2(64),
    UPDATE_DATA          TIMESTAMP,
    REMARKS              VARCHAR2(200),
-  DEL_FLAG             char(1) default '0',
+   DEL_FLAG             VARCHAR2(1),
+   DUTY_DOCTOR          varchar2(20),
+   STOP_PROCESSION_NURSE number(8),
+   STOP_PROCESSION_DATE_TIME TIMESTAMP,
+   PROCESSION_NURSE     number(8),
+   PROCESSION_DATE_TIME TIMESTAMP,
+   TIME                 TIMESTAMP,
    constraint PK_ORDERS primary key (ID)
-        );
+         
+);
+
 
 comment on table ORDERS is
 '医嘱';
+
 comment on column ORDERS.ID is
 '主键';
 
@@ -86,8 +89,8 @@ comment on column ORDERS.PATIENT_ID is
 comment on column ORDERS.ORG_ID is
 '机构ID';
 
-comment on column ORDERS.PRESC_MASTER_ID is
-'处方/检查/检验等通用申请表ID';
+comment on column ORDERS.CLINIC_ID is
+'处方检查检验等ID';
 
 comment on column ORDERS.VISIT_ID is
 '住院标识';
@@ -217,3 +220,21 @@ comment on column ORDERS.REMARKS is
 
 comment on column ORDERS.DEL_FLAG is
 '是否删除';
+
+comment on column ORDERS.DUTY_DOCTOR is
+'责任医师';
+
+comment on column ORDERS.STOP_PROCESSION_NURSE is
+'停止医嘱转抄护士';
+
+comment on column ORDERS.STOP_PROCESSION_DATE_TIME is
+'停止医嘱转抄时间';
+
+comment on column ORDERS.PROCESSION_NURSE is
+'转抄护士';
+
+comment on column ORDERS.PROCESSION_DATE_TIME is
+'转抄时间';
+
+comment on column ORDERS.TIME is
+'摆药时，将摆药的截止日期(自动填入)';

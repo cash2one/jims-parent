@@ -4,10 +4,11 @@
     
 	<sql id="ordersColumns">
 		a.id AS "id",
-		a.other_id AS "otherId",
+		a.clinic_id AS "clinicId",
 		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.visit_id AS "visitId",
+		a.clinic_id AS "clinicId",
 		a.order_no AS "orderNo",
 		a.order_sub_no AS "orderSubNo",
 		a.repeat_indicator AS "repeatIndicator",
@@ -116,10 +117,11 @@
 	<insert id="insert">
 		INSERT INTO orders(
 			id,
-			other_id,
+			clinic_id,
 			org_id,
 			patient_id,
 			visit_id,
+			clinic_id,
 			order_no,
 			order_sub_no,
 			repeat_indicator,
@@ -178,9 +180,10 @@
 			remarks
 		) VALUES (
 			#{id},
-			#{otherId},
+			#{clinicId},
 			#{orgId},
 			#{patientId},
+			#{clinicId},
 			#{visitId},
 			#{orderNo},
 			#{orderSubNo},
@@ -309,14 +312,20 @@
 	<update id="deleteOrders">
 		UPDATE orders SET
 			del_flag = '1'
-		WHERE other_id=#{otherId}
+		WHERE clinic_id=#{clinicId}
 
 	</update>
 
-	<select id="getOrderNo" resultType="Orders">
+	<select id="getOrderNo" resultType="java.lang.Integer">
 		SELECT max(order_no) FROM orders
-		WHERE patient_id = #{patientId}
-		AND visit_id=#{visitId}
+		WHERE
+		<if  test="patientId!=null and patientId!='' ">
+			patient_id = #{patientId}
+		</if>
+		<if test="visitId!=null and visitId!='' ">
+			AND visit_id=#{visitId}
+		</if>
+
 	</select>
 	
 </mapper>
