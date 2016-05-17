@@ -60,7 +60,23 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             orders.setVisitId(examAppoints.getVisitId());
             orders.setAppNo(examItems.getId());
             orders.setOrderNo(1234);
-            orders.setOrderClass("1");
+//            if(ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId())!=0){
+//                orders.setOrderNo(ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId())+1);
+                orders.setOrderNo(1);
+                orders.setOrderSubNo(1);
+                orders.setStartDateTime(examAppoints.getReqDateTime());
+                orders.setRepeatIndicator("1"); // 长期医嘱标志
+                orders.setOrderClass("1");//医嘱类型
+                orders.setOrderText(examItems.getExamItem());
+                ordersDao.insert(orders);
+//            }else {
+//                orders.setOrderNo(1);
+//                orders.setStartDateTime(examAppoints.getReqDateTime());
+//                orders.setRepeatIndicator("1"); // 长期医嘱标志
+//                orders.setOrderClass("1");//医嘱类型
+//                orders.setOrderText(examItems.getExamItem());
+//                ordersDao.insert(orders);
+//            }
             orders.setOrderClass("D");
             orders.setOrderText(examItems.getExamItem());
             orders.setOrderCode(examItems.getExamItemCode());

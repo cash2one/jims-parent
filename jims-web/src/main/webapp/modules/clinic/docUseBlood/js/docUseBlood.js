@@ -9,6 +9,7 @@ var serialNo='';
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
 var userBlood = [{"value": "1", "text": "全血"}, {"value": "2", "text": "全血1"}, {"value": "3", "text": "全血2"}, {"value": "4", "text": "全血3"}];
 $(function(){
+    //获取就诊id
     var clinicId= parent.document.getElementById("clinicMasterId").value;
     $("#clinicId").val(clinicId);
     $('#list_doctor').datagrid({
@@ -67,15 +68,16 @@ $(function(){
 
         onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
-        },onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
-            }
-            if (editRow == undefined) {
-                $("#list_doctor").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        },onClickRow:function(rowIndex,rowData){
+        }, onDblClickRow: function (rowIndex, rowData) {
+            $("#list_doctor").datagrid('beginEdit', rowIndex);
+            //if (editRow != undefined) {
+            //    $("#list_doctor").datagrid('endEdit', editRow);
+            //}
+            //if (editRow == undefined) {
+            //
+            //    editRow = rowIndex;
+            //}
+        }, onClickRow: function (rowIndex, rowData) {
             //tooltips选中行，药品价目列表信息
             if (editRow != undefined) {
                 $("#list_doctor").datagrid('endEdit', editRow);
