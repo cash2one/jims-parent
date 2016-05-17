@@ -46,11 +46,7 @@ create table DRUG_BUY_PLAN
   UPDATE_DATE        DATE,
   DEL_FLAG           VARCHAR2(100),
   CREATE_DATE        DATE
-)
-tablespace JIMS_DATA
-  pctfree 10
-  initrans 1
-  maxtrans 255;
+);
 -- Add comments to the table
 comment on table DRUG_BUY_PLAN
   is '药品采购计划表';
@@ -119,16 +115,6 @@ comment on column DRUG_BUY_PLAN.ORG_ID
   is '所属结构';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table DRUG_BUY_PLAN
-  add constraint DRUG_BUY_PLAN_PK primary key (ID)
-  using index
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint DRUG_BUY_PLAN_PK primary key (ID);
 alter table DRUG_BUY_PLAN
-  add constraint DRUG_BUY_PLAN_UK unique (BUY_ID, BUY_NO)
-  using index
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint DRUG_BUY_PLAN_UK unique (BUY_ID, BUY_NO);
