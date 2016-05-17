@@ -8,6 +8,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugStockServiceApi;
 import com.jims.phstock.dao.DrugStockDao;
 import com.jims.phstock.entity.DrugStock;
+import com.jims.phstock.vo.DrugStockAllVo;
 import com.jims.phstock.vo.DrugWorkCount;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,5 +38,21 @@ public class DrugStockService extends CrudImplService<DrugStockDao, DrugStock> i
     public List<DrugWorkCount> getWorkCountBy(String storage, String startTime, String endDate, String orgId) {
         return dao.getWorkCountBy(storage,startTime,endDate,orgId);
     }
+
+
+    /**
+     * 根据进价范围，或者库存单位，查询某一组织机构的库存量
+     * @param storageCode
+     * @param priceMin
+     * @param priceMax
+     * @param orgId
+     * @return
+     * @author ztq
+     */
+    @Override
+    public List<DrugStockAllVo> listDrugStockAllVo(String storageCode, double priceMin, double priceMax, String orgId) {
+        return dao.listDrugStockAllVo(storageCode,priceMin,priceMax,orgId);
+    }
+
 
 }
