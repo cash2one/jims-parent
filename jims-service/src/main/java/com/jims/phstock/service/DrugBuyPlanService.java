@@ -1,5 +1,6 @@
 package com.jims.phstock.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -96,9 +97,31 @@ public class DrugBuyPlanService extends CrudImplService<DrugBuyPlanDao, DrugBuyP
     /**
      * 根据执行标志获取采购单据号
      * @param flag
+     * @param orgId 所属机构ID
      * @return
      */
-    public List<String> getBuyId(String flag,String orgId){
-        return dao.getBuyId(flag,orgId);
+    public List<String[]> getBuyId(String flag,String orgId){
+        return getBuyId(flag,orgId,null);
+    }
+
+    /**
+     * 根据执行标志获取指定采购员的采购单据号
+     * @param flag
+     * @param orgId 所属机构ID
+     * @param buyer 采购员
+     * @return
+     */
+    public List<String[]> getBuyId(String flag,String orgId,String buyer){
+        List<DrugBuyPlan> plans = dao.getBuyId(flag,orgId,buyer);
+        List<String[]> results = new ArrayList<String[]>();
+        if(plans != null && plans.size() > 0){
+            for(DrugBuyPlan o : plans){
+                String[] result = new String[2];
+                result[0] = o.getBuyId();
+                result[1] = o.getFlag().toString();
+                results.add(result);
+            }
+        }
+        return results;
     }
 }
