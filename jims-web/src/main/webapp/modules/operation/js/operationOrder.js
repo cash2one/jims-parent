@@ -12,20 +12,24 @@ $(function(){
         columns: [[      //每个列具体内容
             {field: 'bedNo', title: '床号', width: '50%', align: 'center'},
             {field: 'name', title: '姓名', width: '50%'},
+            {field: 'patientId', title: '病人Id', hidden: 'true'},
+            {field: 'visitId', title: '住院Id', hidden: 'true'},
+            {field: 'sex', title: '性别', hidden: 'true'}
         ]],
         onClickRow: function (index, row) {//单击行事件
-
+            $("#bedNo").val(row.bedNo);
+            $("#name").val(row.name);
+            $("#diagnosis").val(row.diagnosis);
+            $("#patientId").val(row.patientId);
+            $("#visitId").val(row.visitId);
+            $("#sex").val(row.sex);
             $.ajax({
                 method:"POST",
-                url:basePath+"/operatioinOrder/getSchedule",
-                contentType:"application/json",
-                data: patientId= row.patientId ,
+                url:basePath+"/operatioinOrder/getScheduleIn",
+                data: {"patientId":row.patientId,"visitId":row.visitId},
                 dataType: 'json',
                 success: function(data){
                     $('#operation').form('load',data);
-                    $("#bedNo").val(row.bedNo);
-                    $("#name").val(row.name);
-                    $("#diagnosis").val(row.diagnosis);
                 }
             });
 
@@ -34,7 +38,7 @@ $(function(){
                 singleSelect: true,
                 fit: true,
                 method:'POST',
-                url: basePath+'/operatioinOrder/getOperationName',
+                url: basePath+'/operatioinOrder/getOperationName?patientId='+row.patientId+'&visitId='+row.visitId,
                 idField: 'id',
                 columns: [[      //每个列具体内容
                     {field: 'operation', title: '拟实施手术名称', width: '70%', align: 'center', editor:{
@@ -60,22 +64,10 @@ $(function(){
                     text: '添加',
                     iconCls: 'icon-add',
                     handler: function () {
-
-                        $("#operationName").datagrid('endEdit', editRow);
-                        if (editRow != undefined) {
-                            $("#operationName").datagrid("endEdit", editRow);
-                        }
-                        //添加时如果没有正在编辑的行，则在datagrid的第一行插入一行
-                        if (editRow == undefined) {
-                            $("#operationName").datagrid("insertRow", {
-                                index: 0, // index start with 0
-                                row: {}
-                            });
-                            //将新插入的那一行开户编辑状态
-                            $("#operationName").datagrid("beginEdit", 0);
-                            //给当前编辑的行赋值
-                            editRow = 0;
-                        }
+                        $("#operationName").datagrid("insertRow", {
+                            index: 0, // index start with 0
+                            row: {}
+                        });
                     }
                 }, '-', {
                     text: '删除',
@@ -84,7 +76,22 @@ $(function(){
                         doDelete();
                     }
                 }
-                ]
+                ],onAfterEdit: function (rowIndex, rowData, changes) {
+                    editRow = undefined;
+                },onDblClickRow:function (rowIndex, rowData) {
+                    if (editRow != undefined) {
+                        $("#operationName").datagrid('endEdit', editRow);
+                    }
+                    if (editRow == undefined) {
+                        $("#operationName").datagrid('beginEdit', rowIndex);
+                        editRow = rowIndex;
+                    }
+                },onClickRow:function(rowIndex,rowData){
+                    if (editRow != undefined) {
+                        $("#operationName").datagrid('endEdit', editRow);
+                    }
+
+                }
             });
 
 
@@ -101,7 +108,7 @@ function save(){
     formJson = formJson.substring(0, formJson.length - 1);
     var tableJson=JSON.stringify(rows);
     var submitJson=formJson+",\"scheduledOperationNameList\":"+tableJson+"}";
-    $.postJSON(basePath+'/operatioinOrder/save',submitJson,function(data){
+    $.postJSON(basePath+'/operatioinOrder/saveIn',submitJson,function(data){
         if(data=="1"){
             $.messager.alert("提示消息",data+"条记录，保存成功");
             $('#operationName').datagrid('load');
@@ -133,26 +140,31 @@ function doDelete(){
                 strIds += selectRows[i].id + ",";
             }
             strIds = strIds.substr(0, strIds.length - 1);
-            //真删除数据
-            $.ajax({
-                'type': 'POST',
-                'url': basePath+'/operatioinOrder/delete',
-                'contentType': 'application/json',
-                'data': id=strIds,
-                'dataType': 'json',
-                'success': function(data){
-                    if(data==1){
-                        $.messager.alert("提示消息",data+"条记录删除成功！");
-                        $('#operationName').datagrid('load');
-                        $('#operationName').datagrid('clearChecked');
-                    }else{
-                        $.messager.alert('提示',"删除失败", "error");
+            if(strIds=='undefined'|| strIds==''){
+                var index1= $('#operationName').datagrid('getRowIndex', $("#operationName").datagrid('getSelected'))
+                $('#operationName').datagrid('deleteRow',index1);
+            }else {
+                //真删除数据
+                $.ajax({
+                    'type': 'POST',
+                    'url': basePath + '/operatioinOrder/delete',
+                    'contentType': 'application/json',
+                    'data': id = strIds,
+                    'dataType': 'json',
+                    'success': function (data) {
+                        if (data == 1) {
+                            $.messager.alert("提示消息", data + "条记录删除成功！");
+                            $('#operationName').datagrid('load');
+                            $('#operationName').datagrid('clearChecked');
+                        } else {
+                            $.messager.alert('提示', "删除失败", "error");
+                        }
+                    },
+                    'error': function (data) {
+                        $.messager.alert('提示', "删除失败", "error");
                     }
-                },
-                'error': function(data){
-                    $.messager.alert('提示',"删除失败", "error");
-                }
-            });
+                });
+            }
         }
     })
 }

@@ -30,6 +30,6 @@ public interface OperationScheduleDao extends CrudDao<OperationSchedule> {
      * @param visitId
      * @return
      */
-    public OperationSchedule getSchedule(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId);
+    public OperationSchedule getSchedule(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param("clinicId")String clinicId);
 	
 }

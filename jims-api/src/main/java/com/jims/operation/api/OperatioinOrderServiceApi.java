@@ -50,14 +50,14 @@ public interface OperatioinOrderServiceApi {
      * @param clinicId
      * @return
      */
-     public  List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId);
+     public  List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId,String scheduleId);
 
     /**
      * 通过病人Id、visitId拿到手术安排
      * @param patientId
      * @return
      */
-     public OperationSchedule getSchedule(String patientId,String visitId);
+     public OperationSchedule getSchedule(String patientId,String visitId,String clinicId);
 
     /**
      * 删除手术名称

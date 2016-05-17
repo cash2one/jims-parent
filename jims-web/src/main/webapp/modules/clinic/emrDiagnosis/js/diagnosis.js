@@ -1,8 +1,6 @@
 var administration = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
 var editRow = undefined;
 $(function(){
-
-
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
@@ -54,28 +52,14 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
-                $("#zhenduan").datagrid('endEdit', editRow);
-                if (editRow != undefined) {
-                    $("#zhenduan").datagrid("endEdit", editRow);
-                }
-                //添加时如果没有正在编辑的行，则在datagrid的第一行插入一行
-                if (editRow == undefined) {
+
                     $("#zhenduan").datagrid("insertRow", {
                         index: 0, // index start with 0
                         row: {
 
                         }
                     });
-                    //将新插入的那一行开户编辑状态
-                    $("#zhenduan").datagrid("beginEdit", 0);
-                    //给当前编辑的行赋值
-                    editRow = 0;
-                 }
-                  /*  $("#zhenduan").datagrid('insertRow', {
-                        index:0,
 
-                        row:{}
-                    });*/
             }
         }, '-',{
             text: '删除',
