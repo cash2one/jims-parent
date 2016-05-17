@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>药品采购计划审核</title>
+    <title>药品采购计划执行</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
@@ -15,9 +15,8 @@
     <label for="temporaryNo">采购单据号:</label>
     <input id="temporaryNo">
     &nbsp;&nbsp;
-    <a href="#" id="addButton"></a>
-    <a href="#" id="delButton"></a>
     <a href="#" id="saveButton"></a>
+    <a href="#" id="saveAndInStockButton"></a>
     <a href="#" id="flushButton"></a>
     <a href="#" id="closeButton"></a>
 </div>
@@ -25,26 +24,6 @@
     <table id="drugPriceTable"></table>
 </div>
 <script>
-    $.extend($.fn.datagrid.methods, {
-        editCell: function(jq,param){
-            return jq.each(function(){
-                var opts = $(this).datagrid('options');
-                var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
-                for(var i=0; i<fields.length; i++){
-                    var col = $(this).datagrid('getColumnOption', fields[i]);
-                    col.editor1 = col.editor;
-                    if (fields[i] != param.field){
-                        col.editor = null;
-                    }
-                }
-                $(this).datagrid('beginEdit', param.index);
-                for(var i=0; i<fields.length; i++){
-                    var col = $(this).datagrid('getColumnOption', fields[i]);
-                    col.editor = col.editor1;
-                }
-            });
-        }
-    });
     $.extend({
         ajaxAsync : function(url,data,callback,type,async){
             return $.ajax({
@@ -58,6 +37,6 @@
         }
     })
 </script>
-<script src="js/drug-buy-plan-audit.js"></script>
+<script src="js/drug-buy-plan-execute.js"></script>
 </body>
 </html>
