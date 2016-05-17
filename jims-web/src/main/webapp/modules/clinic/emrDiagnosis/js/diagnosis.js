@@ -1,6 +1,8 @@
 var administration = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
 var editRow = undefined;
+
 $(function(){
+    var cId=$("#zhenduan",parent.document).val();
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
@@ -19,7 +21,6 @@ $(function(){
                      textField:'text',
                      required:true
                  }
-
              }
              },
             {field:'diagnosisId',title:'诊断名称',width:'30%',align:'center',editor:{
@@ -36,14 +37,12 @@ $(function(){
                     }
                 }
             }},
-
             {field:'description',title:'诊断时间',width:'30%',align:'center',editor:{type: 'datebox'}
             },
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
                 formatter:function(value, row, index){
                   return "李俊山";
             }}
-
         ]],
       /*  frozenColumns:[[
             {field:'ck',checkbox:true}
@@ -111,8 +110,6 @@ $(function(){
 function save(){
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
-
-
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
