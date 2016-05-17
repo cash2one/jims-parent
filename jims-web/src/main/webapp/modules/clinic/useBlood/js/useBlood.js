@@ -9,8 +9,8 @@ var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
 $(function () {
     //获取住院id
-    var visitId= parent.document.getElementById("clinicMasterId").value;
-    $("#visitId").val(visitId);
+    //var visitId= parent.document.getElementById("clinicMasterId").value;
+    //$("#visitId").val(visitId);
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,

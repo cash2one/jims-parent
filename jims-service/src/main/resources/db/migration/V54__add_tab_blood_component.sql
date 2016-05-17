@@ -39,10 +39,6 @@ comment on column BLOOD_COMPONENT.SORT_NUM
   is '排序序号';
 comment on column BLOOD_COMPONENT.ID
   is '主键';
--- Create/Recreate primary, unique and foreign key constraints 
-alter table BLOOD_COMPONENT
-  add constraint BLOOD_COMPONENT_PK primary key (ID);
-
 --血液要求字典表 应为平台级别数据，不需区分组织机构，维护界面应该在血库管理此程序中记性维护
 insert into blood_component (id,blood_type,blood_type_name,blood_match,useful_life,temperature,unit,stop_date,sort_num) values (sys_guid(),'QXRHYX','全血Rh(-)','1','35','4-6℃贮存','U','',16);
 insert into blood_component (id,blood_type,blood_type_name,blood_match,useful_life,temperature,unit,stop_date,sort_num) values (sys_guid(),'QX','全血','1','35','4±2℃贮存','ml','',1);
