@@ -25,7 +25,6 @@ public class Orders extends DataEntity<Orders> {
 	private static final long serialVersionUID = 1L;
 	private String patientId;		// 病人标识号
 	private String visitId;		// 病人本次住院标识
-	private String clinicId;		//就诊id
 	private String orgId;    //组织机构id
 	private String clinicId;		//处方、检查检验等申请表id
 	private int orderNo;		// 医嘱序号
@@ -113,13 +112,6 @@ public class Orders extends DataEntity<Orders> {
 		this.orgId = orgId;
 	}
 
-	public String getClinicId() {
-		return clinicId;
-	}
-
-	public void setClinicId(String clinicId) {
-		this.clinicId = clinicId;
-	}
 
 	@Length(min=0, max=64, message="病人标识号长度必须介于 0 和 64 之间")
 	public String getPatientId() {
