@@ -4,6 +4,7 @@
     
 	<sql id="ordersColumns">
 		a.id AS "id",
+		a.other_id AS "otherId",
 		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.visit_id AS "visitId",
@@ -115,6 +116,7 @@
 	<insert id="insert">
 		INSERT INTO orders(
 			id,
+			other_id,
 			org_id,
 			patient_id,
 			visit_id,
@@ -176,6 +178,7 @@
 			remarks
 		) VALUES (
 			#{id},
+			#{otherId},
 			#{orgId},
 			#{patientId},
 			#{visitId},
@@ -241,6 +244,7 @@
 	<update id="update">
 		UPDATE orders SET 	
 			patient_id = #{patientId},
+			visit_id = #{visitId},
 			order_no = #{orderNo},
 			order_sub_no = #{orderSubNo},
 			repeat_indicator = #{repeatIndicator},
@@ -304,8 +308,8 @@
 	</update>
 	<update id="deleteOrders">
 		UPDATE orders SET
-			del_flag = #{DEL_FLAG_DELETE}
-		WHERE clinic_id=#{clinicId}
+			del_flag = '1'
+		WHERE other_id=#{otherId}
 
 	</update>
 
@@ -314,9 +318,5 @@
 		WHERE patient_id = #{patientId}
 		AND visit_id=#{visitId}
 	</select>
-
-	<select id="creatTestNo">
-		select max(order_no) from orders
-		WHERE patient_id = #{patientId} and visit_id = #{visitId}
-	</select>
+	
 </mapper>
