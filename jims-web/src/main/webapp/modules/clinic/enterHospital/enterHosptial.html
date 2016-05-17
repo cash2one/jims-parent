@@ -99,11 +99,11 @@
 
             <div class="padding10">
                 <div>
-                    T：<input type="text" class="easyui-validatebox" data-options="required:'true',validType:'intOrFloat'" name="tiwen" id="tiwen" style="width: 10%;"/>°C
+                    T：<input type="text" class="easyui-validatebox" data-options="validType:'intOrFloat'" name="tiwen" id="tiwen" style="width: 10%;"/>°C
                     &nbsp;
-                    P：<input type="text" class="easyui-validatebox" data-options="required:'true',validType:'intOrFloat'" name="maibo" id="maibo" style="width: 10%;"/>次/分&nbsp;
-                    R：<input type="text" class="easyui-validatebox" data-options="required:'true',validType:'intOrFloat'" name="huxi" id="huxi" style="width: 10%;"/>次/分&nbsp;
-                    BP：<input type="text" class="easyui-validatebox"  data-options="required:'true',"  name="xueya" id="xueya" style="width: 10%;" />mmHg
+                    P：<input type="text" class="easyui-validatebox" data-options="validType:'intOrFloat'" name="maibo" id="maibo" style="width: 10%;"/>次/分&nbsp;
+                    R：<input type="text" class="easyui-validatebox" data-options="validType:'intOrFloat'" name="huxi" id="huxi" style="width: 10%;"/>次/分&nbsp;
+                    BP：<input type="text" class="easyui-validatebox"    name="xueya" id="xueya" style="width: 10%;" />mmHg
                 </div>
                 <div class="row-fluid clearfix goh-sign">
                     <div class="detail-wrapp">
@@ -136,12 +136,12 @@
                           </div>-->
 
 
-                    <div class="detail-wrapp">
+                  <!--  <div class="detail-wrapp">
                         <div class="sub_title_em">诊断</div>
-                        <table id="zheduan">
+                        <table id="zheduan" style="height: 100px;width: 100%">
 
                         </table>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -149,12 +149,14 @@
 
     </div>
     </div>
-    <input name="clinicId" type="hidden" value="15001159">
+  <!--  <input name="clinicId" type="hidden" value="15001159">-->
   <input name="zhuyuanId" type="hidden" value="10d4d1beef2b519cacfe806e96117ae8">
-    <input name="patientId" type="hidden" value="10d4d1beef5b419cacfe806e96117ae8">
+    <input name="patientId" id="patientId" type="hidden" >
     <input name="id" id="id" type="hidden">
 </form>
-
+<div class="form-btn">
+    <button id="saveBtn"  class="save-btn" onclick="save();">保&nbsp;存</button>
+</div>
 
 
 </body>

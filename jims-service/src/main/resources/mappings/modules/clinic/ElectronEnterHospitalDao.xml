@@ -215,7 +215,7 @@
 		<include refid="electronEnterHospitalColumns"/>
 		FROM electron_enter_hospital a
 		<where>
-           a.zhuyuan_id=#{patVisitId}
+           a.patient_id=#{patVisitId}
 		</where>
 	</select>
 </mapper>

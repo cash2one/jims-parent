@@ -9,6 +9,8 @@ import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,8 +29,14 @@ public class PatVisitServiceImpl extends CrudImplService<PatVisitDao,PatVisit> i
      * @author zhaoning
      */
     @Override
-    public List<PatientListDto> getPatientList(String deptCode) {
-        return patVisitDao.getPatientListInHos(deptCode);
+    public List<PatientListDto> getPatientList(String deptCode,String status) {
+        List<PatientListDto> list= new ArrayList<PatientListDto>();
+        if(status!=null && status.equals("0")){
+            list=patVisitDao.getPatientListInHos(deptCode);
+        }else if(status!=null && status.equals("1")){
+            list=patVisitDao.getPatientListOutHos(deptCode);
+        }
+        return list;
     }
 
     /**

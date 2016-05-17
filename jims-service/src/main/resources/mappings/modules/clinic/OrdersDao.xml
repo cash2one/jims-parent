@@ -244,7 +244,6 @@
 	<update id="update">
 		UPDATE orders SET 	
 			patient_id = #{patientId},
-			visit_id = #{visitId},
 			order_no = #{orderNo},
 			order_sub_no = #{orderSubNo},
 			repeat_indicator = #{repeatIndicator},
@@ -318,5 +317,9 @@
 		WHERE patient_id = #{patientId}
 		AND visit_id=#{visitId}
 	</select>
-	
+
+	<select id="creatTestNo">
+		select max(order_no) from orders
+		WHERE patient_id = #{patientId} and visit_id = #{visitId}
+	</select>
 </mapper>

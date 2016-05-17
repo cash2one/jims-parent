@@ -90,7 +90,7 @@ public class CourseRecordEachdis extends DataEntity<CourseRecordEachdis> {
         return luruShijian;
     }
     @JsonDeserialize(using = CustomDateDeSerializer.class)
-    public void setLuruShijian(String luruShijian) {
-        this.luruShijian= DateUtils.parseDate(luruShijian);
+    public void setLuruShijian(Date luruShijian) {
+        this.luruShijian=luruShijian;
     }
 }
