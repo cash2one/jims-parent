@@ -1,7 +1,11 @@
 package com.jims.clinic.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
 import com.jims.common.utils.DateUtils;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -131,13 +135,13 @@ public class CourseRecordStage extends DataEntity<CourseRecordStage> {
         this.setBingchengId = setBingchengId;
     }
 
-
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getLuruShijian() {
         return luruShijian;
     }
-
-    public void setLuruShijian(String luruShijian) {
-        this.luruShijian=DateUtils.parseDate(luruShijian);
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
+    public void setLuruShijian(Date luruShijian) {
+        this.luruShijian=luruShijian;
     }
 
     public String getType() {
