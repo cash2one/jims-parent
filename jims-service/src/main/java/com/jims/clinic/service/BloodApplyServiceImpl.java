@@ -50,24 +50,47 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
             bloodCapacityDao.insert(bloodCapacity);
             Orders orders = new Orders();
             orders.setOrderSubNo(i + 1);
-            
             orders.preInsert();
-            if (ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId()) != null) {
-                orders.setOrderNo(ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId()));
-                orders.setStartDateTime(bloodApply.getApplyDate());
-                orders.setRepeatIndicator("1"); // 长期医嘱标志
-                orders.setOrderClass("1");//医嘱类型
-                orders.setOrderText(bloodCapacity.getBloodType());//申请用血成分
-                ordersDao.insert(orders);
+            if (bloodApply.getVisitId() != null) {
+                if (ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId()) != null) {
+                    orders.setOrderNo(ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId()));
+                    orders.setPatientId(bloodApply.getPatientId());
+                    orders.setVisitId(bloodApply.getVisitId());
+                    orders.setStartDateTime(bloodApply.getApplyDate());
+                    orders.setRepeatIndicator("1"); // 长期医嘱标志
+                    orders.setOrderClass("1");//医嘱类型
+                    orders.setOrderText(bloodCapacity.getBloodType());//申请用血成分
+                    ordersDao.insert(orders);
+                } else {
+                    orders.setOrderNo(ordersDao.getOrderNo(orders.getPatientId(), orders.getVisitId()) + 1);
+                    orders.setPatientId(bloodApply.getPatientId());
+                    orders.setVisitId(bloodApply.getVisitId());
+                    orders.setStartDateTime(bloodApply.getApplyDate());
+                    orders.setRepeatIndicator("1"); // 长期医嘱标志
+                    orders.setOrderClass("1");//医嘱类型
+                    orders.setOrderText(bloodCapacity.getBloodType());//申请用血成分
+                    ordersDao.insert(orders);
+                }
             } else {
-                orders.setOrderNo(ordersDao.getOrderNo(orders.getPatientId(), orders.getVisitId())+ 1 );
-                orders.setPatientId(bloodApply.getPatientId());
-                orders.setVisitId(bloodApply.getVisitId());
-                orders.setStartDateTime(bloodApply.getApplyDate());
-                orders.setRepeatIndicator("1"); // 长期医嘱标志
-                orders.setOrderClass("1");//医嘱类型
-                orders.setOrderText(bloodCapacity.getBloodType());//申请用血成分
-                ordersDao.insert(orders);
+                if (ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId()) != null) {
+                    orders.setOrderNo(ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId()));
+                    orders.setPatientId(bloodApply.getPatientId());
+                    orders.setVisitId(bloodApply.getVisitId());
+                    orders.setStartDateTime(bloodApply.getApplyDate());
+                    orders.setRepeatIndicator("1"); // 长期医嘱标志
+                    orders.setOrderClass("1");//医嘱类型
+                    orders.setOrderText(bloodCapacity.getBloodType());//申请用血成分
+                    ordersDao.insert(orders);
+                } else {
+                    orders.setOrderNo(ordersDao.getOrderNo(orders.getPatientId(), orders.getVisitId()) + 1);
+                    orders.setPatientId(bloodApply.getPatientId());
+                    orders.setVisitId(bloodApply.getVisitId());
+                    orders.setStartDateTime(bloodApply.getApplyDate());
+                    orders.setRepeatIndicator("1"); // 长期医嘱标志
+                    orders.setOrderClass("1");//医嘱类型
+                    orders.setOrderText(bloodCapacity.getBloodType());//申请用血成分
+                    ordersDao.insert(orders);
+                }
             }
         }
         return strState;
