@@ -6,7 +6,8 @@
 create table PATS_IN_HOSPITAL
 (
   ID                     VARCHAR2(64 CHAR) not null,
-  HOSID                  VARCHAR2(64 CHAR),
+  ORG_ID                  VARCHAR2(64 CHAR),
+  PATIENT_ID VARCHAR2(64),
   VISIT_ID               NUMBER(2),
   WARD_CODE              VARCHAR2(10 CHAR),
   DEPT_CODE              VARCHAR2(10 CHAR),
@@ -33,6 +34,12 @@ create table PATS_IN_HOSPITAL
   DEPT_CODE_LEND         VARCHAR2(10 CHAR),
   LEND_INDICATOR         NUMBER(1),
   IS_NEWBORN             NUMBER(1),
+   CREATE_BY            VARCHAR2(64),
+   CREATE_DATE          TIMESTAMP,
+   UPDATE_BY            VARCHAR2(64),
+   UPDATE_DATE          TIMESTAMP,
+   REMARKS              VARCHAR2(225 CHAR),
+   DEL_FLAG             CHAR(1),
   constraint PK_PATS_IN_HOSPITAL primary key (ID)
 );
 -- Add comments to the table 
@@ -41,7 +48,7 @@ comment on table PATS_IN_HOSPITAL
 -- Add comments to the columns 
 comment on column PATS_IN_HOSPITAL.ID
   is '病人标识号';
-comment on column PATS_IN_HOSPITAL.HOSID
+comment on column PATS_IN_HOSPITAL.ORG_ID
   is '医院ID';
 comment on column PATS_IN_HOSPITAL.VISIT_ID
   is '病人本次住院标识';
@@ -83,3 +90,4 @@ comment on column PATS_IN_HOSPITAL.BILL_CHECKED_DATE_TIME
   is '上次划价检查日期';
 comment on column PATS_IN_HOSPITAL.SETTLED_INDICATOR
   is '出院结算标记';
+  INSERT INTO "PATS_IN_HOSPITAL" ("ID", "ORG_ID", "VISIT_ID", "WARD_CODE", "DEPT_CODE", "BED_NO", "ADMISSION_DATE_TIME", "ADM_WARD_DATE_TIME", "DIAGNOSIS", "PATIENT_CONDITION", "NURSING_CLASS", "DOCTOR_IN_CHARGE", "OPERATING_DATE", "BILLING_DATE_TIME", "PREPAYMENTS", "TOTAL_COSTS", "TOTAL_CHARGES", "GUARANTOR", "GUARANTOR_ORG", "GUARANTOR_PHONE_NUM", "BILL_CHECKED_DATE_TIME", "SETTLED_INDICATOR", "LEND_BED_NO", "BED_DEPT_CODE", "BED_WARD_CODE", "DEPT_CODE_LEND", "LEND_INDICATOR", "IS_NEWBORN", "PATIENT_ID","DEL_FLAG") VALUES ('1', NULL, 1, '161101', '140102', 38, TO_TIMESTAMP(' 2010-10-01 1:5:2:000000', 'yyyy-mm-dd hh24:mi:ss:ff'), TO_TIMESTAMP(' 2010-10-01:0:3:000000', 'yyyy-mm-dd hh24:mi:ss:ff'), '精神分裂症', '3', '2', '000TYW', NULL, TO_TIMESTAMP(' 2016-01-02 2:3:0:000000', 'yyyy-mm-dd hh24:mi:ss:ff'), 5000, 8135.1420, 8135.1420, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, NULL,'15006135','0');
