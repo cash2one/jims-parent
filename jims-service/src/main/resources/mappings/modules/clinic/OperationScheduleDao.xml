@@ -257,8 +257,7 @@
 			oper_status = #{operStatus},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate},
-			in_or_out = #{inOrOut}
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

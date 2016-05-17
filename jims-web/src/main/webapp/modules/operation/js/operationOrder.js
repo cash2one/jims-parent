@@ -2,7 +2,6 @@ var editRow = undefined;
 
 $(function(){
     var deptCode=$("#deptCode").val();
-    alert("deptCode="+deptCode);
     //病人列表
     $('#patient').datagrid({
         singleSelect: true,

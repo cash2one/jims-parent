@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,14 +41,25 @@ public class OperatioinOrderRest {
     }
 
     /**
-     * 保存手术名称 手术安排
+     * 保存手术名称 手术安排（住院）
      * @param operationSchedule
      * @return
      */
-    @Path("save")
+    @Path("saveIn")
     @POST
     public String save(OperationSchedule operationSchedule){
-      return   operatioinOrderServiceApi.saveOperation(operationSchedule);
+      return   operatioinOrderServiceApi.saveOperationIn(operationSchedule);
+    }
+
+    /**
+     * 保存手术名称 手术安排（门诊）
+     * @param operationSchedule
+     * @return
+     */
+    @Path("saveOut")
+    @POST
+    public String saveOut(OperationSchedule operationSchedule){
+     return  operatioinOrderServiceApi.saveOperationOut(operationSchedule);
     }
 
     /**
@@ -64,18 +76,24 @@ public class OperatioinOrderRest {
     }
 
     /**
-     * 通过patientId、住院Id拿到手术名称
+     * 通过patientId、住院Id拿到手术名称(住院)
+     * 通过clinicId 拿到手术名称（门诊）
      * @param patientId
      * @param visitId
      * @return
      */
     @Path("getOperationName")
     @POST
-    public List<ScheduledOperationName> getOperationName(String patientId,String visitId){
+    public List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId){
         patientId ="15006135";
         visitId="1";
         OperationSchedule operationSchedule= getSchedule(patientId,visitId);
-        List<ScheduledOperationName> scheduledOperationNames= operatioinOrderServiceApi.getOperationName(patientId, visitId, operationSchedule.getScheduleId());
+        List<ScheduledOperationName> scheduledOperationNames = new ArrayList<ScheduledOperationName>();
+        if(operationSchedule!=null){
+            scheduledOperationNames= operatioinOrderServiceApi.getOperationName(patientId, visitId, operationSchedule.getId());
+
+        }
+
         return  scheduledOperationNames;
     }
 
