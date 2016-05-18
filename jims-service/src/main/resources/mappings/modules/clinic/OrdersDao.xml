@@ -8,7 +8,6 @@
 		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.visit_id AS "visitId",
-		a.clinic_id AS "clinicId",
 		a.order_no AS "orderNo",
 		a.order_sub_no AS "orderSubNo",
 		a.repeat_indicator AS "repeatIndicator",
@@ -121,7 +120,6 @@
 			org_id,
 			patient_id,
 			visit_id,
-			clinic_id,
 			order_no,
 			order_sub_no,
 			repeat_indicator,
@@ -183,7 +181,6 @@
 			#{clinicId},
 			#{orgId},
 			#{patientId},
-			#{clinicId},
 			#{visitId},
 			#{orderNo},
 			#{orderSubNo},
@@ -324,6 +321,9 @@
 		</if>
 		<if test="visitId!=null and visitId!='' ">
 			AND visit_id=#{visitId}
+		</if>
+		<if test="clinicId!=null and clinicId!='' ">
+			AND clinic_id=#{clinicId}
 		</if>
 
 	</select>

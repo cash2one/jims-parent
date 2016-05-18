@@ -19,12 +19,10 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 public class ExamSubclassDict extends DataEntity<ExamSubclassDict> {
 	
 	private static final long serialVersionUID = 1L;
-	private Long serialNo;		// 序号
 	private String examClassName;		// 检查类别名称
 	private String examSubclassName;		// 检查子类名称
 	private String inputCode;		// 输入码
 	private String craeteBy;		// 创建人
-	private Date craeteDate;		// 创建时间
     private String orgId;//机构id
 
 	public ExamSubclassDict() {
@@ -35,14 +33,6 @@ public class ExamSubclassDict extends DataEntity<ExamSubclassDict> {
 		super(id);
 	}
 
-	public Long getSerialNo() {
-		return serialNo;
-	}
-
-	public void setSerialNo(Long serialNo) {
-		this.serialNo = serialNo;
-	}
-	
 	@Length(min=0, max=20, message="检查类别名称长度必须介于 0 和 20 之间")
 	public String getExamClassName() {
 		return examClassName;
@@ -77,15 +67,6 @@ public class ExamSubclassDict extends DataEntity<ExamSubclassDict> {
 
 	public void setCraeteBy(String craeteBy) {
 		this.craeteBy = craeteBy;
-	}
-	
-	@JsonSerialize(using = CustomDateSerializer.class)
-	public Date getCraeteDate() {
-		return craeteDate;
-	}
-
-	public void setCraeteDate(Date craeteDate) {
-		this.craeteDate = craeteDate;
 	}
 
     public String getOrgId() {
