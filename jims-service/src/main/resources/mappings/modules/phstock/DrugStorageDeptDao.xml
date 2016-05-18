@@ -43,6 +43,12 @@
 		<include refid="drugStorageDeptJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="orgId != null and orgId != ''">
+                and a.org_id = #{orgId}
+            </if>
+            <if test="storageType != null and storageType != ''">
+                and a.storage_type = #{storageType}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -53,6 +59,34 @@
 			</otherwise>
 		</choose>
 	</select>
+
+    <select id="findSubList" resultType="com.jims.phstock.entity.DrugSubStorageDept">
+          SELECT
+              storage_code,
+              sub_storage,
+              import_no_prefix,
+              import_no_ava,
+              export_no_prefix,
+              export_no_ava,
+              sub_storage_code,
+              input_code,
+              id,
+              org_id,
+              remarks,
+              update_by,
+              create_by,
+              update_date,
+              del_flag,
+              create_date
+        from drug_sub_storage_dept where del_flag = '0'
+        <if test="orgId != null and orgId != ''">
+            and org_id = #{orgId}
+        </if>
+        <if test="storageCode != null and storageCode != ''">
+            and storage_code = #{storageCode}
+        </if>
+        order by sub_storage_code
+    </select>
 	
 	<select id="findAllList" resultType="DrugStorageDept">
 		SELECT 
