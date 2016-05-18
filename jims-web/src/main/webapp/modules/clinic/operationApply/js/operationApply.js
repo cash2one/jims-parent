@@ -54,6 +54,12 @@ $(function(){
             handler: function () {
                 doDelete();
             }
+        },{
+            text: '保存',
+            iconCls:'icon-save',
+            handler:function(){
+                savePperationApply();
+            }
         }
         ],onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
