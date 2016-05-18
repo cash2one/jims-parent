@@ -6,10 +6,7 @@ import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.entity.ClinicIndex;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -27,11 +24,17 @@ public class ClinicIndexRest {
     /**
      * 查询号别list
      * @return
+     * @author zhaoning
      */
     @GET
     @Path("findList")
-    public List<ClinicIndex> findClinicIndexs(){
-     ClinicIndex clinicIndex=new ClinicIndex();
+    public List<ClinicIndex> findClinicIndexs(@QueryParam("deptName")String deptName,
+                                              @QueryParam("clinicIndexName")String clinicIndexName,
+                                              @QueryParam("doctor")String doctor){
+       ClinicIndex clinicIndex=new ClinicIndex();
+            clinicIndex.setClinicDept(deptName);
+            clinicIndex.setClinicLabel(clinicIndexName);
+            clinicIndex.setDoctor(doctor);
        return clinicIndexServiceApi.findList(clinicIndex);
     }
 
@@ -39,6 +42,7 @@ public class ClinicIndexRest {
      * 保存 号别数据
      * @param clinicIndexList
      * @return
+     * @author zhaoning
      */
     @POST
     @Path("saveClinicIndex")
@@ -52,6 +56,7 @@ public class ClinicIndexRest {
      * 删除 号别
      * @param id
      * @return
+     * @author zhaoning
      */
     @Path("delete")
     @POST
