@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.register.dao.ClinicIndexDao">
+    
+	<sql id="clinicIndexColumns">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.clinic_label AS "clinicLabel",
+		a.clinic_dept AS "clinicDept",
+		a.doctor AS "doctor",
+		a.doctor_title AS "doctorTitle",
+		a.clinic_type AS "clinicType",
+		a.input_code AS "inputCode",
+		a.clinic_position AS "clinicPosition",
+		a.serial_no AS "serialNo",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="clinicIndexJoins">
+	</sql>
+    
+	<select id="get" resultType="ClinicIndex">
+		SELECT 
+			<include refid="clinicIndexColumns"/>
+		FROM clinic_index a
+		<include refid="clinicIndexJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClinicIndex">
+		SELECT 
+			<include refid="clinicIndexColumns"/>
+		FROM clinic_index a
+		<include refid="clinicIndexJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ClinicIndex">
+		SELECT 
+			<include refid="clinicIndexColumns"/>
+		FROM clinic_index a
+		<include refid="clinicIndexJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO clinic_index(
+			id,
+			org_id,
+			clinic_label,
+			clinic_dept,
+			doctor,
+			doctor_title,
+			clinic_type,
+			input_code,
+			clinic_position,
+			serial_no,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orgId},
+			#{clinicLabel},
+			#{clinicDept},
+			#{doctor},
+			#{doctorTitle},
+			#{clinicType},
+			#{inputCode},
+			#{clinicPosition},
+			#{serialNo},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE clinic_index SET 	
+			org_id = #{orgId},
+			clinic_label = #{clinicLabel},
+			clinic_dept = #{clinicDept},
+			doctor = #{doctor},
+			doctor_title = #{doctorTitle},
+			clinic_type = #{clinicType},
+			input_code = #{inputCode},
+			clinic_position = #{clinicPosition},
+			serial_no = #{serialNo},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE clinic_index SET 
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

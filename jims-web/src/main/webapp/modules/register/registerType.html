@@ -8,23 +8,20 @@
     <script type="text/javascript" src="/modules/register/js/registerType.js"></script>
 </head>
 
-<body onload="onloadMethod()">
+<body onload="onloadMethod('','');">
 <div class="easyui-layout" style="width:100%;height:100%;">
     <div data-options="region:'center',split:true">
         <div class="reg-plan-left reg-type">
-            <ul>
-                <li><a href="#" class="active">妇科</a><a href="#" class="rp-close">X</a></li>
-                <li><a href="#">妇科</a><a href="#" class="rp-close">X</a></li>
-                <li><a href="#">妇科</a><a href="#" class="rp-close">X</a></li>
-                <li><a href="#">妇科</a><a href="#" class="rp-close">X</a></li>
-                <li><a href="#">妇科</a><a href="#" class="rp-close">X</a></li>
+            <ul id="clinicType">
+
             </ul>
         </div>
     </div>
-    <div data-options="region:'east',iconCls:'icon-ok'"  style="width:75%;">
+    <div data-options="region:'east',iconCls:'icon-ok'"  style="width:85%;">
         <form id="registerTypeForm" method="post">
             <div class="margin10-bot">
-                挂号号类：<input type="text" name="" class="validatebox-text validatebox-text-sm">
+                挂号号类：<input type="text" name="clinicTypeName" class="validatebox-text validatebox-text-sm" id="type">
+                       <input type="hidden" name="id" id="clinicTypeId">
             </div>
         </form>
         <table id="list_data"   cellspacing="0" cellpadding="0">

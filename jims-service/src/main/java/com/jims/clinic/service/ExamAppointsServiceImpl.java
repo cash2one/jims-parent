@@ -117,6 +117,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             ExamItems examItems=examItemsList.get(i);
             examItems.setAppointsId(examAppoints.getId());
             examItems.setClinicId(examAppoints.getClinicId());
+            examItems.setVisitId(examAppoints.getVisitId());
             examItems.preInsert();
             examItemsDao.saveExamItems(examItems);
 

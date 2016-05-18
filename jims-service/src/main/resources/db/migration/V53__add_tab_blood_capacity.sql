@@ -42,8 +42,6 @@ comment on column BLOOD_CAPACITY.ID
   is '主键';
 comment on column BLOOD_CAPACITY.ORG_ID
   is '所属结构';
--- Create/Recreate primary, unique and foreign key constraints 
-alter table BLOOD_CAPACITY
-  add constraint BLOOD_CAPACITY_PK primary key (ID);
+-- Create/Recreate primary, unique and foreign key constraints
 alter table BLOOD_CAPACITY
   add constraint BLOOD_CAPACITY_UK unique (APPLY_NUM, MATCH_SUB_NUM);

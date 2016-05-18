@@ -6,9 +6,11 @@
 create table EXAM_APPOINTS
 (
   ID                  VARCHAR2(64 CHAR) not null,
+  ORG_ID                  VARCHAR2(64 CHAR),
+  CLINIC_ID              VARCHAR2(64),
   EXAM_NO             VARCHAR2(64 CHAR) ,
   PATIENT_ID          VARCHAR2(64 CHAR),
-  VISIT_ID            NUMBER(2),
+  VISIT_ID            VARCHAR2(64 CHAR),
   LOCAL_ID_CLASS      VARCHAR2(64 CHAR),
   PATIENT_LOCAL_ID    VARCHAR2(64 CHAR),
   NAME                VARCHAR2(20 CHAR),
@@ -65,6 +67,12 @@ create table EXAM_APPOINTS
   PRINT_STATUS        NUMBER(1),
   WARD_CODE           VARCHAR2(64 CHAR),
   RCPT_NO             VARCHAR2(20 CHAR),
+   CREATE_BY            VARCHAR2(64),
+   CREATE_DATE          TIMESTAMP,
+   UPDATE_BY            VARCHAR2(64),
+   UPDATE_DATE          TIMESTAMP,
+   REMARKS              VARCHAR2(225 CHAR),
+   DEL_FLAG             CHAR(1),
   constraint PK_EXAM_APPOINTS primary key (ID)
 );
 -- Add comments to the table

@@ -17,12 +17,11 @@
     </select>
     <sql id="examSubclassDictColumns">
         a.id AS "id",
-        a.serial_no AS "serialNo",
         a.exam_class_name AS "examClassName",
         a.exam_subclass_name AS "examSubclassName",
         a.input_code AS "inputCode",
-        a.craete_by AS "craeteBy",
-        a.craete_date AS "craeteDate",
+        a.create_by AS "createBy",
+        a.create_date AS "createDate",
         a.update_by AS "updateBy.id",
         a.update_date AS "updateDate",
         a.remarks AS "remarks",

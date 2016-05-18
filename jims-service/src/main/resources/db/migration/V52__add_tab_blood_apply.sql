@@ -107,8 +107,6 @@ comment on column BLOOD_APPLY.ID
   is '主键';
 comment on column BLOOD_APPLY.ORG_ID
   is '所属结构';
--- Create/Recreate primary, unique and foreign key constraints 
-alter table BLOOD_APPLY
-  add constraint BLOOD_APPLY_PK primary key (ID);
+-- Create/Recreate primary, unique and foreign key constraints
 alter table BLOOD_APPLY
   add constraint BLOOD_APPLY_UK unique (APPLY_NUM);

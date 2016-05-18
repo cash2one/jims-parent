@@ -44,7 +44,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         examAppoints.setVisitId(((int)(Math.random() * 1000))+"");
         examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType("1");
-
+        num=examAppointsDao.insert(examAppoints);
         //设置就诊序号
         examAppoints.setVisitNo((int) Math.random() * 1000);
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
@@ -52,22 +52,26 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
             ExamItems examItems=examItemsList.get(i);
             examItems.setAppointsId(examAppoints.getId());
             examItems.preInsert();
+            examItems.setPatientId(examAppoints.getPatientId());
             examItems.setVisitId(examAppoints.getVisitId());
+
             examItemsDao.saveExamItems(examItems);
             Orders orders=new Orders();
             orders.preInsert();
             orders.setPatientId(examAppoints.getPatientId());
             orders.setVisitId(examAppoints.getVisitId());
             orders.setAppNo(examItems.getId());
-            orders.setOrderNo(1234);
 //            if(ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId())!=0){
 //                orders.setOrderNo(ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId())+1);
                 orders.setOrderNo(1);
-                orders.setOrderSubNo(1);
-                orders.setStartDateTime(examAppoints.getReqDateTime());
+                orders.setOrderSubNo(2);
+                orders.setOrderClass("D");
+                orders.setOrderText(examItems.getExamItem());
+                orders.setStartDateTime(examAppoints.getUpdateDate());
                 orders.setRepeatIndicator("1"); // 长期医嘱标志
                 orders.setOrderClass("1");//医嘱类型
                 orders.setOrderText(examItems.getExamItem());
+                orders.setOrderCode(examItems.getExamItemCode());
                 ordersDao.insert(orders);
 //            }else {
 //                orders.setOrderNo(1);
@@ -77,12 +81,8 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
 //                orders.setOrderText(examItems.getExamItem());
 //                ordersDao.insert(orders);
 //            }
-            orders.setOrderClass("D");
-            orders.setOrderText(examItems.getExamItem());
-            orders.setOrderCode(examItems.getExamItemCode());
-            num=ordersDao.insert(orders);
         }
-        num=examAppointsDao.insert(examAppoints);
+
         return num+"";
     }
 

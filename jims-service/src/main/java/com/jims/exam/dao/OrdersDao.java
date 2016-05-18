@@ -6,6 +6,7 @@ package com.jims.exam.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.exam.entity.Orders;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 住院医嘱DAO接口
@@ -25,7 +26,7 @@ public interface OrdersDao extends CrudDao<Orders> {
      * 获取医嘱最大序号
      * @return
      */
-    public Integer getOrderNo(String patientId,String visitId);
+    public Integer getOrderNo(@Param("patientId")String patientId,@Param("visitId")String visitId,@Param("clinicId")String clinicId);
 
     /**
      * 获取子医嘱最大序号

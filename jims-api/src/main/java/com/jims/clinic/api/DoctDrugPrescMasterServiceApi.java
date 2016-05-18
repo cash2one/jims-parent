@@ -11,6 +11,14 @@ import java.util.List;
  */
 public interface DoctDrugPrescMasterServiceApi {
     /**
+     * 根据ID查询处方信息
+     * @author CTQ
+     * @date 2016年5月17日14:19:04
+     * @param id
+     * @return
+     */
+    public DoctDrugPrescMaster get(String id);
+    /**
      * 根据参数查询列表
      * @param doctDrugPrescMaster
      * @author CTQ
@@ -35,4 +43,13 @@ public interface DoctDrugPrescMasterServiceApi {
      * @return
      */
     public String deletePresc(String id);
+
+    /**
+     * 根据住院ID查询最大处方号+1
+     * @param visitId
+     * @return
+     * @author CTQ
+     * @date 2016/5/17
+     */
+    public Integer searchPrescNo(String visitId);
 }

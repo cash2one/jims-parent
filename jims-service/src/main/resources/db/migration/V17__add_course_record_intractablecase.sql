@@ -30,7 +30,7 @@ create table COURSE_RECORD_INTRACTABLECASE  (
    ZHUCHIRENZHICHENG    VARCHAR2(64),
    BINGQINGJIESHAO      CLOB,
    TAOLUNMUDI           CLOB,
-   constraint "PK_course_record_intrac" primary key (ID)
+   constraint "PK_course_record_intract" primary key (ID)
 );
 
 comment on table COURSE_RECORD_INTRACTABLECASE is
