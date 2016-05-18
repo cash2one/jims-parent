@@ -10,3 +10,7 @@ comment on column BLOOD_APPLY.VISIT_ID
   ALTER TABLE BLOOD_APPLY ADD(CLINIC_ID VARCHAR2(64));
 comment on column BLOOD_APPLY.VISIT_ID
   is '门诊就诊id';
+
+  ALTER TABLE BLOOD_APPLY ADD(PATIENT_ID VARCHAR2(64));
+comment on column BLOOD_APPLY.PATIENT_ID
+  is '病人id';
