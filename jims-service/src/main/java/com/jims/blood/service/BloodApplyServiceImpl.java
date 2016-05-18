@@ -54,13 +54,13 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
             bloodCapacity.setClinicId(bloodApply.getClinicId());
             bloodCapacity.setVisitId(bloodApply.getVisitId());
             bloodCapacityDao.insert(bloodCapacity);
-            int orderNo=ordersDao.getOrderNo(bloodApply.getPatientId(),bloodApply.getVisitId(),bloodApply.getClinicId());
+
             Orders orders = new Orders();
             orders.setOrderSubNo(i + 1);
             orders.preInsert();
             if (bloodApply.getVisitId() != null) {
-                if(orderNo!=0){
-                    orders.setOrderNo(orderNo+1);
+                if(ordersDao.getOrderNo(bloodApply.getPatientId(),bloodApply.getVisitId(),bloodApply.getClinicId())!=null){
+                    orders.setOrderNo(ordersDao.getOrderNo(bloodApply.getPatientId(),bloodApply.getVisitId(),bloodApply.getClinicId())+1);
                     orders.setVisitId(bloodApply.getVisitId());
                 }else {
                     orders.setOrderNo(1);
@@ -68,8 +68,8 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
                 }
             };
             if(bloodApply.getClinicId()!=null){
-                if(orderNo!=0){
-                    orders.setOrderNo(orderNo+1);
+                if(ordersDao.getOrderNo(bloodApply.getPatientId(),bloodApply.getVisitId(),bloodApply.getClinicId())!=null){
+                    orders.setOrderNo(ordersDao.getOrderNo(bloodApply.getPatientId(),bloodApply.getVisitId(),bloodApply.getClinicId())+1);
                     orders.setClinicId(bloodApply.getClinicId());
                 }else {
                     orders.setOrderNo(1);
