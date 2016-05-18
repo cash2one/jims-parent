@@ -44,9 +44,4 @@ comment on column EXAM_RPT_PATTERN.ORG_ID
   is '所属结构';
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table EXAM_RPT_PATTERN
-  add constraint EXAM_RPT_PATTERN_PK primary key (ID)
-  using index 
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint EXAM_RPT_PATTERN_PK primary key (ID);

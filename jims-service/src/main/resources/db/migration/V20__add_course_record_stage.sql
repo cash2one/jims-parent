@@ -22,7 +22,8 @@ create table COURSE_RECORD_STAGE  (
    DEL_FLAG             CHAR(1)                        default '0' not null,
    ZHUSU                CLOB,
    LASTTIME             TIMESTAMP,
-   NOWTIME              TIMESTAMP
+   NOWTIME              TIMESTAMP,
+   constraint "PK_course_record_stage" primary key (ID)
 );
 
 comment on table COURSE_RECORD_STAGE is

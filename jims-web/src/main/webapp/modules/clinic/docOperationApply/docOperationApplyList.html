@@ -17,23 +17,11 @@
     </div>
     <div data-options="region:'center',iconCls:'icon-ok'">
         <form id="docOperationForm" method="post">
-            <input type="hidden" id="patientId" name="patientId" value="122">
-            <input type="hidden" id="zhuyuanId" name="zhuyuanId" value="123">
-            <div class="fitem fitem_pop" style="height: 50px;">
-
-            </div>
             <input type="hidden" name="id">
+            <input type="hidden" name="inOrNot" value="0">
             <div class="fitem fitem_pop">
-                <label>
-                    拟实施手术名称：
-                </label>
-                <input class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
-                <label>
-                    等级：
-                </label>
-                <input class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+
+             <table id="operationName"></table>
             </div>
             <div class="fitem fitem_pop">
                 <label>
@@ -55,102 +43,109 @@
                 <label>
                     隔离：
                 </label>
-                <input name="geli" class="easyui-datebox" style="width:30%;"/>
-
+                <select name="isolationIndicator" class="easyui-combobox" >
+                    <option value="1">正常</option>
+                    <option value="2">隔离</option>
+                    <option value="3">放射</option>
+                </select>
+                <label>
+                    急症：
+                    </label>
+                <input type="checkbox" id="jizheng">
             </div>
             <div class="fitem fitem_pop">
                 <label>
-                    急诊：
-                </label>
-                <input name="jizhen" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
-                <label>
                     预约时间：
                 </label>
-                <input name="yuyueDate" class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input name="reqDateTime" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:30%;"/>
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     手术等级：
                 </label>
-                <input name="shoushuGrade" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
-                <label>
-                    手术室：
-                </label>
-                <input name="shoushushi" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                <select name="operationScale" class="easyui-combobox">
+                    <option value="1">一级手术</option>
+                    <option value="2">二级手术</option>
+                    <option value="3"> 三级手术</option>
+                    <option value="4">四级手术</option>
+                </select>
+
             </div>
             <div class="fitem fitem_pop">
                 <label>
+                    手术室：
+                </label>
+                <select name="operatingRoom" class="easyui-combobox" >
+                    <option value="1">手术室组</option>
+                </select>
+                <label>
                     手术间：
                 </label>
-                <input name="shoushujian" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                <select name="operatingRoomNo" class="easyui-combobox">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
                 <label>
                     手术医生：
                 </label>
-                <input name="shoushuDoctor" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                <select name="surgeon" class="easyui-combobox">
+                    <option value="1">丛军</option>
+                    <option value="2">丛玲</option>
+                    　　</select>
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     助手：
                 </label>
-                <select name="zhushounone" class="easyui-combobox"
-                        style="width:18%;height: 30px">
-                    <option value="0">请选择</option>
-                    <option value="1">李明</option>
-                    <option value="2">李会</option>
-                    <option value="3">李会</option>
-                </select>
-                <select name="zhushoutwo" class="easyui-combobox"
-                        style="width:18%;height: 30px">
-                    <option value="0">请选择</option>
-                    <option value="1">李明</option>
-                    <option value="2">李会</option>
-                    <option value="3">李会</option>
-                </select>
-                <select name="zhushouthree" class="easyui-combobox"
-                        style="width:18%;height: 30px">
-                    <option value="0">请选择</option>
-                    <option value="1">李明</option>
-                    <option value="2">李会</option>
-                    <option value="3">李会</option>
-                </select>
-                <select name="zhushoufour" class="easyui-combobox"
-                        style="width:18%;height: 30px">
-                    <option value="0">请选择</option>
-                    <option value="1">李明</option>
-                    <option value="2">李会</option>
-                    <option value="3">李会</option>
-                </select>
+                <select name="firstAssistant" class="easyui-combobox">
+                    <option value="1">丛军</option>
+                    <option value="2">丛玲</option>
+                    　　</select>
+                <select name="secondAssistant" class="easyui-combobox">
+                    <option value="1">丛军</option>
+                    <option value="2">丛玲</option>
+                    　　</select>
+                <select name="thirdAssistant" class="easyui-combobox">
+                    <option value="1">丛军</option>
+                    <option value="2">丛玲</option>
+                    　　</select>
+                <select name="fourthAssistant" class="easyui-combobox">
+                    <option value="1">丛军</option>
+                    <option value="2">丛玲</option>
+                    　　</select>
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     麻醉方法：
                 </label>
-                <input name="mazuifangfa" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                <select name="anesthesiaMethod" class="easyui-combobox">
+                    <option value="1">基础</option>
+                    <option value="2">体外</option>
+                    　　</select>
                 <label>
                     麻醉医师：
                 </label>
-                <input name="mazuiyishi" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
-            </div>
-            <div class="fitem fitem_pop">
+                <select name="anesthesiaDoctor" class="easyui-combobox">
+                    <option value="1">丛军</option>
+                    <option value="2">丛玲</option>
+                    　　</select>
                 <label>
                     助手：
                 </label>
-                <input name="zhushou" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                <select name="anesthesiaAssistant" class="easyui-combobox">
+                    <option value="1">丛军</option>
+                    <option value="2">丛玲</option>
+                    　　</select>
                 <label>
                     供血医师：
                 </label>
-                <input name="gongxueyishi" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                <select name="bloodTranDoctor" class="easyui-combobox">
+                    <option value="1">丛军</option>
+                    <option value="2">丛玲</option>
+                    　　</select>
             </div>
+
             <div class="fitem fitem_pop">
                 <label>
                     备注：

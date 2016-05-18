@@ -3,8 +3,10 @@ package com.jims.operation.entity;
 
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
@@ -105,8 +107,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
-	
-	@NotNull(message="手术安排标识不能为空")
+
 	public Integer getScheduleId() {
 		return scheduleId;
 	}
@@ -114,7 +115,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public void setScheduleId(Integer scheduleId) {
 		this.scheduleId = scheduleId;
 	}
-	
+
 	@Length(min=0, max=16, message="病人所在科室长度必须介于 0 和 16 之间")
 	public String getDeptStayed() {
 		return deptStayed;
@@ -136,7 +137,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public Date getScheduledDateTime() {
 		return scheduledDateTime;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setScheduledDateTime(Date scheduledDateTime) {
 		this.scheduledDateTime = scheduledDateTime;
 	}
@@ -350,7 +351,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public Date getReqDateTime() {
 		return reqDateTime;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setReqDateTime(Date reqDateTime) {
 		this.reqDateTime = reqDateTime;
 	}

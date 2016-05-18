@@ -12,11 +12,7 @@ create table BED_CLASS_DICT
   UPDATE_DATE    DATE,
   DEL_FLAG       VARCHAR2(100),
   CREATE_DATE    DATE
-)
-tablespace JIMS_DATA
-  pctfree 10
-  initrans 1
-  maxtrans 255;
+);
 -- Add comments to the table
 comment on table BED_CLASS_DICT
   is '床位等级维护';
@@ -33,19 +29,9 @@ comment on column BED_CLASS_DICT.ORG_ID
   is '所属结构';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table BED_CLASS_DICT
-  add constraint BED_CLASS_DICT_PK primary key (ID)
-  using index
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint BED_CLASS_DICT_PK primary key (ID);
 alter table BED_CLASS_DICT
-  add constraint BED_CLASS_DICT_UK unique (BED_CLASS_CODE, ORG_ID, BED_CLASS_NAME)
-  using index
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint BED_CLASS_DICT_UK unique (BED_CLASS_CODE, ORG_ID, BED_CLASS_NAME);
 insert into bed_class_dict (id,bed_class_code,bed_class_name,input_code) values(sys_guid(),'11090000101','普通病房床位费（四人间以上）','PTBFCWFS');
 insert into bed_class_dict (id,bed_class_code,bed_class_name,input_code) values(sys_guid(),'11090000102','普通病房床位费（三人间）','PTBFCWFS');
 insert into bed_class_dict (id,bed_class_code,bed_class_name,input_code) values(sys_guid(),'11090000103','普通病房床位费（二人间）','PTBFCWFE');

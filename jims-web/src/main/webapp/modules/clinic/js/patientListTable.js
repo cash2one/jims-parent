@@ -75,7 +75,7 @@ function onloadMethod(status){
             }
         }],
         onDblClickRow: function (rowIndex, rowData) {
-            parent.addTabs(rowData.id,rowData.id,'/modules/clinic/patientHospital.html');
+            parent.addTabs(rowData.name,rowData.name,'/modules/clinic/patientHospital.html');
         },onRowContextMenu: function(e, rowIndex, rowData) { //右键时触发事件
             e.preventDefault(); //阻止浏览器捕获右键事件
             $(this).datagrid("clearSelections"); //取消所有选中项

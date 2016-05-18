@@ -1,3 +1,8 @@
+body
+{
+    font-size:13px;
+}
+
 .clearfix:before,
 .clearfix:after
 {
@@ -1116,3 +1121,23 @@ a.dropma-color {
 {
     color:#97cb28;
 }
+
+/**欢迎页*/
+.welc-bg
+{
+    background:url(../images/index/welc-bg.jpg) no-repeat center center;
+    background-size:100% 100%;
+    position:relative;
+    height:100%;
+}
+.welc-img
+{
+    text-align:center;
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-top:-180px;
+    margin-left:-270px;
+}
+
+/****/

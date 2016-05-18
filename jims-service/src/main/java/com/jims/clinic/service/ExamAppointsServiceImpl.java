@@ -95,7 +95,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
     @Override
     public int batchSave(ExamAppoints examAppoints) {
         int  num=0;
-//        if(examAppointsDao.getMaxExamNo()!=null){
+//       if(examAppointsDao.getMaxExamNo()!=null){
 //            examAppoints.setExamNo(examAppointsDao.getMaxExamNo()+1+"");
 //        }else{
 //            examAppoints.setExamNo("1");

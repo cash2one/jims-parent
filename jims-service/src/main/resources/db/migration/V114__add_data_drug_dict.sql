@@ -1,0 +1,10 @@
+
+
+/*==============================================================*/
+/* Table: drug_dict          */
+/* CREATE_DATE: 2016-05-16                              */
+/* CREATE_BY: 杨瑞东						                                    */
+/*==============================================================*/
+insert into DRUG_DICT (id, drug_code, drug_name, drug_spec, units, drug_form, toxi_property, dose_per_unit, dose_units, drug_indicator, input_code, otc, limit_class, stop_flag, entered_datetime, precious_flag, create_date, create_by, update_date, update_by, remarks, del_flag)values ('5b4d2268414c461f9bad1616b5ddc0cf', 'B2600002TA00', '胆石利通片', '1', 'G2', 'TA', 'A', 1, 'ml', 1, 'dsltp', '0', '3', null, null, '0', to_timestamp('16-05-2016 15:20:17.252000', 'dd-mm-yyyy hh24:mi:ss.ff'), null, to_timestamp('16-05-2016 15:20:17.252000', 'dd-mm-yyyy hh24:mi:ss.ff'), null, null, 0);
+insert into DRUG_DICT (id, drug_code, drug_name, drug_spec, units, drug_form, toxi_property, dose_per_unit, dose_units, drug_indicator, input_code, otc, limit_class, stop_flag, entered_datetime, precious_flag, create_date, create_by, update_date, update_by, remarks, del_flag)values ('4a923ca2dc604786a6ee2c35c88b01a4', 'AF100007TA00', '维生素B12片', '1', 'G3', 'TA', 'A', 1, 'ml', 1, 'wssB12p', '0', '0', null, null, '0', to_timestamp('16-05-2016 15:25:04.962000', 'dd-mm-yyyy hh24:mi:ss.ff'), null, to_timestamp('16-05-2016 15:25:04.962000', 'dd-mm-yyyy hh24:mi:ss.ff'), null, null, 0);
+insert into DRUG_DICT (id, drug_code, drug_name, drug_spec, units, drug_form, toxi_property, dose_per_unit, dose_units, drug_indicator, input_code, otc, limit_class, stop_flag, entered_datetime, precious_flag, create_date, create_by, update_date, update_by, remarks, del_flag)values ('026ff8233fc24afea5704ef7a4002832', 'B2600001WE00', '创可贴', '10', 'G13', 'WE', 'A', 1, '包', 1, 'ckt', '0', '3', null, null, '0', to_timestamp('16-05-2016 15:03:26.787000', 'dd-mm-yyyy hh24:mi:ss.ff'), null, to_timestamp('16-05-2016 15:03:26.787000', 'dd-mm-yyyy hh24:mi:ss.ff'), null, null, 0);

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.register.dao.ClinicTypeFeeDao">
+    
+	<sql id="clinicTypeFeeColumns">
+		a.id AS "id",
+		a.type_id AS "typeId",
+		a.charge_item AS "chargeItem",
+		a.price_item AS "priceItem",
+		a.price AS "price",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="clinicTypeFeeJoins">
+	</sql>
+    
+	<select id="get" resultType="ClinicTypeFee">
+		SELECT 
+			<include refid="clinicTypeFeeColumns"/>
+		FROM clinic_type_fee a
+		<include refid="clinicTypeFeeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClinicTypeFee">
+		SELECT 
+			<include refid="clinicTypeFeeColumns"/>
+		FROM clinic_type_fee a
+		<include refid="clinicTypeFeeJoins"/>
+		<where>
+			<if test="typeId!=null and typeId!=''">
+				a.type_id=#{typeId} AND
+			</if>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ClinicTypeFee">
+		SELECT 
+			<include refid="clinicTypeFeeColumns"/>
+		FROM clinic_type_fee a
+		<include refid="clinicTypeFeeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO clinic_type_fee(
+			id,
+			type_id,
+			charge_item,
+			price_item,
+			price,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{typeId},
+			#{chargeItem},
+			#{priceItem},
+			#{price},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE clinic_type_fee SET 	
+			type_id = #{typeId},
+			charge_item = #{chargeItem},
+			price_item = #{priceItem},
+			price = #{price},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE clinic_type_fee SET 
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

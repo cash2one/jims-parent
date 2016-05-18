@@ -10,6 +10,10 @@
  INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划调整', '/modules/phstock/drug-buy-plan-update.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
  -- 采购计划审核菜单添加
  INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划审核', '/modules/phstock/drug-buy-plan-audit.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
+ -- 采购计划执行菜单添加
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划执行', '/modules/phstock/drug-buy-plan-execute.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
+ -- 采购计划查询菜单添加
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划查询', '/modules/phstock/drug-buy-plan-query.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
 --项目类别
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('10AFF59F7A184E3782C757E31FCB8645','西药','A','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','1',0);
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('E11F27EF26BD4ECDA9A1DBEF370C9F3B','中药','B','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','2',0);
