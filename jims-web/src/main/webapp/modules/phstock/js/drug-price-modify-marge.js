@@ -2,17 +2,15 @@ $(function () {
     var editIndex;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
-            $("#dg").datagrid('endEdit', editIndex);
+            $("#modifyList").datagrid('endEdit', editIndex);
             editIndex = undefined;
         }
     };
-    $("#dg").datagrid({
+    $("#modifyList").datagrid({
         fit: true,
         fitColumns: true,
-        title: '调价记录维护',
         striped: true,
         singleSelect: true,
-        toolbar: '#tb',
         method: 'GET',
         rownumbers: true,
         //  url: basePath + "/AdministrationDict/listAll",
@@ -23,7 +21,7 @@ $(function () {
             hidden: true
         }, {
             title: "药品名称",
-            field: "administrationCode",
+            field: "drugCode",
             width: '9%',
             align: 'center',
             editor: {
@@ -34,7 +32,7 @@ $(function () {
 
         }, {
             title: "规格",
-            field: "administrationCode",
+            field: "minSpec",
             width: '9%',
             align: 'center',
             editor: {
@@ -44,7 +42,7 @@ $(function () {
             }
         }, {
             title: "包装规格",
-            field: "administrationCode",
+            field: "drugSpec",
             width: '9%',
             align: 'center',
             editor: {
@@ -54,7 +52,7 @@ $(function () {
             }
         }, {
             title: "单位",
-            field: "administrationCode",
+            field: "units",
             width: '9%',
             align: 'center',
             editor: {
@@ -64,7 +62,7 @@ $(function () {
             }
         }, {
             title: "厂家",
-            field: "administrationCode",
+            field: "firmId",
             width: '9%',
             align: 'center',
             editor: {
@@ -74,7 +72,7 @@ $(function () {
             }
         }, {
             title: "原批发价",
-            field: "administrationCode",
+            field: "originalTradePrice",
             width: '9%',
             align: 'center',
             editor: {
@@ -84,7 +82,7 @@ $(function () {
             }
         }, {
             title: "新批发价",
-            field: "administrationCode",
+            field: "currentTradePrice",
             width: '9%',
             align: 'center',
             editor: {
@@ -94,7 +92,7 @@ $(function () {
             }
         }, {
             title: "原零售价",
-            field: "administrationCode",
+            field: "originalRetailPrice",
             width: '9%',
             align: 'center',
             editor: {
@@ -104,7 +102,7 @@ $(function () {
             }
         }, {
             title: "新零售价",
-            field: "administrationCode",
+            field: "currentRetailPrice",
             width: '9%',
             align: 'center',
             editor: {
@@ -114,7 +112,7 @@ $(function () {
             }
         }, {
             title: "通知生效日期",
-            field: "administrationCode",
+            field: "noticeEfficientDate",
             width: '9%',
             align: 'center',
             editor: {
@@ -124,7 +122,7 @@ $(function () {
             }
         }, {
             title: "调价依据",
-            field: "administrationCode",
+            field: "modifyCredential",
             width: '9%',
             align: 'center',
             editor: {
@@ -140,13 +138,13 @@ $(function () {
         }
     });
 
-    $("#modify").datagrid({
+    $("#priceList").datagrid({
         fit: true,
-        fitColumns: true,
         striped: true,
+        title: '价格记录',
+        toolbar: '#modifyListTb',
         singleSelect: true,
         method: 'GET',
-        rownumbers: true,
         //  url: basePath + "/AdministrationDict/listAll",
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
@@ -155,63 +153,63 @@ $(function () {
             hidden: true
         }, {
             title: "药品名称",
-            field: "administrationCode",
+            field: "drugCode",
             width: '9%',
             align: 'center'
 
         }, {
             title: "药品规格",
-            field: "administrationCode",
+            field: "drugSpec",
             width: '9%',
             align: 'center'
         }, {
             title: "单位",
-            field: "administrationCode",
-            width: '9%',
+            field: "units",
+            width: '6%',
             align: 'center'
         }, {
             title: "厂家",
-            field: "administrationCode",
+            field: "firmId",
             width: '9%',
             align: 'center'
         }, {
             title: "批发价",
-            field: "administrationCode",
+            field: "tradePrice",
             width: '9%',
             align: 'center'
         }, {
             title: "最高限价",
-            field: "administrationCode",
+            field: "hlimitPrice",
             width: '9%',
             align: 'center'
         }, {
             title: "包装量",
-            field: "administrationCode",
+            field: "amountPerPackage",
             width: '9%',
             align: 'center'
         }, {
             title: "最小规格",
-            field: "administrationCode",
-            width: '9%',
+            field: "minSpec",
+            width: '6%',
             align: 'center'
         }, {
             title: "最小单位",
-            field: "administrationCode",
-            width: '9%',
+            field: "minUnits",
+            width: '6%',
             align: 'center'
         }, {
             title: "起用日期",
-            field: "administrationCode",
+            field: "startDate",
             width: '9%',
             align: 'center'
         }, {
             title: "停止日期",
-            field: "administrationCode",
+            field: "stopDate",
             width: '9%',
             align: 'center'
         }, {
             title: "备注",
-            field: "administrationCode",
+            field: "memos",
             width: '9%',
             align: 'center'
         }
@@ -222,22 +220,57 @@ $(function () {
             editIndex = index;
         }
     });
+    //定义药品名称
+    $('#drugName').combogrid({
+        panelWidth: 500,
+        idField: 'drugCode',
+        textField: 'drugName',
+        loadMsg: '数据正在加载',
+        url: basePath + '/drug-catalog/drugNameDictList',
+        mode: 'remote',
+        method: 'GET',
+        fitColumns:true,
+        columns: [[
+            {field: 'drugCode', title: '编码', width: 150, align: 'center'},
+            {field: 'drugName', title: '名称', width: 200, align: 'center'},
+            {field: 'inputCode', title: '拼音', width: 50, align: 'center'}
+        ]],
+        onSelect: function(rowIndex,rowData){
+            var url = basePath + "/drug-catalog/listDrugNameDictByDrugCode?drugCode=" +  rowData.drugCode;
+            $('#drugNameDict').datagrid('reload', url);
+            var url = basePath + "/drug-catalog/listDrugDictByDrugCode?drugCode=" +  rowData.drugCode;
+            $('#drugDict').datagrid('reload', url);
 
+        }
+    });
+    //生成零售价
+    $("#generateNewRetailBtn").on("click", function () {
+
+    });
+    //提取
+    $("#extractBtn").on("click", function () {
+
+    });
+    //新零售价
+    $("#newRetailBtn").on("click", function () {
+
+    });
+    //新增
     $("#addBtn").on('click', function () {
         stopEdit();
-        $("#dg").datagrid('appendRow', {});
-        var rows = $("#dg").datagrid('getRows');
-        var addRowIndex = $("#dg").datagrid('getRowIndex', rows[rows.length - 1]);
+        $("#modifyList").datagrid('appendRow', {});
+        var rows = $("#modifyList").datagrid('getRows');
+        var addRowIndex = $("#modifyList").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;
-        $("#dg").datagrid('selectRow', editIndex);
-        $("#dg").datagrid('beginEdit', editIndex);
+        $("#modifyList").datagrid('selectRow', editIndex);
+        $("#modifyList").datagrid('beginEdit', editIndex);
     });
-
+    //删除
     $("#delBtn").on('click', function () {
-        var row = $("#dg").datagrid('getSelected');
+        var row = $("#modifyList").datagrid('getSelected');
         if (row) {
-            var rowIndex = $("#dg").datagrid('getRowIndex', row);
-            $("#dg").datagrid('deleteRow', rowIndex);
+            var rowIndex = $("#modifyList").datagrid('getRowIndex', row);
+            $("#modifyList").datagrid('deleteRow', rowIndex);
             if (editIndex == rowIndex) {
                 editIndex = undefined;
             }
@@ -245,31 +278,7 @@ $(function () {
             $.messager.alert('系统提示', "请选择要删除的行", 'info');
         }
     });
-
-    $("#editBtn").on('click', function () {
-        var row = $("#dg").datagrid("getSelected");
-        var index = $("#dg").datagrid("getRowIndex", row);
-
-        if (index == -1) {
-            $.messager.alert("提示", "请选择要修改的行！", "info");
-            return;
-        }
-
-        if (editIndex == undefined) {
-            $("#dg").datagrid("beginEdit", index);
-            editIndex = index;
-        } else {
-            $("#dg").datagrid("endEdit", editIndex);
-            $("#dg").datagrid("beginEdit", index);
-            editIndex = index;
-        }
-    });
-
-    /**
-     * 保存修改的内容
-     * 基础字典的改变，势必会影响其他的统计查询
-     * 基础字典的维护只能在基础数据维护的时候使用。
-     */
+    //保存
     $("#saveBtn").on('click', function () {
         if (editIndex || editIndex == 0) {
             $("#dg").datagrid("endEdit", editIndex);
