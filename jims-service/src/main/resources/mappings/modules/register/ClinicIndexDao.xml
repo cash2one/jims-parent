@@ -39,6 +39,15 @@
 		<include refid="clinicIndexJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="clinicLabel!=null and clinicLabel!='' ">
+				AND a.clinic_label=#{clinicLabel}
+			</if>
+			<if test="clinicDept!=null and clinicDept!='' ">
+				AND a.clinic_dept=#{clinicDept}
+			</if>
+			<if test="doctor!=null and doctor!='' ">
+				AND a.doctor=#{doctor}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
