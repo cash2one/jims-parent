@@ -4,6 +4,8 @@ import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
+import com.jims.phstock.vo.DrugCatalogBeanVo;
+import com.jims.phstock.vo.DrugCatalogChangeVo;
 
 import java.util.List;
 
@@ -97,5 +99,13 @@ public interface DrugPriceListServiceApi {
      * @return
      */
     public List<DrugDict> findDrugDict(String orgId);
+
+    /**
+     * 药品价表保存
+     * @param drugPriceVo 药品价表实体vo
+     * @return
+     * @author txb
+     */
+    public String saveDrugPrice(DrugCatalogChangeVo drugPriceVo);
 
 }

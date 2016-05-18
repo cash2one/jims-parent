@@ -1,17 +1,17 @@
 package com.jims.phstock;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.StringData;
 import com.jims.phstock.api.DrugDictServiceApi;
+import com.jims.phstock.api.DrugNameDictServiceApi;
 import com.jims.phstock.api.DrugPriceListServiceApi;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
+import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +29,8 @@ public class DrugPriceListRest {
     private DrugPriceListServiceApi drugPriceListServiceApi ;
     @Reference(version ="1.0.0")
     private DrugDictServiceApi drugDictServiceApi ;
+    @Reference(version ="1.0.0")
+    private DrugNameDictServiceApi drugNameDictServiceApi ;
 
     /**
      * 根据当前组织结构获取去本组织结构内所有的药品名称字典。
@@ -108,4 +110,31 @@ public class DrugPriceListRest {
     public List<DrugDict> listDrugDictByDrugCode(@QueryParam("drugCode")String drugCode){
         return drugDictServiceApi.listDrugDictByDrugCode(drugCode);
     } ;
+
+    /**
+     * 保存 删除 修改
+     * @param drugPriceList
+     * @return
+     * @author txb
+     */
+    @POST
+    @Path("save")
+    public StringData save(DrugCatalogChangeVo<DrugPriceList> drugPriceList){
+        String num = drugPriceListServiceApi.saveDrugPrice(drugPriceList);
+        StringData stringData  = new StringData();
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    };
+
+    /**
+     *查找药品名称全部列表
+     * @return
+     * @author txb
+     */
+    @GET
+    @Path("findDrugNameDictList")
+    public List<DrugNameDict> findDrugNameDictList(){
+        return drugNameDictServiceApi.findList(new DrugNameDict());
+    }
 }

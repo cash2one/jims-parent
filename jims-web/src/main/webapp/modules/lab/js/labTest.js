@@ -120,7 +120,7 @@ function add(){
         url: basePath + '/dept-dict/findListByCode',
         valueField: 'deptCode',
         textField: 'deptName',
-        queryParams:{code:1502},
+        queryParams:{code:'5'},
         /*onLoadSuccess: function () {
          var data = $(this).combobox('getData');
          $(this).combobox('select', data[0].deptName);

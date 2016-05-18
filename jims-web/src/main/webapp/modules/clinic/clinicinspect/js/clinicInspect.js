@@ -8,7 +8,7 @@ function onloadMethod() {
         onSelect: function (data) {
             var clinicId= parent.document.getElementById("clinicMasterId").value;
             $("#clinicId").val(clinicId);
-            $("#reqDept").val(data.deptDict.deptName);
+            //$("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
