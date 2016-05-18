@@ -25,5 +25,5 @@ public interface ScheduledOperationNameDao extends CrudDao<ScheduledOperationNam
     * @param clinicId
     * @return
     */
-   public List<ScheduledOperationName> getOperationName(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param("clinicId")String clinicId);
+   public List<ScheduledOperationName> getOperationName(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param("clinicId")String clinicId,@Param("scheduleId")String scheduleId);
 }

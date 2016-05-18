@@ -1,8 +1,8 @@
 var administration = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
 var editRow = undefined;
+
 $(function(){
-
-
+    var cId=$("#zhenduan",parent.document).val();
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
@@ -21,7 +21,6 @@ $(function(){
                      textField:'text',
                      required:true
                  }
-
              }
              },
             {field:'diagnosisId',title:'诊断名称',width:'30%',align:'center',editor:{
@@ -38,14 +37,12 @@ $(function(){
                     }
                 }
             }},
-
             {field:'description',title:'诊断时间',width:'30%',align:'center',editor:{type: 'datebox'}
             },
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
                 formatter:function(value, row, index){
                   return "李俊山";
             }}
-
         ]],
       /*  frozenColumns:[[
             {field:'ck',checkbox:true}
@@ -54,28 +51,14 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
-                $("#zhenduan").datagrid('endEdit', editRow);
-                if (editRow != undefined) {
-                    $("#zhenduan").datagrid("endEdit", editRow);
-                }
-                //添加时如果没有正在编辑的行，则在datagrid的第一行插入一行
-                if (editRow == undefined) {
+
                     $("#zhenduan").datagrid("insertRow", {
                         index: 0, // index start with 0
                         row: {
 
                         }
                     });
-                    //将新插入的那一行开户编辑状态
-                    $("#zhenduan").datagrid("beginEdit", 0);
-                    //给当前编辑的行赋值
-                    editRow = 0;
-                 }
-                  /*  $("#zhenduan").datagrid('insertRow', {
-                        index:0,
 
-                        row:{}
-                    });*/
             }
         }, '-',{
             text: '删除',
@@ -127,8 +110,6 @@ $(function(){
 function save(){
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
-
-
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");

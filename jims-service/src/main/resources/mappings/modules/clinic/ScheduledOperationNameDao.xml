@@ -33,18 +33,16 @@
 	<select id="getOperationName" resultType="ScheduledOperationName">
 		SELECT 
 			<include refid="scheduledOperationNameColumns"/>
-		FROM scheduled_operation_name a left join operation_schedule b
-		on a.schedule_id = b.id
+		FROM scheduled_operation_name a
+
 		<where>
 			a.del_flag = '0'
-			<if test="patientId !=null and patientId !=''">
-              and   b.patient_id = #{patientId}
+			<if test="scheduleId !=null and scheduleId !=''">
+              and   a.schedule_id = #{scheduleId}
 			</if>
-			<if test="visitId !=null and visitId !=''">
-              and   b.visit_id = #{visitId}
-			</if>
+
 			<if test="clinicId !=null and clinicId !=''">
-                 b.clinic_id = #{clinicId}
+               and  a.clinic_id = #{clinicId}
 					</if>
 		</where>
 				ORDER BY a.update_date DESC

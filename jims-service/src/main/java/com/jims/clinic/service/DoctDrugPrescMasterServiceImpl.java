@@ -71,4 +71,15 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
         }
         return String.valueOf(num);
     }
+    /**
+     * 根据参数查询最大处方号+1
+     * @param visitId
+     * @author CTQ
+     * @date 2016年5月17日14:25:04
+     * @return
+     */
+    @Override
+    public Integer searchPrescNo(String visitId) {
+        return dao.searchPrescNo(visitId);
+    }
 }

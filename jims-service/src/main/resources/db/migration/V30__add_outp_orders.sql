@@ -5,10 +5,12 @@
 create table OUTP_ORDERS
 (
    ID                   VARCHAR2(64 CHAR)    not null,
-   PATIENT_ID           VARCHAR2(64 CHAR),
+   ORG_ID                  VARCHAR2(64 CHAR),
+   CLINIC_ID              VARCHAR2(64),
+   PATIENT_ID          VARCHAR2(64 CHAR),
    VISIT_DATE           TIMESTAMP,
    VISIT_NO             NUMBER(5),
-   SERIAL_NO            VARCHAR2(10),
+   SERIAL_NO            VARCHAR2(64),
    ORDERED_BY           VARCHAR2(8),
    DOCTOR               VARCHAR2(20),
    ORDER_DATE           TIMESTAMP,
