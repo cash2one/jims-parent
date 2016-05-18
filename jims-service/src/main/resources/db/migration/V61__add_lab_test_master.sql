@@ -7,10 +7,12 @@
 create table LAB_TEST_MASTER
 (
   ID                      VARCHAR2(64 CHAR) not null,
+  ORG_ID                  VARCHAR2(64 CHAR),
+  CLINIC_ID              VARCHAR2(64),
+  PATIENT_ID          VARCHAR2(64 CHAR),
   TEST_NO                 VARCHAR2(20 CHAR) not null,
   PRIORITY_INDICATOR      NUMBER(1),
-  PATIENT_ID              VARCHAR2(10 CHAR),
-  VISIT_ID                NUMBER(2),
+  VISIT_ID                VARCHAR2(64),
   WORKING_ID              VARCHAR2(6 CHAR),
   EXECUTE_DATE            DATE,
   NAME                    VARCHAR2(20 CHAR),

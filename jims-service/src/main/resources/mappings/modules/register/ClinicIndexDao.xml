@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.register.dao.ClinicTypeSettingDao">
+<mapper namespace="com.jims.register.dao.ClinicIndexDao">
     
-	<sql id="clinicTypeSettingColumns">
+	<sql id="clinicIndexColumns">
 		a.id AS "id",
 		a.org_id AS "orgId",
-		a.clinic_type_name AS "clinicTypeName",
-		a.clinic_type_code AS "clinicTypeCode",
+		a.clinic_label AS "clinicLabel",
+		a.clinic_dept AS "clinicDept",
+		a.doctor AS "doctor",
+		a.doctor_title AS "doctorTitle",
+		a.clinic_type AS "clinicType",
+		a.input_code AS "inputCode",
+		a.clinic_position AS "clinicPosition",
+		a.serial_no AS "serialNo",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
@@ -15,22 +21,22 @@
 		a.del_flag AS "delFlag"
 	</sql>
 	
-	<sql id="clinicTypeSettingJoins">
+	<sql id="clinicIndexJoins">
 	</sql>
     
-	<select id="get" resultType="ClinicTypeSetting">
+	<select id="get" resultType="ClinicIndex">
 		SELECT 
-			<include refid="clinicTypeSettingColumns"/>
-		FROM clinic_type_setting a
-		<include refid="clinicTypeSettingJoins"/>
+			<include refid="clinicIndexColumns"/>
+		FROM clinic_index a
+		<include refid="clinicIndexJoins"/>
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="ClinicTypeSetting">
+	<select id="findList" resultType="ClinicIndex">
 		SELECT 
-			<include refid="clinicTypeSettingColumns"/>
-		FROM clinic_type_setting a
-		<include refid="clinicTypeSettingJoins"/>
+			<include refid="clinicIndexColumns"/>
+		FROM clinic_index a
+		<include refid="clinicIndexJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>
@@ -44,11 +50,11 @@
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="ClinicTypeSetting">
+	<select id="findAllList" resultType="ClinicIndex">
 		SELECT 
-			<include refid="clinicTypeSettingColumns"/>
-		FROM clinic_type_setting a
-		<include refid="clinicTypeSettingJoins"/>
+			<include refid="clinicIndexColumns"/>
+		FROM clinic_index a
+		<include refid="clinicIndexJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
@@ -63,11 +69,17 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO clinic_type_setting(
+		INSERT INTO clinic_index(
 			id,
 			org_id,
-			clinic_type_name,
-			clinic_type_code,
+			clinic_label,
+			clinic_dept,
+			doctor,
+			doctor_title,
+			clinic_type,
+			input_code,
+			clinic_position,
+			serial_no,
 			create_date,
 			create_by,
 			update_date,
@@ -77,8 +89,14 @@
 		) VALUES (
 			#{id},
 			#{orgId},
-			#{clinicTypeName},
-			#{clinicTypeCode},
+			#{clinicLabel},
+			#{clinicDept},
+			#{doctor},
+			#{doctorTitle},
+			#{clinicType},
+			#{inputCode},
+			#{clinicPosition},
+			#{serialNo},
 			#{createDate},
 			#{createBy.id},
 			#{updateDate},
@@ -89,10 +107,16 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE clinic_type_setting SET 	
+		UPDATE clinic_index SET 	
 			org_id = #{orgId},
-			clinic_type_name = #{clinicTypeName},
-			clinic_type_code = #{clinicTypeCode},
+			clinic_label = #{clinicLabel},
+			clinic_dept = #{clinicDept},
+			doctor = #{doctor},
+			doctor_title = #{doctorTitle},
+			clinic_type = #{clinicType},
+			input_code = #{inputCode},
+			clinic_position = #{clinicPosition},
+			serial_no = #{serialNo},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
 			remarks = #{remarks}
@@ -100,8 +124,8 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE clinic_type_setting SET 
-			del_flag = #{DEL_FLAG_DELETE}
+		UPDATE clinic_index SET 
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

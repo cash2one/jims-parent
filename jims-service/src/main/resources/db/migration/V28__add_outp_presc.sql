@@ -5,11 +5,14 @@
 create table OUTP_PRESC
 (
    ID                   VARCHAR2(64 CHAR)    not null,
+   ORG_ID                  VARCHAR2(64 CHAR),
+  CLINIC_ID              VARCHAR2(64),
+  PATIENT_ID          VARCHAR2(64 CHAR),
    VISIT_DATE           TIMESTAMP,
    VISIT_NO             NUMBER(5),
-   SERIAL_NO            VARCHAR2(64 CHAR)    not null,
-   PRESC_NO             NUMBER(5)            not null,
-   ITEM_NO              NUMBER(2)            not null,
+   SERIAL_NO            VARCHAR2(64 CHAR),
+   PRESC_NO             NUMBER(5),
+   ITEM_NO              NUMBER(2),
    ITEM_CLASS           VARCHAR2(64 CHAR),
    DRUG_CODE            VARCHAR2(64 CHAR),
    DRUG_NAME            VARCHAR2(100 CHAR),
