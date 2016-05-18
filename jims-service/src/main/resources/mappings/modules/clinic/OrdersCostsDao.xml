@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.OrdersCostsDao">
+    
+	<sql id="ordersCostsColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId",
+		a.order_id AS "orderId",
+		a.order_no AS "orderNo",
+		a.order_sub_no AS "orderSubNo",
+		a.item_no AS "itemNo",
+		a.item_class AS "itemClass",
+		a.item_name AS "itemName",
+		a.item_code AS "itemCode",
+		a.item_spec AS "itemSpec",
+		a.units AS "units",
+		a.amount AS "amount",
+		a.total_amount AS "totalAmount",
+		a.costs AS "costs",
+		a.backbill_rule AS "backbillRule",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="ordersCostsJoins">
+	</sql>
+    
+	<select id="get" resultType="OrdersCosts">
+		SELECT 
+			<include refid="ordersCostsColumns"/>
+		FROM orders_costs a
+		<include refid="ordersCostsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrdersCosts">
+		SELECT 
+			<include refid="ordersCostsColumns"/>
+		FROM orders_costs a
+		<include refid="ordersCostsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OrdersCosts">
+		SELECT 
+			<include refid="ordersCostsColumns"/>
+		FROM orders_costs a
+		<include refid="ordersCostsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO orders_costs(
+			id,
+			patient_id,
+			visit_id,
+			order_id,
+			order_no,
+			order_sub_no,
+			item_no,
+			item_class,
+			item_name,
+			item_code,
+			item_spec,
+			units,
+			amount,
+			total_amount,
+			costs,
+			backbill_rule,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{visitId},
+			#{orderId},
+			#{orderNo},
+			#{orderSubNo},
+			#{itemNo},
+			#{itemClass},
+			#{itemName},
+			#{itemCode},
+			#{itemSpec},
+			#{units},
+			#{amount},
+			#{totalAmount},
+			#{costs},
+			#{backbillRule},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE orders_costs SET 	
+			patient_id = #{patientId},
+			visit_id = #{visitId},
+			order_id = #{orderId},
+			order_no = #{orderNo},
+			order_sub_no = #{orderSubNo},
+			item_no = #{itemNo},
+			item_class = #{itemClass},
+			item_name = #{itemName},
+			item_code = #{itemCode},
+			item_spec = #{itemSpec},
+			units = #{units},
+			amount = #{amount},
+			total_amount = #{totalAmount},
+			costs = #{costs},
+			backbill_rule = #{backbillRule},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE orders_costs SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
