@@ -8,12 +8,8 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/clinic/operationApply/js/operationApply.js"></script>
 </head>
-<body  class="easyui-layout">
+<body >
 
-<div id="dlg-buttons" class="btn-save" style="right: 0;">
-    <a href="javascript:void(0)" class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="savePperationApply();"
-       style="width: 90px;">保存</a>
-</div>
 
 <div  style="width:100%;height:100%;">
 
@@ -21,21 +17,19 @@
         <form id="operation" method="post">
             <input type="hidden" name="id">
             <div class="fitem fitem_pop" style="width:100%;height: 200px;">
-
                 <table id="operationName"  ></table>
             </div>
             <div class="fitem fitem_pop">
              <label>
                     术前诊断：
                 </label>
-                <input name="diagBeforeOperation" class="easyui-validatebox validatebox-text validatebox-invalid"
-                        >
+                <input name="diagBeforeOperation" class="easyui-validatebox validatebox-text validatebox-invalid">
             </div>
             <div class="fitem fitem_pop">
                <label>
                     病情：
                 </label>
-                <select name="patientCondition" class="easyui-combobox" style="width:30%;height: 30px">
+                <select name="patientCondition" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="0">请选择</option>
                     <option value="1">严重</option>
                     <option value="2">病危</option>
@@ -44,7 +38,7 @@
                 <label>
                     隔离：
                 </label>
-                <select name="isolationIndicator" class="easyui-combobox" >
+                <select name="isolationIndicator" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">正常</option>
                     <option value="2">隔离</option>
                     <option value="3">放射</option>
@@ -59,11 +53,11 @@
                     预约时间：
                 </label>
                 <input name="reqDateTime" class="easyui-datetimebox"
-                       style="width:30%;"/>
+                       style="width:12%;"/>
                 <label>
                     手术等级：
                 </label>
-                <select name="operationScale" class="easyui-combobox">
+                <select name="operationScale" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">一级手术</option>
                     <option value="2">二级手术</option>
                     <option value="3"> 三级手术</option>
@@ -75,20 +69,20 @@
                 <label>
                     手术室：
                 </label>
-                <select name="operatingRoom" class="easyui-combobox" >
+                <select name="operatingRoom" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">手术室组</option>
                 </select>
                 <label>
                     手术间：
                 </label>
-                <select name="operatingRoomNo" class="easyui-combobox">
+                <select name="operatingRoomNo" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">1</option>
                     <option value="2">2</option>
                 </select>
                 <label>
                     手术医生：
                 </label>
-                <select name="surgeon" class="easyui-combobox">
+                <select name="surgeon" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
@@ -97,19 +91,19 @@
                 <label>
                     助手：
                 </label>
-                <select name="firstAssistant" class="easyui-combobox">
+                <select name="firstAssistant" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
-                <select name="secondAssistant" class="easyui-combobox">
+                <select name="secondAssistant" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
-                <select name="thirdAssistant" class="easyui-combobox">
+                <select name="thirdAssistant" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
-                <select name="fourthAssistant" class="easyui-combobox">
+                <select name="fourthAssistant" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
@@ -118,28 +112,28 @@
                 <label>
                     麻醉方法：
                 </label>
-                <select name="anesthesiaMethod" class="easyui-combobox">
+                <select name="anesthesiaMethod" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">基础</option>
                     <option value="2">体外</option>
                     　　</select>
                 <label>
                     麻醉医师：
                 </label>
-                <select name="anesthesiaDoctor" class="easyui-combobox">
+                <select name="anesthesiaDoctor" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
                 <label>
                     助手：
                 </label>
-                <select name="anesthesiaAssistant" class="easyui-combobox">
+                <select name="anesthesiaAssistant" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
                 <label>
                     供血医师：
                 </label>
-                <select name="bloodTranDoctor" class="easyui-combobox">
+                <select name="bloodTranDoctor" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
@@ -149,8 +143,7 @@
                 <label>
                     备注：
                 </label>
-                <input name="remarks" class="easyui-validatebox validatebox-text validatebox-invalid"
-                        />
+                <input name="remarks" class="easyui-validatebox validatebox-text validatebox-textarea"/>
             </div>
             <input type="hidden" name="clinicId" id="clinicId">
             <input type="hidden" name="inOrOut"  value="0">

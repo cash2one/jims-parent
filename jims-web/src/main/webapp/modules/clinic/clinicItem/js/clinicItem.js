@@ -5,7 +5,6 @@ $(function() {
         fit: true,
         method:'GET',
         url: basePath+'/treatment/findList',
-       // url:'/modules/clinic/clinicItem/js/datagrid_data.json',
         idField: 'id',
         columns: [[      //每个列具体内容
             {field: 'itemName', title: '项目名称', width: '20%', align: 'center', editor:{
@@ -31,24 +30,6 @@ $(function() {
                 },
                     fitColumns: true
                 }
-               /* onClickRow: function (index, row) {
-                    ed = $("#clinicItem").datagrid('getEditor', {index: editRow, field: 'expCode'});
-                    //$(ed.target).textbox('setValue', row.expCode);
-                    currentExpCode = row.expCode;
-                    $("#expDetailDialog").dialog('open');
-                },
-                keyHandler: $.extend({}, $.fn.combogrid.defaults.keyHandler, {
-                    enter: function (e) {
-                        var row = $(this).combogrid('grid').datagrid('getSelected');
-                        if (row) {
-                        ed = $("#right").datagrid('getEditor', {index: editIndex, field: 'expCode'});
-                            //$(ed.target).textbox('setValue', row.expCode);
-                            currentExpCode = row.expCode;
-                            $("#expDetailDialog").dialog('open');
-                        }
-                        $(this).combogrid('hidePanel');
-                    }
-                })*/
             }
 
                  },
@@ -122,67 +103,7 @@ $(function() {
               //显示所有处置计价显示
             $('#dlg').dialog('open').dialog('center').dialog('setTitle', '处置计价');
         }
-
-
-
-
 });
-
-    //回显
-   /* setTimeout(function () {
-        var old = '';
-        var search = true;
-        var query = [];
-        //var $grid = $('#itemName');
-       *//* var $grid = $('#itemName').combogrid('grid');	// 获取表格控件对象
-        var r = g.datagrid('getSelected');	//获取表格当前选中行
-        alert(r.itemName);//随便 点出行内各个字段属性值
-        alert(11111111111);*//*
-       *//* $grid.onChange = function (_new, _old) {
-            alert(22222222222222);
-            if (_new != old) {
-                old = _new;
-                query = [old];
-                setTimeout(function () {
-                    if (query.length > 0 && search) {
-                        var param = query.pop();
-                        query = [];
-                        if (param != '') {
-                            $grid.combogrid('grid').datagrid('load', {zjm: param});
-                        }
-                        loading = false;
-                    }
-                }, 500);
-            }
-        };*//*
-
-      *//*  $grid.combogrid('grid').datagrid('options').onSelect = function(){
-            return false;
-        };*//*
-
-        $('#itemName').combogrid('grid').datagrid('options').onClickRow = function(index, row) {
-            var grid=$("#itemName").combogrid("grid");//获取表格对象
-            var row = grid.datagrid('getSelected');//获取行数据
-         *//*   $grid.combo('hidePanel');
-            $grid.combo('setValue', row.aka061);
-            $grid.combo('setText', row.aka061);*//*
-            var selectRows = $('#clinicItem').datagrid("getSelected");
-            selectRows.units=row.company;//单位
-            selectRows.charges=row.guige;//实收
-                $('#clinicItem').datagrid('updateRow', selectRows);
-            setTimeout(function () {
-                search = true;
-            }, 1000);
-        }
-    }, 1000);*/
-
-
-
-
-
-
-
-
 //处置计价
     $('#clinic').datagrid({
         singleSelect: true,
@@ -272,8 +193,6 @@ function doDelete(){
 function save(){
     var  rows=$('#clinicItem').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
-
-
     $.postJSON(basePath+'/treatment/save',tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
