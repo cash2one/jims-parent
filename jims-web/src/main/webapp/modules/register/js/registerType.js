@@ -20,9 +20,9 @@ function onloadMethod(id,clinicName){
         remoteSort:false,
         idField:'id',
         singleSelect:true,//是否单选
-        pagination:true,//分页控件
-        pageSize:15,
-        pageList: [10,15,30,50],//可以设置每页记录条数的列表
+        //pagination:true,//分页控件
+        //pageSize:15,
+        //pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
             {field:'chargeItem',title:'收费项目',width:'30%',align:'center',editor:{
                 type:'combobox',
@@ -55,6 +55,14 @@ function onloadMethod(id,clinicName){
             {field:'ck',checkbox:true}
         ]],
         toolbar: [{
+            text: '新增号类',
+            iconCls: 'icon-add',
+            handler: function() {
+                $("#clinicTypeId").val('');
+                $("#type").val('');
+                $('#list_data').datagrid('loadData', { total: 0, rows: [] });
+            }
+        },'-',{
             text: '增加',
             iconCls: 'icon-add',
             handler: function() {
@@ -69,13 +77,13 @@ function onloadMethod(id,clinicName){
 
                 });
             }
-        },  '-',{
+        },'-',{
             text: '删除',
             iconCls: 'icon-remove',
             handler: function(){
                 deleteItem();
             }
-        }, {
+        },'-',{
                 text: '保存',
                 iconCls:'icon-save',
                 handler:function(){
@@ -100,8 +108,8 @@ function onloadMethod(id,clinicName){
             }
         }
     });
-    //设置分页控件
-    var p = $('#list_data').datagrid('getPager');
+    ////设置分页控件
+    //var p = $('#list_data').datagrid('getPager');
 
 }
 //号类列表
@@ -126,8 +134,10 @@ function save(){
     $.postJSON(basePath+'/clinicType/saveItem?type='+type+'&clinicTypeId='+clinicTypeId,tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#list_data').datagrid('load');
-            $('#list_data').datagrid('clearChecked');
+            $("#clinicTypeId").val('');
+            $("#type").val('');
+            $('#list_data').datagrid('loadData', { total: 0, rows: [] });
+            clinicTypeList();
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }
