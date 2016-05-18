@@ -2,8 +2,10 @@ var editRow = undefined;
 var prescNo;
 var prescDate;
 var bindingPrescTitle;
+var prescSource;
 var administration = [{ "value": "口服", "text": "口服" }, { "value": "静脉注射", "text": "静脉注射" }, { "value": "小儿头皮静脉", "text": "小儿头皮静脉" }, { "value": "静脉输液", "text": "静脉输液" }, { "value": "续静滴", "text": "续静滴" }];
 var frequency = [{ "value": "一日一次", "text": "一日一次" }, { "value": "一日二次", "text": "一日二次" }, { "value": "一日三次", "text": "一日三次" }];
+var dispensary =  [{ "value": "1", "text": "西药局" }, { "value": "2", "text": "中药局" }];
 //页面加载
 $(function(){
     var patientId = '1';
@@ -15,13 +17,13 @@ $(function(){
         url:basePath+'/doctDrugPrescMaster/list?patientId='+patientId,
         columns:[[      //每个列具体内容
             {field:'id',title:'ID',hidden:'true'},
-            {field:'prescNo',title:'处方号',width:'30%',align:'center'},
+            {field:'prepayment',title:'预交金',hidden:'true'},
+            {field:'dianosis',title:'诊断',hidden:'true'},
             {field:'prescDate',title:'处方日期',width:'30%',align:'center'},
+            {field:'prescNo',title:'处方号',width:'30%',align:'center'},
             {field:'bindingPrescTitle',title:'处方名称',width:'30%',align:'center'}
         ]], onClickRow: function (index, row) {
-            $.get(basePath+'/doctDrugPrescDetail/list?prescMasterId=' + row.id, function (data) {
-                $("#centerList").datagrid("loadData", data);
-            });
+            loadSubData(row);
         }, onLoadSuccess: function(){
             var selRow =  $("#leftList").datagrid("getChecked");
 
@@ -30,9 +32,7 @@ $(function(){
                 $('#leftList').datagrid('selectRow',0);
                 selRow = $("#leftList").datagrid("getChecked");
             }
-            $.get(basePath+'/doctDrugPrescDetail/list?prescMasterId=' + selRow[0].id, function (data) {
-                $("#centerList").datagrid("loadData", data);
-            });
+            loadSubData(selRow[0]);
         }
     });
     $('#centerList').datagrid({
@@ -93,11 +93,10 @@ $(function(){
             }},
             {field:'freqDetail',title:'医生说明',width:'10%',align:'center',editor:'text'},
             {field:'quantity',title:'数量',width:'5%',align:'center',editor:'numberbox'},
-            {field:'units',title:'单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'packageUnits',title:'单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'costs',title:'应收',width:'10%',align:'center'},
             {field:'payments',title:'实收',width:'10%',align:'center'},
             {field:'packageSpec',title:'包装规格',hidden:'true'},
-            {field:'packageUnits',title:'包装单位',hidden:'true'},
             {field:'drugCode',title:'药品编号',hidden:'true',editor:{type:'textbox',options:{editable:false}}}
 
         ]],
@@ -129,30 +128,16 @@ $(function(){
         }
     });
 });
+function loadSubData(row){
+    $("#prepayment").val(row.prepayment);
+    $("#prescNo").val(row.prescNo);
+    $("#diagnosisName").val(row.dianosis);
+    $.get(basePath+'/doctDrugPrescDetail/list?prescMasterId=' + row.id, function (data) {
+        $("#centerList").datagrid("loadData", data);
+    });
+}
 //点击新方
 function addPre(){
-    //disableForm('prescForm',false);
-    //获取处方列表所有行，并取出所有行中处方号prescNo的最大值，加1后作为新处方的处方号
-    var rows = $('#leftList').datagrid('getRows');
-    if(rows.length>0){
-        for(var i=0;i<rows.length;i++){
-           /* if(rows[i].chargeIndicator=='新开'){
-                $.messager.alert("提示消息", "已有新开处方，请先保存或者弃方后再试!");
-                return;
-            }*/
-            for(var j=0;j<rows.length;j++){
-                if(rows[i].prescNo>rows[j].prescNo){
-                    prescNo= rows[i].prescNo+1;
-                    break;
-                }else{
-                    prescNo = rows[j].prescNo+1;
-                    break;
-                }
-            }
-        }
-    }else{
-        prescNo=1;
-    }
     $.ajax({
         'type': 'POST',
         'url': basePath+'/doctDrugPrescMaster/getPrescMaster',
@@ -174,6 +159,7 @@ function addPre(){
             $('#leftList').datagrid('selectRow',0);
         }
     })
+    //$("#prescNo").val(prescNo);
     $("#centerList").datagrid();
 }
 //保存处方及药品信息
@@ -244,4 +230,21 @@ function giveUpPre(){
     $('#leftList').datagrid('clearChecked');
     $('#centerList').datagrid('load');
     $('#centerList').datagrid('clearChecked');
+}
+//西药/草药单选按钮事件
+function funItem(obj){
+    $("#prescSource").val(obj.value);
+    prescSource=obj.value;
+    $('input:radio').each(function(){
+        if($(this).val()==obj.value){
+            $(this).prop("checked",true);
+            if(obj.value==2){
+                //部分信息西药不需要显示
+                //$('.vdbox input').removeAttribute("value")
+                $('.vdbox input').hide();
+            }
+        }else{
+            $(this).prop("checked",false);
+        }
+    });
 }
