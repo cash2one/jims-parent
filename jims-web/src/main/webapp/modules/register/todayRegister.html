@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html class="panel-fit"><head>
+    <meta charset="UTF-8">
+    <title>当日挂号</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/register/js/todayRegister.js"></script>
+</head>
+
+<body>
+<div style="padding:10px;">
+    <div class="margb-10">
+        <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td class="text-right">门诊号别：</td>
+                <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                <td class="text-right">门诊科室：</td>
+                <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                <td>
+                    <button class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</button>
+                </td>
+
+            </tr>
+        </table>
+
+    </div>
+
+    <div>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-back'">读卡</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="openDialog('chargeId','挂号结果')">挂号</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="openDialog('backNumberId','退号')">退号</button>
+    </div>
+    <div class="reglist-main">
+        <ul>
+            <li onclick="centerTypeActive(this)">
+                <div>
+                    <span style="padding-right:10px;"  class="color-blue">11</span>
+                    <strong >消化内一号</strong>
+                </div>
+                <span style="padding-right:10px;" >上午</span>
+                <a href="#" class="color-red">1</a>/5
+                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
+            </li>
+            <li onclick="centerTypeActive(this)">
+                <div>
+                    <span style="padding-right:10px;"  class="color-blue">11</span>
+                    <strong >消化内一号</strong>
+                </div>
+                <span style="padding-right:10px;" >上午</span>
+                <a href="#" class="color-red">1</a>/5
+                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
+            </li>
+            <li onclick="centerTypeActive(this)">
+                <div>
+                    <span style="padding-right:10px;"  class="color-blue">11</span>
+                    <strong >消化内一号</strong>
+                </div>
+                <span style="padding-right:10px;" >上午</span>
+                <a href="#" class="color-red">1</a>/5
+                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
+            </li>
+            <li onclick="centerTypeActive(this)">
+                <div>
+                    <span style="padding-right:10px;"  class="color-blue">11</span>
+                    <strong >消化内一号</strong>
+                </div>
+                <span style="padding-right:10px;" >上午</span>
+                <a href="#" class="color-red">1</a>/5
+                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
+            </li >
+            <li onclick="centerTypeActive(this)">
+                <div>
+                    <span style="padding-right:10px;"  class="color-blue">11</span>
+                    <strong >消化内一号</strong>
+                </div>
+                <span style="padding-right:10px;" >上午</span>
+                <a href="#" class="color-red">1</a>/5
+                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
+            </li>
+            <li onclick="centerTypeActive(this)">
+                <div>
+                    <span style="padding-right:10px;"  class="color-blue">11</span>
+                    <strong >消化内一号</strong>
+                </div>
+                <span style="padding-right:10px;" >上午</span>
+                <a href="#" class="color-red">1</a>/5
+                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
+            </li>
+            <li onclick="centerTypeActive(this)">
+                <div>
+                    <span style="padding-right:10px;"  class="color-blue">11</span>
+                    <strong >消化内一号</strong>
+                </div>
+                <span style="padding-right:10px;" >上午</span>
+                <a href="#" class="color-red">1</a>/5
+                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
+            </li>
+            <li onclick="centerTypeActive(this)">
+                <div>
+                    <span style="padding-right:10px;"  class="color-blue">11</span>
+                    <strong >消化内一号</strong>
+                </div>
+                <span style="padding-right:10px;" >上午</span>
+                <a href="#" class="color-red">1</a>/5
+                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
+            </li>
+        </ul>
+    </div>
+    <div class="reg-cusinfo">
+
+        <ul>
+            <li><span>门诊号：</span><input type="text" class="validatebox-text"></li>
+            <li><span>姓名：</span><input type="text" class="validatebox-text"></li>
+            <li><span>性别：</span><input type="text" class="validatebox-text"></li>
+            <li><span>出生日期：</span><input type="text" class="validatebox-text"></li>
+            <li><span>费别：</span><input type="text" class="validatebox-text"></li>
+            <li><span>身份：</span><input type="text" class="validatebox-text"></li>
+            <li><span>诊别：</span><input type="text" class="validatebox-text"></li>
+            <li><span>合同单位：</span><input type="text" class="validatebox-text"></li>
+            <li><span>医保类别：</span><input type="text" class="validatebox-text"></li>
+            <li><span>医保号：</span><input type="text" class="validatebox-text"></li>
+        </ul>
+    </div>
+    <div id="chargeId" class="easyui-dialog" style="width:25%;height:75%"   closed="true">
+        <div style="height: 70%">
+            <table width="100%" border="1" cellpadding="2" cellspacing="0">
+                <tr>
+                    <td>主任号</td>
+                    <td>10.00</td>
+                </tr>
+                <tr>
+                    <td>神经科号</td>
+                    <td>2.00</td>
+                </tr>
+            </table>
+        </div>
+        <h1>
+            现金支付
+        </h1>
+        <br>
+        <div style="border:3px solid #000">
+            实收：<input type="text" style="width: 30%">&nbsp;找零：<input type="text" style="width: 30%">
+        </div>
+        <br>
+        <div style="text-align:right;">
+            <button class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</button>
+            <button class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">取消</button>
+        </div>
+    </div>
+    <div id="backNumberId" class="easyui-dialog"  closed="true" fit="true">
+    <div style="padding:10px;">
+        <div class="margb-10">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td class="text-right">门诊号：</td>
+                    <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                    <td class="text-right">就诊日期：</td>
+                    <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                    <td class="text-right">就诊序号：</td>
+                    <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+
+                </tr>
+                <tr>
+                    <td class="text-right">门诊类别：</td>
+                    <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                    <td class="text-right">序号：</td>
+                    <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                    <td>
+                        <button class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</button>
+                    </td>
+
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="bg-gray">
+            <button class="easyui-linkbutton" data-options="iconCls:'icon-add'">提取</button>
+            <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'">退号</button>
+        </div>
+        <div class="regretreat-info">
+            <table cellpadding="0" cellspacing="0" width="100%" class="apply-tab">
+                <tr>
+                    <td>门诊号：</td>
+                    <td><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>姓名：</td>
+                    <td colspan="3"><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>性别：</td>
+                    <td><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>年龄：</td>
+                    <td><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+
+                </tr>
+                <tr>
+                    <td>费别：</td>
+                    <td><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>合同单位：</td>
+                    <td colspan="3"><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>身份：</td>
+                    <td colspan="3"><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+
+                </tr>
+                <tr>
+                    <td>医保类别：</td>
+                    <td><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>医保账号：</td>
+                    <td colspan="3"><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>总费用：</td>
+                    <td colspan="3"><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+
+
+                </tr>
+                <tr>
+                    <td>就诊日期：</td>
+                    <td><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>就诊序号：</td>
+                    <td><input title="" name="AccountCode" class="validatebox-text " required="true"></td>
+                    <td>门诊时间：</td>
+                    <td>
+                        <input title="" name="AccountCode" class="validatebox-text " required="true">
+                    </td>
+                    <td>挂号状态：</td>
+                    <td  colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text " required="true">
+                    </td>
+                </tr>
+                <Tr>
+                    <td>门诊号别：</td>
+                    <td  colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text " required="true">
+                    </td>
+                    <td>门诊科室：</td>
+                    <td  colspan="5">
+                        <input title="" name="AccountCode" class="validatebox-text " required="true">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>序号：</td>
+                    <td>
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>医生姓名：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text " required="true">
+                    </td>
+                    <td>门诊类别：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text " required="true">
+                    </td>
+                </tr>
+                <tr>
+                    <td>初诊标志：</td>
+                    <td>
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>提供病案：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>挂号费：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                </tr>
+                <tr>
+                    <td>挂号员：</td>
+                    <td>
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>挂号日期：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>诊疗费：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>退号员：</td>
+                    <td>
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>退号日期：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>其他费用：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>支付方式：</td>
+                    <td>
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>使用卡类：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                    <td>使用卡号：</td>
+                    <td colspan="3">
+                        <input title="" name="AccountCode" class="validatebox-text" required="true">
+                    </td>
+                </tr>
+
+
+            </table>
+
+        </div>
+
+    </div>
+
+    </div>
+</div>
+</body>
+</html>

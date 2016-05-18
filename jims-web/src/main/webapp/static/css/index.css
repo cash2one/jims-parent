@@ -301,7 +301,7 @@ ul.cus-list li a span.cus-name
 }
 .sub_title_em {
     margin: 10px 0px;
-    color: #fff;
+    color: #000;
     font-weight: bold;
     text-align: left;
     height: 25px;
@@ -309,7 +309,7 @@ ul.cus-list li a span.cus-name
     position: absolute;
     top: -8px;
     left: 25px;
-    background: rgba(156, 205, 61,1);
+    background: #fff;
     padding: 0 10px;
     line-height: 25px;
     border-radius: 5px;
@@ -923,17 +923,17 @@ a.dropma-color {
 {
     padding:5px;
 }
-.lefmenu-list ul li
+.lefmenu-list ul li a
 {
     border:1px dashed #ccc;
     margin-bottom:10px;
     font-size:14px;
     line-height:25px;
 }
-.lefmenu-list ul li:hover,.lefmenu-list ul li.active
+.lefmenu-list ul li a:hover,.lefmenu-list ul li a.active
 {
     border:1px solid #dce8c4;
-    background:#f8ffe9;
+    background:#94B945;
 }
 .lefmenu-list ul li img
 {
@@ -1046,7 +1046,7 @@ a.dropma-color {
 .reglist-main ul li.active
 {
     border:1px solid #dce8c4;
-    background:#f8ffe9;
+    background:#43DE11;
 }
 .reg-cusinfo
 {
