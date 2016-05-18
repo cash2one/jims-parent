@@ -43,8 +43,17 @@ public class DrugPriceList extends DataEntity<DrugPriceList> {
 	private String orgId;		// 所属组织结构
 	private String drugName ; //药品名称
 
-
+    //无效字段
     private String supplier; // 厂商
+    private String stopDateCheck; // 停价标志
+
+    public String getStopDateCheck() {
+        return stopDateCheck;
+    }
+
+    public void setStopDateCheck(String stopDateCheck) {
+        this.stopDateCheck = stopDateCheck;
+    }
 
     public String getSupplier() {
         return supplier;
