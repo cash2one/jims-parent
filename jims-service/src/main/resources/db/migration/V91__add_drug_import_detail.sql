@@ -112,4 +112,4 @@ comment on column DRUG_IMPORT_DETAIL.ORG_ID
 alter table DRUG_IMPORT_DETAIL
   add constraint DRUG_IMPORT_DETAIL_PK primary key (ID);
 alter table DRUG_IMPORT_DETAIL
-  add constraint DRUG_IMPORT_DETAIL_UK unique (DOCUMENT_NO, ITEM_NO);
+  add constraint DRUG_IMPORT_DETAIL_UK unique (DOCUMENT_NO, ITEM_NO,ORG_ID);

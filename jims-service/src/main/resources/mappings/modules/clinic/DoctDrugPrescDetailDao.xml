@@ -32,9 +32,9 @@
 		a.freq_detail AS "freqDetail",
 		a.batch_no AS "batchNo",
 		a.create_by AS "createBy.id",
-		a.create_data AS "createData",
+		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_data AS "updateData",
+		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
@@ -72,7 +72,7 @@
 		<include refid="doctDrugPrescDetailColumns"/>
 		FROM doct_drug_presc_detail a
 		<where>
-			a.del_flag = '1'
+			a.del_flag = '0'
 			<if test="prescMasterId!=null and prescMasterId!=''">
 				and a.presc_master_id=#{prescMasterId}
 			</if>
@@ -127,9 +127,9 @@
 			freq_detail,
 			batch_no,
 			create_by,
-			create_data,
+			create_date,
 			update_by,
-			update_data,
+			update_date,
 			remarks,
 			del_flag
 		) VALUES (
@@ -162,9 +162,9 @@
 			#{freqDetail},
 			#{batchNo},
 			#{createBy.id},
-			#{createData},
+			#{createDate},
 			#{updateBy.id},
-			#{updateData},
+			#{updateDate},
 			#{remarks},
 			#{delFlag}
 		)
@@ -199,9 +199,9 @@
 			dosage_each = #{dosageEach},
 			freq_detail = #{freqDetail},
 			batch_no = #{batchNo},
-			create_data = #{createData},
+			create_date = #{createDate},
 			update_by = #{updateBy.id},
-			update_data = #{updateData},
+			update_date = #{updateDate},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>

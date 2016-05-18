@@ -5,10 +5,13 @@
 create table OUTP_ORDERS_COSTS
 (
    ID                   VARCHAR2(64 CHAR)    not null,
-   PATIENT_ID           VARCHAR2(64 CHAR),
+   ORG_ID                  VARCHAR2(64 CHAR),
+   CLINIC_ID              VARCHAR2(64),
+   PATIENT_ID          VARCHAR2(64 CHAR),
+    MASTER_ID    VARCHAR2(64),
    VISIT_DATE           TIMESTAMP,
    VISIT_NO             NUMBER(10),
-   SERIAL_NO            VARCHAR2(10 CHAR )   not null,
+   SERIAL_NO            VARCHAR2(64 CHAR )   not null,
    ORDER_CLASS          VARCHAR2(2 CHAR)     not null,
    ORDER_NO             NUMBER(4)            not null,
    ORDER_SUB_NO         NUMBER(4),

@@ -17,11 +17,7 @@ create table BLOOD_CAPACITY
   UPDATE_DATE    TIMESTAMP(6),
   DEL_FLAG       VARCHAR2(2),
   CREATE_DATE    TIMESTAMP(6)
-)
-tablespace JIMS_DATA
-  pctfree 10
-  initrans 1
-  maxtrans 255;
+);
 -- Add comments to the table 
 comment on table BLOOD_CAPACITY
   is '申请用血量表';
@@ -46,3 +42,6 @@ comment on column BLOOD_CAPACITY.ID
   is '主键';
 comment on column BLOOD_CAPACITY.ORG_ID
   is '所属结构';
+-- Create/Recreate primary, unique and foreign key constraints
+alter table BLOOD_CAPACITY
+  add constraint BLOOD_CAPACITY_UK unique (APPLY_NUM, MATCH_SUB_NUM);

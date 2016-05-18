@@ -4,6 +4,6 @@
 /*==============================================================*/
 
 ALTER TABLE BLOOD_CAPACITY ADD CONSTRAINT PK_BLOOD_CAPACITY
-����PRIMARY KEY(ID);
+PRIMARY KEY(ID);
 comment on column BLOOD_CAPACITY.ID
   is '用血方式主键';

@@ -51,9 +51,4 @@ comment on column EXAM_CLASS_DICT.HTTP_IP
 comment on column EXAM_CLASS_DICT.OUTP_PERFORM
   is '适用于门诊检查不可选控制';
 alter table EXAM_CLASS_DICT
-  add constraint EXAM_CLASS_DICT_PK primary key (ID)
-  using index 
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint EXAM_CLASS_DICT_PK primary key (ID);

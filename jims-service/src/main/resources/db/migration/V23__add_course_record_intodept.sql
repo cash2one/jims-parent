@@ -21,7 +21,7 @@ create table COURSE_RECORD_INTODEPT  (
    UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(225 CHAR),
    DEL_FLAG             CHAR(1),
-   constraint "PK_course_record_intodept" primary key (ID, BINGCHENG_ID)
+   constraint "PK_course_record_intodept" primary key (ID)
 );
 
 comment on table COURSE_RECORD_INTODEPT is

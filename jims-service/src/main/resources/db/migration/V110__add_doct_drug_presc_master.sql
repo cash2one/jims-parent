@@ -43,9 +43,9 @@ create table DOCT_DRUG_PRESC_MASTER
    DIAGNOSIS_NAME       VARCHAR2(100),
    DISPENSARY_SUB       VARCHAR2(8),
    CREATE_BY            VARCHAR2(64),
-   CREATE_DATA          TIMESTAMP,
+   CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
-   UPDATE_DATA          TIMESTAMP,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(200),
    DEL_FLAG             char(1) default '0',
    constraint PK_DOCT_DRUG_PRESC_MASTER primary key (ID)
@@ -150,13 +150,13 @@ comment on column DOCT_DRUG_PRESC_MASTER.DISPENSARY_SUB is
 comment on column DOCT_DRUG_PRESC_MASTER.CREATE_BY is
 '创建人';
 
-comment on column DOCT_DRUG_PRESC_MASTER.CREATE_DATA is
+comment on column DOCT_DRUG_PRESC_MASTER.CREATE_DATE is
 '创建时间';
 
 comment on column DOCT_DRUG_PRESC_MASTER.UPDATE_BY is
 '更新人';
 
-comment on column DOCT_DRUG_PRESC_MASTER.UPDATE_DATA is
+comment on column DOCT_DRUG_PRESC_MASTER.UPDATE_DATE is
 '更新时间';
 
 comment on column DOCT_DRUG_PRESC_MASTER.REMARKS is

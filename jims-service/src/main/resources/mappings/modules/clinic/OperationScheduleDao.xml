@@ -76,10 +76,16 @@
 		select
 		<include refid="operationScheduleColumns"/>
 		from operation_schedule a
-		where patient_id =#{patientId}
+		where 1=1
+		<if test="patientId !=null and patientId !=''">
+		 and	patient_id =#{patientId}
+		</if>
 		  <if test="visitId !=null and visitId !=''">
 			  and  a.visit_id =#{visitId}
 		  </if>
+		<if test="clinicId !=null and clinicId !=''">
+			  and  a.clinic_id = #{clinicId}
+		</if>
 
 	</select>
 
@@ -257,8 +263,7 @@
 			oper_status = #{operStatus},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate},
-			in_or_out = #{inOrOut}
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

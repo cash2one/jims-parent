@@ -18,6 +18,12 @@ import java.util.List;
  */
 @MyBatisDao
 public interface ScheduledOperationNameDao extends CrudDao<ScheduledOperationName> {
-
-   public List<ScheduledOperationName> getOperationName(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param(value = "scheduleId")Integer scheduleId);
+   /**
+    * 查询手术名称
+    * @param patientId
+    * @param visitId
+    * @param clinicId
+    * @return
+    */
+   public List<ScheduledOperationName> getOperationName(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param("clinicId")String clinicId,@Param("scheduleId")String scheduleId);
 }
