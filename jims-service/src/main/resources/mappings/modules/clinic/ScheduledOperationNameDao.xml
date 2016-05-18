@@ -41,9 +41,6 @@
               and   a.schedule_id = #{scheduleId}
 			</if>
 
-			<if test="clinicId !=null and clinicId !=''">
-               and  a.clinic_id = #{clinicId}
-					</if>
 		</where>
 				ORDER BY a.update_date DESC
 

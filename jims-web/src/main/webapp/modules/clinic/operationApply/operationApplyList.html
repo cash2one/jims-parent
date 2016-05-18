@@ -9,7 +9,14 @@
     <script type="text/javascript" src="/modules/clinic/operationApply/js/operationApply.js"></script>
 </head>
 <body  class="easyui-layout">
-<div class="easyui-layout" style="width:100%;height:100%;">
+
+<div id="dlg-buttons" class="btn-save" style="right: 0;">
+    <a href="javascript:void(0)" class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="savePperationApply();"
+       style="width: 90px;">保存</a>
+</div>
+
+<div  style="width:100%;height:100%;">
+
     <div data-options="region:'center',iconCls:'icon-ok'">
         <form id="operation" method="post">
             <input type="hidden" name="id">
@@ -18,22 +25,22 @@
                 <table id="operationName"  ></table>
             </div>
             <div class="fitem fitem_pop">
-               <!-- <label>
+             <label>
                     术前诊断：
                 </label>
-                <input name="shouqianzhenduan" class="easyui-validatebox validatebox-text validatebox-invalid"
-                        >-->
+                <input name="diagBeforeOperation" class="easyui-validatebox validatebox-text validatebox-invalid"
+                        >
             </div>
             <div class="fitem fitem_pop">
-              <!--  <label>
+               <label>
                     病情：
                 </label>
-                <select name="bingqing" class="easyui-combobox" style="width:30%;height: 30px">
+                <select name="patientCondition" class="easyui-combobox" style="width:30%;height: 30px">
                     <option value="0">请选择</option>
                     <option value="1">严重</option>
                     <option value="2">病危</option>
                     <option value="3">一般</option>
-                </select>-->
+                </select>
                 <label>
                     隔离：
                 </label>
@@ -149,11 +156,10 @@
             <input type="hidden" name="inOrOut"  value="0">
 
         </form>
-        <div id="dlg-buttons" class="btn-save">
-            <a href="javascript:void(0)" class="easy-nbtn easy-nbtn-info easy-nbtn-padd" onclick="savePperationApply();"
-               style="width: 90px">保存</a>
-        </div>
+
     </div>
+
 </div>
+
 </body>
 </html>
