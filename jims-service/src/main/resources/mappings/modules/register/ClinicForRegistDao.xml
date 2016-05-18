@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.register.dao.ClinicForRegistDao">
+    
+	<sql id="clinicForRegistColumns">
+		a.clinic_date AS "clinicDate",
+		a.clinic_label AS "clinicLabel",
+		a.time_desc AS "timeDesc",
+		a.registration_limits AS "registrationLimits",
+		a.appointment_limits AS "appointmentLimits",
+		a.current_no AS "currentNo",
+		a.registration_num AS "registrationNum",
+		a.appointment_num AS "appointmentNum",
+		a.regist_price AS "registPrice"
+	</sql>
+	
+	<sql id="clinicForRegistJoins">
+	</sql>
+    
+	<select id="get" resultType="ClinicForRegist">
+		SELECT 
+			<include refid="clinicForRegistColumns"/>
+		FROM clinic_for_regist a
+		<include refid="clinicForRegistJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClinicForRegist">
+		SELECT 
+			<include refid="clinicForRegistColumns"/>
+		FROM clinic_for_regist a
+		<include refid="clinicForRegistJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ClinicForRegist">
+		SELECT 
+			<include refid="clinicForRegistColumns"/>
+		FROM clinic_for_regist a
+		<include refid="clinicForRegistJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO clinic_for_regist(
+			clinic_date,
+			clinic_label,
+			time_desc,
+			registration_limits,
+			appointment_limits,
+			current_no,
+			registration_num,
+			appointment_num,
+			regist_price
+		) VALUES (
+			#{clinicDate},
+			#{clinicLabel},
+			#{timeDesc},
+			#{registrationLimits},
+			#{appointmentLimits},
+			#{currentNo},
+			#{registrationNum},
+			#{appointmentNum},
+			#{registPrice}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE clinic_for_regist SET 	
+			clinic_date = #{clinicDate},
+			clinic_label = #{clinicLabel},
+			time_desc = #{timeDesc},
+			registration_limits = #{registrationLimits},
+			appointment_limits = #{appointmentLimits},
+			current_no = #{currentNo},
+			registration_num = #{registrationNum},
+			appointment_num = #{appointmentNum},
+			regist_price = #{registPrice}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM clinic_for_regist
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,5 +1,6 @@
 
 function onloadMethod(){
+    var rowNum=-1;
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: '100%',
@@ -10,17 +11,17 @@ function onloadMethod(){
         method:'get',
         collapsible:false,//是否可折叠的
         //fit: true,//自动大小
-        // url:basePath+'/courseRecord/list',
+         url:basePath+'/clinicSchedule/findList',
         remoteSort:false,
-        idField:'fldId',
+        idField:'id',
         singleSelect:false,//是否单选
         pagination:true,//分页控件
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'luruShijian',title:'门诊号名称',width:'20%',align:'center'},
-            {field:'keshi',title:'时间',width:'25%',align:'center'},
-            {field:'type',title:'星期',width:'20%',align:'center'}
+            {field:'clinicLabel',title:'门诊号名称',width:'20%',align:'center'},
+            {field:'timeDesc',title:'时间',width:'25%',align:'center'},
+            {field:'dayOfWeek',title:'星期',width:'20%',align:'center'}
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
@@ -62,7 +63,13 @@ function onloadMethod(){
             text: '增加',
             iconCls: 'icon-add',
             handler: function() {
-
+                if(rowNum>=0){
+                    rowNum++;
+                }
+                $("#list_data_num").datagrid('insertRow', {
+                    index: 0,
+                    row: {}
+                });
             }
         }, {
             text: '修改',
