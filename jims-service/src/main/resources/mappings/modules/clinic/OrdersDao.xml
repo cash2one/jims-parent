@@ -331,10 +331,10 @@
 	
 	<update id="update">
 		UPDATE orders SET 	
-			patient_id = #{patientId},
+		/*	patient_id = #{patientId},
 			visit_id = #{visitId},
 			order_no = #{orderNo},
-			order_sub_no = #{orderSubNo},
+			order_sub_no = #{orderSubNo},*/
 			repeat_indicator = #{repeatIndicator},
 			order_class = #{orderClass},
 			order_text = #{orderText},
@@ -416,5 +416,22 @@
 		</if>
 
 	</select>
-	
+
+
+
+	<select id="getOrderSubNo" resultType="java.lang.Integer">
+		SELECT max(order_sub_no) FROM orders
+		WHERE
+		<if  test="patientId!=null and patientId!='' ">
+			patient_id = #{patientId}
+		</if>
+		<if test="visitId!=null and visitId!='' ">
+			AND visit_id=#{visitId}
+		</if>
+		<if test="orderNo!=null and orderNo!='' ">
+			AND order_no=#{orderNo}
+		</if>
+
+	</select>
+
 </mapper>

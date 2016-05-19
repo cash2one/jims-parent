@@ -41,4 +41,28 @@ public class OrdersRest {
         orders.setVisitId("1");
         return ordersServiceApi.getPatientOrders(orders);
     }
+
+    /**
+     * 保存医嘱
+     * @param ordersList
+     * @return
+     * pq
+     */
+    @Path("save")
+    @POST
+    public  String saveOrders(List<Orders> ordersList){
+      return ordersServiceApi.saveOrdersNew(ordersList);
+    }
+
+    /**
+     * 保存子医嘱
+     * @param orders
+     * @return
+     * pq
+     */
+    @Path("saveSubOrder")
+    @POST
+    public String saveSubOrders(Orders orders){
+        return ordersServiceApi.saveSubOrder(orders);
+    }
 }

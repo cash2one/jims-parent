@@ -45,4 +45,20 @@ public interface OrdersServiceApi {
      */
     public List<Orders> getPatientOrders(Orders orders);
 
+    /**
+     * 保存住院医嘱
+     * @param ordersList
+     * @author pq
+     * @return
+     */
+    public String saveOrdersNew(List<Orders> ordersList);
+
+    /**
+     * 保存子医嘱
+     * @param orders
+     * @return
+     * pq
+     */
+    public String saveSubOrder(Orders orders);
+
 }
