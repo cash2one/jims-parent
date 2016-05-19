@@ -16,7 +16,7 @@ $(function(){
         url:basePath+'/clinicIndex/findList',
         remoteSort:false,
         idField:'id',
-        singleSelect:false,//是否单选
+        singleSelect:true,//是否单选
         pagination:true,//分页控件
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
@@ -39,8 +39,12 @@ $(function(){
         }
     });
     //设置分页控件
-    var p = $('#list_data').datagrid('getPager');
-
+    var p1 = $('#list_data').datagrid('getPager');
+    $(p1).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '共 {total} 条记录'
+    });
     $('#listWeek').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -127,6 +131,11 @@ $(function(){
 
     //设置分页控件
     var p = $('#listWeek').datagrid('getPager');
+    $(p).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    });
 });
 //加载安排录入list
 function listWeek(clinicIndexId){
