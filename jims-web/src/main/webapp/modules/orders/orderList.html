@@ -9,36 +9,52 @@
     <script type="text/javascript" src="../orders/js/orderList.js"></script>
 </head>
 <body class="easyui-layout" >
-<div class="search-standard clearfix">
+
+<div class="search-standard search-new clearfix">
+    <form name="searchform" method="post" id ="searchform">
     <ul class="clearfix">
-        <li>床号:<input id="bedNo" class="validatebox-text validatebox-text-sm" readonly/></li>
-        <li>姓名:<input id="name" class="validatebox-text validatebox-text-sm" readonly/></li>
-        <li>性别:<input id="sex" class="validatebox-text validatebox-text-sm" readonly/></li>
-        <li>年龄:<input id="age" class="validatebox-text validatebox-text-sm" readonly/></li>
-        <li>费别:<input id="price" class="validatebox-text validatebox-text-sm" readonly/></li>
-        <li>体重:<input id="weight" class="validatebox-text validatebox-text-sm" readonly/></li>kg
-        <li>身高:<input id="height" class="validatebox-text validatebox-text-sm" readonly/></li>cm
-        <li>病人Id:<input id="patientId" class="validatebox-text validatebox-text-sm" readonly/></li>
-        <li>剩余预交金:<input id="surplusMoney" class="validatebox-text validatebox-text-sm" readonly/></li>
+        <li>床号:<input id="bedNo" class="validatebox-text" readonly/></li>
+        <li>姓名:<input id="name" class="validatebox-text" readonly/></li>
+        <li>性别:<input id="sex" class="validatebox-text" readonly/></li>
+        <li>年龄:<input id="age" class="validatebox-text" readonly/></li>
+        <li>费别:<input id="price" class="validatebox-text" readonly/></li>
+        <li>体重:<input id="weight" class="validatebox-text" readonly/>kg</li>
+        <li>身高:<input id="height" class="validatebox-text" readonly/>cm</li>
+        <li>病人Id:<input id="patientId" class="validatebox-text" readonly/></li>
+        <li>剩余预交金:<input id="surplusMoney" class="validatebox-text" readonly/></li>
         <li>
-             <input type="radio" name="type"  checked="checked" value="1" />全部 &nbsp;&nbsp;
-             <input type="radio" name="type" value="2"  />长期
-             <input type="radio" name="type" value="3"  />临时
+             <input type="radio" name="repeatIndicator"  checked="checked" value="1" />全部 &nbsp;&nbsp;
+             <input type="radio" name="repeatIndicator" value="2"  />长期
+             <input type="radio" name="repeatIndicator" value="3"  />临时
         </li>
-        <li><input type="text" class="easyui-datetimebox"/> 至  <input type="text" class="easyui-datetimebox"/></li>
-        <li><button class="easy-nbtn ">查询</button></li>
+        <li style="width:50%;"><input type="text" name="startDateTime" class="easyui-datetimebox"/> 至  <input type="text" name="stopDateTime" class="easyui-datetimebox"/></li>
+        <li><a id="submit_search">查询</a></li>
         <li>
-            <input type="radio" name="excute"  checked="checked" value="1" />都显示 &nbsp;&nbsp;
-            <input type="radio" name="excute" value="2"  />已执行
-            <input type="radio" name="excute" value="3"  />医嘱本
+            <input type="radio" name="orderStatus"  checked="checked" value="1" />都显示 &nbsp;&nbsp;
+            <input type="radio" name="orderStatus" value="2"  />已执行
+            <input type="radio" name="orderStatus" value="3"  />医嘱本
         </li>
 
     </ul>
+        </form>
+
 </div>
-<table id="orderList" width="100%"   cellspacing="0" cellpadding="0">
+<div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
+    <a href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-add'">新增</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a>
+    <a href="#" class="easyui-linkbutton">插入</a>
+    <a href="#" class="easyui-linkbutton">子医嘱</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'" style="width:80px">打印</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" style="width:80px">刷新</a>
+    <a href="#" class="easyui-linkbutton">套餐医嘱</a>
+    <a href="#" class="easyui-linkbutton">申请单</a>
+    <a href="#" class="easyui-linkbutton">传输医嘱</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">关闭</a>
+</div>
+<table id="orderList" width="100%"   cellspacing="0" cellpadding="0" >
 
 </table>
-
 
 </body>
 </html>

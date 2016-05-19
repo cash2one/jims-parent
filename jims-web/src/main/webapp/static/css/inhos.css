@@ -21,6 +21,10 @@
 	background:#f8f8f8;
 	border-bottom:1px solid #ccc;
 }
+.search-standard.search-new ul li
+{
+	width:18%;
+}
 .search-standard ul li
 {
 	float:left;
@@ -28,6 +32,7 @@
 	font-size:12px;
 	height:35px;
 }
+
 .search-standard ul li input,.search-standard ul li select
 {
 	display:inline-block;
