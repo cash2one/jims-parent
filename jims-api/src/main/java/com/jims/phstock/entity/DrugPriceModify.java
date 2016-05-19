@@ -1,6 +1,5 @@
 package com.jims.phstock.entity;
 
-
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
@@ -126,6 +125,7 @@ public class DrugPriceModify extends DataEntity<DrugPriceModify> {
 		this.currentRetailPrice = currentRetailPrice;
 	}
 	
+
 	@NotNull(message="调价通知生效日期不能为空")
 	public Date getNoticeEfficientDate() {
 		return noticeEfficientDate;
@@ -135,6 +135,7 @@ public class DrugPriceModify extends DataEntity<DrugPriceModify> {
 		this.noticeEfficientDate = noticeEfficientDate;
 	}
 	
+
 	public Date getActualEfficientDate() {
 		return actualEfficientDate;
 	}

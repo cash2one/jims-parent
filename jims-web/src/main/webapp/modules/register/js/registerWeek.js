@@ -30,12 +30,11 @@ $(function(){
         frozenColumns:[[
             {field:'ck',checkbox:true}
         ]],
-        toolbar: "#ddddddddd",
+        toolbar: "#lookListData",
         onClickRow:function(rowIndex,rowData){
             var selectRows = $('#list_data').datagrid("getSelected");
             var clinicIndexId=  selectRows['id'];//号别ID
             listWeek(clinicIndexId);
-
         }
     });
     //设置分页控件
@@ -64,7 +63,7 @@ $(function(){
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
             {field:'clinicLabel',title:'门诊号名称',width:'20%',align:'center',editor: 'text'},
-            {field:'dayOfWeek',title:'星期',width:'25%',align:'center',editor:{
+            {field:'dayOfWeek',title:'星期',width:'23%',align:'center',editor:{
                 type:"combobox",
                 options:{
                     data :week,
