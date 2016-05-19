@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="panel-fit"><head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../orders/js/orderList.js"></script>
+</head>
+<body class="easyui-layout" >
+<div class="search-standard clearfix">
+    <ul class="clearfix">
+        <li>床号:<input id="bedNo" class="validatebox-text validatebox-text-sm" readonly/></li>
+        <li>姓名:<input id="name" class="validatebox-text validatebox-text-sm" readonly/></li>
+        <li>性别:<input id="sex" class="validatebox-text validatebox-text-sm" readonly/></li>
+        <li>年龄:<input id="age" class="validatebox-text validatebox-text-sm" readonly/></li>
+        <li>费别:<input id="price" class="validatebox-text validatebox-text-sm" readonly/></li>
+        <li>体重:<input id="weight" class="validatebox-text validatebox-text-sm" readonly/></li>kg
+        <li>身高:<input id="height" class="validatebox-text validatebox-text-sm" readonly/></li>cm
+        <li>病人Id:<input id="patientId" class="validatebox-text validatebox-text-sm" readonly/></li>
+        <li>剩余预交金:<input id="surplusMoney" class="validatebox-text validatebox-text-sm" readonly/></li>
+        <li>
+             <input type="radio" name="type"  checked="checked" value="1" />全部 &nbsp;&nbsp;
+             <input type="radio" name="type" value="2"  />长期
+             <input type="radio" name="type" value="3"  />临时
+        </li>
+        <li><input type="text" class="easyui-datetimebox"/> 至  <input type="text" class="easyui-datetimebox"/></li>
+        <li><button class="easy-nbtn ">查询</button></li>
+        <li>
+            <input type="radio" name="excute"  checked="checked" value="1" />都显示 &nbsp;&nbsp;
+            <input type="radio" name="excute" value="2"  />已执行
+            <input type="radio" name="excute" value="3"  />医嘱本
+        </li>
+
+    </ul>
+</div>
+<table id="orderList" width="100%"   cellspacing="0" cellpadding="0">
+
+</table>
+
+
+</body>
+</html>

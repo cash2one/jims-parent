@@ -124,7 +124,8 @@
     </div>
     <div id="chargeId" class="easyui-dialog" style="width:25%;height:75%"   closed="true">
         <div style="height: 70%">
-            <table width="100%" border="1" cellpadding="2" cellspacing="0">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="reg-price">
+                <tbody>
                 <tr>
                     <td>主任号</td>
                     <td>10.00</td>
@@ -133,20 +134,22 @@
                     <td>神经科号</td>
                     <td>2.00</td>
                 </tr>
-            </table>
+                </tbody></table>
         </div>
-        <h1>
+        <h1 class="pay-tile">
             现金支付
         </h1>
         <br>
-        <div style="border:3px solid #000">
-            实收：<input type="text" style="width: 30%">&nbsp;找零：<input type="text" style="width: 30%">
+        <div>
+            实收：<input type="text" class="validatebox-text validatebox-text-sm">&nbsp;
+            找零：<input  type="text" class="validatebox-text validatebox-text-sm">
         </div>
         <br>
         <div style="text-align:right;">
-            <button class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</button>
-            <button class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">取消</button>
+            <button  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'">保存</button>&nbsp;
+            <button  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-cancel'">取消</button>
         </div>
+    </div>
     </div>
     <div id="backNumberId" class="easyui-dialog"  closed="true" fit="true">
     <div style="padding:10px;">

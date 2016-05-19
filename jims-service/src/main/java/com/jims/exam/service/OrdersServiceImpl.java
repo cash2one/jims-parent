@@ -132,4 +132,13 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         return "";
     }
 
+    /**
+     * 查询病人的医嘱
+     * @param orders
+     * @return
+     */
+    public List<Orders> getPatientOrders(Orders orders){
+      return   ordersDao.getPatientOrders(orders);
+    }
+
 }
