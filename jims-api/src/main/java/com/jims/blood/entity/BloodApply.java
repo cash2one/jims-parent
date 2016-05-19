@@ -55,6 +55,7 @@ public class BloodApply extends DataEntity<BloodApply> {
 	private String shineBlood;		// 辐照血
 	private String preBloodType;		// 预输血型
 	private String orgId;		// 所属结构
+	private String clinicId; //门诊id
 	private List<BloodCapacity> bloodCapacityList;
 	public BloodApply() {
 		super();
@@ -62,6 +63,14 @@ public class BloodApply extends DataEntity<BloodApply> {
 
 	public BloodApply(String id){
 		super(id);
+	}
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
 	}
 
 	public String getVisitId() {

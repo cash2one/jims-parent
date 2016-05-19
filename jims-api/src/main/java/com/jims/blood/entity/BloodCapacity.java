@@ -26,6 +26,9 @@ public class BloodCapacity extends DataEntity<BloodCapacity> {
 	private String operator;		// 操作者
 	private String unit;		// 血液单位
 	private String orgId;		// 所属结构
+	private String visitId; //住院id
+	private String clinicId; //就诊id
+	private String patientId; //病人主表ID
 	
 	public BloodCapacity() {
 		super();
@@ -33,6 +36,30 @@ public class BloodCapacity extends DataEntity<BloodCapacity> {
 
 	public BloodCapacity(String id){
 		super(id);
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
+	}
+
+	public String getVisitId() {
+		return visitId;
+	}
+
+	public void setVisitId(String visitId) {
+		this.visitId = visitId;
 	}
 
 	@Length(min=1, max=6, message="申请单号长度必须介于 1 和 6 之间")

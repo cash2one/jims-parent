@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.register.dao.ClinicScheduleDao">
+    
+	<sql id="clinicScheduleColumns">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.clinic_label AS "clinicLabel",
+		a.day_of_week AS "dayOfWeek",
+		a.time_desc AS "timeDesc",
+		a.registration_limits AS "registrationLimits",
+		a.appointment_limits AS "appointmentLimits",
+		a.phone_limits AS "phoneLimits",
+		a.web_limits AS "webLimits",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="clinicScheduleJoins">
+	</sql>
+    
+	<select id="get" resultType="ClinicSchedule">
+		SELECT 
+			<include refid="clinicScheduleColumns"/>
+		FROM clinic_schedule a
+		<include refid="clinicScheduleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClinicSchedule">
+		SELECT
+		a.id                  AS "id",
+		a.org_id              AS "orgId",
+		b.clinic_label        AS "clinicLabel",
+		a.day_of_week         AS "dayOfWeek",
+		a.time_desc           AS "timeDesc",
+		a.registration_limits AS "registrationLimits",
+		a.appointment_limits  AS "appointmentLimits",
+		a.phone_limits        AS "phoneLimits",
+		a.web_limits          AS "webLimits",
+		a.create_date         AS "createDate",
+		a.create_by           AS "createBy.id",
+		a.update_date         AS "updateDate",
+		a.update_by           AS "updateBy.id",
+		a.remarks             AS "remarks",
+		a.del_flag            AS "delFlag"
+		FROM clinic_schedule a
+        LEFT JOIN clinic_index b on a.clinic_label=b.id
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="clinicLabel!=null and clinicLabel!=''">
+				AND a.clinic_label=#{clinicLabel}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ClinicSchedule">
+		SELECT 
+			<include refid="clinicScheduleColumns"/>
+		FROM clinic_schedule a
+		<include refid="clinicScheduleJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO clinic_schedule(
+			id,
+			org_id,
+			clinic_label,
+			day_of_week,
+			time_desc,
+			registration_limits,
+			appointment_limits,
+			phone_limits,
+			web_limits,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orgId},
+			#{clinicLabel},
+			#{dayOfWeek},
+			#{timeDesc},
+			#{registrationLimits},
+			#{appointmentLimits},
+			#{phoneLimits},
+			#{webLimits},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE clinic_schedule SET 	
+			org_id = #{orgId},
+			clinic_label = #{clinicLabel},
+			day_of_week = #{dayOfWeek},
+			time_desc = #{timeDesc},
+			registration_limits = #{registrationLimits},
+			appointment_limits = #{appointmentLimits},
+			phone_limits = #{phoneLimits},
+			web_limits = #{webLimits},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE clinic_schedule SET 
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -16,6 +16,9 @@ public class ExamItems extends DataEntity<ExamItems> {
 	private static final long serialVersionUID = 1L;
 	private String orgId;    //组织机构id
 	private String clinicId;		//就诊id
+	private String appointsId; //主记录id
+	private String visitId;	//医院id
+	private String patientId;		// 病人标识
 	private String examNo;		// 申请序号
 	private Integer examItemNo;		// 项目序号
 	private String examItem;		// 检查项目
@@ -24,8 +27,6 @@ public class ExamItems extends DataEntity<ExamItems> {
 	private Integer billingIndicator;		// billing_indicator
 	private String rcptNo;		// 收据号
 	private String explanation;		// 退费说明
-	private String appointsId; //主记录id
-	private String visitId;	//医院id
 
 	public String getAppointsId() {
 		return appointsId;
@@ -41,6 +42,14 @@ public class ExamItems extends DataEntity<ExamItems> {
 
 	public ExamItems(String id){
 		super(id);
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
 	}
 
 	public String getVisitId() {

@@ -232,7 +232,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
                 orders.setOrderingDept(labTestMaster.getOrderingDept());
                 orders.setDoctor(labTestMaster.getOrderingProvider());
                 //todo(userid)申请医生 ?
-                orders.setDoctorUser(Long.valueOf(1));
+//                orders.setDoctorUser(Long.valueOf(1));
                 //doctor_user:11=['000LJS']
                 orders.setEnterDateTime(labTestMaster.getRequestedDateTime());
                 //billing_attr:13=[3]
