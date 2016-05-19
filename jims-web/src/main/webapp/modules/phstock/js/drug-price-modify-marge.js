@@ -9,6 +9,7 @@ $(function () {
 
     var drugNameDictList = [];//药品名称列表
     var drugSupplierDict  = [];//药品生产商列表
+    var selectedPriceListRow;
     $.get(basePath + "/drug-price/findDrugNameDictList", function (data) {
         drugNameDictList = data;
     });
@@ -112,6 +113,13 @@ $(function () {
             align: 'center',
             editor: {
                 type: 'datetimebox', options: {
+                onChange: function (newValue, oldValue) {
+                    var priceListStartDate = new Date(selectedPriceListRow.startDate);
+
+                    if (new Date(newValue).getTime() < priceListStartDate.getTime() ){
+                        $.messager.alert("提示","生效日期应大于启用日期","info");
+                    }
+                }
                 }
             },
             formatter: function (value,row,index) {
@@ -231,6 +239,7 @@ $(function () {
         ]],
         onSelect: function (rowIndex,rowData) {
             stopEdit();
+            selectedPriceListRow = rowData;
         }
     });
     //定义药品名称
