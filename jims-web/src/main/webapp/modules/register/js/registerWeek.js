@@ -1,5 +1,4 @@
 $(function(){
-    var editRow =undefined;
     var rowNum=-1;
     var week=[{"value":"星期一","text":"星期一"},{"value":"星期二","text":"星期二"},{"value":"星期三","text":"星期三"},{"value":"星期四","text":"星期四"}
     ,{"value":"星期五","text":"星期五"},{"value":"星期六","text":"星期六"},{"value":"星期日","text":"星期日"}];
@@ -33,9 +32,6 @@ $(function(){
         ]],
         toolbar: "#ddddddddd",
         onClickRow:function(rowIndex,rowData){
-            if (editRow != undefined) {
-                $("#list_data").datagrid('endEdit', editRow);
-            }
             var selectRows = $('#list_data').datagrid("getSelected");
             var clinicIndexId=  selectRows['id'];//号别ID
             listWeek(clinicIndexId);
@@ -109,33 +105,22 @@ $(function(){
                 text: '保存',
                 iconCls:'icon-save',
                 handler:function(){
-                    $("#listWeek").datagrid('endEdit', editRow);
-                    if (editRow != undefined) {
-                        $("#listWeek").datagrid("endEdit", editRow);
-                    }
+                    $("#listWeek").datagrid('endEdit', rowNum);
                     saveClinicWeek();
                 }
             }
-        ],onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        }, onClickRow: function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#listWeek").datagrid('endEdit', editRow);
-            }
-            if (editRow == undefined) {
-                $("#listWeek").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
+        ], onClickRow: function (rowIndex, rowData) {
             var dataGrid=$('#listWeek');
             if(!dataGrid.datagrid('validateRow', rowNum)){
                 return false
-            }
-            if(rowNum!=rowIndex){
-                if(rowNum>=0){
-                    dataGrid.datagrid('endEdit', rowNum);
+            }else{
+                if(rowNum!=rowIndex){
+                    if(rowNum>=0){
+                        dataGrid.datagrid('endEdit', rowNum);
+                    }
+                    rowNum=rowIndex;
+                    dataGrid.datagrid('beginEdit', rowIndex);
                 }
-                rowNum=rowIndex;
-                dataGrid.datagrid('beginEdit', rowIndex);
             }
         }
     });
