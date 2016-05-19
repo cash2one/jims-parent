@@ -232,8 +232,7 @@ function cancel(){
 
 function insert(){
 
-
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle', '添加诊断');
+    $("#dlg").dialog({title: '添加诊断'}).dialog("open").dialog('center');
         $('#fm').form('clear');
         //    $("#parentId").val(node._parentId);
         $("#parentId").val("0");

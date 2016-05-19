@@ -8,6 +8,8 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.exam.entity.Orders;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 住院医嘱DAO接口
  * @author zhangpeng
@@ -52,4 +54,11 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @version 2016/5/12
      */
     public int creeatOrderNo(Orders orders);
+
+    /**
+     * 查找病人的医嘱列表
+     * @param orders
+     * @return
+     */
+        public List<Orders> getPatientOrders(Orders orders);
 }
