@@ -6,6 +6,16 @@ $(function () {
             editIndex = undefined;
         }
     };
+
+    var drugNameDictList = [];//药品名称列表
+    var drugSupplierDict  = [];//药品生产商列表
+    $.get(basePath + "/drug-price/findDrugNameDictList", function (data) {
+        drugNameDictList = data;
+    });
+    $.get( basePath + "/drug-supplier-catalog/list-supplier-type?orgId=" + parent.config.org_Id + "&supplierClass=生产商", function (data) {
+        drugSupplierDict = data;
+    });
+    //调价变动datagrid
     $("#modifyList").datagrid({
         fit: true,
         fitColumns: true,
@@ -22,103 +32,91 @@ $(function () {
         }, {
             title: "药品名称",
             field: "drugCode",
-            width: '9%',
+            width: '12%',
             align: 'center',
-            editor: {
-                type: 'text', options: {
-                    required: true
-                }
+            formatter:function(value,row,index){
+                var drugName = value;
+                $.each(drugNameDictList, function (index,item) {
+                    if(item.drugCode == value){
+                        drugName =  item.drugName;
+                    }
+                });
+                return drugName;
             }
 
         }, {
             title: "规格",
             field: "minSpec",
-            width: '9%',
-            align: 'center',
-            editor: {
-                type: 'text', options: {
-                    required: true
-                }
-            }
+            width: '6%',
+            align: 'center'
+
         }, {
             title: "包装规格",
             field: "drugSpec",
-            width: '9%',
-            align: 'center',
-            editor: {
-                type: 'text', options: {
-                    required: true
-                }
-            }
+            width: '6%',
+            align: 'center'
         }, {
             title: "单位",
             field: "units",
-            width: '9%',
-            align: 'center',
-            editor: {
-                type: 'text', options: {
-                    required: true
-                }
-            }
+            width: '6%',
+            align: 'center'
         }, {
             title: "厂家",
             field: "firmId",
             width: '9%',
             align: 'center',
-            editor: {
-                type: 'text', options: {
-                    required: true
-                }
+            formatter:function(value,row,index){
+                var supplierName = value;
+                $.each(drugSupplierDict, function (index,item) {
+                    if(item.supplierCode == value){
+                        supplierName =  item.supplierId;
+                    }
+                });
+                return supplierName;
             }
         }, {
             title: "原批发价",
             field: "originalTradePrice",
             width: '9%',
-            align: 'center',
-            editor: {
-                type: 'text', options: {
-                    required: true
-                }
-            }
+            align: 'center'
+
         }, {
             title: "新批发价",
             field: "currentTradePrice",
             width: '9%',
             align: 'center',
             editor: {
-                type: 'text', options: {
-                    required: true
+                type: 'textbox', options: {
+                    required:true
                 }
             }
         }, {
             title: "原零售价",
             field: "originalRetailPrice",
             width: '9%',
-            align: 'center',
-            editor: {
-                type: 'text', options: {
-                    required: true
-                }
-            }
+            align: 'center'
+
         }, {
             title: "新零售价",
             field: "currentRetailPrice",
             width: '9%',
             align: 'center',
             editor: {
-                type: 'text', options: {
-                    required: true
+                type: 'textbox', options: {
                 }
             }
         }, {
             title: "通知生效日期",
             field: "noticeEfficientDate",
-            width: '9%',
+            width: '12%',
             align: 'center',
             editor: {
-                type: 'text', options: {
-                    required: true
+                type: 'datetimebox', options: {
                 }
+            },
+            formatter: function (value,row,index) {
+                row.noticeEfficientDate = new Date(value);
+                return value;
             }
         }, {
             title: "调价依据",
@@ -126,8 +124,7 @@ $(function () {
             width: '9%',
             align: 'center',
             editor: {
-                type: 'text', options: {
-                    required: true
+                type: 'textbox', options: {
                 }
             }
         }]],
@@ -137,7 +134,7 @@ $(function () {
             editIndex = index;
         }
     });
-
+    //价格变动datagrid
     $("#priceList").datagrid({
         fit: true,
         striped: true,
@@ -154,8 +151,17 @@ $(function () {
         }, {
             title: "药品名称",
             field: "drugCode",
-            width: '9%',
-            align: 'center'
+            width: '12%',
+            align: 'center',
+            formatter:function(value,row,index){
+                var drugName = value;
+                $.each(drugNameDictList, function (index,item) {
+                    if(item.drugCode == value){
+                        drugName =  item.drugName;
+                    }
+                });
+                return drugName;
+            }
 
         }, {
             title: "药品规格",
@@ -171,7 +177,16 @@ $(function () {
             title: "厂家",
             field: "firmId",
             width: '9%',
-            align: 'center'
+            align: 'center',
+            formatter:function(value,row,index){
+                var supplierName = value;
+                $.each(drugSupplierDict, function (index,item) {
+                    if(item.supplierCode == value){
+                        supplierName =  item.supplierId;
+                    }
+                });
+                return supplierName;
+            }
         }, {
             title: "批发价",
             field: "tradePrice",
@@ -210,14 +225,12 @@ $(function () {
         }, {
             title: "备注",
             field: "memos",
-            width: '9%',
+            width: '6%',
             align: 'center'
         }
         ]],
-        onClickRow: function (index, row) {
+        onSelect: function (rowIndex,rowData) {
             stopEdit();
-            $(this).datagrid('beginEdit', index);
-            editIndex = index;
         }
     });
     //定义药品名称
@@ -236,30 +249,43 @@ $(function () {
             {field: 'inputCode', title: '拼音', width: 50, align: 'center'}
         ]],
         onSelect: function(rowIndex,rowData){
-            var url = basePath + "/drug-catalog/listDrugNameDictByDrugCode?drugCode=" +  rowData.drugCode;
-            $('#drugNameDict').datagrid('reload', url);
-            var url = basePath + "/drug-catalog/listDrugDictByDrugCode?drugCode=" +  rowData.drugCode;
-            $('#drugDict').datagrid('reload', url);
+            var url = basePath + "/drug-price/listDrugPriceList?drugCode=" +  rowData.drugCode + "&orgId=" + parent.config.org_Id;
+            $('#priceList').datagrid('reload', url);
 
         }
     });
-    //生成零售价
-    $("#generateNewRetailBtn").on("click", function () {
-
-    });
-    //提取
-    $("#extractBtn").on("click", function () {
-
-    });
-    //新零售价
-    $("#newRetailBtn").on("click", function () {
-
-    });
     //新增
     $("#addBtn").on('click', function () {
-        stopEdit();
-        $("#modifyList").datagrid('appendRow', {});
+        var row = $("#priceList").datagrid("getSelected");
         var rows = $("#modifyList").datagrid('getRows');
+        if(!row){
+            $.messager.alert("提示",'请选择调价哪个规格',"info");
+            return ;
+        }
+        if (rows.length > 0){
+            var flag = 0;
+            $.each(rows,function(index,item){
+                if (item.drugCode == row.drugCode && item.drugSpec == row.drugSpec && item.units == row.units
+                && item.firmId == row.firmId ){
+                    $.messager.alert("提示",'不能选择已有调价记录',"info");
+                    flag = 1;
+                }
+            });
+
+            if (flag==1){
+                return ;
+            }
+        }
+
+
+        stopEdit();
+        $("#modifyList").datagrid('appendRow', {orgId:parent.config.org_Id,drugCode:row.drugCode,drugSpec:row.drugSpec,
+            units:row.units,firmId:row.firmId,minSpec:row.minSpec,minUnits:row.minUnits,originalTradePrice:row.tradePrice,
+            currentTradePrice:row.tradePrice,originalRetailPrice:row.retailPrice,currentRetailPrice:row.retailPrice,
+            noticeEfficientDate:new Date(),operator:parent.config.operator});
+
+
+
         var addRowIndex = $("#modifyList").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;
         $("#modifyList").datagrid('selectRow', editIndex);
@@ -284,23 +310,26 @@ $(function () {
             $("#dg").datagrid("endEdit", editIndex);
         }
 
-        var insertData = $("#dg").datagrid("getChanges", "inserted");
-        var updateDate = $("#dg").datagrid("getChanges", "updated");
-        var deleteDate = $("#dg").datagrid("getChanges", "deleted");
+        var insertData = $("#modifyList").datagrid("getChanges", "inserted");
+        var updateDate = $("#modifyList").datagrid("getChanges", "updated");
+        var deleteDate = $("#modifyList").datagrid("getChanges", "deleted");
 
-        var beanChangeVo = {};
-        beanChangeVo.inserted = insertData;
-        beanChangeVo.deleted = deleteDate;
-        beanChangeVo.updated = updateDate;
+        var drugPriceModifyVo = {};
+        drugPriceModifyVo.inserted = insertData;
+        drugPriceModifyVo.deleted = deleteDate;
+        drugPriceModifyVo.updated = updateDate;
 
-
-        if (beanChangeVo) {
-            $.postJSON("/api/exp-coding-rule/merge", beanChangeVo, function (data, status) {
+        console.log(drugPriceModifyVo);
+        console.log(JSON.stringify(drugPriceModifyVo));
+        if (drugPriceModifyVo) {
+            $.postJSON(basePath + "/drug-price-modify/save", JSON.stringify(drugPriceModifyVo), function (data) {
                 $.messager.alert("系统提示", "保存成功", "info");
-                $('#dg').datagrid('load');
-                $('#dg').datagrid('clearChecked');
+                $('#modifyList').datagrid('loadData', { total: 0, rows: [] });
+                $('#priceList').datagrid('loadData', { total: 0, rows: [] });
             }, function (data) {
-                $.messager.alert('提示', data.responseJSON.errorMessage, "error");
+                $.messager.alert("系统提示", "保存失败", "error");
+                $('#modifyList').datagrid('loadData', { total: 0, rows: [] });
+                $('#priceList').datagrid('loadData', { total: 0, rows: [] });
             })
         }
     });
