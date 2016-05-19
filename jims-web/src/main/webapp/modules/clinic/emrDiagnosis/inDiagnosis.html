@@ -13,41 +13,40 @@
 <body>
 
 
-<table id="tg" class="easyui-treegrid"  style="width:100%;">
+<table id="tg" class="easyui-treegrid"  style="width:100%;height:40%;">
     <thead>
 
     </thead>
 </table>
-<div id="dlg" class="easyui-dialog" style="width:70%;height:380px;padding-top: 20px;"
-     closed="true" buttons="#dlg-buttons">
+<div id="dlg" class="easyui-dialog" style="width:60%;height:90%;"
+     closed="true">
     <form id="fm" method="post">
-
         <div class="fitem">
             <label>诊断类型:</label>
             <select   name="type" id="type"  class="easyui-combobox" style="width:200px;"></select>
         </div>
         <div class="fitem">
             <label>诊断描述:</label>
-            <input id="description" name="description" class="easyui-textbox">
+            <input id="description" name="description" class="easyui-validatebox validatebox-text validatebox-textarea">
         </div>
         <div class="fitem">
-            <label>治疗结果</label>
-            <input name="treatResult" id="treatResult" class="easyui-textbox" >
+            <label>治疗结果:</label>
+            <input name="treatResult" id="treatResult" class="easyui-validatebox validatebox-text validatebox-textarea" >
         </div>
         <div class="fitem">
-            <label>手术</label>
+            <label>手术:</label>
             <input name="operTreatIndicator" id="operTreatIndicator" type="checkbox"  value="1">
         </div>
         <div class="fitem">
-            <label>诊断日期</label>
+            <label>诊断日期:</label>
             <input name="diagnosisDate" id="diagnosisDate" class="easyui-datebox">
         </div>
         <div class="fitem">
-            <label>病理号</label>
+            <label>病理号:</label>
             <input name="pathologyNo" id="pathologyNo" class="easyui-textbox">
         </div>
         <div class="fitem">
-            <label>诊断名称</label>
+            <label>诊断名称:</label>
             <select   name="diagnosisId" id="diagnosisId" class="easyui-combobox" style="width:200px;" ></select>
         </div>
 

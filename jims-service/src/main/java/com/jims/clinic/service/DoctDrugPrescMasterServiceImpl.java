@@ -5,11 +5,13 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.DoctDrugPrescMasterServiceApi;
 import com.jims.clinic.dao.DoctDrugPrescDetailDao;
 import com.jims.clinic.dao.DoctDrugPrescMasterDao;
+import com.jims.clinic.entity.DoctDrugPrescDetail;
 import com.jims.clinic.entity.DoctDrugPrescMaster;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,14 +46,29 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
      */
     @Override
     public String savePresc(DoctDrugPrescMaster doctDrugPrescMaster) {
+        int num = 0;
         try {
             //保存处方主记录
-
+            doctDrugPrescMaster.setPrescDate(new Date());
+            doctDrugPrescMaster.setPrescStatus(1);
+            doctDrugPrescMaster.preInsert();
+            num = dao.insert(doctDrugPrescMaster);
             //保存处方记录明细
+            if(doctDrugPrescMaster.getList()!=null&&doctDrugPrescMaster.getList().size()>0){
+                for (DoctDrugPrescDetail ddpd : doctDrugPrescMaster.getList()){
+                    ddpd.setPrescMasterId(doctDrugPrescMaster.getId());
+                    ddpd.setPrescDate(doctDrugPrescMaster.getPrescDate());
+                    ddpd.setItemNo(1);
+                    ddpd.setOrderNo(1);
+                    ddpd.setOrderSubNo(1);
+                    ddpd.preInsert();
+                    doctDrugPrescDetailDao.insert(ddpd);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return String.valueOf(dao.insert(doctDrugPrescMaster));
+        return String.valueOf(num);
     }
     /**
      * 根据处方主记录ID删除处方明细
@@ -70,5 +87,16 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
             e.printStackTrace();
         }
         return String.valueOf(num);
+    }
+    /**
+     * 根据参数查询最大处方号+1
+     * @param visitId
+     * @author CTQ
+     * @date 2016年5月17日14:25:04
+     * @return
+     */
+    @Override
+    public Integer searchPrescNo(String visitId) {
+        return dao.searchPrescNo(visitId);
     }
 }

@@ -9,8 +9,8 @@ var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
 $(function () {
     //获取住院id
-    var visitId= parent.document.getElementById("clinicMasterId").value;
-    $("#visitId").val(visitId);
+    //var visitId= parent.document.getElementById("clinicMasterId").value;
+    //$("#visitId").val(visitId);
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,
@@ -85,15 +85,15 @@ $(function () {
             editRow = undefined;
         }, onDblClickRow: function (rowIndex, rowData) {
             $("#list_doctor").datagrid('beginEdit', rowIndex);
-            //if (editRow != undefined) {
-            //    $("#list_doctor").datagrid('endEdit', editRow);
-            //}
-            //if (editRow == undefined) {
-            //
-            //    editRow = rowIndex;
-            //}
+            if (editRow != undefined) {
+                $("#list_doctor").datagrid('endEdit', editRow);
+            }
+            if (editRow == undefined) {
+                $("#list_doctor").datagrid('beginEdit', rowIndex);
+                editRow = rowIndex;
+            }
         }, onClickRow: function (rowIndex, rowData) {
-            //tooltips选中行，药品价目列表信息
+            //tooltips选中行，列表信息
             if (editRow != undefined) {
                 $("#list_doctor").datagrid('endEdit', editRow);
             }
@@ -176,8 +176,7 @@ function saveUseBloodApply() {
     var tableJson = JSON.stringify(rows);
     var submitJson = formJson + ",\"bloodCapacityList\":" + tableJson + "}";
     $("#inpNo").attr("value", "123");
-    $("#applyNum").attr("value", "123");
-    $("#matchSubNum").attr("value", "1");
+    //$("#applyNum").attr("value", "123");
     if (rows.length > 0) {
         $.postJSON(basePath + "/bloodApply/save", submitJson, function (data) {
             if (data.code == "1") {

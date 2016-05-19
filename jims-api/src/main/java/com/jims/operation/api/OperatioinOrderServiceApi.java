@@ -23,33 +23,41 @@ public interface OperatioinOrderServiceApi {
     public List<PatsInHospital> getOperationin(String deptCode);
 
     /**
-     * 保存手术安排
+     * 保存手术安排(住院)
      * @param operationSchedule
      * @return
      */
-    public String saveOperation(OperationSchedule operationSchedule);
+    public String saveOperationIn(OperationSchedule operationSchedule);
 
+    /**
+     * 保存手术安排（门诊）
+     * @param operationSchedule
+     * @return
+     */
+    public String saveOperationOut(OperationSchedule operationSchedule);
     /**
      * 通过病人ID，住院ID拿到病人本次住院的手术最大的申请号
      * @param patientId
      * @param visitId
      * @return
      */
-     public int  getScheduleId(String patientId,String visitId);
+     public String  getScheduleId(String patientId,String visitId);
 
     /**
      * 通过主表Id拿到手术名称的列表
-     * @param scheduleId
+     * @param patientId
+     * @param visitId
+     * @param clinicId
      * @return
      */
-     public  List<ScheduledOperationName> getOperationName(String patientId,String visitId,Integer scheduleId);
+     public  List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId,String scheduleId);
 
     /**
      * 通过病人Id、visitId拿到手术安排
      * @param patientId
      * @return
      */
-     public OperationSchedule getSchedule(String patientId,String visitId);
+     public OperationSchedule getSchedule(String patientId,String visitId,String clinicId);
 
     /**
      * 删除手术名称

@@ -23,7 +23,8 @@ create table COURSE_RECORD_CASEDISCUS  (
    REMARKS              CLOB,
    DEL_FLAG             CHAR(1)                        default '0',
    ZHUCHIRENZHICHENG    VARCHAR2(64),
-   ZHUCHIREN            VARCHAR2(64)
+   ZHUCHIREN            VARCHAR2(64),
+   constraint "PK_course_record_casediscus" primary key (ID)
 );
 
 comment on table COURSE_RECORD_CASEDISCUS is

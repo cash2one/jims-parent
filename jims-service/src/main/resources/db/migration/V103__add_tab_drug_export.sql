@@ -84,7 +84,7 @@ comment on column DRUG_EXPORT_MASTER.ORG_ID
 alter table DRUG_EXPORT_MASTER
   add constraint DRUG_EXPORT_MASTER_PK primary key (ID);
 alter table DRUG_EXPORT_MASTER
-  add constraint DRUG_EXPORT_MASTER_UK unique (DOCUMENT_NO);
+  add constraint DRUG_EXPORT_MASTER_UK unique (DOCUMENT_NO,ORG_ID);
 
 /*==============================================================*/
 /* Table: DRUG_EXPORT_DETAIL    增加 药品出库明细记录              */
@@ -181,4 +181,4 @@ comment on column DRUG_EXPORT_DETAIL.ORG_ID
 alter table DRUG_EXPORT_DETAIL
   add constraint DRUG_EXPORT_DETAIL_PK primary key (ID);
 alter table DRUG_EXPORT_DETAIL
-  add constraint DRUG_EXPORT_DETAIL_UK unique (DOCUMENT_NO, ITEM_NO);
+  add constraint DRUG_EXPORT_DETAIL_UK unique (DOCUMENT_NO, ITEM_NO,ORG_ID);

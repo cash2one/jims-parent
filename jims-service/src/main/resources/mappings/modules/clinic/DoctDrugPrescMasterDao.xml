@@ -38,9 +38,9 @@
 		a.diagnosis_name AS "diagnosisName",
 		a.dispensary_sub AS "dispensarySub",
 		a.create_by AS "createBy.id",
-		a.create_data AS "createData",
+		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_data AS "updateData",
+		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
@@ -133,9 +133,9 @@
 			diagnosis_name,
 			dispensary_sub,
 			create_by,
-			create_data,
+			create_date,
 			update_by,
-			update_data,
+			update_date,
 			remarks,
 			del_flag
 		) VALUES (
@@ -174,9 +174,9 @@
 			#{diagnosisName},
 			#{dispensarySub},
 			#{createBy.id},
-			#{createData},
+			#{createDate},
 			#{updateBy.id},
-			#{updateData},
+			#{updateDate},
 			#{remarks},
 			#{delFlag}
 		)
@@ -217,21 +217,22 @@
 			verified_datetime = #{verifiedDatetime},
 			diagnosis_name = #{diagnosisName},
 			dispensary_sub = #{dispensarySub},
-			create_data = #{createData},
+			create_date = #{createDate},
 			update_by = #{updateBy.id},
-			update_data = #{updateData},
+			update_date = #{updateDate},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE doct_drug_presc_master SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 
 	<select id="findListByParams" resultType="DoctDrugPrescMaster">
-		SELECT pm.PATIENT_ID AS "patientId",
+		SELECT pm.id AS "id",
+		pm.PATIENT_ID AS "patientId",
 		pm.VISIT_ID  AS "visitId",
 		pm.NAME AS "name",
 		pm.NAME_PHONETIC AS "namePhonetic",
@@ -269,9 +270,8 @@
 		0 as "tempTerm"
 		FROM DOCT_DRUG_PRESC_MASTER pm, PATS_IN_HOSPITAL ph, BED_REC br
   <where>
-	  pm.del_flag='0' and ph.del_flag='0' and br.del_flag='0'
-	  and (pm.PATIENT_ID = ph.PATIENT_ID)
-	  and (pm.VISIT_ID = ph.VISIT_ID)
+	  pm.del_flag='0'/* and ph.del_flag='0' and br.del_flag='0'*/
+	  and (pm.VISIT_ID = ph.ID)
 	  and (ph.WARD_CODE = br.WARD_CODE)
 	  and (ph.BED_NO = br.BED_NO)
 	  and (pm.PRESC_STATUS not in (2, 3))
@@ -281,5 +281,15 @@
   </where>
 
 
+	</select>
+
+	<select id="searchPrescNo" resultType="Integer">
+		select max(presc_no)+1 from DOCT_DRUG_PRESC_MASTER
+		<where>
+			del_flag='0'
+			<if test="visitId!=null and visitId!=''">
+				and visit_id=#{visitId}
+			</if>
+		</where>
 	</select>
 </mapper>

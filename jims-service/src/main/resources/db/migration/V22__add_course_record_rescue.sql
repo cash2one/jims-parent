@@ -20,7 +20,8 @@ create table COURSE_RECORD_RESCUE  (
    UPDATE_DATE          TIMESTAMP                            not null,
    REMARKS              VARCHAR2(225 CHAR),
    DEL_FLAG             CHAR(1)                        default '0' not null,
-   QIANGJIUSHIJIAN      TIMESTAMP
+   QIANGJIUSHIJIAN      TIMESTAMP,
+    constraint "PK_course_record_rescue" primary key (ID)
 );
 
 comment on table COURSE_RECORD_RESCUE is

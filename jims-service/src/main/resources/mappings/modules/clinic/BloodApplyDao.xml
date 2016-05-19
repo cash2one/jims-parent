@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.clinic.dao.BloodApplylDao">
+<mapper namespace="com.jims.blood.dao.BloodApplylDao">
     
 	<sql id="bloodApplyColumns">
 		a.apply_num AS "applyNum",
@@ -44,7 +44,10 @@
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
 		a.create_date AS "createDate",
+		a.visit_id AS "visitId",
+		a.clinic_id AS "clinicId",
 		a.patient_id AS "patientId"
+
 	</sql>
 	
 	<sql id="bloodApplyJoins">
@@ -138,6 +141,8 @@
 			update_date,
 			del_flag,
 			create_date,
+			visit_id,
+			clinic_id,
 			patient_id
 		) VALUES (
 			#{applyNum},
@@ -181,6 +186,8 @@
 			#{updateDate},
 			#{delFlag},
 			#{createDate},
+			#{visitId},
+			#{clinicId},
 			#{patientId}
 		)
 	</insert>

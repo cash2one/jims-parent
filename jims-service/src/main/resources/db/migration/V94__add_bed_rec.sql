@@ -33,11 +33,7 @@ create table BED_REC
   UPDATE_DATE        DATE,
   DEL_FLAG           VARCHAR2(100),
   CREATE_DATE        DATE
-)
-tablespace JIMS_DATA
-  pctfree 10
-  initrans 1
-  maxtrans 255;
+);
 -- Add comments to the table
 comment on table BED_REC
   is '床位记录表';

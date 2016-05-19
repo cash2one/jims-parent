@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class ScheduledOperationName extends DataEntity<ScheduledOperationName> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer scheduleId;		// 手术安排标识
+	private String  scheduleId;		// 手术安排标识
 	private Integer operationNo;		// 手术序号
 	private String operation;		// 手术
 	private String operationScale;		// 手术等级
@@ -31,15 +31,15 @@ public class ScheduledOperationName extends DataEntity<ScheduledOperationName> {
 		super(id);
 	}
 
-	@NotNull(message="手术安排标识不能为空")
-	public Integer getScheduleId() {
+
+	public String getScheduleId() {
 		return scheduleId;
 	}
 
-	public void setScheduleId(Integer scheduleId) {
+	public void setScheduleId(String scheduleId) {
 		this.scheduleId = scheduleId;
 	}
-	
+
 	@NotNull(message="手术序号不能为空")
 	public Integer getOperationNo() {
 		return operationNo;

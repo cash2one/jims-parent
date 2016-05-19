@@ -5,6 +5,7 @@
 /*==============================================================*/
 create table COURSE_RECORD  (
    ID                   VARCHAR2(64)                    not null,
+   ORG_ID               VARCHAR2(64 CHAR ),
    ZHUYUAN_ID           VARCHAR2(64),
    PATIENT_ID           VARCHAR2(64),
    LURU_SHIJIAN         TIMESTAMP,

@@ -1,11 +1,11 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.service;
+package com.jims.blood.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.blood.api.BloodCapacityServiceApi;
-import com.jims.clinic.dao.BloodCapacityDao;
+import com.jims.blood.dao.BloodCapacityDao;
 import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;

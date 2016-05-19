@@ -14,11 +14,7 @@ create table DRUG_CLASS_DICT
   UPDATE_DATE DATE,
   DEL_FLAG    VARCHAR2(100),
   CREATE_DATE DATE
-)
-tablespace JIMS_DATA
-  pctfree 10
-  initrans 1
-  maxtrans 255;
+);
 -- Add comments to the table
 comment on table DRUG_CLASS_DICT
   is '类别字典表';
@@ -31,12 +27,7 @@ comment on column DRUG_CLASS_DICT.CLASS_NAME
   is '类别名称';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table DRUG_CLASS_DICT
-  add constraint DRUG_CLASS_DICT_PK primary key (ID)
-  using index
-  tablespace JIMS_DATA
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint DRUG_CLASS_DICT_PK primary key (ID);
 
 insert  into drug_class_dict (id,class_code,class_name,parent_id) values(sys_guid(),'CA300','清热泻火药','CA');
 insert  into drug_class_dict (id,class_code,class_name,parent_id) values(sys_guid(),'CA400','清热燥湿药','CA');

@@ -3,6 +3,8 @@ package com.jims.exam.api;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.Orders;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/5/10.
  */
@@ -34,5 +36,13 @@ public interface OrdersServiceApi {
      * @version 2016/5/12
      */
     public Long creeatOrderNo(Orders orders);
+
+    /**
+     * 查询病人的医嘱列表
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public List<Orders> getPatientOrders(Orders orders);
 
 }

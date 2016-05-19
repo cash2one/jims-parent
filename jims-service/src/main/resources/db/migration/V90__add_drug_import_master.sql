@@ -81,4 +81,4 @@ comment on column DRUG_IMPORT_MASTER.ORG_ID
 alter table DRUG_IMPORT_MASTER
   add constraint DRUG_IMPORT_MASTER_PK primary key (ID);
 alter table DRUG_IMPORT_MASTER
-  add constraint DRUG_IMPORT_MASTER_UK unique (DOCUMENT_NO);
+  add constraint DRUG_IMPORT_MASTER_UK unique (DOCUMENT_NO,ORG_ID);
