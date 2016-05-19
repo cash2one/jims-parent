@@ -11,7 +11,13 @@
 		a.current_no AS "currentNo",
 		a.registration_num AS "registrationNum",
 		a.appointment_num AS "appointmentNum",
-		a.regist_price AS "registPrice"
+		a.regist_price AS "registPrice",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
 	</sql>
 	
 	<sql id="clinicForRegistJoins">
@@ -31,7 +37,7 @@
 		FROM clinic_for_regist a
 		<include refid="clinicForRegistJoins"/>
 		<where>
-			
+			a.DEL_FLAG=#{DEL_FLAG_NORMAL}
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -48,8 +54,8 @@
 		FROM clinic_for_regist a
 		<include refid="clinicForRegistJoins"/>
 		<where>
-			
-		</where>		
+			a.DEL_FLAG=#{DEL_FLAG_NORMAL}
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -61,6 +67,7 @@
 	
 	<insert id="insert">
 		INSERT INTO clinic_for_regist(
+		    id,
 			clinic_date,
 			clinic_label,
 			time_desc,
@@ -69,8 +76,15 @@
 			current_no,
 			registration_num,
 			appointment_num,
-			regist_price
+			regist_price,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
 		) VALUES (
+		    #{id},
 			#{clinicDate},
 			#{clinicLabel},
 			#{timeDesc},
@@ -79,7 +93,13 @@
 			#{currentNo},
 			#{registrationNum},
 			#{appointmentNum},
-			#{registPrice}
+			#{registPrice},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
 		)
 	</insert>
 	
@@ -98,8 +118,18 @@
 	</update>
 	
 	<update id="delete">
-		DELETE FROM clinic_for_regist
+		DELETE FROM clinic_for_regist WHERE SET del_flag='1'
 		WHERE id = #{id}
 	</update>
+	<select id="currentNoMax" resultType="java.lang.Integer">
+		SELECT max(current_no) FROM clinic_for_regist
+		WHERE clinic_date=to_date(#{clinicDate},'yyyy-MM-dd') AND clinic_label=#{clinicLable} AND time_desc=#{timeDesc}
+	</select>
+    <select id="getClinicForReg" resultType="ClinicForRegist">
+		SELECT
+		<include refid="clinicForRegistColumns"/>
+		FROM clinic_for_regist a
+		WHERE a.clinic_date=to_date(#{clinicDate},'yyyy-MM-dd') AND a.clinic_label=#{clinicLable} AND a.time_desc=#{timeDesc}
+	</select>
 	
 </mapper>

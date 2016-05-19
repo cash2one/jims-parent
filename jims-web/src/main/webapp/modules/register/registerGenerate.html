@@ -33,15 +33,11 @@
     </div>
     <div data-options="region:'east',iconCls:'icon-ok'"  style="width:60%;">
 
-               门诊号表生成日期：<input style="display: none;" class="easyui-datebox datebox-f combo-f textbox-f">
-            <span style="width: 150px; height: 22px;" class="textbox combo datebox">
-            <span style="right: 0px;" class="textbox-addon textbox-addon-right">
-                <a style="width: 18px; height: 20px;" href="javascript:void(0)" class="textbox-icon combo-arrow time" icon-index="0" tabindex="-1"></a>
-            </span>
-                <input style="margin-left: 0px; margin-right: 18px; padding-top: 0px; padding-bottom: 0px; height: 20px; line-height: 20px; width: 130px;" placeholder="" class="textbox-text validatebox-text textbox-prompt" autocomplete="off" type="text">
-                <input value="" name="" class="textbox-value" type="hidden">
-            </span>
-            至
+        <div id="time">
+           门诊号表生成日期： <input class="easyui-datebox" id="startTime"> 至 <input class="easyui-datebox" id="endTime"><br>
+            <button class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addRowCol();">生成</button>&nbsp;&nbsp;
+            <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="deleteForReg();">删除</button>
+        </div>
         <table id="list_data_num"   cellspacing="0" cellpadding="0">
 
         </table>

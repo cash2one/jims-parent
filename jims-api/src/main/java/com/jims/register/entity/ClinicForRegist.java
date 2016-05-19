@@ -18,7 +18,7 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 	
 	private static final long serialVersionUID = 1L;
 	private Date clinicDate;		// 门诊日期
-	private String clinicLabel;		// 号别
+	private String clinicLabel;		// 号别`
 	private String timeDesc;		// 门诊时间描述
 	private Integer registrationLimits;		// 限号数
 	private Integer appointmentLimits;		// 限预约号数
