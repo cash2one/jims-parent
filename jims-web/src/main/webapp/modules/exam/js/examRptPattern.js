@@ -25,19 +25,19 @@ $(function () {
         }, {
             title: '项目名称',
             field: 'description',
-            width: '35%',
+            width: '38%',
             editor: {
                 type: 'combogrid', options: {
                     idField: 'itemName',
                     textField: 'itemName',
                     method: 'GET',
-                    url: basePath +  "/clinicItem/itemListByOrgId?orgId="+parent.config.org_Id,
+                    url: basePath +  "/examRptPattern/itemListByOrgId?orgId="+parent.config.org_Id,
                     columns:[[
-                        {field:'itemClass',title:'项目类别',width:60},
-                        {field:'itemName',title:'项目名称',width:100},
-                        {field:'itemCode',title:'项目代码',width:120},
+                        {field:'itemClass',title:'项目类别',width:30},
+                        {field:'itemName',title:'项目名称',width:200},
+                        {field:'itemCode',title:'项目代码',width:100},
                         {field:'inputCode',title:'输入码',width:80},
-                        {field:'sumPrice',title:'价格',width:100}
+                        {field:'sumPrice',title:'价格',width:50}
                     ]],
                     //拼音码检索
                     //filter: function(q, row){
