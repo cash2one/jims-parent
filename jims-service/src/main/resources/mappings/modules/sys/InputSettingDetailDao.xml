@@ -28,7 +28,7 @@
 
     <select id="listTableColByTableName" resultType="String">
         SELECT
-        column_name
+        DISTINCT column_name
         FROM all_tab_columns
         WHERE upper(table_name) = upper(#{tableName})
 

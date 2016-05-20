@@ -11,20 +11,12 @@ $("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.
 var basePath="/service";
 $(function () {
 
-  /*  //输入法字典主记录的方法
-    var editIndex;
-    var stopEdit = function () {
-        if (editIndex || editIndex == 0) {
-            $("#masterGrid").datagrid('endEdit', editIndex);
-            editIndex = undefined;
-        }
-    }*/
-
     var drugFrom=[];
     //var orgId=parent.config.org_id;
     var orgId=1;
     var input_setting_master_id;
     var tableName;
+    var editIndex1 = undefined;
     //检查类别
     $("#masterGrid").datagrid({
         fit: true,
@@ -77,12 +69,51 @@ $(function () {
                     $.messager.alert("系统提示", "加载数据出错");
                 }
             });
+
+            //在点击切换输入法主记录时，判断输入法明细表是否有变动的数据
+            if (editIndex1 || editIndex1 == 0) {
+                $("#detailGrid").datagrid("endEdit", editIndex1);
+            }
+            var insertData = $("#detailGrid").datagrid("getChanges", "inserted");
+            var updateData = $("#detailGrid").datagrid("getChanges", "updated");
+            var deleteData = $("#detailGrid").datagrid("getChanges", "deleted");
+
+            if(insertData!=""||updateData!=""||deleteData!="")
+            {
+                $.messager.confirm("系统提示", "确定要保存吗？", function (r) {
+                    if (r) {
+                        var inputSettingVo = {};
+                        inputSettingVo.inserted = insertData;
+                        inputSettingVo.deleted = deleteData;
+                        inputSettingVo.updated = updateData;
+
+                        inputSettingVo.input_setting_master_id=input_setting_master_id;
+
+                        if (inputSettingVo) {
+                            $.postJSON(basePath + "/input-setting/saveDetail", JSON.stringify(inputSettingVo), function (data) {
+                                if (data.data == "success") {
+                                    $.messager.alert("系统提示", "保存成功", "info");
+                                    $("#detailGrid").datagrid('reload');
+                                }
+                            }, function (data) {
+                                $.messager.alert('提示', "保存失败，字段是唯一键或者其他字段不能为空", "error");
+                            })
+                        }
+                    }
+                });
+            }
+
+
+
+
             var url = basePath + "/input-setting/findListDetail?id="+ node.id;
             $("#detailGrid").datagrid("reload", url);
 
         } ,
         onClickCell: onClickCell
     });
+
+
     //datagrid的单元格编辑
     $.extend($.fn.datagrid.methods, {
         editCell: function(jq,param){
@@ -104,6 +135,7 @@ $(function () {
             });
         }
     });
+
     var editIndex = undefined;
     function endEditing1(){
         if (editIndex == undefined){return true}
@@ -115,6 +147,7 @@ $(function () {
             return false;
         }
     }
+
     function onClickCell(index, field){
         if (endEditing1()){
             $('#masterGrid').datagrid('selectRow', index)
@@ -162,15 +195,28 @@ $(function () {
     //删除
     $("#removeMasterBtn").on("click", function () {
         var row = $("#masterGrid").datagrid('getSelected');
-        if (row) {
-            var rowIndex = $("#masterGrid").datagrid('getRowIndex', row);
-            $("#masterGrid").datagrid('deleteRow', rowIndex);
-            if (editIndex == rowIndex) {
-                editIndex = undefined;
+
+        $.get("/service/input-setting/findListDetail?id=" + row.id, function (data) {
+            console.log(data);
+            if(data!="")
+            {
+                $.messager.alert('系统提示', "请先删除子表数据", 'info');
+                return;
             }
-        } else {
-            $.messager.alert('系统提示', "请选择要删除的行", 'info');
-        }
+            else{
+                if(row)
+                {
+                    var rowIndex = $("#masterGrid").datagrid('getRowIndex', row);
+                    $("#masterGrid").datagrid('deleteRow', rowIndex);
+                    if (editIndex == rowIndex) {
+                        editIndex = undefined;
+                    }
+                }else{
+                    $.messager.alert('系统提示', "请选择要删除的行", 'info');
+                }
+            }
+
+        });
     });
 
 
@@ -289,12 +335,10 @@ $(function () {
             field: 'resultSort',
             width: '10%' ,
             align:'center' ,
-            /*formatter:function(){
-                 return 0;
-            } ,*/
             editor: {
                 type: 'textbox',
-                options:{}
+                options:{
+                }
             }
         }, {
             title: '显示宽度',
@@ -311,7 +355,7 @@ $(function () {
 
 
     //datagrid的单元格编辑
-    var editIndex1 = undefined;
+
     function endEditing2(){
         if (editIndex1 == undefined){return true}
         if ($('#detailGrid').datagrid('validateRow', editIndex1)){
@@ -332,17 +376,14 @@ $(function () {
             //drugFrom=[];
         }
     }
+    var i=0;
 
     //开始编辑行
     $("#addDetailBtn").on('click', function () {
-
-        $("#detailGrid").datagrid('appendRow', {});
+        $("#detailGrid").datagrid('appendRow', {'showSort':i++,'resultSort':'0'});
         var rows = $("#detailGrid").datagrid('getRows');
         onClickCell1(rows.length-1,'dataCol');
     });
-
-
-
 
     //输入法字典主记录保存
     $("#saveDetailBtn").on("click", function () {
@@ -368,8 +409,22 @@ $(function () {
                     $("#detailGrid").datagrid('reload');
                 }
             }, function (data) {
-                $.messager.alert('提示', "保存失败", "error");
+                $.messager.alert('提示', "保存失败，字段是唯一键或者其他字段不能为空", "error");
             })
+        }
+    });
+
+    //删除
+    $("#removeDetailBtn").on("click", function () {
+        var row = $("#detailGrid").datagrid('getSelected');
+        if (row) {
+            var rowIndex = $("#detailGrid").datagrid('getRowIndex', row);
+            $("#detailGrid").datagrid('deleteRow', rowIndex);
+            if (editIndex == rowIndex) {
+                editIndex = undefined;
+            }
+        } else {
+            $.messager.alert('系统提示', "请选择要删除的行", 'info');
         }
     });
 
