@@ -65,4 +65,16 @@ public class OrdersRest {
     public String saveSubOrders(Orders orders){
         return ordersServiceApi.saveSubOrder(orders);
     }
+
+    /**
+     * 下达医嘱
+     * @param id
+     * @return
+     * pq
+     */
+    @Path("issuedOrders")
+    @POST
+    public int issuedOrders(String id){
+     return ordersServiceApi.issuedOrders(id);
+    }
 }

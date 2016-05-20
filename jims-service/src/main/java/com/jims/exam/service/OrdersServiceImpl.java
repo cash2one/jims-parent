@@ -240,7 +240,6 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
      * pq
      */
     public int issuedOrders(String id){
-
       return   ordersDao.issuedOrders(id);
     }
 
