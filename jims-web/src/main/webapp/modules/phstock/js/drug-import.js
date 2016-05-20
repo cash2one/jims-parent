@@ -386,7 +386,7 @@ $(function () {
             iconCls : 'icon-print',
             text : '保存并打印',
             onClick : function(){
-                save('print')
+                print()
             }
         })
         $('#cancelBtn').linkbutton({
