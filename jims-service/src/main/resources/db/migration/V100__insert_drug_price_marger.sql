@@ -14,4 +14,6 @@ insert into MENU_DICT (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_
 values ('CDD82C03C7484898A5607476AC3AAD4D', '出库申请', '/modules/phstock/drug-apply-export.html', '1', 1, '1', null, null, null, to_timestamp('14-05-2016 15:18:26.285000', 'dd-mm-yyyy hh24:mi:ss.ff'), '0', to_timestamp('14-05-2016 15:18:26.285000', 'dd-mm-yyyy hh24:mi:ss.ff'), '065969698a724445b2c03085aad8dfcd', '1');
 insert into MENU_DICT (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
 values ('359D00114B93453DBEE156DACF6163FC', '出库处理', '/modules/phstock/drug-export.html', '1', 1, '1', null, null, null, to_timestamp('14-05-2016 15:19:26.865000', 'dd-mm-yyyy hh24:mi:ss.ff'), '0', to_timestamp('14-05-2016 15:19:26.865000', 'dd-mm-yyyy hh24:mi:ss.ff'), '065969698a724445b2c03085aad8dfcd', '1');
+insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
+values ('C89161413BE544B585D210542501ECEF', '调价确认', '/modules/phstock/drug-price-confirm.html', '1', 1, '1', '', '', '', '20-5月 -16 09.25.47.024000 上午', '0', '20-5月 -16 09.25.47.024000 上午', '065969698a724445b2c03085aad8dfcd', '1');
 commit;
