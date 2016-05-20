@@ -144,7 +144,7 @@ function loadSubData(row){
         $("#diagnosisName").val(row.dianosis);
         $("#usage").val(row.usage);
         $("#bindingPrescTitle").val(row.bindingPrescTitle);
-        funItem(row.prescSource);
+        //funItem(row.prescSource);
         $.get(basePath + '/doctDrugPrescDetail/list?prescMasterId=' + row.id, function (data) {
             $("#centerList").datagrid("loadData", data);
         });
