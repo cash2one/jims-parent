@@ -142,22 +142,21 @@ $(function(){
             text: '删除',
             iconCls: 'icon-remove',
             handler: function(){
-                deleteItem();
+                deleteOrders();
             }
         },'-',{
-            text: '插入',
-            iconCls:'icon-save',
+            text: '传输医嘱',
+            iconCls:'icon-add',
             handler:function(){
-
                 save();
             }
         },'-',{
             text: '子医嘱',
             iconCls:'icon-save',
             handler:function(){
-                $("#list_data").datagrid('endEdit', editRow);
+                $("#orderList").datagrid('endEdit', editRow);
                 if (editRow != undefined) {
-                    $("#list_data").datagrid("endEdit", editRow);
+                    $("#orderList").datagrid("endEdit", editRow);
                 }
                 save();
             }
@@ -165,9 +164,9 @@ $(function(){
             text: '刷新',
             iconCls:'icon-reload',
             handler:function(){
-                $("#list_data").datagrid('endEdit', editRow);
+                $("#orderList").datagrid('endEdit', editRow);
                 if (editRow != undefined) {
-                    $("#list_data").datagrid("endEdit", editRow);
+                    $("#orderList").datagrid("endEdit", editRow);
                 }
                 reload();
             }
@@ -175,15 +174,15 @@ $(function(){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
-                $("#list_data").datagrid('endEdit', editRow);
+                $("#orderList").datagrid('endEdit', editRow);
                 if (editRow != undefined) {
-                    $("#list_data").datagrid("endEdit", editRow);
+                    $("#orderList").datagrid("endEdit", editRow);
                 }
                 save();
             }
         }
         ],onClickRow: function (rowIndex, rowData) {
-            var dataGrid=$('#list_data');
+            var dataGrid=$('#orderList');
             if(!dataGrid.datagrid('validateRow', rowNum)){
                 return false
             }
@@ -238,4 +237,48 @@ function saveSubOrders(){
     var orderNo =row.orderNo;
     var orderSubNo = row.orderSubNo;
 
+}
+
+//删除
+function deleteOrders(){
+    var selectRows = $('#orderList').datagrid("getSelections");
+    if (selectRows.length < 1) {
+        $.messager.alert("提示消息", "请选中要删的数据!");
+        return;
+    }
+    //提醒用户是否是真的删除数据
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        if (r) {
+            var strIds = "";
+            for (var i = 0; i < selectRows.length; i++) {
+                strIds += selectRows[i].id + ",";
+            }
+            strIds = strIds.substr(0, strIds.length - 1);
+            if(strIds=='undefined'|| strIds==''){
+                var index1= $('#orderList').datagrid('getRowIndex', $("#orderList").datagrid('getSelected'))
+                $('#orderList').datagrid('deleteRow',index1);
+            }else {
+                //真删除数据
+                $.ajax({
+                    'type': 'POST',
+                    'url': basePath + '/operatioinOrder/delete',
+                    'contentType': 'application/json',
+                    'data': id = strIds,
+                    'dataType': 'json',
+                    'success': function (data) {
+                        if (data == 1) {
+                            $.messager.alert("提示消息", data + "条记录删除成功！");
+                            $('#operationName').datagrid('load');
+                            $('#operationName').datagrid('clearChecked');
+                        } else {
+                            $.messager.alert('提示', "删除失败", "error");
+                        }
+                    },
+                    'error': function (data) {
+                        $.messager.alert('提示', "删除失败", "error");
+                    }
+                });
+            }
+        }
+    })
 }
