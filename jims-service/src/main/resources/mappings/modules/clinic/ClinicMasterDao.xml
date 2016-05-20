@@ -112,7 +112,6 @@
 			</otherwise>
 		</choose>
 	</select>
-	
 	<insert id="insert">
 		INSERT INTO clinic_master(
 			id,
