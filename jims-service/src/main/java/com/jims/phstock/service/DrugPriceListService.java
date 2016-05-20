@@ -5,14 +5,18 @@ package com.jims.phstock.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugPriceListServiceApi;
 import com.jims.phstock.dao.DrugPriceListDao;
+import com.jims.phstock.dao.DrugPriceModifyDao;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
+import com.jims.phstock.entity.DrugPriceModify;
 import com.jims.phstock.vo.DrugCatalogBeanVo;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -29,6 +33,56 @@ import java.util.List;
 public class DrugPriceListService extends CrudImplService<DrugPriceListDao, DrugPriceList> implements DrugPriceListServiceApi {
 
 
+    @Autowired
+    private DrugPriceModifyDao drugPriceModifyDao;
+
+    /**
+     * 保存药品调价数据
+     * @param drugPriceModifyVo
+     * @return
+     * @author txb
+     * @version 2016-05-18
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public String saveDrugPriceModify(DrugCatalogChangeVo drugPriceModifyVo) {
+
+        List<DrugPriceModify> insertDicts = drugPriceModifyVo.getInserted();
+        List<DrugPriceModify> updateDicts = drugPriceModifyVo.getUpdated();
+        List<DrugPriceModify> deleteDicts = drugPriceModifyVo.getDeleted();
+
+        if (insertDicts != null && insertDicts.size() > 0) {
+            for (DrugPriceModify drugPriceModify : insertDicts) {
+                drugPriceModify.preInsert();
+                drugPriceModifyDao.insert(drugPriceModify);
+
+            }
+        }
+        if (updateDicts != null && updateDicts.size() > 0) {
+            for (DrugPriceModify drugPriceModify : updateDicts) {
+                drugPriceModify.preUpdate();
+                drugPriceModifyDao.update(drugPriceModify);
+            }
+        }
+        if (deleteDicts != null && deleteDicts.size() > 0) {
+            for (DrugPriceModify drugPriceModify : deleteDicts) {
+                drugPriceModifyDao.delete(drugPriceModify);
+            }
+        }
+        return "1";
+    }
+
+    /**
+     * 查询列表药品调价数据
+     * @param drugPriceModify
+     * @return
+     * @author txb
+     * @version 2016-05-18
+     */
+    @Override
+    public List<DrugPriceModify> findListDrugPriceModify(DrugPriceModify drugPriceModify) {
+        return drugPriceModifyDao.findAllList(drugPriceModify);
+    }
     /**
      * 根据当前组织结构获取去本组织结构内所有的药品名称字典。
      * 关联durg_price_list,drug_name_dict drug_price_list drug_code 去重复。
@@ -83,6 +137,7 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      * @author txb
      */
     @Override
+    @Transactional(readOnly = true)
     public String saveDrugPrice(DrugCatalogChangeVo drugPriceVo) {
         List<DrugPriceList> insertDicts = drugPriceVo.getInserted();
         List<DrugPriceList> updateDicts = drugPriceVo.getUpdated();

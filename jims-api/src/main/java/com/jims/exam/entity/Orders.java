@@ -3,6 +3,7 @@
  */
 package com.jims.exam.entity;
 
+import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
@@ -77,8 +78,17 @@ public class Orders extends DataEntity<Orders> {
 	private String stopFlag;		// 停止医嘱标志
 	private String adaptSymptomIndicate;		// 适应症标志
 	private String dutyDoctor;		// 责任医师
-
+	private String durationUnits;//持续时间单位
+   private String processingDateTime;//处理日期及时间
 	private List<Order> orderList;
+	private String processingNurse;//处理护士
+	private String stopProcessingDateTime;
+	private String expand1;//标本
+	private String expand2;//试管
+	private String expand3;//科室
+	private String expand4;//频次
+	private String expand5;//医嘱属性
+	private List<OrdersCosts> ordersCostses;//医嘱收费明细
 
 	public Orders() {
 		super();
@@ -132,6 +142,14 @@ public class Orders extends DataEntity<Orders> {
 
 	public int getOrderNo() {
 		return orderNo;
+	}
+
+	public String getProcessingDateTime() {
+		return processingDateTime;
+	}
+
+	public void setProcessingDateTime(String processingDateTime) {
+		this.processingDateTime = processingDateTime;
 	}
 
 	public void setOrderNo(int orderNo) {
@@ -564,5 +582,77 @@ public class Orders extends DataEntity<Orders> {
 	public void setDutyDoctor(String dutyDoctor) {
 		this.dutyDoctor = dutyDoctor;
 	}
-	
+
+
+	public String getDurationUnits() {
+		return durationUnits;
+	}
+
+	public void setDurationUnits(String durationUnits) {
+		this.durationUnits = durationUnits;
+	}
+
+	public String getProcessingNurse() {
+		return processingNurse;
+	}
+
+	public void setProcessingNurse(String processingNurse) {
+		this.processingNurse = processingNurse;
+	}
+
+	public String getStopProcessingDateTime() {
+		return stopProcessingDateTime;
+	}
+
+	public void setStopProcessingDateTime(String stopProcessingDateTime) {
+		this.stopProcessingDateTime = stopProcessingDateTime;
+	}
+
+	public String getExpand1() {
+		return expand1;
+	}
+
+	public void setExpand1(String expand1) {
+		this.expand1 = expand1;
+	}
+
+	public String getExpand2() {
+		return expand2;
+	}
+
+	public void setExpand2(String expand2) {
+		this.expand2 = expand2;
+	}
+
+	public String getExpand3() {
+		return expand3;
+	}
+
+	public void setExpand3(String expand3) {
+		this.expand3 = expand3;
+	}
+
+	public String getExpand4() {
+		return expand4;
+	}
+
+	public void setExpand4(String expand4) {
+		this.expand4 = expand4;
+	}
+
+	public String getExpand5() {
+		return expand5;
+	}
+
+	public void setExpand5(String expand5) {
+		this.expand5 = expand5;
+	}
+
+	public List<OrdersCosts> getOrdersCostses() {
+		return ordersCostses;
+	}
+
+	public void setOrdersCostses(List<OrdersCosts> ordersCostses) {
+		this.ordersCostses = ordersCostses;
+	}
 }

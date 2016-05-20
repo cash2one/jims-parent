@@ -1,4 +1,4 @@
-var editRow = undefined;
+var rowNum=-1;
 var visitDate;
 var visitNo;
 var prescNo;
@@ -88,19 +88,17 @@ $(function(){
                             return value;
                         }}
                     ]],onClickRow: function (index, row) {
-                        var drugCode = $("#list_data").datagrid('getEditor',{index:editRow,field:'drugCode'});
+                        var drugCode = $("#list_data").datagrid('getEditor',{index:rowNum,field:'drugCode'});
                         $(drugCode.target).textbox('setValue',row.drugCode);
-                        /*var drugName = $("#list_data").datagrid('getEditor',{index:editRow,field:'drugName'});
-                        $(drugName.target).textbox('setValue',row.drugName);*/
-                        var drugSpec = $("#list_data").datagrid('getEditor',{index:editRow,field:'drugSpec'});
+                        var drugSpec = $("#list_data").datagrid('getEditor',{index:rowNum,field:'drugSpec'});
                         $(drugSpec.target).textbox('setValue',row.drugSpec);
-                        var firmId = $("#list_data").datagrid('getEditor',{index:editRow,field:'firmId'});
+                        var firmId = $("#list_data").datagrid('getEditor',{index:rowNum,field:'firmId'});
                         $(firmId.target).textbox('setValue',row.firmId);
-                        var dosage = $("#list_data").datagrid('getEditor',{index:editRow,field:'dosage'});
+                        var dosage = $("#list_data").datagrid('getEditor',{index:rowNum,field:'dosage'});
                         $(dosage.target).textbox('setValue',row.dosage);
-                        var dosageUnits = $("#list_data").datagrid('getEditor',{index:editRow,field:'dosageUnits'});
+                        var dosageUnits = $("#list_data").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
                         $(dosageUnits.target).textbox('setValue',row.dosageUnits);
-                        var itemClass = $("#list_data").datagrid('getEditor',{index:editRow,field:'itemClass'});
+                        var itemClass = $("#list_data").datagrid('getEditor',{index:rowNum,field:'itemClass'});
                         $(itemClass.target).textbox('setValue',row.itemClass);
 
                     }
@@ -160,6 +158,9 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
+                if(rowNum>=0){
+                    rowNum++;
+                }
                 var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
                 if(selRow!=null&&selRow!=''&&selRow!='undefined'){
                     $("#list_data").datagrid('insertRow', {
@@ -177,22 +178,22 @@ $(function(){
             handler: function(){
                 doDelete();
             }
-        }],onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        },onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#list_data").datagrid('endEdit', editRow);
-            }
-            if (editRow == undefined) {
-                $("#list_data").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        },onClickRow:function(rowIndex,rowData){
-            $("#prescDialog").dialog('open');
-            if (editRow != undefined) {
-                $("#list_data").datagrid('endEdit', editRow);
+        }],onDblClickRow:function (rowIndex, rowData) {
+            var dataGrid=$('#list_data');
+            if(!dataGrid.datagrid('validateRow', rowNum)){
+                return false
+            }else{
+                if(rowNum!=rowIndex){
+                    if(rowNum>=0){
+                        dataGrid.datagrid('endEdit', rowNum);
+                    }
+                    rowNum=rowIndex;
+                    dataGrid.datagrid('beginEdit', rowIndex);
+                }
             }
 
+        },onClickRow:function(rowIndex,rowData){
+            $("#prescDialog").dialog('open');
         }
     });
     $("#prescDialog").dialog({
@@ -246,23 +247,26 @@ $(function(){
 });
 //加载数据时加载子项方法
 function subLoadData(row){
-    //如果选中数据非新开数据，则右侧药局部分禁用
-    if(row.chargeIndicator!='新开'){
-        disableForm('prescForm',true);
-    }else{
-        disableForm('prescForm',false);
+    if(row!=undefined&&row!='undifined'){
+        //如果选中数据非新开数据，则右侧药局部分禁用
+        if(row.chargeIndicator!='新开'){
+            disableForm('prescForm',true);
+        }else{
+            disableForm('prescForm',false);
+        }
+        if(row.itemClass=='A'){
+            changeRadio('A');
+            $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
+                $("#list_data").datagrid("loadData", data);
+            });
+        }else{
+            changeRadio('B');
+            $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
+                $("#list_data").datagrid("loadData", data);
+            });
+        }
     }
-    if(row.itemClass=='A'){
-        changeRadio('A');
-        $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
-            $("#list_data").datagrid("loadData", data);
-        });
-    }else{
-        changeRadio('B');
-        $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
-            $("#list_data").datagrid("loadData", data);
-        });
-    }
+
 }
 //西药/草药单选按钮事件
 function funItem(obj){
@@ -355,7 +359,7 @@ function addPre(){
 }
 //保存处方及药品信息
 function savePre(){
-    $("#list_data").datagrid('endEdit', editRow);
+    $("#list_data").datagrid('endEdit', rowNum);
     var  rows=$('#list_data').datagrid('getRows');
     var formJson=fromJson('prescForm');
     formJson = formJson.substring(0, formJson.length - 1);

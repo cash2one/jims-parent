@@ -36,7 +36,7 @@ public class Main {
 //            migrationDb();
             server.start();
             server.join();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -45,22 +45,22 @@ public class Main {
 
 
     /**
-    * 数据库版本控制
-    */
-    public static void migrationDb(){
+     * 数据库版本控制
+     */
+    public static void migrationDb() {
 
         Flyway flyway = new Flyway();
         //设置数据库链接配置
         flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:jims","xian","xian");
         //设置schema用户
-        //flyway.setSchemas("HIS");
-        //flyway.setTable("SCHEMA_VERSION");
+        flyway.setSchemas("WX");
+        flyway.setTable("SCHEMA_VERSION");
         flyway.setEncoding("UTF-8");
         flyway.setValidateOnMigrate(true);
         //清空所有表结构
-        flyway.clean();
+//        flyway.clean();
         //初始化flyWAy
-        flyway.init();
+//        flyway.init();
         //执行版本控制
         flyway.migrate();
 

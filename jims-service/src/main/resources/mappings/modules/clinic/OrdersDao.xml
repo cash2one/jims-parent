@@ -18,6 +18,7 @@
 		a.dosage_units AS "dosageUnits",
 		a.administration AS "administration",
 		a.duration AS "duration",
+		a.duration_units AS "durationUnits"
 		a.start_date_time AS "startDateTime",
 		a.stop_date_time AS "stopDateTime",
 		a.frequency AS "frequency",
@@ -63,7 +64,11 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		a.remarks AS "remarks"
+		a.remarks AS "remarks",
+		a.processing_date_time AS "processingDateTime",
+		a.PROCESSING_NURSE AS "processingNurse",
+		a.STOP_PROCESSING_NURSE AS "stopProcessingNurse"
+        a.STOP_PROCESSING_DATE_TIME AS  "stopProcessingDateTime"
 	</sql>
 	
 	<sql id="ordersJoins">
@@ -112,6 +117,79 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="getPatientOrders" resultType="Orders">
+     SELECT "ORDERS"."START_DATE_TIME" as "startDateTime",
+       "ORDERS"."ORDER_TEXT" as "orderText",
+       "ORDERS"."DOSAGE" as "dosage",
+       "ORDERS"."DOSAGE_UNITS" as "dosageUnits" ,
+       "ORDERS"."ADMINISTRATION" as "administration" ,
+       "ORDERS"."DURATION" as "duration",
+       "ORDERS"."DURATION_UNITS" as "durationUnits" ,
+       "ORDERS"."FREQUENCY" as "frequency",
+       "ORDERS"."FREQ_COUNTER" as "freqCounter",
+       "ORDERS"."FREQ_INTERVAL" as "freqInterval",
+       "ORDERS"."FREQ_INTERVAL_UNIT" as "freqIntervalUnit",
+       "ORDERS"."DOCTOR" as "doctor",
+       "ORDERS"."NURSE" as "nurse",
+       "ORDERS"."STOP_DOCTOR" as "stopDoctor",
+       "ORDERS"."ORDER_CLASS" as "orderClass",
+       "ORDERS"."REPEAT_INDICATOR" as "repeatIndicator",
+       "ORDERS"."STOP_DATE_TIME" as "stopDateTime",
+       "ORDERS"."ORDER_CODE" as "orderCode",
+       "ORDERS"."ORDER_STATUS" as "orderStatus",
+       "ORDERS"."ENTER_DATE_TIME" as "enterDateTime",
+       "ORDERS"."FREQ_DETAIL" as "freqDetail",
+       "ORDERS"."PATIENT_ID" as "patientId",
+       "ORDERS"."VISIT_ID" as "visitId",
+       "ORDERS"."ORDER_NO" as "orderNo",
+       "ORDERS"."ORDER_SUB_NO" as "orderSubNo",
+       "ORDERS"."PERFORM_SCHEDULE" as "performSchedule",
+       "ORDERS"."BILLING_ATTR" as "billingAttr",
+       '9',
+       "ORDERS"."LAST_ACCTING_DATE_TIME" as "lastAcctingDateTime",
+       "ORDERS"."PERFORM_RESULT" as "performResult",
+       "ORDERS"."LAST_PERFORM_DATE_TIME" as "lastPerformDateTime",
+       "ORDERS"."ORDERING_DEPT" as "orderingDept",
+       "ORDERS"."STOP_NURSE" as "stopNurse",
+       "ORDERS"."DRUG_BILLING_ATTR" as "drugBillingAttr",
+       "ORDERS"."DOCTOR_USER" as "doctorUser",
+       "ORDERS"."VERIFY_DATA_TIME" as "verifyDataTime",
+       "ORDERS"."ORDER_PRINT_INDICATOR" as "orderPrintIndicator",
+       "ORDERS"."PROCESSING_DATE_TIME" as "processingDateTime",
+       "ORDERS"."PROCESSING_NURSE" as "processingNurse",
+       "ORDERS"."STOP_PROCESSING_NURSE" as "stopProcessingNurse",
+       "ORDERS"."STOP_PROCESSING_DATE_TIME" as "stopProcessingDateTime",
+       "ORDERS"."CANCEL_DATE_TIME" as "cancelDateTime",
+       "ORDERS"."CANCEL_DOCTOR" as "cancelDoctor",
+       "ORDERS"."CURRENT_PRESC_NO" as "currentPrescNo",
+       "ORDERS"."DEGREE" as "degree",
+       "ORDERS"."APP_NO" as "appNo",
+       "ORDERS"."STOP_FLAG" as "stopFlag",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND1" as "expand1",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND2" as "expand2",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND3" as "expand3",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND4" as "expand4",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND5" as "expand5",
+       0 as nwarn,
+       "ORDERS"."CONTINUE_ORDER_NO",
+       (case
+         when ORDER_CLASS = 'A' or ORDER_CLASS = 'B' then
+          'A'
+         else
+          'B'
+       end) aa,
+       0.00 bb
+     FROM "ORDERS", "CLINIC_ITEM_NAME_DICT"
+       WHERE (ORDERS.PATIENT_ID = #{patientId})
+		   AND (ORDERS.VISIT_ID = #{visitId})
+		   AND (ORDERS.ORDER_CODE = CLINIC_ITEM_NAME_DICT.ITEM_CODE(+))
+		   AND ((CLINIC_ITEM_NAME_DICT.STD_INDICATOR = 1) or
+			   CLINIC_ITEM_NAME_DICT.STD_INDICATOR is null)
+
+	</select>
+
+
 	
 	<insert id="insert">
 		INSERT INTO orders(
@@ -130,6 +208,7 @@
 			dosage_units,
 			administration,
 			duration,
+			duration_units,
 			start_date_time,
 			stop_date_time,
 			frequency,
@@ -175,7 +254,11 @@
 			update_by,
 			update_date,
 			del_flag,
-			remarks
+			remarks,
+			processing_date_time,
+			PROCESSING_NURSE,
+			STOP_PROCESSING_NURSE,
+			STOP_PROCESSING_DATE_TIME
 		) VALUES (
 			#{id},
 			#{clinicId},
@@ -192,6 +275,7 @@
 			#{dosageUnits},
 			#{administration},
 			#{duration},
+			#{duration_units},
 			#{startDateTime},
 			#{stopDateTime},
 			#{frequency},
@@ -237,16 +321,20 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{delFlag},
-			#{remarks}
+			#{remarks},
+			#{processingDateTime},
+			#{processingNurse},
+			#{stopProcessingNurse},
+			#{stopProcessingDateTime}
 		)
 	</insert>
 	
 	<update id="update">
 		UPDATE orders SET 	
-			patient_id = #{patientId},
+		/*	patient_id = #{patientId},
 			visit_id = #{visitId},
 			order_no = #{orderNo},
-			order_sub_no = #{orderSubNo},
+			order_sub_no = #{orderSubNo},*/
 			repeat_indicator = #{repeatIndicator},
 			order_class = #{orderClass},
 			order_text = #{orderText},
@@ -255,6 +343,7 @@
 			dosage_units = #{dosageUnits},
 			administration = #{administration},
 			duration = #{duration},
+			duration_units = #{duration_units},
 			start_date_time = #{startDateTime},
 			stop_date_time = #{stopDateTime},
 			frequency = #{frequency},
@@ -327,5 +416,28 @@
 		</if>
 
 	</select>
-	
+
+
+
+	<select id="getOrderSubNo" resultType="java.lang.Integer">
+		SELECT max(order_sub_no) FROM orders
+		WHERE
+		<if  test="patientId!=null and patientId!='' ">
+			patient_id = #{patientId}
+		</if>
+		<if test="visitId!=null and visitId!='' ">
+			AND visit_id=#{visitId}
+		</if>
+		<if test="orderNo!=null and orderNo!='' ">
+			AND order_no=#{orderNo}
+		</if>
+
+	</select>
+
+
+	<select id="issuedOrders" resultType="java.lang.Integer">
+          update    orders       set  order_status = '6'
+          where id= #{id}
+	</select>
+
 </mapper>

@@ -8,6 +8,8 @@ import java.util.List;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.ExamAppointsDao;
 import com.jims.clinic.dao.ExamItemsDao;
+import com.jims.clinic.dao.OrdersCostsDao;
+import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.exam.api.OrdersServiceApi;
 import com.jims.exam.dao.OrdersDao;
@@ -33,6 +35,8 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
     private ExamItemsDao examItemsDao;
     @Autowired
     private OrdersDao ordersDao;
+    @Autowired
+    private OrdersCostsDao ordersCostsDao;
 
 
     @Override
@@ -128,8 +132,115 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
      */
     //@Override
     public String findMaxOrderNo(Orders orders){
-//        dao.findMaxOrderNo(orders);
+       dao.findMaxOrderNo(orders);
         return "";
+    }
+
+    /**
+     * 查询病人的医嘱
+     * @param orders
+     * @return
+     * pq
+     */
+    public List<Orders> getPatientOrders(Orders orders){
+      return   ordersDao.getPatientOrders(orders);
+    }
+
+    /**
+     * 保存医嘱
+     * @param ordersList
+     * @return
+     * pq
+     */
+    public String saveOrdersNew(List<Orders> ordersList){
+          if(ordersList!=null){
+              for(int i=0;i<ordersList.size();i++){
+              Orders orders=ordersList.get(i);
+                  if (orders.getIsNewRecord()) {
+                      orders.preInsert();
+                     String patientId=orders.getPatientId();
+                     String visitId = orders.getVisitId();
+                     Integer orderNo = ordersDao.getOrderNo(patientId,visitId,"");
+                      orders.setOrderNo(orderNo+1);
+                     Integer orderSubNo= ordersDao.getOrderSubNo(patientId, visitId, orders.getOrderNo());
+                      orders.setOrderSubNo(orderSubNo+1);
+                      ordersDao.insert(orders);
+                     if(orders.getOrdersCostses()!=null){
+                         List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
+                         for(int j=0;j<ordersCostsList.size();j++) {
+                             OrdersCosts ordersCosts = ordersCostsList.get(j);
+                             if (orders.getIsNewRecord()) {
+                                 ordersCosts.preInsert();
+                                 ordersCosts.setPatientId(orders.getPatientId());
+                                 ordersCosts.setVisitId(orders.getPatientId());
+                                 ordersCosts.setOrderId(orders.getId());
+                                 ordersCosts.setOrderNo(orderNo);
+                                 ordersCosts.setOrderSubNo(orderSubNo);
+                                 ordersCostsDao.insert(ordersCosts);
+                             } else {
+                                 ordersCostsDao.update(ordersCosts);
+                             }
+                         } }else{
+                             return "error";
+                         }
+
+                  }else{
+                      ordersDao.update(orders);
+                  }
+              }
+          }
+
+          else{
+              return "error";
+          }
+        return "success";
+    }
+
+    /**
+     * 保存子医嘱
+     * @param orders
+     * @return
+     * pq
+     */
+    public String saveSubOrder(Orders orders){
+        if (orders.getIsNewRecord()) {
+            orders.preInsert();
+            String patientId=orders.getPatientId();
+            String visitId = orders.getVisitId();
+            ordersDao.insert(orders);
+            if(orders.getOrdersCostses()!=null){
+                List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
+                for(int j=0;j<ordersCostsList.size();j++) {
+                    OrdersCosts ordersCosts = ordersCostsList.get(j);
+                    if (orders.getIsNewRecord()) {
+                        ordersCosts.preInsert();
+                        ordersCosts.setPatientId(orders.getPatientId());
+                        ordersCosts.setVisitId(orders.getPatientId());
+                        ordersCosts.setOrderId(orders.getId());
+                        ordersCosts.setOrderNo(orders.getOrderNo());
+                        ordersCosts.setOrderSubNo(orders.getOrderSubNo());
+                        ordersCostsDao.insert(ordersCosts);
+                    } else {
+                        ordersCostsDao.update(ordersCosts);
+                    }
+                } }else{
+                return "error";
+            }
+
+        }else{
+            ordersDao.update(orders);
+        }
+        return "success";
+    }
+
+    /**
+     * 下达医嘱
+     * @param id
+     * @return
+     * pq
+     */
+    public int issuedOrders(String id){
+      return   ordersDao.issuedOrders(id);
     }
 
 }

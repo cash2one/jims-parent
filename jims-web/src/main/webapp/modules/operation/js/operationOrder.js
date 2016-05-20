@@ -1,5 +1,5 @@
 var editRow = undefined;
-
+var rowNum=-1;
 $(function(){
     var deptCode=$("#deptCode").val();
     //病人列表
@@ -42,10 +42,9 @@ $(function(){
                 url: basePath+'/operatioinOrder/getOperationName?patientId='+row.patientId+'&visitId='+row.visitId,
                 idField: 'id',
                 columns: [[      //每个列具体内容
-                    {field: 'operation', title: '拟实施手术名称', width: '70%', align: 'center', editor:{
+                    {field: 'operation', title: '拟实施手术名称', width: '30%', align: 'center', editor:{
                         type:'combogrid',
                         options: {
-                            panelWidth: 500,
                             idField: 'itemCode',
                             textField: 'itemName',
                             url: '/modules/operation/js/clinic_data.json',
@@ -65,6 +64,9 @@ $(function(){
                     text: '添加',
                     iconCls: 'icon-add',
                     handler: function () {
+                        if(rowNum>=0){
+                            rowNum++;
+                        }
                         $("#operationName").datagrid("insertRow", {
                             index: 0, // index start with 0
                             row: {}
@@ -88,10 +90,18 @@ $(function(){
                         editRow = rowIndex;
                     }
                 },onClickRow:function(rowIndex,rowData){
-                    if (editRow != undefined) {
-                        $("#operationName").datagrid('endEdit', editRow);
+                    var dataGrid = $('#operationName');
+                    if (!dataGrid.datagrid('validateRow', rowNum)) {
+                        return false
                     }
+                    if (rowNum != rowIndex) {
+                        if (rowNum >= 0) {
+                            dataGrid.datagrid('endEdit', rowNum);
+                        }
+                        rowNum = rowIndex;
+                        dataGrid.datagrid('beginEdit', rowIndex);
 
+                    }
                 }
             });
 

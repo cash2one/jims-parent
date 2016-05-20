@@ -7,6 +7,9 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.exam.entity.Orders;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.core.annotation.Order;
+
+import java.util.List;
 
 /**
  * 住院医嘱DAO接口
@@ -32,7 +35,7 @@ public interface OrdersDao extends CrudDao<Orders> {
      * 获取子医嘱最大序号
      * @return
      */
-    public Integer getOrderSubNo();
+    public Integer getOrderSubNo(@Param("patientId")String patientId,@Param("visitId")String visitId,@Param("orderNo")Integer orderNo);
 
     /**
      * 最大OrderNo
@@ -52,4 +55,20 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @version 2016/5/12
      */
     public int creeatOrderNo(Orders orders);
+
+    /**
+     * 查找病人的医嘱列表
+     * @param orders
+     * @return
+     * pq
+     */
+    public List<Orders> getPatientOrders(Orders orders);
+
+    /**
+     * 下达医嘱
+     * @param id
+     * @return
+     * pq
+     */
+    public int issuedOrders(@Param("id")String id);
 }

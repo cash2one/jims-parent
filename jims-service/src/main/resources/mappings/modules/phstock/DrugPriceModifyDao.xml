@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugPriceModifyDao">
+    
+	<sql id="drugPriceModifyColumns">
+		a.drug_code AS "drugCode",
+		a.drug_spec AS "drugSpec",
+		a.units AS "units",
+		a.firm_id AS "firmId",
+		a.min_spec AS "minSpec",
+		a.min_units AS "minUnits",
+		a.original_trade_price AS "originalTradePrice",
+		a.current_trade_price AS "currentTradePrice",
+		a.original_retail_price AS "originalRetailPrice",
+		a.current_retail_price AS "currentRetailPrice",
+		a.notice_efficient_date AS "noticeEfficientDate",
+		a.actual_efficient_date AS "actualEfficientDate",
+		a.modify_credential AS "modifyCredential",
+		a.operator AS "operator",
+		a.confirm_operator AS "confirmOperator",
+		a.org_id AS "orgId",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate",
+		a.id AS "id"
+	</sql>
+	
+	<sql id="drugPriceModifyJoins">
+	</sql>
+    
+	<select id="get" resultType="DrugPriceModify">
+		SELECT 
+			*
+		FROM drug_price_modify a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DrugPriceModify">
+		SELECT 
+			<include refid="drugPriceModifyColumns"/>
+		FROM drug_price_modify a
+		<include refid="drugPriceModifyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DrugPriceModify">
+		SELECT 
+			<include refid="drugPriceModifyColumns"/>
+		FROM drug_price_modify a
+		<include refid="drugPriceModifyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO drug_price_modify(
+			drug_code,
+			drug_spec,
+			units,
+			firm_id,
+			min_spec,
+			min_units,
+			original_trade_price,
+			current_trade_price,
+			original_retail_price,
+			current_retail_price,
+			notice_efficient_date,
+			actual_efficient_date,
+			modify_credential,
+			operator,
+			confirm_operator,
+			org_id,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date,
+			id
+		) VALUES (
+			#{drugCode},
+			#{drugSpec},
+			#{units},
+			#{firmId},
+			#{minSpec},
+			#{minUnits},
+			#{originalTradePrice},
+			#{currentTradePrice},
+			#{originalRetailPrice},
+			#{currentRetailPrice},
+			#{noticeEfficientDate},
+			#{actualEfficientDate},
+			#{modifyCredential},
+			#{operator},
+			#{confirmOperator},
+			#{orgId},
+			#{remarks},
+			#{updateBy},
+			#{createBy},
+			#{updateDate},
+			#{delFlag},
+			#{createDate},
+			#{id}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_price_modify SET 	
+			drug_code = #{drugCode},
+			drug_spec = #{drugSpec},
+			units = #{units},
+			firm_id = #{firmId},
+			min_spec = #{minSpec},
+			min_units = #{minUnits},
+			original_trade_price = #{originalTradePrice},
+			current_trade_price = #{currentTradePrice},
+			original_retail_price = #{originalRetailPrice},
+			current_retail_price = #{currentRetailPrice},
+			notice_efficient_date = #{noticeEfficientDate},
+			actual_efficient_date = #{actualEfficientDate},
+			modify_credential = #{modifyCredential},
+			operator = #{operator},
+			confirm_operator = #{confirmOperator},
+			org_id = #{orgId},
+			remarks = #{remarks},
+			update_by = #{updateBy},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_price_modify SET 
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

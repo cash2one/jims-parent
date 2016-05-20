@@ -226,7 +226,7 @@
 	
 	<update id="delete">
 		UPDATE doct_drug_presc_master SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 
@@ -258,14 +258,15 @@
 		ph.BED_NO as "bedNo",
 		nvl(prepayments, 0) - nvl(total_charges, 0) as "prepayment",
 		ph.DIAGNOSIS as "dianosis",
-		pm.BINDING_PRESC_TITLE,
-		pm.DISCHARGE_TAKING_INDICATOR AS "bindingPrescTitle",
+		pm.BINDING_PRESC_TITLE AS "bindingPrescTitle",
+		pm.DISCHARGE_TAKING_INDICATOR AS "dischargeTakingIndicator",
 		pm.DOCTOR_USER AS "doctorUser",
 		pm.DECOCTION AS "decoction",
 		pm.NEWLY_PRINT AS "newlyPrint",
 		br.BED_LABEL as "bedLabel",
 		pm.DIAGNOSIS_NAME AS "diagnosisName",
 		pm.DISPENSARY_SUB  AS "dispensarySub",
+		pm.remarks as "remarks",
 		0 as "longTerm",
 		0 as "tempTerm"
 		FROM DOCT_DRUG_PRESC_MASTER pm, PATS_IN_HOSPITAL ph, BED_REC br
@@ -280,7 +281,7 @@
 	  </if>
   </where>
 
-
+		order by pm.presc_no desc
 	</select>
 
 	<select id="searchPrescNo" resultType="Integer">
