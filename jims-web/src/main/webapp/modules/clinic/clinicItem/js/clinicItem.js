@@ -1,4 +1,5 @@
 var editRow = undefined;
+var rowNum=-1;
 $(function() {
     $('#clinicItem').datagrid({
         singleSelect: true,
@@ -50,26 +51,15 @@ $(function() {
             iconCls: 'icon-add',
             handler: function () {
 
-                $("#clinicItem").datagrid('endEdit', editRow);
-                if (editRow != undefined) {
-                    $("#clinicItem").datagrid("endEdit", editRow);
+                if(rowNum>=0){
+                    rowNum++;
                 }
                 //添加时如果没有正在编辑的行，则在datagrid的第一行插入一行
-                if (editRow == undefined) {
+
                     $("#clinicItem").datagrid("insertRow", {
                         index: 0, // index start with 0
                         row: {}
                     });
-                    //将新插入的那一行开户编辑状态
-                    $("#clinicItem").datagrid("beginEdit", 0);
-                    //给当前编辑的行赋值
-                    editRow = 0;
-                }
-                /*  $("#zhenduan").datagrid('insertRow', {
-                 index:0,
-
-                 row:{}
-                 });*/
             }
         }, '-', {
             text: '删除',
@@ -100,8 +90,19 @@ $(function() {
                 editRow = rowIndex;
             }
         }, onClickRow: function (rowIndex, rowData) {//单击行事件
-              //显示所有处置计价显示
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle', '处置计价');
+            var dataGrid = $('#clinicItem');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
+            }
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
+                //显示所有处置计价显示
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle', '处置计价');
+            }
         }
 });
 //处置计价

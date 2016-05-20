@@ -166,11 +166,11 @@
        "ORDERS"."DEGREE" as "degree",
        "ORDERS"."APP_NO" as "appNo",
        "ORDERS"."STOP_FLAG" as "stopFlag",
-       "CLINIC_ITEM_NAME_DICT"."expand1",
-       "CLINIC_ITEM_NAME_DICT"."expand2",
-       "CLINIC_ITEM_NAME_DICT"."expand3",
-       "CLINIC_ITEM_NAME_DICT"."expand4",
-       "CLINIC_ITEM_NAME_DICT"."expand5",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND1" as "expand1",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND2" as "expand2",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND3" as "expand3",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND4" as "expand4",
+       "CLINIC_ITEM_NAME_DICT"."EXPAND5" as "expand5",
        0 as nwarn,
        "ORDERS"."CONTINUE_ORDER_NO",
        (case
@@ -331,10 +331,10 @@
 	
 	<update id="update">
 		UPDATE orders SET 	
-			patient_id = #{patientId},
+		/*	patient_id = #{patientId},
 			visit_id = #{visitId},
 			order_no = #{orderNo},
-			order_sub_no = #{orderSubNo},
+			order_sub_no = #{orderSubNo},*/
 			repeat_indicator = #{repeatIndicator},
 			order_class = #{orderClass},
 			order_text = #{orderText},
@@ -416,5 +416,28 @@
 		</if>
 
 	</select>
-	
+
+
+
+	<select id="getOrderSubNo" resultType="java.lang.Integer">
+		SELECT max(order_sub_no) FROM orders
+		WHERE
+		<if  test="patientId!=null and patientId!='' ">
+			patient_id = #{patientId}
+		</if>
+		<if test="visitId!=null and visitId!='' ">
+			AND visit_id=#{visitId}
+		</if>
+		<if test="orderNo!=null and orderNo!='' ">
+			AND order_no=#{orderNo}
+		</if>
+
+	</select>
+
+
+	<select id="issuedOrders" resultType="java.lang.Integer">
+          update    orders       set  order_status = '6'
+          where id= #{id}
+	</select>
+
 </mapper>
