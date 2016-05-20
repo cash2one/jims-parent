@@ -11,7 +11,7 @@ public class Main {
     /**
      * @param args
      */
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         String webappDirLocation = "jims-service/src/main/webapp/";
         String webPort = System.getenv("PORT");
@@ -19,10 +19,10 @@ public class Main {
             webPort = "80";
         }
 
-        File file = new File(webappDirLocation) ;
-        if(file.exists()){
+        File file = new File(webappDirLocation);
+        if (file.exists()) {
             System.out.println(file.getAbsolutePath());
-        }else{
+        } else {
             System.out.println("路径有问题");
         }
         Server server = new Server(Integer.valueOf(webPort));
@@ -36,7 +36,7 @@ public class Main {
           //  migrationDb();
             server.start();
             server.join();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -45,22 +45,22 @@ public class Main {
 
 
     /**
-    * 数据库版本控制
-    */
-    public static void migrationDb(){
+     * 数据库版本控制
+     */
+    public static void migrationDb() {
 
         Flyway flyway = new Flyway();
         //设置数据库链接配置
-        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:his","his","admin");
+        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:slhislocal", "wx", "wx");
         //设置schema用户
-        //flyway.setSchemas("HIS");
-        //flyway.setTable("SCHEMA_VERSION");
+        flyway.setSchemas("WX");
+        flyway.setTable("SCHEMA_VERSION");
         flyway.setEncoding("UTF-8");
         flyway.setValidateOnMigrate(true);
         //清空所有表结构
-        flyway.clean();
+//        flyway.clean();
         //初始化flyWAy
-        flyway.init();
+//        flyway.init();
         //执行版本控制
         flyway.migrate();
 

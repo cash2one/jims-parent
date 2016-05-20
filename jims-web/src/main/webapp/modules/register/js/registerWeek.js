@@ -1,5 +1,4 @@
 $(function(){
-    var editRow =undefined;
     var rowNum=-1;
     var week=[{"value":"星期一","text":"星期一"},{"value":"星期二","text":"星期二"},{"value":"星期三","text":"星期三"},{"value":"星期四","text":"星期四"}
     ,{"value":"星期五","text":"星期五"},{"value":"星期六","text":"星期六"},{"value":"星期日","text":"星期日"}];
@@ -17,7 +16,7 @@ $(function(){
         url:basePath+'/clinicIndex/findList',
         remoteSort:false,
         idField:'id',
-        singleSelect:false,//是否单选
+        singleSelect:true,//是否单选
         pagination:true,//分页控件
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
@@ -31,20 +30,20 @@ $(function(){
         frozenColumns:[[
             {field:'ck',checkbox:true}
         ]],
-        toolbar: "#ddddddddd",
+        toolbar: "#lookListData",
         onClickRow:function(rowIndex,rowData){
-            if (editRow != undefined) {
-                $("#list_data").datagrid('endEdit', editRow);
-            }
             var selectRows = $('#list_data').datagrid("getSelected");
             var clinicIndexId=  selectRows['id'];//号别ID
             listWeek(clinicIndexId);
-
         }
     });
     //设置分页控件
-    var p = $('#list_data').datagrid('getPager');
-
+    var p1 = $('#list_data').datagrid('getPager');
+    $(p1).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '共 {total} 条记录'
+    });
     $('#listWeek').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -64,7 +63,7 @@ $(function(){
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
             {field:'clinicLabel',title:'门诊号名称',width:'20%',align:'center',editor: 'text'},
-            {field:'dayOfWeek',title:'星期',width:'25%',align:'center',editor:{
+            {field:'dayOfWeek',title:'星期',width:'23%',align:'center',editor:{
                 type:"combobox",
                 options:{
                     data :week,
@@ -109,39 +108,33 @@ $(function(){
                 text: '保存',
                 iconCls:'icon-save',
                 handler:function(){
-                    $("#listWeek").datagrid('endEdit', editRow);
-                    if (editRow != undefined) {
-                        $("#listWeek").datagrid("endEdit", editRow);
-                    }
+                    $("#listWeek").datagrid('endEdit', rowNum);
                     saveClinicWeek();
                 }
             }
-        ],onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        }, onClickRow: function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#listWeek").datagrid('endEdit', editRow);
-            }
-            if (editRow == undefined) {
-                $("#listWeek").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
+        ], onClickRow: function (rowIndex, rowData) {
             var dataGrid=$('#listWeek');
             if(!dataGrid.datagrid('validateRow', rowNum)){
                 return false
-            }
-            if(rowNum!=rowIndex){
-                if(rowNum>=0){
-                    dataGrid.datagrid('endEdit', rowNum);
+            }else{
+                if(rowNum!=rowIndex){
+                    if(rowNum>=0){
+                        dataGrid.datagrid('endEdit', rowNum);
+                    }
+                    rowNum=rowIndex;
+                    dataGrid.datagrid('beginEdit', rowIndex);
                 }
-                rowNum=rowIndex;
-                dataGrid.datagrid('beginEdit', rowIndex);
             }
         }
     });
 
     //设置分页控件
     var p = $('#listWeek').datagrid('getPager');
+    $(p).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    });
 });
 //加载安排录入list
 function listWeek(clinicIndexId){

@@ -1,5 +1,4 @@
 var rowNum=-1;
-var editRow = undefined;
 var clinicDeptCode=[{"value":"1","text":"内科"},{"value":"2","text":"内一科"},{"value":"3","text":"外科"},{"value":"4","text":"妇科"}];
 var doctorName=[{"value":"1","text":"石佳慧"},{"value":"2","text":"张家辉"},{"value":"3","text":"李长青"},{"value":"4","text":"李惠利"},
     {"value":"5","text":"赵丽娟"}];
@@ -93,33 +92,22 @@ function onloadMethod(){
                 text: '保存',
                 iconCls:'icon-save',
                 handler:function(){
-                    $("#list_data").datagrid('endEdit', editRow);
-                    if (editRow != undefined) {
-                        $("#list_data").datagrid("endEdit", editRow);
-                    }
+                    $("#list_data").datagrid('endEdit', rowNum);
                     save();
                 }
             }
-        ],onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        }, onClickRow: function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#list_data").datagrid('endEdit', editRow);
-            }
-            if (editRow == undefined) {
-                $("#list_data").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
+        ], onClickRow: function (rowIndex, rowData) {
             var dataGrid=$('#list_data');
             if(!dataGrid.datagrid('validateRow', rowNum)){
                 return false
-            }
-            if(rowNum!=rowIndex){
-                if(rowNum>=0){
-                    dataGrid.datagrid('endEdit', rowNum);
+            }else{
+                if(rowNum!=rowIndex){
+                    if(rowNum>=0){
+                        dataGrid.datagrid('endEdit', rowNum);
+                    }
+                    rowNum=rowIndex;
+                    dataGrid.datagrid('beginEdit', rowIndex);
                 }
-                rowNum=rowIndex;
-                dataGrid.datagrid('beginEdit', rowIndex);
             }
         }
     });

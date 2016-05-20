@@ -27,6 +27,17 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	private String memo;		// memo
 	private String orgId;		// 所属组织结构
 
+    //====不保存字段
+    private String sumPrice;  //项目合计金额
+
+    public String getSumPrice() {
+        return sumPrice;
+    }
+
+    public void setSumPrice(String sumPrice) {
+        this.sumPrice = sumPrice;
+    }
+
     public String getUpdateFlag() {
         return updateFlag;
     }
