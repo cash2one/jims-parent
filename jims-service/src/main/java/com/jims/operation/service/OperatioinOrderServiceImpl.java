@@ -82,8 +82,7 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
                         if (scheduledOperationName.getIsNewRecord()) {
                             scheduledOperationName.setOperationNo(i+1);
                             scheduledOperationName.preInsert();
-                            scheduledOperationName.setPatientId(operationSchedule.getPatientId());
-                            scheduledOperationName.setVisitId(operationSchedule.getVisitId());
+
                             scheduledOperationName.setScheduleId(operationSchedule.getId());
                             scheduledOperationNameDao.insert(scheduledOperationName);
 
@@ -147,8 +146,6 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
                         if (scheduledOperationName.getIsNewRecord()) {
                             scheduledOperationName.setOperationNo(i+1);
                             scheduledOperationName.preInsert();
-                            scheduledOperationName.setPatientId(operationSchedule.getPatientId());
-                            scheduledOperationName.setVisitId(operationSchedule.getVisitId());
                             scheduledOperationName.setScheduleId(operationSchedule.getId());
                             scheduledOperationNameDao.insert(scheduledOperationName);
                         } else {

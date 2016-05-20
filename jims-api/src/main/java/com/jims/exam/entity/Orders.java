@@ -3,6 +3,7 @@
  */
 package com.jims.exam.entity;
 
+import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
@@ -87,6 +88,7 @@ public class Orders extends DataEntity<Orders> {
 	private String expand3;//科室
 	private String expand4;//频次
 	private String expand5;//医嘱属性
+	private List<OrdersCosts> ordersCostses;//医嘱收费明细
 
 	public Orders() {
 		super();
@@ -644,5 +646,13 @@ public class Orders extends DataEntity<Orders> {
 
 	public void setExpand5(String expand5) {
 		this.expand5 = expand5;
+	}
+
+	public List<OrdersCosts> getOrdersCostses() {
+		return ordersCostses;
+	}
+
+	public void setOrdersCostses(List<OrdersCosts> ordersCostses) {
+		this.ordersCostses = ordersCostses;
 	}
 }
