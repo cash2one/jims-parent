@@ -1,6 +1,7 @@
 package com.jims.clinic;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.StringData;
 import com.jims.exam.api.OrdersServiceApi;
 import com.jims.exam.entity.Orders;
 
@@ -50,8 +51,16 @@ public class OrdersRest {
      */
     @Path("save")
     @POST
-    public  String saveOrders(List<Orders> ordersList){
-      return ordersServiceApi.saveOrdersNew(ordersList);
+    public  StringData saveOrders(List<Orders> ordersList){
+        String num = ordersServiceApi.saveOrdersNew(ordersList);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        if (Integer.parseInt(num) > 0) {
+            stringData.setData("success");
+        } else {
+            stringData.setData("error");
+        }
+      return stringData;
     }
 
     /**
