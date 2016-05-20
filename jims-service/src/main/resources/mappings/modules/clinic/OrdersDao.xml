@@ -275,7 +275,7 @@
 			#{dosageUnits},
 			#{administration},
 			#{duration},
-			#{duration_units},
+			#{durationUnits},
 			#{startDateTime},
 			#{stopDateTime},
 			#{frequency},
@@ -330,11 +330,9 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE orders SET 	
-		/*	patient_id = #{patientId},
-			visit_id = #{visitId},
+		UPDATE orders SET
 			order_no = #{orderNo},
-			order_sub_no = #{orderSubNo},*/
+			order_sub_no = #{orderSubNo},
 			repeat_indicator = #{repeatIndicator},
 			order_class = #{orderClass},
 			order_text = #{orderText},
@@ -405,8 +403,9 @@
 	<select id="getOrderNo" resultType="java.lang.Integer">
 		SELECT max(order_no) FROM orders
 		WHERE
+		     del_flag = '0'
 		<if  test="patientId!=null and patientId!='' ">
-			patient_id = #{patientId}
+		AND 	patient_id = #{patientId}
 		</if>
 		<if test="visitId!=null and visitId!='' ">
 			AND visit_id=#{visitId}
@@ -422,8 +421,9 @@
 	<select id="getOrderSubNo" resultType="java.lang.Integer">
 		SELECT max(order_sub_no) FROM orders
 		WHERE
+		    del_flag = '0'
 		<if  test="patientId!=null and patientId!='' ">
-			patient_id = #{patientId}
+		 AND 	patient_id = #{patientId}
 		</if>
 		<if test="visitId!=null and visitId!='' ">
 			AND visit_id=#{visitId}
@@ -436,8 +436,41 @@
 
 
 	<select id="issuedOrders" resultType="java.lang.Integer">
-          update    orders       set  order_status = '6'
+          update    orders       set  order_status = '2'
           where id= #{id}
+	</select>
+
+	<select id="getSubOrders" resultType="Orders">
+		SELECT
+		<include refid="ordersColumns"/>
+		FROM orders a
+		<include refid="ordersJoins"/>
+		<where>
+			a.del_flag = '0'
+				<if  test="patientId!=null and patientId!='' ">
+				AND 	patient_id = #{patientId}
+				</if>
+				<if test="visitId!=null and visitId!='' ">
+					AND visit_id=#{visitId}
+				</if>
+				<if test="orderNo!=null and orderNo!='' ">
+					AND order_no=#{orderNo}
+			    </if>
+		</where>
+	</select>
+
+
+	<select id="getMaxOrderNo" resultType="java.lang.Integer">
+		SELECT max(order_no) FROM orders
+		WHERE
+		del_flag = '0'
+		<if  test="patientId!=null and patientId!='' ">
+			AND 	patient_id = #{patientId}
+		</if>
+		<if test="visitId!=null and visitId!='' ">
+			AND visit_id=#{visitId}
+		</if>
+
 	</select>
 
 </mapper>

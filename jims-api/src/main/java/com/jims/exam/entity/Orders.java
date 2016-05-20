@@ -5,12 +5,13 @@ package com.jims.exam.entity;
 
 import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.persistence.DataEntity;
+import org.hibernate.validator.constraints.Length;
 import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.core.annotation.Order;
+
+
 
 import java.util.Date;
 import java.util.List;
@@ -80,15 +81,24 @@ public class Orders extends DataEntity<Orders> {
 	private String dutyDoctor;		// 责任医师
 	private String durationUnits;//持续时间单位
    private String processingDateTime;//处理日期及时间
-	private List<Order> orderList;
 	private String processingNurse;//处理护士
 	private String stopProcessingDateTime;
 	private String expand1;//标本
 	private String expand2;//试管
 	private String expand3;//科室
 	private String expand4;//频次
+
+	public String getStopProcessingNurse() {
+		return stopProcessingNurse;
+	}
+
+	public void setStopProcessingNurse(String stopProcessingNurse) {
+		this.stopProcessingNurse = stopProcessingNurse;
+	}
+
 	private String expand5;//医嘱属性
 	private List<OrdersCosts> ordersCostses;//医嘱收费明细
+	private String stopProcessingNurse;
 
 	public Orders() {
 		super();
@@ -98,13 +108,6 @@ public class Orders extends DataEntity<Orders> {
 		super(id);
 	}
 
-	public List<Order> getOrderList() {
-		return orderList;
-	}
-
-	public void setOrderList(List<Order> orderList) {
-		this.orderList = orderList;
-	}
 
 	public String getClinicId() {
 		return clinicId;
@@ -122,8 +125,6 @@ public class Orders extends DataEntity<Orders> {
 		this.orgId = orgId;
 	}
 
-
-	@Length(min=0, max=64, message="病人标识号长度必须介于 0 和 64 之间")
 	public String getPatientId() {
 		return patientId;
 	}

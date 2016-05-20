@@ -71,4 +71,24 @@ public interface OrdersDao extends CrudDao<Orders> {
      * pq
      */
     public int issuedOrders(@Param("id")String id);
+
+    /**
+     * 查找子医嘱
+     * @param patientId
+     * @param visitId
+     * @param orderNo
+     * @return
+     * pq
+     */
+    public List<Orders> getSubOrders(@Param("patientId")String patientId,@Param("visitId")String visitId,@Param("orderNo")Integer orderNo);
+
+
+    /**
+     * 拿到最大的医嘱号
+     * @param patientId
+     * @param visitId
+     * @return
+     * pq
+     */
+    public  Integer getMaxOrderNo(@Param("patientId")String patientId,@Param("visitId")String visitId);
 }
