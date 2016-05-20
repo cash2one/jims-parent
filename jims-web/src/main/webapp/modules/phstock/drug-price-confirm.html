@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../static/easyui/css/icon.css">
+
+</head>
+<body>
+<div  id="dg" class="easyui-datagrid" style="width:400px;">
+
+</div>
+
+<div id="tb" style="padding:10px 10px; padding-top: 5px; ">
+    提取时间： <input class="easyui-datetimespinner" id="start" style="width:300px"> 至 <input class="easyui-datetimespinner" id="end" style="width:300px">&nbsp;
+    生效日期：<input class="easyui-datetimespinner" id="data" style="width:300px">
+    &nbsp;
+    <a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">提取</a>
+    <a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+    <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">保存</a>
+</div>
+
+<script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/static/js/head.js"></script>
+<script type="text/javascript" src="../phstock/js/drug-price-confirm.js"></script>
+</body>
+</html>
