@@ -46,7 +46,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.subStorageCode ASC
+				ORDER BY a.sub_storage_code ASC
 			</otherwise>
 		</choose>
 	</select>
