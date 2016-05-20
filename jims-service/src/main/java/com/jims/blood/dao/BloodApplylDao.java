@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.dao;
+package com.jims.blood.dao;
 
 
 import com.jims.blood.entity.BloodApply;

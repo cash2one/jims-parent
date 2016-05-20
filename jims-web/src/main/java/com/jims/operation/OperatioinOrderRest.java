@@ -64,15 +64,14 @@ public class OperatioinOrderRest {
 
     /**
      * 通过病人Id拿到手术安排(住院)
-     * @param patientId
-     * @param visitId
+     * @param operationSchedule
      * @return
      */
     @Path("getScheduleIn")
     @POST
-    public OperationSchedule getScheduleIn(String patientId,String visitId,String clinicId){
+    public OperationSchedule getScheduleIn(OperationSchedule operationSchedule){
        /* visitId="1";*/
-        return operatioinOrderServiceApi.getSchedule(patientId,visitId,clinicId);
+        return operatioinOrderServiceApi.getSchedule(operationSchedule.getPatientId(), operationSchedule.getVisitId(),operationSchedule.getClinicId());
     }
 
     /**
@@ -103,7 +102,7 @@ public class OperatioinOrderRest {
         if(clinicId!=null && !"".equals(clinicId)){
              operationSchedule= getScheduleOut(clinicId);
         }else{
-            operationSchedule= getScheduleIn(patientId, visitId, clinicId);
+            operationSchedule= operatioinOrderServiceApi.getSchedule(patientId,visitId, clinicId);
         }
         List<ScheduledOperationName> scheduledOperationNames = new ArrayList<ScheduledOperationName>();
         if(operationSchedule!=null){

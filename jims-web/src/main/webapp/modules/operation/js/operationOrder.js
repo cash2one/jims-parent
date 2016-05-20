@@ -26,8 +26,8 @@ $(function(){
             $.ajax({
                 method:"POST",
                 url:basePath+"/operatioinOrder/getScheduleIn",
-                dataType: 'json',
                 contentType: "application/json", //必须有
+                dataType: 'json',
                 data: JSON.stringify({"patientId":row.patientId,"visitId":row.visitId}),
                 success: function(data){
                     $('#operation').form('load',data);
@@ -42,10 +42,9 @@ $(function(){
                 url: basePath+'/operatioinOrder/getOperationName?patientId='+row.patientId+'&visitId='+row.visitId,
                 idField: 'id',
                 columns: [[      //每个列具体内容
-                    {field: 'operation', title: '拟实施手术名称', width: '70%', align: 'center', editor:{
+                    {field: 'operation', title: '拟实施手术名称', width: '30%', align: 'center', editor:{
                         type:'combogrid',
                         options: {
-                            panelWidth: 500,
                             idField: 'itemCode',
                             textField: 'itemName',
                             url: '/modules/operation/js/clinic_data.json',

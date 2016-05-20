@@ -226,7 +226,7 @@
 	
 	<update id="delete">
 		UPDATE doct_drug_presc_master SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 

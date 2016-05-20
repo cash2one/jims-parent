@@ -3,16 +3,12 @@ $(function() {
     $('#tg').treegrid({
         rownumbers: true,
         animate: true,
-        collapsible: true,
-        fitColumns: true,
-       // url: 'treegrid_data2.json',
+        singleSelect: true,
+        fit: true,
         method: 'get',
         idField: 'id',
         treeField: 'type',
-        // showFooter: true,
         columns:[[      //每个列具体内容
-            //  {field:'id',title:'序号',width:'5%',align:'center',editor:'hidden'},
-            /*{field:'itemNo',title:'序号',width:'5%',align:'center',editor:'text'},*/
             {field:'type',title:'诊断类型',width:'10%',align:'center',editor:{
                 type:'combobox',
                 options:{
@@ -235,13 +231,8 @@ function cancel(){
 
 
 function insert(){
-   /* var node = $("#tg").treegrid('getSelected');
-    if (!node) {
-        $.messager.alert("系统提示", "请选择，所添加诊断的同一级的任意一个诊断");
-        return;
-    }
-    if (node) {*/
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle', '添加同级诊断');
+
+    $("#dlg").dialog({title: '添加诊断'}).dialog("open").dialog('center');
         $('#fm').form('clear');
         //    $("#parentId").val(node._parentId);
         $("#parentId").val("0");

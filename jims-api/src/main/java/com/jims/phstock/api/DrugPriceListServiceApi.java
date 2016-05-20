@@ -4,6 +4,7 @@ import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
+import com.jims.phstock.entity.DrugPriceModify;
 import com.jims.phstock.vo.DrugCatalogBeanVo;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 
@@ -24,6 +25,14 @@ public interface DrugPriceListServiceApi {
      * @version 2016-04-23
      */
     public String save(DrugPriceList drugPriceList);
+    /**
+     * 保存药品调价数据
+     * @param drugPriceModifyVo
+     * @return
+     * @author txb
+     * @version 2016-05-18
+     */
+    public String saveDrugPriceModify(DrugCatalogChangeVo drugPriceModifyVo);
 
     /**
      * 分页查询数据
@@ -34,7 +43,6 @@ public interface DrugPriceListServiceApi {
      * @version 2016-04-23
      */
     public Page<DrugPriceList> findPage(Page<DrugPriceList> drugPriceListPage,DrugPriceList drugPriceList);
-
     /**
      * 查询列表数据
      * @param drugPriceList
@@ -43,6 +51,14 @@ public interface DrugPriceListServiceApi {
      * @version 2016-04-23
      */
     public List<DrugPriceList> findList(DrugPriceList drugPriceList);
+    /**
+     * 查询列表药品调价数据
+     * @param drugPriceModify
+     * @return
+     * @author txb
+     * @version 2016-05-18
+     */
+    public List<DrugPriceModify>  findListDrugPriceModify(DrugPriceModify drugPriceModify);
 
     /**
      * 获得单条数据
@@ -60,7 +76,7 @@ public interface DrugPriceListServiceApi {
      * @author zhaoning
      * @version 2016-04-23
      */
-    public String delete(String ids);
+    public String delete(String ids);   /**
 
     /**
      * 根据当前组织结构获取去本组织结构内所有的药品名称字典。
