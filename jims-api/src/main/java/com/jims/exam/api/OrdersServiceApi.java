@@ -61,4 +61,13 @@ public interface OrdersServiceApi {
      */
     public String saveSubOrder(Orders orders);
 
+    /**
+     * 下达医嘱
+     * @param id
+     * @return
+     * pq
+     */
+   public  int issuedOrders(String id);
+
+
 }

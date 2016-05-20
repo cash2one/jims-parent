@@ -60,6 +60,15 @@ public interface OrdersDao extends CrudDao<Orders> {
      * 查找病人的医嘱列表
      * @param orders
      * @return
+     * pq
      */
     public List<Orders> getPatientOrders(Orders orders);
+
+    /**
+     * 下达医嘱
+     * @param id
+     * @return
+     * pq
+     */
+    public int issuedOrders(@Param("id")String id);
 }

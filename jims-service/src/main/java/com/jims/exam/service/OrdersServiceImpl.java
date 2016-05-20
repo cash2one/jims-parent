@@ -232,4 +232,16 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         }
         return "success";
     }
+
+    /**
+     * 下达医嘱
+     * @param id
+     * @return
+     * pq
+     */
+    public int issuedOrders(String id){
+
+      return   ordersDao.issuedOrders(id);
+    }
+
 }

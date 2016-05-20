@@ -434,4 +434,10 @@
 
 	</select>
 
+
+	<select id="issuedOrders" resultType="java.lang.Integer">
+          update    orders       set  order_status = '6'
+          where id= #{id}
+	</select>
+
 </mapper>
