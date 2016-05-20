@@ -5,7 +5,12 @@ package com.jims.register.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.clinic.dao.ClinicMasterDao;
+import com.jims.clinic.dao.PatMasterIndexDao;
+import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.DateUtils;
+import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.api.ClinicForRegisterSerivceApi;
 import com.jims.register.dao.ClinicForRegistDao;
 import com.jims.register.entity.ClinicForRegist;
@@ -28,6 +33,10 @@ import java.util.List;
 public class ClinicForRegistServiceImpl extends CrudImplService<ClinicForRegistDao, ClinicForRegist> implements ClinicForRegisterSerivceApi{
    @Autowired
     private ClinicForRegistDao clinicForRegistDao;
+    @Autowired
+    private ClinicMasterDao clinicMasterDao;
+    @Autowired
+    private PatMasterIndexDao patMasterIndexDao;
     /**
      * 保存号表
      * @param clinicScheduleList
@@ -71,5 +80,88 @@ public class ClinicForRegistServiceImpl extends CrudImplService<ClinicForRegistD
             }
         }
         return num;
+    }
+
+    /**
+     * 查询当前天的号表
+     * @return
+     */
+    @Override
+    public List<ClinicForRegist> findListReg() {
+         String currentDate= DateUtils.getDate();
+        return clinicForRegistDao.findListReg(currentDate);
+    }
+
+    /**
+     * 保存挂号信息
+     * @param clinicMaster
+     * @return
+     */
+    @Override
+    public String saveClinic(ClinicMaster clinicMaster) throws Exception{
+         int i=1;
+       //保存就诊信息
+        List<ClinicForRegist> list=clinicMaster.getClinicForRegists();
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+        if(list!=null && list.size()>0){
+            for(int k=0;k<list.size();k++){
+                ClinicMaster master=new ClinicMaster();
+                String registId = list.get(k).getId();
+                ClinicForRegist clinicForRegist= get(registId);
+                String clinicLabel=clinicForRegist.getClinicLabel();
+                String timeDesc=clinicForRegist.getTimeDesc();
+
+                master.setName(clinicMaster.getName()); //姓名
+                master.setSex(clinicMaster.getSex());//性别
+                master.setChargeType(clinicMaster.getChargeType());//费别
+                master.setIdentity(clinicMaster.getIdentity());//身份
+                master.setUnitInContract(clinicMaster.getUnitInContract());//合同单位
+                master.setInsuranceType(clinicMaster.getInsuranceType());//医保类别
+                master.setInsuranceNo(clinicMaster.getInsuranceNo());//医保号
+                master.setClinicLabel(clinicLabel);//门诊号名称
+                master.setVisitTimeDesc(timeDesc);//门诊时间
+                master.setVisitDate(format.parse(DateUtils.getDate()));//就诊日期
+                master.setVisitNo(1);//就诊序号？
+                master.setClinicNo(DateUtils.getDate("yyyyMMdd")+1);//就诊号==就诊日期+就诊序号
+                if(clinicMaster.getVisitIndicator().equals("初诊")){
+                    master.setFirstVisitIndicator(0);//初诊标志
+                }
+                master.setRegisteringDate(format.parse(DateUtils.getDate()));//挂号日期
+                master.setRegistFee(0.0);//挂号费
+                master.setClinicFee(0.0);//诊疗费
+                master.setOtherFee(0.0);//其他费
+                master.setClinicCharge(0.0);//实收费用
+                master.setModeCode("现金");//挂号模式
+                master.setPayWay("现金");//挂号模式
+                if (master.getIsNewRecord()){
+                    master.preInsert();
+                   clinicMasterDao.insert(master);
+                }else{
+                    master.preUpdate();
+                    clinicMasterDao.update(master);
+                }
+            }
+
+        }
+        PatMasterIndex patMasterIndex =new PatMasterIndex();
+        //保存主记录信息
+        patMasterIndex.setName(clinicMaster.getName());//姓名
+        patMasterIndex.setSex(clinicMaster.getSex());//性别
+        patMasterIndex.setDateOfBirth(clinicMaster.getBirthDate());//出生日期
+        patMasterIndex.setChargeType(clinicMaster.getChargeType());//费别
+        patMasterIndex.setIdentity(clinicMaster.getIdentity());//身份
+        patMasterIndex.setCreateDate(format.parse(DateUtils.getDate()));//记录时间
+        patMasterIndex.setVipIndicator(0);//重要任务标志
+        patMasterIndex.setOperator("操作人");//操作人 取当前登录的医生
+        if (patMasterIndex.getIsNewRecord()){
+            patMasterIndex.preInsert();
+            i=patMasterIndexDao.insert(patMasterIndex);
+        }else{
+            patMasterIndex.preUpdate();
+            i=patMasterIndexDao.update(patMasterIndex);
+        }
+       //更新 号表 信息
+        clinicForRegistDao.updateRegister(DateUtils.getDate(),clinicMaster.getClinicLabel(),clinicMaster.getVisitTimeDesc());
+        return i+"";
     }
 }

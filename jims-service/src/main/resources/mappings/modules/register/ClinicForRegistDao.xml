@@ -48,7 +48,26 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+	<select id="findListReg" resultType="ClinicForRegist">
+		SELECT
+		"CLINIC_FOR_REGIST"."ID" AS id,
+		 "CLINIC_FOR_REGIST"."CLINIC_LABEL" AS clinicLabel,
+         "CLINIC_FOR_REGIST"."TIME_DESC" AS timeDesc,
+         "CLINIC_FOR_REGIST"."REGISTRATION_LIMITS" AS registrationLimits,
+         "CLINIC_FOR_REGIST"."APPOINTMENT_LIMITS" AS appointmentLimits,
+         "CLINIC_FOR_REGIST"."REGIST_PRICE" AS registPrice,
+         "CLINIC_INDEX"."CLINIC_DEPT" AS clinicDept,
+         "CLINIC_INDEX"."DOCTOR" AS doctor,
+         "CLINIC_INDEX"."DOCTOR_TITLE" AS doctorTitle,
+         "CLINIC_INDEX"."CLINIC_TYPE" AS clinicType,
+         "CLINIC_FOR_REGIST"."CURRENT_NO" AS currentNo,
+         "CLINIC_INDEX"."INPUT_CODE" AS inputCode,
+         "CLINIC_INDEX"."CLINIC_POSITION" AS clinicPosition
+    FROM "CLINIC_FOR_REGIST",
+         "CLINIC_INDEX"
+   WHERE ( "CLINIC_FOR_REGIST"."CLINIC_LABEL" = "CLINIC_INDEX"."CLINIC_LABEL" ) and
+         ( CLINIC_FOR_REGIST.CLINIC_DATE = to_date(#{date},'yyyy-mm-dd hh24:mi:ss') )
+	</select>
 	<select id="findAllList" resultType="ClinicForRegist">
 		SELECT 
 			<include refid="clinicForRegistColumns"/>
@@ -117,7 +136,10 @@
 			regist_price = #{registPrice}
 		WHERE id = #{id}
 	</update>
-	
+	<update id="updateRegister" >
+		update clinic_for_regist set current_no =1 + 1 , registration_num =0 + 1
+		 where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date=to_date( #{clinicDate} , 'yyyy-mm-dd' )
+	</update>
 	<update id="delete">
 		update clinic_for_regist  SET del_flag='1'
 		WHERE id = #{id}
