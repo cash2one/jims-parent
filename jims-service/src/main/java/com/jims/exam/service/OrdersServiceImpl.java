@@ -153,47 +153,62 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
      * pq
      */
     public String saveOrdersNew(List<Orders> ordersList){
-          if(ordersList!=null){
-              for(int i=0;i<ordersList.size();i++){
-              Orders orders=ordersList.get(i);
-                  if (orders.getIsNewRecord()) {
-                      orders.preInsert();
-                     String patientId=orders.getPatientId();
-                     String visitId = orders.getVisitId();
-                     Integer orderNo = ordersDao.getOrderNo(patientId,visitId,"");
-                      orders.setOrderNo(orderNo+1);
-                     Integer orderSubNo= ordersDao.getOrderSubNo(patientId, visitId, orders.getOrderNo());
-                      orders.setOrderSubNo(orderSubNo+1);
-                      ordersDao.insert(orders);
-                     if(orders.getOrdersCostses()!=null){
-                         List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
-                         for(int j=0;j<ordersCostsList.size();j++) {
-                             OrdersCosts ordersCosts = ordersCostsList.get(j);
-                             if (orders.getIsNewRecord()) {
-                                 ordersCosts.preInsert();
-                                 ordersCosts.setPatientId(orders.getPatientId());
-                                 ordersCosts.setVisitId(orders.getPatientId());
-                                 ordersCosts.setOrderId(orders.getId());
-                                 ordersCosts.setOrderNo(orderNo);
-                                 ordersCosts.setOrderSubNo(orderSubNo);
-                                 ordersCostsDao.insert(ordersCosts);
-                             } else {
-                                 ordersCostsDao.update(ordersCosts);
-                             }
-                         } }else{
-                             return "error";
-                         }
+        int num = 0;
+        try {
+            if(ordersList!=null){
+                for(int i=0;i<ordersList.size();i++){
+                Orders orders=ordersList.get(i);
+                    if (orders.getIsNewRecord()) {
+                      /* Integer orderNo = ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId(),"");
+                       Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), orderNo);
+                        orders.setOrderNo(orderNo!=null?(orderNo+1):1);
+                        orders.setOrderSubNo(orderSubNo!=null ?(orderSubNo+1):1);*/
+                        orders.preInsert();
 
-                  }else{
-                      ordersDao.update(orders);
-                  }
-              }
-          }
-
-          else{
-              return "error";
-          }
-        return "success";
+                       if(orders.getOrdersCostses()!=null){
+                           List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
+                           for(int j=0;j<ordersCostsList.size();j++) {
+                               OrdersCosts ordersCosts = ordersCostsList.get(j);
+                               if (ordersCosts.getIsNewRecord()) {
+                                   ordersCosts.setPatientId(orders.getPatientId());
+                                   ordersCosts.setVisitId(orders.getPatientId());
+                                   ordersCosts.setOrderId(orders.getId());
+                                   ordersCosts.setOrderNo(orders.getOrderNo());
+                                   ordersCosts.setOrderSubNo(orders.getOrderSubNo());
+                                   ordersCosts.preInsert();
+                                   ordersCostsDao.insert(ordersCosts);
+                               } else {
+                                   ordersCostsDao.update(ordersCosts);
+                               }
+                           }
+                       }
+                        num = ordersDao.insert(orders);
+                    }else{
+                        if(orders.getOrdersCostses()!=null){
+                            List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
+                            for(int j=0;j<ordersCostsList.size();j++) {
+                                OrdersCosts ordersCosts = ordersCostsList.get(j);
+                                if (ordersCosts.getIsNewRecord()) {
+                                    ordersCosts.setPatientId(orders.getPatientId());
+                                    ordersCosts.setVisitId(orders.getPatientId());
+                                    ordersCosts.setOrderId(orders.getId());
+                                    ordersCosts.setOrderNo(orders.getOrderNo());
+                                    ordersCosts.setOrderSubNo(orders.getOrderSubNo());
+                                    ordersCosts.preInsert();
+                                    ordersCostsDao.insert(ordersCosts);
+                                } else {
+                                    ordersCostsDao.update(ordersCosts);
+                                }
+                            }
+                        }
+                        num = ordersDao.update(orders);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(num);
     }
 
     /**

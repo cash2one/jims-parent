@@ -21,6 +21,7 @@ $(function(){
             {field:'prescSource',title:'处方来源',hidden:'true'},
             {field:'dianosis',title:'诊断',hidden:'true'},
             {field:'usage',title:'用法',hidden:'true'},
+            {field:'prescStatus',title:'处方状态',hidden:'true'},
             {field:'prescDate',title:'处方日期',width:'30%',align:'center'},
             {field:'prescNo',title:'处方号',width:'30%',align:'center'},
             {field:'bindingPrescTitle',title:'处方名称',width:'30%',align:'center'}
@@ -153,30 +154,37 @@ function loadSubData(row){
 }
 //点击新方
 function addPre(){
-    $.ajax({
-        'type': 'POST',
-        'url': basePath+'/doctDrugPrescMaster/getPrescMaster',
-        'contentType': 'application/json',
-        'dataType': 'json',
-        'success': function(data){
-            var parse = eval(data);
-            prescNo=parse.prescNo;
-            prescDate = parse.prescDate;
-            bindingPrescTitle = '';
-            $('#leftList').datagrid('insertRow', {
-                index:0,
-                row: {
-                    prescNo: prescNo,
-                    prescDate: prescDate,
-                    bindingPrescTitle: bindingPrescTitle
+    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
+    if(selRow!=null&&selRow!=''&&selRow!='undefined'){
+        if(selRow[0].prescStatus==0||selRow[0].prescStatus=='0'){
+            $.messager.alert('提示',"当前有未保存的处方，请保存或者刷新后重试", "error");
+        }else{
+            $.ajax({
+                'type': 'POST',
+                'url': basePath+'/doctDrugPrescMaster/getPrescMaster',
+                'contentType': 'application/json',
+                'dataType': 'json',
+                'success': function(data){
+                    var parse = eval(data);
+                    prescNo=parse.prescNo;
+                    prescDate = parse.prescDate;
+                    bindingPrescTitle = '';
+                    $('#leftList').datagrid('insertRow', {
+                        index:0,
+                        row: {
+                            prescNo: prescNo,
+                            prescDate: prescDate,
+                            bindingPrescTitle: bindingPrescTitle
+                        }
+                    });
+                    $("#prescNo").val(prescNo);
+                    $('#leftList').datagrid('selectRow',0);
                 }
-            });
-            $("#prescNo").val(prescNo);
-            $('#leftList').datagrid('selectRow',0);
+            })
+            $("#centerList").datagrid();
         }
-    })
+    }
 
-    $("#centerList").datagrid();
 }
 //保存处方及药品信息
 function savePre(){

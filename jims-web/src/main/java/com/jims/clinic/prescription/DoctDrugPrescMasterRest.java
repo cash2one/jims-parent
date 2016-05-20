@@ -112,6 +112,7 @@ public class DoctDrugPrescMasterRest {
             Integer prescNo = doctDrugPrescMasterServiceApi.searchPrescNo(""/*doctDrugPrescMaster.getVisitId()*/);
             doctDrugPrescMaster.setPrescDate(new Date());
             doctDrugPrescMaster.setPrescNo(prescNo!=null?prescNo:1);
+            doctDrugPrescMaster.setPrescStatus(0);
         } catch (Exception e) {
             e.printStackTrace();
         }

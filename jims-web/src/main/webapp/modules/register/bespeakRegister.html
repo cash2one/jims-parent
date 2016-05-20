@@ -12,13 +12,14 @@
     <div class="margb-10">
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
+                <td class="text-right">挂号日期：</td>
+                <td><input type="text" class="easyui-datebox"/></td>
                 <td class="text-right">门诊号别：</td>
                 <td><input type="text" class="validatebox-text vt-text-percent"/></td>
                 <td class="text-right">门诊科室：</td>
                 <td><input type="text" class="validatebox-text vt-text-percent"/></td>
                 <td>
                     <button class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</button>
-
                 </td>
 
             </tr>
@@ -32,7 +33,7 @@
         <button class="easyui-linkbutton" data-options="iconCls:'icon-add'">挂号</button>
         <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'">退号</button>
     </div>
-    <div class="reglist-main">
+    <div class="reglist-main" id="registerCenter" style="overflow: auto">
         <ul>
             <li>
                 <div>
@@ -43,93 +44,9 @@
                 <a href="#" class="color-red">1</a>/5
                 <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
             </li>
-            <li class="active">
-                <div>
-                    <span style="padding-right:10px;"  class="color-blue">11</span>
-                    <strong >消化内一号</strong>
-                </div>
-                <span style="padding-right:10px;" >上午</span>
-                <a href="#" class="color-red">1</a>/5
-                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-            </li>
-            <li>
-                <div>
-                    <span style="padding-right:10px;"  class="color-blue">11</span>
-                    <strong >消化内一号</strong>
-                </div>
-                <span style="padding-right:10px;" >上午</span>
-                <a href="#" class="color-red">1</a>/5
-                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-            </li>
-            <li>
-                <div>
-                    <span style="padding-right:10px;"  class="color-blue">11</span>
-                    <strong >消化内一号</strong>
-                </div>
-                <span style="padding-right:10px;" >上午</span>
-                <a href="#" class="color-red">1</a>/5
-                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-            </li>
-            <li class="active">
-                <div>
-                    <span style="padding-right:10px;"  class="color-blue">11</span>
-                    <strong >消化内一号</strong>
-                </div>
-                <span style="padding-right:10px;" >上午</span>
-                <a href="#" class="color-red">1</a>/5
-                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-            </li>
-            <li>
-                <div>
-                    <span style="padding-right:10px;"  class="color-blue">11</span>
-                    <strong >消化内一号</strong>
-                </div>
-                <span style="padding-right:10px;" >上午</span>
-                <a href="#" class="color-red">1</a>/5
-                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-            </li>
-            <li>
-                <div>
-                    <span style="padding-right:10px;"  class="color-blue">11</span>
-                    <strong >消化内一号</strong>
-                </div>
-                <span style="padding-right:10px;" >上午</span>
-                <a href="#" class="color-red">1</a>/5
-                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-            </li>
-            <li>
-                <div>
-                    <span style="padding-right:10px;"  class="color-blue">11</span>
-                    <strong >消化内一号</strong>
-                </div>
-                <span style="padding-right:10px;" >上午</span>
-                <a href="#" class="color-red">1</a>/5
-                <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-            </li>  <li>
-            <div>
-                <span style="padding-right:10px;"  class="color-blue">11</span>
-                <strong >消化内一号</strong>
-            </div>
-            <span style="padding-right:10px;" >上午</span>
-            <a href="#" class="color-red">1</a>/5
-            <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-        </li>  <li>
-            <div>
-                <span style="padding-right:10px;"  class="color-blue">11</span>
-                <strong >消化内一号</strong>
-            </div>
-            <span style="padding-right:10px;" >上午</span>
-            <a href="#" class="color-red">1</a>/5
-            <span class="color-blue" style="padding-left:10px;">XHNYJK</span>
-        </li>
-
-
-
         </ul>
     </div>
-    <div>挂号日期：<input style="display: none;" class="easyui-datebox datebox-f combo-f textbox-f"><span style="width: 150px; height: 22px;" class="textbox combo datebox"><span style="right: 0px;" class="textbox-addon textbox-addon-right"><a style="width: 18px; height: 20px;" href="javascript:void(0)" class="textbox-icon combo-arrow" icon-index="0" tabindex="-1"></a></span><input style="margin-left: 0px; margin-right: 18px; padding-top: 0px; padding-bottom: 0px; height: 20px; line-height: 20px; width: 130px;" placeholder="" class="textbox-text validatebox-text textbox-prompt" autocomplete="off" type="text"><input value="" name="" class="textbox-value" type="hidden"></span></div>
     <div class="reg-cusinfo">
-
         <ul>
             <li><span>门诊号：</span><input type="text" class="validatebox-text"></li>
             <li><span>姓名：</span><input type="text" class="validatebox-text"></li>
