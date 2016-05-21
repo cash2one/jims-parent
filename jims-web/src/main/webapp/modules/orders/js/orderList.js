@@ -374,7 +374,7 @@ function deleteOrders(){
 //把医嘱改变成子医嘱
 function changeSubNo(row){
    // var row = $('#orderList').datagrid('getSelected');
-        alert(rowNum);
+       // alert(rowNum);
         //1.获取选中行的上条医嘱
         var rows = $('#orderList').datagrid('getRows');    // 获取所有行
 
