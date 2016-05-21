@@ -1,5 +1,6 @@
 package com.jims.register.api;
 
+import com.jims.clinic.entity.ClinicMaster;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicSchedule;
 
@@ -35,4 +36,17 @@ public interface ClinicForRegisterSerivceApi {
      * @author zhaoning
      */
     public String delete(String id);
+
+    /**
+     * 查询当前天的号表
+     * @return
+     */
+    public List<ClinicForRegist> findListReg();
+
+    /**
+     * 保存挂号信息
+     * @param clinicMaster
+     * @return
+     */
+    public String saveClinic(ClinicMaster clinicMaster)throws Exception;
 }

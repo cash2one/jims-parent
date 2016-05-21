@@ -1,6 +1,7 @@
 package com.jims.register;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.data.StringData;
 import com.jims.register.api.ClinicForRegisterSerivceApi;
 import com.jims.register.entity.ClinicForRegist;
@@ -60,6 +61,29 @@ public class ClinicForRegisterRest {
     public StringData deleteClinicReg(String id){
         StringData data=new StringData();
         data.setCode(clinicForRegisterSerivceApi.delete(id));
+        return data;
+    }
+
+    /**
+     * 查询当前日期的号表
+     * @return
+     */
+    @GET
+    @Path("findListReg")
+    public List<ClinicForRegist> findListReg(){
+        return clinicForRegisterSerivceApi.findListReg();
+    }
+
+    /**
+     * 保存挂号信息
+     * @param clinicMaster
+     * @return
+     */
+    @POST
+    @Path("saveClinic")
+    public StringData saveClinic(ClinicMaster clinicMaster)throws Exception{
+        StringData data=new StringData();
+        data.setCode(clinicForRegisterSerivceApi.saveClinic(clinicMaster));
         return data;
     }
 }

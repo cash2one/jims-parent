@@ -5,6 +5,7 @@ package com.jims.clinic.entity;
 
 import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
+import com.jims.register.entity.ClinicForRegist;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
@@ -12,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 病人就诊记录Entity
@@ -40,6 +42,7 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	private String unitInContract;		// 合同单位
 	private String clinicType;		// 号类
 	private Integer firstVisitIndicator;		// 初诊标志
+	private String visitIndicator;//诊别；
 	private String visitDept;		// 就诊科室
 	private String visitSpecialClinic;		// 就诊专科
 	private String doctor;		// 医生
@@ -71,6 +74,9 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	private String printOperator;		// 打印操作员
 	private Integer peVisitId;		// pe_visit_id
 	private String mailingAddress;		// 住址
+
+	private Date birthDate;//出生日期
+	private List<ClinicForRegist> clinicForRegists;
 	
 	public ClinicMaster() {
 		super();
@@ -516,5 +522,28 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	public void setMailingAddress(String mailingAddress) {
 		this.mailingAddress = mailingAddress;
 	}
-	
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getVisitIndicator() {
+		return visitIndicator;
+	}
+
+	public void setVisitIndicator(String visitIndicator) {
+		this.visitIndicator = visitIndicator;
+	}
+
+	public List<ClinicForRegist> getClinicForRegists() {
+		return clinicForRegists;
+	}
+
+	public void setClinicForRegists(List<ClinicForRegist> clinicForRegists) {
+		this.clinicForRegists = clinicForRegists;
+	}
 }

@@ -153,47 +153,64 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
      * pq
      */
     public String saveOrdersNew(List<Orders> ordersList){
-          if(ordersList!=null){
-              for(int i=0;i<ordersList.size();i++){
-              Orders orders=ordersList.get(i);
-                  if (orders.getIsNewRecord()) {
-                      orders.preInsert();
-                     String patientId=orders.getPatientId();
-                     String visitId = orders.getVisitId();
-                     Integer orderNo = ordersDao.getOrderNo(patientId,visitId,"");
-                      orders.setOrderNo(orderNo+1);
-                     Integer orderSubNo= ordersDao.getOrderSubNo(patientId, visitId, orders.getOrderNo());
-                      orders.setOrderSubNo(orderSubNo+1);
-                      ordersDao.insert(orders);
-                     if(orders.getOrdersCostses()!=null){
-                         List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
-                         for(int j=0;j<ordersCostsList.size();j++) {
-                             OrdersCosts ordersCosts = ordersCostsList.get(j);
-                             if (orders.getIsNewRecord()) {
-                                 ordersCosts.preInsert();
-                                 ordersCosts.setPatientId(orders.getPatientId());
-                                 ordersCosts.setVisitId(orders.getPatientId());
-                                 ordersCosts.setOrderId(orders.getId());
-                                 ordersCosts.setOrderNo(orderNo);
-                                 ordersCosts.setOrderSubNo(orderSubNo);
-                                 ordersCostsDao.insert(ordersCosts);
-                             } else {
-                                 ordersCostsDao.update(ordersCosts);
-                             }
-                         } }else{
-                             return "error";
-                         }
-
-                  }else{
-                      ordersDao.update(orders);
-                  }
-              }
-          }
-
-          else{
-              return "error";
-          }
-        return "success";
+        int num = 0;
+        try {
+            if(ordersList!=null){
+                for(int i=0;i<ordersList.size();i++){
+                Orders orders=ordersList.get(i);
+                    if (orders.getIsNewRecord()) {
+                        orders.preInsert();
+                        orders.setOrderStatus("1");//新开
+                        orders.setPatientId("15005451");
+                        orders.setVisitId("1");
+                              /* Integer orderNo = ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId(),"");
+                       Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), orderNo);
+                        orders.setOrderNo(orderNo!=null?(orderNo+1):1);
+                        orders.setOrderSubNo(orderSubNo!=null ?(orderSubNo+1):1);*/
+                       if(orders.getOrdersCostses()!=null){
+                           List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
+                           for(int j=0;j<ordersCostsList.size();j++) {
+                               OrdersCosts ordersCosts = ordersCostsList.get(j);
+                               if (ordersCosts.getIsNewRecord()) {
+                                   ordersCosts.setPatientId(orders.getPatientId());
+                                   ordersCosts.setVisitId(orders.getPatientId());
+                                   ordersCosts.setOrderId(orders.getId());
+                                   ordersCosts.setOrderNo(orders.getOrderNo());
+                                   ordersCosts.setOrderSubNo(orders.getOrderSubNo());
+                                   ordersCosts.preInsert();
+                                   ordersCostsDao.insert(ordersCosts);
+                               } else {
+                                   ordersCostsDao.update(ordersCosts);
+                               }
+                           }
+                       }
+                        num = ordersDao.insert(orders);
+                    }else{
+                        if(orders.getOrdersCostses()!=null){
+                            List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
+                            for(int j=0;j<ordersCostsList.size();j++) {
+                                OrdersCosts ordersCosts = ordersCostsList.get(j);
+                                if (ordersCosts.getIsNewRecord()) {
+                                    ordersCosts.setPatientId(orders.getPatientId());
+                                    ordersCosts.setVisitId(orders.getPatientId());
+                                    ordersCosts.setOrderId(orders.getId());
+                                    ordersCosts.setOrderNo(orders.getOrderNo());
+                                    ordersCosts.setOrderSubNo(orders.getOrderSubNo());
+                                    ordersCosts.preInsert();
+                                    ordersCostsDao.insert(ordersCosts);
+                                } else {
+                                    ordersCostsDao.update(ordersCosts);
+                                }
+                            }
+                        }
+                        num = ordersDao.update(orders);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(num);
     }
 
     /**
@@ -239,8 +256,57 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
      * @return
      * pq
      */
-    public int issuedOrders(String id){
-      return   ordersDao.issuedOrders(id);
+    public String issuedOrders(String id){
+        int num=ordersDao.issuedOrders(id);
+
+        return  String.valueOf(num);
     }
 
+    /**
+     * 删除医嘱
+     * @param ids
+     * @return
+     * pq
+     */
+    public String deleteOrdersNew(String ids){
+        Orders orders= ordersDao.get(ids);
+        int num=0;
+        if(orders!=null){
+            List<Orders> ordersSub= ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(), orders.getOrderNo());
+            if(ordersSub!=null){
+                for(int i=0;i<ordersSub.size();i++){
+                    Orders orders1=ordersSub.get(i);
+                    ordersDao.delete(orders1);
+                    num=  ordersDao.delete(orders);
+                }
+            }else{
+                num=   ordersDao.delete(orders);
+            }
+        }
+        return String.valueOf(num);
+
+    }
+
+    /**
+     * 获取最大的医嘱号
+     * @param patientId
+     * @param visitId
+     * @return
+     * pq
+     */
+    public  Integer getMaxOrderNo(String patientId,String visitId){
+       return ordersDao.getMaxOrderNo(patientId,visitId);
+    }
+
+    /**
+     * 拿到最大的子医嘱号
+     * @param patientId
+     * @param visitId
+     * @param orderNo
+     * @return
+     * pq
+     */
+    public  Integer getOrderSubNo(String patientId,String visitId,Integer orderNo){
+      return  ordersDao.getOrderSubNo(patientId,visitId,orderNo);
+    }
 }

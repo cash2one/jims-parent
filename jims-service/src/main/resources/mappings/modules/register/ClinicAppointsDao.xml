@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.register.dao.ClinicAppointsDao">
+    
+	<sql id="clinicAppointsColumns">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.visit_date_appted AS "visitDateAppted",
+		a.clinic_label AS "clinicLabel",
+		a.patient_id AS "patientId",
+		a.visit_time_appted AS "visitTimeAppted",
+		a.appt_made_date AS "apptMadeDate",
+		a.mode_code AS "modeCode",
+		a.card_name AS "cardName",
+		a.card_no AS "cardNo",
+		a.serial_no AS "serialNo",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.age AS "age",
+		a.id_no AS "idNo",
+		a.identity AS "identity",
+		a.charge_type AS "chargeType",
+		a.insurance_no AS "insuranceNo",
+		a.insurance_type AS "insuranceType",
+		a.unit_in_contract AS "unitInContract",
+		a.name_phonetic AS "namePhonetic",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="clinicAppointsJoins">
+	</sql>
+    
+	<select id="get" resultType="ClinicAppoints">
+		SELECT 
+			<include refid="clinicAppointsColumns"/>
+		FROM clinic_appoints a
+		<include refid="clinicAppointsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ClinicAppoints">
+		SELECT 
+			<include refid="clinicAppointsColumns"/>
+		FROM clinic_appoints a
+		<include refid="clinicAppointsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ClinicAppoints">
+		SELECT 
+			<include refid="clinicAppointsColumns"/>
+		FROM clinic_appoints a
+		<include refid="clinicAppointsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO clinic_appoints(
+			id,
+			org_id,
+			visit_date_appted,
+			clinic_label,
+			patient_id,
+			visit_time_appted,
+			appt_made_date,
+			mode_code,
+			card_name,
+			card_no,
+			serial_no,
+			name,
+			sex,
+			age,
+			id_no,
+			identity,
+			charge_type,
+			insurance_no,
+			insurance_type,
+			unit_in_contract,
+			name_phonetic,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orgId},
+			#{visitDateAppted},
+			#{clinicLabel},
+			#{patientId},
+			#{visitTimeAppted},
+			#{apptMadeDate},
+			#{modeCode},
+			#{cardName},
+			#{cardNo},
+			#{serialNo},
+			#{name},
+			#{sex},
+			#{age},
+			#{idNo},
+			#{identity},
+			#{chargeType},
+			#{insuranceNo},
+			#{insuranceType},
+			#{unitInContract},
+			#{namePhonetic},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE clinic_appoints SET 	
+			org_id = #{orgId},
+			visit_date_appted = #{visitDateAppted},
+			clinic_label = #{clinicLabel},
+			patient_id = #{patientId},
+			visit_time_appted = #{visitTimeAppted},
+			appt_made_date = #{apptMadeDate},
+			mode_code = #{modeCode},
+			card_name = #{cardName},
+			card_no = #{cardNo},
+			serial_no = #{serialNo},
+			name = #{name},
+			sex = #{sex},
+			age = #{age},
+			id_no = #{idNo},
+			identity = #{identity},
+			charge_type = #{chargeType},
+			insurance_no = #{insuranceNo},
+			insurance_type = #{insuranceType},
+			unit_in_contract = #{unitInContract},
+			name_phonetic = #{namePhonetic},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE clinic_appoints SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -26,6 +26,13 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 	private Integer registrationNum;		// 当日已挂号数
 	private Integer appointmentNum;		// 已预约号数
 	private Double registPrice;		// 挂号费标准
+
+	private String clinicDept;
+	private String doctor;
+	private String doctorTitle;
+	private String clinicType;
+	private String inputCode;
+	private String clinicPosition;
 	
 	public ClinicForRegist() {
 		super();
@@ -109,5 +116,52 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 	public void setRegistPrice(Double registPrice) {
 		this.registPrice = registPrice;
 	}
-	
+
+	public String getClinicDept() {
+		return clinicDept;
+	}
+
+	public void setClinicDept(String clinicDept) {
+		this.clinicDept = clinicDept;
+	}
+
+	public String getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(String doctor) {
+		this.doctor = doctor;
+	}
+
+	public String getDoctorTitle() {
+		return doctorTitle;
+	}
+
+	public void setDoctorTitle(String doctorTitle) {
+		this.doctorTitle = doctorTitle;
+	}
+
+	public String getClinicType() {
+		return clinicType;
+	}
+
+	public void setClinicType(String clinicType) {
+		this.clinicType = clinicType;
+	}
+
+	public String getInputCode() {
+		return inputCode;
+	}
+
+	public void setInputCode(String inputCode) {
+		this.inputCode = inputCode;
+	}
+
+	public String getClinicPosition() {
+		return clinicPosition;
+	}
+
+	public void setClinicPosition(String clinicPosition) {
+		this.clinicPosition = clinicPosition;
+	}
 }

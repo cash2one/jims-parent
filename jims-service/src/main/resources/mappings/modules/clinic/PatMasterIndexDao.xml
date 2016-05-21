@@ -117,7 +117,6 @@
 	<insert id="insert">
 		INSERT INTO pat_master_index(
 			id,
-			hosid,
 			inp_no,
 			name,
 			name_phonetic,
@@ -174,7 +173,6 @@
 			patient_id
 		) VALUES (
 			#{id},
-			#{hosid},
 			#{inpNo},
 			#{name},
 			#{namePhonetic},
@@ -233,8 +231,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE pat_master_index SET 	
-			hosid = #{hosid},
+		UPDATE pat_master_index SET
 			inp_no = #{inpNo},
 			name = #{name},
 			name_phonetic = #{namePhonetic},
