@@ -31,6 +31,7 @@ public class OrdersRest {
     /**
      * 根据病人Id和住院Id查询病人的医嘱列表
      * @return
+     * pq
      */
     @Path("getOrders")
     @GET
@@ -38,7 +39,7 @@ public class OrdersRest {
         Orders orders=new Orders();
         orders.setRepeatIndicator(repeatIndicator);
         orders.setOrderStatus(orderStatus);
-        orders.setPatientId("15006135");
+        orders.setPatientId("15005451");
         orders.setVisitId("1");
         return ordersServiceApi.getPatientOrders(orders);
     }
@@ -75,6 +76,9 @@ public class OrdersRest {
         return ordersServiceApi.saveSubOrder(orders);
     }
 
+
+
+
     /**
      * 下达医嘱
      * @param id
@@ -83,7 +87,53 @@ public class OrdersRest {
      */
     @Path("issuedOrders")
     @POST
-    public int issuedOrders(String id){
-     return ordersServiceApi.issuedOrders(id);
+    public StringData issuedOrders(String id){
+        StringData data = new StringData();
+        String num=ordersServiceApi.issuedOrders(id);
+        data.setCode(num);
+        if(Integer.parseInt(num)>0){
+            data.setData("success");
+        }else{
+            data.setData("error");
+        }
+        return data;
     }
+
+    /**
+     * 删除医嘱
+     * @param id
+     * @return
+     * pq
+     */
+    @Path("deleteOrdersNew")
+    @POST
+    public StringData deleteOrdersNew(String id){
+        StringData data = new StringData();
+        String num=ordersServiceApi.deleteOrdersNew(id);
+        data.setCode(num);
+        if(Integer.parseInt(num)>0){
+            data.setData("success");
+        }else{
+            data.setData("error");
+        }
+        return data;
+    }
+
+    /**
+     * 拿到最大的医嘱号、子医嘱号
+     * @param orders
+     * @return
+     * pq
+     */
+    @Path("getMaxOrderNo")
+    @POST
+   public  Orders getMaxOrderNo(Orders orders){
+        Orders orders1=new Orders();
+        Integer num=ordersServiceApi.getMaxOrderNo(orders.getPatientId(),orders.getVisitId());
+        Integer numSub = ordersServiceApi.getOrderSubNo(orders.getPatientId(),orders.getVisitId(),num);
+        orders1.setOrderNo(num!=null?(num+1):1);
+        orders1.setOrderSubNo(numSub != null ? (numSub + 1) : 1);
+        return orders1;
+   }
+
 }
