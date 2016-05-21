@@ -238,24 +238,16 @@ $(function () {
         drugPriceModifyVo.deleted = deleteDate;
         drugPriceModifyVo.updated = updateDate;
         console.log(JSON.stringify(drugPriceModifyVo));
-        //if (drugPriceModifyVo) {
-        //    $.postJSON(basePath + "/drug-price-modify/saveModifyConfirm", JSON.stringify(drugPriceModifyVo), function (data) {
-        //        $.messager.alert("系统提示", "保存成功", "info");
-        //        $('#modifyList').datagrid('loadData', { total: 0, rows: [] });
-        //    }, function (data) {
-        //        $.messager.alert("系统提示", "保存失败", "error");
-        //        $('#modifyList').datagrid('loadData', { total: 0, rows: [] });
-        //    })
-        //}
+        if (drugPriceModifyVo) {
+            $.postJSON(basePath + "/drug-price-modify/saveModifyConfirm", JSON.stringify(drugPriceModifyVo), function (data) {
+                $.messager.alert("系统提示", "保存成功", "info");
+                $('#modifyList').datagrid('loadData', { total: 0, rows: [] });
+            }, function (data) {
+                $.messager.alert("系统提示", "保存失败", "error");
+                $('#modifyList').datagrid('loadData', { total: 0, rows: [] });
+            })
+        }
     });
 
 
-
-
- var p = $('#modifyList').datagrid('getPager');
- $(p).pagination({
- beforePageText: '第',
- afterPageText: '页    共 {pages} 页',
- displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
- });
 });
