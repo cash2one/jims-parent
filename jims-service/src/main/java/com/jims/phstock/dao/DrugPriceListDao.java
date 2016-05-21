@@ -53,4 +53,16 @@ public interface DrugPriceListDao extends CrudDao<DrugPriceList> {
      *
      */
     public List<DrugNameDict> listDrugNameDictByClassCode(String orgId,String classCode) ;
+
+    /**
+     * 调价确认 查询价表数据
+     * @param drugCode 药品代码
+     * @param drugSpec 药品规格
+     * @param firmId 厂商
+     * @param units 单位
+     * @param orgId 机构
+     * @return
+     * @author txb
+     */
+    public  List<DrugPriceList> selectPriceList(String drugCode,String drugSpec,String firmId ,String units,String orgId);
 }
