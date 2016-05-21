@@ -90,6 +90,8 @@ public class OrdersRest {
     public StringData issuedOrders(String id){
         StringData data = new StringData();
         String num=ordersServiceApi.issuedOrders(id);
+        Orders orders=ordersServiceApi.get(id);
+
         data.setCode(num);
         if(Integer.parseInt(num)>0){
             data.setData("success");

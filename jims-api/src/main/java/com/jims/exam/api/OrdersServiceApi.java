@@ -98,6 +98,12 @@ public interface OrdersServiceApi {
      */
     public Integer getOrderSubNo(String patientId,String visitId,Integer orderNo);
 
-
+    /**
+     * 通过主键拿到医嘱对象
+     * @param id
+     * @return
+     * pq
+     */
+    public Orders get(String id);
 
 }
