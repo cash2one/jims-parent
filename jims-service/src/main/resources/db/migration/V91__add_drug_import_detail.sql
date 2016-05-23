@@ -8,7 +8,7 @@ create table DRUG_IMPORT_DETAIL
   UNITS               VARCHAR2(8),
   BATCH_NO            VARCHAR2(16),
   EXPIRE_DATE         DATE,
-  FIRM_ID             VARCHAR2(10),
+  FIRM_ID             VARCHAR2(64),
   PURCHASE_PRICE      NUMBER(10,4),
   DISCOUNT            NUMBER(5,2),
   RETAIL_PRICE        NUMBER(10,4),

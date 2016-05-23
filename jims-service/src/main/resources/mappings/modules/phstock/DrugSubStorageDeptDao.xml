@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugSubStorageDeptDao">
+    
+	<sql id="drugSubStorageDeptColumns">
+		a.id AS "id",
+		a.storage_code AS "storageCode",
+		a.sub_storage AS "subStorage",
+		a.export_no_ava AS "exportNoAva",
+		a.export_no_prefix AS "exportNoPrefix",
+		a.import_no_ava AS "importNoAva",
+		a.import_no_prefix AS "importNoPrefix",
+		a.sub_storage_code AS "subStorageCode",
+		a.input_code AS "inputCode",
+		a.org_id AS "orgId",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+    
+	<select id="get" resultType="DrugSubStorageDept">
+		SELECT 
+			<include refid="drugSubStorageDeptColumns"/>
+		FROM drug_sub_storage_dept a
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DrugSubStorageDept">
+		SELECT 
+			<include refid="drugSubStorageDeptColumns"/>
+		FROM drug_sub_storage_dept a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="orgId != null and orgId != ''">
+                and a.org_id = #{orgId}
+            </if>
+            <if test="storageCode != null and storageCode != ''">
+                and a.storage_code = #{storageCode}
+            </if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sub_storage_code ASC
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO drug_sub_storage_dept(
+                id,
+                storage_code,
+              sub_storage,
+              import_no_prefix,
+              import_no_ava,
+              export_no_prefix,
+              export_no_ava,
+              sub_storage_code,
+              input_code,
+              org_id,
+              create_date,
+              create_by,
+              update_date,
+              update_by,
+              remarks,
+              del_flag
+		) VALUES (
+			#{id},
+			#{storageCode},
+			#{subStorage},
+			#{importNoAva},
+			#{importNoPrefix},
+			#{exportNoAva},
+			#{exportNoPrefix},
+			#{subStorageCode},
+			#{inputCode},
+			#{orgId},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_sub_storage_dept SET
+			storage_code = #{storageCode},
+			sub_storage = #{subStorage},
+			export_no_ava = #{exportNoAva},
+			export_no_prefix = #{exportNoPrefix},
+			import_no_ava = #{importNoAva},
+			import_no_prefix = #{importNoPrefix},
+			sub_storage_code = #{subStorageCode},
+			input_code = #{inputCode},
+			org_id = #{orgId},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_sub_storage_dept SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
