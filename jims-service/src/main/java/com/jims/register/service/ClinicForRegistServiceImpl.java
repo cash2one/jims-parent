@@ -121,7 +121,12 @@ public class ClinicForRegistServiceImpl extends CrudImplService<ClinicForRegistD
                 master.setClinicLabel(clinicLabel);//门诊号名称
                 master.setVisitTimeDesc(timeDesc);//门诊时间
                 master.setVisitDate(format.parse(DateUtils.getDate()));//就诊日期
-                master.setVisitNo(1);//就诊序号？
+                Integer no= clinicMasterDao.getMaxVisitNO();
+                if(no!=null &&!no.equals("")){
+                 master.setVisitNo(no+1);
+                }else{
+                    master.setVisitNo(1);//就诊序号
+                }
                 master.setClinicNo(DateUtils.getDate("yyyyMMdd")+1);//就诊号==就诊日期+就诊序号
                 if(clinicMaster.getVisitIndicator().equals("初诊")){
                     master.setFirstVisitIndicator(0);//初诊标志
