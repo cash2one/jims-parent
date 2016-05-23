@@ -175,6 +175,7 @@ $(function () {
             expireDate : parent.formatDatebox(new Date()),
             discount : 100,
             quantity : '',
+            orgId : currentOrgId,
             invoiceDate : parent.formatDatebox(new Date())
         }
         $('#drug-import').datagrid('insertRow',{index:_len,row:_record})
@@ -230,7 +231,7 @@ $(function () {
                         ,additionalFee : $('#surcharge').textbox('getValue')
                         ,importClass : $('#import').combobox('getValue')
                         ,subStorage : $('#importChild').combobox('getValue')
-                        ,accountIndicator : accountFlag
+                        ,accountIndicator : accountFlag ? accountFlag : 0
                         ,memos : $('#remarks').textbox('getValue')
                         ,operator : currentUsername
                         ,subSupplier : $('#supplyChild').combobox('getValue')
@@ -315,8 +316,8 @@ $(function () {
                             valueField : 'storageCode',
                             textField : 'storageName',
                             data : res,
-                            onSelect : function(){
-                                loadSubDept('supplyChild',currentOrgId,o['storageCode'])
+                            onSelect : function(r){
+                                loadSubDept('supplyChild',currentOrgId,r['storageCode'])
                             }
                         })
                     })

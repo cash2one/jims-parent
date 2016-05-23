@@ -41,7 +41,7 @@ public class DrugImportRest {
             resultData.setCode("0");
             List<String> result = new ArrayList<String>();
             result.add(drugImportServiceApi.save(master));
-            if(1 == master.getAccountIndicator() && details != null && details.size() > 0){
+            if(master.getAccountIndicator() != null && 1 == master.getAccountIndicator() && details != null && details.size() > 0){
                 DrugStock stock = new DrugStock();
                 int successSave = 0;
                 for(DrugImportDetail detail : details){

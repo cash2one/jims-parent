@@ -6,12 +6,21 @@
 
 $(function () {
     var editIndex;
+
+    var loadData = function(){
+        $.get('/service/input-setting/list',{dictType:'drug_stock',orgId:'1'},function(res){
+            alert(JSON.stringify(res))
+        })
+    }
+    loadData()
+
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
             $("#dg").datagrid('endEdit', editIndex);
             editIndex = undefined;
         }
     };
+
     $("#dg").datagrid({
         fit: true,
         fitColumns: true,
