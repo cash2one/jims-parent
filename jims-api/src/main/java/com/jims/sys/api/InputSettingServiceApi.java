@@ -3,6 +3,7 @@ package com.jims.sys.api;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.sys.entity.InputSettingDetail;
 import com.jims.sys.entity.InputSettingMaster;
+import com.jims.sys.vo.InputInfoVo;
 import com.jims.sys.vo.InputSettingVo;
 
 import java.util.List;
@@ -22,6 +23,14 @@ public interface InputSettingServiceApi {
      */
     public List<BaseDto> listInputDataBy(String dictType,String orgId) ;
 
+
+    /**
+     * 根据传入的信息查询并过滤相关内容
+     * @param inputInfoVo
+     * @return
+     *
+     */
+    public List<BaseDto> listInputDataByParam(InputInfoVo inputInfoVo) ;
 
     /**
      * 根据表名称，查询表中有什么样的字段

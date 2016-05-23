@@ -68,8 +68,8 @@ public class OperatioinOrderRest {
      * @return
      */
     @Path("getScheduleIn")
-    @POST
-    public OperationSchedule getScheduleIn(OperationSchedule operationSchedule){
+     @POST
+     public OperationSchedule getScheduleIn(OperationSchedule operationSchedule){
        /* visitId="1";*/
         return operatioinOrderServiceApi.getSchedule(operationSchedule.getPatientId(), operationSchedule.getVisitId(),operationSchedule.getClinicId());
     }
@@ -96,8 +96,6 @@ public class OperatioinOrderRest {
     @Path("getOperationName")
     @POST
     public List<ScheduledOperationName> getOperationNameIn(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId,@QueryParam("clinicId")String clinicId){
-     /*   patientId ="15006135";
-        visitId="1";*/
         OperationSchedule operationSchedule=new OperationSchedule();
         if(clinicId!=null && !"".equals(clinicId)){
              operationSchedule= getScheduleOut(clinicId);

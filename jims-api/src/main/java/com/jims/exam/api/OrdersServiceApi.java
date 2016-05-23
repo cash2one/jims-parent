@@ -67,7 +67,43 @@ public interface OrdersServiceApi {
      * @return
      * pq
      */
-   public  int issuedOrders(String id);
+   public  String issuedOrders(String id);
 
+    /**
+     * 删除医嘱
+     * @param ids
+     * @return
+     * pq
+     */
+    public String deleteOrdersNew(String ids);
+
+    /**
+     * 获得最大的医嘱号
+     * @param patientId
+     * @param visitId
+     * @return
+     * pq
+     */
+
+   public  Integer getMaxOrderNo(String patientId,String visitId);
+
+
+    /**
+     * 获得最大的子医嘱号
+     * @param patientId
+     * @param visitId
+     * @param orderNo
+     * @return
+     * pq
+     */
+    public Integer getOrderSubNo(String patientId,String visitId,Integer orderNo);
+
+    /**
+     * 通过主键拿到医嘱对象
+     * @param id
+     * @return
+     * pq
+     */
+    public Orders get(String id);
 
 }
