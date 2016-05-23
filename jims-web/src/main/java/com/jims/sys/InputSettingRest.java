@@ -12,6 +12,8 @@ import com.jims.sys.entity.InputSettingDetail;
 import com.jims.sys.entity.InputSettingMaster;
 import com.jims.sys.entity.OrgDeptPropertyDict;
 import com.jims.sys.vo.DeptDictVo;
+import com.jims.sys.vo.InputInfoVo;
+import com.jims.sys.vo.InputParamVo;
 import com.jims.sys.vo.InputSettingVo;
 import org.springframework.stereotype.Component;
 
@@ -31,15 +33,16 @@ public class InputSettingRest {
 
     /**
      * 根据组织机构id查询输入法的主记录
+     *
      * @param orgId
      * @return
      */
     @Path("findAllListByOrgId")
     @GET
-    public List<InputSettingMaster> findAllListByOrgId(@QueryParam("orgId") String orgId)
-    {
+    public List<InputSettingMaster> findAllListByOrgId(@QueryParam("orgId") String orgId) {
         return inputSettingServiceApi.findAllListByOrgId(orgId);
     }
+
     /**
      * 保存  增删改
      *
@@ -60,41 +63,43 @@ public class InputSettingRest {
 
     /**
      * 根据输入法主记录的id查询输入法字典明细表的信息
+     *
      * @param id
      * @return
      * @author yangruidong
      */
     @Path("findListDetail")
     @GET
-    public List<InputSettingDetail> findListDetail(@QueryParam("id") String id)
-    {
+    public List<InputSettingDetail> findListDetail(@QueryParam("id") String id) {
         return inputSettingServiceApi.findListDetail(id);
     }
 
 
     /**
      * 根据表名称，查询表中有什么样的字段
+     *
      * @param tableName
      * @return
      */
     @Path("listTableColByTableName")
     @GET
-    public List<String> listTableColByTableName(@QueryParam("tableName") String tableName)
-    {
+    public List<String> listTableColByTableName(@QueryParam("tableName") String tableName) {
         return inputSettingServiceApi.listTableColByTableName(tableName);
     }
 
 
     /**
-     * 根据表名称，查询表中有什么样的字段
-     * @param dictType
+     * 根据字典类型，查询字典设置，然后返回本字典的结果集
+     *
+     * @param dictType 字典类型
+     * @param orgId    组织机构
      * @return
+     * @Author ztq
      */
     @Path("list")
     @GET
-    public List<BaseDto> list(@QueryParam("dictType") String dictType,@QueryParam("orgId") String orgId)
-    {
-        List<BaseDto> list=   inputSettingServiceApi.listInputDataBy(dictType, orgId);
+    public List<BaseDto> list(@QueryParam("dictType") String dictType, @QueryParam("orgId") String orgId) {
+        List<BaseDto> list = inputSettingServiceApi.listInputDataBy(dictType, orgId);
         return list;
     }
 
@@ -115,5 +120,32 @@ public class InputSettingRest {
         stringData.setData("success");
         return stringData;
 
+    }
+
+    /**
+     * 根据传入的信息查询并过滤相关内容
+     *
+     * @param inputInfoVo
+     * @return
+     */
+    @Path("listParam")
+    @POST
+    public List<BaseDto> listParam(InputInfoVo inputInfoVo) {
+       /* InputParamVo vo = new InputParamVo();
+        vo.setColName("FLAG_SHOW");
+        vo.setColValue("1");
+        vo.setOperateMethod("=");
+
+        InputParamVo vo1 = new InputParamVo();
+        vo1.setColName("FLAG_ISNAME");
+        vo1.setColValue("Y");
+        vo1.setOperateMethod("=");
+        List<InputParamVo> in = new ArrayList<InputParamVo>();
+        in.add(vo);
+        in.add(vo1);
+        inputInfoVo.setInputParamVos(in);*/
+
+        List<BaseDto> list = inputSettingServiceApi.listInputDataByParam(inputInfoVo);
+        return list;
     }
 }
