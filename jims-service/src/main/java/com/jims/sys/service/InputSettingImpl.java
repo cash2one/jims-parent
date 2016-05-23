@@ -13,6 +13,7 @@ import com.jims.sys.entity.AdministrationDict;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.InputSettingDetail;
 import com.jims.sys.entity.InputSettingMaster;
+import com.jims.sys.vo.InputInfoVo;
 import com.jims.sys.vo.InputSettingVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -165,4 +166,15 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
         return newUpdateDict;
     }
 
+
+    /**
+     * 根据传入的信息查询并过滤相关内容
+     * @param inputInfoVo
+     * @return
+     *
+     */
+    @Override
+    public List<BaseDto> listInputDataByParam(InputInfoVo inputInfoVo) {
+        return null;
+    }
 }
