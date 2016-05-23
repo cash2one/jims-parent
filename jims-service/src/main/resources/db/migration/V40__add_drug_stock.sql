@@ -12,7 +12,7 @@ create table DRUG_STOCK
   UNITS               VARCHAR2(8 CHAR),
   BATCH_NO            VARCHAR2(16 CHAR) not null,
   EXPIRE_DATE         DATE,
-  FIRM_ID             VARCHAR2(10 CHAR) not null,
+  FIRM_ID             VARCHAR2(64) not null,
   PURCHASE_PRICE      NUMBER(10,4),
   DISCOUNT            NUMBER(5,2),
   PACKAGE_SPEC        VARCHAR2(20 CHAR) not null,
