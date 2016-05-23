@@ -163,10 +163,16 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
                         orders.setOrderStatus("1");//新开
                         orders.setPatientId("15005451");
                         orders.setVisitId("1");
-                              /* Integer orderNo = ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId(),"");
-                       Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), orderNo);
-                        orders.setOrderNo(orderNo!=null?(orderNo+1):1);
-                        orders.setOrderSubNo(orderSubNo!=null ?(orderSubNo+1):1);*/
+                        Integer no=orders.getOrderNo();
+                        Integer subNo= orders.getOrderSubNo();
+                        List<Orders> orderses=ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(), no!=null?(no):1);
+                        if(orderses.size()<=0) {//保存子医嘱
+                            Integer orderNo = ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId(),"");
+                            Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), orderNo!=null?(orderNo+1):1);
+                            orders.setOrderNo(orderNo!=null?(orderNo+1):1);
+                            orders.setOrderSubNo(orderSubNo!=null ?(orderSubNo+1):1);
+                        }
+
                        if(orders.getOrdersCostses()!=null){
                            List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
                            for(int j=0;j<ordersCostsList.size();j++) {

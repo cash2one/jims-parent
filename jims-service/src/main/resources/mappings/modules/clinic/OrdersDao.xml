@@ -18,7 +18,7 @@
 		a.dosage_units AS "dosageUnits",
 		a.administration AS "administration",
 		a.duration AS "duration",
-		a.duration_units AS "durationUnits"
+		a.duration_units AS "durationUnits",
 		a.start_date_time AS "startDateTime",
 		a.stop_date_time AS "stopDateTime",
 		a.frequency AS "frequency",
@@ -67,7 +67,7 @@
 		a.remarks AS "remarks",
 		a.processing_date_time AS "processingDateTime",
 		a.PROCESSING_NURSE AS "processingNurse",
-		a.STOP_PROCESSING_NURSE AS "stopProcessingNurse"
+		a.STOP_PROCESSING_NURSE AS "stopProcessingNurse",
         a.STOP_PROCESSING_DATE_TIME AS  "stopProcessingDateTime"
 	</sql>
 	
@@ -119,7 +119,9 @@
 	</select>
 
 	<select id="getPatientOrders" resultType="Orders">
-     SELECT "ORDERS"."START_DATE_TIME" as "startDateTime",
+     SELECT
+	  "ORDERS"."ID" as "id",
+      "ORDERS"."START_DATE_TIME" as "startDateTime",
        "ORDERS"."ORDER_TEXT" as "orderText",
        "ORDERS"."DOSAGE" as "dosage",
        "ORDERS"."DOSAGE_UNITS" as "dosageUnits" ,
@@ -186,6 +188,7 @@
 		   AND (ORDERS.ORDER_CODE = CLINIC_ITEM_NAME_DICT.ITEM_CODE(+))
 		   AND ((CLINIC_ITEM_NAME_DICT.STD_INDICATOR = 1) or
 			   CLINIC_ITEM_NAME_DICT.STD_INDICATOR is null)
+			   AND "ORDERS"."DEL_FLAG" = '0'
 
 	</select>
 
@@ -331,8 +334,6 @@
 	
 	<update id="update">
 		UPDATE orders SET
-			order_no = #{orderNo},
-			order_sub_no = #{orderSubNo},
 			repeat_indicator = #{repeatIndicator},
 			order_class = #{orderClass},
 			order_text = #{orderText},
@@ -341,7 +342,7 @@
 			dosage_units = #{dosageUnits},
 			administration = #{administration},
 			duration = #{duration},
-			duration_units = #{duration_units},
+			duration_units = #{durationUnits},
 			start_date_time = #{startDateTime},
 			stop_date_time = #{stopDateTime},
 			frequency = #{frequency},
@@ -435,10 +436,10 @@
 	</select>
 
 
-	<select id="issuedOrders" resultType="java.lang.Integer">
-          update    orders       set  order_status = '2'
+	<update id="issuedOrders">
+          update    orders       set  order_status = '2',start_date_time = to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')
           where id= #{id}
-	</select>
+	</update>
 
 	<select id="getSubOrders" resultType="Orders">
 		SELECT
