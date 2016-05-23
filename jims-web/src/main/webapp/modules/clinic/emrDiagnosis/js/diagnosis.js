@@ -1,6 +1,6 @@
 var administration = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
 var editRow = undefined;
-
+var rowNum=-1;
 $(function(){
     var cId=$("#zhenduan",parent.document).val();
     $('#zhenduan').datagrid({
@@ -51,7 +51,9 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
-
+                if(rowNum>=0){
+                    rowNum++;
+                }
                     $("#zhenduan").datagrid("insertRow", {
                         index: 0, // index start with 0
                         row: {
@@ -87,13 +89,20 @@ $(function(){
                 $("#zhenduan").datagrid('beginEdit', rowIndex);
                 editRow = rowIndex;
             }
-        },onClickRow:function(rowIndex,rowData){
-            if (editRow != undefined) {
-                $("#zhenduan").datagrid('endEdit', editRow);
+        },onClickRow:function(rowIndex,rowData) {
+            var dataGrid = $('#zhenduan');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
             }
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
 
+            }
         }
-
 
 
 

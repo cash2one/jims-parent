@@ -1,7 +1,5 @@
 package com.jims.phstock.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
@@ -127,7 +125,7 @@ public class DrugPriceModify extends DataEntity<DrugPriceModify> {
 		this.currentRetailPrice = currentRetailPrice;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
 	@NotNull(message="调价通知生效日期不能为空")
 	public Date getNoticeEfficientDate() {
 		return noticeEfficientDate;
@@ -137,7 +135,7 @@ public class DrugPriceModify extends DataEntity<DrugPriceModify> {
 		this.noticeEfficientDate = noticeEfficientDate;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
 	public Date getActualEfficientDate() {
 		return actualEfficientDate;
 	}

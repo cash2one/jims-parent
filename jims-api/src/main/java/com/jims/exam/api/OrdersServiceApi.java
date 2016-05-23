@@ -45,4 +45,65 @@ public interface OrdersServiceApi {
      */
     public List<Orders> getPatientOrders(Orders orders);
 
+    /**
+     * 保存住院医嘱
+     * @param ordersList
+     * @author pq
+     * @return
+     */
+    public String saveOrdersNew(List<Orders> ordersList);
+
+    /**
+     * 保存子医嘱
+     * @param orders
+     * @return
+     * pq
+     */
+    public String saveSubOrder(Orders orders);
+
+    /**
+     * 下达医嘱
+     * @param id
+     * @return
+     * pq
+     */
+   public  String issuedOrders(String id);
+
+    /**
+     * 删除医嘱
+     * @param ids
+     * @return
+     * pq
+     */
+    public String deleteOrdersNew(String ids);
+
+    /**
+     * 获得最大的医嘱号
+     * @param patientId
+     * @param visitId
+     * @return
+     * pq
+     */
+
+   public  Integer getMaxOrderNo(String patientId,String visitId);
+
+
+    /**
+     * 获得最大的子医嘱号
+     * @param patientId
+     * @param visitId
+     * @param orderNo
+     * @return
+     * pq
+     */
+    public Integer getOrderSubNo(String patientId,String visitId,Integer orderNo);
+
+    /**
+     * 通过主键拿到医嘱对象
+     * @param id
+     * @return
+     * pq
+     */
+    public Orders get(String id);
+
 }

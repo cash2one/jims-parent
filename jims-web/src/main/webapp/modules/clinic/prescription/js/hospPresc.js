@@ -1,4 +1,4 @@
-var editRow = undefined;
+var rowNum=-1;
 var prescNo;
 var prescDate;
 var bindingPrescTitle;
@@ -18,7 +18,10 @@ $(function(){
         columns:[[      //每个列具体内容
             {field:'id',title:'ID',hidden:'true'},
             {field:'prepayment',title:'预交金',hidden:'true'},
+            {field:'prescSource',title:'处方来源',hidden:'true'},
             {field:'dianosis',title:'诊断',hidden:'true'},
+            {field:'usage',title:'用法',hidden:'true'},
+            {field:'prescStatus',title:'处方状态',hidden:'true'},
             {field:'prescDate',title:'处方日期',width:'30%',align:'center'},
             {field:'prescNo',title:'处方号',width:'30%',align:'center'},
             {field:'bindingPrescTitle',title:'处方名称',width:'30%',align:'center'}
@@ -58,15 +61,15 @@ $(function(){
                         {field: 'dosage', title: '单次用量', width: '15%', align: 'center'},
                         {field: 'dosageUnits', title: '用量单位', width: '15%', align: 'center'}
                     ]],onClickRow: function (index, row) {
-                        var drugCode = $("#centerList").datagrid('getEditor',{index:editRow,field:'drugCode'});
+                        var drugCode = $("#centerList").datagrid('getEditor',{index:rowNum,field:'drugCode'});
                         $(drugCode.target).textbox('setValue',row.drugCode);
-                        var drugSpec = $("#centerList").datagrid('getEditor',{index:editRow,field:'drugSpec'});
+                        var drugSpec = $("#centerList").datagrid('getEditor',{index:rowNum,field:'drugSpec'});
                         $(drugSpec.target).textbox('setValue',row.drugSpec);
-                        var firmId = $("#centerList").datagrid('getEditor',{index:editRow,field:'firmId'});
+                        var firmId = $("#centerList").datagrid('getEditor',{index:rowNum,field:'firmId'});
                         $(firmId.target).textbox('setValue',row.firmId);
-                        var dosage = $("#centerList").datagrid('getEditor',{index:editRow,field:'dosage'});
+                        var dosage = $("#centerList").datagrid('getEditor',{index:rowNum,field:'dosage'});
                         $(dosage.target).textbox('setValue',row.dosage);
-                        var dosageUnits = $("#centerList").datagrid('getEditor',{index:editRow,field:'dosageUnits'});
+                        var dosageUnits = $("#centerList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
                         $(dosageUnits.target).textbox('setValue',row.dosageUnits);
                     }
                 }
@@ -104,6 +107,9 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
+                if(rowNum>=0){
+                    rowNum++;
+                }
                 var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
                 if(selRow!=null&&selRow!=''&&selRow!='undefined'){
                     $("#centerList").datagrid('insertRow', {
@@ -115,56 +121,74 @@ $(function(){
                     return;
                 }
             }
-        }],onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        },onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#centerList").datagrid('endEdit', editRow);
+        }],onDblClickRow:function (rowIndex, rowData) {
+            var dataGrid=$('#centerList');
+            if(!dataGrid.datagrid('validateRow', rowNum)){
+                return false
+            }else{
+                if(rowNum!=rowIndex){
+                    if(rowNum>=0){
+                        dataGrid.datagrid('endEdit', rowNum);
+                    }
+                    rowNum=rowIndex;
+                    dataGrid.datagrid('beginEdit', rowIndex);
+                }
             }
-            if (editRow == undefined) {
-                $("#centerList").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
+
         }
     });
 });
 function loadSubData(row){
-    $("#prepayment").val(row.prepayment);
-    $("#prescNo").val(row.prescNo);
-    $("#diagnosisName").val(row.dianosis);
-    $.get(basePath+'/doctDrugPrescDetail/list?prescMasterId=' + row.id, function (data) {
-        $("#centerList").datagrid("loadData", data);
-    });
+    if(row!=undefined&&row!='undifined') {
+        $("#prepayment").val(row.prepayment);
+        $("#prescNo").val(row.prescNo);
+        $("#diagnosisName").val(row.dianosis);
+        $("#usage").val(row.usage);
+        $("#bindingPrescTitle").val(row.bindingPrescTitle);
+        //funItem(row.prescSource);
+        $.get(basePath + '/doctDrugPrescDetail/list?prescMasterId=' + row.id, function (data) {
+            $("#centerList").datagrid("loadData", data);
+        });
+
+    }
 }
 //点击新方
 function addPre(){
-    $.ajax({
-        'type': 'POST',
-        'url': basePath+'/doctDrugPrescMaster/getPrescMaster',
-        'contentType': 'application/json',
-        'dataType': 'json',
-        'success': function(data){
-            var parse = eval(data);
-            prescNo=parse.prescNo;
-            prescDate = parse.prescDate;
-            bindingPrescTitle = '';
-            $('#leftList').datagrid('insertRow', {
-                index:0,
-                row: {
-                    prescNo: prescNo,
-                    prescDate: prescDate,
-                    bindingPrescTitle: bindingPrescTitle
+    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
+    if(selRow!=null&&selRow!=''&&selRow!='undefined'){
+        if(selRow[0].prescStatus==0||selRow[0].prescStatus=='0'){
+            $.messager.alert('提示',"当前有未保存的处方，请保存或者刷新后重试", "error");
+        }else{
+            $.ajax({
+                'type': 'POST',
+                'url': basePath+'/doctDrugPrescMaster/getPrescMaster',
+                'contentType': 'application/json',
+                'dataType': 'json',
+                'success': function(data){
+                    var parse = eval(data);
+                    prescNo=parse.prescNo;
+                    prescDate = parse.prescDate;
+                    bindingPrescTitle = '';
+                    $('#leftList').datagrid('insertRow', {
+                        index:0,
+                        row: {
+                            prescNo: prescNo,
+                            prescDate: prescDate,
+                            bindingPrescTitle: bindingPrescTitle
+                        }
+                    });
+                    $("#prescNo").val(prescNo);
+                    $('#leftList').datagrid('selectRow',0);
                 }
-            });
-            $('#leftList').datagrid('selectRow',0);
+            })
+            $("#centerList").datagrid();
         }
-    })
-    //$("#prescNo").val(prescNo);
-    $("#centerList").datagrid();
+    }
+
 }
 //保存处方及药品信息
 function savePre(){
-    $("#centerList").datagrid('endEdit', editRow);
+    $("#centerList").datagrid('endEdit', rowNum);
     var  rows=$('#centerList').datagrid('getRows');
     var formJson=fromJson('prescForm');
     formJson = formJson.substring(0, formJson.length - 1);
@@ -235,13 +259,15 @@ function giveUpPre(){
 function funItem(obj){
     $("#prescSource").val(obj.value);
     prescSource=obj.value;
-    $('input:radio').each(function(){
+    $('input[name="prescSource"]:radio').each(function(){
         if($(this).val()==obj.value){
             $(this).prop("checked",true);
-            if(obj.value==2){
+            if(obj.value==1){
                 //部分信息西药不需要显示
                 //$('.vdbox input').removeAttribute("value")
-                $('.vdbox input').hide();
+                $('.vdbox').hide();
+            }else{
+                $('.vdbox').show();
             }
         }else{
             $(this).prop("checked",false);

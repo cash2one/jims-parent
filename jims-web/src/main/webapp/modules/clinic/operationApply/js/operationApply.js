@@ -1,4 +1,5 @@
 var editRow=undefined;
+var rowNum=-1;
 $(function(){
     var cId=$("#clinicMasterId",parent.document).val();
     $("#clinicId").val(cId);
@@ -43,6 +44,9 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
+                if(rowNum>=0){
+                    rowNum++;
+                }
                     $("#operationName").datagrid("insertRow", {
                         index: 0, // index start with 0
                         row: {}
@@ -58,6 +62,10 @@ $(function(){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
+                $("#operationName").datagrid('endEdit', editRow);
+                if (editRow != undefined) {
+                    $("#operationName").datagrid("endEdit", editRow);
+                }
                 savePperationApply();
             }
         }
@@ -72,11 +80,21 @@ $(function(){
                 editRow = rowIndex;
             }
         },onClickRow:function(rowIndex,rowData){
-            if (editRow != undefined) {
-                $("#operationName").datagrid('endEdit', editRow);
+            var dataGrid = $('#operationName');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
             }
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
 
+            }
         }
+
+
     });
 });
 
@@ -87,7 +105,6 @@ $(function(){
  * @param id
  */
 function savePperationApply() {
-    $("#operationName").datagrid('endEdit', editRow);
     var  rows=$('#operationName').datagrid('getRows');
     var formJson=fromJson('operation');
     formJson = formJson.substring(0, formJson.length - 1);

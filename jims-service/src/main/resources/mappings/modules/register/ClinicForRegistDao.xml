@@ -3,6 +3,7 @@
 <mapper namespace="com.jims.register.dao.ClinicForRegistDao">
     
 	<sql id="clinicForRegistColumns">
+        a.id AS "id",
 		a.clinic_date AS "clinicDate",
 		a.clinic_label AS "clinicLabel",
 		a.time_desc AS "timeDesc",
@@ -140,7 +141,7 @@
 		 where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date=to_date( #{clinicDate} , 'yyyy-mm-dd' )
 	</update>
 	<update id="delete">
-		DELETE FROM clinic_for_regist WHERE SET del_flag='1'
+		update clinic_for_regist  SET del_flag='1'
 		WHERE id = #{id}
 	</update>
 	<select id="currentNoMax" resultType="java.lang.Integer">

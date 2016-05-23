@@ -50,8 +50,8 @@ public class ClinicForRegistServiceImpl extends CrudImplService<ClinicForRegistD
         String num="1";
         if(clinicScheduleList!=null && clinicScheduleList.size()>0){
             ClinicSchedule clinicSchedule=new ClinicSchedule();
-            List<Integer> listWeek=new ArrayList<Integer>();
             for(int i=0;i<clinicScheduleList.size();i++){
+                List<Integer> listWeek=new ArrayList<Integer>();
                 clinicSchedule=clinicScheduleList.get(i);
                 listWeek.add(Integer.parseInt(clinicSchedule.getDayOfWeek()));
                 List<String> daysNeedBookList = DateWeekUtil.getDates(startTime, endTime, listWeek);//根据门诊日期时间段 以及出诊时间查询出门诊日期

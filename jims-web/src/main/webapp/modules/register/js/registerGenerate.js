@@ -1,17 +1,16 @@
 
 function onloadMethod(){
-    var editRow =undefined;
     var rowNum=-1;
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
-        width: '100%',
-        height: '90%',
+        width: 'auto',
+        height: 'auto',
         nowrap: false,
         striped: true,
         border: true,
         method:'get',
         collapsible:false,//是否可折叠的
-        //fit: true,//自动大小
+        fit: true,//自动大小
          url:basePath+'/clinicSchedule/findList',
         remoteSort:false,
         idField:'id',
@@ -29,19 +28,23 @@ function onloadMethod(){
         ]]
     });
     //设置分页控件
-    var p = $('#list_data').datagrid('getPager');
-
+    var p1 = $('#list_data').datagrid('getPager');
+    $(p1).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '共 {total} 条记录'
+    });
 
     $('#list_data_num').datagrid({
         iconCls:'icon-edit',//图标
-        width: '100%',
-        height: '90%',
+        width: 'auto',
+        height: 'auto',
         nowrap: false,
         striped: true,
         border: true,
         method:'get',
         collapsible:false,//是否可折叠的
-        //fit: true,//自动大小
+        fit: true,//自动大小
          url:basePath+'/clinicRegister/findList',
         remoteSort:false,
         idField:'id',
@@ -50,48 +53,45 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'clinicDate',title:'出诊日期',width:'20%',align:'center'},
-            {field:'clinicLabel',title:'门诊号名称',width:'25%',align:'center'},
-            {field:'timeDesc',title:'出诊时间',width:'20%',align:'center'},
-            {field:'registrationLimits',title:'限号数',width:'20%',align:'center'},
-            {field:'currentNo',title:'当前号',width:'20%',align:'center'},
-            {field:'appointmentLimits',title:'限预约号数',width:'20%',align:'center'},
+            {field:'clinicDate',title:'出诊日期',width:'15%',align:'center'},
+            {field:'clinicLabel',title:'门诊号名称',width:'20%',align:'center'},
+            {field:'timeDesc',title:'出诊时间',width:'15%',align:'center'},
+            {field:'registrationLimits',title:'限号数',width:'15%',align:'center'},
+            {field:'currentNo',title:'当前号',width:'15%',align:'center'},
+            {field:'appointmentLimits',title:'限预约号数',width:'15%',align:'center'}
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
         ]],
-        toolbar:'#time',onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        }, onClickRow: function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#list_data_num").datagrid('endEdit', editRow);
-            }
-            if (editRow == undefined) {
-                $("#list_data_num").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
+        toolbar:'#time',
+        onClickRow: function (rowIndex, rowData) {
             var dataGrid=$('#list_data_num');
             if(!dataGrid.datagrid('validateRow', rowNum)){
                 return false
-            }
-            if(rowNum!=rowIndex){
-                if(rowNum>=0){
-                    dataGrid.datagrid('endEdit', rowNum);
+            }else{
+                if(rowNum!=rowIndex){
+                    if(rowNum>=0){
+                        dataGrid.datagrid('endEdit', rowNum);
+                    }
+                    rowNum=rowIndex;
+                    dataGrid.datagrid('beginEdit', rowIndex);
                 }
-                rowNum=rowIndex;
-                dataGrid.datagrid('beginEdit', rowIndex);
             }
         }
     });
 
     //设置分页控件
     var p = $('#list_data_num').datagrid('getPager');
+    $(p).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    });
 }
 //添加行
 function addRowCol(){
     var selectRows = $('#list_data').datagrid("getSelections");
     var jsonData=JSON.stringify(selectRows);
-    alert(jsonData);
     var startTime=$('#startTime').datebox('getValue');
     var endTime=$("#endTime").datebox('getValue');
     if(startTime==null ||startTime=='' ||  endTime==null || endTime==''){
@@ -124,7 +124,6 @@ function deleteForReg(){
             var strIds = "";
             for (var i = 0; i < selectRows.length; i++) {
                 strIds += selectRows[i].id + ",";
-                alert(selectRows[i].id );
             }
             strIds = strIds.substr(0, strIds.length - 1);
             //删除

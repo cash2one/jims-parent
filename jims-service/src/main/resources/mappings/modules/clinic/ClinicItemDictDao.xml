@@ -36,11 +36,15 @@
         WHERE a.id = #{id}
     </select>
     <select id="itemListByOrgId" resultType="ClinicItemDict">
-        SELECT
-           *
-        FROM clinic_item_dict a
-        WHERE a.org_id = #{orgId}
+        select a.item_Class,a.item_Name,a.item_Code,a.input_Code,sum(b.price)as sumPrice
+        from clinic_item_dict a,price_list b,clinic_vs_charge c
+        where a.item_code = c.clinic_item_code
+        and c.charge_item_code = b.item_code
+        and a.org_id = #{orgId}
         and a.del_flag = '0'
+        and a.item_class = 'C'
+        group by a.item_Class,a.item_Name,a.item_Code,a.input_Code
+
     </select>
 
     <select id="findList" resultType="ClinicItemDict">

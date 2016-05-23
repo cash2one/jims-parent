@@ -1,4 +1,3 @@
-var editRow = undefined;
 var rowNum=-1;
 var item =  [{ "value": "1", "text": "挂号费" }, { "value": "2", "text": "诊疗费" }, { "value": "3", "text": "其他费" }];
 var priceItme= [{ "value": "11020000100", "text": "普通门诊诊查费" }, { "value": "11020000300", "text": "急诊诊查费" }, { "value": "10005", "text": "鉴定费" },
@@ -9,7 +8,7 @@ function onloadMethod(id,clinicName){
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: '100%',
-        height: '94%',
+        height: '100%',
         nowrap: false,
         striped: true,
         border: true,
@@ -87,10 +86,7 @@ function onloadMethod(id,clinicName){
                 text: '保存',
                 iconCls:'icon-save',
                 handler:function(){
-                    $("#list_data").datagrid('endEdit', editRow);
-                    if (editRow != undefined) {
-                        $("#list_data").datagrid("endEdit", editRow);
-                    }
+                    $("#list_data").datagrid('endEdit', rowNum);
                     save();
                 }
             }

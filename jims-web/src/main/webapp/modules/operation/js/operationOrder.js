@@ -1,5 +1,5 @@
 var editRow = undefined;
-
+var rowNum=-1;
 $(function(){
     var deptCode=$("#deptCode").val();
     //病人列表
@@ -64,6 +64,9 @@ $(function(){
                     text: '添加',
                     iconCls: 'icon-add',
                     handler: function () {
+                        if(rowNum>=0){
+                            rowNum++;
+                        }
                         $("#operationName").datagrid("insertRow", {
                             index: 0, // index start with 0
                             row: {}
@@ -87,10 +90,18 @@ $(function(){
                         editRow = rowIndex;
                     }
                 },onClickRow:function(rowIndex,rowData){
-                    if (editRow != undefined) {
-                        $("#operationName").datagrid('endEdit', editRow);
+                    var dataGrid = $('#operationName');
+                    if (!dataGrid.datagrid('validateRow', rowNum)) {
+                        return false
                     }
+                    if (rowNum != rowIndex) {
+                        if (rowNum >= 0) {
+                            dataGrid.datagrid('endEdit', rowNum);
+                        }
+                        rowNum = rowIndex;
+                        dataGrid.datagrid('beginEdit', rowIndex);
 
+                    }
                 }
             });
 
