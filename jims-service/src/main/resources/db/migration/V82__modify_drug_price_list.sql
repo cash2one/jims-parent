@@ -1,2 +1,0 @@
-alter table DRUG_PRICE_LIST
-  add constraint UK_DRUG_PRICE_LIST unique (DRUG_CODE, DRUG_SPEC, FIRM_ID, START_DATE);
