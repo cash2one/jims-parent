@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugExportMasterDao">
+    
+	<sql id="drugExportMasterColumns">
+		a.document_no AS "documentNo",
+		a.storage AS "storage",
+		a.export_date AS "exportDate",
+		a.receiver AS "receiver",
+		a.account_receivable AS "accountReceivable",
+		a.account_payed AS "accountPayed",
+		a.additional_fee AS "additionalFee",
+		a.export_class AS "exportClass",
+		a.sub_storage AS "subStorage",
+		a.account_indicator AS "accountIndicator",
+		a.memos AS "memos",
+		a.operator AS "operator",
+		a.flag AS "flag",
+		a.acct_date AS "acctDate",
+		a.acct_operator AS "acctOperator",
+		a.voucher_no AS "voucherNo",
+		a.tally_date AS "tallyDate",
+		a.tally_operator AS "tallyOperator",
+		a.sub_receiver AS "subReceiver",
+		a.recovery_docu_no AS "recoveryDocuNo",
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="drugExportMasterJoins">
+	</sql>
+    
+	<select id="get" resultType="DrugExportMaster">
+		SELECT 
+			<include refid="drugExportMasterColumns"/>
+		FROM drug_export_master a
+		<include refid="drugExportMasterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DrugExportMaster">
+		SELECT 
+			<include refid="drugExportMasterColumns"/>
+		FROM drug_export_master a
+		<include refid="drugExportMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DrugExportMaster">
+		SELECT 
+			<include refid="drugExportMasterColumns"/>
+		FROM drug_export_master a
+		<include refid="drugExportMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO drug_export_master(
+			document_no,
+			storage,
+			export_date,
+			receiver,
+			account_receivable,
+			account_payed,
+			additional_fee,
+			export_class,
+			sub_storage,
+			account_indicator,
+			memos,
+			operator,
+			flag,
+			acct_date,
+			acct_operator,
+			voucher_no,
+			tally_date,
+			tally_operator,
+			sub_receiver,
+			recovery_docu_no,
+			id,
+			org_id,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{documentNo},
+			#{storage},
+			#{exportDate},
+			#{receiver},
+			#{accountReceivable},
+			#{accountPayed},
+			#{additionalFee},
+			#{exportClass},
+			#{subStorage},
+			#{accountIndicator},
+			#{memos},
+			#{operator},
+			#{flag},
+			#{acctDate},
+			#{acctOperator},
+			#{voucherNo},
+			#{tallyDate},
+			#{tallyOperator},
+			#{subReceiver},
+			#{recoveryDocuNo},
+			#{id},
+			#{orgId},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_export_master SET 	
+			document_no = #{documentNo},
+			storage = #{storage},
+			export_date = #{exportDate},
+			receiver = #{receiver},
+			account_receivable = #{accountReceivable},
+			account_payed = #{accountPayed},
+			additional_fee = #{additionalFee},
+			export_class = #{exportClass},
+			sub_storage = #{subStorage},
+			account_indicator = #{accountIndicator},
+			memos = #{memos},
+			operator = #{operator},
+			flag = #{flag},
+			acct_date = #{acctDate},
+			acct_operator = #{acctOperator},
+			voucher_no = #{voucherNo},
+			tally_date = #{tallyDate},
+			tally_operator = #{tallyOperator},
+			sub_receiver = #{subReceiver},
+			recovery_docu_no = #{recoveryDocuNo},
+			org_id = #{orgId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_export_master SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

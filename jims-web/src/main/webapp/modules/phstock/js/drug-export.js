@@ -13,7 +13,6 @@ $(function () {
         }
     };
     $("#dg").datagrid({
-        title: '出库处理',
         fit: true,
         fitColumns: true,
         striped: true,
@@ -172,7 +171,7 @@ $(function () {
         }
     });
     $('#statisticClass').combobox({
-        url: basePath + '/drug-export/findAll',
+        url: parent.basePath + '/drug-export/findAll',
         valueField: 'statisticClass',
         textField: 'statisticClass',
         method: 'GET'
@@ -200,25 +199,6 @@ $(function () {
         }
     });
 
-    $("#editBtn").on('click', function () {
-        var row = $("#dg").datagrid("getSelected");
-        var index = $("#dg").datagrid("getRowIndex", row);
-
-        if (index == -1) {
-            $.messager.alert("提示", "请选择要修改的行！", "info");
-            return;
-        }
-
-        if (editIndex == undefined) {
-            $("#dg").datagrid("beginEdit", index);
-            editIndex = index;
-        } else {
-            $("#dg").datagrid("endEdit", editIndex);
-            $("#dg").datagrid("beginEdit", index);
-            editIndex = index;
-        }
-    });
-
     /**
      * 保存修改的内容
      * 基础字典的改变，势必会影响其他的统计查询
@@ -240,7 +220,7 @@ $(function () {
 
 
         if (beanChangeVo) {
-            $.postJSON("", beanChangeVo, function (data, status) {
+            parent.$.postJSON("", beanChangeVo, function (data, status) {
                 $.messager.alert("系统提示", "保存成功", "info");
                 $('#dg').datagrid('load');
                 $('#dg').datagrid('clearChecked');
