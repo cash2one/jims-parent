@@ -184,8 +184,9 @@ $(function () {
         var _row = $('#drug-import').datagrid('getSelected')
         if(_row){
             var _index = $('#drug-import').datagrid('getRowIndex',_row)
-            $('#drug-import').datagrid('deleteRow',_index)
             var _rows = $('#drug-import').datagrid('getRows')
+            if(_rows.length == _index + 1) return
+            $('#drug-import').datagrid('deleteRow',_index)
             if(_rows.length == 1){
                 $('#drug-import').datagrid('deleteRow',0)
                 return
