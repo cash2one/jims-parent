@@ -11,7 +11,7 @@ public class Main {
     /**
      * @param args
      */
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         String webappDirLocation = "jims-service/src/main/webapp/";
         String webPort = System.getenv("PORT");
@@ -19,10 +19,10 @@ public class Main {
             webPort = "80";
         }
 
-        File file = new File(webappDirLocation) ;
-        if(file.exists()){
+        File file = new File(webappDirLocation);
+        if (file.exists()) {
             System.out.println(file.getAbsolutePath());
-        }else{
+        } else {
             System.out.println("路径有问题");
         }
         Server server = new Server(Integer.valueOf(webPort));
@@ -33,7 +33,7 @@ public class Main {
         root.setParentLoaderPriority(true);
         server.setHandler(root);
         try {
-//            migrationDb();
+          //  migrationDb();
             server.start();
             server.join();
         } catch (Exception e) {
