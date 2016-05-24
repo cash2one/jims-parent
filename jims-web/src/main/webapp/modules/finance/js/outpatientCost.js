@@ -386,7 +386,9 @@ $(function () {
 function showReturnsDiv(){
     $('#returnsDiv').window("open");
 }
-
+function showContDiv(){
+    $('#contDiv').window("open");
+}
 
 
 

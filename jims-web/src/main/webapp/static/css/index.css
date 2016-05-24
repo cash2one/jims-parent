@@ -1169,3 +1169,65 @@ a.dropma-color {
 {
     text-align:right;
 }
+
+.cost-li-top li
+{
+    display:inline-block;
+    width:32%;
+    line-height:35px;
+
+}
+.cost-li-top li span
+{
+    display:inline-block;
+    width:100px;
+}
+.cost-total
+{
+    line-height:50px;
+    border:1px solid #ccc;
+    height:163px;
+    position:absolute;
+
+}
+.cost-total ul li span
+{
+    padding:0 10px;
+    line-height:81px;
+}
+.cost-total ul li:first-child
+{
+    border-bottom:1px solid #ccc;
+    height:81px;
+}
+
+.cost-total ul li span.rborder-cost
+{
+    border-right:1px solid #ccc;
+    display:inline-block;
+    background:#f8f8f8;
+    height:81px;
+
+}
+.cost-tab-wrap
+{
+    margin-left:145px;
+}
+.cost-tab
+{
+    border-bottom:1px solid #ccc;
+
+}
+.cost-tab tr td
+{
+    border-top:1px solid #ccc;
+    border-right:1px solid #ccc;
+    padding:5px;
+    height:30px;
+}
+.cost-tab tr:first-child td
+{
+    background:#f8f8f8;
+    font-weight:bold;
+    text-align:center;
+}
