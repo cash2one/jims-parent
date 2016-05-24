@@ -34,6 +34,15 @@ public class DrugImportMaster extends DataEntity<DrugImportMaster> {
     private String orgId;		// 所属结构
 
     private List<DrugImportDetail> detailList;   // 关联的详细数据
+    private String subStorageDeptId;   // 入库子单位ID
+
+    public String getSubStorageDeptId() {
+        return subStorageDeptId;
+    }
+
+    public void setSubStorageDeptId(String subStorageDeptId) {
+        this.subStorageDeptId = subStorageDeptId;
+    }
 
     public List<DrugImportDetail> getDetailList() {
         return detailList;

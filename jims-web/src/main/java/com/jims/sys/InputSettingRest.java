@@ -129,7 +129,7 @@ public class InputSettingRest {
      * @return
      */
     @Path("listParam")
-    @GET
+    @POST
     public List<BaseDto> listParam(InputInfoVo inputInfoVo) {
        /* InputParamVo vo = new InputParamVo();
         vo.setColName("FLAG_SHOW");

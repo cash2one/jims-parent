@@ -51,23 +51,12 @@ public class DrugBuyPlanRest {
      */
     @POST
     @Path("saveBatch")
-    public StringData saveBatch(List<List<DrugBuyPlan>> entityBatch){
-        StringData result = new StringData();
-        List<String> resultList = new ArrayList<String>();
+    public String saveBatch(List<List<DrugBuyPlan>> entityBatch){
         List<DrugBuyPlan> delObj = entityBatch.get(1);
-        String deleteResult = "0";
-        if(delObj != null && delObj.size() > 0){
-            String ids = delObj.get(0).getId();
-            if(ids != null && ids.trim().length() > 0){
-                deleteResult = drugBuyPlanApi.deleteInfo(ids);
-            }
-        }
-        // 由于采购单据号、采购单序号唯一，所以必须先删除，才能保证保存的成功
-        resultList.add(drugBuyPlanApi.save(entityBatch.get(0)));
-        resultList.add(deleteResult);
-        result.setDatas(resultList);
-        result.setCode("0");
-        return result;
+        String ids = null;
+        if(delObj != null && delObj.size() > 0)
+            ids = delObj.get(0).getId();
+        return drugBuyPlanApi.saveAndDelete(entityBatch.get(0),ids);
     }
 
     /**

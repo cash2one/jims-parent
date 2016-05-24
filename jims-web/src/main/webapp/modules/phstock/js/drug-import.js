@@ -13,7 +13,7 @@ $(function () {
         ,currentSelectIndex = undefined
     var drugDicts = [] // 检索的药品字典数据
         ,initDrugPriceWindowFlag = true
-    var currentSubStorageDept
+    var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
     // 药品类别
     var drugIndicators = [
@@ -210,50 +210,42 @@ $(function () {
                     return
                 }
             }
-            // 更新子单位入库后缀号
-            if(!currentSubStorageDept) return
-            currentSubStorageDept.importNoAva = isNaN(currentSubStorageDept.importNoAva) ? 1 : (+currentSubStorageDept.importNoAva + 1)
-
-            parent.$.postJSON('/service/drug-storage-dept/saveSub',JSON.stringify(currentSubStorageDept),function(res){
-                if(res && res != '0'){
-                    for(var i=0;i<_rows.length - 1 ;i++){
-                        delete _rows[i].purchasePriceCount
-                        delete _rows[i].retailPriceCount
-                        delete _rows[i].drugName
-                        delete _rows[i].supplier
-                    }
-                    var _record = {
-                        documentNo : $('#importDocument').textbox('getValue')
-                        ,storage : currentStorage
-                        ,importDate : $('#date').datebox('getValue')
-                        ,supplier : $('#supply').combobox('getValue')
-                        ,accountReceivable : $('#account').textbox('getValue')
-                        ,accountPayed : $('#paid').textbox('getValue')
-                        ,additionalFee : $('#surcharge').textbox('getValue')
-                        ,importClass : $('#import').combobox('getValue')
-                        ,subStorage : $('#importChild').combobox('getValue')
-                        ,accountIndicator : accountFlag ? accountFlag : 0
-                        ,memos : $('#remarks').textbox('getValue')
-                        ,operator : currentUsername
-                        ,subSupplier : $('#supplyChild').combobox('getValue')
-                        ,orgId : currentOrgId
-                        ,detailList : _rows.slice(0,_rows.length - 1)
-                    }
-                    parent.$.postJSON('/service/drug-in/save',JSON.stringify(_record),function(r){
-                        if(r && r.code == '0'){
-                            $.messager.alert('保存',(accountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
-                                if(mod == 'print'){
-                                    print()
-                                } else {
-                                    window.location.reload()
-                                }
-                            })
+            if(!currentSubStorageDeptId) return
+            for(var i=0;i<_rows.length - 1 ;i++){
+                delete _rows[i].purchasePriceCount
+                delete _rows[i].retailPriceCount
+                delete _rows[i].drugName
+                delete _rows[i].supplier
+            }
+            var _record = {
+                documentNo : $('#importDocument').textbox('getValue')
+                ,storage : currentStorage
+                ,importDate : $('#date').datebox('getValue')
+                ,supplier : $('#supply').combobox('getValue')
+                ,accountReceivable : $('#account').textbox('getValue')
+                ,accountPayed : $('#paid').textbox('getValue')
+                ,additionalFee : $('#surcharge').textbox('getValue')
+                ,importClass : $('#import').combobox('getValue')
+                ,subStorage : $('#importChild').combobox('getValue')
+                ,accountIndicator : accountFlag ? accountFlag : 0
+                ,memos : $('#remarks').textbox('getValue')
+                ,operator : currentUsername
+                ,subSupplier : $('#supplyChild').combobox('getValue')
+                ,orgId : currentOrgId
+                ,detailList : _rows.slice(0,_rows.length - 1)
+                ,subStorageDeptId : currentSubStorageDeptId
+            }
+            parent.$.postJSON('/service/drug-in/save',JSON.stringify(_record),function(res){
+                if(res == '1'){
+                    $.messager.alert('保存',(accountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
+                        if(mod == 'print'){
+                            print()
                         } else {
-                            $.messager.alert('保存','保存失败！','error')
+                            window.location.reload()
                         }
                     })
                 } else {
-                    $.messager.alert('保存','入库单据号更新失败，无法保存！','warning')
+                    $.messager.alert('保存','保存失败！','error')
                 }
             })
         }
@@ -345,7 +337,7 @@ $(function () {
             ,textField:'subStorage'
             ,width:140
             ,onSelect:function(record){
-                currentSubStorageDept = record
+                currentSubStorageDeptId = record['id']
                 var _prefix = record['importNoPrefix']
                 var _suffix = record['importNoAva']
                 if(_prefix == undefined) _prefix = ''
@@ -460,11 +452,12 @@ $(function () {
                         },
                         filter: function (field, row) {
                             if (row.drugCode.toUpperCase().indexOf(field.toUpperCase()) > -1
-                                || row.drugName.toUpperCase().indexOf(field.toUpperCase()) > -1) {
+                                || row.drugName.toUpperCase().indexOf(field.toUpperCase()) > -1
+                                || row.inputCode.toUpperCase().indexOf(field.toUpperCase()) > -1) {
                                 return true
                             }
                         },
-                        onClickRow: function (index, row) {
+                        onSelect: function (index, row) {
                             loadDrugPriceData(row)
                         }
                     }

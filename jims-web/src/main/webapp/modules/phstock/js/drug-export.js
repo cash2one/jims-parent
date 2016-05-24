@@ -48,9 +48,15 @@ $(function () {
         ,initDrugPriceWindowFlag = true
     var currentSubStorageDept   // 当前选择的库房子库房数据
 
-    var loadData = function(){
-        $.get('/service/input-setting/list',{dictType:'drug_stock',orgId:'1'},function(res){
-            alert(JSON.stringify(res))
+    /**
+     * 加载库存中有余量的药品名称数据
+     */
+    var loadDrugNameData = function(){
+        var chargeType = {colName:'storage',colValue:currentStorage,operateMethod:"="}
+        var param = {dictType:'v_drug_stock_name_dict',orgId:currentOrgId,inputParamVos:[chargeType]}
+        parent.$.postJSON('/service/input-setting/listParam',
+            JSON.stringify(param) ,function(res){
+            drugDicts = res
         })
     }
 
@@ -93,6 +99,10 @@ $(function () {
             $('#dg').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
             currentSelectIndex = index;
+            if(field == 'drugName'){
+                var editor = $('#dg').datagrid('getEditor',{index:index,field:field})
+                $(editor.target).combogrid('grid').datagrid('loadData',drugDicts)
+            }
         }
     }
 
@@ -138,9 +148,40 @@ $(function () {
             width: 220,
             align: 'center',
             editor: {
-                type: 'textbox',
+                type: 'combogrid',
                 options: {
-                    required: true
+                    panelWidth: 333,
+                    idField: 'drug_name',
+                    textField: 'drug_name',
+                    required: true,
+                    missingMessage: '药名不能为空',
+                    fitColumns: true,
+                    data: drugDicts,
+                    columns: [[
+                        {field: 'drug_code', title: '药品代码', width: 100, align: "center"},
+                        {field: 'drug_name',
+                            title: '药品名称',
+                            width: 160,
+                            align: "center",
+                            formatter: function (value) {
+                                return '<div style="text-align:left">' + value + '</div>'
+                            }
+                        },
+                        {field: 'input_code', title: '输入码', width: 70, align: "center"}
+                    ]],
+                    onChange: function (newV, oldV) {
+                        if (newV != oldV)return
+                    },
+                    filter: function (field, row) {
+                        if (row['drug_code'].toUpperCase().indexOf(field.toUpperCase()) > -1
+                            || row['input_code'].toUpperCase().indexOf(field.toUpperCase()) > -1
+                            || row['drug_name'].toUpperCase().indexOf(field.toUpperCase()) > -1) {
+                            return true
+                        }
+                    },
+                    onClickRow: function (index, row) {
+                        //loadDrugPriceData(row)
+                    }
                 }
             }
         }, {
@@ -253,6 +294,7 @@ $(function () {
         textField:'subStorage',
         width:160,
         onSelect:function(record){
+            loadDrugNameData()
             $("#dg").datagrid('loadData',[])
             currentSubStorageDept = record
             var prefix = record['exportNoPrefix']
@@ -340,7 +382,6 @@ $(function () {
             })
         }
     });
-
 
     //设置是否禁用控件
     $("#subStorageDept").textbox({'disabled':true});
