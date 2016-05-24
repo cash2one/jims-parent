@@ -35,5 +35,29 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      */
     public List<ClinicMaster> getClinicMasterDiagnosed(@Param("doctorId")String doctorId);
 
+    /**
+     * 根据 就诊日期，就诊序号 ，查询 有关退号的基本信息
+     * @param visitDate
+     * @param visitNo
+     * @author zhaoning
+     * @return
+     */
+    public ClinicMaster getClinicMaster(@Param("visitDate")String visitDate,@Param("visitNo")Integer visitNo);
+
+    /**
+     * 查询出最大的 visitNo
+     * @return
+     */
+    public Integer  getMaxVisitNO();
+
+    /**
+     * 退号时 更新 就诊信息
+     * @param visitDate
+     * @param visitNo
+     * @param returnedDate
+     * @param returnedOperator
+     */
+    public void updateClinicMasterByReturn(@Param("visitDate")String  visitDate,@Param("visitNo")Integer visitNo,@Param("returnedDate")Date returnedDate,@Param("returnedOperator")String returnedOperator);
+
 
 }

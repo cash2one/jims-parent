@@ -154,5 +154,8 @@
 		FROM clinic_for_regist a
 		WHERE a.clinic_date=to_date(#{clinicDate},'yyyy-MM-dd') AND a.clinic_label=#{clinicLable} AND a.time_desc=#{timeDesc}
 	</select>
-	
+	<select id="updateRegisterByReturn">
+		update clinic_for_regist set registration_num =registration_num - 1
+		where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date =to_date(#{clinicDate},'yyyy-MM-dd')
+	</select>
 </mapper>
