@@ -7,7 +7,7 @@ $(function(){
           singleSelect: true,
           fit: true,
           method: 'GET',
-          url:'/modules/clinic/outDispensing/clinic_data.json',
+          url:'/modules/clinic/outDispensing/js/clinic_data.json',
           idField: 'patientId',
           columns: [[      //每个列具体内容
               {field: 'itemNo', title: '床号', width: '10%', align: 'center'},
@@ -30,8 +30,6 @@ $(function(){
                   ]]
               });
           }});
-
-
     }
 });
 
