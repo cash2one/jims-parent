@@ -12,4 +12,14 @@ import java.util.List;
 @MyBatisDao
 public interface StaffGroupClassDictDao extends CrudDao<StaffGroupClassDict>{
     public List<String> findTypeList(StaffGroupClassDict staffGroupClassDict);
+
+
+
+    /**
+     * 根据组织机构id查询工作组类的全部信息
+     * @param orgId 组织机构id
+     * @return
+     * @author yangruidong
+     */
+    public List<StaffGroupClassDict> findAllListByOrgId(String orgId);
 }
