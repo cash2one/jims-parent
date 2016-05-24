@@ -1165,3 +1165,7 @@ a.dropma-color {
     font-size:22px;
     margin:0px;
 }
+.medical-tab-new1 tr td:nth-child(2n+1)
+{
+    text-align:right;
+}
