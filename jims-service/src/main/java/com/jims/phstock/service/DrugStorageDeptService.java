@@ -7,7 +7,9 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugStorageDeptServiceApi;
 import com.jims.phstock.dao.DrugStorageDeptDao;
+import com.jims.phstock.dao.DrugSubStorageDeptDao;
 import com.jims.phstock.entity.DrugStorageDept;
+import com.jims.phstock.entity.DrugSubStorageDept;
 import com.jims.sys.dao.DeptDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.vo.BeanChangeVo;
@@ -27,6 +29,9 @@ import java.util.List;
 public class DrugStorageDeptService extends CrudImplService<DrugStorageDeptDao, DrugStorageDept> implements DrugStorageDeptServiceApi {
     @Autowired
     private DeptDictDao deptDictDao;
+
+    @Autowired
+    private DrugSubStorageDeptDao subDao;
 
     /**
      * 保存增删改数据
@@ -65,5 +70,39 @@ public class DrugStorageDeptService extends CrudImplService<DrugStorageDeptDao, 
         } else {
             return "1";
         }
+    }
+
+    /**
+     * 获取药品库存单位子单位
+     * @param orgId 所属机构
+     * @param storageCode  库存单位编码
+     * @return
+     */
+    public List<DrugSubStorageDept> findSubList(String orgId,String storageCode){
+        DrugSubStorageDept sub = new DrugSubStorageDept();
+        sub.setOrgId(orgId);
+        sub.setStorageCode(storageCode);
+        return subDao.findList(sub);
+    }
+
+    /**
+     * 保存子单位
+     * @param sub
+     * @return
+     */
+    public String saveSub(DrugSubStorageDept sub){
+        int i=0;
+        try{
+            if (sub.getIsNewRecord()){
+                sub.preInsert();
+                i=subDao.insert(sub);
+            }else{
+                sub.preUpdate();
+                i=subDao.update(sub);
+            }
+        }catch(Exception e){
+            return i+"";
+        }
+        return i+"";
     }
 }

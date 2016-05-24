@@ -31,7 +31,6 @@
         DISTINCT column_name
         FROM all_tab_columns
         WHERE upper(table_name) = upper(#{tableName})
-
     </select>
 
     <select id="getColumnName" resultType="InputSettingVo">
@@ -53,6 +52,19 @@
         ${param}
         from  ${dictType}
     </select>
+
+
+    <select id="listInputDataByParam" resultType="BaseDto">
+        SELECT
+        ${param}
+        from  ${dictType} WHERE 1=1
+        <if test='list!=null and list!=""'>
+            <foreach collection="list" item="item" index="index">
+                AND ${item.colName} ${item.operateMethod} #{item.colValue}
+            </foreach>
+        </if>
+    </select>
+
 
 
     <select id="findList" resultType="InputSettingDetail">
