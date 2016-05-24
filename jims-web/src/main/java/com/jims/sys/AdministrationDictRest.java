@@ -36,10 +36,10 @@ public class AdministrationDictRest {
      * @return
      * @author yangruidong
      */
-   /* @Path("list")
+   /* @Path("listAll")
     @GET
     public PageData list(@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        Page<AdministrationDict> page = administrationDictApi.findPageFlag(new Page<AdministrationDict>(request, response), new AdministrationDict());
+        Page<AdministrationDict> page = administrationDictApi.findPage(new Page<AdministrationDict>(request, response), new AdministrationDict());
         PageData pageData = new PageData();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());

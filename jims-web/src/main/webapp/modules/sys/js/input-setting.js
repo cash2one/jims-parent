@@ -428,6 +428,21 @@ $(function () {
         }
     });
 
+    //删除
+    $("#removeBtn").on("click", function () {
+        var inputInfoVo = {};
+            $.postJSON(basePath + "/input-setting/listParam", JSON.stringify(inputInfoVo), function (data) {
+                if (data.data == "success") {
+                    $.messager.alert("系统提示", "保存成功", "info");
+                    $("#detailGrid").datagrid('reload');
+                }
+            }, function (data) {
+                $.messager.alert('提示', "保存失败，字段是唯一键或者其他字段不能为空", "error");
+            })
+
+    });
+
+
 });
 
 
