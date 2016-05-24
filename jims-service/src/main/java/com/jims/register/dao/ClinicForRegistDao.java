@@ -9,6 +9,7 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.register.entity.ClinicForRegist;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,4 +54,13 @@ public interface ClinicForRegistDao extends CrudDao<ClinicForRegist> {
      * @author zhaoning
      */
     public void updateRegister(@Param("clinicDate")String clinicDate,@Param("clinicLabel")String clinicLabel,@Param("timeDesc")String timeDesc);
+
+    /**
+     * 退号时更新号表的信息
+     * @param clinicLabel
+     * @param timeDesc
+     * @param clinicDate
+     * @author zhaoning
+     */
+    public void updateRegisterByReturn(@Param("clinicLabel")String clinicLabel,@Param("timeDesc")String timeDesc,@Param("clinicDate")String clinicDate);
 }

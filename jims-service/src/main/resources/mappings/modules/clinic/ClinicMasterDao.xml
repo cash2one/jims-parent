@@ -289,7 +289,9 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-
+    <select id="getMaxVisitNO" resultType="Integer">
+      select max(visit_no) from clinic_master
+	</select>
 	<select id="getClinicBydoctor" resultType="ClinicMaster">
 		SELECT <include refid="clinicMasterColumns"/>
 		FROM clinic_master a
@@ -309,5 +311,21 @@
 			AND  a.doctor =#{doctorId}
 		</if>
 		AND a.registration_status='1'
+	</select>
+
+	<select id="getClinicMaster" resultType="com.jims.clinic.entity.ClinicMaster">
+		SELECT <include refid="clinicMasterColumns"/>
+		FROM clinic_master a
+		WHERE 1=1
+		<if test="visitDate!=null and visitDate!=''">
+			AND   a.visit_date = to_date(#{visitDate},'yyyy-mm-dd')
+	   </if>
+		<if test="visitNo!=null and visitNo!=''">
+		   AND 	a.visit_no=#{visitNo}
+		</if>
+	</select>
+	<select id="updateClinicMasterByReturn">
+		UPDATE "CLINIC_MASTER" SET "RETURNED_DATE" = #{returnedDate}, "RETURNED_OPERATOR" = #{returnedOperator}
+		WHERE "VISIT_DATE" = to_date(#{visitDate},'yyyy-MM-dd')  AND "VISIT_NO" = #{visitNo}
 	</select>
 </mapper>

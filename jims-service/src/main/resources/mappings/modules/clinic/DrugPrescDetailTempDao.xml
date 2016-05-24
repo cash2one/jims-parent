@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.DrugPrescDetailTempDao">
+    
+	<sql id="drugPrescDetailTempColumns">
+		a.id AS "id",
+		a.master_id AS "masterId",
+		a.prese_id AS "preseId",
+		a.presc_date AS "prescDate",
+		a.presc_no AS "prescNo",
+		a.item_no AS "itemNo",
+		a.drug_code AS "drugCode",
+		a.drug_spec AS "drugSpec",
+		a.drug_name AS "drugName",
+		a.firm_id AS "firmId",
+		a.package_spec AS "packageSpec",
+		a.package_units AS "packageUnits",
+		a.quantity AS "quantity",
+		a.costs AS "costs",
+		a.payments AS "payments",
+		a.administration AS "administration",
+		a.order_no AS "orderNo",
+		a.order_sub_no AS "orderSubNo",
+		a.dosage_each AS "dosageEach",
+		a.dosage_units AS "dosageUnits",
+		a.frequency AS "frequency",
+		a.freq_detail AS "freqDetail",
+		a.batch_no AS "batchNo",
+		a.abidance AS "abidance",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="drugPrescDetailTempJoins">
+	</sql>
+    
+	<select id="get" resultType="DrugPrescDetailTemp">
+		SELECT 
+			<include refid="drugPrescDetailTempColumns"/>
+		FROM drug_presc_detail_temp a
+		<include refid="drugPrescDetailTempJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DrugPrescDetailTemp">
+		SELECT 
+			<include refid="drugPrescDetailTempColumns"/>
+		FROM drug_presc_detail_temp a
+		<include refid="drugPrescDetailTempJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DrugPrescDetailTemp">
+		SELECT 
+			<include refid="drugPrescDetailTempColumns"/>
+		FROM drug_presc_detail_temp a
+		<include refid="drugPrescDetailTempJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO drug_presc_detail_temp(
+			id,
+			master_id,
+			prese_id,
+			presc_date,
+			presc_no,
+			item_no,
+			drug_code,
+			drug_spec,
+			drug_name,
+			firm_id,
+			package_spec,
+			package_units,
+			quantity,
+			costs,
+			payments,
+			administration,
+			order_no,
+			order_sub_no,
+			dosage_each,
+			dosage_units,
+			frequency,
+			freq_detail,
+			batch_no,
+			abidance,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{masterId},
+			#{preseId},
+			#{prescDate},
+			#{prescNo},
+			#{itemNo},
+			#{drugCode},
+			#{drugSpec},
+			#{drugName},
+			#{firmId},
+			#{packageSpec},
+			#{packageUnits},
+			#{quantity},
+			#{costs},
+			#{payments},
+			#{administration},
+			#{orderNo},
+			#{orderSubNo},
+			#{dosageEach},
+			#{dosageUnits},
+			#{frequency},
+			#{freqDetail},
+			#{batchNo},
+			#{abidance},
+			#{createDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_presc_detail_temp SET 	
+			master_id = #{masterId},
+			prese_id = #{preseId},
+			presc_date = #{prescDate},
+			presc_no = #{prescNo},
+			item_no = #{itemNo},
+			drug_code = #{drugCode},
+			drug_spec = #{drugSpec},
+			drug_name = #{drugName},
+			firm_id = #{firmId},
+			package_spec = #{packageSpec},
+			package_units = #{packageUnits},
+			quantity = #{quantity},
+			costs = #{costs},
+			payments = #{payments},
+			administration = #{administration},
+			order_no = #{orderNo},
+			order_sub_no = #{orderSubNo},
+			dosage_each = #{dosageEach},
+			dosage_units = #{dosageUnits},
+			frequency = #{frequency},
+			freq_detail = #{freqDetail},
+			batch_no = #{batchNo},
+			abidance = #{abidance},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_presc_detail_temp SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

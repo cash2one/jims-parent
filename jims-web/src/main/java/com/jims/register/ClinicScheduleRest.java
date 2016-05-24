@@ -2,6 +2,7 @@ package com.jims.register;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicScheduleApi;
 import com.jims.register.entity.ClinicSchedule;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,18 @@ public class ClinicScheduleRest {
         list=clinicScheduleApi.findList(clinicSchedule);
         return list;
     }
+
+    @POST
+    @Path("findListTable")
+    public List<BaseDto> findListTable(String clinicIndexId){
+        List<BaseDto> list=new ArrayList<BaseDto>();
+        ClinicSchedule clinicSchedule = new ClinicSchedule();
+        clinicSchedule.setClinicLabel(clinicIndexId);
+        list=clinicScheduleApi.findListTable(clinicSchedule);
+        return list;
+    }
+
+
 
     /**
      * 保存 安排录入信息

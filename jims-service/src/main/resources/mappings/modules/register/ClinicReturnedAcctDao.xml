@@ -180,5 +180,7 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+
 	
 </mapper>
