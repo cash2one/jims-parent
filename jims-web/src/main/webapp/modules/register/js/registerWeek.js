@@ -34,7 +34,7 @@ $(function(){
         onClickRow:function(rowIndex,rowData){
             var selectRows = $('#list_data').datagrid("getSelected");
             var clinicIndexId=  selectRows['id'];//号别ID
-            listWeek(clinicIndexId);
+            weekTable(clinicIndexId);
         }
     });
     //设置分页控件
@@ -44,6 +44,7 @@ $(function(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '共 {total} 条记录'
     });
+    /*
     $('#listWeek').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -135,7 +136,47 @@ $(function(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+    */
+    weekTable('1');
 });
+
+function weekTable(id){
+    var html="";
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/clinicSchedule/findListTable',
+        'contentType': 'application/json',
+        'data': clinicIndexId=id,
+        'dataType': 'json',
+        'success': function(data){
+            var a=1;
+            html+="<tr><td></td><td>出诊</td><td>限号数</td><td>限约号数</td><td>出诊</td><td>限号数</td><td>限约号数</td><td>出诊</td>"+
+                "<td>限号数</td><td>限约号数</td><td>出诊</td><td>限号数</td><td>限约号数</td><td>出诊</td><td>限号数</td><td>限约号数</td>"+
+                "<td>出诊</td><td>限号数</td><td>限约号数</td><td>出诊</td><td>限号数</td><td>限约号数</td></tr>";
+            for(var i=1;i<=7;i++ ){
+                html+="<tr><td>"+data[a].time_interval_name+"</td>";
+                for(var j=0;j<7;j++){
+                    a=(i-1)*7+j;
+                    var inputCheckBox="";
+                    if(data[a].cliniclabel=='' ||data[a].cliniclabel==null){
+                        inputCheckBox="<input type='checkbox'  inputText='weekId"+a+"'/>";
+                    }else{
+                        inputCheckBox="<input type='checkbox'  inputText='weekId"+a+"' checked='checked'/>";
+                    }
+                    var id=data[a].id;
+                    if(id==null || id==''|| id=='null'){
+                        id='';
+                    }
+                    html+="<td>"+inputCheckBox+"<input type='hidden' inputValue='weekId"+a+"' submitName='timeDesc' value='"+data[a].sj+"'><input type='hidden' inputValue='weekId"+a+"' submitName='dayOfWeek' value='"+data[a].xx+"'><input type='hidden' inputValue='weekId"+a+"' submitName='id' value='"+id+"'></td>";
+                    html+="<td><input type='text' class='nonbor-inp' value='"+data[a].registrationlimits+"' submitName='registrationLimits'  inputValue='weekId"+a+"'/></td>";
+                    html+="<td><input type='text' class='nonbor-inp' value='"+data[a].appointmentlimits+"'  submitName='appointmentLimits' inputValue='weekId"+a+"'/></td>";
+                }
+                html+="</tr>";
+            }
+            $("#weekTbodyId").html(html);
+        }
+    });
+}
 //加载安排录入list
 function listWeek(clinicIndexId){
     $('#listWeek').datagrid({url:basePath+'/clinicSchedule/findList?clinicIndexId='+clinicIndexId});
@@ -155,13 +196,26 @@ function saveClinicWeek(){
         $.messager.alert("提示消息", "请选中要录入的号别信息!");
         return;
     }
-    var  rows=$('#listWeek').datagrid('getRows');
-    var tableJson=JSON.stringify(rows);
+    var tableJson='[';
+    $("#weekTbodyId input[type=checkbox]:checked").each(function(){
+        var valueInput= $(this).attr("inputText");
+        tableJson+="{";
+        $("input[inputValue='"+valueInput+"']").each(function(){
+            var name=$(this).attr("submitName");
+            var value=$(this).val();
+            tableJson+='"'+name+'":"'+value+'",';
+        });
+        tableJson = tableJson.substring(0, tableJson.length - 1);
+        tableJson+="},";
+    });
+    tableJson = tableJson.substring(0, tableJson.length - 1);
+    tableJson+="]";
     $.postJSON(basePath+'/clinicSchedule/save?clinicIndexId='+clinicIndexId,tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#listWeek').datagrid('load');
-            $('#listWeek').datagrid('clearChecked');
+            var selectRows = $('#list_data').datagrid("getSelected");
+            var clinicIndexId=  selectRows['id'];//号别ID
+            weekTable(clinicIndexId);
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }

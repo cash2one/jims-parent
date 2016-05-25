@@ -59,6 +59,7 @@ function onloadMethod(id,clinicName){
             handler: function() {
                 $("#clinicTypeId").val('');
                 $("#type").val('');
+                $("#type").focus();
                 $('#list_data').datagrid('loadData', { total: 0, rows: [] });
             }
         },'-',{
@@ -125,7 +126,7 @@ clinicTypeList();
 function save(){
     var  rows=$('#list_data').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
-    var type=$("#type").val();
+    var type=encodeURI($("#type").val());
     var clinicTypeId=$("#clinicTypeId").val();
     $.postJSON(basePath+'/clinicType/saveItem?type='+type+'&clinicTypeId='+clinicTypeId,tableJson,function(data){
         if(data.code=='1'){
@@ -146,7 +147,7 @@ function editItem(){
     var selectRows = $('#list_data').datagrid("getSelections");
     if (selectRows.length < 1) {
         $.messager.alert("提示消息", "请选中要修改的数据!");
-        return;
+
     }
 }
 //删除数据
