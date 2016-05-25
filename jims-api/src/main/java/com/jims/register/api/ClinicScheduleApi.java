@@ -1,5 +1,6 @@
 package com.jims.register.api;
 
+import com.jims.common.web.impl.BaseDto;
 import com.jims.register.entity.ClinicSchedule;
 
 import java.util.List;
@@ -17,6 +18,14 @@ public interface ClinicScheduleApi {
      * @author zhaoning
      */
     public List<ClinicSchedule> findList(ClinicSchedule clinicSchedule);
+
+    /**
+     * 查询 安排录入 list
+     * @param clinicSchedule
+     * @return
+     * @author zhaoning
+     */
+    public List<BaseDto> findListTable(ClinicSchedule clinicSchedule);
 
     /**
      * 保存 安排录入

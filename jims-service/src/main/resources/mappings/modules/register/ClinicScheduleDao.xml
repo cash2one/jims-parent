@@ -30,7 +30,15 @@
 		<include refid="clinicScheduleJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="findListTable" resultType="com.jims.common.web.impl.BaseDto">
+        select c.id,c.clinic_label AS clinicLabel,nvl(c.appointment_limits,'0')  AS "appointmentLimits",nvl(c.registration_limits,'0') AS "registrationLimits",f.day_number as xx,f.TIME_INTERVAL_CODE sj,f.time_interval_name from
+      ( select * from CLINIC_SCHEDULE c
+       where c.clinic_label = #{clinicLabel}) c,
+       (select * from DAY_OF_WEEK_DICT d,TIME_INTERVAL_DICT t ) f
+       where c.day_of_week(+) = f.day_number
+       and c.time_desc(+) =  f.time_interval_code
+       order by f.TIME_INTERVAL_CODE,f.day_number
+    </select>
 	<select id="findList" resultType="ClinicSchedule">
 		SELECT
 		a.id                  AS "id",
@@ -141,5 +149,14 @@
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
-	
+
+    <delete id="batchDel" parameterType="java.util.List">
+      delete from clinic_schedule where id not in(
+        <foreach collection="list" item="item" index="index" separator="," >
+            #{item.id}
+        </foreach>
+      )
+
+    </delete>
+
 </mapper>
