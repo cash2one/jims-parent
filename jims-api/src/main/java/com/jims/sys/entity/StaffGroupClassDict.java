@@ -12,42 +12,38 @@ import org.hibernate.validator.constraints.Length;
  * @version 2016-04-18
  */
 public class StaffGroupClassDict extends DataEntity<StaffGroupClassDict> {
-	
-	private static final long serialVersionUID = 1L;
-	private String serialNo;		// 序号
-	private String groupClass;		// GROUP_CLASS
-	private String hosId;		// 医院id
-	
-	public StaffGroupClassDict() {
-		super();
-	}
 
-	public StaffGroupClassDict(String id){
-		super(id);
-	}
+    private static final long serialVersionUID = 1L;
+    private String orgId;        //组织机构id
+    private String groupClass;        // GROUP_CLASS  组名
 
-	public String getSerialNo() {
-		return serialNo;
-	}
+    public StaffGroupClassDict() {
+    }
 
-	public void setSerialNo(String serialNo) {
-		this.serialNo = serialNo;
-	}
-	
-	@Length(min=0, max=16, message="GROUP_CLASS长度必须介于 0 和 16 之间")
-	public String getGroupClass() {
-		return groupClass;
-	}
+    public StaffGroupClassDict(String orgId, String groupClass) {
+        this.orgId = orgId;
+        this.groupClass = groupClass;
+    }
 
-	public void setGroupClass(String groupClass) {
-		this.groupClass = groupClass;
-	}
+    public StaffGroupClassDict(String id, String orgId, String groupClass) {
+        super(id);
+        this.orgId = orgId;
+        this.groupClass = groupClass;
+    }
 
-	public String getHosId() {
-		return hosId;
-	}
+    public String getOrgId() {
+        return orgId;
+    }
 
-	public void setHosId(String hosId) {
-		this.hosId = hosId;
-	}
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getGroupClass() {
+        return groupClass;
+    }
+
+    public void setGroupClass(String groupClass) {
+        this.groupClass = groupClass;
+    }
 }
