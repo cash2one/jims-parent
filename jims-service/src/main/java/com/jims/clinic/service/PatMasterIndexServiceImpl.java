@@ -11,6 +11,8 @@ import com.jims.common.service.impl.CrudImplService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * 病人主索引Service
@@ -20,5 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDao, PatMasterIndex> implements PatMasterIndexServiceApi {
-
+    @Override
+    public List<PatMasterIndex> findList(PatMasterIndex patMasterIndex) {
+        return dao.findList(patMasterIndex);
+    }
 }

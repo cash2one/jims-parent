@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;;
 import org.hibernate.validator.constraints.Length;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -72,6 +73,8 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private PatVisit patVisit;//病人住院记录信息
 	private ClinicMaster clinicMaster;//病人就诊记录
 	private String patientId; //病人id
+
+	private String age;//年龄
 	
 	public PatMasterIndex() {
 		super();
@@ -542,5 +545,35 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 
 	public void setClinicMaster(ClinicMaster clinicMaster) {
 		this.clinicMaster = clinicMaster;
+	}
+
+	public static  String getAge(Date dateOfBirth) {
+		if (dateOfBirth == null){
+			throw new RuntimeException("出生日期不能为null");
+		}
+		int age = 0;
+		Date now = new Date();
+		SimpleDateFormat format_y = new SimpleDateFormat("yyyy");
+		SimpleDateFormat format_M = new SimpleDateFormat("MM");
+
+		String birth_year = format_y.format(dateOfBirth);
+		String this_year = format_y.format(now);
+
+		String birth_month = format_M.format(dateOfBirth);
+		String this_month = format_M.format(now);
+		// 初步，估算
+		age =Integer.parseInt(this_year) - Integer.parseInt(birth_year);
+		// 如果未到出生月份，则age - 1
+		if(this_month.compareTo(birth_month) < 0) {
+			age -= 1;
+		}
+		if (age <0) {
+			age = 0;
+		}
+		return String.valueOf(age);
+	}
+
+	public void setAge(String age) {
+		this.age = age;
 	}
 }
