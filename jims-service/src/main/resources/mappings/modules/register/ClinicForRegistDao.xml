@@ -52,6 +52,7 @@
 		SELECT
 		"CLINIC_FOR_REGIST"."ID" AS id,
 		 "CLINIC_FOR_REGIST"."CLINIC_LABEL" AS clinicLabel,
+		 "CLINIC_FOR_REGIST"."CLINIC_DATE" AS clinicDate,
          "CLINIC_FOR_REGIST"."TIME_DESC" AS timeDesc,
          "CLINIC_FOR_REGIST"."REGISTRATION_LIMITS" AS registrationLimits,
          "CLINIC_FOR_REGIST"."APPOINTMENT_LIMITS" AS appointmentLimits,
@@ -66,7 +67,7 @@
     FROM "CLINIC_FOR_REGIST",
          "CLINIC_INDEX"
    WHERE ( "CLINIC_FOR_REGIST"."CLINIC_LABEL" = "CLINIC_INDEX"."CLINIC_LABEL" ) and
-         ( CLINIC_FOR_REGIST.CLINIC_DATE = to_date(#{date},'yyyy-mm-dd hh24:mi:ss') )
+         ( CLINIC_FOR_REGIST.CLINIC_DATE = to_date(#{date},'yyyy-MM-dd hh24:mi:ss') )
 	</select>
 	<select id="findAllList" resultType="ClinicForRegist">
 		SELECT 
@@ -157,5 +158,9 @@
 	<select id="updateRegisterByReturn">
 		update clinic_for_regist set registration_num =registration_num - 1
 		where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date =to_date(#{clinicDate},'yyyy-MM-dd')
+	</select>
+	<select id="updateRegisterByAppoint">
+		update clinic_for_regist set  appointment_num =0 + 1
+		 where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date=to_date( #{clinicDate} , 'yyyy-mm-dd' )
 	</select>
 </mapper>
