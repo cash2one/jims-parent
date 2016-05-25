@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.phstock.dao.DrugStockDao">
+<mapper namespace="com.jims.phstock.dao.DrugExportDetailDao">
     
-	<sql id="drugStockColumns">
-		a.id AS "id",
-		a.storage AS "storage",
+	<sql id="drugExportDetailColumns">
+		a.document_no AS "documentNo",
+		a.item_no AS "itemNo",
 		a.drug_code AS "drugCode",
 		a.drug_spec AS "drugSpec",
 		a.units AS "units",
 		a.batch_no AS "batchNo",
 		a.expire_date AS "expireDate",
 		a.firm_id AS "firmId",
+		a.import_document_no AS "importDocumentNo",
 		a.purchase_price AS "purchasePrice",
-		a.discount AS "discount",
+		a.retail_price AS "retailPrice",
 		a.package_spec AS "packageSpec",
 		a.quantity AS "quantity",
 		a.package_units AS "packageUnits",
@@ -22,58 +23,31 @@
 		a.sub_package_2 AS "subPackage2",
 		a.sub_package_units_2 AS "subPackageUnits2",
 		a.sub_package_spec_2 AS "subPackageSpec2",
-		a.sub_storage AS "subStorage",
-		a.location AS "location",
-		a.document_no AS "documentNo",
-		a.supply_indicator AS "supplyIndicator",
-		a.supply_mz AS "supplyMz",
+		a.trade_price AS "tradePrice",
+		a.inventory AS "inventory",
+		a.id AS "id",
 		a.org_id AS "orgId",
-		a.create_date AS "createDate",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
-		a.update_by AS "updateBy.id",
-		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
-	</sql>
-
-	<sql id="drugStockJoins">
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
 	</sql>
     
-	<select id="get" resultType="DrugStock">
+	<select id="get" resultType="DrugExportDetail">
 		SELECT 
-			<include refid="drugStockColumns"/>
-		FROM drug_stock a
-		<include refid="drugStockJoins"/>
+			<include refid="drugExportDetailColumns"/>
+		FROM drug_export_detail a
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="DrugStock">
+	<select id="findList" resultType="DrugExportDetail">
 		SELECT 
-			<include refid="drugStockColumns"/>
-		FROM drug_stock a
-		<include refid="drugStockJoins"/>
+			<include refid="drugExportDetailColumns"/>
+		FROM drug_export_detail a
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-            <if test="storage != null and storage != ''">
-                  and a.storage = #{storage}
-            </if>
-            <if test="drugCode != null and drugCode != ''">
-                and a.drug_code = #{drugCode}
-            </if>
-            <if test="drugSpec != null and drugSpec != ''">
-                and a.drug_spec = #{drugSpec}
-            </if>
-            <if test="units != null and units != ''">
-                and a.units = #{units}
-            </if><if test="batchNo != null and batchNo != ''">
-                and a.batch_no = #{batchNo}
-            </if>
-            <if test="orgId != null and orgId != ''">
-                and a.org_id = #{orgId}
-            </if>
-            <if test="packageSpec != null and packageSpec != ''">
-                and a.package_spec = #{packageSpec}
-            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -85,11 +59,10 @@
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="DrugStock">
+	<select id="findAllList" resultType="DrugExportDetail">
 		SELECT 
-			<include refid="drugStockColumns"/>
-		FROM drug_stock a
-		<include refid="drugStockJoins"/>
+			<include refid="drugExportDetailColumns"/>
+		FROM drug_export_detail a
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
@@ -104,17 +77,18 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO drug_stock(
-			id,
-			storage,
+		INSERT INTO drug_export_detail(
+			document_no,
+			item_no,
 			drug_code,
 			drug_spec,
 			units,
 			batch_no,
 			expire_date,
 			firm_id,
+			import_document_no,
 			purchase_price,
-			discount,
+			retail_price,
 			package_spec,
 			quantity,
 			package_units,
@@ -124,29 +98,28 @@
 			sub_package_2,
 			sub_package_units_2,
 			sub_package_spec_2,
-			sub_storage,
-			location,
-			document_no,
-			supply_indicator,
-			supply_mz,
+			trade_price,
+			inventory,
+			id,
 			org_id,
-			create_date,
+			remarks,
+			update_by,
 			create_by,
 			update_date,
-			update_by,
-			remarks,
-			del_flag
+			del_flag,
+			create_date
 		) VALUES (
-			#{id},
-			#{storage},
+			#{documentNo},
+			#{itemNo},
 			#{drugCode},
 			#{drugSpec},
 			#{units},
 			#{batchNo},
 			#{expireDate},
 			#{firmId},
+			#{importDocumentNo},
 			#{purchasePrice},
-			#{discount},
+			#{retailPrice},
 			#{packageSpec},
 			#{quantity},
 			#{packageUnits},
@@ -156,32 +129,32 @@
 			#{subPackage2},
 			#{subPackageUnits2},
 			#{subPackageSpec2},
-			#{subStorage},
-			#{location},
-			#{documentNo},
-			#{supplyIndicator},
-			#{supplyMz},
+			#{tradePrice},
+			#{inventory},
+			#{id},
 			#{orgId},
-			#{createDate},
+			#{remarks},
+			#{updateBy.id},
 			#{createBy.id},
 			#{updateDate},
-			#{updateBy.id},
-			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{createDate}
 		)
 	</insert>
 	
 	<update id="update">
-		UPDATE drug_stock SET 	
-			storage = #{storage},
+		UPDATE drug_export_detail SET 	
+			document_no = #{documentNo},
+			item_no = #{itemNo},
 			drug_code = #{drugCode},
 			drug_spec = #{drugSpec},
 			units = #{units},
 			batch_no = #{batchNo},
 			expire_date = #{expireDate},
 			firm_id = #{firmId},
+			import_document_no = #{importDocumentNo},
 			purchase_price = #{purchasePrice},
-			discount = #{discount},
+			retail_price = #{retailPrice},
 			package_spec = #{packageSpec},
 			quantity = #{quantity},
 			package_units = #{packageUnits},
@@ -191,20 +164,17 @@
 			sub_package_2 = #{subPackage2},
 			sub_package_units_2 = #{subPackageUnits2},
 			sub_package_spec_2 = #{subPackageSpec2},
-			sub_storage = #{subStorage},
-			location = #{location},
-			document_no = #{documentNo},
-			supply_indicator = #{supplyIndicator},
-			supply_mz = #{supplyMz},
+			trade_price = #{tradePrice},
+			inventory = #{inventory},
 			org_id = #{orgId},
-			update_date = #{updateDate},
+			remarks = #{remarks},
 			update_by = #{updateBy.id},
-			remarks = #{remarks}
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE drug_stock SET 
+		UPDATE drug_export_detail SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
