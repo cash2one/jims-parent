@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -87,9 +88,17 @@ public class ClinicForRegistServiceImpl extends CrudImplService<ClinicForRegistD
      * @return
      */
     @Override
-    public List<ClinicForRegist> findListReg() {
-         String currentDate= DateUtils.getDate();
-        return clinicForRegistDao.findListReg(currentDate);
+    public List<ClinicForRegist> findListReg(String status) {
+        List<ClinicForRegist> list=new ArrayList<ClinicForRegist>();
+         if(status.equals("当日")){
+             String currentDate= DateUtils.getDate();
+             list= clinicForRegistDao.findListReg(currentDate);
+         } else if(status.equals("预约")){
+           String tomorrowDate= DateUtils.getTomorrow();
+             list=clinicForRegistDao.findListReg(tomorrowDate);
+         }
+
+        return list;
     }
 
     /**

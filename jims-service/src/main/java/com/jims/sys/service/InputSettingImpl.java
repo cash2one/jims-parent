@@ -205,6 +205,12 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
 
         String param = sb.toString();
         List<InputParamVo> list = inputInfoVo.getInputParamVos();
+        for(int i=0;i<list.size();i++){
+            if(StringUtils.equalsIgnoreCase(list.get(i).getOperateMethod(),"like"))
+            {
+                list.get(i).setColValue("%"+list.get(i).getColValue()+"%");
+            }
+        }
         List<BaseDto> baseDtos = inputSettingDetailDao.listInputDataByParam(param, dictType, list);
 
         return baseDtos;

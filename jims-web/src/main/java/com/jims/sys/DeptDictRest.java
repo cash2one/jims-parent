@@ -39,14 +39,11 @@ public class DeptDictRest {
     @GET
     public List<DeptDict> list(@QueryParam("orgId") String orgId) {
 
-        System.out.print(orgId);
-
         //查询出所有的科室信息
         List<DeptDict> list = deptDictApi.findAllList(orgId);
 
         //查询出所有的科室属性的类型
         List<OrgDeptPropertyDict> listProperty = deptPropertyDictApi.findProperty();
-
         if (listProperty.size() > 0) {
             //遍历所有的科室信息
             for (int i = 0; i < list.size(); i++) {
@@ -54,6 +51,7 @@ public class DeptDictRest {
                 //得到每一个对象的科室属性，以；进行切割
                 String[] str = list.get(i).getDeptPropertity().split(";");
                 //遍历获得的数组
+
                 for (int y = 0; y < str.length; y++) {
                     //得到每一个切割后的科室属性值
                     if (StringUtils.isNotBlank(str[y])) {
@@ -67,7 +65,7 @@ public class DeptDictRest {
                         }
                     }
                 }
-                // sb.deleteCharAt(sb.length() - 1);
+
                 list.get(i).setDeptPropertity(sb.toString());
 
             }
@@ -110,9 +108,18 @@ public class DeptDictRest {
         deptDict.setInputCode(deptDictVo.getInputCode());
         StringBuilder sb = new StringBuilder();
         String deptPropertity[] = deptDictVo.getArray();
-        for (int i = 0; i < deptPropertity.length; i++) {
+        if (deptPropertity.length == 1) {
+            sb.append(deptPropertity[0]);
+        } else {
+            for (int i = 0; i < deptPropertity.length; i++) {
 
                 sb.append(deptPropertity[i] + ";");
+            }
+        }
+
+        if(deptPropertity.length>1)
+        {
+            sb.deleteCharAt(sb.length() - 1);
         }
 
         deptDict.setDeptPropertity(sb.toString());
@@ -140,6 +147,7 @@ public class DeptDictRest {
         stringData.setData("success");
         return stringData;
     }
+
     /**
      * 查询所有的下级科室
      *
@@ -149,7 +157,7 @@ public class DeptDictRest {
     @POST
     public List<DeptDict> findListByCode(String code) {
         int index = code.indexOf("=");
-        code =code.substring(index+1);
+        code = code.substring(index + 1);
         List<DeptDict> list = deptDictApi.findListByCode(code);
         return list;
     }

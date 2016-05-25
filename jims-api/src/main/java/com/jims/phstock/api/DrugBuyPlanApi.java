@@ -41,6 +41,14 @@ public interface DrugBuyPlanApi {
     public String save(List<DrugBuyPlan> recordBatch);
 
     /**
+     * 批量删除和保存
+     * @param recordBatch 需要保存的数据
+     * @param ids 需要删除的Id,多个以 , 隔开
+     * @return
+     */
+    public String saveAndDelete(List<DrugBuyPlan> recordBatch,String ids);
+
+    /**
      * 根据主键进行删除
      * @param ids ，多个主键以 , 隔开
      * @return
