@@ -6,7 +6,7 @@ import com.jims.common.persistence.DataEntity;
 import java.util.Date;
 
 /**
- * 用户反馈转科病人记录Entity
+ * 转科病人记录Entity
  * @author CTQ
  * @version 2016-05-25
  */

@@ -16,5 +16,9 @@ public interface PatMasterIndexServiceApi {
 
     public List<PatMasterIndex> findList(PatMasterIndex patMasterIndex);
 
+    public String saveMasterIndex(PatMasterIndex patMasterIndex);
+
+    public String deleteMasterIndex(String ids);
+
 }
 
