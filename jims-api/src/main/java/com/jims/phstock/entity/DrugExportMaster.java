@@ -3,6 +3,7 @@ package com.jims.phstock.entity;
 import com.jims.common.persistence.DataEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 药品出库主记录Entity
@@ -33,8 +34,27 @@ public class DrugExportMaster extends DataEntity<DrugExportMaster> {
 	private String subReceiver;		// 收货方子单位
 	private String recoveryDocuNo;		// 纠错出库的单据号
 	private String orgId;		// 所属结构
-	
-	public DrugExportMaster() {
+
+    private List<DrugExportDetail> detailList;   // 药品出库明细
+    private String subStorageDeptId;   // 出库子单位ID
+
+    public String getSubStorageDeptId() {
+        return subStorageDeptId;
+    }
+
+    public void setSubStorageDeptId(String subStorageDeptId) {
+        this.subStorageDeptId = subStorageDeptId;
+    }
+
+    public List<DrugExportDetail> getDetailList() {
+        return detailList;
+    }
+
+    public void setDetailList(List<DrugExportDetail> detailList) {
+        this.detailList = detailList;
+    }
+
+    public DrugExportMaster() {
 		super();
 	}
 
