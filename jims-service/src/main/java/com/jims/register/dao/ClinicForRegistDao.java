@@ -47,7 +47,7 @@ public interface ClinicForRegistDao extends CrudDao<ClinicForRegist> {
     public List<ClinicForRegist> findListReg(@Param("date")String date);
 
     /**
-     * 根据，就诊日期，号别名称，就诊时间更新就诊时间
+     * 根据，就诊日期，号别名称，就诊时间,更新号表数据---当日挂号
      * @param clinicDate
      * @param clinicLabel
      * @param timeDesc
@@ -63,4 +63,13 @@ public interface ClinicForRegistDao extends CrudDao<ClinicForRegist> {
      * @author zhaoning
      */
     public void updateRegisterByReturn(@Param("clinicLabel")String clinicLabel,@Param("timeDesc")String timeDesc,@Param("clinicDate")String clinicDate);
+
+    /**
+     * 根据，就诊日期，号别名称，就诊时间,更新号表数据---预约挂号
+     * @param clinicDate
+     * @param clinicLabel
+     * @param timeDesc
+     * @author zhaoning
+     */
+    public  void updateRegisterByAppoint(@Param("clinicDate")String clinicDate,@Param("clinicLabel")String clinicLabel,@Param("timeDesc")String timeDesc);
 }
