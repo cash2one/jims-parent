@@ -13,6 +13,7 @@
 	<!-- Favicons -->
     <link rel="icon" href="/static/images/favicons/16X16.ico">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/modules/sys/js/register.js"></script>
 
 
 </head>
@@ -21,22 +22,22 @@
 		<div class="reg-inp">
 			<div class="fd-left regl-text">
 				<ul>
-					<li>
-						<input type="text" placeholder="姓名" class="inptext l-inptext"/>
-						<span class="font-red">*请输入正确的姓名</span>
-					</li>
-					<li><input type="text" placeholder="身份证号" class="inptext l-inptext"/>
-					<span class="font-gray">*请输入正确的身份证号</span></li>
-					<li><input type="text" placeholder="用户名" class="inptext l-inptext"/>
-					<span class="font-gray">*6-12位数字字符</span></li>				
-					<li><input type="text" placeholder="Email" class="inptext l-inptext"/>
-					<span class="font-red">*</span></li>
-					<li><input type="text" placeholder="手机号" class="inptext l-inptext"/>
-					<span class="font-red">*</span></li>
-					<li><input type="text" placeholder="密码" class="inptext l-inptext"/>
-					<span class="font-red">*</span></li>
-				</ul>
-				<button class="lr-btn reg-btn" onclick="window.location.href=('/modules/sys/index.html')"></button><br/>
+                <li>
+                    <input type="text" placeholder="姓名" class="inptext l-inptext" id="name"/>
+                    <span class="font-red" id="res-name" >*请输入正确的姓名</span>
+                </li>
+                <li><input type="text" placeholder="身份证号" class="inptext l-inptext" id="cardNo"/>
+                    <span class="font-gray" id="res-card">*请输入正确的身份证号</span></li>
+                <li><input type="text" placeholder="用户名" class="inptext l-inptext" id="nickName"/>
+                    <span class="font-gray" id="res-nick">*6-12位数字字符</span></li>
+                <li><input type="text" placeholder="Email" class="inptext l-inptext" id="email"/>
+                    <span class="font-red" id="res-email">*</span></li>
+                <li><input type="text" placeholder="手机号" class="inptext l-inptext" id="phoneNum"/>
+                    <span class="font-red" id="res-phone">*</span></li>
+                <li><input type="password" placeholder="密码" class="inptext l-inptext" id="password"/>
+                    <span class="font-red" id="res-password">*</span></li>
+            </ul>
+                <button class="lr-btn reg-btn" id="btnSubmit" ></button><br/>
 			</div>
 			<div class="fd-left regl-server">
 				填写完左侧信息，即可零距离体验如下超值服务：<br/>
