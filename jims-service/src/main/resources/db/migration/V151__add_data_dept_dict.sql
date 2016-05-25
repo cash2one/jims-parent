@@ -198,8 +198,6 @@ insert into DEPT_DICT (id, parent_id, dept_name, dept_code, dept_propertity, org
 values ('C8F51E3369A84651879D84E848CB615C', 'EFAA539AFA2546C582FD3858C694896C', '神经外科门诊', '130801', '0;0;1', '1', 'SJWKMZ', null, null, null, null, '0', null);
 insert into DEPT_DICT (id, parent_id, dept_name, dept_code, dept_propertity, org_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date)
 values ('46D3A2329E1C45E29C55626954E9CDBF', 'EFAA539AFA2546C582FD3858C694896C', '神经外科病房', '130802', '0;1;1', '1', 'SJWKZY', null, null, null, null, '0', null);
-commit;
-prompt 100 records committed...
 insert into DEPT_DICT (id, parent_id, dept_name, dept_code, dept_propertity, org_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date)
 values ('88871F90EC6147A8A40482D8A2E1E0CE', '7E182436497F4A02A13F5B0B367E92E9', '泌尿外科', '1309', '0;2;1', '1', 'MNWK', null, null, null, null, '0', null);
 insert into DEPT_DICT (id, parent_id, dept_name, dept_code, dept_propertity, org_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date)
