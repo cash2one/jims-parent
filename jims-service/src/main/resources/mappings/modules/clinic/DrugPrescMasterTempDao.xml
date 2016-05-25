@@ -109,8 +109,10 @@
 		 DRUG_PRESC_MASTER_TEMP.DISPENSARY = #{dispensary}
 		 AND DRUG_PRESC_MASTER_TEMP.DISPENSARY_SUB = #{dispensarySub}
 		 AND (drug_PRESC_MASTER_TEMP.presc_source = 0 OR drug_PRESC_MASTER_TEMP.presc_source is null)
-		 and(outp_presc.DRUG_PRESC_DATE(+) =drug_PRESC_MASTER_TEMP.PRESC_DATE and outp_presc.DRUG_PRESC_NO(+) =drug_PRESC_MASTER_TEMP.PRESC_NO )
+
+		 and outp_presc.PRESC_NO(+) =drug_PRESC_MASTER_TEMP.PRESC_NO
 		 and outp_presc.CHARGE_INDICATOR(+) = 1
+		 and  DRUG_PRESC_MASTER_TEMP.del_flag = '0'
 	 </select>
 
 
@@ -294,5 +296,9 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+	<delete id="deleteMaster">
+        delete drug_presc_master_temp
+        where id = #{id}
+	</delete>
 </mapper>

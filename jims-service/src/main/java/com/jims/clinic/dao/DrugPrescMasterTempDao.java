@@ -24,4 +24,13 @@ public interface DrugPrescMasterTempDao extends CrudDao<DrugPrescMasterTemp> {
      * @return
      */
     public List<DrugPrescMasterTemp> getPrescMasterTemp(@Param(value = "dispensary")String dispensary,@Param(value = "dispensarySub")String dispensarySub);
+
+
+    /**
+     * 确认发药
+     * @param id
+     * @return
+     */
+    public int deleteMaster(@Param(value = "id")String id);
+
 }

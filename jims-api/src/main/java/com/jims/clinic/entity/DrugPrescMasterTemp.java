@@ -5,6 +5,7 @@ package com.jims.clinic.entity;
 import com.jims.common.persistence.DataEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 待发处方门诊主表Entity
@@ -27,7 +28,7 @@ public class DrugPrescMasterTemp extends DataEntity<DrugPrescMasterTemp> {
 	private String chargeType;		// 费别
 	private String unitInContract;		// 病人合同单位
 	private String prescType;		// 处方类别
-	private String prescAttr;		// 厨房属性
+	private String prescAttr;		// 处方属性
 	private Integer prescSource;		// 处方来源
 	private Integer repetition;		// 剂数
 	private Double costs;		// 费用
@@ -57,6 +58,7 @@ public class DrugPrescMasterTemp extends DataEntity<DrugPrescMasterTemp> {
 	private String dispensarySub;		// 发药子药局
 	private Integer flag;		// 退药标志
 	private String clinicNo;		// clinic_no
+	private List<DrugPrescDetailTemp> drugPrescDetailTemps;
 	
 	public DrugPrescMasterTemp() {
 		super();
@@ -453,4 +455,11 @@ public class DrugPrescMasterTemp extends DataEntity<DrugPrescMasterTemp> {
 		this.clinicNo = clinicNo;
 	}
 
+	public List<DrugPrescDetailTemp> getDrugPrescDetailTemps() {
+		return drugPrescDetailTemps;
+	}
+
+	public void setDrugPrescDetailTemps(List<DrugPrescDetailTemp> drugPrescDetailTemps) {
+		this.drugPrescDetailTemps = drugPrescDetailTemps;
+	}
 }

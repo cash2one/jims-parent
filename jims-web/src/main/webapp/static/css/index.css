@@ -735,7 +735,17 @@ ul.cus-list li a span.cus-name
 {
     color:#698f18;
 }
-
+.topcus-newwidth > ul > li
+{
+    width:20% !important;
+}
+.topcus-newwidth > ul > li > span
+{
+    width:60px;
+    text-align:right;
+    display:inline-block;
+    color:#000 !important;
+}
 .dropdown-menu {
     position: absolute;
     top: 100%;

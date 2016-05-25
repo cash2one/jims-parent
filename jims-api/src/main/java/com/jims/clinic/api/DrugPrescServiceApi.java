@@ -1,20 +1,18 @@
-package com.jims.clinic.dao;
-
+package com.jims.clinic.api;
 
 import com.jims.clinic.entity.DrugPrescDetail;
 import com.jims.clinic.entity.DrugPrescMaster;
-import com.jims.common.persistence.CrudDao;
-import com.jims.common.persistence.annotation.MyBatisDao;
 
 import java.util.List;
 
 /**
- * 药品处方主记录DAO接口
- * @author pq
- * @version 2016-05-24
+ * 药品处方的API
+ *
+ * @author PangQian
+ * @date2016/5/25 0025
  */
-@MyBatisDao
-public interface DrugPrescMasterDao extends CrudDao<DrugPrescMaster> {
+public interface DrugPrescServiceApi {
+
     /**
      * 保存药品处方主表
      * @param drugPrescMaster
