@@ -157,7 +157,7 @@ function weekTable(id){
                 html+="<tr><td>"+data[a].time_interval_name+"</td>";
                 for(var j=0;j<7;j++){
                     a=(i-1)*7+j;
-                    var inputCheckBox="";
+                    var inputCheckBox=""
                     if(data[a].cliniclabel=='' ||data[a].cliniclabel==null){
                         inputCheckBox="<input type='checkbox'  inputText='weekId"+a+"'/>";
                     }else{
@@ -204,18 +204,17 @@ function saveClinicWeek(){
             var name=$(this).attr("submitName");
             var value=$(this).val();
             tableJson+='"'+name+'":"'+value+'",';
-        });
+        })
         tableJson = tableJson.substring(0, tableJson.length - 1);
         tableJson+="},";
-    });
+    })
     tableJson = tableJson.substring(0, tableJson.length - 1);
     tableJson+="]";
     $.postJSON(basePath+'/clinicSchedule/save?clinicIndexId='+clinicIndexId,tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            var selectRows = $('#list_data').datagrid("getSelected");
-            var clinicIndexId=  selectRows['id'];//号别ID
-            weekTable(clinicIndexId);
+            $('#listWeek').datagrid('load');
+            $('#listWeek').datagrid('clearChecked');
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }
