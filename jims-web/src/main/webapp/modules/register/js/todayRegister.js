@@ -56,7 +56,6 @@ function saveClinic(){
     $('.simInput').each(function (index, element) {
         tableJson+='{"id":"'+$(this).val()+'"},';
     })
-    alert(tableJson);
     tableJson = tableJson.substring(0, tableJson.length - 1);
     tableJson+="]";
     var formJson=fromJson('clinicForm');
@@ -72,8 +71,44 @@ function saveClinic(){
         }
 
     }),function(data){
-        $.messager.alert("提示信息","保存失败","error");
+        $.messager.alert("提示信息","保存失败","errorzn");
     }
+}
+//根据条件查询退号信息
+function searchReturn(){
+    var visitDate =$("#visitDate").datebox('getValue');
+    var visitNo=$("#visitNo").val();
+    $.get(basePath+'/clinicReturned/getClinicMaster?visitDate='+visitDate+'&visitNo='+visitNo,function(data){
+        $("#regreteatInfo").form('load',data);
+    });
+}
+//退号
+function clinicReturnInfo(){
+   /* var formJson=fromJson('regreteatInfo');
+    alert(formJson);*/
+    var clinicId=$("#clinicId").val();
+    var charge=$("#charge").val();
+    var returnDate=$("#returnDate").val();
+    if(returnDate!=null && returnDate!=''){
+        $.messager.alert("提示信息","该病人已经退号请勿重复操作");
+        return;
+    }
+    $.messager.confirm("确认消息", "确认进行退号？", function () {
+        $.messager.alert("提示信息","请退还病人"+charge+"元");
+        $.post(basePath+'/clinicReturned/returnedAcct?id='+clinicId,function(data){
+            if(data.code=="1"){
+                $.messager.alert("提示信息","退号成功");
+               // window.location.reload();
+                searchReturn();
+            }else{
+                $.messager.alert("提示信息","退号失败","error");
+            }
+
+        }),function(data){
+            $.messager.alert("提示信息","退号失败","errorzn");
+        }
+    })
+
 }
 
 

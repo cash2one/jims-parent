@@ -213,8 +213,9 @@ function saveClinicWeek(){
     $.postJSON(basePath+'/clinicSchedule/save?clinicIndexId='+clinicIndexId,tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#listWeek').datagrid('load');
-            $('#listWeek').datagrid('clearChecked');
+            var selectRows = $('#list_data').datagrid("getSelected");
+            var clinicIndexId=  selectRows['id'];//号别ID
+            weekTable(clinicIndexId);
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }
