@@ -15,6 +15,7 @@ import java.util.List;
 public class DrugPrescMasterTemp extends DataEntity<DrugPrescMasterTemp> {
 	
 	private static final long serialVersionUID = 1L;
+	private String outRescId;//处方收费明细Id
 	private String orgId;		// 医院ID
 	private Date prescDate;		// 处方日期
 	private Integer prescNo;		// 处方号
@@ -461,5 +462,13 @@ public class DrugPrescMasterTemp extends DataEntity<DrugPrescMasterTemp> {
 
 	public void setDrugPrescDetailTemps(List<DrugPrescDetailTemp> drugPrescDetailTemps) {
 		this.drugPrescDetailTemps = drugPrescDetailTemps;
+	}
+
+	public String getOutRescId() {
+		return outRescId;
+	}
+
+	public void setOutRescId(String outRescId) {
+		this.outRescId = outRescId;
 	}
 }
