@@ -8,6 +8,7 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.entity.ClinicSchedule;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,6 +21,6 @@ import java.util.List;
 public interface ClinicScheduleDao extends CrudDao<ClinicSchedule> {
     public List<BaseDto> findListTable(ClinicSchedule clinicSchedule);
 
-    public  int batchDel(List<ClinicSchedule> list);
+    public  int batchDel(List<ClinicSchedule> list,@Param("clinicTypeId")String clinicTypeId);
 	
 }

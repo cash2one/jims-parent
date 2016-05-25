@@ -43,10 +43,11 @@ function appointsRegister(){
     var formJson=fromJson('patMasterInfo');
     formJson = formJson.substring(0, formJson.length - 1);
     var submitJson=formJson+",\"clinicForRegistList\":"+tableJson+"}";
+    alert(submitJson);
     $.postJSON(basePath+'/clinicAppoints/saveAppoints',submitJson,function(data){
         if(data.code=="1"){
             $.messager.alert("提示信息","预约成功");
-            window.location.reload();
+            $("#patMasterInfo").form('clear');
         }else{
             $.messager.alert("提示信息","预约失败","error");
         }

@@ -52,17 +52,17 @@ public class ClinicAppointsRest {
     @Path("searchAppoints")
     public List<ClinicAppoints> searchAppointsList(@QueryParam("clinicNo")String clinicNo,@QueryParam("name")String name,
                                                    @QueryParam("cardNo")String cardNo,@QueryParam("visitDate")String visitDate)throws Exception{
-        ClinicAppoints clinicAppoints = new ClinicAppoints();
-        List<ClinicAppoints> list=new ArrayList<ClinicAppoints>();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        clinicAppoints.setName(name);
-        clinicAppoints.setCardNo(cardNo);
-        if(visitDate!=null && !visitDate.equals("")){
-            clinicAppoints.setVisitDateAppted(format.parse(visitDate));
-        }
-        list=clinicAppointsServiceApi.findList(clinicAppoints);
+
+        List<ClinicAppoints>  list=clinicAppointsServiceApi.findListAppoints(name,cardNo,visitDate);
         return list;
     }
+
+    /**
+     * 根据id获取对象
+     * @param id
+     * @return
+     * @author zhaoning
+     */
     @GET
     @Path("get")
     public ClinicAppoints get(@QueryParam("id")String id){
@@ -79,6 +79,34 @@ public class ClinicAppointsRest {
     public StringData saveAppointReg(PatMasterIndex patMasterIndex){
         StringData data=new StringData();
         data.setCode(clinicAppointsServiceApi.saveAppointReg(patMasterIndex));
+        return data;
+    }
+
+    /**
+     * 删除预约信息
+     * @param id
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("deleteAppoints")
+    public StringData deleteAppoints(String id){
+        StringData data =new StringData();
+        data.setCode(clinicAppointsServiceApi.deleteAppoints(id));
+        return data;
+    }
+
+    /**
+     * 编辑预约信息
+     * @param clinicAppoints
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("editAppoints")
+    public StringData editAppoints(ClinicAppoints clinicAppoints){
+        StringData data=new StringData();
+        data.setCode(clinicAppointsServiceApi.editAppoints(clinicAppoints));
         return data;
     }
  }

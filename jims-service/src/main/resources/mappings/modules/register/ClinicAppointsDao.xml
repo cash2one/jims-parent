@@ -91,8 +91,7 @@
 				AND a.card_no=#{cardNo}
 			</if>
 			<if test="visitDateAppted!=null and visitDateAppted!=''">
-				AND a.visit_date_appted=to_date(#{visitDateAppted},'yyyy-mm-dd')
-
+				AND a.visit_date_appted=#{visitDateAppted}
 			</if>
 		</where>
 		<choose>
@@ -215,5 +214,57 @@
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
-	
+	<select id="findListAppoints" resultType="ClinicAppoints">
+		SELECT
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.visit_date_appted AS "visitDateAppted",
+		a.clinic_label AS "clinicLabel",
+		a.patient_id AS "patientId",
+		a.visit_time_appted AS "visitTimeAppted",
+		a.appt_made_date AS "apptMadeDate",
+		a.mode_code AS "modeCode",
+		a.card_name AS "cardName",
+		a.card_no AS "cardNo",
+		a.serial_no AS "serialNo",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.age AS "age",
+		a.id_no AS "idNo",
+		a.identity AS "identity",
+		a.charge_type AS "chargeType",
+		a.insurance_no AS "insuranceNo",
+		a.insurance_type AS "insuranceType",
+		a.unit_in_contract AS "unitInContract",
+		a.name_phonetic AS "namePhonetic",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		b.clinic_dept AS "clinicDept",
+		b.doctor AS "doctor",
+		b.doctor_title AS doctorTitle,
+		c.clinic_type_name AS clinicType,
+		b.clinic_position AS clinicPosition
+		FROM clinic_appoints a,clinic_index b,clinic_type_setting c
+		<where>
+			a.clinic_label=b.clinic_label(+)
+			AND
+			c.id=b.clinic_type
+			AND
+			a.del_flag = '0'
+			<if test="name!=null and name!=''">
+				AND a.name=#{name}
+			</if>
+			<if test="cardNo!=null and cardNo!=''">
+				AND a.card_no=#{cardNo}
+			</if>
+			<if test="visitDate!=null and visitDate!=''">
+				AND a.visit_date_appted=to_date(#{visitDate},'yyyy-MM-dd')
+			</if>
+
+		</where>
+	</select>
 </mapper>

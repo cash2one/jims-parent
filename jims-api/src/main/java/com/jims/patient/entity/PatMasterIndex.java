@@ -24,7 +24,7 @@ import java.util.List;
 public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hosid;		// 医院ID
+	private String orgId;		// 医院ID
 	private String inpNo;		// 住院号
 	private String name;		// 姓名
 	private String namePhonetic;		// 姓名拼音
@@ -96,16 +96,13 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 		this.patientId = patientId;
 	}
 
-	@Length(min=0, max=128, message="医院ID长度必须介于 0 和 128 之间")
-	public String getHosid() {
-		return hosid;
+	public String getOrgId() {
+		return orgId;
 	}
 
-	public void setHosid(String hosid) {
-		this.hosid = hosid;
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
-	
-	@Length(min=0, max=20, message="住院号长度必须介于 0 和 20 之间")
 	public String getInpNo() {
 		return inpNo;
 	}
