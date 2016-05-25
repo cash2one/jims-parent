@@ -40,6 +40,40 @@ public class DrugBuyPlanService extends CrudImplService<DrugBuyPlanDao, DrugBuyP
     }
 
     /**
+     * 批量删除和保存
+     * @param recordBatch 需要保存的数据
+     * @param ids 需要删除的Id,多个以 , 隔开
+     * @return
+     */
+    public String saveAndDelete(List<DrugBuyPlan> recordBatch,String ids){
+        String result = "0";
+        try{
+            // 由于采购单据号、采购单序号唯一，所以必须先删除，才能保证保存的成功
+            if(ids != null) {
+                String[] id = ids.split(",");
+                for (int j = 0; j < id.length; j++) {
+                    dao.deleteInfo(id[j]);
+                }
+            }
+             if(recordBatch != null) {
+                 for (DrugBuyPlan entity : recordBatch) {
+                     if (entity.getId() != null) {
+                         entity.preUpdate();
+                         dao.update(entity);
+                     } else {
+                         entity.preInsert();
+                         dao.insert(entity);
+                     }
+                 }
+             }
+            result = "1";
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
      * 根据参数删除
      * @param buyId 采购单据号
      * @param orgId 所属机构ID
