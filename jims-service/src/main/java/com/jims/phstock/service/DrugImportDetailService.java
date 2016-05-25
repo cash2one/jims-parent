@@ -24,16 +24,38 @@ import java.util.List;
  */
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
-public class DrugImportDetailService extends CrudImplService<DrugImportMasterDao, DrugImportMaster> implements DrugImportServiceApi{
+public class DrugImportDetailService extends CrudImplService<DrugImportDetailDao, DrugImportDetail> implements DrugImportServiceApi{
 
     @Autowired
-    private DrugImportDetailDao detailDao;
+    private DrugImportMasterDao masterDao;
 
     @Autowired
     private DrugStockDao stockDao;
 
     @Autowired
     private DrugSubStorageDeptDao subStorageDeptDao;
+
+    /**
+     * 保存药品出库主表数据
+     * @param entity
+     * @return
+     */
+    @Override
+    public String save(DrugImportMaster entity) {
+        int i=0;
+        try{
+            if (entity.getIsNewRecord()){
+                entity.preInsert();
+                i=masterDao.insert(entity);
+            }else{
+                entity.preUpdate();
+                i=masterDao.update(entity);
+            }
+        }catch(Exception e){
+            return i+"";
+        }
+        return i+"";
+    }
 
     /**
      * 保存药品入库单主单和明细
@@ -51,7 +73,8 @@ public class DrugImportDetailService extends CrudImplService<DrugImportMasterDao
                 subStorageDept.preUpdate();
                 subStorageDeptDao.update(subStorageDept);
                 // 保存入库单主表
-                save(master);
+                master.preInsert();
+                masterDao.insert(master);
                 //保存入库单明细表
                 List<DrugImportDetail> details = master.getDetailList();
                 if(details != null && details.size() > 0){
@@ -64,6 +87,7 @@ public class DrugImportDetailService extends CrudImplService<DrugImportMasterDao
                         stock.setFirmId(detail.getFirmId());
                         stock.setBatchNo(detail.getBatchNo());
                         stock.setOrgId(detail.getOrgId());
+                        stock.setPackageSpec(detail.getPackageSpec());
                         List<DrugStock> stocks = stockDao.findList(stock);
                         if (stocks != null && stocks.size() > 0) {
                             stock = stocks.get(0);
@@ -79,7 +103,6 @@ public class DrugImportDetailService extends CrudImplService<DrugImportMasterDao
                                 stock.setExpireDate(detail.getExpireDate());
                                 stock.setPurchasePrice(detail.getPurchasePrice());
                                 stock.setDiscount(detail.getDiscount());
-                                stock.setPackageSpec(detail.getPackageSpec());
                                 stock.setQuantity(detail.getQuantity());
                                 stock.setPackageUnits(detail.getPackageUnits());
                                 stock.setSubPackage1(detail.getSubPackage1());
@@ -96,8 +119,7 @@ public class DrugImportDetailService extends CrudImplService<DrugImportMasterDao
                             }
                         }
                         detail.setInventory(quantity);
-                        detail.preInsert();
-                        detailDao.insert(detail);
+                        save(detail);
                     }
                 }
                 result = "1";

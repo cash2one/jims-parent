@@ -71,6 +71,9 @@
             <if test="orgId != null and orgId != ''">
                 and a.org_id = #{orgId}
             </if>
+            <if test="packageSpec != null and packageSpec != ''">
+                and a.package_spec = #{packageSpec}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

@@ -35,6 +35,16 @@ public class DrugExportDetail extends DataEntity<DrugExportDetail> {
 	private Double tradePrice;		// 批发价
 	private Double inventory;		// 出库后库存数
 	private String orgId;		// 所属结构
+
+    private String drugStockId;   // 药品库存Id
+
+    public String getDrugStockId() {
+        return drugStockId;
+    }
+
+    public void setDrugStockId(String drugStockId) {
+        this.drugStockId = drugStockId;
+    }
 	
 	public DrugExportDetail() {
 		super();

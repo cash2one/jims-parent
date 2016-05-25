@@ -101,7 +101,7 @@ $(function () {
         var _allData = $('#drug-import').datagrid('getRows')
         for (var i = 0, j = _allData.length - 1; i < j; i++) {
             if (i != currentSelectIndex && _allData[i].drugCode == o['drugCode']
-                && _allData[i].packSpec == o['packSpec'] && _allData[i].packUnit == o['packUnit']) {
+                && _allData[i].drugSpec == o['packSpec'] && _allData[i].units == o['packUnit']) {
                 return true
             }
         }
@@ -451,9 +451,9 @@ $(function () {
                             if (newV != oldV)return
                         },
                         filter: function (field, row) {
-                            if (row.drugCode.toUpperCase().indexOf(field.toUpperCase()) > -1
-                                || row.drugName.toUpperCase().indexOf(field.toUpperCase()) > -1
-                                || row.inputCode.toUpperCase().indexOf(field.toUpperCase()) > -1) {
+                            if (field && (row.drugCode && row.drugCode.toUpperCase().indexOf(field.toUpperCase()) == 0)
+                                || (row.drugName && row.drugName.toUpperCase().indexOf(field.toUpperCase()) == 0)
+                                || (row.inputCode && row.inputCode.toUpperCase().indexOf(field.toUpperCase()) == 0)) {
                                 return true
                             }
                         },
@@ -639,12 +639,12 @@ $(function () {
         var _oldDrugName = _importTableRow.drugName
 
         var initData = function (drugPrice, drugDict) {
-            var _o = {
+            var drugParam = {
                 drugCode: drugPrice.drugCode
                 , packSpec: drugPrice.drugSpec
                 , packUnit: drugPrice.units
             }
-            if (chargeDrugExisted(_o)) {
+            if (chargeDrugExisted(drugParam)) {
                 $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
                 rollBack(_oldDrugName)
                 return
@@ -660,7 +660,6 @@ $(function () {
             _importTableRow.retailPrice = drugPrice.retailPrice
             _importTableRow.tradePrice = drugPrice.tradePrice
             _importTableRow.purchasePrice = drugPrice.retailPrice
-
             $('#drug-import').datagrid('endEdit', currentSelectIndex)
             _tempFlag = true
         }
