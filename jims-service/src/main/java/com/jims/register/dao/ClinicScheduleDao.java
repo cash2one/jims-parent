@@ -6,7 +6,10 @@ package com.jims.register.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.register.entity.ClinicSchedule;
+
+import java.util.List;
 
 /**
  * 号别安排DAO接口
@@ -15,5 +18,8 @@ import com.jims.register.entity.ClinicSchedule;
  */
 @MyBatisDao
 public interface ClinicScheduleDao extends CrudDao<ClinicSchedule> {
+    public List<BaseDto> findListTable(ClinicSchedule clinicSchedule);
+
+    public  int batchDel(List<ClinicSchedule> list);
 	
 }

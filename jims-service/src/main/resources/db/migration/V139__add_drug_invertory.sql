@@ -23,7 +23,8 @@ create table DRUG_INVENTORY_CHECK
   UPDATE_DATE      DATE,
   DEL_FLAG         VARCHAR2(100),
   CREATE_DATE      DATE,
-  ID               VARCHAR2(64) not null
+  ID               VARCHAR2(64) not null,
+  ORG_ID           varchar2(64)
 );
 -- Add comments to the table
 comment on table DRUG_INVENTORY_CHECK

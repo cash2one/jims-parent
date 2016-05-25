@@ -54,6 +54,23 @@
 		<include refid="drugStockJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="storage != null and storage != ''">
+                  and a.storage = #{storage}
+            </if>
+            <if test="drugCode != null and drugCode != ''">
+                and a.drug_code = #{drugCode}
+            </if>
+            <if test="drugSpec != null and drugSpec != ''">
+                and a.drug_spec = #{drugSpec}
+            </if>
+            <if test="units != null and units != ''">
+                and a.units = #{units}
+            </if><if test="batchNo != null and batchNo != ''">
+                and a.batch_no = #{batchNo}
+            </if>
+            <if test="orgId != null and orgId != ''">
+                and a.org_id = #{orgId}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

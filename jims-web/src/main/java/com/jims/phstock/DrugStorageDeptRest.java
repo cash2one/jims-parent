@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.phstock.api.DrugStorageDeptServiceApi;
 import com.jims.phstock.entity.DrugStorageDept;
+import com.jims.phstock.entity.DrugSubStorageDept;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.stereotype.Component;
 
@@ -25,14 +26,17 @@ public class DrugStorageDeptRest {
     /**
      * 获取药品库存单位字典列表
      * @param orgId 某个医院的唯一orgId
+     * @param storageType 单位性质
      * @return 字典列表的集合
      * @author fyg
      */
     @GET
     @Path("list")
-    public List<DrugStorageDept> list(@QueryParam("orgId")String orgId){
+    public List<DrugStorageDept> list(@QueryParam("orgId")String orgId,
+                                      @QueryParam("storageType") String storageType){
         DrugStorageDept drugStorageDept = new DrugStorageDept();
         drugStorageDept.setOrgId(orgId);
+        drugStorageDept.setStorageType(storageType);
         return drugStorageDeptService.findList(drugStorageDept);
     }
 
@@ -54,5 +58,24 @@ public class DrugStorageDeptRest {
             stringData.setData("error");
         }
         return stringData;
+    }
+
+    /**
+     * 获取药品库存单位子单位
+     * @param orgId 所属机构
+     * @param storageCode  库存单位编码
+     * @return
+     */
+    @GET
+    @Path("findSubList")
+    public List<DrugSubStorageDept> findSubList(@QueryParam("orgId")String orgId
+            ,@QueryParam("storageCode")String storageCode){
+        return drugStorageDeptService.findSubList(orgId,storageCode);
+    }
+
+    @POST
+    @Path("saveSub")
+    public String saveSub(DrugSubStorageDept sub){
+        return drugStorageDeptService.saveSub(sub);
     }
 }

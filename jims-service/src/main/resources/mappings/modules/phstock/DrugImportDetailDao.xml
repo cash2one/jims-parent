@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugImportDetailDao">
+    
+	<sql id="drugImportDetailColumns">
+		a.document_no AS "documentNo",
+		a.item_no AS "itemNo",
+		a.drug_code AS "drugCode",
+		a.drug_spec AS "drugSpec",
+		a.units AS "units",
+		a.batch_no AS "batchNo",
+		a.expire_date AS "expireDate",
+		a.firm_id AS "firmId",
+		a.purchase_price AS "purchasePrice",
+		a.discount AS "discount",
+		a.retail_price AS "retailPrice",
+		a.package_spec AS "packageSpec",
+		a.quantity AS "quantity",
+		a.package_units AS "packageUnits",
+		a.sub_package_1 AS "subPackage1",
+		a.sub_package_units_1 AS "subPackageUnits1",
+		a.sub_package_spec_1 AS "subPackageSpec1",
+		a.sub_package_2 AS "subPackage2",
+		a.sub_package_units_2 AS "subPackageUnits2",
+		a.sub_package_spec_2 AS "subPackageSpec2",
+		a.invoice_no AS "invoiceNo",
+		a.invoice_date AS "invoiceDate",
+		a.trade_price AS "tradePrice",
+		a.inventory AS "inventory",
+		a.memo AS "memo",
+		a.order_batch AS "orderBatch",
+		a.voucher_no AS "voucherNo",
+		a.tender_no AS "tenderNo",
+		a.invoice_sign AS "invoiceSign",
+		a.origin AS "origin",
+		a.production_date AS "productionDate",
+		a.produce_date AS "produceDate",
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="drugImportDetailJoins">
+	</sql>
+    
+	<select id="get" resultType="DrugImportDetail">
+		SELECT 
+			<include refid="drugImportDetailColumns"/>
+		FROM drug_import_detail a
+		<include refid="drugImportDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DrugImportDetail">
+		SELECT 
+			<include refid="drugImportDetailColumns"/>
+		FROM drug_import_detail a
+		<include refid="drugImportDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DrugImportDetail">
+		SELECT 
+			<include refid="drugImportDetailColumns"/>
+		FROM drug_import_detail a
+		<include refid="drugImportDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO drug_import_detail(
+			document_no,
+			item_no,
+			drug_code,
+			drug_spec,
+			units,
+			batch_no,
+			expire_date,
+			firm_id,
+			purchase_price,
+			discount,
+			retail_price,
+			package_spec,
+			quantity,
+			package_units,
+			sub_package_1,
+			sub_package_units_1,
+			sub_package_spec_1,
+			sub_package_2,
+			sub_package_units_2,
+			sub_package_spec_2,
+			invoice_no,
+			invoice_date,
+			trade_price,
+			inventory,
+			memo,
+			order_batch,
+			voucher_no,
+			tender_no,
+			invoice_sign,
+			origin,
+			production_date,
+			produce_date,
+			id,
+			org_id,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{documentNo},
+			#{itemNo},
+			#{drugCode},
+			#{drugSpec},
+			#{units},
+			#{batchNo},
+			#{expireDate},
+			#{firmId},
+			#{purchasePrice},
+			#{discount},
+			#{retailPrice},
+			#{packageSpec},
+			#{quantity},
+			#{packageUnits},
+			#{subPackage1},
+			#{subPackageUnits1},
+			#{subPackageSpec1},
+			#{subPackage2},
+			#{subPackageUnits2},
+			#{subPackageSpec2},
+			#{invoiceNo},
+			#{invoiceDate},
+			#{tradePrice},
+			#{inventory},
+			#{memo},
+			#{orderBatch},
+			#{voucherNo},
+			#{tenderNo},
+			#{invoiceSign},
+			#{origin},
+			#{productionDate},
+			#{produceDate},
+			#{id},
+			#{orgId},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drug_import_detail SET 	
+			document_no = #{documentNo},
+			item_no = #{itemNo},
+			drug_code = #{drugCode},
+			drug_spec = #{drugSpec},
+			units = #{units},
+			batch_no = #{batchNo},
+			expire_date = #{expireDate},
+			firm_id = #{firmId},
+			purchase_price = #{purchasePrice},
+			discount = #{discount},
+			retail_price = #{retailPrice},
+			package_spec = #{packageSpec},
+			quantity = #{quantity},
+			package_units = #{packageUnits},
+			sub_package_1 = #{subPackage1},
+			sub_package_units_1 = #{subPackageUnits1},
+			sub_package_spec_1 = #{subPackageSpec1},
+			sub_package_2 = #{subPackage2},
+			sub_package_units_2 = #{subPackageUnits2},
+			sub_package_spec_2 = #{subPackageSpec2},
+			invoice_no = #{invoiceNo},
+			invoice_date = #{invoiceDate},
+			trade_price = #{tradePrice},
+			inventory = #{inventory},
+			memo = #{memo},
+			order_batch = #{orderBatch},
+			voucher_no = #{voucherNo},
+			tender_no = #{tenderNo},
+			invoice_sign = #{invoiceSign},
+			origin = #{origin},
+			production_date = #{productionDate},
+			produce_date = #{produceDate},
+			org_id = #{orgId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE drug_import_detail SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

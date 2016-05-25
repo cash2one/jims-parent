@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugStorageDept;
+import com.jims.phstock.entity.DrugSubStorageDept;
 import com.jims.sys.vo.BeanChangeVo;
 
 import java.util.List;
@@ -66,5 +67,20 @@ public interface DrugStorageDeptServiceApi {
      * @version 2016-04-23
      */
     public String delete(String ids);
+
+    /**
+     * 获取药品库存单位子单位
+     * @param orgId 所属机构
+     * @param storageCode  库存单位编码
+     * @return
+     */
+    public List<DrugSubStorageDept> findSubList(String orgId,String storageCode);
+
+    /**
+     * 保存子单位
+     * @param sub
+     * @return
+     */
+    public String saveSub(DrugSubStorageDept sub);
 }
 

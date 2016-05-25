@@ -1,0 +1,187 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/finance/js/outpatientCost.js"></script>
+</head>
+
+<body>
+
+<table id="list" class="easyui-datagrid">
+
+</table>
+<div id="chargeDiv" closed="true" data-options="modal:true" class="easyui-window" title="门诊医师开单-门诊选择收费" style="width:70%;height:85%">
+    <div class="easyui-layout"  style="width:100%;height:100%">
+        <div data-options="region:'north'" style="height:50%">
+            <table id="list-zhu" class="easyui-datagrid">
+
+            </table>
+        </div>
+        <div data-options="region:'center'">
+            <table id="list-xi" class="easyui-datagrid">
+
+            </table>
+        </div>
+    </div>
+</div>
+<div id="contDiv" data-options="modal:true"  closed="true"  class="easyui-window" title="合计" style="width: 45%;height: 52%" >
+    <div>
+        <ul class="cost-li-top">
+            <li><span>预交金余额：</span>0.00</li>
+            <li><span>帐户累计：</span>0.00</li>
+            <li><span>帐户余额：</span>0.00</li>
+            <li><span>统筹支付：</span>0.00</li>
+            <li><span>帐户支付：</span>0.00</li>
+            <li><span>公务补助：</span>0.00</li>
+            <li><span>单位记账：</span>0.00</li>
+            <li><span>预交金支付：</span>0.00</li>
+            <li><span>大额商保：</span>0.00</li>
+            <li><span>自付：</span><b class="color-red">417.55</b></li>
+        </ul>
+    </div>
+    <div style="position:relative;">
+        <div class="cost-total">
+            <ul>
+                <li><span class="rborder-cost">合计：</span><span class="color-blue"><strong>417.55</strong></span></li>
+                <li><span class="rborder-cost">应收：</span><span class="color-red"><strong>417.55</strong></span></li>
+            </ul>
+        </div>
+        <div class="cost-tab-wrap">
+            <table cellspacing="0" cellpadding="0" border="0" width="100%" class="cost-tab">
+                <tr>
+                    <td>类型</td>
+                    <td>付款</td>
+                    <td>收款</td>
+                    <td>找零</td>
+                </tr>
+                <tr>
+                    <td>现金</td>
+                    <td><input type="text" class="validatebox-text"/></td>
+                    <td><input type="text" class="validatebox-text"/></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>统筹挂帐</td>
+                    <td><input type="text" class="validatebox-text"/></td>
+                    <td><input type="text" class="validatebox-text"/></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>个帐支付</td>
+                    <td><input type="text" class="validatebox-text"/></td>
+                    <td><input type="text" class="validatebox-text"/></td>
+                    <td></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="returnsDiv" data-options="modal:true" closed="true"  class="easyui-window" title="退费"  style="width:70%;height:85%">
+    <div class="easyui-layout"  style="width:100%;height:95%">
+        <div data-options="region:'north'" style="height:30%">
+            <table style="padding-left:20px; font-size:15px" class="medical-tab-new1">
+                <tr style="height: 30px">
+                    <td>门诊号：</td>
+                    <td><input  class="easyui-textbox"></td>
+                    <td>序号：</td>
+                    <td><input  class="easyui-textbox"></td>
+                    <td>卡号：</td>
+                    <td><input class="easyui-textbox"></td>
+                    <td>收据号：</td>
+                    <td><input class="easyui-textbox"></td>
+                </tr>
+                <tr style="height: 30px">
+                    <td>姓名：</td>
+                    <td colspan="3"><input class="easyui-textbox" style="width: 99%"></td>
+                    <td>身份：</td>
+                    <td><input  class="easyui-textbox"></td>
+                    <td>费别：</td>
+                    <td><input  class="easyui-textbox"></td>
+                </tr>
+                <tr style="height: 30px">
+                    <td>医生：</td>
+                    <td colspan="3"><input class="easyui-textbox" style="width: 99%"></td>
+                    <td>科室：</td>
+                    <td><input  class="easyui-textbox"></td>
+                    <td>合同单位：</td>
+                    <td><input  class="easyui-textbox"></td>
+                </tr>
+            </table>
+        </div>
+        <div data-options="region:'east'" style="width:60%">
+            <table id="list-xi-t" class="easyui-datagrid">
+
+            </table>
+        </div>
+        <div data-options="region:'center'">
+            <table id="list-zhu-t" class="easyui-datagrid">
+
+            </table>
+        </div>
+    </div>
+</div>
+<div id="tb">
+    <table style="padding-left:20px; font-size:15px" class="medical-tab-new1">
+        <tr style="height: 30px">
+            <td>门诊号：</td>
+            <td><input  class="easyui-textbox"></td>
+            <td>序号：</td>
+            <td><input  class="easyui-textbox"></td>
+            <td>卡号：</td>
+            <td><input class="easyui-textbox"></td>
+            <td>账号：</td>
+            <td><input class="easyui-textbox"></td>
+            <td><button class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">市医保读卡</button>&nbsp;<button class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">读卡</button>&nbsp;<button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" >退出</button></td>
+        </tr>
+        <tr style="height: 30px">
+            <td>姓名：</td>
+            <td><input class="easyui-textbox"></td>
+            <td>身份：</td>
+            <td><input  class="easyui-textbox"></td>
+            <td>费别：</td>
+            <td><input  class="easyui-textbox"></td>
+            <td>账户余额：</td>
+            <td colspan="2"><input  class="easyui-textbox"></td>
+        </tr>
+        <tr style="height: 30px">
+            <td>医生：</td>
+            <td><input class="easyui-textbox"></td>
+            <td>科室：</td>
+            <td><input  class="easyui-textbox"></td>
+            <td>职称：</td>
+            <td><input  class="easyui-textbox"></td>
+            <td>合同单位：</td>
+            <td colspan="3"><input  class="easyui-textbox"></td>
+        </tr>
+    </table>
+</div>
+<div id="fb" style=" height: 40px" align="right">
+    <table>
+        <tr align="center">
+           <td >
+               <a href="#" id="addBtn" class="easyui-linkbutton"  onclick="showContDiv()">合计</a>
+               &nbsp;
+               <a href="#" id="seaBtn" class="easyui-linkbutton" >清屏</a>
+               &nbsp;
+               <a href="#" id="moneyBtn" class="easyui-linkbutton" i>刷新标价</a>
+               &nbsp;
+               <a href="#" id="editBtn" class="easyui-linkbutton" >报价</a>
+               &nbsp;
+               <a href="#" id="delBtn" class="easyui-linkbutton" >计价单</a>
+               &nbsp;
+               <a href="#" id="saveBtn" class="easyui-linkbutton" >新单</a>
+               &nbsp;
+               <a href="#" id="printBtn" class="easyui-linkbutton"  onclick="showReturnsDiv()">退费</a>
+               &nbsp;
+               <a href="#" id="cancelBtn" class="easyui-linkbutton" >读卡</a>
+           </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>                                                                                                                                                                                                                                                                                                                  

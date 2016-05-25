@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" ec>
+    <title>门诊处方发药</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+   <script type="text/javascript" src="../outDispensing/js/outDispensing.js"></script>
+</head>
+<body  >
+<div class="reg-plan-wrap">
+    <form id="presc" method="post">
+        <div class="margin10-bot " style="border: 1px;">
+            处方时间：<input  name="prescDate" class="easyui-datetimebox" ></br>
+            过滤条件：
+            <select id="search" class="easyui-combobox" onchange="getName();"/>
+               <option value="patientId">病人ID</option>
+               <option value="cardNo">病人卡号</option>
+               <option value="prescNo">处方号</option>
+                <option value="name">姓名</option>
+            </select>
+            <input id="searchSome" class="validatebox-text validatebox-text-xs">
+            <input name="dispensary" id="dispensary" type="hidden">
+            <input name="dispensary" id="dispensarySub" type="hidden" value="B01">
+        </div>
+    </form>
+        <div style="border: 1px;width:200px;height:500px;position: absolute;" >
+            <table id="prescTable" cellspacing="0" cellpadding="0"></table>
+        </div>
+
+        <div class="reg-plan-main" style="border: 1px;">
+            <div class="margin10-bot">
+                门诊号：<input type="text" class="validatebox-text validatebox-text-xs" name="clinicId" id="clinicId" readonly/>
+                身份：<input type="text" class="validatebox-text validatebox-text-xs" name="identity"  id="identity" readonly/>
+                费别：<input type="text" class="validatebox-text validatebox-text-xs" name="chargeType" id="chargeType" readonly/>
+                处方日期：<input type="text" class="validatebox-text validatebox-text-xs" id="prescDate" readonly/>
+                开单医生：<input type="text" class="validatebox-text validatebox-text-xs"  readonly/>
+                开单科室：<input type="text" class="validatebox-text validatebox-text-xs"  readonly/>
+                剂数：<input type="text" class="validatebox-text validatebox-text-xs" name="repetition" id="repetition"readonly/>
+                煎药次数：<input type="text" class="validatebox-text validatebox-text-xs" name="repetition" readonly/>
+                处方属性：<input type="text" class="validatebox-text validatebox-text-xs" name="repetition" readonly/>
+                录入人员：<input type="text" class="validatebox-text validatebox-text-xs" name="repetition" readonly/>
+                合作单位：<input type="text" class="validatebox-text validatebox-text-xs" name="repetition" readonly/>
+                子库房：<input type="text" class="validatebox-text validatebox-text-xs" name="repetition" readonly/>
+                诊断：<input type="text" class="validatebox-text validatebox-text-xs" name="repetition" readonly/>
+                体征：<input type="text" class="validatebox-text validatebox-text-xs" name="repetition" readonly/>
+            </div>
+            <div>
+
+                <div class="margin10-bot" style="height:200px; overflow:auto; background:#fafafa; padding:10px; border:1px solid #eee;">
+                    <table id="operationName" onload="addRow();"></table>
+                </div>
+            </div>
+            <div class="">
+
+                <table cellpadding="0" cellspacing="0" width="100%" class="apply-tab">
+
+                </table>
+            </div>
+
+            <input name="id" type="hidden">
+            <input type="hidden" name="inOrOut" value="1">
+        </div>
+
+
+
+</div>
+<div id="drug" class="easyui-dialog" style="width:50%;height:250px;padding-top: 5px;"
+     closed="true" buttons="#dlg-buttons">
+    <div class="margin10-bot " style="border: 1px;">科室名称或拼音字头<input name="" class="validatebox-text validatebox-text-xs">
+    <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">选择</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#drug').dialog('close')" style="width:90px">关闭</a>
+    </div>
+        <table id="dept" cellspacing="0" cellpadding="0">
+
+    </table>
+</div>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ package com.jims.register.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicScheduleApi;
 import com.jims.register.dao.ClinicScheduleDao;
 import com.jims.register.entity.ClinicSchedule;
@@ -22,6 +23,11 @@ import java.util.List;
 @Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public class ClinicScheduleServiceImpl extends CrudImplService<ClinicScheduleDao, ClinicSchedule> implements ClinicScheduleApi {
+    @Override
+    public List<BaseDto> findListTable(ClinicSchedule clinicSchedule) {
+        return dao.findListTable(clinicSchedule);
+    }
+
     /**
      * 保存号别安排
      * @param list
@@ -31,12 +37,12 @@ public class ClinicScheduleServiceImpl extends CrudImplService<ClinicScheduleDao
     public String saveList(List<ClinicSchedule> list,String clinicIndexId) {
         String num="";
         if(list!=null && list.size()>0){
-            ClinicSchedule clinicSchedule = new ClinicSchedule();
             for(int i=0;i<list.size();i++){
+                ClinicSchedule clinicSchedule=list.get(i);
                 clinicSchedule.setClinicLabel(clinicIndexId);
-                clinicSchedule=list.get(i);
                 num= save(clinicSchedule);
             }
+            dao.batchDel(list);
         }
         return num;
     }

@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.jims.phstock.dao;
 
 import com.jims.common.persistence.CrudDao;
@@ -14,5 +11,5 @@ import com.jims.phstock.entity.DrugStorageDept;
  */
 @MyBatisDao
 public interface DrugStorageDeptDao extends CrudDao<DrugStorageDept> {
-	
+
 }
