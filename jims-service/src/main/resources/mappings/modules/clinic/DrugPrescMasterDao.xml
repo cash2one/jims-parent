@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.clinic.dao.DrugPrescMasterTempDao">
+<mapper namespace="com.jims.clinic.dao.DrugPrescMasterDao">
     
-	<sql id="drugPrescMasterTempColumns">
+	<sql id="drugPrescMasterColumns">
 		a.id AS "id",
-		a.org_id AS "orgId",
+		a.clinic_id AS "clinicId",
+		a.visit_id AS "visitId",
 		a.presc_date AS "prescDate",
 		a.presc_no AS "prescNo",
+		a.org_id AS "orgId",
 		a.dispensary AS "dispensary",
-		a.queue_id AS "queueId",
-		a.status AS "status",
 		a.patient_id AS "patientId",
 		a.name AS "name",
 		a.name_phonetic AS "namePhonetic",
@@ -21,32 +21,38 @@
 		a.presc_source AS "prescSource",
 		a.repetition AS "repetition",
 		a.costs AS "costs",
-		a.payments AS "payments",
 		a.ordered_by AS "orderedBy",
 		a.prescribed_by AS "prescribedBy",
 		a.entered_by AS "enteredBy",
-		a.charge_indicator AS "chargeIndicator",
-		a.rcpt_no AS "rcptNo",
-		a.sex AS "sex",
-		a.age AS "age",
+		a.dispensing_provider AS "dispensingProvider",
 		a.count_per_repetition AS "countPerRepetition",
 		a.entered_datetime AS "enteredDatetime",
 		a.dispensing_datetime AS "dispensingDatetime",
 		a.memo AS "memo",
-		a.dispensing_provider AS "dispensingProvider",
-		a.discg_taking_indicator AS "discgTakingIndicator",
+		a.sub_storage AS "subStorage",
+		a.flag AS "flag",
 		a.doctor_user AS "doctorUser",
-		a.decoction AS "decoction",
-		a.dosage_each AS "dosageEach",
+		a.entered_datatime AS "enteredDatatime",
 		a.verify_by AS "verifyBy",
+		a.discharge_taking_indicator AS "dischargeTakingIndicator",
+		a.payments AS "payments",
+		a.decoction AS "decoction",
 		a.verified_datetime AS "verifiedDatetime",
+		a.rcpt_no AS "rcptNo",
+		a.original_presc_date AS "originalPrescDate",
+		a.original_presc_no AS "originalPrescNo",
+		a.return_visit_no AS "returnVisitNo",
+		a.return_visit_date AS "returnVisitDate",
+		a.batch_provide_no AS "batchProvideNo",
 		a.dispensation_by AS "dispensationBy",
 		a.dispensation_date AS "dispensationDate",
-		a.print_date_time AS "printDateTime",
-		a.list_no AS "listNo",
+		a.cfbh_mz AS "cfbhMz",
+		a.fhr_mz AS "fhrMz",
+		a.fhbz_mz AS "fhbzMz",
+		a.bz_mz AS "bzMz",
+		a.hsph AS "hsph",
+		a.ffph AS "ffph",
 		a.dispensary_sub AS "dispensarySub",
-		a.flag AS "flag",
-		a.clinic_no AS "clinicNo",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
 		a.update_by AS "updateBy.id",
@@ -55,22 +61,22 @@
 		a.del_flag AS "delFlag"
 	</sql>
 	
-	<sql id="drugPrescMasterTempJoins">
+	<sql id="drugPrescMasterJoins">
 	</sql>
     
-	<select id="get" resultType="DrugPrescMasterTemp">
+	<select id="get" resultType="DrugPrescMaster">
 		SELECT 
-			<include refid="drugPrescMasterTempColumns"/>
-		FROM drug_presc_master_temp a
-		<include refid="drugPrescMasterTempJoins"/>
+			<include refid="drugPrescMasterColumns"/>
+		FROM drug_presc_master a
+		<include refid="drugPrescMasterJoins"/>
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="DrugPrescMasterTemp">
+	<select id="findList" resultType="DrugPrescMaster">
 		SELECT 
-			<include refid="drugPrescMasterTempColumns"/>
-		FROM drug_presc_master_temp a
-		<include refid="drugPrescMasterTempJoins"/>
+			<include refid="drugPrescMasterColumns"/>
+		FROM drug_presc_master a
+		<include refid="drugPrescMasterJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="name != null and name != ''">
@@ -89,36 +95,12 @@
 			</otherwise>
 		</choose>
 	</select>
-
-	 <select id="getPrescMasterTemp" resultType="DrugPrescMasterTemp">
-		 SELECT distinct DRUG_PRESC_MASTER_TEMP.PRESC_NO AS "prescNo",
-		 DRUG_PRESC_MASTER_TEMP.ID AS  "id",
-		 DRUG_PRESC_MASTER_TEMP.NAME AS "name",
-		 DRUG_PRESC_MASTER_TEMP.NAME_PHONETIC AS "namePhonetic",
-		 DRUG_PRESC_MASTER_TEMP.PRESC_DATE AS "prescDate",
-		 DRUG_PRESC_MASTER_TEMP.PAYMENTS AS "payments",
-		 DRUG_PRESC_MASTER_TEMP.PATIENT_ID AS "patientId",
-		 DRUG_PRESC_MASTER_TEMP.RCPT_NO AS "rcptNo",
-		 DRUG_PRESC_MASTER_TEMP.PRESCRIBED_BY AS "prescribedBy",
-		 DRUG_PRESC_MASTER_TEMP.ORDERED_BY AS "orderedBy",
-		 DRUG_PRESC_MASTER_TEMP.DISPENSARY_SUB AS "dispensarySub"
-		 FROM DRUG_PRESC_MASTER_TEMP,outp_presc
-		 WHERE
-		 drug_PRESC_MASTER_TEMP.PRESC_DATE  &lt;= to_date(to_char(sysdate+1,'yyyy-mm-dd'),'yyyy-mm-dd')
-		 AND DRUG_PRESC_MASTER_TEMP.PRESC_DATE &gt;=  to_date(to_char(add_months(sysdate,-1),'yyyy-mm-dd'),'yyyy-mm-dd') AND
-		 DRUG_PRESC_MASTER_TEMP.DISPENSARY = #{dispensary}
-		 AND DRUG_PRESC_MASTER_TEMP.DISPENSARY_SUB = #{dispensarySub}
-		 AND (drug_PRESC_MASTER_TEMP.presc_source = 0 OR drug_PRESC_MASTER_TEMP.presc_source is null)
-		 and(outp_presc.DRUG_PRESC_DATE(+) =drug_PRESC_MASTER_TEMP.PRESC_DATE and outp_presc.DRUG_PRESC_NO(+) =drug_PRESC_MASTER_TEMP.PRESC_NO )
-		 and outp_presc.CHARGE_INDICATOR(+) = 1
-	 </select>
-
-
-	<select id="findAllList" resultType="DrugPrescMasterTemp">
+	
+	<select id="findAllList" resultType="DrugPrescMaster">
 		SELECT 
-			<include refid="drugPrescMasterTempColumns"/>
-		FROM drug_presc_master_temp a
-		<include refid="drugPrescMasterTempJoins"/>
+			<include refid="drugPrescMasterColumns"/>
+		FROM drug_presc_master a
+		<include refid="drugPrescMasterJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
@@ -133,14 +115,14 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO drug_presc_master_temp(
+		INSERT INTO drug_presc_master(
 			id,
-			org_id,
+			clinic_id,
+			visit_id,
 			presc_date,
 			presc_no,
+			org_id,
 			dispensary,
-			queue_id,
-			status,
 			patient_id,
 			name,
 			name_phonetic,
@@ -152,32 +134,38 @@
 			presc_source,
 			repetition,
 			costs,
-			payments,
 			ordered_by,
 			prescribed_by,
 			entered_by,
-			charge_indicator,
-			rcpt_no,
-			sex,
-			age,
+			dispensing_provider,
 			count_per_repetition,
 			entered_datetime,
 			dispensing_datetime,
 			memo,
-			dispensing_provider,
-			discg_taking_indicator,
+			sub_storage,
+			flag,
 			doctor_user,
-			decoction,
-			dosage_each,
+			entered_datatime,
 			verify_by,
+			discharge_taking_indicator,
+			payments,
+			decoction,
 			verified_datetime,
+			rcpt_no,
+			original_presc_date,
+			original_presc_no,
+			return_visit_no,
+			return_visit_date,
+			batch_provide_no,
 			dispensation_by,
 			dispensation_date,
-			print_date_time,
-			list_no,
+			cfbh_mz,
+			fhr_mz,
+			fhbz_mz,
+			bz_mz,
+			hsph,
+			ffph,
 			dispensary_sub,
-			flag,
-			clinic_no,
 			create_date,
 			create_by,
 			update_by,
@@ -186,12 +174,12 @@
 			del_flag
 		) VALUES (
 			#{id},
-			#{orgId},
+			#{clinicId},
+			#{visitId},
 			#{prescDate},
 			#{prescNo},
+			#{orgId},
 			#{dispensary},
-			#{queueId},
-			#{status},
 			#{patientId},
 			#{name},
 			#{namePhonetic},
@@ -203,32 +191,38 @@
 			#{prescSource},
 			#{repetition},
 			#{costs},
-			#{payments},
 			#{orderedBy},
 			#{prescribedBy},
 			#{enteredBy},
-			#{chargeIndicator},
-			#{rcptNo},
-			#{sex},
-			#{age},
+			#{dispensingProvider},
 			#{countPerRepetition},
 			#{enteredDatetime},
 			#{dispensingDatetime},
 			#{memo},
-			#{dispensingProvider},
-			#{discgTakingIndicator},
+			#{subStorage},
+			#{flag},
 			#{doctorUser},
-			#{decoction},
-			#{dosageEach},
+			#{enteredDatatime},
 			#{verifyBy},
+			#{dischargeTakingIndicator},
+			#{payments},
+			#{decoction},
 			#{verifiedDatetime},
+			#{rcptNo},
+			#{originalPrescDate},
+			#{originalPrescNo},
+			#{returnVisitNo},
+			#{returnVisitDate},
+			#{batchProvideNo},
 			#{dispensationBy},
 			#{dispensationDate},
-			#{printDateTime},
-			#{listNo},
+			#{cfbhMz},
+			#{fhrMz},
+			#{fhbzMz},
+			#{bzMz},
+			#{hsph},
+			#{ffph},
 			#{dispensarySub},
-			#{flag},
-			#{clinicNo},
 			#{createDate},
 			#{createBy.id},
 			#{updateBy.id},
@@ -239,13 +233,13 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE drug_presc_master_temp SET 	
-			org_id = #{orgId},
+		UPDATE drug_presc_master SET 	
+			clinic_id = #{clinicId},
+			visit_id = #{visitId},
 			presc_date = #{prescDate},
 			presc_no = #{prescNo},
+			org_id = #{orgId},
 			dispensary = #{dispensary},
-			queue_id = #{queueId},
-			status = #{status},
 			patient_id = #{patientId},
 			name = #{name},
 			name_phonetic = #{namePhonetic},
@@ -257,32 +251,38 @@
 			presc_source = #{prescSource},
 			repetition = #{repetition},
 			costs = #{costs},
-			payments = #{payments},
 			ordered_by = #{orderedBy},
 			prescribed_by = #{prescribedBy},
 			entered_by = #{enteredBy},
-			charge_indicator = #{chargeIndicator},
-			rcpt_no = #{rcptNo},
-			sex = #{sex},
-			age = #{age},
+			dispensing_provider = #{dispensingProvider},
 			count_per_repetition = #{countPerRepetition},
 			entered_datetime = #{enteredDatetime},
 			dispensing_datetime = #{dispensingDatetime},
 			memo = #{memo},
-			dispensing_provider = #{dispensingProvider},
-			discg_taking_indicator = #{discgTakingIndicator},
+			sub_storage = #{subStorage},
+			flag = #{flag},
 			doctor_user = #{doctorUser},
-			decoction = #{decoction},
-			dosage_each = #{dosageEach},
+			entered_datatime = #{enteredDatatime},
 			verify_by = #{verifyBy},
+			discharge_taking_indicator = #{dischargeTakingIndicator},
+			payments = #{payments},
+			decoction = #{decoction},
 			verified_datetime = #{verifiedDatetime},
+			rcpt_no = #{rcptNo},
+			original_presc_date = #{originalPrescDate},
+			original_presc_no = #{originalPrescNo},
+			return_visit_no = #{returnVisitNo},
+			return_visit_date = #{returnVisitDate},
+			batch_provide_no = #{batchProvideNo},
 			dispensation_by = #{dispensationBy},
 			dispensation_date = #{dispensationDate},
-			print_date_time = #{printDateTime},
-			list_no = #{listNo},
+			cfbh_mz = #{cfbhMz},
+			fhr_mz = #{fhrMz},
+			fhbz_mz = #{fhbzMz},
+			bz_mz = #{bzMz},
+			hsph = #{hsph},
+			ffph = #{ffph},
 			dispensary_sub = #{dispensarySub},
-			flag = #{flag},
-			clinic_no = #{clinicNo},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remarks = #{remarks}
@@ -290,7 +290,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE drug_presc_master_temp SET 
+		UPDATE drug_presc_master SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
