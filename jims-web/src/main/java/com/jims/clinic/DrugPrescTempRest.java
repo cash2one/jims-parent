@@ -43,7 +43,7 @@ public class DrugPrescTempRest {
      */
     @Path("getDetail")
     @GET
-    public List<DrugPrescDetailTemp> getDetail(String masterId){
+    public List<DrugPrescDetailTemp> getDetail(@QueryParam(value = "masterId")String masterId){
         return drugPrescTempServiceApi.getDetail(masterId);
     }
 
