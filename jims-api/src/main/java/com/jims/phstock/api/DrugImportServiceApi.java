@@ -19,17 +19,10 @@ public interface DrugImportServiceApi {
     public String save(DrugImportMaster entity);
 
     /**
-     * 保存药品入库单详单
-     * @param detail
-     * @return
+     * 保存药品入库单主单和明细
+     * @param master 主表内含有明细表List序列
+     * @return 0 失败，1成功
      */
-    public String saveDetail(DrugImportDetail detail);
-
-    /**
-     * 批量保存药品入库单详单
-     * @param details
-     * @return
-     */
-    public String saveDetailBatch(List<DrugImportDetail> details);
+    public String saveMasterAndDetail(DrugImportMaster master);
 
 }
