@@ -70,8 +70,9 @@ public class ClinicForRegisterRest {
      */
     @GET
     @Path("findListReg")
-    public List<ClinicForRegist> findListReg(){
-        return clinicForRegisterSerivceApi.findListReg();
+    public List<ClinicForRegist> findListReg(@QueryParam("status")String status){
+
+        return clinicForRegisterSerivceApi.findListReg(status);
     }
 
     /**

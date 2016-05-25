@@ -1,6 +1,10 @@
 package com.jims.register.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.Date;
 
@@ -32,7 +36,13 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 	private String insuranceType;		// 保险类型
 	private String unitInContract;		// 合同单位
 	private String namePhonetic;		// 姓名拼音码
-	
+
+	private String clinicDept;
+	private String doctor ;
+	private String doctorTitle;
+	private String clinicType;
+	private String clinicPosition;
+
 	public ClinicAppoints() {
 		super();
 	}
@@ -50,11 +60,11 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 		this.orgId = orgId;
 	}
 
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getVisitDateAppted() {
 		return visitDateAppted;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setVisitDateAppted(Date visitDateAppted) {
 		this.visitDateAppted = visitDateAppted;
 	}
@@ -86,11 +96,11 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 		this.visitTimeAppted = visitTimeAppted;
 	}
 
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getApptMadeDate() {
 		return apptMadeDate;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setApptMadeDate(Date apptMadeDate) {
 		this.apptMadeDate = apptMadeDate;
 	}
@@ -221,4 +231,43 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 		this.namePhonetic = namePhonetic;
 	}
 
+	public String getClinicDept() {
+		return clinicDept;
+	}
+
+	public void setClinicDept(String clinicDept) {
+		this.clinicDept = clinicDept;
+	}
+
+	public String getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(String doctor) {
+		this.doctor = doctor;
+	}
+
+	public String getDoctorTitle() {
+		return doctorTitle;
+	}
+
+	public void setDoctorTitle(String doctorTitle) {
+		this.doctorTitle = doctorTitle;
+	}
+
+	public String getClinicType() {
+		return clinicType;
+	}
+
+	public void setClinicType(String clinicType) {
+		this.clinicType = clinicType;
+	}
+
+	public String getClinicPosition() {
+		return clinicPosition;
+	}
+
+	public void setClinicPosition(String clinicPosition) {
+		this.clinicPosition = clinicPosition;
+	}
 }

@@ -131,20 +131,6 @@ public class InputSettingRest {
     @Path("listParam")
     @POST
     public List<BaseDto> listParam(InputInfoVo inputInfoVo) {
-       /* InputParamVo vo = new InputParamVo();
-        vo.setColName("FLAG_SHOW");
-        vo.setColValue("1");
-        vo.setOperateMethod("=");
-
-        InputParamVo vo1 = new InputParamVo();
-        vo1.setColName("FLAG_ISNAME");
-        vo1.setColValue("Y");
-        vo1.setOperateMethod("=");
-        List<InputParamVo> in = new ArrayList<InputParamVo>();
-        in.add(vo);
-        in.add(vo1);
-        inputInfoVo.setInputParamVos(in);*/
-
         List<BaseDto> list = inputSettingServiceApi.listInputDataByParam(inputInfoVo);
         return list;
     }

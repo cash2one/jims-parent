@@ -7,6 +7,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -178,7 +179,15 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
             return num+1;
         }
 	}
-	
+	//获取 当前日期的后一天
+	public static String getTomorrow(){
+		Calendar c=Calendar.getInstance();
+		//当前的day_of_month加一就是明天时间
+		c.add(Calendar.DAY_OF_MONTH,1);
+		String tomorrow=new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+		// System.out.print("明天的日期"+tomorrow);
+		return tomorrow;
+	}
 	/**
 	 * @param args
 	 * @throws java.text.ParseException
