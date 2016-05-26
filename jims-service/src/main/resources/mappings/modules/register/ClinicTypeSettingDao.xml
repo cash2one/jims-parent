@@ -101,7 +101,7 @@
 	
 	<update id="delete">
 		UPDATE clinic_type_setting SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

@@ -151,7 +151,7 @@
 	</update>
 
     <delete id="batchDel" parameterType="java.util.List">
-      delete from clinic_schedule where id not in(
+      delete from clinic_schedule where clinic_label=#{clinicTypeId} AND id not in(
         <foreach collection="list" item="item" index="index" separator="," >
             #{item.id}
         </foreach>

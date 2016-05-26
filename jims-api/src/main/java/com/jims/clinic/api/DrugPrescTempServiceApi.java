@@ -1,5 +1,7 @@
 package com.jims.clinic.api;
 
+import com.jims.clinic.entity.DoctDrugPrescDetail;
+import com.jims.clinic.entity.DrugPrescDetailTemp;
 import com.jims.clinic.entity.DrugPrescMasterTemp;
 
 import java.util.List;
@@ -20,5 +22,26 @@ public interface DrugPrescTempServiceApi  {
      */
   public List<DrugPrescMasterTemp> getPrescMasterTemp(String dispensary,String dispensarySub);
 
+    /**
+     * 通过主表Id找到主表记录
+     * @param id
+     * @return
+     */
+    public DrugPrescMasterTemp get(String id);
+
+    /**
+     * 通过主表Id找到药品信息
+     * @param masterId
+     * @return
+     */
+    public List<DrugPrescDetailTemp> getDetail(String masterId);
+
+  /**
+   * 确认发药
+   * @param id
+   * @return
+   */
+   public  String confirmDrug(String id);
+  /*缺少更新药品库存*/
 
 }

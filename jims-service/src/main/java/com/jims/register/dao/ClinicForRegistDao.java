@@ -72,4 +72,12 @@ public interface ClinicForRegistDao extends CrudDao<ClinicForRegist> {
      * @author zhaoning
      */
     public  void updateRegisterByAppoint(@Param("clinicDate")String clinicDate,@Param("clinicLabel")String clinicLabel,@Param("timeDesc")String timeDesc);
+
+    /**
+     * 根据，就诊日期，号别名称，就诊时间,更新号表数据---预约挂号(退号)
+     * @param clinicDate
+     * @param clinicLabel
+     * @param timeDesc
+     */
+    public void updateRegByAppointReturn(@Param("clinicDate")String clinicDate,@Param("clinicLabel")String clinicLabel,@Param("timeDesc")String timeDesc);
 }

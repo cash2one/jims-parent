@@ -42,7 +42,7 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 	private String doctorTitle;
 	private String clinicType;
 	private String clinicPosition;
-
+    private String masterId;
 	public ClinicAppoints() {
 		super();
 	}
@@ -269,5 +269,13 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 
 	public void setClinicPosition(String clinicPosition) {
 		this.clinicPosition = clinicPosition;
+	}
+
+	public String getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(String masterId) {
+		this.masterId = masterId;
 	}
 }
