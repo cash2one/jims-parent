@@ -24,37 +24,37 @@ function init(){
 
         }, {
             title: "名称",
-            field: "administrationCode",
+            field: "item_name",
             width: '6%',
             align: 'center'
         }, {
             title: "类别",
-            field: "administrationCode",
+            field: "item_class",
             width: '6%',
             align: 'center'
         }, {
             title: "规格",
-            field: "administrationCode",
+            field: "item_spec",
             width: '6%',
             align: 'center'
         }, {
             title: "单位",
-            field: "administrationCode",
+            field: "units",
             width: '6%',
             align: 'center'
         }, {
             title: "付",
-            field: "administrationCode",
+            field: "repetition",
             width: '6%',
             align: 'center'
         }, {
             title: "单次用量",
-            field: "administrationCode",
+            field: "dosage",
             width: '6%',
             align: 'center'
         }, {
             title: "总数量",
-            field: "administrationCode",
+            field: "amount",
             width: '6%',
             align: 'center'
         }, {
@@ -64,12 +64,12 @@ function init(){
             align: 'center'
         }, {
             title: "执行科室",
-            field: "administrationCode",
+            field: "performed_by",
             width: '6%',
             align: 'center'
         }, {
             title: "费用",
-            field: "administrationCode",
+            field: "costs",
             width: '7%',
             align: 'center'
         }, {
@@ -79,7 +79,7 @@ function init(){
             align: 'center'
         }, {
             title: "实际费用",
-            field: "administrationCode",
+            field: "charges",
             width: '6%',
             align: 'center'
         }, {
@@ -101,7 +101,7 @@ function init(){
             width: '10%',
             align: 'center',
             editor: {
-                type: 'datebox'
+                type: 'administrationCode'
             }
         }, {
             title: "子库房",
@@ -119,7 +119,6 @@ function init(){
         fitColumns: true,
         border: true,
         method: 'GET',
-        rownumbers: true,
         singleSelect:false,//是否单选
         remoteSort:false,
         loadMsg: '数据正在加载中，请稍后.....',
@@ -194,15 +193,18 @@ function init(){
             }
         ]],
         onSelect:function(rowIndex,rowData){
-            //$("#list-zhu").datagrid('selectRow',0);
-            $.each($('#list-zhu').datagrid('getRows'),function(j,val){
-                if(rowData.presc_no==val.presc_no){
-                    var index = $('#list-zhu').datagrid('getRowIndex', val);
-                    if(index!=rowIndex){
-                        $("#list-zhu").datagrid('selectRow',index);
-                    }
-                }
-            });
+            var row=$('#list-zhu').datagrid('getRows');
+            //for(var i=0;i<row.length;i++){
+            //    var data=row[i];
+            //
+            //    if(rowData.presc_no==data.presc_no){
+            //        var index = $('#list-zhu').datagrid('getRowIndex', data);
+            //        if(index!=rowIndex){
+            //            $("#list-zhu").datagrid('selectRow',index);
+            //           //
+            //        }
+            //    }
+            //}
             return false;
         },
         onUnselect:function(rowIndex,rowData){
@@ -465,4 +467,59 @@ function getCost(){
     })
 }
 
+/**
+ * 确认组织收费数据
+ */
+function rowCount(){
+    var rows= $("#list-xi").datagrid("getSelections");
+    var class_type="0";
+    var class_type_ji="0";
+    var class_type_zl="";
+    var datazl=[];
+    if(rows.length>0){
+        for(var i=0;i<rows.length;i++){
+            var data=rows[i];
+            if(data.item_class=='A' || data.item_class=='B'){
+                class_type="1";
+            }else{
+                class_type="2";
+                if(class_type_zl!=data.item_class){
+                    datazl.push(data);
+                }
+                class_type_zl=data.item_class;
+            }
+            if(i==0){
+                class_type_ji=class_type;
+            }
+            if(class_type_ji!=class_type){
+                $.messager.alert("提示消息", '药品与诊疗项目不能同时收费');
+                return false;
+            }else{
+                class_type_ji=class_type;
+            }
+            datazl.push(data);
+        }
+        if(class_type=="1"){
+            $('#addDrug').linkbutton('disable');
+            $("#list").datagrid("loadData",rows);
+        }else{
 
+
+        }
+    }
+    closeWindow('chargeDiv');
+}
+/**
+ * 关闭window
+ */
+
+function closeWindow(id){
+    $('#'+id).window('close');
+}
+/**
+ * 添加药品动态行
+ */
+function addDrugRow(){
+
+    return false;
+}
