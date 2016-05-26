@@ -3,7 +3,6 @@
  * @author luohk
  * @version 2016-05-14
  */
-$("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
 $(function () {
     $.extend($.fn.validatebox.defaults.rules, {
         maxStock: {
@@ -37,19 +36,6 @@ $(function () {
             });
         }
     });
-    $.extend({
-        ajaxAsync : function(url,data,callback,type,async){
-            return $.ajax({
-                type: type,
-                url: url,
-                async : async,   // true 异步,false 同步
-                data: data,
-                success: callback,
-                'contentType': 'application/json'
-            });
-        }
-    })
-
 
     var currentSelectIndex   // datagrid 当前选择的行索引
         ,currentOrgId = parent.config.org_Id  // 当前登录人所属单位ID
@@ -64,8 +50,8 @@ $(function () {
      * 加载库存中有余量的药品名称数据
      */
     var loadDrugNameData = function(){
-        var chargeType = {colName:'storage',colValue:currentStorage,operateMethod:"="}
-        var param = {dictType:'v_drug_stock_name_dict',orgId:currentOrgId,inputParamVos:[chargeType]}
+        var chargeType = [{colName:'storage',colValue:currentStorage,operateMethod:"="}]
+        var param = {dictType:'v_drug_stock_name_dict',orgId:currentOrgId,inputParamVos:chargeType}
         parent.$.postJSON('/service/input-setting/listParam',
             JSON.stringify(param) ,function(res){
             drugDicts = res
@@ -113,6 +99,7 @@ $(function () {
         }
         return false
     }
+
     /**
      * 药品返回到选择前的值
      * @param oldV 选择前的值
@@ -268,7 +255,9 @@ $(function () {
      */
     var onClickCell = function (index, field) {
         if (endEditing()) {
-            if (index == $('#dg').datagrid('getRows').length - 1) return
+            if (index == $('#dg').datagrid('getRows').length - 1) {
+                return
+            }
             $('#dg').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
             currentSelectIndex = index;
@@ -288,6 +277,81 @@ $(function () {
         $('#dg').datagrid('mergeCells', {index: _index, field: 'batchNo', rowspan: null, colspan: 2})
     }
 
+    var save = function (mod) {
+        alert($('#storageDept').combobox('getValue'))
+        return
+        if (currentSelectIndex != undefined) {
+            $("#dg").datagrid("endEdit", currentSelectIndex);
+        }
+        var rows = $('#dg').datagrid('getRows')
+        if(rows.length > 0){
+            for(var i=0;i<rows.length - 1 ;i++){
+                if(!validateRow(rows[i])){
+                    return
+                }
+            }
+            if(!currentSubStorageDeptId) return
+            for(var i=0;i<rows.length - 1 ;i++){
+                rows[i].itemNo = i + 1
+                delete rows[i].price
+                delete rows[i].outPrice
+                delete rows[i].supplier
+                delete rows[i].currentStock
+                delete rows[i].drugName
+            }
+            var record = {
+                documentNo : $('#documentNo').textbox('getValue')
+                ,storage : currentStorage
+                ,exportDate : $('#calendar').datebox('getValue')
+                ,receiver : $('#storageDept').combobox('getValue')
+                ,accountReceivable : $('#accountReceivable').numberbox('getValue')
+                ,accountPayed : $('#accountPayed').numberbox('getValue')
+                ,additionalFee : $('#additionalFee').numberbox('getValue')
+                ,exportClass : $('#statisticClass').combobox('getValue')
+                ,subStorage : $('#stockSubDept').combobox('getValue')
+                ,accountIndicator : currentAccountFlag ? currentAccountFlag : 0
+                ,memos : $('#memos').textbox('getValue')
+                ,operator : currentUsername
+                ,subReceiver : $('#subStorageDept').combobox('getValue')
+                ,orgId : currentOrgId
+                ,detailList : rows.slice(0,rows.length - 1)
+                ,subStorageDeptId : currentSubStorageDeptId
+            }
+            parent.$.postJSON('/service/drug-out/save',JSON.stringify(record),function(res){
+                if(res == '1'){
+                    $.messager.alert('保存',(currentAccountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
+                        if(mod == 'print'){
+                            print()
+                        } else {
+                            window.location.reload()
+                        }
+                    })
+                } else {
+                    $.messager.alert('保存','保存失败！','error')
+                }
+            })
+        }
+        else {
+            $.messager.alert('保存','没有要保存的数据！','info')
+        }
+    }
+    var print = function(){
+        $('#printWindow').window({
+            title: '打印',
+            width: '600',
+            height: '450',
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            modal: true,
+            onClose : function () {
+                window.location.reload()
+            }
+        })
+        $('#reportFrame').attr('src','http://localhost:8075/WebReport/ReportServer?reportlet=drugExport.cpt&documentNo='+$('#documentNo').textbox('getValue')+'&orgId='+currentOrgId+'&storage='+currentStorage)
+    }
+
+    // 药品出库的datagrid
     $("#dg").datagrid({
         fit: true,
         fitColumns: false,
@@ -295,6 +359,7 @@ $(function () {
         singleSelect: true,
         toolbar: '#tb',
         method: 'GET',
+        width: 400,
         rownumbers: true,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
@@ -314,17 +379,14 @@ $(function () {
             title: "厂家",
             field: "supplier",
             width: 200,
-            align: 'center',
-            formatter: function (value) {
-                if(value)
-                    return '<div style="text-align:left">' + value + '</div>'
-                return ''
-            }
+            align: 'left',
+            halign: 'center'
         }, {
             title: "药名",
             field: "drugName",
             width: 220,
-            align: 'center',
+            align: 'left',
+            halign: 'center',
             editor: {
                 type: 'combogrid',
                 options: {
@@ -337,23 +399,13 @@ $(function () {
                     data: drugDicts,
                     columns: [[
                         {field: 'drug_code', title: '药品代码', width: 100, align: "center"},
-                        {field: 'drug_name',
-                            title: '药品名称',
-                            width: 160,
-                            align: "center",
-                            formatter: function (value) {
-                                return '<div style="text-align:left">' + value + '</div>'
-                            }
-                        },
+                        {field: 'drug_name', title: '药品名称', width: 160, halign: "center", align: "left"},
                         {field: 'input_code', title: '输入码', width: 70, align: "center"}
                     ]],
-                    onChange: function (newV, oldV) {
-                        if (newV != oldV)return
-                    },
                     filter: function (field, row) {
-                        if (row['drug_code'].toUpperCase().indexOf(field.toUpperCase()) > -1
-                            || row['input_code'].toUpperCase().indexOf(field.toUpperCase()) > -1
-                            || row['drug_name'].toUpperCase().indexOf(field.toUpperCase()) > -1) {
+                        if (field && (row['drug_code'] && row['drug_code'].toUpperCase().indexOf(field.toUpperCase()) == 0)
+                            || (row['input_code'] && row['input_code'].toUpperCase().indexOf(field.toUpperCase()) == 0)
+                            || (row['drug_name'] && row['drug_name'].toUpperCase().indexOf(field.toUpperCase()) == 0)) {
                             return true
                         }
                     },
@@ -361,11 +413,6 @@ $(function () {
                         loadDrugStockData(row)
                     }
                 }
-            },
-            formatter: function (value) {
-                if(value)
-                    return '<div style="text-align:left">' + value + '</div>'
-                return ''
             }
         }, {
             title: "规格",
@@ -385,7 +432,7 @@ $(function () {
             editor: {
                 type: 'numberbox', options: {
                     required: true,
-                    min : 0,
+                    min : 1,
                     validType : ['maxStock']
                 }
             }
@@ -405,7 +452,7 @@ $(function () {
             width: 70,
             align: 'center',
             formatter: function(value,row){
-                return +value - (isNaN(row.quantity) ? 0 : + row.quantity)
+                return (isNaN(value) ? 0 : value) - (isNaN(row.quantity) ? 0 : + row.quantity)
             }
         }, {
             title: "零售价",
@@ -451,13 +498,17 @@ $(function () {
             }
         }
         ]],
-        onClickCell: onClickCell
+        onClickCell: onClickCell,
+        onBeforeSelect: function(index){
+            return $('#dg').datagrid('validateRow', currentSelectIndex)
+        }
     })
-
+    // 出库类别
     $('#statisticClass').combobox({
         url: parent.basePath + '/drug-export/findAll',
         valueField: 'exportClass',
         textField: 'exportClass',
+        editable: false,
         method: 'GET',
         onSelect: function(record){
             currentAccountFlag = record['accountFlag']
@@ -471,7 +522,6 @@ $(function () {
                     $('#storageDept').combobox({
                         valueField : 'supplierCode',
                         textField : 'supplier',
-                        width: 140,
                         data : res
                     })
                 })
@@ -494,11 +544,13 @@ $(function () {
             }
         }
     })
+    //日期
     $('#calendar').datebox({
         width: 140,
         editable: true,
         value: parent.formatDatebox(new Date())
     })
+    //库房子单位
     $('#stockSubDept').combobox({
         valueField:'subStorageCode',
         textField:'subStorage',
@@ -517,19 +569,22 @@ $(function () {
         }
     })
 
+    $('#newBtn').on('click',function(){
+        $('#dg').datagrid('loadData',[])
+    })
     $("#addBtn").on('click', function () {
-        //if(!$('#statisticClass').combobox('getValue')){
-        //    $.messager.alert('警告','请先选择出库类别！','warning')
-        //    return
-        //}
-        //if(!$('#storageDept').combobox('getValue')){
-        //    $.messager.alert('警告','请先选择收货单位！','warning')
-        //    return
-        //}
-        //if(!$('#documentNo').textbox('getValue')) {
-        //    $.messager.alert('警告','请先选择库房子单位！','warning')
-        //    return
-        //}
+        if(!$('#statisticClass').combobox('getValue')){
+            $.messager.alert('警告','请先选择出库类别！','warning')
+            return
+        }
+        if(!$('#storageDept').combobox('getValue')){
+            $.messager.alert('警告','请先选择收货单位！','warning')
+            return
+        }
+        if(!$('#documentNo').textbox('getValue')) {
+            $.messager.alert('警告','请先选择库房子单位！','warning')
+            return
+        }
         if(!endEditing()) return
         var len = $('#dg').datagrid('getRows').length
         if (len == 0) {
@@ -551,8 +606,7 @@ $(function () {
 
         $("#dg").datagrid('insertRow',{index:currentSelectIndex,row: record});
         $("#dg").datagrid('selectRow', currentSelectIndex);
-    });
-
+    })
     $("#delBtn").on('click', function () {
         if (currentSelectIndex != undefined) {
             if(currentSelectIndex == $('#dg').datagrid('getRows').length - 1) return
@@ -561,89 +615,16 @@ $(function () {
         } else {
             $.messager.alert('系统提示', "请选择要删除的行", 'info');
         }
-    });
-
-    /**
-     * 保存修改的内容
-     * 基础字典的改变，势必会影响其他的统计查询
-     * 基础字典的维护只能在基础数据维护的时候使用。
-     */
-    $("#saveBtn").on('click', function () {
-        if (currentSelectIndex != undefined) {
-            $("#dg").datagrid("endEdit", currentSelectIndex);
-        }
-        var rows = $('#dg').datagrid('getRows')
-        if(rows.length > 0){
-            for(var i=0;i<rows.length - 1 ;i++){
-                if(!validateRow(rows[i])){
-                    return
-                }
-            }
-            if(!currentSubStorageDeptId) return
-            for(var i=0;i<rows.length - 1 ;i++){
-                rows[i].itemNo = i + 1
-                delete rows[i].price
-                delete rows[i].outPrice
-                delete rows[i].supplier
-                delete rows[i].currentStock
-                delete rows[i].drugName
-            }
-            var record = {
-                documentNo : $('#documentNo').textbox('getValue')
-                ,storage : currentStorage
-                ,exportDate : $('#calendar').datebox('getValue')
-                ,receiver : $('#storageDept').combobox('getValue')
-                ,accountReceivable : $('#accountReceivable').numberbox('getValue')
-                ,accountPayed : $('#accountPayed').textbox('getValue')
-                ,additionalFee : $('#additionalFee').textbox('getValue')
-                ,exportClass : $('#statisticClass').combobox('getValue')
-                ,subStorage : $('#subStorageDept').combobox('getValue')
-                ,accountIndicator : currentAccountFlag ? currentAccountFlag : 0
-                ,memos : $('#memos').textbox('getValue')
-                ,operator : currentUsername
-                ,subReceiver : $('#stockSubDept').combobox('getValue')
-                ,orgId : currentOrgId
-                ,detailList : rows.slice(0,rows.length - 1)
-                ,subStorageDeptId : currentSubStorageDeptId
-            }
-            parent.$.postJSON('/service/drug-out/save',JSON.stringify(record),function(res){
-                if(res == '1'){
-                    $.messager.alert('保存',(currentAccountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
-                        //if(mod == 'print'){
-                        //    print()
-                        //} else {
-                            window.location.reload()
-                        //}
-                    })
-                } else {
-                    $.messager.alert('保存','保存失败！','error')
-                }
-            })
-        }
-        else {
-            $.messager.alert('保存','没有要保存的数据！','info')
-        }
-
-        //var insertData = $("#dg").datagrid("getChanges", "inserted");
-        //var updateDate = $("#dg").datagrid("getChanges", "updated");
-        //var deleteDate = $("#dg").datagrid("getChanges", "deleted");
-        //
-        //var beanChangeVo = {};
-        //beanChangeVo.inserted = insertData;
-        //beanChangeVo.deleted = deleteDate;
-        //beanChangeVo.updated = updateDate;
-        //
-        //
-        //if (beanChangeVo) {
-        //    parent.$.postJSON("", beanChangeVo, function (data, status) {
-        //        $.messager.alert("系统提示", "保存成功", "info");
-        //        $('#dg').datagrid('load');
-        //        $('#dg').datagrid('clearChecked');
-        //    }, function (data) {
-        //        $.messager.alert('提示', data.responseJSON.errorMessage, "error");
-        //    })
-        //}
-    });
+    })
+    $("#saveBtn").on('click',function(){
+        save()
+    })
+    $('#printBtn').on('click',function(){
+        save('print')
+    })
+    $('#closeBtn').on('click',function(){
+        parent.location.href = parent.getRootPath() + '/modules/index.html'
+    })
 
     //设置是否禁用控件
     $("#subStorageDept").textbox({'disabled':true});

@@ -36,8 +36,10 @@ public class DrugExportService extends CrudImplService<DrugExportDetailDao, Drug
     private DrugSubStorageDeptDao subStorageDeptDao;
 
     /**
-     * 保存药品出库单主单和明细
-     * @param master 主表内含有明细表List序列
+     * 保存药品出库主表、关联的明细表，
+     * 以及更新库房子单位出库流水号
+     * 如果记账标志为1，则记账到药品库房
+     * @param master 药品主表数据，内含有明细表List序列
      * @return 0 失败，1成功
      */
     @Override
@@ -71,7 +73,6 @@ public class DrugExportService extends CrudImplService<DrugExportDetailDao, Drug
                 }
                 result = "1";
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
         return result;

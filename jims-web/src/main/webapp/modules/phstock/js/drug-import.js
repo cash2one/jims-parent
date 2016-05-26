@@ -255,7 +255,7 @@ $(function () {
     }
     var print = function(){
         $('#printWindow').window({
-            title: '选择药品规格和单位',
+            title: '打印',
             width: '600',
             height: '450',
             collapsible: false,
@@ -380,7 +380,8 @@ $(function () {
             iconCls : 'icon-print',
             text : '保存并打印',
             onClick : function(){
-                print()
+                //print()
+                save('print')
             }
         })
         $('#cancelBtn').linkbutton({
