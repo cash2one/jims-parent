@@ -4,8 +4,10 @@
 package com.jims.clinic.dao;
 
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.common.persistence.BaseDao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.common.web.impl.BaseDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -58,6 +60,18 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @param returnedOperator
      */
     public void updateClinicMasterByReturn(@Param("visitDate")String  visitDate,@Param("visitNo")Integer visitNo,@Param("returnedDate")Date returnedDate,@Param("returnedOperator")String returnedOperator);
+
+    /**
+     * 通过就诊号与机构ID获取就诊记录
+     * @param orgId
+     * @param clinicNo
+     * @return
+     */
+    public BaseDto getClinicMasterCost(@Param("orgId")String orgId,@Param("clinicNo")String clinicNo);
+
+    public List<BaseDto> getClinicMasterCostAll(@Param("id")String id);
+
+
 
 
 }
