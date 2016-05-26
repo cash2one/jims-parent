@@ -194,13 +194,27 @@ function init(){
             }
         ]],
         onSelect:function(rowIndex,rowData){
+            //$("#list-zhu").datagrid('selectRow',0);
             $.each($('#list-zhu').datagrid('getRows'),function(j,val){
                 if(rowData.presc_no==val.presc_no){
                     var index = $('#list-zhu').datagrid('getRowIndex', val);
-                    alert(val.id);
-                    $("#list-zhu").datagrid('selectRecord',val.id);
+                    if(index!=rowIndex){
+                        $("#list-zhu").datagrid('selectRow',index);
+                    }
                 }
             });
+            return false;
+        },
+        onUnselect:function(rowIndex,rowData){
+            $.each($('#list-zhu').datagrid('getChecked'),function(j,val){
+                if(rowData.presc_no==val.presc_no){
+                    var index = $('#list-zhu').datagrid('getRowIndex', val);
+                    if(index!=rowIndex){
+                        $("#list-zhu").datagrid('uncheckRow',index);
+                    }
+                }
+            });
+            return false;
         }
     });
     $("#list-xi").datagrid({
