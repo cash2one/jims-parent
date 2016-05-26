@@ -140,10 +140,67 @@ public class ClinicAppointsServiceImpl extends CrudImplService<ClinicAppointsDao
                       clinicMaster.preUpdate();
                       num=clinicMasterDao.update(clinicMaster);
                   }
-                  //删除预约
+                  //删除预约信息
                   delete(list.get(i).getId());
               }
          }
         return num+"";
+    }
+
+    /**
+     * 根据条件查询 list
+     * @param name
+     * @param cardNo
+     * @param visitDate
+     * @return
+     */
+    @Override
+    public List<ClinicAppoints> findListAppoints(String name, String cardNo, String visitDate) {
+        return clinicAppointsDao.findListAppoints(name,cardNo,visitDate);
+    }
+
+    /**
+     * 删除预约信息
+     * @param id
+     * @return
+     */
+    @Override
+    public String deleteAppoints(String id) {
+        //删除预约数据
+        String num=  delete(id);
+        //更新clinicForRegister当前号数-1
+        ClinicAppoints appoints=get(id);
+        SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
+        String clinicDate=format.format(appoints.getVisitDateAppted());
+        String clinicLabel=appoints.getClinicLabel();
+        String timeDesc=appoints.getVisitTimeAppted();
+        clinicForRegistDao.updateRegByAppointReturn(clinicDate,clinicLabel,timeDesc);
+        return num;
+    }
+
+    /**
+     * 编辑预约信息
+     * @param clinicAppoints
+     * @return
+     */
+    @Override
+    public String editAppoints(ClinicAppoints clinicAppoints) {
+        String num="";
+        if(clinicAppoints!=null){
+            num= save(clinicAppoints);//编辑预约信息
+            String masterId=clinicAppoints.getMasterId();
+            PatMasterIndex patMasterIndex= patMasterIndexDao.get(masterId);
+            if(patMasterIndex!=null){
+                if(clinicAppoints.getName()!=null && !clinicAppoints.getName().equals("")){
+                    patMasterIndex.setName(clinicAppoints.getName());
+                }
+                if(clinicAppoints.getInsuranceNo()!=null && !clinicAppoints.getInsuranceNo().equals("")){
+                    patMasterIndex.setInsuranceNo(clinicAppoints.getInsuranceNo());
+                }
+                patMasterIndexDao.update(patMasterIndex);
+            }
+
+        }
+        return num;
     }
 }

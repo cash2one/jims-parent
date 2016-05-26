@@ -136,15 +136,15 @@ public class ClinicForRegistServiceImpl extends CrudImplService<ClinicForRegistD
                 }else{
                     master.setVisitNo(1);//就诊序号
                 }
-                master.setClinicNo(DateUtils.getDate("yyyyMMdd")+1);//就诊号==就诊日期+就诊序号
-                if(clinicMaster.getVisitIndicator().equals("初诊")){
+                master.setClinicNo(DateUtils.getDate("yyyyMMdd")+master.getVisitNo());//就诊号==就诊日期+就诊序号
+                if("初诊".equals(clinicMaster.getVisitIndicator())){
                     master.setFirstVisitIndicator(0);//初诊标志
                 }
                 master.setRegisteringDate(format.parse(DateUtils.getDate()));//挂号日期
-                master.setRegistFee(0.0);//挂号费
-                master.setClinicFee(0.0);//诊疗费
+                master.setRegistFee(3.0);//挂号费
+                master.setClinicFee(2.0);//诊疗费
                 master.setOtherFee(0.0);//其他费
-                master.setClinicCharge(0.0);//实收费用
+                master.setClinicCharge(5.0);//实收费用
                 master.setModeCode("现金");//挂号模式
                 master.setPayWay("现金");//挂号模式
                 if (master.getIsNewRecord()){

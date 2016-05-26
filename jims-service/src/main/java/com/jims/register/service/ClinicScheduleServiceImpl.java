@@ -42,7 +42,7 @@ public class ClinicScheduleServiceImpl extends CrudImplService<ClinicScheduleDao
                 clinicSchedule.setClinicLabel(clinicIndexId);
                 num= save(clinicSchedule);
             }
-            dao.batchDel(list);
+            dao.batchDel(list,clinicIndexId);
         }
         return num;
     }

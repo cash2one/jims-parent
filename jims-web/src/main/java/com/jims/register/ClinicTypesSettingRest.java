@@ -81,4 +81,17 @@ public class ClinicTypesSettingRest {
         data.setCode(clinicTypeFeeServiceApi.delete(id));
         return data;
     }
+
+    /**
+     * 删除 号类 主
+     * @param id
+     * @return
+     */
+    @POST
+    @Path("deleteClinicType")
+    public StringData deleteClinicType(String id){
+        StringData data=new StringData();
+        data .setCode(clinicTypeSettingServiceApi.delete(id));
+        return data;
+    }
 }

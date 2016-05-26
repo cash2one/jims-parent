@@ -16,7 +16,16 @@ public interface ClinicTypeSettingServiceApi {
      * 查询号类集合
      * @param clinicTypeSetting
      * @return
+     * @author zhaoning
      */
    public List<ClinicTypeSetting> findList(ClinicTypeSetting clinicTypeSetting);
+
+    /**
+     * 删除 号类 主
+     * @param id
+     * @return
+     * @author zhaoning
+     */
+    public String delete(String id);
 }
 

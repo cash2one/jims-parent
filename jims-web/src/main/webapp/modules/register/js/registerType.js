@@ -7,8 +7,8 @@ function onloadMethod(id,clinicName){
     $("#clinicTypeId").val(id);
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
-        width: '100%',
-        height: '100%',
+        width: 'auto',
+        height: 'auto',
         nowrap: false,
         striped: true,
         border: true,
@@ -114,7 +114,7 @@ function clinicTypeList(){
     var typeHtml='';
     $.get(basePath + '/clinicType/findList',function(data){
        for(var i=0;i<data.length;i++){
-         typeHtml+='<li><a href="#" onclick="onloadMethod(\''+data[i].id+'\',\''+data[i].clinicTypeName+'\')">'+data[i].clinicTypeName+'</a><a href="#" class="rp-close">X</a></li>';
+         typeHtml+='<li><a href="#" onclick="onloadMethod(\''+data[i].id+'\',\''+data[i].clinicTypeName+'\')">'+data[i].clinicTypeName+'</a><a href="#" class="rp-close" onclick="deleteClinicType(\''+data[i].id+'\')">X</a></li>';
        }
         $("#clinicType").html(typeHtml);
     })
@@ -187,6 +187,29 @@ function deleteItem(){
         }
     })
 }
+//删除号类
+function deleteClinicType(typeId){
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function () {
+            $.ajax({
+                'type': 'POST',
+                'url': basePath+'/clinicType/deleteClinicType',
+                'contentType': 'application/json',
+                'data': id=typeId,
+                'dataType': 'json',
+                'success': function(data){
+                    if(data.code=='1'){
+                        $.messager.alert("提示消息",data.code+"条记录删除成功！");
+                        clinicTypeList();
+                        onloadMethod('','');
+                    }else{
+                        $.messager.alert('提示',"删除失败", "error");
+                    }
+                },
+                'error': function(data){
+                    $.messager.alert('提示',"删除失败", "error");
+                }
+            });
 
-
+    })
+}
 
