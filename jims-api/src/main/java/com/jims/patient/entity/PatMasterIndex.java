@@ -6,6 +6,8 @@ package com.jims.patient.entity;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
+import com.jims.register.entity.ClinicAppoints;
+import com.jims.register.entity.ClinicForRegist;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;;
@@ -13,6 +15,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 病人主索引Entity
@@ -75,6 +78,9 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private String patientId; //病人id
 
 	private String age;//年龄
+
+	private List<ClinicForRegist> clinicForRegistList;
+	private List<ClinicAppoints> clinicAppointses;
 	
 	public PatMasterIndex() {
 		super();
@@ -137,11 +143,10 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 		this.sex = sex;
 	}
 	
-	@JsonSerialize(using = CustomDateSerializer.class)
+
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
-	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -576,4 +581,20 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setAge(String age) {
 		this.age = age;
 	}
+	public List<ClinicForRegist> getClinicForRegistList() {
+		return clinicForRegistList;
+	}
+
+	public void setClinicForRegistList(List<ClinicForRegist> clinicForRegistList) {
+		this.clinicForRegistList = clinicForRegistList;
+	}
+
+	public List<ClinicAppoints> getClinicAppointses() {
+		return clinicAppointses;
+	}
+
+	public void setClinicAppointses(List<ClinicAppoints> clinicAppointses) {
+		this.clinicAppointses = clinicAppointses;
+	}
+
 }

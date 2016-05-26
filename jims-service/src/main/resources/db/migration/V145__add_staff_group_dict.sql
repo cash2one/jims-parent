@@ -1,7 +1,7 @@
 -- Create table
 create table STAFF_GROUP_DICT
 (
-  GROUP_CLASS_ID VARCHAR2(16) not null,
+  GROUP_CLASS_ID VARCHAR2(64) not null,
   GROUP_CODE     VARCHAR2(8) not null,
   GROUP_NAME     VARCHAR2(20),
   INPUT_CODE     VARCHAR2(8),

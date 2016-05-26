@@ -92,7 +92,6 @@
         select buy_id from DRUG_BUY_PLAN
         where substr(buy_id,0,8) = to_char(#{0},'yyyyMMdd')
         and org_id = #{1}
-        and del_flag = '0'
         and rownum &lt; 2 order by buy_id DESC
     </select>
 

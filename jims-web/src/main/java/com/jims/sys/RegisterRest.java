@@ -37,9 +37,8 @@ public class RegisterRest {
     @POST
     @Path("add-info")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response register(RegisterVo registerVo) {
+    public StringData register(RegisterVo registerVo) {
 
-        try {
             PersionInfo persionInfo = new PersionInfo();
             persionInfo.setName(registerVo.getName());
             persionInfo.setCardNo(registerVo.getCardNo());
@@ -50,49 +49,13 @@ public class RegisterRest {
 
             SysUser sysUser = new SysUser();
             sysUser.setPassword(registerVo.getPassword());
-            String register = "1";
-            PersionInfo persionInfo2 = new PersionInfo();
-            if (StringUtils.isNotBlank(persionInfo.getName()) && StringUtils.isNotBlank(persionInfo.getCardNo()) && StringUtils.isNotBlank(persionInfo.getPhoneNum())
-                    && StringUtils.isNotBlank(persionInfo.getNickName()) && StringUtils.isNotBlank(persionInfo.getEmail()) && StringUtils.isNotBlank(sysUser.getPassword())) {
-                register = persionInfoApi.register(persionInfo, sysUser);
-            }else
+            String persion=persionInfoApi.register(persionInfo, sysUser);
+            StringData stringData=new StringData();
+            if(persion!=null)
             {
-                persionInfo2.setDelFlag("6");
-                return Response.status(Response.Status.OK).entity(persionInfo2).build();
+                stringData.setData("success");
+                return stringData;
             }
-
-             /*else if (persionInfo.getName() == "") {
-                persionInfo2.setDelFlag("1");
-                return Response.status(Response.Status.OK).entity(persionInfo2).build();
-            } else if (persionInfo.getCardNo() == "") {
-                persionInfo2.setDelFlag("2");
-                return Response.status(Response.Status.OK).entity(persionInfo2).build();
-            } else if (persionInfo.getPhoneNum() == "") {
-                persionInfo2.setDelFlag("3");
-                return Response.status(Response.Status.OK).entity(persionInfo2).build();
-            } else if (persionInfo.getNickName() == "") {
-                persionInfo2.setDelFlag("4");
-                return Response.status(Response.Status.OK).entity(persionInfo2).build();
-            } else if (persionInfo.getEmail() == "") {
-                persionInfo2.setDelFlag("5");
-                return Response.status(Response.Status.OK).entity(persionInfo2).build();
-            } else if (sysUser.getPassword() == "") {
-                persionInfo2.setDelFlag("6");
-                return Response.status(Response.Status.OK).entity(persionInfo2).build();
-            }*/
-
-
-            //判断是否注册成功
-            if (register == null) {
-                PersionInfo persionInfo1 = new PersionInfo();
-                //注册成功
-                return Response.status(Response.Status.OK).entity(persionInfo1).build();
-            }
-        } catch (Exception e) {
-
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(null).build();
-        }
-
         return null;
     }
 

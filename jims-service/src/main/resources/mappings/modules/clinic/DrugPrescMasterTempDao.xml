@@ -89,7 +89,31 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	 <select id="getPrescMasterTemp" resultType="DrugPrescMasterTemp">
+		 SELECT distinct DRUG_PRESC_MASTER_TEMP.PRESC_NO AS "prescNo",
+		 DRUG_PRESC_MASTER_TEMP.ID AS  "id",
+		 DRUG_PRESC_MASTER_TEMP.NAME AS "name",
+		 DRUG_PRESC_MASTER_TEMP.NAME_PHONETIC AS "namePhonetic",
+		 DRUG_PRESC_MASTER_TEMP.PRESC_DATE AS "prescDate",
+		 DRUG_PRESC_MASTER_TEMP.PAYMENTS AS "payments",
+		 DRUG_PRESC_MASTER_TEMP.PATIENT_ID AS "patientId",
+		 DRUG_PRESC_MASTER_TEMP.RCPT_NO AS "rcptNo",
+		 DRUG_PRESC_MASTER_TEMP.PRESCRIBED_BY AS "prescribedBy",
+		 DRUG_PRESC_MASTER_TEMP.ORDERED_BY AS "orderedBy",
+		 DRUG_PRESC_MASTER_TEMP.DISPENSARY_SUB AS "dispensarySub"
+		 FROM DRUG_PRESC_MASTER_TEMP,outp_presc
+		 WHERE
+		 drug_PRESC_MASTER_TEMP.PRESC_DATE  &lt;= to_date(to_char(sysdate+1,'yyyy-mm-dd'),'yyyy-mm-dd')
+		 AND DRUG_PRESC_MASTER_TEMP.PRESC_DATE &gt;=  to_date(to_char(add_months(sysdate,-1),'yyyy-mm-dd'),'yyyy-mm-dd') AND
+		 DRUG_PRESC_MASTER_TEMP.DISPENSARY = #{dispensary}
+		 AND DRUG_PRESC_MASTER_TEMP.DISPENSARY_SUB = #{dispensarySub}
+		 AND (drug_PRESC_MASTER_TEMP.presc_source = 0 OR drug_PRESC_MASTER_TEMP.presc_source is null)
+		 and(outp_presc.DRUG_PRESC_DATE(+) =drug_PRESC_MASTER_TEMP.PRESC_DATE and outp_presc.DRUG_PRESC_NO(+) =drug_PRESC_MASTER_TEMP.PRESC_NO )
+		 and outp_presc.CHARGE_INDICATOR(+) = 1
+	 </select>
+
+
 	<select id="findAllList" resultType="DrugPrescMasterTemp">
 		SELECT 
 			<include refid="drugPrescMasterTempColumns"/>

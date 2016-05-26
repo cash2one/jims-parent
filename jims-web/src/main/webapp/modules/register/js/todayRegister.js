@@ -1,6 +1,6 @@
 $(function(){
     var liHtml="";
-    $.get(basePath+'/clinicRegister/findListReg',function(data){//加载号别
+    $.get(basePath+'/clinicRegister/findListReg?status='+'当日',function(data){//加载号别
           liHtml+='<ul>';
          for(var i=0;i<data.length;i++){
           liHtml+= '<li onclick="centerTypeActive(this)">'+
@@ -90,8 +90,7 @@ function clinicReturnInfo(){
     var charge=$("#charge").val();
     var returnDate=$("#returnDate").val();
     if(returnDate!=null && returnDate!=''){
-        $.messager.alert("提示信息","该病人已经退号请勿重复操作");
-        return;
+        $.messager.alert("提示信息","");
     }
     $.messager.confirm("确认消息", "确认进行退号？", function () {
         $.messager.alert("提示信息","请退还病人"+charge+"元");
