@@ -77,11 +77,12 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private ClinicMaster clinicMaster;//病人就诊记录
 	private String patientId; //病人id
 
+
 	private String age;//年龄
 
 	private List<ClinicForRegist> clinicForRegistList;
 	private List<ClinicAppoints> clinicAppointses;
-	
+
 	public PatMasterIndex() {
 		super();
 	}
@@ -549,6 +550,7 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 		this.clinicMaster = clinicMaster;
 	}
 
+
 	public static  String getAge(Date dateOfBirth) {
 		if (dateOfBirth == null){
 			throw new RuntimeException("出生日期不能为null");
@@ -578,6 +580,7 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setAge(String age) {
 		this.age = age;
 	}
+
 	public List<ClinicForRegist> getClinicForRegistList() {
 		return clinicForRegistList;
 	}
