@@ -137,7 +137,7 @@ public class ClinicForRegistServiceImpl extends CrudImplService<ClinicForRegistD
                     master.setVisitNo(1);//就诊序号
                 }
                 master.setClinicNo(DateUtils.getDate("yyyyMMdd")+master.getVisitNo());//就诊号==就诊日期+就诊序号
-                if(clinicMaster.getVisitIndicator().equals("初诊")){
+                if("初诊".equals(clinicMaster.getVisitIndicator())){
                     master.setFirstVisitIndicator(0);//初诊标志
                 }
                 master.setRegisteringDate(format.parse(DateUtils.getDate()));//挂号日期

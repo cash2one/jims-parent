@@ -336,7 +336,7 @@
         WHERE  a.org_id = #{orgId} AND 	a.clinic_no=#{clinicNo}
     </select>
     <select id="getClinicMasterCostAll" resultType="com.jims.common.web.impl.BaseDto">
-        SELECT to_char("OUTP_PRESC"."VISIT_DATE",'yyyy-mm-dd hh24:mi:ss') visit_date,
+        SELECT "OUTP_PRESC"."ID" id,to_char("OUTP_PRESC"."VISIT_DATE",'yyyy-mm-dd hh24:mi:ss') visit_date,
                "OUTP_PRESC"."VISIT_NO" visit_no,
                (select patient_id
                   from outp_orders
@@ -382,7 +382,7 @@
            and ("OUTP_ORDERS".CLINIC_ID = #{id})
            and "OUTP_PRESC"."CHARGE_INDICATOR" = '0'
         union
-        SELECT to_char("OUTP_TREAT_REC"."VISIT_DATE",'yyyy-mm-dd hh24:mi:ss') visit_date,
+        SELECT "OUTP_TREAT_REC"."ID" id,to_char("OUTP_TREAT_REC"."VISIT_DATE",'yyyy-mm-dd hh24:mi:ss') visit_date,
                "OUTP_TREAT_REC"."VISIT_NO" visit_no,
                (select patient_id
                   from outp_orders
