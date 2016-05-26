@@ -6,6 +6,7 @@ package com.jims.clinic.dao;
 import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.common.web.impl.BaseDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -90,5 +91,14 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
      * @date 2016/5/9
      */
     public Integer removeByMasterId(OutpOrdersCosts outpOrdersCosts);
+
+    /**
+     * 获取个人门诊所有收费项目
+     * @param clinicId
+     * @return
+     */
+
+    public List<BaseDto> getCostAll(@Param(value = "clinicId")String clinicId);
+
 
 }
