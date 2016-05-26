@@ -5,6 +5,7 @@ package com.jims.clinic.entity;
 import com.jims.common.persistence.DataEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 药品处方主记录Entity
@@ -63,7 +64,7 @@ public class DrugPrescMaster extends DataEntity<DrugPrescMaster> {
 	private String hsph;		// 毒麻处方回收批号
 	private String ffph;		// 毒麻处方发放批号
 	private String dispensarySub;		// 发药子药局
-	
+	private List<DrugPrescDetail> drugPrescDetailList;
 	public DrugPrescMaster() {
 		super();
 	}
@@ -513,4 +514,12 @@ public class DrugPrescMaster extends DataEntity<DrugPrescMaster> {
 		this.dispensarySub = dispensarySub;
 	}
 
+
+	public List<DrugPrescDetail> getDrugPrescDetailList() {
+		return drugPrescDetailList;
+	}
+
+	public void setDrugPrescDetailList(List<DrugPrescDetail> drugPrescDetailList) {
+		this.drugPrescDetailList = drugPrescDetailList;
+	}
 }
