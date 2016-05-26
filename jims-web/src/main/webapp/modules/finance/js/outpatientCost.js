@@ -192,7 +192,16 @@ function init(){
                     }
                 }
             }
-        ]]
+        ]],
+        onSelect:function(rowIndex,rowData){
+            $.each($('#list-zhu').datagrid('getRows'),function(j,val){
+                if(rowData.presc_no==val.presc_no){
+                    var index = $('#list-zhu').datagrid('getRowIndex', val);
+                    alert(val.id);
+                    $("#list-zhu").datagrid('selectRecord',val.id);
+                }
+            });
+        }
     });
     $("#list-xi").datagrid({
         fit: true,
