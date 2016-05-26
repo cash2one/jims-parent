@@ -1,6 +1,7 @@
 package com.jims.finance.api;
 
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.common.data.BaseData;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.patient.entity.PatVisit;
@@ -15,6 +16,6 @@ import java.util.List;
  */
 public interface OutPatientCostServiceApi {
 
-    public List<BaseDto> list(String orgId,String clinicNo);
+    public BaseData<BaseDto> list(String orgId,String clinicNo);
 
 }
