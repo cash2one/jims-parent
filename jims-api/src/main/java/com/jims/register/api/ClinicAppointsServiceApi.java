@@ -26,11 +26,43 @@ public interface ClinicAppointsServiceApi {
     public List<ClinicAppoints> findList(ClinicAppoints clinicAppoints);
 
     /**
+     * 根据条件查询  预约list
+     * @param name
+     * @param cardNo
+     * @param visitDate
+     * @return
+     * @author zhaoning
+     */
+    public List<ClinicAppoints> findListAppoints(String name,String cardNo,String visitDate);
+
+    /**
      * 获取对象
      * @param id
      * @return
+     * @author zhaoning
      */
     public ClinicAppoints get(String id);
 
+    /**
+     * 预约确认保存
+     * @param patMasterIndex
+     * @return
+     */
     public String saveAppointReg(PatMasterIndex patMasterIndex);
+
+    /**
+     * 删除预约信息
+     * @param id
+     * @return
+     * @author zhaoning
+     */
+    public String deleteAppoints(String id);
+
+    /**
+     * 编辑预约信息
+     * @param clinicAppoints
+     * @return
+     * @author zhaoning
+     */
+    public String editAppoints(ClinicAppoints clinicAppoints);
 }

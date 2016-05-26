@@ -4,7 +4,7 @@
     
 	<sql id="patMasterIndexColumns">
 		a.id AS "id",
-		a.hosid AS "hosid",
+        a.org_id AS "ORG_ID",
 		a.inp_no AS "inpNo",
 		a.name AS "name",
 		a.name_phonetic AS "namePhonetic",
