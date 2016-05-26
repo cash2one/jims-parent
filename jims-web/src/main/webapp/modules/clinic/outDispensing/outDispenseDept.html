@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" ec>
+    <title>门诊处方发药-选择科室</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../outDispensing/js/outDispensing.js"></script>
+</head>
+<body>
+<div id="drugDialog" class="easyui-dialog" style="width:50%;height:250px;padding-top: 5px;"
+     closed="true" buttons="#dlg-buttons">
+    <div class="margin10-bot " style="border: 1px;">科室名称或拼音字头<input name="" class="validatebox-text validatebox-text-xs">
+        <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">选择</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#drug').dialog('close')" style="width:90px">关闭</a>
+    </div>
+    <table id="dept" cellspacing="0" cellpadding="0">
+
+    </table>
+</div>
+
+
+</body>
+</html>
