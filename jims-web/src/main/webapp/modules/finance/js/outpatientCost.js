@@ -482,6 +482,7 @@ function rowCount(){
     var class_type_zl="";
     var datazl=[];
     var price=0;
+    var priceCount=0;
     if(rows.length>0){
         for(var i=0;i<rows.length;i++){
             var data=rows[i];
@@ -499,9 +500,10 @@ function rowCount(){
                         datazl.push(dataCount);
                     }
                 }
-                price=Number(price)+Number(data.costs);
                 class_type_zl=data.item_class;
             }
+            price=Number(price)+Number(data.costs);
+            priceCount=Number(priceCount)+Number(data.costs);
             if(i==0){
                 class_type_ji=class_type;
             }
@@ -513,10 +515,15 @@ function rowCount(){
             }
             datazl.push(data);
         }
+        var dataCountAll={};
+        dataCountAll.performed_by="总计";
+        dataCountAll.costs=priceCount;
         if(class_type=="1"){
-            $('#addDrug').linkbutton('disable');
+            rows.push(dataCountAll);
             $("#list").datagrid("loadData",rows);
         }else{
+            datazl.push(dataCountAll);
+            $('#addDrug').linkbutton('disable');
             $("#list").datagrid("loadData",datazl);
 
         }

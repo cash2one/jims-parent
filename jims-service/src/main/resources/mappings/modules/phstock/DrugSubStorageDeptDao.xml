@@ -20,7 +20,14 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
-    
+    <select id="findByUnique" resultType="DrugSubStorageDept">
+        SELECT
+        *
+        FROM drug_sub_storage_dept a
+        WHERE a.storage_code = #{0}
+        AND a.sub_storage_code = #{1}
+        and a.org_id = #{2}
+    </select>
 	<select id="get" resultType="DrugSubStorageDept">
 		SELECT 
 			<include refid="drugSubStorageDeptColumns"/>
