@@ -38,7 +38,20 @@
 
 	<sql id="drugStockJoins">
 	</sql>
-    
+    <select id="findByUnique" resultType="DrugStock">
+        SELECT
+        <include refid="drugStockColumns"/>
+        FROM drug_stock a
+        <include refid="drugStockJoins"/>
+        WHERE a.drug_code = #{0}
+        AND a.drug_spec = #{1}
+        and a.firm_id = #{2}
+        and a.package_spec = #{3}
+        AND a.batch_no = #{4}
+        AND a.storage = #{5}
+        AND a.sub_storage = #{6}
+        and a.org_id = #{7}
+    </select>
 	<select id="get" resultType="DrugStock">
 		SELECT 
 			<include refid="drugStockColumns"/>

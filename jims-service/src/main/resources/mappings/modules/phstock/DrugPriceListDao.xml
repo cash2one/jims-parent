@@ -195,7 +195,17 @@
 			#{delFlag}
 		)
 	</insert>
+    <select id="selectPriceList" resultType="DrugPriceList">
+        select *
+        FROM drug_price_list
+        WHERE DRUG_CODE =#{0}
+        AND DRUG_SPEC =#{1}
+        AND FIRM_ID =#{2}
+        AND UNITS =#{3}
+        and org_id = #{4}
+        AND STOP_DATE IS NULL
 
+    </select>
     <update id="update">
 		UPDATE drug_price_list SET 	
 			drug_code = #{drugCode},
