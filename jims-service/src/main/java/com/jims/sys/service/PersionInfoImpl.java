@@ -6,6 +6,7 @@ import com.jims.sys.api.PersionInfoApi;
 import com.jims.sys.dao.PersionInfoDao;
 import com.jims.sys.entity.PersionInfo;
 import com.jims.sys.entity.SysUser;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +39,7 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
         int i =persionInfoDao.register(persionInfo);
 
         String id = persionInfo.getId();
-
-        //登录表中添加记录（身份证号）
+         //登录表中添加记录（身份证号）
         if (StringUtils.isNotBlank(persionInfo.getCardNo())) {
             sysUser.preInsert();
             sysUser.setPersionId(id);
@@ -68,7 +68,12 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
             persionInfoDao.registAddUser(sysUser);
         }
 
+        if(i!=0)
+        {
+            return "success";
+        }
         return null;
+
     }
 
     /**

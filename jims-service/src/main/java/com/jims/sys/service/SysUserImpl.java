@@ -25,12 +25,8 @@ import java.io.Serializable;
 @Transactional
 public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements SysUserApi, Serializable {
 
-
-    @Autowired
-    private SysUserDao sysUserDao;
     @Autowired
     private SysCompanyDao sysCompanyDao;
-    //private static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
      * 用户登录
@@ -38,50 +34,18 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
      * @param sysUser
      * @return
      */
-    public String login(SysUser sysUser) {
-        SysUser user = sysUserDao.login(sysUser);
-
-        if (user != null) {
-            try {
-                String ticket = "TICKET_TOKEN_" + DigestUtils.md5Hex(user.getLoginName() + System.currentTimeMillis());
-                //将用户信息保存在redis中
-               // JedisUtils.set(ticket, MAPPER.writeValueAsString(user), 60 * 30);
-                //    CookieUtils.setCookie(request,response,"TT_TICKET",ticket);
-                return ticket;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-        return null;
+    public SysUser login(SysUser sysUser) {
+        SysUser user = dao.login(sysUser);
+        return user;
     }
+
+
 
     public SysCompany findNameByOwner(String loginName) {
         SysCompany sysCompany = sysCompanyDao.findNameByOwner(loginName);
         return sysCompany;
     }
 
-    /**
-     * 根据ticket查询用户信息
-     *
-     * @param ticket
-     * @return
-     */
-    public SysUser queryUserByTicket(String ticket) {
-        SysUser user = null;
-       /* try {
-            String jsonData = JedisUtils.get(ticket);
-            if (StringUtils.isNotBlank(jsonData)) {
-                user = MAPPER.readValue(jsonData, SysUser.class);
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }       */
-        return user;
-
-    }
 
     /**
      * 与数据库中的用户名比对，是否正确
@@ -92,7 +56,7 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
     @Override
     public SysUser selectLoginName(SysUser sysUser) {
         if (StringUtils.isNotBlank(sysUser.getLoginName())) {
-            SysUser user = sysUserDao.selectLoginName(sysUser);
+            SysUser user = dao.selectLoginName(sysUser);
             return user;
         }
         return null;
@@ -107,7 +71,7 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
     @Override
     public SysUser selectPassword(SysUser sysUser) {
         if (StringUtils.isNotBlank(sysUser.getPassword())) {
-            SysUser user = sysUserDao.selectPasswrod(sysUser);
+            SysUser user = dao.selectPasswrod(sysUser);
             return user;
         }
         return null;
