@@ -2,6 +2,7 @@ package com.jims.clinic.api;
 
 import com.jims.clinic.entity.DrugPrescDetail;
 import com.jims.clinic.entity.DrugPrescMaster;
+import com.jims.common.persistence.Page;
 
 import java.util.List;
 
@@ -12,18 +13,19 @@ import java.util.List;
  * @date2016/5/25 0025
  */
 public interface DrugPrescServiceApi {
-
     /**
-     * 保存药品处方主表
+     * 查询药品处方主表列表信息
+     * @param drugPrescMasterPage
      * @param drugPrescMaster
      * @return
      */
-    public String saveDrugaster(DrugPrescMaster drugPrescMaster);
+    public Page<DrugPrescMaster> findPage(Page<DrugPrescMaster> drugPrescMasterPage, DrugPrescMaster drugPrescMaster);
 
     /**
-     * 保存药品处方明细表
-     * @param drugPrescDetailList
+     * 查询药品处方明细表的列表信息
+     * @param masterId
      * @return
      */
-    public String saveDrugDetail(List<DrugPrescDetail> drugPrescDetailList);
+    public List<DrugPrescDetail> findDrugDetail(String masterId);
+
 }
