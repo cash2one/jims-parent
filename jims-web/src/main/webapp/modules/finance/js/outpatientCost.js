@@ -43,6 +43,11 @@ function init(){
             width: '6%',
             align: 'center'
         }, {
+            title: "单价",
+            field: "item_price",
+            width: '6%',
+            align: 'center'
+            },{
             title: "付",
             field: "repetition",
             width: '6%',
@@ -449,7 +454,7 @@ function getCost(){
         'dataType': 'json',
         'success': function(data){
             if(data.code=='success'){
-                $("#xiForm").form("load",data.data)
+                $("#xiForm").form("load",data.data);
                 if(data.datas.length>0){
                     $('#list-zhu').datagrid('loadData',data.datas);
                     $('#list-xi').datagrid('loadData',data.datas1);
@@ -476,6 +481,7 @@ function rowCount(){
     var class_type_ji="0";
     var class_type_zl="";
     var datazl=[];
+    var price=0;
     if(rows.length>0){
         for(var i=0;i<rows.length;i++){
             var data=rows[i];
@@ -483,9 +489,17 @@ function rowCount(){
                 class_type="1";
             }else{
                 class_type="2";
-                if(class_type_zl!=data.item_class){
-                    datazl.push(data);
+                if(i>0){
+                    if(class_type_zl!=data.item_class){
+                        var dataCount={};
+                        dataCount.performed_by="小计";
+                        dataCount.costs=price;
+                        dataCount.charges=price;
+                        price=0;
+                        datazl.push(dataCount);
+                    }
                 }
+                price=Number(price)+Number(data.costs);
                 class_type_zl=data.item_class;
             }
             if(i==0){
@@ -503,7 +517,7 @@ function rowCount(){
             $('#addDrug').linkbutton('disable');
             $("#list").datagrid("loadData",rows);
         }else{
-
+            $("#list").datagrid("loadData",datazl);
 
         }
     }
