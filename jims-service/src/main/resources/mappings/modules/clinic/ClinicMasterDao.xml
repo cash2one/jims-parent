@@ -379,6 +379,7 @@
                0 itemclass
           FROM "OUTP_PRESC", "OUTP_ORDERS"
          WHERE ("OUTP_PRESC".CLINIC_ID="OUTP_ORDERS".CLINIC_ID)
+         and ("OUTP_PRESC".SERIAL_NO="OUTP_ORDERS".SERIAL_NO)
            and ("OUTP_ORDERS".CLINIC_ID = #{id})
            and "OUTP_PRESC"."CHARGE_INDICATOR" = '0'
         union
@@ -425,6 +426,7 @@
                1 itemclass
           FROM "OUTP_TREAT_REC", "OUTP_ORDERS"
          WHERE ("OUTP_TREAT_REC".CLINIC_ID="OUTP_ORDERS".CLINIC_ID)
+         and ("OUTP_TREAT_REC".SERIAL_NO="OUTP_ORDERS".SERIAL_NO)
            and ("OUTP_ORDERS".CLINIC_ID = #{id})
            and "OUTP_TREAT_REC"."CHARGE_INDICATOR" = '0'
     </select>

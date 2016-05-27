@@ -454,5 +454,6 @@
    WHERE
 			("OUTP_ORDERS_COSTS"."CLINIC_ID" = #{clinicId})and
       ("OUTP_ORDERS_COSTS"."CHARGE_INDICATOR" =0)
+      order by "OUTP_ORDERS_COSTS"."ITEM_CLASS"
     </select>
 </mapper>

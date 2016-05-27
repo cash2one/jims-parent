@@ -9,7 +9,7 @@ $(function(){
         columns: [[      //每个列具体内容
             {field: 'prescNo', title: '处方号', width: '30%', align: 'center'},
             {field: 'name', title: '姓名', width: '20%', align: 'center'},
-            {field: 'prescDate', title: '处方日期', width: '50%', align: 'center'}
+            {field: 'prescDate', title: '处方日期', width: '50%', align: 'center',formatter: formatDateBoxFull}
         ]],onClickRow: function (index, row) {//单击行事件
 
             $("#drug").datagrid({

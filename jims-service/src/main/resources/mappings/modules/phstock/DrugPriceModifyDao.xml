@@ -30,7 +30,36 @@
 	
 	<sql id="drugPriceModifyJoins">
 	</sql>
-    
+    <select id="findModifyListByNoticeEfficientDate" resultType="DrugPriceModify">
+        SELECT
+        "DRUG_PRICE_MODIFY"."DRUG_CODE",
+        "DRUG_PRICE_MODIFY"."MIN_SPEC",
+        "DRUG_PRICE_MODIFY"."DRUG_SPEC",
+        "DRUG_PRICE_MODIFY"."UNITS",
+        "DRUG_PRICE_MODIFY"."FIRM_ID",
+        "DRUG_PRICE_MODIFY"."ORIGINAL_TRADE_PRICE",
+        "DRUG_PRICE_MODIFY"."ORIGINAL_RETAIL_PRICE",
+        "DRUG_PRICE_MODIFY"."CURRENT_TRADE_PRICE",
+        "DRUG_PRICE_MODIFY"."CURRENT_RETAIL_PRICE",
+        "DRUG_PRICE_MODIFY"."NOTICE_EFFICIENT_DATE",
+        "DRUG_PRICE_MODIFY"."ACTUAL_EFFICIENT_DATE",
+        "DRUG_PRICE_MODIFY"."MODIFY_CREDENTIAL",
+        "DRUG_PRICE_MODIFY"."DRUG_CODE",
+        "DRUG_PRICE_MODIFY"."MIN_UNITS",
+        "DRUG_PRICE_MODIFY"."ORG_ID",
+        "DRUG_PRICE_MODIFY"."ID",
+        "DRUG_PRICE_MODIFY"."OPERATOR"
+        FROM "DRUG_DICT", "DRUG_PRICE_MODIFY"
+        WHERE ("DRUG_DICT"."DRUG_CODE" = "DRUG_PRICE_MODIFY"."DRUG_CODE")
+        and ("DRUG_DICT"."DRUG_SPEC" = "DRUG_PRICE_MODIFY"."MIN_SPEC")
+        and (("DRUG_PRICE_MODIFY"."NOTICE_EFFICIENT_DATE" &gt;=
+        TO_DATE(#{0}, 'YYYY-mm-dd HH24:MI:SS')) and
+        ("DRUG_PRICE_MODIFY"."NOTICE_EFFICIENT_DATE" &lt;=
+        TO_DATE(#{1}, 'YYYY-mm-dd HH24:MI:SS')) and
+        ("DRUG_PRICE_MODIFY"."ACTUAL_EFFICIENT_DATE" is null) and
+        ("DRUG_DICT"."DRUG_INDICATOR" in (2, 3, 1, 5)))
+        and "DRUG_PRICE_MODIFY"."DEL_FLAG" = 0
+    </select>
 	<select id="get" resultType="DrugPriceModify">
 		SELECT 
 			*

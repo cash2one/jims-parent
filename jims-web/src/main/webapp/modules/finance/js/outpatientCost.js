@@ -43,6 +43,11 @@ function init(){
             width: '6%',
             align: 'center'
         }, {
+            title: "单价",
+            field: "item_price",
+            width: '6%',
+            align: 'center'
+            },{
             title: "付",
             field: "repetition",
             width: '6%',
@@ -449,7 +454,7 @@ function getCost(){
         'dataType': 'json',
         'success': function(data){
             if(data.code=='success'){
-                $("#xiForm").form("load",data.data)
+                $("#xiForm").form("load",data.data);
                 if(data.datas.length>0){
                     $('#list-zhu').datagrid('loadData',data.datas);
                     $('#list-xi').datagrid('loadData',data.datas1);
@@ -476,6 +481,8 @@ function rowCount(){
     var class_type_ji="0";
     var class_type_zl="";
     var datazl=[];
+    var price=0;
+    var priceCount=0;
     if(rows.length>0){
         for(var i=0;i<rows.length;i++){
             var data=rows[i];
@@ -483,11 +490,20 @@ function rowCount(){
                 class_type="1";
             }else{
                 class_type="2";
-                if(class_type_zl!=data.item_class){
-                    datazl.push(data);
+                if(i>0){
+                    if(class_type_zl!=data.item_class){
+                        var dataCount={};
+                        dataCount.performed_by="小计";
+                        dataCount.costs=price;
+                        dataCount.charges=price;
+                        price=0;
+                        datazl.push(dataCount);
+                    }
                 }
                 class_type_zl=data.item_class;
             }
+            price=Number(price)+Number(data.costs);
+            priceCount=Number(priceCount)+Number(data.costs);
             if(i==0){
                 class_type_ji=class_type;
             }
@@ -499,11 +515,16 @@ function rowCount(){
             }
             datazl.push(data);
         }
+        var dataCountAll={};
+        dataCountAll.performed_by="总计";
+        dataCountAll.costs=priceCount;
         if(class_type=="1"){
-            $('#addDrug').linkbutton('disable');
+            rows.push(dataCountAll);
             $("#list").datagrid("loadData",rows);
         }else{
-
+            datazl.push(dataCountAll);
+            $('#addDrug').linkbutton('disable');
+            $("#list").datagrid("loadData",datazl);
 
         }
     }
