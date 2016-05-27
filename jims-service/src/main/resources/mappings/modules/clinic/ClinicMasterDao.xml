@@ -328,4 +328,108 @@
 		UPDATE "CLINIC_MASTER" SET "RETURNED_DATE" = #{returnedDate}, "RETURNED_OPERATOR" = #{returnedOperator}
 		WHERE "VISIT_DATE" = to_date(#{visitDate},'yyyy-MM-dd')  AND "VISIT_NO" = #{visitNo}
 	</select>
+
+
+    <select id="getClinicMasterCost" resultType="com.jims.common.web.impl.BaseDto">
+        SELECT <include refid="clinicMasterColumns"/>
+        FROM clinic_master a
+        WHERE  a.org_id = #{orgId} AND 	a.clinic_no=#{clinicNo}
+    </select>
+    <select id="getClinicMasterCostAll" resultType="com.jims.common.web.impl.BaseDto">
+        SELECT "OUTP_PRESC"."ID" id,to_char("OUTP_PRESC"."VISIT_DATE",'yyyy-mm-dd hh24:mi:ss') visit_date,
+               "OUTP_PRESC"."VISIT_NO" visit_no,
+               (select patient_id
+                  from outp_orders
+                 where serial_no = OUTP_PRESC.SERIAL_NO) patient_id,
+               (select doctor_no
+                  from outp_orders
+                 where serial_no = OUTP_PRESC.SERIAL_NO) doctor_no,
+               (select clinic_no
+                  from outp_orders
+                 where serial_no = OUTP_PRESC.SERIAL_NO) clinic_no,
+               "OUTP_PRESC"."SERIAL_NO" serial_no,
+               "OUTP_PRESC"."PRESC_NO" presc_no,
+               "OUTP_PRESC"."ITEM_NO" item_no,
+               "OUTP_PRESC"."ITEM_CLASS" item_class,
+               "OUTP_PRESC"."DRUG_CODE" item_code,
+               "OUTP_PRESC"."DRUG_NAME" item_name,
+               "OUTP_PRESC"."DRUG_SPEC" item_spec,
+               "OUTP_PRESC"."FIRM_ID" firm_id,
+               "OUTP_PRESC"."UNITS" units,
+               "OUTP_PRESC"."AMOUNT" amount,
+               "OUTP_PRESC"."DOSAGE" dosage,
+               "OUTP_PRESC"."DOSAGE_UNITS" dosage_units,
+               "OUTP_PRESC"."ADMINISTRATION" administration,
+               "OUTP_PRESC"."FREQUENCY" frequency,
+               "OUTP_PRESC"."CHARGE_INDICATOR" charge_indicator,
+               "OUTP_PRESC"."DISPENSARY" PERFORMED_BY,
+               "OUTP_PRESC"."REPETITION" repetition,
+               "OUTP_PRESC"."ORDER_NO" order_no,
+               "OUTP_PRESC"."SUB_ORDER_NO" sub_order_no,
+               "OUTP_PRESC".getdrug_flag,
+               '' appoint_no,
+               0  appoint_item_no,
+               "OUTP_PRESC".presc_attr,
+               "OUTP_PRESC".freq_detail,
+               "OUTP_ORDERS"."DOCTOR" doctor,
+               "OUTP_ORDERS"."ORDERED_BY" ordered_by,
+               0 aa,
+               '6015' ward_code,
+               1 appoint_flag ,
+               0 itemclass
+          FROM "OUTP_PRESC", "OUTP_ORDERS"
+         WHERE ("OUTP_PRESC".CLINIC_ID="OUTP_ORDERS".CLINIC_ID)
+         and ("OUTP_PRESC".SERIAL_NO="OUTP_ORDERS".SERIAL_NO)
+           and ("OUTP_ORDERS".CLINIC_ID = #{id})
+           and "OUTP_PRESC"."CHARGE_INDICATOR" = '0'
+        union
+        SELECT "OUTP_TREAT_REC"."ID" id,to_char("OUTP_TREAT_REC"."VISIT_DATE",'yyyy-mm-dd hh24:mi:ss') visit_date,
+               "OUTP_TREAT_REC"."VISIT_NO" visit_no,
+               (select patient_id
+                  from outp_orders
+                 where serial_no = OUTP_TREAT_REC.SERIAL_NO) patient_id,
+               (select doctor_no
+                  from outp_orders
+                 where serial_no = OUTP_TREAT_REC.SERIAL_NO) doctor_no,
+               (select clinic_no
+                  from outp_orders
+                 where serial_no = OUTP_TREAT_REC.SERIAL_NO) clinic_no,
+               "OUTP_TREAT_REC"."SERIAL_NO" serial_no,
+               0 presc_no,
+               "OUTP_TREAT_REC"."ITEM_NO" item_no,
+               "OUTP_TREAT_REC"."ITEM_CLASS" item_class,
+               "OUTP_TREAT_REC"."ITEM_CODE" item_code,
+               "OUTP_TREAT_REC"."ITEM_NAME" item_name,
+               "OUTP_TREAT_REC"."ITEM_SPEC" item_spec,
+               '' firm_id,
+               "OUTP_TREAT_REC"."UNITS" units,
+               "OUTP_TREAT_REC"."AMOUNT" amount,
+               0 DOSAGE,
+               '' DOSAGE_UNITS,
+               '' ADMINISTRATION,
+               "OUTP_TREAT_REC"."FREQUENCY" FREQUENCY,
+               "OUTP_TREAT_REC"."CHARGE_INDICATOR" CHARGE_INDICATOR,
+               "OUTP_TREAT_REC"."PERFORMED_BY" PERFORMED_BY,
+               0 REPETITION,
+               "OUTP_TREAT_REC"."ITEM_NO" order_no,
+               1 SUB_ORDER_NO,
+               1 getdrug_flag,
+               nvl("OUTP_TREAT_REC".appoint_no , OUTP_TREAT_REC.SERIAL_NO) appoint_no ,
+               nvl("OUTP_TREAT_REC".appoint_item_no , OUTP_TREAT_REC.ITEM_NO) appoint_item_no,
+               '' presc_attr,
+               '' freq_detail,
+               "OUTP_ORDERS"."DOCTOR" doctor,
+               "OUTP_ORDERS"."ORDERED_BY" ordered_by,
+               0 aa,
+               "OUTP_TREAT_REC"."WARD_CODE" ward_code,
+               0 appoint_flag   ,
+               1 itemclass
+          FROM "OUTP_TREAT_REC", "OUTP_ORDERS"
+         WHERE ("OUTP_TREAT_REC".CLINIC_ID="OUTP_ORDERS".CLINIC_ID)
+         and ("OUTP_TREAT_REC".SERIAL_NO="OUTP_ORDERS".SERIAL_NO)
+           and ("OUTP_ORDERS".CLINIC_ID = #{id})
+           and "OUTP_TREAT_REC"."CHARGE_INDICATOR" = '0'
+    </select>
+
+
 </mapper>

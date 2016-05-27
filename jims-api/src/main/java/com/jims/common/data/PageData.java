@@ -1,13 +1,6 @@
 package com.jims.common.data;
 
-import com.jims.common.persistence.DataEntity;
-import com.jims.sys.entity.Dict;
-import com.jims.sys.entity.User;
-
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

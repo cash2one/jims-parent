@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.entity.PrepaymentRcpt">
+    
+	<sql id="prepaymentRcptColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.rcpt_no AS "rcptNo",
+		a.amount AS "amount",
+		a.pay_way AS "payWay",
+		a.bank AS "bank",
+		a.check_no AS "checkNo",
+		a.transact_type AS "transactType",
+		a.transact_date AS "transactDate",
+		a.operator_no AS "operatorNo",
+		a.refunded_rcpt_no AS "refundedRcptNo",
+		a.acct_no AS "acctNo",
+		a.addr AS "addr",
+		a.check_div AS "checkDiv",
+		a.bank_code AS "bankCode",
+		a.visit_id AS "visitId",
+		a.settled_no AS "settledNo",
+		a.used_rcpt_no AS "usedRcptNo",
+		a.used_flag AS "usedFlag",
+		a.bank_auount_no AS "bankAuountNo",
+		a.invoice_no AS "invoiceNo",
+		a.serial_no AS "serialNo",
+		a.settled_pre_no AS "settledPreNo",
+		a.settle_balance AS "settleBalance",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="prepaymentRcptJoins">
+	</sql>
+    
+	<select id="get" resultType="PrepaymentRcpt">
+		SELECT 
+			<include refid="prepaymentRcptColumns"/>
+		FROM prepayment_rcpt a
+		<include refid="prepaymentRcptJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PrepaymentRcpt">
+		SELECT 
+			<include refid="prepaymentRcptColumns"/>
+		FROM prepayment_rcpt a
+		<include refid="prepaymentRcptJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PrepaymentRcpt">
+		SELECT 
+			<include refid="prepaymentRcptColumns"/>
+		FROM prepayment_rcpt a
+		<include refid="prepaymentRcptJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO prepayment_rcpt(
+			id,
+			patient_id,
+			rcpt_no,
+			amount,
+			pay_way,
+			bank,
+			check_no,
+			transact_type,
+			transact_date,
+			operator_no,
+			refunded_rcpt_no,
+			acct_no,
+			addr,
+			check_div,
+			bank_code,
+			visit_id,
+			settled_no,
+			used_rcpt_no,
+			used_flag,
+			bank_auount_no,
+			invoice_no,
+			serial_no,
+			settled_pre_no,
+			settle_balance,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{rcptNo},
+			#{amount},
+			#{payWay},
+			#{bank},
+			#{checkNo},
+			#{transactType},
+			#{transactDate},
+			#{operatorNo},
+			#{refundedRcptNo},
+			#{acctNo},
+			#{addr},
+			#{checkDiv},
+			#{bankCode},
+			#{visitId},
+			#{settledNo},
+			#{usedRcptNo},
+			#{usedFlag},
+			#{bankAuountNo},
+			#{invoiceNo},
+			#{serialNo},
+			#{settledPreNo},
+			#{settleBalance},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE prepayment_rcpt SET 	
+			patient_id = #{patientId},
+			rcpt_no = #{rcptNo},
+			amount = #{amount},
+			pay_way = #{payWay},
+			bank = #{bank},
+			check_no = #{checkNo},
+			transact_type = #{transactType},
+			transact_date = #{transactDate},
+			operator_no = #{operatorNo},
+			refunded_rcpt_no = #{refundedRcptNo},
+			acct_no = #{acctNo},
+			addr = #{addr},
+			check_div = #{checkDiv},
+			bank_code = #{bankCode},
+			visit_id = #{visitId},
+			settled_no = #{settledNo},
+			used_rcpt_no = #{usedRcptNo},
+			used_flag = #{usedFlag},
+			bank_auount_no = #{bankAuountNo},
+			invoice_no = #{invoiceNo},
+			serial_no = #{serialNo},
+			settled_pre_no = #{settledPreNo},
+			settle_balance = #{settleBalance},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE prepayment_rcpt SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -2,6 +2,7 @@ package com.jims.finance;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.BaseData;
+import com.jims.common.utils.StringUtils;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.api.OutPatientCostServiceApi;
 import org.springframework.stereotype.Component;
@@ -32,9 +33,7 @@ public class OutpatientCostRest {
     @Path("list")
     @GET
     public BaseData<BaseDto>  getPatientList(@QueryParam("clinicNo") String clinicNo,@QueryParam("orgId") String orgId){
-        List<BaseDto>  list=outPatientCostApi.list(orgId, clinicNo);
-        BaseData<BaseDto> baseData=new BaseData<BaseDto>();
-        baseData.setDatas(list);
+        BaseData<BaseDto> baseData=outPatientCostApi.list(orgId, clinicNo);
         return baseData;
     }
 }

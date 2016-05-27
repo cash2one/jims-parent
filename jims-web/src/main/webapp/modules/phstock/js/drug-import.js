@@ -13,7 +13,7 @@ $(function () {
         ,currentSelectIndex = undefined
     var drugDicts = [] // 检索的药品字典数据
         ,initDrugPriceWindowFlag = true
-    var currentSubStorageDept
+    var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
     // 药品类别
     var drugIndicators = [
@@ -101,7 +101,7 @@ $(function () {
         var _allData = $('#drug-import').datagrid('getRows')
         for (var i = 0, j = _allData.length - 1; i < j; i++) {
             if (i != currentSelectIndex && _allData[i].drugCode == o['drugCode']
-                && _allData[i].packSpec == o['packSpec'] && _allData[i].packUnit == o['packUnit']) {
+                && _allData[i].drugSpec == o['packSpec'] && _allData[i].units == o['packUnit']) {
                 return true
             }
         }
@@ -175,6 +175,7 @@ $(function () {
             expireDate : parent.formatDatebox(new Date()),
             discount : 100,
             quantity : '',
+            orgId : currentOrgId,
             invoiceDate : parent.formatDatebox(new Date())
         }
         $('#drug-import').datagrid('insertRow',{index:_len,row:_record})
@@ -183,8 +184,9 @@ $(function () {
         var _row = $('#drug-import').datagrid('getSelected')
         if(_row){
             var _index = $('#drug-import').datagrid('getRowIndex',_row)
-            $('#drug-import').datagrid('deleteRow',_index)
             var _rows = $('#drug-import').datagrid('getRows')
+            if(_rows.length == _index + 1) return
+            $('#drug-import').datagrid('deleteRow',_index)
             if(_rows.length == 1){
                 $('#drug-import').datagrid('deleteRow',0)
                 return
@@ -208,50 +210,42 @@ $(function () {
                     return
                 }
             }
-            // 更新子单位入库后缀号
-            if(!currentSubStorageDept) return
-            currentSubStorageDept.importNoAva = isNaN(currentSubStorageDept.importNoAva) ? 1 : (+currentSubStorageDept.importNoAva + 1)
-
-            parent.$.postJSON('/service/drug-storage-dept/saveSub',JSON.stringify(currentSubStorageDept),function(res){
-                if(res && res != '0'){
-                    for(var i=0;i<_rows.length - 1 ;i++){
-                        delete _rows[i].purchasePriceCount
-                        delete _rows[i].retailPriceCount
-                        delete _rows[i].drugName
-                        delete _rows[i].supplier
-                    }
-                    var _record = {
-                        documentNo : $('#importDocument').textbox('getValue')
-                        ,storage : currentStorage
-                        ,importDate : $('#date').datebox('getValue')
-                        ,supplier : $('#supply').combobox('getValue')
-                        ,accountReceivable : $('#account').textbox('getValue')
-                        ,accountPayed : $('#paid').textbox('getValue')
-                        ,additionalFee : $('#surcharge').textbox('getValue')
-                        ,importClass : $('#import').combobox('getValue')
-                        ,subStorage : $('#importChild').combobox('getValue')
-                        ,accountIndicator : accountFlag
-                        ,memos : $('#remarks').textbox('getValue')
-                        ,operator : currentUsername
-                        ,subSupplier : $('#supplyChild').combobox('getValue')
-                        ,orgId : currentOrgId
-                        ,detailList : _rows.slice(0,_rows.length - 1)
-                    }
-                    parent.$.postJSON('/service/drug-in/save',JSON.stringify(_record),function(r){
-                        if(r && r.code == '0'){
-                            $.messager.alert('保存',(accountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
-                                if(mod == 'print'){
-                                    print()
-                                } else {
-                                    window.location.reload()
-                                }
-                            })
+            if(!currentSubStorageDeptId) return
+            for(var i=0;i<_rows.length - 1 ;i++){
+                delete _rows[i].purchasePriceCount
+                delete _rows[i].retailPriceCount
+                delete _rows[i].drugName
+                delete _rows[i].supplier
+            }
+            var _record = {
+                documentNo : $('#importDocument').textbox('getValue')
+                ,storage : currentStorage
+                ,importDate : $('#date').datebox('getValue')
+                ,supplier : $('#supply').combobox('getValue')
+                ,accountReceivable : $('#account').textbox('getValue')
+                ,accountPayed : $('#paid').textbox('getValue')
+                ,additionalFee : $('#surcharge').textbox('getValue')
+                ,importClass : $('#import').combobox('getValue')
+                ,subStorage : $('#importChild').combobox('getValue')
+                ,accountIndicator : accountFlag ? accountFlag : 0
+                ,memos : $('#remarks').textbox('getValue')
+                ,operator : currentUsername
+                ,subSupplier : $('#supplyChild').combobox('getValue')
+                ,orgId : currentOrgId
+                ,detailList : _rows.slice(0,_rows.length - 1)
+                ,subStorageDeptId : currentSubStorageDeptId
+            }
+            parent.$.postJSON('/service/drug-in/save',JSON.stringify(_record),function(res){
+                if(res == '1'){
+                    $.messager.alert('保存',(accountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
+                        if(mod == 'print'){
+                            print()
                         } else {
-                            $.messager.alert('保存','保存失败！','error')
+                            window.location.reload()
                         }
                     })
                 } else {
-                    $.messager.alert('保存','入库单据号更新失败，无法保存！','warning')
+                    $.messager.alert('保存','保存失败！','error')
                 }
             })
         }
@@ -315,8 +309,8 @@ $(function () {
                             valueField : 'storageCode',
                             textField : 'storageName',
                             data : res,
-                            onSelect : function(){
-                                loadSubDept('supplyChild',currentOrgId,o['storageCode'])
+                            onSelect : function(r){
+                                loadSubDept('supplyChild',currentOrgId,r['storageCode'])
                             }
                         })
                     })
@@ -343,7 +337,7 @@ $(function () {
             ,textField:'subStorage'
             ,width:140
             ,onSelect:function(record){
-                currentSubStorageDept = record
+                currentSubStorageDeptId = record['id']
                 var _prefix = record['importNoPrefix']
                 var _suffix = record['importNoAva']
                 if(_prefix == undefined) _prefix = ''
@@ -457,12 +451,13 @@ $(function () {
                             if (newV != oldV)return
                         },
                         filter: function (field, row) {
-                            if (row.drugCode.toUpperCase().indexOf(field.toUpperCase()) > -1
-                                || row.drugName.toUpperCase().indexOf(field.toUpperCase()) > -1) {
+                            if (field && (row.drugCode && row.drugCode.toUpperCase().indexOf(field.toUpperCase()) == 0)
+                                || (row.drugName && row.drugName.toUpperCase().indexOf(field.toUpperCase()) == 0)
+                                || (row.inputCode && row.inputCode.toUpperCase().indexOf(field.toUpperCase()) == 0)) {
                                 return true
                             }
                         },
-                        onClickRow: function (index, row) {
+                        onSelect: function (index, row) {
                             loadDrugPriceData(row)
                         }
                     }
@@ -644,12 +639,12 @@ $(function () {
         var _oldDrugName = _importTableRow.drugName
 
         var initData = function (drugPrice, drugDict) {
-            var _o = {
+            var drugParam = {
                 drugCode: drugPrice.drugCode
                 , packSpec: drugPrice.drugSpec
                 , packUnit: drugPrice.units
             }
-            if (chargeDrugExisted(_o)) {
+            if (chargeDrugExisted(drugParam)) {
                 $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
                 rollBack(_oldDrugName)
                 return
@@ -665,7 +660,6 @@ $(function () {
             _importTableRow.retailPrice = drugPrice.retailPrice
             _importTableRow.tradePrice = drugPrice.tradePrice
             _importTableRow.purchasePrice = drugPrice.retailPrice
-
             $('#drug-import').datagrid('endEdit', currentSelectIndex)
             _tempFlag = true
         }

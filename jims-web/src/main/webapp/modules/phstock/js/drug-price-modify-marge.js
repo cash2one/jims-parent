@@ -316,7 +316,7 @@ $(function () {
     //保存
     $("#saveBtn").on('click', function () {
         if (editIndex || editIndex == 0) {
-            $("#dg").datagrid("endEdit", editIndex);
+            $("#modifyList").datagrid("endEdit", editIndex);
         }
 
         var insertData = $("#modifyList").datagrid("getChanges", "inserted");

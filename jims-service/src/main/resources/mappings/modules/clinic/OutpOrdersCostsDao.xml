@@ -404,4 +404,56 @@
 			</if>
 		</where>
 	</update>
+
+    <select id="getCostAll" resultType="com.jims.common.web.impl.BaseDto">
+        SELECT   "OUTP_ORDERS_COSTS"."ID",
+				 "OUTP_ORDERS_COSTS"."PATIENT_ID",
+         "OUTP_ORDERS_COSTS"."VISIT_DATE",
+         "OUTP_ORDERS_COSTS"."VISIT_NO",
+         "OUTP_ORDERS_COSTS"."SERIAL_NO",
+         "OUTP_ORDERS_COSTS"."ORDER_CLASS",
+         "OUTP_ORDERS_COSTS"."ORDER_NO",
+         "OUTP_ORDERS_COSTS"."ORDER_SUB_NO",
+         "OUTP_ORDERS_COSTS"."ITEM_NO",
+         "OUTP_ORDERS_COSTS"."ITEM_CLASS",
+         "OUTP_ORDERS_COSTS"."ITEM_NAME",
+         "OUTP_ORDERS_COSTS"."ITEM_CODE",
+         "OUTP_ORDERS_COSTS"."ITEM_SPEC",
+         "OUTP_ORDERS_COSTS"."UNITS",
+         "OUTP_ORDERS_COSTS"."REPETITION",
+         "OUTP_ORDERS_COSTS"."AMOUNT",
+         "OUTP_ORDERS_COSTS"."ORDERED_BY_DEPT",
+         "OUTP_ORDERS_COSTS"."ORDERED_BY_DOCTOR",
+         "OUTP_ORDERS_COSTS"."PERFORMED_BY",
+         "OUTP_ORDERS_COSTS"."CLASS_ON_RCPT",
+         "OUTP_ORDERS_COSTS"."COSTS",
+         "OUTP_ORDERS_COSTS"."CHARGES",
+         "OUTP_ORDERS_COSTS"."RCPT_NO",
+         "OUTP_ORDERS_COSTS"."BILL_DESC_NO",
+         "OUTP_ORDERS_COSTS"."BILL_ITEM_NO",
+         "OUTP_ORDERS_COSTS"."CHARGE_INDICATOR",
+         "OUTP_ORDERS_COSTS"."CLASS_ON_RECKONING",
+         "OUTP_ORDERS_COSTS"."SUBJ_CODE",
+         "OUTP_ORDERS_COSTS"."PRICE_QUOTIETY",
+         "OUTP_ORDERS_COSTS"."ITEM_PRICE",
+			'' doctor_no,
+			'' appoint_no,
+			0 appoint_item_no,
+			0 presc_no,
+			'' getdrug_flag,
+			'' presc_attr,
+			'' freq_detail,
+			'' clinic_no,
+         0 dosage,
+         '' dosage_units,
+         '' administration,
+         '' frequency,
+			0 aa,
+         ward_code
+    FROM "OUTP_ORDERS_COSTS"
+   WHERE
+			("OUTP_ORDERS_COSTS"."CLINIC_ID" = #{clinicId})and
+      ("OUTP_ORDERS_COSTS"."CHARGE_INDICATOR" =0)
+      order by "OUTP_ORDERS_COSTS"."ORDER_CLASS"
+    </select>
 </mapper>

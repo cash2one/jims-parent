@@ -156,11 +156,15 @@
 		WHERE a.clinic_date=to_date(#{clinicDate},'yyyy-MM-dd') AND a.clinic_label=#{clinicLable} AND a.time_desc=#{timeDesc}
 	</select>
 	<select id="updateRegisterByReturn">
-		update clinic_for_regist set registration_num =registration_num - 1
+		update clinic_for_regist set registration_num =registration_num - 1,current_no =current_no - 1
 		where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date =to_date(#{clinicDate},'yyyy-MM-dd')
 	</select>
 	<select id="updateRegisterByAppoint">
-		update clinic_for_regist set  appointment_num =0 + 1
+		update clinic_for_regist set  appointment_num =0 + 1,current_no =current_no + 1
 		 where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date=to_date( #{clinicDate} , 'yyyy-mm-dd' )
+	</select>
+    <select id="updateRegByAppointReturn">
+		update clinic_for_regist set current_no =current_no - 1 , appointment_num =appointment_num - 1
+		where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date=to_date( #{clinicDate} , 'yyyy-mm-dd' )
 	</select>
 </mapper>

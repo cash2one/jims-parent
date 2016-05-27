@@ -51,6 +51,20 @@ public interface DrugStockDao extends CrudDao<DrugStock> {
                                                    @Param("priceMax")double priceMax,
                                                    @Param("orgId")String orgId);
 
-
+    /**
+     * 通过唯一键获取药品库存
+     * @param drugCode 药品编码
+     * @param drugSpec 药品最小规格
+     * @param firmId 生产商
+     * @param packageSpec 包装规格
+     * @param batchNo 批号
+     * @param storage 库房代码
+     * @param subStorage 子库房代码
+     * @param orgId 组织机构
+     * @return
+     * @author txb
+     */
+    public List<DrugStock> findByUnique(String drugCode,String drugSpec,String firmId,String packageSpec,String batchNo,
+                                        String storage,String subStorage,String orgId);
 
 }

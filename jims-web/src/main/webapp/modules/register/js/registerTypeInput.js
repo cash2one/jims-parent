@@ -122,10 +122,10 @@ function onloadMethod(){
 function save(){
     var  rows=$('#list_data').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
-    alert(tableJson);
+    //alert(tableJson);
     $.postJSON(basePath+'/clinicIndex/saveClinicIndex',tableJson,function(data){
         if(data.code=='1'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $.messager.alert("提示消息","保存成功");
             $('#list_data').datagrid('load');
             $('#list_data').datagrid('clearChecked');
         }else{

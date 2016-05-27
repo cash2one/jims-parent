@@ -114,12 +114,13 @@ $(function(){
                             if(newV != oldV)return
                         },
                         filter: function(field, row){
-                            if(row.drugCode.toUpperCase().indexOf(field.toUpperCase()) > -1
-                                || row.drugName.toUpperCase().indexOf(field.toUpperCase()) > -1){
+                            if(field && (row.drugCode && row.drugCode.toUpperCase().indexOf(field.toUpperCase())==0)
+                                || (row.drugName && row.drugName.toUpperCase().indexOf(field.toUpperCase()) == 0)
+                                || (row.inputCode && row.inputCode.toUpperCase().indexOf(field.toUpperCase()) == 0)){
                                 return true
                             }
                         },
-                        onClickRow:function(index,row){
+                        onSelect:function(index,row){
                             loadDrugPriceData(row)
                         }
                     }
@@ -556,10 +557,15 @@ $(function(){
         }
         handleData.push(_dels)
         parent.$.postJSON(base_url + 'saveBatch',JSON.stringify(handleData),function(res){
-            if(res.code = '0')
-                $.messager.alert('成功','保存成功','info',function(){
+            if(res == '1'){
+                $.messager.alert('保存','保存成功','info',function(){
                     window.location.reload()
                 })
+            } else {
+                $.messager.alert('保存','保存失败','error',function(){
+                    window.location.reload()
+                })
+            }
         })
     }
     var init = function(){

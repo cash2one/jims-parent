@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.entity.PatsInTransferring">
+    
+	<sql id="patsInTransferringColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.dept_transfered_from AS "deptTransferedFrom",
+		a.dept_transfered_to AS "deptTransferedTo",
+		a.transfer_date_time AS "transferDateTime",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="patsInTransferringJoins">
+	</sql>
+    
+	<select id="get" resultType="PatsInTransferring">
+		SELECT 
+			<include refid="patsInTransferringColumns"/>
+		FROM pats_in_transferring a
+		<include refid="patsInTransferringJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PatsInTransferring">
+		SELECT 
+			<include refid="patsInTransferringColumns"/>
+		FROM pats_in_transferring a
+		<include refid="patsInTransferringJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PatsInTransferring">
+		SELECT 
+			<include refid="patsInTransferringColumns"/>
+		FROM pats_in_transferring a
+		<include refid="patsInTransferringJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pats_in_transferring(
+			id,
+			patient_id,
+			dept_transfered_from,
+			dept_transfered_to,
+			transfer_date_time,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{deptTransferedFrom},
+			#{deptTransferedTo},
+			#{transferDateTime},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pats_in_transferring SET 	
+			patient_id = #{patientId},
+			dept_transfered_from = #{deptTransferedFrom},
+			dept_transfered_to = #{deptTransferedTo},
+			transfer_date_time = #{transferDateTime},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE pats_in_transferring SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

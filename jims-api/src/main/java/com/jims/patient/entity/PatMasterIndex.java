@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;;
 import org.hibernate.validator.constraints.Length;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
 public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hosid;		// 医院ID
+	private String orgId;		// 医院ID
 	private String inpNo;		// 住院号
 	private String name;		// 姓名
 	private String namePhonetic;		// 姓名拼音
@@ -75,11 +76,13 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private PatVisit patVisit;//病人住院记录信息
 	private ClinicMaster clinicMaster;//病人就诊记录
 	private String patientId; //病人id
-	private String age;
+
+
+	private String age;//年龄
 
 	private List<ClinicForRegist> clinicForRegistList;
 	private List<ClinicAppoints> clinicAppointses;
-	
+
 	public PatMasterIndex() {
 		super();
 	}
@@ -96,16 +99,13 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 		this.patientId = patientId;
 	}
 
-	@Length(min=0, max=128, message="医院ID长度必须介于 0 和 128 之间")
-	public String getHosid() {
-		return hosid;
+	public String getOrgId() {
+		return orgId;
 	}
 
-	public void setHosid(String hosid) {
-		this.hosid = hosid;
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
-	
-	@Length(min=0, max=20, message="住院号长度必须介于 0 和 20 之间")
 	public String getInpNo() {
 		return inpNo;
 	}
@@ -548,6 +548,14 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 
 	public void setClinicMaster(ClinicMaster clinicMaster) {
 		this.clinicMaster = clinicMaster;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
 	}
 
 	public List<ClinicForRegist> getClinicForRegistList() {

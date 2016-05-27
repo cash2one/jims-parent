@@ -170,4 +170,97 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
         }
         return "1";
     }
+
+    /**
+     * 通过通知生效日期查询调价记录表
+     * @param startDate 调价生效开始日期
+     * @param endDate  调价生效结束日期
+     * @author txb
+     * @return
+     */
+    @Override
+    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate, String endDate) {
+        return drugPriceModifyDao.findModifyListByNoticeEfficientDate(startDate,endDate);
+    }
+
+    /**
+     * 保存调价记录确认
+     * @param drugPriceModifyVo
+     * @author txb
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public String saveModifyConfirm(DrugCatalogChangeVo<DrugPriceModify> drugPriceModifyVo) {
+
+
+        List<DrugPriceModify> insertDicts = drugPriceModifyVo.getInserted();
+        List<DrugPriceModify> updateDicts = drugPriceModifyVo.getUpdated();
+        List<DrugPriceModify> deleteDicts = drugPriceModifyVo.getDeleted();
+        //无插入记录
+//        if (insertDicts != null && insertDicts.size() > 0) {
+//            for (DrugPriceModify drugPriceModify : insertDicts) {
+//                drugPriceModify.preInsert();
+//                drugPriceModifyDao.insert(drugPriceModify);
+//
+//            }
+//        }
+        if (updateDicts != null && updateDicts.size() > 0) {
+            for (DrugPriceModify drugPriceModify : updateDicts) {
+                //修改调价记录表
+                drugPriceModify.preUpdate();
+                drugPriceModifyDao.update(drugPriceModify);
+                //修改价表
+                String drugCode = drugPriceModify.getDrugCode();
+                String drugSpec = drugPriceModify.getDrugSpec();
+                String firmId = drugPriceModify.getFirmId();
+                String units = drugPriceModify.getUnits();
+                String orgId = drugPriceModify.getOrgId();
+                DrugPriceList drugPriceList = dao.selectPriceList(drugCode, drugSpec, firmId, units, orgId).get(0);
+                drugPriceList.setStopDate(drugPriceModify.getActualEfficientDate());
+
+                drugPriceList.preUpdate();
+                dao.update(drugPriceList);
+                //插入价表
+                DrugPriceList newDrugPriceList = new DrugPriceList();
+                newDrugPriceList.setOrgId(orgId);
+                newDrugPriceList.setDrugCode(drugCode);
+                newDrugPriceList.setDrugSpec(drugSpec);
+                newDrugPriceList.setFirmId(firmId);
+                newDrugPriceList.setUnits(units);
+
+                newDrugPriceList.setMinSpec(drugPriceList.getMinSpec());
+                newDrugPriceList.setMinUnits(drugPriceList.getMinUnits());
+                newDrugPriceList.setAmountPerPackage(drugPriceList.getAmountPerPackage());
+                newDrugPriceList.setClassOnInpRcpt(drugPriceList.getClassOnInpRcpt());
+                newDrugPriceList.setClassOnMr(drugPriceList.getClassOnMr());
+                newDrugPriceList.setClassOnOutpRcpt(drugPriceList.getClassOnOutpRcpt());
+                newDrugPriceList.setClassOnReckoning(drugPriceList.getClassOnReckoning());
+                newDrugPriceList.setSubjCode(drugPriceList.getSubjCode());
+                newDrugPriceList.setGmp(drugPriceList.getGmp());
+                newDrugPriceList.setHlimitPrice(drugPriceList.getHlimitPrice());
+                newDrugPriceList.setPriceClass(drugPriceList.getPriceClass());
+                newDrugPriceList.setPassNo(drugPriceList.getPassNo());
+
+                //调价价表修改数据
+                newDrugPriceList.setTradePrice(drugPriceModify.getOriginalTradePrice());
+                newDrugPriceList.setRetailPrice(drugPriceModify.getOriginalTradePrice());
+                newDrugPriceList.setStartDate(drugPriceModify.getActualEfficientDate());
+
+                newDrugPriceList.preInsert();
+                dao.insert(newDrugPriceList);
+            }
+        }
+        if (deleteDicts != null && deleteDicts.size() > 0) {
+            for (DrugPriceModify drugPriceModify : deleteDicts) {
+                drugPriceModifyDao.delete(drugPriceModify);
+            }
+        }
+
+
+
+
+        return "1";
+    }
+
 }
