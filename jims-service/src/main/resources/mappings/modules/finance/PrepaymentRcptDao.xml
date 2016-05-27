@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.finance.entity.PrepaymentRcpt">
+<mapper namespace="com.jims.finance.dao.PrepaymentRcptDao">
     
 	<sql id="prepaymentRcptColumns">
 		a.id AS "id",
@@ -184,5 +184,15 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+	<select id="findByPatientId" resultType="PrepaymentRcpt">
+		select id from prepayment_rcpt
+		<where>
+			del_flag='0'
+			<if test="patientId!=null and patientId!=''">
+				and patient_id = #{patientId}
+			</if>
+		</where>
+	</select>
 	
 </mapper>

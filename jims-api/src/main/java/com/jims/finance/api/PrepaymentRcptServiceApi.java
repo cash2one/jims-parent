@@ -1,5 +1,7 @@
 package com.jims.finance.api;
 
+import com.jims.finance.entity.PrepaymentRcpt;
+
 /**
  * 预交金记录Service
  * @author CTQ
@@ -7,5 +9,8 @@ package com.jims.finance.api;
  */
 
 public interface PrepaymentRcptServiceApi{
+
+
+    public PrepaymentRcpt findByPatientId(String patientId);
 	
 }
