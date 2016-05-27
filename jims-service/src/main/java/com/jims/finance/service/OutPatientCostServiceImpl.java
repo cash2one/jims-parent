@@ -50,7 +50,7 @@ public class OutPatientCostServiceImpl implements OutPatientCostServiceApi {
         list=clinicMasterDao.getClinicMasterCostAll(b.getAsString("id"));
         List<BaseDto> list1 =outpOrdersCostsDao.getCostAll(b.getAsString("id"));
         baseData.setDatas(list);
-        baseData.setDatas1(list);
+        baseData.setDatas1(list1);
         baseData.setData(b);
         return baseData;
     };
