@@ -13,14 +13,7 @@ public interface SysUserApi {
      * @param sysUser
      * @return
      */
-    public String login(SysUser sysUser);
-
-    /**
-     * 根据ticket查询用户信息
-     * @param ticket
-     * @return
-     */
-    public SysUser queryUserByTicket(String ticket);
+    public SysUser login(SysUser sysUser);
 
     /**
      * 查询登录名是否正确
