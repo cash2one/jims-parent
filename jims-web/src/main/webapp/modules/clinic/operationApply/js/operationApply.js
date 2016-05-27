@@ -62,9 +62,9 @@ $(function(){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
-                $("#operationName").datagrid('endEdit', editRow);
-                if (editRow != undefined) {
-                    $("#operationName").datagrid("endEdit", editRow);
+                $("#operationName").datagrid('endEdit', rowNum);
+                if (rowNum != undefined) {
+                    $("#operationName").datagrid("endEdit", rowNum);
                 }
                 savePperationApply();
             }

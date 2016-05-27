@@ -65,6 +65,12 @@ public class DrugPrescMaster extends DataEntity<DrugPrescMaster> {
 	private String ffph;		// 毒麻处方发放批号
 	private String dispensarySub;		// 发药子药局
 	private List<DrugPrescDetail> drugPrescDetailList;
+
+	/*查询时所需的字段*/
+	private String startDatePresc;
+	private String stopDatePresc;
+	private  String startDateDispense;
+	private  String stopDateDispense;
 	public DrugPrescMaster() {
 		super();
 	}
@@ -521,5 +527,37 @@ public class DrugPrescMaster extends DataEntity<DrugPrescMaster> {
 
 	public void setDrugPrescDetailList(List<DrugPrescDetail> drugPrescDetailList) {
 		this.drugPrescDetailList = drugPrescDetailList;
+	}
+
+	public String getStartDatePresc() {
+		return startDatePresc;
+	}
+
+	public void setStartDatePresc(String startDatePresc) {
+		this.startDatePresc = startDatePresc;
+	}
+
+	public String getStopDatePresc() {
+		return stopDatePresc;
+	}
+
+	public void setStopDatePresc(String stopDatePresc) {
+		this.stopDatePresc = stopDatePresc;
+	}
+
+	public String getStartDateDispense() {
+		return startDateDispense;
+	}
+
+	public void setStartDateDispense(String startDateDispense) {
+		this.startDateDispense = startDateDispense;
+	}
+
+	public String getStopDateDispense() {
+		return stopDateDispense;
+	}
+
+	public void setStopDateDispense(String stopDateDispense) {
+		this.stopDateDispense = stopDateDispense;
 	}
 }

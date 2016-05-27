@@ -90,7 +90,7 @@ function loadMenu() {
             d.diagnosisDate = formatDatebox(item.diagnosisDate);
             d.operTreatIndicator = item.operTreatIndicator;
             d.pathologyNo = item.pathologyNo;
-            d.diagnosisId = item.diagnosisId;
+           // d.diagnosisId = item.diagnosisId;
             d.parentId = item.parentId;
             d.children = [];
             menus.push(d);
@@ -161,6 +161,7 @@ function edit(){
     $("#pathologyNo").textbox('setValue', node.pathologyNo);
     $("#id").val(node.id);
     $("#parentId").val(node._parentId);
+    $("#inOrOutFlag").val("1");
     $('#diagnosisId').combobox({
         url: basePath+'/dataicd/autoComplete',
         editable:false,
@@ -171,9 +172,6 @@ function edit(){
             var data = $(this).combobox('getData');
             $(this).combobox('select', node.diagnosisId);
         }
-
-
-
     });
 }
 
@@ -192,22 +190,28 @@ function save(){
         d.pathologyNo = $("#pathologyNo").val();
         d.diagnosisId =$('#diagnosisId').combobox('getValue');
         d.parentId = $("#parentId").val();
+        d.inOrOutFlag = $("#inOrOutFlag").val();
         if($("#parentId").val()==null||$("#parentId").val()=='undefined'||$("#parentId").val()==''){
             d.parentId='0';
         }
         $.postJSON(basePath+"/diagnosis/saveIn",  JSON.stringify(d), function (data) {
-            $('#dlg').dialog('close');
-            if(d.id==''|| d.id==null){
-                $("#tg").treegrid('append',{
-                    parent:d.parentId,
-                    data:[d]
-                })
-            }else{
-                $("#tg").treegrid('update',{
-                    id:d.id,
-                    row:d
-                })
-            }
+          if(data.code>0){
+              $.messager.alert('提示',"保存成功");
+              $('#dlg').dialog('close');
+              if(d.id==''|| d.id==null){
+                  $("#tg").treegrid('append',{
+                      parent:d.parentId,
+                      data:[d]
+                  })
+              }else{
+                  $("#tg").treegrid('update',{
+                      id:d.id,
+                      row:d
+                  })
+              }
+          }else{
+              $.messager.alert('提示',"保存失败", "error");
+          }
 
         },function(){
             $.messager.alert('提示',"保存失败", "error");
@@ -272,7 +276,7 @@ function addNextLevel() {
     }
     if (node!=null) {
 
-        $('#dlg').dialog('open').dialog('setTitle', '添加子诊断');
+        $('#dlg').dialog('open').dialog('setTitle', '添加子诊断').dialog('center');
         $('#fm').form('clear');
         /*    $("#parentName").textbox('setValue', node.menuName);*/
         $("#parentId").val(node.id);
@@ -313,8 +317,8 @@ function del() {
                 'dataType': 'json',
                 'success': function(data){
                     if(data.code=='1'){
-                        $('#tg').treegrid('reload');
                         $.messager.alert("提示消息",data.code+"条记录删除成功！");
+                        $('#tg').treegrid('reload');
 
                     }else{
                         $.messager.alert('提示',"删除失败", "error");
