@@ -1,5 +1,5 @@
 $(function(){
-  var queryParams={"drugPrescMaster.name": $('#name').val()};
+//?startDateDispense='+formatDatebox(new Date())+'&stopDateDispense='+formatDatebox(new Date())
     $('#confirmDrug').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -12,7 +12,6 @@ $(function(){
         fit: true,//自动大小
         url: basePath + '/drugPresc/findMaster',
         remoteSort: false,
-        queryParams:queryParams,
         idField: 'id',
         singleSelect: true,//是否单选
         pagination: true, //分页控件
@@ -43,13 +42,13 @@ $(function(){
         },
         onExpandRow: function(index,row){
             $('#ddv-'+index).datagrid({
-                url: basePath + '/drugPresc/getDetail?masterId ='+ row.id,
                 fitColumns:true,
                 singleSelect:true,
                 rownumbers:true,
                 loadMsg:'',
                 height:'auto',
-                method: 'GET',
+                method:'GET',
+                url: basePath + '/drugPresc/getDetail?masterId='+ row.id,
                 columns:[[
                     {field: 'itemNo', title: '组别', width: '10%', align: 'center'},
                     {field: 'drugName', title: '药品名称', width: '10%', align: 'center'},
@@ -91,8 +90,9 @@ $(function(){
     //    queryParams["drugPrescMaster.name"] = $('#name').val();
      /*   queryParams["drugPrescMaster.regCname"] = $('#regCname').val();
         queryParams["qvo.sysEname"] = $('#sysEname').val();
-        queryParams["qvo.sysCname"] = $('#sysCname').val();*/
-       // $("#confirmDrug").datagrid({queryParams:{"drugPrescMaster.name":$('#name').val()}});
-        $('#confirmDrug').datagrid("load");   //点击搜索
+        queryParams["qvo.sysCname"] = $('#sysCname').eval();*/
+
+        $('#confirmDrug').datagrid({url:basePath + '/drugPresc/findMaster?'+$("#patientInfoForm").serialize() });
+      //  $('#confirmDrug').datagrid("reload");   //点击搜索
     });
 });

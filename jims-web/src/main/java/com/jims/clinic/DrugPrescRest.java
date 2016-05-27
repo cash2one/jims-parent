@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,19 +32,31 @@ public class DrugPrescRest {
      * 查询主表列表
      * @param request
      * @param response
-     * @param drugPrescMaster
      * @return
      */
     @Path("findMaster")
     @GET
-    public PageData findMaster(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam(value = "drugPrescMaster")DrugPrescMaster drugPrescMaster){
+    public PageData findMaster(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam(value = "name")String name,@QueryParam(value = "clinicId")String clinicId,
+                               @QueryParam(value = "patientId")String patientId,@QueryParam(value = "startDatePresc")Date startDatePresc,@QueryParam(value = "stopDatePresc")String stopDatePresc,
+                               @QueryParam(value = "startDateDispense")Date startDateDispense,@QueryParam(value = "stopDateDispense")Date stopDateDispense,@QueryParam(value = "prescNo")int prescNo){
+        DrugPrescMaster drugPrescMaster=new DrugPrescMaster();
+        drugPrescMaster.setName(name);
+        drugPrescMaster.setClinicId(clinicId);
+        drugPrescMaster.setPatientId(patientId);
+        drugPrescMaster.setPrescNo(prescNo);
+        drugPrescMaster.setStartDateDispense(startDateDispense);
+        drugPrescMaster.setStartDatePresc(startDatePresc);
+        drugPrescMaster.setStopDateDispense(stopDateDispense);
+        drugPrescMaster.setStopDatePresc(startDatePresc);
         Page<DrugPrescMaster> prescMasterPage=new Page<DrugPrescMaster>(request,response);
-        prescMasterPage=drugPrescServiceApi.findPage(prescMasterPage,new DrugPrescMaster());
+        prescMasterPage=drugPrescServiceApi.findPage(prescMasterPage,drugPrescMaster);
         PageData pageData=new PageData();
         pageData.setRows(prescMasterPage.getList());
         pageData.setTotal(prescMasterPage.getCount());
         return pageData;
     }
+
+
 
     /**
      * 查询药品处方明细记录

@@ -80,19 +80,33 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+				AND a.name LIKE
+				'%'||#{name}||'%'
 			</if>
 			<if test="patientId != null and patientId != ''">
-				AND patient_id = #{patientId}
+				AND a.patient_id = #{patientId}
 					</if>
 			<if test="clinicId !=null and clinicId !=''">
-                AND  clinic_id = #{clinicId}
+                AND  a.clinic_id = #{clinicId}
 			</if>
 			<if test="prescNo !=null and prescNo !=''" >
-				AND presc_no = #{prescNo}
+				AND a.presc_no = #{prescNo}
+			</if>
+			<if test="startDatePresc !=null and startDatePresc !=''">
+			    AND 	a.presc_date <![CDATA[  >=  ]]>
+				to_date(to_char(startDatePresc,'yyyymmdd hh24:mi:ss'),'yyyymmdd hh24:mi:ss')
+			</if>
+			<if test="stopDatePresc !=null and stopDatePresc !=''">
+				AND 	a.presc_date <![CDATA[   <=  ]]>
+				to_date(to_char(stopDatePresc,'yyyymmdd hh24:mi:ss'),'yyyymmdd hh24:mi:ss')
+			</if>
+			<if test="startDateDispense !=null and startDateDispense !=''">
+				AND 	a.dispensing_datetime <![CDATA[  >=  ]]>
+				to_date(to_char(startDateDispense,'yyyymmdd hh24:mi:ss'),'yyyymmdd hh24:mi:ss')
+            </if>
+			<if test="stopDateDispense !=null and stopDateDispense !=''">
+				AND 	a.dispensing_datetime  <![CDATA[   <=  ]]>
+				to_date(to_char(stopDateDispense,'yyyymmdd hh24:mi:ss'),'yyyymmdd hh24:mi:ss')
 			</if>
 		</where>
 		<choose>
