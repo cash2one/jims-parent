@@ -20,7 +20,7 @@
 <div region="center" >
 
     <div id="cc"  class="easyui-layout" style="width:100%;height:98%;">
-        <div region="north"  split="true" style="height:100px;background:#eee;">
+        <div region="north"  split="true" style="height:50px;background:#eee;">
             <table>
                 <tr style="height: 40px;">
                     <td>
@@ -39,42 +39,41 @@
                         <span style="font-size:20px;color:blue;" >&nbsp;定位：</span>
                     </td>
                     <td>
-                        <input type="text" id="test2" class="easyui-textbox"  style="height: 20px;width: 120px;">
+                        <input type="text" id="location" class="easyui-combobox"  style="height: 20px;width: 200px;">
                     </td>
-                    <td>&nbsp;<input type="checkbox" name="check1" style="width: 20px;height:20px;zoom:100%;" >
-                        <span style="font-size:20px" >是否显示实盘数为零的记录</span>
+                    <td>
+                        <!--&nbsp;<input type="checkbox" name="check1" style="width: 20px;height:20px;zoom:100%;" >-->
+                        <!--<span style="font-size:20px" >是否显示实盘数为零的记录</span>-->
+                        <input id="actualFill" type="button" value="实盘填充" style="width: 80px;height: 30px;font-weight:bold;">&nbsp;&nbsp;
+                        <a href="#" id="extractBtn" class="easyui-linkbutton" iconCls="icon-search">提 取</a>&nbsp;&nbsp;
+                        <a href="#" id="generateBtn" class="easyui-linkbutton" iconCls="icon-add">生 成</a>&nbsp;&nbsp;
+                        <a href="#" id="temporaryStorageBtn" class="easyui-linkbutton" iconCls="icon-search">暂 存</a>&nbsp;&nbsp;
+                        <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">终 存</a>
+
                     </td>
                     <td width="7%"></td>
                     <td>
-                        <a href="#" id="1Btn" class="easyui-linkbutton" iconCls="icon-search">提 取</a>
-                        <a href="#" id="2Btn" class="easyui-linkbutton" iconCls="icon-add">生 成</a>
-                        <a href="#" id="3Btn" class="easyui-linkbutton" iconCls="icon-search">暂 存</a>
-                        <a href="#" id="4Btn" class="easyui-linkbutton" iconCls="icon-save">终 存</a>
+
                     </td>
                 </tr>
             </table>
             <table>
                 <tr style="height: 45px;">
                     <td>
-                        &nbsp;<input type="button" value="实盘填充" style="width: 80px;height: 30px;font-weight:bold;">
-                        <input type="button" value="&nbsp;删除可能不再使用的药品记录&nbsp;" style="height: 30px;">
+                        <!--<input type="button" value="&nbsp;删除可能不再使用的药品记录&nbsp;" style="height: 30px;">-->
                     </td>
                     <td>
-                        <span  style="font-size: 14px">（删除以下记录：账面为零，并且存在更新的批号目录）（批号为“X”的零账面数记录优先删除）</span>
+                        <!--<span  style="font-size: 14px">（删除以下记录：账面为零，并且存在更新的批号目录）（批号为“X”的零账面数记录优先删除）</span>-->
                     </td>
-                    <td width="10.3%"></td>
-                    <td>
-                        <a href="#" id="5Btn" class="easyui-linkbutton" iconCls="icon-search">打印空表</a>
-                        <a href="#" id="6Btn" class="easyui-linkbutton" iconCls="icon-add">打 印</a>
-                        <a href="#" id="7Btn" class="easyui-linkbutton" iconCls="icon-search">导 出</a>
-                        <a href="#" id="8Btn" class="easyui-linkbutton" iconCls="icon-remove">关 闭</a>
+                    <td width="30.3%"></td>
+                    <td >
                     </td>
                 </tr>
             </table>
         </div>
 
         <div region="center"   split="true" style="padding:2px;background: #fdfdfd;width: 100%">
-            <div id="dg" class="easyui-datagrid"></div>
+            <div id="inventoryList" class="easyui-datagrid"></div>
         </div>
 
     </div>

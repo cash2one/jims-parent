@@ -124,4 +124,22 @@ public interface DrugPriceListServiceApi {
      */
     public String saveDrugPrice(DrugCatalogChangeVo drugPriceVo);
 
+    /**
+     * 通过通知生效日期查询调价记录表
+     * @param startDate 调价生效开始日期
+     * @param endDate  调价生效结束日期
+     * @author txb
+     * @return
+     */
+    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate , String endDate);
+
+    /**
+     * 保存调价记录确认
+     * @param drugPriceModifyVo
+     * @author txb
+     * @return
+     */
+    public String saveModifyConfirm(DrugCatalogChangeVo<DrugPriceModify> drugPriceModifyVo);
+
+
 }

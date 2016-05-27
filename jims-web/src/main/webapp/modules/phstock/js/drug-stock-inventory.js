@@ -1,5 +1,12 @@
 //药品库存盘点
 $(function(){
+    var editIndex;
+    var stopEdit = function () {
+        if (editIndex || editIndex == 0) {
+            $("#inventoryList").datagrid('endEdit', editIndex);
+            editIndex = undefined;
+        }
+    };
     var loadDate=function getNowFormatDate() {
         var date = new Date();
         var seperator1 = "-";
@@ -17,9 +24,15 @@ $(function(){
             + seperator2 + date.getSeconds();
         return currentdate;
     };
-    $("#date").datetimebox("setValue",loadDate());
+    var drugSupplierDict  = [];//药品生产商列表
+    $.get( basePath + "/drug-supplier-catalog/list-supplier-type?orgId=" + parent.config.org_Id + "&supplierClass=生产商", function (data) {
+        drugSupplierDict = data;
+    });
 
-    $("#dg").datagrid({
+    $("#date").datetimebox("setValue",loadDate());
+    //$("#date").datetimebox("setValue","2015-11-1 3:25:10");
+
+    $("#inventoryList").datagrid({
         fit: true,
         fitColumns: true,
         striped: true,
@@ -30,114 +43,399 @@ $(function(){
         //  url: basePath + "/AdministrationDict/listAll",
 
         loadMsg: '数据正在加载中，请稍后.....',
-        pagination: true,//分页控件
-        pageSize: 15,
-        pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
+        //pagination: true,//分页控件
+        //pageSize: 15,
+        //pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[{
             title: "id",
             field: "id",
             hidden: true
         }, {
-            title: "序号",
-            field: "administrationCode",
-            width: '7%',
-            align: 'center'
-
-        }, {
             title: "药品编码",
-            field: "administrationCode",
+            field: "drugCode",
             width: '7%',
             align: 'center'
         }, {
             title: "药品名称",
-            field: "administrationCode",
-            width: '7%',
+            field: "drugName",
+            width: '11%',
             align: 'center'
         }, {
             title: "包装规格",
-            field: "administrationCode",
+            field: "packageSpec",
             width: '7%',
             align: 'center'
         }, {
             title: "单位",
-            field: "administrationCode",
-            width: '7%',
+            field: "packageUnits",
+            width: '6%',
             align: 'center'
         }, {
             title: "厂家",
-            field: "administrationCode",
+            field: "firmId",
             width: '7%',
-            align: 'center'
+            align: 'center',
+            formatter: function (value,row,index) {
+                var supplierId = value;
+                $.each(drugSupplierDict, function (index,item) {
+                    if(item.supplierCode == value){
+                        supplierId  =  item.supplierId;
+                    }
+                });
+                return  supplierId;
+           }
+
         }, {
             title: "剂型",
-            field: "administrationCode",
+            field: "drugForm",
             width: '7%',
             align: 'center'
         }, {
             title: "批号",
-            field: "administrationCode",
+            field: "batchNo",
             width: '7%',
             align: 'center'
         }, {
             title: "单价",
-            field: "administrationCode",
+            field: "retailPrice",
             width: '7%',
             align: 'center'
         }, {
             title: "账面数",
-            field: "administrationCode",
+            field: "quantity",
             width: '7%',
             align: 'center'
         }, {
             title: "账面数（包装）",
-            field: "administrationCode",
+            field: "quantityNum",
             width: '7%',
-            align: 'center'
+            align: 'center',
+            formatter: function (value,row,index) {
+                if(value == "合计") return value;
+                var quantityNum = row.quantity + row.packageUnits + "(" + row.packageSpec + ")";
+                if(row.quantity){
+                    return quantityNum;
+                }else{
+                    return "";
+                }
+            }
         }, {
             title: "实盘数",
-            field: "administrationCode",
+            field: "actualQuantity",
             width: '7%',
-            align: 'center'
+            align: 'center',
+            editor:{
+                type:'textbox',options: {
+                    onChange: function (n,o) {
+                        if (window.event.keyCode == 13) {
+                            $("#inventoryList").datagrid("endEdit",editIndex);
+
+                            var length = $("#inventoryList").datagrid("getRows").length - 1;
+                            var newEditIndex = editIndex + 1;
+                            if(length > newEditIndex){
+                                $("#inventoryList").datagrid("beginEdit",newEditIndex);
+                                $("#inventoryList").datagrid("selectRow",newEditIndex);
+                                var editor = $('#inventoryList').datagrid('getEditor', {index:newEditIndex,field:"actualQuantity"});
+                                $(editor.target).textbox().next('span').find('input').focus();
+                                editIndex = newEditIndex;
+                            }
+                        }
+                    }
+                }
+            }
         }, {
             title: "盈亏数",
-            field: "administrationCode",
+            field: "profitAndLoss",
             width: '7%',
-            align: 'center'
+            align: 'center',
+            formatter: function (value,row,index) {
+                var profitAndLoss = row.actualQuantity - row.quantity ;
+                if(row.quantity){
+                    row.profitAndLoss = profitAndLoss;
+                    return profitAndLoss;
+                }else{
+                    return value;
+                }
+            }
         }, {
             title: "账面额",
-            field: "administrationCode",
+            field: "quantityAmount",
             width: '7%',
-            align: 'center'
+            align: 'center',
+            formatter: function (value,row,index) {
+                var quantityAmount = row.quantity * row.retailPrice ;
+
+                if(quantityAmount != undefined  && !isNaN(quantityAmount)){
+                    row.quantityAmount = parseFloat(quantityAmount).toFixed(4);
+                    return parseFloat(quantityAmount).toFixed(4);
+                }else{
+                    if(value == undefined){
+                        value = 0.00;
+                        row.quantityAmount = parseFloat(value).toFixed(4);
+                    }
+                    return parseFloat(value).toFixed(4);
+                }
+            }
         }, {
             title: "实盘额",
-            field: "administrationCode",
+            field: "actualAmount",
             width: '7%',
-            align: 'center'
+            align: 'center',
+            formatter: function (value,row,index) {
+                if(row.quantityNum == '合计') return parseFloat(value).toFixed(4);
+
+                var actualAmount = (isNaN(row.actualAmount) ? 0 : +row.actualAmount);
+                var _value = ((isNaN(row.actualQuantity) ? 0 : +row.actualQuantity)
+                * (isNaN(row.retailPrice) ? 0 : +row.retailPrice)).toFixed(4);
+
+                row.actualAmount = _value;
+
+                var _allRow = $('#inventoryList').datagrid('getRows');
+                var _lastRow = _allRow[_allRow.length - 1];
+                if(_lastRow.quantityNum == '合计') {
+                    _lastRow.actualAmount = (+_lastRow.actualAmount + (+_value) - actualAmount).toFixed(4)
+                    $('#inventoryList').datagrid('refreshRow', _allRow.length - 1)
+                }
+                return _value
+            }
         }, {
             title: "盈亏额",
-            field: "administrationCode",
+            field: "profitAndLossAmount",
             width: '7%',
-            align: 'center'
+            align: 'center',
+            formatter: function (value,row,index) {
+                if(row.quantityNum == '合计') return (+value).toFixed(4);
+
+                var profitAndLossAmount = (isNaN(row.profitAndLossAmount) ? 0 : +row.profitAndLossAmount);
+                var _value = (((isNaN(row.actualQuantity) ? 0 : +row.actualQuantity) - (isNaN(row.quantity) ? 0 : +row.quantity)
+                )* (isNaN(row.retailPrice) ? 0 : +row.retailPrice)).toFixed(4);
+
+                row.profitAndLossAmount = _value;
+
+                var _allRow = $('#inventoryList').datagrid('getRows');
+                var _lastRow = _allRow[_allRow.length - 1];
+                if(_lastRow.quantityNum == '合计') {
+                    _lastRow.profitAndLossAmount = (+_lastRow.profitAndLossAmount + (+_value) - profitAndLossAmount).toFixed(4);
+                    $('#inventoryList').datagrid('refreshRow', _allRow.length - 1)
+                }
+                return _value
+
+            }
         }, {
             title: "分库房",
-            field: "administrationCode",
+            field: "subStorage",
             width: '7%',
-            align: 'center'
+            align: 'center',
+            formatter: function (value,row,index) {
+                var storageName = value;
+                $.each(drugSubStorageDict, function (index,item) {
+                    if(item.subStorageCode == value){
+                        storageName  =  item.subStorage;
+                    }
+                });
+            return  storageName;
+    }
+        },{
+            field: "location",
+            hidden:true
+        },{
+            field: "checkYearMonth",
+            hidden:true,
+            formatter: function (value,row,iindex) {
+                //row.checkYearMonth = new Date(value);
+                //return new Date(value)
+            }
+        },{
+            field: "storage",
+            hidden:true
+        },{
+            field: "orgId",
+            hidden:true
         }
+        ]],
+        onSelect: function (rowIndex, rowDate) {
+            stopEdit();
+            if (rowDate.recStatus == 0){
+                $("#inventoryList").datagrid("beginEdit",rowIndex);
+                editIndex = rowIndex;
+                var editor = $('#inventoryList').datagrid('getEditor', {index:rowIndex,field:"actualQuantity"});
+                $(editor.target).textbox().next('span').find('input').focus();
+            }
+        },
+        onLoadSuccess: function (data) {
+            var sumQuantityAmount = 0.0000;
+            var sumActualAmount = 0.0000;
+            var sumProfitAndLossAmount = 0.0000;
+            var rows = $("#inventoryList").datagrid("getRows");
+            $.each(rows, function (index,item) {
+                sumQuantityAmount = parseFloat(sumQuantityAmount) + parseFloat(item.quantityAmount);
+                sumActualAmount = parseFloat(sumActualAmount) + parseFloat(item.actualAmount);
+                sumProfitAndLossAmount = parseFloat(sumProfitAndLossAmount) + parseFloat(item.profitAndLossAmount);
+            });
+            $("#inventoryList").datagrid("appendRow",{quantityNum:"合计",quantityAmount:sumQuantityAmount,actualAmount:sumActualAmount,profitAndLossAmount:sumProfitAndLossAmount});
+        }
+    });
 
-        ]]
-    })
-
-
+    //定义药品名称
+    $('#location').combogrid({
+        panelWidth: 500,
+        idField: 'drugCode',
+        textField: 'drugName',
+        loadMsg: '数据正在加载',
+        url: basePath + '/drug-catalog/drugNameDictList',
+        mode: 'remote',
+        method: 'GET',
+        fitColumns:true,
+        columns: [[
+            {field: 'drugCode', title: '编码', width: 150, align: 'center'},
+            {field: 'drugName', title: '名称', width: 200, align: 'center'},
+            {field: 'inputCode', title: '拼音', width: 50, align: 'center'}
+        ]],
+        onSelect: function(rowIndex,rowData){
+            var rows = $("#inventoryList").datagrid("getRows");
+            $.each(rows, function (index,row) {
+                if(row.drugCode == rowData.drugCode  && row.drugName == rowData.drugName){
+                    $("#inventoryList").datagrid("scrollTo",index);
+                    $("#inventoryList").datagrid("selectRow",index);
+                }
+            });
+        }
+    });
+    //库存
     $('#storage').combobox({
-        idField: 'id',
         valueField: 'id',
         panelHeight:"90px",
         textField: 'text',
         data: [
-            {'id': '0', 'text': '西药字库'},
+            {'id': 'YF01', 'text': '西药字库',selected:true },
             {'id': '1', 'text': '成药字库'},
             {'id': '2', 'text': '草药字库'}
         ]
     });
-})
+
+    var drugSubStorageDict  = [];//药品子库房列表                                              //parent.config.currentStorage &storageCode=150520
+    $.get( basePath + "/drug-storage-dept/findSubList?orgId=" + parent.config.org_Id + "&storageCode=" + parent.config.currentStorage, function (data) {
+        drugSubStorageDict = data;
+    });
+
+
+
+
+    //提取
+    $("#extractBtn").on("click", function () {
+        stopEdit();
+        //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + 150520
+        //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
+        //    + $("#storage").combobox("getValue");
+        var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
+            + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
+            + $("#storage").combobox("getValue");
+        $.get(url, function (data) {
+            if(data.length != 0){
+                $("#inventoryList").datagrid("reload",url);
+            }else{
+                $.messager.alert("提示","没有该时间盘点记录",'info');
+            }
+        });
+    });
+    //生成
+    $("#generateBtn").on("click", function () {
+        stopEdit();
+        var drugInventoryCheckVos = $("#inventoryList").datagrid("getRows");
+
+        //判断是否有改时间盘点记录
+        var data;
+        //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + 150520
+        //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
+        //    + $("#storage").combobox("getValue");
+        var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
+            + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
+            + $("#storage").combobox("getValue");
+        $.get(url, function (data) {
+           data =data;
+        });
+        if(drugInventoryCheckVos.length > 0){
+            $.messager.alert("提示","盘点数据已经存在不能生成","error");
+        }else if(!data){
+            $.messager.alert("提示","盘点数据已经存在,请选择提取","error");
+        }else{
+                var url = basePath + "/drug-inventory-check/generateInventory?storage=" + 150520
+                    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue") + "&subStorage="
+                    + $("#storage").combobox("getValue");
+                //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + parent.config.currentStorage
+                //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue") + "&subStorage="
+                //    + $("#storage").combobox("getValue");
+
+                $("#inventoryList").datagrid("reload", url);
+
+            }
+
+    });
+    //暂存
+    $("#temporaryStorageBtn").on("click", function () {
+        stopEdit();
+        var drugInventoryCheckVos = $("#inventoryList").datagrid("getRows");
+
+        drugInventoryCheckVos = drugInventoryCheckVos.splice(drugInventoryCheckVos.length - 1,1);
+        if(drugInventoryCheckVos.length > 0 && drugInventoryCheckVos[0].recStatus == 1){
+            $.messager.alert("提示","盘点数据已经终存不能暂存","error");
+        }else if(drugInventoryCheckVos.length == 0 ){
+            $.messager.alert("提示","盘点无数据不能暂存","error");
+        }else{
+                console.log(drugInventoryCheckVos);
+                $.postJSON(basePath + "/drug-inventory-check/temporaryStorage",JSON.stringify(drugInventoryCheckVos), function (data) {
+                    $.messager.alert("提示","暂存成功","info");
+                    $("#inventoryList").datagrid("loadData", {total: 0, rows: [] });
+                }, function (data) {
+                    $.messager.alert("提示","暂存失败","info");
+                    $("#inventoryList").datagrid("loadData", {total: 0, rows: [] });
+                })
+            }
+
+
+
+    });
+    //终存
+    $("#saveBtn").on("click", function () {
+        stopEdit();
+        var drugInventoryCheckVos = $("#inventoryList").datagrid("getRows");
+        drugInventoryCheckVos = drugInventoryCheckVos.splice(drugInventoryCheckVos.length - 1,1);
+        if(drugInventoryCheckVos.length > 0 && drugInventoryCheckVos[0].recStatus == 1){
+            $.messager.alert("提示","盘点数据已经终存不能再次保存","error");
+        }else if(drugInventoryCheckVos.length == 0 ){
+            $.messager.alert("提示","盘点无数据不能保存","error");
+        }else{
+            $.messager.confirm("提示","盘点数据一但终存就不能修改了，是否最终保存？", function (data) {
+                if(data){
+                    $.postJSON(basePath + "/drug-inventory-check/saveInventory",JSON.stringify(drugInventoryCheckVos), function (data) {
+                        $.messager.alert("提示","保存成功","info");
+                        $("#inventoryList").datagrid("loadData", {total: 0, rows: [] });
+                    }, function (data) {
+                        $.messager.alert("提示","保存失败","info");
+                        $("#inventoryList").datagrid("loadData", {total: 0, rows: [] });
+                    })
+                }else{
+
+                }
+
+            });
+        }
+
+    });
+    //实盘填充
+    $("#actualFill").on("click",function(){
+        stopEdit();
+        var rows = $("#inventoryList").datagrid("getRows");
+        if(rows.length > 0 && rows[0].recStatus == 1){
+            $.messager.alert("提示","盘点数据已经终存不能实盘填充","error");
+        }else {
+            $.each(rows, function (index, row) {
+                $("#inventoryList").datagrid("beginEdit", index);
+                var event = $("#inventoryList").datagrid("getEditor", {index: index, field: "actualQuantity"});
+                $(event.target).textbox("setValue", row.quantity);
+                $("#inventoryList").datagrid("endEdit", index);
+            });
+        }
+    })
+
+});
