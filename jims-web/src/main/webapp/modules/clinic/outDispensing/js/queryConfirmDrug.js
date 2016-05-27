@@ -1,4 +1,8 @@
 $(function(){
+    $("#startDatePresc").datebox("setValue", formatDatebox(new Date()));
+    $("#stopDatePresc").datebox("setValue", formatDatebox(new Date()));
+    $("#startDateDispense").datebox("setValue", formatDatebox(new Date()));
+    $("#stopDateDispense").datebox("setValue", formatDatebox(new Date()));
 //?startDateDispense='+formatDatebox(new Date())+'&stopDateDispense='+formatDatebox(new Date())
     $('#confirmDrug').datagrid({
         iconCls: 'icon-edit',//图标
@@ -10,7 +14,7 @@ $(function(){
         method: 'GET',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/drugPresc/findMaster',
+        url: basePath + '/drugPresc/findMaster?'+$("#patientInfoForm").serialize(),
         remoteSort: false,
         idField: 'id',
         singleSelect: true,//是否单选

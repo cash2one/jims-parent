@@ -67,10 +67,10 @@ public class DrugPrescMaster extends DataEntity<DrugPrescMaster> {
 	private List<DrugPrescDetail> drugPrescDetailList;
 
 	/*查询时所需的字段*/
-	private Date startDatePresc;
-	private Date stopDatePresc;
-	private  Date startDateDispense;
-	private  Date stopDateDispense;
+	private String startDatePresc;
+	private String stopDatePresc;
+	private  String startDateDispense;
+	private  String stopDateDispense;
 	public DrugPrescMaster() {
 		super();
 	}
@@ -529,35 +529,35 @@ public class DrugPrescMaster extends DataEntity<DrugPrescMaster> {
 		this.drugPrescDetailList = drugPrescDetailList;
 	}
 
-	public Date getStartDatePresc() {
+	public String getStartDatePresc() {
 		return startDatePresc;
 	}
 
-	public void setStartDatePresc(Date startDatePresc) {
+	public void setStartDatePresc(String startDatePresc) {
 		this.startDatePresc = startDatePresc;
 	}
 
-	public Date getStopDatePresc() {
+	public String getStopDatePresc() {
 		return stopDatePresc;
 	}
 
-	public void setStopDatePresc(Date stopDatePresc) {
+	public void setStopDatePresc(String stopDatePresc) {
 		this.stopDatePresc = stopDatePresc;
 	}
 
-	public Date getStartDateDispense() {
+	public String getStartDateDispense() {
 		return startDateDispense;
 	}
 
-	public void setStartDateDispense(Date startDateDispense) {
+	public void setStartDateDispense(String startDateDispense) {
 		this.startDateDispense = startDateDispense;
 	}
 
-	public Date getStopDateDispense() {
+	public String getStopDateDispense() {
 		return stopDateDispense;
 	}
 
-	public void setStopDateDispense(Date stopDateDispense) {
+	public void setStopDateDispense(String stopDateDispense) {
 		this.stopDateDispense = stopDateDispense;
 	}
 }

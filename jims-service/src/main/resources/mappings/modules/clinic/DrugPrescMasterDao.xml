@@ -94,19 +94,19 @@
 			</if>
 			<if test="startDatePresc !=null and startDatePresc !=''">
 			    AND 	a.presc_date <![CDATA[  >=  ]]>
-				to_date(to_char(startDatePresc,'yyyymmdd hh24:mi:ss'),'yyyymmdd hh24:mi:ss')
+				to_date(#{startDatePresc},'yyyy-MM-dd')
 			</if>
 			<if test="stopDatePresc !=null and stopDatePresc !=''">
 				AND 	a.presc_date <![CDATA[   <=  ]]>
-				to_date(to_char(stopDatePresc,'yyyymmdd hh24:mi:ss'),'yyyymmdd hh24:mi:ss')
+				to_date(#{stopDatePresc},'yyyy-MM-dd')
 			</if>
 			<if test="startDateDispense !=null and startDateDispense !=''">
 				AND 	a.dispensing_datetime <![CDATA[  >=  ]]>
-				to_date(to_char(startDateDispense,'yyyymmdd hh24:mi:ss'),'yyyymmdd hh24:mi:ss')
+				to_date(#{startDateDispense},'yyyy-MM-dd')
             </if>
 			<if test="stopDateDispense !=null and stopDateDispense !=''">
 				AND 	a.dispensing_datetime  <![CDATA[   <=  ]]>
-				to_date(to_char(stopDateDispense,'yyyymmdd hh24:mi:ss'),'yyyymmdd hh24:mi:ss')
+				to_date(#{stopDateDispense},'yyyy-MM-dd')
 			</if>
 		</where>
 		<choose>
