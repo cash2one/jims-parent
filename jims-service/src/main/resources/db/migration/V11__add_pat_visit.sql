@@ -22,7 +22,7 @@ create table PAT_VISIT
   DUTY                         VARCHAR2(80),
   TOP_UNIT                     VARCHAR2(80),
   SERVICE_SYSTEM_INDICATOR     NUMBER(1),
-  UNIT_IN_CONTRACT             VARCHAR2(11),
+  UNIT_IN_CONTRACT             VARCHAR2(80),
   CHARGE_TYPE                  VARCHAR2(80),
   WORKING_STATUS               NUMBER(1),
   INSURANCE_TYPE               VARCHAR2(16),

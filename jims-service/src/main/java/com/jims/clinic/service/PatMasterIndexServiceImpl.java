@@ -4,11 +4,13 @@
 package com.jims.clinic.service;
 
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.EmrDiagnosisDao;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.EmrDiagnosis;
 import com.jims.clinic.entity.PatsInHospital;
+import com.jims.common.utils.StringUtils;
 import com.jims.finance.dao.PatsInTransferringDao;
 import com.jims.finance.dao.PrepaymentRcptDao;
 import com.jims.finance.entity.PatsInTransferring;
@@ -19,9 +21,10 @@ import com.jims.clinic.dao.PatMasterIndexDao;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.patient.entity.PatVisit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,7 +33,7 @@ import java.util.List;
  * @author zhaoning
  * @version 2016-04-19
  */
-@Service
+@Service(version = "1.0.0")
 @Transactional(readOnly = true)
 public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDao, PatMasterIndex> implements PatMasterIndexServiceApi {
     @Autowired
@@ -51,37 +54,160 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
     @Override
     public String saveMasterIndex(PatMasterIndex patMasterIndex) {
         int num = 0;
-        /**1.保存病人主索引信息**/
-        num = dao.insert(patMasterIndex);
-        /**2.保存在院病人记录**/
         PatsInHospital patsInHospital = new PatsInHospital();
+        EmrDiagnosis emrDiagnosis = new EmrDiagnosis();
+        PatsInTransferring patsInTransferring = new PatsInTransferring();
+        PatVisit patVisit = new PatVisit();
+        PrepaymentRcpt prepaymentRcpt = new PrepaymentRcpt();
+        if(patMasterIndex!=null&&patMasterIndex.getId()!=null&&!"".equals(patMasterIndex.getId())){
+            num = dao.update(patMasterIndex);
+        }else{
+            /**1.保存病人主索引信息**/
+            patMasterIndex.preInsert();
+            num = dao.insert(patMasterIndex);
+        }
+        /**2.保存在院病人记录**/
+        copytoInHospital(patMasterIndex, patsInHospital);
         patsInHospital.preInsert();
         patsInHospitalDao.insert(patsInHospital);
-
         /**3.保存诊断信息**/
-        EmrDiagnosis emrDiagnosis = new EmrDiagnosis();
+        copytoDiagnosis(patMasterIndex, emrDiagnosis);
         emrDiagnosis.preInsert();
         emrDiagnosisDao.insert(emrDiagnosis);
-
         /**4.保存转科病人记录**/
-        PatsInTransferring patsInTransferring = new PatsInTransferring();
+        copytoInTrans(patMasterIndex, patsInTransferring);
         patsInTransferring.preInsert();
         patsInTransferringDao.insert(patsInTransferring);
         /**5.保存病人住院记录信息**/
-        PatVisit patVisit = new PatVisit();
+        copytoVisit(patMasterIndex, patVisit);
         patVisit.preInsert();
         patVisitDao.insert(patVisit);
         /**6.保存预交金记录信息**/
-        PrepaymentRcpt prepaymentRcpt = new PrepaymentRcpt();
         prepaymentRcpt.preInsert();
-        prepaymentRcptDao.insert(prepaymentRcpt);
+//      prepaymentRcptDao.insert(prepaymentRcpt);
+
         return String.valueOf(num);
     }
 
     @Override
     public String deleteMasterIndex(String ids) {
         int num = 0;
-        num = dao.delete(ids);
+        if(ids!=null&&!"".equals(ids)&&!ids.contains(",")){
+//            PatMasterIndex patMasterIndex = dao.get(ids);
+            /**删除在院病人记录**/
+            //DELETE From pats_in_hospital where pats_in_hospital.patient_id ='02000030'
+            patsInHospitalDao.deleteByPatientId(ids);
+            /**删除诊断记录**/
+            //DELETE FROM DIAGNOSIS WHERE DIAGNOSIS.PATIENT_ID ='02000030' AND DIAGNOSIS.VISIT_ID =1 AND DIAGNOSIS.DIAGNOSIS_TYPE ='1' AND diagnosis.diagnosis_no =1
+//            emrDiagnosisDao.delete(ids,"1",1);
+            /**删除转科病人记录**/
+            //DELETE FROM PATS_IN_TRANSFERRING where patient_id ='02000030'
+            patsInTransferringDao.deleteByPatientId(ids);
+            /**删除病人住院记录**/
+            //DELETE FROM "PAT_VISIT" WHERE "PATIENT_ID" = '02000030' AND "VISIT_ID" = '1'
+//            patVisitDao.delete(ids);
+            /**更新病人主索引信息**/
+            //update pat_master_index SET inp_no =NULL where patient_id ='02000030'
+            dao.updateInpno(ids);
+            /**更新住院通知单**/
+            //update pat_hospital_notice set visit_id =null where pat_hospital_notice.patient_id ='02000030' and notice_id =NULL
+
+        }
+
         return String.valueOf(num);
+    }
+
+    /**
+     * 向在院病人记录写数据
+     * @param patMasterIndex
+     * @param patsInHospital
+     */
+    private void copytoInHospital(PatMasterIndex patMasterIndex,PatsInHospital patsInHospital){
+        patsInHospital.setPatientId(patMasterIndex.getId());
+        patsInHospital.setVisitId(1);
+        patsInHospital.setWardCode(null);
+        patsInHospital.setDeptCode(null);
+        patsInHospital.setAdmissionDateTime(new Date());
+        patsInHospital.setDiagnosis(patMasterIndex.getDiagnosis());
+        patsInHospital.setPatientCondition(null);
+        patsInHospital.setGuarantor(null);
+        patsInHospital.setGuarantorOrg(null);
+        patsInHospital.setGuarantorPhoneNum(null);
+        patsInHospital.setPrepayments(Double.valueOf(0));
+        patsInHospital.setTotalCharges(Double.valueOf(0));
+        patsInHospital.setTotalCosts(Double.valueOf(0));
+        patsInHospital.setSettledIndicator(0);
+
+    }
+
+    /**
+     * 向诊断信息写数据
+     * @param patMasterIndex
+     * @param emrDiagnosis
+     */
+    private void copytoDiagnosis(PatMasterIndex patMasterIndex,EmrDiagnosis emrDiagnosis){
+        emrDiagnosis.setPatientId(patMasterIndex.getId());
+        emrDiagnosis.setParentId("0");
+        emrDiagnosis.setVisitId("1");
+        emrDiagnosis.setDiagnosisDate(new Date());
+        emrDiagnosis.setType(patMasterIndex.getDiagnosisType());//入院诊断
+        emrDiagnosis.setItemNo(1);//诊断序号
+        emrDiagnosis.setDiagnosisId(patMasterIndex.getDiagnosisNo());//诊断编号
+    }
+
+    /**
+     * 向转科表写数据
+     * @param patMasterIndex
+     * @param patsInTransferring
+     */
+    private void copytoInTrans(PatMasterIndex patMasterIndex,PatsInTransferring patsInTransferring){
+        patsInTransferring.setPatientId(patMasterIndex.getId());
+        patsInTransferring.setDeptTransferedFrom(patMasterIndex.getDeptTransferedFrom());//转出科室
+        patsInTransferring.setDeptTransferedTo(patMasterIndex.getDeptTransferedTo());// 转向科室
+        patsInTransferring.setTransferDateTime(patMasterIndex.getTransferDateTime());// 转出日期及时间
+    }
+
+    /**
+     * 向病人住院写数据
+     * @param patMasterIndex
+     * @param patVisit
+     */
+    private void copytoVisit(PatMasterIndex patMasterIndex,PatVisit patVisit){
+        patVisit.setPatientId(patMasterIndex.getId());
+        patVisit.setVisitId(1);
+        patVisit.setIdentity(patMasterIndex.getIdentity());
+        patVisit.setArmedServices(null);
+        patVisit.setDuty(null);
+        patVisit.setUnitInContract(patMasterIndex.getUnitInContract());
+        patVisit.setMailingAddress(patMasterIndex.getMailingAddress());
+        patVisit.setZipCode(patMasterIndex.getZipCode());
+        patVisit.setNextOfKin(patMasterIndex.getNextOfKin());
+        patVisit.setRelationship(patMasterIndex.getRelationship());
+        patVisit.setNextOfKinPhone(patMasterIndex.getNextOfKinPhone());
+        patVisit.setNextOfKinAddr(patMasterIndex.getNextOfKinAddr());
+        patVisit.setNextOfKinZipcode(patMasterIndex.getNextOfKinZipCode());
+        patVisit.setDeptDischargeFrom(patMasterIndex.getDdtRoomNo());
+        patVisit.setWorkingStatus(null);
+        patVisit.setInsuranceNo(patMasterIndex.getInsuranceNo());
+        patVisit.setServiceAgency(patMasterIndex.getServiceAgency());
+        patVisit.setServiceSystemIndicator(null);
+        patVisit.setChargeType(patMasterIndex.getChargeType());
+        patVisit.setParityNo(patMasterIndex.getParityNo());
+        patVisit.setMaritalStatus(patMasterIndex.getMaritalStatus());
+        patVisit.setOccupation(patMasterIndex.getOccupation());
+        patVisit.setInsuranceType(patMasterIndex.getInsuranceType());
+        patVisit.setInsuranceAera(patMasterIndex.getInsuranceAera());
+        patVisit.setAdmissionDateTime(patMasterIndex.getAdmissionDateTime());
+        patVisit.setConsultingDate(patMasterIndex.getConsultingDate());
+        patVisit.setConsultingDoctor(patMasterIndex.getConsultingDoctor());
+        patVisit.setDeptAdmissionTo(patMasterIndex.getDeptAdmissionTo());
+        patVisit.setPatientClass(patMasterIndex.getPatientClass());
+        patVisit.setAdmissionCause(patMasterIndex.getAdmissionCause());
+        patVisit.setPatAdmCondition(patMasterIndex.getPatAdmCondition());
+        patVisit.setAdmittedBy(patMasterIndex.getAdmittedBy());
+//        patVisit.setDdtRoomNo(patMasterIndex.getDdtRoomNo());
+        patVisit.setOnsetDate(patMasterIndex.getOnsetDate());
+        patVisit.setNhSerialNo(patMasterIndex.getNhSerialNo());
+        patVisit.setFromOtherPlaceIndicator(patMasterIndex.getFromOtherPlaceIndicator());
     }
 }

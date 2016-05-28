@@ -57,6 +57,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                 ClinicMaster clinicMaster = clinicMasterDao.get(outpPresc.getClinicId());
                 Integer orderNo ;
                 Integer subOrderNo = 1;//子医嘱号默认值
+                String serialNo = IdGen.uuid();
                 OutpOrders oo = new OutpOrders();
                 List<OutpPresc> lists = outpPresc.getList();
                 List<OutpOrdersCosts> ordersCostsesList = new ArrayList<OutpOrdersCosts>();
@@ -106,7 +107,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                                    op.setPrescNo(prescno!=null?prescno:1);
                                }
                            }
-                           op.setSerialNo(IdGen.uuid());
+                           op.setSerialNo(serialNo);
                            op.preInsert();
                            num = String.valueOf(dao.insert(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op,clinicMaster));

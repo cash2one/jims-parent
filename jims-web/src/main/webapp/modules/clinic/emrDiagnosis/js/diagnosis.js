@@ -2,6 +2,7 @@ var administration = [{ "value": "1", "text": "中医" }, { "value": "2", "text"
 var editRow = undefined;
 var rowNum=-1;
 $(function(){
+    var clinicId=$("#clinicMasterId",parent.document).val();
     var cId=$("#zhenduan",parent.document).val();
     $('#zhenduan').datagrid({
         singleSelect: true,
@@ -37,27 +38,26 @@ $(function(){
                     }
                 }
             }},
-            {field:'description',title:'诊断时间',width:'30%',align:'center',editor:{type: 'datebox'}
+            {field:'diagnosisDate',title:'诊断时间',width:'30%',align:'center',editor:{type: 'datebox'}
             },
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
                 formatter:function(value, row, index){
                   return "李俊山";
-            }}
+            }},
+            {field:'clinicId',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'}
         ]],
-      /*  frozenColumns:[[
-            {field:'ck',checkbox:true}
-        ]],*/
         toolbar: [{
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
+
                 if(rowNum>=0){
                     rowNum++;
                 }
                     $("#zhenduan").datagrid("insertRow", {
                         index: 0, // index start with 0
                         row: {
-
+                            clinicId:clinicId
                         }
                     });
 
@@ -71,19 +71,19 @@ $(function(){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
-                $("#zhenduan").datagrid('endEdit', editRow);
-                if (editRow != undefined) {
-                    $("#zhenduan").datagrid("endEdit", editRow);
+                $("#zhenduan").datagrid('endEdit', rowNum);
+                if (rowNum != -1) {
+                    $("#zhenduan").datagrid("endEdit", rowNum);
                 }
                 save();
             }
           }
 
         ],onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
+
         },onDblClickRow:function (rowIndex, rowData) {
             if (editRow != undefined) {
-                $("#zhenduan").datagrid('endEdit', editRow);
+                $("#zhenduan").datagrid('endEdit', rowNum);
             }
             if (editRow == undefined) {
                 $("#zhenduan").datagrid('beginEdit', rowIndex);
@@ -103,16 +103,7 @@ $(function(){
 
             }
         }
-
-
-
-
     });
-
-
-
-
-
 
 });
 

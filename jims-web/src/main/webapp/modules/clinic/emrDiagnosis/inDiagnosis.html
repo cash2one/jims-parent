@@ -7,7 +7,6 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/js/formSubmit.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
-    <script type="text/javascript" src="../emrDiagnosis/js/diagnosis.js"></script>
     <script type="text/javascript" src="../emrDiagnosis/js/inDiagnosis.js"></script>
 </head>
 <body>
@@ -47,21 +46,24 @@
         </div>
         <div class="fitem">
             <label>诊断名称:</label>
-            <select   name="diagnosisId" id="diagnosisId" class="easyui-combobox" style="width:200px;" ></select>
+            <select   name="diagnosisId" id="diagnosisId" class="easyui-combobox" style="width:200px;" >
+
+            </select>
         </div>
 
         <input name="id" id="id" type="hidden">
 
-
+        <input name="inOrOutFlag" id="inOrOutFlag" type="hidden" value="1">
         <input name="parentId" id="parentId" type="hidden">
 
 
     </form>
+    <div id="dlg-buttons" class="text-center">
+        <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">关闭</a>
+    </div>
 </div>
-<div id="dlg-buttons">
-    <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">保存</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">关闭</a>
-</div>
+
 
 <!--<div id="tb">
     <a href="#" id="addSameLevelBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="insert();">添加同级诊断</a>

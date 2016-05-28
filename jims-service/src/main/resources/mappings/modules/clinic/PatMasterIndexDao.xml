@@ -57,8 +57,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
-		a.patient_id AS "patientId"
+		a.del_flag AS "delFlag"
 	</sql>
 	
 	<sql id="patMasterIndexJoins">
@@ -169,8 +168,7 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag,
-			patient_id
+			del_flag
 		) VALUES (
 			#{id},
 			#{inpNo},
@@ -225,8 +223,7 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag},
-			#{patientId}
+			#{delFlag}
 		)
 	</insert>
 	
@@ -281,8 +278,7 @@
 			address_now = #{addressNow},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks},
-			patient_id=#{patientId}
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	
@@ -291,5 +287,14 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+	<update id="updateInpno">
+		update pat_master_index SET inp_no=null
+		<where>
+			del_flag='0'
+			<if test="id!=null and id !=''">
+				and id = #{id}
+			</if>
+		</where>
+	</update>
 </mapper>
