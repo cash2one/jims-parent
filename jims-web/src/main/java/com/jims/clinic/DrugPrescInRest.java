@@ -2,7 +2,9 @@ package com.jims.clinic;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
+import com.jims.clinic.api.DoctDrugPrescDetailServiceApi;
 import com.jims.clinic.api.DoctDrugPrescMasterServiceApi;
+import com.jims.clinic.entity.DoctDrugPrescDetail;
 import com.jims.clinic.entity.DoctDrugPrescMaster;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +29,10 @@ import java.util.List;
 public class DrugPrescInRest {
 
     @Reference(version = "1.0.0")
-    DoctDrugPrescMasterServiceApi doctDrugPrescMasterServiceApi;
+    private  DoctDrugPrescMasterServiceApi doctDrugPrescMasterServiceApi;
 
+    @Reference(version = "1.0.0")
+    private DoctDrugPrescDetailServiceApi doctDrugPrescDetailServiceApi;
 
     /**
      * 查询发药的处方
@@ -50,5 +54,21 @@ public class DrugPrescInRest {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * 方法 detailList的功能描述
+     * 根据处方主表的ID找到明细记录
+     * @param
+     * @return
+     * @throws 
+     * @author pq
+     * @date 2016/5/30 0030
+     */
+    @Path("detailList")
+    @GET
+    public List<DoctDrugPrescDetail> detailList(@QueryParam(value = "prescMasterId")String prescMasterId){
+
+     return  doctDrugPrescDetailServiceApi.findListByPrescMasterId(prescMasterId);
     }
 }
