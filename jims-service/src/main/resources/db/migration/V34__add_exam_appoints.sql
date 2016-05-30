@@ -53,7 +53,7 @@ create table EXAM_APPOINTS
   DEVICE              VARCHAR2(40 CHAR),
   TIME_INTERVAL       VARCHAR2(10 CHAR),
   EQUIPMENT_NO        VARCHAR2(20 CHAR),
-  VISIT_NO            NUMBER(4),
+  VISIT_NO            NUMBER(11),
   REGISTER            VARCHAR2(50 CHAR),
   REG_PRN_FLAG        NUMBER(1),
   CNSLT_NO            VARCHAR2(10 CHAR),

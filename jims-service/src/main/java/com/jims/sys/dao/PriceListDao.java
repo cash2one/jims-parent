@@ -81,5 +81,5 @@ public interface PriceListDao extends CrudDao<PriceList> {
      * @return
      * @author ztq
      */
-    public List<PriceListVo> listByClinicItemCodeAndOrgId(@Param("orgId")String orgId, @Param("clinicItemCode")String clinicItemCode);
+    public List<PriceListVo> listByClinicItemCodeAndOrgId(@Param("orgId")String orgId, @Param("itemCode")String clinicItemCode);
 }
