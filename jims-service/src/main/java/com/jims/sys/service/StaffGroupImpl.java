@@ -88,7 +88,7 @@ public class StaffGroupImpl extends CrudImplService<StaffGroupDictDao, StaffGrou
         //插入
         for (StaffGroupDict staffGroupDict : inserted) {
             staffGroupDict.preInsert();
-            staffGroupDict.setGroupClassId(staffGroupDictVo.getStaff_group_class__id());
+            //staffGroupDict.setGroupClassId(staffGroupDictVo.getStaff_group_class__id());
             staffGroupDict.setDeptCode(staffGroupDict.getGroupCode());
             staffGroupDict.setDeptName(staffGroupDict.getGroupName());
             int num = dao.insert(staffGroupDict);
