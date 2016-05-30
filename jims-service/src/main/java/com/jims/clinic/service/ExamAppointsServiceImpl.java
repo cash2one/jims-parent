@@ -37,6 +37,8 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
     private OutpOrdersDao outpOrdersDao;
     @Autowired
     private ClinicVsChargeDao clinicVsChargeDao;
+    @Autowired
+    private ClinicMasterDao clinicMasterDao;
 
     /**
      * 查询预约主记录
@@ -100,17 +102,13 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
 //        }else{
 //            examAppoints.setExamNo("1");
 //        }
+        ClinicMaster clinicMaster=clinicMasterDao.get(examAppoints.getClinicId());
         //添加EXAM_APPOINTS 相应字段
-        examAppoints.setCnsltState(1);
+        examAppoints.setCnsltState(0);
         examAppoints.preInsert();
-        examAppoints.setPatientId("1111");
-        examAppoints.setVisitNo(22);
-        examAppoints.setPatientLocalId("1");
-        examAppoints.setChargeType("1");
-        //设置就诊序号
-        examAppoints.setVisitNo((int) Math.random() * 1000);
-
-
+        examAppoints.setVisitNo(clinicMaster.getVisitNo());
+//        examAppoints.setPatientLocalId("1");
+        examAppoints.setChargeType(clinicMaster.getChargeType());
 
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
         for(int i=0;i<examItemsList.size();i++){
@@ -120,11 +118,6 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             examItems.setVisitId(examAppoints.getVisitId());
             examItems.preInsert();
             examItemsDao.saveExamItems(examItems);
-
-//            List<ClinicVsCharge> clinicVsChargeList=clinicVsChargeDao.getClinicCsCharge(examItems.getExamItemCode(), "D");
-//            for (int j=0;j<clinicVsChargeList.size();j++){
-//
-//            }
 
             OutpTreatRec outpTreatRec=new OutpTreatRec();
             outpTreatRec.preInsert();
@@ -138,40 +131,7 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             outpTreatRec.setAppointNo(examItems.getExamNo());
             outpTreatRec.setRcptNo(examItems.getRcptNo());
             outpTreatRecDao.saveTreatRec(outpTreatRec);
-
-            OutpOrdersCosts outpOrdersCosts=new OutpOrdersCosts();
-            outpOrdersCosts.preInsert();
-            outpOrdersCosts.setClinicId(outpTreatRec.getClinicId());
-            outpOrdersCosts.setPatientId("1111");
-            outpOrdersCosts.setOrderNo(22);
-            outpOrdersCosts.setItemNo(1);
-            outpOrdersCosts.setItemClass("D");
-            outpOrdersCosts.setItemCode("123");
-            outpOrdersCosts.setItemName(outpTreatRec.getItemName());
-            outpOrdersCosts.setPatientId(examAppoints.getPatientId());
-            outpOrdersCosts.setVisitDate(outpTreatRec.getVisitDate());
-            outpOrdersCosts.setRcptNo(outpTreatRec.getRcptNo());
-            outpOrdersCosts.setPerformedBy(outpTreatRec.getPerformedBy());
-            //流水号,医嘱号
-            outpOrdersCosts.setOrderClass("D");
-            outpOrdersCosts.setSerialNo("111");
-            outpOrdersCostsDao.saveOrdersCosts(outpOrdersCosts);
-
         }
-
-        OutpOrders outpOrders = new OutpOrders();
-        outpOrders.preInsert();
-        outpOrders.setClinicId(examAppoints.getClinicId());
-        outpOrders.setPatientId(examAppoints.getPatientId());
-        //设置就诊序号
-        outpOrders.setClinicId(examAppoints.getClinicId());
-        outpOrders.setOrderedBy(examAppoints.getReqDept());
-        outpOrders.setOrderDate(examAppoints.getReqDateTime());
-        //开单科室
-        outpOrders.setOrderedBy(examAppoints.getReqDept());
-        outpOrders.setSerialNo("1111");
-        outpOrders.setDoctor("张三");
-        outpOrdersDao.saveOutpOrders(outpOrders);
         num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;
     }
