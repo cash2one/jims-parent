@@ -26,7 +26,7 @@
 
 <body class="easyui-layout">
 
-    <div data-options="region:'west'" style="width: 35%;border: none">
+    <div data-options="region:'west'" style="width: 30%;border: none">
         <div id="searchDiv">
         <form name="searchform" method="post" action="" id ="searchform">
             <table cellpadding="0" cellspacing="0" width="100%">
@@ -37,21 +37,17 @@
                     <td><input type="text" class="easyui-textbox" id="idNo"/></td>
                 </tr>
                 <tr>
-                    <td class="text-right">就诊号：</td>
-                    <td><input type="text" class="easyui-textbox" id="visitNo" name="clinicMaster.visitNo"/></td>
-
                     <td class="text-right">住院号：</td>
                     <td><input type="text" class="easyui-textbox" id="doctor"/></td>
-                </tr>
-                <tr>
+
                     <td class="text-right">医保类别：</td>
                     <td><input type="text" class="easyui-textbox" id="doctor1"/></td>
-
-                    <td class="text-right">医保账号：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor23"/></td>
                 </tr>
                 <tr>
-                    <td colspan="4">
+                    <td class="text-right">医保账号：</td>
+                    <td><input type="text" class="easyui-textbox" id="doctor23"/></td>
+
+                    <td colspan="2">
                         <button class="easy-nbtn easy-nbtn-info" onclick="searchByCondition();" style="float: right">查询</button>
                     </td>
                 </tr>
@@ -64,18 +60,18 @@
     <div data-options="region:'center'" style="border: none">
         <div class="easyui-layout" data-options="fit:true">
             <div data-options="region:'north'" id="topDiv"  style="height: 90%;border: none">
-                <form id="operation" method="post">
-                    <input type="hidden" name="id">
+                <form id="masterForm" method="post">
+                    <input type="hidden" name="id" id="id">
                     <div class="fitem fitem_pop">
                         <label>
                             患者姓名：
                         </label>
-                        <input name="diagBeforeOperation" class="easyui-textbox">
+                        <input name="name" class="easyui-textbox">
 
                         <label>
                             性别：
                         </label>
-                        <select name="patientCondition" class="easyui-combobox" style="width: 5%">
+                        <select name="sex" class="easyui-combobox" style="width: 5%">
                             <option value="0">男</option>
                             <option value="1">女</option>
                             <option value="2">未知</option>
@@ -87,11 +83,11 @@
                         <label>
                             出生日期：
                         </label>
-                        <input name="reqDateTime" class="easyui-datetimebox" style="width:10%;"/>
+                        <input name="dateOfBirth" class="easyui-datebox" style="width:10%;"/>
                         <label>
                             婚姻状况：
                         </label>
-                        <select name="operationScale" class="easyui-combobox"  style="width: 5%">
+                        <select name="maritalStatus" class="easyui-combobox"  style="width: 5%">
                             <option value="1">未婚</option>
                             <option value="2">已婚</option>
                             <option value="3">丧偶</option>
@@ -103,24 +99,24 @@
                         <label>
                             住院次序：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" readonly/>
+                        <input name="visitId" class="easyui-textbox" readonly/>
                         <label>
                             国籍：
                         </label>
-                        <select name="operationScale" class="easyui-combobox"  style="width: 11%">
+                        <select name="citizenship" class="easyui-combobox"  style="width: 11%">
                             <option value="1">中国</option>
                         </select>
 
                         <label>
                             民族：
                         </label>
-                        <select name="operatingRoom" class="easyui-combobox" style="width: 11%">
+                        <select name="nation" class="easyui-combobox" style="width: 11%">
                             <option value="1">汉族</option>
                         </select>
                         <label>
                             身份证号：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 12%"/>
+                        <input name="idNo" class="easyui-textbox" style="width: 12%"/>
 
                     </div>
 
@@ -128,87 +124,92 @@
                         <label>
                             出生地：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 31%"/>
+                        <input name="birthPlace" class="easyui-textbox" style="width: 31%"/>
                         <label>
                             通信地址：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 32%"/>
+                        <input name="mailingAddress" class="easyui-textbox" style="width: 32%"/>
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             患者费别：
                         </label>
-                        <select name="anesthesiaMethod" class="easyui-combobox" style="width: 11%">
+                        <select name="chargeType" class="easyui-combobox" style="width: 11%">
                             <option value="1">自费</option>
                             　　</select>
                         <label>
                             身份：
                         </label>
-                        <select name="anesthesiaDoctor" class="easyui-combobox"  style="width: 11%">
+                        <select name="identity" class="easyui-combobox"  style="width: 11%">
                             <option value="1">一般人员</option>
                             　　</select>
                         <label>
                             职业：
                         </label>
-                        <select name="anesthesiaAssistant" class="easyui-combobox"  style="width: 11%">
+                        <select name="occupation" class="easyui-combobox"  style="width: 11%">
                             <option value="1">个体经营者</option>
                             <option value="2">工人</option>
                             　　</select>
                         <label>
                             工作单位：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 12%"/>
+                        <input name="insuranceType" class="easyui-textbox" style="width: 12%"/>
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             合同单位：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 31%">
+                        <input name="unitInContract" class="easyui-textbox" style="width: 31%">
                         <label>
                             所属地区：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 32%"/>
+                        <input name="insuranceAera" class="easyui-textbox" style="width: 32%"/>
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             联系人：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 11%"/>
+                        <input name="nextOfKin" class="easyui-textbox" style="width: 11%"/>
                         <label>
                             关系：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 11%"/>
+                        <select name="relationship" class="easyui-combobox" style="width: 11%">
+                            <option value="1">配偶</option>
+                            <option value="2">子</option>
+                            <option value="2">女</option>
+                            　　</select>
+
                         <label>
                             联系电话：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 11%"/>
+                        <input name="nextOfKinPhone" class="easyui-textbox" style="width: 11%"/>
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             联系地址：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 72%"/>
+                        <input name="nextOfKinAddr" class="easyui-textbox" style="width: 72%"/>
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             入院时间：
                         </label>
-                        <input name="reqDateTime" class="easyui-datetimebox"
+                        <input name="admissionDateTime" class="easyui-datebox"
                                style="width:11%;"/>
                         <label>
                             接诊时间：
                         </label>
-                        <input name="reqDateTime" class="easyui-datetimebox"
+                        <input name="consultingDate" class="easyui-datebox"
                                style="width:11%;"/>
                         <label>
                             入院科室：
                         </label>
-                        <select name="anesthesiaAssistant" class="easyui-combobox" style="width: 11%">
+                        <select name="deptAdmissionTo" class="easyui-combobox" style="width: 11%">
                             <option value="1">产科组病房</option>
                             <option value="2">耳鼻喉病房</option>
                             　　</select>
@@ -218,35 +219,35 @@
                         <label>
                             门诊诊断：
                         </label>
-                        <input name="reqDateTime" class="easyui-textbox" style="width: 72%" />
+                        <input name="diagnosis" class="easyui-textbox" style="width: 72%" />
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             入院来源：
                         </label>
-                        <select name="anesthesiaAssistant" class="easyui-combobox" style="width: 11%">
+                        <select name="fromOtherPlaceIndicator" class="easyui-combobox" style="width: 11%">
                             <option value="1">本市</option>
                             <option value="2">外地</option>
                             　　</select>
                         <label>
                             入院方式：
                         </label>
-                        <select name="anesthesiaAssistant" class="easyui-combobox" style="width: 11%">
+                        <select name="patientClass" class="easyui-combobox" style="width: 11%">
                             <option value="1">急诊</option>
                             <option value="2">门诊</option>
                             　　</select>
                         <label>
                             住院目的：
                         </label>
-                        <select name="anesthesiaAssistant" class="easyui-combobox" style="width: 11%">
+                        <select name="admissionCause" class="easyui-combobox" style="width: 11%">
                             <option value="1">治疗</option>
                             <option value="2">查体</option>
                             　　</select>
                         <label>
                             病情：
                         </label>
-                        <select name="anesthesiaAssistant" class="easyui-combobox" style="width: 12%">
+                        <select name="patAdmCondition" class="easyui-combobox" style="width: 12%">
                             <option value="1">危</option>
                             <option value="2">重</option>
                             <option value="3">一般</option>
@@ -257,30 +258,34 @@
                         <label>
                             接诊医生：
                         </label>
-                        <select name="anesthesiaAssistant" class="easyui-combobox" style="width: 11%">
+                        <select name="consultingDoctor" class="easyui-combobox" style="width: 11%">
                             <option value="1">曹飞</option>
                             <option value="2">朱玉连</option>
                             　　</select>
                         <label>
                             经办人：
                         </label>
-                        <input name="anesthesiaAssistant" class="easyui-textbox" style="width: 11%">
+                        <input name="admittedBy" class="easyui-textbox" style="width: 11%">
                         <label>
                             出院科室：
                         </label>
-                       <input class="easyui-textbox" readonly style="width: 11%">
+                       <input name="ddtRoomNo" class="easyui-textbox" readonly style="width: 11%">
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             发病日期：
                         </label>
-                        <input name="reqDateTime" class="easyui-datetimebox"
-                               style="width:11%;"/>
+                        <input name="onsetDate" class="easyui-datebox"  style="width:11%;">
+                      <!--  <label style="display: none">
+                            胎次：
+                        </label>
+                        <input type="hidden" name="parityNo" class="easyui-textbox"
+                               style="width:11%;"/>-->
                         <label>
                             医保登记号：
                         </label>
-                        <input class="easyui-textbox" readonly style="width: 11%">
+                        <input name="nhSerialNo" class="easyui-textbox" style="width: 11%">
                     </div>
 
                     <div class="fitem fitem_pop">
@@ -294,9 +299,9 @@
             </div>
             <div data-options="region:'center'" style="border: none">
                 <div class="bot-medbtn">
-                    <a href="#" onclick="savePre()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
-                    <a href="#" onclick="giveUpPre()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">清屏</a>
-                    <a href="#" onclick="destroyPre()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">取消登记</a>
+                    <a href="#" onclick="saveMaster()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+                    <a href="#" onclick="clearForm()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">清屏</a>
+                    <a href="#" onclick="removeMaster()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">取消登记</a>
 
                 </div>
             </div>

@@ -4,6 +4,7 @@
 package com.jims.patient.api;
 
 import com.jims.patient.entity.PatMasterIndex;
+import com.jims.patient.entity.PatVisit;
 
 import java.util.List;
 
