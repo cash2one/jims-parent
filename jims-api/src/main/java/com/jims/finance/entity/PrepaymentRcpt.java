@@ -2,6 +2,10 @@ package com.jims.finance.entity;
 
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.Date;
 
@@ -108,11 +112,11 @@ public class PrepaymentRcpt extends DataEntity<PrepaymentRcpt> {
 		this.transactType = transactType;
 	}
 
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getTransactDate() {
 		return transactDate;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setTransactDate(Date transactDate) {
 		this.transactDate = transactDate;
 	}
