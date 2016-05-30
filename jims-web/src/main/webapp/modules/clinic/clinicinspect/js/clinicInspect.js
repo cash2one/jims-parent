@@ -6,9 +6,10 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            var clinicId= parent.document.getElementById("clinicMasterId").value;
+            //var clinicId= parent.document.getElementById("clinicMasterId").value;
+            var clinicId= $("#clinicMasterId",window.parent.document).val();
             $("#clinicId").val(clinicId);
-            //$("#reqDept").val(data.deptDict.deptName);
+            $("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
