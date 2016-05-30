@@ -4,10 +4,8 @@
     
 	<sql id="patVisitColumns">
 		a.id AS "id",
-		a.hosid AS "hosid",
 		a.visit_id AS "visitId",
 		a.patient_id AS "patientId",
-		a.clinic_id AS "clinicId",
 		a.dept_admission_to AS "deptAdmissionTo",
 		a.admission_date_time AS "admissionDateTime",
 		a.dept_discharge_from AS "deptDischargeFrom",
@@ -214,7 +212,6 @@
 	</sql>
 	<sql id="getMaster">
 		b.id AS "Master.id",
-		b.hosid AS "Master.hosid",
 		b.inp_no AS "Master.inpNo",
 		b.name AS "Master.name",
 		b.name_phonetic AS "Master.namePhonetic",
@@ -317,8 +314,6 @@
 		INSERT INTO pat_visit(
 			id,
 			patient_id,
-			clinic_id,
-			hosid,
 			visit_id,
 			dept_admission_to,
 			admission_date_time,
@@ -526,8 +521,6 @@
 		) VALUES (
 			#{id},
 			#{patientId},
-			#{clinicId},
-			#{hosid},
 			#{visitId},
 			#{deptAdmissionTo},
 			#{admissionDateTime},
@@ -736,10 +729,8 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE pat_visit SET 	
-			hosid = #{hosid},
+		UPDATE pat_visit SET
 			patient_id= #{patientId},
-			clinic_id=#{clinicId},
 			visit_id = #{visitId},
 			dept_admission_to = #{deptAdmissionTo},
 			admission_date_time = #{admissionDateTime},

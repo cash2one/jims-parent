@@ -2,7 +2,7 @@ $(function () {
     var registerVo = {};
 
     //文本框获取焦点的时候，显示
-    /* $("#name").focus(function () {
+     $("#name").focus(function () {
      $("#res-name").text("*请输入正确的姓名");
      $("#res-name").css("color", "gray");
      });
@@ -13,41 +13,45 @@ $(function () {
      $("#res-name").css("color", "red");
      return false;
      }
-     });*/
+     });
 
-    //添加注册信息
-    $("#btnSubmit").click(function () {
-        registerVo.name = $("#name").val();
-        registerVo.cardNo = $("#cardNo").val();
-        registerVo.nickName = $("#nickName").val();
-        registerVo.email = $("#email").val();
-        registerVo.phoneNum = $("#phoneNum").val();
-        registerVo.password = $("#password").val();
+    if(registerVo){
+        //添加注册信息
+        $("#btnSubmit").click(function () {
+            registerVo.name = $("#name").val();
+            registerVo.cardNo = $("#cardNo").val();
+            registerVo.nickName = $("#nickName").val();
+            registerVo.email = $("#email").val();
+            registerVo.phoneNum = $("#phoneNum").val();
+            registerVo.password = $("#password").val();
 
-        jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/add-info",
-            'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
-            'dataType': 'json',
-            'success': function (data) {
-                console.log(data);
+            jQuery.ajax({
+                'type': 'POST',
+                'url': "/service/register/add-info",
+                'contentType': 'application/json',
+                'data': JSON.stringify(registerVo),
+                'dataType': 'json',
+                'success': function (data) {
+                    if (data.data=="success") {
 
-                if (data.data=="success") {
-                    window.location.href = "/modules/sys/login.html";
-                } else
-                {
-                    $.messager.alert("提示消息", "注册失败!");
+                        if(confirm("注册成功，是否跳转到登录页面，进行登录"))
+                        {
+                            window.location.href = "/modules/sys/login.html";
+                        }
+
+                    } else
+                    {
+                        alert("注册失败");
+                    }
+                },
+                'error': function (data) {
+                    console.log("失败");
                 }
+            });
 
-
-            },
-            'error': function (data) {
-                console.log("失败");
-            }
         });
+    }
 
-    });
 
 
     //文本框获取焦点的时候，显示
@@ -85,11 +89,12 @@ $(function () {
             'data': JSON.stringify(registerVo),
             'dataType': 'json',
             'success': function (data) {
-                console.log(data);
-                if (data.cardNo) {
+                if (data.data == "success") {
                     $("#res-card").text("*身份证号已经存在");
                     $("#res-card").css("color", "red");
                     return false;
+                } else {
+                    return true;
                 }
             },
             'error': function (data) {
@@ -116,12 +121,18 @@ $(function () {
             return false;
         }
         if (name.length < 6) {
-            $("#res-nick").text("*请输入正确长度的字符");
+            $("#res-nick").text("*请输入正确长度的数字");
             $("#res-nick").css("color", "red");
             return false;
         }
         if (name.length > 12) {
-            $("#res-nick").text("*请输入正确长度的字符");
+            $("#res-nick").text("*请输入正确长度的数字");
+            $("#res-nick").css("color", "red");
+            return false;
+        }
+        if(isNaN(name))
+        {
+            $("#res-nick").text("*请输入正确长度的数字");
             $("#res-nick").css("color", "red");
             return false;
         }
@@ -132,11 +143,12 @@ $(function () {
             'data': JSON.stringify(registerVo),
             'dataType': 'json',
             'success': function (data) {
-                console.log(data);
-                if (data.nickName) {
+                if (data.data == "success") {
                     $("#res-nick").text("*用户名已经存在");
                     $("#res-nick").css("color", "red");
                     return false;
+                } else {
+                    return true;
                 }
             },
             'error': function (data) {
@@ -173,11 +185,13 @@ $(function () {
             'data': JSON.stringify(registerVo),
             'dataType': 'json',
             'success': function (data) {
-                console.log(data);
-                if (data.email) {
+
+                if (data.data == "success") {
                     $("#res-email").text("*邮箱已注册");
                     $("#res-email").css("color", "red");
                     return false;
+                } else {
+                    return true;
                 }
             },
             'error': function (data) {
@@ -189,26 +203,26 @@ $(function () {
     });
 
 
+    $("#phoneNum").focus(function () {
+        $("#res-phone").text("*");
+    });
     //文本框获取焦点的时候，显示
     $("#phoneNum").blur(function () {
         var phone = $("#phoneNum").val();
-
+            registerVo.phoneNum=phone;
         if ($("#phoneNum").val() == "") {
             $("#res-phone").text("*手机号不能为空");
             return false;
         }
-
         if (phone.length != 11) {
             $("#res-phone").text("*请输入有效的手机号");
             return false;
         }
-
         var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
         if (!myreg.test(phone)) {
-            $("#res-phone").text('请输入有效的手机号码！');
+            $("#res-phone").text('*请输入有效的手机号码');
             return false;
         }
-
         jQuery.ajax({
             'type': 'POST',
             'url': "/service/register/getPhone",
@@ -216,8 +230,9 @@ $(function () {
             'data': JSON.stringify(registerVo),
             'dataType': 'json',
             'success': function (data) {
+
                 if (data.data == "success") {
-                    $("#res-phone").text("*手机号已注册");
+                    $("#res-phone").text("*手机号已经注册");
                     $("#res-phone").css("color", "red");
                     return false;
                 } else {
@@ -225,11 +240,15 @@ $(function () {
                 }
             },
             'error': function (data) {
-                $.messager.alert('系统提示', '失败', 'info');
+                console.log("失败");
             }
         });
         return true;
     });
+
+
+
+
 
 
     //文本框获取焦点的时候，显示
