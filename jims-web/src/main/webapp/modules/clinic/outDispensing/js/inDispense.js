@@ -58,7 +58,12 @@ function compute(colName) {
     var rows = $('#drug').datagrid('getRows');
     var total = 0;
     for (var i = 0; i < rows.length; i++) {
-        total += parseFloat(rows[i][colName]);
+        if(isNaN(parseFloat(rows[i][colName]))){
+            total += 0;
+        }else{
+            total += parseFloat(rows[i][colName]);
+        }
+
     }
     return total;
 }
@@ -69,14 +74,14 @@ function confirmDrug(){
     if(rowMaster!=null){
         $.ajax({
             'type': 'post',
-            'url': basePath + '/prescTemp/confirmDrug',
+            'url': basePath + '/drugPrescIn/confirmInDrugPresc',
             'contentType': 'application/json',
-            'data': id = rowMaster.id,
+            'data': masterId = rowMaster.id,
             'dataType': 'json',
             'success': function (data) {
                 if(data.data=="success"){
                     $('#prescTable').datagrid('load');
-                    $('#drug').datagrid('load');
+                    $('#drug').datagrid('loadData', { total: 0, rows: [] });
                     $.messager.alert("提示信息", "发药成功");
                 }else{
                     $.messager.alert("提示信息", "发药失败", "error");

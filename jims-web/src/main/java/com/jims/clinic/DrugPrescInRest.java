@@ -4,16 +4,15 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.clinic.api.DoctDrugPrescDetailServiceApi;
 import com.jims.clinic.api.DoctDrugPrescMasterServiceApi;
+import com.jims.clinic.api.DrugPrescInServiceApi;
 import com.jims.clinic.entity.DoctDrugPrescDetail;
 import com.jims.clinic.entity.DoctDrugPrescMaster;
+import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.List;
 
@@ -33,6 +32,9 @@ public class DrugPrescInRest {
 
     @Reference(version = "1.0.0")
     private DoctDrugPrescDetailServiceApi doctDrugPrescDetailServiceApi;
+
+    @Reference(version = "1.0.0")
+    private DrugPrescInServiceApi drugPrescInServiceApi;
 
     /**
      * 查询发药的处方
@@ -68,7 +70,31 @@ public class DrugPrescInRest {
     @Path("detailList")
     @GET
     public List<DoctDrugPrescDetail> detailList(@QueryParam(value = "prescMasterId")String prescMasterId){
-
      return  doctDrugPrescDetailServiceApi.findListByPrescMasterId(prescMasterId);
     }
+
+    /**
+     * 方法 confirmInDrugPresc 的功能描述
+     *  住院处方发药
+     * @param masterId
+     * @rturn
+     * @thows
+     * @author pq
+     * @date 2016/5/30 0030
+     */
+    @Path("confirmInDrugPresc")
+    @POST
+    public StringData confirmInDrugPresc(String masterId){
+
+      String code=    drugPrescInServiceApi.confirmInDrugPresc(masterId);
+        StringData data = new StringData();
+        data.setCode(code);
+        if(code != "" && Integer.parseInt(code)<=0){
+            data.setData("error");
+        }else{
+            data.setData("success");
+        }
+        return data;
+    }
+
 }

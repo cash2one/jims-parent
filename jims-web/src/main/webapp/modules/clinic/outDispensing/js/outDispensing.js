@@ -57,7 +57,14 @@ function compute(colName) {
     var rows = $('#drug').datagrid('getRows');
     var total = 0;
     for (var i = 0; i < rows.length; i++) {
-        total += parseFloat(rows[i][colName]);
+
+            if(isNaN(parseFloat(rows[i][colName]))){
+                total += 0;
+            }else{
+                total += parseFloat(rows[i][colName]);
+            }
+
+
     }
     return total;
 }

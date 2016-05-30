@@ -61,4 +61,12 @@ public interface DoctDrugPrescMasterServiceApi {
      * @author pq
      */
     public List<DoctDrugPrescMaster> getDrugMasterList(DoctDrugPrescMaster doctDrugPrescMaster);
+
+    /**
+     * 发药的时候修改处方的状态
+     * @param id
+     * @return
+     * @author pq
+     */
+    public String confirmDoctDrugPresc(String id);
 }

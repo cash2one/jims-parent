@@ -170,4 +170,17 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
     public List<DoctDrugPrescMaster> getDrugMasterList(DoctDrugPrescMaster doctDrugPrescMaster){
       return  dao.getDrugMasterList(doctDrugPrescMaster);
     }
+
+    /**
+     * 方法 confirmDoctDrugPresc的功能描述
+     * 住院处方发药
+     * @param id
+     * @return
+     * @author pq
+     * @date 2016/5/30 0030
+     */
+    public String confirmDoctDrugPresc(String id){
+        int num=dao.confirmDoctDrugPresc(id);
+       return num+"";
+    }
 }
