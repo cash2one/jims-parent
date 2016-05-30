@@ -27,7 +27,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private String clinicId;		//就诊id
 	private String visitId;		// 住院标识
 	private String localIdClass;		// 检查号类别
-	private String patientLocalId;		// 检查标识号
+	private String patientLocalId;		// 检查标识号 数据库可为空，未用到
 	private String name;		// 姓名
 	private String namePhonetic;		// 姓名拼音
 	private String sex;		// 性别

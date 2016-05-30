@@ -30,6 +30,8 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
     //====不保存字段
     private String sumPrice;  //项目合计金额
 
+    private int num;  //诊疗项目的数量  不保存
+
     public String getSumPrice() {
         return sumPrice;
     }
@@ -208,5 +210,12 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
-	
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
 }
