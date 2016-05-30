@@ -8,17 +8,17 @@ $(function(){
         url: basePath+'/drugPrescIn/list?'+$("#presc").serialize(),
         idField: 'id',
         columns: [[      //每个列具体内容
-            {field: 'prescNo', title: '处方号', width: '30%', align: 'center'},
-            {field: 'name', title: '姓名', width: '20%', align: 'center'},
+            {field: 'prescNo', title: '处方号', width: '20%', align: 'center'},
+            {field: 'name', title: '姓名', width: '10%', align: 'center'},
             {field: 'prescDate', title: '处方日期', width: '50%', align: 'center',formatter: formatDateBoxFull},
-            {field: 'orderedBy', title: '开单科室', width: '50%', align: 'center'}
+            {field: 'orderedBy', title: '开单科室', width: '20%', align: 'center'}
         ]],onClickRow: function (index, row) {//单击行事件
 
             $("#drug").datagrid({
                 singleSelect: true,
                 fit: true,
                 method: 'GET',
-                url: basePath + '/prescTemp/getDetail?masterId=' +row.id,
+                url: basePath + '/drugPrescIn/detailList?masterId=' +row.id,
                 idField: 'id',
                 columns: [[      //每个列具体内容
                     {field: 'itemNo', title: '组别', width: '10%', align: 'center'},

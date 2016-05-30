@@ -59,7 +59,7 @@ public class DrugPrescInRest {
     /**
      * 方法 detailList的功能描述
      * 根据处方主表的ID找到明细记录
-     * @param
+     * @param prescMasterId
      * @return
      * @throws 
      * @author pq
