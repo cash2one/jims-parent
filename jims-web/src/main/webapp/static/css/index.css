@@ -1241,3 +1241,7 @@ a.dropma-color {
     font-weight:bold;
     text-align:center;
 }
+.noborder
+{
+    border:none;
+}
