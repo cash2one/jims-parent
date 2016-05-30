@@ -3,17 +3,16 @@
  */
 package com.jims.patient.entity;
 
-import com.jims.clinic.entity.ClinicMaster;
+
 import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
 import com.jims.register.entity.ClinicAppoints;
 import com.jims.register.entity.ClinicForRegist;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import com.jims.common.persistence.DataEntity;;
+import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -73,12 +72,34 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private String mailingAddressCode;		// 户口地址行政区划
 	private String healthyCardNo;		// healthy_card_no
 	private String addressNow;		// 现住址
-	private PatVisit patVisit;//病人住院记录信息
-	private ClinicMaster clinicMaster;//病人就诊记录
-	private String patientId; //病人id
-
 
 	private String age;//年龄
+
+	private String diagnosis;//诊断
+	private String diagnosisNo;//诊断编码
+	private String diagnosisType;//诊断类型-入院诊断
+
+	private String deptTransferedFrom;//转出科室
+	private String deptTransferedTo;//转向科室
+	private Date transferDateTime;//转出日期及时间
+
+	private String maritalStatus;//婚姻状况
+	//private String occupation;//职业
+	private String insuranceType;//工作单位
+	private String insuranceAera;//所属地区
+	private Date admissionDateTime;//入院时间
+	private Date consultingDate;//接诊时间
+	private String deptAdmissionTo;//入院科室
+	//private String patientClass;//入院方式
+	private String admissionCause;//住院目的
+	private String patAdmCondition;//病情
+	private String consultingDoctor;//接诊医生
+	private String admittedBy;//经办人
+	private String ddtRoomNo;//出院科室
+	private Date onsetDate;//发病日期
+ 	private String nhSerialNo;//医保登记号
+	private Integer parityNo;//胎次
+	private String fromOtherPlaceIndicator;//入院来源
 
 	private List<ClinicForRegist> clinicForRegistList;
 	private List<ClinicAppoints> clinicAppointses;
@@ -89,14 +110,6 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 
 	public PatMasterIndex(String id){
 		super(id);
-	}
-
-	public String getPatientId() {
-		return patientId;
-	}
-
-	public void setPatientId(String patientId) {
-		this.patientId = patientId;
 	}
 
 	public String getOrgId() {
@@ -140,11 +153,11 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -297,7 +310,7 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public Date getLastVisitDate() {
 		return lastVisitDate;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setLastVisitDate(Date lastVisitDate) {
 		this.lastVisitDate = lastVisitDate;
 	}
@@ -534,22 +547,6 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 		this.eName = eName;
 	}
 
-	public PatVisit getPatVisit() {
-		return patVisit;
-	}
-
-	public void setPatVisit(PatVisit patVisit) {
-		this.patVisit = patVisit;
-	}
-
-	public ClinicMaster getClinicMaster() {
-		return clinicMaster;
-	}
-
-	public void setClinicMaster(ClinicMaster clinicMaster) {
-		this.clinicMaster = clinicMaster;
-	}
-
 	public String getAge() {
 		return age;
 	}
@@ -574,4 +571,171 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 		this.clinicAppointses = clinicAppointses;
 	}
 
+	public String getDiagnosis() {
+		return diagnosis;
+	}
+
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+
+	public String getDiagnosisNo() {
+		return diagnosisNo;
+	}
+
+	public void setDiagnosisNo(String diagnosisNo) {
+		this.diagnosisNo = diagnosisNo;
+	}
+
+	public String getDiagnosisType() {
+		return diagnosisType;
+	}
+
+	public void setDiagnosisType(String diagnosisType) {
+		this.diagnosisType = diagnosisType;
+	}
+
+	public String getDeptTransferedFrom() {
+		return deptTransferedFrom;
+	}
+
+	public void setDeptTransferedFrom(String deptTransferedFrom) {
+		this.deptTransferedFrom = deptTransferedFrom;
+	}
+
+	public String getDeptTransferedTo() {
+		return deptTransferedTo;
+	}
+
+	public void setDeptTransferedTo(String deptTransferedTo) {
+		this.deptTransferedTo = deptTransferedTo;
+	}
+	@JsonSerialize(using = CustomDateSerializer.class)
+	public Date getTransferDateTime() {
+		return transferDateTime;
+	}
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
+	public void setTransferDateTime(Date transferDateTime) {
+		this.transferDateTime = transferDateTime;
+	}
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public String getInsuranceType() {
+		return insuranceType;
+	}
+
+	public void setInsuranceType(String insuranceType) {
+		this.insuranceType = insuranceType;
+	}
+
+	public String getInsuranceAera() {
+		return insuranceAera;
+	}
+
+	public void setInsuranceAera(String insuranceAera) {
+		this.insuranceAera = insuranceAera;
+	}
+	@JsonSerialize(using = CustomDateSerializer.class)
+	public Date getAdmissionDateTime() {
+		return admissionDateTime;
+	}
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
+	public void setAdmissionDateTime(Date admissionDateTime) {
+		this.admissionDateTime = admissionDateTime;
+	}
+	@JsonSerialize(using = CustomDateSerializer.class)
+	public Date getConsultingDate() {
+		return consultingDate;
+	}
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
+	public void setConsultingDate(Date consultingDate) {
+		this.consultingDate = consultingDate;
+	}
+
+	public String getDeptAdmissionTo() {
+		return deptAdmissionTo;
+	}
+
+	public void setDeptAdmissionTo(String deptAdmissionTo) {
+		this.deptAdmissionTo = deptAdmissionTo;
+	}
+
+	public String getAdmissionCause() {
+		return admissionCause;
+	}
+
+	public void setAdmissionCause(String admissionCause) {
+		this.admissionCause = admissionCause;
+	}
+
+	public String getPatAdmCondition() {
+		return patAdmCondition;
+	}
+
+	public void setPatAdmCondition(String patAdmCondition) {
+		this.patAdmCondition = patAdmCondition;
+	}
+
+	public String getConsultingDoctor() {
+		return consultingDoctor;
+	}
+
+	public void setConsultingDoctor(String consultingDoctor) {
+		this.consultingDoctor = consultingDoctor;
+	}
+
+	public String getAdmittedBy() {
+		return admittedBy;
+	}
+
+	public void setAdmittedBy(String admittedBy) {
+		this.admittedBy = admittedBy;
+	}
+
+	public String getDdtRoomNo() {
+		return ddtRoomNo;
+	}
+
+	public void setDdtRoomNo(String ddtRoomNo) {
+		this.ddtRoomNo = ddtRoomNo;
+	}
+	@JsonSerialize(using = CustomDateSerializer.class)
+	public Date getOnsetDate() {
+		return onsetDate;
+	}
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
+	public void setOnsetDate(Date onsetDate) {
+		this.onsetDate = onsetDate;
+	}
+
+	public String getNhSerialNo() {
+		return nhSerialNo;
+	}
+
+	public void setNhSerialNo(String nhSerialNo) {
+		this.nhSerialNo = nhSerialNo;
+	}
+
+	public Integer getParityNo() {
+		return parityNo;
+	}
+
+	public void setParityNo(Integer parityNo) {
+		this.parityNo = parityNo;
+	}
+
+	public String getFromOtherPlaceIndicator() {
+		return fromOtherPlaceIndicator;
+	}
+
+	public void setFromOtherPlaceIndicator(String fromOtherPlaceIndicator) {
+		this.fromOtherPlaceIndicator = fromOtherPlaceIndicator;
+	}
 }

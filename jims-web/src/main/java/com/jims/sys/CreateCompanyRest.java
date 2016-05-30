@@ -63,42 +63,36 @@ public class CreateCompanyRest {
 
     //存储插入成功后返回的id
     String id;
-    SysUser user=null;
+    SysUser user = null;
 
 
     /**
      * 保存组织机构并返回id
+     *
      * @param sysCompany
      * @param request
      * @return
      */
     @Path("insertReturnId")
     @POST
-    public StringData insertReturnId(SysCompany sysCompany, @Context HttpServletRequest request ) {
-
+    public StringData insertReturnId(SysCompany sysCompany, @Context HttpServletRequest request) {
         if (StringUtils.isNotBlank(sysCompany.getOrgName()) && StringUtils.isNotBlank(sysCompany.getOrgCode()) &&
                 StringUtils.isNotBlank(sysCompany.getLinkPhoneNum()) && StringUtils.isNotBlank(sysCompany.getAddress()) && StringUtils.isNotBlank(sysCompany.getEmail())) {
             sysCompany.setApplyStatus("0");
 
-            //设置超级管理员字段 ，登录成功之后从redis中取出
-            String ticket1 = CookieUtils.getCookie(request, "TT_TICKET");
-            if (ticket1 != null) {
-                user = sysUserApi.queryUserByTicket(ticket1);
-                if (user != null) {
-                   sysCompany.setOwner(user.getLoginName());
-                }
-            }
             //如果没有父机构则向数据库中存入空
-            if (StringUtils.equalsIgnoreCase(sysCompany.getParentId(), " ")) {
+            String parent=sysCompany.getParentId();
+            if (StringUtils.equalsIgnoreCase(parent,"请选择")) {
                 sysCompany.setParentId(null);
             }
-            //保存
             id = sysCompanyApi.insertReturnId(sysCompany);
             if (id != null) {
                 StringData stringData = new StringData();
                 stringData.setData("success");
                 return stringData;
             }
+            //保存
+
         }
         StringData stringData = new StringData();
         return stringData;

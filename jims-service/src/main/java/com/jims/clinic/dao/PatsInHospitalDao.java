@@ -25,4 +25,13 @@ public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
      * pq
      */
     public List<PatsInHospital> getOperationin(@Param(value = "deptCode")String deptCode);
+
+    /**
+     * 根据patientId删除数据
+     * @author CTQ
+     * @date 2016-05-26 11:01:39
+     * @param patientId
+     * @return
+     */
+    public Integer deleteByPatientId(@Param("patientId")String patientId);
 }

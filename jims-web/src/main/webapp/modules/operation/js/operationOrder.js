@@ -113,7 +113,7 @@ $(function(){
 
 //增加手术名称
 function save(){
-    $("#operationName").datagrid('endEdit', editRow);
+    $("#operationName").datagrid('endEdit', rowNum);
     var  rows=$('#operationName').datagrid('getRows');
     var formJson=fromJson('operation');
     formJson = formJson.substring(0, formJson.length - 1);

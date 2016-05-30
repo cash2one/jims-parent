@@ -69,6 +69,7 @@ public class EmrDiagnosisRest {
     @POST
     public StringData saveIn(EmrDiagnosis emrDiagnosis) {
         StringData data=new StringData();
+        emrDiagnosis.setInOrOutFlag("1");
         data.setCode(emrDiagnosisServiceApi.save(emrDiagnosis));
         return data;
     }
