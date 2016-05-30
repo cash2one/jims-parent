@@ -8,7 +8,7 @@ create table OUTP_TREAT_REC
   ID               VARCHAR2(64 CHAR) not null,
   VISIT_DATE       TIMESTAMP,
   VISIT_NO         NUMBER(5),
-  SERIAL_NO        VARCHAR2(10 CHAR),
+  SERIAL_NO        VARCHAR2(64),
   ITEM_NO          NUMBER(4),
   ITEM_CLASS       VARCHAR2(64 CHAR),
   ITEM_CODE        VARCHAR2(20),
