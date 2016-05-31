@@ -11,7 +11,7 @@ import com.jims.sys.dao.OrgDeptPropertyDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.Dict;
 import com.jims.sys.entity.OrgDeptPropertyDict;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * @version 2016-04-23
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OrgDeptPropertyDictImpl extends CrudImplService<OrgDeptPropertyDictDao, OrgDeptPropertyDict> implements DeptPropertyDictApi {
     @Override
     public int add(OrgDeptPropertyDict orgDeptPropertyDict) {

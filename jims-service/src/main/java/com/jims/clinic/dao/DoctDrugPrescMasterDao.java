@@ -32,5 +32,25 @@ public interface DoctDrugPrescMasterDao extends CrudDao<DoctDrugPrescMaster> {
      * @return
      */
     public Integer searchPrescNo(@Param("visitId")String visitId);
+
+
+    /**
+     * 查询住院待发处方
+     * @param doctDrugPrescMaster
+     * @author pq
+     * @date date 2016/5/30 0030
+     * @return
+     */
+
+   public List<DoctDrugPrescMaster> getDrugMasterList(DoctDrugPrescMaster doctDrugPrescMaster);
+
+
+    /**
+     * 住院处方发药的时候修改状态
+     * @param id
+     * @return
+     * @author pq
+     */
+    public int confirmDoctDrugPresc(@Param("id")String id);
 	
 }

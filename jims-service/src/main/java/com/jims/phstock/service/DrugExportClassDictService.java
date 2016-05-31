@@ -5,7 +5,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugExportClassDictApi;
 import com.jims.phstock.dao.DrugExportClassDictDao;
 import com.jims.phstock.entity.DrugExportClassDict;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @version 2016-05-10
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugExportClassDictService extends CrudImplService<DrugExportClassDictDao, DrugExportClassDict> implements DrugExportClassDictApi{
 
     /**

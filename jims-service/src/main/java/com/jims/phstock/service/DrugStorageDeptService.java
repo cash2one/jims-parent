@@ -14,7 +14,7 @@ import com.jims.sys.dao.DeptDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * @version 2016-04-22
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugStorageDeptService extends CrudImplService<DrugStorageDeptDao, DrugStorageDept> implements DrugStorageDeptServiceApi {
     @Autowired
     private DeptDictDao deptDictDao;

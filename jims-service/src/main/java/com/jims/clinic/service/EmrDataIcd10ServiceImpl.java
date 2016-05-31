@@ -12,7 +12,7 @@ import com.jims.clinic.entity.EmrDiagnosis;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * @version 2015-12-04
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class EmrDataIcd10ServiceImpl extends CrudImplService<EmrDataIcd10Dao, EmrDataIcd10> implements EmrDataIcd10ServiceApi {
 
 /*	public EmrDataIcd10 get(String id) {
@@ -39,12 +39,12 @@ public class EmrDataIcd10ServiceImpl extends CrudImplService<EmrDataIcd10Dao, Em
 		return super.findPage(page, emrDataIcd10);
 	}
 
-	@Transactional(readOnly = false)
+
 	public String save(EmrDataIcd10 emrDataIcd10) {
 		return  super.save(emrDataIcd10);
 	}
 	
-	@Transactional(readOnly = false)
+
 	public String delete(EmrDataIcd10 emrDataIcd10) {
 
 		return super.delete(emrDataIcd10);

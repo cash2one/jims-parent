@@ -13,7 +13,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.vo.PriceDictListVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * @version 2016-04-28
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao, ClinicItemDict> implements ClinicItemApi{
 
     @Autowired
@@ -64,7 +64,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @param entityList
      * @return 成功个数
      */
-    @Transactional(readOnly = false)
+
     public String save(List<ClinicItemDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -83,7 +83,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteCascade(ClinicItemDict entity) {
         try{
             deleteName(entity);
@@ -101,7 +101,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteCascade(String ids) {
         int i=0;
         try {
@@ -138,7 +138,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String save(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -161,7 +161,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String saveNameList(List<ClinicItemNameDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -180,7 +180,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteName(String ids) {
         int i=0;
         try {
@@ -200,7 +200,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String delete(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -221,7 +221,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteName(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
         itemName.setOrgId(entity.getOrgId());
@@ -250,7 +250,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String save(ClinicVsCharge entity) {
         int i=0;
         try{
@@ -273,7 +273,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String saveVsList(List<ClinicVsCharge> entityList){
         int i = 0;
         if(entityList != null){
@@ -292,7 +292,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String delete(ClinicVsCharge entity) {
         int i=0;
         try{
@@ -313,7 +313,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteVs(String ids) {
         int i=0;
         try {
@@ -333,7 +333,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteVs(ClinicItemDict entity) {
         ClinicVsCharge vs = new ClinicVsCharge();
         vs.setOrgId(entity.getOrgId());

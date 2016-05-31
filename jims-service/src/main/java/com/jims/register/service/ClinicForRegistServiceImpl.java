@@ -17,7 +17,7 @@ import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicSchedule;
 import com.jims.register.util.DateWeekUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.List;
  * @version 2016-05-18
  */
 @Service(version="1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicForRegistServiceImpl extends CrudImplService<ClinicForRegistDao, ClinicForRegist> implements ClinicForRegisterSerivceApi{
    @Autowired
     private ClinicForRegistDao clinicForRegistDao;

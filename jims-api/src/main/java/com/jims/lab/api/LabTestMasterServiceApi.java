@@ -2,7 +2,7 @@ package com.jims.lab.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.lab.entity.LabTestMaster;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * Created by Administrator on 2016/4/28.
@@ -30,7 +30,7 @@ public interface LabTestMasterServiceApi {
      * @author xueyx
      * @version 2016/5/06
      */
-    @Transactional(readOnly = false)
+
     public void saveAllIn(LabTestMaster labTestMaster);
 
     /**
