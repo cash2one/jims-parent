@@ -173,9 +173,10 @@ $(function () {
 
 
         $("#seaBtn").on("click", function () {
-            var administrationDict = {};
-            administrationDict.inpOutpFlag = $("#inpOutpFlag").combobox('getValue');
-            $.postJSON(basePath + "/AdministrationDict/listAdministrationByInpOrOutpFlag", JSON.stringify(administrationDict), function (data) {
+
+           var inpOutpFlag = $("#inpOutpFlag").combobox('getValue');
+
+            $.getJSON(basePath + "/AdministrationDict/listAdministrationByInpOrOutpFlag?inpOrOutpFlag="+inpOutpFlag, function (data) {
                 if (data) {
                     $('#adminDict').datagrid("loadData", data);
                 }
