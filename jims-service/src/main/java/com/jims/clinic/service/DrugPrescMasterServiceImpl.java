@@ -11,7 +11,7 @@ import com.jims.clinic.entity.DrugPrescMaster;
 import com.jims.clinic.entity.DrugPrescMasterTemp;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * @date2016/5/26 0026
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugPrescMasterServiceImpl extends CrudImplService<DrugPrescMasterDao, DrugPrescMaster> implements DrugPrescServiceApi {
 @Autowired
 private DrugPrescDetailDao drugPrescDetailDao;

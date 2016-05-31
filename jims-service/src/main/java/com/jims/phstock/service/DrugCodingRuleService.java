@@ -8,7 +8,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugCodingRuleApi;
 import com.jims.phstock.dao.DrugCodingRuleDao;
 import com.jims.phstock.entity.DrugCodingRule;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugCodingRuleService extends CrudImplService<DrugCodingRuleDao, DrugCodingRule> implements DrugCodingRuleApi{
 
     /**

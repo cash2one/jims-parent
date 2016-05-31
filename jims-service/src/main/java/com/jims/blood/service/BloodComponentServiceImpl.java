@@ -10,7 +10,7 @@ import com.jims.blood.entity.BloodComponent;
 import com.jims.common.service.impl.CrudImplService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @version 2016-05-13
  */
 @Service(version ="1.0.0")
-@Transactional(readOnly = true)
+
 public class BloodComponentServiceImpl extends CrudImplService<BloodComponentDao, BloodComponent> implements BloodComponentServiceApi{
 
 	/**

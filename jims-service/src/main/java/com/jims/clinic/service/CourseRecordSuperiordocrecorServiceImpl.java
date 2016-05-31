@@ -11,14 +11,14 @@ import com.jims.clinic.entity.CourseRecord;
 import com.jims.clinic.entity.CourseRecordSuperiordocrecor;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 /**
  * 病程记录--上级医师查房记录Service
  * @author zhaoning
  * @version 2016-04-20
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class CourseRecordSuperiordocrecorServiceImpl extends CrudImplService<CourseRecordSuperiordocrecorDao, CourseRecordSuperiordocrecor> implements CourseRecordSuperiorDocrecorApi {
 
     @Autowired

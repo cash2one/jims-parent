@@ -19,7 +19,7 @@ import com.sun.org.apache.bcel.internal.generic.I2D;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
  * Created by Administrator on 2016/4/24 0024.
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> implements OrgStaffApi {
 
     @Autowired
@@ -57,7 +57,7 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
      * @return
      */
     @Override
-    @Transactional(readOnly = true)
+
     public String deleteByAll(String ids) {
         int i = 0;
         try {
@@ -78,7 +78,7 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
      * @return
      */
     @Override
-    @Transactional(readOnly = true)
+
     public String insertOrgStaffAndPersion(PersionInfo persionInfo, SysUser sysUser, OrgStaff orgStaff) {
         PersionInfo oldPersion = new PersionInfo();
 

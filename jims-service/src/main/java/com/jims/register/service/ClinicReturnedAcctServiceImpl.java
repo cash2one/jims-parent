@@ -10,7 +10,7 @@ import com.jims.register.dao.ClinicForRegistDao;
 import com.jims.register.dao.ClinicReturnedAcctDao;
 import com.jims.register.entity.ClinicReturnedAcct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +21,7 @@ import java.util.Date;
  * @version 2016-05-19
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicReturnedAcctServiceImpl extends CrudImplService<ClinicReturnedAcctDao, ClinicReturnedAcct> implements ClinicReturnedAcctServiceApi {
     @Autowired
     private ClinicReturnedAcctDao clinicReturnedAcctDao;

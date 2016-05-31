@@ -10,7 +10,7 @@ import com.jims.common.web.Dto;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.api.OutPatientCostServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * @date2016/5/25
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OutPatientCostServiceImpl implements OutPatientCostServiceApi {
 
     @Autowired

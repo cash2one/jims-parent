@@ -11,7 +11,7 @@ import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
 import com.jims.sys.vo.BeanChangeVo;
 import com.thoughtworks.xstream.mapper.Mapper;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * @version 2014-05-18
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implements DictServiceApi {
 
     /**

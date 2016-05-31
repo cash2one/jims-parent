@@ -6,7 +6,7 @@ package com.jims.lab.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.lab.entity.LabTestMaster;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 检验主记录DAO接口
@@ -34,7 +34,7 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @author xueyx
      * @version 2016/5/06
      */
-    @Transactional(readOnly = false)
+
     public void saveAllIn(LabTestMaster labTestMaster);
     /**
      * 生成申请序号

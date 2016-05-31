@@ -8,7 +8,7 @@ import com.jims.operation.api.OperatioinGradeSerivceApi;
 import com.jims.clinic.dao.OperationGradeDao;
 import com.jims.operation.entity.OperationGrade;
 import com.jims.common.service.impl.CrudImplService;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 手术等级Service
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-04-26
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OperationGradeServiceImpl extends CrudImplService<OperationGradeDao, OperationGrade> implements OperatioinGradeSerivceApi {
 
 }

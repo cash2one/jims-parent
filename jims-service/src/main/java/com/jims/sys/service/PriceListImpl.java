@@ -14,7 +14,7 @@ import com.jims.sys.vo.PriceDictListVo;
 import com.jims.sys.vo.PriceListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
  * @version 2016-04-26
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> implements PriceListApi {
 
     @Autowired
@@ -40,7 +40,6 @@ public class PriceListImpl extends CrudImplService<PriceListDao, PriceList> impl
      * @return
      */
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String save(PriceDictListVo dictListVo) {
         PriceItemNameDict priceItemNameDict = new PriceItemNameDict();
         priceItemNameDict.setId(IdGen.uuid());
