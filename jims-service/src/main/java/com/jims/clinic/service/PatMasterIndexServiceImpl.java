@@ -46,11 +46,22 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
     PatVisitDao patVisitDao;
     @Autowired
     PrepaymentRcptDao prepaymentRcptDao;
+    /**
+     * 查询入院患者信息
+     * @param patMasterIndex
+     * @author CTQ
+     * @return
+     */
     @Override
     public List<PatMasterIndex> findList(PatMasterIndex patMasterIndex) {
         return dao.findList(patMasterIndex);
     }
-
+    /**
+     * 保存入院患者信息
+     * @param patMasterIndex
+     * @author CTQ
+     * @return
+     */
     @Override
     public String saveMasterIndex(PatMasterIndex patMasterIndex) {
         int num = 0;
@@ -88,7 +99,12 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
 
         return String.valueOf(num);
     }
-
+    /**
+     * 取消入院患者登记信息
+     * @param ids
+     * @author CTQ
+     * @return
+     */
     @Override
     public String deleteMasterIndex(String ids) {
         int num = 0;

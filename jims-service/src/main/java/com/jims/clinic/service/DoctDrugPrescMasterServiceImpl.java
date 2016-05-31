@@ -54,7 +54,7 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
         try {
             //保存处方主记录
             doctDrugPrescMaster.setPrescDate(new Date());
-            doctDrugPrescMaster.setPrescStatus(1);
+            doctDrugPrescMaster.setPrescStatus(0);
             doctDrugPrescMaster.preInsert();
             num = dao.insert(doctDrugPrescMaster);
             //保存处方记录明细
