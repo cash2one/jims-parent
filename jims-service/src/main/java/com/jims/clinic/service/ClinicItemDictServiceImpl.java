@@ -386,7 +386,6 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = true)
     public String saveBatch(List<ClinicItemDict> list){
         String result = "0";
         try{
