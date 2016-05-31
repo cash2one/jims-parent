@@ -153,11 +153,9 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
-	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -706,11 +704,9 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setDdtRoomNo(String ddtRoomNo) {
 		this.ddtRoomNo = ddtRoomNo;
 	}
-	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getOnsetDate() {
 		return onsetDate;
 	}
-	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setOnsetDate(Date onsetDate) {
 		this.onsetDate = onsetDate;
 	}
