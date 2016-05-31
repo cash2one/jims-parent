@@ -30,7 +30,7 @@ import java.util.List;
 @Service
 @Component
 @Transactional(readOnly = false)
-public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoints> implements ExamAppointsServiceApi {
+public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoints>{
 
     @Autowired
     private ExamAppointsDao examAppointsDao;
@@ -49,7 +49,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
      * @param patientId
      * @return
      */
-    @Override
+
     public List<ExamAppoints> getExamAppionts(String patientId) {
         return examAppointsDao.getExamAppionts(patientId);
     }
@@ -60,7 +60,6 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
      * @param ids
      * @return
      */
-    @Override
     public String deleteExamAppionts(String ids) {
         int num =0;
         try {
@@ -87,7 +86,6 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
      *
      * @return
      */
-    @Override
     public Integer getMaxExamNo() {
         return examAppointsDao.getMaxExamNo();
     }
@@ -97,7 +95,6 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
      * @param examAppoints
      * @return
      */
-    @Override
     public int batchSave(ExamAppoints examAppoints) {
         int  num=0;
         ClinicMaster clinicMaster=clinicMasterDao.get(examAppoints.getClinicId());
