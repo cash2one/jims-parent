@@ -88,7 +88,7 @@ public class PatMasterIndexRest {
         PrepaymentRcpt prepaymentRcpt = new PrepaymentRcpt();
 
         if(ids!=null&&!"".equals(ids)){
-            prepaymentRcpt =  prepaymentRcptServiceApi.findByPatientId(ids);
+//            prepaymentRcpt =  prepaymentRcptServiceApi.findByPatientId(ids);
             if(prepaymentRcpt!=null){
                 stringData.setCode("warning");
             }else{
