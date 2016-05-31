@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/finance/js/prepayment.js"></script>
+    <style>
+        .bot-medbtn
+        {
+            float:right;
+            padding:15px 10px 0 0;
+        }
+        .bot-medbtn a
+        {
+            display:inline-block;
+            padding:10px;
+
+        }
+    </style>
+</head>
+
+
+<body class="easyui-layout">
+    <div data-options="region:'west'" style="width: 30%;">
+        <form id="payForm" method="post">
+            <input type="hidden" name="id" id="id">
+            <div class="fitem fitem_pop">
+                <label>
+                    金额：
+                </label>
+                <input name="amount" class="easyui-textbox">
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    支付方式：
+                </label>
+                <select name="payWay" class="easyui-combobox" style="width: 25%">
+                    <option value="现金">现金</option>
+                    <option value="个账支付">个账支付</option>
+                    <option value="舍入金额">舍入金额</option>
+                    <option value="pos转账">pos转账</option>
+                    <option value="统筹挂账">统筹挂账</option>
+                </select>
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    支票号：
+                </label>
+                <input name="checkNo" class="easyui-textbox">
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    银行：
+                </label>
+                <input name="bank" class="easyui-textbox">
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    银行账户：
+                </label>
+                <input name="bankCode" class="easyui-textbox">
+            </div>
+            <div class="fitem fitem_pop">
+                <label>
+                    地址：
+                </label>
+                <input name="addr" class="easyui-validatebox validatebox-text validatebox-textarea"/>
+            </div>
+        </form>
+    </div>
+    <div data-options="region:'center'" style="border: none">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'north'" id="topDiv"  style="height: 90%;border: none">
+                <div id="searchDiv">
+                    <form name="searchform" method="post" action="" id ="searchform">
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td class="text-right">姓名：</td>
+                                <td><input type="text" class="easyui-textbox" id="name"/></td>
+
+                                <td class="text-right">身份证号：</td>
+                                <td><input type="text" class="easyui-textbox" id="idNo"/></td>
+                                <td class="text-right">总额：</td>
+                                <td><input type="text" class="easyui-textbox" id="total"/></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">住院号：</td>
+                                <td><input type="text" class="easyui-textbox" id="doctor"/></td>
+
+                                <td class="text-right">余额：</td>
+                                <td><input type="text" class="easyui-textbox" id="doctor23"/></td>
+
+                                <td colspan="2">
+                                    <button class="easy-nbtn easy-nbtn-info" onclick="searchByCondition();">查询</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <table id="centerList"></table>
+            </div>
+            <div data-options="region:'center'" style="border: none">
+                <div class="bot-medbtn">
+                    <a href="#" onclick="updatePay()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">作废</a>
+                    <a href="#" onclick="removeMaster()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">退款</a>
+                    <a href="#" onclick="saveMaster()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+                    <a href="#" onclick="clearForm()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">清屏</a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

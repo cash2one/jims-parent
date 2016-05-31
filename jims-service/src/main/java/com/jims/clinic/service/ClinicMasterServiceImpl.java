@@ -9,7 +9,7 @@ import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
  * @version 2016-04-20
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, ClinicMaster> implements ClinicMasterServiceApi {
     @Autowired
     private ClinicMasterDao clinicMasterDao;

@@ -17,7 +17,7 @@ import com.jims.phstock.entity.DrugPriceModify;
 import com.jims.phstock.vo.DrugCatalogBeanVo;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Date;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
  * @version 2016-04-22
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugPriceListService extends CrudImplService<DrugPriceListDao, DrugPriceList> implements DrugPriceListServiceApi {
 
 
@@ -44,7 +44,7 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      * @version 2016-05-18
      */
     @Override
-    @Transactional(readOnly = true)
+
     public String saveDrugPriceModify(DrugCatalogChangeVo drugPriceModifyVo) {
 
         List<DrugPriceModify> insertDicts = drugPriceModifyVo.getInserted();
@@ -137,7 +137,7 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      * @author txb
      */
     @Override
-    @Transactional(readOnly = true)
+
     public String saveDrugPrice(DrugCatalogChangeVo drugPriceVo) {
         List<DrugPriceList> insertDicts = drugPriceVo.getInserted();
         List<DrugPriceList> updateDicts = drugPriceVo.getUpdated();
@@ -190,7 +190,7 @@ public class DrugPriceListService extends CrudImplService<DrugPriceListDao, Drug
      * @return
      */
     @Override
-    @Transactional(readOnly = true)
+
     public String saveModifyConfirm(DrugCatalogChangeVo<DrugPriceModify> drugPriceModifyVo) {
 
 

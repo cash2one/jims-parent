@@ -10,7 +10,7 @@ import com.jims.phstock.dao.DrugStockDao;
 import com.jims.phstock.entity.DrugStock;
 import com.jims.phstock.vo.DrugStockAllVo;
 import com.jims.phstock.vo.DrugWorkCount;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @version 2016-04-22
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugStockService extends CrudImplService<DrugStockDao, DrugStock> implements DrugStockServiceApi{
 
 

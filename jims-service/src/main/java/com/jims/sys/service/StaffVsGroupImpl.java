@@ -13,7 +13,7 @@ import com.jims.sys.entity.StaffVsGroup;
 import com.jims.sys.vo.StaffGroupVo;
 import com.jims.sys.vo.StaffVsGroupVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by yangruidong on 2016/5/25 .
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class StaffVsGroupImpl extends CrudImplService<StaffVsGroupDao, StaffVsGroup> implements StaffVsGroupApi {
 
     @Override

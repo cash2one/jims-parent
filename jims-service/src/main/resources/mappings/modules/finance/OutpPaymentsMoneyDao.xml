@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.dao.OutpPaymentsMoneyDao">
+    
+	<sql id="outpPaymentsMoneyColumns">
+		a.id AS "id",
+		a.rcpt_no AS "rcptNo",
+		a.payment_no AS "paymentNo",
+		a.money_type AS "moneyType",
+		a.payment_amount AS "paymentAmount",
+		a.refunded_amount AS "refundedAmount",
+		a.prepay_no AS "prepayNo",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpPaymentsMoneyJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpPaymentsMoney">
+		SELECT 
+			<include refid="outpPaymentsMoneyColumns"/>
+		FROM outp_payments_money a
+		<include refid="outpPaymentsMoneyJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpPaymentsMoney">
+		SELECT 
+			<include refid="outpPaymentsMoneyColumns"/>
+		FROM outp_payments_money a
+		<include refid="outpPaymentsMoneyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpPaymentsMoney">
+		SELECT 
+			<include refid="outpPaymentsMoneyColumns"/>
+		FROM outp_payments_money a
+		<include refid="outpPaymentsMoneyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO outp_payments_money(
+			id,
+			rcpt_no,
+			payment_no,
+			money_type,
+			payment_amount,
+			refunded_amount,
+			prepay_no,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{rcptNo},
+			#{paymentNo},
+			#{moneyType},
+			#{paymentAmount},
+			#{refundedAmount},
+			#{prepayNo},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_payments_money SET 	
+			rcpt_no = #{rcptNo},
+			payment_no = #{paymentNo},
+			money_type = #{moneyType},
+			payment_amount = #{paymentAmount},
+			refunded_amount = #{refundedAmount},
+			prepay_no = #{prepayNo},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_payments_money SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

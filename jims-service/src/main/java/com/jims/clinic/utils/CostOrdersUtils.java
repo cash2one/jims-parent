@@ -9,6 +9,7 @@ import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.*;
 import com.jims.common.utils.IdGen;
 import com.jims.common.utils.SpringContextHolder;
+import com.jims.common.utils.StringUtils;
 import com.jims.common.utils.UserUtils;
 import com.jims.sys.dao.PriceListDao;
 import com.jims.sys.entity.ClinicItemClassDict;
@@ -77,20 +78,22 @@ public class CostOrdersUtils {
             outpTreatRec.setItemClass(clinicItemDict.getItemClass());
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());
-            outpTreatRec.setAmount(1.00);
+            outpTreatRec.setAmount(clinicItemDict.getNum());
             //执行科室
             outpTreatRec.setPerformedBy(clinicItemDict.getExpand3());
             outpTreatRec.setChargeIndicator(0);
             Double price=0.00;
-            List<PriceListVo>  listPriceListVo=new ArrayList<PriceListVo>();
+            List<PriceListVo>  listPriceListVo=priceListDao.listByClinicItemCodeAndOrgId(orgId,clinicItemDict.getItemCode());
             for (int j = 0; j < listPriceListVo.size(); j++) {
                 PriceListVo priceListVo=listPriceListVo.get(j);
                 OutpOrdersCosts outpOrdersCosts=new OutpOrdersCosts();
                 outpOrdersCosts.setOrgId(orgId);
                 outpOrdersCosts.setClinicId(clinicId);
+                outpOrdersCosts.setOrderClass(priceListVo.getItemClass());
                 outpOrdersCosts.setPatientId(patientId);
                 outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
                 outpOrdersCosts.setSerialNo(serialNo);
+                outpOrdersCosts.setItemNo(j+1);
                 outpOrdersCosts.setItemCode(priceListVo.getItemCode());
                 outpOrdersCosts.setItemName(priceListVo.getItemName());
                 outpOrdersCosts.setItemClass(priceListVo.getItemClass());
@@ -98,7 +101,7 @@ public class CostOrdersUtils {
                 outpOrdersCosts.setOrderSubNo(1);
                 outpOrdersCosts.setItemSpec(priceListVo.getItemSpec());
                 outpOrdersCosts.setUnits(priceListVo.getUnits());
-                outpOrdersCosts.setAmount(1.00);
+                outpOrdersCosts.setAmount(clinicItemDict.getNum());
                 outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
                 outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
                 outpOrdersCosts.setPerformedBy(priceListVo.getPerformedBy());
@@ -106,11 +109,13 @@ public class CostOrdersUtils {
                 price+=priceListVo.getPrice();
                 outpOrdersCosts.setCharges(priceListVo.getPrice());
                 outpOrdersCosts.setChargeIndicator(0);
+                outpOrdersCosts.preInsert();
                 orderNo++;
                 outpOrdersCostsDao.saveOrdersCosts(outpOrdersCosts);
             }
             outpTreatRec.setCharges(price);
             outpTreatRec.setCosts(price);
+            outpTreatRec.preInsert();
             outpTreatRecDao.saveTreatRec(outpTreatRec);
         }
     }

@@ -10,7 +10,7 @@ import com.jims.register.api.ClinicScheduleApi;
 import com.jims.register.dao.ClinicScheduleDao;
 import com.jims.register.entity.ClinicSchedule;
 
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * @version 2016-05-17
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicScheduleServiceImpl extends CrudImplService<ClinicScheduleDao, ClinicSchedule> implements ClinicScheduleApi {
     @Override
     public List<BaseDto> findListTable(ClinicSchedule clinicSchedule) {

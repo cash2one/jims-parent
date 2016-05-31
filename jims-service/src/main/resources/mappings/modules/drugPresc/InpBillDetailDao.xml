@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.drugPresc.dao.InpBillDetailDao">
+    
+	<sql id="inpBillDetailColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId",
+		a.item_no AS "itemNo",
+		a.item_class AS "itemClass",
+		a.item_name AS "itemName",
+		a.item_code AS "itemCode",
+		a.item_spec AS "itemSpec",
+		a.amount AS "amount",
+		a.units AS "units",
+		a.ordered_by AS "orderedBy",
+		a.performed_by AS "performedBy",
+		a.costs AS "costs",
+		a.charges AS "charges",
+		a.billing_date_time AS "billingDateTime",
+		a.operator_no AS "operatorNo",
+		a.rcpt_no AS "rcptNo",
+		a.class_on_inp_rcpt AS "classOnInpRcpt",
+		a.subj_code AS "subjCode",
+		a.class_on_mr AS "classOnMr",
+		a.item_price AS "itemPrice",
+		a.price_quotiety AS "priceQuotiety",
+		a.discharge_taking_indicator AS "dischargeTakingIndicator",
+		a.ward_code AS "wardCode",
+		a.class_on_reckoning AS "classOnReckoning",
+		a.order_group AS "orderGroup",
+		a.order_doctor AS "orderDoctor",
+		a.perform_group AS "performGroup",
+		a.perform_doctor AS "performDoctor",
+		a.convey_date AS "conveyDate",
+		a.doctor_user AS "doctorUser",
+		a.transflag AS "transflag",
+		a.memo AS "memo",
+		a.oper_type AS "operType",
+		a.oper_id AS "operId",
+		a.oper_code AS "operCode",
+		a.adapt_symptom_indicate AS "adaptSymptomIndicate",
+		a.document_no AS "documentNo",
+		a.trans_flag AS "transFlag",
+		a.qyb_jzxh AS "qybJzxh",
+		a.qyb_jzlsh AS "qybJzlsh",
+		a.qyb_qzfje AS "qybQzfje",
+		a.qyb_ggzfje AS "qybGgzfje",
+		a.qyb_fhfwje AS "qybFhfwje",
+		a.qyb_insur_name AS "qybInsurName",
+		a.qyb_paramid AS "qybParamid",
+		a.performed_by_sub AS "performedBySub",
+		a.yb_upload AS "ybUpload",
+		a.nh_upload AS "nhUpload",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="inpBillDetailJoins">
+	</sql>
+    
+	<select id="get" resultType="InpBillDetail">
+		SELECT 
+			<include refid="inpBillDetailColumns"/>
+		FROM inp_bill_detail a
+		<include refid="inpBillDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="InpBillDetail">
+		SELECT 
+			<include refid="inpBillDetailColumns"/>
+		FROM inp_bill_detail a
+		<include refid="inpBillDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="InpBillDetail">
+		SELECT 
+			<include refid="inpBillDetailColumns"/>
+		FROM inp_bill_detail a
+		<include refid="inpBillDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO inp_bill_detail(
+			id,
+			patient_id,
+			visit_id,
+			item_no,
+			item_class,
+			item_name,
+			item_code,
+			item_spec,
+			amount,
+			units,
+			ordered_by,
+			performed_by,
+			costs,
+			charges,
+			billing_date_time,
+			operator_no,
+			rcpt_no,
+			class_on_inp_rcpt,
+			subj_code,
+			class_on_mr,
+			item_price,
+			price_quotiety,
+			discharge_taking_indicator,
+			ward_code,
+			class_on_reckoning,
+			order_group,
+			order_doctor,
+			perform_group,
+			perform_doctor,
+			convey_date,
+			doctor_user,
+			transflag,
+			memo,
+			oper_type,
+			oper_id,
+			oper_code,
+			adapt_symptom_indicate,
+			document_no,
+			trans_flag,
+			qyb_jzxh,
+			qyb_jzlsh,
+			qyb_qzfje,
+			qyb_ggzfje,
+			qyb_fhfwje,
+			qyb_insur_name,
+			qyb_paramid,
+			performed_by_sub,
+			yb_upload,
+			nh_upload,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{visitId},
+			#{itemNo},
+			#{itemClass},
+			#{itemName},
+			#{itemCode},
+			#{itemSpec},
+			#{amount},
+			#{units},
+			#{orderedBy},
+			#{performedBy},
+			#{costs},
+			#{charges},
+			#{billingDateTime},
+			#{operatorNo},
+			#{rcptNo},
+			#{classOnInpRcpt},
+			#{subjCode},
+			#{classOnMr},
+			#{itemPrice},
+			#{priceQuotiety},
+			#{dischargeTakingIndicator},
+			#{wardCode},
+			#{classOnReckoning},
+			#{orderGroup},
+			#{orderDoctor},
+			#{performGroup},
+			#{performDoctor},
+			#{conveyDate},
+			#{doctorUser},
+			#{transflag},
+			#{memo},
+			#{operType},
+			#{operId},
+			#{operCode},
+			#{adaptSymptomIndicate},
+			#{documentNo},
+			#{transFlag},
+			#{qybJzxh},
+			#{qybJzlsh},
+			#{qybQzfje},
+			#{qybGgzfje},
+			#{qybFhfwje},
+			#{qybInsurName},
+			#{qybParamid},
+			#{performedBySub},
+			#{ybUpload},
+			#{nhUpload},
+			#{createDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE inp_bill_detail SET 	
+			patient_id = #{patientId},
+			visit_id = #{visitId},
+			item_no = #{itemNo},
+			item_class = #{itemClass},
+			item_name = #{itemName},
+			item_code = #{itemCode},
+			item_spec = #{itemSpec},
+			amount = #{amount},
+			units = #{units},
+			ordered_by = #{orderedBy},
+			performed_by = #{performedBy},
+			costs = #{costs},
+			charges = #{charges},
+			billing_date_time = #{billingDateTime},
+			operator_no = #{operatorNo},
+			rcpt_no = #{rcptNo},
+			class_on_inp_rcpt = #{classOnInpRcpt},
+			subj_code = #{subjCode},
+			class_on_mr = #{classOnMr},
+			item_price = #{itemPrice},
+			price_quotiety = #{priceQuotiety},
+			discharge_taking_indicator = #{dischargeTakingIndicator},
+			ward_code = #{wardCode},
+			class_on_reckoning = #{classOnReckoning},
+			order_group = #{orderGroup},
+			order_doctor = #{orderDoctor},
+			perform_group = #{performGroup},
+			perform_doctor = #{performDoctor},
+			convey_date = #{conveyDate},
+			doctor_user = #{doctorUser},
+			transflag = #{transflag},
+			memo = #{memo},
+			oper_type = #{operType},
+			oper_id = #{operId},
+			oper_code = #{operCode},
+			adapt_symptom_indicate = #{adaptSymptomIndicate},
+			document_no = #{documentNo},
+			trans_flag = #{transFlag},
+			qyb_jzxh = #{qybJzxh},
+			qyb_jzlsh = #{qybJzlsh},
+			qyb_qzfje = #{qybQzfje},
+			qyb_ggzfje = #{qybGgzfje},
+			qyb_fhfwje = #{qybFhfwje},
+			qyb_insur_name = #{qybInsurName},
+			qyb_paramid = #{qybParamid},
+			performed_by_sub = #{performedBySub},
+			yb_upload = #{ybUpload},
+			nh_upload = #{nhUpload},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE inp_bill_detail SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+
+	<select  id="getMaxItemNo" resultType="java.lang.Integer">
+        select max(item_no) 	FROM inp_bill_detail
+		<where>
+			del_flag = '0'
+			<if test="patientId !=null and patientId !=''">
+               and patient_id = #{patientId}
+			</if>
+			<if test="visitId !=null and visitId !=''">
+              and visit_id = #{visitId}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

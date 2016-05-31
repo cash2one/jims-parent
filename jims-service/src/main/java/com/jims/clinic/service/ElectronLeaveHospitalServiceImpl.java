@@ -9,14 +9,14 @@ import com.jims.clinic.entity.ElectronLeaveHospital;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 /**
  * 出院记录Service
  * @author zhaoning
  * @version 2016-04-20
  */
 @Service
-@Transactional(readOnly = true)
+
 public class ElectronLeaveHospitalServiceImpl extends CrudImplService<ElectronLeaveHospitalDao, ElectronLeaveHospital> implements ElectronLeaveHopitalServiceApi {
 
 	@Autowired

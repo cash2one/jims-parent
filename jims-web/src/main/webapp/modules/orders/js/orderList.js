@@ -403,7 +403,7 @@ function changeSubNo(row){
                             row[0].freqDetail= nowrow.freqDetail;
                         //8.增加行把上一行的数据赋给子医嘱
                     //    addOrders();
-                            alert("row[0].orderNo="+row[0].orderNo+"row[0].orderSubNo="+row[0].orderSubNo);
+                          //  alert("row[0].orderNo="+row[0].orderNo+"row[0].orderSubNo="+row[0].orderSubNo);
                         $('#orderList').datagrid('insertRow', {
                             index:0,	// index start with 0
                             row: {
@@ -460,7 +460,7 @@ function changeSubNo(row){
 //传输医嘱（下达医嘱）
 function issuedOrders(){
     var row = $('#orderList').datagrid('getSelected');
-    alert("row.id="+row.id);
+   // alert("row.id="+row.id);
     $.ajax({
         method:"POST",
         contentType:"application/json",

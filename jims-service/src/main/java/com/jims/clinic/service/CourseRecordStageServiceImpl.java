@@ -9,13 +9,13 @@ import com.jims.clinic.entity.CourseRecord;
 import com.jims.clinic.entity.CourseRecordStage;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * Created by qinlongxin on 2016/4/21.
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class CourseRecordStageServiceImpl extends CrudImplService<CourseRecordStageDao,CourseRecordStage> implements CourseRecordStageApi{
 
 

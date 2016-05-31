@@ -8,7 +8,7 @@ import com.jims.lab.api.LabTestItemsServiceApi;
 import com.jims.lab.dao.LabTestItemsDao;
 import com.jims.lab.entity.LabTestItems;
 import com.jims.common.service.impl.CrudImplService;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 检验项目Service
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-04-28
  */
 @Service
-@Transactional(readOnly = true)
+
 public class LabTestItemsServiceImpl  extends CrudImplService<LabTestItemsDao, LabTestItems> implements LabTestItemsServiceApi {
 
 

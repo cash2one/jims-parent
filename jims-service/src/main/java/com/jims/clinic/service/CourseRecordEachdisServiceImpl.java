@@ -11,7 +11,7 @@ import com.jims.clinic.entity.CourseRecord;
 import com.jims.clinic.entity.CourseRecordEachdis;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 病程记录---每日病程记录Service
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-04-20
  */
 @Service(version ="1.0.0")
-@Transactional(readOnly = true)
+
 public class CourseRecordEachdisServiceImpl extends CrudImplService<CourseRecordEachdisDao, CourseRecordEachdis> implements CourseRecordEachdisApi {
 
     @Autowired

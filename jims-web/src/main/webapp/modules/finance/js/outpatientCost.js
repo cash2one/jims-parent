@@ -16,6 +16,7 @@ function init(){
         rownumbers: true,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[
+            {field:"id",hidden:true},
             {
             title: "分类",
             field: "administrationCode",
@@ -438,6 +439,10 @@ function showReturnsDiv(){
     $('#returnsDiv').window("open");
 }
 function showContDiv(){
+   var row=$("#list").datagrid("getSelected");
+    $("#pay").val(row.costs);
+    $("#totalCharge").val(row.costs);
+    $("#receive").val(row.costs);
     $('#contDiv').window("open");
 }
 /**
@@ -543,4 +548,31 @@ function closeWindow(id){
 function addDrugRow(){
 
     return false;
+}
+/**
+ * 确认付款 保存数据
+ */
+function confirmPay(){
+    var rows= $("#list").datagrid("getRows");
+    var strIds="";
+    for(var i=0;i<rows.length;i++){
+        strIds += rows[i].id + ",";
+    }
+    strIds = strIds.substr(0, strIds.length - 1);
+    alert(strIds);
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/outPatientCost/confirmPay',
+        'contentType': 'application/json',
+        'data': ids=strIds,
+        'dataType': 'json',
+        'success': function(data){
+
+        },
+        'error': function(data){
+            $.messager.alert('提示',"删除失败", "error");
+        }
+    });
+
+
 }

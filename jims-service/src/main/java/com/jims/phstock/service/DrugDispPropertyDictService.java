@@ -9,7 +9,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugDispPropertyDictApi;
 import com.jims.phstock.dao.DrugDispPropertyDictDao;
 import com.jims.phstock.entity.DrugDispPropertyDict;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * @version 2016-05-10
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugDispPropertyDictService extends CrudImplService<DrugDispPropertyDictDao, DrugDispPropertyDict> implements DrugDispPropertyDictApi{
 
     /**

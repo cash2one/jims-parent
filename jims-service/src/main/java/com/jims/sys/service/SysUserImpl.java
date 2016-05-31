@@ -12,7 +12,7 @@ import com.jims.sys.entity.SysCompany;
 import com.jims.sys.entity.SysUser;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -22,7 +22,6 @@ import java.io.Serializable;
  * Created by Administrator on 2016/4/14 0014.
  */
 @Service(version = "1.0.0")
-@Transactional
 public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements SysUserApi, Serializable {
 
     @Autowired
