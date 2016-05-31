@@ -8,7 +8,7 @@ import com.jims.clinic.api.CourseRecordApi;
 import com.jims.clinic.dao.CourseRecordDao;
 import com.jims.clinic.entity.CourseRecord;
 import com.jims.common.service.impl.CrudImplService;
-import org.springframework.transaction.annotation.Transactional;
+
 
 
 
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-04-20
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class CourseRecordServiceImpl extends CrudImplService<CourseRecordDao, CourseRecord> implements CourseRecordApi {
 
 }

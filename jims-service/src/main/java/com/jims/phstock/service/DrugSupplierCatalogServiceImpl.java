@@ -5,7 +5,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugSupplierCatalogApi;
 import com.jims.phstock.entity.DrugSupplierCatalog;
 import com.jims.phstock.dao.DrugSupplierCatalogDao;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by wei on 2016/5/10.
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugSupplierCatalogServiceImpl extends CrudImplService<DrugSupplierCatalogDao, DrugSupplierCatalog> implements DrugSupplierCatalogApi {
 
     /**

@@ -9,7 +9,7 @@ import com.jims.clinic.dao.ExamItemsDao;
 import com.jims.exam.entity.ExamItems;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @version 2016-04-25
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ExamItemsServiceImpl extends CrudImplService<ExamItemsDao, ExamItems> implements ExamItemsServiceApi {
     @Autowired
     private ExamItemsDao examItemsDao;

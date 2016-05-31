@@ -18,7 +18,7 @@ import com.jims.sys.vo.InputParamVo;
 import com.jims.sys.vo.InputSettingVo;
 import com.jims.sys.vo.StaffGroupVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  * Created by yangruidong on 2016/5/18 .
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class StaffGroupImpl extends CrudImplService<StaffGroupDictDao, StaffGroupDict> implements StaffGroupApi {
 
 
@@ -42,7 +42,7 @@ public class StaffGroupImpl extends CrudImplService<StaffGroupDictDao, StaffGrou
      *  @author  yangruidong
      */
     @Override
-    @Transactional(readOnly = true)
+
     public List<StaffGroupClassDict> saveGroupClass(StaffGroupVo<StaffGroupClassDict> staffGroupClassDictVo) {
         List<StaffGroupClassDict> newUpdateDict = new ArrayList<StaffGroupClassDict>();
         List<StaffGroupClassDict> inserted = staffGroupClassDictVo.getInserted();
@@ -79,7 +79,7 @@ public class StaffGroupImpl extends CrudImplService<StaffGroupDictDao, StaffGrou
      *  @author  yangruidong
      */
     @Override
-    @Transactional(readOnly = true)
+
     public List<StaffGroupDict> saveGroup(StaffGroupVo<StaffGroupDict> staffGroupDictVo) {
         List<StaffGroupDict> newUpdateDict = new ArrayList<StaffGroupDict>();
         List<StaffGroupDict> inserted = staffGroupDictVo.getInserted();

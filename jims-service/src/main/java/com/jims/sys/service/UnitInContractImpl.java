@@ -5,7 +5,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.UnitInContractApi;
 import com.jims.sys.dao.UnitInContractDao;
 import com.jims.sys.entity.UnitInContract;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class UnitInContractImpl extends CrudImplService<UnitInContractDao, UnitInContract> implements UnitInContractApi{
 
     @Override

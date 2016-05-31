@@ -9,7 +9,7 @@ import com.jims.clinic.dao.ClinicVsChargeDao;
 import com.jims.clinic.entity.ClinicVsCharge;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * @version 2016-04-20
  */
 @Service
-@Transactional(readOnly = true)
+
 public class ClinicVsChargeServiceImpl extends CrudImplService<ClinicVsChargeDao, ClinicVsCharge> implements ClinicVsChargeServiceApi {
 
 }
