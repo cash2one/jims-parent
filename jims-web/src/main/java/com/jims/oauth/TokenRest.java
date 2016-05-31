@@ -10,6 +10,7 @@ import com.jims.oauth.entity.Authority;
 import com.jims.oauth.entity.RefreshToken;
 import com.jims.sys.api.SysUserApi;
 import com.jims.sys.entity.SysUser;
+import com.jims.util.JedisUtils;
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
@@ -157,6 +158,7 @@ public class TokenRest {
             CacheManager.putCache("refreshToken", new Cache("refreshToken", refreshToken, 7200, false));
             CacheManager.putCache(accessToken+"_userName", new Cache(accessToken + "_userName", userName, 7200, false));
             CacheManager.putCache(accessToken + "_clientId", new Cache(accessToken + "_clientId", oauthRequest.getClientId(), 7200, false));
+            JedisUtils.set(oauthRequest.getClientId(),app.getScope(),0);
             // 构建响应
             OAuthResponse response = OAuthASResponse
                     .tokenResponse(HttpServletResponse.SC_OK)

@@ -1,6 +1,7 @@
 package com.jims.oauth;
 
 import com.jims.common.data.StringData;
+import com.jims.util.JedisUtils;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -31,6 +32,16 @@ public class OauthRest {
     public StringData code(@QueryParam("url")String url){
         StringData stringData = new StringData();
         stringData.setCode(url);
+        stringData.setData("success");
+        return stringData;
+    }
+
+    @Path("redis")
+    @GET
+    public StringData redis(){
+        String code=JedisUtils.set("GnslTZRF","user",0);
+        StringData stringData = new StringData();
+        stringData.setCode(code);
         stringData.setData("success");
         return stringData;
     }
