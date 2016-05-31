@@ -43,7 +43,17 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 	private String ordInvoiceNo;		// ord_invoice_no
 	private String reckonNo;		// 银海医保清算流水号
 	private String rcptPrint;		// 序列号
-	
+
+
+	/*收费结账所需的*/
+	private Integer freeCount;//免费张数
+	private Integer  refundCount;//退费张数
+	private Double sumCosts;//计价
+	private Double sumCharges;//应收费用
+    private Double refundMoney;//退费金额
+	private String minRcptNo;//最小收据号
+	private String maxRcptNo;//最大收据号
+	private String countNo;//收据张数
 	public OutpRcptMaster() {
 		super();
 	}
@@ -271,5 +281,69 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 	public void setRcptPrint(String rcptPrint) {
 		this.rcptPrint = rcptPrint;
 	}
-	
+
+
+	public Integer getFreeCount() {
+		return freeCount;
+	}
+
+	public void setFreeCount(Integer freeCount) {
+		this.freeCount = freeCount;
+	}
+
+	public Integer getRefundCount() {
+		return refundCount;
+	}
+
+	public void setRefundCount(Integer refundCount) {
+		this.refundCount = refundCount;
+	}
+
+	public Double getSumCosts() {
+		return sumCosts;
+	}
+
+	public void setSumCosts(Double sumCosts) {
+		this.sumCosts = sumCosts;
+	}
+
+	public Double getSumCharges() {
+		return sumCharges;
+	}
+
+	public void setSumCharges(Double sumCharges) {
+		this.sumCharges = sumCharges;
+	}
+
+	public Double getRefundMoney() {
+		return refundMoney;
+	}
+
+	public void setRefundMoney(Double refundMoney) {
+		this.refundMoney = refundMoney;
+	}
+
+	public String getMinRcptNo() {
+		return minRcptNo;
+	}
+
+	public void setMinRcptNo(String minRcptNo) {
+		this.minRcptNo = minRcptNo;
+	}
+
+	public String getMaxRcptNo() {
+		return maxRcptNo;
+	}
+
+	public void setMaxRcptNo(String maxRcptNo) {
+		this.maxRcptNo = maxRcptNo;
+	}
+
+	public String getCountNo() {
+		return countNo;
+	}
+
+	public void setCountNo(String countNo) {
+		this.countNo = countNo;
+	}
 }

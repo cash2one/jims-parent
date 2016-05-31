@@ -1,0 +1,41 @@
+package com.jims.finance;
+
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.finance.api.OutPatientCostServiceApi;
+import com.jims.finance.api.OutpRcptMasterServiceApi;
+import com.jims.finance.entity.OutpRcptMaster;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.util.List;
+
+/**
+ * 门诊医疗收据记录
+ *
+ * @author PangQian
+ * @date2016/5/31 0031
+ */
+@Component
+@Produces("application/json")
+@Path("oupRcptMaster")
+public class OupRcptMasterRest {
+    @Reference(version = "1.0.0")
+    private OutpRcptMasterServiceApi outpRcptMasterServiceApi;
+
+    /**
+     * 方法 findCharge 的能描述
+     * 查询收费结账的收据
+     * @param
+     * @reurn
+     * @thows
+     * @author pq
+     * @date 2016/5/31 0031
+     */
+    @Path("findCharge")
+    @GET
+    public OutpRcptMaster findCharge(OutpRcptMaster outpRcptMaster){
+       return outpRcptMasterServiceApi.findCharge(outpRcptMaster);
+    }
+}
