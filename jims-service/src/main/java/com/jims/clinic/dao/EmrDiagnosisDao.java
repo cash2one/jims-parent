@@ -57,5 +57,14 @@ public interface EmrDiagnosisDao extends CrudDao<EmrDiagnosis> {
      * @return
      */
     public List<EmrDiagnosis> findAllDiagnosisForOne(EmrDiagnosis emrDiagnosis);
+
+    /**
+     * 根据参数删除诊断信息
+     * @author CTQ
+     * @date 2016-05-30 16:59:43
+     * @param emrDiagnosis
+     * @return
+     */
+    public int delDiagnosis(EmrDiagnosis emrDiagnosis);
 	
 }
