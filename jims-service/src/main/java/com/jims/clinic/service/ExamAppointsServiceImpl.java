@@ -5,6 +5,7 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.*;
+import com.jims.clinic.utils.CostOrdersUtils;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.exam.api.ExamAppointsServiceApi;
 import com.jims.clinic.entity.*;
@@ -13,6 +14,7 @@ import com.jims.exam.entity.ExamItems;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -97,28 +99,23 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
     @Override
     public int batchSave(ExamAppoints examAppoints) {
         int  num=0;
-//       if(examAppointsDao.getMaxExamNo()!=null){
-//            examAppoints.setExamNo(examAppointsDao.getMaxExamNo()+1+"");
-//        }else{
-//            examAppoints.setExamNo("1");
-//        }
         ClinicMaster clinicMaster=clinicMasterDao.get(examAppoints.getClinicId());
         //添加EXAM_APPOINTS 相应字段
         examAppoints.setCnsltState(0);
         examAppoints.preInsert();
         examAppoints.setVisitNo(clinicMaster.getVisitNo());
-//        examAppoints.setPatientLocalId("1");
         examAppoints.setChargeType(clinicMaster.getChargeType());
-
+        List<ClinicItemDict> clinicItemDictList=new ArrayList<ClinicItemDict>();
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
         for(int i=0;i<examItemsList.size();i++){
+            ClinicItemDict clinicItemDict=new ClinicItemDict();
             ExamItems examItems=examItemsList.get(i);
+            clinicItemDict.setInputCode(examItems.getExamItemCode());
             examItems.setAppointsId(examAppoints.getId());
             examItems.setClinicId(examAppoints.getClinicId());
             examItems.setVisitId(examAppoints.getVisitId());
             examItems.preInsert();
             examItemsDao.saveExamItems(examItems);
-
             OutpTreatRec outpTreatRec=new OutpTreatRec();
             outpTreatRec.preInsert();
             outpTreatRec.setItemClass("D");
@@ -131,7 +128,10 @@ public class ExamAppointsServiceImpl extends CrudImplService<ExamAppointsDao, Ex
             outpTreatRec.setAppointNo(examItems.getExamNo());
             outpTreatRec.setRcptNo(examItems.getRcptNo());
             outpTreatRecDao.saveTreatRec(outpTreatRec);
+            clinicItemDictList.add(clinicItemDict);
         }
+        CostOrdersUtils costOrdersUtils=new CostOrdersUtils();
+        costOrdersUtils.save(examAppoints.getClinicId(),clinicItemDictList);
         num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;
     }

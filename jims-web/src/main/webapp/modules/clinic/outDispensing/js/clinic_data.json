@@ -1,4 +1,4 @@
 {"total":2,"rows":[
-	{"itemNo":1,"itemCode":"150102", "itemName":"西药房","input":"YF"},
-    {"itemNo":2,"itemCode":"150103", "itemName":"中草药房","input":"YF"}
+	{"itemNo":1,"itemCode":"150102", "itemName":"西药房","input":"YF","id":1},
+    {"itemNo":2,"itemCode":"150103", "itemName":"中草药房","input":"YF","id":2}
 ]}
