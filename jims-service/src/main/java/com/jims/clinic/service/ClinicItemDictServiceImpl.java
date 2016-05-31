@@ -13,6 +13,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.vo.PriceDictListVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;

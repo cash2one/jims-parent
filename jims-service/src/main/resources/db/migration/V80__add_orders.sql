@@ -206,13 +206,13 @@ comment on column ORDERS.ORDER_PRINT_INDICATOR is
 comment on column ORDERS.CREATE_BY is
 '创建人';
 
-comment on column ORDERS.CREATE_DATA is
+comment on column ORDERS.CREATE_DATE is
 '创建时间';
 
 comment on column ORDERS.UPDATE_BY is
 '更新人';
 
-comment on column ORDERS.UPDATE_DATA is
+comment on column ORDERS.UPDATE_DATE is
 '更新时间';
 
 comment on column ORDERS.REMARKS is
