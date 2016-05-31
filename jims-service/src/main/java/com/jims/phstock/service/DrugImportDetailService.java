@@ -12,7 +12,7 @@ import com.jims.phstock.entity.DrugImportMaster;
 import com.jims.phstock.entity.DrugStock;
 import com.jims.phstock.entity.DrugSubStorageDept;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * @version 2016-05-17
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugImportDetailService extends CrudImplService<DrugImportDetailDao, DrugImportDetail> implements DrugImportServiceApi{
 
     @Autowired

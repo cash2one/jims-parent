@@ -18,7 +18,7 @@ import com.jims.common.service.CrudService;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 
 
@@ -31,7 +31,7 @@ import java.util.List;
  * @version 2015-12-27
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, EmrDiagnosis> implements EmrDiagnosisServiceApi{
 	@Autowired
 	private EmrDiagnosisDao emrDiagnosisDao;
@@ -93,7 +93,7 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 	 * @param parentId
 	 * @return
 	 */
-	@Transactional(readOnly = false)
+
 	public  List<EmrDiagnosis> findAllListByParent(String parentId){
 		return emrDiagnosisDao.findAllListByParent(parentId);
 

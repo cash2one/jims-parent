@@ -5,7 +5,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.StaffGroupClassDictApi;
 import com.jims.sys.dao.StaffGroupClassDictDao;
 import com.jims.sys.entity.StaffGroupClassDict;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class StaffGroupClassDictImpl extends CrudImplService<StaffGroupClassDictDao, StaffGroupClassDict> implements StaffGroupClassDictApi{
 
     @Override

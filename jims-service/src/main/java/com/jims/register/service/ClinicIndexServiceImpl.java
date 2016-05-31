@@ -9,7 +9,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.dao.ClinicIndexDao;
 import com.jims.register.entity.ClinicIndex;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @version 2016-05-17
  */
 @Service(version="1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicIndexServiceImpl extends CrudImplService<ClinicIndexDao, ClinicIndex> implements ClinicIndexServiceApi {
 
     /**

@@ -13,7 +13,7 @@ import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * @version 2016-04-23
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ElectronGroupConsultationService extends CrudImplService<ElectronGroupConsultationDao, ElectronGroupConsultation> implements ElectronGroupConsultationApi {
 
 	@Autowired
@@ -40,7 +40,7 @@ public class ElectronGroupConsultationService extends CrudImplService<ElectronGr
 	 * @version 2016-04-23
 	 */
 	//@Override
-	@Transactional(readOnly = false)
+
 	public void saveGroupConsulation(ElectronGroupConsultation electronGroupConsultation) {
 		//electronGroupConsultationDao.saveGroupConsulation(electronGroupConsultation);//保存会诊主记录
 		/*if(StringUtils.isBlank(electronGroupConsultation.getId())){

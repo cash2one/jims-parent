@@ -7,7 +7,7 @@ import com.jims.demo.api.SayHelloApi;
 import com.jims.demo.entity.DemoUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.jims.demo.dao.SayHelloDao;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +16,13 @@ import java.util.List;
  * Created by heren on 2016/4/5.
  */
 @Service(version = "1.0.0")
-@Transactional
 public class SayHelloImpl extends CrudImplService<SayHelloDao,DemoUser> implements SayHelloApi{
 
     @Autowired
     private SayHelloDao sayHelloDao;
 
     @Override
-    @Transactional(readOnly = false)
+
     public String sayHello(DemoUser user) {
         sayHelloDao.sayHello(user);
         return "hello "+user.getUserName() + ", your password is :"+user.getPassword();

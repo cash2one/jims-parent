@@ -17,7 +17,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.exam.dao.OrdersDao;
 import com.jims.exam.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import java.util.List;
  * @version 2016-04-28
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, BloodApply> implements BloodApplyServiceApi {
     @Autowired
     private BloodCapacityDao bloodCapacityDao;
@@ -41,7 +41,7 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
      * @author qinlongx
      * @version 2016-04-28
      */
-    @Transactional(readOnly = false)
+
     public String saveBloodApply(BloodApply bloodApply) {
         String strState = super.save(bloodApply);
         bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());

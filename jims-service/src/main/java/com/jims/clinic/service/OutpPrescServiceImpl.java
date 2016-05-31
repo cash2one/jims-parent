@@ -18,7 +18,7 @@ import com.jims.common.utils.IdGen;
 import com.jims.common.utils.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
  * @version 2016-04-20
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPresc> implements OutpPrescServiceApi{
 
     @Autowired
