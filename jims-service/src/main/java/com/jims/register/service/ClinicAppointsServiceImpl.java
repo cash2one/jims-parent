@@ -18,7 +18,7 @@ import com.jims.register.dao.ClinicForRegistDao;
 import com.jims.register.entity.ClinicAppoints;
 import com.jims.register.entity.ClinicForRegist;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.List;
  * @version 2016-05-20
  */
 @Service(version="1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicAppointsServiceImpl extends CrudImplService<ClinicAppointsDao, ClinicAppoints> implements ClinicAppointsServiceApi {
     @Autowired
     private ClinicAppointsDao clinicAppointsDao;

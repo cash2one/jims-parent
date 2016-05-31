@@ -9,7 +9,7 @@ import com.jims.sys.entity.SysUser;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.UUID;
 
@@ -17,8 +17,6 @@ import java.util.UUID;
  * Created by Administrator on 2016/4/13 0013.
  */
 @Service(version = "1.0.0")
-@Transactional
-
 public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo> implements PersionInfoApi {
 
     @Autowired
@@ -31,7 +29,7 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String register(PersionInfo persionInfo, SysUser sysUser) {
 
         persionInfo.preInsert();

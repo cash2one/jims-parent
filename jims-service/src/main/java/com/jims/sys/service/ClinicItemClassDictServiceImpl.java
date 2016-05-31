@@ -6,7 +6,7 @@ import com.jims.sys.api.ClinicItemClassDictServiceApi;
 import com.jims.sys.dao.ClinicItemClassDictDao;
 import com.jims.sys.entity.ClinicItemClassDict;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @version 2016-05-04
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicItemClassDictServiceImpl extends CrudImplService<ClinicItemClassDictDao, ClinicItemClassDict> implements ClinicItemClassDictServiceApi {
 
     @Autowired

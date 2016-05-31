@@ -5,7 +5,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.MenuDictApi;
 import com.jims.sys.dao.MenuDictDao;
 import com.jims.sys.entity.MenuDict;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class MenuDictImpl extends CrudImplService<MenuDictDao, MenuDict> implements MenuDictApi{
 
     /**

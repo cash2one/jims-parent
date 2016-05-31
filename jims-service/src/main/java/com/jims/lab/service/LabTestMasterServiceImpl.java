@@ -17,7 +17,7 @@ import com.jims.lab.entity.LabTestItems;
 import com.jims.lab.entity.LabTestMaster;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
@@ -30,7 +30,7 @@ import java.util.List;
  * @version 2016-04-28
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao, LabTestMaster> implements LabTestMasterServiceApi {
 
     @Autowired
@@ -52,7 +52,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
      * @version 2016/5/06
      */
     //@Override
-    @Transactional(readOnly = false)
+
     public void saveAll(LabTestMaster labTestMaster){
         if(true){//labTestMaster!=null && labTestMaster.getId()!=null
             String a ="";
@@ -150,7 +150,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
         }
     }
 
-    @Transactional(readOnly = false)
+
     public void delAll(LabTestMaster labTestMaster){
         dao.delete(labTestMaster);
     }
@@ -190,7 +190,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
      * @author xueyx
      * @version 2016/5/06
      */
-    @Transactional(readOnly = false)
+
     public void saveAllIn(LabTestMaster labTestMaster){
         //本次住院标识对门诊病人为空
         //patientId病人标识号页面有公共值

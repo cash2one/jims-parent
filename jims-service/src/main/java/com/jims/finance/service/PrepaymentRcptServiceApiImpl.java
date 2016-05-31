@@ -5,7 +5,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.finance.api.PrepaymentRcptServiceApi;
 import com.jims.finance.dao.PrepaymentRcptDao;
 import com.jims.finance.entity.PrepaymentRcpt;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 2016-05-25
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class PrepaymentRcptServiceApiImpl extends CrudImplService<PrepaymentRcptDao,PrepaymentRcpt> implements PrepaymentRcptServiceApi{
 
     /**

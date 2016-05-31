@@ -18,7 +18,7 @@ import com.jims.phstock.entity.DrugPriceList;
 import com.jims.phstock.vo.DrugCatalogBeanVo;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.List;
  * @version 2016-04-22
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugDictService extends CrudImplService<DrugDictDao, DrugDict> implements DrugDictServiceApi {
 
     @Autowired
@@ -74,7 +74,7 @@ public class DrugDictService extends CrudImplService<DrugDictDao, DrugDict> impl
     }
 
     @Override
-    @Transactional(readOnly = true)
+
     public String saveDrugCatalog(DrugCatalogBeanVo drugCatalogBeanVo) {
         DrugCatalogChangeVo<DrugNameDict> drugNameDictList = drugCatalogBeanVo.getDrugNameDictDrugCatalogBeanVo();
         DrugCatalogChangeVo<DrugDict> drugDictList = drugCatalogBeanVo.getDrugDictDrugCatalogBeanVo();
