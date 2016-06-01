@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class OutpBillItemsRest {
     /**
      * 方法 findItems的功能描述
      * 门诊-收费结账-项目
-     * @param outpRcptMaster
+     * @param visitDate
      * @return
      * @throws
      * @author pq
@@ -35,7 +36,9 @@ public class OutpBillItemsRest {
      */
     @Path("findItems")
     @GET
-    public List<OutpBillItems> findItems(OutpRcptMaster outpRcptMaster){
+    public List<OutpBillItems> findItems(@QueryParam("visitDate")String visitDate, @QueryParam("operatorNo")String operatorNo){
+        OutpRcptMaster outpRcptMaster=new OutpRcptMaster();
+        outpRcptMaster.setOperatorNo(operatorNo);
        return outpBillItemsServiceApi.findItems(outpRcptMaster);
     }
 }

@@ -3,8 +3,11 @@ package com.jims.finance.entity;
 
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.finance.outpAccounts.entity.OutpAcctDetail;
+import com.jims.finance.outpAccounts.entity.OutpAcctMoney;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 门诊收费结帐主记录Entity
@@ -30,6 +33,7 @@ public class OutpAcctMaster extends DataEntity<OutpAcctMaster> {
 	private Double rcptTotal;		// rcpt_total
 	private Double rcptCnt;		// rcpt_cnt
 	private Double rcptRefund;		// rcpt_refund
+
 	
 	public OutpAcctMaster() {
 		super();
@@ -181,5 +185,6 @@ public class OutpAcctMaster extends DataEntity<OutpAcctMaster> {
 	public void setRcptRefund(Double rcptRefund) {
 		this.rcptRefund = rcptRefund;
 	}
+
 
 }

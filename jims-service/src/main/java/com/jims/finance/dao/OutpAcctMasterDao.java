@@ -12,5 +12,18 @@ import com.jims.finance.entity.OutpAcctMaster;
  */
 @MyBatisDao
 public interface OutpAcctMasterDao extends CrudDao<OutpAcctMaster> {
-	
+    /**
+     * 方法 getMaxAcctNo的功能描述
+     * 拿到最大的结账序号
+     * @param
+     * @reurn
+     * @thrws
+     * @author pq
+     * @date 2016/6/1 0001
+     */
+    public String getMaxAcctNo();
+
+
+
+
 }

@@ -36,4 +36,5 @@ public class OutpRcptMasterServiceImpl implements OutpRcptMasterServiceApi {
        return outpRcptMasterBo.findCharge(outpRcptMaster);
     }
 
+
 }

@@ -9,6 +9,7 @@ import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 门诊医疗收据记录Entity
@@ -53,7 +54,11 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
     private Double refundMoney;//退费金额
 	private String minRcptNo;//最小收据号
 	private String maxRcptNo;//最大收据号
-	private String countNo;//收据张数
+	private Integer countNo;//收据张数
+
+
+	private List<OutpPaymentsMoney> outpAcctMoneyList;//门诊收费结帐金额分类OutpAcctMoney
+	private List<OutpBillItems> outpAcctDetailList; //门诊收费结帐明细记录OutpAcctDetail
 	public OutpRcptMaster() {
 		super();
 	}
@@ -339,11 +344,28 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 		this.maxRcptNo = maxRcptNo;
 	}
 
-	public String getCountNo() {
+	public Integer getCountNo() {
 		return countNo;
 	}
 
-	public void setCountNo(String countNo) {
+	public void setCountNo(Integer countNo) {
 		this.countNo = countNo;
+	}
+
+
+	public List<OutpPaymentsMoney> getOutpAcctMoneyList() {
+		return outpAcctMoneyList;
+	}
+
+	public void setOutpAcctMoneyList(List<OutpPaymentsMoney> outpAcctMoneyList) {
+		this.outpAcctMoneyList = outpAcctMoneyList;
+	}
+
+	public List<OutpBillItems> getOutpAcctDetailList() {
+		return outpAcctDetailList;
+	}
+
+	public void setOutpAcctDetailList(List<OutpBillItems> outpAcctDetailList) {
+		this.outpAcctDetailList = outpAcctDetailList;
 	}
 }

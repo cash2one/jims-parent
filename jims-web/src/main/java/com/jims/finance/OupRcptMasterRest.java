@@ -1,12 +1,14 @@
 package com.jims.finance;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.StringData;
 import com.jims.finance.api.OutPatientCostServiceApi;
 import com.jims.finance.api.OutpRcptMasterServiceApi;
 import com.jims.finance.entity.OutpRcptMaster;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import java.util.List;
@@ -34,8 +36,10 @@ public class OupRcptMasterRest {
      * @date 2016/5/31 0031
      */
     @Path("findCharge")
-    @GET
+    @POST
     public OutpRcptMaster findCharge(OutpRcptMaster outpRcptMaster){
        return outpRcptMasterServiceApi.findCharge(outpRcptMaster);
     }
+
+
 }

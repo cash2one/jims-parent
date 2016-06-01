@@ -74,7 +74,13 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
+	<select id="getMaxAcctNo" resultType="java.lang.String">
+       SELECT  max(acct_no)
+         from outp_acct_master
+         where del_flag = '0'
+	</select>
+
 	<insert id="insert">
 		INSERT INTO outp_acct_master(
 			id,

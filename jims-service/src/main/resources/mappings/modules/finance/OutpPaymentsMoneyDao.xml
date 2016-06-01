@@ -122,7 +122,7 @@
 		SELECT  opm.MONEY_TYPE as "moneyType",
 				sum(opm.PAYMENT_AMOUNT)  as "paymentAmount",
 				sum(opm.REFUNDED_AMOUNT)  as "refundedAmount",
-				sum(opm.PAYMENT_AMOUNT)  as "paymentAmount"
+		        sum(opm.PAYMENT_AMOUNT)- sum(opm.REFUNDED_AMOUNT)  as "xiaoji"
 		FROM OUTP_RCPT_MASTER orm,
 		      OUTP_PAYMENTS_MONEY  opm
 		WHERE orm.RCPT_NO = opm.RCPT_NO

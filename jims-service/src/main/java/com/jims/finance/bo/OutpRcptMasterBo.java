@@ -33,4 +33,6 @@ public class OutpRcptMasterBo extends CrudImplService<OutpRcptMasterDao, OutpRcp
         return dao.findCharge(outpRcptMaster);
     }
 
+
+
 }
