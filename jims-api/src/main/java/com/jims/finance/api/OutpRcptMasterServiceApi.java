@@ -22,4 +22,7 @@ public interface OutpRcptMasterServiceApi {
      * @date 2016/5/31 0031
      */
     public OutpRcptMaster findCharge(OutpRcptMaster outpRcptMaster);
+
+
+
 }
