@@ -1,50 +1,51 @@
 create table PAT_HOSPITAL_NOTICE
 (
-  PATIENT_ID           VARCHAR2(10) not null,
-  NAME                 VARCHAR2(20),
-  SEX                  VARCHAR2(4),
-  AGE                  VARCHAR2(10),
+  ID             VARCHAR2(64) not null,
+  PATIENT_ID           VARCHAR2(64) not null,
+  NAME                 VARCHAR2(200 char),
+  SEX                  VARCHAR2(20),
+  AGE                  VARCHAR2(20),
   DATE_OF_BIRTH        DATE,
-  MARITAL_STATUS       VARCHAR2(4),
-  OCCUPATION           VARCHAR2(4),
-  NATION               VARCHAR2(10),
-  ID_NO                VARCHAR2(18),
-  CHILDREN             NUMBER(1),
-  BIRTH_PLACE          VARCHAR2(100),
-  SERVICE_AGENCY       VARCHAR2(40),
-  SERVICE_AGENCY_PHONE VARCHAR2(16),
-  INSURANCE_AERA       VARCHAR2(100),
-  INSURANCE_AERA_PHONE VARCHAR2(16),
+  MARITAL_STATUS       VARCHAR2(50),
+  OCCUPATION           VARCHAR2(100),
+  NATION               VARCHAR2(64),
+  ID_NO                VARCHAR2(30),
+  CHILDREN             NUMBER(20),
+  BIRTH_PLACE          VARCHAR2(300 char),
+  SERVICE_AGENCY       VARCHAR2(200),
+  SERVICE_AGENCY_PHONE VARCHAR2(50),
+  INSURANCE_AERA       VARCHAR2(200),
+  INSURANCE_AERA_PHONE VARCHAR2(50),
   NEXT_OF_KIN          VARCHAR2(20),
-  RELATIONSHIP         VARCHAR2(2),
+  RELATIONSHIP         VARCHAR2(100),
   NEXT_OF_NATION       VARCHAR2(10),
-  NEXT_OF_ID_NO        VARCHAR2(18),
-  NEXT_OF_KIN_ADDR     VARCHAR2(100),
-  ADMISSION_DATE_TIME  DATE,
-  PREPAID_FEE          NUMBER(9,2),
-  PAT_ADM_CONDITION    VARCHAR2(1),
-  DIAGNOSIS_DESC       VARCHAR2(250),
-  DEPT_ADMISSION_TO    VARCHAR2(8),
-  BED_NO               NUMBER(8),
-  STRICT_SEGREGATION   VARCHAR2(20),
-  COMMON_SEGREGATION   VARCHAR2(20),
+  NEXT_OF_ID_NO        VARCHAR2(50),
+  NEXT_OF_KIN_ADDR     VARCHAR2(200),
+  ADMISSION_DATE_TIME  TIMESTAMP,
+  PREPAID_FEE          VARCHAR2(200),
+  PAT_ADM_CONDITION    VARCHAR2(30),
+  DIAGNOSIS_DESC       VARCHAR2(500),
+  DEPT_ADMISSION_TO    VARCHAR2(30),
+  BED_NO               NUMBER(30),
+  STRICT_SEGREGATION   VARCHAR2(100),
+  COMMON_SEGREGATION   VARCHAR2(100),
   NOT_SEGREGATION      VARCHAR2(20),
   NOTES                VARCHAR2(300),
-  NOTICE_ID            NUMBER(3) not null,
-  VISIT_ID             NUMBER(2),
-  OPERATOR             VARCHAR2(8),
-  ENTER_DATE           DATE,
-  ONSET_DATE           DATE,
-  PARITY_NO            NUMBER(2),
-  CHARGE_TYPE          VARCHAR2(8),
-  DEPT_ADMISSION_FROM  VARCHAR2(8),
+  NOTICE_ID            NUMBER(20) not null,
+  VISIT_ID             NUMBER(20),
+  OPERATOR             VARCHAR2(64),
+  ENTER_DATE           TIMESTAMP,
+  ONSET_DATE           TIMESTAMP,
+  PARITY_NO            NUMBER(20),
+  CHARGE_TYPE          VARCHAR2(20),
+  DEPT_ADMISSION_FROM  VARCHAR2(64),
   CREATE_DATE                TIMESTAMP,
   CREATE_BY                  VARCHAR2(64 char),
   UPDATE_BY                  VARCHAR2(64 char),
   UPDATE_DATE                TIMESTAMP,
   REMARKS                    VARCHAR2(200 char),
   DEL_FLAG                   NUMBER(1) default 0,
-  constraint PK_PAT_HOSPITAL_NOTICE primary key (PATIENT_ID)
+  constraint PK_PAT_HOSPITAL_NOTICE primary key (ID)
 );
 
 comment on table PAT_HOSPITAL_NOTICE
@@ -125,17 +126,3 @@ comment on column PAT_HOSPITAL_NOTICE.CHARGE_TYPE
   is '费别';
 comment on column PAT_HOSPITAL_NOTICE.DEPT_ADMISSION_FROM
   is '申请科室';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
