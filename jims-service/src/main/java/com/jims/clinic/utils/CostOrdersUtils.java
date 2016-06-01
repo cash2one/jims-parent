@@ -47,7 +47,7 @@ public class CostOrdersUtils {
      * @param itemDictList 诊疗项目list
      * @return
      */
-    public static void save(String clinicId ,List<ClinicItemDict> itemDictList) {
+    public static void save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId) {
         ClinicMaster clinicMaster=clinicMasterDao.get(clinicId);
         OrgStaff orgStaff=new OrgStaff();
        // SysUser user=new SysUser();
@@ -75,6 +75,7 @@ public class CostOrdersUtils {
             outpTreatRec.setVisitDate(clinicMaster.getVisitDate());
             outpTreatRec.setClinicId(clinicId);
             outpTreatRec.setSerialNo(serialNo);
+            outpTreatRec.setAppointNo(appointsId);
             outpTreatRec.setItemClass(clinicItemDict.getItemClass());
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());

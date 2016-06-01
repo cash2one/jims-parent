@@ -87,7 +87,7 @@ $(function () {
                         inputSettingVo.deleted = deleteData;
                         inputSettingVo.updated = updateData;
 
-                        inputSettingVo.input_setting_master_id=input_setting_master_id;
+                      //  inputSettingVo.input_setting_master_id=input_setting_master_id;
 
                         if (inputSettingVo) {
                             $.postJSON(basePath + "/input-setting/saveDetail", JSON.stringify(inputSettingVo), function (data) {
@@ -110,6 +110,7 @@ $(function () {
             $("#detailGrid").datagrid("reload", url);
 
         } ,
+
         onClickCell: onClickCell
     });
 
@@ -158,6 +159,7 @@ $(function () {
 
     //开始编辑行
     $("#addMasterBtn").on('click', function () {
+
         $("#masterGrid").datagrid('appendRow', {});
         var rows = $("#masterGrid").datagrid('getRows');
         onClickCell(rows.length-1,'dictName');
@@ -380,7 +382,12 @@ $(function () {
 
     //开始编辑行
     $("#addDetailBtn").on('click', function () {
-        $("#detailGrid").datagrid('appendRow', {'showSort':i++,'resultSort':'0'});
+        if(!$("#masterGrid").datagrid("getSelected"))
+        {
+            $.messager.alert("系统提示", "请先选择字典类型", "info");
+            return false;
+        }
+        $("#detailGrid").datagrid('appendRow', {'showSort':i++,'resultSort':'0',inputSettingMasterId:$("#masterGrid").datagrid("getSelected").id});
         var rows = $("#detailGrid").datagrid('getRows');
         onClickCell1(rows.length-1,'dataCol');
     });
@@ -428,19 +435,6 @@ $(function () {
         }
     });
 
-    //删除
-    $("#removeBtn").on("click", function () {
-        var inputInfoVo = {};
-            $.postJSON(basePath + "/input-setting/listParam", JSON.stringify(inputInfoVo), function (data) {
-                if (data.data == "success") {
-                    $.messager.alert("系统提示", "保存成功", "info");
-                    $("#detailGrid").datagrid('reload');
-                }
-            }, function (data) {
-                $.messager.alert('提示', "保存失败，字段是唯一键或者其他字段不能为空", "error");
-            })
-
-    });
 
 
 });

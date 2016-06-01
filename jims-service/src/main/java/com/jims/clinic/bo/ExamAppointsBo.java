@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 检查预约记录BAO层
+ * 检查预约记录BO层
  *
  * @author zhangyao
  * @version 2016-04-25
@@ -115,7 +115,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             examItems.preInsert();
             examItemsDao.saveExamItems(examItems);
             OutpTreatRec outpTreatRec=new OutpTreatRec();
-            //outpTreatRec.preInsert();
+            outpTreatRec.preInsert();
             outpTreatRec.setItemClass("D");
             outpTreatRec.setClinicId(examItems.getClinicId());
             outpTreatRec.setItemName(examItems.getExamItem());
@@ -130,7 +130,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         }
 
         CostOrdersUtils costOrdersUtils=new CostOrdersUtils();
-        costOrdersUtils.save(examAppoints.getClinicId(),clinicItemDictList);
+        costOrdersUtils.save(examAppoints.getClinicId(),clinicItemDictList,examAppoints.getId());
         num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;
     }
