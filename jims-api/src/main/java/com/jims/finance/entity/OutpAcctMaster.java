@@ -15,7 +15,7 @@ public class OutpAcctMaster extends DataEntity<OutpAcctMaster> {
 	
 	private static final long serialVersionUID = 1L;
 	private String orgId;		// 医院ID
-	private Long acctNo;		// 结帐序号
+	private String acctNo;		// 结帐序号
 	private String operatorNo;		// 收款员号
 	private Date acctDate;		// 结帐日期
 	private String minRcptNo;		// 最小收据序号
@@ -49,14 +49,13 @@ public class OutpAcctMaster extends DataEntity<OutpAcctMaster> {
 	}
 
 
-	public Long getAcctNo() {
+	public String getAcctNo() {
 		return acctNo;
 	}
 
-	public void setAcctNo(Long acctNo) {
+	public void setAcctNo(String acctNo) {
 		this.acctNo = acctNo;
 	}
-
 
 	public String getOperatorNo() {
 		return operatorNo;
