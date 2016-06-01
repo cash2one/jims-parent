@@ -7,6 +7,7 @@ import com.jims.clinic.api.ClinicMasterServiceApi;
 import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.register.dao.ClinicReturnedAcctDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 
@@ -24,6 +25,8 @@ import java.util.List;
 public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, ClinicMaster> implements ClinicMasterServiceApi {
     @Autowired
     private ClinicMasterDao clinicMasterDao;
+    @Autowired
+    private ClinicReturnedAcctDao clinicReturnedDao;
 
     /**
      * 查询 病人列表 （待诊）
@@ -49,4 +52,15 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
         return clinicMasterDao.getClinicMasterDiagnosed(doctorID);
     }
 
+    @Override
+    public ClinicMaster findFeeForm(String operator, Date date) {
+        ClinicMaster clinic =  clinicMasterDao.getTotalAccount(operator,date);
+        Integer registerNum = clinicMasterDao.getRegiNum(operator,date);
+        Integer returnNum = clinicReturnedDao.getRetuNum(operator, date);
+        if (clinic!=null){
+            clinic.setRegisterNum(registerNum);
+            clinic.setReturnNum(returnNum);
+        }
+        return clinic;
+    }
 }
