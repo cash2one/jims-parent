@@ -181,7 +181,7 @@
 		WHERE id = #{id}
 	</update>
 
- <select id="getRetuNum" resultType="Integer">
+ <select id="getRetuNum" resultType="Double">
 	 select count(1)
 	 from CLINIC_RETURNED_ACCT
 	 <where>

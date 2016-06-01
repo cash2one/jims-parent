@@ -3,6 +3,7 @@ package com.jims.finance.outpAccounts.bo;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.finance.outpAccounts.dao.RegistAcctMasterDao;
 import com.jims.finance.outpAccounts.entity.RegistAcctMaster;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,4 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional(readOnly = false)
 public class RegistAcctMasterBo extends CrudImplService<RegistAcctMasterDao, RegistAcctMaster> {
+    @Autowired
+    RegistAcctMasterDao registAcctMasterDao;
+
+    public String saveMaster(RegistAcctMaster registAcctMaster) {
+        return String.valueOf(registAcctMasterDao.insert(registAcctMaster));
+    }
 }
