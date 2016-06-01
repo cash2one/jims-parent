@@ -100,5 +100,9 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
 
     public List<BaseDto> getCostAll(@Param(value = "clinicId")String clinicId);
 
-
+    /**
+     * 确认收费
+     * @param ids
+     */
+    public void confirmPay(String ids);
 }

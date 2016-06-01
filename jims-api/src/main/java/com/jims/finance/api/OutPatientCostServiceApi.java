@@ -1,12 +1,8 @@
 package com.jims.finance.api;
 
-import com.jims.clinic.entity.ClinicMaster;
+
 import com.jims.common.data.BaseData;
 import com.jims.common.web.impl.BaseDto;
-import com.jims.patient.entity.PatMasterIndex;
-import com.jims.patient.entity.PatVisit;
-
-import java.util.List;
 
 /**
  * 划价收费
@@ -17,5 +13,13 @@ import java.util.List;
 public interface OutPatientCostServiceApi {
 
     public BaseData<BaseDto> list(String orgId,String clinicNo);
+
+    /**
+     * 确认收费
+     * @param ids
+     * @return
+     * @author zhaoning
+     */
+    public String confirmPay(String ids);
 
 }
