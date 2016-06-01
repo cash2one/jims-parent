@@ -7,13 +7,10 @@ import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpTreatRec;
-import com.jims.clinic.utils.CostOrdersUtils;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.exam.api.ExamAppointsServiceApi;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamItems;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +25,6 @@ import java.util.List;
  * @version 2016-04-25
  */
 @Service
-@Component
 @Transactional(readOnly = false)
 public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoints>{
 
@@ -43,6 +39,8 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
     @Autowired
     private ClinicMasterDao clinicMasterDao;
 
+    @Autowired
+    private CostOrdersUtilsService costOrdersUtilsService;
     /**
      * 查询预约主记录
      *
@@ -129,8 +127,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             clinicItemDictList.add(clinicItemDict);
         }
 
-        CostOrdersUtils costOrdersUtils=new CostOrdersUtils();
-        costOrdersUtils.save(examAppoints.getClinicId(),clinicItemDictList,examAppoints.getId());
+        costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,examAppoints.getId());
         num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;
     }
