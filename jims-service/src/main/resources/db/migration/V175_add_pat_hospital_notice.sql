@@ -1,6 +1,6 @@
 create table PAT_HOSPITAL_NOTICE
 (
-  ID             VARCHAR2(64) not null,
+  ID              VARCHAR2(64 CHAR) not null,
   PATIENT_ID           VARCHAR2(64) not null,
   NAME                 VARCHAR2(200 char),
   SEX                  VARCHAR2(20),
