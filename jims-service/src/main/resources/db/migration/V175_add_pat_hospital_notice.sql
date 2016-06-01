@@ -1,6 +1,8 @@
 create table PAT_HOSPITAL_NOTICE
 (
   ID              VARCHAR2(64 CHAR) not null,
+  MASTER_ID      VARCHAR2 (64) not null,
+  ORG_ID               VARCHAR2(64),
   PATIENT_ID           VARCHAR2(64) not null,
   NAME                 VARCHAR2(200 char),
   SEX                  VARCHAR2(20),
@@ -50,6 +52,10 @@ create table PAT_HOSPITAL_NOTICE
 
 comment on table PAT_HOSPITAL_NOTICE
   is '住院通知单表';
+  comment on column PAT_HOSPITAL_NOTICE.MASTER_ID
+  is '就诊记录ID';
+    comment on column PAT_HOSPITAL_NOTICE.ORG_ID
+  is '机构ID';
 comment on column PAT_HOSPITAL_NOTICE.PATIENT_ID
   is '病人ID';
 comment on column PAT_HOSPITAL_NOTICE.NAME
