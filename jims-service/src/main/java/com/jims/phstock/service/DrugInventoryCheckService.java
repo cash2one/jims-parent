@@ -11,7 +11,7 @@ import com.jims.phstock.dao.*;
 import com.jims.phstock.entity.*;
 import com.jims.phstock.vo.DrugInventoryCheckVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +25,7 @@ import java.util.List;
  * @version 2016-05-23
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugInventoryCheckService extends CrudImplService<DrugInventoryCheckDao, DrugInventoryCheck> implements DrugInventoryCheckApi{
 
     @Autowired

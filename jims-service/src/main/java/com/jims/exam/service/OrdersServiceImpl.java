@@ -17,7 +17,7 @@ import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamItems;
 import com.jims.exam.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 
 /**
@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-05-09
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implements OrdersServiceApi{
 
     @Autowired

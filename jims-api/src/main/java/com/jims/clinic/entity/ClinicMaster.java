@@ -77,6 +77,11 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 
 	private Date birthDate;//出生日期
 	private List<ClinicForRegist> clinicForRegists;
+
+	private Integer registerNum;//挂号数量
+	private Integer returnNum;//退号数量
+	private Integer totalFee;//收款费用总额
+	private Integer returnFee;//退号费用总额
 	
 	public ClinicMaster() {
 		super();
@@ -545,5 +550,37 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 
 	public void setClinicForRegists(List<ClinicForRegist> clinicForRegists) {
 		this.clinicForRegists = clinicForRegists;
+	}
+
+	public Integer getReturnFee() {
+		return returnFee;
+	}
+
+	public void setReturnFee(Integer returnFee) {
+		this.returnFee = returnFee;
+	}
+
+	public Integer getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(Integer totalFee) {
+		this.totalFee = totalFee;
+	}
+
+	public Integer getRegisterNum() {
+		return registerNum;
+	}
+
+	public void setRegisterNum(Integer registerNum) {
+		this.registerNum = registerNum;
+	}
+
+	public Integer getReturnNum() {
+		return returnNum;
+	}
+
+	public void setReturnNum(Integer returnNum) {
+		this.returnNum = returnNum;
 	}
 }

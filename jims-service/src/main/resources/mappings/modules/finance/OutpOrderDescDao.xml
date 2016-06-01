@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.dao.OutpOrderDescDao">
+    
+	<sql id="outpOrderDescColumns">
+		a.id AS "id",
+		a.visit_date AS "visitDate",
+		a.visit_no AS "visitNo",
+		a.patient_id AS "patientId",
+		a.presc_indicator AS "prescIndicator",
+		a.ordered_by_dept AS "orderedByDept",
+		a.ordered_by_doctor AS "orderedByDoctor",
+		a.rcpt_no AS "rcptNo",
+		a.visit_id AS "visitId",
+		a.printed_rcpt_no AS "printedRcptNo",
+		a.presc_attr AS "prescAttr",
+		a.clinic_no AS "clinicNo",
+		a.order_group AS "orderGroup",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpOrderDescJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpOrderDesc">
+		SELECT 
+			<include refid="outpOrderDescColumns"/>
+		FROM outp_order_desc a
+		<include refid="outpOrderDescJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpOrderDesc">
+		SELECT 
+			<include refid="outpOrderDescColumns"/>
+		FROM outp_order_desc a
+		<include refid="outpOrderDescJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpOrderDesc">
+		SELECT 
+			<include refid="outpOrderDescColumns"/>
+		FROM outp_order_desc a
+		<include refid="outpOrderDescJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO outp_order_desc(
+			id,
+			visit_date,
+			visit_no,
+			patient_id,
+			presc_indicator,
+			ordered_by_dept,
+			ordered_by_doctor,
+			rcpt_no,
+			visit_id,
+			printed_rcpt_no,
+			presc_attr,
+			clinic_no,
+			order_group,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{visitDate},
+			#{visitNo},
+			#{patientId},
+			#{prescIndicator},
+			#{orderedByDept},
+			#{orderedByDoctor},
+			#{rcptNo},
+			#{visitId},
+			#{printedRcptNo},
+			#{prescAttr},
+			#{clinicNo},
+			#{orderGroup},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_order_desc SET 	
+			visit_date = #{visitDate},
+			visit_no = #{visitNo},
+			patient_id = #{patientId},
+			presc_indicator = #{prescIndicator},
+			ordered_by_dept = #{orderedByDept},
+			ordered_by_doctor = #{orderedByDoctor},
+			rcpt_no = #{rcptNo},
+			visit_id = #{visitId},
+			printed_rcpt_no = #{printedRcptNo},
+			presc_attr = #{prescAttr},
+			clinic_no = #{clinicNo},
+			order_group = #{orderGroup},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_order_desc SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

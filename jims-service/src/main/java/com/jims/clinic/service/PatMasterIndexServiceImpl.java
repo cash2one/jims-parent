@@ -22,7 +22,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.patient.entity.PatVisit;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Date;
 import java.util.List;
@@ -34,7 +34,7 @@ import java.util.List;
  * @version 2016-04-19
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDao, PatMasterIndex> implements PatMasterIndexServiceApi {
     @Autowired
     PatsInHospitalDao patsInHospitalDao;
@@ -46,11 +46,22 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
     PatVisitDao patVisitDao;
     @Autowired
     PrepaymentRcptDao prepaymentRcptDao;
+    /**
+     * 查询入院患者信息
+     * @param patMasterIndex
+     * @author CTQ
+     * @return
+     */
     @Override
     public List<PatMasterIndex> findList(PatMasterIndex patMasterIndex) {
         return dao.findList(patMasterIndex);
     }
-
+    /**
+     * 保存入院患者信息
+     * @param patMasterIndex
+     * @author CTQ
+     * @return
+     */
     @Override
     public String saveMasterIndex(PatMasterIndex patMasterIndex) {
         int num = 0;
@@ -88,27 +99,37 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
 
         return String.valueOf(num);
     }
-
+    /**
+     * 取消入院患者登记信息
+     * @param ids
+     * @author CTQ
+     * @return
+     */
     @Override
     public String deleteMasterIndex(String ids) {
         int num = 0;
         if(ids!=null&&!"".equals(ids)&&!ids.contains(",")){
-//            PatMasterIndex patMasterIndex = dao.get(ids);
+
+            PatMasterIndex patMasterIndex = dao.get(ids);
             /**删除在院病人记录**/
             //DELETE From pats_in_hospital where pats_in_hospital.patient_id ='02000030'
             patsInHospitalDao.deleteByPatientId(ids);
             /**删除诊断记录**/
-            //DELETE FROM DIAGNOSIS WHERE DIAGNOSIS.PATIENT_ID ='02000030' AND DIAGNOSIS.VISIT_ID =1 AND DIAGNOSIS.DIAGNOSIS_TYPE ='1' AND diagnosis.diagnosis_no =1
-//            emrDiagnosisDao.delete(ids,"1",1);
+            EmrDiagnosis emrDiagnosis = new EmrDiagnosis();
+            emrDiagnosis.setParentId(ids);
+            emrDiagnosis.setType("2");
+            emrDiagnosis.setItemNo(1);
+            emrDiagnosis.setDiagnosisDate(patMasterIndex.getCreateDate());
+            emrDiagnosisDao.delDiagnosis(emrDiagnosis);
             /**删除转科病人记录**/
-            //DELETE FROM PATS_IN_TRANSFERRING where patient_id ='02000030'
             patsInTransferringDao.deleteByPatientId(ids);
             /**删除病人住院记录**/
-            //DELETE FROM "PAT_VISIT" WHERE "PATIENT_ID" = '02000030' AND "VISIT_ID" = '1'
-//            patVisitDao.delete(ids);
+            PatVisit patVisit = new PatVisit();
+            patVisit.setPatientId(ids);
+            patVisit.setAdmissionDateTime(patMasterIndex.getCreateDate());
+            patVisitDao.delVisit(patVisit);
             /**更新病人主索引信息**/
-            //update pat_master_index SET inp_no =NULL where patient_id ='02000030'
-            dao.updateInpno(ids);
+            num = dao.updateInpno(ids);
             /**更新住院通知单**/
             //update pat_hospital_notice set visit_id =null where pat_hospital_notice.patient_id ='02000030' and notice_id =NULL
 
@@ -150,7 +171,7 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
         emrDiagnosis.setParentId("0");
         emrDiagnosis.setVisitId("1");
         emrDiagnosis.setDiagnosisDate(new Date());
-        emrDiagnosis.setType(patMasterIndex.getDiagnosisType());//入院诊断
+        emrDiagnosis.setType("2");//入院诊断
         emrDiagnosis.setItemNo(1);//诊断序号
         emrDiagnosis.setDiagnosisId(patMasterIndex.getDiagnosisNo());//诊断编号
     }

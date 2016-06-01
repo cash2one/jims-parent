@@ -25,38 +25,7 @@
     <table id="drugPriceTable"></table>
 </div>
 <script>
-    $.extend($.fn.datagrid.methods, {
-        editCell: function(jq,param){
-            return jq.each(function(){
-                var opts = $(this).datagrid('options');
-                var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
-                for(var i=0; i<fields.length; i++){
-                    var col = $(this).datagrid('getColumnOption', fields[i]);
-                    col.editor1 = col.editor;
-                    if (fields[i] != param.field){
-                        col.editor = null;
-                    }
-                }
-                $(this).datagrid('beginEdit', param.index);
-                for(var i=0; i<fields.length; i++){
-                    var col = $(this).datagrid('getColumnOption', fields[i]);
-                    col.editor = col.editor1;
-                }
-            });
-        }
-    });
-    $.extend({
-        ajaxAsync : function(url,data,callback,type,async){
-            return $.ajax({
-                type: type,
-                url: url,
-                async : async,   // true 异步,false 同步
-                data: data,
-                success: callback,
-                'contentType': 'application/json'
-            });
-        }
-    })
+
 </script>
 <script src="js/drug-buy-plan-update.js"></script>
 </body>

@@ -46,7 +46,7 @@ $(function () {
                 {field: 'flag', title: '执行标志', width: 80, align: "center",formatter:function(value){
                     return format(flagData,value)
                 }},
-                {field: 'drugCode', title: '药名', width: 220, align: "center", formatter: function (value) {
+                {field: 'drugCode', title: '药名', width: 220, halign: "center", align: "left", formatter: function (value) {
                     if (value == undefined || value == '') return ''
                     for (var i = 0, j = (drugDicts ? drugDicts.length : 0 ); i < j; i++) {
                         if (drugDicts[i].drugCode == value) {
@@ -54,7 +54,7 @@ $(function () {
                             break
                         }
                     }
-                    return '<div style="text-align:left">' + value + '</div>';
+                    return value;
                 }},
                 {field: 'packSpec', title: '包装规格', width: 60, align: "center"},
                 {field: 'packUnit', title: '包装单位', width: 60, align: "center"},
@@ -85,21 +85,17 @@ $(function () {
                     if(row.id == -1) return value
                     return ((isNaN(row.checkNumber) ? 0 : +row.checkNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
                 }},
-                {field: 'checkSupplier', title: '审核供应商', width: 200, align: "center", formatter:function(value){
+                {field: 'checkSupplier', title: '审核供应商', width: 200, halign: "center",align: "left", formatter:function(value){
                     for(var i= 0,j=suppliers.length;i<j;i++){
                         if(suppliers[i].id == value) {
-                            return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
+                            return suppliers[i].supplier
                         }
                     }
                     return ''
                 }},
                 {field: 'checker', title: '审核人', width: 70, align: "center"},
                 {field: 'storage', title: '库房', width: 70, align: "center"},
-                {field: 'supplier', title: '厂商', width: 200, align: "center",
-                    formatter: function (value) {
-                        return '<div style="text-align:left">' + value + '</div>';
-                    }
-                },
+                {field: 'supplier', title: '厂商', width: 200, halign: "center", align: "left"},
                 {field: 'stockNum', title: '库存参考数', width: 90, align: "center"},
                 {field: 'outStockNum', title: '出库参考数', width: 90, align: "center"}
             ]]

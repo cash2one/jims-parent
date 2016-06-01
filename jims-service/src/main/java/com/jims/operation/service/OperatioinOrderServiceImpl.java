@@ -10,7 +10,7 @@ import com.jims.operation.dao.ScheduledOperationNameDao;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.operation.entity.ScheduledOperationName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
  * @date2016/5/12 0012
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDao, PatsInHospital> implements OperatioinOrderServiceApi {
     @Autowired
     private PatsInHospitalDao patsInHospitalDao;

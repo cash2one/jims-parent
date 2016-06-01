@@ -9,7 +9,7 @@ import com.jims.clinic.entity.ElectronEnterHospital;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 病历文书--入院记录Service
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-04-20
  */
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronEnterHospitalDao,ElectronEnterHospital> implements ElectronEnterHospitalServiceApi {
     @Autowired
 	private ElectronEnterHospitalDao electronEnterHospitalDao;

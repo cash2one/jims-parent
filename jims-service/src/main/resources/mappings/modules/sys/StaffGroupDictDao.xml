@@ -19,7 +19,7 @@
         SELECT
         *
         FROM staff_group_dict a
-        WHERE a.group_class_id=#{id}
+        WHERE a.group_class_id=#{id} and del_flag='0'
     </select>
 
 

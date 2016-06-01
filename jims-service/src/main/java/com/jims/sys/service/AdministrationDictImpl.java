@@ -12,7 +12,7 @@ import com.jims.sys.api.AdministrationDictApi;
 import com.jims.sys.dao.AdministrationDictDao;
 import com.jims.sys.entity.AdministrationDict;
 import com.jims.sys.vo.AdministrationDictVo;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
  * @version 2014-05-18
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class AdministrationDictImpl extends CrudImplService<AdministrationDictDao, AdministrationDict> implements AdministrationDictApi {
 
 
@@ -61,7 +61,7 @@ public class AdministrationDictImpl extends CrudImplService<AdministrationDictDa
      * @author yangruidong
      */
     @Override
-    @Transactional(readOnly = true)
+
     public List<AdministrationDict> saveAll(AdministrationDictVo<AdministrationDict> administrationDictVo) {
         List<AdministrationDict> newUpdateDict = new ArrayList<AdministrationDict>();
         List<AdministrationDict> inserted = administrationDictVo.getInserted();

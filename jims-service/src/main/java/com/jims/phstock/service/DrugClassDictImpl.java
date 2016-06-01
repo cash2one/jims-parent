@@ -6,7 +6,7 @@ import com.jims.phstock.api.DrugClassDictApi;
 import com.jims.phstock.dao.DrugClassDictDao;
 import com.jims.phstock.entity.DrugClassDict;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by zhu on 2016/5/10.
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugClassDictImpl extends CrudImplService<DrugClassDictDao, DrugClassDict> implements DrugClassDictApi{
 
     @Autowired

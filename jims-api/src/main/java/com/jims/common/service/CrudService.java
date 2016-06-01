@@ -7,7 +7,7 @@ package com.jims.common.service;
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public interface  CrudService<T extends DataEntity<T>> {
 	 * @param entity
 	 */
 	public void delete(T entity);
-//	@Transactional(readOnly = false)
+//
 //	public  int upCourseState(T entity){
 //		return dao.upCourseState(entity);
 //	}

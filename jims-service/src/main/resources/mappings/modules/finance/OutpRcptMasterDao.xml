@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.dao.OutpRcptMasterDao">
+    
+	<sql id="outpRcptMasterColumns">
+		a.id AS "id",
+		a.rcpt_no AS "rcptNo",
+		a.patientid AS "patientid",
+		a.name AS "name",
+		a.name_phonetic AS "namePhonetic",
+		a.identity AS "identity",
+		a.charge_type AS "chargeType",
+		a.unit_in_contract AS "unitInContract",
+		a.visit_date AS "visitDate",
+		a.total_costs AS "totalCosts",
+		a.total_charges AS "totalCharges",
+		a.operator_no AS "operatorNo",
+		a.charge_indicator AS "chargeIndicator",
+		a.refunded_rcpt_no AS "refundedRcptNo",
+		a.acct_no AS "acctNo",
+		a.printed_operator_no AS "printedOperatorNo",
+		a.printed_date AS "printedDate",
+		a.card_flag AS "cardFlag",
+		a.printed_rcpt_no AS "printedRcptNo",
+		a.flag AS "flag",
+		a.invoice_no AS "invoiceNo",
+		a.bz AS "bz",
+		a.insurance_no AS "insuranceNo",
+		a.ord_invoice_no AS "ordInvoiceNo",
+		a.reckon_no AS "reckonNo",
+		a.rcpt_print AS "rcptPrint",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpRcptMasterJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpRcptMaster">
+		SELECT 
+			<include refid="outpRcptMasterColumns"/>
+		FROM outp_rcpt_master a
+		<include refid="outpRcptMasterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpRcptMaster">
+		SELECT 
+			<include refid="outpRcptMasterColumns"/>
+		FROM outp_rcpt_master a
+		<include refid="outpRcptMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpRcptMaster">
+		SELECT 
+			<include refid="outpRcptMasterColumns"/>
+		FROM outp_rcpt_master a
+		<include refid="outpRcptMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO outp_rcpt_master(
+			id,
+			rcpt_no,
+			patientid,
+			name,
+			name_phonetic,
+			identity,
+			charge_type,
+			unit_in_contract,
+			visit_date,
+			total_costs,
+			total_charges,
+			operator_no,
+			charge_indicator,
+			refunded_rcpt_no,
+			acct_no,
+			printed_operator_no,
+			printed_date,
+			card_flag,
+			printed_rcpt_no,
+			flag,
+			invoice_no,
+			bz,
+			insurance_no,
+			ord_invoice_no,
+			reckon_no,
+			rcpt_print,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{rcptNo},
+			#{patientid},
+			#{name},
+			#{namePhonetic},
+			#{identity},
+			#{chargeType},
+			#{unitInContract},
+			#{visitDate},
+			#{totalCosts},
+			#{totalCharges},
+			#{operatorNo},
+			#{chargeIndicator},
+			#{refundedRcptNo},
+			#{acctNo},
+			#{printedOperatorNo},
+			#{printedDate},
+			#{cardFlag},
+			#{printedRcptNo},
+			#{flag},
+			#{invoiceNo},
+			#{bz},
+			#{insuranceNo},
+			#{ordInvoiceNo},
+			#{reckonNo},
+			#{rcptPrint},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_rcpt_master SET 	
+			rcpt_no = #{rcptNo},
+			patientid = #{patientid},
+			name = #{name},
+			name_phonetic = #{namePhonetic},
+			identity = #{identity},
+			charge_type = #{chargeType},
+			unit_in_contract = #{unitInContract},
+			visit_date = #{visitDate},
+			total_costs = #{totalCosts},
+			total_charges = #{totalCharges},
+			operator_no = #{operatorNo},
+			charge_indicator = #{chargeIndicator},
+			refunded_rcpt_no = #{refundedRcptNo},
+			acct_no = #{acctNo},
+			printed_operator_no = #{printedOperatorNo},
+			printed_date = #{printedDate},
+			card_flag = #{cardFlag},
+			printed_rcpt_no = #{printedRcptNo},
+			flag = #{flag},
+			invoice_no = #{invoiceNo},
+			bz = #{bz},
+			insurance_no = #{insuranceNo},
+			ord_invoice_no = #{ordInvoiceNo},
+			reckon_no = #{reckonNo},
+			rcpt_print = #{rcptPrint},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_rcpt_master SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

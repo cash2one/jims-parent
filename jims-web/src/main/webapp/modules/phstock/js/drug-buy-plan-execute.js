@@ -34,7 +34,7 @@ $(function () {
                     if (value == '审核金额合计') return '<div style="text-align:right">' + value + '：　　　</div>'
                     return value
                 }},
-                {field: 'drugCode', title: '药名', width: 220, align: "center", formatter: function (value) {
+                {field: 'drugCode', title: '药名', width: 220, halign: "center", align: "left", formatter: function (value) {
                     if (value == undefined || value == '') return ''
                     for (var i = 0, j = (drugDicts ? drugDicts.length : 0 ); i < j; i++) {
                         if (drugDicts[i].drugCode == value) {
@@ -42,27 +42,23 @@ $(function () {
                             break
                         }
                     }
-                    return '<div style="text-align:left">' + value + '</div>';
+                    return value;
                 }},
-                {field: 'checkSupplier', title: '审核供应商', width: 200, align: "center", formatter:function(value){
+                {field: 'checkSupplier', title: '审核供应商', width: 200, halign: "center", align: "left", formatter:function(value){
                     for(var i= 0,j=suppliers.length;i<j;i++){
                         if(suppliers[i].id == value) {
-                            return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
+                            return suppliers[i].supplier
                         }
                     }
                     return ''
                 }},
-                {field: 'supplier', title: '生成厂家', width: 200, align: "center",
-                    formatter: function (value) {
-                        return '<div style="text-align:left">' + value + '</div>';
-                    }
-                },
+                {field: 'supplier', title: '生成厂家', width: 200, halign: "center", align: "left"},
                 {field: 'checkNumber', title: '审核数量', width: 60, align: "center"},
                 {field: 'checker', title: '审核人', width: 70, align: "center"},
-                {field: 'stockSupplier', title: '供应商', width: 200, align: "center",formatter:function(value){
+                {field: 'stockSupplier', title: '供应商', width: 200, halign: "center", align: "left",formatter:function(value){
                     for(var i= 0,j=suppliers.length;i<j;i++){
                         if(suppliers[i].id == value) {
-                            return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
+                            return suppliers[i].supplier
                         }
                     }
                     return ''

@@ -10,7 +10,7 @@ import com.jims.common.utils.DateUtils;
 import com.jims.phstock.api.DrugBuyPlanApi;
 import com.jims.phstock.dao.DrugBuyPlanDao;
 import com.jims.phstock.entity.DrugBuyPlan;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 药品采购计划Service
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-05-11
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugBuyPlanService extends CrudImplService<DrugBuyPlanDao, DrugBuyPlan> implements DrugBuyPlanApi{
 
     /**

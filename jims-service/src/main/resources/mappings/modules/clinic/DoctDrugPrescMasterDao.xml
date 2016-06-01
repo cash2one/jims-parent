@@ -279,6 +279,12 @@
 	  <if test="patientId!=null and patientId!=''">
 		  and (pm.PATIENT_ID = #{patientId})
 	  </if>
+	  <if test="visitId!=null and visitId!=''">
+		  and (pm.VISIT_ID = #{visitId})
+	  </if>
+	  <if test="prescNo!=null and prescNo!=''">
+		  and (pm.PRESC_NO = #{prescNo})
+	  </if>
   </where>
 
 		order by pm.presc_no desc
@@ -293,4 +299,35 @@
 			</if>
 		</where>
 	</select>
+
+
+	<select id="getDrugMasterList" resultType="DoctDrugPrescMaster">
+		SELECT
+				DOCT_DRUG_PRESC_MASTER.ID as "id",
+				DOCT_DRUG_PRESC_MASTER.PRESC_NO as "prescNo",
+				DOCT_DRUG_PRESC_MASTER.NAME as "name",
+				DOCT_DRUG_PRESC_MASTER.NAME_PHONETIC as "namePhonetic",
+				DOCT_DRUG_PRESC_MASTER.PRESC_DATE as "prescDate",
+				DOCT_DRUG_PRESC_MASTER.PAYMENTS as "payments",
+				DOCT_DRUG_PRESC_MASTER.PATIENT_ID as "patientId",
+			/*	DOCT_DRUG_PRESC_MASTER.ORDERED_BY as "orderedBy",*/
+				DEPT_DICT.DEPT_NAME as "orderedBy",
+		       /*DEPT_DICT.INPUT_CODE,*/
+				DOCT_DRUG_PRESC_MASTER.DISCHARGE_TAKING_INDICATOR as "dischargeTakingIndicator"
+		FROM DOCT_DRUG_PRESC_MASTER, DEPT_DICT
+		WHERE DOCT_DRUG_PRESC_MASTER.ORDERED_BY = DEPT_DICT.DEPT_CODE
+		and DOCT_DRUG_PRESC_MASTER.PRESC_DATE  &lt;= to_date(to_char(sysdate+1,'yyyy-mm-dd'),'yyyy-mm-dd')
+		<if test="dispensary !=null and dispensary !=''">
+			AND DOCT_DRUG_PRESC_MASTER.DISPENSARY = #{dispensary}
+		</if>
+		AND DOCT_DRUG_PRESC_MASTER.DEL_FLAG ='0'
+		AND DOCT_DRUG_PRESC_MASTER.PRESC_STATUS = 0
+		AND DOCT_DRUG_PRESC_MASTER.PRESC_DATE  &gt;=  to_date(to_char(add_months(sysdate,-1),'yyyy-mm-dd'),'yyyy-mm-dd')
+	</select>
+
+	 <update id="confirmDoctDrugPresc">
+            UPDATE doct_drug_presc_master SET
+			      PRESC_STATUS = '2'
+		     WHERE id = #{id}
+	 </update>
 </mapper>

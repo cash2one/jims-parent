@@ -42,14 +42,14 @@
             <li><span>单位记账：</span>0.00</li>
             <li><span>预交金支付：</span>0.00</li>
             <li><span>大额商保：</span>0.00</li>
-            <li><span>自付：</span><b class="color-red">417.55</b></li>
+            <li><span>自付：<input type="text" id="pay" class="validatebox-text"></span></li>
         </ul>
     </div>
     <div style="position:relative;">
         <div class="cost-total">
             <ul>
-                <li><span class="rborder-cost">合计：</span><span class="color-blue"><strong>417.55</strong></span></li>
-                <li><span class="rborder-cost">应收：</span><span class="color-red"><strong>417.55</strong></span></li>
+                <li><span class="rborder-cost">合计：<input type="text" id="totalCharge" class="validatebox-text" style="width:80px;"></span></li>
+                <li><span class="rborder-cost">应收：<input type="text" id="receive" class="validatebox-text" style="width:80px;"/></span></li>
             </ul>
         </div>
         <div class="cost-tab-wrap">
@@ -80,6 +80,9 @@
                 </tr>
 
             </table>
+        </div>
+        <div id="contDivButton" class="fd-right">
+            <button class="easyui-linkbutton" onclick="confirmPay()">确定</button>&nbsp;<button class="easyui-linkbutton" onclick="closeWindow('chargeDiv')">取消</button>
         </div>
     </div>
 </div>

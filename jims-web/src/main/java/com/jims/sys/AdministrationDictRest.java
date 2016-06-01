@@ -113,13 +113,12 @@ public class AdministrationDictRest {
      * 传入的是住院 = 住院+ 全部
      * 传入的全部 = 门诊 + 住院+全部
      *
-     * @param administrationDict 全部（综合）、门诊、住院
+     * @param inpOrOutpFlag 全部（综合）、门诊、住院
      * @return
      */
     @Path("listAdministrationByInpOrOutpFlag")
-    @POST
-    public List<AdministrationDict> listAdministrationByInpOrOutpFlag(AdministrationDict administrationDict) {
-        String inpOrOutpFlag=administrationDict.getInpOutpFlag();
+    @GET
+    public List<AdministrationDict> listAdministrationByInpOrOutpFlag(@QueryParam("inpOrOutpFlag") String inpOrOutpFlag) {
         List<AdministrationDict> dict = administrationDictApi.listAdministrationByInpOrOutpFlag(inpOrOutpFlag);
         return dict;
 

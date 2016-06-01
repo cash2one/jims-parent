@@ -12,7 +12,7 @@ import com.jims.operation.entity.Operatioin;
 import com.jims.operation.entity.OperationGrade;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 手术申请Service
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-04-26
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OperatioinServiceImpl extends CrudImplService<OperatioinDao, Operatioin> implements OperatioinSerivceApi {
     @Autowired
     private OperationGradeDao operationGradeDao;

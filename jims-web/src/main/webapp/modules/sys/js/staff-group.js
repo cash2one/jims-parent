@@ -48,8 +48,6 @@ $(function () {
 
             group_class_id = node.id;
            var dictType='v_staff_group_dict';
-            /*  var paramType={colName:'input_code',colValue:'',operateMethod:'like'} ;
-            var param={dictType:dictType,orgId:orgId,inputParamVos:inputParamVos[paramType]} ;*/
 
 
             //加载字段名称
@@ -86,7 +84,7 @@ $(function () {
                         staffGroupVo.deleted = deleteData;
                         staffGroupVo.updated = updateData;
 
-                        staffGroupVo.staff_group_class__id = group_class_id;
+                       // staffGroupVo.staff_group_class__id = group_class_id;
 
                         if (staffGroupVo) {
                             $.postJSON(basePath + "/staff-group/saveGroup", JSON.stringify(staffGroupVo), function (data) {
@@ -306,18 +304,14 @@ $(function () {
     //开始编辑行
     $("#addDictBtn").on('click', function () {
 
-        var classRow=$("#groupClass").datagrid('getSelected');
-        if(classRow)
+        if(!$("#groupClass").datagrid('getSelected'))
         {
-            $("#groupDict").datagrid('appendRow', {});
+            $.messager.alert("系统提示", "请先选择用户分组类", "info");
+            return false;
+        }
+            $("#groupDict").datagrid('appendRow', {groupClassId:$("#groupClass").datagrid('getSelected').id});
             var rows = $("#groupDict").datagrid('getRows');
             onClickCell1(rows.length - 1, 'groupCode');
-        }
-        else{
-            $.messager.alert("系统提示", "请先选择用户分组类", "info");
-        }
-
-
     });
 
 

@@ -11,7 +11,7 @@ import com.jims.exam.entity.ExamSubclassDict;
 import com.jims.common.service.impl.CrudImplService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * @version 2016-04-27
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ExamSubclassDictServiceImpl extends CrudImplService<ExamSubclassDictDao,ExamSubclassDict> implements ExamSubclassDictApi{
 
     @Autowired
