@@ -11,5 +11,11 @@ import com.jims.register.entity.OrgSelfServiceVsMenu;
  */
 @MyBatisDao
 public interface OrgSelfServiceVsMenuDao extends CrudDao<OrgSelfServiceVsMenu> {
-	
+
+    /**
+     * 根据自定义服务主键删除
+     * @param selfServiceId
+     * @return
+     */
+    public int deleteByServiceId(String selfServiceId);
 }
