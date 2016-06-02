@@ -4,12 +4,14 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.clinic.api.ClinicMasterServiceApi;
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.common.utils.DateUtils;
+import com.jims.common.utils.StringUtils;
+import com.jims.finance.outpAccounts.entity.RegistAcctDetail;
+import com.jims.finance.outpAccounts.entity.RegistAcctMoney;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,12 +74,22 @@ public class ClinicMasterRest {
         list= clinicMasterServiceApi.getClinicMasterDiagnosed("174");//测试中----医生ID给的定值
         return list;
     }
+    /**
+     * @param          date   传递参数
+     * @return com.jims.clinic.entity.ClinicMaster    返回类型
+     * @throws
+     * @Title: northFrom
+     * @Description: (回填截至日期与结账序号)
+     * @author CTQ
+     * @date 2016/6/1
+     */
     @Path("northFrom")
     @GET
-    public ClinicMaster northFrom(){
+    public ClinicMaster northFrom(@QueryParam("date") String date){
+
         ClinicMaster clinicMaster = new ClinicMaster();
-        clinicMaster.setRegisteringDate(new Date());
-        clinicMaster.setAcctNo("");
+        clinicMaster.setAcctDate(DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        clinicMaster.setAcctNo("1");
         return clinicMaster;
     }
     /**
@@ -89,22 +101,84 @@ public class ClinicMasterRest {
      * @date 2016/5/31
      */
     @Path("registerFeeFrom")
-    @GET
-    public ClinicMaster registerFeeForm(){
+    @POST
+    public ClinicMaster registerFeeForm(String date){
         ClinicMaster clinicMaster = new ClinicMaster();
-        clinicMaster = clinicMasterServiceApi.findFeeForm("1",new Date());
+        clinicMaster = clinicMasterServiceApi.findFeeForm("1", !"".equals(date)?date:DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
         return clinicMaster;
     }
+    /**
+     * @param       date      传递参数
+     * @return java.util.List<com.jims.clinic.entity.ClinicMaster>    返回类型
+     * @throws
+     * @Title: feeItem
+     * @Description: (查询会计科目信息)
+     * @author CTQ
+     * @date 2016/6/1
+     */
     @Path("feeItemList")
     @GET
-    public List<ClinicMaster> feeItem(){
-        List<ClinicMaster> list = Lists.newArrayList();
+    public List<RegistAcctDetail> feeItemList(@QueryParam("date") String date){
+
+        List<RegistAcctDetail> list = Lists.newArrayList();
+        ClinicMaster clinic = clinicMasterServiceApi.getCheckItem("1", !"".equals(date) ? date : DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        RegistAcctDetail master = new RegistAcctDetail();
+        if(clinic!=null){
+            if (clinic.getRegistFee()!=null && clinic.getRegistFee()>0){
+                master.setTallyFeeClass("挂号费用");
+                master.setIncome(clinic.getRegistFee());
+                master.setCosts(clinic.getRegistFee());
+                master.preInsert();
+                list.add(master);
+            }
+            if (clinic.getClinicFee()!=null&&clinic.getClinicFee()>0){
+                master = new RegistAcctDetail();
+                master.setTallyFeeClass("治疗费用");
+                master.setIncome(clinic.getClinicFee());
+                master.setCosts(clinic.getClinicFee());
+                master.preInsert();
+                list.add(master);
+            }
+            if (clinic.getOtherFee()!=null && clinic.getOtherFee()>0){
+                master = new RegistAcctDetail();
+                master.setTallyFeeClass("其他费用");
+                master.setIncome(clinic.getOtherFee());
+                master.setCosts(clinic.getOtherFee());
+                master.preInsert();
+                list.add(master);
+            }
+        }
+
         return list;
     }
+    /**
+     * @param       date      传递参数
+     * @return java.util.List<com.jims.clinic.entity.ClinicMaster>    返回类型
+     * @throws
+     * @Title: payWayList
+     * @Description: (根据支付方式分组查询数据)
+     * @author CTQ
+     * @date 2016/6/1
+     */
     @Path("payWayList")
     @GET
-    public List<ClinicMaster> registerFeeFrom(){
+    public List<RegistAcctMoney> payWayList(@QueryParam("date") String date){
+
+        List<RegistAcctMoney> moneyList = Lists.newArrayList();
         List<ClinicMaster> list = Lists.newArrayList();
-        return list;
+        list = clinicMasterServiceApi.getGroupData("1", !"".equals(date)?date:DateUtils.formatDate(new Date(),"yyyy-MM-dd hh:mm:ss"));
+        RegistAcctMoney money = new RegistAcctMoney();
+        if(list!=null&&list.size()>0){
+            for (ClinicMaster mo : list){
+                money = new RegistAcctMoney();
+                money.preInsert();
+                money.setIncomeAmount(mo.getClinicCharge());
+                money.setRefundedAmount(mo.getRefundAmount());
+                money.setTotalFee(mo.getTotalCosts());
+                money.setMoneyType(mo.getPayWay());
+            }
+            moneyList.add(money);
+        }
+        return moneyList;
     }
 }
