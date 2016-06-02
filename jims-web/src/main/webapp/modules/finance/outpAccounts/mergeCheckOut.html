@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/finance/outpAccounts/js/regiAccounts.js"></script>
+    <script type="text/javascript" src="/modules/finance/outpAccounts/js/outpChargeCheck.js"></script>
     <style>
         .bot-medbtn {
             float: right;
@@ -80,21 +81,56 @@
             </div>
         </div>
         <div title="门诊收费结账信息" style="padding:10px">
+            <div class="easyui-layout" data-options="fit:true">
+                <div data-options="region:'north'" style="width:100%;height:29%">
+                    <div class="search-standard">
+                        <form name="searchform" method="post" id="searchform">
+                            <ul class="clearfix">
+                                <li>收据张数:<input name="countNo" class="validatebox-text" readonly/></li>
+                                <li>免费张数:<input name="freeCount" class="validatebox-text" readonly/></li>
+                                <li>退费张数:<input name="refundCount" class="validatebox-text" readonly/></li>
+                                <li>退费金额:<input name="refundMoney" class="validatebox-text" readonly/></li>
+                                <li>计价:<input name="sumCosts" class="validatebox-text" readonly/></li>
+                                <li>应收:<input name="sumCharges" class="validatebox-text" readonly/></li>
+                                 <li>实收:<input name="sumCosts" class="validatebox-text" readonly/></li>
+                                <input name="id" type="hidden">
+                                <input name="acctNo" id="acctNo" class="validatebox-text" type="hidden">
+                                <!--<input name="orgId" value="双滦区医院" type="hidden">-->
+                            </ul>
+                        </form>
 
+                    </div>
+                </div>
+
+                <div data-options="region:'center',iconCls:'icon-ok'" style="width:100%;height:50%;">
+                    <div class="easyui-layout" data-options="fit:true">
+                        <div data-options="region:'west'" style="width:50%;">
+                            <table id="payments" cellspacing="0" cellpadding="0">
+
+                            </table>
+                        </div>
+                        <div data-options="region:'east',split:true" style="width:50%;">
+                            <table id="itemsTables" cellspacing="0" cellpadding="0">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 </div>
-<div data-options="region:'south'" style="height: 9%;border: none">
-        <div data-options="region:'center'" style="border: none">
-            <div class="bot-medbtn">
-                <a href="#" onclick="accFun()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">结账</a>
-                <a href="#" onclick="confirmFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确认</a>
-                <a href="#" onclick="clearForm()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">清屏</a>
+<div data-options="region:'south'" style="height: 10%;border: none">
+    <div data-options="region:'center'" style="border: none">
+        <div class="bot-medbtn">
+            <a href="#" onclick="accFun()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">结账</a>
+            <a href="#" onclick="confirmFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确认</a>
+            <a href="#" onclick="clearForm()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">清屏</a>
 
-            </div>
         </div>
+    </div>
 </div>
 </body>
 </html>

@@ -30,9 +30,9 @@ $(function(){
             if(row!=null){
                 $('#payments').datagrid('appendRow', {
                     moneyType: '<span>合计</span>',
-                    paymentAmount: '<span class="subtotal">' + compute("paymentAmount") + '</span>',
-                    refundedAmount: '<span class="subtotal">' + compute("refundedAmount") + '</span>',
-                    xiaoji: '<span class="subtotal">' + compute("xiaoji") + '</span>'
+                    paymentAmount: '<span class="subtotal">' + compute("payments","paymentAmount") + '</span>',
+                    refundedAmount: '<span class="subtotal">' + compute("payments","refundedAmount") + '</span>',
+                    xiaoji: '<span class="xiaoji">' + compute("payments","xiaoji") + '</span>'
                 });
             }
 
@@ -54,8 +54,8 @@ $(function(){
             if(row!=null){
                 $('#itemsTables').datagrid('appendRow', {
                     subjcode: '<span>合计</span>',
-                    costs: '<span class="subtotal">' + compute("costs") + '</span>',
-                    charges: '<span class="subtotal">' + compute("charges") + '</span>'
+                    costs: '<span class="subtotal">' + compute("itemsTables","costs") + '</span>',
+                    charges: '<span class="subtotal">' + compute("itemsTables","charges") + '</span>'
                 });
             }
 
@@ -98,8 +98,8 @@ function save(){
 
 
 //求和
-function compute(colName) {
-    var rows = $('#drug').datagrid('getRows');
+function compute(tableName,colName) {
+    var rows = $('#'+tableName).datagrid('getRows');
     var total = 0;
     for (var i = 0; i < rows.length; i++) {
 
@@ -116,11 +116,11 @@ function compute(colName) {
 
 //结账累计
 function searchAcct(){
-    var tableJson=fromJson('search');
+    var tableJson=fromJson('northForm');
     $.postJSON(basePath+'/oupRcptMaster/findCharge',tableJson,function(data){
         if(data !=null){
-            $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#search").serialize() });
-            $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#search").serialize() });
+            $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#northForm").serialize() });
+            $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#northForm").serialize() });
             $('#searchform').form('load',data);
         }else{
             $.messager.alert('提示',"收费没有未结账的数据", "error");
