@@ -171,7 +171,7 @@ function userMenu(clinicMasterId,aBtn){
     html+='<li><a  onclick="addTabs(\'2\',\'病历文书\',\'/modules/clinic/enterHospital/enterHosptial.html\',this)"><span>病历文书</span></a></li>';
     html+='<li><a   onclick="addTabs(\'9\',\'诊断\',\'/modules/clinic/emrDiagnosis/diagnosis.html\',this)"><span>诊断</span></a></li>';
     html+='<li><a onclick="addTabs(\'4\',\'检查申请\',\'/modules/clinic/clinicinspect/clinicInspect.html\',this)"><span>检查申请</span></a></li>';
-    html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/lab/labTest.html\',this)"><span>检验申请</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/clinic/lab/labTest.html\',this)"><span>检验申请</span></a></li>';
     html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/clinic/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
     html+='<li><a onclick="addTabs(\'10\',\'用血申请\',\'/modules/clinic/docUseBlood/docUseBloodList.html\',this)" ><span>用血申请</span></a></li>';
    // html+='<li><a   onclick="addTabs(\'10\',\'手术预约\',\'/modules/operation/operationOrder.html\',this)"><span>手术预约</span></a></li>';

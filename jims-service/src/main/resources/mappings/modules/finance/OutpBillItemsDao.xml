@@ -276,5 +276,52 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+
+	<select id="findItems" resultType="OutpBillItems">
+		SELECT subjcode,SUM(total_costs) costs  ,SUM(total_charges) charges FROM (
+			SELECT
+				sd.VALUE  subjcode,
+				sum(obi.COSTS)  total_costs,
+				sum(obi.CHARGES)  total_charges
+			FROM
+				SYS_DICT sd,
+				OUTP_BILL_ITEMS obi,
+				OUTP_RCPT_MASTER  orm
+			WHERE
+				sd.VALUE = obi.SUBJ_CODE
+				AND   obi.RCPT_NO = orm.RCPT_NO
+				AND   sd.TYPE='TALLY_SUBJECT_DICT'
+				AND   orm.acct_no is null
+				<if test="operatorNo !=null and operatorNo !=''">
+					AND   orm.OPERATOR_NO = #{operatorNo}
+				</if>
+		        <if test="visitDate !=null and visitDate !=''">
+				AND   orm.VISIT_DATE  &lt;= to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
+		        </if>
+				GROUP BY  sd.VALUE
+
+		union all
+			SELECT
+				'Z11'  subjcode,
+				sum(OUTP_BILL_ITEMS.COSTS)  total_costs,
+				sum(OUTP_BILL_ITEMS.CHARGES)  total_charges
+			FROM
+				OUTP_BILL_ITEMS,
+				OUTP_RCPT_MASTER
+			WHERE
+				OUTP_BILL_ITEMS.SUBJ_CODE   is null
+				AND   OUTP_BILL_ITEMS.RCPT_NO = OUTP_RCPT_MASTER.RCPT_NO
+		        <if test="operatorNo !=null and operatorNo !=''">
+				AND   OUTP_RCPT_MASTER.OPERATOR_NO = #{operatorNo}
+		        </if>
+		        <if test="visitDate !=null and visitDate !=''">
+				AND   OUTP_RCPT_MASTER.VISIT_DATE  &lt;= to_date(#{visitDate}, 'yyyy-mm-dd hh24:mi:ss')
+		         </if>
+				AND   OUTP_RCPT_MASTER.acct_no is null
+		)
+
+		GROUP BY subjcode
+	</select>
 	
 </mapper>

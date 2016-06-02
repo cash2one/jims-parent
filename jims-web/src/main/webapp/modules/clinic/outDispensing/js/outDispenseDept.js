@@ -21,9 +21,5 @@ $(function(){
 
 });
 
-//选择查询条件的时候给input的name赋值
-function getName(){
-   var search= $("#search").val();
-    $("#searchSome").attr('name', search);
-}
+
 

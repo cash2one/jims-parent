@@ -1,102 +1,88 @@
 
 //页面加载
 $(function(){
-    var patientId='1';
-    $('#leftList').datagrid({
+    var date = $("#acctDate").val();
+    $.get(basePath+'/clinicMaster/northFrom?date=' + date, function (data) {
+        $('#northForm').form('load', data);
+    });
+    $('#centerList').datagrid({
         singleSelect: true,
         fit: true,
         nowrap: false,
-        title:'与当前登记病人重名记录',
-        toolbar:'#searchDiv',
-        method:'GET',
-        url:basePath+'/patMasterIndex/list?patientId='+patientId,
-        pagination:true,//分页控件
-        pageSize:15,
-        pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'id',title:'ID',hidden:'true'},
-            {field:'name',title:'姓名',width:'15%',align:'center'},
-            {field:'idNo',title:'身份证号',width:'25%',align:'center'},
-            {field:'sex',title:'性别',width:'10%',align:'center'},
-            {field:'inpNo',title:'住院号',width:'10%',align:'center'},
-            {field:'birthPlace',title:'出生地',width:'20%',align:'center'},
-            {field:'mailingAddress',title:'通信地址',width:'20%',align:'center'}
+            {field:'costs',title:'会计科目',hidden:true},
+            {field:'tallyFeeClass',title:'会计科目',width:'15%',align:'center'},
+            {field:'income',title:'实收金额',width:'15%',align:'center'},
         ]], onClickRow: function (index, row) {
-            $("#masterForm").form('load',row);
         }, onLoadSuccess: function(){
 
         }
     });
-    //设置分页控件
-    var p = $('#leftList').datagrid('getPager');
-    $(p).pagination({
-        beforePageText: '第',//页数文本框前显示的汉字
-        afterPageText: '页    共 {pages} 页',
-        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    $('#dataList').datagrid({
+        singleSelect: true,
+        fit: true,
+        nowrap: false,
+        columns:[[      //每个列具体内容
+            {field:'moneyType',title:'支付方式',width:'15%',align:'center'},
+            {field:'totalFee',title:'收款金额',width:'15%',align:'center'},
+            {field:'refundedAmount',title:'退号金额',width:'15%',align:'center'},
+            {field:'incomeAmount',title:'实收小计',width:'15%',align:'center'},
+        ]], onClickRow: function (index, row) {
+        }, onLoadSuccess: function(){
+
+        }
     });
 });
 
+function accFun(){
+    var date = $("#acctDate").val();
 
-//列表条件查询
-function searchByCondition(){
-
-}
-
-//保存
-function saveMaster() {
-    $.postForm(basePath + '/patMasterIndex/save', 'masterForm', function (data) {
-        if (data.data == 'success') {
-
-            //$.messager.alert("提示消息", data.code + "条记录，保存成功");
-
-            $.messager.confirm("操作提示", "是否交预交金？", function (data) {
-                $('#centerList').datagrid('load');
-                $('#centerList').datagrid('clearChecked');
-                if (data) {
-                    window.parent.document.getElementById("centerIframe").src = "/modules/finance/prepaymentList.html";
-                }
-            });
-        } else {
-            $.messager.alert('提示', "保存失败", "error");
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/clinicMaster/registerFeeFrom',
+        'contentType': 'application/json',
+        'data': date = date,
+        'dataType': 'json',
+        'success': function (data) {
+            $('#regiForm').form('load', data);
         }
-    }, function (data) {
-        $.messager.alert('提示', "保存失败", "error");
+    });
+
+    $.get(basePath+'/clinicMaster/feeItemList?date=' + date, function (data) {
+        $("#centerList").datagrid("loadData", data);
+    });
+
+    $.get(basePath+'/clinicMaster/payWayList?date=' + date, function (data) {
+        $("#dataList").datagrid("loadData", data);
     });
 }
-//取消登记
-function removeMaster(){
-    var selRow = $('#leftList').datagrid('getChecked');
-    if(selRow!=null && selRow!='' && selRow!=undefined){
-        var id = selRow[0].id;
-        $.ajax({
-            'type': 'POST',
-            'url': basePath+'/patMasterIndex/delete',
-            'contentType': 'application/json',
-            'data': ids=id,
-            'dataType': 'json',
-            'success': function(data){
-                if(data.data=='success'){
-                    $.messager.alert("提示消息",data.code+"条记录取消登记成功！");
-                    $('#leftList').datagrid('load');
-                    $('#list_data').datagrid('load');
-                    $('#list_data').datagrid('clearChecked');
-                }else if(data.data=='warning') {
-                    $.messager.alert('提示',"已缴纳预交金，不能取消登记！", "error");
-                }else{
-                    $.messager.alert('提示',"取消登记失败", "error");
-                }
-            },
-            'error': function(data){
-                $.messager.alert('提示',"取消登记失败", "error");
-            }
-        });
-    }else{
-        $.messager.alert('提示',"请选择要取消的登记！", "warning");
-    }
+
+function confirmFun(){
+    var  crows=$('#centerList').datagrid('getRows');
+    var ctableJson=JSON.stringify(crows);
+    var  drows=$('#dataList').datagrid('getRows');
+    var dtableJson=JSON.stringify(drows);
+
+    var nformJson=fromJson('northForm');
+    nformJson =nformJson.substring(0, nformJson.length - 1);
+
+    var formJson=fromJson('regiForm');
+    formJson = formJson.substring(1, formJson.length - 1);
+
+    var submitJson=nformJson+","+formJson+",\"acctDetails\":"+ctableJson+",\"acctMoneys\":"+dtableJson+"}";
+    $.postJSON(basePath+'/registAcctMaster/save',submitJson,function(data){
+        if(data.data=='success'){
+            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+        }else{
+            $.messager.alert('提示',"保存失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"保存失败", "error");
+    })
 }
 
 function clearForm(){
-    $("#masterForm").form('clear');
+    $("#regiForm").form('clear');
 }
 
 

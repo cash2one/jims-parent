@@ -320,6 +320,12 @@
 		<if test="dispensary !=null and dispensary !=''">
 			AND DOCT_DRUG_PRESC_MASTER.DISPENSARY = #{dispensary}
 		</if>
+		<if test="visitId !=null and visitId !=''">
+            AND  DOCT_DRUG_PRESC_MASTER.VISIT_ID = #{visitId}
+		</if>
+		<if test="prescNo !=null and prescNo !=''">
+			AND DOCT_DRUG_PRESC_MASTER.PRESC_NO = #{prescNo}
+		</if>
 		AND DOCT_DRUG_PRESC_MASTER.DEL_FLAG ='0'
 		AND DOCT_DRUG_PRESC_MASTER.PRESC_STATUS = 0
 		AND DOCT_DRUG_PRESC_MASTER.PRESC_DATE  &gt;=  to_date(to_char(add_months(sysdate,-1),'yyyy-mm-dd'),'yyyy-mm-dd')

@@ -116,5 +116,27 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+
+	<select id="findMaoneyPayment" resultType="OutpPaymentsMoney">
+		SELECT  opm.MONEY_TYPE as "moneyType",
+				sum(opm.PAYMENT_AMOUNT)  as "paymentAmount",
+				sum(opm.REFUNDED_AMOUNT)  as "refundedAmount",
+		        sum(opm.PAYMENT_AMOUNT)- sum(opm.REFUNDED_AMOUNT)  as "xiaoji"
+		FROM OUTP_RCPT_MASTER orm,
+		      OUTP_PAYMENTS_MONEY  opm
+		WHERE orm.RCPT_NO = opm.RCPT_NO
+		        AND  orm.DEL_FLAG = '0'
+		        AND opm.DEL_FLAG = '0'
+				AND   orm.acct_no is null
+				<if test="operatorNo !=null and operatorNo !=''">
+					AND   orm.operator_no = #{operatorNo}
+				</if>
+                 <if test="visitDate !=null and visitDate !=''">
+					 AND   orm.VISIT_DATE &lt;=
+					 to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
+				 </if>
+
+		GROUP BY opm.MONEY_TYPE
+	</select>
 </mapper>
