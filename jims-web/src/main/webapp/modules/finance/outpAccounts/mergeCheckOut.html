@@ -33,8 +33,8 @@
     </form>
 </div>
 <div data-options="region:'center'" style="border: none">
-    <div style="margin:20px 0 10px 0;"></div>
-    <div class="easyui-tabs" style="width:80%;height:95%">
+    <div style="margin:10px 0 10px 0;"></div>
+    <div class="easyui-tabs" style="width:99%;height:98%">
         <div title="挂号费结账信息" style="padding:10px">
             <div class="easyui-layout" data-options="fit:true">
                 <div data-options="region:'west'" style="width: 40%;">
@@ -74,6 +74,9 @@
                 <div data-options="region:'center'" style="border: none">
                     <table id="centerList"></table>
                 </div>
+                <div data-options="region:'south'" style="height: 60%;border: none">
+                    <table id="dataList"></table>
+                </div>
             </div>
         </div>
         <div title="门诊收费结账信息" style="padding:10px">
@@ -83,11 +86,7 @@
 </div>
 
 </div>
-<div data-options="region:'south'" style="height: 50%;border: none">
-    <div class="easyui-layout" data-options="fit:true">
-        <div data-options="region:'north'" style="height: 85%;border: none">
-            <table id="dataList"></table>
-        </div>
+<div data-options="region:'south'" style="height: 9%;border: none">
         <div data-options="region:'center'" style="border: none">
             <div class="bot-medbtn">
                 <a href="#" onclick="accFun()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">结账</a>
@@ -96,7 +95,6 @@
 
             </div>
         </div>
-    </div>
 </div>
 </body>
 </html>
