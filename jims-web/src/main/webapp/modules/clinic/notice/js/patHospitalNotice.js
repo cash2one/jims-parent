@@ -64,7 +64,7 @@ function savePatHospitalNotice() {
     $("#idNo").attr("value", "123");
     $("#masterId").attr("value", "123");
     $("#patientId").attr("value", "123");
-    $("#noticeId").attr("value", "123");
+    $("#noticeId").attr("value", "1");
     $.postForm(basePath + "/patHospitalNotice/save", "patHospitalForm", function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
