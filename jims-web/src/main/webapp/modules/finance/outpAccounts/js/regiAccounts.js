@@ -62,10 +62,14 @@ function confirmFun(){
     var ctableJson=JSON.stringify(crows);
     var  drows=$('#dataList').datagrid('getRows');
     var dtableJson=JSON.stringify(drows);
-    var formJson=fromJson('regiForm');
-    formJson = formJson.substring(0, formJson.length - 1);
 
-    var submitJson=formJson+",\"acctDetails\":"+ctableJson+",\"acctMoneys\":"+dtableJson+"}";
+    var nformJson=fromJson('northForm');
+    nformJson =nformJson.substring(0, nformJson.length - 1);
+
+    var formJson=fromJson('regiForm');
+    formJson = formJson.substring(1, formJson.length - 1);
+
+    var submitJson=nformJson+","+formJson+",\"acctDetails\":"+ctableJson+",\"acctMoneys\":"+dtableJson+"}";
     $.postJSON(basePath+'/registAcctMaster/save',submitJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");

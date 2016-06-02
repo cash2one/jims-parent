@@ -6,6 +6,10 @@ package com.jims.finance.entity;
 
 import com.jims.common.persistence.DataEntity;
 
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;

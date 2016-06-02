@@ -30,9 +30,9 @@ $(function(){
             if(row!=null){
                 $('#payments').datagrid('appendRow', {
                     moneyType: '<span>合计</span>',
-                    paymentAmount: '<span class="subtotal">' + compute("paymentAmount") + '</span>',
-                    refundedAmount: '<span class="subtotal">' + compute("refundedAmount") + '</span>',
-                    xiaoji: '<span class="subtotal">' + compute("xiaoji") + '</span>'
+                    paymentAmount: '<span class="subtotal">' + compute("payments","paymentAmount") + '</span>',
+                    refundedAmount: '<span class="subtotal">' + compute("payments","refundedAmount") + '</span>',
+                    xiaoji: '<span class="xiaoji">' + compute("payments","xiaoji") + '</span>'
                 });
             }
 
@@ -54,22 +54,26 @@ $(function(){
             if(row!=null){
                 $('#itemsTables').datagrid('appendRow', {
                     subjcode: '<span>合计</span>',
-                    costs: '<span class="subtotal">' + compute("costs") + '</span>',
-                    charges: '<span class="subtotal">' + compute("charges") + '</span>'
+                    costs: '<span class="subtotal">' + compute("itemsTables","costs") + '</span>',
+                    charges: '<span class="subtotal">' + compute("itemsTables","charges") + '</span>'
                 });
             }
 
         }
     });
 
+
     $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true }).click(function () {
         searchAcct();
     });
+
+
 });
 
 
 //结账确认
 function save(){
+    $('#acctNo').val(accNo);
     var  paymentsRows=$('#payments').datagrid('getRows');
     var paymentsJson=JSON.stringify(paymentsRows);
     var itemsRows  = $('#itemsTables').datagrid('getRows');
@@ -84,8 +88,6 @@ function save(){
             $('#operationName').datagrid('clearChecked');
         }else{
             $.messager.alert('提示',"结账失败", "error");
-            $('#operationName').datagrid('load');
-            $('#operationName').datagrid('clearChecked');
         }
     },function(data){
         $.messager.alert('提示',"结账失败", "error");
@@ -93,27 +95,11 @@ function save(){
 
 }
 
-//结账累计
-function searchAcct(){
-    var tableJson=fromJson('search');
-    $.postJSON(basePath+'/oupRcptMaster/findCharge',tableJson,function(data){
-        if(data !=null){
-            $('#searchform').form('load',data);
-            $('#acctNo').val(accNo);
-            $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#search").serialize() });
-            $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#search").serialize() });
-        }else{
-            $.messager.alert('提示',"收费没有未结账的数据", "error");
-        }
-    },function(data){
-        $.messager.alert('提示',"加载失败", "error");
-    })
 
-}
 
 //求和
-function compute(colName) {
-    var rows = $('#drug').datagrid('getRows');
+function compute(tableName,colName) {
+    var rows = $('#'+tableName).datagrid('getRows');
     var total = 0;
     for (var i = 0; i < rows.length; i++) {
 
@@ -126,4 +112,21 @@ function compute(colName) {
 
     }
     return total;
+}
+
+//结账累计
+function searchAcct(){
+    var tableJson=fromJson('northForm');
+    $.postJSON(basePath+'/oupRcptMaster/findCharge',tableJson,function(data){
+        if(data !=null){
+            $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#northForm").serialize() });
+            $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#northForm").serialize() });
+            $('#searchform').form('load',data);
+        }else{
+            $.messager.alert('提示',"收费没有未结账的数据", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"加载失败", "error");
+    })
+
 }

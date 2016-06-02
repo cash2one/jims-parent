@@ -31,7 +31,7 @@ public class OutpAcctMasterRest {
         StringData stringData=new StringData();
         stringData.setCode(code);
         if(!"0".equals(code)||!"".equals(code)){
-            stringData.setData("sucess");
+            stringData.setData("success");
         }else{
             stringData.setData("error");
         }
