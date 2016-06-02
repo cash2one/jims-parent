@@ -8,6 +8,7 @@ import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.text.DateFormat;
 import java.util.List;
 
 /**
@@ -32,8 +33,19 @@ public class DrugPrescTempRest {
      */
     @Path("getPrescMasterTemp")
     @GET
-    public List<DrugPrescMasterTemp> getPrescMasterTemp(@QueryParam(value = "prescDate")String prescDate,@QueryParam(value = "dispensary")String dispensary,@QueryParam(value = "dispensarySub")String dispensarySub){
-       return drugPrescTempServiceApi.getPrescMasterTemp(dispensary,"B01");
+    public List<DrugPrescMasterTemp> getPrescMasterTemp(@QueryParam(value = "prescDate")String prescDate,
+                                                        @QueryParam(value = "dispensary")String dispensary,
+                                                        @QueryParam(value = "dispensarySub")String dispensarySub,
+                                                        @QueryParam(value = "patientId")String patientId,
+                                                        @QueryParam(value = "prescNo")int prescNo,
+                                                        @QueryParam(value = "name")String name){
+        DrugPrescMasterTemp drugPrescMasterTemp=new DrugPrescMasterTemp();
+        drugPrescMasterTemp.setDispensary(dispensary);
+        drugPrescMasterTemp.setDispensarySub(dispensarySub);
+        drugPrescMasterTemp.setPatientId(patientId);
+        drugPrescMasterTemp.setPrescNo(prescNo);
+        drugPrescMasterTemp.setName(name);
+       return drugPrescTempServiceApi.getPrescMasterTemp(drugPrescMasterTemp);
     }
 
     /**
