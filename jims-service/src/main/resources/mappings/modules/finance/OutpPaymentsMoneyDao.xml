@@ -134,7 +134,7 @@
 				</if>
                  <if test="visitDate !=null and visitDate !=''">
 					 AND   orm.VISIT_DATE &lt;=
-					 to_date(#{visitDate}, 'yyyy-mm-dd hh24:mi:ss')
+					 to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
 				 </if>
 
 		GROUP BY opm.MONEY_TYPE

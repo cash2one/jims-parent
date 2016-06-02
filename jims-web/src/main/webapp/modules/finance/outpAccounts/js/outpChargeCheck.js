@@ -62,14 +62,18 @@ $(function(){
         }
     });
 
+
     $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true }).click(function () {
         searchAcct();
     });
+
+
 });
 
 
 //结账确认
 function save(){
+    $('#acctNo').val(accNo);
     var  paymentsRows=$('#payments').datagrid('getRows');
     var paymentsJson=JSON.stringify(paymentsRows);
     var itemsRows  = $('#itemsTables').datagrid('getRows');
@@ -84,8 +88,6 @@ function save(){
             $('#operationName').datagrid('clearChecked');
         }else{
             $.messager.alert('提示',"结账失败", "error");
-            $('#operationName').datagrid('load');
-            $('#operationName').datagrid('clearChecked');
         }
     },function(data){
         $.messager.alert('提示',"结账失败", "error");
@@ -93,23 +95,7 @@ function save(){
 
 }
 
-//结账累计
-function searchAcct(){
-    var tableJson=fromJson('search');
-    $.postJSON(basePath+'/oupRcptMaster/findCharge',tableJson,function(data){
-        if(data !=null){
-            $('#searchform').form('load',data);
-            $('#acctNo').val(accNo);
-            $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#search").serialize() });
-            $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#search").serialize() });
-        }else{
-            $.messager.alert('提示',"收费没有未结账的数据", "error");
-        }
-    },function(data){
-        $.messager.alert('提示',"加载失败", "error");
-    })
 
-}
 
 //求和
 function compute(colName) {
@@ -126,4 +112,21 @@ function compute(colName) {
 
     }
     return total;
+}
+
+//结账累计
+function searchAcct(){
+    var tableJson=fromJson('search');
+    $.postJSON(basePath+'/oupRcptMaster/findCharge',tableJson,function(data){
+        if(data !=null){
+            $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#search").serialize() });
+            $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#search").serialize() });
+            $('#searchform').form('load',data);
+        }else{
+            $.messager.alert('提示',"收费没有未结账的数据", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"加载失败", "error");
+    })
+
 }
