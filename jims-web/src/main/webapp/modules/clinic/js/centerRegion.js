@@ -178,6 +178,7 @@ function userMenu(clinicMasterId,aBtn){
    // html+='<li><a   onclick="addTabs(\'10\',\'住院诊断\',\'/modules/clinic/emrDiagnosis/inDiagnosis.html\',this)"><span>住院诊断</span></a></li>';
     html+='<li><a   onclick="addTabs(\'13\',\'手术申请\',\'/modules/clinic/operationApply/operationApplyList.html\',this)"><span>手术申请</span></a></li>';
     html+='<li><a   onclick="addTabs(\'14\',\'发药查询\',\'/modules/clinic/outDispensing/queryConfirmDrug.html\',this)"><span>发药查询</span></a></li>';
+    html+='<li><a   onclick="addTabs(\'14\',\'住院通知单\',\'/modules/clinic/notice/patHospitalNoticeList.html\',this)"><span>住院通知单</span></a></li>';
     $("#userMenuId").html(html);
     $("#userMenuId li:first a").click();
 }
