@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.PatHospitalNoticeDao">
+    
+	<sql id="patHospitalNoticeColumns">
+		a.id AS "id",
+		a.master_id AS "masterId",
+		a.org_id AS "orgId",
+		a.patient_id AS "patientId",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.age AS "age",
+		a.date_of_birth AS "dateOfBirth",
+		a.marital_status AS "maritalStatus",
+		a.occupation AS "occupation",
+		a.nation AS "nation",
+		a.id_no AS "idNo",
+		a.children AS "children",
+		a.birth_place AS "birthPlace",
+		a.service_agency AS "serviceAgency",
+		a.service_agency_phone AS "serviceAgencyPhone",
+		a.insurance_aera AS "insuranceAera",
+		a.insurance_aera_phone AS "insuranceAeraPhone",
+		a.next_of_kin AS "nextOfKin",
+		a.relationship AS "relationship",
+		a.next_of_nation AS "nextOfNation",
+		a.next_of_id_no AS "nextOfIdNo",
+		a.next_of_kin_addr AS "nextOfKinAddr",
+		a.admission_date_time AS "admissionDateTime",
+		a.prepaid_fee AS "prepaidFee",
+		a.pat_adm_condition AS "patAdmCondition",
+		a.diagnosis_desc AS "diagnosisDesc",
+		a.dept_admission_to AS "deptAdmissionTo",
+		a.bed_no AS "bedNo",
+		a.strict_segregation AS "strictSegregation",
+		a.common_segregation AS "commonSegregation",
+		a.not_segregation AS "notSegregation",
+		a.notes AS "notes",
+		a.notice_id AS "noticeId",
+		a.visit_id AS "visitId",
+		a.operator AS "operator",
+		a.enter_date AS "enterDate",
+		a.onset_date AS "onsetDate",
+		a.parity_no AS "parityNo",
+		a.charge_type AS "chargeType",
+		a.dept_admission_from AS "deptAdmissionFrom",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="patHospitalNoticeJoins">
+	</sql>
+    
+	<select id="get" resultType="PatHospitalNotice">
+		SELECT 
+			<include refid="patHospitalNoticeColumns"/>
+		FROM pat_hospital_notice a
+		<include refid="patHospitalNoticeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PatHospitalNotice">
+		SELECT 
+			<include refid="patHospitalNoticeColumns"/>
+		FROM pat_hospital_notice a
+		<include refid="patHospitalNoticeJoins"/>
+		<where>
+			a.del_flag ='0'
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PatHospitalNotice">
+		SELECT 
+			<include refid="patHospitalNoticeColumns"/>
+		FROM pat_hospital_notice a
+		<include refid="patHospitalNoticeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pat_hospital_notice(
+			id,
+			master_id,
+			org_id,
+			patient_id,
+			name,
+			sex,
+			age,
+			date_of_birth,
+			marital_status,
+			occupation,
+			nation,
+			id_no,
+			children,
+			birth_place,
+			service_agency,
+			service_agency_phone,
+			insurance_aera,
+			insurance_aera_phone,
+			next_of_kin,
+			relationship,
+			next_of_nation,
+			next_of_id_no,
+			next_of_kin_addr,
+			admission_date_time,
+			prepaid_fee,
+			pat_adm_condition,
+			diagnosis_desc,
+			dept_admission_to,
+			bed_no,
+			strict_segregation,
+			common_segregation,
+			not_segregation,
+			notes,
+			notice_id,
+			visit_id,
+			operator,
+			enter_date,
+			onset_date,
+			parity_no,
+			charge_type,
+			dept_admission_from,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{masterId},
+			#{orgId},
+			#{patientId},
+			#{name},
+			#{sex},
+			#{age},
+			#{dateOfBirth},
+			#{maritalStatus},
+			#{occupation},
+			#{nation},
+			#{idNo},
+			#{children},
+			#{birthPlace},
+			#{serviceAgency},
+			#{serviceAgencyPhone},
+			#{insuranceAera},
+			#{insuranceAeraPhone},
+			#{nextOfKin},
+			#{relationship},
+			#{nextOfNation},
+			#{nextOfIdNo},
+			#{nextOfKinAddr},
+			#{admissionDateTime},
+			#{prepaidFee},
+			#{patAdmCondition},
+			#{diagnosisDesc},
+			#{deptAdmissionTo},
+			#{bedNo},
+			#{strictSegregation},
+			#{commonSegregation},
+			#{notSegregation},
+			#{notes},
+			#{noticeId},
+			#{visitId},
+			#{operator},
+			#{enterDate},
+			#{onsetDate},
+			#{parityNo},
+			#{chargeType},
+			#{deptAdmissionFrom},
+			#{createDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pat_hospital_notice SET
+		    master_id = #{masterId},
+		    org_id = #{orgId},
+			patient_id = #{patientId},
+			name = #{name},
+			sex = #{sex},
+			age = #{age},
+			date_of_birth = #{dateOfBirth},
+			marital_status = #{maritalStatus},
+			occupation = #{occupation},
+			nation = #{nation},
+			id_no = #{idNo},
+			children = #{children},
+			birth_place = #{birthPlace},
+			service_agency = #{serviceAgency},
+			service_agency_phone = #{serviceAgencyPhone},
+			insurance_aera = #{insuranceAera},
+			insurance_aera_phone = #{insuranceAeraPhone},
+			next_of_kin = #{nextOfKin},
+			relationship = #{relationship},
+			next_of_nation = #{nextOfNation},
+			next_of_id_no = #{nextOfIdNo},
+			next_of_kin_addr = #{nextOfKinAddr},
+			admission_date_time = #{admissionDateTime},
+			prepaid_fee = #{prepaidFee},
+			pat_adm_condition = #{patAdmCondition},
+			diagnosis_desc = #{diagnosisDesc},
+			dept_admission_to = #{deptAdmissionTo},
+			bed_no = #{bedNo},
+			strict_segregation = #{strictSegregation},
+			common_segregation = #{commonSegregation},
+			not_segregation = #{notSegregation},
+			notes = #{notes},
+			notice_id = #{noticeId},
+			visit_id = #{visitId},
+			operator = #{operator},
+			enter_date = #{enterDate},
+			onset_date = #{onsetDate},
+			parity_no = #{parityNo},
+			charge_type = #{chargeType},
+			dept_admission_from = #{deptAdmissionFrom},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE pat_hospital_notice SET 
+			del_flag ='1'
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
