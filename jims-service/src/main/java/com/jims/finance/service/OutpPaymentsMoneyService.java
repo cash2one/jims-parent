@@ -5,9 +5,15 @@ package com.jims.finance.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.finance.api.OutpPaymentsMoneyServiceApi;
+import com.jims.finance.bo.OutpPaymentsMoneyBo;
 import com.jims.finance.dao.OutpPaymentsMoneyDao;
 import com.jims.finance.entity.OutpPaymentsMoney;
+import com.jims.finance.entity.OutpRcptMaster;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -15,8 +21,21 @@ import org.springframework.transaction.annotation.Transactional;
  * @author zhaoning
  * @version 2016-05-26
  */
-@Transactional(readOnly = true)
-public class OutpPaymentsMoneyService extends CrudImplService<OutpPaymentsMoneyDao, OutpPaymentsMoney> {
-
+@Service(version = "1.0.0")
+public class OutpPaymentsMoneyService implements OutpPaymentsMoneyServiceApi {
+  @Autowired
+  private OutpPaymentsMoneyBo outpPaymentsMoneyBo;
+    /**
+     * 方法 findMaoneyPayment 的功能描述
+     * 门诊结算 - 收费结账
+     * @param
+     * @return
+     * @throws
+     * @author pq
+     * @date 2016/6/1 0001
+     */
+    public List<OutpPaymentsMoney> findMaoneyPayment(OutpRcptMaster outpRcptMaster){
+       return outpPaymentsMoneyBo.findMaoneyPayment(outpRcptMaster);
+    }
 
 }

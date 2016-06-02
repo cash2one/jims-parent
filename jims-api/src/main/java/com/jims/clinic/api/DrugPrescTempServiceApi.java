@@ -16,11 +16,10 @@ public interface DrugPrescTempServiceApi  {
 
     /**
      * 查询门诊代发药主记录的列表（已收费的）
-     * @param dispensary 发药药局
-     * @param dispensarySub 发药子药局
+     * @param drugPrescMasterTemp
      * @return
      */
-  public List<DrugPrescMasterTemp> getPrescMasterTemp(String dispensary,String dispensarySub);
+  public List<DrugPrescMasterTemp> getPrescMasterTemp(DrugPrescMasterTemp drugPrescMasterTemp);
 
     /**
      * 通过主表Id找到主表记录
