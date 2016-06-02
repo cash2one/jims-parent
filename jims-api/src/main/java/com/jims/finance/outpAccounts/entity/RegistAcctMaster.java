@@ -2,6 +2,10 @@ package com.jims.finance.outpAccounts.entity;
 
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.Date;
 import java.util.List;
@@ -74,11 +78,11 @@ public class RegistAcctMaster extends DataEntity<RegistAcctMaster> {
 		this.operatorNo = operatorNo;
 	}
 
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getAcctDate() {
 		return acctDate;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setAcctDate(Date acctDate) {
 		this.acctDate = acctDate;
 	}
