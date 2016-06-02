@@ -21,6 +21,28 @@ public class OrgStaffVo extends DataEntity<OrgStaffVo> {
     private String deptId;      //所属科室ID
     private String orgId;      //组织机构Id
     private String selectCardNo;   //查询身份证号的字段
+    private String role[];      //角色id
+    private String roleName;    //角色名称
+
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public OrgStaffVo() {
+    }
+
+    public String[] getRole() {
+        return role;
+    }
+
+    public void setRole(String[] role) {
+        this.role = role;
+    }
 
     public String getSelectCardNo() {
         return selectCardNo;
