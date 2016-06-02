@@ -30,6 +30,7 @@ public class RegistAcctMasterBo extends CrudImplService<RegistAcctMasterDao, Reg
 
 
     public String saveMaster(RegistAcctMaster registAcctMaster) {
+        registAcctMaster.setOperatorNo("1");
         registAcctMaster.preInsert();
         if(registAcctMaster.getAcctDetails()!=null&&registAcctMaster.getAcctDetails().size()>0){
             for(RegistAcctDetail detail : registAcctMaster.getAcctDetails()){
