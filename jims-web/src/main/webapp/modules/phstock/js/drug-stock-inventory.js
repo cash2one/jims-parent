@@ -356,7 +356,7 @@ $(function(){
         });
         if(drugInventoryCheckVos.length > 0){
             $.messager.alert("提示","盘点数据已经存在不能生成","error");
-        }else if(!data){
+        }else if(data){
             $.messager.alert("提示","盘点数据已经存在,请选择提取","error");
         }else{
                 var url = basePath + "/drug-inventory-check/generateInventory?storage=" + 150520
