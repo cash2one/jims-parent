@@ -21,7 +21,6 @@ import java.util.List;
  * @date2016/5/25
  */
 @Service(version = "1.0.0")
-
 public class OutPatientCostServiceImpl implements OutPatientCostServiceApi {
 
     @Autowired

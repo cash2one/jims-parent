@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.outpAccounts.dao.OutpAcctMoneyDao">
+    
+	<sql id="outpAcctMoneyColumns">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.acct_id AS "acctId",
+		a.acct_no AS "acctNo",
+		a.money_type AS "moneyType",
+		a.income_amount AS "incomeAmount",
+		a.refunded_amount AS "refundedAmount",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpAcctMoneyJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpAcctMoney">
+		SELECT 
+			<include refid="outpAcctMoneyColumns"/>
+		FROM outp_acct_money a
+		<include refid="outpAcctMoneyJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpAcctMoney">
+		SELECT 
+			<include refid="outpAcctMoneyColumns"/>
+		FROM outp_acct_money a
+		<include refid="outpAcctMoneyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpAcctMoney">
+		SELECT 
+			<include refid="outpAcctMoneyColumns"/>
+		FROM outp_acct_money a
+		<include refid="outpAcctMoneyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO outp_acct_money(
+			id,
+			org_id,
+			acct_id,
+			acct_no,
+			money_type,
+			income_amount,
+			refunded_amount,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orgId},
+			#{acctId},
+			#{acctNo},
+			#{moneyType},
+			#{incomeAmount},
+			#{refundedAmount},
+			#{createDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_acct_money SET 	
+			org_id = #{orgId},
+			acct_id = #{acctId},
+			acct_no = #{acctNo},
+			money_type = #{moneyType},
+			income_amount = #{incomeAmount},
+			refunded_amount = #{refundedAmount},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_acct_money SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

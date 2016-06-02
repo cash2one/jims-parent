@@ -4,6 +4,7 @@ package com.jims.finance.outpAccounts.entity;
 import com.jims.common.persistence.DataEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 挂号结帐主记录Entity
@@ -25,6 +26,9 @@ public class RegistAcctMaster extends DataEntity<RegistAcctMaster> {
 	private Double totalIncomes;		// 总收入
 	private Date tallyDate;		// 记帐日期
 	private Date fulfillDateTime;		// fulfill_date_time
+
+	private List<RegistAcctMoney> acctMoneys;
+	private List<RegistAcctDetail> acctDetails;
 	
 	public RegistAcctMaster() {
 		super();
@@ -142,4 +146,19 @@ public class RegistAcctMaster extends DataEntity<RegistAcctMaster> {
 		this.fulfillDateTime = fulfillDateTime;
 	}
 
+	public List<RegistAcctDetail> getAcctDetails() {
+		return acctDetails;
+	}
+
+	public void setAcctDetails(List<RegistAcctDetail> acctDetails) {
+		this.acctDetails = acctDetails;
+	}
+
+	public List<RegistAcctMoney> getAcctMoneys() {
+		return acctMoneys;
+	}
+
+	public void setAcctMoneys(List<RegistAcctMoney> acctMoneys) {
+		this.acctMoneys = acctMoneys;
+	}
 }

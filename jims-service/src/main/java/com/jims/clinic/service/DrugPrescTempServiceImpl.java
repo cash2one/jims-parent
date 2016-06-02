@@ -31,12 +31,10 @@ public class DrugPrescTempServiceImpl extends CrudImplService<DrugPrescMasterTem
     private DrugPrescDetailDao drugPrescDetailDao;
     /**
      * 拿到最近一个月的待发药主记录
-     * @param dispensary 发药药局
-     * @param dispensarySub 发药子药局
      * @return
      */
-    public List<DrugPrescMasterTemp> getPrescMasterTemp(String dispensary,String dispensarySub){
-        return dao.getPrescMasterTemp(dispensary,dispensarySub);
+    public List<DrugPrescMasterTemp> getPrescMasterTemp(DrugPrescMasterTemp drugPrescMasterTemp){
+        return dao.getPrescMasterTemp(drugPrescMasterTemp);
     }
 
     /**

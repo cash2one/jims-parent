@@ -20,6 +20,7 @@ public class OutpPaymentsMoney extends DataEntity<OutpPaymentsMoney> {
 	private Double paymentAmount;		// 数额
 	private Double refundedAmount;		// 退数额
 	private String prepayNo;		// prepay_no
+	private Double xiaoji;//小计
 	
 	public OutpPaymentsMoney() {
 		super();
@@ -79,5 +80,12 @@ public class OutpPaymentsMoney extends DataEntity<OutpPaymentsMoney> {
 	public void setPrepayNo(String prepayNo) {
 		this.prepayNo = prepayNo;
 	}
-	
+
+	public Double getXiaoji() {
+		return xiaoji;
+	}
+
+	public void setXiaoji(Double xiaoji) {
+		this.xiaoji = xiaoji;
+	}
 }

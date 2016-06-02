@@ -78,7 +78,7 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @author CTQ
      * @return
      */
-    public ClinicMaster getTotalAccount(@Param("operator")String operator,@Param("registeringDate")Date registeringDate);
+    public ClinicMaster getTotalAccount(@Param("operator")String operator,@Param("registeringDate")String registeringDate);
 
     /**
      * 根据操作员和挂号时间查询挂号数量
@@ -87,7 +87,7 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @author CTQ
      * @return
      */
-    public Integer getRegiNum(@Param("operator")String operator,@Param("registeringDate")Date registeringDate);
+    public Double getRegiNum(@Param("operator")String operator,@Param("registeringDate")String registeringDate);
 
     /**
      * 根据操作员和挂号时间查询并按照支付方式分组数据
@@ -96,6 +96,13 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @author CTQ
      * @return
      */
-    public List<ClinicMaster> getGroupData(@Param("operator")String operator,@Param("registeringDate")Date registeringDate);
-
+    public List<ClinicMaster> getGroupData(@Param("operator")String operator,@Param("registeringDate")String registeringDate);
+    /**
+     * 根据参数获取检查项目费用信息
+     * @param operator
+     * @param registeringDate
+     * @author CTQ
+     * @return
+     */
+    public ClinicMaster getCheckItem(@Param("operator")String operator,@Param("registeringDate")String registeringDate);
 }

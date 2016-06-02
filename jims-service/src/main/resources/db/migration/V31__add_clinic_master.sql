@@ -60,7 +60,7 @@ create table CLINIC_MASTER
    UPDATE_BY            VARCHAR2(64),
    UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(225 CHAR),
-   DEL_FLAG             CHAR(1),
+   DEL_FLAG             CHAR(1) default '0',
   constraint PK_CLINIC_MASTER primary key (ID)
 );
 -- Add comments to the table 
