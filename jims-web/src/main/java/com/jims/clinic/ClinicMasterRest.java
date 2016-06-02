@@ -128,6 +128,7 @@ public class ClinicMasterRest {
                 master.setTallyFeeClass("挂号费用");
                 master.setIncome(clinic.getRegistFee());
                 master.setCosts(clinic.getRegistFee());
+                master.preInsert();
                 list.add(master);
             }
             if (clinic.getClinicFee()!=null&&clinic.getClinicFee()>0){
@@ -135,6 +136,7 @@ public class ClinicMasterRest {
                 master.setTallyFeeClass("治疗费用");
                 master.setIncome(clinic.getClinicFee());
                 master.setCosts(clinic.getClinicFee());
+                master.preInsert();
                 list.add(master);
             }
             if (clinic.getOtherFee()!=null && clinic.getOtherFee()>0){
@@ -142,6 +144,7 @@ public class ClinicMasterRest {
                 master.setTallyFeeClass("其他费用");
                 master.setIncome(clinic.getOtherFee());
                 master.setCosts(clinic.getOtherFee());
+                master.preInsert();
                 list.add(master);
             }
         }
@@ -168,6 +171,7 @@ public class ClinicMasterRest {
         if(list!=null&&list.size()>0){
             for (ClinicMaster mo : list){
                 money = new RegistAcctMoney();
+                money.preInsert();
                 money.setIncomeAmount(mo.getClinicCharge());
                 money.setRefundedAmount(mo.getRefundAmount());
                 money.setTotalFee(mo.getTotalCosts());

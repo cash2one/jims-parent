@@ -32,26 +32,19 @@ public class RegistAcctMasterBo extends CrudImplService<RegistAcctMasterDao, Reg
     public String saveMaster(RegistAcctMaster registAcctMaster) {
         registAcctMaster.preInsert();
         if(registAcctMaster.getAcctDetails()!=null&&registAcctMaster.getAcctDetails().size()>0){
-            for(int i=0;i<registAcctMaster.getAcctDetails().size();i++){
-                RegistAcctDetail detail = new RegistAcctDetail();
-                detail = registAcctMaster.getAcctDetails().get(i);
-                detail.preInsert();
+            for(RegistAcctDetail detail : registAcctMaster.getAcctDetails()){
                 detail.setAcctId(registAcctMaster.getId());
                 detail.setOrgId(registAcctMaster.getOrgId());
+                detail.setAcctNo(registAcctMaster.getAcctNo());
+                detail.preInsert();
                 registAcctDetailDao.insert(detail);
             }
-            /*for(RegistAcctDetail detail : registAcctMaster.getAcctDetails()){
-                detail.preInsert();
-                detail.setAcctId(registAcctMaster.getId());
-                detail.setOrgId(registAcctMaster.getOrgId());
-
-                registAcctDetailDao.insert(detail);
-            }*/
         }
         if(registAcctMaster.getAcctMoneys()!=null&&registAcctMaster.getAcctDetails().size()>0){
             for(RegistAcctMoney money : registAcctMaster.getAcctMoneys()){
                 money.setAcctId(registAcctMaster.getId());
-                money.setAcctId(registAcctMaster.getId());
+                money.setOrgId(registAcctMaster.getOrgId());
+                money.setAcctNo(registAcctMaster.getAcctNo());
                 money.preInsert();
                 registAcctMoneyDao.insert(money);
             }
