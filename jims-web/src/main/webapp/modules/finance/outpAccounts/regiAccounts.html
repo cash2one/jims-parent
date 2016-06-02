@@ -31,7 +31,7 @@
                 <label>
                     截至日期：
                 </label>
-                <input name="registeringDate" readonly class="easyui-datetimebox">
+                <input id="acctDate" name="acctDate"  class="easyui-datetimebox">
                 <label>
                     结账序号：
                 </label>
@@ -47,31 +47,31 @@
                         <label>
                             挂号数：
                         </label>
-                        <input name="name" class="easyui-textbox">
+                        <input name="registNum" class="easyui-textbox">
                     </div>
                     <div class="fitem fitem_pop">
                         <label>
                             退号数：
                         </label>
-                        <input name="name" class="easyui-textbox">
+                        <input name="refundNum" class="easyui-textbox">
                     </div>
                     <div class="fitem fitem_pop">
                         <label>
                             计价总额：
                         </label>
-                        <input name="name" class="easyui-textbox">
+                        <input name="totalCosts" class="easyui-textbox">
                     </div>
                     <div class="fitem fitem_pop">
                         <label>
                             退号总额：
                         </label>
-                        <input name="name" class="easyui-textbox">
+                        <input name="refundAmount" class="easyui-textbox">
                     </div>
                     <div class="fitem fitem_pop">
                         <label>
                             实收总额：
                         </label>
-                        <input name="name" class="easyui-textbox">
+                        <input name="totalIncomes" class="easyui-textbox">
                     </div>
                 </form>
             </div>
@@ -87,8 +87,8 @@
             </div>
             <div data-options="region:'center'" style="border: none">
                 <div class="bot-medbtn">
-                    <a href="#" onclick="updatePay()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">结账</a>
-                    <a href="#" onclick="saveMaster()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确认</a>
+                    <a href="#" onclick="accFun()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">结账</a>
+                    <a href="#" onclick="confirmFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确认</a>
                     <a href="#" onclick="clearForm()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">清屏</a>
 
                 </div>
