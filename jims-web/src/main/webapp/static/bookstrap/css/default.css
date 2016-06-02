@@ -178,10 +178,17 @@ span.num-sign
 	font-size:25px;
 }
 .ser-type ul li img
+ {
+     position:absolute;
+     top:0;
+     left:0;
+ }
+.ser-type ul li div
 {
-	position:absolute;
-	top:0;
-	left:0;
+    position:absolute;
+    top:0px;
+    left:0px;
+    display:none;
 }
 .ser-type ul li a.ser-close
 {

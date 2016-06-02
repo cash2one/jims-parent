@@ -155,66 +155,100 @@ $(function () {
      */
     if(company)
     {
-        $("#saveBtn").on('click', function () {
-            if ($("#linkPhoneNum").val() == "" || $("#linkMan").val() == "" ||
-                $("#address").val() == "" || $("#orgCode").val()=="" || $("#email").val() == "" || $("#orgName").val() == "") {
-                $("#res-linkPhoneNum").css("color", "red");
-                $("#res-address").css("color", "red");
-                $("#res-orgCode").css("color", "red");
-                $("#res-email").css("color", "red");
-                $("#res-linkMan").css("color", "red");
-                $("#res-orgName").css("color", "red");
-                $("#res-orgName").text("*组织机构名称不能为空");
-                $("#res-linkPhoneNum").text("*联系电话不能为空");
-                $("#res-linkMan").text("*联系人不能为空");
-                $("#res-address").text("*组织机构地址不能为空");
-                $("#res-orgCode").text("*组织机构代码不能为空");
-                $("#res-email").text("*邮箱不能为空");
-                return false;
-            }
-            if (!$("#email").val().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) || $("#linkPhoneNum").val().length !=11) {
-                $("#res-email").css("color", "red");
-                $("#res-email").text("*邮箱格式不正确");
-                $("#res-linkPhoneNum").css("color", "red");
-                $("#res-linkPhoneNum").text("*请输入有效的手机号");
-                return false;
-            }
-            var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-            if (!myreg.test(phone)) {
-                $("#res-linkPhoneNum").css("color", "red");
-                $("#res-linkPhoneNum").text('*请输入有效的手机号码');
-                return false;
-            }
-            company.parentId = $("#parentId").val();
-            company.orgName = $("#orgName").val();
-            company.orgCode = $("#orgCode").val();
-            company.address = $("#address").val();
-            company.linkPhoneNum = $("#linkPhoneNum").val();
-            company.email = $("#email").val();
-            company.linkMan=$("#linkMan").val();
-            var name = $("#orgName").val();
-
-
-            jQuery.ajax({
-                'type': 'POST',
-                'url': "/service/sys-company/insertReturnId",
-                'contentType': 'application/json',
-                'data': JSON.stringify(company),
-                'dataType': 'json',
-                'success': function (data) {
-                    console.log(data);
-                    if (data.data == "success") {
-                        //$.messager.alert("系统提示", "保存成功");
-                        alert("保存成功！！");
-                        //解决传到另一个htnl中的乱码问题
-                        encodeURI(window.location.href = "/modules/sys/default.html?name=" + name);
-
-                    }
-                },
-                'error': function (data) {
-                    alert("系统提示", "保存失败");
+        $("#nextBtn").on('click', function () {
+            var liArr = $('#addServiceModel ul li')
+            if(liArr.length < 2) {
+                var li = '';
+                for (var i = 0; i < 10; i++) {
+                    //li += '<li><input type="radio" id="service' + i + '" name="service" />'
+                    //    + '<label for="service' + i + '" class="bank"></label></li>';
+                    li += '<li>' + $('#addServiceModel ul li:eq(0)').html() + '</li>'
                 }
-            });
+                $('#addServiceModel ul').append(li);
+                $('#addServiceModel ul li').each(function(){
+                    $(this).mouseover(function(){
+                        $(this).children('div').css('top',$(this).children('img').css('border-width'))
+                        $(this).children('div').css('left',$(this).children('img').css('border-width'))
+                        $(this).children('div').slideDown('normal')
+                    })
+                    $(this).mouseleave (function(){
+                        $(this).children('div').slideUp('normal')
+                    })
+                    var liObj = $(this)
+                    $('div a',this).click(function(){
+                        if($(liObj).attr('class')){
+                            $(liObj).removeAttr('class')
+                        } else {
+                            $(liObj).attr('class','active')
+                        }
+                        $(liObj).children('div').css('top',$(liObj).children('img').css('border-width'))
+                        $(liObj).children('div').css('left',$(liObj).children('img').css('border-width'))
+                    })
+                })
+                $('.ser-moreinfo').click(function(e){
+                    alert()
+                    e.stopPropagation()
+                })
+            }
+            //if ($("#linkPhoneNum").val() == "" || $("#linkMan").val() == "" ||
+            //    $("#address").val() == "" || $("#orgCode").val()=="" || $("#email").val() == "" || $("#orgName").val() == "") {
+            //    $("#res-linkPhoneNum").css("color", "red");
+            //    $("#res-address").css("color", "red");
+            //    $("#res-orgCode").css("color", "red");
+            //    $("#res-email").css("color", "red");
+            //    $("#res-linkMan").css("color", "red");
+            //    $("#res-orgName").css("color", "red");
+            //    $("#res-orgName").text("*组织机构名称不能为空");
+            //    $("#res-linkPhoneNum").text("*联系电话不能为空");
+            //    $("#res-linkMan").text("*联系人不能为空");
+            //    $("#res-address").text("*组织机构地址不能为空");
+            //    $("#res-orgCode").text("*组织机构代码不能为空");
+            //    $("#res-email").text("*邮箱不能为空");
+            //    return false;
+            //}
+            //if (!$("#email").val().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) || $("#linkPhoneNum").val().length !=11) {
+            //    $("#res-email").css("color", "red");
+            //    $("#res-email").text("*邮箱格式不正确");
+            //    $("#res-linkPhoneNum").css("color", "red");
+            //    $("#res-linkPhoneNum").text("*请输入有效的手机号");
+            //    return false;
+            //}
+            //var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            //if (!myreg.test(phone)) {
+            //    $("#res-linkPhoneNum").css("color", "red");
+            //    $("#res-linkPhoneNum").text('*请输入有效的手机号码');
+            //    return false;
+            //}
+            //company.parentId = $("#parentId").val();
+            //company.orgName = $("#orgName").val();
+            //company.orgCode = $("#orgCode").val();
+            //company.address = $("#address").val();
+            //company.linkPhoneNum = $("#linkPhoneNum").val();
+            //company.email = $("#email").val();
+            //company.linkMan=$("#linkMan").val();
+            //var name = $("#orgName").val();
+
+
+            //jQuery.ajax({
+            //    'type': 'POST',
+            //    'url': "/service/sys-company/insertReturnId",
+            //    'contentType': 'application/json',
+            //    'data': JSON.stringify(company),
+            //    'dataType': 'json',
+            //    'success': function (data) {
+            //        console.log(data);
+            //        if (data.data == "success") {
+            //            //$.messager.alert("系统提示", "保存成功");
+            //            alert("保存成功！！");
+            //            //解决传到另一个htnl中的乱码问题
+            //            encodeURI(window.location.href = "/modules/sys/default.html?name=" + name);
+            //
+            //        }
+            //    },
+            //    'error': function (data) {
+            //        alert("系统提示", "保存失败");
+            //    }
+            //});
 
         });
     }

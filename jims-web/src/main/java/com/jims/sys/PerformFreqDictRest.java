@@ -90,4 +90,14 @@ public class PerformFreqDictRest {
     public List<PerformFreqDict> findList(PerformFreqDict entity){
         return performFreqDictApi.findList(entity);
     }
+
+    /**
+     * GET方式检索所有频次数据
+     * @return
+     */
+    @GET
+    @Path("findPer")
+    public List<PerformFreqDict> findPer(){
+        return performFreqDictApi.findList(new PerformFreqDict());
+    }
 }
