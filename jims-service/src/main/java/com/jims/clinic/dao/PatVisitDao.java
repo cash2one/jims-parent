@@ -43,4 +43,12 @@ public interface PatVisitDao extends CrudDao<PatVisit> {
      */
     public PatVisit getPatientInformation(String patientId);
 
+    /**
+     * @return a    返回类型
+     * @Desription: (根据参数删除住院记录)
+     * @author CTQ
+     * @date 2016/5/30
+     */
+    public int delVisit(PatVisit patVisit);
+
 }

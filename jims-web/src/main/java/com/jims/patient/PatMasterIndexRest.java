@@ -85,11 +85,11 @@ public class PatMasterIndexRest {
         StringData stringData=new StringData();
         String num = "";
         //判断是否缴纳预交金，如果没有，执行取消登记
-        PrepaymentRcpt prepaymentRcpt = new PrepaymentRcpt();
+        List<PrepaymentRcpt> list = Lists.newArrayList();
 
         if(ids!=null&&!"".equals(ids)){
-//            prepaymentRcpt =  prepaymentRcptServiceApi.findByPatientId(ids);
-            if(prepaymentRcpt!=null){
+            list =  prepaymentRcptServiceApi.findByPatientId(ids);
+            if(list!=null&&list.size()>0){
                 stringData.setCode("warning");
             }else{
                 num=patMasterIndexServiceApi.deleteMasterIndex(ids);

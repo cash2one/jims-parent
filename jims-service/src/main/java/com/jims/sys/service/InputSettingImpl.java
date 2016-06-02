@@ -156,7 +156,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
         //插入
         for (InputSettingDetail inputSettingDetail : inserted) {
             inputSettingDetail.preInsert();
-            inputSettingDetail.setInputSettingMasterId(inputSettingDetailVo.getInput_setting_master_id());
+            //inputSettingDetail.setInputSettingMasterId(inputSettingDetailVo.getInput_setting_master_id());
             int num = inputSettingDetailDao.insert(inputSettingDetail);
         }
         //更新

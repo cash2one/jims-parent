@@ -430,6 +430,56 @@
            and ("OUTP_ORDERS".CLINIC_ID = #{id})
            and "OUTP_TREAT_REC"."CHARGE_INDICATOR" = '0'
     </select>
+	<select id="getTotalAccount" resultType="ClinicMaster">
+		select sum(nvl(REGIST_FEE, 0)) as "registFee" ,sum(nvl(CLINIC_FEE, 0)) AS "clinicFee",sum(nvl(OTHER_FEE, 0)) AS "otherFee" ,sum(nvl(clinic_charge, 0)) AS "clinicCharge",
+		from clinic_master
+		<where>
+			del_flag='0'
+			and  acct_No is null
+			and (REGISTRATION_STATUS = 1 or REGISTRATION_STATUS = 2)
+			<if test="registeringDate!=null">
+				and REGISTERING_DATE &lt;=
+				TO_DATE(#{registeringDate}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="operator!=null and operator!=''">
+				and OPERATOR = #{operator}
+			</if>
+		</where>
+	</select>
 
+<select id="getRegiNum" resultType="Integer">
+	select count(1)
+	from CLINIC_MASTER
+	<where>
+		del_flag='0'
+		and  acct_No is null
+		and (REGISTRATION_STATUS = 1 or REGISTRATION_STATUS = 2)
+		<if test="registeringDate!=null">
+			and REGISTERING_DATE &lt;=
+			TO_DATE(#{registeringDate}, 'YYYY-MM-DD HH24:MI:SS')
+		</if>
+		<if test="operator!=null and operator!=''">
+			and OPERATOR = #{operator}
+		</if>
+	</where>
+</select>
+	<select id="getGroupData" resultType="ClinicMaster">
+		select pay_way as "payWay",sum(nvl(REGIST_FEE, 0) + nvl(CLINIC_FEE, 0) + nvl(OTHER_FEE, 0)) as "totalFee"
+		,sum(nvl(clinic_charge, 0)-nvl(REGIST_FEE, 0)-nvl(CLINIC_FEE, 0)-nvl(OTHER_FEE, 0)) as "returnFee",sum(nvl(clinic_charge, 0)) as "clinicCharge"
+		from CLINIC_MASTER
+		<where>
+			del_flag='0'
+			and  acct_No is null
+			and (REGISTRATION_STATUS = 1 or REGISTRATION_STATUS = 2)
+			<if test="registeringDate!=null">
+				and REGISTERING_DATE &lt;=
+				TO_DATE(#{registeringDate}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="operator!=null and operator!=''">
+				and OPERATOR = #{operator}
+			</if>
+		</where>
+		group by pay_way
 
+	</select>
 </mapper>
