@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>机构服务自定义</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
+</head>
+<body>
+
+<table id="orgSelfService"></table>
+<div id="tbn" style="height: 40px; padding-left: 5px;padding-top: 10px">
+    <a href="#" id="addButton" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加服务</a>
+    <a href="#" id="delButton" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除服务</a>
+    <a href="#" id="menuButton" class="easyui-linkbutton" data-options="iconCls:'icon-cog'">维护服务菜单</a>
+    <a href="#" id="saveButton" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+</div>
+<div id="selfServiceMenuWin">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'west',collapsible:false" style="width:53%;">
+            <div id="selfServiceMenu"></div>
+            <div id="menuBtn" style="border:0;text-align: center;padding: 5px">
+                <a href="#" id="delMenu" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除菜单</a>
+                <a href="#" id="okMenu" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定选择</a>
+            </div>
+        </div>
+        <div data-options="region:'center'">
+            <div id="selectServiceMenu"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
+<script src="js/org-self-service.js"></script>
+</body>
+</html>

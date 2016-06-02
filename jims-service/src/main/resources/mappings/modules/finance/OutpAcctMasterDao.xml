@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.dao.OutpAcctMasterDao">
+    
+	<sql id="outpAcctMasterColumns">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.acct_no AS "acctNo",
+		a.operator_no AS "operatorNo",
+		a.acct_date AS "acctDate",
+		a.min_rcpt_no AS "minRcptNo",
+		a.max_rcpt_no AS "maxRcptNo",
+		a.rcpts_num AS "rcptsNum",
+		a.free_of_charge_num AS "freeOfChargeNum",
+		a.refund_num AS "refundNum",
+		a.refund_amount AS "refundAmount",
+		a.total_costs AS "totalCosts",
+		a.total_incomes AS "totalIncomes",
+		a.tally_date AS "tallyDate",
+		a.rcpt_total AS "rcptTotal",
+		a.rcpt_cnt AS "rcptCnt",
+		a.rcpt_refund AS "rcptRefund",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpAcctMasterJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpAcctMaster">
+		SELECT 
+			<include refid="outpAcctMasterColumns"/>
+		FROM outp_acct_master a
+		<include refid="outpAcctMasterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpAcctMaster">
+		SELECT 
+			<include refid="outpAcctMasterColumns"/>
+		FROM outp_acct_master a
+		<include refid="outpAcctMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpAcctMaster">
+		SELECT 
+			<include refid="outpAcctMasterColumns"/>
+		FROM outp_acct_master a
+		<include refid="outpAcctMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getMaxAcctNo" resultType="java.lang.String">
+       SELECT  max(acct_no)
+         from outp_acct_master
+         where del_flag = '0'
+	</select>
+
+	<insert id="insert">
+		INSERT INTO outp_acct_master(
+			id,
+			org_id,
+			acct_no,
+			operator_no,
+			acct_date,
+			min_rcpt_no,
+			max_rcpt_no,
+			rcpts_num,
+			free_of_charge_num,
+			refund_num,
+			refund_amount,
+			total_costs,
+			total_incomes,
+			tally_date,
+			rcpt_total,
+			rcpt_cnt,
+			rcpt_refund,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orgId},
+			#{acctNo},
+			#{operatorNo},
+			#{acctDate},
+			#{minRcptNo},
+			#{maxRcptNo},
+			#{rcptsNum},
+			#{freeOfChargeNum},
+			#{refundNum},
+			#{refundAmount},
+			#{totalCosts},
+			#{totalIncomes},
+			#{tallyDate},
+			#{rcptTotal},
+			#{rcptCnt},
+			#{rcptRefund},
+			#{createDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_acct_master SET 	
+			org_id = #{orgId},
+			acct_no = #{acctNo},
+			operator_no = #{operatorNo},
+			acct_date = #{acctDate},
+			min_rcpt_no = #{minRcptNo},
+			max_rcpt_no = #{maxRcptNo},
+			rcpts_num = #{rcptsNum},
+			free_of_charge_num = #{freeOfChargeNum},
+			refund_num = #{refundNum},
+			refund_amount = #{refundAmount},
+			total_costs = #{totalCosts},
+			total_incomes = #{totalIncomes},
+			tally_date = #{tallyDate},
+			rcpt_total = #{rcptTotal},
+			rcpt_cnt = #{rcptCnt},
+			rcpt_refund = #{rcptRefund},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_acct_master SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

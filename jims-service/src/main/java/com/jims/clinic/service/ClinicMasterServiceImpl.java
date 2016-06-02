@@ -28,6 +28,8 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     @Autowired
     private ClinicReturnedAcctDao clinicReturnedDao;
 
+
+
     /**
      * 查询 病人列表 （待诊）
      * @param doctorID
@@ -53,14 +55,36 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     }
 
     @Override
-    public ClinicMaster findFeeForm(String operator, Date date) {
+    public ClinicMaster findFeeForm(String operator, String date) {
         ClinicMaster clinic =  clinicMasterDao.getTotalAccount(operator,date);
-        Integer registerNum = clinicMasterDao.getRegiNum(operator,date);
-        Integer returnNum = clinicReturnedDao.getRetuNum(operator, date);
+        Double registerNum = clinicMasterDao.getRegiNum(operator,date);
+        Double returnNum = clinicReturnedDao.getRetuNum(operator, date);
         if (clinic!=null){
-            clinic.setRegisterNum(registerNum);
-            clinic.setReturnNum(returnNum);
+            clinic.setRegistNum(registerNum);
+            clinic.setRefundNum(returnNum);
         }
         return clinic;
+    }
+    /**
+     * 根据操作员和挂号时间查询并按照支付方式分组数据
+     * @param operator
+     * @param registeringDate
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public List<ClinicMaster> getGroupData(String operator, String registeringDate) {
+        return clinicMasterDao.getGroupData(operator,registeringDate);
+    }
+    /**
+     * 根据参数获取检查费用项目信息
+     * @param operator
+     * @param registeringDate
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public ClinicMaster getCheckItem(String operator, String registeringDate) {
+        return clinicMasterDao.getCheckItem(operator,registeringDate);
     }
 }
