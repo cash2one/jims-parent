@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.outpAccounts.dao.RegistAcctDetailDao">
+    
+	<sql id="registAcctDetailColumns">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.acct_id AS "acctId",
+		a.acct_no AS "acctNo",
+		a.tally_fee_class AS "tallyFeeClass",
+		a.costs AS "costs",
+		a.income AS "income"
+	</sql>
+	
+	<sql id="registAcctDetailJoins">
+	</sql>
+    
+	<select id="get" resultType="RegistAcctDetail">
+		SELECT 
+			<include refid="registAcctDetailColumns"/>
+		FROM regist_acct_detail a
+		<include refid="registAcctDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="RegistAcctDetail">
+		SELECT 
+			<include refid="registAcctDetailColumns"/>
+		FROM regist_acct_detail a
+		<include refid="registAcctDetailJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="RegistAcctDetail">
+		SELECT 
+			<include refid="registAcctDetailColumns"/>
+		FROM regist_acct_detail a
+		<include refid="registAcctDetailJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO regist_acct_detail(
+			id,
+			org_id,
+			acct_id,
+			acct_no,
+			tally_fee_class,
+			costs,
+			income
+		) VALUES (
+			#{id},
+			#{orgId},
+			#{acctId},
+			#{acctNo},
+			#{tallyFeeClass},
+			#{costs},
+			#{income}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE regist_acct_detail SET 	
+			org_id = #{orgId},
+			acct_id = #{acctId},
+			acct_no = #{acctNo},
+			tally_fee_class = #{tallyFeeClass},
+			costs = #{costs},
+			income = #{income}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM regist_acct_detail
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -77,6 +77,15 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 
 	private Date birthDate;//出生日期
 	private List<ClinicForRegist> clinicForRegists;
+
+	private Double registNum;//挂号数量
+	private Double refundNum;//退号数量
+	private Double totalCosts;//收款费用总额
+	private Double refundAmount;//退号费用总额
+	private Double totalIncomes;//实收费用
+	private String acctDate;//截至日期
+	private String item;//检查项目
+	private Double fee;
 	
 	public ClinicMaster() {
 		super();
@@ -545,5 +554,69 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 
 	public void setClinicForRegists(List<ClinicForRegist> clinicForRegists) {
 		this.clinicForRegists = clinicForRegists;
+	}
+
+	public Double getRegistNum() {
+		return registNum;
+	}
+
+	public void setRegistNum(Double registNum) {
+		this.registNum = registNum;
+	}
+
+	public Double getRefundAmount() {
+		return refundAmount;
+	}
+
+	public void setRefundAmount(Double refundAmount) {
+		this.refundAmount = refundAmount;
+	}
+
+	public Double getTotalCosts() {
+		return totalCosts;
+	}
+
+	public void setTotalCosts(Double totalCosts) {
+		this.totalCosts = totalCosts;
+	}
+
+	public Double getRefundNum() {
+		return refundNum;
+	}
+
+	public void setRefundNum(Double refundNum) {
+		this.refundNum = refundNum;
+	}
+
+	public Double getTotalIncomes() {
+		return totalIncomes;
+	}
+
+	public void setTotalIncomes(Double totalIncomes) {
+		this.totalIncomes = totalIncomes;
+	}
+
+	public String getAcctDate() {
+		return acctDate;
+	}
+
+	public void setAcctDate(String acctDate) {
+		this.acctDate = acctDate;
+	}
+
+	public Double getFee() {
+		return fee;
+	}
+
+	public void setFee(Double fee) {
+		this.fee = fee;
+	}
+
+	public String getItem() {
+		return item;
+	}
+
+	public void setItem(String item) {
+		this.item = item;
 	}
 }

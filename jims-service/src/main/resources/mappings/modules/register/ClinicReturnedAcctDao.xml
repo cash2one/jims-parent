@@ -181,6 +181,20 @@
 		WHERE id = #{id}
 	</update>
 
-
+ <select id="getRetuNum" resultType="Double">
+	 select count(1)
+	 from CLINIC_RETURNED_ACCT
+	 <where>
+		 del_flag='0'
+		 and acct_No is null
+		 <if test="returnedDate!=null">
+			 and RETURNED_DATE &lt;=
+			 TO_DATE(#{returnedDate}, 'YYYY-MM-DD HH24:MI:SS')
+		 </if>
+		 <if test="returnedOperator!=null and returnedOperator!=''">
+			 and RETURNED_OPERATOR = #{returnedOperator}
+		 </if>
+	 </where>
+ </select>
 	
 </mapper>

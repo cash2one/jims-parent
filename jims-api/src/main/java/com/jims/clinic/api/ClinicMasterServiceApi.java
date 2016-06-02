@@ -2,6 +2,7 @@ package com.jims.clinic.api;
 
 import com.jims.clinic.entity.ClinicMaster;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,4 +33,32 @@ public interface ClinicMasterServiceApi {
      * @return
      */
     public List<ClinicMaster> getClinicMasterDiagnosed(String doctorID);
+
+    /**
+     * 根据参数查询挂号数据
+     * @param operator
+     * @param date
+     * @author CTQ
+     * @return
+     */
+    public ClinicMaster findFeeForm(String operator,String date);
+
+    /**
+     * 根据操作员和挂号时间查询并按照支付方式分组数据
+     * @param operator
+     * @param registeringDate
+     * @author CTQ
+     * @return
+     */
+    public List<ClinicMaster> getGroupData(String operator,String registeringDate);
+
+    /**
+     * 根据参数获取检查费用项目信息
+     * @param operator
+     * @param registeringDate
+     * @author CTQ
+     * @return
+     */
+    public ClinicMaster getCheckItem(String operator,String registeringDate);
+
 }

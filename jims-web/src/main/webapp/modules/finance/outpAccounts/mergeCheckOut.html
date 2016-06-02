@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/finance/outpAccounts/js/regiAccounts.js"></script>
+    <style>
+        .bot-medbtn {
+            float: right;
+            padding: 15px 10px 0 0;
+        }
+
+        .bot-medbtn a {
+            display: inline-block;
+            padding: 10px;
+
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north'" style="height: 8%;">
+    <form id="northForm" method="post">
+        <div class="fitem fitem_pop">
+            <label>
+                结账截止日期：
+            </label>
+            <input id="acctDate" name="acctDate" class="easyui-datetimebox">
+        </div>
+    </form>
+</div>
+<div data-options="region:'center'" style="border: none">
+    <div style="margin:10px 0 10px 0;"></div>
+    <div class="easyui-tabs" style="width:99%;height:98%">
+        <div title="挂号费结账信息" style="padding:10px">
+            <div class="easyui-layout" data-options="fit:true">
+                <div data-options="region:'west'" style="width: 40%;">
+                    <form id="regiForm">
+                        <div class="fitem fitem_pop">
+                            <label>
+                                挂号数：
+                            </label>
+                            <input name="registNum" class="easyui-textbox">
+                        </div>
+                        <div class="fitem fitem_pop">
+                            <label>
+                                退号数：
+                            </label>
+                            <input name="refundNum" class="easyui-textbox">
+                        </div>
+                        <div class="fitem fitem_pop">
+                            <label>
+                                计价总额：
+                            </label>
+                            <input name="totalCosts" class="easyui-textbox">
+                        </div>
+                        <div class="fitem fitem_pop">
+                            <label>
+                                退号总额：
+                            </label>
+                            <input name="refundAmount" class="easyui-textbox">
+                        </div>
+                        <div class="fitem fitem_pop">
+                            <label>
+                                实收总额：
+                            </label>
+                            <input name="totalIncomes" class="easyui-textbox">
+                        </div>
+                    </form>
+                </div>
+                <div data-options="region:'center'" style="border: none">
+                    <table id="centerList"></table>
+                </div>
+                <div data-options="region:'south'" style="height: 60%;border: none">
+                    <table id="dataList"></table>
+                </div>
+            </div>
+        </div>
+        <div title="门诊收费结账信息" style="padding:10px">
+
+        </div>
+    </div>
+</div>
+
+</div>
+<div data-options="region:'south'" style="height: 9%;border: none">
+        <div data-options="region:'center'" style="border: none">
+            <div class="bot-medbtn">
+                <a href="#" onclick="accFun()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">结账</a>
+                <a href="#" onclick="confirmFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确认</a>
+                <a href="#" onclick="clearForm()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">清屏</a>
+
+            </div>
+        </div>
+</div>
+</body>
+</html>

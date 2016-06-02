@@ -9,7 +9,7 @@ create table PRICE_LIST
   ITEM_CODE          VARCHAR2(20) not null,
   ITEM_NAME          VARCHAR2(100),
   ITEM_SPEC          VARCHAR2(50) not null,
-  UNITS              VARCHAR2(8) not null,
+  UNITS              VARCHAR2(10) not null,
   PRICE              NUMBER(9,3),
   PREFER_PRICE       NUMBER(9,3),
   FOREIGNER_PRICE    NUMBER(9,3),
