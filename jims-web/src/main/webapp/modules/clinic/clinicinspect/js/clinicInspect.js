@@ -82,20 +82,19 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'examNo', title: '检查单号', width: '20%', align: 'center'},
-            {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center'},
-            {field: 'reqDept', title: '开单科室', width: '20%', align: 'center'},
-            {field: 'reqDept', title: '检查科室', width: '20%', align: 'center'},
-            {field: 'flag', title: '状态', width: '20%', align: 'center'},
+            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center'},
+            {field: 'reqDept', title: '开单科室', width: '25%', align: 'center'},
+            {field: 'reqDept', title: '检查科室', width: '25%', align: 'center'},
+            {field: 'flag', title: '状态', width: '23%', align: 'center'},
             {
                 field: 'id',
                 title: '操作',
                 width: '38%',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
+                    //var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
                         //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
-                        '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
+                    var html = '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     return html;
                 }
             }

@@ -3,14 +3,7 @@
  */
 package com.jims.sys.bo;
 
-import com.jims.clinic.dao.*;
-import com.jims.clinic.entity.ClinicItemDict;
-import com.jims.clinic.entity.ClinicMaster;
-import com.jims.clinic.entity.OutpTreatRec;
-import com.jims.clinic.utils.CostOrdersUtils;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.exam.entity.ExamAppoints;
-import com.jims.exam.entity.ExamItems;
 import com.jims.sys.dao.OrgRoleDao;
 import com.jims.sys.entity.OrgRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

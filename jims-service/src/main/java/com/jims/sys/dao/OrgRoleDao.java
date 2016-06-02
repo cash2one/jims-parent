@@ -7,7 +7,6 @@ package com.jims.sys.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.OrgRole;
-import com.jims.sys.entity.StaffVsRole;
 
 import java.util.List;
 

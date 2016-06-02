@@ -47,12 +47,13 @@ function saveMaster() {
     $.postForm(basePath + '/patMasterIndex/save', 'masterForm', function (data) {
         if (data.data == 'success') {
 
-            $.messager.alert("提示消息", data.code + "条记录，保存成功");
-            $('#centerList').datagrid('load');
-            $('#centerList').datagrid('clearChecked');
-            $.messager.confirm("操作提示", "是否交预交金？", function (data) {
-                if (data) {
+            //$.messager.alert("提示消息", data.code + "条记录，保存成功");
 
+            $.messager.confirm("操作提示", "是否交预交金？", function (data) {
+                $('#centerList').datagrid('load');
+                $('#centerList').datagrid('clearChecked');
+                if (data) {
+                    window.parent.document.getElementById("centerIframe").src = "/modules/finance/prepaymentList.html";
                 }
             });
         } else {

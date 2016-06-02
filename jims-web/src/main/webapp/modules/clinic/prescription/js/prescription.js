@@ -5,8 +5,12 @@ var prescNo;
 var itemClass;
 var clinicId;
 var chargeIndicator='新开';
+var yongtu={};
+yongtu.inpOutpFlag='0';
 var drugName = [{ "value": "氨茶碱注射液", "text": "氨茶碱注射液" }, { "value": "奥氮平（奥兰之）", "text": "奥氮平（奥兰之）" }, { "value": "奥氮平片", "text": "奥氮平片" }, { "value": "胺碘酮注射液", "text": "胺碘酮注射液" }, { "value": "阿司匹林肠溶片", "text": "阿司匹林肠溶片" }];
 var administration = [{ "value": "口服", "text": "口服" }, { "value": "静脉注射", "text": "静脉注射" }, { "value": "小儿头皮静脉", "text": "小儿头皮静脉" }, { "value": "静脉输液", "text": "静脉输液" }, { "value": "续静滴", "text": "续静滴" }];
+
+
 var frequency = [{ "value": "一日一次", "text": "一日一次" }, { "value": "一日二次", "text": "一日二次" }, { "value": "一日三次", "text": "一日三次" }];
 var providedIndicator = [{ "value": "1", "text": "取药" }];
 var skinFlag =  [{ "value": "1", "text": "阴性" }, { "value": "2", "text": "阳性" }, { "value": "3", "text": "无皮试" }];
@@ -112,17 +116,18 @@ $(function(){
             {field:'administration',title:'途径',width:'5%',align:'center',editor:{
                 type:'combobox',
                 options:{
-                    data :administration,
-                    valueField:'value',
-                    textField:'text'
+                    url:basePath+"/AdministrationDict/listAdministrationByInpOrOutpFlag",
+                    queryParams: JSON.stringify(yongtu),
+                    valueField:'administrationCode',
+                    textField:'administrationName'
                 }
             }},
             {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
                 type:'combobox',
                 options:{
-                    data :frequency,
+                    url:basePath+"/PerformFreqDict/findList",
                     valueField:'value',
-                    textField:'text'
+                    textField:'label'
                 }
             }},
             {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
@@ -143,9 +148,11 @@ $(function(){
             {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
                 type:'combobox',
                 options:{
-                    data :skinFlag,
+                    url:basePath+"/dict/findListByType",
+                    queryParams: {"type": "DRUG_FORM_DICT"},
+                    method:"GET",
                     valueField:'value',
-                    textField:'text'
+                    textField:'label'
                 }
             }},
             {field:'subOrderNo',title:'子处方',hidden:'true'},

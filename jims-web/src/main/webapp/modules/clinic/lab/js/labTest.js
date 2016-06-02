@@ -54,7 +54,7 @@ $(function(){
             {field: 'ck', checkbox: true}
         ]],
         toolbar: [{
-            text: '添加',
+            text: '新增检验',
             iconCls: 'icon-add',
             handler: function () {
                 add();
@@ -94,10 +94,11 @@ $(function(){
     });
 
 });
+//新增检验
 function add(){
     clearForm();
     $("#saveBut").show();
-    var clinicId=1;
+    var clinicId=$("#clinicMasterId",window.parent.document).val();
     $.ajax({
         //添加
         url: basePath+"/labtest/zhenduan",
@@ -115,7 +116,7 @@ function add(){
             }
         }
     })
-    //下拉框选择控件，下拉框的内容是动态查询数据库信息
+    //科室下拉框
     $('#performedBy').combobox({
         url: basePath + '/dept-dict/findListByCode',
         valueField: 'deptCode',
@@ -126,6 +127,7 @@ function add(){
          $(this).combobox('select', data[0].deptName);
          },*/
         onSelect: function (data) {
+            //根据科室选择类别
             $.ajax({
                 type: "POST",
                 url: basePath +'/labitemclass/findListByDeptCode',
@@ -135,6 +137,7 @@ function add(){
                     $("#labItemClass").combobox('loadData',data);
                 }
             });
+            //更具科室选择标本
             $.ajax({
                 type: "POST",
                 url: basePath +'/speciman/findListByDeptCode',
@@ -146,22 +149,17 @@ function add(){
             });
         }
     });
+     //类别下拉框
     $('#labItemClass').combobox({
         valueField: 'classCode',
         textField: 'className'
-        /*,
-         onLoadSuccess: function () {
-         var data = $(this).combobox('getData');
-         $(this).combobox('select', data[0].className);
-         }*/
     });
+    //标本下拉框
     $('#specimen').combobox({
         valueField: 'specimanCode',
         textField: 'specimanName',
-        /*onLoadSuccess: function () {
-         var data = $(this).combobox('getData');
-         $(this).combobox('select', data[0].specimanName);*/
-        onChange : function(n,o){SendProduct();
+        onChange : function(n,o){
+            SendProduct();
         }
     });
 }
@@ -228,6 +226,7 @@ function look() {
     loadTreeGrid();
     $("#treeGrid").dialog("open");
 }
+//弹出选择项目窗口
 function SendProduct() {
     var expand3 = $("#performedBy").val();
     var expand2 = $("#labItemClass").val();

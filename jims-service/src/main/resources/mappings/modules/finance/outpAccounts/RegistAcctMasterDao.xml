@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.outpAccounts.dao.RegistAcctMasterDao">
+    
+	<sql id="registAcctMasterColumns">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.clinic_id AS "clinicId",
+		a.acct_no AS "acctNo",
+		a.operator_no AS "operatorNo",
+		a.acct_date AS "acctDate",
+		a.regist_num AS "registNum",
+		a.refund_num AS "refundNum",
+		a.refund_amount AS "refundAmount",
+		a.total_costs AS "totalCosts",
+		a.total_incomes AS "totalIncomes",
+		a.tally_date AS "tallyDate",
+		a.fulfill_date_time AS "fulfillDateTime",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="registAcctMasterJoins">
+	</sql>
+    
+	<select id="get" resultType="RegistAcctMaster">
+		SELECT 
+			<include refid="registAcctMasterColumns"/>
+		FROM regist_acct_master a
+		<include refid="registAcctMasterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="RegistAcctMaster">
+		SELECT 
+			<include refid="registAcctMasterColumns"/>
+		FROM regist_acct_master a
+		<include refid="registAcctMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="RegistAcctMaster">
+		SELECT 
+			<include refid="registAcctMasterColumns"/>
+		FROM regist_acct_master a
+		<include refid="registAcctMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO regist_acct_master(
+			id,
+			org_id,
+			clinic_id,
+			acct_no,
+			operator_no,
+			acct_date,
+			regist_num,
+			refund_num,
+			refund_amount,
+			total_costs,
+			total_incomes,
+			tally_date,
+			fulfill_date_time,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{orgId},
+			#{clinicId},
+			#{acctNo},
+			#{operatorNo},
+			#{acctDate},
+			#{registNum},
+			#{refundNum},
+			#{refundAmount},
+			#{totalCosts},
+			#{totalIncomes},
+			#{tallyDate},
+			#{fulfillDateTime},
+			#{createDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE regist_acct_master SET 	
+			org_id = #{orgId},
+			clinic_id = #{clinicId},
+			acct_no = #{acctNo},
+			operator_no = #{operatorNo},
+			acct_date = #{acctDate},
+			regist_num = #{registNum},
+			refund_num = #{refundNum},
+			refund_amount = #{refundAmount},
+			total_costs = #{totalCosts},
+			total_incomes = #{totalIncomes},
+			tally_date = #{tallyDate},
+			fulfill_date_time = #{fulfillDateTime},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE regist_acct_master SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

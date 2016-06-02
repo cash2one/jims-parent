@@ -1,22 +1,16 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
-package com.jims.clinic.utils;
+package com.jims.clinic.bo;
 
-
+;
 
 import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.*;
 import com.jims.common.utils.IdGen;
-import com.jims.common.utils.SpringContextHolder;
-import com.jims.common.utils.StringUtils;
-import com.jims.common.utils.UserUtils;
 import com.jims.sys.dao.PriceListDao;
-import com.jims.sys.entity.ClinicItemClassDict;
 import com.jims.sys.entity.OrgStaff;
-import com.jims.sys.entity.SysUser;
-import com.jims.sys.entity.User;
 import com.jims.sys.vo.PriceListVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -26,20 +20,34 @@ import java.util.*;
  * @author zhangyao
  * @version 2016-5-11
  */
-public class CostOrdersUtils {
-
+@Service
+@Transactional(readOnly = false)
+public class CostOrdersUtilsService {
     //就诊记录
-    private static ClinicMasterDao clinicMasterDao = SpringContextHolder.getBean(ClinicMasterDao.class);
+    @Autowired
+    private ClinicMasterDao clinicMasterDao;
+
     //收费医嘱明细
-    private static OutpOrdersCostsDao outpOrdersCostsDao = SpringContextHolder.getBean(OutpOrdersCostsDao.class);
+    @Autowired
+    private OutpOrdersCostsDao outpOrdersCostsDao;
+
     //门诊医嘱记录
-    private static OutpOrdersDao outpOrdersDao = SpringContextHolder.getBean(OutpOrdersDao.class);
+    @Autowired
+    private OutpOrdersDao outpOrdersDao;
+
     //检查治疗医嘱明细
-    private static OutpTreatRecDao outpTreatRecDao = SpringContextHolder.getBean(OutpTreatRecDao.class);
+    @Autowired
+    private OutpTreatRecDao outpTreatRecDao;
+
     //项目价格
-    private static PriceListDao priceListDao = SpringContextHolder.getBean(PriceListDao.class);
+    @Autowired
+    private PriceListDao priceListDao ;
+
     //诊疗项目
-    private static ClinicItemDictDao clinicItemDictDao = SpringContextHolder.getBean(ClinicItemDictDao.class);
+    @Autowired
+    private ClinicItemDictDao clinicItemDictDao;
+
+
 
     /**
      * 保存收费医嘱
@@ -47,7 +55,7 @@ public class CostOrdersUtils {
      * @param itemDictList 诊疗项目list
      * @return
      */
-    public static void save(String clinicId ,List<ClinicItemDict> itemDictList) {
+    public void save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId) {
         ClinicMaster clinicMaster=clinicMasterDao.get(clinicId);
         OrgStaff orgStaff=new OrgStaff();
        // SysUser user=new SysUser();
@@ -75,6 +83,7 @@ public class CostOrdersUtils {
             outpTreatRec.setVisitDate(clinicMaster.getVisitDate());
             outpTreatRec.setClinicId(clinicId);
             outpTreatRec.setSerialNo(serialNo);
+            outpTreatRec.setAppointNo(appointsId);
             outpTreatRec.setItemClass(clinicItemDict.getItemClass());
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());

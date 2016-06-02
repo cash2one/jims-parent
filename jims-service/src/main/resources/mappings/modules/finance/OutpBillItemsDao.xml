@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.finance.dao.OutpBillItemsDao">
+    
+	<sql id="outpBillItemsColumns">
+		a.id AS "id",
+		a.visit_date AS "visitDate",
+		a.visit_no AS "visitNo",
+		a.rcpt_no AS "rcptNo",
+		a.item_no AS "itemNo",
+		a.item_class AS "itemClass",
+		a.class_on_rcpt AS "classOnRcpt",
+		a.item_code AS "itemCode",
+		a.item_name AS "itemName",
+		a.item_spec AS "itemSpec",
+		a.amount AS "amount",
+		a.units AS "units",
+		a.performed_by AS "performedBy",
+		a.costs AS "costs",
+		a.charges AS "charges",
+		a.confirmed_operator AS "confirmedOperator",
+		a.confirmed_datetime AS "confirmedDatetime",
+		a.invoice_no AS "invoiceNo",
+		a.flag AS "flag",
+		a.repetition AS "repetition",
+		a.class_on_reckoning AS "classOnReckoning",
+		a.subj_code AS "subjCode",
+		a.price_quotiety AS "priceQuotiety",
+		a.item_price AS "itemPrice",
+		a.order_no AS "orderNo",
+		a.sub_order_no AS "subOrderNo",
+		a.printed_rcpt_no AS "printedRcptNo",
+		a.sub_item_no AS "subItemNo",
+		a.freq_detail AS "freqDetail",
+		a.administration AS "administration",
+		a.pattern_name AS "patternName",
+		a.frequency AS "frequency",
+		a.confirmed_amount AS "confirmedAmount",
+		a.refunded_flag AS "refundedFlag",
+		a.refunded_operator AS "refundedOperator",
+		a.refunded_datetime AS "refundedDatetime",
+		a.order_group AS "orderGroup",
+		a.order_doctor AS "orderDoctor",
+		a.order_dept AS "orderDept",
+		a.performed_group AS "performedGroup",
+		a.performed_doctor AS "performedDoctor",
+		a.document_no AS "documentNo",
+		a.appoint_no AS "appointNo",
+		a.performed_by_doctor AS "performedByDoctor",
+		a.cwtj_code AS "cwtjCode",
+		a.ward_code AS "wardCode",
+		a.performed_by_sub AS "performedBySub",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="outpBillItemsJoins">
+	</sql>
+    
+	<select id="get" resultType="OutpBillItems">
+		SELECT 
+			<include refid="outpBillItemsColumns"/>
+		FROM outp_bill_items a
+		<include refid="outpBillItemsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OutpBillItems">
+		SELECT 
+			<include refid="outpBillItemsColumns"/>
+		FROM outp_bill_items a
+		<include refid="outpBillItemsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OutpBillItems">
+		SELECT 
+			<include refid="outpBillItemsColumns"/>
+		FROM outp_bill_items a
+		<include refid="outpBillItemsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO outp_bill_items(
+			id,
+			visit_date,
+			visit_no,
+			rcpt_no,
+			item_no,
+			item_class,
+			class_on_rcpt,
+			item_code,
+			item_name,
+			item_spec,
+			amount,
+			units,
+			performed_by,
+			costs,
+			charges,
+			confirmed_operator,
+			confirmed_datetime,
+			invoice_no,
+			flag,
+			repetition,
+			class_on_reckoning,
+			subj_code,
+			price_quotiety,
+			item_price,
+			order_no,
+			sub_order_no,
+			printed_rcpt_no,
+			sub_item_no,
+			freq_detail,
+			administration,
+			pattern_name,
+			frequency,
+			confirmed_amount,
+			refunded_flag,
+			refunded_operator,
+			refunded_datetime,
+			order_group,
+			order_doctor,
+			order_dept,
+			performed_group,
+			performed_doctor,
+			document_no,
+			appoint_no,
+			performed_by_doctor,
+			cwtj_code,
+			ward_code,
+			performed_by_sub,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{visitDate},
+			#{visitNo},
+			#{rcptNo},
+			#{itemNo},
+			#{itemClass},
+			#{classOnRcpt},
+			#{itemCode},
+			#{itemName},
+			#{itemSpec},
+			#{amount},
+			#{units},
+			#{performedBy},
+			#{costs},
+			#{charges},
+			#{confirmedOperator},
+			#{confirmedDatetime},
+			#{invoiceNo},
+			#{flag},
+			#{repetition},
+			#{classOnReckoning},
+			#{subjCode},
+			#{priceQuotiety},
+			#{itemPrice},
+			#{orderNo},
+			#{subOrderNo},
+			#{printedRcptNo},
+			#{subItemNo},
+			#{freqDetail},
+			#{administration},
+			#{patternName},
+			#{frequency},
+			#{confirmedAmount},
+			#{refundedFlag},
+			#{refundedOperator},
+			#{refundedDatetime},
+			#{orderGroup},
+			#{orderDoctor},
+			#{orderDept},
+			#{performedGroup},
+			#{performedDoctor},
+			#{documentNo},
+			#{appointNo},
+			#{performedByDoctor},
+			#{cwtjCode},
+			#{wardCode},
+			#{performedBySub},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE outp_bill_items SET 	
+			visit_date = #{visitDate},
+			visit_no = #{visitNo},
+			rcpt_no = #{rcptNo},
+			item_no = #{itemNo},
+			item_class = #{itemClass},
+			class_on_rcpt = #{classOnRcpt},
+			item_code = #{itemCode},
+			item_name = #{itemName},
+			item_spec = #{itemSpec},
+			amount = #{amount},
+			units = #{units},
+			performed_by = #{performedBy},
+			costs = #{costs},
+			charges = #{charges},
+			confirmed_operator = #{confirmedOperator},
+			confirmed_datetime = #{confirmedDatetime},
+			invoice_no = #{invoiceNo},
+			flag = #{flag},
+			repetition = #{repetition},
+			class_on_reckoning = #{classOnReckoning},
+			subj_code = #{subjCode},
+			price_quotiety = #{priceQuotiety},
+			item_price = #{itemPrice},
+			order_no = #{orderNo},
+			sub_order_no = #{subOrderNo},
+			printed_rcpt_no = #{printedRcptNo},
+			sub_item_no = #{subItemNo},
+			freq_detail = #{freqDetail},
+			administration = #{administration},
+			pattern_name = #{patternName},
+			frequency = #{frequency},
+			confirmed_amount = #{confirmedAmount},
+			refunded_flag = #{refundedFlag},
+			refunded_operator = #{refundedOperator},
+			refunded_datetime = #{refundedDatetime},
+			order_group = #{orderGroup},
+			order_doctor = #{orderDoctor},
+			order_dept = #{orderDept},
+			performed_group = #{performedGroup},
+			performed_doctor = #{performedDoctor},
+			document_no = #{documentNo},
+			appoint_no = #{appointNo},
+			performed_by_doctor = #{performedByDoctor},
+			cwtj_code = #{cwtjCode},
+			ward_code = #{wardCode},
+			performed_by_sub = #{performedBySub},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE outp_bill_items SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
