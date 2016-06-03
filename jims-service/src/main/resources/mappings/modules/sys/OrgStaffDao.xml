@@ -30,7 +30,7 @@
 
     <select id="findTitleByPersionId" resultType="OrgStaff">
         SELECT
-        title
+        *
         FROM org_staff a
 
         WHERE a.persion_id = #{1}
@@ -71,6 +71,9 @@
 	</select>
 	
 	<insert id="insert">
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            select sys_guid() as id from dual
+        </selectKey>
 		INSERT INTO org_staff(
 			id,
 			dept_id,

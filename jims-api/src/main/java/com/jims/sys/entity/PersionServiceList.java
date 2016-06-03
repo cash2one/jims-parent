@@ -18,7 +18,7 @@ public class PersionServiceList extends DataEntity<PersionServiceList> {
 	
 	private static final long serialVersionUID = 1L;
 	private String persionId;		// 人员
-	private String menuId;		// 菜单
+	private String serviceId;		// 菜单
 	private String flag;		// 0默认服务1，增值服务
 	private Date serviceStartDate;		// 服务开始时间
 	private Date serviceEndDate;		// 服务结束时间
@@ -41,12 +41,12 @@ public class PersionServiceList extends DataEntity<PersionServiceList> {
 	}
 	
 	@Length(min=0, max=64, message="菜单长度必须介于 0 和 64 之间")
-	public String getMenuId() {
-		return menuId;
+	public String getServiceId() {
+		return serviceId;
 	}
 
-	public void setMenuId(String menuId) {
-		this.menuId = menuId;
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
 	}
 	
 	@Length(min=0, max=2, message="0默认服务1，增值服务长度必须介于 0 和 2 之间")

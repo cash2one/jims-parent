@@ -2,7 +2,7 @@ create table PERSION_SERVICE_LIST
 (
    ID                   VARCHAR(64)          not null,
    PERSION_ID           VARCHAR(64),
-   MENU_ID              VARCHAR(64),
+   SERVICE_ID              VARCHAR(64),
    FLAG                 VARCHAR(2),
    SERVICE_START_DATE   TIMESTAMP,
    SERVICE_END_DATE     TIMESTAMP,
@@ -19,10 +19,10 @@ comment on column PERSION_SERVICE_LIST.ID is
 '主键';
 
 comment on column PERSION_SERVICE_LIST.PERSION_ID is
-'人员';
+'人员ID';
 
-comment on column PERSION_SERVICE_LIST.MENU_ID is
-'菜单';
+comment on column PERSION_SERVICE_LIST.SERVICE_ID is
+'服务ID';
 
 comment on column PERSION_SERVICE_LIST.FLAG is
 '0默认服务1，增值服务';

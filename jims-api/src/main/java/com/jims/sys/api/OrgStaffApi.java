@@ -66,7 +66,7 @@ public interface OrgStaffApi {
      * @param orgStaff
      * @return
      */
-    public String insertOrgStaffAndPersion(PersionInfo persionInfo,SysUser sysUser,OrgStaff orgStaff);
+    public String insertOrgStaffAndPersion(PersionInfo persionInfo,SysUser sysUser,OrgStaff orgStaff,String[] array);
 
     /**
      * 通过persionId查询密码，并用于回显
@@ -83,6 +83,14 @@ public interface OrgStaffApi {
      * @return
      * @author yangruidong
      */
-    public OrgStaff findTitleByPersionId(String persionId);
+    public OrgStaff findStaffByPersionId(String persionId);
+
+
+    /**
+     * 查询人员角色信息
+     *
+     * @return
+     */
+    public List<OrgRole> getRole(String staffId);
 
 }

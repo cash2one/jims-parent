@@ -60,7 +60,7 @@ public class LoginRest {
                     if(user!=null)
                     {
                         StringData stringData = new StringData();
-                        stringData.setData("success");
+                        stringData.setData(user.getPersionId());
                         return stringData;
                     }
                 } else {

@@ -48,7 +48,7 @@ public interface OrgStaffDao extends CrudDao<OrgStaff> {
      * @return
      * @author yangruidong
      */
-    public OrgStaff findTitleByPersionId(String persionId);
+    public OrgStaff findStaffByPersionId(String persionId);
 
 	
 }
