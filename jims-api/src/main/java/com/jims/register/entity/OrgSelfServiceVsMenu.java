@@ -15,7 +15,6 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
     private String selfServiceId;		// 服务ID
     private String menuId;		// 菜单ID
     private String menuSort;		// 菜单排序
-    private Date menuEndData;     //菜单停用日期
     private Date menuEndDate;    //菜单结束时间
     private String careateBy;		// careate_by
     private String remark;		// remark
@@ -58,14 +57,6 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 	public void setMenuSort(String menuSort) {
 		this.menuSort = menuSort;
 	}
-
-    public Date getMenuEndData() {
-        return menuEndData;
-    }
-
-    public void setMenuEndData(Date menuEndData) {
-        this.menuEndData = menuEndData;
-    }
 
     public String getCareateBy() {
 		return careateBy;
