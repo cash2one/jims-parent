@@ -63,6 +63,11 @@ public interface SysCompanyApi {
      */
    // public SysCompany findNameByCreateBy();
 
-
+    /**
+     * 保存注册信息以及选择的服务
+     * @param company
+     * @return 1 成功 ,0 失败
+     */
+    public String saveCompanyAndService(SysCompany company);
 
 }

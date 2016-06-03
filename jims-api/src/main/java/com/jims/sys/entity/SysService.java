@@ -23,8 +23,23 @@ public class SysService extends DataEntity<SysService> {
     private List<MenuDict> menuDictList;
     private List<SysServicePrice> sysServicePriceList;
 
+    public List<MenuDict> getMenuDictList() {
+        return menuDictList;
+    }
 
-	public SysService() {
+    public void setMenuDictList(List<MenuDict> menuDictList) {
+        this.menuDictList = menuDictList;
+    }
+
+    public List<SysServicePrice> getSysServicePriceList() {
+        return sysServicePriceList;
+    }
+
+    public void setSysServicePriceList(List<SysServicePrice> sysServicePriceList) {
+        this.sysServicePriceList = sysServicePriceList;
+    }
+
+    public SysService() {
 		super();
 	}
 

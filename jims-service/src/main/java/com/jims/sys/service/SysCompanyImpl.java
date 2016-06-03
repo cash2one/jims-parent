@@ -10,6 +10,7 @@ import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
 import com.jims.sys.api.SysCompanyApi;
 import com.jims.sys.dao.ServiceVsMenuDao;
+import com.jims.sys.bo.SysCompanyBo;
 import com.jims.sys.dao.SysCompanyDao;
 import com.jims.sys.dao.SysServiceDao;
 import com.jims.sys.entity.ServiceVsMenu;
@@ -38,6 +39,8 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
     @Autowired
     private SysServiceDao sysServiceDao;    //系统服务
 
+    @Autowired
+    private SysCompanyBo bo;
     /**
      * 根据申请状态查询组织机构列表
      * @param applyStatus 申请状态
@@ -124,5 +127,20 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
 
         int i = dao.update(sysCompany);
         return i;
+    }
+
+    /**
+     * 保存注册信息以及选择的服务
+     * @param company
+     * @return 1 成功 ,0 失败
+     */
+    public String saveCompanyAndService(SysCompany company){
+        String result = "0";
+        try{
+            bo.saveCompanyAndService(company);
+            result = "1";
+        } catch (Exception e){
+        }
+        return result;
     }
 }

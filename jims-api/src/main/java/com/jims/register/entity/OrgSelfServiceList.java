@@ -21,6 +21,18 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
 
     private List<OrgSelfServiceVsMenu> menus;   // 自定义服务对应的菜单
 
+    private String operateFlag ;    // 操作标志 ， 1 为删除自定义服务，id为需删除的id,
+                                              // 2 为更改的菜单数据，id为删除的菜单id,menus为更改的菜单
+
+
+    public String getOperateFlag() {
+        return operateFlag;
+    }
+
+    public void setOperateFlag(String operateFlag) {
+        this.operateFlag = operateFlag;
+    }
+
     public List<OrgSelfServiceVsMenu> getMenus() {
         return menus;
     }

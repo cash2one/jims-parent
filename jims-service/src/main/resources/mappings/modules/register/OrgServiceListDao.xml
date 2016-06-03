@@ -56,7 +56,7 @@
 	
 	<select id="findList" resultMap="serviceMap">
 		SELECT 
-			<include refid="orgServiceListColumns"/>,s.service_name,m.id menu_id,m.menu_name,v.menu_sort
+			a.*,s.service_name,m.id menu_id,m.menu_name,v.menu_sort
         FROM org_service_list a ,sys_service s,service_vs_menu v ,menu_dict m
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -133,8 +133,8 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE org_service_list SET 
-			del_flag = #{DEL_FLAG_DELETE}
+		UPDATE org_service_list SET
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	
