@@ -1,0 +1,3 @@
+insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
+values ('A40B806BB00C45568BEE9CB768BB109E', '挂号结账', '/modules/finance/outpAccounts/regiAccounts.html', '1', 5, '1', '', '', '', '31-5月 -16 03.16.25.212000 下午', '0', '31-5月 -16 03.16.25.212000 下午', '9396B1CBF46D4902B850331A5BF9ABED', '1');
+

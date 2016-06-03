@@ -11,7 +11,7 @@ import com.jims.clinic.entity.ElectronGroupConsultation;
 import com.jims.clinic.entity.ElectronGroupConsultationIn;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * @version 2016-04-23
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ElectronGroupConsultationInService extends CrudImplService<ElectronGroupConsultationInDao, ElectronGroupConsultationIn> implements ElectronGroupConsultationIntoApi {
     @Autowired
     private ElectronGroupConsultationDao electronGroupConsultationDao;

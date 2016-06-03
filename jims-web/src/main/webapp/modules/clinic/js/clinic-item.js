@@ -1,6 +1,6 @@
 $(function(){
     var org_id = '1'
-        ,select_index = 0   //诊疗项目默认选择索引，从0开始计算
+        ,select_index = undefined   //诊疗项目默认选择索引，从0开始计算
         ,name_and_vs_obj = {}  //作已修改的别名和对照缓存对象
 
     var type_arr //诊疗项目类别数组
@@ -24,6 +24,7 @@ $(function(){
             textField:'label',
             editable : false,
             onSelect : function(r){
+                select_index = undefined
                 load_data(0)
             }
         });
@@ -52,7 +53,8 @@ $(function(){
         });
         $('#add_alias').linkbutton({
             onClick : function(){
-                add_alias()
+                if(select_index != undefined)
+                    add_alias()
             }
         });
         $('#del_alias').linkbutton({
@@ -62,7 +64,8 @@ $(function(){
         });
         $('#add_vs').linkbutton({
             onClick : function(){
-                add_vs()
+                if(select_index != undefined)
+                    add_vs()
             }
         });
         $('#del_vs').linkbutton({
@@ -106,10 +109,8 @@ $(function(){
             columns: [[//显示的列
                 {field: 'id', title: '编号', width: 20, hidden:true},
                 { field: 'itemCode', title: '代码', width: 80, sortable: true,order:'desc',align : "center" },
-                { field: 'itemName', title: '项目名称', width: 200,align:'center',formatter:function(value){
-                    return '<div style="text-align:left">'+value+'</div>'
-                }},
-                { field: 'expand3', title: '执行科室', width: 120,align:'center',editor:{
+                { field: 'itemName', title: '项目名称', width: 200,halign:'center',align:'left'},
+                { field: 'expand3', title: '执行科室', width: 120,halign:'center',align:'left',editor:{
                     type:'combogrid',
                     options:{
                         panelWidth:300,
@@ -140,7 +141,7 @@ $(function(){
                             break
                         }
                     }
-                    return '<div style="text-align:left">'+value+'</div>';
+                    return value;
                 }},
                 { field: 'expand4', title: '频次',align : "center", width: 80 ,editor:{
                     type:'combobox',
@@ -260,7 +261,7 @@ $(function(){
                     if(value == '1')return '正名'
                     return '别名'
                 }},
-                { field: 'itemName', title: '诊疗项目名称及别名',align:'center', width:100,editor:{
+                { field: 'itemName', title: '诊疗项目名称及别名',halign:'center',align:'left', width:100,editor:{
                     type : 'textbox',
                     options:{
                         required:true,
@@ -274,8 +275,6 @@ $(function(){
                             $('#clinic_item_name').datagrid('getSelected').inputCode = _temp.toUpperCase()
                         }
                     }
-                },formatter:function(value){
-                    return '<div style="text-align: left">'+value+'</div>'
                 }},
                 { field: 'inputCode', title: '拼音码', width:50,align:'center'},
                 { field: 'inputCodeWb', title: '五笔码', width:50,align:'center'}
@@ -344,7 +343,7 @@ $(function(){
                     return format(price_type_arr,value);
                 }
                 },
-                { field: 'chargeItemCode', title: '名称',align:'center' ,width:80,editor:{
+                { field: 'chargeItemCode', title: '名称',halign:'center',align:'left' ,width:80,editor:{
                     type:'combogrid',
                     options:{
                         panelWidth:383,
@@ -390,7 +389,7 @@ $(function(){
                         }
                     }
 
-                    return '<div style="text-align: left">'+value+'</div>'
+                    return value
                 }},
                 { field: 'chargeItemSpec', title: '规格', width:50,align:'center'},
                 { field: 'amount', title: '数量', width:20,align:'center',editor : {type : 'numberbox',options:{required:true,min:1,missingMessage:'数量必填',onChange:function(newV){
@@ -541,6 +540,9 @@ $(function(){
                 $('#clinic_item').datagrid('selectRow',index)
                 load_name_data(index)
                 load_vs_data(index)
+            } else {
+                $('#clinic_item_name').datagrid('loadData',[])
+                $('#clinic_vs_charge').datagrid('loadData',[])
             }
         })
     }

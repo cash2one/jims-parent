@@ -12,7 +12,7 @@ import com.jims.register.dao.ClinicTypeSettingDao;
 import com.jims.register.entity.ClinicTypeFee;
 import com.jims.register.entity.ClinicTypeSetting;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * @version 2016-05-16
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicTypeFeeServiceImpl extends CrudImplService<ClinicTypeFeeDao, ClinicTypeFee> implements ClinicTypeFeeServiceApi {
      @Autowired
     private ClinicTypeSettingDao clinicTypeSettingDao;

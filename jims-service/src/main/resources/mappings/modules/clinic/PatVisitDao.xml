@@ -993,4 +993,16 @@
 		WHERE
 		a.patient_id=#{patientId}
 	</select>
+	<update id="delVisit">
+		update pat_visit set del_flag='1'
+		<where>
+			del_flag='0'
+			<if test="patientId!=null and patientId!=''">
+				and patient_id=#{patientId}
+			</if>
+			<if test="admissionDateTime!=null">
+				and to_char(admission_date_time,'yyyy-MM-dd')=to_char(#{admissionDateTime},'yyyy-MM-dd')
+			</if>
+		</where>
+	</update>
 </mapper>

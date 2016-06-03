@@ -183,6 +183,30 @@ function addPre(){
             })
             $("#centerList").datagrid();
         }
+    }else{
+        $.ajax({
+            'type': 'POST',
+            'url': basePath+'/doctDrugPrescMaster/getPrescMaster',
+            'contentType': 'application/json',
+            'dataType': 'json',
+            'success': function(data){
+                var parse = eval(data);
+                prescNo=parse.prescNo;
+                prescDate = parse.prescDate;
+                bindingPrescTitle = '';
+                $('#leftList').datagrid('insertRow', {
+                    index:0,
+                    row: {
+                        prescNo: prescNo,
+                        prescDate: prescDate,
+                        bindingPrescTitle: bindingPrescTitle
+                    }
+                });
+                $("#prescNo").val(prescNo);
+                $('#leftList').datagrid('selectRow',0);
+            }
+        })
+        $("#centerList").datagrid();
     }
 
 }

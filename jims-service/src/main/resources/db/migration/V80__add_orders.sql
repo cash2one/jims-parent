@@ -61,9 +61,9 @@ create table ORDERS
    EXEC_OPERATOR        VARCHAR2(20),
    EXEC_DATE_TIME       TIMESTAMP,
    CREATE_BY            VARCHAR2(64),
-   CREATE_DATA          TIMESTAMP,
+   CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
-   UPDATE_DATA          TIMESTAMP,
+   UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(200),
    DEL_FLAG             VARCHAR2(1),
    DUTY_DOCTOR          varchar2(20),
@@ -206,13 +206,13 @@ comment on column ORDERS.ORDER_PRINT_INDICATOR is
 comment on column ORDERS.CREATE_BY is
 '创建人';
 
-comment on column ORDERS.CREATE_DATA is
+comment on column ORDERS.CREATE_DATE is
 '创建时间';
 
 comment on column ORDERS.UPDATE_BY is
 '更新人';
 
-comment on column ORDERS.UPDATE_DATA is
+comment on column ORDERS.UPDATE_DATE is
 '更新时间';
 
 comment on column ORDERS.REMARKS is

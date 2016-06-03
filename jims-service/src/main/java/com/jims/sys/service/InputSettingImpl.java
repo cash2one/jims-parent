@@ -17,7 +17,7 @@ import com.jims.sys.vo.InputInfoVo;
 import com.jims.sys.vo.InputParamVo;
 import com.jims.sys.vo.InputSettingVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import java.util.List;
  * Created by yangruidong on 2016/5/18 .
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, InputSettingMaster> implements InputSettingServiceApi {
 
 
@@ -98,7 +98,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
      * @author yangruidong
      */
     @Override
-    @Transactional(readOnly = true)
+
     public List<InputSettingMaster> saveAll(InputSettingVo<InputSettingMaster> inputSettingMasterVo) {
         List<InputSettingMaster> newUpdateDict = new ArrayList<InputSettingMaster>();
         List<InputSettingMaster> inserted = inputSettingMasterVo.getInserted();
@@ -147,7 +147,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
      * @author yangruidong
      */
     @Override
-    @Transactional(readOnly = true)
+
     public List<InputSettingDetail> saveDetail(InputSettingVo<InputSettingDetail> inputSettingDetailVo) {
         List<InputSettingDetail> newUpdateDict = new ArrayList<InputSettingDetail>();
         List<InputSettingDetail> inserted = inputSettingDetailVo.getInserted();
@@ -156,7 +156,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
         //插入
         for (InputSettingDetail inputSettingDetail : inserted) {
             inputSettingDetail.preInsert();
-            inputSettingDetail.setInputSettingMasterId(inputSettingDetailVo.getInput_setting_master_id());
+            //inputSettingDetail.setInputSettingMasterId(inputSettingDetailVo.getInput_setting_master_id());
             int num = inputSettingDetailDao.insert(inputSettingDetail);
         }
         //更新

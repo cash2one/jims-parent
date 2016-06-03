@@ -14,7 +14,7 @@ import com.jims.clinic.entity.DocBloodCapacity;
 import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * 门诊用血申请Service
@@ -22,12 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 2016-05-06
  */
 @Service(version ="1.0.0")
-@Transactional(readOnly = true)
+
 public class DocBloodApplyServiceImpl extends CrudImplService<DocBloodApplyDao, DocBloodApply> implements DocBloodApplyServiceApi {
     @Autowired
     private DocBloodCapacityDao docBloodCapacityDao;
 
-    @Transactional(readOnly = false)
+
     public String saveDocBloodApply(DocBloodApply docBloodApply){
         String strState = super.save(docBloodApply);
         docBloodCapacityDao.delBloodCapacity(docBloodApply.getApplyNum());

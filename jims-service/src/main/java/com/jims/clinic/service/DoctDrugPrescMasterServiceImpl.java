@@ -11,7 +11,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.exam.dao.OrdersDao;
 import com.jims.exam.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Date;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * @version 2016-05-16
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPrescMasterDao, DoctDrugPrescMaster> implements DoctDrugPrescMasterServiceApi {
     @Autowired
     DoctDrugPrescDetailDao doctDrugPrescDetailDao;
@@ -54,7 +54,7 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
         try {
             //保存处方主记录
             doctDrugPrescMaster.setPrescDate(new Date());
-            doctDrugPrescMaster.setPrescStatus(1);
+            doctDrugPrescMaster.setPrescStatus(0);
             doctDrugPrescMaster.preInsert();
             num = dao.insert(doctDrugPrescMaster);
             //保存处方记录明细
@@ -155,5 +155,32 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
     @Override
     public Integer searchPrescNo(String visitId) {
         return dao.searchPrescNo(visitId);
+    }
+
+
+    /**
+     * 查询住院发药的列表
+     *
+     * @param doctDrugPrescMaster
+     * @reurn
+     * @thrws
+     * @author pq
+     * @date 2016/5/30 0030
+     */
+    public List<DoctDrugPrescMaster> getDrugMasterList(DoctDrugPrescMaster doctDrugPrescMaster){
+      return  dao.getDrugMasterList(doctDrugPrescMaster);
+    }
+
+    /**
+     * 方法 confirmDoctDrugPresc的功能描述
+     * 住院处方发药
+     * @param id
+     * @return
+     * @author pq
+     * @date 2016/5/30 0030
+     */
+    public String confirmDoctDrugPresc(String id){
+        int num=dao.confirmDoctDrugPresc(id);
+       return num+"";
     }
 }

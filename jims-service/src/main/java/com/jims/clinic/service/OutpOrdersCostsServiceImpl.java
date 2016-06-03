@@ -11,7 +11,7 @@ import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 
 import java.util.Date;
@@ -24,7 +24,7 @@ import java.util.List;
  * @version 2016-04-20
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsDao, OutpOrdersCosts> implements OutpOrdersCostsServiceApi {
     @Autowired
     private OutpOrdersCostsDao outpOrdersCostsDao;

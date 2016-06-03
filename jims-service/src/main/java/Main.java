@@ -16,7 +16,7 @@ public class Main {
         String webappDirLocation = "jims-service/src/main/webapp/";
         String webPort = System.getenv("PORT");
         if (webPort == null || webPort.isEmpty()) {
-            webPort = "80";
+            webPort = "85";
         }
 
         File file = new File(webappDirLocation);
@@ -54,7 +54,7 @@ public class Main {
         flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:his","his","admin");
         //设置schema用户
         //flyway.setSchemas("XIAN");
-        //flyway.setTable("SCHEMA_VERSION");
+        flyway.setTable("SCHEMA_VERSION");
         flyway.setEncoding("UTF-8");
         flyway.setValidateOnMigrate(true);
         //清空所有表结构

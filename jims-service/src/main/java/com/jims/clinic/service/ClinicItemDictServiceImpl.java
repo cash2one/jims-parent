@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ import java.util.List;
  * @version 2016-04-28
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao, ClinicItemDict> implements ClinicItemApi{
 
     @Autowired
@@ -64,7 +65,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @param entityList
      * @return 成功个数
      */
-    @Transactional(readOnly = false)
+
     public String save(List<ClinicItemDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -83,7 +84,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteCascade(ClinicItemDict entity) {
         try{
             deleteName(entity);
@@ -101,7 +102,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteCascade(String ids) {
         int i=0;
         try {
@@ -138,7 +139,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String save(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -161,7 +162,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String saveNameList(List<ClinicItemNameDict> entityList){
         int i = 0;
         if(entityList != null){
@@ -180,7 +181,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteName(String ids) {
         int i=0;
         try {
@@ -200,7 +201,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String delete(ClinicItemNameDict entity) {
         int i=0;
         try{
@@ -221,7 +222,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteName(ClinicItemDict entity) {
         ClinicItemNameDict itemName = new ClinicItemNameDict();
         itemName.setOrgId(entity.getOrgId());
@@ -250,7 +251,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String save(ClinicVsCharge entity) {
         int i=0;
         try{
@@ -273,7 +274,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String saveVsList(List<ClinicVsCharge> entityList){
         int i = 0;
         if(entityList != null){
@@ -292,7 +293,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String delete(ClinicVsCharge entity) {
         int i=0;
         try{
@@ -313,7 +314,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteVs(String ids) {
         int i=0;
         try {
@@ -333,7 +334,7 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
      * @return
      */
     @Override
-    @Transactional(readOnly = false)
+
     public String deleteVs(ClinicItemDict entity) {
         ClinicVsCharge vs = new ClinicVsCharge();
         vs.setOrgId(entity.getOrgId());
@@ -367,5 +368,49 @@ public class ClinicItemDictServiceImpl extends CrudImplService<ClinicItemDictDao
         clinicItemDict.setOrgId(orgId);
         clinicItemDict.setItemClass(clinicClass);
         return findList(clinicItemDict);
+    }
+
+    /**
+     * 批量处理（添加、修改、删除）诊疗项目、正别名以及对照
+     * @param list ClinicItemDict对象序列
+     *          如果ClinicItemDict对象delFlag为1，该对象为删除数据参数。
+     *                      该对象的Id为需要删除的数据的Id(也有可能是多个Id以‘ , ’拼接的ID字符串)
+     *          如果ClinicItemDict对象updateFlag为1，该对象为诊疗项目有修改操作的正别名、对照的修改删除数据参数。
+     *                      该对象的saveNameList属性为需要保存的正别名数据
+     *                      saveVsList为需要保存的对照数据
+     *                      delNameIds为需要删除的正别名数据的Id，多个以‘ , ’隔开
+     *                      delVsIds为需要删除的对照数据的Id，多个以‘ , ’隔开
+     *          其余为诊疗项目保存的数据，
+     *                      如果为新建项目，则saveNameList为新建的正别名数据
+     *                      saveVsList  为新建的对照数据
+     *
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public String saveBatch(List<ClinicItemDict> list){
+        String result = "0";
+        try{
+            for (int i = 0, j = (list != null ? list.size() : 0); i < j; i++) {
+                ClinicItemDict itemObj = list.get(i);
+                if ("1".equals(itemObj.getDelFlag())) {
+                     deleteCascade(itemObj.getId());
+                } else if ("1".equals(itemObj.getUpdateFlag())) {
+                    saveNameList(itemObj.getSaveNameList());
+                    saveVsList(itemObj.getSaveVsList());
+                    deleteName(itemObj.getDelNameIds());
+                    deleteVs(itemObj.getDelVsIds());
+                } else {
+                    save(itemObj);
+                    if (itemObj.getId() == null) {
+                        saveNameList(itemObj.getSaveNameList());
+                        saveVsList(itemObj.getSaveVsList());
+                    }
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
     }
 }

@@ -18,7 +18,7 @@ import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.vo.DrugCatalogBeanVo;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import java.util.List;
  * @version 2016-05-16
  */
 @Service(version = "1.0.0")
-@Transactional(readOnly = true)
+
 public class DrugInfoImpl extends CrudImplService<DrugInfoDao, DrugInfo> implements DrugInfoApi {
 
 

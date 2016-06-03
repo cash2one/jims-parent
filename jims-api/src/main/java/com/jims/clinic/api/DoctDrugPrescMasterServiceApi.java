@@ -52,4 +52,21 @@ public interface DoctDrugPrescMasterServiceApi {
      * @date 2016/5/17
      */
     public Integer searchPrescNo(String visitId);
+
+
+    /**
+     * 查询近一个月的处方记录（住院代发药记录）
+     * @param doctDrugPrescMaster
+     * @return
+     * @author pq
+     */
+    public List<DoctDrugPrescMaster> getDrugMasterList(DoctDrugPrescMaster doctDrugPrescMaster);
+
+    /**
+     * 发药的时候修改处方的状态
+     * @param id
+     * @return
+     * @author pq
+     */
+    public String confirmDoctDrugPresc(String id);
 }
