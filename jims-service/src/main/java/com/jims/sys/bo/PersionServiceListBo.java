@@ -34,12 +34,26 @@ public class PersionServiceListBo extends CrudImplService<PersionServiceListDao,
     /**
      * 根据persionId查询免费的服务
      * @param persionId
-     * @param flag
      * @return
      */
-    public List<SysService> findListByFlag( String persionId,String flag)
+    public List<SysService> findListByFlag( String persionId)
     {
-        return persionServiceListDao.findListByFlag(persionId,flag);
+        return persionServiceListDao.findListByFlag(persionId);
     }
 
+
+    /**
+     * 保存个人购买的服务
+     * @param persionServiceList
+     * @return 1 成功 ,0 失败
+     */
+    public void saveService(PersionServiceList persionServiceList){
+        List<PersionServiceList> services = persionServiceList.getServiceList();
+        if(services != null && services.size() > 0){
+            for(PersionServiceList service : services){
+                service.preInsert();
+                persionServiceListDao.insert(service);
+            }
+        }
+    }
 }

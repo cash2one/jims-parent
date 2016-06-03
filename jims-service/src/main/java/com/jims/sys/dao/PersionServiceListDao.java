@@ -23,9 +23,8 @@ public interface PersionServiceListDao extends CrudDao<PersionServiceList> {
     /**
      * 根据persionId查询免费的服务
      * @param persionId
-     * @param flag
      * @return
      */
-    public List<SysService> findListByFlag(@Param("persionId") String persionId,@Param("flag") String flag);
+    public List<SysService> findListByFlag(@Param("persionId") String persionId);
 	
 }
