@@ -225,7 +225,7 @@
 		AND ACCT_NO IS NULL
 		<if test="visitDate !=null and visitDate !=''">
 			AND VISIT_DATE &lt;=
-			to_date(#{visitDate}, 'yyyy-mm-dd hh24:mi:ss')
+			to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
 		</if>
 		group by id
 	</select>

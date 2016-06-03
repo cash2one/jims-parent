@@ -6,6 +6,10 @@ package com.jims.finance.entity;
 
 import com.jims.common.persistence.DataEntity;
 
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
@@ -55,6 +59,8 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 	private String minRcptNo;//最小收据号
 	private String maxRcptNo;//最大收据号
 	private Integer countNo;//收据张数
+
+	private String acctDate;
 
 
 	private List<OutpPaymentsMoney> outpAcctMoneyList;//门诊收费结帐金额分类OutpAcctMoney
@@ -367,5 +373,13 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 
 	public void setOutpAcctDetailList(List<OutpBillItems> outpAcctDetailList) {
 		this.outpAcctDetailList = outpAcctDetailList;
+	}
+
+	public String getAcctDate() {
+		return acctDate;
+	}
+
+	public void setAcctDate(String acctDate) {
+		this.acctDate = acctDate;
 	}
 }

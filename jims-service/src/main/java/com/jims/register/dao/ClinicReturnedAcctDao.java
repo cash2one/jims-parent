@@ -25,4 +25,14 @@ public interface ClinicReturnedAcctDao extends CrudDao<ClinicReturnedAcct> {
      */
     public Double getRetuNum(@Param("returnedOperator")String returnedOperator,@Param("returnedDate")String returnedDate);
 
+    /**
+     * 根据参数更新信息
+     * @param acctNo
+     * @param returnedOperator
+     * @param returnedDate
+     * @author CTQ
+     * @return
+     */
+    public int updateReturned(@Param("acctNo")String acctNo,@Param("returnedOperator")String returnedOperator,@Param("returnedDate")String returnedDate);
+
 }

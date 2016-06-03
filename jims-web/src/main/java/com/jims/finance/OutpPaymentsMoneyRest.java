@@ -1,6 +1,7 @@
 package com.jims.finance;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.utils.DateUtils;
 import com.jims.finance.api.OutpPaymentsMoneyServiceApi;
 import com.jims.finance.entity.OutpPaymentsMoney;
 import com.jims.finance.entity.OutpRcptMaster;
@@ -39,13 +40,9 @@ public class OutpPaymentsMoneyRest {
     @GET
     public List<OutpPaymentsMoney> findMaoneyPayment(@QueryParam("visitDate")String visitDate, @QueryParam("operatorNo")String operatorNo){
 
-        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
+     //   SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd");
         OutpRcptMaster outpRcptMaster=new OutpRcptMaster();
-        try {
-            outpRcptMaster.setVisitDate(formatter.parse(visitDate));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+            outpRcptMaster.setVisitDate(DateUtils.parseDate(visitDate));
         outpRcptMaster.setOperatorNo(operatorNo);
         return outpPaymentsMoneyServiceApi.findMaoneyPayment(outpRcptMaster);
     }
