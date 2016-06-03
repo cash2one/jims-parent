@@ -430,7 +430,23 @@
            and ("OUTP_ORDERS".CLINIC_ID = #{id})
            and "OUTP_TREAT_REC"."CHARGE_INDICATOR" = '0'
     </select>
-
+	<select id="getTotalAccount" resultType="ClinicMaster">
+		select sum(nvl(REGIST_FEE, 0) + nvl(CLINIC_FEE, 0) + nvl(OTHER_FEE, 0)) as "totalCosts"
+		,sum(nvl(REGIST_FEE, 0) + nvl(CLINIC_FEE, 0) + nvl(OTHER_FEE, 0)-nvl(clinic_charge, 0)) as "refundAmount",sum(nvl(clinic_charge, 0)) as "totalIncomes"
+		from clinic_master
+		<where>
+			del_flag='0'
+			and  acct_No is null
+			and (REGISTRATION_STATUS = 1 or REGISTRATION_STATUS = 2)
+			<if test="registeringDate!=null">
+				and REGISTERING_DATE &lt;=
+				TO_DATE(#{registeringDate}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="operator!=null and operator!=''">
+				and OPERATOR = #{operator}
+			</if>
+		</where>
+	</select>
 	<select id="getCheckItem" resultType="ClinicMaster">
 		select sum(nvl(REGIST_FEE, 0)) AS "registFee",
 		sum(nvl(CLINIC_FEE, 0)) AS "clinicFee",
@@ -484,4 +500,19 @@
 		group by pay_way
 
 	</select>
+	<update id="updateMaster">
+		update CLINIC_MASTER set acct_no =#{acctNo} , acct_date_time =SYSDATE
+		<where>
+			del_flag='0'
+			and  acct_No is null
+			and clinic_label is not null
+			<if test="registeringDate!=null">
+				and REGISTERING_DATE &lt;=
+				TO_DATE(#{registeringDate}, 'YYYY-MM-DD HH24:MI:SS')
+			</if>
+			<if test="operator!=null and operator!=''">
+				and OPERATOR = #{operator}
+			</if>
+		</where>
+	</update>
 </mapper>
