@@ -7,6 +7,10 @@ package com.jims.sys.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.PersionServiceList;
+import com.jims.sys.entity.SysService;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 人员拥有服务DAO接口
@@ -15,5 +19,13 @@ import com.jims.sys.entity.PersionServiceList;
  */
 @MyBatisDao
 public interface PersionServiceListDao extends CrudDao<PersionServiceList> {
+
+    /**
+     * 根据persionId查询免费的服务
+     * @param persionId
+     * @param flag
+     * @return
+     */
+    public List<SysService> findListByFlag(@Param("persionId") String persionId,@Param("flag") String flag);
 	
 }
