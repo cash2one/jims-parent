@@ -78,4 +78,24 @@ public class BedRecRest {
         return  bedRecServiceApi.getAllBed(wardCode);
     }
 
+    /**
+     * 删除病床
+     * @param ids
+     * @author pq
+     * @return
+     */
+    @Path("delete")
+    @POST
+    public StringData delete(String ids){
+        StringData stringData = new StringData();
+        String num=bedRecServiceApi.delete(ids);
+        stringData.setCode(num);
+        if(num !=null && !"0".equals(num)){
+            stringData.setData("success");
+        }else{
+            stringData.setData("error");
+        }
+        return stringData;
+    }
+
 }

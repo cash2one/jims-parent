@@ -108,7 +108,13 @@
 			lock_status,
 			lock_operator,
 			aircondition_class,
-			patient_id
+			patient_id,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
 		) VALUES (
 		    #{id},
 			#{wardCode},
@@ -205,7 +211,6 @@
       bed_rec.bed_no,
       PATS_IN_HOSPITAL.is_newborn,
          '    '        show_age ,
-
       (select count(*) from orders where order_status ='1' and patient_id=PATS_IN_HOSPITAL.PATIENT_ID and visit_id=PATS_IN_HOSPITAL.VISIT_ID) order_verify,
 		BED_REC.ID as "id"
     FROM BED_REC, PATS_IN_HOSPITAL, PAT_MASTER_INDEX
