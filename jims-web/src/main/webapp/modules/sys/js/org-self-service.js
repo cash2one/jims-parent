@@ -35,7 +35,7 @@ $(function() {
         }
     })
 
-    var currentOrgId = '1';  // 当前机构ID
+    var currentOrgId = 'd1f3875c3c3b4668a347a81f1094d52b';  // 当前机构ID
     var currentSelectIndex;  // 服务当前选择行
 
     var endEditing = function (){
@@ -108,6 +108,7 @@ $(function() {
 
     })
     $('#menuButton').click(function(){
+        if(!endEditing()) return false
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row){
             if(row.menus){
