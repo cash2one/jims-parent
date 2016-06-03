@@ -20,6 +20,7 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
     private String remark;		// remark
     private Date createTime;		// create_time
 
+
     private String selfMenuName;  // 菜单名称
 
 	public OrgSelfServiceVsMenu() {
@@ -57,8 +58,7 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 		this.menuSort = menuSort;
 	}
 
-
-	public String getCareateBy() {
+    public String getCareateBy() {
 		return careateBy;
 	}
 

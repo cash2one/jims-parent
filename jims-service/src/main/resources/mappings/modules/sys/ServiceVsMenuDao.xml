@@ -17,6 +17,17 @@
 	
 	<sql id="serviceVsMenuJoins">
 	</sql>
+
+    <select id="findByServiceId" resultType="ServiceVsMenu">
+        SELECT
+        *
+        FROM service_vs_menu
+        WHERE 1 = 1
+        <if test=" _parameter!=null and _parameter!='' ">
+            AND service_id = #{_parameter}
+        </if>
+        AND del_flag = '0'
+    </select>
     
 	<select id="get" resultType="ServiceVsMenu">
 		SELECT 
