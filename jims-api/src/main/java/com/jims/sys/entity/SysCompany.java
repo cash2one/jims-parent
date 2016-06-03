@@ -4,7 +4,10 @@
 package com.jims.sys.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.register.entity.OrgServiceList;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 /**
  * 组织结构Entity
@@ -24,6 +27,16 @@ public class SysCompany extends DataEntity<SysCompany> {
 	private String address;		// 组织结构地址
 	private String email;		// EMAIL地址
 	private String owner;		// 超级管理员
+
+    private List<OrgServiceList> serviceList;  // 机构定制的服务
+
+    public List<OrgServiceList> getServiceList() {
+        return serviceList;
+    }
+
+    public void setServiceList(List<OrgServiceList> serviceList) {
+        this.serviceList = serviceList;
+    }
 
     public SysCompany() {
 		super();

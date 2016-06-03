@@ -144,4 +144,26 @@ public class CreateCompanyRest {
         return null;
 
     }
+
+    /**
+     * 保存注册信息以及选择的服务
+     * @param sysCompany
+     * @return 1 成功 ,0 失败
+     */
+    @Path("saveCompanyAndService")
+    @POST
+    public String saveCompanyAndService(SysCompany sysCompany) {
+        if (StringUtils.isNotBlank(sysCompany.getOrgName()) && StringUtils.isNotBlank(sysCompany.getOrgCode()) &&
+                StringUtils.isNotBlank(sysCompany.getLinkPhoneNum()) && StringUtils.isNotBlank(sysCompany.getAddress()) && StringUtils.isNotBlank(sysCompany.getEmail())) {
+            sysCompany.setApplyStatus("0");
+
+            //如果没有父机构则向数据库中存入空
+            String parent=sysCompany.getParentId();
+            if (StringUtils.equalsIgnoreCase(parent,"请选择")) {
+                sysCompany.setParentId(null);
+            }
+            return sysCompanyApi.saveCompanyAndService(sysCompany);
+        }
+        return "0";
+    }
 }
