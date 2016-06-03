@@ -7,30 +7,29 @@ package com.jims.sys.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.OrgRole;
+import com.jims.sys.entity.OrgStaff;
+import com.jims.sys.entity.StaffVsRole;
+import com.jims.sys.vo.OrgStaffVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * 角色表DAO接口
+ * 人员角色表DAO接口
  * @author yangruidong
  * @version 2016-05-31
  */
 @MyBatisDao
-public interface OrgRoleDao extends CrudDao<OrgRole> {
+public interface StaffVsRoleDao extends CrudDao<StaffVsRole> {
 
 
     /**
-     * 根据orgId获取所有的角色
+     * 查询人员角色信息
+     *
      * @return
      */
-    public List<OrgRole> findAllList(String orgId);
+    public List<OrgRole> getRole(@Param("staffId") String staffId);
 
-    /**
-     * 根据角色名称模糊查询角色信息
-     * @param roleName 角色名称
-     * @return 角色信息列表
-     * @author fengyuguang
-     */
-    public List<OrgRole> findByRoleName(String roleName);
+
 	
 }

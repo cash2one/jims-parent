@@ -3,6 +3,7 @@ package com.jims.sys.api;
 
 
 import com.jims.phstock.vo.DrugCatalogChangeVo;
+import com.jims.sys.entity.ServiceVsMenu;
 import com.jims.sys.entity.SysService;
 import com.jims.sys.entity.SysServicePrice;
 
@@ -20,12 +21,11 @@ public interface SysServiceApi {
     /**
      * 保存或修改
      * @param sysService
-     * @param savePath
      * @author txb
      * @version 2016-05-31
      * @return
      */
-    public  String save(SysService sysService,String savePath);
+    public  String save(SysService sysService);
 
     /**
      * 修改保存服务明细
@@ -35,6 +35,14 @@ public interface SysServiceApi {
      * @version 2016-06-01
      */
     public String saveDetail(DrugCatalogChangeVo priceBeanVo);
+    /**
+     * 修改保存服务菜单
+     * @param serviceVsMenus
+     * @return
+     * @author txb
+     * @version 2016-06-02
+     */
+    public String saveServiceVsMenu(List<ServiceVsMenu> serviceVsMenus);
 
     /**
      * 删除
@@ -67,6 +75,14 @@ public interface SysServiceApi {
      * @version 2016-06-02
      */
     public List<SysService> serviceListByTC( String serviceType,String serviceClass);
+    /**
+     * 查询服务全部菜单
+     * @param serviceId 服务id
+     * @return
+     * @author txb
+     * @version 2016-06-02
+     */
+    public List<ServiceVsMenu> serviceVsMenuList(String serviceId);
 
     /**
      * 检索不同人群的服务

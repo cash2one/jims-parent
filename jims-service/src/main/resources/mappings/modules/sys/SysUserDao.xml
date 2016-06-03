@@ -18,8 +18,7 @@
 
     <select id="login" resultType="SysUser">
         SELECT
-        login_name,
-        password
+        *
         FROM sys_user
         WHERE
         login_name=#{loginName}
