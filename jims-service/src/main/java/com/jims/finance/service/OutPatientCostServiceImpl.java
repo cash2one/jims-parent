@@ -22,6 +22,7 @@ import java.util.List;
 @Service(version = "1.0.0")
 public class OutPatientCostServiceImpl  implements OutPatientCostServiceApi {
 
+
     @Autowired
     private ClinicMasterDao clinicMasterDao;
     @Autowired

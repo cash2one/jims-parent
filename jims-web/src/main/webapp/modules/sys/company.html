@@ -8,6 +8,7 @@
     <link href="/static/bookstrap/css/step-info.css" rel="stylesheet" type="text/css">
     <link href="/static/bookstrap/css/rgen_min.css" rel="stylesheet"/>
     <link href="/static/bookstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/bookstrap/css/span.css" rel="stylesheet" type="text/css"/>
     <link href="/static/bookstrap/css/demo.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/static/bookstrap/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/bookstrap/js/bootstrap.min.js"></script>
@@ -122,9 +123,32 @@
                 </div>
             </div>
             <div class="control-group text-center">
-                <button class="btn btn-success" id="saveBtn">保存</button>
+                <button class="btn btn-success" id="nextBtn" data-target="#addServiceModel" data-toggle="modal">下一步</button>
             </div>
             <!--  </form>-->
+        </div>
+    </div>
+
+    <div class="modal fade" id="addServiceModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document" style="width:840px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">选择服务</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-service-list">
+                        <div class="ser-type clearfix">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="saveService">保存</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3 def-rinfo">

@@ -1,6 +1,6 @@
 /**
- * 检查类别维护
- * @author tangxb
+ * 人员维护
+ * @author yangruidong
  * @version 2016-04-29
  */
 
@@ -10,11 +10,11 @@ $(function () {
     //窗体加载时禁用form表单
 
     //var orgId=parent.config.org_id;
-    var orgId=1;
+    var orgId = 1;
     var deptId;
     var deptName;
     //检查类别
-    $("#examClassGrid").treegrid({
+    $("#staff").treegrid({
         fit: true,
         fitColumns: true,
         striped: true,
@@ -33,16 +33,16 @@ $(function () {
             width: '100%'
         }]],
         onClickRow: function (rowIndex, rowData) {
-            var node = $("#examClassGrid").treegrid("getSelected");
+            var node = $("#staff").treegrid("getSelected");
             deptId = node.id;
             deptName = node.deptName;
-            var url = basePath + "/orgStaff/list?orgId=" +orgId  + "&deptId=" + deptId;
+            var url = basePath + "/orgStaff/list?orgId=" + orgId + "&deptId=" + deptId;
             $("#staffGrid").datagrid("reload", url);
 
         }
     });
 
-   // var orgId = parent.config.org_id;
+    // var orgId = parent.config.org_id;
     //加载树形结构的treegrid数据
     var loadDept = function () {
 
@@ -81,7 +81,7 @@ $(function () {
                 }
             }
 
-            $("#examClassGrid").treegrid('loadData', treeDepts);
+            $("#staff").treegrid('loadData', treeDepts);
         })
     }
     loadDept();
@@ -132,24 +132,34 @@ $(function () {
         }
         ]]
     });
-     $('#sex').combobox({
-     url: basePath + '/dict/findListByType?type=SEX_DICT',
-     valueField: 'value',
-     textField: 'label',
-     method: 'GET'
-     });
-     $('#nation').combobox({
-     data: 'type:NATION_DICT',
-     url: basePath + '/dict/findListByType?type=NATION_DICT',
-     valueField: 'value',
-     textField: 'label',
-     method: 'GET'
-     });
+    $('#sex').combobox({
+        url: basePath + '/dict/findListByType?type=SEX_DICT',
+        valueField: 'value',
+        textField: 'label',
+        method: 'GET'
+    });
+    $('#nation').combobox({
+        data: 'type:NATION_DICT',
+        url: basePath + '/dict/findListByType?type=NATION_DICT',
+        valueField: 'value',
+        textField: 'label',
+        method: 'GET'
+    });
 
     $('#deptName').combobox({
         url: basePath + '/dept-dict/selectParent',
         valueField: 'id',
         textField: 'deptName'
+    });
+
+    //加载角色
+    $('#role').combobox({
+        url: basePath + '/org-role/findAllListByOrgId?orgId=' + orgId,
+        valueField: 'id',
+        textField: 'roleName',
+        method: 'GET',
+        // data :[{id:'1',roleName:'护士'},{id:'2',roleName:'护士'}] ,
+        multiple: true
     });
 
     //检查子类别模态框
@@ -161,7 +171,7 @@ $(function () {
             $("#staffForm").form('reset');
         },
         onOpen: function () {
-            var node = $("#examClassGrid").treegrid("getSelected");
+            var node = $("#staff").treegrid("getSelected");
             if (node) {
                 $("#deptName").combobox('setValue', node.id);
                 $("#deptName").combobox('setText', node.deptName);
@@ -174,9 +184,14 @@ $(function () {
 
     //添加人员按钮
     $("#addBtn").on('click', function () {
-        $("#addStaff").window('open');
-        //    $("#deptName").combobox('setValue',deptName);
-        $("#selectCardNo").val("");
+        var node = $("#staff").treegrid("getSelected");
+        if (node) {
+            $("#addStaff").window('open');
+            $("#selectCardNo").val("");
+        } else {
+            $.messager.alert("系统提示", "请先选择科室信息");
+        }
+
 
     });
     //取消添加人员维护
@@ -204,19 +219,32 @@ $(function () {
                     $("#sex").combobox('setValue', data.sex);
                     $("#nation").combobox('setValue', data.nation);
                     $("#id").val(data.id);
+                    $.get("/service/orgStaff/findTitleByPersionId?persionId=" + data.id, function (data) {
+
+                        if (data != null) {
+                            $("#title").val(data.title);
+                            $("#staffId").val(data.id);
+                        }
+
+                    });
+
+                    var role = [];
+                    $.get("/service/orgStaff/findRole?staffId="+$("#staffId").val(data.id), function (data) {
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                role.push(data[i].id);
+                            }
+                            $("#role").combobox('setValues', role);
+                        }
+                    });
+
 
                     $.get("/service/orgStaff/findPasswordByPersionId?persionId=" + data.id, function (data) {
                         if (data != null) {
                             $("#password").val(data.password);
                         }
                     });
-                    $.get("/service/orgStaff/findTitleByPersionId?persionId=" + data.id, function (data) {
 
-                        if (data != null) {
-                            $("#title").val(data.title);
-                        }
-
-                    });
                 }
             },
             'error': function (data) {
@@ -240,7 +268,15 @@ $(function () {
         orgStaffVo.password = $("#password").val();
         orgStaffVo.nickName = $("#nickName").val();
         orgStaffVo.deptId = $("#deptName").combobox('getValue');
-       // orgStaffVo.orgId = parent.config.org_id;
+        var array = [];
+        array = $('#role').combobox('getValues');
+        if (array == "") {
+            orgStaffVo.role = null;
+        }
+        else {
+            orgStaffVo.role = array;
+        }
+        // orgStaffVo.orgId = parent.config.org_id;
         orgStaffVo.orgId = orgId;
         orgStaffVo.nation = $("#nation").combobox('getValue');
         if (orgStaffVo.cardNo != "" && orgStaffVo.email != "" && orgStaffVo.nickName != "" && orgStaffVo.phoneNum != "") {

@@ -11,13 +11,19 @@ import java.util.List;
 public interface SysCompanyApi {
 
     /**
+     * 根据申请状态查询组织机构列表
+     * @param applyStatus 申请状态
+     * @return 组织机构list集合
+     * @author fengyuguang
+     */
+    public List<SysCompany> findListByApplyStatus(String applyStatus);
+
+    /**
      * 获取单条数据
-     *
      * @param id
      * @return
      */
     public SysCompany get(String id);
-
 
     public int update(SysCompany sysCompany);
 
@@ -57,6 +63,11 @@ public interface SysCompanyApi {
      */
    // public SysCompany findNameByCreateBy();
 
-
+    /**
+     * 保存注册信息以及选择的服务
+     * @param company
+     * @return 1 成功 ,0 失败
+     */
+    public String saveCompanyAndService(SysCompany company);
 
 }

@@ -2,8 +2,13 @@ package com.jims.finance.outpAccounts.entity;
 
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
+import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 挂号结帐主记录Entity
@@ -25,6 +30,9 @@ public class RegistAcctMaster extends DataEntity<RegistAcctMaster> {
 	private Double totalIncomes;		// 总收入
 	private Date tallyDate;		// 记帐日期
 	private Date fulfillDateTime;		// fulfill_date_time
+
+	private List<RegistAcctMoney> acctMoneys;
+	private List<RegistAcctDetail> acctDetails;
 	
 	public RegistAcctMaster() {
 		super();
@@ -70,11 +78,11 @@ public class RegistAcctMaster extends DataEntity<RegistAcctMaster> {
 		this.operatorNo = operatorNo;
 	}
 
-
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getAcctDate() {
 		return acctDate;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setAcctDate(Date acctDate) {
 		this.acctDate = acctDate;
 	}
@@ -142,4 +150,19 @@ public class RegistAcctMaster extends DataEntity<RegistAcctMaster> {
 		this.fulfillDateTime = fulfillDateTime;
 	}
 
+	public List<RegistAcctDetail> getAcctDetails() {
+		return acctDetails;
+	}
+
+	public void setAcctDetails(List<RegistAcctDetail> acctDetails) {
+		this.acctDetails = acctDetails;
+	}
+
+	public List<RegistAcctMoney> getAcctMoneys() {
+		return acctMoneys;
+	}
+
+	public void setAcctMoneys(List<RegistAcctMoney> acctMoneys) {
+		this.acctMoneys = acctMoneys;
+	}
 }

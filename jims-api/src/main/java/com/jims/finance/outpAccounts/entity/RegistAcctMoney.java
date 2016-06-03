@@ -17,6 +17,7 @@ public class RegistAcctMoney extends DataEntity<RegistAcctMoney> {
 	private String moneyType;		// 金额类别
 	private Double incomeAmount;		// 数额
 	private Double refundedAmount;		// 退数额
+	private Double totalFee;//
 	
 	public RegistAcctMoney() {
 		super();
@@ -80,4 +81,11 @@ public class RegistAcctMoney extends DataEntity<RegistAcctMoney> {
 		this.refundedAmount = refundedAmount;
 	}
 
+	public Double getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(Double totalFee) {
+		this.totalFee = totalFee;
+	}
 }

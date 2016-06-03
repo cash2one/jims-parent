@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.nurse.dao.BedRecDao">
+    
+	<sql id="bedRecColumns">
+		a.id AS "id",
+		a.ward_code AS "wardCode",
+		a.bed_no AS "bedNo",
+		a.bed_label AS "bedLabel",
+		a.room_no AS "roomNo",
+		a.dept_code AS "deptCode",
+		a.bed_approved_type AS "bedApprovedType",
+		a.bed_sex_type AS "bedSexType",
+		a.bed_class AS "bedClass",
+		a.bed_status AS "bedStatus",
+		a.lend_attr AS "lendAttr",
+		a.lend_bed_no AS "lendBedNo",
+		a.lend_bed_dept AS "lendBedDept",
+		a.lend_bed_ward AS "lendBedWard",
+		a.lock_status AS "lockStatus",
+		a.lock_operator AS "lockOperator",
+		a.aircondition_class AS "airconditionClass",
+		a.patient_id AS "patientId",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="bedRecJoins">
+	</sql>
+    
+	<select id="get" resultType="BedRec">
+		SELECT 
+			<include refid="bedRecColumns"/>
+		FROM bed_rec a
+		<include refid="bedRecJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="judgeBedNo" resultType="BedRec">
+		SELECT
+		<include refid="bedRecColumns"/>
+		   FROM bed_rec a
+		<include refid="bedRecJoins"/>
+		WHERE  a.del_flag = #{delFlag}
+		<if test="wardCode !=null and wardCode !=''">
+			AND a.ward_code = #{wardCode}
+		</if>
+        <if test="bedNo !=null and bedNo !=''">
+			AND a.bed_no = #{bedNo}
+		</if>
+	</select>
+
+
+	<select id="findList" resultType="BedRec">
+		SELECT 
+			<include refid="bedRecColumns"/>
+		FROM bed_rec a
+		<include refid="bedRecJoins"/>
+		<where>
+			a.WARD_CODE = #{wardCode}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BedRec">
+		SELECT 
+			<include refid="bedRecColumns"/>
+		FROM bed_rec a
+		<include refid="bedRecJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO bed_rec(
+		    id,
+			ward_code,
+			bed_no,
+			bed_label,
+			room_no,
+			dept_code,
+			bed_approved_type,
+			bed_sex_type,
+			bed_class,
+			bed_status,
+			lend_attr,
+			lend_bed_no,
+			lend_bed_dept,
+			lend_bed_ward,
+			lock_status,
+			lock_operator,
+			aircondition_class,
+			patient_id,
+			create_date,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+		    #{id},
+			#{wardCode},
+			#{bedNo},
+			#{bedLabel},
+			#{roomNo},
+			#{deptCode},
+			#{bedApprovedType},
+			#{bedSexType},
+			#{bedClass},
+			#{bedStatus},
+			#{lendAttr},
+			#{lendBedNo},
+			#{lendBedDept},
+			#{lendBedWard},
+			#{lockStatus},
+			#{lockOperator},
+			#{airconditionClass},
+			#{patientId},
+		    #{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE bed_rec SET 	
+			ward_code = #{wardCode},
+			bed_no = #{bedNo},
+			bed_label = #{bedLabel},
+			room_no = #{roomNo},
+			dept_code = #{deptCode},
+			bed_approved_type = #{bedApprovedType},
+			bed_sex_type = #{bedSexType},
+			bed_class = #{bedClass},
+			bed_status = #{bedStatus},
+			lend_attr = #{lendAttr},
+			lend_bed_no = #{lendBedNo},
+			lend_bed_dept = #{lendBedDept},
+			lend_bed_ward = #{lendBedWard},
+			lock_status = #{lockStatus},
+			lock_operator = #{lockOperator},
+			aircondition_class = #{airconditionClass},
+			patient_id = #{patientId},
+            update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+        UPDATE bed_rec SET
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="getAllBed" resultType="com.jims.common.web.impl.BaseDto">
+       SELECT  decode(BED_REC.BED_label, null,to_char(bed_rec.bed_no),bed_rec.bed_label) bed_label ,
+         (case when INSTR(BED_REC.bed_label,'_')>0 then
+      (select aa.bed_no
+        from bed_rec aa
+           where
+		    aa.del_flag = '0'
+		    <if test="wardCode !=null and wardCode !=''">
+				and aa.ward_code= #{wardCode}
+			</if>
+             and aa.bed_label = substr(bed_rec.bed_label,1,INSTR(bed_rec.bed_label,'_')-1))
+      else BED_REC.bed_no end)
+      bed_no1 ,
+      BED_REC.WARD_CODE ,
+      PATS_IN_HOSPITAL.PATIENT_ID ,
+      PATS_IN_HOSPITAL.VISIT_ID ,
+
+      decode(PAT_MASTER_INDEX.NAME,null,(select a.name||'的包床' from PAT_MASTER_INDEX a where a.PATIENT_ID =BED_REC.PATIENT_ID and BED_REC.PATIENT_ID is not null),PAT_MASTER_INDEX.NAME)  name ,
+      PAT_MASTER_INDEX.SEX,
+      PAT_MASTER_INDEX.DATE_OF_BIRTH,
+      floor(MONTHS_BETWEEN(SYSDATE,PAT_MASTER_INDEX.DATE_OF_BIRTH)/12) age,
+      PATS_IN_HOSPITAL.ADMISSION_DATE_TIME,
+      PATS_IN_HOSPITAL.OPERATING_DATE,
+      PATS_IN_HOSPITAL.DOCTOR_IN_CHARGE,
+      PATS_IN_HOSPITAL.PATIENT_CONDITION,
+      PATS_IN_HOSPITAL.NURSING_CLASS,
+      PATS_IN_HOSPITAL.DIAGNOSIS,
+      BED_REC.BED_STATUS,
+      BED_REC.BED_SEX_TYPE,
+      BED_REC.DEPT_CODE,
+      PATS_IN_HOSPITAL.ADM_WARD_DATE_TIME ,
+      BED_REC.BED_APPROVED_TYPE ,
+      pat_master_index.charge_type ,
+      bed_rec.bed_no,
+      PATS_IN_HOSPITAL.is_newborn,
+         '    '        show_age ,
+      (select count(*) from orders where order_status ='1' and patient_id=PATS_IN_HOSPITAL.PATIENT_ID and visit_id=PATS_IN_HOSPITAL.VISIT_ID) order_verify,
+		BED_REC.ID as "id"
+    FROM BED_REC, PATS_IN_HOSPITAL, PAT_MASTER_INDEX
+    WHERE ( BED_REC.WARD_CODE = PATS_IN_HOSPITAL.WARD_CODE(+) ) and
+       ( BED_REC.BED_NO = PATS_IN_HOSPITAL.BED_NO(+) ) and
+       ( PATS_IN_HOSPITAL.PATIENT_ID = PAT_MASTER_INDEX.PATIENT_ID(+) )
+		<if test="wardCode !=null and wardCode !=''">
+			and  ( ( BED_REC.WARD_CODE = #{wardCode} ) )
+		</if>
+    ORDER BY bed_no1 Asc , bed_label Asc
+
+
+
+
+
+	</select>
+	
+</mapper>

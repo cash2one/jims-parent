@@ -48,7 +48,24 @@ $(function(){
             });
             $('#patientInfoForm').form('load',row);
         }
+
+
     });
+
+    $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true }).click(function () {
+        $('#prescTable').datagrid({url:basePath+'/prescTemp/getPrescMasterTemp?'+$("#presc").serialize() });
+    });
+
+    //选择查询条件的时候给input的name赋值
+    $("#search").combobox({
+        onChange: function (n,o) {
+            var search= $("#search").combobox('getValue');
+            $("#searchSome").attr('name', search);
+        }
+
+    });
+
+
 });
 
 
@@ -96,3 +113,5 @@ function confirmDrug(){
 
 
 }
+
+

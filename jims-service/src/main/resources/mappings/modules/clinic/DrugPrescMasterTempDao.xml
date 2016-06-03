@@ -106,9 +106,23 @@
 		 FROM DRUG_PRESC_MASTER_TEMP,outp_presc
 		 WHERE
 		 drug_PRESC_MASTER_TEMP.PRESC_DATE  &lt;= to_date(to_char(sysdate+1,'yyyy-mm-dd'),'yyyy-mm-dd')
-		 AND DRUG_PRESC_MASTER_TEMP.PRESC_DATE &gt;=  to_date(to_char(add_months(sysdate,-1),'yyyy-mm-dd'),'yyyy-mm-dd') AND
-		 DRUG_PRESC_MASTER_TEMP.DISPENSARY = #{dispensary}
+		 AND DRUG_PRESC_MASTER_TEMP.PRESC_DATE &gt;=  to_date(to_char(add_months(sysdate,-1),'yyyy-mm-dd'),'yyyy-mm-dd')
+		 <if test="dispensary !=null and dispensary !=''">
+			 AND DRUG_PRESC_MASTER_TEMP.DISPENSARY = #{dispensary}
+		 </if>
+		 <if test="dispensarySub !=null and dispensarySub !=''">
 		 AND DRUG_PRESC_MASTER_TEMP.DISPENSARY_SUB = #{dispensarySub}
+		 </if>
+		 <if test="patientId !=null and patientId !=''">
+			 AND DRUG_PRESC_MASTER_TEMP.PATIENT_ID = #{patientId}
+		 </if>
+		 <if test="prescNo !=null and prescNo !=''">
+			 AND DRUG_PRESC_MASTER_TEMP.PRESC_NO = #{prescNo}
+		 </if>
+		 <if test="name !=null and name !=''">
+			 AND DRUG_PRESC_MASTER_TEMP.NAME LIKE
+			 '%'||#{name}||'%'
+		 </if>
 		 AND (drug_PRESC_MASTER_TEMP.presc_source = 0 OR drug_PRESC_MASTER_TEMP.presc_source is null)
 
 		 and outp_presc.id(+) =drug_PRESC_MASTER_TEMP.out_resc_id
