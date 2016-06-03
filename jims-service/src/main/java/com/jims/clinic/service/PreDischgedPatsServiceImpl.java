@@ -55,6 +55,6 @@ public class PreDischgedPatsServiceImpl implements PreDischgedPatsServiceApi{
      */
     @Override
     public String save(PreDischgedPats preDischgedPats){
-        return preDischgedPatsBo.save(preDischgedPats);
+        return preDischgedPatsBo.savePreDischPat(preDischgedPats);
     }
 }
