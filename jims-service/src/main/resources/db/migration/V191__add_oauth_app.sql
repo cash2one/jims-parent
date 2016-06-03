@@ -12,33 +12,15 @@ create table APP
   approval     VARCHAR2(4),
   scope        VARCHAR2(100)
 );
-tablespace USERS
-  pctfree 10
-  initrans 1
-  maxtrans 255;
 alter table APP
-  add constraint APPPRIMARY primary key (APP_KEY)
-  using index
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint APPPRIMARY primary key (APP_KEY);
 create table AUTHORITY
 (
   app_key VARCHAR2(10) not null,
   user_id VARCHAR2(11) not null
 );
-tablespace USERS
-  pctfree 10
-  initrans 1
-  maxtrans 255;
 alter table AUTHORITY
-  add constraint AUTHORITYPRIMARY primary key (APP_KEY, USER_ID)
-  using index
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint AUTHORITYPRIMARY primary key (APP_KEY, USER_ID);
 create table REFRESH_TOKEN
 (
   access_token       VARCHAR2(100),
@@ -51,14 +33,5 @@ create table REFRESH_TOKEN
   authorization_time DATE,
   grant_type         VARCHAR2(30)
 );
-tablespace USERS
-  pctfree 10
-  initrans 1
-  maxtrans 255;
 alter table REFRESH_TOKEN
-  add constraint REFRESH_TOKEN_PRIMARY primary key (APP_KEY)
-  using index
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint REFRESH_TOKEN_PRIMARY primary key (APP_KEY);
