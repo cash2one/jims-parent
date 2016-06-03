@@ -83,14 +83,14 @@ function save(){
     var submitJson=masterFrom+",\"outpAcctMoneyList\":"+paymentsJson+",\"outpAcctDetailList\":"+itemsJson+"}";
     $.postJSON(basePath+'/outpAcctMaster/save',submitJson,function(data){
         if(data.data=="success"){
-            $.messager.alert("提示消息","结账成功");
+            $.messager.alert("提示消息","收费结账"+data.code+"结账成功");
             $('#operationName').datagrid('load');
             $('#operationName').datagrid('clearChecked');
         }else{
-            $.messager.alert('提示',"结账失败", "error");
+            $.messager.alert('提示',"收费结账失败", "error");
         }
     },function(data){
-        $.messager.alert('提示',"结账失败", "error");
+        $.messager.alert('提示',"收费结账失败", "error");
     })
 
 }
@@ -126,7 +126,7 @@ function searchAcct(){
             $.messager.alert('提示',"收费没有未结账的数据", "error");
         }
     },function(data){
-        $.messager.alert('提示',"加载失败", "error");
+        $.messager.alert('提示',"收费结账加载失败", "error");
     })
 
 }
