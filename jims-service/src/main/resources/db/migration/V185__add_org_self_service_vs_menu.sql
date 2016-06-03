@@ -30,3 +30,6 @@ COMMENT ON COLUMN ORG_SELF_SERVICE_VS_MENU.MENU_END_DATE IS
 
 COMMENT ON COLUMN ORG_SELF_SERVICE_VS_MENU.MENU_SORT IS
 '菜单排序';
+
+
+INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES ( sys_guid(),'自定义服务', ' /modules/sys/org-self-service.html', '1', '1', '1', '55CB0105F69B490DA48F7D1F1029370A', '1', null, null, null, sysdate, '0', sysdate );

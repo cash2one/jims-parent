@@ -32,16 +32,13 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
     /**
      * 保存选择的服务
      * @param serviceList 服务列表
-     * @return
      */
-    public String saveService(List<OrgServiceList> serviceList){
-        String result = "0";
+    public void saveService(List<OrgServiceList> serviceList){
         if(serviceList != null || serviceList.size() > 0){
             for(OrgServiceList orgService : serviceList){
-                result = save(orgService);
+                save(orgService);
             }
         }
-        return result;
     }
 
     /**
@@ -52,10 +49,8 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
      *                        为 2 时，属性id为药删除的自定义菜单Id,多个以‘,’隔开，
      *                                  menus属性为修改的菜单（只包含数据库中已有的自定义服务的菜单）
      *                        其他值时，为修改的自定义服务，当为添加的自定义服务时，menus为添加的菜单。
-     * @return
      */
-    public String saveSelfService(List<OrgSelfServiceList> selfServiceList){
-        String result = "0";
+    public void saveSelfService(List<OrgSelfServiceList> selfServiceList){
         if(selfServiceList != null || selfServiceList.size() > 0){
             for(OrgSelfServiceList service : selfServiceList){
                 if("1".equals(service.getOperateFlag()) && !"".equals(service.getId())){
@@ -104,7 +99,6 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
                 }
             }
         }
-        return result;
     }
 
     /**

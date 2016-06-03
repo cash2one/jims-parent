@@ -125,6 +125,7 @@ $(function() {
         }
     })
     $('#saveButton').click(function(){
+        if($)
         if(!endEditing()) return
         //  服务删除数据
         var delRows = $('#orgSelfService').datagrid('getChanges','deleted');
@@ -184,7 +185,13 @@ $(function() {
             rows.push({operateFlag:'2',id:deleteMunusId,menus:updateMenus});
         }
         parent.$.postJSON('/service/org-service/save-self-service',JSON.stringify(rows),function(res){
-            window.location.reload()
+            if(res == '1'){
+                $.messager.alert('保存','保存成功！','info',function(){
+                    window.location.reload();
+                })
+            } else {
+                $.messager.alert('保存','保存失败！','error')
+            }
         })
     })
 
