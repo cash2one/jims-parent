@@ -10,6 +10,7 @@ create table LAB_ITEM_CLASS_DICT
   UPDATE_DATE TIMESTAMP(6),
   DEL_FLAG    VARCHAR2(2),
   CREATE_DATE TIMESTAMP(6),
+  dept_code   varchar2(100),
   ORG_ID      VARCHAR2(64)
 );
 -- Add comments to the table 
@@ -24,6 +25,7 @@ comment on column LAB_ITEM_CLASS_DICT.CLASS_NAME
   is '类别名称';
 comment on column LAB_ITEM_CLASS_DICT.ORG_ID
   is '所属组织结构';
+comment on column LAB_ITEM_CLASS_DICT.DEPT_CODE is '执行科室';
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table LAB_ITEM_CLASS_DICT
   add constraint LAB_ITEM_CLASS_DICT primary key (ID);
