@@ -1,38 +1,119 @@
 $(function() {
-    var currentOrgId = '1';
+    $.extend($.fn.datagrid.methods, {
+        editCell: function(jq,param){
+            return jq.each(function(){
+                var opts = $(this).datagrid('options');
+                var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
+                for(var i=0; i<fields.length; i++){
+                    var col = $(this).datagrid('getColumnOption', fields[i]);
+                    col.editor1 = col.editor;
+                    if (fields[i] != param.field){
+                        col.editor = null;
+                    }
+                }
+                $(this).datagrid('beginEdit', param.index);
+                for(var i=0; i<fields.length; i++){
+                    var col = $(this).datagrid('getColumnOption', fields[i]);
+                    col.editor = col.editor1;
+                }
+            });
+        }
+    });
+    $.extend($.fn.validatebox.defaults.rules, {
+        nameIsExisted :{
+            validator : function(value){
+                var rows = $('#orgSelfService').datagrid('getRows')
+                var select_index = $('#orgSelfService').datagrid('getRowIndex',$('#orgSelfService').datagrid('getSelected'))
+                for(var index = rows.length - 1;index > -1;index--) {
+                    if(index != select_index && rows[index].serviceName == value){
+                        return false
+                    }
+                }
+                return true
+            },
+            message : '名称已存在'
+        }
+    })
 
+    var currentOrgId = '1';  // 当前机构ID
+    var currentSelectIndex;  // 服务当前选择行
+
+    var endEditing = function (){
+        if (currentSelectIndex == undefined){
+            return true;
+        }
+        if ($('#orgSelfService').datagrid('validateRow', currentSelectIndex)){
+            $('#orgSelfService').datagrid('endEdit', currentSelectIndex);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    var onClickCell = function (index, field){
+        if (endEditing()){
+            $('#orgSelfService').datagrid('selectRow', index)
+                .datagrid('editCell', {index:index,field:field});
+            currentSelectIndex = index;
+        }
+    }
+
+    // 机构自定义服务
     $("#orgSelfService").datagrid({
         fit: true,
         border: 0,
         singleSelect: true,
         remoteSort: false,
         url : '/service/org-service/find-self-service?orgId=' + currentOrgId,
+        loadMsg: '数据加载中，请稍后...',
         method: 'GET',
         idField: 'id',
         toolbar: '#tbn',
         columns: [[
-            {field: 'serviceName', title: '服务', width: 260, align: "center"},
+            {field: 'serviceName', title: '服务', width: 260, halign: "center",align:"left",editor:{
+                type:'textbox',
+                options:{
+                    required:true,
+                    missingMessage:'服务名不能为空',
+                    validType : ['nameIsExisted']
+                }
+            }},
             {field: 'menuName', title: '上传图片', width: 160, align: "center"}
-        ]]
+        ]],
+        onClickCell:onClickCell,
+        onBeforeSelect: function(index){
+            return $('#orgSelfService').datagrid('validateRow', currentSelectIndex);
+        }
+    })
+
+    $('#clearButton').click(function(){
+        var rows = $('#orgSelfService').datagrid('getRows');
+        for(var i= 0,j=rows.length;i<j;i++){
+            $('#orgSelfService').datagrid('deleteRow',0);
+        }
     })
     $('#addButton').click(function(){
-        var row = {}
-        $('#orgSelfService').datagrid('appendRow',row)
+        if(endEditing()) {
+            var row = {orgId: currentOrgId};
+            $('#orgSelfService').datagrid('appendRow', row);
+            onClickCell($('#orgSelfService').datagrid('getRows').length - 1,'serviceName');
+        }
     })
     $('#delButton').click(function(){
-        var row = $('#orgSelfService').datagrid('getSelected');
-        if(row){
-            $('#orgSelfService').datagrid('deleteRow',$('#orgSelfService').datagrid('getRowIndex',row))
+        if(currentSelectIndex){
+            $('#orgSelfService').datagrid('deleteRow',currentSelectIndex);
+            currentSelectIndex = undefined;
         } else {
-            $.messager.alert('警告','请选择要删除的服务！','warning')
+            $.messager.alert('警告','请选择要删除的服务！','warning');
         }
 
     })
     $('#menuButton').click(function(){
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row){
-            if(row.manageMenus){
-                $('#selfServiceMenu').datagrid('loadData', row.manageMenus)
+            if(row.menus){
+                $('#selfServiceMenu').datagrid('loadData', row.menus)
+            } else if(!row.id){
+                $('#selfServiceMenu').datagrid('loadData', [])
             } else {
                 $.get('/service/org-service/find-self-service-menu', {selfServiceId: row.id}, function (res) {
                     $('#selfServiceMenu').datagrid('loadData', res)
@@ -44,28 +125,74 @@ $(function() {
         }
     })
     $('#saveButton').click(function(){
+        if($)
+        if(!endEditing()) return
+        //  服务删除数据
         var delRows = $('#orgSelfService').datagrid('getChanges','deleted');
-        var addRows = $('#orgSelfService').datagrid('getChanges','deleted');
+        var delIds = ''
+        for(var i=0;i<delRows.length;i++){
+            delIds += ',' + delRows[i].id;
+        }
+        // 服务添加的数据(应包含添加的菜单)
+        var addRows = $('#orgSelfService').datagrid('getChanges','inserted');
+        // 服务修改的数据(不应该包含添加的菜单)
         var updateRows = $('#orgSelfService').datagrid('getChanges','updated');
-        var updateMenus = []
-        var deleteMunusId = ''
+
+        // 菜单更新的数据
+        var updateMenus = [];
+        // 菜单删除的数据
+        var deleteMunusId = '';
         var allRows = $('#orgSelfService').datagrid('getRows');
         for(var i=0;i<allRows.length;i++){
-            if(allRows[i].id && allRows[i].manageMenus){
-                var menus = allRows[i].manageMenus;
-                for(var j=menus.length-1 ;j> -1;j--){
-                    if(menus[j].id && menus[j].menuSort == j+1){
-                        menus.splice(j,1);
-                        continue;
+            if(allRows[i].id) {
+                if (allRows[i].menus) {
+                    var menus = allRows[i].menus;
+                    for (var j = menus.length - 1; j > -1; j--) {
+                        if (menus[j].id && menus[j].menuSort == j + 1) {
+                            continue;
+                        }
+                        delete menus[j].selfMenuName;
+                        menus[j].menuEndDate = parent.parseToDate(menus[j].menuEndDate);
+                        menus[j].menuSort = j + 1;
+                        updateMenus.push(menus[j]);
                     }
-                    menus[j].menuSort = j+1;
-                    if(menus[j].delete)
-                    updateMenus.push(menus[j])
+                }
+                if (allRows[i].deleteMunusId && allRows[i].deleteMunusId.length > 0) {
+                    deleteMunusId += ',' + allRows[i].deleteMunusId.join(',');
+                }
+                delete allRows[i].menus;
+            } else {
+                if (allRows[i].menus) {
+                    var menus = allRows[i].menus;
+                    for (var j = menus.length - 1; j > -1; j--) {
+                        menus[j].menuSort = j + 1;
+                        menus[j].menuEndDate = parent.parseToDate(menus[j].menuEndDate);
+                        delete menus[j].selfMenuName;
+                    }
                 }
             }
+
+            delete allRows[i].deleteMunusId;
         }
 
-        alert(JSON.stringify(updateMenus))
+        //合并处理保存数据
+        var rows = addRows.concat(updateRows);
+        if(delIds.length > 0){
+            rows.push({operateFlag:'1',id:delIds.substr(1)});
+        }
+        if(deleteMunusId.length > 0 || updateMenus.length > 0){
+            if(deleteMunusId.length > 0) deleteMunusId = deleteMunusId.substr(1);
+            rows.push({operateFlag:'2',id:deleteMunusId,menus:updateMenus});
+        }
+        parent.$.postJSON('/service/org-service/save-self-service',JSON.stringify(rows),function(res){
+            if(res == '1'){
+                $.messager.alert('保存','保存成功！','info',function(){
+                    window.location.reload();
+                })
+            } else {
+                $.messager.alert('保存','保存失败！','error')
+            }
+        })
     })
 
     //服务菜单维护窗口
@@ -78,18 +205,19 @@ $(function() {
         maximizable : false,
         modal : true,
         resizable: false
-    })
-    $('#selfServiceMenuWin').window('close')
+    });
+    $('#selfServiceMenuWin').window('close');
     // 已分配给选择的服务的菜单
     $('#selfServiceMenu').datagrid({
         fit: true,
         border:0,
         footer: '#menuBtn',
-        idField: 'id',
         rownumbers: true,
         columns: [[
-            {field: 'serviceName', title: '菜单名称', width: 193, halign: "center",aligh:'left'},
-            {field: 'endStart', title: '有效期', width: 145, align: "center"}
+            {field: 'selfMenuName', title: '菜单名称', width: 193, halign: "center",aligh:'left'},
+            {field: 'menuEndDate', title: '有效期', width: 145, align: "center",formatter: function(value){
+                return parent.formatDateBoxFull(value)
+            }}
         ]]
     })
     // 机构所定制的服务
@@ -112,8 +240,9 @@ $(function() {
                 }
             }
             var menuRow = {
-                serviceName: row.name,
-                endStart: row.value,
+                selfMenuName: row.name,
+                selfServiceId: $('#orgSelfService').datagrid('getSelected').id,
+                menuEndDate: row.value,
                 menuId: row.id
             };
             $('#selfServiceMenu').datagrid('appendRow',menuRow);
@@ -135,12 +264,12 @@ $(function() {
     $('#okMenu').click(function(){
         var rows = $('#selfServiceMenu').datagrid('getRows');
         var row = $('#orgSelfService').datagrid('getSelected');
-        row.manageMenus = rows;
+        row.menus = rows.concat([]);  // 防止联动
         var delRows = $('#selfServiceMenu').datagrid('getChanges','deleted');
-        if(!row.deleteRowsId) row.deleteRowsId = []
+        if(!row.deleteMunusId) row.deleteMunusId = []
         for(var i=0;i<delRows.length;i++){
             if(delRows[i].id)
-                row.deleteRowsId.push(delRows[i].id)
+                row.deleteMunusId.push(delRows[i].id)
         }
         $('#selfServiceMenuWin').window('close')
     })
@@ -155,7 +284,7 @@ $(function() {
                     var menuRow = {
                         id : menus[j].id,
                         name: menus[j].menuName,
-                        value : '1111-11-11',
+                        value : parent.formatDateBoxFull(res[i].serviceEndDate),
                         group : group
                     }
                     $('#selectServiceMenu').propertygrid('appendRow',menuRow);
