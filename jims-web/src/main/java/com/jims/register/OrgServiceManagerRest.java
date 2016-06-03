@@ -5,6 +5,7 @@ import com.jims.register.api.OrgServiceManagerApi;
 import com.jims.register.entity.OrgSelfServiceList;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
+import com.jims.sys.vo.OrgSelfServiceVsMenuVo;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -81,5 +82,11 @@ public class OrgServiceManagerRest {
     @Path("find-self-service-menu")
     public List<OrgSelfServiceVsMenu> findSelfServiceMenu(@QueryParam("selfServiceId") String selfServiceId){
         return api.findSelfServiceVsMenu(selfServiceId);
+    }
+
+    @GET
+    @Path("find-menu")
+    public List<OrgSelfServiceVsMenuVo> findSelfServiceVsMenu(@QueryParam("orgId") String orgId){
+        return api.findSelfServiceMenu(orgId);
     }
 }
