@@ -4,13 +4,29 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import com.jims.sys.api.SysServiceApi;
+import com.jims.sys.entity.ServiceVsMenu;
 import com.jims.sys.entity.SysService;
 import com.jims.sys.entity.SysServicePrice;
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.FormDataParam;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import java.io.*;
+import java.util.Date;
 import java.util.List;
-
+import java.util.UUID;
 
 /**
  * 系统服务rest层
@@ -36,7 +52,7 @@ public class SysServiceRest {
     @Path("service-list-by-TC")
     @GET
     public List<SysService> serviceListByTC(@QueryParam("serviceType") String serviceType,@QueryParam("serviceClass") String serviceClass) {
-        return sysServiceApi.serviceListByTC(serviceType,serviceClass);
+        return sysServiceApi.serviceListByTC(serviceType, serviceClass);
     }
     /**
      * 查询服务明细全部列表
@@ -49,6 +65,18 @@ public class SysServiceRest {
     @GET
     public List<SysServicePrice> detailList(@QueryParam("serviceId") String serviceId) {
         return sysServiceApi.findDetailList(serviceId);
+    }
+    /**
+     * 查询服务全部菜单
+     * @param serviceId 服务id
+     * @return
+     * @author txb
+     * @version 2016-06-02
+     */
+    @Path("service-vs-menu-list")
+    @GET
+    public List<ServiceVsMenu> serviceVsMenuList(@QueryParam("serviceId") String serviceId) {
+        return sysServiceApi.serviceVsMenuList(serviceId);
     }
     /**
      * 查询服务全部列表
@@ -77,26 +105,104 @@ public class SysServiceRest {
         StringData stringData = new StringData();
         stringData.setData("success");
         return stringData;
-
-    }/**
+    }
+    /**
+     * 修改保存服务菜单
+     * @param menuVsServices
+     * @return
+     * @author txb
+     * @version 2016-06-02
+     */
+    @Path("save-serviceVsMenu")
+    @POST
+    public StringData saveServiceVsMenu(List<ServiceVsMenu> menuVsServices) {
+        String num = sysServiceApi.saveServiceVsMenu(menuVsServices);
+        StringData stringData = new StringData();
+        stringData.setData("success");
+        return stringData;
+    }
+    /**
      * 修改保存服务
-     * @param sysService
+     * @param form
      * @return
      * @author txb
      * @version 2016-05-31
      */
     @Path("save")
     @POST
-    public StringData save(SysService sysService) {
-       String savePath =  SysServiceRest.class.getResource("/").getFile();
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public StringData save( FormDataMultiPart form ) {
+        //获取文件流
+        FormDataBodyPart filePart = form.getField("serviceImage");
+        //获取表单的其他数据
 
 
-        String num = sysServiceApi.save(sysService,savePath);
+        //ContentDisposition headerOfFilePart = filePart.getContentDisposition();
+        //把表单内容转换成流
+        InputStream fileInputStream = filePart.getValueAs(InputStream.class);
+
+        FormDataContentDisposition formDataContentDisposition = filePart.getFormDataContentDisposition();
+
+        String source = formDataContentDisposition.getFileName();
+        String result = null;
+        try {
+            result = new String(source.getBytes("ISO8859-1"), "UTF-8");
+            result = generateShortUuid()  +  result.substring(result.lastIndexOf("."));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+//        System.out.println("formDataContentDisposition.getFileName()result " + result);
+        //拼接路径
+        String savePath =  SysServiceRest.class.getResource("/").getFile();
+        int index = savePath.indexOf("target");
+        savePath = savePath.substring(0,index);
+        String path = "src/main/webapp/static/images/sysService/";
+
+        String filePath = savePath + path + result;
+//        String filePath = "static/images/sysService/" + result;
+        File file = new File(filePath);
+        System.out.println("file " + file.getAbsolutePath());
+        try {
+            //保存文件
+            FileUtils.copyInputStreamToFile(fileInputStream, file);
+        } catch (IOException ex) {
+        }
+        SysService sysService = new SysService();
+        if (form.getField("id") != null){
+            sysService.setId(form.getField("id").getValue());
+        }
+        sysService.setServiceClass(form.getField("serviceClass").getValue());
+        sysService.setServiceDescription(form.getField("serviceDescription").getValue());
+        sysService.setServiceType(form.getField("serviceType").getValue());
+        sysService.setServiceName(form.getField("serviceName").getValue());
+        sysService.setServiceImage("/static/images/sysService/" + result);
+
+
+        String num = sysServiceApi.save(sysService);
         StringData stringData = new StringData();
         stringData.setData("success");
         return stringData;
     }
+    private FileItem getUploadFileItem(List<FileItem> list) {
+        for (FileItem fileItem : list) {
+            if (!fileItem.isFormField()) {
+                return fileItem;
+            }
+        }
+        return null;
+    }
 
+    private String getUploadFileName(FileItem item) {
+        // 获取路径名
+        String value = item.getName();
+        // 索引到最后一个反斜杠
+        int start = value.lastIndexOf("/");
+        // 截取 上传文件的 字符串名字，加1是 去掉反斜杠，
+        String filename = value.substring(start + 1);
+
+        return filename;
+    }
 
     /**
      * 删除服务信息
@@ -114,6 +220,24 @@ public class SysServiceRest {
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
+    }
+    //生成8位随机uuid
+    private  String generateShortUuid() {
+        String[] chars = new String[] { "a", "b", "c", "d", "e", "f",
+                "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+                "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5",
+                "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I",
+                "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+                "W", "X", "Y", "Z" };
+        StringBuffer shortBuffer = new StringBuffer();
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        for (int i = 0; i < 8; i++) {
+            String str = uuid.substring(i * 4, i * 4 + 4);
+            int x = Integer.parseInt(str, 16);
+            shortBuffer.append(chars[x % 0x3E]);
+        }
+        return shortBuffer.toString();
+
     }
 
 }
