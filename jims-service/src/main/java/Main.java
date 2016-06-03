@@ -51,7 +51,7 @@ public class Main {
 
         Flyway flyway = new Flyway();
         //设置数据库链接配置
-        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:his","his","admin");
+        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:orcl","lhk","lhk");
         //设置schema用户
         //flyway.setSchemas("XIAN");
         flyway.setTable("SCHEMA_VERSION");
