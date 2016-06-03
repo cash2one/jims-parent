@@ -6,8 +6,8 @@ var rowNum=-1;
 $(function(){
     var wardCode='160101';
     $('#bedRec').datagrid({
-        view: myview,
-        emptyMsg: '没有查到相关列表',
+     /*   view: myview,
+        emptyMsg: '没有查到相关信息',*/
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
@@ -31,7 +31,6 @@ $(function(){
             {field: 'bedSexType', title: '男/女', width: '10%', align: 'center',editor:{
                 type:'combobox',
                 options:{
-                    required:true,
                     url: basePath+'/dict/label-value-list?type='+"SEX_DICT",
                     valueField: 'value',
                     textField: 'label',
@@ -45,7 +44,6 @@ $(function(){
             {field: 'bedClass', title: '等级', width: '20%', align: 'center',editor:{
                 type:'combobox',
                 options: {
-                    required: true,
                     url: basePath + '/dict/label-value-list?type=' + "SEX_DICT",
                     valueField: 'value',
                     textField: 'label',
@@ -59,7 +57,6 @@ $(function(){
             {field: 'airconditionClass', title: '空调等级', width: '15%', align: 'center',editor:{
                 type:'combobox',
                 options: {
-                    required: true,
                     url: basePath + '/dict/label-value-list?type=' + "SEX_DICT",
                     valueField: 'value',
                     textField: 'label',
@@ -73,7 +70,6 @@ $(function(){
             {field: 'bedApprovedType', title: '类型', width: '15%', align: 'center',editor:{
                 type:'combobox',
                 options: {
-                    required: true,
                     url: basePath + '/dict/label-value-list?type=' + "SEX_DICT",
                     valueField: 'value',
                     textField: 'label',
@@ -87,7 +83,6 @@ $(function(){
             {field: 'bedStatus', title: '空床', width: '10%', align: 'center',editor:{
                 type:'combobox',
                 options: {
-                    required: true,
                     url: basePath + '/dict/label-value-list?type=' + "BED_STATUS_DICT",
                     valueField: 'value',
                     textField: 'label',
@@ -97,7 +92,8 @@ $(function(){
                     //    $(this).combobox('setValues', row.bedStatus);
                     }
                 }
-            }}
+            }},
+            {field:'wardCode',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'}
 
         ]],
         toolbar: [{
@@ -111,7 +107,7 @@ $(function(){
                 $("#bedRec").datagrid("insertRow", {
                     index: 0, // index start with 0
                     row: {
-
+                        wardCode:wardCode
                     }
                 });
 
@@ -166,8 +162,11 @@ $(function(){
                 dataGrid.datagrid('beginEdit', rowIndex);
 
             }
-        },onLoadSuccess:function(data){
-
+        },onLoadSuccess: function (data) {
+            if (data.total == 0) {
+                var body = $(this).data().datagrid.dc.body2;
+                body.find('table tbody').append('<tr><td colspan="8" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
+            }
         }
 
 
@@ -186,3 +185,21 @@ $(function(){
     });
 
 });
+
+
+function save(){
+   var bedRows =  $("#bedRec").datagrid("getChanges");
+    var tableJson=JSON.stringify(bedRows);
+    $.postJSON(basePath+'/bedRec/save',tableJson,function(data){
+        if(data.data=='success'){
+            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $('#bedRec').datagrid('load');
+            $('#bedRec').datagrid('clearChecked');
+        }else{
+            $.messager.alert('提示',"保存失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"保存失败", "error");
+    })
+
+}
