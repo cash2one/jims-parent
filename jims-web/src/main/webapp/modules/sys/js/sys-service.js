@@ -564,7 +564,7 @@ $(function () {
         }
         console.log(menuVsServices);
         $.postJSON(basePath + "/sys-service/save-serviceVsMenu",JSON.stringify(menuVsServices), function () {
-            alert(1);
+            $.messager.alert("系统提示", "保存成功", "info");
         })
     });
 

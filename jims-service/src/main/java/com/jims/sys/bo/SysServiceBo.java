@@ -121,7 +121,6 @@ public class SysServiceBo extends CrudImplService<SysServiceDao, SysService>{
     };
 
 
-    }
 
     /**
      * 检索不同人群的服务
