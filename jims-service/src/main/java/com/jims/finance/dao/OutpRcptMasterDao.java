@@ -26,4 +26,24 @@ public interface OutpRcptMasterDao extends CrudDao<OutpRcptMaster> {
      * @author zhaoning
      */
     public List<OutpRcptMaster> getBackChargeInfo(@Param("clinicNo")String clinicNo,@Param("orgId")String orgId);
+
+
+    /**
+     * 更新master的rcptNo
+     * @param outpRcptMaster
+     * @author pq
+     * @return
+     */
+    public int updateAcctNo(OutpRcptMaster outpRcptMaster);
+
+    /**
+     * 方法 findCharge 的能描述
+     * 查询收费结账的收据
+     * @param
+     * @reurn
+     * @thows
+     * @author pq
+     * @date 2016/5/31 0031
+     */
+    public OutpRcptMaster findCharge(OutpRcptMaster outpRcptMaster);
 }

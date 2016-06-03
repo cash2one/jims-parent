@@ -12,5 +12,7 @@ import com.jims.finance.outpAccounts.entity.OutpAcctMoney;
  */
 @MyBatisDao
 public interface OutpAcctMoneyDao extends CrudDao<OutpAcctMoney> {
-	
+
+
+    public String updateAcctNo();
 }

@@ -45,4 +45,8 @@ public class OutpAcctMasterServiceImpl implements OutpAcctMasterServiceApi{
         return  outpAcctMasterBo.saveOutpAcct(outpRcptMaster);
     }
 
+
+
+
+
 }
