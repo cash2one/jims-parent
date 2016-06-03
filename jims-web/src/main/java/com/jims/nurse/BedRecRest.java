@@ -1,17 +1,16 @@
 package com.jims.nurse;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.api.BedRecServiceApi;
 import com.jims.nurse.entity.BedRec;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.List;
 
@@ -47,7 +46,36 @@ public class BedRecRest {
         return  bedRecPage.getList();
     }
 
+    /**
+     * 保存床位信息
+     * @param bedRecList
+     * @author pq
+     * @return
+     */
+    @Path("save")
+    @POST
+    public StringData saveBed(List<BedRec> bedRecList){
+        StringData stringData = new StringData();
+        String code =   bedRecServiceApi.saveBed(bedRecList);
+        stringData.setCode(code);
+        if(code !=null && !"0".equals(code)){
+            stringData.setData("success");
+        }else{
+            stringData.setData("error");
+        }
+        return stringData;
+    }
 
-
+    /**
+     * 查询病区下所有的床位信息
+     * @param wardCode
+     * @author pq
+     * @return
+     */
+    @Path("getAllBed")
+    @GET
+    public List<BaseDto> getAllBed(String wardCode){
+        return  bedRecServiceApi.getAllBed(wardCode);
+    }
 
 }

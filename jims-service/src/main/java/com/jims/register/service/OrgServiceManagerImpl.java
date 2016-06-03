@@ -8,6 +8,7 @@ import com.jims.register.dao.OrgSelfServiceListDao;
 import com.jims.register.entity.OrgSelfServiceList;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
+import com.jims.sys.vo.OrgSelfServiceVsMenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -85,5 +86,7 @@ public class OrgServiceManagerImpl implements OrgServiceManagerApi {
         return bo.findSelfServiceVsMenu(selfServiceId);
     }
 
-
+    public List<OrgSelfServiceVsMenuVo> findSelfServiceMenu(String orgId){
+        return bo.findSelfServiceMenu(orgId);
+    }
 }
