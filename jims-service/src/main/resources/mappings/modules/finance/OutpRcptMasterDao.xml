@@ -198,42 +198,29 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-
-
-	<select id="findCharge" resultType="OutpRcptMaster">
+	<select id="getBackChargeInfo" resultType="OutpRcptMaster">
 		SELECT
-			SUM(DECODE(TOTAL_CHARGES, 0, 1, 0)) as "freeCount",
-			SUM(DECODE(CHARGE_INDICATOR,
-			2,
-			DECODE(SIGN(TOTAL_CHARGES), -1, 1, 0),
-			0)) as "refundCount",
-
-			SUM(TOTAL_COSTS) as "sumCosts",
-			SUM(TOTAL_CHARGES) as "sumCharges",
-			SUM(DECODE(SIGN(TOTAL_CHARGES), -1, ABS(TOTAL_CHARGES), 0)) as "refundMoney",
-			MIN(RCPT_NO) as "minRcptNo",
-			MAX(RCPT_NO) as "maxRcptNo",
-			COUNT(*) as "countNo",
-		    ID   AS "id"
-		FROM OUTP_RCPT_MASTER
-		WHERE  DEL_FlAG = '0'
-		<if test="operatorNo !=null and operatorNo !=''">
-			AND OPERATOR_NO = #{operatorNo}
-		</if>
-           /*如果交费标志是2（0-正常交费1-欠费 2-已退费）*/
-		AND CHARGE_INDICATOR &lt;&gt; 1
-		AND ACCT_NO IS NULL
-		<if test="visitDate !=null and visitDate !=''">
-			AND VISIT_DATE &lt;=
-			to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
-		</if>
-		group by id
+		b.name,
+		b.identity,
+		b.charge_type,
+		b.unit_in_contract,
+		a.doctor,
+		a.visit_dept,
+		b.RCPT_NO,
+        b.VISIT_DATE,
+        b.TOTAL_COSTS,
+        b.TOTAL_CHARGES,
+        b.OPERATOR_NO,
+        b.REFUNDED_RCPT_NO,
+        b.PRINTED_OPERATOR_NO,
+        b.PRINTED_DATE,
+        b.INVOICE_NO,
+        b.RCPT_PRINT
+		FROM clinic_master a, outp_rcpt_master b
+		WHERE a.clinic_no=#{clinicNo}
+		AND a.id=b.patientid
+		AND  (TOTAL_COSTS >= 0 and TOTAL_CHARGES >= 0)
+		AND  REFUNDED_RCPT_NO is null
+		AND  (card_flag &lt; 'Y' or card_flag is null)
 	</select>
-
-	<update id="updateAcctNo">
-		UPDATE outp_rcpt_master SET
-			acct_no = #{acctNo}
-		WHERE id = #{id}
-	</update>
-
 </mapper>

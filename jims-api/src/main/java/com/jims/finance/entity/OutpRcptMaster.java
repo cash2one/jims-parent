@@ -6,14 +6,9 @@ package com.jims.finance.entity;
 
 import com.jims.common.persistence.DataEntity;
 
-import com.jims.common.utils.CustomDateDeSerializer;
-import com.jims.common.utils.CustomDateSerializer;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 门诊医疗收据记录Entity
@@ -48,23 +43,9 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 	private String ordInvoiceNo;		// ord_invoice_no
 	private String reckonNo;		// 银海医保清算流水号
 	private String rcptPrint;		// 序列号
-
-
-	/*收费结账所需的*/
-	private Integer freeCount;//免费张数
-	private Integer  refundCount;//退费张数
-	private Double sumCosts;//计价
-	private Double sumCharges;//应收费用
-    private Double refundMoney;//退费金额
-	private String minRcptNo;//最小收据号
-	private String maxRcptNo;//最大收据号
-	private Integer countNo;//收据张数
-
-	private String acctDate;
-
-
-	private List<OutpPaymentsMoney> outpAcctMoneyList;//门诊收费结帐金额分类OutpAcctMoney
-	private List<OutpBillItems> outpAcctDetailList; //门诊收费结帐明细记录OutpAcctDetail
+	private String doctor;//门诊医生
+	private String visitDept;//门诊就诊科室
+	
 	public OutpRcptMaster() {
 		super();
 	}
@@ -293,93 +274,19 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 		this.rcptPrint = rcptPrint;
 	}
 
-
-	public Integer getFreeCount() {
-		return freeCount;
+	public String getDoctor() {
+		return doctor;
 	}
 
-	public void setFreeCount(Integer freeCount) {
-		this.freeCount = freeCount;
+	public void setDoctor(String doctor) {
+		this.doctor = doctor;
 	}
 
-	public Integer getRefundCount() {
-		return refundCount;
+	public String getVisitDept() {
+		return visitDept;
 	}
 
-	public void setRefundCount(Integer refundCount) {
-		this.refundCount = refundCount;
-	}
-
-	public Double getSumCosts() {
-		return sumCosts;
-	}
-
-	public void setSumCosts(Double sumCosts) {
-		this.sumCosts = sumCosts;
-	}
-
-	public Double getSumCharges() {
-		return sumCharges;
-	}
-
-	public void setSumCharges(Double sumCharges) {
-		this.sumCharges = sumCharges;
-	}
-
-	public Double getRefundMoney() {
-		return refundMoney;
-	}
-
-	public void setRefundMoney(Double refundMoney) {
-		this.refundMoney = refundMoney;
-	}
-
-	public String getMinRcptNo() {
-		return minRcptNo;
-	}
-
-	public void setMinRcptNo(String minRcptNo) {
-		this.minRcptNo = minRcptNo;
-	}
-
-	public String getMaxRcptNo() {
-		return maxRcptNo;
-	}
-
-	public void setMaxRcptNo(String maxRcptNo) {
-		this.maxRcptNo = maxRcptNo;
-	}
-
-	public Integer getCountNo() {
-		return countNo;
-	}
-
-	public void setCountNo(Integer countNo) {
-		this.countNo = countNo;
-	}
-
-
-	public List<OutpPaymentsMoney> getOutpAcctMoneyList() {
-		return outpAcctMoneyList;
-	}
-
-	public void setOutpAcctMoneyList(List<OutpPaymentsMoney> outpAcctMoneyList) {
-		this.outpAcctMoneyList = outpAcctMoneyList;
-	}
-
-	public List<OutpBillItems> getOutpAcctDetailList() {
-		return outpAcctDetailList;
-	}
-
-	public void setOutpAcctDetailList(List<OutpBillItems> outpAcctDetailList) {
-		this.outpAcctDetailList = outpAcctDetailList;
-	}
-
-	public String getAcctDate() {
-		return acctDate;
-	}
-
-	public void setAcctDate(String acctDate) {
-		this.acctDate = acctDate;
+	public void setVisitDept(String visitDept) {
+		this.visitDept = visitDept;
 	}
 }
