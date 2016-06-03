@@ -14,7 +14,7 @@ $(function(){
             {field:'tallyFeeClass',title:'会计科目',width:'15%',align:'center'},
             {field:'income',title:'实收金额',width:'15%',align:'center'},
         ]], onClickRow: function (index, row) {
-        }, onLoadSuccess: function(){
+        }, onLoadSuccess: function(data){
 
         }
     });
@@ -28,8 +28,15 @@ $(function(){
             {field:'refundedAmount',title:'退号金额',width:'15%',align:'center'},
             {field:'incomeAmount',title:'实收小计',width:'15%',align:'center'},
         ]], onClickRow: function (index, row) {
-        }, onLoadSuccess: function(){
-
+        }, onLoadSuccess: function(data){
+          /*  if (data.total == 0) {
+                //添加一个新数据行，第一列的值为你需要的提示信息，然后将其他列合并到第一列来，注意修改colspan参数为你columns配置的总列数
+                $(this).datagrid('appendRow', {moneyType: '<div style="text-align:center;color:red">没有相关记录！</div>'}).datagrid('mergeCells', {
+                    index: 0,
+                    field: 'moneyType',
+                    colspan: 4
+                });
+            }*/
         }
     });
 });
@@ -44,17 +51,23 @@ function accFun(){
         'data': date = date,
         'dataType': 'json',
         'success': function (data) {
-            $('#regiForm').form('load', data);
+            var obj = eval(data);
+            if(data!=null&&obj.totalIncomes!=null&&obj.totalIncomes!=0){
+                $('#regiForm').form('load', data);
+                $.get(basePath+'/clinicMaster/feeItemList?date=' + date, function (data) {
+                    $("#centerList").datagrid("loadData", data);
+                });
+
+                $.get(basePath+'/clinicMaster/payWayList?date=' + date, function (data) {
+                    $("#dataList").datagrid("loadData", data);
+                });
+            }else{
+                $.messager.alert('提示',"挂号结账没有未结账数据", "warning");
+            }
+
         }
     });
 
-    $.get(basePath+'/clinicMaster/feeItemList?date=' + date, function (data) {
-        $("#centerList").datagrid("loadData", data);
-    });
-
-    $.get(basePath+'/clinicMaster/payWayList?date=' + date, function (data) {
-        $("#dataList").datagrid("loadData", data);
-    });
 }
 
 function confirmFun(){
@@ -72,12 +85,12 @@ function confirmFun(){
     var submitJson=nformJson+","+formJson+",\"acctDetails\":"+ctableJson+",\"acctMoneys\":"+dtableJson+"}";
     $.postJSON(basePath+'/registAcctMaster/save',submitJson,function(data){
         if(data.data=='success'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $.messager.alert("提示消息","挂号结账"+data.code+"条记录，保存成功");
         }else{
-            $.messager.alert('提示',"保存失败", "error");
+            $.messager.alert('提示',"挂号结账保存失败", "error");
         }
     },function(data){
-        $.messager.alert('提示',"保存失败", "error");
+        $.messager.alert('提示',"挂号结账保存失败", "error");
     })
 }
 
