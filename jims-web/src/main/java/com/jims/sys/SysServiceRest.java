@@ -240,4 +240,19 @@ public class SysServiceRest {
 
     }
 
+    /**
+     * 检索不同人群的服务
+     * @param serviceClass 服务人群 1,个人服务，0机构服务
+     * @param serviceType  服务类型
+     * @return
+     */
+    @Path("findServiceWithPrice")
+    @GET
+    public List<SysService> findServiceWithPrice(@QueryParam("serviceClass")String serviceClass
+            ,@QueryParam("serviceType")String serviceType){
+        if("0".equals(serviceClass))
+            serviceType = "1";
+        return sysServiceApi.findServiceWithPrice(serviceClass,serviceType);
+    }
+
 }

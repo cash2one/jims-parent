@@ -83,4 +83,12 @@ public interface SysServiceApi {
      * @version 2016-06-02
      */
     public List<ServiceVsMenu> serviceVsMenuList(String serviceId);
+
+    /**
+     * 检索不同人群的服务
+     * @param serviceClass 服务人群 1,个人服务，0机构服务
+     * @param serviceType  服务类型
+     * @return
+     */
+    public List<SysService> findServiceWithPrice(String serviceClass,String serviceType);
 }

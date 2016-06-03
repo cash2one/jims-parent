@@ -3,7 +3,6 @@ var editRow = undefined;
 var rowNum=-1;
 $(function(){
     var clinicId=$("#clinicMasterId",parent.document).val();
-    var cId=$("#zhenduan",parent.document).val();
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
