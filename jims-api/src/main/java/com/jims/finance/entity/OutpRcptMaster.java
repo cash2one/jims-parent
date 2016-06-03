@@ -43,6 +43,8 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 	private String ordInvoiceNo;		// ord_invoice_no
 	private String reckonNo;		// 银海医保清算流水号
 	private String rcptPrint;		// 序列号
+	private String doctor;//门诊医生
+	private String visitDept;//门诊就诊科室
 	
 	public OutpRcptMaster() {
 		super();
@@ -271,5 +273,20 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 	public void setRcptPrint(String rcptPrint) {
 		this.rcptPrint = rcptPrint;
 	}
-	
+
+	public String getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(String doctor) {
+		this.doctor = doctor;
+	}
+
+	public String getVisitDept() {
+		return visitDept;
+	}
+
+	public void setVisitDept(String visitDept) {
+		this.visitDept = visitDept;
+	}
 }

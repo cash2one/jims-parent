@@ -276,5 +276,10 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getBackChargeItems" resultType="OutpBillItems">
+      SELECT
+		<include refid="outpBillItemsColumns"/>
+		FROM outp_bill_items a
+		WHERE a.rcpt_no=#{rcptNo}
+	</select>
 </mapper>

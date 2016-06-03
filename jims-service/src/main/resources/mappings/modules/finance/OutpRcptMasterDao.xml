@@ -198,5 +198,29 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getBackChargeInfo" resultType="OutpRcptMaster">
+		SELECT
+		b.name,
+		b.identity,
+		b.charge_type,
+		b.unit_in_contract,
+		a.doctor,
+		a.visit_dept,
+		b.RCPT_NO,
+        b.VISIT_DATE,
+        b.TOTAL_COSTS,
+        b.TOTAL_CHARGES,
+        b.OPERATOR_NO,
+        b.REFUNDED_RCPT_NO,
+        b.PRINTED_OPERATOR_NO,
+        b.PRINTED_DATE,
+        b.INVOICE_NO,
+        b.RCPT_PRINT
+		FROM clinic_master a, outp_rcpt_master b
+		WHERE a.clinic_no=#{clinicNo}
+		AND a.id=b.patientid
+		AND  (TOTAL_COSTS >= 0 and TOTAL_CHARGES >= 0)
+		AND  REFUNDED_RCPT_NO is null
+		AND  (card_flag &lt; 'Y' or card_flag is null)
+	</select>
 </mapper>
