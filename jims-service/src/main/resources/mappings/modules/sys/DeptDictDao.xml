@@ -114,7 +114,7 @@
         <where>
 			<if test="deptName !=null and deptName !=''">
 				<if test="deptName ==病区">
-					dept_name like concat('病区','%')
+					dept_name like concat('%','病区','%')
 				</if>
 			</if>
 		</where>
