@@ -196,5 +196,19 @@
 		 </if>
 	 </where>
  </select>
-	
+	<update id="updateReturned">
+		update CLINIC_RETURNED_ACCT
+		set Acct_No = #{acctNo}, acct_date_time = SYSDATE
+			<where>
+				del_flag='0'
+				and acct_No is null
+				<if test="returnedDate!=null">
+					and RETURNED_DATE &lt;=
+					TO_DATE(#{returnedDate}, 'YYYY-MM-DD HH24:MI:SS')
+				</if>
+				<if test="returnedOperator!=null and returnedOperator!=''">
+					and RETURNED_OPERATOR = #{returnedOperator}
+				</if>
+		</where>
+	</update>
 </mapper>

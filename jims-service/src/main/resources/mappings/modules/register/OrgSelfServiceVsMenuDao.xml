@@ -7,6 +7,7 @@
 		a.self_service_id AS "selfServiceId",
 		a.menu_id AS "menuId",
 		a.menu_sort AS "menuSort",
+		a.menu_end_date AS "menuEndDate",
 		a.careate_by AS "careateBy",
 		a.remark AS "remark",
 		a.update_by AS "updateBy.id",
@@ -28,11 +29,12 @@
 	
 	<select id="findList" resultType="OrgSelfServiceVsMenu">
 		SELECT 
-			<include refid="orgSelfServiceVsMenuColumns"/>
-		FROM org_self_service_vs_menu a
-		<include refid="orgSelfServiceVsMenuJoins"/>
+			<include refid="orgSelfServiceVsMenuColumns"/>,m.menu_name as "selfMenuName"
+		FROM org_self_service_vs_menu a,menu_dict m
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+            and m.id = a.menu_id
+            and (a.menu_end_date is null or a.menu_end_date > sysdate)
             <if test="selfServiceId != null and selfServiceId != ''">
                 AND a.self_service_id = #{selfServiceId}
             </if>
@@ -71,6 +73,7 @@
 			self_service_id,
 			menu_id,
 			menu_sort,
+			menu_end_date,
 			careate_by,
 			remark,
 			update_by,
@@ -82,6 +85,7 @@
 			#{selfServiceId},
 			#{menuId},
 			#{menuSort},
+			#{menuEndDate},
 			#{careateBy},
 			#{remark},
 			#{updateBy.id},
@@ -96,6 +100,7 @@
 			self_service_id = #{selfServiceId},
 			menu_id = #{menuId},
 			menu_sort = #{menuSort},
+			menu_end_date = #{menuEndDate},
 			careate_by = #{careateBy},
 			remark = #{remark},
 			update_by = #{updateBy.id},
@@ -106,8 +111,14 @@
 	
 	<update id="delete">
 		UPDATE org_self_service_vs_menu SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
+
+    <update id="deleteByServiceId">
+        UPDATE org_self_service_vs_menu SET
+        del_flag = '1'
+        WHERE self_service_id = #{1}
+    </update>
 	
 </mapper>

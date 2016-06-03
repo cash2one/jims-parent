@@ -60,6 +60,8 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 	private String maxRcptNo;//最大收据号
 	private Integer countNo;//收据张数
 
+	private String acctDate;
+
 
 	private List<OutpPaymentsMoney> outpAcctMoneyList;//门诊收费结帐金额分类OutpAcctMoney
 	private List<OutpBillItems> outpAcctDetailList; //门诊收费结帐明细记录OutpAcctDetail
@@ -371,5 +373,13 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 
 	public void setOutpAcctDetailList(List<OutpBillItems> outpAcctDetailList) {
 		this.outpAcctDetailList = outpAcctDetailList;
+	}
+
+	public String getAcctDate() {
+		return acctDate;
+	}
+
+	public void setAcctDate(String acctDate) {
+		this.acctDate = acctDate;
 	}
 }

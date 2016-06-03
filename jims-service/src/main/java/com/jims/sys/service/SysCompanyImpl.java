@@ -3,8 +3,10 @@ package com.jims.sys.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.SysCompanyApi;
+import com.jims.sys.bo.SysCompanyBo;
 import com.jims.sys.dao.SysCompanyDao;
 import com.jims.sys.entity.SysCompany;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
@@ -15,7 +17,8 @@ import java.util.List;
 @Service(version = "1.0.0")
 public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> implements SysCompanyApi {
 
-
+    @Autowired
+    private SysCompanyBo bo;
     /**
      * 查询父机构名称
      * @return
@@ -53,5 +56,20 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
         sysCompany.preUpdate();
         int i = dao.update(sysCompany);
         return i;
+    }
+
+    /**
+     * 保存注册信息以及选择的服务
+     * @param company
+     * @return 1 成功 ,0 失败
+     */
+    public String saveCompanyAndService(SysCompany company){
+        String result = "0";
+        try{
+            bo.saveCompanyAndService(company);
+            result = "1";
+        } catch (Exception e){
+        }
+        return result;
     }
 }

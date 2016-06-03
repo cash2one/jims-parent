@@ -19,8 +19,7 @@ public class LabItemClassDict extends DataEntity<LabItemClassDict> {
 	private String className;		// 类别名称
 	private String deptCode;		// 科室代码
     private String orgId;		// 所属组织结构
-    private String dictCode;		// 所属部门
-	
+
 	public LabItemClassDict() {
 		super();
 	}
@@ -64,13 +63,6 @@ public class LabItemClassDict extends DataEntity<LabItemClassDict> {
 		this.deptCode = deptCode;
 	}
 
-    public String getDictCode() {
-        return dictCode;
-    }
-
-    public void setDictCode(String dictCode) {
-        this.dictCode = dictCode;
-    }
 
     public String getOrgId() {
         return orgId;

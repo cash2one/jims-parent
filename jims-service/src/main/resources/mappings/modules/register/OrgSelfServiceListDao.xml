@@ -41,7 +41,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.service_name DESC
+				ORDER BY a.service_name
 			</otherwise>
 		</choose>
 	</select>
@@ -102,7 +102,7 @@
 	
 	<update id="delete">
 		UPDATE org_self_service_list SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	
