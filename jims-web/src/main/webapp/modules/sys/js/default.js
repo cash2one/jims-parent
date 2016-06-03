@@ -6,7 +6,7 @@ $(function () {
         var pos_end = str.indexOf("&", pos_start);
         if (pos_end == -1) {
             var persion_id = str.substring(12);
-            $.get('/service/persion-service-list/findListByFlag?persionId=' + persion_id + '&flag=0', function (data) {
+            $.get('/service/persion-service-list/findListByFlag?persionId=' + persion_id, function (data) {
 
                 if (data != null) {
                     for (var i = 0; i < data.length; i++) {

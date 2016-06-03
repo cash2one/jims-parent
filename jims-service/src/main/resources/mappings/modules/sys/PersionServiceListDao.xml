@@ -30,7 +30,7 @@
 </select>
 	<select id="findListByFlag" resultType="SysService">
         select se.service_name from sys_service se,persion_service_list pp where pp.persion_id=#{persionId}
-        and pp.service_id=se.id  and pp.flag=#{flag}
+        and pp.service_id=se.id
 
 	</select>
 	
