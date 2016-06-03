@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.PreDischgedPatsDao">
+    
+	<sql id="preDischgedPatsColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.discharge_date_expcted AS "dischargeDateExpcted",
+		a.create_date_time AS "createDateTime",
+		a.order_no AS "orderNo",
+		a.discharge_disposition_name AS "dischargeDispositionName",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="preDischgedPatsJoins">
+	</sql>
+    
+	<select id="get" resultType="PreDischgedPats">
+		SELECT 
+			<include refid="preDischgedPatsColumns"/>
+		FROM pre_dischged_pats a
+		<include refid="preDischgedPatsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PreDischgedPats">
+		SELECT 
+			<include refid="preDischgedPatsColumns"/>
+		FROM pre_dischged_pats a
+		<include refid="preDischgedPatsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PreDischgedPats">
+		SELECT 
+			<include refid="preDischgedPatsColumns"/>
+		FROM pre_dischged_pats a
+		<include refid="preDischgedPatsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pre_dischged_pats(
+			id,
+			patient_id,
+			discharge_date_expcted,
+			create_date_time,
+			order_no,
+			discharge_disposition_name,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{dischargeDateExpcted},
+			#{createDateTime},
+			#{orderNo},
+			#{dischargeDispositionName},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pre_dischged_pats SET 	
+			patient_id = #{patientId},
+			discharge_date_expcted = #{dischargeDateExpcted},
+			create_date_time = #{createDateTime},
+			order_no = #{orderNo},
+			discharge_disposition_name = #{dischargeDispositionName},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE  FROM pre_dischged_pats
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
