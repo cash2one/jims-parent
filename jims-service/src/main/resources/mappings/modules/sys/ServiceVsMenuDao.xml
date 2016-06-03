@@ -7,12 +7,12 @@
 		a.service_id AS "serviceId",
 		a.menu_id AS "menuId",
 		a.menu_sort AS "menuSort",
-		a.careate_by AS "careateBy",
-		a.remark AS "remark",
+		a.create_by AS "createBy",
+		a.remarks AS "remark",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		a.create_time AS "createTime"
+		a.create_date AS "createDate"
 	</sql>
 	
 	<sql id="serviceVsMenuJoins">
@@ -29,8 +29,16 @@
         AND del_flag = '0'
     </select>
     
-	<select id="get" resultType="ServiceVsMenu">
+	<select id="serviceVsMenuList" resultType="ServiceVsMenu">
 		SELECT 
+			<include refid="serviceVsMenuColumns"/>
+		FROM service_vs_menu a
+		<include refid="serviceVsMenuJoins"/>
+		WHERE a.service_id = #{serviceId}
+        and a.del_flag = '0'
+	</select>
+	<select id="get" resultType="ServiceVsMenu">
+		SELECT
 			<include refid="serviceVsMenuColumns"/>
 		FROM service_vs_menu a
 		<include refid="serviceVsMenuJoins"/>
@@ -79,23 +87,23 @@
 			service_id,
 			menu_id,
 			menu_sort,
-			careate_by,
-			remark,
+			create_by,
+			remarks,
 			update_by,
 			update_date,
 			del_flag,
-			create_time
+			create_date
 		) VALUES (
 			#{id},
 			#{serviceId},
 			#{menuId},
 			#{menuSort},
-			#{careateBy},
-			#{remark},
+			#{createBy},
+			#{remarks},
 			#{updateBy.id},
 			#{updateDate},
 			#{delFlag},
-			#{createTime}
+			#{createDate}
 		)
 	</insert>
 	
@@ -104,11 +112,11 @@
 			service_id = #{serviceId},
 			menu_id = #{menuId},
 			menu_sort = #{menuSort},
-			careate_by = #{careateBy},
-			remark = #{remark},
+			create_by = #{createBy},
+			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			create_time = #{createTime}
+			create_date = #{createDate}
 		WHERE id = #{id}
 	</update>
 	
@@ -117,5 +125,7 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<delete id="deleteByServiceId">
+         delete from service_vs_menu where service_id = #{serviceId}
+    </delete>
 </mapper>

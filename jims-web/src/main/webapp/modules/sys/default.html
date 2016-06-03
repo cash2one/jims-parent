@@ -212,7 +212,7 @@
 </div>
 <!--血糖-->
 <!--尿酸-->
-<div class="modal fade" id="niaosuan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--<div class="modal fade" id="niaosuan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -261,7 +261,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!--尿酸-->
 
 
@@ -329,29 +329,13 @@
 </nav>
 <div class="container padd50-top">
     <div class="col-md-9">
-        <div class="ser-type clearfix">
+        <div class="ser-type clearfix" id="addServiceModel">
             <ul>
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#xuetang"></a>
-                    <a href="#" class="ser-close">X</a>
-                    <img src="/static/bookstrap/images/service/xt-bg.jpg"/>
-                </li>
-                <li><a href="#" data-toggle="modal" data-target="#xueya"></a><a href="#" class="ser-close">X</a><img
-                        src="/static/bookstrap/images/service/xy-bg.jpg"/></li>
-                <li><a href="#" data-toggle="modal" data-target="#niaosuan"></a><a href="#" class="ser-close">X</a><img
-                        src="/static/bookstrap/images/service/ns-bg.jpg"/></li>
-                <li><a href="health-manager.html"></a> <a href="#" class="ser-close">X</a> <img
-                        src="/static/bookstrap/images/service/jkgl-bg.jpg"/></li>
-                <li>
-                    <button class="ser-plus"  id="hospital">
 
-                              <!--// data-toggle="modal" data-target="#myModal"-->
-                    </button>
-                </li>
             </ul>
         </div>
         <div>
-            <button class="btn btn-success" onclick="window.location.href=('/modules/sys/more-services.html')"><i
+            <button class="btn btn-success" id="moreServices"><i
                     class="fa fa-plus"></i>&nbsp;我要定制更多服务
             </button>
         </div>

@@ -6,14 +6,8 @@ import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 
 import com.jims.sys.api.OrgStaffApi;
-import com.jims.sys.dao.DictDao;
-import com.jims.sys.dao.OrgStaffDao;
-import com.jims.sys.dao.PersionInfoDao;
-import com.jims.sys.dao.SysUserDao;
-import com.jims.sys.entity.Dict;
-import com.jims.sys.entity.OrgStaff;
-import com.jims.sys.entity.PersionInfo;
-import com.jims.sys.entity.SysUser;
+import com.jims.sys.dao.*;
+import com.jims.sys.entity.*;
 import com.jims.sys.vo.OrgStaffVo;
 import com.sun.org.apache.bcel.internal.generic.I2D;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +28,8 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
     private PersionInfoDao persionInfoDao;
     @Autowired
     private SysUserDao sysUserDao;
+    @Autowired
+    private StaffVsRoleDao staffVsRoleDao;
 
 
     /**
@@ -70,7 +66,7 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
 
     /**
      * 添加组织机构人员
-     * 向orgStaff表中插入一条记录，并且向persionInfo，sysUser表中插入或更新
+     * 向orgStaff表中插入一条记录，向staff_vs_role表中添加记录，并且向persionInfo，sysUser表中插入或更新
      *
      * @param persionInfo
      * @param sysUser
@@ -78,10 +74,9 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
      * @return
      */
     @Override
-
-    public String insertOrgStaffAndPersion(PersionInfo persionInfo, SysUser sysUser, OrgStaff orgStaff) {
+    public String insertOrgStaffAndPersion(PersionInfo persionInfo, SysUser sysUser, OrgStaff orgStaff,String[] array) {
         PersionInfo oldPersion = new PersionInfo();
-
+        StringBuilder sb=new StringBuilder();
         if (StringUtils.isNotBlank(persionInfo.getId())) {
             boolean flag = false;
             oldPersion = persionInfoDao.get(persionInfo.getId());
@@ -89,7 +84,6 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
             persionInfoDao.updateById(persionInfo);
 
             OrgStaff neworgStaff = dao.getByPersionId(persionInfo.getId());
-            System.out.print("对象是"+neworgStaff);
             OrgStaff of=null;
             if(neworgStaff==null)
             {
@@ -102,7 +96,17 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
                 //向orgStaff表中插入数据
                 orgStaff.preInsert();
                 dao.insert(orgStaff);
+                //orgStaff的id
+                String id=orgStaff.getId();
+                StaffVsRole staffVsRole=new StaffVsRole();
 
+                for(int i=0;i<array.length;i++)
+                {
+                    staffVsRole.preInsert();
+                    staffVsRole.setStaffId(id);
+                    staffVsRole.setRoleId(array[i]);
+                    staffVsRoleDao.insert(staffVsRole);
+                }
             } else {
                 neworgStaff.setTitle(orgStaff.getTitle());
                 neworgStaff.setDelFlag("0");
@@ -110,11 +114,37 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
                 if (StringUtils.equalsIgnoreCase(orgStaff.getDeptId(), neworgStaff.getDeptId())) {
 
                     dao.update(neworgStaff);
+                    String id=neworgStaff.getId();
+                    if(array!=null)
+                    {
+                        staffVsRoleDao.delete(id);
+                        StaffVsRole staffVsRole=new StaffVsRole();
+
+                        for(int i=0;i<array.length;i++)
+                        {
+                            staffVsRole.preInsert();
+                            staffVsRole.setStaffId(id);
+                            staffVsRole.setRoleId(array[i]);
+                            staffVsRoleDao.insert(staffVsRole);
+                        }
+                    }
                 } else {
 
                     //如果也面传递的科室和数据库中的科室不一样，说明要更改科室
                     neworgStaff.setDeptId(orgStaff.getDeptId());
                     dao.update(neworgStaff);
+                    String id=neworgStaff.getId();
+                    if(array.length>0) {
+                        staffVsRoleDao.delete(id);
+                        StaffVsRole staffVsRole = new StaffVsRole();
+
+                        for (int i = 0; i < array.length; i++) {
+                            staffVsRole.preInsert();
+                            staffVsRole.setStaffId(id);
+                            staffVsRole.setRoleId(array[i]);
+                            staffVsRoleDao.insert(staffVsRole);
+                        }
+                    }
                 }
             }
             //登录表中添加记录（身份证号）
@@ -158,6 +188,18 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
             orgStaff.preInsert();
             orgStaff.setPersionId(id);
             dao.insert(orgStaff);
+            String staffId=orgStaff.getId();
+
+
+            StaffVsRole staffVsRole=new StaffVsRole();
+            for(int i=0;i<array.length;i++)
+            {
+                staffVsRole.preInsert();
+                staffVsRole.setStaffId(staffId);
+                staffVsRole.setRoleId(array[i]);
+                staffVsRoleDao.insert(staffVsRole);
+            }
+
             //登录表中添加记录（身份证号）
             if (StringUtils.isNotBlank(persionInfo.getCardNo())) {
                 sysUser.preInsert();
@@ -212,7 +254,17 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
      * @author yangruidong
      */
     @Override
-    public OrgStaff findTitleByPersionId(String persionId) {
-        return dao.findTitleByPersionId(persionId);
+    public OrgStaff findStaffByPersionId(String persionId) {
+        return dao.findStaffByPersionId(persionId);
+    }
+
+    /**
+     * 查询人员角色信息
+     *
+     * @return
+     */
+    @Override
+    public List<OrgRole> getRole(String staffId){
+          return staffVsRoleDao.getRole(staffId);
     }
 }

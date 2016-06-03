@@ -6,25 +6,30 @@ package com.jims.sys.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
-import com.jims.sys.entity.PersionServiceList;
-import com.jims.sys.entity.SysService;
+import com.jims.sys.entity.OrgRole;
+import com.jims.sys.entity.OrgStaff;
+import com.jims.sys.entity.StaffVsRole;
+import com.jims.sys.vo.OrgStaffVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * 人员拥有服务DAO接口
+ * 人员角色表DAO接口
  * @author yangruidong
- * @version 2016-04-13
+ * @version 2016-05-31
  */
 @MyBatisDao
-public interface PersionServiceListDao extends CrudDao<PersionServiceList> {
+public interface StaffVsRoleDao extends CrudDao<StaffVsRole> {
+
 
     /**
-     * 根据persionId查询免费的服务
-     * @param persionId
+     * 查询人员角色信息
+     *
      * @return
      */
-    public List<SysService> findListByFlag(@Param("persionId") String persionId);
+    public List<OrgRole> getRole(@Param("staffId") String staffId);
+
+
 	
 }

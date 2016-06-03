@@ -28,8 +28,9 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
     /**
      * 保存注册信息以及选择的服务
      * @param company
-     * @return 1 成功 ,0 失败
+     *
      */
+
     public void saveCompanyAndService(SysCompany company){
         company.preInsert();
         List<OrgServiceList> services = company.getServiceList();
