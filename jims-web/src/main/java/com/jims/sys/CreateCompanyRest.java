@@ -78,7 +78,7 @@ public class CreateCompanyRest {
     public StringData insertReturnId(SysCompany sysCompany, @Context HttpServletRequest request) {
         if (StringUtils.isNotBlank(sysCompany.getOrgName()) && StringUtils.isNotBlank(sysCompany.getOrgCode()) &&
                 StringUtils.isNotBlank(sysCompany.getLinkPhoneNum()) && StringUtils.isNotBlank(sysCompany.getAddress()) && StringUtils.isNotBlank(sysCompany.getEmail())) {
-            sysCompany.setApplyStatus("0");
+            sysCompany.setApplyStatus("1");
 
             //如果没有父机构则向数据库中存入空
             String parent=sysCompany.getParentId();

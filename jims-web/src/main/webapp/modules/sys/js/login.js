@@ -56,8 +56,8 @@ $(function () {
                             'dataType': 'json',
                             'success': function (data) {
                                 console.log(data);
-                                if (data.data == "success") {
-                                    window.location.href = ('/modules/sys/default.html');
+                                if (data.data !=null) {
+                                    window.location.href = ('/modules/sys/default.html?persion_id='+data.data);
                                     return false;
                                 }
                                 if(data.data=="isValue")

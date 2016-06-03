@@ -18,6 +18,13 @@ import java.util.List;
 @MyBatisDao
 public interface SysCompanyDao extends CrudDao<SysCompany> {
 
+    /**
+     * 根据申请状态查询组织机构列表
+     * @param applyStatus 申请状态
+     * @return 组织机构list集合
+     * @author fengyuguang
+     */
+    public List<SysCompany> findListByApplyStatus(String applyStatus);
 
     /**
      * 查询父机构
