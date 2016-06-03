@@ -13,5 +13,13 @@ import com.jims.sys.entity.ServiceVsMenu;
  */
 @MyBatisDao
 public interface ServiceVsMenuDao extends CrudDao<ServiceVsMenu> {
+
+    /**
+     * 根据服务ID查询服务于菜单对照表
+     * @param serviceId 服务ID
+     * @return 服务于菜单对照实体对象
+     * @author fengyuguang
+     */
+    public ServiceVsMenu findByServiceId(String serviceId);
 	
 }

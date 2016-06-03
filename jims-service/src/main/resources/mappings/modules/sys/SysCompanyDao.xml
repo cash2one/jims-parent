@@ -105,6 +105,16 @@
         SELECT id, org_name FROM  sys_company
     </select>
 
+    <select id="findListByApplyStatus" resultType="SysCompany">
+      SELECT
+       *
+       FROM sys_company
+       WHERE 1 = 1
+        <if test=" _parameter!=null and _parameter!='' ">
+            AND apply_status = #{_parameter}
+        </if>
+       AND DEL_FLAG='0'
+    </select>
 
     <select id="get" resultType="SysCompany">
         SELECT

@@ -25,6 +25,7 @@
 
         WHERE a.id = #{id}
 </select>
+
 	<select id="findAllList" resultType="OrgRole">
 		SELECT 
 			<include refid="orgRoleColumns"/>
@@ -34,6 +35,16 @@
 		</where>		
 
 	</select>
+
+    <select id="findByRoleName" resultType="OrgRole">
+        SELECT *
+        FROM org_role
+        where 1 = 1
+        AND del_flag = '0'
+        <if test="_parameter!=null and _parameter!=''">
+            AND role_name LIKE CONCAT(CONCAT('%', #{_parameter}), '%')
+        </if>
+    </select>
 	
 	<insert id="insert">
 		INSERT INTO org_role(
