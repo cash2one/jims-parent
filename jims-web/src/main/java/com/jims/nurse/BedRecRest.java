@@ -98,4 +98,46 @@ public class BedRecRest {
         return stringData;
     }
 
+    /**
+     * 已经分配了床位的在院病人列表
+     * @param wardCode
+     * @author pq
+     * @return
+     */
+    @Path("getInPat")
+    @GET
+    public  List<BaseDto> getInPat(String wardCode){
+        return bedRecServiceApi.getInPat(wardCode);
+    }
+
+
+    /**
+     * 包床
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    @Path("packBed")
+    @POST
+    public StringData packBed(List<BedRec> bedRec){
+        StringData stringData = new StringData();
+        String num=bedRecServiceApi.packBed(bedRec);
+        stringData.setCode(num);
+        if(num !=null && !"0".equals(num)){
+            stringData.setData("success");
+        }else{
+            stringData.setData("error");
+        }
+        return stringData;
+    }
+
+    @Path("findList")
+    @GET
+    public List<BedRec> findList(@QueryParam("wardCode")String wardCode,@QueryParam("bedStatus")String bedStatus,@QueryParam("patientId")String patientId){
+        BedRec bedRec = new BedRec();
+        bedRec.setWardCode(wardCode);
+        bedRec.setBedStatus(bedStatus);
+        bedRec.setPatientId(patientId);
+      return bedRecServiceApi.findList(bedRec);
+    }
 }

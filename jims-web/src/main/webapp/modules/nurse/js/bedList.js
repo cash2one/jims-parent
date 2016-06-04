@@ -1,6 +1,5 @@
 
-
-
+var patId;
 var editRow = undefined;
 var rowNum=-1;
 $(function(){
@@ -80,18 +79,13 @@ $(function(){
                     }
                 }
             }},
-            {field: 'bedStatus', title: '空床', width: '10%', align: 'center',editor:{
-                type:'combobox',
-                options: {
-                    url: basePath + '/dict/label-value-list?type=' + "BED_STATUS_DICT",
-                    valueField: 'value',
-                    textField: 'label',
-                    method: 'GET',
-                    onLoadSuccess: function (row) {
-                        var data = $(this).combobox('getData');
-                    //    $(this).combobox('setValues', row.bedStatus);
-                    }
-                }
+            {field: 'bedStatus', title: '空床', width: '10%', align: 'center', formatter:function(value, row, index){
+                 if(row.bedStatus=='0'||row.bedStatus=='' || row.bedStatus ==null){
+                     return "是";
+                 }else{
+                     return "否";
+                 }
+
             }},
             {field:'wardCode',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'}
 
@@ -168,10 +162,7 @@ $(function(){
                 body.find('table tbody').append('<tr><td colspan="8" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
             }
         }
-
-
-
-    });
+});
 
 
     //设置分页控件
@@ -183,6 +174,135 @@ $(function(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+
+
+    //已经分配了床位的在院病人列表
+    $('#inPat').datagrid({
+        iconCls: 'icon-edit',//图标
+        width: 'auto',
+        height: 'auto',
+        nowrap: false,
+        striped: true,
+        border: true,
+        method: 'GET',
+        collapsible: false,//是否可折叠的
+        fit: true,//自动大小
+        url: basePath + '/bedRec/getInPat?wardCode='+wardCode,
+        remoteSort: false,
+        idField: 'id',
+        singleSelect: true,//是否单选
+        columns: [[      //每个列具体内容
+            {field: 'bedno', title: '床号', width: '15%', align: 'center'},
+            {field: 'name', title: '姓名', width: '15%', align: 'center'},
+            {field: 'sex', title: '性别', width: '15%', align: 'center'},
+            {field: 'patientid', title: '病人ID', width: '20%', align: 'center'},
+            {field: 'visitid', title: '住院号', width: '20%', align: 'center'},
+            {field: 'dedlabel', title: '床标号', width: '15%', align: 'center'}
+        ]],onClickRow: function (index, row) {//单击行事件
+             patId = row.patientid;
+            $('#emptyBed').datagrid('load');
+            $('#hasBed').datagrid({url: basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=1' + '&patientId='+patId });
+
+
+
+        },onLoadSuccess: function (data) {
+            if (data.total == 0) {
+                var body = $(this).data().datagrid.dc.body2;
+                body.find('table tbody').append('<tr><td colspan="6" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
+            }
+        }
+    });
+
+    //未分配的床位信息
+    $('#emptyBed').datagrid({
+        iconCls: 'icon-edit',//图标
+        width: 'auto',
+        height: 'auto',
+        nowrap: false,
+        striped: true,
+        border: true,
+        method: 'GET',
+        collapsible: false,//是否可折叠的
+        fit: true,//自动大小
+        url: basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=' + '0&patientId='+"",
+        remoteSort: false,
+        idField: 'id',
+        singleSelect: false,//是否单选
+        columns: [[      //每个列具体内容
+            {field: 'bedNo', title: '床号', width: '10%', align: 'center'},
+            {field: 'bedLabel', title: '床标号', width: '10%', align: 'center'},
+            {field: 'roomNo', title: '房间', width: '10%', align: 'center'},
+            {field: 'bedSexType', title: '男/女', width: '10%', align: 'center'},
+            {field: 'bedClass', title: '等级', width: '15%', align: 'center'},
+            {field: 'airconditionClass', title: '空调等级', width: '15%', align: 'center'},
+            {field: 'bedApprovedType', title: '类型', width: '15%', align: 'center'},
+            {field: 'bedStatus', title: '空床', width: '10%', align: 'center', formatter:function(value, row, index){
+                if(row.bedStatus=='0'||row.bedStatus=='' || row.bedStatus ==null){
+                    return "是";
+                }else{
+                    return "否";
+                }
+            }},
+            {field:'patientId',hidden:'true', formatter:function(value, row, index){
+                return patId;
+             /* var bedRow = $("#inPat").datagrid("getSelected");
+                if(bedRow.patientid !=null){
+                   return patId;
+                }*/
+
+            }}
+        ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],onLoadSuccess: function (data) {
+            if (data.total == 0) {
+                var body = $(this).data().datagrid.dc.body2;
+                body.find('table tbody').append('<tr><td colspan="10" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
+            }
+        }
+    });
+
+//病人的包床信息 hasBed
+    $('#hasBed').datagrid({
+        iconCls: 'icon-edit',//图标
+        width: 'auto',
+        height: 'auto',
+        nowrap: false,
+        striped: true,
+        border: true,
+        collapsible: false,//是否可折叠的
+        fit: true,//自动大小
+        remoteSort: false,
+        idField: 'id',
+        method: 'GET',
+        singleSelect: false,//是否单选
+        columns: [[      //每个列具体内容
+            {field: 'bedNo', title: '床号', width: '10%', align: 'center'},
+            {field: 'bedLabel', title: '床标号', width: '10%', align: 'center'},
+            {field: 'roomNo', title: '房间', width: '10%', align: 'center'},
+            {field: 'bedSexType', title: '男/女', width: '10%', align: 'center'},
+            {field: 'bedClass', title: '等级', width: '15%', align: 'center'},
+            {field: 'airconditionClass', title: '空调等级', width: '15%', align: 'center'},
+            {field: 'bedApprovedType', title: '类型', width: '15%', align: 'center'},
+            {field: 'bedStatus', title: '空床', width: '10%', align: 'center', formatter:function(value, row, index){
+                if(row.bedStatus=='0'||row.bedStatus=='' || row.bedStatus ==null){
+                    return "是";
+                }else{
+                    return "否";
+                }
+            }}
+        ]],onLoadSuccess: function (data) {
+        if (data.total == 0) {
+            var body = $(this).data().datagrid.dc.body2;
+            body.find('table tbody').append('<tr><td colspan="8" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
+        }
+    }
+    });
+
+
+
+
+
 
 });
 
@@ -243,3 +363,28 @@ function doDelete(){
         }
     })
 }
+
+
+//包床
+function packBed(){
+  var bedInfo =  $("#emptyBed").datagrid("getSelections");
+    var tableJson=JSON.stringify(bedInfo);
+    alert(tableJson);
+    $.postJSON(basePath+'/bedRec/packBed',tableJson,function(data){
+        if(data.data=='success'){
+            var row = $('#inPat').datagrid('getSelected');
+            alert(JSON.stringify(row));
+            $.messager.alert("提示消息","包床成功");
+            var patientId = row.patientid;
+            $('#emptyBed').datagrid('load');
+            $('#hasBed').datagrid('load');
+        }else{
+            $.messager.alert('提示',"包床失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"包床失败", "error");
+    })
+
+
+}
+

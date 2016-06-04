@@ -33,4 +33,22 @@ public interface BedRecDao extends CrudDao<BedRec> {
      * @return
      */
     public List<BaseDto> getAllBed(@Param(value = "wardCode")String wardCode);
+
+
+    /**
+     * 已经分配了床位的在院病人列表
+     * @param wardCode
+     * @author pq
+     * @return
+     */
+    public  List<BaseDto> getInPat(@Param(value = "wardCode")String wardCode);
+
+
+    /**
+     * 包床
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    public int packBed(BedRec bedRec);
 }

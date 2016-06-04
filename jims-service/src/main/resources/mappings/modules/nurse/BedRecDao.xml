@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.nurse.dao.BedRecDao">
-    
-	<sql id="bedRecColumns">
+
+    <sql id="bedRecColumns">
 		a.id AS "id",
 		a.ward_code AS "wardCode",
 		a.bed_no AS "bedNo",
@@ -28,68 +28,74 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag"
 	</sql>
-	
-	<sql id="bedRecJoins">
-	</sql>
-    
-	<select id="get" resultType="BedRec">
-		SELECT 
-			<include refid="bedRecColumns"/>
-		FROM bed_rec a
-		<include refid="bedRecJoins"/>
-		WHERE a.id = #{id}
-	</select>
 
-	<select id="judgeBedNo" resultType="BedRec">
-		SELECT
-		<include refid="bedRecColumns"/>
-		   FROM bed_rec a
-		<include refid="bedRecJoins"/>
-		WHERE  a.del_flag = #{delFlag}
-		<if test="wardCode !=null and wardCode !=''">
-			AND a.ward_code = #{wardCode}
-		</if>
+    <sql id="bedRecJoins">
+    </sql>
+
+    <select id="get" resultType="BedRec">
+        SELECT
+        <include refid="bedRecColumns"/>
+        FROM bed_rec a
+        <include refid="bedRecJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="judgeBedNo" resultType="BedRec">
+        SELECT
+        <include refid="bedRecColumns"/>
+        FROM bed_rec a
+        <include refid="bedRecJoins"/>
+        WHERE a.del_flag = #{delFlag}
+        <if test="wardCode !=null and wardCode !=''">
+            AND a.ward_code = #{wardCode}
+        </if>
         <if test="bedNo !=null and bedNo !=''">
-			AND a.bed_no = #{bedNo}
-		</if>
-	</select>
+            AND a.bed_no = #{bedNo}
+        </if>
+    </select>
 
 
-	<select id="findList" resultType="BedRec">
-		SELECT 
-			<include refid="bedRecColumns"/>
-		FROM bed_rec a
-		<include refid="bedRecJoins"/>
-		<where>
-			a.WARD_CODE = #{wardCode}
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="BedRec">
-		SELECT 
-			<include refid="bedRecColumns"/>
-		FROM bed_rec a
-		<include refid="bedRecJoins"/>
-		<where>
-			
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+    <select id="findList" resultType="BedRec">
+        SELECT
+        <include refid="bedRecColumns"/>
+        FROM bed_rec a
+        <include refid="bedRecJoins"/>
+        <where>
+            a.WARD_CODE = #{wardCode}
+            <if test="bedStatus !=null and bedStatus !=''">
+               AND a.bed_status = #{bedStatus}
+            </if>
+            <if test="patientId !=null and patientId !=''">
+                AND a.patient_id = #{patientId}
+                    </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="BedRec">
+        SELECT
+        <include refid="bedRecColumns"/>
+        FROM bed_rec a
+        <include refid="bedRecJoins"/>
+        <where>
+
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO bed_rec(
 		    id,
 			ward_code,
@@ -125,7 +131,7 @@
 			#{bedApprovedType},
 			#{bedSexType},
 			#{bedClass},
-			#{bedStatus},
+			'0',
 			#{lendAttr},
 			#{lendBedNo},
 			#{lendBedDept},
@@ -142,8 +148,8 @@
 			#{delFlag}
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE bed_rec SET 	
 			ward_code = #{wardCode},
 			bed_no = #{bedNo},
@@ -167,65 +173,87 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
+
+    <update id="delete">
         UPDATE bed_rec SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 
+<update id="packBed">
+       UPDATE bed_rec SET
+			patient_id = #{patientId}
+			, BED_STATUS ='1'
+		WHERE id = #{id}
+</update>
 
-	<select id="getAllBed" resultType="com.jims.common.web.impl.BaseDto">
-       SELECT  decode(BED_REC.BED_label, null,to_char(bed_rec.bed_no),bed_rec.bed_label) bed_label ,
-         (case when INSTR(BED_REC.bed_label,'_')>0 then
-      (select aa.bed_no
+    <select id="getAllBed" resultType="com.jims.common.web.impl.BaseDto">
+        SELECT decode(BED_REC.BED_label, null,to_char(bed_rec.bed_no),bed_rec.bed_label) bed_label ,
+        (case when INSTR(BED_REC.bed_label,'_')>0 then
+        (select aa.bed_no
         from bed_rec aa
-           where
-		    aa.del_flag = '0'
-		    <if test="wardCode !=null and wardCode !=''">
-				and aa.ward_code= #{wardCode}
-			</if>
-             and aa.bed_label = substr(bed_rec.bed_label,1,INSTR(bed_rec.bed_label,'_')-1))
-      else BED_REC.bed_no end)
-      bed_no1 ,
-      BED_REC.WARD_CODE ,
-      PATS_IN_HOSPITAL.PATIENT_ID ,
-      PATS_IN_HOSPITAL.VISIT_ID ,
+        where
+        aa.del_flag = '0'
+        <if test="wardCode !=null and wardCode !=''">
+            and aa.ward_code= #{wardCode}
+        </if>
+        and aa.bed_label = substr(bed_rec.bed_label,1,INSTR(bed_rec.bed_label,'_')-1))
+        else BED_REC.bed_no end)
+        bed_no1 ,
+        BED_REC.WARD_CODE ,
+        PATS_IN_HOSPITAL.PATIENT_ID ,
+        PATS_IN_HOSPITAL.VISIT_ID ,
 
-      decode(PAT_MASTER_INDEX.NAME,null,(select a.name||'的包床' from PAT_MASTER_INDEX a where a.PATIENT_ID =BED_REC.PATIENT_ID and BED_REC.PATIENT_ID is not null),PAT_MASTER_INDEX.NAME)  name ,
-      PAT_MASTER_INDEX.SEX,
-      PAT_MASTER_INDEX.DATE_OF_BIRTH,
-      floor(MONTHS_BETWEEN(SYSDATE,PAT_MASTER_INDEX.DATE_OF_BIRTH)/12) age,
-      PATS_IN_HOSPITAL.ADMISSION_DATE_TIME,
-      PATS_IN_HOSPITAL.OPERATING_DATE,
-      PATS_IN_HOSPITAL.DOCTOR_IN_CHARGE,
-      PATS_IN_HOSPITAL.PATIENT_CONDITION,
-      PATS_IN_HOSPITAL.NURSING_CLASS,
-      PATS_IN_HOSPITAL.DIAGNOSIS,
-      BED_REC.BED_STATUS,
-      BED_REC.BED_SEX_TYPE,
-      BED_REC.DEPT_CODE,
-      PATS_IN_HOSPITAL.ADM_WARD_DATE_TIME ,
-      BED_REC.BED_APPROVED_TYPE ,
-      pat_master_index.charge_type ,
-      bed_rec.bed_no,
-      PATS_IN_HOSPITAL.is_newborn,
-         '    '        show_age ,
-      (select count(*) from orders where order_status ='1' and patient_id=PATS_IN_HOSPITAL.PATIENT_ID and visit_id=PATS_IN_HOSPITAL.VISIT_ID) order_verify,
-		BED_REC.ID as "id"
-    FROM BED_REC, PATS_IN_HOSPITAL, PAT_MASTER_INDEX
-    WHERE ( BED_REC.WARD_CODE = PATS_IN_HOSPITAL.WARD_CODE(+) ) and
-       ( BED_REC.BED_NO = PATS_IN_HOSPITAL.BED_NO(+) ) and
-       ( PATS_IN_HOSPITAL.PATIENT_ID = PAT_MASTER_INDEX.PATIENT_ID(+) )
-		<if test="wardCode !=null and wardCode !=''">
-			and  ( ( BED_REC.WARD_CODE = #{wardCode} ) )
-		</if>
-    ORDER BY bed_no1 Asc , bed_label Asc
+        decode(PAT_MASTER_INDEX.NAME,null,(select a.name||'的包床' from PAT_MASTER_INDEX a where a.PATIENT_ID
+        =BED_REC.PATIENT_ID and BED_REC.PATIENT_ID is not null),PAT_MASTER_INDEX.NAME) name ,
+        PAT_MASTER_INDEX.SEX,
+        PAT_MASTER_INDEX.DATE_OF_BIRTH,
+        floor(MONTHS_BETWEEN(SYSDATE,PAT_MASTER_INDEX.DATE_OF_BIRTH)/12) age,
+        PATS_IN_HOSPITAL.ADMISSION_DATE_TIME,
+        PATS_IN_HOSPITAL.OPERATING_DATE,
+        PATS_IN_HOSPITAL.DOCTOR_IN_CHARGE,
+        PATS_IN_HOSPITAL.PATIENT_CONDITION,
+        PATS_IN_HOSPITAL.NURSING_CLASS,
+        PATS_IN_HOSPITAL.DIAGNOSIS,
+        BED_REC.BED_STATUS,
+        BED_REC.BED_SEX_TYPE,
+        BED_REC.DEPT_CODE,
+        PATS_IN_HOSPITAL.ADM_WARD_DATE_TIME ,
+        BED_REC.BED_APPROVED_TYPE ,
+        pat_master_index.charge_type ,
+        bed_rec.bed_no,
+        PATS_IN_HOSPITAL.is_newborn,
+        ' ' show_age ,
+        (select count(*) from orders where order_status ='1' and patient_id=PATS_IN_HOSPITAL.PATIENT_ID and
+        visit_id=PATS_IN_HOSPITAL.VISIT_ID) order_verify,
+        BED_REC.ID as "id"
+        FROM BED_REC, PATS_IN_HOSPITAL, PAT_MASTER_INDEX
+        WHERE ( BED_REC.WARD_CODE = PATS_IN_HOSPITAL.WARD_CODE(+) ) and
+        ( BED_REC.BED_NO = PATS_IN_HOSPITAL.BED_NO(+) ) and
+        ( PATS_IN_HOSPITAL.PATIENT_ID = PAT_MASTER_INDEX.PATIENT_ID(+) )
+        <if test="wardCode !=null and wardCode !=''">
+            and ( ( BED_REC.WARD_CODE = #{wardCode} ) )
+        </if>
+        ORDER BY bed_no1 Asc , bed_label Asc
+    </select>
 
 
-
-
-
-	</select>
-	
+    <select id="getInPat" resultType="com.jims.common.web.impl.BaseDto">
+         SELECT
+                "BED_REC"."ID" as "id",
+                "BED_REC"."BED_NO" as "bedNo",
+                "PAT_MASTER_INDEX"."NAME" as "name",
+                "PAT_MASTER_INDEX"."SEX" as "sex",
+                "PATS_IN_HOSPITAL"."PATIENT_ID" as "patientId",
+                "PATS_IN_HOSPITAL"."VISIT_ID" as "visitId",
+                "BED_REC"."BED_LABEL" as "dedLabel"
+           FROM "BED_REC", "PATS_IN_HOSPITAL", "PAT_MASTER_INDEX"
+          WHERE ("BED_REC"."BED_NO" = "PATS_IN_HOSPITAL"."BED_NO")
+            and ("BED_REC"."WARD_CODE" = "PATS_IN_HOSPITAL"."WARD_CODE")
+            and ("PATS_IN_HOSPITAL"."PATIENT_ID" = "PAT_MASTER_INDEX"."PATIENT_ID")
+        <if test="wardCode !=null and wardCode !=''">
+            and ( ( BED_REC.WARD_CODE = #{wardCode} ) )
+        </if>
+          ORDER BY "BED_REC"."BED_NO" ASC
+    </select>
 </mapper>

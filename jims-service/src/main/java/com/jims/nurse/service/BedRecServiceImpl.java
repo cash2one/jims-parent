@@ -72,4 +72,30 @@ public class BedRecServiceImpl implements BedRecServiceApi {
   public List<BaseDto> getAllBed(String wardCode){
     return  bedRecBo.getAllBed(wardCode);
   }
+
+
+  /**
+   * 已经分配了床位的在院病人列表
+   * @param wardCode
+   * @author pq
+   * @return
+   */
+  public  List<BaseDto> getInPat(String wardCode){
+    return bedRecBo.getInPat(wardCode);
+  }
+
+
+  /**
+   * 包床
+   * @param bedRec
+   * @author pq
+   * @return
+   */
+  public String packBed(List<BedRec> bedRec){
+    return  bedRecBo.packBed(bedRec);
+  }
+
+  public List<BedRec> findList(BedRec bedRec){
+    return  bedRecBo.findList(bedRec);
+  }
 }
