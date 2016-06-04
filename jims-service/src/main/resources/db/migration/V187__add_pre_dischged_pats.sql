@@ -4,6 +4,8 @@ create table PRE_DISCHGED_PATS
 (
   ID                          VARCHAR2(64) not null,
   PATIENT_ID                 VARCHAR2(64) not null,
+  ORG_ID                 VARCHAR2(64 CHAR),
+  VISIT_ID               NUMBER(2),
   DISCHARGE_DATE_EXPCTED     TIMESTAMP,
   CREATE_DATE_TIME           DATE,
   ORDER_NO                   VARCHAR2(64),
@@ -21,6 +23,10 @@ comment on table PRE_DISCHGED_PATS
 -- Add comments to the columns
 comment on column PRE_DISCHGED_PATS.ID
   is '主键';
+  comment on column PRE_DISCHGED_PATS.ORG_ID
+  is '机构id';
+  comment on column PRE_DISCHGED_PATS.VISIT_ID
+  is '住院标识';
 comment on column PRE_DISCHGED_PATS.PATIENT_ID
   is '病人标识号';
 comment on column PRE_DISCHGED_PATS.DISCHARGE_DATE_EXPCTED
