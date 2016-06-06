@@ -286,17 +286,16 @@
 
 
 	<select id="findItems" resultType="OutpBillItems">
-		--项目
-		SELECT subjcode,SUM(total_costs) total_costs  ,SUM(total_charges) total_charges FROM (
+		SELECT subjcode,SUM(total_costs) costs  ,SUM(total_charges) charges FROM (
 		SELECT SYS_DICT.LABEL  subjcode,
-		sum(OUTP_BILL_ITEMS.COSTS)  costs,
-		sum(OUTP_BILL_ITEMS.CHARGES)  charges
+		sum(OUTP_BILL_ITEMS.COSTS)  total_costs,
+		sum(OUTP_BILL_ITEMS.CHARGES)  total_charges
 		FROM SYS_DICT,
 		OUTP_BILL_ITEMS,
 		OUTP_RCPT_MASTER
 		WHERE SYS_DICT .VALUE = OUTP_BILL_ITEMS.SUBJ_CODE
 		AND   OUTP_BILL_ITEMS.RCPT_NO = OUTP_RCPT_MASTER.RCPT_NO
-		AND   SYS_DICT.upper(TYPE)='TALLY_SUBJECT_DICT' ;
+		AND   SYS_DICT.TYPE='TALLY_SUBJECT_DICT'
 		AND   OUTP_RCPT_MASTER.acct_no is null
 		<if test="operatorNo !=null and operatorNo !=''">
 			AND   OUTP_RCPT_MASTER.OPERATOR_NO = #{operatorNo}
@@ -304,7 +303,7 @@
 		<if test="visitDate !=null and visitDate !=''">
 			AND    OUTP_RCPT_MASTER.VISIT_DATE  &lt;= to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
 		</if>
-		GROUP BY SYS_DICT .VALUE
+		GROUP BY SYS_DICT.LABEL
 
 		union all
 		SELECT 'Z11'  subjcode,

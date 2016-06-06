@@ -1,6 +1,7 @@
 package com.jims.nurse.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.persistence.Page;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.api.BedRecServiceApi;
@@ -72,4 +73,46 @@ public class BedRecServiceImpl implements BedRecServiceApi {
   public List<BaseDto> getAllBed(String wardCode){
     return  bedRecBo.getAllBed(wardCode);
   }
+
+
+  /**
+   * 已经分配了床位的在院病人列表
+   * @param bedRec
+   * @author pq
+   * @return
+   */
+  public  List<BaseDto> getInPat(BedRec bedRec){
+    return bedRecBo.getInPat(bedRec);
+  }
+
+
+  /**
+   * 包床
+   * @param bedRec
+   * @author pq
+   * @return
+   */
+  public String packBed(List<BedRec> bedRec){
+    return  bedRecBo.packBed(bedRec);
+  }
+
+  public List<BedRec> findList(BedRec bedRec){
+    return  bedRecBo.findList(bedRec);
+  }
+
+
+  /**
+   * 护士端-换床
+   * @param patsInHospital
+   * @author pq
+   * @return
+   */
+  public String changeBed(PatsInHospital patsInHospital,Integer newBedNo,Integer oldBedNo){
+    int num = 0;
+     bedRecBo.updateBedNo(patsInHospital);//修改床位
+     bedRecBo.updateBedStatus("0",0,oldBedNo);//以前的s
+    num = bedRecBo.updateBedStatus("1", newBedNo,0);
+    return num+"";
+  }
+
 }

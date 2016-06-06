@@ -1,5 +1,6 @@
 package com.jims.nurse.api;
 
+import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.persistence.Page;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.entity.BedRec;
@@ -55,5 +56,38 @@ public interface BedRecServiceApi {
      */
     public List<BaseDto> getAllBed(String wardCode);
 
+
+    /**
+     * 已经分配了床位的在院病人列表
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    public  List<BaseDto> getInPat(BedRec bedRec);
+
+    /**
+     * 包床
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    public String packBed(List<BedRec> bedRec);
+
+
+    /**
+     * 查询护士所负责的病区的床位信息
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    public List<BedRec> findList(BedRec bedRec);
+
+    /**
+     * 护士端-换床
+     * @param patsInHospital
+     * @author pq
+     * @return
+     */
+    public String changeBed(PatsInHospital patsInHospital,Integer newBedNo,Integer oldBedNo);
 
 }
