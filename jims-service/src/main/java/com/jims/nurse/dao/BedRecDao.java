@@ -73,5 +73,14 @@ public interface BedRecDao extends CrudDao<BedRec> {
      * @return
      * @author pq
      */
-    public int updateBedStatus(@Param(value = "bedStatus")String bedStatus, @Param(value = "oldBedNo") Integer oldBedNo,  @Param(value = "newBedNo")Integer newBedNo);
+    public int updateBedStatus(BedRec bedRec);
+
+    /**
+     * 已经分配了床位的在院病人列表
+     *
+     * @param bedRec
+     * @return
+     * @author pq
+     */
+    public BaseDto getInPatOne(BedRec bedRec);
 }

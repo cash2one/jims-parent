@@ -34,7 +34,11 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
       if(bedRecList !=null){
             for(int i=0;i<bedRecList.size();i++){
                 BedRec bedRec = new BedRec();
+
                 bedRec = bedRecList.get(i);
+                if(bedRec.getId()==null){
+                    bedRec.setBedStatus("0");
+                }
                 str = str + save(bedRec);
             }
       }else{
@@ -118,7 +122,23 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
      * @author pq
      * @return
      */
-    public int updateBedStatus(String bedStatus,Integer oldBedNo,Integer newBedNo){
-      return  dao.updateBedStatus(bedStatus,oldBedNo,newBedNo);
+    public int updateBedStatus(String bedStatus,Integer oldBedNo,Integer newBedNo,String wardCode){
+        BedRec bedRec= new BedRec();
+        bedRec.setBedStatus(bedStatus);
+        bedRec.setOldBedNo(oldBedNo);
+        bedRec.setNewBedNo(newBedNo);
+        bedRec.setWardCode(wardCode);
+      return  dao.updateBedStatus(bedRec);
     }
+
+    /**
+     * 已经分配了床位的在院病人列表
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    public  BaseDto getInPatOne(BedRec bedRec){
+        return dao.getInPatOne(bedRec);
+    }
+
 }

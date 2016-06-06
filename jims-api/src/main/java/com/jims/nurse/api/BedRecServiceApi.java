@@ -88,6 +88,14 @@ public interface BedRecServiceApi {
      * @author pq
      * @return
      */
-    public String changeBed(PatsInHospital patsInHospital,Integer newBedNo,Integer oldBedNo);
+    public String changeBed(BedRec bedRec);
+
+    /**
+     * 已经分配了床位的在院病人列表
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    public  BaseDto getInPatOne(BedRec bedRec);
 
 }

@@ -2,8 +2,8 @@ var column={};
 var patId;
 var editRow = undefined;
 var rowNum=-1;
+var wardCode='160101';
 $(function(){
-    var wardCode='160101';
     $('#bedRec').datagrid({
      /*   view: myview,
         emptyMsg: '没有查到相关信息',*/
@@ -296,55 +296,37 @@ $(function(){
 
 
 
-    $('#oldBedNo').keydown(
-        function(event){
-            if(event.keyCode == "13")
-            {
-                alert(11111111);
-                var oldBedNo =  $.trim($('#oldBedNo').val());
-                alert(oldBedNo);
-                if (oldBedNo!=''){
-                    $.ajax({
-                        method:"post",
-                        contenType:"application/json",
-                        dataType:"json",
-                        url:basePath + '/bedRec/getOneBed?wardCode='+wardCode+"&bedNo="+oldBedNo,
-                        success:function(data){
-                            $('#oldBed').form('load',data);
-                        }
-                    })
-                }
-            }
-        });
 
 
 
 });
 
-
+/*
 $('#oldBedNo').textbox({
     inputEvents: $.extend({}, $.fn.textbox.defaults.inputEvents, {
         keyup: function (event) {
-            if (event.keyCode == 13) {
-                alert('OK');
-                var oldBedNo = $.trim($('#oldBedNo').val());
-                //  alert(oldBedNo);
-                if (oldBedNo != '') {
-                    $.ajax({
-                        method: "post",
-                        contenType: "application/json",
-                        dataType: "json",
-                        url: basePath + '/bedRec/getOneBed?wardCode=' + wardCode + "&bedNo=" + oldBedNo,
-                        success: function (data) {
-                            $('#oldBed').form('load', data);
-                        }
-                    })
-                }
-            }
+
         }
 
     })
-})
+})*/
+function getBedInfo(){
+        var oldBedNo = $.trim($('#oldBedNo').val());
+        //  alert(oldBedNo);
+        if (oldBedNo != '') {
+            $.ajax({
+                method:"POST",
+                contentType: "application/json", //必须有
+                dataType: 'json',
+                data: JSON.stringify({"wardCode":wardCode,"bedNo":oldBedNo}),
+                url: basePath + '/bedRec/getOneBed',
+                success: function (data) {
+                    $('#oldBed').form('load', data);
+                }
+            })
+        }
+
+}
 
 
 /*function keyDownFun(obj,event) {
@@ -453,19 +435,20 @@ function   changeBed(){
 }
 
 function changeBedOk(){
-    var oldBedNo = $('#oldBedNo').val();
-    var patient = $('#patientid').val();
-    var newBedNo = $('#newBedNo').val();
+    var oldBedNo = parseInt($('#oldBedNo').val());
+    var patient = parseInt($('#patientid').val());
+    var newBedNo = parseInt($('#newBedNo').val());
     var visitId = $('#visitId').val();
     $.ajax({
         'type': 'POST',
         'url': basePath+'/bedRec/changeBed',
         'contentType': 'application/json',
-        'data': JSON.stringify({"visitId":visitId,"newBedNo":newBedNo,"oldBedNo":oldBedNo}),
+        'data': JSON.stringify({"visitId":visitId,"newBedNo":newBedNo,"oldBedNo":oldBedNo,"wardCode":wardCode}),
         'dataType': 'json',
         'success': function(data){
             if(data.data=='success'){
                 $.messager.alert("提示消息","换床成功！");
+                $('#dlg').dialog('close');
                 $('#bedRec').datagrid('load');
 
             }else{

@@ -131,7 +131,7 @@
 			#{bedApprovedType},
 			#{bedSexType},
 			#{bedClass},
-			'0',
+			#{bedStatus},
 			#{lendAttr},
 			#{lendBedNo},
 			#{lendBedDept},
@@ -190,7 +190,7 @@
     <update id="updateBedNo">
         UPDATE pats_in_hospital  SET
         bed_no = #{bedNo}
-        WHERE VISIT_ID = #{visitId}
+        WHERE patient_id = #{patientId}
     </update>
 
 
@@ -281,4 +281,33 @@
 
           ORDER BY "BED_REC"."BED_NO" ASC
     </select>
+
+
+
+    <select id="getInPatOne" resultType="com.jims.common.web.impl.BaseDto">
+        SELECT
+        "BED_REC"."ID" as "id",
+        "BED_REC"."BED_NO" as "bedNo",
+        "PAT_MASTER_INDEX"."NAME" as "name",
+        "PAT_MASTER_INDEX"."SEX" as "sex",
+        "PATS_IN_HOSPITAL"."PATIENT_ID" as "patientId",
+        "PATS_IN_HOSPITAL"."VISIT_ID" as "visitId",
+        "BED_REC"."BED_LABEL" as "dedLabel",
+        "PATS_IN_HOSPITAL".ADMISSION_DATE_TIME as "ruyuanriqi",
+        floor(MONTHS_BETWEEN(SYSDATE,PAT_MASTER_INDEX.DATE_OF_BIRTH)/12) age
+        FROM "BED_REC", "PATS_IN_HOSPITAL", "PAT_MASTER_INDEX"
+        WHERE ("BED_REC"."BED_NO" = "PATS_IN_HOSPITAL"."BED_NO")
+        and ("BED_REC"."WARD_CODE" = "PATS_IN_HOSPITAL"."WARD_CODE")
+        and ("PATS_IN_HOSPITAL"."PATIENT_ID" = "PAT_MASTER_INDEX"."PATIENT_ID")
+        <if test="wardCode !=null and wardCode !=''">
+            and ( ( BED_REC.WARD_CODE = #{wardCode} ) )
+        </if>
+        <if test="bedNo !=null and bedNo !=''">
+            and ( ( BED_REC.BED_NO = #{bedNo} ) )
+        </if>
+
+        ORDER BY "BED_REC"."BED_NO" ASC
+    </select>
+
+
 </mapper>

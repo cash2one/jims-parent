@@ -103,16 +103,32 @@ public class BedRecServiceImpl implements BedRecServiceApi {
 
   /**
    * 护士端-换床
-   * @param patsInHospital
+   * @param bedRec
    * @author pq
    * @return
    */
-  public String changeBed(PatsInHospital patsInHospital,Integer newBedNo,Integer oldBedNo){
+  public String changeBed(BedRec bedRec){
     int num = 0;
+    PatsInHospital patsInHospital = new PatsInHospital();
+    patsInHospital.setBedNo(bedRec.getOldBedNo());
+    patsInHospital.setPatientId(bedRec.getPatientId());
      bedRecBo.updateBedNo(patsInHospital);//修改床位
-     bedRecBo.updateBedStatus("0",0,oldBedNo);//以前的s
-    num = bedRecBo.updateBedStatus("1", newBedNo,0);
+     bedRecBo.updateBedStatus("0",bedRec.getOldBedNo(),0,bedRec.getWardCode());//以前的s
+    num = bedRecBo.updateBedStatus("1",0, bedRec.getNewBedNo(),bedRec.getWardCode());
     return num+"";
   }
+
+
+
+  /**
+   * 已经分配了床位的在院病人列表
+   * @param bedRec
+   * @author pq
+   * @return
+   */
+  public  BaseDto getInPatOne(BedRec bedRec){
+    return bedRecBo.getInPatOne(bedRec);
+  }
+
 
 }

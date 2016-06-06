@@ -121,8 +121,8 @@ public class BedRecRest {
      */
     @Path("getOneBed")
     @POST
-    public  List<BaseDto> getOneBed(BedRec bedRec){
-        return bedRecServiceApi.getInPat(bedRec);
+    public  BaseDto getOneBed(BedRec bedRec){
+        return  bedRecServiceApi.getInPatOne(bedRec);
     }
 
     /**
@@ -165,9 +165,12 @@ public class BedRecRest {
      */
     @Path("changeBed")
     @POST
-    public StringData changeBed(PatsInHospital patsInHospital,Integer newBedNo,Integer oldBedNo){
+    public StringData changeBed( BedRec bedRec){
+        PatsInHospital  patsInHospital = new PatsInHospital();
+        patsInHospital.setPatientId(bedRec.getPatientId());
+        patsInHospital.setBedNo(bedRec.getOldBedNo());
         StringData stringData = new StringData();
-        String num = bedRecServiceApi.changeBed(patsInHospital,newBedNo,oldBedNo);
+        String num = bedRecServiceApi.changeBed(bedRec);
         stringData.setCode(num);
         if(num !=null && !"0".equals(num)){
             stringData.setData("success");

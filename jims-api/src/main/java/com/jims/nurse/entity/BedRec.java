@@ -22,12 +22,33 @@ public class BedRec extends DataEntity<BedRec> {
 	private String bedStatus;		// 床位状态
 	private String lendAttr;		// lend_attr
 	private Integer lendBedNo;		// lend_bed_no
+
+	public Integer getOldBedNo() {
+		return oldBedNo;
+	}
+
+	public void setOldBedNo(Integer oldBedNo) {
+		this.oldBedNo = oldBedNo;
+	}
+
+	public Integer getNewBedNo() {
+		return newBedNo;
+	}
+
+	public void setNewBedNo(Integer newBedNo) {
+		this.newBedNo = newBedNo;
+	}
+
 	private String lendBedDept;		// lend_bed_dept
 	private String lendBedWard;		// 借床标志
 	private String lockStatus;		// 是否锁住床位
 	private String lockOperator;		// 锁床位操作员
 	private String airconditionClass;		// 空调类型
 	private String patientId;		// patient_id
+
+	private Integer newBedNo;
+	private  Integer oldBedNo;
+
 	
 	public BedRec() {
 		super();
