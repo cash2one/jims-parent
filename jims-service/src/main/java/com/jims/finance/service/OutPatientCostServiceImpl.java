@@ -6,12 +6,16 @@ import com.jims.common.data.BaseData;
 import com.jims.common.utils.StringUtils;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.api.OutPatientCostServiceApi;
+import com.jims.finance.bo.OutpRcptMasterBo;
 import com.jims.finance.dao.OutpBillItemsDao;
 import com.jims.finance.dao.OutpRcptMasterDao;
 import com.jims.finance.entity.OutpBillItems;
 import com.jims.finance.entity.OutpRcptMaster;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 划价收费
@@ -31,6 +35,7 @@ public class OutPatientCostServiceImpl  implements OutPatientCostServiceApi {
     private OutpRcptMasterDao outpRcptMasterDao;
     @Autowired
     private OutpBillItemsDao outpBillItemsDao;
+
 
 
     public BaseData<BaseDto>  list(String orgId, String clinicNo){
@@ -95,5 +100,19 @@ public class OutPatientCostServiceImpl  implements OutPatientCostServiceApi {
     @Override
     public List<OutpBillItems> getBackChargeItems(String rcptNo) {
         return outpBillItemsDao.getBackChargeItems(rcptNo) ;
+    }
+
+    /**
+     *  确认收费
+     * @param rcptNo
+     * @return
+     * @author zhaoning
+     */
+    @Override
+    public String confirmBackChar(String rcptNo) {
+        Map<String,Object> mm=new HashMap<String,Object>();
+        mm.put("rcptNo",rcptNo);
+        outpRcptMasterDao.confirmBackCharge(mm);
+        return null;
     }
 }

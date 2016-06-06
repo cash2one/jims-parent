@@ -470,8 +470,17 @@ function getBackChargeItem(rcptNo){
 }
 //确认退费
 function confirmBackCharge(){
-    $.messager.confirm("确认消息", "确认要退？", function (r) {
-
+    var selectRows = $('#list-zhu-t').datagrid("getSelected");
+    var rcptNo= selectRows.rcptNo;//门诊医疗收据记录
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/outPatientCost/confirmBackCharge',
+        'contentType': 'application/json',
+        'data': rcptNO=rcptNo,
+        'dataType': 'json',
+        'success': function(data){
+            alert(data.code);
+        }
     });
 
 }

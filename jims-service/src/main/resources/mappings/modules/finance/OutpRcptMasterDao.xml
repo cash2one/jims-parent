@@ -263,5 +263,7 @@
 			acct_no = #{acctNo}
 		WHERE id = #{id}
 	</update>
-
+    <select id="confirmBackCharge" statementType="CALLABLE" parameterType="java.util.Map">
+		{call p_back_charge(#{rcptNo,mode=IN,jdbcType=VARCHAR},#{o_outp_flag,mode=OUT,jdbcType=VARCHAR})}
+	</select>
 </mapper>
