@@ -200,6 +200,8 @@
 	</update>
 
 
+
+
 	<select id="findCharge" resultType="OutpRcptMaster">
 		SELECT
 			SUM(DECODE(TOTAL_CHARGES, 0, 1, 0)) as "freeCount",

@@ -8,6 +8,7 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.finance.entity.OutpBillItems;
 import com.jims.finance.entity.OutpRcptMaster;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,10 +19,18 @@ import java.util.List;
  */
 @MyBatisDao
 public interface OutpBillItemsDao extends CrudDao<OutpBillItems> {
+    /**
+     * 根据
+     * @param rcptNo
+     * @return
+     * @author zhaoning
+     */
+  public List<OutpBillItems> getBackChargeItems(@Param("rcptNo")String rcptNo);
+
 
     /**
      * 方法 findItems的功能描述
-     * 门诊-收费结账-项目
+     * 门诊-收费结账
      * @param outpRcptMaster
      * @return
      * @throws
@@ -29,5 +38,4 @@ public interface OutpBillItemsDao extends CrudDao<OutpBillItems> {
      * @date 2016/6/1 0001
      */
     public List<OutpBillItems> findItems(OutpRcptMaster outpRcptMaster);
-	
 }

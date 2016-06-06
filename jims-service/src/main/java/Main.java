@@ -16,7 +16,7 @@ public class Main {
         String webappDirLocation = "jims-service/src/main/webapp/";
         String webPort = System.getenv("PORT");
         if (webPort == null || webPort.isEmpty()) {
-            webPort = "80";
+            webPort = "85";
         }
 
         File file = new File(webappDirLocation);
