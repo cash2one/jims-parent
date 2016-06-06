@@ -5,6 +5,13 @@ function init(){
             return false;
         }
     });
+
+    $('#backClinicNo').textbox('textbox').keydown(function(e){
+        if (e.keyCode == 13) {
+            getBackCharge();
+            return false;
+        }
+    });
     $("#list").datagrid({
         fit: true,
         fitColumns: true,
@@ -353,22 +360,30 @@ function init(){
         striped: true,
         singleSelect: true,
         method: 'GET',
+        filed:'id',
         rownumbers: true,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[
             {
                 title: "收据单",
-                field: "administrationCode",
+                field: "rcptNo",
                 width: '48%',
                 align: 'center'
 
             }, {
                 title: "收费单",
-                field: "administrationCode",
+                field: "invoiceNo",
                 width: '49%',
                 align: 'center'
             }
-        ]]
+        ]],
+        onClickRow:function(rowIndex,rowData){
+            var selectRows = $('#list-zhu-t').datagrid("getSelected");
+            var rcptNo= selectRows.rcptNo;//门诊医疗收据记录
+            getBackChargeItem(rcptNo);
+
+        }
+
     });
 
     $("#list-xi-t").datagrid({
@@ -382,52 +397,52 @@ function init(){
         columns: [[
             {
                 title: "类别",
-                field: "administrationCode",
+                field: "itemClass",
                 width: '10%',
                 align: 'center'
             }, {
                 title: "名称",
-                field: "administrationCode",
+                field: "itemName",
                 width: '10%',
                 align: 'center'
             }, {
                 title: "规格",
-                field: "administrationCode",
+                field: "itemSpec",
                 width: '6%',
                 align: 'center'
             },  {
                 title: "数量",
-                field: "administrationCode",
+                field: "amount",
                 width: '10%',
                 align: 'center'
             },{
                 title: "单位",
-                field: "administrationCode",
+                field: "units",
                 width: '15%',
                 align: 'center'
             }, {
-                title: "计价",
-                field: "administrationCode",
+                title: "单价",
+                field: "itemPrice",
                 width: '10%',
                 align: 'center'
             },  {
                 title: "应收",
-                field: "administrationCode",
+                field: "costs",
                 width: '10%',
                 align: 'center'
             }, {
                 title: "执行科室",
-                field: "administrationCode",
+                field: "performedBy",
                 width: '15%',
                 align: 'center'
             },{
                 title: "收据类型",
-                field: "administrationCode",
+                field: "classOnRcpt",
                 width: '12%',
                 align: 'center'
             },{
                 title: "退费标示",
-                field: "administrationCode",
+                field: "flag",
                 width: '10%',
                 align: 'center'
             }
@@ -437,6 +452,28 @@ function init(){
 
 function showReturnsDiv(){
     $('#returnsDiv').window("open");
+}
+
+//退费
+function getBackCharge(){
+    var clinicNo=$("#backClinicNo").val();
+    $.get(basePath+'/outPatientCost/getBackChargeInfo?clinicNo='+clinicNo,function (data){
+       $('#baseInfo').form('load',data[0]);
+       $("#list-zhu-t").datagrid('loadData',data);
+    });
+}
+//加载退费明细
+function getBackChargeItem(rcptNo){
+    $.get(basePath+'/outPatientCost/getBackChargeItems?rcptNO='+rcptNo,function(data){
+      $("#list-xi-t").datagrid('loadData',data);
+    });
+}
+//确认退费
+function confirmBackCharge(){
+    $.messager.confirm("确认消息", "确认要退？", function (r) {
+
+    });
+
 }
 function showContDiv(){
    var row=$("#list").datagrid("getSelected");
