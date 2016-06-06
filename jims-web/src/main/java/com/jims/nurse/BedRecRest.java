@@ -1,6 +1,7 @@
 package com.jims.nurse;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.common.web.impl.BaseDto;
@@ -106,10 +107,23 @@ public class BedRecRest {
      */
     @Path("getInPat")
     @GET
-    public  List<BaseDto> getInPat(String wardCode){
-        return bedRecServiceApi.getInPat(wardCode);
+    public  List<BaseDto> getInPat(@QueryParam("wardCode")String wardCode){
+        BedRec bedRec = new BedRec();
+        bedRec.setWardCode(wardCode);
+        return bedRecServiceApi.getInPat(bedRec);
     }
 
+    /**
+     * 根据床号和病区查找单条信息
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    @Path("getOneBed")
+    @POST
+    public  List<BaseDto> getOneBed(BedRec bedRec){
+        return bedRecServiceApi.getInPat(bedRec);
+    }
 
     /**
      * 包床
@@ -139,5 +153,27 @@ public class BedRecRest {
         bedRec.setBedStatus(bedStatus);
         bedRec.setPatientId(patientId);
       return bedRecServiceApi.findList(bedRec);
+    }
+
+    /**
+     * 换床
+     * @param patsInHospital
+     * @param newBedNo
+     * @param oldBedNo
+     * @author pq
+     * @return
+     */
+    @Path("changeBed")
+    @POST
+    public StringData changeBed(PatsInHospital patsInHospital,Integer newBedNo,Integer oldBedNo){
+        StringData stringData = new StringData();
+        String num = bedRecServiceApi.changeBed(patsInHospital,newBedNo,oldBedNo);
+        stringData.setCode(num);
+        if(num !=null && !"0".equals(num)){
+            stringData.setData("success");
+        }else{
+            stringData.setData("error");
+        }
+        return stringData;
     }
 }

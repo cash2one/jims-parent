@@ -1,6 +1,7 @@
 package com.jims.nurse.dao;
 
 
+import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.common.web.impl.BaseDto;
@@ -19,36 +20,58 @@ public interface BedRecDao extends CrudDao<BedRec> {
 
     /**
      * 判断 病区 下的床位号的唯一性
+     *
      * @param bedNo
      * @param wardCode
-     * @author pq
      * @return
+     * @author pq
      */
-    public List<BedRec> judgeBedNo(@Param(value = "bedNo")Integer bedNo,@Param(value = "wardCode")String wardCode);
+    public List<BedRec> judgeBedNo(@Param(value = "bedNo") Integer bedNo, @Param(value = "wardCode") String wardCode);
 
     /**
      * 查询病区下所有的床位信息
+     *
      * @param wardCode
-     * @author pq
      * @return
+     * @author pq
      */
-    public List<BaseDto> getAllBed(@Param(value = "wardCode")String wardCode);
+    public List<BaseDto> getAllBed(@Param(value = "wardCode") String wardCode);
 
 
     /**
      * 已经分配了床位的在院病人列表
-     * @param wardCode
-     * @author pq
+     *
+     * @param bedRec
      * @return
+     * @author pq
      */
-    public  List<BaseDto> getInPat(@Param(value = "wardCode")String wardCode);
+    public List<BaseDto> getInPat(BedRec bedRec);
 
 
     /**
      * 包床
+     *
      * @param bedRec
-     * @author pq
      * @return
+     * @author pq
      */
     public int packBed(BedRec bedRec);
+
+    /**
+     * 护士端-换床
+     *
+     * @param patientId
+     * @return
+     * @author pq
+     */
+    public int updateBedNo(PatsInHospital patsInHospital);
+
+    /**
+     * 护士端-换床
+     *
+     * @param bedRec
+     * @return
+     * @author pq
+     */
+    public int updateBedStatus(@Param(value = "bedStatus")String bedStatus, @Param(value = "oldBedNo") Integer oldBedNo,  @Param(value = "newBedNo")Integer newBedNo);
 }

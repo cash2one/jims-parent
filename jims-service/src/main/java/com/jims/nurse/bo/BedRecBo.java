@@ -1,5 +1,6 @@
 package com.jims.nurse.bo;
 
+import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.dao.BedRecDao;
@@ -72,12 +73,12 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
 
     /**
      * 已经分配了床位的在院病人列表
-     * @param wardCode
+     * @param bedRec
      * @author pq
      * @return
      */
-    public  List<BaseDto> getInPat(String wardCode){
-        return dao.getInPat(wardCode);
+    public  List<BaseDto> getInPat(BedRec bedRec){
+        return dao.getInPat(bedRec);
     }
 
     /**
@@ -98,5 +99,26 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
            num = "0";
        }
         return  num;
+    }
+
+
+    /**
+     * 护士端-换床
+     * @param patsInHospital
+     * @author pq
+     * @return
+     */
+    public int updateBedNo(PatsInHospital patsInHospital){
+      return dao.updateBedNo(patsInHospital);
+    }
+
+    /**
+     * 护士端-换床
+     * @param bedStatus
+     * @author pq
+     * @return
+     */
+    public int updateBedStatus(String bedStatus,Integer oldBedNo,Integer newBedNo){
+      return  dao.updateBedStatus(bedStatus,oldBedNo,newBedNo);
     }
 }

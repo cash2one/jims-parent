@@ -1,4 +1,4 @@
-
+var column={};
 var patId;
 var editRow = undefined;
 var rowNum=-1;
@@ -120,11 +120,7 @@ $(function(){
             text: '换床',
             iconCls:'icon-reload',
             handler:function(){
-                $("#bedRec").datagrid('endEdit', rowNum);
-                if (rowNum != -1) {
-                    $("#bedRec").datagrid("endEdit", rowNum);
-                }
-                save();
+                changeBed();
             }
         },
             {
@@ -200,7 +196,13 @@ $(function(){
             {field: 'dedlabel', title: '床标号', width: '15%', align: 'center'}
         ]],onClickRow: function (index, row) {//单击行事件
              patId = row.patientid;
-            $('#emptyBed').datagrid('load');
+
+
+           /* column["field"]='patientId';
+            column["width"]=60;
+            column["title"]='病人Id';
+            column["formatter"]='function(value,rec){return '+patId+';}';
+            $('#emptyBed').datagrid('reload');*/
             $('#hasBed').datagrid({url: basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=1' + '&patientId='+patId });
 
 
@@ -242,16 +244,9 @@ $(function(){
                 }else{
                     return "否";
                 }
-            }},
-            {field:'patientId',hidden:'true', formatter:function(value, row, index){
-                return patId;
-             /* var bedRow = $("#inPat").datagrid("getSelected");
-                if(bedRow.patientid !=null){
-                   return patId;
-                }*/
-
             }}
-        ]],
+        ]
+        ],
         frozenColumns:[[
             {field:'ck',checkbox:true}
         ]],onLoadSuccess: function (data) {
@@ -301,11 +296,74 @@ $(function(){
 
 
 
+    $('#oldBedNo').keydown(
+        function(event){
+            if(event.keyCode == "13")
+            {
+                alert(11111111);
+                var oldBedNo =  $.trim($('#oldBedNo').val());
+                alert(oldBedNo);
+                if (oldBedNo!=''){
+                    $.ajax({
+                        method:"post",
+                        contenType:"application/json",
+                        dataType:"json",
+                        url:basePath + '/bedRec/getOneBed?wardCode='+wardCode+"&bedNo="+oldBedNo,
+                        success:function(data){
+                            $('#oldBed').form('load',data);
+                        }
+                    })
+                }
+            }
+        });
 
 
 
 });
 
+
+$('#oldBedNo').textbox({
+    inputEvents: $.extend({}, $.fn.textbox.defaults.inputEvents, {
+        keyup: function (event) {
+            if (event.keyCode == 13) {
+                alert('OK');
+                var oldBedNo = $.trim($('#oldBedNo').val());
+                //  alert(oldBedNo);
+                if (oldBedNo != '') {
+                    $.ajax({
+                        method: "post",
+                        contenType: "application/json",
+                        dataType: "json",
+                        url: basePath + '/bedRec/getOneBed?wardCode=' + wardCode + "&bedNo=" + oldBedNo,
+                        success: function (data) {
+                            $('#oldBed').form('load', data);
+                        }
+                    })
+                }
+            }
+        }
+
+    })
+})
+
+
+/*function keyDownFun(obj,event) {
+    if (event.keyCode == "13") {
+        var oldBedNo = $.trim($('#oldBedNo').val());
+      //  alert(oldBedNo);
+        if (oldBedNo != '') {
+            $.ajax({
+                method: "post",
+                contenType: "application/json",
+                dataType: "json",
+                url: basePath + '/bedRec/getOneBed?wardCode=' + wardCode + "&bedNo=" + oldBedNo,
+                success: function (data) {
+                    $('#oldBed').form('load', data);
+                }
+            })
+        }
+    }
+}*/
 
 function save(){
    var bedRows =  $("#bedRec").datagrid("getChanges");
@@ -369,11 +427,11 @@ function doDelete(){
 function packBed(){
   var bedInfo =  $("#emptyBed").datagrid("getSelections");
     var tableJson=JSON.stringify(bedInfo);
-    alert(tableJson);
+  //  alert(tableJson);
     $.postJSON(basePath+'/bedRec/packBed',tableJson,function(data){
         if(data.data=='success'){
             var row = $('#inPat').datagrid('getSelected');
-            alert(JSON.stringify(row));
+          //  alert(JSON.stringify(row));
             $.messager.alert("提示消息","包床成功");
             var patientId = row.patientid;
             $('#emptyBed').datagrid('load');
@@ -388,3 +446,34 @@ function packBed(){
 
 }
 
+//换床
+function   changeBed(){
+    $('#dlg').dialog('open').dialog('center').dialog('setTitle', '换床处理');
+
+}
+
+function changeBedOk(){
+    var oldBedNo = $('#oldBedNo').val();
+    var patient = $('#patientid').val();
+    var newBedNo = $('#newBedNo').val();
+    var visitId = $('#visitId').val();
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/bedRec/changeBed',
+        'contentType': 'application/json',
+        'data': JSON.stringify({"visitId":visitId,"newBedNo":newBedNo,"oldBedNo":oldBedNo}),
+        'dataType': 'json',
+        'success': function(data){
+            if(data.data=='success'){
+                $.messager.alert("提示消息","换床成功！");
+                $('#bedRec').datagrid('load');
+
+            }else{
+                $.messager.alert('提示',"换床失败", "error");
+            }
+        },
+        'error': function(data){
+            $.messager.alert('提示',"换床失败", "error");
+        }
+    });
+}

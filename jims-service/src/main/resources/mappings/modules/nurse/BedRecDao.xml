@@ -67,7 +67,7 @@
             </if>
             <if test="patientId !=null and patientId !=''">
                 AND a.patient_id = #{patientId}
-                    </if>
+            </if>
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -176,7 +176,7 @@
 
     <update id="delete">
         UPDATE bed_rec SET
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 
@@ -186,6 +186,25 @@
 			, BED_STATUS ='1'
 		WHERE id = #{id}
 </update>
+
+    <update id="updateBedNo">
+        UPDATE pats_in_hospital  SET
+        bed_no = #{bedNo}
+        WHERE VISIT_ID = #{visitId}
+    </update>
+
+
+    <update id="updateBedStatus">
+          UPDATE bed_rec SET
+		   BED_STATUS =#{bedStatus}
+		WHERE ward_code = #{wardCode}
+		<if test="oldBedNo !=null and oldBedNo !='' and oldBedNo !=0">
+            and bed_no = #{oldBedNo}
+        </if>
+        <if test="newBedNo !=null and newBedNo !='' and newBedNo !=0 ">
+            and bed_no = #{newBedNo}
+        </if>
+    </update>
 
     <select id="getAllBed" resultType="com.jims.common.web.impl.BaseDto">
         SELECT decode(BED_REC.BED_label, null,to_char(bed_rec.bed_no),bed_rec.bed_label) bed_label ,
@@ -246,7 +265,9 @@
                 "PAT_MASTER_INDEX"."SEX" as "sex",
                 "PATS_IN_HOSPITAL"."PATIENT_ID" as "patientId",
                 "PATS_IN_HOSPITAL"."VISIT_ID" as "visitId",
-                "BED_REC"."BED_LABEL" as "dedLabel"
+                "BED_REC"."BED_LABEL" as "dedLabel",
+                "PATS_IN_HOSPITAL".ADMISSION_DATE_TIME as "ruyuanriqi",
+                 floor(MONTHS_BETWEEN(SYSDATE,PAT_MASTER_INDEX.DATE_OF_BIRTH)/12) age
            FROM "BED_REC", "PATS_IN_HOSPITAL", "PAT_MASTER_INDEX"
           WHERE ("BED_REC"."BED_NO" = "PATS_IN_HOSPITAL"."BED_NO")
             and ("BED_REC"."WARD_CODE" = "PATS_IN_HOSPITAL"."WARD_CODE")
@@ -254,6 +275,10 @@
         <if test="wardCode !=null and wardCode !=''">
             and ( ( BED_REC.WARD_CODE = #{wardCode} ) )
         </if>
+        <if test="bedNo !=null and bedNo !=''">
+            and ( ( BED_REC.BED_NO = #{bedNo} ) )
+        </if>
+
           ORDER BY "BED_REC"."BED_NO" ASC
     </select>
 </mapper>
