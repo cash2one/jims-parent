@@ -155,6 +155,22 @@ $(function(){
                     doDelete();
                 }
             }],onAfterEdit: function (rowIndex, rowData, changes) {
+            $.ajax({
+                method:"POST",
+                contentType: "application/json", //必须有
+                dataType: 'json',
+                data: JSON.stringify({"wardCode":wardCode,"bedNo":rowData.bedNo}),
+                url: basePath + '/bedRec/judgeBedNo',
+                success: function (data) {
+                    if(data){
+                        $.messager.alert('提示',"该床位号已经存在，不能重复", "error");
+                        return "";
+                    }else{
+                        return row.bedNo;
+                    }
+                }
+            })
+
 
         },onDblClickRow:function (rowIndex, rowData) {
             if (editRow != undefined) {
