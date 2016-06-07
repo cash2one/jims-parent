@@ -155,21 +155,7 @@ $(function(){
                     doDelete();
                 }
             }],onAfterEdit: function (rowIndex, rowData, changes) {
-            $.ajax({
-                method:"POST",
-                contentType: "application/json", //必须有
-                dataType: 'json',
-                data: JSON.stringify({"wardCode":wardCode,"bedNo":rowData.bedNo}),
-                url: basePath + '/bedRec/judgeBedNo',
-                success: function (data) {
-                    if(data){
-                        $.messager.alert('提示',"该床位号已经存在，不能重复", "error");
-                        return "";
-                    }else{
-                        return row.bedNo;
-                    }
-                }
-            })
+            $("#bedRec").datagrid('endEdit', rowIndex);
 
 
         },onDblClickRow:function (rowIndex, rowData) {
@@ -193,7 +179,9 @@ $(function(){
                 dataGrid.datagrid('beginEdit', rowIndex);
 
             }
-        },onLoadSuccess: function (data) {
+        },/*onClickCell: function (rowIndex, field, value) {
+            beginEditing(rowIndex, field, value)
+        },*/onLoadSuccess: function (data) {
             if (data.total == 0) {
                 var body = $(this).data().datagrid.dc.body2;
                 body.find('table tbody').append('<tr><td colspan="8" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
@@ -211,6 +199,43 @@ $(function(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+
+
+
+/*    var beginEditing = function (rowIndex, field, value) {
+        if (field != "bedNo")
+            return;
+
+        if (rowIndex != rowNum) {
+
+                $('#bedRec').datagrid('beginEdit', rowIndex);
+                rowNum = rowIndex;
+
+                var ed = $('#bedRec').datagrid('getEditor', { index: rowIndex, field: 'bedNo' });
+          var rowContent =  $('#bedRec').datagrid('getSelected');
+                 var number = $(ed.target).text('getValue');
+            alert(rowContent.bedNo+"test");
+                $(ed.target).focus().bind('blur', function () {
+                    $.ajax({
+                        method:"POST",
+                        contentType: "application/json", //必须有
+                        dataType: 'json',
+                        data: JSON.stringify({"wardCode":wardCode,"bedNo":rowContent.bedNo}),
+                        url: basePath + '/bedRec/judgeBedNo',
+                        success: function (data) {
+                            if(data){
+                                $.messager.alert('提示',"该床位号已经存在，不能重复", "error");
+                                return "";
+                            }else{
+                                return row.bedNo;
+                            }
+                        }
+                    })
+
+                });
+
+        }
+    }*/
 
 
     //已经分配了床位的在院病人列表
