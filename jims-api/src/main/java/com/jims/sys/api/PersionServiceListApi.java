@@ -2,6 +2,7 @@ package com.jims.sys.api;
 
 
 import com.jims.sys.entity.PersionServiceList;
+import com.jims.sys.entity.SysCompany;
 import com.jims.sys.entity.SysService;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +26,11 @@ public interface PersionServiceListApi {
      *
      */
     public String saveService(PersionServiceList persionServiceList);
+
+    /**
+     * 根据组织机构名称查询信息
+     * @param orgName
+     * @return
+     */
+    public SysCompany getOrgName(String orgName);
 }

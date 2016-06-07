@@ -18,18 +18,18 @@ public interface SysUserApi {
     /**
      * 查询登录名是否正确
      *
-     * @param sysUser
+     * @param loginName
      * @return
      */
-    public SysUser selectLoginName(SysUser sysUser);
+    public SysUser selectLoginName(String loginName);
 
     /**
      * 查询登录密码是否正确
      *
-     * @param sysUser
+     * @param loginName
      * @return
      */
-    public SysUser selectPassword(SysUser sysUser);
+    public SysUser selectPassword(String loginName);
 
     public SysCompany findNameByOwner(String loginName);
 

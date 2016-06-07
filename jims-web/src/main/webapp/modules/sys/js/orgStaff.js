@@ -9,7 +9,10 @@ $(function () {
 
     //窗体加载时禁用form表单
 
-    //var orgId=parent.config.org_id;
+    var orgId1=parent.config.org_Id;
+    alert("组织   "+orgId1)
+
+
     var orgId = 1;
     var deptId;
     var deptName;
@@ -86,7 +89,7 @@ $(function () {
     }
     loadDept();
 
-    //检查子类别
+    //人员信息
     $("#staffGrid").datagrid({
         //fit: true,
         //fitColumns: true,

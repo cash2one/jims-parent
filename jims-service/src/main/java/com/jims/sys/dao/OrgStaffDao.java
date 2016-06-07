@@ -27,6 +27,13 @@ public interface OrgStaffDao extends CrudDao<OrgStaff> {
      */
     public OrgStaff getByPersionId(String persionId) ;
 
+    /**
+     * 根据人员id查询组织机构人员信息
+     * @param persionId
+     * @return
+     */
+    public List<OrgStaff> findListByPersionId(String persionId) ;
+
 
     /**
      * 多表查询返回orgStaffVo
