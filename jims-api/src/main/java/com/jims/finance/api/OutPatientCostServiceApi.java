@@ -40,7 +40,16 @@ public interface OutPatientCostServiceApi {
      * 根据收据号 加载 收费项目
      * @param rcptNo
      * @return
+     * @author zhaoning
      */
     public List<OutpBillItems> getBackChargeItems(String rcptNo);
+
+    /**
+     * 确认退费
+     * @param rcptNo
+     * @return
+     * @author zhaoning
+     */
+    public String confirmBackChar(String rcptNo);
 
 }
