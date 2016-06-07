@@ -382,14 +382,8 @@ $(function () {
                         text:"年",
                         value:"年"
                     },{
-                        text:"季",
-                        value:"季"
-                    },{
                         text:"月",
                         value:"月"
-                    },{
-                        text:"日",
-                        value:"日"
                     }]
                 }
             }
@@ -417,8 +411,19 @@ $(function () {
      */
     $("#addDetailBtn").on("click", function () {
         stopEdit();
+        var rows = $("#serviceDetailDg").datagrid("getRows");
+        console.log(rows.length)
+        if(rows.length >= 2){
+            $.messager.alert("提示","最多只能添加一个月价格，一个年价格","error");
+            return;
+        }
         var row = $("#serviceDg").datagrid("getSelected");
-        $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'月'});
+        if(rows.length ==0){
+            $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'月'});
+        }else{
+            $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'年'});
+
+        }
         var rows = $("#serviceDetailDg").datagrid("getRows");
         var addRowIndex = $("#serviceDetailDg").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;
@@ -467,10 +472,34 @@ $(function () {
      * 基础服务价格保存
      */
     $("#submitDetailBtn").on("click",function(){
+        var flag = 0;
 
         if (editIndex || editIndex == 0) {
             $("#serviceDetailDg").datagrid("endEdit", editIndex);
         }
+        var rows = $("#serviceDetailDg").datagrid("getRows");
+        if(rows.length == 0){
+            $.messager.alert("提示","请添加一条数据","error");
+            return;
+        }else{
+            $.each(rows, function (index,row) {
+                if(!row.servicePrice){
+                    flag = 1;
+                }
+            });
+
+        if(flag == 1){
+            $.messager.alert("提示","添加服务价格","error");
+            return;
+        }
+        }
+        if(rows.length >= 2){
+            if(rows[0].serviceTimeLimit == rows[1].serviceTimeLimit){
+                $.messager.alert("提示","最多只能添加一个月价格，一个年价格","error");
+                return;
+            }
+        }
+
         var insertData = $("#serviceDetailDg").datagrid("getChanges", "inserted");
         var updateDate = $("#serviceDetailDg").datagrid("getChanges", "updated");
         var deleteDate = $("#serviceDetailDg").datagrid("getChanges", "deleted");
