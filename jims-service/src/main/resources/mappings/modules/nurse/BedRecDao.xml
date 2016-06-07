@@ -60,8 +60,11 @@
         <include refid="bedRecColumns"/>
         FROM bed_rec a
         <include refid="bedRecJoins"/>
-        <where>
-            a.WARD_CODE = #{wardCode}
+            <where>
+            a.del_flag = '0'
+            <if test="wardCode !=null and wardCode !=''">
+                AND a.ward_code = #{wardCode}
+            </if>
             <if test="bedStatus !=null and bedStatus !=''">
                AND a.bed_status = #{bedStatus}
             </if>

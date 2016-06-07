@@ -221,13 +221,6 @@ $(function(){
             {field: 'dedlabel', title: '床标号', width: '15%', align: 'center'}
         ]],onClickRow: function (index, row) {//单击行事件
              patId = row.patientid;
-
-
-           /* column["field"]='patientId';
-            column["width"]=60;
-            column["title"]='病人Id';
-            column["formatter"]='function(value,rec){return '+patId+';}';
-            $('#emptyBed').datagrid('reload');*/
             $('#hasBed').datagrid({url: basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=1' + '&patientId='+patId });
 
 
@@ -398,8 +391,7 @@ function doDelete(){
                 'success': function(data){
                     if(data.data=='success'){
                         $.messager.alert("提示消息",data.code+"条记录删除成功！");
-                        $('#bedRec').datagrid('load');
-                        $('#bedRec').datagrid('clearChecked');
+                        $('#bedRec').datagrid('reload');
                     }else{
                         $.messager.alert('提示',"删除失败", "error");
                     }
