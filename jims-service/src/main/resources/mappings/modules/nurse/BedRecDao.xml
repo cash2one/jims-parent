@@ -250,7 +250,8 @@
         visit_id=PATS_IN_HOSPITAL.VISIT_ID) order_verify,
         BED_REC.ID as "id"
         FROM BED_REC, PATS_IN_HOSPITAL, PAT_MASTER_INDEX
-        WHERE ( BED_REC.WARD_CODE = PATS_IN_HOSPITAL.WARD_CODE(+) ) and
+        WHERE  BED_REC.DEL_FLAG = '0' and
+        ( BED_REC.WARD_CODE = PATS_IN_HOSPITAL.WARD_CODE(+) ) and
         ( BED_REC.BED_NO = PATS_IN_HOSPITAL.BED_NO(+) ) and
         ( PATS_IN_HOSPITAL.PATIENT_ID = PAT_MASTER_INDEX.PATIENT_ID(+) )
         <if test="wardCode !=null and wardCode !=''">
@@ -272,7 +273,8 @@
                 "PATS_IN_HOSPITAL".ADMISSION_DATE_TIME as "ruyuanriqi",
                  floor(MONTHS_BETWEEN(SYSDATE,PAT_MASTER_INDEX.DATE_OF_BIRTH)/12) age
            FROM "BED_REC", "PATS_IN_HOSPITAL", "PAT_MASTER_INDEX"
-          WHERE ("BED_REC"."BED_NO" = "PATS_IN_HOSPITAL"."BED_NO")
+          WHERE   BED_REC.DEL_FLAG = '0' AND
+        ("BED_REC"."BED_NO" = "PATS_IN_HOSPITAL"."BED_NO")
             and ("BED_REC"."WARD_CODE" = "PATS_IN_HOSPITAL"."WARD_CODE")
             and ("PATS_IN_HOSPITAL"."PATIENT_ID" = "PAT_MASTER_INDEX"."PATIENT_ID")
         <if test="wardCode !=null and wardCode !=''">
@@ -299,7 +301,8 @@
         "PATS_IN_HOSPITAL".ADMISSION_DATE_TIME as "ruyuanriqi",
         floor(MONTHS_BETWEEN(SYSDATE,PAT_MASTER_INDEX.DATE_OF_BIRTH)/12) age
         FROM "BED_REC", "PATS_IN_HOSPITAL", "PAT_MASTER_INDEX"
-        WHERE ("BED_REC"."BED_NO" = "PATS_IN_HOSPITAL"."BED_NO")
+        WHERE BED_REC.DEL_FLAG = '0' AND
+        ("BED_REC"."BED_NO" = "PATS_IN_HOSPITAL"."BED_NO")
         and ("BED_REC"."WARD_CODE" = "PATS_IN_HOSPITAL"."WARD_CODE")
         and ("PATS_IN_HOSPITAL"."PATIENT_ID" = "PAT_MASTER_INDEX"."PATIENT_ID")
         <if test="wardCode !=null and wardCode !=''">
