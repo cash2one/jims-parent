@@ -93,24 +93,20 @@ $(function () {
             }
         }]]
     });
-
     /**
-     * 服务弹出框
+     * 服务名称
      */
-    $("#serviceDialog").dialog({
-        title: '基础服务增加',
-        width: 1000,
-        height: 350,
-        closed:true
-
-    });
-
+    $("#serviceName").textbox({
+            width:'200px'
+        }
+    );
     /**
      * 服务类型
      */
     $("#serviceType").combobox({
         valueField:"value",
         textField:"text",
+        width:'200px',
         data: [{
             text: '无偿服务',
             value: "0"
@@ -126,6 +122,7 @@ $(function () {
     $("#serviceClass").combobox({
         valueField:'value',
         textField:'text',
+        width:'200px',
         data: [{
             text: '机构服务',
             value: "0"
@@ -137,6 +134,17 @@ $(function () {
             text: '所有服务',
             value: "2"
         }]
+    });
+
+    /**
+     * 服务弹出框
+     */
+    $("#serviceDialog").dialog({
+        title: '基础服务增加',
+        width: 1000,
+        height: 350,
+        closed:true
+
     });
     /**
      * 服务定位
