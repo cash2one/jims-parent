@@ -28,7 +28,8 @@ $(function () {
             title: "组织ID",
             field: "orgId",
             align: 'center',
-            width: "20%"
+            width: "20%",
+            hidden: true
         }, {
             title: "角色名称",
             field: "roleName",
@@ -82,7 +83,7 @@ $(function () {
 
         if (beanChangeVo.inserted.length > 0) {
             for (var i = 0; i < beanChangeVo.inserted.length; i++) {
-                beanChangeVo.inserted[i].orgId = orgId;
+                beanChangeVo.inserted[i].orgId = orgId;     //设置组织ID
                 var roleName = beanChangeVo.inserted[i].roleName;
                 if (roleName.length == 0) {
                     $.messager.alert('提示', '角色名称不能为空!!', 'error');

@@ -111,20 +111,22 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
             orgSelfServiceList.setServiceName(serviceName);
             orgSelfServiceListDao.insert(orgSelfServiceList);   //添加自定义服务
 
-            //根据服务ID查询服务菜单对照表
-            ServiceVsMenu serviceVsMenu = serviceVsMenuDao.findByServiceId(serviceId);
-            menuId = serviceVsMenu.getMenuId();
-            menuSort = serviceVsMenu.getMenuSort();
-            //自定义服务于菜单对照
-            OrgSelfServiceVsMenu orgSelfServiceVsMenu = new OrgSelfServiceVsMenu();
-            orgSelfServiceVsMenu.preInsert();   //设置主键ID
-            orgSelfServiceVsMenu.setSelfServiceId(serviceId);
-            orgSelfServiceVsMenu.setMenuId(menuId);
-            orgSelfServiceVsMenu.setMenuSort(menuSort);
-            orgSelfServiceVsMenu.setMenuEndDate(endDate);
-            orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
-        }
+            //根据服务ID查询服务菜单对照列表
+            List<ServiceVsMenu> sVmLists = serviceVsMenuDao.findByServiceId(serviceId);
+            for (ServiceVsMenu serviceVsMenu : sVmLists) {
+                menuId = serviceVsMenu.getMenuId();
+                menuSort = serviceVsMenu.getMenuSort();
 
+                //自定义服务于菜单对照
+                OrgSelfServiceVsMenu orgSelfServiceVsMenu = new OrgSelfServiceVsMenu();
+                orgSelfServiceVsMenu.preInsert();   //设置主键ID
+                orgSelfServiceVsMenu.setSelfServiceId(serviceId);
+                orgSelfServiceVsMenu.setMenuId(menuId);
+                orgSelfServiceVsMenu.setMenuSort(menuSort);
+                orgSelfServiceVsMenu.setMenuEndDate(endDate);
+                orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
+            }
+        }
         int i = dao.update(sysCompany);
         return i;
     }
