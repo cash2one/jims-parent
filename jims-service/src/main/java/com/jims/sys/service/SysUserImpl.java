@@ -49,13 +49,13 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
     /**
      * 与数据库中的用户名比对，是否正确
      *
-     * @param sysUser
+     * @param loginName
      * @return
      */
     @Override
-    public SysUser selectLoginName(SysUser sysUser) {
-        if (StringUtils.isNotBlank(sysUser.getLoginName())) {
-            SysUser user = dao.selectLoginName(sysUser);
+    public SysUser selectLoginName(String loginName) {
+        if (StringUtils.isNotBlank(loginName)){
+            SysUser user = dao.selectLoginName(loginName);
             return user;
         }
         return null;
@@ -64,13 +64,13 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
     /**
      * 与数据库中的密码比对，是否正确
      *
-     * @param sysUser
+     * @param loginName
      * @return
      */
     @Override
-    public SysUser selectPassword(SysUser sysUser) {
-        if (StringUtils.isNotBlank(sysUser.getPassword())) {
-            SysUser user = dao.selectPasswrod(sysUser);
+    public SysUser selectPassword(String loginName) {
+        if (StringUtils.isNotBlank(loginName)) {
+            SysUser user = dao.selectPasswrod(loginName);
             return user;
         }
         return null;

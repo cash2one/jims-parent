@@ -1,8 +1,30 @@
 function centerRefresh(id, name, url) {
     $(window.parent.document).contents().find("#centerIframe")[0].contentWindow.addTabs(id, name, url);
 }
+var str = decodeURI(window.location.search);   //location.search是从当前URL的
+if (str.indexOf(name) != -1) {
+    var pos_start = str.indexOf(name) + name.length + 1;
+    var pos_end = str.indexOf("&", pos_start);
+    if (pos_end == -1) {
+        var id = str.substring(4,str.lastIndexOf("?") );
+        //人员id
+        var pid=str.substring(id.length+16);
+    }
+
+
+}
 var config = {} ;
-config.org_Id = '1';
+
+$.get("/service/sys-sompany/get-sysCompany-by-id?id=" + id, function (data) {
+    if (data != null) {
+        config.org_Id = id;
+    }
+    else {
+        config.service_Id = id;
+    }
+});
+
+config.persion_Id=pid;
 config.operator = 'thinkgem';
 config.currentStorage = '1001';
 $(function () {

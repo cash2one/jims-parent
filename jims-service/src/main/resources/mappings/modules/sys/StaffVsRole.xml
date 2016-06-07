@@ -25,6 +25,13 @@
 
         WHERE a.id = #{id}
 </select>
+    <select id="findRole" resultType="StaffVsRole">
+        SELECT
+        *
+        FROM staff_vs_role a
+
+        WHERE a.staff_id = #{staffId}
+    </select>
 
     <select id="getRole" resultType="OrgRole">
         select oo.id,oo.role_name from staff_vs_role ss,org_role oo,org_staff o where ss.staff_id=o.id and ss.role_id=oo.id

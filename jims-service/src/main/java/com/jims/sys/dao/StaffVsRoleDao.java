@@ -31,5 +31,11 @@ public interface StaffVsRoleDao extends CrudDao<StaffVsRole> {
     public List<OrgRole> getRole(@Param("staffId") String staffId);
 
 
+    /**
+     * 查询人员角色信息
+     *
+     * @return
+     */
+    public List<StaffVsRole> findRole(@Param("staffId") String staffId);
 	
 }

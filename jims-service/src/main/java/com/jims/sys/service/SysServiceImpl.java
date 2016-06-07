@@ -32,7 +32,9 @@ public class SysServiceImpl implements SysServiceApi {
      */
     @Override
     public String save(SysService sysService) {
-
+        if (sysService.getServiceImage() == null){
+            sysService.setServiceImage(sysServiceBo.get(sysService.getId()).getServiceImage());
+        }
         return sysServiceBo.save(sysService);
     }
     /**
