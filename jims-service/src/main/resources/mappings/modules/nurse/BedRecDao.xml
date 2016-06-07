@@ -45,7 +45,7 @@
         <include refid="bedRecColumns"/>
         FROM bed_rec a
         <include refid="bedRecJoins"/>
-        WHERE a.del_flag = #{delFlag}
+        WHERE a.del_flag = '0'
         <if test="wardCode !=null and wardCode !=''">
             AND a.ward_code = #{wardCode}
         </if>

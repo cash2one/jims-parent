@@ -31,15 +31,15 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
      */
     public String saveBed(List<BedRec> bedRecList){
         String str="";
+        int num=0;
       if(bedRecList !=null){
             for(int i=0;i<bedRecList.size();i++){
                 BedRec bedRec = new BedRec();
-
                 bedRec = bedRecList.get(i);
                 if(bedRec.getId()==null){
                     bedRec.setBedStatus("0");
                 }
-                str = str + save(bedRec);
+                str = save(bedRec);
             }
       }else{
        return str;

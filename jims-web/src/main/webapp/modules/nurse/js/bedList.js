@@ -24,7 +24,32 @@ $(function(){
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'bedNo', title: '床号', width: '10%', align: 'center',editor:'text', required: true},
+            {field: 'bedNo', title: '床号', width: '10%', align: 'center',editor:'text', required: true
+                /*     ,formatter:function(value, row, index){
+           var editors = $('#bedRec').datagrid('getEditors', index);
+                console.info(editors[1]);
+                var sfgzEditor = editors[1];
+                sfgzEditor.target.bind('change',function () {
+                    console.info("111");
+                    console.info(sfgzEditor.target.val());
+                    $.ajax({
+                        method:"POST",
+                        contentType: "application/json", //必须有
+                        dataType: 'json',
+                        data: JSON.stringify({"wardCode":wardCode,"bedNo":row.bedNo}),
+                        url: basePath + '/bedRec/judgeBedNo',
+                        success: function (data) {
+                            if(data){
+                                $.messager.alert('提示',"该床位号已经存在，不能重复", "error");
+                                return "";
+                            }else{
+                                return row.bedNo;
+                            }
+                        }
+                    })
+                }); }*/
+
+           },
             {field: 'bedLabel', title: '床标号', width: '10%', align: 'center',editor:'text', required: true},
             {field: 'roomNo', title: '房间', width: '10%', align: 'center',editor:'text', required: true},
             {field: 'bedSexType', title: '男/女', width: '10%', align: 'center',editor:{
@@ -296,21 +321,13 @@ $(function(){
 
 
 
-
-
-
-});
-
-/*
-$('#oldBedNo').textbox({
-    inputEvents: $.extend({}, $.fn.textbox.defaults.inputEvents, {
-        keyup: function (event) {
-
+    $('#oldBedNo').textbox('textbox').keydown(function(e){
+        if (e.keyCode == 13) {
+            getBedInfo();
+            return false;
         }
-
-    })
-})*/
-function getBedInfo(){
+    });
+    function getBedInfo(){
         var oldBedNo = $.trim($('#oldBedNo').val());
         //  alert(oldBedNo);
         if (oldBedNo != '') {
@@ -321,31 +338,22 @@ function getBedInfo(){
                 data: JSON.stringify({"wardCode":wardCode,"bedNo":oldBedNo}),
                 url: basePath + '/bedRec/getOneBed',
                 success: function (data) {
-                    $('#oldBed').form('load', data);
+                    if(data !=null){
+                        $('#oldBed').form('load', data);
+                    }else{
+                        $.messager.alert('提示',"该床位是空床不能换床", "error");
+                    }
+
                 }
             })
         }
 
-}
-
-
-/*function keyDownFun(obj,event) {
-    if (event.keyCode == "13") {
-        var oldBedNo = $.trim($('#oldBedNo').val());
-      //  alert(oldBedNo);
-        if (oldBedNo != '') {
-            $.ajax({
-                method: "post",
-                contenType: "application/json",
-                dataType: "json",
-                url: basePath + '/bedRec/getOneBed?wardCode=' + wardCode + "&bedNo=" + oldBedNo,
-                success: function (data) {
-                    $('#oldBed').form('load', data);
-                }
-            })
-        }
     }
-}*/
+
+
+});
+
+
 
 function save(){
    var bedRows =  $("#bedRec").datagrid("getChanges");
@@ -409,8 +417,10 @@ function doDelete(){
 function packBed(){
   var bedInfo =  $("#emptyBed").datagrid("getSelections");
     var tableJson=JSON.stringify(bedInfo);
+    var submitJson=tableJson+",\"patientId\":"+patId+"}";
+    alert(submitJson);
   //  alert(tableJson);
-    $.postJSON(basePath+'/bedRec/packBed',tableJson,function(data){
+    $.postJSON(basePath+'/bedRec/packBed',submitJson,function(data){
         if(data.data=='success'){
             var row = $('#inPat').datagrid('getSelected');
           //  alert(JSON.stringify(row));
@@ -431,6 +441,7 @@ function packBed(){
 //换床
 function   changeBed(){
     $('#dlg').dialog('open').dialog('center').dialog('setTitle', '换床处理');
+
 
 }
 

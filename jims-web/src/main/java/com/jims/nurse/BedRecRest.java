@@ -157,9 +157,7 @@ public class BedRecRest {
 
     /**
      * 换床
-     * @param patsInHospital
-     * @param newBedNo
-     * @param oldBedNo
+     * @param bedRec
      * @author pq
      * @return
      */
@@ -178,5 +176,17 @@ public class BedRecRest {
             stringData.setData("error");
         }
         return stringData;
+    }
+
+    /**
+     * 判断 病区 下的床位号的唯一性
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    @Path("judgeBedNo")
+    @POST
+    public Boolean judgeBedNo(BedRec bedRec){
+      return  bedRecServiceApi.judgeBedNo(bedRec.getBedNo(),bedRec.getWardCode());
     }
 }
