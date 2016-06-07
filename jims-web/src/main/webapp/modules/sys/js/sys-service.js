@@ -632,12 +632,16 @@ $(function () {
         $('#serviceMenuTree').tree('collapseAll');
     });
     /**
-     *全部折叠
+     *菜单查询
      */
     $("#menuSelectBtn").on("click", function () {
-        var node = $('#serviceMenuTree').tree('find','35E111DB41F9420B9B19B200A41488CB');
-        $('#serviceMenuTree').tree('expandTo', node.target);
-        $('#serviceMenuTree').tree('scrollTo', node.target).tree('select', node.target);
+        var menuName = $("#searchMenu").textbox("getValue");
+        if(menuName){
+            //调用查询方法 返回id
+            var node = $('#serviceMenuTree').tree('find','35E111DB41F9420B9B19B200A41488CB');
+            $('#serviceMenuTree').tree('expandTo', node.target);
+            $('#serviceMenuTree').tree('scrollTo', node.target).tree('select', node.target);
+        }
     });
 
     /**
