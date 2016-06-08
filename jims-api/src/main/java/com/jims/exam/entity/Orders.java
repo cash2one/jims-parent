@@ -88,6 +88,11 @@ public class Orders extends DataEntity<Orders> {
 	private String expand3;//科室
 	private String expand4;//频次
 
+
+	/*护士端查询*/
+    private String name;
+	private Integer bedNo;
+
 	public String getStopProcessingNurse() {
 		return stopProcessingNurse;
 	}
@@ -655,5 +660,21 @@ public class Orders extends DataEntity<Orders> {
 
 	public void setOrdersCostses(List<OrdersCosts> ordersCostses) {
 		this.ordersCostses = ordersCostses;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getBedNo() {
+		return bedNo;
+	}
+
+	public void setBedNo(Integer bedNo) {
+		this.bedNo = bedNo;
 	}
 }

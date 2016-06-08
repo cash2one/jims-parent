@@ -7,6 +7,7 @@ import com.jims.sys.bo.PersionServiceListBo;
 import com.jims.sys.dao.PersionInfoDao;
 import com.jims.sys.dao.PersionServiceListDao;
 import com.jims.sys.dao.SysServiceDao;
+import com.jims.sys.dao.SysUserDao;
 import com.jims.sys.entity.PersionInfo;
 import com.jims.sys.entity.PersionServiceList;
 import com.jims.sys.entity.SysService;
@@ -31,6 +32,9 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
 
     @Autowired
     private SysServiceDao sysServiceDao;
+
+    @Autowired
+    private SysUserDao sysUserDao;
 
     @Autowired
     private PersionServiceListDao persionServiceListDao;
@@ -66,33 +70,33 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
                 persionServiceListDao.insert(persionServiceList);
             }
         }
-         //登录表中添加记录（身份证号）
+        //登录表中添加记录（身份证号）
         if (StringUtils.isNotBlank(persionInfo.getCardNo())) {
             sysUser.preInsert();
             sysUser.setPersionId(id);
             sysUser.setLoginName(persionInfo.getCardNo());
-            persionInfoDao.registAddUser(sysUser);
+            sysUserDao.insert(sysUser);
         }
         //登录表中添加记录（手机号）
         if (StringUtils.isNotBlank(persionInfo.getPhoneNum())) {
             sysUser.preInsert();
             sysUser.setPersionId(id);
             sysUser.setLoginName(persionInfo.getPhoneNum());
-            persionInfoDao.registAddUser(sysUser);
+            sysUserDao.insert(sysUser);
         }
         //登录表中添加记录（用户名）
         if (StringUtils.isNotBlank(persionInfo.getNickName())) {
             sysUser.preInsert();
             sysUser.setPersionId(id);
             sysUser.setLoginName(persionInfo.getNickName());
-            persionInfoDao.registAddUser(sysUser);
+            sysUserDao.insert(sysUser);
         }
         //登录表中添加记录（邮箱）
         if (StringUtils.isNotBlank(persionInfo.getEmail())) {
             sysUser.preInsert();
             sysUser.setPersionId(id);
             sysUser.setLoginName(persionInfo.getEmail());
-            persionInfoDao.registAddUser(sysUser);
+            sysUserDao.insert(sysUser);
         }
 
         if(i!=0)

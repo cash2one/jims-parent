@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="panel-fit"><head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../nurse/js/ordersCopied.js"></script>
+</head>
+<body class="easyui-layout" >
+
+<div class="search-standard clearfix">
+
+    <ul class="clearfix">
+        <form name="searchform" method="post" id ="searchform">
+            <li>
+                长期/临时:
+                <input type="radio" name="repeatIndicator"  checked="checked" value="1" />全部
+                <input type="radio" name="repeatIndicator" value="2"  />长期
+                <input type="radio" name="repeatIndicator" value="3"  />临时
+            </li>
+            <li>
+                <input type="radio" name="orderStatus"  checked="checked" value="1" />未执行
+            </li>
+            <input type="hidden" name="wardCode" value="160101">
+        </form>
+        <li><a id="submit_search">查询</a></li>
+
+    </ul>
+
+
+</div>
+
+<table id="orderCopied" width="100%"   cellspacing="0" cellpadding="0" >
+
+</table>
+
+
+
+</body>
+</html>

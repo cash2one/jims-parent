@@ -28,80 +28,32 @@ $(function () {
                     $("#login").css("color", "red");
                     return false;
                 }
-                else {
-                    $("#btnSubmit").click(function () {
-                        loginVo.loginName = $("#loginName").val();
-                        loginVo.password = $("#password").val();
-                        var loginName= $("#loginName").val();
-
-
-                        if ($("#loginName").val() == "") {
-                            $("#login").text("用户名不能为空");
+                $("#btnSubmit").click(function () {
+                    var loginName = $("#loginName").val();
+                    var password = $("#password").val();
+                    $.get('/service/login/list?loginName='+loginName+'&password='+password,function(data){
+                        console.log(data);
+                        if (data.data == "nameNull") {
+                            $("#login").text("用户名错误");
                             return false;
                         }
-                        if ($("#password").val() == "") {
-                            $("#login").text("密码不能为空");
+                        if (data.data == "passNull") {
+                            $("#login").text("密码错误");
                             return false;
                         }
-                        if ($("#validateCode").val() == "") {
-                            $("#login").text("验证码不能为空");
+                        if (data.code =="success") {
+                            window.location.href = ('/modules/sys/default.html?persion_id='+data.data);
                             return false;
                         }
-                        jQuery.ajax({
-                            'type': 'POST',
-                            'url': "/service/login/list",
-                            'contentType': 'application/json',
-
-                            'data': JSON.stringify(loginVo),
-                            'dataType': 'json',
-                            'success': function (data) {
-                                console.log(data);
-                                if (data.data !=null) {
-                                    window.location.href = ('/modules/sys/default.html?persion_id='+data.data);
-                                    return false;
-                                }
-                                if(data.data=="isValue")
-                                {
-                                    jQuery.ajax({
-                                        'type': 'POST',
-                                        'url': "/service/login/findNameByOwner",
-                                        'contentType': 'application/json',
-
-                                        'data': loginName,
-                                        'dataType': 'json',
-                                        'success': function (data) {
-                                            if(data.data!=null)
-                                            {
-                                                window.location.href = ('/modules/sys/default.html?name=' +data.data);
-                                            }
-                                        }
-
-                                    });
-                                    return false;
-                                }
-                                if (data.data == "nameNull") {
-                                    $("#login").text("用户名错误");
-                                    return false;
-                                }
-                                if (data.data == "passNull") {
-                                    $("#login").text("密码错误");
-                                    return false;
-                                }
-                            },
-                            'error': function (data) {
-                                console.log("失败");
-                            }
-                        });
-
                     });
-                }
+                });
+                return true;
             },
             'error': function (data) {
                 console.log("失败");
             }
         });
 
-        return true;
     });
 });
 

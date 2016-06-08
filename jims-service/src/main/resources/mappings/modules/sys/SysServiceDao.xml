@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.sys.dao.SysServiceDao">
-    
-	<sql id="sysServiceColumns">
+
+    <sql id="sysServiceColumns">
 		a.id AS "id",
 		a.service_name AS "serviceName",
 		a.service_description AS "serviceDescription",
@@ -16,19 +16,19 @@
 		a.del_flag AS "delFlag",
 		a.create_date AS "createDate"
 	</sql>
-	
-	<sql id="sysServiceJoins">
-	</sql>
-    
-	<select id="serviceListByTC" resultType="SysService">
-		SELECT 
-			<include refid="sysServiceColumns"/>
-		FROM sys_service a
-		<include refid="sysServiceJoins"/>
-		WHERE a.service_type = #{0}
+
+    <sql id="sysServiceJoins">
+    </sql>
+
+    <select id="serviceListByTC" resultType="SysService">
+        SELECT
+        <include refid="sysServiceColumns"/>
+        FROM sys_service a
+        <include refid="sysServiceJoins"/>
+        WHERE a.service_type = #{0}
         AND  a.service_class = #{1}
         and a.del_flag = '0'
-	</select>
+    </select>
     <select id="get" resultType="SysService">
         SELECT
         <include refid="sysServiceColumns"/>
@@ -36,43 +36,51 @@
         <include refid="sysServiceJoins"/>
         WHERE a.id = #{id}
     </select>
-	<select id="findList" resultType="SysService">
-		SELECT 
-			<include refid="sysServiceColumns"/>
-		FROM sys_service a
-		<include refid="sysServiceJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="SysService">
-		SELECT 
-			<include refid="sysServiceColumns"/>
-		FROM sys_service a
-		<include refid="sysServiceJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+
+    <select id="findServiceById" resultType="SysService">
+        SELECT
+        *
+        FROM sys_service a
+        WHERE a.id = #{serviceId}
+    </select>
+
+    <select id="findList" resultType="SysService">
+        SELECT
+        <include refid="sysServiceColumns"/>
+        FROM sys_service a
+        <include refid="sysServiceJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="SysService">
+        SELECT
+        <include refid="sysServiceColumns"/>
+        FROM sys_service a
+        <include refid="sysServiceJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO sys_service(
 			id,
 			service_name,
@@ -101,8 +109,8 @@
 			#{createDate}
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE sys_service SET 	
 			service_name = #{serviceName},
 			service_description = #{serviceDescription},
@@ -114,8 +122,8 @@
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
+
+    <update id="delete">
 		UPDATE sys_service SET 
 			del_flag = '1'
 		WHERE id = #{id}
@@ -123,7 +131,7 @@
 
     <select id="findServiceWithPrice" resultMap="serviceMap">
         SELECT
-          a.id,a.service_name,a.service_image,b.service_price,b.service_time_limit
+        a.id,a.service_name,a.service_image,b.service_price,b.service_time_limit
         FROM sys_service a ,sys_service_price b
         <where>
             a.del_flag = '0'

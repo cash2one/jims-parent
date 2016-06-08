@@ -10,9 +10,9 @@ $(function () {
 
                 if (data != null) {
                     for (var i = 0; i < data.length; i++) {
-                        dataArr.push({serviceName: data[i].serviceName});
-                    }
 
+                        dataArr.push({id:data[i].id,serviceName: data[i].serviceName});
+                    }
 
                     //向页面添加服务
                     var liArr = $('#addServiceModel ul li')
@@ -23,35 +23,44 @@ $(function () {
                         li += '</li>'
                         $('#addServiceModel ul').append(li);
                     }
-                    if(dataArr.length!=7)
-                    {
-                        for(var j=0;j<(7-dataArr.length);j++)
-                        {
+
+                    //点击服务跳转到首页
+                    $('#addServiceModel ul li').each(function () {
+                        $(this).click(function () {
+                            var id=this.id.substring(8)
+                            window.location.href="/modules/index.html?id=" + id+"?persion_id="+persion_id;
+                        });
+                    });
+
+                    //" +"&persion_id="+persion_id
+
+
+
+                    if (dataArr.length != 7) {
+                        for (var j = 0; j < (7 - dataArr.length); j++) {
                             var li = '<li>';
-                            li += '</li>' ;
+                            li += '</li>';
                             $('#addServiceModel ul').append(li);
                         }
                     }
-                    if(dataArr.length>7)
-                    {
-                            var li = '<li> <span style="font-size: 40px;" id="more">更多</span>';
-                            li += '</li>' ;
-                            $('#addServiceModel ul').append(li);
+                    if (dataArr.length > 7) {
+                        var li = '<li> <span style="font-size: 40px;" id="more">更多</span>';
+                        li += '</li>';
+                        $('#addServiceModel ul').append(li);
                     }
+
+
                 }
 
             });
         }
 
 
-        $("#moreServices").click(function(){
+        $("#moreServices").click(function () {
 
-            window.location.href="/modules/sys/persion-services.html?persionId="+persion_id;
+            window.location.href = "/modules/sys/persion-services.html?persionId=" + persion_id;
         });
     }
-
-
-
 
 
 });

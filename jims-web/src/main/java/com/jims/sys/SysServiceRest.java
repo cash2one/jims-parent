@@ -147,7 +147,9 @@ public class SysServiceRest {
         String result = null;
         try {
             result = new String(source.getBytes("ISO8859-1"), "UTF-8");
-            result = generateShortUuid()  +  result.substring(result.lastIndexOf("."));
+            if (result.length() >= 3){//0.0
+                result = generateShortUuid()  +  result.substring(result.lastIndexOf("."));
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -176,7 +178,9 @@ public class SysServiceRest {
         sysService.setServiceDescription(form.getField("serviceDescription").getValue());
         sysService.setServiceType(form.getField("serviceType").getValue());
         sysService.setServiceName(form.getField("serviceName").getValue());
-        sysService.setServiceImage("/static/images/sysService/" + result);
+        if (result.length() >= 3){
+            sysService.setServiceImage("/static/images/sysService/" + result);
+        }
 
 
         String num = sysServiceApi.save(sysService);

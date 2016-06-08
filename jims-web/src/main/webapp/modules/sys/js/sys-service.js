@@ -170,6 +170,10 @@ $(function () {
     $("#editBtn").on('click', function () {
         reset();
         var row = $("#serviceDg").datagrid("getSelected");
+        if(!row){
+            $.messager.alert("提示","请选择一个服务",'info');
+            return;
+        }
         $("#id").textbox("setValue",row.id);
         $("#serviceName").textbox("setValue",row.serviceName);
         $("#serviceType").combobox("setValue",row.serviceType);
@@ -224,10 +228,13 @@ $(function () {
 
 
         var serviceImage = $("#serviceImage").val();
+        var row = $("#serviceDg").datagrid("getSelected");
         var suffer=serviceImage.substring(serviceImage.lastIndexOf(".")+1).toLowerCase();
         if(suffer!="jpg"&&suffer!="png"&&suffer!="gif"&&suffer!="jpeg"&&suffer!="bmp"&&suffer!="swf"){
-            $.messager.alert("系统提示", "请选择正确格式的图片","error");
-            return;
+            if(!row.id){
+                $.messager.alert("系统提示", "请选择正确格式的图片","error");
+                return;
+            }
         }
         var maxsize = 2*1024*1024;//2M
         var errMsg = "上传的附件文件不能超过2M！！！";
@@ -244,16 +251,23 @@ $(function () {
         }
         var obj_file = document.getElementById("serviceImage");
         if(obj_file.value==""){
-            alert("请先选择上传文件");
-            return;
+            if(!row.id){
+                alert("请先选择上传文件");
+                return;
+            }
         }
         var filesize = 0;
         if(browserCfg.firefox || browserCfg.chrome ){
-            filesize = obj_file.files[0].size;
+            if(obj_file.files[0]){
+                filesize = obj_file.files[0].size;
+
+            }
         }else if(browserCfg.ie){
-            var obj_img = document.getElementById('tempimg');
-            obj_img.dynsrc=obj_file.value;
-            filesize = obj_img.fileSize;
+            if(obj_file.value){
+                var obj_img = document.getElementById('tempimg');
+                obj_img.dynsrc=obj_file.value;
+                filesize = obj_img.fileSize;
+            }
         }else{
             alert(tipMsg);
             return;
@@ -566,6 +580,27 @@ $(function () {
         $.postJSON(basePath + "/sys-service/save-serviceVsMenu",JSON.stringify(menuVsServices), function () {
             $.messager.alert("系统提示", "保存成功", "info");
         })
+    });
+
+    /**
+     *全部展开
+     */
+    $("#menuExpandBtn").on("click", function () {
+        $('#serviceMenuTree').tree('expandAll');
+    });
+    /**
+     *全部折叠
+     */
+    $("#menuCollapseBtn").on("click", function () {
+        $('#serviceMenuTree').tree('collapseAll');
+    });
+    /**
+     *全部折叠
+     */
+    $("#menuSelectBtn").on("click", function () {
+        var node = $('#serviceMenuTree').tree('find','35E111DB41F9420B9B19B200A41488CB');
+        $('#serviceMenuTree').tree('expandTo', node.target);
+        $('#serviceMenuTree').tree('scrollTo', node.target).tree('select', node.target);
     });
 
     /**

@@ -32,4 +32,11 @@ public interface SysServiceDao extends CrudDao<SysService> {
      * @return
      */
     public List<SysService> findServiceWithPrice(@Param("serviceClass")String serviceClass,@Param("serviceType")String serviceType);
+
+    /**
+     * 通过服务Id查询服务列表
+     * @param serviceId 服务id
+     * @return
+     */
+    public List<SysService> findServiceById(@Param("serviceId") String serviceId);
 }

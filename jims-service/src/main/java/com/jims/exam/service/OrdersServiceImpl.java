@@ -160,7 +160,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
                 Orders orders=ordersList.get(i);
                     if (orders.getIsNewRecord()) {
                         orders.preInsert();
-                        orders.setOrderStatus("1");//新开
+                        orders.setOrderStatus("6");//医生提交
                         orders.setPatientId("15005451");
                         orders.setVisitId("1");
                         Integer no=orders.getOrderNo();

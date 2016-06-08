@@ -60,4 +60,10 @@ public interface SysCompanyDao extends CrudDao<SysCompany> {
      */
     public SysCompany findNameByOwner(String loginName);
 
+    /**
+     * 根据组织机构id查询信息
+     * @param orgName
+     * @return
+     */
+    public SysCompany getOrgName(String orgName);
 }
