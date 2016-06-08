@@ -1,8 +1,7 @@
 package com.jims.common.filter;
 
-import com.jims.oauth.entity.Authority;
 import com.jims.util.JedisUtils;
-import org.apache.oltu.oauth2.integration.utils.CacheManager;
+import com.jims.oauth2.integration.utils.CacheManager;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

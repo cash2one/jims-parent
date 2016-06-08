@@ -28,18 +28,18 @@ import com.jims.oauth.entity.App;
 import com.jims.oauth.entity.Authority;
 import com.jims.sys.api.SysUserApi;
 import com.jims.sys.entity.SysUser;
-import org.apache.oltu.oauth2.as.issuer.MD5Generator;
-import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
-import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
-import org.apache.oltu.oauth2.as.response.OAuthASResponse;
-import org.apache.oltu.oauth2.common.OAuth;
-import org.apache.oltu.oauth2.common.error.ServerErrorType;
-import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.apache.oltu.oauth2.common.message.OAuthResponse;
-import org.apache.oltu.oauth2.common.message.types.ResponseType;
-import org.apache.oltu.oauth2.integration.utils.Cache;
-import org.apache.oltu.oauth2.integration.utils.CacheManager;
+import com.jims.oauth2.as.issuer.MD5Generator;
+import com.jims.oauth2.as.issuer.OAuthIssuerImpl;
+import com.jims.oauth2.as.request.OAuthAuthzRequest;
+import com.jims.oauth2.as.response.OAuthASResponse;
+import com.jims.oauth2.common.OAuth;
+import com.jims.oauth2.common.error.ServerErrorType;
+import com.jims.oauth2.common.exception.OAuthProblemException;
+import com.jims.oauth2.common.exception.OAuthSystemException;
+import com.jims.oauth2.common.message.OAuthResponse;
+import com.jims.oauth2.common.message.types.ResponseType;
+import com.jims.oauth2.integration.utils.Cache;
+import com.jims.oauth2.integration.utils.CacheManager;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,8 +52,6 @@ import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * client request authorization

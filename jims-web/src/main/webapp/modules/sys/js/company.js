@@ -1,5 +1,6 @@
 $(function () {
-    var currentOrgId = '1';
+    //var currentOrgId = '1';
+    var currentPersonId = '1';
     var company = {};
     //查询父机构
     jQuery.ajax({
@@ -249,6 +250,8 @@ $(function () {
         company.linkPhoneNum = $("#linkPhoneNum").val();
         company.email = $("#email").val();
         company.linkMan=$("#linkMan").val();
+        company.owner = currentPersonId;
+        company.applyStatus = '1';
         company.serviceList = saveData
         var name = $("#orgName").val();
 

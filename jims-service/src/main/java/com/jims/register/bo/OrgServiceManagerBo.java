@@ -17,8 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 机构服务事务管理层
@@ -115,9 +114,15 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
      * @return
      */
     public List<OrgServiceList> findService(String orgId){
-        OrgServiceList service = new OrgServiceList();
-        service.setOrgId(orgId);
-        return dao.findList(service);
+        OrgServiceList serviceParam = new OrgServiceList();
+        serviceParam.setOrgId(orgId);
+        List<OrgServiceList> services = dao.findList(serviceParam);
+        if(services != null && services.size() > 0){
+            for(OrgServiceList service : services){
+                service.setMenus(handlerMenu(service.getMenus()));
+            }
+        }
+        return services;
     }
 
     /**
@@ -171,4 +176,48 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         return orgSelfServiceVsMenuVos;
     }
 
+    //处理树形数据
+    private List<MenuDict> handlerMenu(List<MenuDict> menus){
+        List<MenuDict> resultMenus = new ArrayList<MenuDict>();
+        if(menus != null && menus.size() > 0){
+            Map<String,MenuDict> menusMap = new HashMap<String, MenuDict>();
+            List<String> roots = new ArrayList<String>();
+            for(int i=0,j=menus.size();i<j;i++){
+                handlerMenu(menus.get(i),menusMap,roots);
+            }
+            for(int i=0,j=roots.size();i<j;i++){
+                resultMenus.add(menusMap.get(roots.get(i)));
+            }
+        }
+        return resultMenus;
+    }
+
+    private void handlerMenu(MenuDict menu,Map<String,MenuDict> menusMap,List<String> roots){
+        if(menu != null){
+            if(menu.getPid() != null){
+                if(menusMap.get(menu.getPid()) != null){
+                    if(menusMap.get(menu.getPid()).getChildren() == null){
+                        menusMap.get(menu.getPid()).setChildren(new ArrayList<MenuDict>());
+                    }
+                    menusMap.get(menu.getPid()).getChildren().add(menu);
+                } else {
+                    MenuDict parent = menuDictDao.get(menu.getPid());
+                    if (parent == null) {
+                        if(menusMap.get(menu.getId()) == null)
+                            menusMap.put(menu.getId(), menu);
+                        roots.add(menu.getId());
+                    } else {
+                        parent.setChildren(new ArrayList<MenuDict>());
+                        parent.getChildren().add(menu);
+                        menusMap.put(menu.getId(), menu);
+                        handlerMenu(parent,menusMap,roots) ;
+                    }
+                }
+            } else {
+                if (menusMap.get(menu.getId()) == null)
+                    menusMap.put(menu.getId(),menu);
+                roots.add(menu.getId());
+            }
+        }
+    }
 }

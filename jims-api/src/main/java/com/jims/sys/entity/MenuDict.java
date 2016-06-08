@@ -6,6 +6,8 @@ package com.jims.sys.entity;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 /**
  * 系统菜单Entity
  * @author yangruidong
@@ -21,8 +23,18 @@ public class MenuDict extends DataEntity<MenuDict> {
 	private String target;		// 打开方式
     private String pid; //父id
     private String menuLevel;//菜单级别
-	
-	public MenuDict() {
+
+    private List<MenuDict> children;  // 子节点
+
+    public List<MenuDict> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<MenuDict> children) {
+        this.children = children;
+    }
+
+    public MenuDict() {
 		super();
 	}
 

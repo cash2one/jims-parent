@@ -18,15 +18,20 @@
 </div>
 <div id="selfServiceMenuWin">
     <div class="easyui-layout" data-options="fit:true">
-        <div data-options="region:'west',collapsible:false" style="width:53%;">
-            <div id="selfServiceMenu"></div>
-            <div id="menuBtn" style="border:0;text-align: center;padding: 5px">
+        <div data-options="region:'west',collapsible:false,title:'已选菜单'" style="width:50%;">
+            <ul id="selectedMenu"></ul>
+
+        </div>
+        <div data-options="region:'center',title:'菜单选择'">
+            <div class="easyui-accordion" id="selectServiceMenu" style="width:100%;height:100%">
+
+            </div>
+        </div>
+        <div data-options="region:'north',height:40">
+            <div id="menuBtn" style="border:0;padding: 5px">
                 <a href="#" id="delMenu" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除菜单</a>
                 <a href="#" id="okMenu" class="easyui-linkbutton" data-options="iconCls:'icon-ok'">确定选择</a>
             </div>
-        </div>
-        <div data-options="region:'center'">
-            <div id="selectServiceMenu"></div>
         </div>
     </div>
 </div>
