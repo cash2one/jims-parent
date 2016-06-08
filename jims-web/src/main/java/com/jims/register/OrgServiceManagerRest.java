@@ -6,12 +6,9 @@ import com.jims.register.entity.OrgSelfServiceList;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
 import com.jims.sys.vo.OrgSelfServiceVsMenuVo;
-import com.sun.jersey.multipart.FormDataMultiPart;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
@@ -51,7 +48,7 @@ public class OrgServiceManagerRest {
      */
     @POST
     @Path("save-self-service")
-    public String saveSelfService(List<OrgSelfServiceList> selfServiceList,@Context UriInfo info){
+    public String saveSelfService(List<OrgSelfServiceList> selfServiceList){
         return api.saveSelfService(selfServiceList);
     }
 
