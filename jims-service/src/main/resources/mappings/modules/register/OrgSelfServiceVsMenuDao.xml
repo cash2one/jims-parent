@@ -7,6 +7,7 @@
 		a.self_service_id AS "selfServiceId",
 		a.menu_id AS "menuId",
 		a.menu_sort AS "menuSort",
+		a.pid AS "pid",
 		a.menu_end_date AS "menuEndDate",
 		a.careate_by AS "careateBy",
 		a.remark AS "remark",
@@ -29,7 +30,7 @@
 	
 	<select id="findList" resultType="OrgSelfServiceVsMenu">
 		SELECT 
-			<include refid="orgSelfServiceVsMenuColumns"/>,m.menu_name as "selfMenuName"
+			<include refid="orgSelfServiceVsMenuColumns"/>,m.menu_name as "menuName"
 		FROM org_self_service_vs_menu a,menu_dict m
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -73,6 +74,7 @@
 			self_service_id,
 			menu_id,
 			menu_sort,
+			pid,
 			menu_end_date,
 			careate_by,
 			remark,
@@ -85,6 +87,7 @@
 			#{selfServiceId},
 			#{menuId},
 			#{menuSort},
+			#{pid},
 			#{menuEndDate},
 			#{careateBy},
 			#{remark},
@@ -100,6 +103,7 @@
 			self_service_id = #{selfServiceId},
 			menu_id = #{menuId},
 			menu_sort = #{menuSort},
+			pid = #{pid},
 			menu_end_date = #{menuEndDate},
 			careate_by = #{careateBy},
 			remark = #{remark},
