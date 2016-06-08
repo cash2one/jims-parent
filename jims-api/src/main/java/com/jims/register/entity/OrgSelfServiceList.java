@@ -14,7 +14,6 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
 	
 	private static final long serialVersionUID = 1L;
 	private String serviceName;		// 自定义服务名字
-    private String serviceImage;    // 自定义服务图片
     private String menuPosition;    // 自定义服务中菜单界面显示位置
     private String menuStyle ;   // 自定义服务中菜单显示样式
 	private String orgId;		// 机构ID
@@ -23,14 +22,6 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
 	private Date createTime;		// create_time
 
     private List<OrgSelfServiceVsMenu> menus;   // 自定义服务对应的菜单
-
-    public String getServiceImage() {
-        return serviceImage;
-    }
-
-    public void setServiceImage(String serviceImage) {
-        this.serviceImage = serviceImage;
-    }
 
     public List<OrgSelfServiceVsMenu> getMenus() {
         return menus;

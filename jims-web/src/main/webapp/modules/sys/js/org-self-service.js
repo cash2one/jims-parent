@@ -121,9 +121,7 @@ $(function() {
                     return styleArr[0].text;
                 }
                 return formatData(styleArr,value);
-            }}/*,{field: 'serviceImage', title: '上传图片', width: 260, align: "center",formatter:function(){
-                return '<input type="file" name="file"/>'
-            }}*/
+            }}
         ]],
         onClickCell:onClickCell,
         onBeforeSelect: function(index){

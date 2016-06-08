@@ -5,7 +5,6 @@
 	<sql id="orgSelfServiceListColumns">
 		a.id AS "id",
 		a.service_name AS "serviceName",
-		a.service_image AS "serviceImage",
 		a.org_id AS "orgId",
 		a.menu_position AS "menuPosition",
 		a.menu_style AS "menuStyle",
@@ -71,7 +70,6 @@
 		INSERT INTO org_self_service_list(
 			id,
 			service_name,
-			service_image,
 			org_id,
 			menu_position,
 			menu_style,
@@ -84,7 +82,6 @@
 		) VALUES (
 			#{id},
 			#{serviceName},
-			#{serviceImage},
 			#{orgId},
 			#{menuPosition},
 			#{menuStyle},
@@ -100,7 +97,6 @@
 	<update id="update">
 		UPDATE org_self_service_list SET 	
 			service_name = #{serviceName},
-			service_image = #{serviceImage},
 			org_id = #{orgId},
 			menu_position = #{menuPosition},
 			menu_style = #{menuStyle},

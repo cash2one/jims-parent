@@ -9,7 +9,6 @@ import com.jims.sys.vo.OrgSelfServiceVsMenuVo;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 /**
