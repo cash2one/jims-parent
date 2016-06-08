@@ -9,7 +9,7 @@ $(function () {
 
     //窗体加载时禁用form表单
 
-    var orgId1=parent.config.org_Id;
+    var orgId1=parent.parent.config.org_Id;
     alert("组织   "+orgId1)
 
 
