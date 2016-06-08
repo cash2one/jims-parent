@@ -1,0 +1,190 @@
+package com.jims.clinic.bo;
+
+import com.jims.clinic.dao.PatVisitDao;
+import com.jims.clinic.dao.PatsInHospitalDao;
+import com.jims.clinic.entity.PatsInHospital;
+import com.jims.clinic.vo.ComeDeptVo;
+import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.web.impl.BaseDto;
+import com.jims.finance.dao.PatsInTransferringDao;
+import com.jims.finance.entity.PatsInTransferring;
+import com.jims.nurse.dao.*;
+import com.jims.nurse.entity.*;
+import com.jims.patient.entity.PatVisit;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+
+/**
+ * 病人在院记录
+ * @author CTQ
+ * @date 2016-06-06 09:36:49
+ */
+@Service
+@Transactional(readOnly = false)
+public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsInHospital> {
+    @Autowired
+    PatsInHospitalDao patsInHospitalDao;
+    @Autowired
+    BedRecDao bedRecDao;
+    @Autowired
+    TransferDao transferDao;
+    @Autowired
+    LendBedLogDao lendBedLogDao;
+    @Autowired
+    AdtLogDao adtLogDao;
+    @Autowired
+    OrdersGroupRecDao ordersGroupRecDao;
+    @Autowired
+    PatsInTransferringDao patsInTransferringDao;
+    @Autowired
+    PatVisitDao patVisitDao;
+    public String saveHospInfo(ComeDeptVo vo) {
+        String patientId = vo.getPatientId();
+        int num = 0;
+        PatsInHospital patsInHospital = new PatsInHospital();
+        /**1.根据床位ID更新床位状态**/
+        BedRec bedRec = bedRecDao.get(vo.getBedRecId());
+        //update bed_rec set bed_status ='1' where bed_no =65553 And ward_code ='160101' ;
+        bedRec.setBedStatus("1");
+        bedRecDao.update(bedRec);
+        /**2.插入病人在科记录**/
+        Transfer transfer = new Transfer();
+        //INSERT INTO transfer ( patient_id , visit_id , dept_stayed , admission_date_time , doctor_in_charge ) Values ( '02000031' , 13303809 , '130502' , '2016-06-04 10:28:48' , '000CWJ' )
+        transfer.setPatientId(patientId);
+        transfer.setVisitId(vo.getVisitId());
+        transfer.setDeptStayed(vo.getDeptStayed());
+        transfer.setAdmissionDateTime(vo.getAdmissionDateTime());
+        transfer.setDoctorInCharge(vo.getDoctorUser());
+        transfer.preInsert();
+        transferDao.insert(transfer);
+        /**3.判断选中病人科室是否与当前护士科室一致，若不一致，则更新借床和**/
+
+        /**4.插入借床日志记录**/
+        LendBedLog lendBedLog = new LendBedLog();
+        //INSERT INTO lend_bed_log ( ward_code , Lend_start_date , patient_id , visit_id , dept_code , lend_ward_code , lend_dept_code ) Values ( '160101' , '2016-06-04 10:28:48' , '02000031' , 892338177 , '130502' , '160301' , '130502' )
+        lendBedLog.setWardCode(bedRec.getWardCode());
+        lendBedLog.setLendStartDate(vo.getAdmissionDateTime());
+        lendBedLog.setPatientId(patientId);
+        lendBedLog.setVisitId(vo.getVisitId());
+        lendBedLog.setDeptCode(vo.getDeptStayed());
+        /*lendBedLog.setLendWardCode();//借床护理单元
+        lendBedLog.setLendDeptCode();//借床科室*/
+        lendBedLog.preInsert();
+        lendBedLogDao.insert(lendBedLog);
+        /**5.更新病人在科记录**/
+        //update transfer SET dept_code_lend ='130502' WHERE patient_id ='02000031' AND visit_id =858783745 And to_char ( admission_date_time , 'yyyy-mm-dd hh:mi:ss' ) =to_char ( '2016-06-04 10:28:48' , 'yyyy-mm-dd hh:mi:ss' )
+        /*transfer.setDeptCodeLend();//借床科室*/
+        transferDao.update(transfer);
+        /**6.插入病人入出转及状态变化日志**/
+        AdtLog adtLog = new AdtLog();
+        //INSERT INTO adt_log ( ward_code , dept_code , log_date_time , patient_id , visit_id , action , operator_no ) Values ( '160101' , '130502' , '2016-06-04 10:28:48' , '02000031' , 892338177 , 'C' , Upper ( '000TXJ' ) )
+//        adtLog.setWardCode();
+//        adtLog.setDeptCode();
+        adtLog.setLogDateTime(new Date());
+        adtLog.setPatientId(vo.getPatientId());
+        adtLog.setVisitId(vo.getVisitId());
+        adtLog.setAction(vo.getAction());
+//        adtLog.setOperatorNo();
+        adtLog.preInsert();
+        adtLogDao.insert(adtLog);
+        /**7.插入核算组记录**/
+        OrdersGroupRec ordersGroupRec = new OrdersGroupRec();
+        //INSERT INTO ORDERS_group_REC ( PATIENT_ID , VISIT_ID , dept_code , ORDER_GROUP , ORDER_DOCTOR , doctor_user , SUPER_DOCTOR_ID , PARENT_DOCTOR_ID ) Values ( '02000031' , 39714817 , '130502' , '130502' , '000CWJ' , '000CWJ' , '000ZZD' , '000WHW' )
+        ordersGroupRec.setPatientId(patientId);
+        ordersGroupRec.setVisitId(vo.getVisitId());
+//        ordersGroupRec.setDeptCode();//当前登录用户科室
+//        ordersGroupRec.setOrderGroup();
+        ordersGroupRec.setOrderDoctor(vo.getDoctorUser());
+        ordersGroupRec.setDoctorUser(vo.getDoctorUser());
+        ordersGroupRec.setSuperDoctorId(vo.getSuperDoctorId());
+        ordersGroupRec.setParentDoctorId(vo.getParentDoctorId());
+        ordersGroupRec.preInsert();
+        ordersGroupRecDao.insert(ordersGroupRec);
+        /**8.删除病人转科记录**/
+        //DELETE pats_in_transferring where patient_id ='02000031'
+        patsInTransferringDao.deleteByPatientId(patientId);
+        /**9.更新病人住院记录**/
+        PatVisit patVisit =  new PatVisit();
+        //update pat_visit SET dept_admission_to ='130502' , adt_room_no ='105' , WEIGHT_BIRTH =NULL , PARITY_NO =NULL , ONSET_DATE ='2016-05-30 00:00:00' where patient_id ='02000031' And visit_id =1
+        patVisit.setDeptAdmissionTo(bedRec.getDeptCode());
+//        patVisit.setAdtRoomNo();
+        patVisit.setId(vo.getVisitId());
+        patVisitDao.update(patVisit);
+        /**10.更新病人住院记录**/
+        //update pat_visit SET body_weight ='10.00' , body_height ='55.0' where patient_id ='02000031' And visit_id =13303809
+        patVisit.setBodyHeight(vo.getBodyHeight());
+        patVisit.setBodyWeight(vo.getBodyWeight());
+        patVisitDao.update(patVisit);
+        /**11.更新在院病人记录**/
+        //UPDATE "PATS_IN_HOSPITAL" SET "BED_NO" = '17', "ADM_WARD_DATE_TIME" = '2016-06-04 10:28:48', "NURSING_CLASS" = '1', "DOCTOR_IN_CHARGE" = '000CWJ', "PATIENT_CONDITION" = '3', "WARD_CODE" = '160101', "DEPT_CODE" = '120202', "DEPT_CODE_LEND" = '130502', "LEND_INDICATOR" = '1' WHERE "PATIENT_ID" = '02000031'
+        patsInHospital.setBedNo(bedRec.getBedNo());
+        patsInHospital.setAdmWardDateTime(vo.getAdmissionDateTime());
+        patsInHospital.setNursingClass(vo.getNursingClass());
+        patsInHospital.setDoctorInCharge(vo.getDoctorUser());
+        patsInHospital.setPatientCondition(vo.getPatientCondition());
+        patsInHospital.setWardCode(bedRec.getWardCode());
+        patsInHospital.setDeptCode(bedRec.getDeptCode());
+        patsInHospital.setDeptCodeLend(bedRec.getDeptCode());
+        patsInHospital.setLendIndicator(1);
+
+        num = patsInHospitalDao.update(patsInHospital);
+        return String.valueOf(num);
+    }
+
+    public String turnOutDept(ComeDeptVo vo){
+        int num = 0;
+        /*转出*/
+        /**更新床位状态**/
+        BedRec bedRec = bedRecDao.get(vo.getBedRecId());
+        //update bed_rec SET bed_status ='0' WHERE ward_code ='160101' AND bed_no =17
+        bedRec.setBedStatus("0");
+        bedRecDao.update(bedRec);
+        /**更新在科病人记录**/
+        Transfer transfer = new Transfer();
+        //UPDATE "TRANSFER" SET "DISCHARGE_DATE_TIME" = '2016-06-08 10:59:15', "DEPT_TRANSFERED_TO" = '121202' WHERE "PATIENT_ID" = '02000032' AND "VISIT_ID" = '1' AND "DEPT_STAYED" = '131002' AND "ADMISSION_DATE_TIME" = '2016-06-06 15:53:54' AND "DISCHARGE_DATE_TIME" IS NULL AND "DEPT_TRANSFERED_TO" IS NULL AND "DOCTOR_IN_CHARGE" = '000KSM'
+        transfer.setDischargeDateTime(new Date());
+        transfer.setDeptTransferedTo(vo.getDeptTransferedTo());
+//        transfer.setPatientId();
+        transferDao.update(transfer);
+       // update pats_in_hospital SET ward_code =NULL , bed_no =NULL , patient_condition ='3' , adm_ward_date_time =NULL , dept_code =NULL , doctor_in_charge =NULL WHERE ward_code ='160101' AND bed_no =5505041
+        /****/
+        //INSERT INTO pats_in_transferring ( patient_id , dept_transfered_from , dept_transfered_to , transfer_date_time ) Values ( '02000032' , '131002' , '121202' , '2016-06-08 10:59:15' )
+        PatsInTransferring patsInTransferring = new PatsInTransferring();
+        patsInTransferring.setPatientId(vo.getPatientId());
+        patsInTransferring.setDeptTransferedFrom(bedRec.getDeptCode());
+        patsInTransferring.setDeptTransferedTo(vo.getDeptTransferedTo());
+        patsInTransferring.setTransferDateTime(new Date());
+        patsInTransferringDao.insert(patsInTransferring);
+
+        //INSERT INTO adt_log ( ward_code , dept_code , log_date_time , patient_id , visit_id , action , operator_no ) Values ( '160101' , '131002' , '2016-06-08 10:59:15' , '02000032' , 1 , 'E' , Upper ( '000SLX' ) )
+        AdtLog adtLog = new AdtLog();
+//        adtLog.setWardCode();
+//        adtLog.setDeptCode();
+        adtLog.setLogDateTime(new Date());
+        adtLog.setPatientId(vo.getPatientId());
+        adtLog.setVisitId(vo.getVisitId());
+        adtLog.setAction(vo.getAction());
+//        adtLog.setOperatorNo();
+        adtLog.preInsert();
+        adtLogDao.insert(adtLog);
+
+
+       // DELETE From ORDERS_group_REC Where patient_id ='02000032'
+        OrdersGroupRec ordersGroupRec = new OrdersGroupRec();
+        ordersGroupRec.setPatientId(vo.getPatientId());
+        ordersGroupRecDao.delete(ordersGroupRec);
+       // update lend_bed_log SET Lend_end_date ='2016-06-08 10:59:15' Where patient_id ='02000032' And Visit_id =5505025 And ward_code ='160101'
+
+
+        //update pats_in_hospital Set lend_indicator =Null , dept_code_lend =Null Where patient_id ='02000032' And Visit_id =5505025
+        PatsInHospital patsInHospital = new PatsInHospital();
+
+        //update BED_REC SET PATIENT_ID =NULL , BED_STATUS ='0' WHERE WARD_CODE ='160101' AND PATIENT_ID ='02000032'
+
+        num = patsInHospitalDao.update(patsInHospital);
+        return String.valueOf(num);
+    }
+}

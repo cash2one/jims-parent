@@ -11,6 +11,7 @@ import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.EmrDiagnosis;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.dao.PatsInTransferringDao;
 import com.jims.finance.dao.PrepaymentRcptDao;
 import com.jims.finance.entity.PatsInTransferring;
@@ -136,6 +137,16 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
         }
 
         return String.valueOf(num);
+    }
+    /**
+     * 护理-查询待入科室床位病人列表
+     * @author CTQ
+     * @date 2016-06-06 09:23:31
+     * @return
+     */
+    @Override
+    public List<BaseDto> findWaitFrom() {
+        return dao.findWaitFrom();
     }
 
     /**

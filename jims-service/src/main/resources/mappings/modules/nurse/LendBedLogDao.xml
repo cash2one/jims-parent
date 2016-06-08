@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.nurse.dao.LendBedLogDao">
+    
+	<sql id="lendBedLogColumns">
+		a.id AS "id",
+		a.ward_code AS "wardCode",
+		a.lend_start_date AS "lendStartDate",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId",
+		a.dept_code AS "deptCode",
+		a.lend_ward_code AS "lendWardCode",
+		a.lend_dept_code AS "lendDeptCode",
+		a.lend_end_date AS "lendEndDate",
+		a.org_id AS "orgId"
+	</sql>
+	
+	<sql id="lendBedLogJoins">
+	</sql>
+    
+	<select id="get" resultType="LendBedLog">
+		SELECT 
+			<include refid="lendBedLogColumns"/>
+		FROM lend_bed_log a
+		<include refid="lendBedLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="LendBedLog">
+		SELECT 
+			<include refid="lendBedLogColumns"/>
+		FROM lend_bed_log a
+		<include refid="lendBedLogJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="LendBedLog">
+		SELECT 
+			<include refid="lendBedLogColumns"/>
+		FROM lend_bed_log a
+		<include refid="lendBedLogJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO lend_bed_log(
+			id,
+			ward_code,
+			lend_start_date,
+			patient_id,
+			visit_id,
+			dept_code,
+			lend_ward_code,
+			lend_dept_code,
+			lend_end_date,
+			org_id
+		) VALUES (
+			#{id},
+			#{wardCode},
+			#{lendStartDate},
+			#{patientId},
+			#{visitId},
+			#{deptCode},
+			#{lendWardCode},
+			#{lendDeptCode},
+			#{lendEndDate},
+			#{orgId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE lend_bed_log SET 	
+			ward_code = #{wardCode},
+			lend_start_date = #{lendStartDate},
+			patient_id = #{patientId},
+			visit_id = #{visitId},
+			dept_code = #{deptCode},
+			lend_ward_code = #{lendWardCode},
+			lend_dept_code = #{lendDeptCode},
+			lend_end_date = #{lendEndDate},
+			org_id = #{orgId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM lend_bed_log
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -110,7 +110,7 @@
 	</update>
 
 	<update id="deleteByPatientId">
-		update pats_in_transferring set del_flag='1'
+		DELETE from pats_in_transferring
 		<where>
 			<if test="patientId !=null and patientId !=''">
 				patient_id=#{patientId}

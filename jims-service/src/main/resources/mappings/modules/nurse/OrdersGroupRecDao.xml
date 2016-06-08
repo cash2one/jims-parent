@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.nurse.dao.OrdersGroupRecDao">
+    
+	<sql id="ordersGroupRecColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId",
+		a.dept_code AS "deptCode",
+		a.order_group AS "orderGroup",
+		a.order_doctor AS "orderDoctor",
+		a.doctor_user AS "doctorUser",
+		a.super_doctor_id AS "superDoctorId",
+		a.parent_doctor_id AS "parentDoctorId",
+		a.org_id AS "orgId"
+	</sql>
+	
+	<sql id="ordersGroupRecJoins">
+	</sql>
+    
+	<select id="get" resultType="OrdersGroupRec">
+		SELECT 
+			<include refid="ordersGroupRecColumns"/>
+		FROM orders_group_rec a
+		<include refid="ordersGroupRecJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrdersGroupRec">
+		SELECT 
+			<include refid="ordersGroupRecColumns"/>
+		FROM orders_group_rec a
+		<include refid="ordersGroupRecJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OrdersGroupRec">
+		SELECT 
+			<include refid="ordersGroupRecColumns"/>
+		FROM orders_group_rec a
+		<include refid="ordersGroupRecJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO orders_group_rec(
+			id,
+			patient_id,
+			visit_id,
+			dept_code,
+			order_group,
+			order_doctor,
+			doctor_user,
+			super_doctor_id,
+			parent_doctor_id,
+			org_id
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{visitId},
+			#{deptCode},
+			#{orderGroup},
+			#{orderDoctor},
+			#{doctorUser},
+			#{superDoctorId},
+			#{parentDoctorId},
+			#{orgId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE orders_group_rec SET 	
+			patient_id = #{patientId},
+			visit_id = #{visitId},
+			dept_code = #{deptCode},
+			order_group = #{orderGroup},
+			order_doctor = #{orderDoctor},
+			doctor_user = #{doctorUser},
+			super_doctor_id = #{superDoctorId},
+			parent_doctor_id = #{parentDoctorId},
+			org_id = #{orgId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM orders_group_rec
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
