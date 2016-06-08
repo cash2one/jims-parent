@@ -22,7 +22,7 @@ public interface ServiceVsMenuDao extends CrudDao<ServiceVsMenu> {
      * @return 服务于菜单对照实体对象
      * @author fengyuguang
      */
-    public ServiceVsMenu findByServiceId(String serviceId);
+    public List<ServiceVsMenu> findByServiceId(String serviceId);
 	
     /**
      * 查询服务全部菜单

@@ -5,38 +5,55 @@
     <title>极目云医工作平台</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
     <script type="text/javascript" src="/static/js/head.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <script type="text/javascript" src="../nurse/js/bedList.js"></script>
+    <style>
+        form table{
+            border-collapse:   separate;
+            border-spacing:   10px;
+        }
+        table tr td input{
+            width: 80px;
+
+        }
+    </style>
 </head>
-<body >
-<div class="easyui-tabs" style="width:100%;height:100%">
+<body class="easyui-layout">
+<div class="easyui-tabs" style="width:99%;height:98%">
     <div title="床位维护" >
         <!--病床信息-->
-        <table id="bedRec"  cellspacing="0" cellpadding="0" style="width:100%;height:95%">
+        <table id="bedRec"  cellspacing="0" cellpadding="0" style="width:99%;">
 
         </table>
         </div>
-    <div title="包床处理" >
-        <div class="easyui-layout" style="width:100%;height:100%">
-            <div  data-options="region:'west'" title="已经分配了床位的在院病人列表" style="width:30%;height:95%">
+    <div title="包床处理" style="height: 100%">
+        <div class="easyui-layout" style="width:98%;height: 100%">
+            <div  data-options="region:'west'" title="已经分配了床位的在院病人列表" style="width:30%;border:none">
+                 <table id="inPat">
 
+                 </table>
             </div>
-            <div data-options="region:'center'" style="height:100%">
+            <div data-options="region:'east'"  style="width:70%;border:none">
                 <div class="easyui-layout" data-options="fit:true">
-                    <div  data-options="region:'north'" title="已包床位" style="height:200px;">
+                    <div  data-options="region:'north'" title="已包床位" style="height:40%;border:none">
+                      <table id="hasBed">
 
+                      </table>
                     </div>
-                    <div  data-options="region:'center'" title="可供包床的空床位" style="height:330px;">
+                    <div  data-options="region:'center'" title="可供包床的空床位" style="height:40%;border:none">
+                        <table id="emptyBed">
 
+                        </table>
                     </div>
 
                     </div>
 
             </div>
-            <div data-options="region:'south'" style="border: none">
-                <div class="bot-medbtn">
-                    <a href="#" onclick="accountsFun()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">包床</a>
+            <div data-options="region:'south'" style="border: none;height: 7%;">
+                <div class="bot-medbtn" style="text-align: right">
+                    <a href="#" onclick="packBed()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">包床</a>
                     <a href="#" onclick="accountsConfirm()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">解除包床</a>
                     <a href="#" onclick="clearForm()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">刷新</a>
 
@@ -46,6 +63,103 @@
         </div>
     </div>
 
+<div id="dlg" class="easyui-dialog" style="width:50%;height:60%;"
+     closed="true">
+    <div class="easyui-layout" style="width:100%;height:98%;">
+        <div data-options="region:'east',split:true"  style="width:50%;">
+            <form id="newBed" method="post" KeyPreview="true">
+                <table cellpadding="5">
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <input class="easyui-textbox" type="text" name="bedno" data-options="required:true" id="newBedNo" >床
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>床号：</td>
+                        <td><input class="easyui-textbox" type="text" name="bedno" ></td>
+                        <td>床标号：</td>
+                        <td><input class="easyui-textbox" type="text" name="dedlabel" ></td>
+                    </tr>
+                    <tr>
+                        <td>姓名：</td>
+                        <td><input class="easyui-textbox" type="text" name="name" ></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>性别：</td>
+                        <td><input class="easyui-textbox" type="text" name="sex" ></td>
+                        <td>年龄：</td>
+                        <td><input class="easyui-textbox" type="text" name="age" ></td>
+                    </tr>
+                    <tr>
+                        <td >病人Id：</td>
+                        <td colspan="3"><input class="easyui-textbox" type="text" name="patientid" style="width: 120px;" ></td>
+                    </tr>
+                    <tr>
+                        <td >住院日期：</td>
+                        <td colspan="3"><input class="easyui-datebox"  type="text" name="ruyuanriqi" style="width: 120px;"></td>
+
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+        <div data-options="region:'west',split:true"  style="width:50%;height:90%;">
+            <form id="oldBed" method="post">
+                <table cellpadding="5">
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <input class="easyui-textbox" type="text" name="bedno" data-options="required:true" id="oldBedNo">床
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>床号：</td>
+                        <td><input class="easyui-textbox" type="text" name="bedno" ></td>
+                        <td>床标号：</td>
+                        <td><input class="easyui-textbox" type="text" name="dedlabel" ></td>
+                    </tr>
+                    <tr>
+                        <td>姓名：</td>
+                        <td><input class="easyui-textbox" type="text" name="name" ></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>性别：</td>
+                        <td><input class="easyui-textbox" type="text" name="name" ></td>
+                        <td>年龄：</td>
+                        <td><input class="easyui-textbox" type="text" name="age" ></td>
+                    </tr>
+                    <tr>
+                        <td >病人Id：</td>
+                        <td colspan="3"><input class="easyui-textbox" type="text" name="patientid" style="width: 120px;" id="patientid"></td>
+                    </tr>
+                    <tr>
+                        <td >住院日期：</td>
+                        <td colspan="3"><input class="easyui-datebox"  type="text" name="ruyuanriqi" style="width: 120px;"></td>
+
+                    </tr>
+                </table>
+            </form>
+
+            <input name="id" type="hidden">
+            <input name="visitId" type="hidden">
+
+        </div>
+        <div data-options="region:'south',split:true"  style="width:100%;height:14%;">
+        <div id="dlg-buttons" class="text-center">
+            <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="changeBedOk()" style="width:90px">确定</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+        </div>
+            </div>
+    </div>
+
+</div>
 </body>
 </html>

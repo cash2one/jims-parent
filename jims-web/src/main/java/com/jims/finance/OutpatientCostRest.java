@@ -42,6 +42,7 @@ public class OutpatientCostRest {
      * 确认收费
      * @param ids
      * @return
+     * @author zhaoning
      */
     @Path("confirmPay")
     @POST
@@ -55,6 +56,7 @@ public class OutpatientCostRest {
      * @param clinicNo
      * @param orgId
      * @return
+     * @author zhaoning
      */
     @Path("getBackChargeInfo")
     @GET
@@ -74,5 +76,19 @@ public class OutpatientCostRest {
     public List<OutpBillItems> getBackChargeItems(@QueryParam("rcptNO")String rcptNO){
         List<OutpBillItems> outpBillItemses=outPatientCostApi.getBackChargeItems(rcptNO);
         return  outpBillItemses;
+    }
+
+    /**
+     * 确认退费
+     * @param rcptNO
+     * @return
+     * @author zhaoning
+     */
+    @Path("confirmBackCharge")
+    @POST
+    public StringData confirmBackCharge(String rcptNO){
+        StringData data=new StringData();
+        data.setCode(outPatientCostApi.confirmBackChar(rcptNO));
+        return data;
     }
 }

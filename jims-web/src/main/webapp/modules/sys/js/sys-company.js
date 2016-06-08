@@ -82,14 +82,14 @@ $(function(){
                 title: '机构地址',
                 field: 'address',
                 align: 'center',
-                width: '10%'
+                width: '15%'
             }, {
                 title: '邮箱',
                 field: 'email',
                 align: 'center',
                 width: '10%'
             },{
-                field: 'id', title: '操作', width: '30%', align: 'center', formatter: function (value, row, index) {
+                field: 'id', title: '操作', width: '25%', align: 'center', formatter: function (value, row, index) {
                     var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="pass(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>通过</button>' +
                         '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="refuse(\'' + value + '\')"><img src="/static/images/index/icon2.png"  width="12" />驳回</button>' /*+
                         '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="checkService(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>查看服务</button>'*/;
@@ -119,7 +119,11 @@ function pass(id) {     //通过审核
                 'dataType': 'json',
                 'success': function (data) {
                     $.messager.alert("提示消息", "保存成功!");
-                    $("#dg").datagrid('reload');
+                    //$("#dg").datagrid('reload');
+                    loadData();
+                    /*$.get(basePath + '/sys-sompany/find-list-by-status?applyStatus=' + applyStatus, function(data){
+                        $("#dg").datagrid('loadData',data);
+                    });*/
                 }
             });
         }
@@ -141,9 +145,26 @@ function refuse(id) {     //驳回审核
                 'dataType': 'json',
                 'success': function (data) {
                     $.messager.alert("提示消息", "保存成功!");
-                    $("#dg").datagrid('reload');
+                    //$("#dg").datagrid('reload');
+                    loadData();
                 }
             });
         }
     });
+}
+
+function loadData(){
+    var applyStatus = $("#checkFlag").combobox('getValue');
+    if(applyStatus == '待审'){
+        applyStatus = '1';
+    }else if(applyStatus == '通过'){
+        applyStatus = '2';
+    }else if(applyStatus == '失败'){
+        applyStatus = '-1';
+    }else if(applyStatus == '全部'){
+        applyStatus = '';
+    }
+    $.get(basePath + '/sys-sompany/find-list-by-status?applyStatus=' + applyStatus, function(data){
+     $("#dg").datagrid('loadData',data);
+     });
 }

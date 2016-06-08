@@ -7,6 +7,7 @@ import com.jims.sys.bo.OrgRoleBo;
 import com.jims.sys.bo.PersionServiceListBo;
 import com.jims.sys.entity.OrgRole;
 import com.jims.sys.entity.PersionServiceList;
+import com.jims.sys.entity.SysCompany;
 import com.jims.sys.entity.SysService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,29 +23,42 @@ public class PersionServiceListImpl implements PersionServiceListApi {
     @Autowired
     private PersionServiceListBo persionServiceListBo;
 
+
     /**
-     * 根据persionId查询免费的服务
+     * 根据persionId查询服务
+     *
      * @param persionId
      * @return
      */
-    public List<SysService> findListByFlag(String persionId)
-    {
-        return persionServiceListBo.findListByFlag(persionId);
+    public List<SysService> findListByFlag(String persionId) {
+        List<SysService> services = persionServiceListBo.findListByFlag(persionId);
+
+        return services;
     }
 
 
     /**
      * 保存个人购买的服务
-     * @param persionServiceList
      *
+     * @param persionServiceList
      */
-    public String saveService(PersionServiceList persionServiceList){
+    public String saveService(PersionServiceList persionServiceList) {
         String result = "0";
-        try{
+        try {
             persionServiceListBo.saveService(persionServiceList);
             result = "1";
-        } catch (Exception e){
+        } catch (Exception e) {
         }
         return result;
+    }
+
+    /**
+     * 根据组织机构名称查询信息
+     * @param orgName
+     * @return
+     */
+    @Override
+    public SysCompany getOrgName(String orgName) {
+        return persionServiceListBo.getOrgName(orgName);
     }
 }

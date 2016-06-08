@@ -10,6 +10,7 @@ import com.jims.finance.entity.OutpRcptMaster;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 门诊医疗收据记录DAO接口
@@ -46,4 +47,12 @@ public interface OutpRcptMasterDao extends CrudDao<OutpRcptMaster> {
      * @date 2016/5/31 0031
      */
     public OutpRcptMaster findCharge(OutpRcptMaster outpRcptMaster);
+
+    /**
+     * 确认退费
+     * @param map
+     * @return
+     * @author zhaoning
+     */
+    public String confirmBackCharge(Map<String,Object> map);
 }

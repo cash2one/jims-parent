@@ -6,6 +6,7 @@ import com.jims.sys.api.OrgRoleApi;
 import com.jims.sys.api.PersionServiceListApi;
 import com.jims.sys.entity.OrgRole;
 import com.jims.sys.entity.PersionServiceList;
+import com.jims.sys.entity.SysCompany;
 import com.jims.sys.entity.SysService;
 import org.springframework.stereotype.Component;
 
@@ -39,9 +40,21 @@ public class PersionServiceListRest {
     @POST
     public String saveCompanyAndService(PersionServiceList persionServiceList) {
         if (persionServiceList!=null) {
-             persionServiceListApi.saveService(persionServiceList);
-             return "1";
+            persionServiceListApi.saveService(persionServiceList);
+            return "1";
         }
         return "0";
+    }
+
+    /**
+     * 根据组织机构名称查询组织机构id
+     * @param orgName
+     * @return
+     */
+    @GET
+    @Path("getOrgName")
+    public SysCompany getOrgName(@QueryParam("orgName") String orgName)
+    {
+        return persionServiceListApi.getOrgName(orgName);
     }
 }
