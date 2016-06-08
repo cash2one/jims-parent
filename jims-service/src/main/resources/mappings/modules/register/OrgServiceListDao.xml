@@ -32,6 +32,8 @@
              <id property="id" column="menu_id"/>
              <result property="menuName" column="menu_name"/>
              <result property="sort" column="menu_sort"/>
+             <result property="pid" column="pid"/>
+             <result property="href" column="href"/>
          </collection>
     </resultMap>
 
@@ -56,7 +58,7 @@
 	
 	<select id="findList" resultMap="serviceMap">
 		SELECT 
-			a.*,s.service_name,m.id menu_id,m.menu_name,v.menu_sort
+			a.*,s.service_name,m.id menu_id,m.menu_name,v.menu_sort,m.pid,m.href
         FROM org_service_list a ,sys_service s,service_vs_menu v ,menu_dict m
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
