@@ -7,10 +7,7 @@ import com.jims.common.persistence.Page;
 import com.jims.common.utils.StringUtils;
 import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.api.PersionInfoApi;
-import com.jims.sys.entity.Dict;
-import com.jims.sys.entity.OrgStaff;
-import com.jims.sys.entity.PersionInfo;
-import com.jims.sys.entity.SysUser;
+import com.jims.sys.entity.*;
 import com.jims.sys.vo.OrgStaffVo;
 import org.springframework.stereotype.Component;
 
@@ -95,8 +92,8 @@ public class OrgStaffRest {
      */
     @Path("findTitleByPersionId")
     @GET
-    public OrgStaff findTitleByPersionId(@QueryParam("persionId") String persionId) {
-        return orgStaffApi.findTitleByPersionId(persionId);
+    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId) {
+        return orgStaffApi.findStaffByPersionId(persionId);
     }
 
 
@@ -127,6 +124,8 @@ public class OrgStaffRest {
         SysUser sysUser = new SysUser();
         sysUser.setPassword(orgStaffVo.getPassword());
         OrgStaff orgStaff = new OrgStaff();
+        String[] array=orgStaffVo.getRole();
+
 
         persionInfo.setPhoneNum(orgStaffVo.getPhoneNum());
         persionInfo.setNickName(orgStaffVo.getNickName());
@@ -143,16 +142,7 @@ public class OrgStaffRest {
         orgStaff.setOrgId(orgStaffVo.getOrgId());
         orgStaff.setTitle(orgStaffVo.getTitle());
         orgStaff.setPersionId(orgStaffVo.getId());
-
-       /* if(StringUtils.isNotEmpty(orgStaffVo.getPassword()))
-        {
-            sysUser.setPassword(orgStaffVo.getPassword());
-        }
-        else {
-
-        }*/
-
-        String num = orgStaffApi.insertOrgStaffAndPersion(persionInfo, sysUser, orgStaff);
+        String num = orgStaffApi.insertOrgStaffAndPersion(persionInfo, sysUser, orgStaff,array);
         if (num != null) {
             StringData stringData = new StringData();
             stringData.setCode(num);
@@ -180,6 +170,35 @@ public class OrgStaffRest {
             stringData.setData("success");
         }
         return stringData;
+    }
+
+    /**
+     *查询人员角色信息
+     *
+     *
+     * @return
+     */
+    @Path("findRole")
+    @GET
+    public List<OrgRole> findRole(@QueryParam("staffId") String staffId) {
+        List<OrgRole> role=orgStaffApi.getRole(staffId);
+        /*StringBuilder sb=new StringBuilder();
+        StringData stringData = new StringData();
+        if (role.size() == 1) {
+            sb.append(role.get(0).getRoleName());
+        } else {
+            for (int i=0;i<role.size();i++)
+            {
+                sb.append(role.get(i).getRoleName()+",");
+            }
+        }
+        if(role.size()>1)
+        {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+       stringData.setData(sb.toString());*/
+       return role;
+
     }
 
 }

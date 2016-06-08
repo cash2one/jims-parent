@@ -6,6 +6,9 @@ import com.jims.common.data.StringData;
 import com.jims.common.utils.StringUtils;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.api.OutPatientCostServiceApi;
+import com.jims.finance.entity.OutpBillItems;
+import com.jims.finance.entity.OutpRcptMaster;
+import com.jims.patient.entity.PatMasterIndex;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -39,11 +42,53 @@ public class OutpatientCostRest {
      * 确认收费
      * @param ids
      * @return
+     * @author zhaoning
      */
     @Path("confirmPay")
     @POST
     public StringData confirmPay(String ids){
         StringData data =new StringData();
+        return data;
+    }
+
+    /**
+     * 根据门诊号，获取退费信息
+     * @param clinicNo
+     * @param orgId
+     * @return
+     * @author zhaoning
+     */
+    @Path("getBackChargeInfo")
+    @GET
+    public List<OutpRcptMaster> getBackChargeInfo(@QueryParam("clinicNo")String clinicNo,@QueryParam("orgId")String orgId){
+         List<OutpRcptMaster> list=outPatientCostApi.getBackChargeInfo(clinicNo,orgId);
+        return list;
+    }
+
+    /**
+     * 根据收据号加载 费用项目
+     * @param rcptNO
+     * @return
+     * @author zhaoning
+     */
+    @Path("getBackChargeItems")
+    @GET
+    public List<OutpBillItems> getBackChargeItems(@QueryParam("rcptNO")String rcptNO){
+        List<OutpBillItems> outpBillItemses=outPatientCostApi.getBackChargeItems(rcptNO);
+        return  outpBillItemses;
+    }
+
+    /**
+     * 确认退费
+     * @param rcptNO
+     * @return
+     * @author zhaoning
+     */
+    @Path("confirmBackCharge")
+    @POST
+    public StringData confirmBackCharge(String rcptNO){
+        StringData data=new StringData();
+        data.setCode(outPatientCostApi.confirmBackChar(rcptNO));
         return data;
     }
 }

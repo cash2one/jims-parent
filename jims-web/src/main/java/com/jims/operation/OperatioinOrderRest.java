@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * OperatioinOrderRest
+ * 住院-手术预约
  *
  * @author PangQian
  * @date2016/5/12 0012
  */
 @Component
-@Produces(MediaType.APPLICATION_JSON)
+@Produces("application/json")
 @Path("operatioinOrder")
 public class OperatioinOrderRest {
     @Reference(version = "1.0.0")

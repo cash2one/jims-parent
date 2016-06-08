@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/nurse/js/newComeIn.js"></script>
+    <style>
+        .bot-medbtn
+        {
+            float:right;
+            padding:15px 10px 0 0;
+        }
+        .bot-medbtn a
+        {
+            display:inline-block;
+            padding:10px;
+
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north'" style="height: 40%;">
+    <form id="masterForm" method="post">
+        <div class="fitem fitem_pop">
+            <label>
+                床号：
+            </label>
+            <input name="name" class="easyui-textbox">
+
+            <label>
+                床标号：
+            </label>
+            <input name="name" class="easyui-textbox">
+            <label>
+                住院号：
+            </label>
+            <input name="age" class="easyui-textbox" >
+            <label>
+                病人标识号：
+            </label>
+            <input name="dateOfBirth" class="easyui-textbox" />
+
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                姓名：
+            </label>
+            <input name="name" class="easyui-textbox">
+
+            <label>
+                性别：
+            </label>
+            <input name="name" class="easyui-textbox">
+            <label>
+                年龄：
+            </label>
+            <input name="age" class="easyui-textbox" >
+            <label>
+                费别：
+            </label>
+            <input name="dateOfBirth" class="easyui-textbox" />
+
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                预交金：
+            </label>
+            <input name="name" class="easyui-textbox">
+
+            <label>
+                累计费用：
+            </label>
+            <input name="name" class="easyui-textbox">
+
+
+            <label>
+                入院日期：
+            </label>
+            <input name="age" class="easyui-datetimebox" >
+            <label>
+                入科时间：
+            </label>
+            <input name="dateOfBirth" class="easyui-datetimebox" />
+
+        </div>
+
+        <div class="fitem fitem_pop">
+            <label>
+                入住科室：
+            </label>
+            <input name="age" class="easyui-textbox" >
+            <label>
+                医生：
+            </label>
+            <input name="dateOfBirth" class="easyui-textbox" />
+
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                护理等级：
+            </label>
+            <input name="age" class="easyui-textbox" >
+            <label>
+                病情：
+            </label>
+            <input name="dateOfBirth" class="easyui-textbox" />
+
+            <label>
+                上级医生：
+            </label>
+            <input name="dateOfBirth" class="easyui-textbox" />
+
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                入院身高：
+            </label>
+            <input name="age" class="easyui-textbox" >
+            <label>
+                入院体重：
+            </label>
+            <input name="dateOfBirth" class="easyui-textbox" />
+            <label>
+                主任医生：
+            </label>
+            <input name="dateOfBirth" class="easyui-textbox" />
+
+        </div>
+        <div class="fitem fitem_pop">
+            <label>
+                诊断：
+            </label>
+            <input name="age" class="easyui-textbox" >
+            <label>
+                发病日期：
+            </label>
+            <input name="dateOfBirth" class="easyui-datetimebox" />
+
+
+        </div>
+        </form>
+    </div>
+<div data-options="region:'center'" >
+    <table id="waitList">
+
+    </table>
+</div>
+<div data-options="region:'south'" style="height: 10%;">
+    <div class="bot-medbtn">
+        <a href="#" onclick="confirmFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确定</a>
+
+    </div>
+</div>
+</body>
+</html>

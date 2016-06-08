@@ -2,18 +2,18 @@ $(function () {
     var registerVo = {};
 
     //文本框获取焦点的时候，显示
-     $("#name").focus(function () {
-     $("#res-name").text("*请输入正确的姓名");
-     $("#res-name").css("color", "gray");
-     });
-     //判断用户名不能为空
-     $("#name").blur(function (){
-     if ($('#name').val() == "") {
-     $("#res-name").text("*姓名不能为空");
-     $("#res-name").css("color", "red");
-     return false;
-     }
-     });
+    $("#name").focus(function () {
+        $("#res-name").text("*请输入正确的姓名");
+        $("#res-name").css("color", "gray");
+    });
+    //判断用户名不能为空
+    $("#name").blur(function (){
+        if ($('#name').val() == "") {
+            $("#res-name").text("*姓名不能为空");
+            $("#res-name").css("color", "red");
+            return false;
+        }
+    });
 
     if(registerVo){
         //添加注册信息
@@ -107,7 +107,7 @@ $(function () {
 
     //文本框获取焦点的时候，显示
     $("#nickName").focus(function () {
-        $("#res-nick").text("*6-12位数字字符");
+        $("#res-nick").text("*6-12位字符");
         $("#res-nick").css("color", "gray");
     });
 
@@ -121,21 +121,16 @@ $(function () {
             return false;
         }
         if (name.length < 6) {
-            $("#res-nick").text("*请输入正确长度的数字");
+            $("#res-nick").text("*请输入正确长度的字符");
             $("#res-nick").css("color", "red");
             return false;
         }
         if (name.length > 12) {
-            $("#res-nick").text("*请输入正确长度的数字");
+            $("#res-nick").text("*请输入正确长度的字符");
             $("#res-nick").css("color", "red");
             return false;
         }
-        if(isNaN(name))
-        {
-            $("#res-nick").text("*请输入正确长度的数字");
-            $("#res-nick").css("color", "red");
-            return false;
-        }
+
         jQuery.ajax({
             'type': 'POST',
             'url': "/service/register/getNick",
@@ -209,7 +204,7 @@ $(function () {
     //文本框获取焦点的时候，显示
     $("#phoneNum").blur(function () {
         var phone = $("#phoneNum").val();
-            registerVo.phoneNum=phone;
+        registerVo.phoneNum=phone;
         if ($("#phoneNum").val() == "") {
             $("#res-phone").text("*手机号不能为空");
             return false;

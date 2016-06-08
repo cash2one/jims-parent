@@ -41,6 +41,12 @@ create table OUTP_PRESC
    SKIN_FLAG            VARCHAR2(64 CHAR),
    PRESC_PSNO           NUMBER(2),
    SKIN_RESULT          VARCHAR2(64 CHAR),
+   DISPENSARY_SUB       VARCHAR2(64 CHAR),
+   DECOCTION            NUMBER(1),
+   DRUG_PRESC_DATE      TIMESTAMP,
+   DRUG_PRESC_NO        NUMBER(5),
+   NEWVISIT_DATE        TIMESTAMP,
+   NEWVISIT_NO          NUMBER(5),
    CREATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(64 CHAR),
    UPDATE_DATE          TIMESTAMP,
@@ -125,10 +131,14 @@ comment on column OUTP_PRESC.FREQ_DETAIL is
 
 comment on column OUTP_PRESC.GETDRUG_FLAG is
 '取药标志';
-
+comment on column OUTP_PRESC.DECOCTION is
+ '处方代煎';
+comment on column OUTP_PRESC.DRUG_PRESC_DATE is
+'发药处方日期';
+comment on column OUTP_PRESC.DRUG_PRESC_NO is
+'发药处方号';
 comment on column OUTP_PRESC.CREATE_DATE is
 '创建日期';
-
 comment on column OUTP_PRESC.CREATE_BY is
 '创建人';
 

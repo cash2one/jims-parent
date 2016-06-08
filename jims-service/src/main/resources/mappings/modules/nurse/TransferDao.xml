@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.nurse.dao.TransferDao">
+    
+	<sql id="transferColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.org_id AS "orgId",
+		a.visit_id AS "visitId",
+		a.dept_stayed AS "deptStayed",
+		a.admission_date_time AS "admissionDateTime",
+		a.discharge_date_time AS "dischargeDateTime",
+		a.dept_transfered_to AS "deptTransferedTo",
+		a.doctor_in_charge AS "doctorInCharge",
+		a.dept_code_lend AS "deptCodeLend",
+		a.trans_flag AS "transFlag",
+		a.ywlsh AS "ywlsh",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="transferJoins">
+	</sql>
+    
+	<select id="get" resultType="Transfer">
+		SELECT 
+			<include refid="transferColumns"/>
+		FROM transfer a
+		<include refid="transferJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Transfer">
+		SELECT 
+			<include refid="transferColumns"/>
+		FROM transfer a
+		<include refid="transferJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Transfer">
+		SELECT 
+			<include refid="transferColumns"/>
+		FROM transfer a
+		<include refid="transferJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO transfer(
+			id,
+			patient_id,
+			org_id,
+			visit_id,
+			dept_stayed,
+			admission_date_time,
+			discharge_date_time,
+			dept_transfered_to,
+			doctor_in_charge,
+			dept_code_lend,
+			trans_flag,
+			ywlsh,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{orgId},
+			#{visitId},
+			#{deptStayed},
+			#{admissionDateTime},
+			#{dischargeDateTime},
+			#{deptTransferedTo},
+			#{doctorInCharge},
+			#{deptCodeLend},
+			#{transFlag},
+			#{ywlsh},
+			#{createDate},
+			#{createBy.id},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE transfer SET 	
+			patient_id = #{patientId},
+			org_id = #{orgId},
+			visit_id = #{visitId},
+			dept_stayed = #{deptStayed},
+			admission_date_time = #{admissionDateTime},
+			discharge_date_time = #{dischargeDateTime},
+			dept_transfered_to = #{deptTransferedTo},
+			doctor_in_charge = #{doctorInCharge},
+			dept_code_lend = #{deptCodeLend},
+			trans_flag = #{transFlag},
+			ywlsh = #{ywlsh},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE transfer SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import com.jims.sys.api.SysServiceApi;
 import com.jims.sys.bo.SysServiceBo;
+import com.jims.sys.entity.ServiceVsMenu;
 import com.jims.sys.entity.SysService;
 import com.jims.sys.entity.SysServicePrice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +26,16 @@ public class SysServiceImpl implements SysServiceApi {
     /**
      * 保存修改
      * @param sysService
-     * @param savePath
      * @return
      * @author txb
      * @version 2016-05-31
      */
     @Override
-    public String save(SysService sysService,String savePath) {
-
-        return sysServiceBo.save(sysService,savePath);
+    public String save(SysService sysService) {
+        if (sysService.getServiceImage() == null){
+            sysService.setServiceImage(sysServiceBo.get(sysService.getId()).getServiceImage());
+        }
+        return sysServiceBo.save(sysService);
     }
     /**
      * 修改保存服务明细
@@ -44,6 +46,17 @@ public class SysServiceImpl implements SysServiceApi {
      */
     public String saveDetail(DrugCatalogChangeVo priceBeanVo){
         return sysServiceBo.saveDetail(priceBeanVo);
+    }
+    /**
+     * 修改保存服务菜单
+     * @param serviceVsMenus
+     * @return
+     * @author txb
+     * @version 2016-06-02
+     */
+    @Override
+    public String saveServiceVsMenu(List<ServiceVsMenu> serviceVsMenus) {
+        return sysServiceBo.saveServiceVsMenu(serviceVsMenus);
     }
 
     /**
@@ -87,6 +100,28 @@ public class SysServiceImpl implements SysServiceApi {
     @Override
     public List<SysService> serviceListByTC(String serviceType, String serviceClass) {
         return sysServiceBo.serviceListByTC(serviceType,serviceClass);
+    }
+    /**
+     * 查询服务全部菜单
+     * @param serviceId 服务id
+     * @return
+     * @author txb
+     * @version 2016-06-02
+     */
+    @Override
+    public List<ServiceVsMenu> serviceVsMenuList(String serviceId) {
+        return sysServiceBo.serviceVsMenuList(serviceId);
+    }
+
+
+    /**
+     * 检索不同人群的服务
+     * @param serviceClass 服务人群 1,个人服务，0机构服务
+     * @param serviceType  服务类型
+     * @return
+     */
+    public List<SysService> findServiceWithPrice(String serviceClass,String serviceType){
+        return sysServiceBo.findServiceWithPrice(serviceClass,serviceType);
     }
 
     ;

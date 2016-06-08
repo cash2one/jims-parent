@@ -33,4 +33,6 @@ public interface OutpAcctMasterServiceApi {
      */
     public String saveOutpAcct(OutpRcptMaster outpRcptMaster);
 
+
+
 }

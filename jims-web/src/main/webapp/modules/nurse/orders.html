@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html class="panel-fit"><head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../nurse/js/orders.js"></script>
+</head>
+<body class="easyui-layout" >
+
+<div class="search-standard clearfix">
+
+        <ul class="clearfix">
+            <form id="baseInfo">
+            <li>床标号:<input id="bedNo" class="validatebox-text" readonly/></li>
+            <li>姓名:<input id="name" class="validatebox-text" readonly/></li>
+            <li>性别:<input id="sex" class="validatebox-text" readonly/></li>
+            <li>年龄:<input id="age" class="validatebox-text" readonly/></li>
+            <li>病人Id号:<input id="patientId" class="validatebox-text" readonly/></li>
+            <li>预交金:<input id="surplusMoney" class="validatebox-text" readonly/></li>
+            <li>费别:<input id="price" class="validatebox-text" readonly/></li>
+            <li>诊断:<input id="diagnose" class="validatebox-text" readonly/></li>
+            <li>经治医生:<input id="doctor" class="validatebox-text" readonly/></li>
+            </form>
+            <form name="searchform" method="post" id ="searchform">
+            <li>
+               长期/临时:
+                <input type="radio" name="repeatIndicator"  checked="checked" value="1" />全部
+                <input type="radio" name="repeatIndicator" value="2"  />长期
+                <input type="radio" name="repeatIndicator" value="3"  />临时
+                <input type="radio" name="repeatIndicator" value="4"  />当日医嘱
+            </li>
+            <li>
+                医嘱状态:
+                <input type="radio" name="orderStatus"  checked="checked" value="1" />全部 &nbsp;&nbsp;
+                <input type="radio" name="orderStatus" value="2"  />新开
+                <input type="radio" name="orderStatus" value="3"  />执行
+                <input type="radio" name="orderStatus" value="4"  />已停
+            </li>
+            </form>
+            <li><a id="submit_search">查询</a></li>
+
+        </ul>
+
+
+</div>
+<div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
+        <div class="bot-medbtn">
+            <a href="#" onclick="addPre()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">临时医嘱执行</a>
+            <a href="#" onclick="savePre()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+            <a href="#" onclick="destroyPre()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">校对</a>
+
+        </div>
+</div>
+<table id="orderList" width="100%"   cellspacing="0" cellpadding="0" >
+
+</table>
+
+<table id="orderCostList" width="100%"   cellspacing="0" cellpadding="0" >
+
+</table>
+<div id="ordersDialog"  >
+    <div id="ordersDatagrid">
+    </div>
+</div>
+</body>
+</html>

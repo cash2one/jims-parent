@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.nurse.dao.AdtLogDao">
+    
+	<sql id="adtLogColumns">
+		a.id AS "id",
+		a.ward_code AS "wardCode",
+		a.dept_code AS "deptCode",
+		a.log_date_time AS "logDateTime",
+		a.patient_id AS "patientId",
+		a.org_id AS "orgId",
+		a.visit_id AS "visitId",
+		a.action AS "action",
+		a.operator_no AS "operatorNo"
+	</sql>
+	
+	<sql id="adtLogJoins">
+	</sql>
+    
+	<select id="get" resultType="AdtLog">
+		SELECT 
+			<include refid="adtLogColumns"/>
+		FROM adt_log a
+		<include refid="adtLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AdtLog">
+		SELECT 
+			<include refid="adtLogColumns"/>
+		FROM adt_log a
+		<include refid="adtLogJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AdtLog">
+		SELECT 
+			<include refid="adtLogColumns"/>
+		FROM adt_log a
+		<include refid="adtLogJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO adt_log(
+			id,
+			ward_code,
+			dept_code,
+			log_date_time,
+			patient_id,
+			org_id,
+			visit_id,
+			action,
+			operator_no
+		) VALUES (
+			#{id},
+			#{wardCode},
+			#{deptCode},
+			#{logDateTime},
+			#{patientId},
+			#{orgId},
+			#{visitId},
+			#{action},
+			#{operatorNo}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE adt_log SET 	
+			ward_code = #{wardCode},
+			dept_code = #{deptCode},
+			log_date_time = #{logDateTime},
+			patient_id = #{patientId},
+			org_id = #{orgId},
+			visit_id = #{visitId},
+			action = #{action},
+			operator_no = #{operatorNo}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM adt_log
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
