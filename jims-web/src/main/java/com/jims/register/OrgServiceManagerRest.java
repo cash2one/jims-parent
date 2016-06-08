@@ -94,12 +94,4 @@ public class OrgServiceManagerRest {
     public List<OrgSelfServiceVsMenuVo> findSelfServiceVsMenu(@QueryParam("orgId") String orgId){
         return api.findSelfServiceMenu(orgId);
     }
-
-    @POST
-    @Path("save")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public String save(FormDataMultiPart form){
-
-        return null;
-    }
 }
