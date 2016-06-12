@@ -3,9 +3,8 @@
  */
 package com.jims.patient.api;
 
-import com.jims.common.web.impl.BaseDto;
+import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.patient.entity.PatMasterIndex;
-import com.jims.patient.entity.PatVisit;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public interface PatMasterIndexServiceApi {
      * @date 2016-06-06 09:23:31
      * @return
      */
-    public List<BaseDto> findWaitFrom();
+    public List<ComeDeptVo> findWaitFrom();
 
 }
 

@@ -297,7 +297,7 @@
 			</if>
 		</where>
 	</update>
-	<select id="findWaitFrom" resultType="com.jims.common.web.impl.BaseDto">
+	<select id="findWaitFrom" resultType="com.jims.clinic.vo.ComeDeptVo">
 		  SELECT pmi.NAME as 'name',
          pmi.PATIENT_ID as 'patientId',
          pit.DEPT_TRANSFERED_FROM as 'deptTransferedFrom',

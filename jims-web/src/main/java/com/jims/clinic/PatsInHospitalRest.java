@@ -3,6 +3,7 @@ package com.jims.clinic;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.clinic.api.PatsInHospitalServiceApi;
+import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.data.StringData;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.patient.api.PatMasterIndexServiceApi;
@@ -30,8 +31,8 @@ public class PatsInHospitalRest {
     PatsInHospitalServiceApi patsInHospitalServiceApi;
     @Path("patientlist")
     @GET
-    public List<BaseDto> patientlist(){
-        List<BaseDto> list = Lists.newArrayList();
+    public List<ComeDeptVo> patientlist(){
+        List<ComeDeptVo> list = Lists.newArrayList();
         try {
             list = patMasterIndexServiceApi.findWaitFrom();
         }catch (Exception e){

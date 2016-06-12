@@ -12,5 +12,12 @@ import com.jims.nurse.entity.LendBedLog;
  */
 @MyBatisDao
 public interface LendBedLogDao extends CrudDao<LendBedLog> {
+
+    /**
+     * 根据参数更新数据
+     * @param lendBedLog
+     * @return
+     */
+    public int updateByParam(LendBedLog lendBedLog);
 	
 }

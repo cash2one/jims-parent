@@ -104,5 +104,8 @@
 		DELETE FROM lend_bed_log
 		WHERE id = #{id}
 	</update>
+	<update id="updateByParam">
+		update lend_bed_log SET Lend_end_date = #{lendEndDate} Where patient_id =#{patientId} And Visit_id =#{visitId} And ward_code =#{wardCode}
+	</update>
 	
 </mapper>

@@ -10,6 +10,7 @@ import com.jims.clinic.dao.PatVisitDao;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.EmrDiagnosis;
 import com.jims.clinic.entity.PatsInHospital;
+import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.utils.StringUtils;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.dao.PatsInTransferringDao;
@@ -145,7 +146,7 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
      * @return
      */
     @Override
-    public List<BaseDto> findWaitFrom() {
+    public List<ComeDeptVo> findWaitFrom() {
         return dao.findWaitFrom();
     }
 

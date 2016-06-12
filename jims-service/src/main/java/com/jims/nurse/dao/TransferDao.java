@@ -12,5 +12,11 @@ import com.jims.nurse.entity.Transfer;
  */
 @MyBatisDao
 public interface TransferDao extends CrudDao<Transfer> {
+    /**
+     * 病人转科时更新
+     * @param transfer
+     * @return
+     */
+    public int updateInfo(Transfer transfer);
 	
 }

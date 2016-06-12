@@ -3,6 +3,7 @@
  */
 package com.jims.clinic.dao;
 
+import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.common.persistence.CrudDao;
@@ -34,6 +35,6 @@ public interface PatMasterIndexDao extends CrudDao<PatMasterIndex> {
      * @date 2016-06-06 09:23:31
      * @return
      */
-    public List<BaseDto> findWaitFrom();
+    public List<ComeDeptVo> findWaitFrom();
 	
 }

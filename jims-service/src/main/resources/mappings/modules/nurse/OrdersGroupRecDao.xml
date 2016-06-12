@@ -104,5 +104,11 @@
 		DELETE FROM orders_group_rec
 		WHERE id = #{id}
 	</update>
+
+	<delete id="deleteByParentId">
+		DELETE From ORDERS_group_REC Where patient_id = #{patientId}
+	</delete>
+
+
 	
 </mapper>
