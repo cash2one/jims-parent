@@ -7,7 +7,7 @@ $(function () {
         $("#res-name").css("color", "gray");
     });
     //判断用户名不能为空
-    $("#name").blur(function (){
+    $("#name").blur(function () {
         if ($('#name').val() == "") {
             $("#res-name").text("*姓名不能为空");
             $("#res-name").css("color", "red");
@@ -15,16 +15,17 @@ $(function () {
         }
     });
 
-    if(registerVo){
-        //添加注册信息
-        $("#btnSubmit").click(function () {
-            registerVo.name = $("#name").val();
-            registerVo.cardNo = $("#cardNo").val();
-            registerVo.nickName = $("#nickName").val();
-            registerVo.email = $("#email").val();
-            registerVo.phoneNum = $("#phoneNum").val();
-            registerVo.password = $("#password").val();
 
+    //添加注册信息
+    $("#btnSubmit").click(function () {
+        registerVo.name = $("#name").val();
+        registerVo.cardNo = $("#cardNo").val();
+        registerVo.nickName = $("#nickName").val();
+        registerVo.email = $("#email").val();
+        registerVo.phoneNum = $("#phoneNum").val();
+        registerVo.password = $("#password").val();
+
+        if (registerVo.cardNo != "" && registerVo.name != "" && registerVo.email != "" && registerVo.nickName != "" && registerVo.password != "" && registerVo.phoneNum != "") {
             jQuery.ajax({
                 'type': 'POST',
                 'url': "/service/register/add-info",
@@ -32,26 +33,27 @@ $(function () {
                 'data': JSON.stringify(registerVo),
                 'dataType': 'json',
                 'success': function (data) {
-                    if (data.data=="success") {
+                    if (data.data == "success") {
 
-                        if(confirm("注册成功，是否跳转到登录页面，进行登录"))
-                        {
+                        if (confirm("注册成功，是否跳转到登录页面，进行登录")) {
                             window.location.href = "/modules/sys/login.html";
                         }
 
-                    } else
-                    {
+                    } else {
                         alert("注册失败");
                     }
+                    //  return true;
                 },
+
                 'error': function (data) {
                     console.log("失败");
                 }
             });
+        } else {
+            alert("请先填写注册的信息");
+        }
 
-        });
-    }
-
+    });
 
 
     //文本框获取焦点的时候，显示
@@ -204,7 +206,7 @@ $(function () {
     //文本框获取焦点的时候，显示
     $("#phoneNum").blur(function () {
         var phone = $("#phoneNum").val();
-        registerVo.phoneNum=phone;
+        registerVo.phoneNum = phone;
         if ($("#phoneNum").val() == "") {
             $("#res-phone").text("*手机号不能为空");
             return false;
@@ -240,10 +242,6 @@ $(function () {
         });
         return true;
     });
-
-
-
-
 
 
     //文本框获取焦点的时候，显示

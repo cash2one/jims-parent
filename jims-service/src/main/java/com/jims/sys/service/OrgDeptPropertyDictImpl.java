@@ -37,8 +37,8 @@ public class OrgDeptPropertyDictImpl extends CrudImplService<OrgDeptPropertyDict
      * @return
      */
     @Override
-    public List<OrgDeptPropertyDict> findNameByType(String propertyType) {
-        return dao.findNameByType(propertyType);
+    public List<OrgDeptPropertyDict> findNameByType(String propertyType,String orgId) {
+        return dao.findNameByType(propertyType,orgId);
     }
 
     /**
@@ -57,8 +57,8 @@ public class OrgDeptPropertyDictImpl extends CrudImplService<OrgDeptPropertyDict
      * @return
      */
     @Override
-    public List<OrgDeptPropertyDict> findProperty() {
-        return dao.findProperty();
+    public List<OrgDeptPropertyDict> findProperty(String orgId) {
+        return dao.findProperty(orgId);
     }
 
     /**
@@ -87,8 +87,8 @@ public class OrgDeptPropertyDictImpl extends CrudImplService<OrgDeptPropertyDict
      * @return
      */
     @Override
-    public List<OrgDeptPropertyDict> findName(String propertyType) {
-        return dao.findName(propertyType);
+    public List<OrgDeptPropertyDict> findName(String propertyType,String orgId) {
+        return dao.findName(propertyType,orgId);
     }
 
     /**
@@ -96,8 +96,8 @@ public class OrgDeptPropertyDictImpl extends CrudImplService<OrgDeptPropertyDict
      * @return
      */
     @Override
-    public OrgDeptPropertyDict findSort() {
-        return dao.findSort();
+    public OrgDeptPropertyDict findSort(String orgId) {
+        return dao.findSort(orgId);
     }
 
 
