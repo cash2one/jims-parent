@@ -251,11 +251,10 @@ $(function () {
         company.email = $("#email").val();
         company.linkMan=$("#linkMan").val();
         company.owner = currentPersonId;
-        company.applyStatus = '1';
         company.serviceList = saveData
         var name = $("#orgName").val();
 
-        jQuery.ajax({
+        $.ajax({
             'type': 'POST',
             'url': "/service/sys-company/saveCompanyAndService",
             'contentType': 'application/json',
