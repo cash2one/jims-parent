@@ -93,24 +93,20 @@ $(function () {
             }
         }]]
     });
-
     /**
-     * 服务弹出框
+     * 服务名称
      */
-    $("#serviceDialog").dialog({
-        title: '基础服务增加',
-        width: 1000,
-        height: 350,
-        closed:true
-
-    });
-
+    $("#serviceName").textbox({
+            width:'200px'
+        }
+    );
     /**
      * 服务类型
      */
     $("#serviceType").combobox({
         valueField:"value",
         textField:"text",
+        width:'200px',
         data: [{
             text: '无偿服务',
             value: "0"
@@ -126,6 +122,7 @@ $(function () {
     $("#serviceClass").combobox({
         valueField:'value',
         textField:'text',
+        width:'200px',
         data: [{
             text: '机构服务',
             value: "0"
@@ -137,6 +134,17 @@ $(function () {
             text: '所有服务',
             value: "2"
         }]
+    });
+
+    /**
+     * 服务弹出框
+     */
+    $("#serviceDialog").dialog({
+        title: '基础服务增加',
+        width: 1000,
+        height: 350,
+        closed:true
+
     });
     /**
      * 服务定位
@@ -374,14 +382,8 @@ $(function () {
                         text:"年",
                         value:"年"
                     },{
-                        text:"季",
-                        value:"季"
-                    },{
                         text:"月",
                         value:"月"
-                    },{
-                        text:"日",
-                        value:"日"
                     }]
                 }
             }
@@ -409,8 +411,19 @@ $(function () {
      */
     $("#addDetailBtn").on("click", function () {
         stopEdit();
+        var rows = $("#serviceDetailDg").datagrid("getRows");
+        console.log(rows.length)
+        if(rows.length >= 2){
+            $.messager.alert("提示","最多只能添加一个月价格，一个年价格","error");
+            return;
+        }
         var row = $("#serviceDg").datagrid("getSelected");
-        $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'月'});
+        if(rows.length ==0){
+            $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'月'});
+        }else{
+            $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'年'});
+
+        }
         var rows = $("#serviceDetailDg").datagrid("getRows");
         var addRowIndex = $("#serviceDetailDg").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;
@@ -459,10 +472,34 @@ $(function () {
      * 基础服务价格保存
      */
     $("#submitDetailBtn").on("click",function(){
+        var flag = 0;
 
         if (editIndex || editIndex == 0) {
             $("#serviceDetailDg").datagrid("endEdit", editIndex);
         }
+        var rows = $("#serviceDetailDg").datagrid("getRows");
+        if(rows.length == 0){
+            $.messager.alert("提示","请添加一条数据","error");
+            return;
+        }else{
+            $.each(rows, function (index,row) {
+                if(!row.servicePrice){
+                    flag = 1;
+                }
+            });
+
+        if(flag == 1){
+            $.messager.alert("提示","添加服务价格","error");
+            return;
+        }
+        }
+        if(rows.length >= 2){
+            if(rows[0].serviceTimeLimit == rows[1].serviceTimeLimit){
+                $.messager.alert("提示","最多只能添加一个月价格，一个年价格","error");
+                return;
+            }
+        }
+
         var insertData = $("#serviceDetailDg").datagrid("getChanges", "inserted");
         var updateDate = $("#serviceDetailDg").datagrid("getChanges", "updated");
         var deleteDate = $("#serviceDetailDg").datagrid("getChanges", "deleted");
@@ -595,12 +632,16 @@ $(function () {
         $('#serviceMenuTree').tree('collapseAll');
     });
     /**
-     *全部折叠
+     *菜单查询
      */
     $("#menuSelectBtn").on("click", function () {
-        var node = $('#serviceMenuTree').tree('find','35E111DB41F9420B9B19B200A41488CB');
-        $('#serviceMenuTree').tree('expandTo', node.target);
-        $('#serviceMenuTree').tree('scrollTo', node.target).tree('select', node.target);
+        var menuName = $("#searchMenu").textbox("getValue");
+        if(menuName){
+            //调用查询方法 返回id
+            var node = $('#serviceMenuTree').tree('find','35E111DB41F9420B9B19B200A41488CB');
+            $('#serviceMenuTree').tree('expandTo', node.target);
+            $('#serviceMenuTree').tree('scrollTo', node.target).tree('select', node.target);
+        }
     });
 
     /**
