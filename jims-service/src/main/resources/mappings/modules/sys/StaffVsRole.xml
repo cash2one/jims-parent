@@ -51,6 +51,15 @@
         </choose>
     </select>
 
+    <select id="findServiceId" resultType="OrgRoleVsService">
+        SELECT
+        DISTINCT org_role_vs_service.service_id,org_role_vs_service.id
+        FROM staff_vs_role,org_role_vs_service
+        WHERE staff_vs_role.role_id = org_role_vs_service.role_id
+        AND staff_vs_role.del_flag = '0' AND org_role_vs_service.del_flag = '0'
+        AND staff_vs_role.staff_id = #{staffId}
+    </select>
+
     <insert id="insert">
         INSERT INTO staff_vs_role(
         <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">

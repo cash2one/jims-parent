@@ -255,4 +255,16 @@ public class SysServiceRest {
         return sysServiceApi.findServiceWithPrice(serviceClass,serviceType);
     }
 
+    /**
+     * 根据id查询服务
+     * @param id 服务ID
+     * @return 服务
+     * @author fengyuguang
+     */
+    @GET
+    @Path("get")
+    public SysService get(@QueryParam("id")String id){
+        return sysServiceApi.get(id);
+    }
+
 }

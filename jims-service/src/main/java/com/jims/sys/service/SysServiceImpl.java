@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import com.jims.sys.api.SysServiceApi;
 import com.jims.sys.bo.SysServiceBo;
+import com.jims.sys.dao.SysServiceDao;
 import com.jims.sys.entity.ServiceVsMenu;
 import com.jims.sys.entity.SysService;
 import com.jims.sys.entity.SysServicePrice;
@@ -21,7 +22,8 @@ import java.util.List;
 public class SysServiceImpl implements SysServiceApi {
     @Autowired
     private SysServiceBo sysServiceBo;
-
+    @Autowired
+    private SysServiceDao sysServiceDao;
 
     /**
      * 保存修改
@@ -120,6 +122,17 @@ public class SysServiceImpl implements SysServiceApi {
      */
     public List<SysService> findServiceWithPrice(String serviceClass,String serviceType){
         return sysServiceBo.findServiceWithPrice(serviceClass,serviceType);
+    }
+
+    /**
+     * 根据id查询服务
+     * @param id 服务ID
+     * @return 服务
+     * @author fengyuguang
+     */
+    @Override
+    public SysService get(String id) {
+        return sysServiceDao.get(id);
     }
 
     ;

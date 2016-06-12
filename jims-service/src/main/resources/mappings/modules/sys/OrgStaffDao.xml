@@ -18,7 +18,6 @@
 	
 	<sql id="orgStaffJoins">
 	</sql>
-    
 
     <select id="get" resultType="OrgStaff">
         SELECT
@@ -26,14 +25,33 @@
         FROM org_staff a
 
         WHERE a.id = #{id}
-</select>
+    </select>
 
-    <select id="findTitleByPersionId" resultType="OrgStaff">
+    <select id="findStaffByPersionId" resultType="OrgStaff">
         SELECT
         *
         FROM org_staff a
 
         WHERE a.persion_id = #{1}
+    </select>
+
+    <select id="findStaffByPersonIdOrgId" resultType="OrgStaff">
+        SELECT
+        *
+        FROM org_staff a
+
+        WHERE a.persion_id = #{0}
+        AND a.org_id = #{1}
+        AND a.del_flag = '0'
+    </select>
+
+    <select id="findByRoleServiceId" resultType="RoleServiceMenuVsMenuDictVo">
+        SELECT rsm.menu_id,rsm.role_service_id,md.menu_name,rsm.menu_operate,md.href,md.sort,md.pid,md.menu_level
+        FROM role_service_menu rsm,menu_dict md
+        WHERE rsm.menu_id = md.id
+        AND rsm.role_service_id = #{roleServiceId}
+        AND rsm.del_flag = '0'
+        AND md.del_flag = '0'
     </select>
 
     <select id="getByPersionId" resultType="OrgStaff">
