@@ -295,23 +295,31 @@ $(function() {
         var node = $('#selectedMenu').tree('getSelected');
         if(node){
             operatorFlag = true    // 使用来控制取消菜单选择界面
-            var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
+            var treeNum = $('#selectServiceMenu .easyui-tree').length
             var parent;
             var child;
             do{
                 parent = $('#selectedMenu').tree('getParent',node.target);
                 $('#selectedMenu').tree('remove',node.target);
-                var n = $('#tree'+index).tree('find',node.id);
-                if(n)
-                    $('#tree'+index).tree('uncheck',n.target);
-                if(parent){
-                    if($('#tree'+index).tree('isLeaf',  $('#tree'+index).tree('find', parent.id).target)){
-                        node = undefined;
+                for(var i=0;i<treeNum;i++){
+                    var n = $('#tree'+i).tree('find',node.id);
+                    if(n){
+                        $('#tree'+i).tree('uncheck',n.target);
                         break;
                     }
-                    child = $('#selectedMenu').tree('getChildren',parent.target)
                 }
-                node = parent;
+                for(var i=0;i<treeNum;i++){
+                    if(parent && $('#tree'+i).tree('find', parent.id)){
+                        if($('#tree'+i).tree('isLeaf',  $('#tree'+i).tree('find', parent.id).target)){
+                            node = undefined;
+                            break;
+                        }
+                        if(i == treeNum - 1)
+                            child = $('#selectedMenu').tree('getChildren',parent.target);
+                    }
+                }
+                if(node)
+                    node = parent;
             } while(node && (!child || child.length == 0))
 
             operatorFlag = false
