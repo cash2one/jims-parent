@@ -3,6 +3,7 @@ package com.jims.sys.api;
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.*;
 import com.jims.sys.vo.OrgStaffVo;
+import com.jims.sys.vo.RoleServiceMenuVsMenuDictVo;
 
 import java.util.List;
 
@@ -85,6 +86,14 @@ public interface OrgStaffApi {
      */
     public OrgStaff findStaffByPersionId(String persionId);
 
+    /**
+     * 根据人员ID和组织机构ID查询该人员在某家组织机构的员工信息
+     * @param personId 人员ID
+     * @param orgId    组织机构ID
+     * @return 员工信息
+     * @author fengyuguang
+     */
+    public OrgStaff findStaffByPersonIdOrgId(String personId, String orgId);
 
     /**
      * 查询人员角色信息
@@ -92,5 +101,21 @@ public interface OrgStaffApi {
      * @return
      */
     public List<OrgRole> getRole(String staffId);
+
+    /**
+     * 根据员工ID查询员工拥有的角色下所有的服务
+     * @param staffId 员工ID
+     * @return 角色对应服务的list集合
+     * @author fengyuguang
+     */
+    public List<OrgRoleVsService> findServiceId(String staffId);
+
+    /**
+     * 根据roleServiceId查询数据列表
+     * @param roleServiceId org_role_vs_service表的id
+     * @return role_service_menu和menu_dict两个表联查集合
+     * @author fengyuguang
+     */
+    public List<RoleServiceMenuVsMenuDictVo> findByRoleServiceId(String roleServiceId);
 
 }

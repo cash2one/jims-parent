@@ -51,59 +51,59 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
     /**
      * 保存机构自定义的服务
      * @param selfServiceList 自定义服务以及菜单,
-     *                        参数OrgSelfServiceList属性operateFlag
-     *                        为 1 时，属性id为药删除的自定义服务id,多个以‘,’隔开，
-     *                        为 2 时，属性id为药删除的自定义菜单Id,多个以‘,’隔开，
-     *                                  menus属性为修改的菜单（只包含数据库中已有的自定义服务的菜单）
+     *                        参数OrgSelfServiceList属性中
+     *                        delFlag 为 1 时，属性id为药删除的自定义服务id,多个以‘,’隔开，
+     *                        id不为空，orgId为空时，属性menus为服务(id)对应的菜单数据(树形结构)
+     *
      *                        其他值时，为修改的自定义服务，当为添加的自定义服务时，menus为添加的菜单。
      */
     public void saveSelfService(List<OrgSelfServiceList> selfServiceList){
         if(selfServiceList != null || selfServiceList.size() > 0){
             for(OrgSelfServiceList service : selfServiceList){
-                if("1".equals(service.getOperateFlag()) && !"".equals(service.getId())){
+                if("1".equals(service.getDelFlag())){
                     String[] ids = service.getId().split(",");
                     for (int i = 0; i < ids.length; i++){
                         selfServiceDao.delete(ids[i]);
                         selfServiceVsMenuDao.deleteByServiceId(ids[i]);
                     }
-                } else if("2".equals(service.getOperateFlag())){
-                    if(!"".equals(service.getId())){
-                        String[] ids = service.getId().split(",");
-                        for (int i = 0; i < ids.length; i++){
-                            selfServiceVsMenuDao.delete(ids[i]);
-                        }
-                    }
-                    if(service.getMenus() != null && service.getMenus().size() > 0){
-                        List<OrgSelfServiceVsMenu> menus = service.getMenus();
-                        for (int i = 0; i < menus.size(); i++){
-                            OrgSelfServiceVsMenu menu = menus.get(i);
-                            if (menu.getIsNewRecord()){
-                                menu.preInsert();
-                                selfServiceVsMenuDao.insert(menu);
-                            }else{
-                                menu.preUpdate();
-                                selfServiceVsMenuDao.update(menu);
-                            }
-                        }
-                    }
-                } else {
-                    if (service.getIsNewRecord()){
-                        service.preInsert();
-                        selfServiceDao.insert(service);
-                        List<OrgSelfServiceVsMenu> menus = service.getMenus();
-                        if(menus != null) {
-                            for (int i = 0; i < menus.size(); i++) {
-                                OrgSelfServiceVsMenu menu = menus.get(i);
-                                menu.setSelfServiceId(service.getId());
-                                menu.preInsert();
-                                selfServiceVsMenuDao.insert(menu);
-                            }
-                        }
-                    }else{
-                        service.preUpdate();
-                        selfServiceDao.update(service);
-                    }
+                    continue;
                 }
+                if(service.getId() != null && service.getOrgId() == null){
+                    selfServiceVsMenuDao.deleteByServiceId(service.getId());
+                    saveSelfServiceVsMenu(service.getMenus(),service.getId(),null);
+                    continue;
+                }
+                if (service.getIsNewRecord()){
+                    service.preInsert();
+                    selfServiceDao.insert(service);
+                    saveSelfServiceVsMenu(service.getMenus(),service.getId(),null);
+                }else{
+                    service.preUpdate();
+                    selfServiceDao.update(service);
+                }
+            }
+        }
+    }
+
+    /**
+     * 保存自定义服务对应菜单
+     * @param menus 菜单序列
+     * @param selfServiceID 服务ID
+     * @param parentId 菜单父节点
+     */
+    private void saveSelfServiceVsMenu(List<OrgSelfServiceVsMenu> menus,String selfServiceID,String parentId){
+        if(menus != null && menus.size() > 0){
+            for(OrgSelfServiceVsMenu menu : menus){
+                menu.setSelfServiceId(selfServiceID);
+                menu.setPid(parentId);
+                if(menu.getIsNewRecord()){
+                    menu.preInsert();
+                    selfServiceVsMenuDao.insert(menu);
+                }else{
+                    menu.preUpdate();
+                    selfServiceVsMenuDao.update(menu);
+                }
+                saveSelfServiceVsMenu(menu.getChildren(),selfServiceID,menu.getId());
             }
         }
     }
@@ -139,12 +139,38 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
     /**
      * 检索机构自定义菜单
      * @param selfServiceId 自定义服务Id
+     * @param isTree 是否为树形结构
      * @return
      */
-    public List<OrgSelfServiceVsMenu> findSelfServiceVsMenu(String selfServiceId){
+    public List<OrgSelfServiceVsMenu> findSelfServiceVsMenu(String selfServiceId,boolean isTree){
         OrgSelfServiceVsMenu selfServiceVsMenu = new OrgSelfServiceVsMenu();
         selfServiceVsMenu.setSelfServiceId(selfServiceId);
-        return selfServiceVsMenuDao.findList(selfServiceVsMenu);
+        List<OrgSelfServiceVsMenu> menus = selfServiceVsMenuDao.findList(selfServiceVsMenu);
+        if(isTree && menus != null && menus.size() > 1){
+            Map<String,OrgSelfServiceVsMenu> menuMap = new HashMap<String, OrgSelfServiceVsMenu>();
+            List<String> rootList = new ArrayList<String>();
+            List<OrgSelfServiceVsMenu> resultMenus = new ArrayList<OrgSelfServiceVsMenu>();
+            for(int i=0,j=menus.size();i<j;i++){
+                menuMap.put(menus.get(i).getId(),menus.get(i));
+            }
+            for(int i=0,j=menus.size();i<j;i++){
+                String key = menus.get(i).getId();
+                String pid = menuMap.get(key).getPid();
+                if(menuMap.get(pid) != null){
+                    if(menuMap.get(pid).getChildren() == null){
+                        menuMap.get(pid).setChildren(new ArrayList<OrgSelfServiceVsMenu>());
+                    }
+                    menuMap.get(pid).getChildren().add(menuMap.get(key));
+                } else {
+                    rootList.add(key);
+                }
+            }
+            for(int i=0;i<rootList.size();i++){
+                resultMenus.add(menuMap.get(rootList.get(i)));
+            }
+            return resultMenus;
+        }
+        return menus;
     }
 
     public List<OrgSelfServiceVsMenuVo> findSelfServiceMenu(String orgId){

@@ -7,6 +7,7 @@ package com.jims.sys.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.OrgRole;
+import com.jims.sys.entity.OrgRoleVsService;
 import com.jims.sys.entity.OrgStaff;
 import com.jims.sys.entity.StaffVsRole;
 import com.jims.sys.vo.OrgStaffVo;
@@ -30,6 +31,13 @@ public interface StaffVsRoleDao extends CrudDao<StaffVsRole> {
      */
     public List<OrgRole> getRole(@Param("staffId") String staffId);
 
+    /**
+     * 根据员工ID查询员工拥有的角色下所有的服务
+     * @param staffId 员工ID
+     * @return 角色对应服务的list集合
+     * @author fengyuguang
+     */
+    public List<OrgRoleVsService> findServiceId(String staffId);
 
     /**
      * 查询人员角色信息
