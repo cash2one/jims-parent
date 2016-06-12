@@ -15,15 +15,17 @@ if (str.indexOf(name) != -1) {
 }
 var config = {} ;
 
-$.get("/service/sys-sompany/get-sysCompany-by-id?id=" + id, function (data) {
+/*$.get("/service/sys-sompany/get-sysCompany-by-id?id=" + id, function (data) {
     if (data != null) {
         config.org_Id = id;
     }
     else {
         config.service_Id = id;
     }
-});
-
+});*/
+alert(id);
+alert(pid);
+config.org_Id = id;
 config.persion_Id=pid;
 config.operator = 'thinkgem';
 config.currentStorage = '1001';

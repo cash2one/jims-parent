@@ -48,7 +48,7 @@
 	</select>
 
     <select id="findAll" resultType="DeptDict">
-        SELECT * FROM dept_dict  WHERE del_flag = '0'
+        SELECT * FROM dept_dict  WHERE del_flag = '0' and org_id=#{orgId}
 	</select>
 	
 	<insert id="insert">
@@ -58,6 +58,7 @@
 			dept_name,
 			dept_code,
 			dept_propertity,
+			org_id,
 			input_code,
 			remarks,
 			update_by,
@@ -71,6 +72,7 @@
 			#{deptName},
 			#{deptCode},
 			#{deptPropertity},
+			#{orgId},
 			#{inputCode},
 			#{remarks},
 			#{updateBy},
@@ -116,8 +118,14 @@
 				<if test="deptName ==病区">
 					dept_name like concat('%','病区','%')
 				</if>
+
 			</if>
 		</where>
+    </select>
+
+    <select id="findListParent" resultType="DeptDict">
+        SELECT *
+        FROM dept_dict  where org_id=#{orgId}  and del_flag='0'
     </select>
 
 	<select id="findListByCode" resultType="DeptDict">
