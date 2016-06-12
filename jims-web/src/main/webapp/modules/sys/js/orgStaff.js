@@ -9,11 +9,9 @@ $(function () {
 
     //窗体加载时禁用form表单
 
-    var orgId1=parent.parent.config.org_Id;
-    alert("组织   "+orgId1)
 
-
-    var orgId = 1;
+    var orgId =parent.parent.config.org_Id;
+    alert(orgId)
     var deptId;
     var deptName;
     //检查类别

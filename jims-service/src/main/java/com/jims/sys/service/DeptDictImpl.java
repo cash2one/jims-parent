@@ -45,6 +45,14 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
     }
 
     /**
+     * 查询某个机构的上级科室
+     * @return
+     */
+    public List<DeptDict> findListParent(String orgId){
+        return dao.findListParent(orgId) ;
+    }
+
+    /**
      * 查询科室代码下的所以科室
      * @return
      */

@@ -8,6 +8,7 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.OrgDeptPropertyDict;
 import com.jims.sys.entity.SysCompany;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface OrgDeptPropertyDictDao extends CrudDao<OrgDeptPropertyDict> {
      * @param propertyType
      * @return
      */
-    public List<OrgDeptPropertyDict> findNameByType(String propertyType);
+    public List<OrgDeptPropertyDict> findNameByType(@Param("propertyType")String propertyType,@Param("orgId")String orgId);
 
     /**
      * 根据属性类型和属性值查询属性名称
@@ -45,7 +46,7 @@ public interface OrgDeptPropertyDictDao extends CrudDao<OrgDeptPropertyDict> {
      * 查询所有的属性类型
      * @return
      */
-    public List<OrgDeptPropertyDict> findProperty();
+    public List<OrgDeptPropertyDict> findProperty(@Param("orgId") String orgId);
 
     /**
      * 根据条件查询所有的属性信息
@@ -61,16 +62,16 @@ public interface OrgDeptPropertyDictDao extends CrudDao<OrgDeptPropertyDict> {
 
     /**
      * 查询属性名称
-     * @param propertyName
+     * @param propertyType
      * @return
      */
-    public List<OrgDeptPropertyDict> findName(String propertyType);
+    public List<OrgDeptPropertyDict> findName(@Param("propertyType")String propertyType,@Param("orgId")String orgId);
 
     /**
      * 查询最大的排序值
      * @return
      */
-    public OrgDeptPropertyDict findSort();
+    public OrgDeptPropertyDict findSort(@Param("orgId") String orgId);
 
 
 }

@@ -43,7 +43,7 @@ public class DeptDictRest {
         List<DeptDict> list = deptDictApi.findAllList(orgId);
 
         //查询出所有的科室属性的类型
-        List<OrgDeptPropertyDict> listProperty = deptPropertyDictApi.findProperty();
+        List<OrgDeptPropertyDict> listProperty = deptPropertyDictApi.findProperty(orgId);
         if (listProperty.size() > 0) {
             //遍历所有的科室信息
             for (int i = 0; i < list.size(); i++) {
@@ -83,6 +83,19 @@ public class DeptDictRest {
     public List<DeptDict> findParent() {
 
         List<DeptDict> list = deptDictApi.findParent();
+        return list;
+    }
+
+    /**
+     * 查询某个机构上级科室
+     *
+     * @return
+     */
+    @Path("selectParentByOrgId")
+    @POST
+    public List<DeptDict> findParent(@QueryParam("orgId") String orgId) {
+
+        List<DeptDict> list = deptDictApi.findListParent(orgId);
         return list;
     }
 
