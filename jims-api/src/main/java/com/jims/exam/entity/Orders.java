@@ -92,6 +92,7 @@ public class Orders extends DataEntity<Orders> {
 	/*护士端查询*/
     private String name;
 	private Integer bedNo;
+	private String wardCode;
 
 	public String getStopProcessingNurse() {
 		return stopProcessingNurse;
@@ -676,5 +677,14 @@ public class Orders extends DataEntity<Orders> {
 
 	public void setBedNo(Integer bedNo) {
 		this.bedNo = bedNo;
+	}
+
+
+	public String getWardCode() {
+		return wardCode;
+	}
+
+	public void setWardCode(String wardCode) {
+		this.wardCode = wardCode;
 	}
 }

@@ -89,3 +89,20 @@ $(function() {
         $('#orderList').datagrid("load");   //点击搜索
     });
 });
+
+
+//校对
+function proofOrders(){
+    var ordersRow = $('#orderList').datagrid("getSelections");
+    var tableJson=JSON.stringify(ordersRow);
+    $.postJSON(basePath+'/ordersNurse/proofOrders',tableJson,function(data){
+        if(data.data=='success'){
+            $.messager.alert("提示消息","执行成功");
+            $('#orderList').datagrid("load");
+        }else{
+            $.messager.alert('提示',"执行失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"执行错误", "error");
+    })
+}

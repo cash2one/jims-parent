@@ -40,6 +40,26 @@ private OrdersNurseBo ordersNurseBo;
         return  ordersNurseBo.ordersCopied(orders);
     }
 
+    /**
+     * 护理端 - 医嘱转抄
+     * @param ordersList
+     * @author pq
+     * @return
+     */
+    public String operationCopied(List<Orders> ordersList){
+        return  ordersNurseBo.operationCopied(ordersList);
+    }
 
+
+
+    /**
+     * 护理端 - 医嘱校验
+     * @param ordersList
+     * @author pq
+     * @return
+     */
+    public String proofOrders(List<Orders> ordersList){
+      return ordersNurseBo.proofOrders(ordersList);
+    }
 }
 

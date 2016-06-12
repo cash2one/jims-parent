@@ -1,6 +1,8 @@
 var editRow = undefined;
 var rowNum=-1;
 var editNum=-1;
+var patId ='15006135';
+var visitId = '1';
 var indicator = [{ "value": "1", "text": "长" }, { "value": "2", "text": "临" }];
 var Oclass =[{ "value": "1", "text": "药品" }, { "value": "2", "text": "非药品" }];
 var zi =[{ "value": "1", "text": "自带药" }, { "value": "2", "text": "不加价" }];
@@ -108,14 +110,14 @@ $(function(){
             {field:'freqCounter',title:'次数',width:'5%',align:'center'},
             {field:'stopDoctor',title:'停止医生',width:'5%',align:'center'},
             {field:'stopNurse',title:'停止校対护士',width:'5%',align:'center'},
-            {field:'patientId',hidden:'true',
+           /* {field:'patientId',hidden:'true',
                 formatter:function(){
                 return "15005451";
             }},
             {field:'visitId',hidden:'true',
                 formatter:function(){
                     return "1";
-                }},
+                }},*/
             {field:'orderNo',hidden:'true'},
             {field:'orderSubNo',hidden:'true'},
             {field:'orderStatus',hidden:'true'}
@@ -299,6 +301,7 @@ function save(){
     $("#orderList").datagrid('endEdit', rowNum);
     var  rows=$('#orderList').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
+    var submitJson=tableJson+",\"patientId\":"+patId+",\"visitId\":"+visitId+"}";
 
     $.postJSON(basePath+'/inOrders/save',tableJson,function(data){
         if(data.data=='success'){

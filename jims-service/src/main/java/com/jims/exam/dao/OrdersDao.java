@@ -108,4 +108,21 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @return
      */
     public List<Orders> ordersCopied(Orders orders);
+
+    /**
+     * 护理端 - 转抄
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public  int operationCopied(Orders orders);
+
+    /**
+     * 护理端 - 医嘱校验
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String proofOrders(Orders orders);
+
 }

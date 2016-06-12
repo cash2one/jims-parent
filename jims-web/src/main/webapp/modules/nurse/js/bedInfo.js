@@ -1,3 +1,4 @@
+/*
 var wardCode='160101';
 $(function(){
     $('#bedInfo').datagrid({
@@ -32,4 +33,4 @@ $(function(){
 
 
 
-});
+});*/

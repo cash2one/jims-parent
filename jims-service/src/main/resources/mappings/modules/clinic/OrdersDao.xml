@@ -243,7 +243,7 @@
 		"ORDERS"."CURRENT_PRESC_NO" as "currentPrescNo",
 		"ORDERS"."DEGREE" as "degree",
 		"ORDERS"."APP_NO" as "appNo",
-		"ORDERS"."STOP_FLAG" as "stopFlag"
+		"ORDERS"."STOP_FLAG" as "stopFlag",
 		0 as nwarn,
 		"ORDERS"."CONTINUE_ORDER_NO",
 		(case
@@ -552,11 +552,45 @@
 		WHERE ( pih.patient_id = pmi.patient_id (+)) and
 		( pmi.patient_id = a.patient_id ) and
 		( pih.visit_id = a.visit_id )
-		<!--<if test="wardCode !=null and wardCode !=''">
-		and	( "PATS_IN_HOSPITAL"."WARD_CODE" =#{wardCode})
-		</if>-->
+		<if test="wardCode !=null and wardCode !=''">
+		and	( pih.ward_code =#{wardCode})
+		</if>
 
 		AND a."ORDER_STATUS"='6'
 	</select>
 
+
+	<update id="operationCopied">
+        UPDATE orders
+        SET
+		ORDER_STATUS = '1'
+        <if test="processingNurse !=null and processingNurse !=''">
+			,PROCESSING_NURSE = #{processingNurse}
+		</if>
+		<if test="startDateTime != null and startDateTime !=''">
+			, STOP_DATE_TIME = #{startDateTime}
+		</if>
+           ,PROCESSING_DATE_TIME = to_date(to_char(sysdate,'yyyy-MM-dd hh:mm:ss'),'yyyy-MM-dd hh:mm:ss')
+		WHERE id = #{id}
+
+
+	</update>
+
+
+	<update id="proofOrders">
+		UPDATE  orders
+		set
+		ORDER_STATUS ='2'
+		<if test="nurse !=null and nurse !=''">
+         ,nurse = #{nurse}
+		</if>
+        <if test="billingAttr !=null and billingAttr !=''">
+         ,BILLING_ATTR = #{billingAttr}
+		</if>
+		<if test="doctorUser!=null and doctorUser !=''">
+         ,DOCTOR_USER = #{doctorUser}
+		</if>
+		,VERIFY_DATA_TIME = to_date(to_char(sysdate,'yyyy-MM-dd hh:mm:ss'),'yyyy-MM-dd hh:mm:ss')
+		WHERE id = #{id}
+	</update>
 </mapper>
