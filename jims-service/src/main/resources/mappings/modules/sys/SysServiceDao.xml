@@ -135,9 +135,12 @@
         FROM sys_service a ,sys_service_price b
         <where>
             a.del_flag = '0'
-            and a.id = b.service_id
-            <if test="serviceClass != null and serviceClass != ''">
+            and a.id = b.service_id(+)
+            <if test="serviceClass != null and serviceClass != '3'">
                 and (a.service_class = #{serviceClass} or a.service_class = '2')
+            </if>
+            <if test="serviceClass == '3'">
+                and a.service_class = '3'
             </if>
             <if test="serviceType != null and serviceType != ''">
                 and a.service_type = #{serviceType}
