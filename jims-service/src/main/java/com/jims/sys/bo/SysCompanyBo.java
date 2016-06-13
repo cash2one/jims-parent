@@ -41,14 +41,11 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
     @Autowired
     OrgRoleDao orgRoleDao;      //角色
     @Autowired
-    OrgStaffDao staffDao;       //员工
-    @Autowired
     StaffVsRoleDao staffVsRoleDao;      //员工对应角色
     @Autowired
     OrgRoleVsServiceDao roleVsServiceDao;   //角色对应服务
     @Autowired
     RoleServiceMenuDao roleServiceMenuDao;  //服务对应菜单
-
     @Autowired
     OrgStaffDao orgStaffDao ;
 
@@ -149,7 +146,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
         staffVsRole.preInsert();
         staffVsRole.setRoleId(role.getId());
         String owner = sysCompany.getOwner();
-        String staffId = staffDao.getByPersionId(owner).getId();
+        String staffId = orgStaffDao.findStaffByPersonIdOrgId(owner, orgId).getId();    //根据人员ID和机构ID查询员工信息，获取员工ID
         staffVsRole.setStaffId(staffId);
         staffVsRoleDao.insert(staffVsRole);
         //角色对应服务
