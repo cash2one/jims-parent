@@ -14,15 +14,17 @@ public interface OrgRoleVsServiceApi {
 
     public OrgRoleVsService get(String id);
 
-    public List<OrgRoleVsService> findList(OrgRoleVsService orgRoleVsService) ;
+    public List<OrgRoleVsService> findList(OrgRoleVsService orgRoleVsService);
 
-    public Page<OrgRoleVsService> findPage(Page<OrgRoleVsService> page, OrgRoleVsService orgRoleVsService) ;
+    public Page<OrgRoleVsService> findPage(Page<OrgRoleVsService> page, OrgRoleVsService orgRoleVsService);
 
     public String OrgRoleVsServiceSave(List<OrgRoleVsService> orgRoleVsService);
 
-    public String delete(OrgRoleVsService orgRoleVsService) ;
+    public String delete(OrgRoleVsService orgRoleVsService);
 
     public List<OrgRoleVsService> findAll();
 
     public List<RoleServiceMenu> find(String id);
+
+    public List<OrgRoleVsService> findRole(String roleid);
 }

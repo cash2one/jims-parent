@@ -27,7 +27,23 @@
 		<include refid="orgSelfServiceVsMenuJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+    <select id="findSelfServiceId" resultType="OrgSelfServiceVsMenu">
+        SELECT
+        <include refid="orgSelfServiceVsMenuColumns"/>,r.menu_operate AS "menuOperate"
+        FROM org_self_service_vs_menu a left join role_service_menu r on a.menu_id = r.menu_id
+        and a.self_service_id =(select service_id from org_role_vs_service where id = #{1})
+        WHERE a.self_service_id =#{0}
+    </select>
+
+    <select id="findServiceId" resultType="OrgSelfServiceVsMenu">
+        SELECT
+        <include refid="orgSelfServiceVsMenuColumns"/>
+        FROM org_self_service_vs_menu a
+        <include refid="orgSelfServiceVsMenuJoins"/>
+        WHERE a.self_service_id = #{selfServiceId}
+    </select>
+
 	<select id="findList" resultType="OrgSelfServiceVsMenu">
 		SELECT 
 			<include refid="orgSelfServiceVsMenuColumns"/>,m.menu_name as "menuName"

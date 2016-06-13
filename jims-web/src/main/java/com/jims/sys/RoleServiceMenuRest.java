@@ -3,11 +3,10 @@ package com.jims.sys;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.sys.api.RoleServiceMenuApi;
 import com.jims.sys.entity.RoleServiceMenu;
+import com.jims.sys.vo.MenuDictVo;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -25,5 +24,11 @@ public class RoleServiceMenuRest {
     @POST
     public String save(List<RoleServiceMenu> roleServiceMenus){
        return roleServiceMenuApi.save(roleServiceMenus);
+    }
+
+    @Path("find-menu")
+    @GET
+    public List<MenuDictVo> findRoleServiceMenu(@QueryParam("selfServiceId") String selfServiceId){
+        return roleServiceMenuApi.findRoleServiceMenu(selfServiceId);
     }
 }
