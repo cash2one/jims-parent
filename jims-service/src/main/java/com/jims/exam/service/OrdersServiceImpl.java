@@ -167,6 +167,10 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
                         Integer subNo= orders.getOrderSubNo();
                         List<Orders> orderses=ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(), no!=null?(no):1);
                         if(orderses.size()<=0) {//保存子医嘱
+                            Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), no);
+                            orders.setOrderNo(no);
+                            orders.setOrderSubNo(orderSubNo!=null ?(orderSubNo+1):1);
+                        }else{
                             Integer orderNo = ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId(),"");
                             Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), orderNo!=null?(orderNo+1):1);
                             orders.setOrderNo(orderNo!=null?(orderNo+1):1);
@@ -314,5 +318,15 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
      */
     public  Integer getOrderSubNo(String patientId,String visitId,Integer orderNo){
       return  ordersDao.getOrderSubNo(patientId,visitId,orderNo);
+    }
+
+    /**
+     * 查询医嘱的子医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public  List<Orders> getSubOrders(Orders orders){
+        return ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(), orders.getOrderNo());
     }
 }

@@ -138,4 +138,16 @@ public class OrdersRest {
         return orders1;
    }
 
+    /**
+     * 查询子医嘱
+     * @param orders
+     * @return
+     * pq
+     */
+    @Path("getSubOrders")
+    @POST
+    public List<Orders> getSubOrders(Orders orders){
+           List<Orders> ordersList = ordersServiceApi.getSubOrders(orders);
+        return ordersList;
+    }
 }
