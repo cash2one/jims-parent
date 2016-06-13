@@ -49,6 +49,9 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
     @Autowired
     RoleServiceMenuDao roleServiceMenuDao;  //服务对应菜单
 
+    @Autowired
+    OrgStaffDao orgStaffDao ;
+
     /**
      * 保存注册信息以及选择的服务
      * @param company
