@@ -391,9 +391,9 @@ function changeSubNo(row){
                 //3.判断2条医嘱是否同时药品，（药疗才可组成组合医嘱），进行4判断
                 if(row[0].orderClass==1&&prerow.orderClass==1){
                     //4.判断上一条医嘱状态，如果状态允许，进行5判断
-                    if(prerow.orderStatus==1 || prerow.orderStatus=="1"){
+                    if(prerow.orderStatus==6 || prerow.orderStatus=="6"){
                         //5.判断选中行row的医嘱状态，如果状态是新开，则进行6操作
-                        if(row[0].orderStatus==1||row[0].orderStatus=='1'){
+                        if(row[0].orderStatus==6||row[0].orderStatus=='6'){
                             //6.获取上一行的orderSubNo，则给选中行的子医嘱号累加1并赋值，并把医嘱号更改为与上行医嘱号相同
                             row[0].orderSubNo = parseInt(nowrow.orderSubNo)+1;
                             row[0].orderNo = nowrow.orderNo;
@@ -407,6 +407,7 @@ function changeSubNo(row){
                         //8.增加行把上一行的数据赋给子医嘱
                     //    addOrders();
                           //  alert("row[0].orderNo="+row[0].orderNo+"row[0].orderSubNo="+row[0].orderSubNo);
+                            alert(row[0].orderNo);
                         $('#orderList').datagrid('insertRow', {
                             index:0,	// index start with 0
                             row: {

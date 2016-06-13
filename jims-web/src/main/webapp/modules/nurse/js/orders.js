@@ -52,13 +52,29 @@ $(function() {
             {field:'stopDoctor',title:'停医生',width:'5%',align:'center'},
             {field:'stopNurse',title:'停止护士',width:'5%',align:'center'},
             {field:'execDateTime',title:'执行时间',width:'6%',align:'center',formatter:formatDateBoxFull},
-            {field:'execOperator',title:'执行护士',width:'5%',align:'center'}
+            {field:'execOperator',title:'执行护士',width:'5%',align:'center'},
+            {field:'patientId',hidden:true},
+            {field:'visitId',hidden:true},
+            {field:'orderNo',hidden:true}
         ]],
        onClickRow: function (rowIndex, rowData) {
 
             var row = $('#orderList').datagrid('getSelected');
             var dataGrid = $('#orderList');
             var row = $('#orderList').datagrid('getSelected');
+
+           $.ajax({
+               method: "POST",
+               dataType: 'json',
+               contentType: 'application/json',
+               data: JSON.stringify({"patientId":row.patientId,"visitId":row.visitId,"orderNo":row.orderNo}),
+               url: basePath + '/inOrders/getSubOrders',
+               success: function (data) {
+                   $.each(data,function(id,item) { //循环对象取值
+                       $("#orderList").datagrid("selectRecord",item.id);
+                   })
+               }
+           });
             var status = row.orderStatus;
             if (!dataGrid.datagrid('validateRow', rowNum)) {
                 return false//新开
@@ -112,6 +128,8 @@ function proofOrders(){
 
 //执行
 function executeOrders(){
+
+
     var ordersRow = $('#orderList').datagrid("getSelections");
     var tableJson=JSON.stringify(ordersRow);
     $.postJSON(basePath+'/ordersNurse/executeOrders',tableJson,function(data){
