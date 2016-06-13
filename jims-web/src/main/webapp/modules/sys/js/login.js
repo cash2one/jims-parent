@@ -42,6 +42,10 @@ $(function () {
                             return false;
                         }
                         if (data.code =="success") {
+                            if(data.data ==1){
+                                window.location.href = ('/modules/admin-index.html');
+                                return false;
+                            }
                             window.location.href = ('/modules/sys/default.html?persion_id='+data.data);
                             return false;
                         }

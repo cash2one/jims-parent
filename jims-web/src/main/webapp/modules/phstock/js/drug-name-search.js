@@ -79,23 +79,25 @@ $(function () {
         }
         ]]
     });
-    var dataClass={};
-     $("#drugClass").combobox({
+    var datas=[]
+    $("#drugClass").combobox({
+        valueField: 'classCode',
+        textField: 'className'
+    });
 
-         url: basePath + '/drug-class-dict/list?orgId=1',
-         valueField: 'classCode',
-         textField: 'className',
-         method: 'GET',
-         onLoadSuccess: function () {
-             var data = $(this).combobox('getData');
-             for (var i = data.length-1; i > -1; i--) {
-                 if (data[i].parentId =="*") {
-                    data.splice(i,1);
-                 }
-             }
-             $("#drugClass").combobox('loadData', data);
-         }
-     });
+    var load=function(){
+        $.get(basePath + '/drug-class-dict/list',function(drugClassList){
+            for (var i =0; i <  drugClassList.length; i++) {
+                if (drugClassList[i].parentId !="*") {
+                    //data.splice(i,1);
+                    datas.push(drugClassList[i])
+                }
+            }
+            $("#drugClass").combobox('loadData', datas);
+        });
+    }
+
+    load();
 });
 
 

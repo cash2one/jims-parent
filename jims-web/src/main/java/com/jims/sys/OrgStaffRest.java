@@ -9,13 +9,17 @@ import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.api.PersionInfoApi;
 import com.jims.sys.entity.*;
 import com.jims.sys.vo.OrgStaffVo;
+import com.jims.sys.vo.RoleServiceMenuVsMenuDictVo;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -84,8 +88,20 @@ public class OrgStaffRest {
     }
 
     /**
+     * 根据人员ID和组织机构ID查询该人员在某家组织机构的员工信息
+     * @param personId 人员ID
+     * @param orgId 组织机构ID
+     * @return 员工信息
+     * @author fengyuguang
+     */
+    @GET
+    @Path("find-staff-by-orgId-personId")
+    public OrgStaff findStaffByPersonIdOrgId(@QueryParam("persionId")String personId,@QueryParam("orgId")String orgId){
+        return orgStaffApi.findStaffByPersonIdOrgId(personId,orgId);
+    }
+
+    /**
      * 通过persionId查询密码  ，用于回显数据
-     *
      * @param persionId
      * @return
      * @author yangruidong
@@ -199,6 +215,30 @@ public class OrgStaffRest {
        stringData.setData(sb.toString());*/
        return role;
 
+    }
+
+    /**
+     * 根据员工ID查询员工拥有的角色下所有的服务
+     * @param staffId 员工ID
+     * @return 角色对应服务的list集合
+     * @author fengyuguang
+     */
+    @GET
+    @Path("find-serviceId-by-staffId")
+    public List<OrgRoleVsService> findServiceId(@QueryParam("staffId")String staffId){
+        return orgStaffApi.findServiceId(staffId);
+    }
+
+    /**
+     * 根据roleServiceId查询数据列表
+     * @param roleServiceId org_role_vs_service表的id
+     * @return role_service_menu和menu_dict两个表联查集合
+     * @author fengyuguang
+     */
+    @GET
+    @Path("find-list-by-roleServiceId")
+    public List<RoleServiceMenuVsMenuDictVo> findByRoleServiceId(@QueryParam("roleServiceId")String roleServiceId){
+        return orgStaffApi.findByRoleServiceId(roleServiceId);
     }
 
 }
