@@ -46,11 +46,12 @@
         AND a.del_flag = '0'
     </select>
 
-    <select id="findByRoleServiceId" resultType="RoleServiceMenuVsMenuDictVo">
+    <select id="findByServiceId" resultType="RoleServiceMenuVsMenuDictVo">
         SELECT rsm.menu_id,rsm.role_service_id,md.menu_name,rsm.menu_operate,md.href,md.sort,md.pid,md.menu_level
-        FROM role_service_menu rsm,menu_dict md
-        WHERE rsm.menu_id = md.id
-        AND rsm.role_service_id = #{roleServiceId}
+        FROM role_service_menu rsm,menu_dict md,org_role_vs_service orvs
+        WHERE orvs.id = rsm.role_service_id
+        AND rsm.menu_id = md.id
+        AND orvs.service_id = #{serviceId}
         AND rsm.del_flag = '0'
         AND md.del_flag = '0'
     </select>
