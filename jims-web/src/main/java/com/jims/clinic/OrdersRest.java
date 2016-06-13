@@ -39,7 +39,7 @@ public class OrdersRest {
         Orders orders=new Orders();
         orders.setRepeatIndicator(repeatIndicator);
         orders.setOrderStatus(orderStatus);
-        orders.setPatientId("15005451");
+        orders.setPatientId("15006135");
         orders.setVisitId("1");
         return ordersServiceApi.getPatientOrders(orders);
     }

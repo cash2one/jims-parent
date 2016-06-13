@@ -33,6 +33,12 @@ public interface DeptDictApi {
     public List<DeptDict> findParent();
 
     /**
+     * 查询某个机构的上级科室
+     * @return
+     */
+    public List<DeptDict> findListParent(String orgId);
+
+    /**
      * 保存或修改
      * @param deptDict
      * @return

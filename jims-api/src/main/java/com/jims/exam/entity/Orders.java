@@ -87,11 +87,13 @@ public class Orders extends DataEntity<Orders> {
 	private String expand2;//试管
 	private String expand3;//科室
 	private String expand4;//频次
-
+    private String execOperator;//执行操作护士
+	private Date execDateTime;//护士执行时间
 
 	/*护士端查询*/
     private String name;
 	private Integer bedNo;
+	private String wardCode;
 
 	public String getStopProcessingNurse() {
 		return stopProcessingNurse;
@@ -144,6 +146,22 @@ public class Orders extends DataEntity<Orders> {
 
 	public void setVisitId(String visitId) {
 		this.visitId = visitId;
+	}
+
+	public String getExecOperator() {
+		return execOperator;
+	}
+
+	public void setExecOperator(String execOperator) {
+		this.execOperator = execOperator;
+	}
+
+	public Date getExecDateTime() {
+		return execDateTime;
+	}
+
+	public void setExecDateTime(Date execDateTime) {
+		this.execDateTime = execDateTime;
 	}
 
 	public int getOrderNo() {
@@ -676,5 +694,14 @@ public class Orders extends DataEntity<Orders> {
 
 	public void setBedNo(Integer bedNo) {
 		this.bedNo = bedNo;
+	}
+
+
+	public String getWardCode() {
+		return wardCode;
+	}
+
+	public void setWardCode(String wardCode) {
+		this.wardCode = wardCode;
 	}
 }

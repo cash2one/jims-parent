@@ -1,6 +1,19 @@
 $(function () {
+    var str = decodeURI(window.location.search);   //location.search是从当前URL的?号开始的字符串
+    if (str.indexOf(name) != -1) {
+        var pos_start = str.indexOf(name) + name.length + 1;
+        var pos_end = str.indexOf("&", pos_start);
+        if (pos_end == -1) {
+            var persion_id = str.substring(11);
+
+        }
+    }
+
+
+
     //var currentOrgId = '1';
-    var currentPersonId = '1';
+    var currentPersonId = persion_id;
+    alert(currentPersonId)
     var company = {};
     //查询父机构
     jQuery.ajax({
@@ -251,11 +264,10 @@ $(function () {
         company.email = $("#email").val();
         company.linkMan=$("#linkMan").val();
         company.owner = currentPersonId;
-        company.applyStatus = '1';
         company.serviceList = saveData
         var name = $("#orgName").val();
 
-        jQuery.ajax({
+        $.ajax({
             'type': 'POST',
             'url': "/service/sys-company/saveCompanyAndService",
             'contentType': 'application/json',
@@ -266,7 +278,7 @@ $(function () {
                     //$.messager.alert("系统提示", "保存成功");
                     alert("保存成功！！");
                     //解决传到另一个htnl中的乱码问题
-                    encodeURI(window.location.href = "/modules/sys/default.html?name=" + name);
+                    window.location.href = "/modules/sys/default.html?persion_id=" + currentPersonId;
 
                 } else {
                     alert("保存失败！！");

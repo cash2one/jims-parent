@@ -42,6 +42,11 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
      * @return
      */
     public List<DeptDict> findParent();
+    /**
+     * 查询某个机构的上级科室
+     * @return
+     */
+    public List<DeptDict> findListParent(@Param("orgId") String orgId);
 
     /**
      * 查询科室代码下的所以科室

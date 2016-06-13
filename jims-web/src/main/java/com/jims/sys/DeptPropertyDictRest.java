@@ -74,9 +74,9 @@ public class DeptPropertyDictRest {
      */
     @Path("selectProperty")
     @GET
-    public List<OrgDeptPropertyDict> findProperty() {
+    public List<OrgDeptPropertyDict> findProperty(@QueryParam("orgId")String orgId) {
 
-        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findProperty();
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findProperty(orgId);
         return list;
     }
 
@@ -110,10 +110,10 @@ public class DeptPropertyDictRest {
      * @return
      */
     @POST
-    @Path("selectName/{deptPropertity}")
-    public List<OrgDeptPropertyDict> findNameByType(@PathParam("deptPropertity") String deptPropertity) {
+    @Path("selectName/{deptPropertity}/{orgId}")
+    public List<OrgDeptPropertyDict> findNameByType(@PathParam("deptPropertity") String deptPropertity,@PathParam("orgId") String orgId) {
 
-        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findNameByType(deptPropertity);
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findNameByType(deptPropertity,orgId);
         System.out.print(list.toString());
         return list;
     }
@@ -129,9 +129,9 @@ public class DeptPropertyDictRest {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public StringData save(OrgDeptPropertyDict orgDeptPropertyDict) {
-        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findName(orgDeptPropertyDict.getPropertyType());
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findName(orgDeptPropertyDict.getPropertyType(),orgDeptPropertyDict.getOrgId());
         //给插入的科室属性进行排序
-        OrgDeptPropertyDict sort = deptPropertyDictApi.findSort();
+        OrgDeptPropertyDict sort = deptPropertyDictApi.findSort(orgDeptPropertyDict.getOrgId());
         if (list.size() > 0) {
             orgDeptPropertyDict.setSort(null);
         } else {
@@ -142,26 +142,34 @@ public class DeptPropertyDictRest {
             }
 
         }
-      //  if(list.get())
-        for(int i=0;i<=list.size();i++)
+      //  if(list.get()) '
+        if(list.size()==0)
         {
-            if(StringUtils.equalsIgnoreCase(orgDeptPropertyDict.getPropertyValue(),list.get(i).getPropertyValue()))
-            {
+            int num = deptPropertyDictApi.add(orgDeptPropertyDict);
+            if (num != 0) {
                 StringData stringData = new StringData();
-                stringData.setData("fail");
+                stringData.setData("success");
                 return stringData;
             }
-            else{
-                int num = deptPropertyDictApi.add(orgDeptPropertyDict);
-                if (num != 0) {
+        } else{
+            for(int i=0;i<=list.size();i++)
+            {
+                if(StringUtils.equalsIgnoreCase(orgDeptPropertyDict.getPropertyValue(),list.get(i).getPropertyValue()))
+                {
                     StringData stringData = new StringData();
-                    stringData.setData("success");
+                    stringData.setData("fail");
                     return stringData;
+                }
+                else{
+                    int num = deptPropertyDictApi.add(orgDeptPropertyDict);
+                    if (num != 0) {
+                        StringData stringData = new StringData();
+                        stringData.setData("success");
+                        return stringData;
+                    }
                 }
             }
         }
-
-
         return null;
 
     }
