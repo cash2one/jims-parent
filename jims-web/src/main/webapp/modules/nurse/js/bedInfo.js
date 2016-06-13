@@ -9,7 +9,7 @@ $(function(){
         url: basePath + '/bedRec/getAllBed',
         success: function (data) {
             $.each(data,function(id,item){ //循环对象取值
-                html = html+'<li class="bgcolor-green">  ' ;
+                html = html+'<li class="bgcolor-green"  onmouseup="showMenu(event);">  ' ;
                 html = html+'<div class="bednum-cusinf"> <span class="bednum-val">'+item.bed_no1+'</span> <span class="bednum-name">'+item.name+'</span>  <span class="bednum-age">'+item.age+'岁</span></div>';
                 html = html+'<table cellpadding="0" cellspacing="0" border="0" width="100%" class="bn-cusinfo-tab">';
                 html = html+'<tr><td>性别：</td> <td >'+item.sex+'</td></tr>';
@@ -26,29 +26,6 @@ $(function(){
             $(".bednum-main ul").append(html);
         }
     });
-
-
-
-
-    $("#content").onmousedown = function(e){
-        //去掉默认的contextmenu事件，否则会和右键事件同时出现。
-        document.oncontextmenu = function(e){
-            e.preventDefault();
-            alert("你点了右键");
-            if(e.button ==2){
-                $('#menu').menu('show', {
-                    left: e.pageX,//在鼠标点击处显示菜单
-                    top: e.pageY
-                });
-
-            }else if(e.button ==0){
-                alert("你点了左键");
-            }else if(e.button ==1){
-                alert("你点了滚轮");
-            }
-        }
-    };
-
 });
 
 
@@ -61,8 +38,18 @@ $(function(){
 
 
 
-
-
+function showMenu(e) {
+    document.oncontextmenu = function(e){
+        e.preventDefault();
+    };
+    if (e.button == 2) {
+        $('#menuId').menu('show', {
+            left: e.pageX,//在鼠标点击处显示菜单
+            top: e.pageY
+        });
+    }
+return false;
+}
 
 
 
