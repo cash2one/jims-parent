@@ -1245,3 +1245,87 @@ a.dropma-color {
 {
     border:none;
 }
+
+
+
+
+
+/**床位列表**/
+.bednum-main
+{
+    margin:5px;
+}
+.bednum-main ul li
+{
+    display:inline-block;
+    width:23.5%;
+    min-width:250px;
+    border:1px solid #eee;
+    border-radius:5px;
+    padding:5px;
+
+}
+.bednum-main ul li hr
+{
+    height:4px;
+    border:none;
+    margin:0;
+    padding:0;
+}
+.bednum-main ul li.bgcolor-green hr
+{
+    background:#8ecc47;
+}
+.bednum-main ul li.bgcolor-blue hr
+{
+    background:#bde5e4;
+}
+.bednum-main ul li.bgcolor-pink hr
+{
+    background:#fda3c9;
+}
+.bednum-main ul li .bednum-cusinf span
+{
+    font-weight:bold;
+}
+.bednum-main ul li span.bednum-val
+{
+    display:inline-block;
+    width:30px;
+    height:30px;
+    text-align:center;
+    color:#fff;
+}
+.bednum-main ul li.bgcolor-green span.bednum-val
+{
+    background:#8ecc47;
+}
+.bednum-main ul li.bgcolor-blue span.bednum-val
+{
+    background:#bde5e4;
+}
+.bednum-main ul li.bgcolor-pink span.bednum-val
+{
+    background:#fda3c9;
+}
+.bednum-main ul li span.bednum-name
+{
+    color:#00f;
+    padding:0 5px;
+}
+
+.bednum-main ul li.bgcolor-green hr
+{
+    height:4px;
+    background:#8ecc47;
+    border:none;
+    margin:0;
+    padding:0;
+}
+.bn-cusinfo-tab tr td
+{
+    border-bottom:1px solid #eee;
+    padding:3px 0;
+    font-size:14px;
+}
+/****/

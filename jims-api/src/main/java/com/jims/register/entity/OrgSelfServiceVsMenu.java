@@ -3,6 +3,7 @@ package com.jims.register.entity;
 import com.jims.common.persistence.DataEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 机构自定义服务对应菜单Entity
@@ -15,22 +16,39 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
     private String selfServiceId;		// 服务ID
     private String menuId;		// 菜单ID
     private String menuSort;		// 菜单排序
+    private String pid ;     // 父ID
     private Date menuEndDate;    //菜单结束时间
     private String careateBy;		// careate_by
     private String remark;		// remark
     private Date createTime;		// create_time
+    private String menuOperate;
 
+    private List<OrgSelfServiceVsMenu> children ; // 子节点
+    private String menuName;  // 菜单名称
 
-    private String selfMenuName;  // 菜单名称
+    public List<OrgSelfServiceVsMenu> getChildren() {
+        return children;
+    }
 
-	public OrgSelfServiceVsMenu() {
+    public void setChildren(List<OrgSelfServiceVsMenu> children) {
+        this.children = children;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public OrgSelfServiceVsMenu() {
 		super();
 	}
 
 	public OrgSelfServiceVsMenu(String id){
 		super(id);
 	}
-
 
 	public String getSelfServiceId() {
 		return selfServiceId;
@@ -89,15 +107,23 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
         return menuEndDate;
     }
 
-    public String getSelfMenuName() {
-        return selfMenuName;
-    }
-
-    public void setSelfMenuName(String selfMenuName) {
-        this.selfMenuName = selfMenuName;
-    }
-
     public void setMenuEndDate(Date menuEndDate) {
         this.menuEndDate = menuEndDate;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public String getMenuOperate() {
+        return menuOperate;
+    }
+
+    public void setMenuOperate(String menuOperate) {
+        this.menuOperate = menuOperate;
     }
 }

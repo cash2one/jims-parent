@@ -1,6 +1,7 @@
 package com.jims.register.bo;
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.TreeUtils;
 import com.jims.register.dao.OrgSelfServiceListDao;
 import com.jims.register.dao.OrgSelfServiceVsMenuDao;
 import com.jims.register.dao.OrgServiceListDao;
@@ -51,59 +52,59 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
     /**
      * 保存机构自定义的服务
      * @param selfServiceList 自定义服务以及菜单,
-     *                        参数OrgSelfServiceList属性operateFlag
-     *                        为 1 时，属性id为药删除的自定义服务id,多个以‘,’隔开，
-     *                        为 2 时，属性id为药删除的自定义菜单Id,多个以‘,’隔开，
-     *                                  menus属性为修改的菜单（只包含数据库中已有的自定义服务的菜单）
+     *                        参数OrgSelfServiceList属性中
+     *                        delFlag 为 1 时，属性id为药删除的自定义服务id,多个以‘,’隔开，
+     *                        id不为空，orgId为空时，属性menus为服务(id)对应的菜单数据(树形结构)
+     *
      *                        其他值时，为修改的自定义服务，当为添加的自定义服务时，menus为添加的菜单。
      */
     public void saveSelfService(List<OrgSelfServiceList> selfServiceList){
         if(selfServiceList != null || selfServiceList.size() > 0){
             for(OrgSelfServiceList service : selfServiceList){
-                if("1".equals(service.getOperateFlag()) && !"".equals(service.getId())){
+                if("1".equals(service.getDelFlag())){
                     String[] ids = service.getId().split(",");
                     for (int i = 0; i < ids.length; i++){
                         selfServiceDao.delete(ids[i]);
                         selfServiceVsMenuDao.deleteByServiceId(ids[i]);
                     }
-                } else if("2".equals(service.getOperateFlag())){
-                    if(!"".equals(service.getId())){
-                        String[] ids = service.getId().split(",");
-                        for (int i = 0; i < ids.length; i++){
-                            selfServiceVsMenuDao.delete(ids[i]);
-                        }
-                    }
-                    if(service.getMenus() != null && service.getMenus().size() > 0){
-                        List<OrgSelfServiceVsMenu> menus = service.getMenus();
-                        for (int i = 0; i < menus.size(); i++){
-                            OrgSelfServiceVsMenu menu = menus.get(i);
-                            if (menu.getIsNewRecord()){
-                                menu.preInsert();
-                                selfServiceVsMenuDao.insert(menu);
-                            }else{
-                                menu.preUpdate();
-                                selfServiceVsMenuDao.update(menu);
-                            }
-                        }
-                    }
-                } else {
-                    if (service.getIsNewRecord()){
-                        service.preInsert();
-                        selfServiceDao.insert(service);
-                        List<OrgSelfServiceVsMenu> menus = service.getMenus();
-                        if(menus != null) {
-                            for (int i = 0; i < menus.size(); i++) {
-                                OrgSelfServiceVsMenu menu = menus.get(i);
-                                menu.setSelfServiceId(service.getId());
-                                menu.preInsert();
-                                selfServiceVsMenuDao.insert(menu);
-                            }
-                        }
-                    }else{
-                        service.preUpdate();
-                        selfServiceDao.update(service);
-                    }
+                    continue;
                 }
+                if(service.getId() != null && service.getOrgId() == null){
+                    selfServiceVsMenuDao.deleteByServiceId(service.getId());
+                    saveSelfServiceVsMenu(service.getMenus(),service.getId(),null);
+                    continue;
+                }
+                if (service.getIsNewRecord()){
+                    service.preInsert();
+                    selfServiceDao.insert(service);
+                    saveSelfServiceVsMenu(service.getMenus(),service.getId(),null);
+                }else{
+                    service.preUpdate();
+                    selfServiceDao.update(service);
+                }
+            }
+        }
+    }
+
+    /**
+     * 保存自定义服务对应菜单
+     * @param menus 菜单序列
+     * @param selfServiceID 服务ID
+     * @param parentId 菜单父节点
+     */
+    private void saveSelfServiceVsMenu(List<OrgSelfServiceVsMenu> menus,String selfServiceID,String parentId){
+        if(menus != null && menus.size() > 0){
+            for(OrgSelfServiceVsMenu menu : menus){
+                menu.setSelfServiceId(selfServiceID);
+                menu.setPid(parentId);
+                if(menu.getIsNewRecord()){
+                    menu.preInsert();
+                    selfServiceVsMenuDao.insert(menu);
+                }else{
+                    menu.preUpdate();
+                    selfServiceVsMenuDao.update(menu);
+                }
+                saveSelfServiceVsMenu(menu.getChildren(),selfServiceID,menu.getId());
             }
         }
     }
@@ -119,7 +120,7 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         List<OrgServiceList> services = dao.findList(serviceParam);
         if(services != null && services.size() > 0){
             for(OrgServiceList service : services){
-                service.setMenus(handlerMenu(service.getMenus()));
+                service.setMenus(TreeUtils.handleTreeList(service.getMenus()));
             }
         }
         return services;
@@ -139,85 +140,38 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
     /**
      * 检索机构自定义菜单
      * @param selfServiceId 自定义服务Id
+     * @param isTree 是否为树形结构
      * @return
      */
-    public List<OrgSelfServiceVsMenu> findSelfServiceVsMenu(String selfServiceId){
+    public List<OrgSelfServiceVsMenu> findSelfServiceVsMenu(String selfServiceId,boolean isTree){
         OrgSelfServiceVsMenu selfServiceVsMenu = new OrgSelfServiceVsMenu();
         selfServiceVsMenu.setSelfServiceId(selfServiceId);
-        return selfServiceVsMenuDao.findList(selfServiceVsMenu);
-    }
-
-    public List<OrgSelfServiceVsMenuVo> findSelfServiceMenu(String orgId){
-        List<OrgSelfServiceVsMenuVo> orgSelfServiceVsMenuVos = new ArrayList<OrgSelfServiceVsMenuVo>();
-
-        OrgSelfServiceList selfService = new OrgSelfServiceList();
-        selfService.setOrgId(orgId);
-        List<OrgSelfServiceList> orgSelfServiceLists = selfServiceDao.findList(selfService);
-        for (int i = 0; i < orgSelfServiceLists.size(); i++) {
-            OrgSelfServiceList orgSelfServiceList = orgSelfServiceLists.get(i);
-            OrgSelfServiceVsMenu selfServiceVsMenu = new OrgSelfServiceVsMenu();
-            selfServiceVsMenu.setSelfServiceId(orgSelfServiceList.getId());
-            List<OrgSelfServiceVsMenu> orgSelfServiceVsMenus = selfServiceVsMenuDao.findList(selfServiceVsMenu);
-            OrgSelfServiceVsMenuVo orgSelfServiceVsMenuVo = new OrgSelfServiceVsMenuVo();
-            orgSelfServiceVsMenuVo.setId(orgSelfServiceList.getId());
-            orgSelfServiceVsMenuVo.setText(orgSelfServiceList.getServiceName());
-            List<MenuDictVo> menuDictVos = new ArrayList<MenuDictVo>();
-            for(int j = 0; j < orgSelfServiceVsMenus.size(); j++){
-                OrgSelfServiceVsMenu  orgSelfServiceVsMenu = orgSelfServiceVsMenus.get(j);
-                MenuDict menuDict = menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
-                MenuDictVo menuDictVo = new MenuDictVo();
-                menuDictVo.setId(menuDict.getId());
-                menuDictVo.setText(menuDict.getMenuName());
-                menuDictVos.add(menuDictVo);
-                orgSelfServiceVsMenuVo.setChildren(menuDictVos);
-            }
-            orgSelfServiceVsMenuVos.add(orgSelfServiceVsMenuVo);
+        List<OrgSelfServiceVsMenu> menus = selfServiceVsMenuDao.findList(selfServiceVsMenu);
+        if(isTree && menus != null && menus.size() > 1){
+            return TreeUtils.handleTreeList(menus);
         }
-        return orgSelfServiceVsMenuVos;
+        return menus;
     }
 
-    //处理树形数据
-    private List<MenuDict> handlerMenu(List<MenuDict> menus){
-        List<MenuDict> resultMenus = new ArrayList<MenuDict>();
-        if(menus != null && menus.size() > 0){
-            Map<String,MenuDict> menusMap = new HashMap<String, MenuDict>();
-            List<String> roots = new ArrayList<String>();
-            for(int i=0,j=menus.size();i<j;i++){
-                handlerMenu(menus.get(i),menusMap,roots);
-            }
-            for(int i=0,j=roots.size();i<j;i++){
-                resultMenus.add(menusMap.get(roots.get(i)));
-            }
-        }
-        return resultMenus;
-    }
+    public List<MenuDictVo> findSelfServiceMenu(String selfServiceId, String roleServiceId) {
 
-    private void handlerMenu(MenuDict menu,Map<String,MenuDict> menusMap,List<String> roots){
-        if(menu != null){
-            if(menu.getPid() != null){
-                if(menusMap.get(menu.getPid()) != null){
-                    if(menusMap.get(menu.getPid()).getChildren() == null){
-                        menusMap.get(menu.getPid()).setChildren(new ArrayList<MenuDict>());
-                    }
-                    menusMap.get(menu.getPid()).getChildren().add(menu);
-                } else {
-                    MenuDict parent = menuDictDao.get(menu.getPid());
-                    if (parent == null) {
-                        if(menusMap.get(menu.getId()) == null)
-                            menusMap.put(menu.getId(), menu);
-                        roots.add(menu.getId());
-                    } else {
-                        parent.setChildren(new ArrayList<MenuDict>());
-                        parent.getChildren().add(menu);
-                        menusMap.put(menu.getId(), menu);
-                        handlerMenu(parent,menusMap,roots) ;
-                    }
-                }
+        List<OrgSelfServiceVsMenu> orgSelfServiceVsMenus = selfServiceVsMenuDao.findSelfServiceId(selfServiceId, roleServiceId);
+        List<MenuDictVo> menuDictVos = new ArrayList<MenuDictVo>();
+        for (int j = 0; j < orgSelfServiceVsMenus.size(); j++) {
+            OrgSelfServiceVsMenu orgSelfServiceVsMenu = orgSelfServiceVsMenus.get(j);
+            MenuDict menuDict = menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
+            MenuDictVo menuDictVo = new MenuDictVo();
+            menuDictVo.setId(orgSelfServiceVsMenu.getId());
+            menuDictVo.setMenuId(menuDict.getId());
+            menuDictVo.setMenuName(menuDict.getMenuName());
+            menuDictVo.setPid(orgSelfServiceVsMenu.getPid());
+            if (orgSelfServiceVsMenu.getMenuOperate() == null) {
+                menuDictVo.setMenuOperate("0");
             } else {
-                if (menusMap.get(menu.getId()) == null)
-                    menusMap.put(menu.getId(),menu);
-                roots.add(menu.getId());
+                menuDictVo.setMenuOperate(orgSelfServiceVsMenu.getMenuOperate());
             }
+            menuDictVos.add(menuDictVo);
         }
+        return menuDictVos;
     }
 }

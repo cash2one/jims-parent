@@ -91,4 +91,12 @@ public interface SysServiceApi {
      * @return
      */
     public List<SysService> findServiceWithPrice(String serviceClass,String serviceType);
+
+    /**
+     * 根据id查询服务
+     * @param id 服务ID
+     * @return 服务
+     * @author fengyuguang
+     */
+    public SysService get(String id);
 }

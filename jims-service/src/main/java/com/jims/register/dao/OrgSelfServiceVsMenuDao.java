@@ -4,6 +4,8 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 
+import java.util.List;
+
 /**
  * 机构自定义服务对应菜单DAO接口
  * @author lgx
@@ -18,4 +20,8 @@ public interface OrgSelfServiceVsMenuDao extends CrudDao<OrgSelfServiceVsMenu> {
      * @return
      */
     public int deleteByServiceId(String selfServiceId);
+
+    public List<OrgSelfServiceVsMenu> findSelfServiceId(String selfServiceId, String roleServiceId);
+
+    public List<OrgSelfServiceVsMenu> findServiceId(String selfServiceId);
 }

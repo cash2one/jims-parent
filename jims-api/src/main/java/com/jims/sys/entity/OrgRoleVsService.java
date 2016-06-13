@@ -17,6 +17,7 @@ public class OrgRoleVsService extends DataEntity<OrgRoleVsService> {
 	private String serviceId;		// 服务id
 	private String roleId;		// 角色id
     private String remark;
+    private String serviceName;
 	
 	public OrgRoleVsService() {
 		super();
@@ -50,5 +51,13 @@ public class OrgRoleVsService extends DataEntity<OrgRoleVsService> {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 }

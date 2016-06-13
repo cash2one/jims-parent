@@ -9,6 +9,7 @@ import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.dao.*;
 import com.jims.sys.entity.*;
 import com.jims.sys.vo.OrgStaffVo;
+import com.jims.sys.vo.RoleServiceMenuVsMenuDictVo;
 import com.sun.org.apache.bcel.internal.generic.I2D;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Update;
@@ -259,6 +260,17 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
     }
 
     /**
+     * 根据人员ID和组织机构ID查询该人员在某家组织机构的员工信息
+     * @param personId 人员ID
+     * @param orgId    组织机构ID
+     * @return 员工信息
+     * @author fengyuguang
+     */
+    public OrgStaff findStaffByPersonIdOrgId(String personId, String orgId){
+        return dao.findStaffByPersonIdOrgId(personId,orgId);
+    }
+
+    /**
      * 查询人员角色信息
      *
      * @return
@@ -266,5 +278,27 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
     @Override
     public List<OrgRole> getRole(String staffId){
           return staffVsRoleDao.getRole(staffId);
+    }
+
+    /**
+     * 根据员工ID查询员工拥有的角色下所有的服务
+     * @param staffId 员工ID
+     * @return 角色对应服务的list集合
+     * @author fengyuguang
+     */
+    @Override
+    public List<OrgRoleVsService> findServiceId(String staffId) {
+        return staffVsRoleDao.findServiceId(staffId);
+    }
+
+    /**
+     * 根据roleServiceId查询数据列表
+     * @param roleServiceId org_role_vs_service表的id
+     * @return role_service_menu和menu_dict两个表联查集合
+     * @author fengyuguang
+     */
+    @Override
+    public List<RoleServiceMenuVsMenuDictVo> findByServiceId(String serviceId) {
+        return dao.findByServiceId(serviceId);
     }
 }
