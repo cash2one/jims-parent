@@ -45,4 +45,11 @@ public interface OrdersNurseServiceApi {
      * @return
      */
     public String proofOrders(List<Orders> ordersList);
+
+    /**
+     * 护理端 - 医嘱执行
+     * @param ordersList
+     * @return
+     */
+    public String executeOrders(List<Orders> ordersList);
 }

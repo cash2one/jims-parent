@@ -7,10 +7,10 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
-    <!--<script type="text/javascript" src="../nurse/js/bedInfo.js"></script>-->
+    <script type="text/javascript" src="../nurse/js/bedInfo.js"></script>
 </head>
-<body>
-<div class="bednum-main">
+<body oncontextmenu=window.event.returnValue=false bgcolor="#ffffff">
+<div class="bednum-main" id="content">
     <ul>
         <li class="bgcolor-green">
             <hr/>
@@ -415,6 +415,12 @@
     </ul>
 
 
+</div>
+
+
+<div id="menu" class="easyui-menu" style="width: 50px; display: none;">
+    <div><a href="#" onclick="addTabs('4','医嘱信息','/modules/nurse/orders.html',this)">医嘱信息</a></div>
+    <div><a href="#" onclick="addTabs('2','病人流转','/modules/nurse/patientFlow.html',this)">病人流转</a></div>
 </div>
 
 </body>

@@ -86,4 +86,27 @@ public class OrdersNurseBo extends CrudImplService<OrdersDao, Orders> {
         }
         return num + "";
     }
+
+
+
+    /**
+     * 护理端 - 医嘱执行
+     *
+     * @param ordersList
+     * @return
+     * @author pq
+     */
+    public String executeOrders(List<Orders> ordersList) {
+        int num = 0;
+        if (ordersList != null && ordersList.size() > 0) {
+            for (int i = 0; i < ordersList.size(); i++) {
+                Orders orders = new Orders();
+                orders = ordersList.get(i);
+                dao.executeOrders(orders);
+                num++;
+            }
+        }
+        return num + "";
+    }
 }
+

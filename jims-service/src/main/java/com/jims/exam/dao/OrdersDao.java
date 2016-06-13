@@ -123,6 +123,13 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @author pq
      * @return
      */
-    public String proofOrders(Orders orders);
+    public int proofOrders(Orders orders);
+
+    /**
+     * 护理端 - 医嘱执行
+     * @param orders
+     * @return
+     */
+    public int executeOrders(Orders orders);
 
 }

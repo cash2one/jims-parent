@@ -61,5 +61,15 @@ private OrdersNurseBo ordersNurseBo;
     public String proofOrders(List<Orders> ordersList){
       return ordersNurseBo.proofOrders(ordersList);
     }
+
+    /**
+     * 护理端 - 医嘱执行
+     * @param ordersList
+     * @author pq
+     * @return
+     */
+    public String executeOrders(List<Orders> ordersList){
+     return  ordersNurseBo.executeOrders(ordersList);
+    }
 }
 

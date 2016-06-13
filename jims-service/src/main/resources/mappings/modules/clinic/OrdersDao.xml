@@ -68,7 +68,10 @@
 		a.processing_date_time AS "processingDateTime",
 		a.PROCESSING_NURSE AS "processingNurse",
 		a.STOP_PROCESSING_NURSE AS "stopProcessingNurse",
-        a.STOP_PROCESSING_DATE_TIME AS  "stopProcessingDateTime"
+        a.STOP_PROCESSING_DATE_TIME AS  "stopProcessingDateTime",
+        a.EXEC_OPERATOR AS "execOperator",
+        a.EXEC_DATE_TIME AS  "execDateTime"
+
 	</sql>
 	
 	<sql id="ordersJoins">
@@ -200,6 +203,8 @@
 		"ORDERS"."START_DATE_TIME" as "startDateTime",
 		"ORDERS"."ORDER_TEXT" as "orderText",
 		"ORDERS"."DOSAGE" as "dosage",
+		"ORDERS"."EXEC_OPERATOR" AS "execOperator",
+        "ORDERS"."EXEC_DATE_TIME" AS  "execDateTime",
 		"ORDERS"."DOSAGE_UNITS" as "dosageUnits" ,
 		"ORDERS"."ADMINISTRATION" as "administration" ,
 		"ORDERS"."DURATION" as "duration",
@@ -570,7 +575,7 @@
 		<if test="startDateTime != null and startDateTime !=''">
 			, STOP_DATE_TIME = #{startDateTime}
 		</if>
-           ,PROCESSING_DATE_TIME = to_date(to_char(sysdate,'yyyy-MM-dd hh:mm:ss'),'yyyy-MM-dd hh:mm:ss')
+           ,PROCESSING_DATE_TIME = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
 		WHERE id = #{id}
 
 
@@ -590,7 +595,19 @@
 		<if test="doctorUser!=null and doctorUser !=''">
          ,DOCTOR_USER = #{doctorUser}
 		</if>
-		,VERIFY_DATA_TIME = to_date(to_char(sysdate,'yyyy-MM-dd hh:mm:ss'),'yyyy-MM-dd hh:mm:ss')
+		,VERIFY_DATA_TIME = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		WHERE id = #{id}
+	</update>
+
+	<update id="executeOrders">
+		update orders
+		set EXEC_DATE_TIME = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		<if test="doctorUser!=null and doctorUser !=''">
+			,DOCTOR_USER = #{doctorUser}
+		</if>
+		<if test="execOperator !=null and execOperator !=''">
+            ,EXEC_OPERATOR = #{execOperator}
+		</if>
 		WHERE id = #{id}
 	</update>
 </mapper>

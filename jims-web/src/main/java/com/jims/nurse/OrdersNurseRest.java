@@ -80,7 +80,7 @@ public class OrdersNurseRest {
     }
 
     /**
-     * 护理端 - 医嘱校验（执行）
+     * 护理端 - 医嘱校验（执行状态）
      * @param ordersList
      * @author pq
      * @return
@@ -90,6 +90,25 @@ public class OrdersNurseRest {
     public StringData proofOrders(List<Orders> ordersList){
         StringData stringData = new StringData();
         String code = ordersNurseServiceApi.proofOrders(ordersList);
+        stringData.setCode(code);
+        if(!"0".equals(code)&& !"".equals(code)){
+            stringData.setData("success");
+        }else{
+            stringData.setData("error");
+        }
+        return stringData;
+    }
+    /**
+     * 护理端 - 医嘱执行
+     * @param ordersList
+     * @author pq
+     * @return
+     */
+    @Path("executeOrders")
+    @POST
+    public StringData executeOrders(List<Orders> ordersList){
+        StringData stringData = new StringData();
+        String code = ordersNurseServiceApi.executeOrders(ordersList);
         stringData.setCode(code);
         if(!"0".equals(code)&& !"".equals(code)){
             stringData.setData("success");
