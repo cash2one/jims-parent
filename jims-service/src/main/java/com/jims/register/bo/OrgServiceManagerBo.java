@@ -1,6 +1,7 @@
 package com.jims.register.bo;
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.TreeUtils;
 import com.jims.register.dao.OrgSelfServiceListDao;
 import com.jims.register.dao.OrgSelfServiceVsMenuDao;
 import com.jims.register.dao.OrgServiceListDao;
@@ -147,28 +148,7 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         selfServiceVsMenu.setSelfServiceId(selfServiceId);
         List<OrgSelfServiceVsMenu> menus = selfServiceVsMenuDao.findList(selfServiceVsMenu);
         if(isTree && menus != null && menus.size() > 1){
-            Map<String,OrgSelfServiceVsMenu> menuMap = new HashMap<String, OrgSelfServiceVsMenu>();
-            List<String> rootList = new ArrayList<String>();
-            List<OrgSelfServiceVsMenu> resultMenus = new ArrayList<OrgSelfServiceVsMenu>();
-            for(int i=0,j=menus.size();i<j;i++){
-                menuMap.put(menus.get(i).getId(),menus.get(i));
-            }
-            for(int i=0,j=menus.size();i<j;i++){
-                String key = menus.get(i).getId();
-                String pid = menuMap.get(key).getPid();
-                if(menuMap.get(pid) != null){
-                    if(menuMap.get(pid).getChildren() == null){
-                        menuMap.get(pid).setChildren(new ArrayList<OrgSelfServiceVsMenu>());
-                    }
-                    menuMap.get(pid).getChildren().add(menuMap.get(key));
-                } else {
-                    rootList.add(key);
-                }
-            }
-            for(int i=0;i<rootList.size();i++){
-                resultMenus.add(menuMap.get(rootList.get(i)));
-            }
-            return resultMenus;
+            return TreeUtils.handleTreeList(menus);
         }
         return menus;
     }
