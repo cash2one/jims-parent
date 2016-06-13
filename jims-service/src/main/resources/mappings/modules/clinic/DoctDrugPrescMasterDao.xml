@@ -336,4 +336,8 @@
 			      PRESC_STATUS = '2'
 		     WHERE id = #{id}
 	 </update>
+
+	<select id="findWaitMedicine"  resultType="Integer">
+		select count(1) from doct_drug_presc_master where del_flag='0' and patient_id=#{patientId} and presc_status in ('1')
+	</select>
 </mapper>

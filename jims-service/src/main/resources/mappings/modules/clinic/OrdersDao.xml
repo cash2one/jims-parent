@@ -559,4 +559,8 @@
 		AND a."ORDER_STATUS"='6'
 	</select>
 
+	<select id="findOrderCount" resultType="Integer">
+		SELECT count (1) FROM orders Where patient_id =#{patientId} And Visit_id =#{visitId} And start_date_time >= #{admissionDateTime}
+	</select>
+
 </mapper>

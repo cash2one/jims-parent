@@ -1,11 +1,14 @@
 package com.jims.clinic.bo;
 
+import com.jims.clinic.dao.DoctDrugPrescMasterDao;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.clinic.dao.PatsInHospitalDao;
+import com.jims.clinic.dao.PreDischgedPatsDao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.web.impl.BaseDto;
+import com.jims.exam.dao.OrdersDao;
 import com.jims.finance.dao.PatsInTransferringDao;
 import com.jims.finance.entity.PatsInTransferring;
 import com.jims.nurse.dao.*;
@@ -41,6 +44,13 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
     PatsInTransferringDao patsInTransferringDao;
     @Autowired
     PatVisitDao patVisitDao;
+    @Autowired
+    PreDischgedPatsDao preDischgedPatsDao;
+    @Autowired
+    DoctDrugPrescMasterDao doctDrugPrescMasterDao;
+    @Autowired
+    OrdersDao ordersDao;
+
     /**
      * @param     vo        传递参数
      * @return java.lang.String    返回类型
@@ -237,6 +247,63 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
             e.printStackTrace();
         }
 
+        return String.valueOf(num);
+    }
+    /**
+     * @param        vo     传递参数
+     * @return java.lang.String    返回类型
+     * @throws
+     * @Title: leaveHosp
+     * @Description: (病人出院)
+     * @author CTQ
+     * @date 2016/6/13
+     */
+    public String leaveHosp(ComeDeptVo vo){
+
+        int num = 0;
+        /**1.判断该病人是否有出院通知，如果医生还没有对病人下达出院通知的话，系统会有提示“医生没有开出院通知，不允许出院”**/
+        //SELECT count ( *) From pre_dischged_pats where patient_id ='16011346'
+        Integer flag = preDischgedPatsDao.findByPatientId(vo.getPatientId());
+        if(flag!=null && flag>0){
+            /**2.出院前判结帐：如果系统设置中设置了出院前判结帐，系统将进行出院划价，检查该病人是否已结帐，如果没有，则提示“该病人还有未结算项目，出院吗？”，选择【否】的话系统自动中止本次出院处理，选择【是】，继续执行；系统检查是否还有未停止的长期医嘱，如果有，则提示是否中止，选择【否】，系统中止出院处理，选择【是】，则输入停止时间后，完成出院处理**/
+
+            /**3.出院前不判结帐：如果系统设置中未设置出院前判结帐，系统检查该病人是否还有未停的长期医嘱，如果有，则弹出对话框提示“该病人还有没停的长期医嘱，停止吗？”。选择【否】，则中止出院处理；选择【是】，则继续出院处理，需要自动停医嘱，弹出如下图所示的对话框。输入停医嘱时间后选择【是】，则停止所有医嘱后继续出院处理；选择【否】则中止出院处理**/
+
+            /**4.如果还有未发药的处方，则提示“该病人还有未发药处方或退药请求，出院吗？”，选择【是】，则直接出院；选择【否】，则中止出院**/
+            Integer dcount = doctDrugPrescMasterDao.findWaitMedicine(vo.getPatientId());
+                if(dcount!=null&&dcount>0){
+                    /**满足以上四个条件则可以出院**/
+                }else{
+                    num = -4;
+                }
+        }else{
+            num=-1;
+        }
+        return String.valueOf(num);
+    }
+    /**
+     * @param     vo       传递参数
+     * @return java.lang.String    返回类型
+     * @throws
+     * @Title: cancelComeDept
+     * @Description: (取消入科)
+     * @author CTQ
+     * @date 2016/6/13
+     */
+    public String cancelComeDept(ComeDeptVo vo){
+        int num = 0;
+        PatVisit patVisit = patVisitDao.getPatientInformation(vo.getPatientId());
+        /**1.判断是否有下达的医嘱**/
+        if(patVisit!=null){
+            //SELECT count ( *) FROM orders Where patient_id ='16010726' And Visit_id =1 And start_date_time >= '2016-01-07 15:47:14'
+            Integer flag = ordersDao.findOrderCount(vo.getPatientId(),patVisit.getVisitId().toString(),patVisit.getAdmissionDateTime());
+            if(flag!=null&&flag>0){
+                /**2.判断是否有费用信息**/
+                /**3.若无医嘱和费用信息，则可取消入科**/
+            }else {
+                num = -1;
+            }
+        }
         return String.valueOf(num);
     }
 }
