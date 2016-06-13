@@ -29,17 +29,6 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
     @Autowired
     private SysCompanyDao sysCompanyDao;
     @Autowired
-    private OrgServiceListDao orgServiceListDao;        //服务
-    @Autowired
-    private ServiceVsMenuDao serviceVsMenuDao;      //服务于菜单对照
-    @Autowired
-    private OrgSelfServiceListDao orgSelfServiceListDao;    //自定义服务
-    @Autowired
-    private OrgSelfServiceVsMenuDao orgSelfServiceVsMenuDao;    //自定义服务与菜单对照
-    @Autowired
-    private SysServiceDao sysServiceDao;    //系统服务
-
-    @Autowired
     private SysCompanyBo bo;
     /**
      * 根据申请状态查询组织机构列表
@@ -83,52 +72,23 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
         return id;
     }
 
-
+    /**
+     * 组织机构通过审核
+     * @param sysCompany
+     * @return
+     * @author fengyuguang
+     */
     public int update(SysCompany sysCompany) {
-        sysCompany.preUpdate();
+        return bo.update(sysCompany);
+    }
 
-        String orgId = sysCompany.getId();
-        String serviceId;   //机构服务ID
-        Date startDate;     //机构服务开始时间
-        Date endDate;       //机构服务结束时间
-        String serviceName; //服务名称
-        String menuId;      //菜单ID
-        String menuSort;        //菜单排序
-        //查询机构服务列表
-        List<OrgServiceList> lists = orgServiceListDao.findByOrgId(orgId);
-        for (OrgServiceList list : lists) {
-            serviceId = list.getServiceId();     //服务ID
-            startDate = list.getServiceStartDate();    //服务开始时间
-            endDate = list.getServiceEndDate();    //服务结束时间
-
-            //查询系统服务根据服务ID获取服务名称
-            serviceName = sysServiceDao.get(serviceId).getServiceName();
-
-            //自定义服务
-            OrgSelfServiceList orgSelfServiceList = new OrgSelfServiceList();
-            orgSelfServiceList.preInsert();     //设置主键ID
-            orgSelfServiceList.setOrgId(orgId);
-            orgSelfServiceList.setServiceName(serviceName);
-            orgSelfServiceListDao.insert(orgSelfServiceList);   //添加自定义服务
-
-            //根据服务ID查询服务菜单对照列表
-            List<ServiceVsMenu> sVmLists = serviceVsMenuDao.findByServiceId(serviceId);
-            for (ServiceVsMenu serviceVsMenu : sVmLists) {
-                menuId = serviceVsMenu.getMenuId();
-                menuSort = serviceVsMenu.getMenuSort();
-
-                //自定义服务于菜单对照
-                OrgSelfServiceVsMenu orgSelfServiceVsMenu = new OrgSelfServiceVsMenu();
-                orgSelfServiceVsMenu.preInsert();   //设置主键ID
-                orgSelfServiceVsMenu.setSelfServiceId(serviceId);
-                orgSelfServiceVsMenu.setMenuId(menuId);
-                orgSelfServiceVsMenu.setMenuSort(menuSort);
-                orgSelfServiceVsMenu.setMenuEndDate(endDate);
-                orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
-            }
-        }
-        int i = dao.update(sysCompany);
-        return i;
+    /**
+     * 驳回组织机构审核
+     * @param sysCompany
+     * @return
+     */
+    public int failPass(SysCompany sysCompany) {
+        return bo.failPass(sysCompany);
     }
 
     /**

@@ -105,7 +105,6 @@ $(function(){
         });
     }
 });
-
 function pass(id) {     //通过审核
     $.get(basePath + '/sys-sompany/get-sysCompany-by-id?id=' + id, function (data) {
         if (data.applyStatus == '2') {

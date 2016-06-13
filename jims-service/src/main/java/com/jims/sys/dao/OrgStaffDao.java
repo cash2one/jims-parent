@@ -69,10 +69,10 @@ public interface OrgStaffDao extends CrudDao<OrgStaff> {
 
     /**
      * 根据roleServiceId查询数据列表
-     * @param roleServiceId org_role_vs_service表的id
+     * @param serviceId 服务ID
      * @return role_service_menu和menu_dict两个表联查集合
      * @author fengyuguang
      */
-    public List<RoleServiceMenuVsMenuDictVo> findByRoleServiceId(String roleServiceId);
+    public List<RoleServiceMenuVsMenuDictVo> findByServiceId(String serviceId);
 
 }

@@ -25,7 +25,21 @@ public interface SysCompanyApi {
      */
     public SysCompany get(String id);
 
+    /**
+     * 组织机构通过审核
+     * @param sysCompany
+     * @return
+     * @author fengyuguang
+     */
     public int update(SysCompany sysCompany);
+
+    /**
+     * 驳回组织机构审核
+     * @param sysCompany
+     * @return
+     * @author fengyuguang
+     */
+    public int failPass(SysCompany sysCompany);
 
     /**
      * 查询组织机构列表

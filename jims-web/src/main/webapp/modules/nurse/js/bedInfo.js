@@ -1,5 +1,6 @@
+/*
 var wardCode='160101';
-$(function(){
+
     $('#bedInfo').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -32,4 +33,41 @@ $(function(){
 
 
 
-});
+});*/
+
+$(document).ready(
+    function(){
+        $("#content").mousedown(function(e){
+            if(e.which == 3){
+                e.preventDefault();
+         //       alert('禁用右键，弹出自己的');
+                $('#menu').show();
+              /*  $('#menu').menu('show', {
+                    left: e.pageX,//在鼠标点击处显示菜单
+                    top: e.pageY
+                });*/
+            }
+        });
+    }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

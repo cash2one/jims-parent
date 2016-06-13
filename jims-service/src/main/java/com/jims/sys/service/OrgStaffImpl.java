@@ -298,7 +298,7 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
      * @author fengyuguang
      */
     @Override
-    public List<RoleServiceMenuVsMenuDictVo> findByRoleServiceId(String roleServiceId) {
-        return dao.findByRoleServiceId(roleServiceId);
+    public List<RoleServiceMenuVsMenuDictVo> findByServiceId(String serviceId) {
+        return dao.findByServiceId(serviceId);
     }
 }
