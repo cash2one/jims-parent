@@ -6,6 +6,7 @@ package com.jims.sys.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.entity.OrgStaff;
 import com.jims.sys.vo.OrgStaffVo;
 import com.jims.sys.vo.RoleServiceMenuVsMenuDictVo;
@@ -70,9 +71,10 @@ public interface OrgStaffDao extends CrudDao<OrgStaff> {
     /**
      * 根据roleServiceId查询数据列表
      * @param serviceId 服务ID
+     * @param staffId 员工ID
      * @return role_service_menu和menu_dict两个表联查集合
      * @author fengyuguang
      */
-    public List<RoleServiceMenuVsMenuDictVo> findByServiceId(String serviceId);
+    public List<OrgSelfServiceVsMenu> findByServiceId(String serviceId,String staffId);
 
 }
