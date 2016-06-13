@@ -407,6 +407,7 @@ function changeSubNo(row){
                         //8.增加行把上一行的数据赋给子医嘱
                     //    addOrders();
                           //  alert("row[0].orderNo="+row[0].orderNo+"row[0].orderSubNo="+row[0].orderSubNo);
+                            alert(row[0].orderNo);
                         $('#orderList').datagrid('insertRow', {
                             index:0,	// index start with 0
                             row: {
