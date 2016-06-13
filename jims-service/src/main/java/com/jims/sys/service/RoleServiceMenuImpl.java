@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.sys.api.RoleServiceMenuApi;
 import com.jims.sys.bo.RoleServiceMenuService;
 import com.jims.sys.entity.RoleServiceMenu;
+import com.jims.sys.vo.MenuDictVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -19,5 +20,9 @@ public class RoleServiceMenuImpl implements RoleServiceMenuApi{
 
     public String save(List<RoleServiceMenu> roleServiceMenus){
         return roleServiceMenuService.save(roleServiceMenus);
+    }
+
+    public List<MenuDictVo> findRoleServiceMenu(String selfServiceId) {
+       return roleServiceMenuService.findRoleServiceMenu(selfServiceId);
     }
 }
