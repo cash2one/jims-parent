@@ -63,9 +63,11 @@ $(function() {
     }
     var onClickCell = function (index, field){
         if (endEditing()){
-            if(field == 'serviceImage') return
-            $('#orgSelfService').datagrid('selectRow', index)
-                .datagrid('editCell', {index:index,field:field});
+            var row = $('#orgSelfService').datagrid('getRows')[index];
+            if(row.serviceName != '系统管理') {
+                $('#orgSelfService').datagrid('selectRow', index)
+                    .datagrid('editCell', {index: index, field: field});
+            }
             currentSelectIndex = index;
         }
     }
@@ -155,6 +157,10 @@ $(function() {
         if(!endEditing()) return false
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row){
+            if(row.serviceName == '系统管理'){
+                $.messager.alert('警告','系统管理服务菜单不能修改！');
+                return
+            }
             var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
             crearTreeCheck()
             if(row.menus){
@@ -202,7 +208,7 @@ $(function() {
         if(delIds.length > 0){
             rows.push({delFlag:'1',id:delIds.substr(1)});
         }
-        parent.$.postJSON('/service/org-service/save-self-service',JSON.stringify(rows),function(res){
+        parent.parent.$.postJSON('/service/org-service/save-self-service',JSON.stringify(rows),function(res){
             if(res == '1'){
                 $.messager.alert('保存','保存成功！','info',function(){
                     window.location.reload();
@@ -295,23 +301,31 @@ $(function() {
         var node = $('#selectedMenu').tree('getSelected');
         if(node){
             operatorFlag = true    // 使用来控制取消菜单选择界面
-            var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
+            var treeNum = $('#selectServiceMenu .easyui-tree').length
             var parent;
             var child;
             do{
                 parent = $('#selectedMenu').tree('getParent',node.target);
                 $('#selectedMenu').tree('remove',node.target);
-                var n = $('#tree'+index).tree('find',node.id);
-                if(n)
-                    $('#tree'+index).tree('uncheck',n.target);
-                if(parent){
-                    if($('#tree'+index).tree('isLeaf',  $('#tree'+index).tree('find', parent.id).target)){
-                        node = undefined;
+                for(var i=0;i<treeNum;i++){
+                    var n = $('#tree'+i).tree('find',node.id);
+                    if(n){
+                        $('#tree'+i).tree('uncheck',n.target);
                         break;
                     }
-                    child = $('#selectedMenu').tree('getChildren',parent.target)
                 }
-                node = parent;
+                for(var i=0;i<treeNum;i++){
+                    if(parent && $('#tree'+i).tree('find', parent.id)){
+                        if($('#tree'+i).tree('isLeaf',  $('#tree'+i).tree('find', parent.id).target)){
+                            node = undefined;
+                            break;
+                        }
+                        if(i == treeNum - 1)
+                            child = $('#selectedMenu').tree('getChildren',parent.target);
+                    }
+                }
+                if(node)
+                    node = parent;
             } while(node && (!child || child.length == 0))
 
             operatorFlag = false
@@ -336,7 +350,7 @@ $(function() {
                         selfServiceId:row.id,
                         menuId:data.id,
                         menuSort:sort,
-                        menuEndDate:parent.parseToDate(data.endData)
+                        menuEndDate:parent.parent.parseToDate(data.endData)
                     }
                     var childs = data.children
                     if(childs && childs.length > 0){
@@ -411,7 +425,7 @@ $(function() {
                 var node = {
                     id: o.menuId,
                     text: o.menuName,
-                    endData: parent.formatDateBoxFull(o.menuEndDate)
+                    endData: parent.parent.formatDateBoxFull(o.menuEndDate)
                 }
                 if(o.children){
                     node.children = handlerSelfTreeDta(o.children);
@@ -431,7 +445,7 @@ $(function() {
                     id: o.id,
                     text: o.menuName,
                     href: o.href,
-                    endData: parent.formatDateBoxFull(endData)
+                    endData: parent.parent.formatDateBoxFull(endData)
                 }
                 if(o.children){
                     node.children = handlerTreeData(o.children,endData);
@@ -446,6 +460,7 @@ $(function() {
     $.get('/service/org-service/find-service',{orgId:currentOrgId},function(res){
         if(res) {
             for(var i=0;i<res.length;i++){
+                if(res[i].serviceName == '系统管理')continue;
                 $('#selectServiceMenu').accordion('add', {
                     title: res[i].serviceName,
                     content: '<ul class="easyui-tree" id="tree'+i+'"></ul>',

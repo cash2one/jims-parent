@@ -52,12 +52,10 @@ public class SysCompanyRest {
     @POST
     @Path("update-pass-status")
     public StringData updatePathStatus(@QueryParam("id")String id) {
-        System.out.println(id);
         SysCompany sysCompany = sysCompanyApi.get(id);
         sysCompany.setApplyStatus("2");
         int i = sysCompanyApi.update(sysCompany);
         String num = String.valueOf(i);
-        System.out.println("num:" + num);
         StringData stringData = new StringData();
         stringData.setCode(num);
         if (Integer.parseInt(num) > 0) {
@@ -77,12 +75,10 @@ public class SysCompanyRest {
     @POST
     @Path("update-fail-status")
     public StringData updateFailStatus(@QueryParam("id") String id) {
-        System.out.println(id);
         SysCompany sysCompany = sysCompanyApi.get(id);
         sysCompany.setApplyStatus("-1");
-        int i = sysCompanyApi.update(sysCompany);
+        int i = sysCompanyApi.failPass(sysCompany);
         String num = String.valueOf(i);
-        System.out.println("num:" + num);
         StringData stringData = new StringData();
         stringData.setCode(num);
         if (Integer.parseInt(num) > 0) {

@@ -1,6 +1,8 @@
 var editRow = undefined;
 var rowNum=-1;
 var editNum=-1;
+var patId ='15006135';
+var visitId = '1';
 var indicator = [{ "value": "1", "text": "长" }, { "value": "2", "text": "临" }];
 var Oclass =[{ "value": "1", "text": "药品" }, { "value": "2", "text": "非药品" }];
 var zi =[{ "value": "1", "text": "自带药" }, { "value": "2", "text": "不加价" }];
@@ -108,14 +110,14 @@ $(function(){
             {field:'freqCounter',title:'次数',width:'5%',align:'center'},
             {field:'stopDoctor',title:'停止医生',width:'5%',align:'center'},
             {field:'stopNurse',title:'停止校対护士',width:'5%',align:'center'},
-            {field:'patientId',hidden:'true',
+           /* {field:'patientId',hidden:'true',
                 formatter:function(){
                 return "15005451";
             }},
             {field:'visitId',hidden:'true',
                 formatter:function(){
                     return "1";
-                }},
+                }},*/
             {field:'orderNo',hidden:'true'},
             {field:'orderSubNo',hidden:'true'},
             {field:'orderStatus',hidden:'true'}
@@ -299,6 +301,7 @@ function save(){
     $("#orderList").datagrid('endEdit', rowNum);
     var  rows=$('#orderList').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
+    var submitJson=tableJson+",\"patientId\":"+patId+",\"visitId\":"+visitId+"}";
 
     $.postJSON(basePath+'/inOrders/save',tableJson,function(data){
         if(data.data=='success'){
@@ -388,9 +391,9 @@ function changeSubNo(row){
                 //3.判断2条医嘱是否同时药品，（药疗才可组成组合医嘱），进行4判断
                 if(row[0].orderClass==1&&prerow.orderClass==1){
                     //4.判断上一条医嘱状态，如果状态允许，进行5判断
-                    if(prerow.orderStatus==1 || prerow.orderStatus=="1"){
+                    if(prerow.orderStatus==6 || prerow.orderStatus=="6"){
                         //5.判断选中行row的医嘱状态，如果状态是新开，则进行6操作
-                        if(row[0].orderStatus==1||row[0].orderStatus=='1'){
+                        if(row[0].orderStatus==6||row[0].orderStatus=='6'){
                             //6.获取上一行的orderSubNo，则给选中行的子医嘱号累加1并赋值，并把医嘱号更改为与上行医嘱号相同
                             row[0].orderSubNo = parseInt(nowrow.orderSubNo)+1;
                             row[0].orderNo = nowrow.orderNo;
@@ -404,6 +407,7 @@ function changeSubNo(row){
                         //8.增加行把上一行的数据赋给子医嘱
                     //    addOrders();
                           //  alert("row[0].orderNo="+row[0].orderNo+"row[0].orderSubNo="+row[0].orderSubNo);
+                            alert(row[0].orderNo);
                         $('#orderList').datagrid('insertRow', {
                             index:0,	// index start with 0
                             row: {

@@ -13,6 +13,7 @@ $(function () {
         }
     };
     var checkedMenus = []; //选中菜单
+    var flag = 0;//增加修改状态
     /**
      * 服务数据框
      */
@@ -93,24 +94,20 @@ $(function () {
             }
         }]]
     });
-
     /**
-     * 服务弹出框
+     * 服务名称
      */
-    $("#serviceDialog").dialog({
-        title: '基础服务增加',
-        width: 1000,
-        height: 350,
-        closed:true
-
-    });
-
+    $("#serviceName").textbox({
+            width:'200px'
+        }
+    );
     /**
      * 服务类型
      */
     $("#serviceType").combobox({
         valueField:"value",
         textField:"text",
+        width:'200px',
         data: [{
             text: '无偿服务',
             value: "0"
@@ -126,6 +123,7 @@ $(function () {
     $("#serviceClass").combobox({
         valueField:'value',
         textField:'text',
+        width:'200px',
         data: [{
             text: '机构服务',
             value: "0"
@@ -136,7 +134,21 @@ $(function () {
         },{
             text: '所有服务',
             value: "2"
+        },{
+            text: '机构管理服务',
+            value: "3"
         }]
+    });
+
+    /**
+     * 服务弹出框
+     */
+    $("#serviceDialog").dialog({
+        title: '基础服务增加',
+        width: 1000,
+        height: 350,
+        closed:true
+
     });
     /**
      * 服务定位
@@ -160,6 +172,7 @@ $(function () {
      */
     $("#addBtn").on('click', function () {
         reset();
+        flag = 1;
         $("#serviceType").combobox("setValue","0");
         $("#serviceClass").combobox("setValue","0");
         $("#serviceDialog").dialog("open");
@@ -169,6 +182,7 @@ $(function () {
      */
     $("#editBtn").on('click', function () {
         reset();
+        flag = 0;
         var row = $("#serviceDg").datagrid("getSelected");
         if(!row){
             $.messager.alert("提示","请选择一个服务",'info');
@@ -227,15 +241,8 @@ $(function () {
         }
 
 
-        var serviceImage = $("#serviceImage").val();
         var row = $("#serviceDg").datagrid("getSelected");
-        var suffer=serviceImage.substring(serviceImage.lastIndexOf(".")+1).toLowerCase();
-        if(suffer!="jpg"&&suffer!="png"&&suffer!="gif"&&suffer!="jpeg"&&suffer!="bmp"&&suffer!="swf"){
-            if(!row.id){
-                $.messager.alert("系统提示", "请选择正确格式的图片","error");
-                return;
-            }
-        }
+
         var maxsize = 2*1024*1024;//2M
         var errMsg = "上传的附件文件不能超过2M！！！";
         var tipMsg = "您的浏览器暂不支持计算上传文件的大小，确保上传文件不要超过2M，建议使用IE、FireFox、Chrome浏览器。";
@@ -251,8 +258,24 @@ $(function () {
         }
         var obj_file = document.getElementById("serviceImage");
         if(obj_file.value==""){
-            if(!row.id){
+            if(flag == 1){
                 alert("请先选择上传文件");
+                return;
+            }
+            if(row && !row.id){
+                alert("请先选择上传文件");
+                return;
+            }
+        }
+        var serviceImage = $("#serviceImage").val();
+        var suffer=serviceImage.substring(serviceImage.lastIndexOf(".")+1).toLowerCase();
+        if(suffer!="jpg"&&suffer!="png"&&suffer!="gif"&&suffer!="jpeg"&&suffer!="bmp"&&suffer!="swf"){
+            if( flag == 1 ){
+                $.messager.alert("系统提示", "请选择正确格式的图片","error");
+                return;
+            }
+            if( row && !row.id ){
+                $.messager.alert("系统提示", "请选择正确格式的图片","error");
                 return;
             }
         }
@@ -304,6 +327,7 @@ $(function () {
         });
         $.postJSON(basePath + "/sys-service/save", JSON.stringify(oData), function (data) {
             $.messager.alert('系统提示', '保存成功', 'info');
+            flag = 0;
             loadDict();
             reset();
         })
@@ -374,14 +398,8 @@ $(function () {
                         text:"年",
                         value:"年"
                     },{
-                        text:"季",
-                        value:"季"
-                    },{
                         text:"月",
                         value:"月"
-                    },{
-                        text:"日",
-                        value:"日"
                     }]
                 }
             }
@@ -409,8 +427,19 @@ $(function () {
      */
     $("#addDetailBtn").on("click", function () {
         stopEdit();
+        var rows = $("#serviceDetailDg").datagrid("getRows");
+        console.log(rows.length)
+        if(rows.length >= 2){
+            $.messager.alert("提示","最多只能添加一个月价格，一个年价格","error");
+            return;
+        }
         var row = $("#serviceDg").datagrid("getSelected");
-        $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'月'});
+        if(rows.length ==0){
+            $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'月'});
+        }else{
+            $("#serviceDetailDg").datagrid("appendRow",{serviceId:row.id,serviceTimeLimit:'年'});
+
+        }
         var rows = $("#serviceDetailDg").datagrid("getRows");
         var addRowIndex = $("#serviceDetailDg").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;
@@ -459,10 +488,34 @@ $(function () {
      * 基础服务价格保存
      */
     $("#submitDetailBtn").on("click",function(){
+        var flag = 0;
 
         if (editIndex || editIndex == 0) {
             $("#serviceDetailDg").datagrid("endEdit", editIndex);
         }
+        var rows = $("#serviceDetailDg").datagrid("getRows");
+        if(rows.length == 0){
+            $.messager.alert("提示","请添加一条数据","error");
+            return;
+        }else{
+            $.each(rows, function (index,row) {
+                if(!row.servicePrice){
+                    flag = 1;
+                }
+            });
+
+        if(flag == 1){
+            $.messager.alert("提示","添加服务价格","error");
+            return;
+        }
+        }
+        if(rows.length >= 2){
+            if(rows[0].serviceTimeLimit == rows[1].serviceTimeLimit){
+                $.messager.alert("提示","最多只能添加一个月价格，一个年价格","error");
+                return;
+            }
+        }
+
         var insertData = $("#serviceDetailDg").datagrid("getChanges", "inserted");
         var updateDate = $("#serviceDetailDg").datagrid("getChanges", "updated");
         var deleteDate = $("#serviceDetailDg").datagrid("getChanges", "deleted");
@@ -530,7 +583,7 @@ $(function () {
                     }
                     //判断服务菜单选中
                     for(var x = 0 ; x<serviceVsMenu.length;x++){
-                        if (serviceVsMenu[x].menuId == menus[i].id ){
+                        if (serviceVsMenu[x].menuId == menus[i].id && menus[i].children.length == 0 ){
                             menus[i].checked = true;
                         }
                     }
@@ -560,8 +613,8 @@ $(function () {
     $("#serviceMenuTree").tree({
         method:'get',
         animate:true,
-        checkbox:true,
-        onlyLeafCheck:true
+        checkbox:true
+        //onlyLeafCheck:true
     });
     /**
      * 菜单明细保存
@@ -569,15 +622,49 @@ $(function () {
     $("#submitMenuBtn").on("click", function () {
         var row = $("#serviceDg").datagrid("getSelected");
         var menuVsServices  = [];
+        var menuVsServicesParent  = [];
         var menus = $('#serviceMenuTree').tree('getChecked');
         for (var n = 0;n<menus.length;n++){
-            var menuVsService = {};
-            menuVsService.serviceId = row.id;
-            menuVsService.menuId = menus[n].id;
-            menuVsServices.push(menuVsService);
+            if(menus[n].children.length == 0){
+                var menuVsService = {};
+                menuVsService.serviceId = row.id;
+                menuVsService.menuId = menus[n].id;
+                menuVsServices.push(menuVsService);
+            }
+
+            var parentNode = $('#serviceMenuTree').tree('getParent',menus[n].target);
+            var parentPid = parentNode.pid;
+            do{
+                var menuVsServiceParentNode = {};
+                var ok = 0;//是否父节点存在标志
+
+                if(menuVsServicesParent.length == 0){
+                    menuVsServiceParentNode.serviceId = row.id;
+                    menuVsServiceParentNode.menuId = parentNode.id;
+                    menuVsServicesParent.push(menuVsServiceParentNode);
+                }
+                for(var i = 0; i < menuVsServicesParent.length ; i++){
+                    if(menuVsServicesParent[i].menuId == parentNode.id){
+                        ok = 1;
+                        break;
+                    }
+                }
+                if(ok==0){
+                    menuVsServiceParentNode.serviceId = row.id;
+                    menuVsServiceParentNode.menuId = parentNode.id;
+                    menuVsServicesParent.push(menuVsServiceParentNode);
+                }
+                var parentNode = $('#serviceMenuTree').tree('getParent',parentNode.target);
+                if (parentNode){
+                    parentPid = parentNode.pid;
+                }
+            }while(parentPid)
+
         }
-        console.log(menuVsServices);
-        $.postJSON(basePath + "/sys-service/save-serviceVsMenu",JSON.stringify(menuVsServices), function () {
+        //console.log(menuVsServices);
+        //console.log(menuVsServicesParent);
+        //console.log(menuVsServices.concat(menuVsServicesParent));
+        $.postJSON(basePath + "/sys-service/save-serviceVsMenu",JSON.stringify(menuVsServices.concat(menuVsServicesParent)), function () {
             $.messager.alert("系统提示", "保存成功", "info");
         })
     });
@@ -595,12 +682,16 @@ $(function () {
         $('#serviceMenuTree').tree('collapseAll');
     });
     /**
-     *全部折叠
+     *菜单查询
      */
     $("#menuSelectBtn").on("click", function () {
-        var node = $('#serviceMenuTree').tree('find','35E111DB41F9420B9B19B200A41488CB');
-        $('#serviceMenuTree').tree('expandTo', node.target);
-        $('#serviceMenuTree').tree('scrollTo', node.target).tree('select', node.target);
+        var menuName = $("#searchMenu").textbox("getValue");
+        if(menuName){
+            //调用查询方法 返回id
+            var node = $('#serviceMenuTree').tree('find','35E111DB41F9420B9B19B200A41488CB');
+            $('#serviceMenuTree').tree('expandTo', node.target);
+            $('#serviceMenuTree').tree('scrollTo', node.target).tree('select', node.target);
+        }
     });
 
     /**

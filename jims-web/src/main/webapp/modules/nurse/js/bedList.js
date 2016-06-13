@@ -451,7 +451,7 @@ function packBed(){
   var bedInfo =  $("#emptyBed").datagrid("getSelections");
     var tableJson=JSON.stringify(bedInfo);
     var submitJson=tableJson+",\"patientId\":"+patId+"}";
-    alert(submitJson);
+  //  alert(submitJson);
   //  alert(tableJson);
     $.postJSON(basePath+'/bedRec/packBed',submitJson,function(data){
         if(data.data=='success'){

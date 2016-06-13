@@ -5,6 +5,7 @@ import com.jims.clinic.service.ElectronEnterHospitalServiceImpl;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 
+import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.dao.*;
 import com.jims.sys.entity.*;
@@ -293,12 +294,13 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
 
     /**
      * 根据roleServiceId查询数据列表
-     * @param roleServiceId org_role_vs_service表的id
+     * @param serviceId 服务ID
+     * @param staffId 员工ID
      * @return role_service_menu和menu_dict两个表联查集合
      * @author fengyuguang
      */
     @Override
-    public List<RoleServiceMenuVsMenuDictVo> findByRoleServiceId(String roleServiceId) {
-        return dao.findByRoleServiceId(roleServiceId);
+    public List<OrgSelfServiceVsMenu> findByServiceId(String serviceId,String staffId) {
+        return dao.findByServiceId(serviceId,staffId);
     }
 }

@@ -5,6 +5,7 @@ import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.common.utils.StringUtils;
+import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.api.PersionInfoApi;
 import com.jims.sys.entity.*;
@@ -16,10 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -231,14 +229,34 @@ public class OrgStaffRest {
 
     /**
      * 根据roleServiceId查询数据列表
-     * @param roleServiceId org_role_vs_service表的id
+     * @param serviceId 服务ID
+     * @param staffId 员工ID
      * @return role_service_menu和menu_dict两个表联查集合
      * @author fengyuguang
      */
     @GET
-    @Path("find-list-by-roleServiceId")
-    public List<RoleServiceMenuVsMenuDictVo> findByRoleServiceId(@QueryParam("roleServiceId")String roleServiceId){
-        return orgStaffApi.findByRoleServiceId(roleServiceId);
+    @Path("find-list-by-serviceId")
+    public List<OrgSelfServiceVsMenu> findByServiceId(@QueryParam("serviceId")String serviceId,@QueryParam("staffId")String staffId){
+        List<OrgSelfServiceVsMenu> menus = orgStaffApi.findByServiceId(serviceId,staffId);
+        List<OrgSelfServiceVsMenu> lists = new ArrayList<OrgSelfServiceVsMenu>();
+        Map<String, OrgSelfServiceVsMenu> map = new HashMap<String, OrgSelfServiceVsMenu>();
+        for(int i=menus.size()-1;i>=0;i--){
+            if(map.containsKey(menus.get(i).getMenuId())){
+                String oldOperate = map.get(menus.get(i).getMenuId()).getMenuOperate();
+                String newOperate = menus.get(i).getMenuOperate();
+                if(Integer.parseInt(newOperate) >= Integer.parseInt(oldOperate)){
+                    map.remove(menus.get(i).getMenuId());
+                    map.put(menus.get(i).getMenuId(),menus.get(i));
+                }
+            }else{
+                map.put(menus.get(i).getMenuId(),menus.get(i));
+            }
+        }
+        Set<String> sets = map.keySet();
+        for (String key : map.keySet()) {
+            lists.add(map.get(key));
+        }
+        return lists;
     }
 
 }

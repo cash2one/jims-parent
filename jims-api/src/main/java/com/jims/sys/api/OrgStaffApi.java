@@ -1,6 +1,7 @@
 package com.jims.sys.api;
 
 import com.jims.common.persistence.Page;
+import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.entity.*;
 import com.jims.sys.vo.OrgStaffVo;
 import com.jims.sys.vo.RoleServiceMenuVsMenuDictVo;
@@ -112,10 +113,11 @@ public interface OrgStaffApi {
 
     /**
      * 根据roleServiceId查询数据列表
-     * @param roleServiceId org_role_vs_service表的id
+     * @param serviceId 服务ID
+     * @param staffId 员工ID
      * @return role_service_menu和menu_dict两个表联查集合
      * @author fengyuguang
      */
-    public List<RoleServiceMenuVsMenuDictVo> findByRoleServiceId(String roleServiceId);
+    public List<OrgSelfServiceVsMenu> findByServiceId(String serviceId,String staffId);
 
 }
