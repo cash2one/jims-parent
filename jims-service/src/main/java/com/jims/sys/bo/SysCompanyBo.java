@@ -40,7 +40,6 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
      * @param company
      *
      */
-
     public void saveCompanyAndService(SysCompany company){
         company.preInsert();
         List<OrgServiceList> services = company.getServiceList();
@@ -62,7 +61,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 serviceDao.insert(orgService);
             }
         }
-        int i = dao.insertReturnId(company);
+        dao.insert(company);
         String id = company.getId();
         OrgStaff orgStaff=new OrgStaff();
         orgStaff.preInsert();
