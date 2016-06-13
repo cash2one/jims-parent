@@ -460,6 +460,7 @@ $(function() {
     $.get('/service/org-service/find-service',{orgId:currentOrgId},function(res){
         if(res) {
             for(var i=0;i<res.length;i++){
+                if(res[i].serviceName == '系统管理')continue;
                 $('#selectServiceMenu').accordion('add', {
                     title: res[i].serviceName,
                     content: '<ul class="easyui-tree" id="tree'+i+'"></ul>',
