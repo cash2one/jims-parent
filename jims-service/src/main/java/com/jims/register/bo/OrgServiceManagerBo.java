@@ -173,33 +173,26 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         return menus;
     }
 
-    public List<OrgSelfServiceVsMenuVo> findSelfServiceMenu(String orgId){
-        List<OrgSelfServiceVsMenuVo> orgSelfServiceVsMenuVos = new ArrayList<OrgSelfServiceVsMenuVo>();
+    public List<MenuDictVo> findSelfServiceMenu(String selfServiceId, String roleServiceId) {
 
-        OrgSelfServiceList selfService = new OrgSelfServiceList();
-        selfService.setOrgId(orgId);
-        List<OrgSelfServiceList> orgSelfServiceLists = selfServiceDao.findList(selfService);
-        for (int i = 0; i < orgSelfServiceLists.size(); i++) {
-            OrgSelfServiceList orgSelfServiceList = orgSelfServiceLists.get(i);
-            OrgSelfServiceVsMenu selfServiceVsMenu = new OrgSelfServiceVsMenu();
-            selfServiceVsMenu.setSelfServiceId(orgSelfServiceList.getId());
-            List<OrgSelfServiceVsMenu> orgSelfServiceVsMenus = selfServiceVsMenuDao.findList(selfServiceVsMenu);
-            OrgSelfServiceVsMenuVo orgSelfServiceVsMenuVo = new OrgSelfServiceVsMenuVo();
-            orgSelfServiceVsMenuVo.setId(orgSelfServiceList.getId());
-            orgSelfServiceVsMenuVo.setText(orgSelfServiceList.getServiceName());
-            List<MenuDictVo> menuDictVos = new ArrayList<MenuDictVo>();
-            for(int j = 0; j < orgSelfServiceVsMenus.size(); j++){
-                OrgSelfServiceVsMenu  orgSelfServiceVsMenu = orgSelfServiceVsMenus.get(j);
-                MenuDict menuDict = menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
-                MenuDictVo menuDictVo = new MenuDictVo();
-                menuDictVo.setId(menuDict.getId());
-                menuDictVo.setText(menuDict.getMenuName());
-                menuDictVos.add(menuDictVo);
-                orgSelfServiceVsMenuVo.setChildren(menuDictVos);
+        List<OrgSelfServiceVsMenu> orgSelfServiceVsMenus = selfServiceVsMenuDao.findSelfServiceId(selfServiceId, roleServiceId);
+        List<MenuDictVo> menuDictVos = new ArrayList<MenuDictVo>();
+        for (int j = 0; j < orgSelfServiceVsMenus.size(); j++) {
+            OrgSelfServiceVsMenu orgSelfServiceVsMenu = orgSelfServiceVsMenus.get(j);
+            MenuDict menuDict = menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
+            MenuDictVo menuDictVo = new MenuDictVo();
+            menuDictVo.setId(orgSelfServiceVsMenu.getId());
+            menuDictVo.setMenuId(menuDict.getId());
+            menuDictVo.setMenuName(menuDict.getMenuName());
+            menuDictVo.setPid(orgSelfServiceVsMenu.getPid());
+            if (orgSelfServiceVsMenu.getMenuOperate() == null) {
+                menuDictVo.setMenuOperate("0");
+            } else {
+                menuDictVo.setMenuOperate(orgSelfServiceVsMenu.getMenuOperate());
             }
-            orgSelfServiceVsMenuVos.add(orgSelfServiceVsMenuVo);
+            menuDictVos.add(menuDictVo);
         }
-        return orgSelfServiceVsMenuVos;
+        return menuDictVos;
     }
 
     //处理树形数据
