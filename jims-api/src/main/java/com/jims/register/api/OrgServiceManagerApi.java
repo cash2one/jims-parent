@@ -3,6 +3,7 @@ package com.jims.register.api;
 import com.jims.register.entity.OrgSelfServiceList;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
+import com.jims.sys.vo.MenuDictVo;
 import com.jims.sys.vo.OrgSelfServiceVsMenuVo;
 
 import java.util.List;
@@ -56,10 +57,11 @@ public interface OrgServiceManagerApi {
     public List<OrgSelfServiceVsMenu> findSelfServiceVsMenu(String selfServiceId,boolean isTree);
 
     /**
-     *  检索机构自定义服务菜单
-     * @param orgId
+     * 检索机构自定义服务菜单
+     *
+     * @param selfServiceId
      * @return
      */
-    public List<OrgSelfServiceVsMenuVo> findSelfServiceMenu(String orgId);
+    public List<MenuDictVo> findSelfServiceMenu(String selfServiceId, String roleServiceId);
 
 }

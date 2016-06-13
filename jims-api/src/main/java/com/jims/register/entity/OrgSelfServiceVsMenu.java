@@ -21,6 +21,7 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
     private String careateBy;		// careate_by
     private String remark;		// remark
     private Date createTime;		// create_time
+    private String menuOperate;
 
     private List<OrgSelfServiceVsMenu> children ; // 子节点
     private String menuName;  // 菜单名称
@@ -116,5 +117,13 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 
     public void setMenuName(String menuName) {
         this.menuName = menuName;
+    }
+
+    public String getMenuOperate() {
+        return menuOperate;
+    }
+
+    public void setMenuOperate(String menuOperate) {
+        this.menuOperate = menuOperate;
     }
 }
