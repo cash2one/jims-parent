@@ -49,11 +49,15 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
     @Autowired
     RoleServiceMenuDao roleServiceMenuDao;  //服务对应菜单
 
+    @Autowired
+    OrgStaffDao orgStaffDao ;
+
     /**
      * 保存注册信息以及选择的服务
      * @param company
      *
      */
+
     public void saveCompanyAndService(SysCompany company){
         company.preInsert();
         List<OrgServiceList> services = company.getServiceList();
@@ -64,7 +68,27 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 serviceDao.insert(service);
             }
         }
+        List<SysService> sysServices = sysServiceDao.findServiceWithPrice("3", "0");
+        if(sysServices != null && sysServices.size() > 0){
+            for(SysService service : sysServices){
+                OrgServiceList orgService = new OrgServiceList();
+                orgService.setServiceId(service.getId());
+                orgService.setServiceStartDate(new Date());
+                orgService.setOrgId(company.getId());
+                orgService.preInsert();
+                serviceDao.insert(orgService);
+            }
+        }
+
         dao.insert(company);
+        String id = company.getId();
+        OrgStaff orgStaff=new OrgStaff();
+        orgStaff.preInsert();
+        orgStaff.setPersionId(company.getOwner());
+        orgStaff.setDelFlag("0");
+        orgStaff.setOrgId(id);
+        orgStaffDao.insert(orgStaff);
+
     }
 
     /**
