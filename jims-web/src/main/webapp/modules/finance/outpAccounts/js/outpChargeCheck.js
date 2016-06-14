@@ -105,8 +105,6 @@ function compute(tableName,colName) {
         }else{
             total += parseFloat(rows[i][colName]);
         }
-
-
     }
     return total;
 }

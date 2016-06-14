@@ -106,4 +106,12 @@ public interface OrdersServiceApi {
      */
     public Orders get(String id);
 
+    /**
+     * 查询医嘱的子医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public  List<Orders> getSubOrders(Orders orders);
+
 }
