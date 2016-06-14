@@ -11,9 +11,6 @@ if (str.indexOf(name) != -1) {
         var staffId=str.substring(serviceId.length+20);
     }
 }
-
-alert(serviceId)
-alert(staffId)
 window.addTab = function (title, href) {
     //如果路径为空，则直接返回
     if (!href) {
@@ -42,10 +39,7 @@ $(document).ready(function () {
     var menuDatas = [];
 
     $.get(basePath + '/orgStaff/find-list-by-serviceId?serviceId=' + serviceId + '&staffId=' + staffId, function (menus) {
-         //console.log(menus)
-
-
-         for (var i = 0; i < menus.length; i++) {
+        for (var i = 0; i < menus.length; i++) {
              menus[i].children = [];
          }
          for (var i = 0; i < menus.length; i++) {
@@ -62,7 +56,6 @@ $(document).ready(function () {
              title: '嵌入子模板',
              list: menuDatas
          };
-
          var html = template('master_menu', data);
 
          document.getElementById('content').innerHTML = html;

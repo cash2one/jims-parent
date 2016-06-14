@@ -169,14 +169,13 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         List<MenuDictVo> menuDictVos = new ArrayList<MenuDictVo>();
         for (int j = 0; j < orgSelfServiceVsMenus.size(); j++) {
             OrgSelfServiceVsMenu orgSelfServiceVsMenu = orgSelfServiceVsMenus.get(j);
-            MenuDict menuDict = menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
+            MenuDict menuDict =  menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
             MenuDictVo menuDictVo = new MenuDictVo();
             menuDictVo.setId(orgSelfServiceVsMenu.getId());
-            menuDictVo.setMenuId(menuDict.getId());
-            menuDictVo.setMenuName(menuDict.getMenuName());
             menuDictVo.setPid(orgSelfServiceVsMenu.getPid());
+            menuDictVo.setMenuName(menuDict.getMenuName());
             if (orgSelfServiceVsMenu.getMenuOperate() == null) {
-                menuDictVo.setMenuOperate("0");
+                menuDictVo.setMenuOperate("2");
             } else {
                 menuDictVo.setMenuOperate(orgSelfServiceVsMenu.getMenuOperate());
             }

@@ -8,12 +8,12 @@ CREATE TABLE ORG_SELF_SERVICE_VS_MENU
    MENU_SORT          VARCHAR2(10),
    PID                VARCHAR2(64),
    MENU_END_DATE        DATE,
-   CAREATE_BY           VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
+   CREATE_BY           VARCHAR2(64),
+   REMARKS               VARCHAR2(2000),
    UPDATE_BY            VARCHAR2(64),
    UPDATE_DATE          DATE,
    DEL_FLAG             VARCHAR2(2),
-   CREATE_TIME          DATE,
+   CREATE_DATE          DATE,
    CONSTRAINT PK_ORG_SELF_SERVICE_VS_MENU PRIMARY KEY (ID)
 );
 

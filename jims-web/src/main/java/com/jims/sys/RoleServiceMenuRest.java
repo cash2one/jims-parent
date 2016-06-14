@@ -26,9 +26,4 @@ public class RoleServiceMenuRest {
        return roleServiceMenuApi.save(roleServiceMenus);
     }
 
-    @Path("find-menu")
-    @GET
-    public List<MenuDictVo> findRoleServiceMenu(@QueryParam("selfServiceId") String selfServiceId){
-        return roleServiceMenuApi.findRoleServiceMenu(selfServiceId);
-    }
 }

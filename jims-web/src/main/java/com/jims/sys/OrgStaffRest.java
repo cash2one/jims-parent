@@ -5,6 +5,7 @@ import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.utils.TreeUtils;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.api.PersionInfoApi;
@@ -256,6 +257,7 @@ public class OrgStaffRest {
         for (String key : map.keySet()) {
             lists.add(map.get(key));
         }
+
         return lists;
     }
 
