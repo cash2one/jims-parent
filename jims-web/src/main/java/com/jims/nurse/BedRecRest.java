@@ -69,14 +69,14 @@ public class BedRecRest {
 
     /**
      * 查询病区下所有的床位信息
-     * @param wardCode
+     * @param bedRec
      * @author pq
      * @return
      */
     @Path("getAllBed")
     @POST
-    public List<BaseDto> getAllBed(String wardCode){
-        return  bedRecServiceApi.getAllBed(wardCode);
+    public List<BaseDto> getAllBed(BedRec bedRec){
+        return  bedRecServiceApi.getAllBed(bedRec);
     }
 
     /**
@@ -188,5 +188,17 @@ public class BedRecRest {
     @POST
     public Boolean judgeBedNo(BedRec bedRec){
       return  bedRecServiceApi.judgeBedNo(bedRec.getBedNo(),bedRec.getWardCode());
+    }
+
+
+    /**
+     * 通过visitId 拿到在医院病人的在院信息
+     * @param bedRec
+     * @return
+     */
+    @Path("getInPats")
+    @POST
+    public List<BaseDto> getInPats(BedRec bedRec){
+        return  bedRecServiceApi.getAllBed(bedRec);
     }
 }
