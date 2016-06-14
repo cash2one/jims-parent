@@ -62,8 +62,8 @@
         md.menu_name
         from staff_vs_role svr,org_role_vs_service orvs,role_service_menu rsm,
         org_self_service_vs_menu sv,menu_dict md
-        where svr.staff_id = #{0}
-        and orvs.service_id = #{1}
+        where orvs.service_id = #{0}
+        and svr.staff_id = #{1}
         and orvs.role_id = svr.role_id
         and orvs.id = rsm.role_service_id
         and sv.id = rsm.menu_id
