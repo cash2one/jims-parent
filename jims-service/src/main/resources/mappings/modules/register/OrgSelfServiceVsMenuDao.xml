@@ -30,10 +30,10 @@
 
     <select id="findSelfServiceId" resultType="OrgSelfServiceVsMenu">
         SELECT
-        <include refid="orgSelfServiceVsMenuColumns"/>,r.menu_operate AS "menuOperate"
-        FROM org_self_service_vs_menu a left join role_service_menu r on a.menu_id = r.menu_id
-        and a.self_service_id =(select service_id from org_role_vs_service where id = #{1})
-        WHERE a.self_service_id =#{0}
+        <include refid="orgSelfServiceVsMenuColumns"/>,s.menu_operate AS "menuOperate"
+        FROM org_self_service_vs_menu a left join ( select o.menu_id,r.menu_operate from org_self_service_vs_menu o left
+        join role_service_menu r on o.id = r.menu_id where o.self_service_id = #{0} and r.role_service_id = ( select id
+        from org_role_vs_service where service_id =#{0} and role_id =#{1})) s on s.menu_id = a.menu_id ORDER BY a.menu_sort
     </select>
 
     <select id="findServiceId" resultType="OrgSelfServiceVsMenu">

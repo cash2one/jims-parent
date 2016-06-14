@@ -54,18 +54,6 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
                         orgRoleVsService2.setRoleId(orgRoleVsService1.getRoleId());
                         orgRoleVsService2.setServiceId(id[k]);
                         save(orgRoleVsService2);
-                        List<OrgSelfServiceVsMenu> orgSelfServiceVsMenuS = orgSelfServiceVsMenuDao.findServiceId(id[k]);
-                        for(int s = 0; s< orgSelfServiceVsMenuS.size(); s++){
-                            OrgSelfServiceVsMenu orgSelfServiceVsMenu = orgSelfServiceVsMenuS.get(s);
-                            RoleServiceMenu roleServiceMenu = new RoleServiceMenu();
-                            roleServiceMenu.setMenuId(orgSelfServiceVsMenu.getId());
-                            roleServiceMenu.setMenuOperate("1");
-                            roleServiceMenu.setRoleServiceId(orgRoleVsService2.getId());
-                            roleServiceMenu.setPid(orgSelfServiceVsMenu.getPid());
-                            roleServiceMenu.setMenuEndDate(orgSelfServiceVsMenu.getMenuEndDate());
-                            roleServiceMenu.preInsert();
-                            roleServiceMenuDao.insert(roleServiceMenu);
-                        }
                     } else {
                         return "1";
                     }
