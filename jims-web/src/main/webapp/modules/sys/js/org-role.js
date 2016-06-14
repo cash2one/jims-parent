@@ -2,8 +2,7 @@
  * Created by fyg on 2016/6/2.
  */
 $(function () {
-    //var orgId = parent.config.orgId;
-    var orgId = '1';
+    var orgId = config.org_Id ;
     var editIndex;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -11,7 +10,6 @@ $(function () {
             editIndex = undefined;
         }
     }
-    //alert("orgId:" + orgId);
     $("#dg").datagrid({
         title: '角色信息维护',
         fit: true,
