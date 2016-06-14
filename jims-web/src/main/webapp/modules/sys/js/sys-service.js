@@ -403,7 +403,17 @@ $(function () {
                     }]
                 }
             }
-        }]]
+        }]],
+         onSelect:function(rowIndex,rowDate){
+             if (editIndex == undefined) {
+                 $("#serviceDetailDg").datagrid("beginEdit", rowIndex);
+                 editIndex = rowIndex;
+             } else {
+                 $("#serviceDetailDg").datagrid("endEdit", editIndex);
+                 $("#serviceDetailDg").datagrid("beginEdit", rowIndex);
+                 editIndex = rowIndex;
+             }
+         }
 
     });
 
@@ -633,12 +643,15 @@ $(function () {
             }
 
             var parentNode = $('#serviceMenuTree').tree('getParent',menus[n].target);
-            var parentPid = parentNode.pid;
+            var parentPid;
+            if(parentNode){
+                parentPid = parentNode.pid ;
+            }
             do{
                 var menuVsServiceParentNode = {};
                 var ok = 0;//是否父节点存在标志
 
-                if(menuVsServicesParent.length == 0){
+                if(menuVsServicesParent.length == 0 && parentNode){
                     menuVsServiceParentNode.serviceId = row.id;
                     menuVsServiceParentNode.menuId = parentNode.id;
                     menuVsServicesParent.push(menuVsServiceParentNode);
@@ -649,14 +662,16 @@ $(function () {
                         break;
                     }
                 }
-                if(ok==0){
+                if(ok==0  && parentNode){
                     menuVsServiceParentNode.serviceId = row.id;
                     menuVsServiceParentNode.menuId = parentNode.id;
                     menuVsServicesParent.push(menuVsServiceParentNode);
                 }
-                var parentNode = $('#serviceMenuTree').tree('getParent',parentNode.target);
                 if (parentNode){
-                    parentPid = parentNode.pid;
+                    var parentNode = $('#serviceMenuTree').tree('getParent',parentNode.target);
+                    if(parentNode){
+                        parentPid = parentNode.pid;
+                    }
                 }
             }while(parentPid)
 
