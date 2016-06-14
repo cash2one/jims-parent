@@ -11,7 +11,7 @@ $(function () {
                 if (data != null) {
                     for (var i = 0; i < data.length; i++) {
 
-                        dataArr.push({id:data[i].id,serviceName: data[i].serviceName});
+                        dataArr.push({id:data[i].id,serviceName: data[i].serviceName,serviceImage:data[i].serviceImage});
                     }
 
                     //向页面添加服务
@@ -19,7 +19,13 @@ $(function () {
                     for (var i = 0; i < dataArr.length; i++) {
                         var li = '<li id="service_' + dataArr[i].id + '">';
                         li += '<a href="#"><span class="service-name">' + dataArr[i].serviceName + '</span></a>'
-                        li += '<img src="/static/bookstrap/images/service/normal.jpg"/>'
+                        if(dataArr[i].serviceImage==null)
+                        {
+                            li += '<img src="/static/bookstrap/images/service/normal.jpg"/>'
+                        }  else{
+                            li += '<img src="'+dataArr[i].serviceImage+'"/>'
+                        }
+
                         li += '</li>'
                         $('#addServiceModel ul').append(li);
                     }

@@ -1,7 +1,8 @@
 $(function () {
 
         var property = [];
-        var orgId= parent.parent.config.org_Id;
+        var orgId=config.org_Id;
+        alert(orgId)
         //设置列
         $("#tt").treegrid({
             //fit: true,
