@@ -15,8 +15,6 @@ if (str.indexOf(name) != -1) {
 }
 var config = {} ;
 
-alert(id);
-alert(pid);
 config.org_Id = id;
 config.persion_Id=pid;
 config.operator = 'thinkgem';

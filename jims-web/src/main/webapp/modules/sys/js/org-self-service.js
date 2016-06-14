@@ -36,7 +36,6 @@ $(function() {
     })
 
     var currentOrgId = config.org_Id;  // 当前机构ID
-    alert(currentOrgId)
     var currentSelectIndex;  // 服务当前选择行
     var operatorFlag ;  // 删除菜单操作标志，只有operatorFlag为true时能取消选择
 

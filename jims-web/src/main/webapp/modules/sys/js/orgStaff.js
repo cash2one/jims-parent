@@ -10,8 +10,7 @@ $(function () {
     //窗体加载时禁用form表单
 
 
-    var orgId =parent.parent.config.org_Id;
-    alert(orgId)
+    var orgId =config.org_Id;
     var deptId;
     var deptName;
     //检查类别

@@ -53,13 +53,14 @@
 		sv.menu_sort AS "menuSort",
 		sv.pid AS "pid",
 		sv.menu_end_date AS "menuEndDate",
-		sv.careate_by AS "careateBy",
-		sv.remark AS "remark",
+		sv.create_by AS "createBy",
+		sv.remarks AS "remarks",
 		sv.update_by AS "updateBy.id",
 		sv.update_date AS "updateDate",
 		sv.del_flag AS "delFlag",
-		sv.create_time AS "createTime",
-        md.menu_name
+		sv.create_date AS "createDate",
+        md.menu_name,
+        md.href
         from staff_vs_role svr,org_role_vs_service orvs,role_service_menu rsm,
         org_self_service_vs_menu sv,menu_dict md
         where orvs.service_id = #{0}
