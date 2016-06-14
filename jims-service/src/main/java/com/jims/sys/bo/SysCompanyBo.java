@@ -41,14 +41,11 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
     @Autowired
     OrgRoleDao orgRoleDao;      //角色
     @Autowired
-    OrgStaffDao staffDao;       //员工
-    @Autowired
     StaffVsRoleDao staffVsRoleDao;      //员工对应角色
     @Autowired
     OrgRoleVsServiceDao roleVsServiceDao;   //角色对应服务
     @Autowired
     RoleServiceMenuDao roleServiceMenuDao;  //服务对应菜单
-
     @Autowired
     OrgStaffDao orgStaffDao ;
 
@@ -107,6 +104,21 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
         String serviceName; //服务名称
         String menuId;      //菜单ID
         String menuSort;        //菜单排序
+
+
+        //创建默认管理角色
+        OrgRole role = new OrgRole(orgId,"超级管理员");
+        role.preInsert();
+        orgRoleDao.insert(role);
+        //员工与角色对照表
+        StaffVsRole staffVsRole = new StaffVsRole();
+        staffVsRole.preInsert();
+        staffVsRole.setRoleId(role.getId());
+        String owner = sysCompany.getOwner();
+        String staffId = orgStaffDao.findStaffByPersonIdOrgId(owner, orgId).getId();    //根据人员ID和机构ID查询员工信息，获取员工ID
+        staffVsRole.setStaffId(staffId);
+        staffVsRoleDao.insert(staffVsRole);
+
         //查询机构服务列表
         List<OrgServiceList> lists = serviceDao.findByOrgId(orgId);
         for (OrgServiceList list : lists) {
@@ -123,7 +135,13 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
             orgSelfServiceList.setOrgId(orgId);
             orgSelfServiceList.setServiceName(serviceName);
             orgSelfServiceListDao.insert(orgSelfServiceList);   //添加自定义服务
-
+            //角色对应服务
+            OrgRoleVsService roleVsService = new OrgRoleVsService();
+            roleVsService.preInsert();
+            roleVsService.setRoleId(role.getId());
+            roleVsService.setServiceId(orgSelfServiceList.getId());
+            roleVsServiceDao.insert(roleVsService);
+            //服务对应菜单
             //根据服务ID查询服务菜单对照列表
             List<ServiceVsMenu> sVmLists = serviceVsMenuDao.findByServiceId(serviceId);
             for (ServiceVsMenu serviceVsMenu : sVmLists) {
@@ -138,38 +156,18 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 orgSelfServiceVsMenu.setMenuSort(menuSort);
                 orgSelfServiceVsMenu.setMenuEndDate(endDate);
                 orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
-            }
-        }
-        //创建默认管理角色
-        OrgRole role = new OrgRole(orgId,"超级管理员");
-        role.preInsert();
-        orgRoleDao.insert(role);
-        //员工与角色对照表
-        StaffVsRole staffVsRole = new StaffVsRole();
-        staffVsRole.preInsert();
-        staffVsRole.setRoleId(role.getId());
-        String owner = sysCompany.getOwner();
-        String staffId = staffDao.getByPersionId(owner).getId();
-        staffVsRole.setStaffId(staffId);
-        staffVsRoleDao.insert(staffVsRole);
-        //角色对应服务
-        for (OrgServiceList list : lists) {
-            OrgRoleVsService roleVsService = new OrgRoleVsService();
-            roleVsService.preInsert();
-            roleVsService.setRoleId(role.getId());
-            roleVsService.setServiceId(list.getServiceId());
-            roleVsServiceDao.insert(roleVsService);
-            //角色服务菜单
-            RoleServiceMenu roleServiceMenu = new RoleServiceMenu();
-            List<ServiceVsMenu> sVmLists = serviceVsMenuDao.findByServiceId(list.getServiceId());
-            for (ServiceVsMenu sVmList : sVmLists) {
+
+                RoleServiceMenu roleServiceMenu = new RoleServiceMenu();
                 roleServiceMenu.preInsert();
                 roleServiceMenu.setRoleServiceId(roleVsService.getId());
-                roleServiceMenu.setMenuId(sVmList.getMenuId());
+                roleServiceMenu.setMenuId(orgSelfServiceVsMenu.getId());
                 roleServiceMenu.setMenuOperate("1");
                 roleServiceMenuDao.insert(roleServiceMenu);
             }
+
+
         }
+
 
         int i = dao.update(sysCompany);
 

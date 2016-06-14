@@ -1,6 +1,7 @@
 package com.jims.register.bo;
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.TreeUtils;
 import com.jims.register.dao.OrgSelfServiceListDao;
 import com.jims.register.dao.OrgSelfServiceVsMenuDao;
 import com.jims.register.dao.OrgServiceListDao;
@@ -119,7 +120,7 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         List<OrgServiceList> services = dao.findList(serviceParam);
         if(services != null && services.size() > 0){
             for(OrgServiceList service : services){
-                service.setMenus(handlerMenu(service.getMenus()));
+                service.setMenus(TreeUtils.handleTreeList(service.getMenus()));
             }
         }
         return services;
@@ -147,28 +148,7 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         selfServiceVsMenu.setSelfServiceId(selfServiceId);
         List<OrgSelfServiceVsMenu> menus = selfServiceVsMenuDao.findList(selfServiceVsMenu);
         if(isTree && menus != null && menus.size() > 1){
-            Map<String,OrgSelfServiceVsMenu> menuMap = new HashMap<String, OrgSelfServiceVsMenu>();
-            List<String> rootList = new ArrayList<String>();
-            List<OrgSelfServiceVsMenu> resultMenus = new ArrayList<OrgSelfServiceVsMenu>();
-            for(int i=0,j=menus.size();i<j;i++){
-                menuMap.put(menus.get(i).getId(),menus.get(i));
-            }
-            for(int i=0,j=menus.size();i<j;i++){
-                String key = menus.get(i).getId();
-                String pid = menuMap.get(key).getPid();
-                if(menuMap.get(pid) != null){
-                    if(menuMap.get(pid).getChildren() == null){
-                        menuMap.get(pid).setChildren(new ArrayList<OrgSelfServiceVsMenu>());
-                    }
-                    menuMap.get(pid).getChildren().add(menuMap.get(key));
-                } else {
-                    rootList.add(key);
-                }
-            }
-            for(int i=0;i<rootList.size();i++){
-                resultMenus.add(menuMap.get(rootList.get(i)));
-            }
-            return resultMenus;
+            return TreeUtils.handleTreeList(menus);
         }
         return menus;
     }
@@ -193,50 +173,5 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
             menuDictVos.add(menuDictVo);
         }
         return menuDictVos;
-    }
-
-    //处理树形数据
-    private List<MenuDict> handlerMenu(List<MenuDict> menus){
-        List<MenuDict> resultMenus = new ArrayList<MenuDict>();
-        if(menus != null && menus.size() > 0){
-            Map<String,MenuDict> menusMap = new HashMap<String, MenuDict>();
-            List<String> roots = new ArrayList<String>();
-            for(int i=0,j=menus.size();i<j;i++){
-                handlerMenu(menus.get(i),menusMap,roots);
-            }
-            for(int i=0,j=roots.size();i<j;i++){
-                resultMenus.add(menusMap.get(roots.get(i)));
-            }
-        }
-        return resultMenus;
-    }
-
-    private void handlerMenu(MenuDict menu,Map<String,MenuDict> menusMap,List<String> roots){
-        if(menu != null){
-            if(menu.getPid() != null){
-                if(menusMap.get(menu.getPid()) != null){
-                    if(menusMap.get(menu.getPid()).getChildren() == null){
-                        menusMap.get(menu.getPid()).setChildren(new ArrayList<MenuDict>());
-                    }
-                    menusMap.get(menu.getPid()).getChildren().add(menu);
-                } else {
-                    MenuDict parent = menuDictDao.get(menu.getPid());
-                    if (parent == null) {
-                        if(menusMap.get(menu.getId()) == null)
-                            menusMap.put(menu.getId(), menu);
-                        roots.add(menu.getId());
-                    } else {
-                        parent.setChildren(new ArrayList<MenuDict>());
-                        parent.getChildren().add(menu);
-                        menusMap.put(menu.getId(), menu);
-                        handlerMenu(parent,menusMap,roots) ;
-                    }
-                }
-            } else {
-                if (menusMap.get(menu.getId()) == null)
-                    menusMap.put(menu.getId(),menu);
-                roots.add(menu.getId());
-            }
-        }
     }
 }

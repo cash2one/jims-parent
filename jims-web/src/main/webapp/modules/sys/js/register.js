@@ -91,7 +91,7 @@ $(function () {
             'data': JSON.stringify(registerVo),
             'dataType': 'json',
             'success': function (data) {
-                if (data.data == "success") {
+                if (data && data.data == "success") {
                     $("#res-card").text("*身份证号已经存在");
                     $("#res-card").css("color", "red");
                     return false;
@@ -140,7 +140,7 @@ $(function () {
             'data': JSON.stringify(registerVo),
             'dataType': 'json',
             'success': function (data) {
-                if (data.data == "success") {
+                if (data && data.data == "success") {
                     $("#res-nick").text("*用户名已经存在");
                     $("#res-nick").css("color", "red");
                     return false;
@@ -183,7 +183,7 @@ $(function () {
             'dataType': 'json',
             'success': function (data) {
 
-                if (data.data == "success") {
+                if (data && data.data == "success") {
                     $("#res-email").text("*邮箱已注册");
                     $("#res-email").css("color", "red");
                     return false;
@@ -228,7 +228,7 @@ $(function () {
             'dataType': 'json',
             'success': function (data) {
 
-                if (data.data == "success") {
+                if (data && data.data == "success") {
                     $("#res-phone").text("*手机号已经注册");
                     $("#res-phone").css("color", "red");
                     return false;
