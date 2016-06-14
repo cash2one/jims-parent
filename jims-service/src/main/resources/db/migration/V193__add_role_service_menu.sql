@@ -10,8 +10,6 @@ create table ROLE_SERVICE_MENU
   update_date     DATE,
   del_flag        VARCHAR2(2),
   create_time     DATE,
-  pid             VARCHAR2(64),
-  menu_end_date   DATE,
   create_date     DATE
 )
 -- Add comments to the table 
@@ -24,10 +22,6 @@ comment on column ROLE_SERVICE_MENU.menu_id
   is '菜单id';
 comment on column ROLE_SERVICE_MENU.menu_operate
   is '菜单操作（0，view，1，edit）';
-comment on column ROLE_SERVICE_MENU.pid
-  is '父类ID';
-comment on column ROLE_SERVICE_MENU.menu_end_date
-  is '菜单停用日期';
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table ROLE_SERVICE_MENU
   add constraint PK_ROLE_SERVICE_MENU primary key (ID);

@@ -21,4 +21,6 @@ public interface RoleServiceMenuDao extends CrudDao<RoleServiceMenu> {
     public int deleteService(String roleServiceId);
 
     public int updateService(RoleServiceMenu roleServiceMenu);
+
+    public int deleteServiceIdAndMenuId(String roleServiceId, String menuId);
 }
