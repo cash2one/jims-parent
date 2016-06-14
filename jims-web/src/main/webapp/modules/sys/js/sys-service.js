@@ -646,42 +646,47 @@ $(function () {
             var parentPid;
             if(parentNode){
                 parentPid = parentNode.pid ;
-            }
-            do{
-                var menuVsServiceParentNode = {};
-                var ok = 0;//是否父节点存在标志
+                do{
+                    var menuVsServiceParentNode = {};
+                    var ok = 0;//是否父节点存在标志
 
-                if(menuVsServicesParent.length == 0 && parentNode){
-                    menuVsServiceParentNode.serviceId = row.id;
-                    menuVsServiceParentNode.menuId = parentNode.id;
-                    menuVsServicesParent.push(menuVsServiceParentNode);
-                }
-                for(var i = 0; i < menuVsServicesParent.length ; i++){
-                    if(menuVsServicesParent[i].menuId == parentNode.id){
-                        ok = 1;
-                        break;
+                    if(menuVsServicesParent.length == 0 ){
+                        menuVsServiceParentNode.serviceId = row.id;
+                        menuVsServiceParentNode.menuId = parentNode.id;
+                        menuVsServicesParent.push(menuVsServiceParentNode);
                     }
-                }
-                if(ok==0  && parentNode){
-                    menuVsServiceParentNode.serviceId = row.id;
-                    menuVsServiceParentNode.menuId = parentNode.id;
-                    menuVsServicesParent.push(menuVsServiceParentNode);
-                }
-                if (parentNode){
-                    var parentNode = $('#serviceMenuTree').tree('getParent',parentNode.target);
-                    if(parentNode){
-                        parentPid = parentNode.pid;
+                    for(var i = 0; i < menuVsServicesParent.length ; i++){
+                        if(menuVsServicesParent[i].menuId == parentNode.id){
+                            ok = 1;
+                            break;
+                        }
                     }
-                }
-            }while(parentPid)
+                    if(ok==0 ){
+                        menuVsServiceParentNode.serviceId = row.id;
+                        menuVsServiceParentNode.menuId = parentNode.id;
+                        menuVsServicesParent.push(menuVsServiceParentNode);
+                    }
+                        var parentNode = $('#serviceMenuTree').tree('getParent',parentNode.target);
+                        if(parentNode){
+                            parentPid = parentNode.pid;
+                        }
+                }while(parentPid)
+            }
+
 
         }
         //console.log(menuVsServices);
         //console.log(menuVsServicesParent);
         //console.log(menuVsServices.concat(menuVsServicesParent));
-        $.postJSON(basePath + "/sys-service/save-serviceVsMenu",JSON.stringify(menuVsServices.concat(menuVsServicesParent)), function () {
-            $.messager.alert("系统提示", "保存成功", "info");
-        })
+        if(menuVsServices.concat(menuVsServicesParent).length > 0){
+            $.postJSON(basePath + "/sys-service/save-serviceVsMenu",JSON.stringify(menuVsServices.concat(menuVsServicesParent)), function () {
+                $.messager.alert("系统提示", "保存成功", "info");
+            })
+        }else{
+            $.messager.alert("系统提示", "请选择菜单", "info");
+        }
+
+
     });
 
     /**
