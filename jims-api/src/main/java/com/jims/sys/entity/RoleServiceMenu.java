@@ -18,8 +18,6 @@ public class RoleServiceMenu extends DataEntity<RoleServiceMenu> {
 	private String menuId;		// 菜单id
 	private String menuOperate;		// 菜单操作（0，view，1，edit）
     private String remark;
-    private String pid;
-    private Date menuEndDate;
 	
 	public RoleServiceMenu() {
 		super();
@@ -64,19 +62,4 @@ public class RoleServiceMenu extends DataEntity<RoleServiceMenu> {
         this.remark = remark;
     }
 
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
-    public Date getMenuEndDate() {
-        return menuEndDate;
-    }
-
-    public void setMenuEndDate(Date menuEndDate) {
-        this.menuEndDate = menuEndDate;
-    }
 }
