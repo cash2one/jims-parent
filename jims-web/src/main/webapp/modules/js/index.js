@@ -39,7 +39,7 @@ $(function () {
             }
             for (var i = 0; i < serviceId.length; i++) {
                 serviceId = serviceId.unique2();    //去掉相同的serviceId
-                $.get(basePath + '/sys-service/get?id=' + serviceId[i], function (data) {
+                $.get(basePath + '/org-service/find-selfServiceList-by-id?id=' + serviceId[i], function (data) {
                     $("#menu").append("<li><a id='" + data.id + "'>" + data.serviceName + "</a></li>");
                     $("#" + data.id).on('click', function () {
 
