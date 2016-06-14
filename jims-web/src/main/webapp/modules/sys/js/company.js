@@ -305,7 +305,12 @@ $(function () {
                 for (var i = 0; i < dataArr.length; i++) {
                     var li = '<li id="service_' + dataArr[i].id + '">';
                     li += '<a href="#"><span class="service-name">' + dataArr[i].serviceName + '</span></a>'
-                    li += '<img src="/static/bookstrap/images/service/normal.jpg"/>'
+                    if(dataArr[i].serviceImage==null)
+                    {
+                        li += '<img src="/static/bookstrap/images/service/normal.jpg"/>'
+                    }  else{
+                        li += '<img src="'+dataArr[i].serviceImage+'"/>'
+                    }
                     li += '<div style="width:100%;height:100%;background-color: #eee;z-index: 99">'
                     li += '<table width="100%">'
                     li += '<tr style="height: 35px">'
