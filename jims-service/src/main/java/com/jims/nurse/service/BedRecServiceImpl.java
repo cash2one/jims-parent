@@ -66,12 +66,12 @@ public class BedRecServiceImpl implements BedRecServiceApi {
 
   /**
    * 查询病区下所有的床位信息
-   * @param wardCode
+   * @param bedRec
    * @author pq
    * @return
    */
-  public List<BaseDto> getAllBed(String wardCode){
-    return  bedRecBo.getAllBed(wardCode);
+  public List<BaseDto> getAllBed(BedRec bedRec){
+    return  bedRecBo.getAllBed(bedRec);
   }
 
 
@@ -130,5 +130,14 @@ public class BedRecServiceImpl implements BedRecServiceApi {
     return bedRecBo.getInPatOne(bedRec);
   }
 
+
+  /**
+   * 通过visitId 拿到在医院病人的在院信息
+   * @param visitId
+   * @return
+   */
+  public PatsInHospital getInPat(String visitId){
+   return  bedRecBo.getInPat(visitId);
+  }
 
 }

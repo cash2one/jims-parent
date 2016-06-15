@@ -224,7 +224,7 @@
         bed_no1 ,
         BED_REC.WARD_CODE ,
         PATS_IN_HOSPITAL.PATIENT_ID ,
-        PATS_IN_HOSPITAL.VISIT_ID ,
+        PATS_IN_HOSPITAL.ID as 'visitId' ,
 
         decode(PAT_MASTER_INDEX.NAME,null,(select a.name||'的包床' from PAT_MASTER_INDEX a where a.PATIENT_ID
         =BED_REC.PATIENT_ID and BED_REC.PATIENT_ID is not null),PAT_MASTER_INDEX.NAME) name ,
@@ -236,6 +236,7 @@
         PATS_IN_HOSPITAL.DOCTOR_IN_CHARGE,
         PATS_IN_HOSPITAL.PATIENT_CONDITION,
         PATS_IN_HOSPITAL.NURSING_CLASS,
+        PATS_IN_HOSPITAL.prepayments,
         PATS_IN_HOSPITAL.DIAGNOSIS,
         BED_REC.BED_STATUS,
         BED_REC.BED_SEX_TYPE,
@@ -257,6 +258,9 @@
         <if test="wardCode !=null and wardCode !=''">
             and ( ( BED_REC.WARD_CODE = #{wardCode} ) )
         </if>
+        <if test="id !=null and id !=''">
+            and ( ( PATS_IN_HOSPITAL.ID = #{id} ) )
+                </if>
         ORDER BY bed_no1 Asc , bed_label Asc
     </select>
 
