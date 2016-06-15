@@ -61,4 +61,5 @@ public class RoleServiceMenu extends DataEntity<RoleServiceMenu> {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
 }

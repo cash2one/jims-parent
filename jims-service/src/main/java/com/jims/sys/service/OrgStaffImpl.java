@@ -5,6 +5,7 @@ import com.jims.clinic.service.ElectronEnterHospitalServiceImpl;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 
+import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.dao.*;
 import com.jims.sys.entity.*;
@@ -151,31 +152,67 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
             //登录表中添加记录（身份证号）
             if (StringUtils.isNotBlank(persionInfo.getCardNo())) {
                 SysUser sysUser1 = sysUserDao.findByLoginName(oldPersion.getCardNo(), persionInfo.getId());
-                sysUser1.setLoginName(persionInfo.getCardNo());
-                sysUser1.setPassword(sysUser.getPassword());
-
-                sysUserDao.updateById(sysUser1);
+                if(sysUser1==null)
+                {
+                    SysUser user=new SysUser();
+                    user.preInsert();
+                    user.setLoginName(persionInfo.getCardNo());
+                    user.setPassword(sysUser.getPassword());
+                    sysUserDao.insert(user);
+                }else{
+                    sysUser1.setLoginName(persionInfo.getCardNo());
+                    sysUser1.setPassword(sysUser.getPassword());
+                    sysUserDao.updateById(sysUser1);
+                }
             }
             //登录表中添加记录（联系电话）
             if (StringUtils.isNotBlank(persionInfo.getPhoneNum())) {
                 SysUser sysUser1 = sysUserDao.findByLoginName(oldPersion.getPhoneNum(), persionInfo.getId());
-                sysUser1.setLoginName(persionInfo.getPhoneNum());
-                sysUser1.setPassword(sysUser.getPassword());
-                sysUserDao.updateById(sysUser1);
+                if(sysUser1==null)
+                {
+                   SysUser user=new SysUser();
+                    user.preInsert();
+                    user.setLoginName(persionInfo.getPhoneNum());
+                    user.setPassword(sysUser.getPassword());
+                    sysUserDao.insert(user);
+                }else{
+                    sysUser1.setLoginName(persionInfo.getPhoneNum());
+                    sysUser1.setPassword(sysUser.getPassword());
+                    sysUserDao.updateById(sysUser1);
+                }
+
             }
             //登录表中添加记录（邮箱）
             if (StringUtils.isNotBlank(persionInfo.getEmail())) {
                 SysUser sysUser1 = sysUserDao.findByLoginName(oldPersion.getEmail(), persionInfo.getId());
-                sysUser1.setLoginName(persionInfo.getEmail());
-                sysUser1.setPassword(sysUser.getPassword());
-                sysUserDao.updateById(sysUser1);
+                if(sysUser1==null)
+                {
+                    SysUser user=new SysUser();
+                    user.preInsert();
+                    user.setLoginName(persionInfo.getEmail());
+                    user.setPassword(sysUser.getPassword());
+                    sysUserDao.insert(user);
+                }else{
+                    sysUser1.setLoginName(persionInfo.getEmail());
+                    sysUser1.setPassword(sysUser.getPassword());
+                    sysUserDao.updateById(sysUser1);
+                }
             }
             //登录表中添加记录（昵称）
             if (StringUtils.isNotBlank(persionInfo.getNickName())) {
                 SysUser sysUser1 = sysUserDao.findByLoginName(oldPersion.getNickName(), persionInfo.getId());
-                sysUser1.setLoginName(persionInfo.getNickName());
-                sysUser1.setPassword(sysUser.getPassword());
-                sysUserDao.updateById(sysUser1);
+                if(sysUser1==null)
+                {
+                    SysUser user=new SysUser();
+                    user.preInsert();
+                    user.setLoginName(persionInfo.getNickName());
+                    user.setPassword(sysUser.getPassword());
+                    sysUserDao.insert(user);
+                }else{
+                    sysUser1.setLoginName(persionInfo.getNickName());
+                    sysUser1.setPassword(sysUser.getPassword());
+                    sysUserDao.updateById(sysUser1);
+                }
             }
             return "success";
 
@@ -255,8 +292,8 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
      * @author yangruidong
      */
     @Override
-    public OrgStaff findStaffByPersionId(String persionId) {
-        return dao.findStaffByPersionId(persionId);
+    public OrgStaff findStaffByPersionId(String persionId,String orgId) {
+        return dao.findStaffByPersonIdOrgId(persionId,orgId);
     }
 
     /**
@@ -293,12 +330,13 @@ public class OrgStaffImpl extends CrudImplService<OrgStaffDao, OrgStaff> impleme
 
     /**
      * 根据roleServiceId查询数据列表
-     * @param roleServiceId org_role_vs_service表的id
+     * @param serviceId 服务ID
+     * @param staffId 员工ID
      * @return role_service_menu和menu_dict两个表联查集合
      * @author fengyuguang
      */
     @Override
-    public List<RoleServiceMenuVsMenuDictVo> findByRoleServiceId(String roleServiceId) {
-        return dao.findByRoleServiceId(roleServiceId);
+    public List<OrgSelfServiceVsMenu> findByServiceId(String serviceId,String staffId) {
+        return dao.findByServiceId(serviceId,staffId);
     }
 }

@@ -2,6 +2,15 @@
  * Created by heren on 2016/6/7.
  */
 
+var str = decodeURI(window.location.search);   //location.search是从当前URL的
+if (str.indexOf(name) != -1) {
+    var pos_start = str.indexOf(name) + name.length + 1;
+    var pos_end = str.indexOf("&", pos_start);
+    if (pos_end == -1) {
+        var serviceId = str.substring(11,str.lastIndexOf("?") );
+        var staffId=str.substring(serviceId.length+20);
+    }
+}
 window.addTab = function (title, href) {
     //如果路径为空，则直接返回
     if (!href) {
@@ -29,27 +38,32 @@ window.addTab = function (title, href) {
 $(document).ready(function () {
     var menuDatas = [];
 
-    for (var i = 0; i < menus.length; i++) {
-        menus[i].children = [];
-    }
-    for (var i = 0; i < menus.length; i++) {
-        for (var j = 0; j < menus.length; j++) {
-            if (menus[j].pid == menus[i].id) {
-                menus[i].children.push(menus[j])
-            }
-        }
-        if (menus[i].pid == "" || menus[i].pid == undefined || menus[i].pid == null) {
-            menuDatas.push(menus[i]);
-        }
-    }
-    var data = {
-        title: '嵌入子模板',
-        list: menuDatas
-    };
+    $.get(basePath + '/orgStaff/find-list-by-serviceId?serviceId=' + serviceId + '&staffId=' + staffId, function (menus) {
+        for (var i = 0; i < menus.length; i++) {
+             menus[i].children = [];
+         }
+         for (var i = 0; i < menus.length; i++) {
+             for (var j = 0; j < menus.length; j++) {
+                 if (menus[j].pid == menus[i].id) {
+                     menus[i].children.push(menus[j])
+                 }
+             }
+             if (menus[i].pid == "" || menus[i].pid == undefined || menus[i].pid == null) {
+                 menuDatas.push(menus[i]);
+             }
+         }
+         var data = {
+             title: '嵌入子模板',
+             list: menuDatas
+         };
+         var html = template('master_menu', data);
 
-    var html = template('master_menu', data);
-    document.getElementById('content').innerHTML = html;
-    $("#menuTree").tree();
+         document.getElementById('content').innerHTML = html;
+         $("#menuTree").tree();
 
-    $(".vertical-nav").verticalnav({speed: 400, align: "left"});
+         $(".vertical-nav").verticalnav({speed: 400, align: "left"});
+     });
+
+
+
 });

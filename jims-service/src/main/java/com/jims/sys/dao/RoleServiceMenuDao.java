@@ -16,5 +16,11 @@ import java.util.List;
 public interface RoleServiceMenuDao extends CrudDao<RoleServiceMenu> {
     public List<RoleServiceMenu> findRoleServiceId(String roleServiceId);
 
-    public RoleServiceMenu findRoleServiceIdAndMenuId(String roleServiceId,String menuId);
+    public RoleServiceMenu findRoleServiceIdAndMenuId(String roleServiceId, String menuId);
+
+    public int deleteService(String roleServiceId);
+
+    public int updateService(RoleServiceMenu roleServiceMenu);
+
+    public int deleteServiceIdAndMenuId(String roleServiceId, String menuId);
 }

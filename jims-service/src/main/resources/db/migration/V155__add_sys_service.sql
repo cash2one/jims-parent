@@ -25,7 +25,7 @@ comment on column SYS_SERVICE.SERVICE_NAME
 comment on column SYS_SERVICE.SERVICE_DESCRIPTION
   is '服务描述';
 comment on column SYS_SERVICE.SERVICE_CLASS
-  is '2,所有服务，1,个人服务，0机构服务';
+  is '3,机构管理服务，2,所有服务，1,个人服务，0机构服务';
 comment on column SYS_SERVICE.SERVICE_TYPE
   is '1,有偿服务,0无偿服务';
 comment on column SYS_SERVICE.SERVICE_IMAGE
