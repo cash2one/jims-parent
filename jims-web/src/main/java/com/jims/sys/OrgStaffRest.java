@@ -5,6 +5,7 @@ import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.utils.TreeUtils;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.api.PersionInfoApi;
@@ -106,8 +107,8 @@ public class OrgStaffRest {
      */
     @Path("findTitleByPersionId")
     @GET
-    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId) {
-        return orgStaffApi.findStaffByPersionId(persionId);
+    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId,@QueryParam("orgId") String orgId) {
+        return orgStaffApi.findStaffByPersionId(persionId,orgId);
     }
 
 
@@ -256,6 +257,7 @@ public class OrgStaffRest {
         for (String key : map.keySet()) {
             lists.add(map.get(key));
         }
+
         return lists;
     }
 

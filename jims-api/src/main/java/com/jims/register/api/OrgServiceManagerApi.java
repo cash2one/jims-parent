@@ -49,6 +49,14 @@ public interface OrgServiceManagerApi {
     public List<OrgSelfServiceList> findSelfService(String orgId);
 
     /**
+     * 检索自定义服务
+     * @param id 自定义服务ID
+     * @return 自定义服务信息
+     * @author fengyuguang
+     */
+    public OrgSelfServiceList findSelfServiceById(String id);
+
+    /**
      * 检索机构自定义菜单
      * @param selfServiceId 自定义服务Id
      * @param isTree 是否为树形结构

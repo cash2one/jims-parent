@@ -143,3 +143,19 @@ function executeOrders(){
         $.messager.alert('提示',"执行错误", "error");
     })
 }
+
+
+function loadBaseInfo(id){
+    $.ajax({
+        method: "POST",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: id = id,
+        url: basePath + '/bedRec/getInPats',
+        success: function (data) {
+            $.each(data,function(id,item) { //循环对象取值
+                $('#baseInfo').form('load',item);
+            })
+        }
+    });
+}

@@ -15,8 +15,6 @@ if (str.indexOf(name) != -1) {
 }
 var config = {} ;
 
-alert(id);
-alert(pid);
 config.org_Id = id;
 config.persion_Id=pid;
 config.operator = 'thinkgem';
@@ -39,13 +37,12 @@ $(function () {
             }
             for (var i = 0; i < serviceId.length; i++) {
                 serviceId = serviceId.unique2();    //去掉相同的serviceId
-                $.get(basePath + '/sys-service/get?id=' + serviceId[i], function (data) {
+                $.get(basePath + '/org-service/find-selfServiceList-by-id?id=' + serviceId[i], function (data) {
                     $("#menu").append("<li><a id='" + data.id + "'>" + data.serviceName + "</a></li>");
                     $("#" + data.id).on('click', function () {
 
                        var iframe='<iframe width="100%" id="centerIframe" height="99.6%" frameborder="no"  border="0"  ' +
                            'scrolling="yes" src="/modules/sys/template.html?serviceId='+data.id+'?staffId='+staffId+'"></iframe>'
-
                        $("#iframe").html('');
                         $("#iframe").append(iframe);
 

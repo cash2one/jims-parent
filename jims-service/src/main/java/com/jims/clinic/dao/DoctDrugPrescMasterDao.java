@@ -52,5 +52,12 @@ public interface DoctDrugPrescMasterDao extends CrudDao<DoctDrugPrescMaster> {
      * @author pq
      */
     public int confirmDoctDrugPresc(@Param("id")String id);
+
+    /**
+     * 根据病人查询是否有未发药和退药处方
+     * @param patientId
+     * @return
+     */
+    public Integer findWaitMedicine(@Param("patientId")String patientId);
 	
 }

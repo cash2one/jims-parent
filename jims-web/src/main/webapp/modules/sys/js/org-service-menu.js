@@ -2,14 +2,11 @@
  * Created by Administrator on 2016/6/6.
  */
 $(function () {
+    var currentSelectId = null;
+    var orgId=config.org_Id;
     var storage = [{label: '可预览', value: '0'}, {label: '可编辑', value: '1'}, {label: '不可预览', value: '2'}];
-    var editIndex = undefined;
-    var editRow = undefined;//保存行的索引
-    var med = undefined;
-    var serviceId = [];
-
     $("#roleId").datagrid({
-        url: basePath + '/org-role/findAllListByOrgId?orgId=1',
+        url: basePath + '/org-role/findAllListByOrgId?orgId='+orgId,
         method: 'get',
         idField: 'id',
         fit: true,
@@ -26,13 +23,13 @@ $(function () {
                 method: 'get',
                 idField: 'id',
                 textField:'serviceName',
-                fit: true,
                 rownumbers: true,
                 fitColumns: true, //列自适应宽度
+                singleSelect: true,
                 columns: [[//显示的列
-                   /* {
+                    {
                         field: 'serviceId', title: '服务ID', width: 120, hidden: true
-                    },*/ {
+                    }, {
                         field: 'serviceName', title: '服务名称', width: 120, editor: {
                             type: 'combobox',
                             options: {
@@ -40,12 +37,11 @@ $(function () {
                                 valueField: 'id',
                                 textField: 'serviceName',
                                 method: 'get',
-                                url: basePath + "/org-service/find-self-service?orgId=1"
+                                url: basePath + "/org-service/find-self-service?orgId="+orgId
                             }
                         }
                     }
                 ]],
-                singleSelect: true,
                 toolbar: [{
                     text: '新增',
                     iconCls: 'icon-add',
@@ -66,7 +62,7 @@ $(function () {
         }
     });
     $("#tt").treegrid({
-        idField: 'menuId',
+        idField: 'id',
         treeField: 'menuName',
         fit: true,
         toolbar: [{
@@ -76,7 +72,7 @@ $(function () {
                 saveMenu();
             }
         }],
-        singleSelect: false,
+        singleSelect: true,
         columns: [[
             {
                 title: '菜单名称',
@@ -94,6 +90,10 @@ $(function () {
                     }
                 },
                 formatter: function (value, row, index) {
+                    var child = row.children
+                    if(child && child.length > 0){
+                        return ''
+                    }
                     if (value == 0) {
                         return '可预览';
                     } else if (value == 1) {
@@ -104,8 +104,15 @@ $(function () {
                 }
             }]],
         onClickRow: function (row) {
-            med = row.menuId;
-            $('#tt').treegrid('beginEdit', row.menuId);
+            var child = row.children
+            if (child && child.length > 0) {
+                return
+            }
+            if(currentSelectId){
+                $('#tt').treegrid('endEdit', currentSelectId);
+            }
+            $('#tt').treegrid('beginEdit', row.id);
+            currentSelectId = row.id
         }
     });
 
@@ -113,10 +120,11 @@ $(function () {
         var menus = [];//菜单列表
         var menuTreeData = [];//菜单树的列表
         var node = $('#serviceId').datagrid('getSelected');
-        var menuPromise = $.get(basePath + "/service-menu/find-menu?selfServiceId=" + node.id, function (data) {
+        var row = $('#roleId').datagrid('getSelected');
+        var menuPromise = $.get(basePath + "/org-service/find-menu?selfServiceId=" + node.serviceId+"&roleServiceId="+ row.id, function (data) {
             $.each(data, function (index, item) {
                 var menu = {};
-                menu.menuId = item.menuId;
+                menu.id = item.id;
                 menu.menuName = item.menuName;
                 menu.pid = item.pid;
                 menu.menuOperate = item.menuOperate;
@@ -126,10 +134,11 @@ $(function () {
             for (var i = 0; i < menus.length; i++) {
                 //判断儿子节点
                 for (var j = 0; j < menus.length; j++) {
-                    if (menus[i].menuId == menus[j].pid) {
+                    if (menus[i].id == menus[j].pid) {
                         menus[i].children.push(menus[j]);
                     }
                 }
+
                 //判断是不是根节点  start
                 if (menus[i].children.length > 0 && !menus[i].pid) {
                     menuTreeData.push(menus[i]);
@@ -138,12 +147,10 @@ $(function () {
                 if (!menus[i].pid && menus[i].children.length <= 0) {
                     menuTreeData.push(menus[i]);
                 }
-                //判断是不是根节点  end
             }
         });
         menuPromise.done(function () {
             $("#tt").treegrid('loadData', menuTreeData);
-            $("#tt").treegrid("selectRow", 1);
         })
     }
 
@@ -225,21 +232,48 @@ $(function () {
     }
 
     function saveMenu() {
-        $('#tt').treegrid("endEdit", med);
+        if(currentSelectId)
+            $('#tt').treegrid("endEdit", currentSelectId);
         var node = $('#serviceId').datagrid('getSelected');
-        var changs = $('#tt').treegrid("getChanges", "updated");
-        var names = [];
-        $.each(changs, function (index, item) {
-            names.push({'roleServiceId': node.id, 'menuId': item.menuId, 'menuOperate': item.menuOperate});
-        });
-        alert(JSON.stringify(names))
-        $.postJSON(basePath + '/service-menu/save', JSON.stringify(names), function (res) {
+        var roots = $('#tt').treegrid('getRoots');
+        var saveData = []
+
+        var handleData = function(datas){
+            var ds = []
+            if(datas && datas.length > 0){
+                for(var i=0;i<datas.length;i++){
+                    var data = datas[i]
+                    if(!data.children || data.children.length == 0){
+                        if (data.menuOperate && data.menuOperate != '2') {
+                            var d = {
+                                menuId: datas[i].id,
+                                menuOperate: datas[i].menuOperate,
+                                roleServiceId: node.id
+                            }
+                            ds.push(d)
+                        }
+                    } else {
+                        var childs = handleData(data.children)
+                        if (childs.length > 0) {
+                            ds = ds.concat(childs)
+                            ds.push({
+                                menuId: datas[i].id,
+                                roleServiceId: node.id
+                            })
+                        }
+                    }
+                }
+            }
+            return ds
+        }
+        saveData = handleData(roots)
+        saveData.unshift({roleServiceId: node.id})
+        $.postJSON(basePath + '/service-menu/save', JSON.stringify(saveData), function (res) {
                 if (res == 0) {
                     $.messager.alert("提示消息", "保存成功", "success");
                     $('#tt').treegrid('load');
                 } else {
                     $.messager.alert('提示消息', "保存失败", "error");
-                    $('#tt').treegrid('load');
                 }
             }
         )

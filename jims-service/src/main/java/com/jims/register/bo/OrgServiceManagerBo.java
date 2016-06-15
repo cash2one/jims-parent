@@ -138,6 +138,16 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
     }
 
     /**
+     * 检索自定义服务
+     * @param id 自定义服务ID
+     * @return 自定义服务信息
+     * @author fengyuguang
+     */
+    public OrgSelfServiceList findSelfServiceById(String id){
+        return selfServiceDao.get(id);
+    }
+
+    /**
      * 检索机构自定义菜单
      * @param selfServiceId 自定义服务Id
      * @param isTree 是否为树形结构
@@ -159,14 +169,13 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         List<MenuDictVo> menuDictVos = new ArrayList<MenuDictVo>();
         for (int j = 0; j < orgSelfServiceVsMenus.size(); j++) {
             OrgSelfServiceVsMenu orgSelfServiceVsMenu = orgSelfServiceVsMenus.get(j);
-            MenuDict menuDict = menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
+            MenuDict menuDict =  menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
             MenuDictVo menuDictVo = new MenuDictVo();
             menuDictVo.setId(orgSelfServiceVsMenu.getId());
-            menuDictVo.setMenuId(menuDict.getId());
-            menuDictVo.setMenuName(menuDict.getMenuName());
             menuDictVo.setPid(orgSelfServiceVsMenu.getPid());
+            menuDictVo.setMenuName(menuDict.getMenuName());
             if (orgSelfServiceVsMenu.getMenuOperate() == null) {
-                menuDictVo.setMenuOperate("0");
+                menuDictVo.setMenuOperate("2");
             } else {
                 menuDictVo.setMenuOperate(orgSelfServiceVsMenu.getMenuOperate());
             }

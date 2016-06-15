@@ -70,6 +70,16 @@ public class OrgServiceManagerImpl implements OrgServiceManagerApi {
     }
 
     /**
+     * 检索自定义服务
+     * @param id 自定义服务ID
+     * @return 自定义服务信息
+     * @author fengyuguang
+     */
+    public OrgSelfServiceList findSelfServiceById(String id){
+        return bo.findSelfServiceById(id);
+    }
+
+    /**
      * 检索机构自定义的服务、菜单
      * @param orgId 机构Id
      * @return

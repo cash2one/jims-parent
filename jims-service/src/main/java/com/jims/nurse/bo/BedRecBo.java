@@ -1,11 +1,13 @@
 package com.jims.nurse.bo;
 
+import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.dao.BedRecDao;
 import com.jims.nurse.entity.BedRec;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,8 @@ import java.util.List;
 @Component
 @Transactional(readOnly = false)
 public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
-
+ @Autowired
+ private PatsInHospitalDao patsInHospitalDao;
     /**
      * 保存床位信息
      * @param bedRecList
@@ -70,8 +73,8 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
      * @author pq
      * @return
      */
-    public List<BaseDto> getAllBed(String wardCode){
-      return dao.getAllBed(wardCode);
+    public List<BaseDto> getAllBed(BedRec bedRec){
+      return dao.getAllBed(bedRec);
     }
 
 
@@ -141,4 +144,14 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
         return dao.getInPatOne(bedRec);
     }
 
+
+
+    /**
+     * 通过visitId 拿到在医院病人的在院信息
+     * @param visitId
+     * @return
+     */
+    public PatsInHospital getInPat(String visitId){
+       return patsInHospitalDao.get(visitId);
+    }
 }

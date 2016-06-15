@@ -12,5 +12,4 @@ public interface RoleServiceMenuApi {
 
     public String save(List<RoleServiceMenu> roleServiceMenus);
 
-    public List<MenuDictVo> findRoleServiceMenu(String selfServiceId);
 }

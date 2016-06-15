@@ -18,13 +18,19 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
     private String menuSort;		// 菜单排序
     private String pid ;     // 父ID
     private Date menuEndDate;    //菜单结束时间
-    private String careateBy;		// careate_by
-    private String remark;		// remark
-    private Date createTime;		// create_time
     private String menuOperate;
+    private String href;
 
     private List<OrgSelfServiceVsMenu> children ; // 子节点
     private String menuName;  // 菜单名称
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
 
     public List<OrgSelfServiceVsMenu> getChildren() {
         return children;
@@ -75,33 +81,6 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 	public void setMenuSort(String menuSort) {
 		this.menuSort = menuSort;
 	}
-
-    public String getCareateBy() {
-		return careateBy;
-	}
-
-	public void setCareateBy(String careateBy) {
-		this.careateBy = careateBy;
-	}
-
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
 
     public Date getMenuEndDate() {
         return menuEndDate;
