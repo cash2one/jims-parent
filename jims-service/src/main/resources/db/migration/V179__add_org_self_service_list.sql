@@ -4,14 +4,14 @@ CREATE TABLE ORG_SELF_SERVICE_LIST
    ID                 VARCHAR2(64)         NOT NULL,
    SERVICE_NAME       VARCHAR2(200),
    ORG_ID             VARCHAR2(64),
-   CAREATE_BY           VARCHAR2(64),
+   CREATE_BY           VARCHAR2(64),
    MENU_POSITION       VARCHAR2(64),
    MENU_STYLE          VARCHAR2(64),
-   REMARK               VARCHAR2(2000),
+   REMARKS               VARCHAR2(2000),
    UPDATE_BY            VARCHAR2(64),
    UPDATE_DATE          DATE,
    DEL_FLAG             VARCHAR2(2),
-   CREATE_TIME          DATE,
+   CREATE_DATE          DATE,
    CONSTRAINT PK_ORG_SELF_SERVICE_LIST PRIMARY KEY (ID)
 );
 

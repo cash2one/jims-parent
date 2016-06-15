@@ -35,7 +35,7 @@ $(function() {
         }
     })
 
-    var currentOrgId = '8c4c7d182b404aa1a770c75c62431e60';  // 当前机构ID
+    var currentOrgId = config.org_Id;  // 当前机构ID
     var currentSelectIndex;  // 服务当前选择行
     var operatorFlag ;  // 删除菜单操作标志，只有operatorFlag为true时能取消选择
 
@@ -157,10 +157,10 @@ $(function() {
         if(!endEditing()) return false
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row){
-            if(row.serviceName == '系统管理'){
+           /* if(row.serviceName == '系统管理'){
                 $.messager.alert('警告','系统管理服务菜单不能修改！');
                 return
-            }
+            }*/
             var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
             crearTreeCheck()
             if(row.menus){

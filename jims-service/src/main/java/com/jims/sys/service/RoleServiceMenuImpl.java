@@ -19,10 +19,12 @@ public class RoleServiceMenuImpl implements RoleServiceMenuApi{
     private RoleServiceMenuService roleServiceMenuService;
 
     public String save(List<RoleServiceMenu> roleServiceMenus){
-        return roleServiceMenuService.save(roleServiceMenus);
-    }
-
-    public List<MenuDictVo> findRoleServiceMenu(String selfServiceId) {
-       return roleServiceMenuService.findRoleServiceMenu(selfServiceId);
+        String result = "1";
+        try{
+            roleServiceMenuService.save(roleServiceMenus);
+            result = "0";
+        } catch (RuntimeException e){
+        }
+        return result;
     }
 }

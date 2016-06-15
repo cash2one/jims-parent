@@ -5,6 +5,8 @@ import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.utils.TreeUtils;
+import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.api.OrgStaffApi;
 import com.jims.sys.api.PersionInfoApi;
 import com.jims.sys.entity.*;
@@ -105,8 +107,8 @@ public class OrgStaffRest {
      */
     @Path("findTitleByPersionId")
     @GET
-    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId) {
-        return orgStaffApi.findStaffByPersionId(persionId);
+    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId,@QueryParam("orgId") String orgId) {
+        return orgStaffApi.findStaffByPersionId(persionId,orgId);
     }
 
 
@@ -229,15 +231,16 @@ public class OrgStaffRest {
     /**
      * 根据roleServiceId查询数据列表
      * @param serviceId 服务ID
+     * @param staffId 员工ID
      * @return role_service_menu和menu_dict两个表联查集合
      * @author fengyuguang
      */
     @GET
     @Path("find-list-by-serviceId")
-    public List<RoleServiceMenuVsMenuDictVo> findByServiceId(@QueryParam("serviceId")String serviceId){
-        List<RoleServiceMenuVsMenuDictVo> menus = orgStaffApi.findByServiceId(serviceId);
-        List<RoleServiceMenuVsMenuDictVo> lists = new ArrayList<RoleServiceMenuVsMenuDictVo>();
-        Map<String, RoleServiceMenuVsMenuDictVo> map = new HashMap<String, RoleServiceMenuVsMenuDictVo>();
+    public List<OrgSelfServiceVsMenu> findByServiceId(@QueryParam("serviceId")String serviceId,@QueryParam("staffId")String staffId){
+        List<OrgSelfServiceVsMenu> menus = orgStaffApi.findByServiceId(serviceId,staffId);
+        List<OrgSelfServiceVsMenu> lists = new ArrayList<OrgSelfServiceVsMenu>();
+        Map<String, OrgSelfServiceVsMenu> map = new HashMap<String, OrgSelfServiceVsMenu>();
         for(int i=menus.size()-1;i>=0;i--){
             if(map.containsKey(menus.get(i).getMenuId())){
                 String oldOperate = map.get(menus.get(i).getMenuId()).getMenuOperate();
@@ -254,6 +257,7 @@ public class OrgStaffRest {
         for (String key : map.keySet()) {
             lists.add(map.get(key));
         }
+
         return lists;
     }
 

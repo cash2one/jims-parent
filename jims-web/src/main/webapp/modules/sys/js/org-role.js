@@ -3,7 +3,7 @@
  */
 $(function () {
     //var orgId = parent.config.orgId;
-    var orgId = '1';
+    var orgId = config.org_Id;
     var editIndex;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
