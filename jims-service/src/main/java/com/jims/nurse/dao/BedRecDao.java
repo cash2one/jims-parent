@@ -60,7 +60,7 @@ public interface BedRecDao extends CrudDao<BedRec> {
     /**
      * 护士端-换床
      *
-     * @param patientId
+     * @param patsInHospital
      * @return
      * @author pq
      */
@@ -83,4 +83,6 @@ public interface BedRecDao extends CrudDao<BedRec> {
      * @author pq
      */
     public BaseDto getInPatOne(BedRec bedRec);
+
+
 }

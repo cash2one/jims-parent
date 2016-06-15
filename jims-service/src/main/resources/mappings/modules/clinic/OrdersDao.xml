@@ -565,6 +565,11 @@
 	</select>
 
 
+	<select id="findOrderCount" resultType="Integer">
+		SELECT count (1) FROM orders Where patient_id =#{patientId} And Visit_id =#{visitId} And start_date_time >= #{admissionDateTime}
+	</select>
+
+
 	<update id="operationCopied">
         UPDATE orders
         SET
@@ -610,4 +615,5 @@
 		</if>
 		WHERE id = #{id}
 	</update>
+
 </mapper>
