@@ -28,13 +28,9 @@ import java.util.List;
 public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao, OrgRoleVsService> {
 
     @Autowired
-    private OrgRoleVsServiceDao orgRoleVsServiceDao;
-    @Autowired
     private RoleServiceMenuDao roleServiceMenuDao;
     @Autowired
     private OrgSelfServiceListDao orgSelfServiceListDao;
-    @Autowired
-    private OrgSelfServiceVsMenuDao orgSelfServiceVsMenuDao;
 
     public List<OrgRoleVsService> findAll() {
         return dao.findAll();
@@ -67,7 +63,7 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
 
     public List<RoleServiceMenu> find(String id) {
         List<RoleServiceMenu> roleServiceMenuss = new ArrayList<RoleServiceMenu>();
-        List<OrgRoleVsService> orgRoleVsServices = orgRoleVsServiceDao.findRoleId(id);
+        List<OrgRoleVsService> orgRoleVsServices = dao.findRoleId(id);
         for (int i = 0, j = (orgRoleVsServices != null ? orgRoleVsServices.size() : 0); i < j; i++) {
             OrgRoleVsService orgRoleVsService = orgRoleVsServices.get(i);
             List<RoleServiceMenu> roleServiceMenus = roleServiceMenuDao.findRoleServiceId(orgRoleVsService.getServiceId());
@@ -86,12 +82,26 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
 
     public List<OrgRoleVsService> findRole(String roleid) {
 
-        List<OrgRoleVsService> orgRoleVsServices = orgRoleVsServiceDao.findRoleId(roleid);
+        List<OrgRoleVsService> orgRoleVsServices = dao.findRoleId(roleid);
         for (int i = 0, j = (orgRoleVsServices != null ? orgRoleVsServices.size() : 0); i < j; i++) {
             OrgRoleVsService orgRoleVsService = orgRoleVsServices.get(i);
             OrgSelfServiceList orgSelfServiceList = orgSelfServiceListDao.get(orgRoleVsService.getServiceId());
             orgRoleVsService.setServiceName(orgSelfServiceList.getServiceName());
         }
         return orgRoleVsServices;
+    }
+
+    @Override
+    public String delete(String id){
+        String result = "";
+        OrgRoleVsService orgRoleVsService = dao.get(id);
+        if(orgRoleVsService != null){
+            result = String.valueOf(super.delete(id));
+            List<RoleServiceMenu> roleServiceMenus =roleServiceMenuDao.findRoleServiceId(id);
+            if(roleServiceMenus.size() > 0){
+                roleServiceMenuDao.deleteService(id);
+            }
+        }
+        return result;
     }
 }
