@@ -470,7 +470,9 @@ $(function() {
                     onCheck:function(o,check){
                         if(check){
                             var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
-                            addMenu(o,'tree'+index);
+                            if(index > -1) {
+                                addMenu(o, 'tree' + index);
+                            }
                         }
                     },onBeforeCheck:function(o,c){
                         if(operatorFlag) return true
