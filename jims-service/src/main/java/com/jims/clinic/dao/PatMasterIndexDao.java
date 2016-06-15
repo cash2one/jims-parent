@@ -3,10 +3,14 @@
  */
 package com.jims.clinic.dao;
 
+import com.jims.clinic.vo.ComeDeptVo;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 病人主索引DAO接口
@@ -24,5 +28,13 @@ public interface PatMasterIndexDao extends CrudDao<PatMasterIndex> {
      * @return
      */
     public Integer updateInpno(@Param("id")String id);
+
+    /**
+     * 护理-查询待入科室床位病人列表
+     * @author CTQ
+     * @date 2016-06-06 09:23:31
+     * @return
+     */
+    public List<ComeDeptVo> findWaitFrom();
 	
 }

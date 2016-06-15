@@ -3,8 +3,8 @@
  */
 package com.jims.patient.api;
 
+import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.patient.entity.PatMasterIndex;
-import com.jims.patient.entity.PatVisit;
 
 import java.util.List;
 
@@ -36,6 +36,13 @@ public interface PatMasterIndexServiceApi {
      * @return
      */
     public String deleteMasterIndex(String ids);
+    /**
+     * 护理-查询待入科室床位病人列表
+     * @author CTQ
+     * @date 2016-06-06 09:23:31
+     * @return
+     */
+    public List<ComeDeptVo> findWaitFrom();
 
 }
 

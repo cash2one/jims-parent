@@ -34,4 +34,7 @@ public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
      * @return
      */
     public Integer deleteByPatientId(@Param("patientId")String patientId);
+
+
+
 }
