@@ -124,15 +124,19 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
             orgSelfServiceList.setOrgId(orgId);
             orgSelfServiceList.setServiceName(service.getServiceName());
             orgSelfServiceListDao.insert(orgSelfServiceList);   //添加自定义服务
-            //角色对应服务
-            OrgRoleVsService roleVsService = new OrgRoleVsService();
-            roleVsService.preInsert();
-            roleVsService.setRoleId(role.getId());
-            roleVsService.setServiceId(orgSelfServiceList.getId());
-            roleVsServiceDao.insert(roleVsService);
+            String roleVsServiceId = null;
+            if("0".equals(service.getServiceType()) && "3".equals(service.getServiceClass())) {
+                //角色对应服务
+                OrgRoleVsService roleVsService = new OrgRoleVsService();
+                roleVsService.preInsert();
+                roleVsService.setRoleId(role.getId());
+                roleVsService.setServiceId(orgSelfServiceList.getId());
+                roleVsServiceDao.insert(roleVsService);
+                roleVsServiceId = roleVsService.getId();
+            }
 
             saveMenus(TreeUtils.handleTreeList(service.getMenus()),null,
-                    orgSelfServiceList.getId(),service.getServiceEndDate(),roleVsService.getId());
+                    orgSelfServiceList.getId(),service.getServiceEndDate(),roleVsServiceId);
         }
 
 
@@ -164,12 +168,14 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 orgSelfServiceVsMenu.setMenuEndDate(endDate);
                 orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
 
-                RoleServiceMenu roleServiceMenu = new RoleServiceMenu();
-                roleServiceMenu.preInsert();
-                roleServiceMenu.setRoleServiceId(roleServiceId);
-                roleServiceMenu.setMenuId(orgSelfServiceVsMenu.getId());
-                roleServiceMenu.setMenuOperate("1");
-                roleServiceMenuDao.insert(roleServiceMenu);
+                if(roleServiceId != null) {
+                    RoleServiceMenu roleServiceMenu = new RoleServiceMenu();
+                    roleServiceMenu.preInsert();
+                    roleServiceMenu.setRoleServiceId(roleServiceId);
+                    roleServiceMenu.setMenuId(orgSelfServiceVsMenu.getId());
+                    roleServiceMenu.setMenuOperate("1");
+                    roleServiceMenuDao.insert(roleServiceMenu);
+                }
                 saveMenus(menu.getChildren(),orgSelfServiceVsMenu.getId(),serviceId,endDate,roleServiceId);
             }
         }
