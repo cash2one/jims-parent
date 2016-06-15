@@ -9,24 +9,59 @@ import java.util.List;
 public class MenuDictVo implements Serializable{
 
     private String id;
-    private String text;        // 菜单名称
-    private String state="open";
-    private List<MenuDictVo> children ; //子节点
+    private String pid; //父id
+    private String serviceId; //服务ID
+    private String serviceName; //服务名称
+    private String menuId;
+    private String menuName;        // 菜单名称
+    private String menuOperate;
 
-    public List<MenuDictVo> getChildren() {
-        return children;
+    public String getMenuId() {
+        return menuId;
     }
 
-    public void setChildren(List<MenuDictVo> children) {
-        this.children = children;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 
-    public String getState() {
-        return state;
+    public String getMenuName() {
+        return menuName;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getMenuOperate() {
+        return menuOperate;
+    }
+
+    public void setMenuOperate(String menuOperate) {
+        this.menuOperate = menuOperate;
     }
 
     public String getId() {
@@ -35,13 +70,5 @@ public class MenuDictVo implements Serializable{
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 }

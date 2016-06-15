@@ -1,15 +1,22 @@
 package com.jims.sys.bo;
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.TreeUtils;
+import com.jims.register.dao.OrgSelfServiceListDao;
+import com.jims.register.dao.OrgSelfServiceVsMenuDao;
 import com.jims.register.dao.OrgServiceListDao;
+import com.jims.register.entity.OrgSelfServiceList;
+import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
-import com.jims.sys.dao.SysCompanyDao;
-import com.jims.sys.entity.SysCompany;
+import com.jims.sys.dao.*;
+import com.jims.sys.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.processing.RoundEnvironment;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +31,24 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
 
     @Autowired
     private OrgServiceListDao serviceDao;
+    @Autowired
+    private SysServiceDao sysServiceDao;    //系统服务
+    @Autowired
+    private OrgSelfServiceListDao orgSelfServiceListDao;    //自定义服务
+    @Autowired
+    private ServiceVsMenuDao serviceVsMenuDao;      //服务于菜单对照
+    @Autowired
+    private OrgSelfServiceVsMenuDao orgSelfServiceVsMenuDao;    //自定义服务与菜单对照
+    @Autowired
+    OrgRoleDao orgRoleDao;      //角色
+    @Autowired
+    StaffVsRoleDao staffVsRoleDao;      //员工对应角色
+    @Autowired
+    OrgRoleVsServiceDao roleVsServiceDao;   //角色对应服务
+    @Autowired
+    RoleServiceMenuDao roleServiceMenuDao;  //服务对应菜单
+    @Autowired
+    OrgStaffDao orgStaffDao ;
 
     /**
      * 保存注册信息以及选择的服务
@@ -41,6 +66,112 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 serviceDao.insert(service);
             }
         }
+        List<SysService> sysServices = sysServiceDao.findServiceWithPrice("3", "0");
+        if(sysServices != null && sysServices.size() > 0){
+            for(SysService service : sysServices){
+                OrgServiceList orgService = new OrgServiceList();
+                orgService.setServiceId(service.getId());
+                orgService.setServiceStartDate(new Date());
+                orgService.setOrgId(company.getId());
+                orgService.preInsert();
+                serviceDao.insert(orgService);
+            }
+        }
+
         dao.insert(company);
+        String id = company.getId();
+        OrgStaff orgStaff=new OrgStaff();
+        orgStaff.preInsert();
+        orgStaff.setPersionId(company.getOwner());
+        orgStaff.setDelFlag("0");
+        orgStaff.setOrgId(id);
+        orgStaffDao.insert(orgStaff);
+
+    }
+
+    /**
+     * 组织机构通过审核
+     * @param sysCompany
+     * @return
+     * @author fengyuguang
+     */
+    public int update(SysCompany sysCompany) {
+        sysCompany.preUpdate();
+
+        String orgId = sysCompany.getId();
+
+        //创建默认管理角色
+        OrgRole role = new OrgRole(orgId,"超级管理员");
+        role.preInsert();
+        orgRoleDao.insert(role);
+        //员工与角色对照表
+        StaffVsRole staffVsRole = new StaffVsRole();
+        staffVsRole.preInsert();
+        staffVsRole.setRoleId(role.getId());
+        String owner = sysCompany.getOwner();
+        String staffId = orgStaffDao.findStaffByPersonIdOrgId(owner, orgId).getId();    //根据人员ID和机构ID查询员工信息，获取员工ID
+        staffVsRole.setStaffId(staffId);
+        staffVsRoleDao.insert(staffVsRole);
+
+        //查询机构服务列表
+        OrgServiceList serviceParam = new OrgServiceList();
+        serviceParam.setOrgId(orgId);
+        List<OrgServiceList> services = serviceDao.findList(serviceParam);
+        for (OrgServiceList service : services) {
+            //自定义服务
+            OrgSelfServiceList orgSelfServiceList = new OrgSelfServiceList();
+            orgSelfServiceList.preInsert();     //设置主键ID
+            orgSelfServiceList.setOrgId(orgId);
+            orgSelfServiceList.setServiceName(service.getServiceName());
+            orgSelfServiceListDao.insert(orgSelfServiceList);   //添加自定义服务
+            //角色对应服务
+            OrgRoleVsService roleVsService = new OrgRoleVsService();
+            roleVsService.preInsert();
+            roleVsService.setRoleId(role.getId());
+            roleVsService.setServiceId(orgSelfServiceList.getId());
+            roleVsServiceDao.insert(roleVsService);
+
+            saveMenus(TreeUtils.handleTreeList(service.getMenus()),null,
+                    orgSelfServiceList.getId(),service.getServiceEndDate(),roleVsService.getId());
+        }
+
+
+        int i = dao.update(sysCompany);
+
+        return i;
+    }
+
+    /**
+     * 驳回组织机构审核
+     * @param sysCompany
+     * @return
+     */
+    public int failPass(SysCompany sysCompany){
+        return dao.update(sysCompany);
+    }
+
+    private void saveMenus(List<MenuDict> menus,String parentId,String serviceId,Date endDate,String roleServiceId){
+        if(menus != null && menus.size() > 0){
+            for(int i=0;i<menus.size();i++){
+                MenuDict menu = menus.get(i);
+                //自定义服务于菜单对照
+                OrgSelfServiceVsMenu orgSelfServiceVsMenu = new OrgSelfServiceVsMenu();
+                orgSelfServiceVsMenu.preInsert();   //设置主键ID
+                orgSelfServiceVsMenu.setPid(parentId);
+                orgSelfServiceVsMenu.setSelfServiceId(serviceId);
+                orgSelfServiceVsMenu.setMenuId(menu.getId());
+                orgSelfServiceVsMenu.setMenuSort(String.valueOf(i+1));
+                orgSelfServiceVsMenu.setMenuEndDate(endDate);
+                orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
+
+                RoleServiceMenu roleServiceMenu = new RoleServiceMenu();
+                roleServiceMenu.preInsert();
+                roleServiceMenu.setRoleServiceId(roleServiceId);
+                roleServiceMenu.setMenuId(orgSelfServiceVsMenu.getId());
+                roleServiceMenu.setMenuOperate("1");
+                roleServiceMenuDao.insert(roleServiceMenu);
+                saveMenus(menu.getChildren(),orgSelfServiceVsMenu.getId(),serviceId,endDate,roleServiceId);
+            }
+        }
     }
 }

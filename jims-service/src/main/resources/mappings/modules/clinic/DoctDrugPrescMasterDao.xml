@@ -333,7 +333,7 @@
 
 	 <update id="confirmDoctDrugPresc">
             UPDATE doct_drug_presc_master SET
-			      PRESC_STATUS = '2'
+			      PRESC_STATUS = '1'
 		     WHERE id = #{id}
 	 </update>
 

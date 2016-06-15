@@ -14,33 +14,11 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
 	
 	private static final long serialVersionUID = 1L;
 	private String serviceName;		// 自定义服务名字
-    private String serviceImage;    // 自定义服务图片
+    private String menuPosition;    // 自定义服务中菜单界面显示位置
+    private String menuStyle ;   // 自定义服务中菜单显示样式
 	private String orgId;		// 机构ID
-	private String careateBy;		// careate_by
-	private String remark;		// remark
-	private Date createTime;		// create_time
 
     private List<OrgSelfServiceVsMenu> menus;   // 自定义服务对应的菜单
-
-    private String operateFlag ;    // 操作标志 ， 1 为删除自定义服务，id为需删除的id,
-                                              // 2 为更改的菜单数据，id为删除的菜单id,menus为更改的菜单
-
-
-    public String getServiceImage() {
-        return serviceImage;
-    }
-
-    public void setServiceImage(String serviceImage) {
-        this.serviceImage = serviceImage;
-    }
-
-    public String getOperateFlag() {
-        return operateFlag;
-    }
-
-    public void setOperateFlag(String operateFlag) {
-        this.operateFlag = operateFlag;
-    }
 
     public List<OrgSelfServiceVsMenu> getMenus() {
         return menus;
@@ -76,31 +54,19 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
 		this.orgId = orgId;
 	}
 
+    public String getMenuStyle() {
+        return menuStyle;
+    }
 
-	public String getCareateBy() {
-		return careateBy;
-	}
+    public void setMenuStyle(String menuStyle) {
+        this.menuStyle = menuStyle;
+    }
 
-	public void setCareateBy(String careateBy) {
-		this.careateBy = careateBy;
-	}
+    public String getMenuPosition() {
+        return menuPosition;
+    }
 
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
+    public void setMenuPosition(String menuPosition) {
+        this.menuPosition = menuPosition;
+    }
 }

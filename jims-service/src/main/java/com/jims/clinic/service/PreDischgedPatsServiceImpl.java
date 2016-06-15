@@ -5,8 +5,11 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.PreDischgedPatsServiceApi;
 import com.jims.clinic.bo.PreDischgedPatsBo;
 import com.jims.clinic.entity.PreDischgedPats;
+import com.jims.clinic.vo.PreDischgedPatsVo;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * 出院通知单Service
@@ -35,7 +38,7 @@ public class PreDischgedPatsServiceImpl implements PreDischgedPatsServiceApi{
      */
     @Override
     public Page<PreDischgedPats> findPage(Page<PreDischgedPats> page,PreDischgedPats preDischgedPats){
-       return preDischgedPatsBo.findPage(page,preDischgedPats);
+       return preDischgedPatsBo.findPage(page, preDischgedPats);
     }
     /**
      * 删除出院通知单
@@ -48,13 +51,43 @@ public class PreDischgedPatsServiceImpl implements PreDischgedPatsServiceApi{
         return preDischgedPatsBo.delete(ids);
     }
     /**
-     * 保存出院通知单
+     * 查询出院通知单动态行
+     * @param wardCode 实体类型
+     *  @author qinlongxin
+     * @return
+     */
+    @Override
+    public List<PreDischgedPatsVo> findPreDischList(String wardCode){
+        return preDischgedPatsBo.findPreDischList(wardCode);
+    }
+    /**
+     * 保存通知和医嘱
+     * @param list 实体类型
+     *  @author qinlongxin
+     * @return
+     */
+    @Override
+    public String save(List<PreDischgedPatsVo> list){
+        return preDischgedPatsBo.savePreDischPat(list);
+    }
+    /**
+     * 查询出院通知单动态行
      * @param preDischgedPats 实体类型
      *  @author qinlongxin
      * @return
      */
     @Override
-    public String save(PreDischgedPats preDischgedPats){
-        return preDischgedPatsBo.savePreDischPat(preDischgedPats);
+    public String savePats(PreDischgedPats preDischgedPats){
+        return preDischgedPatsBo.save(preDischgedPats);
+    }
+    /**
+     * 查询出院通知单动态行
+     * @param hospitalId
+     *  @author qinlongxin
+     * @return
+     */
+    @Override
+    public String delPats(String hospitalId){
+        return preDischgedPatsBo.delPats(hospitalId);
     }
 }
