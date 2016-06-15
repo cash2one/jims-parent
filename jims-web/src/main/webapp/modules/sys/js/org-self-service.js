@@ -240,7 +240,7 @@ $(function() {
                     var node = $('#tree'+j).tree('find',data[i].id);
                     if(node && $('#tree'+j).tree('isLeaf',node.target)){
                         $('#tree'+j).tree('check',node.target);
-                        break;
+                        //break;
                     }
                 }
                 createTreeCheck(data[i].children)
@@ -307,7 +307,7 @@ $(function() {
                     var n = $('#tree'+i).tree('find',node.id);
                     if(n){
                         $('#tree'+i).tree('uncheck',n.target);
-                        break;
+                        //break;
                     }
                 }
                 for(var i=0;i<treeNum;i++){
