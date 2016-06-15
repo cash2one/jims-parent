@@ -31,11 +31,11 @@ public interface BedRecDao extends CrudDao<BedRec> {
     /**
      * 查询病区下所有的床位信息
      *
-     * @param wardCode
+     * @param bedRec
      * @return
      * @author pq
      */
-    public List<BaseDto> getAllBed(@Param(value = "wardCode") String wardCode);
+    public List<BaseDto> getAllBed(BedRec bedRec);
 
 
     /**

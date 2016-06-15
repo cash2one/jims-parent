@@ -528,7 +528,7 @@
 				<if test="visitId!=null and visitId!='' ">
 					AND visit_id=#{visitId}
 				</if>
-				<if test="orderNo!=null and orderNo!='' ">
+				<if test="orderNo!=null">
 					AND order_no=#{orderNo}
 			    </if>
 		</where>

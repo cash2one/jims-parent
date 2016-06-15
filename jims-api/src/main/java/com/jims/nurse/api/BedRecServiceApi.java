@@ -50,11 +50,11 @@ public interface BedRecServiceApi {
 
     /**
      * 查询病区下所有的床位信息
-     * @param wardCode
+     * @param bedRec
      * @author pq
      * @return
      */
-    public List<BaseDto> getAllBed(String wardCode);
+    public List<BaseDto> getAllBed(BedRec bedRec);
 
 
     /**
@@ -84,7 +84,7 @@ public interface BedRecServiceApi {
 
     /**
      * 护士端-换床
-     * @param patsInHospital
+     * @param bedRec
      * @author pq
      * @return
      */
@@ -97,5 +97,12 @@ public interface BedRecServiceApi {
      * @return
      */
     public  BaseDto getInPatOne(BedRec bedRec);
+
+    /**
+     * 通过visitId 拿到在医院病人的在院信息
+     * @param visitId
+     * @return
+     */
+    public PatsInHospital getInPat(String visitId);
 
 }
