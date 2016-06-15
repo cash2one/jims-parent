@@ -87,10 +87,10 @@ $(function () {
         }, {
             title: "服务图片",
             field: "serviceImage",
-            width: '55%',
+            width: '11%',
             align: 'center',
             formatter: function (value,index,row) {
-                return "<img src='"+value+"'/>"
+                return "<img src='"+value+"' style='width:50px;height:50px;'/>"
             }
         }]]
     });
