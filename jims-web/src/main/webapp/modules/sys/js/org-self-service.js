@@ -157,10 +157,10 @@ $(function() {
         if(!endEditing()) return false
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row){
-           /* if(row.serviceName == '系统管理'){
+            if(row.serviceName == '系统管理'){
                 $.messager.alert('警告','系统管理服务菜单不能修改！');
                 return
-            }*/
+            }
             var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
             crearTreeCheck()
             if(row.menus){
@@ -240,16 +240,12 @@ $(function() {
                     var node = $('#tree'+j).tree('find',data[i].id);
                     if(node && $('#tree'+j).tree('isLeaf',node.target)){
                         $('#tree'+j).tree('check',node.target);
-                        break;
+                        //break;
                     }
                 }
                 createTreeCheck(data[i].children)
             }
         }
-
-
-
-
     }
 
     //服务菜单维护窗口
@@ -311,7 +307,7 @@ $(function() {
                     var n = $('#tree'+i).tree('find',node.id);
                     if(n){
                         $('#tree'+i).tree('uncheck',n.target);
-                        break;
+                        //break;
                     }
                 }
                 for(var i=0;i<treeNum;i++){
@@ -474,7 +470,9 @@ $(function() {
                     onCheck:function(o,check){
                         if(check){
                             var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
-                            addMenu(o,'tree'+index);
+                            if(index > -1) {
+                                addMenu(o, 'tree' + index);
+                            }
                         }
                     },onBeforeCheck:function(o,c){
                         if(operatorFlag) return true
