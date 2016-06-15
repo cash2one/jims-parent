@@ -3,9 +3,10 @@
  */
 $(function () {
     var currentSelectId = null;
+    var orgId=config.org_Id;
     var storage = [{label: '可预览', value: '0'}, {label: '可编辑', value: '1'}, {label: '不可预览', value: '2'}];
     $("#roleId").datagrid({
-        url: basePath + '/org-role/findAllListByOrgId?orgId=1',
+        url: basePath + '/org-role/findAllListByOrgId?orgId='+orgId,
         method: 'get',
         idField: 'id',
         fit: true,
@@ -36,7 +37,7 @@ $(function () {
                                 valueField: 'id',
                                 textField: 'serviceName',
                                 method: 'get',
-                                url: basePath + "/org-service/find-self-service?orgId=1"
+                                url: basePath + "/org-service/find-self-service?orgId="+orgId
                             }
                         }
                     }

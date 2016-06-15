@@ -43,7 +43,6 @@ $(function () {
 
                        var iframe='<iframe width="100%" id="centerIframe" height="99.6%" frameborder="no"  border="0"  ' +
                            'scrolling="yes" src="/modules/sys/template.html?serviceId='+data.id+'?staffId='+staffId+'"></iframe>'
-
                        $("#iframe").html('');
                         $("#iframe").append(iframe);
 

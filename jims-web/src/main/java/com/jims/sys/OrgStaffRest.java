@@ -107,8 +107,8 @@ public class OrgStaffRest {
      */
     @Path("findTitleByPersionId")
     @GET
-    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId) {
-        return orgStaffApi.findStaffByPersionId(persionId);
+    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId,@QueryParam("orgId") String orgId) {
+        return orgStaffApi.findStaffByPersionId(persionId,orgId);
     }
 
 

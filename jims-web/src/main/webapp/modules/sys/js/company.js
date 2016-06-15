@@ -13,7 +13,6 @@ $(function () {
 
     //var currentOrgId = '1';
     var currentPersonId = persion_id;
-    alert(currentPersonId)
     var company = {};
     //查询父机构
     jQuery.ajax({

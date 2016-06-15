@@ -85,7 +85,7 @@ public interface OrgStaffApi {
      * @return
      * @author yangruidong
      */
-    public OrgStaff findStaffByPersionId(String persionId);
+    public OrgStaff findStaffByPersionId(String persionId ,String orgId);
 
     /**
      * 根据人员ID和组织机构ID查询该人员在某家组织机构的员工信息

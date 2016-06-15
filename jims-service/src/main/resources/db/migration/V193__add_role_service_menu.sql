@@ -9,9 +9,8 @@ create table ROLE_SERVICE_MENU
   update_by       VARCHAR2(64),
   update_date     DATE,
   del_flag        VARCHAR2(2),
-  create_time     DATE,
   create_date     DATE
-)
+) ;
 -- Add comments to the table 
 comment on table ROLE_SERVICE_MENU
   is '角色服务菜单表';
