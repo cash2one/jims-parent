@@ -5,6 +5,7 @@ import com.jims.register.api.OrgServiceManagerApi;
 import com.jims.register.entity.OrgSelfServiceList;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
+import com.jims.sys.vo.MenuDictVo;
 import com.jims.sys.vo.OrgSelfServiceVsMenuVo;
 import org.springframework.stereotype.Component;
 
@@ -74,6 +75,18 @@ public class OrgServiceManagerRest {
     }
 
     /**
+     * 检索自定义服务
+     * @param id 自定义服务ID
+     * @return 自定义服务信息
+     * @author fengyuguang
+     */
+    @GET
+    @Path("find-selfServiceList-by-id")
+    public OrgSelfServiceList findSelfServiceById(@QueryParam("id")String id){
+        return api.findSelfServiceById(id);
+    }
+
+    /**
      * 检索自定义服务对应菜单
      * @param selfServiceId
      * @return
@@ -87,7 +100,8 @@ public class OrgServiceManagerRest {
 
     @GET
     @Path("find-menu")
-    public List<OrgSelfServiceVsMenuVo> findSelfServiceVsMenu(@QueryParam("orgId") String orgId){
-        return api.findSelfServiceMenu(orgId);
+    public List<MenuDictVo> findSelfServiceVsMenu(@QueryParam("selfServiceId") String selfServiceId, @QueryParam("roleServiceId") String roleServiceId) {
+        List<MenuDictVo> menuDictVos = api.findSelfServiceMenu(selfServiceId, roleServiceId);
+        return menuDictVos;
     }
 }

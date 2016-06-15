@@ -74,7 +74,7 @@ public class BedRecRest {
      * @return
      */
     @Path("getAllBed")
-    @GET
+    @POST
     public List<BaseDto> getAllBed(String wardCode){
         return  bedRecServiceApi.getAllBed(wardCode);
     }

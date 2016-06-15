@@ -384,8 +384,7 @@ $.fn.datetimebox.defaults.parser = function(s){
     return new Date(d.getFullYear(),d.getMonth(),d.getDate(),hour,_ae4,_ae5);
 };
 
-var config = {} ;
-config.org_id="1234567" ;
+
 
 //datagrid的提示信息
 var myview = $.extend({},$.fn.datagrid.defaults.view,{

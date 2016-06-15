@@ -8,10 +8,19 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <script type="text/javascript" src="../nurse/js/bedInfo.js"></script>
+    <script type="text/javascript" src="/modules/clinic/js/centerRegion.js"></script>
 </head>
-<body>
-<table id="bedInfo"  cellspacing="0" cellpadding="0" style="width:100%;height:500px;">
+<body oncontextmenu=window.event.returnValue=false bgcolor="#ffffff">
+<div class="bednum-main" id="content">
+    <ul >
+    </ul>
+</div>
 
-</table>
+
+<div id="menuId" class="easyui-menu" style="width: 50px; display: none;">
+    <div><a href="/modules/nurse/orders.html" >医嘱信息</a></div>
+    <div><a href="/modules/nurse/patientFlow.html" >病人流转</a></div>
+</div>
+
 </body>
 </html>

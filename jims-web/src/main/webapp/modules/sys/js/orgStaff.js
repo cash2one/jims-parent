@@ -10,8 +10,7 @@ $(function () {
     //窗体加载时禁用form表单
 
 
-    var orgId =parent.parent.config.org_Id;
-    alert(orgId)
+    var orgId =config.org_Id;
     var deptId;
     var deptName;
     //检查类别
@@ -220,24 +219,26 @@ $(function () {
                     $("#sex").combobox('setValue', data.sex);
                     $("#nation").combobox('setValue', data.nation);
                     $("#id").val(data.id);
-                    $.get("/service/orgStaff/findTitleByPersionId?persionId=" + data.id, function (data) {
+                    $.get("/service/orgStaff/findTitleByPersionId?persionId=" + data.id+"&orgId="+orgId, function (data) {
 
                         if (data != null) {
                             $("#title").val(data.title);
                             $("#staffId").val(data.id);
                         }
-
-                    });
-
-                    var role = [];
-                    $.get("/service/orgStaff/findRole?staffId="+$("#staffId").val(data.id), function (data) {
-                        if (data != null) {
-                            for (var i = 0; i < data.length; i++) {
-                                role.push(data[i].id);
+                        var staffId=$("#staffId").val();
+                      //  alert(staffId)
+                        var role = [];
+                        $.get("/service/orgStaff/findRole?staffId="+staffId, function (data) {
+                            if (data != null) {
+                                for (var i = 0; i < data.length; i++) {
+                                    role.push(data[i].id);
+                                }
+                                $("#role").combobox('setValues', role);
                             }
-                            $("#role").combobox('setValues', role);
-                        }
+                        });
                     });
+
+
 
 
                     $.get("/service/orgStaff/findPasswordByPersionId?persionId=" + data.id, function (data) {

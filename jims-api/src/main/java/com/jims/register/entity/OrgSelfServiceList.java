@@ -17,9 +17,6 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
     private String menuPosition;    // 自定义服务中菜单界面显示位置
     private String menuStyle ;   // 自定义服务中菜单显示样式
 	private String orgId;		// 机构ID
-	private String careateBy;		// careate_by
-	private String remark;		// remark
-	private Date createTime;		// create_time
 
     private List<OrgSelfServiceVsMenu> menus;   // 自定义服务对应的菜单
 
@@ -55,33 +52,6 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
-	}
-
-
-	public String getCareateBy() {
-		return careateBy;
-	}
-
-	public void setCareateBy(String careateBy) {
-		this.careateBy = careateBy;
-	}
-
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
 	}
 
     public String getMenuStyle() {

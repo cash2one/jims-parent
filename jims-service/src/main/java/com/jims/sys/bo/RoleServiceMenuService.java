@@ -2,11 +2,18 @@ package com.jims.sys.bo;
 
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.register.dao.OrgSelfServiceVsMenuDao;
+import com.jims.register.entity.OrgSelfServiceVsMenu;
+import com.jims.sys.dao.MenuDictDao;
 import com.jims.sys.dao.RoleServiceMenuDao;
+import com.jims.sys.entity.MenuDict;
 import com.jims.sys.entity.RoleServiceMenu;
+import com.jims.sys.vo.MenuDictVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,27 +23,19 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class RoleServiceMenuService extends CrudImplService<RoleServiceMenuDao, RoleServiceMenu> {
 
-    public String save(List<RoleServiceMenu> roleServiceMenus){
-        String result = "0";
-        try {
-            for (int i = 0, j = (roleServiceMenus != null ? roleServiceMenus.size() : 0); i < j; i++) {
-                RoleServiceMenu roleServiceMenu = roleServiceMenus.get(i);
-                String menuId = roleServiceMenu.getMenuId();
-                String[] id = menuId.split(",");
-                for (int k = 0; k < id.length; k++) {
-                    RoleServiceMenu serviceMenu = dao.findRoleServiceIdAndMenuId(roleServiceMenu.getRoleServiceId(), id[k]);
-                    if(serviceMenu == null){
-                        RoleServiceMenu roleServiceMenu1 = new RoleServiceMenu();
-                        roleServiceMenu1.setRoleServiceId(roleServiceMenu.getRoleServiceId());
-                        roleServiceMenu1.setMenuId(id[k]);
-                        roleServiceMenu1.preInsert();
-                        dao.insert(roleServiceMenu1);
-                    }
+    public void save(List<RoleServiceMenu> roleServiceMenus) {
+        if(roleServiceMenus != null && roleServiceMenus.size() > 0){
+            for(int i=0;i<roleServiceMenus.size();i++){
+                RoleServiceMenu menu = roleServiceMenus.get(i);
+                if(i == 0){
+                    String roleServiceId = menu.getRoleServiceId();
+                    dao.deleteService(roleServiceId);
+                    continue;
                 }
+                menu.preInsert();
+                dao.insert(menu);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return result;
     }
+
 }

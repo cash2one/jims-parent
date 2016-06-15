@@ -106,7 +106,18 @@
 			#{createDate}
 		)
 	</insert>
-	
+
+    <update id="updateService">
+        UPDATE role_service_menu SET
+        menu_operate = #{menuOperate},
+        create_by = #{createBy},
+        remark = #{remark},
+        update_by = #{updateBy},
+        update_date = #{updateDate},
+        create_date = #{createDate}
+        WHERE role_service_id = #{roleServiceId} AND menu_id = #{menuId}
+    </update>
+
 	<update id="update">
 		UPDATE role_service_menu SET 	
 			role_service_id = #{roleServiceId},
@@ -125,5 +136,17 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+    <delete id="deleteService">
+        DELETE
+        FROM role_service_menu
+        WHERE role_service_id = #{roleServiceId}
+    </delete>
+
+    <delete id="deleteServiceIdAndMenuId">
+        DELETE
+        FROM role_service_menu
+        WHERE role_service_id = #{0} AND menu_id #{1}
+    </delete>
+
 </mapper>

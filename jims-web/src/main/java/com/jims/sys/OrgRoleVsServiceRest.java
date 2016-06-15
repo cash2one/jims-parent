@@ -34,4 +34,10 @@ public class OrgRoleVsServiceRest {
         List<RoleServiceMenu>  orgSelfServiceVsMenuVos= orgRoleVsServiceApi.find(id);
         return orgSelfServiceVsMenuVos;
     }
+
+    @Path("findrole")
+    @GET
+    public List<OrgRoleVsService> findRole(@QueryParam("roleId") String roleId) {
+        return orgRoleVsServiceApi.findRole(roleId);
+    }
 }

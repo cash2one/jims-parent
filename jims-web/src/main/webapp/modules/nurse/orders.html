@@ -39,6 +39,8 @@
                 <input type="radio" name="orderStatus" value="3"  />执行
                 <input type="radio" name="orderStatus" value="4"  />已停
             </li>
+                <input name="patientId" value="15006135" type="hidden">
+                <input name="visitId" value="1" type="hidden">
             </form>
             <li><a id="submit_search">查询</a></li>
 
@@ -48,9 +50,9 @@
 </div>
 <div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
         <div class="bot-medbtn">
-            <a href="#" onclick="addPre()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">临时医嘱执行</a>
+            <a href="#" onclick="executeOrders()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">临时医嘱执行</a>
             <a href="#" onclick="savePre()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
-            <a href="#" onclick="destroyPre()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">校对</a>
+            <a href="#" onclick="proofOrders()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">校对</a>
 
         </div>
 </div>

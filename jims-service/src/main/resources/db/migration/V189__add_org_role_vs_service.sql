@@ -3,12 +3,12 @@ create table ORG_ROLE_VS_SERVICE
   id          VARCHAR2(64) not null,
   service_id  VARCHAR2(64) not null,
   role_id     VARCHAR2(64) not null,
-  careate_by  VARCHAR2(64),
+  create_by  VARCHAR2(64),
   remark      VARCHAR2(2000),
   update_by   VARCHAR2(64),
   update_date DATE,
   del_flag    VARCHAR2(2),
-  create_time DATE
+  create_date DATE
 )
 tablespace USERS
   pctfree 10
