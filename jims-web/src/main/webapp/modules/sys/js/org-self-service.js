@@ -157,10 +157,10 @@ $(function() {
         if(!endEditing()) return false
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row){
-           /* if(row.serviceName == '系统管理'){
+            if(row.serviceName == '系统管理'){
                 $.messager.alert('警告','系统管理服务菜单不能修改！');
                 return
-            }*/
+            }
             var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
             crearTreeCheck()
             if(row.menus){
@@ -246,10 +246,6 @@ $(function() {
                 createTreeCheck(data[i].children)
             }
         }
-
-
-
-
     }
 
     //服务菜单维护窗口
