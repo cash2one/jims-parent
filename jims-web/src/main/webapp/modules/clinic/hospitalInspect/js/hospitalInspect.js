@@ -1,3 +1,59 @@
+var examSubClass = [{"value": "1", "text": "CT"}, {"value": "2", "text": "彩超"}, {"value": "3", "text": "心电"}] // 检查项目
+var reqDept = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//开单科室
+var performedBy = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//执行科室
+
+/**
+ * 检查项目翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ */
+function examSubClassFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < examSubClass.length; i++) {
+        if (examSubClass[i].value == value) {
+            return examSubClass[i].text;
+        }
+    }
+}
+/**
+ * 开单科室翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function reqDeptFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < reqDept.length; i++) {
+        if (reqDept[i].value == value) {
+            return reqDept[i].text;
+        }
+    }
+}
+/**
+ * 执行科室翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function performedByFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < performedBy.length; i++) {
+        if (performedBy[i].value == value) {
+            return performedBy[i].text;
+        }
+    }
+}
+
+
 function onloadMethod() {
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({

@@ -1,5 +1,64 @@
 var administration = [{ "value": "1", "text": "科室1" }, { "value": "2", "text": "科室2" }, { "value": "3", "text": "科室3" }, { "value": "4", "text": "科室4" }, { "value": "5", "text": "科室5" }];
 var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医生" }, { "value": "3", "text": "医生" }, { "value": "4", "text": "医生" }, { "value": "5", "text": "医生" }];
+
+var labItemClass=[{"value":"1","text":"类别1"},{"value":"1","text":"类别1"},{"value":"1","text":"类别1"}]//检验类别
+var performedBy=[{"value":"1","text":"科室1"},{"value":"1","text":"科室2"},{"value":"1","text":"科室3"}]//检验科室
+var specimen=[{"value":"1","text":"标本1"},{"value":"1","text":"标本2"},{"value":"1","text":"标本3"}]//检验标本
+
+
+/**
+ * 检验类别翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string}
+ */
+function labItemClassFormatter(value,rowData,rowIndex){
+    if(value==0){
+        return;
+    }
+    for(var i=0;i<labItemClass.length;i++){
+        if(labItemClass[i].value==value){
+            return labItemClass[i].text;
+        }
+    }
+}
+/**
+ * 检验科室翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string}
+ */
+function performedByFormatter(value,rowData,rowIndex){
+    if(value==0){
+        return;
+    }
+    for(var i=0;i<performedBy.length;i++){
+        if(performedBy[i].value==value){
+            return performedBy[i].text;
+        }
+    }
+}
+/**
+ * 检验标本翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string}
+ */
+function specimenFormatter(value,rowData,rowIndex){
+    if(value==0){
+        return;
+    }
+    for(var i=0;i<specimen.length;i++){
+        if(specimen[i].value==value){
+            return specimen[i].text;
+        }
+    }
+}
+
+
 $(function(){
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
