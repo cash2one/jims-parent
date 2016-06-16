@@ -136,5 +136,10 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+	<update id="updateInfo">
+		UPDATE TRANSFER SET DISCHARGE_DATE_TIME = #{dischargeDateTime}, DEPT_TRANSFERED_TO = #{deptTransferedTo}
+         WHERE PATIENT_ID = #{patientId} AND VISIT_ID = #{visitId} AND DEPT_STAYED = #{deptStayed} AND DISCHARGE_DATE_TIME IS NULL AND DEPT_TRANSFERED_TO IS NULL
+	</update>
 	
 </mapper>

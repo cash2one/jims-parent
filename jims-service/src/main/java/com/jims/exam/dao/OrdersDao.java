@@ -9,6 +9,7 @@ import com.jims.exam.entity.Orders;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.core.annotation.Order;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,6 +110,15 @@ public interface OrdersDao extends CrudDao<Orders> {
      */
     public List<Orders> ordersCopied(Orders orders);
 
+    /**
+     * 护士-取消入科，判断是否有下达医嘱
+     * @param patientId
+     * @param visitId
+     * @param admissionDateTime
+     * @author CTQ
+     * @return
+     */
+    public Integer findOrderCount(@Param("patientId")String patientId,@Param("visitId")String visitId,@Param("admissionDateTime")Date admissionDateTime);
     /**
      * 护理端 - 转抄
      * @param orders

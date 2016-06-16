@@ -4,6 +4,7 @@ import com.jims.clinic.entity.PreDischgedPats;
 import com.jims.clinic.vo.PreDischgedPatsVo;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,6 +15,13 @@ import java.util.List;
  */
 @MyBatisDao
 public interface PreDischgedPatsDao extends CrudDao<PreDischgedPats> {
-	public List<PreDischgedPatsVo> findPreDischList(String wardCode);
-	public int delAll(String hospitalId);
+
+    /**
+     * 查询病人是否有出院通知单
+     * @param patientId
+     * @return
+     */
+    public Integer findByPatientId(@Param("patientId")String patientId);
+    public List<PreDischgedPatsVo> findPreDischList(String wardCode);
+    public int delAll(String hospitalId);
 }

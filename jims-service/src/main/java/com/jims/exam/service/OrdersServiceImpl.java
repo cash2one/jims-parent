@@ -172,9 +172,9 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
                             orders.setOrderSubNo(orderSubNo!=null ?(orderSubNo+1):1);
                         }else{
                             Integer orderNo = ordersDao.getOrderNo(orders.getPatientId(),orders.getVisitId(),"");
-                            Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), orderNo!=null?(orderNo):1);
+                            Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), orderNo!=null?(orderNo):0);
                             orders.setOrderNo(orderNo!=null?(orderNo+1):1);
-                            orders.setOrderSubNo(orderSubNo!=null ?(orderSubNo+1):1);
+                            orders.setOrderSubNo(1);
                         }
 
                        if(orders.getOrdersCostses()!=null){

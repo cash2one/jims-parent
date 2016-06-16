@@ -217,5 +217,13 @@
 			</if>
 		</where>
 	</update>
+
+	<update id="updateByParam">
+		update pats_in_hospital Set lend_indicator =Null , dept_code_lend =Null Where patient_id =#{patientId} And visit_id =#{visitId}
+	</update>
+
+	<update id="updateInfo">
+		update pats_in_hospital SET ward_code =NULL , bed_no =NULL , patient_condition ='3' , adm_ward_date_time =NULL , dept_code =NULL , doctor_in_charge =NULL WHERE id=#{id}
+	</update>
 	
 </mapper>

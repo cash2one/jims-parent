@@ -528,7 +528,7 @@
 				<if test="visitId!=null and visitId!='' ">
 					AND visit_id=#{visitId}
 				</if>
-				<if test="orderNo!=null and orderNo!='' ">
+				<if test="orderNo!=null">
 					AND order_no=#{orderNo}
 			    </if>
 		</where>
@@ -562,6 +562,11 @@
 		</if>
 
 		AND a."ORDER_STATUS"='6'
+	</select>
+
+
+	<select id="findOrderCount" resultType="Integer">
+		SELECT count (1) FROM orders Where patient_id =#{patientId} And Visit_id =#{visitId} And start_date_time >= #{admissionDateTime}
 	</select>
 
 
@@ -610,4 +615,5 @@
 		</if>
 		WHERE id = #{id}
 	</update>
+
 </mapper>
