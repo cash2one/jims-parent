@@ -1,7 +1,76 @@
 var rowNum=-1;
-var item =  [{ "value": "1", "text": "挂号费" }, { "value": "2", "text": "诊疗费" }, { "value": "3", "text": "其他费" }];
-var priceItme= [{ "value": "11020000100", "text": "普通门诊诊查费" }, { "value": "11020000300", "text": "急诊诊查费" }, { "value": "10005", "text": "鉴定费" },
-      {"value":"11020000400","text":"门急诊留观诊查费"},{"value":"11020000201","text":"副主任医师诊查费"}];
+var item =  [];
+var priceItme= [];
+var priceItmeData={};
+priceItmeData.orgId="";
+priceItmeData.dictType="V_INPUT_REGISTRATION_LIST"
+
+/**
+ * 门诊收费
+ */
+$.ajax({
+    'type': 'POST',
+    'url':basePath+'/input-setting/listParam' ,
+    data: JSON.stringify(priceItmeData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        priceItme=data;
+    }
+});
+/**
+ * 挂号项目
+ */
+$.ajax({
+    'type': 'GET',
+    'url':basePath+'/dict/findListByType',
+    data: 'type=classno_itme_dict',
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        item=data;
+    }
+});
+
+/**
+ * 收费项目翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function itemFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < item.length; i++) {
+        if (item[i].value == value) {
+            return item[i].label;
+        }
+    }
+}
+/**
+ * 回显项目价表翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string|string|string}
+ */
+function priceItmeFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < priceItme.length; i++) {
+        if (priceItme[i].item_code == value) {
+            return priceItme[i].item_name;
+        }
+    }
+}
+
 function onloadMethod(id,clinicName){
     $("#type").val(clinicName);
     $("#clinicTypeId").val(id);
@@ -15,7 +84,7 @@ function onloadMethod(id,clinicName){
         method:'get',
         collapsible:false,//是否可折叠的
         //fit: true,//自动大小
-         url:basePath+'/clinicType/itemList?typeId='+id,
+        url:basePath+'/clinicType/itemList?typeId='+id,
         remoteSort:false,
         idField:'id',
         singleSelect:true,//是否单选
@@ -23,32 +92,43 @@ function onloadMethod(id,clinicName){
         //pageSize:15,
         //pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'chargeItem',title:'收费项目',width:'30%',align:'center',editor:{
+            {field:'chargeItem',title:'收费项目',width:'24%',align:'center',formatter:itemFormatter,editor:{
                 type:'combobox',
                 options:{
                     data :item,
                     valueField:'value',
-                    textField:'text'
+                    textField:'label'
                 }}
             },
-            {field:'priceItem',title:'项目价表',width:'30%',align:'center',
-                editor:{
-                    type:'combobox',
-                    options:{
-                        data:priceItme,
-                        valueField:'value',
-                        textField:'text',
-                        onSelect: function(data){
-                            var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
-                            var columns = $('#list_data').datagrid("options").columns;
-                            rows[rowNum][columns[rowNum][2].field]=data.text;
-                            $('#list_data').datagrid('endEdit', rowNum);
-                            $('#list_data').datagrid('beginEdit', rowNum);
-                        }
-                    }
-                }
+            {field:'priceItem',title:'项目代码',width:'25%',align:'center'
+
             },
-            {field:'itemName',title:'项目名称',width:'30%',align:'center'},
+            {field:'itemName',title:'项目名称',width:'25%',align:'center',formatter:function(value, rowData, rowIndex){
+                    return priceItmeFormatter(rowData.priceItem,'','')
+            },editor:{
+                type:'combogrid',
+                options:{
+                    data:priceItme,
+                    idField:'item_code',
+                    textField:'item_name',
+                    columns:[[
+                        {field:'item_code',title:'项目代码',width:120},
+                        {field:'item_name',title:'项目名称',width:120},
+                        {field:'price',title:'项目价格',width:70}
+                    ]],
+                    onClickRow: function (index, data) {
+                    var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
+                    var columns = $('#list_data').datagrid("options").columns;
+                    rows[rowNum][columns[0][1].field]=data.item_code;
+                        rows[rowNum][columns[0][3].field]=data.price;
+                    $('#list_data').datagrid('endEdit', rowNum);
+                    $('#list_data').datagrid('beginEdit', rowNum);
+                }
+                }
+            }},{field:'price',title:'项目价格',width:'24%',align:'center',formatter:function(value, rowData, rowIndex){
+                return value+"/元";
+             }
+            },
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
@@ -84,13 +164,13 @@ function onloadMethod(id,clinicName){
                 deleteItem();
             }
         },'-',{
-                text: '保存',
-                iconCls:'icon-save',
-                handler:function(){
-                    $("#list_data").datagrid('endEdit', rowNum);
-                    save();
-                }
+            text: '保存',
+            iconCls:'icon-save',
+            handler:function(){
+                $("#list_data").datagrid('endEdit', rowNum);
+                save();
             }
+        }
         ],onClickRow: function (rowIndex, rowData) {
             var dataGrid=$('#list_data');
             if(!dataGrid.datagrid('validateRow', rowNum)){
@@ -113,9 +193,9 @@ function onloadMethod(id,clinicName){
 function clinicTypeList(){
     var typeHtml='';
     $.get(basePath + '/clinicType/findList',function(data){
-       for(var i=0;i<data.length;i++){
-         typeHtml+='<li><a href="#" onclick="onloadMethod(\''+data[i].id+'\',\''+data[i].clinicTypeName+'\')">'+data[i].clinicTypeName+'</a><a href="#" class="rp-close" onclick="deleteClinicType(\''+data[i].id+'\')">X</a></li>';
-       }
+        for(var i=0;i<data.length;i++){
+            typeHtml+='<li><a href="#" onclick="onloadMethod(\''+data[i].id+'\',\''+data[i].clinicTypeName+'\')">'+data[i].clinicTypeName+'</a><a href="#" class="rp-close" onclick="deleteClinicType(\''+data[i].id+'\')">X</a></li>';
+        }
         $("#clinicType").html(typeHtml);
     })
 }
@@ -190,26 +270,25 @@ function deleteItem(){
 //删除号类
 function deleteClinicType(typeId){
     $.messager.confirm("确认消息", "您确定要删除信息吗？", function () {
-            $.ajax({
-                'type': 'POST',
-                'url': basePath+'/clinicType/deleteClinicType',
-                'contentType': 'application/json',
-                'data': id=typeId,
-                'dataType': 'json',
-                'success': function(data){
-                    if(data.code=='1'){
-                        $.messager.alert("提示消息",data.code+"条记录删除成功！");
-                        clinicTypeList();
-                        onloadMethod('','');
-                    }else{
-                        $.messager.alert('提示',"删除失败", "error");
-                    }
-                },
-                'error': function(data){
+        $.ajax({
+            'type': 'POST',
+            'url': basePath+'/clinicType/deleteClinicType',
+            'contentType': 'application/json',
+            'data': id=typeId,
+            'dataType': 'json',
+            'success': function(data){
+                if(data.code=='1'){
+                    $.messager.alert("提示消息",data.code+"条记录删除成功！");
+                    clinicTypeList();
+                    onloadMethod('','');
+                }else{
                     $.messager.alert('提示',"删除失败", "error");
                 }
-            });
+            },
+            'error': function(data){
+                $.messager.alert('提示',"删除失败", "error");
+            }
+        });
 
     })
 }
-

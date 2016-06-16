@@ -7,6 +7,7 @@ package com.jims.register.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.register.api.ClinicTypeFeeServiceApi;
+import com.jims.register.bo.ClinicTypeFeeBo;
 import com.jims.register.dao.ClinicTypeFeeDao;
 import com.jims.register.dao.ClinicTypeSettingDao;
 import com.jims.register.entity.ClinicTypeFee;
@@ -18,15 +19,20 @@ import java.util.List;
 
 
 /**
- * 号类字典Service
+ * 号类费用Service
  * @author zhaoning
  * @version 2016-05-16
  */
 @Service(version = "1.0.0")
-
-public class ClinicTypeFeeServiceImpl extends CrudImplService<ClinicTypeFeeDao, ClinicTypeFee> implements ClinicTypeFeeServiceApi {
+public class ClinicTypeFeeServiceImpl implements ClinicTypeFeeServiceApi {
      @Autowired
-    private ClinicTypeSettingDao clinicTypeSettingDao;
+    private ClinicTypeFeeBo clinicTypeFeeBo;
+
+    @Override
+    public List<ClinicTypeFee> findList(ClinicTypeFee clinicTypeFee) {
+        return clinicTypeFeeBo.findList(clinicTypeFee);
+    }
+
     /**
      * 保存号类
      * @param clinicTypeFeeList
@@ -34,29 +40,11 @@ public class ClinicTypeFeeServiceImpl extends CrudImplService<ClinicTypeFeeDao, 
      */
     @Override
     public String saveList(List<ClinicTypeFee> clinicTypeFeeList,String type,String clinicTypeId) {
-        String num = "";
-        ClinicTypeSetting clinicTypeSetting = new ClinicTypeSetting();
-        if(type!=null){
-            clinicTypeSetting.setClinicTypeName(type);
-            if(clinicTypeId!=null && !clinicTypeId.equals("")){
-                clinicTypeSetting.setId(clinicTypeId);
-            }//保存号类主表
-            if (clinicTypeSetting.getIsNewRecord()){
-                clinicTypeSetting.preInsert();
-                clinicTypeSettingDao.insert(clinicTypeSetting);
-            }else{
-                clinicTypeSetting.preUpdate();
-                clinicTypeSettingDao.update(clinicTypeSetting);
-            }
-        }
-        //保存号类子表
-        if(clinicTypeFeeList.size()>0){
-            for(int i=0;i<clinicTypeFeeList.size();i++){
-                ClinicTypeFee clinicTypeFee = clinicTypeFeeList.get(i);
-                clinicTypeFee.setTypeId(clinicTypeSetting.getId());
-                num = save(clinicTypeFee);
-            }
-        }
-        return String.valueOf(num);
+       return clinicTypeFeeBo.saveList(clinicTypeFeeList,type,clinicTypeId);
+    }
+
+    @Override
+    public String delete(String id) {
+        return clinicTypeFeeBo.delete(id);
     }
 }
