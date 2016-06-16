@@ -197,21 +197,6 @@ public class OrgStaffRest {
     @GET
     public List<OrgRole> findRole(@QueryParam("staffId") String staffId) {
         List<OrgRole> role=orgStaffApi.getRole(staffId);
-        /*StringBuilder sb=new StringBuilder();
-        StringData stringData = new StringData();
-        if (role.size() == 1) {
-            sb.append(role.get(0).getRoleName());
-        } else {
-            for (int i=0;i<role.size();i++)
-            {
-                sb.append(role.get(i).getRoleName()+",");
-            }
-        }
-        if(role.size()>1)
-        {
-            sb.deleteCharAt(sb.length() - 1);
-        }
-       stringData.setData(sb.toString());*/
        return role;
 
     }

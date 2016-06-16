@@ -41,35 +41,6 @@ public class DeptDictRest {
 
         //查询出所有的科室信息
         List<DeptDict> list = deptDictApi.findAllList(orgId);
-
-        //查询出所有的科室属性的类型
-        List<OrgDeptPropertyDict> listProperty = deptPropertyDictApi.findProperty(orgId);
-        if (listProperty.size() > 0) {
-            //遍历所有的科室信息
-            for (int i = 0; i < list.size(); i++) {
-                StringBuilder sb = new StringBuilder();
-                //得到每一个对象的科室属性，以；进行切割
-                String[] str = list.get(i).getDeptPropertity().split(";");
-                //遍历获得的数组
-
-                for (int y = 0; y < str.length; y++) {
-                    //得到每一个切割后的科室属性值
-                    if (StringUtils.isNotBlank(str[y])) {
-                        //拿科室属性值和科室的类型去数据库中查询科室属性名称
-                        OrgDeptPropertyDict listName = deptPropertyDictApi.findNameByTypeAndValue(listProperty.get(y).getPropertyType(), str[y]);
-                        if (listName == null) {
-                            sb.append("");
-                        } else {
-
-                            sb.append(listName.getPropertyName() + " ");
-                        }
-                    }
-                }
-
-                list.get(i).setDeptPropertity(sb.toString());
-
-            }
-        }
         return list;
     }
 
@@ -107,7 +78,7 @@ public class DeptDictRest {
      */
     @Path("add")
     @POST
-    public StringData save(DeptDictVo deptDictVo) {
+    public StringData saveDept(DeptDictVo deptDictVo) {
 
 
         DeptDict deptDict = new DeptDict();
@@ -119,6 +90,7 @@ public class DeptDictRest {
         deptDict.setDeptName(deptDictVo.getDeptName());
         deptDict.setOrgId(deptDictVo.getOrgId());
         deptDict.setInputCode(deptDictVo.getInputCode());
+
         StringBuilder sb = new StringBuilder();
         String deptPropertity[] = deptDictVo.getArray();
         if (deptPropertity.length == 1) {
