@@ -38,8 +38,8 @@ public interface PriceListApi {
 
     /**
      * 保存修改数据
-     *
      * @param priceList
+     * @return 0 失败，1成功
      */
     public String save(PriceList priceList);
 
@@ -47,6 +47,7 @@ public interface PriceListApi {
      * 保存修改数据
      *
      * @param priceDictListVo
+     * @return 0 失败，1成功
      */
     public String save(PriceDictListVo priceDictListVo);
 
@@ -54,13 +55,14 @@ public interface PriceListApi {
      * 删除数据
      *
      * @param priceList
+     * @return 0 失败，1成功
      */
     public String delete(PriceList priceList);
 
     /**
      * 删除数据
      * @param id
-     * @return
+     * @return 0 失败，1成功
      */
     public String delete(String id);
 
