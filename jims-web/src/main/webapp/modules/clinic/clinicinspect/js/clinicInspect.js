@@ -1,12 +1,21 @@
 function onloadMethod() {
 
+        $.ajax({
+            type: "GET",
+            url: basePath + '/clinicInspect/getDescription',
+            data: {"clinicIds" : $("#clinicMasterId",window.parent.document).val()},
+            success:function(data){
+                $("#clinDiag").val(data.description);
+            }
+        })
+
+
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            //var clinicId= parent.document.getElementById("clinicMasterId").value;
             var clinicId= $("#clinicMasterId",window.parent.document).val();
             $("#clinicId").val(clinicId);
             $("#reqDept").val(data.deptDict.deptName);

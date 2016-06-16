@@ -110,7 +110,7 @@ function add(){
             if (data!= ""&& data!=null) {
                 var d;
                 $.each(data, function (index, item) {
-                    d = d+item.icdAndTypeNmae+"\r";
+                    d =item.description+"\r";
                 });
                 $("#relevantClinicDiag").val(d);
             }
