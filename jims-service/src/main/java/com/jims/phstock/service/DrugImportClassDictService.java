@@ -4,7 +4,7 @@ package com.jims.phstock.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.persistence.Page;
 import com.jims.phstock.api.DrugImportClassDictApi;
-import com.jims.phstock.bo.DrugImportClassDictServiceBo;
+import com.jims.phstock.bo.DrugImportDictServiceBo;
 import com.jims.phstock.entity.DrugImportClassDict;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +21,7 @@ import java.util.List;
 public class DrugImportClassDictService implements DrugImportClassDictApi {
 
     @Autowired
-    private DrugImportClassDictServiceBo drugImportClassDictServiceBo;
+    private DrugImportDictServiceBo drugImportClassDictServiceBo;
 
 
     /**
