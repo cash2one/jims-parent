@@ -22,7 +22,6 @@ $(function () {
                 url: basePath + '/roleVs/findrole?roleId=' + data.id,
                 method: 'get',
                 idField: 'id',
-                textField:'serviceName',
                 rownumbers: true,
                 fitColumns: true, //列自适应宽度
                 singleSelect: true,
@@ -36,8 +35,21 @@ $(function () {
                                 panelHeight: '150',
                                 valueField: 'id',
                                 textField: 'serviceName',
-                                method: 'get',
-                                url: basePath + "/org-service/find-self-service?orgId="+orgId
+                                data: styleArr
+                            }
+                        },
+                        formatter: function (value, row) {
+                            for (var i = 0, j = styleArr.length; i < j; i++) {
+                                if (styleArr[i].serviceName == value) {
+                                    return styleArr[i].serviceName;
+                                }
+                                if (styleArr[i].id == value) {
+                                    return styleArr[i].serviceName;
+                                }
+                            }
+                            if (!value && styleArr && styleArr.length > 0) {
+                                row.serviceName = styleArr[0].id;
+                               return styleArr[0].serviceName;
                             }
                         }
                     }
@@ -121,6 +133,13 @@ $(function () {
             currentSelectId = row.id
         }
     });
+
+    function data(){
+        $.get(basePath + "/org-service/find-self-service?orgId=" + orgId, function (data){
+            styleArr = data
+        })
+    }
+    data();
 
     function menuDict() {
         var menus = [];//菜单列表
