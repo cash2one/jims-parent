@@ -69,7 +69,7 @@ $(function () {
         }
     });
 
-    var currentOrgId = parent.config.org_Id
+    var currentOrgId = '1'
     var currentStorage = parent.config.currentStorage
         ,currentUsername = '录入者'
     var accountFlag // 0，不记账，1记账

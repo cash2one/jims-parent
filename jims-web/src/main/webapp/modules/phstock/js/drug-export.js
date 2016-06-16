@@ -68,7 +68,7 @@ $(function () {
     });
 
     var currentSelectIndex   // datagrid 当前选择的行索引
-        ,currentOrgId = parent.config.org_Id  // 当前登录人所属单位ID
+        ,currentOrgId = '1'  // 当前登录人所属单位ID
         ,currentStorage = parent.config.currentStorage  // 当前登录人所属管理单位
         ,currentUsername = '录入者'   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账

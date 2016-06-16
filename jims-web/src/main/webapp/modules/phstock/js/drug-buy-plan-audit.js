@@ -68,7 +68,7 @@ $(function () {
 
     var base_url = '/service/drug-buy-plan/'
     var username = '审核员'
-        , orgId = parent.config.org_Id
+        , orgId = '1'
         , currentBuyId = '' // 当前采购单据号
         , currentStorage = parent.config.currentStorage
         , drugDicts = []  // 检索的药品字典数据
