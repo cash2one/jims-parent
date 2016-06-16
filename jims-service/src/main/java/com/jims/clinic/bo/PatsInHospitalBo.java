@@ -306,4 +306,36 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
         }
         return String.valueOf(num);
     }
+    /**
+     * @param         vo    传递参数
+     * @return java.lang.String    返回类型
+     * @throws
+     * @Title: cancelLeaveHosp
+     * @Description: (取消病人出院)
+     * @author CTQ
+     * @date 2016/6/14
+     */
+    public String cancelLeaveHosp(ComeDeptVo vo){
+
+        int num = 0;
+        /**1.根据条件获取病人信息**/
+        /**2.如果出院病人存在，选中点击确认，取消出院**/
+        return String.valueOf(num);
+    }
+    /**
+     * @param         vo    传递参数
+     * @return java.lang.String    返回类型
+     * @throws
+     * @Title: cancelLeaveHosp
+     * @Description: (取消病人转科)
+     * @author CTQ
+     * @date 2016/6/14
+     */
+    public String cancelturnOutDept(ComeDeptVo vo){
+
+        int num = 0;
+        /**1.根据条件获取病人信息**/
+        /**2.如果出院病人存在，选中点击确认，取消出院**/
+        return String.valueOf(num);
+    }
 }
