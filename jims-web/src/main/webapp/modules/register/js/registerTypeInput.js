@@ -3,7 +3,96 @@ var clinicDeptCode=[{"value":"1","text":"内科"},{"value":"2","text":"内一科
 var doctorName=[{"value":"1","text":"石佳慧"},{"value":"2","text":"张家辉"},{"value":"3","text":"李长青"},{"value":"4","text":"李惠利"},
     {"value":"5","text":"赵丽娟"}];
 var doctorJob=[{"value":"1","text":"主治医师"},{"value":"2","text":"主任医师"},{"value":"3","text":"副主任医师"}];
+var registerTyp=[];
+
+/**
+ * 科室翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string|string}
+ */
+function clinicDeptCodeFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < clinicDeptCode.length; i++) {
+        if (clinicDeptCode[i].value == value) {
+            return clinicDeptCode[i].text;
+        }
+    }
+}
+/**
+ * 医生翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string|string|string}
+ */
+function doctorNameFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < doctorName.length; i++) {
+        if (doctorName[i].value == value) {
+            return doctorName[i].text;
+        }
+    }
+}
+/**
+ * 医生职称翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string|string|string}
+ */
+function doctorJobFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < doctorJob.length; i++) {
+        if (doctorJob[i].value == value) {
+            return doctorJob[i].text;
+        }
+    }
+}
+
+/**
+ * 翻译号类
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string|string|string}
+ */
+function registerTypFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < registerTyp.length; i++) {
+        if (registerTyp[i].id == value) {
+            return registerTyp[i].clinicTypeName;
+        }
+    }
+}
+/**
+ * 获取号类
+ */
+$.ajax({
+    'type': 'get',
+    'url':basePath+'/clinicType/findList' ,
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        registerTyp=data;
+    }
+});
+
 function onloadMethod(){
+
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -22,9 +111,9 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'clinicLabel',title:'门诊名称',width:'15%',align:'center',editor: 'text'},
+            {field:'clinicLabel',title:'号别名称',width:'15%',align:'center',editor: 'text'},
             {field:'inputCode',title:'输入码',width:'10%',align:'center',editor: 'text'},
-            {field:'clinicDept',title:'门诊科室',width:'15%',align:'center',editor: {
+            {field:'clinicDept',title:'门诊科室',width:'15%',align:'center',formatter:clinicDeptCodeFormatter,editor: {
                 type: 'combobox',
                 options: {
                     data: clinicDeptCode,
@@ -32,7 +121,7 @@ function onloadMethod(){
                     textField: 'text'
                 }
             }},
-            {field:'doctor',title:'医师',width:'13%',align:'center',editor: {
+            {field:'doctor',title:'医师',width:'13%',align:'center',formatter:doctorNameFormatter,editor: {
                 type: 'combobox',
                 options: {
                     data: doctorName,
@@ -40,7 +129,7 @@ function onloadMethod(){
                     textField: 'text'
                 }
             }},
-            {field:'doctorTitle',title:'医师职称',width:'10%',align:'center',editor: {
+            {field:'doctorTitle',title:'医师职称',width:'10%',align:'center',formatter:doctorJobFormatter,editor: {
                 type: 'combobox',
                 options: {
                     data: doctorJob,
@@ -48,19 +137,12 @@ function onloadMethod(){
                     textField: 'text'
                 }
             }},
-            {field:'clinicType',title:'号类',width:'15%',align:'center',editor: {
+            {field:'clinicType',title:'号类',width:'15%',align:'center',formatter:registerTypFormatter,editor: {
                 type: 'combobox',
                 options: {
-                    required: true,
-                    url:basePath+'/clinicType/findList' ,
+                    data:registerTyp,
                     valueField: 'id',
-                    textField: 'clinicTypeName',
-                    method:'get',
-                    onLoadSuccess: function (row) {
-                        var data = $(this).combobox('getData');
-                        $(this).combobox('select', data[0].id);
-                    }
-
+                    textField: 'clinicTypeName'
                 }
             }},
             {field:'clinicPosition',title:'门诊位置',width:'15%',align:'center',editor: 'text'},
