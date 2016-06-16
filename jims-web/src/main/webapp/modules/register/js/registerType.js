@@ -1,5 +1,5 @@
 var rowNum=-1;
-var item =  [{ "value": "1", "text": "挂号费" }, { "value": "2", "text": "诊疗费" }, { "value": "3", "text": "其他费" }];
+var item =  [];
 var priceItme= [];
 var priceItmeData={};
 priceItmeData.orgId="";
@@ -19,6 +19,20 @@ $.ajax({
         priceItme=data;
     }
 });
+/**
+ * 挂号项目
+ */
+$.ajax({
+    'type': 'GET',
+    'url':basePath+'/dict/findListByType',
+    data: 'type=classno_itme_dict',
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        item=data;
+    }
+});
 
 /**
  * 收费项目翻译
@@ -34,7 +48,7 @@ function itemFormatter(value, rowData, rowIndex) {
 
     for (var i = 0; i < item.length; i++) {
         if (item[i].value == value) {
-            return item[i].text;
+            return item[i].label;
         }
     }
 }
@@ -78,18 +92,18 @@ function onloadMethod(id,clinicName){
         //pageSize:15,
         //pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'chargeItem',title:'收费项目',width:'30%',align:'center',formatter:itemFormatter,editor:{
+            {field:'chargeItem',title:'收费项目',width:'24%',align:'center',formatter:itemFormatter,editor:{
                 type:'combobox',
                 options:{
                     data :item,
                     valueField:'value',
-                    textField:'text'
+                    textField:'label'
                 }}
             },
-            {field:'priceItem',title:'项目价表',width:'30%',align:'center'
+            {field:'priceItem',title:'项目代码',width:'25%',align:'center'
 
             },
-            {field:'itemName',title:'项目名称',width:'30%',align:'center',formatter:function(value, rowData, rowIndex){
+            {field:'itemName',title:'项目名称',width:'25%',align:'center',formatter:function(value, rowData, rowIndex){
                     return priceItmeFormatter(rowData.priceItem,'','')
             },editor:{
                 type:'combogrid',
@@ -106,11 +120,15 @@ function onloadMethod(id,clinicName){
                     var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
                     var columns = $('#list_data').datagrid("options").columns;
                     rows[rowNum][columns[0][1].field]=data.item_code;
+                        rows[rowNum][columns[0][3].field]=data.price;
                     $('#list_data').datagrid('endEdit', rowNum);
                     $('#list_data').datagrid('beginEdit', rowNum);
                 }
                 }
-            }},
+            }},{field:'price',title:'项目价格',width:'24%',align:'center',formatter:function(value, rowData, rowIndex){
+                return value+"/元";
+             }
+            },
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}

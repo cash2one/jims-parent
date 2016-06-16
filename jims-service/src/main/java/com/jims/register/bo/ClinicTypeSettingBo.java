@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 号类字典Service
+ * 号类字典Bo
  * @author 张耀
  * @version 2016-06-16
  */
