@@ -1,43 +1,24 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
-package com.jims.sys.service;
+package com.jims.sys.bo;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.PinYin2Abbreviation;
-import com.jims.sys.api.DictServiceApi;
-import com.jims.sys.bo.DictBo;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 /**
- * 字典Service
- *
- * @author zhangyao
- * @version 2014-05-18
+ * Created by fyg on 2016/6/16.
  */
-@Service(version = "1.0.0")
-
-public class DictServiceApiImpl implements DictServiceApi {
-    @Autowired
-    private DictBo dictBo;
-
-    @Override
-    public Dict get(String id) {
-        return dictBo.get(id);
-    }
-
-    @Override
-    public Page<Dict> findPage(Page<Dict> page, Dict dict) {
-        return dictBo.findPage(page, dict);
-    }
+@Service
+@Component
+@Transactional(readOnly = false)
+public class DictBo extends CrudImplService<DictDao, Dict> {
 
     /**
      * 查询字典表的类型和描述这两个字段
@@ -46,7 +27,7 @@ public class DictServiceApiImpl implements DictServiceApi {
      * @author fengyuguang
      */
     public List<Dict> leftList() {
-        return dictBo.leftList();
+        return dao.leftList();
     }
 
     /**
@@ -57,7 +38,7 @@ public class DictServiceApiImpl implements DictServiceApi {
      * @author fengyuguang
      */
     public List<Dict> rightList(String type) {
-        return dictBo.rightList(type);
+        return dao.rightList(type);
     }
 
     /**
@@ -69,7 +50,7 @@ public class DictServiceApiImpl implements DictServiceApi {
      * @author fengyuguang
      */
     public List<Dict> select(String type, String description) {
-        return dictBo.select(type, description);
+        return dao.select(type, description);
     }
 
     /**
@@ -80,7 +61,28 @@ public class DictServiceApiImpl implements DictServiceApi {
      * @author fengyuguang
      */
     public String merge(BeanChangeVo<Dict> beanChangeVo) {
-        return dictBo.merge(beanChangeVo);
+        List<Dict> insertedList = beanChangeVo.getInserted();
+        int inNum = 0;
+        for (Dict dict : insertedList) {
+            String label = dict.getLabel();
+            dict.setInputCode(PinYin2Abbreviation.cn2py(label));
+            inNum = Integer.valueOf(save(dict));
+            inNum++;
+        }
+        String insertedNum = inNum + "";
+        List<Dict> updatedList = beanChangeVo.getUpdated();
+
+        int updNum = 0;
+        for (Dict dict : updatedList) {
+            updNum = dao.update(dict);
+            updNum++;
+        }
+        String updatedNum = updNum + "";
+        if (insertedNum == "0" && updatedNum == "0") {
+            return "0";
+        } else {
+            return "1";
+        }
     }
 
     /**
@@ -89,25 +91,15 @@ public class DictServiceApiImpl implements DictServiceApi {
      * @return
      */
     public List<String> findTypeList() {
-        return dictBo.findTypeList();
-    }
-
-    @Override
-    public String save(Dict dict) {
-        return dictBo.save(dict);
-    }
-
-    @Override
-    public String delete(String ids) {
-        return dictBo.delete(ids);
+        return dao.findTypeList(new Dict());
     }
 
     public List<String> findListType(String dict) {
-        return dictBo.findListType(dict);
+        return dao.findListType(dict);
     }
 
     public String getLabel(String type, String value) {
-        return dictBo.getLabel(type, value);
+        return dao.getLabel(type, value);
     }
 
     /**
@@ -116,10 +108,9 @@ public class DictServiceApiImpl implements DictServiceApi {
      * @param type
      * @return
      */
-    @Override
     public List<Dict> findList(String type) {
         Dict d = new Dict();
         d.setType(type);
-        return dictBo.findList(d);
+        return dao.findList(d);
     }
 }
