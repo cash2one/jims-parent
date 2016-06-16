@@ -2,6 +2,17 @@ var rowNum=-1;
 var item =  [{ "value": "1", "text": "挂号费" }, { "value": "2", "text": "诊疗费" }, { "value": "3", "text": "其他费" }];
 var priceItme= [{ "value": "11020000100", "text": "普通门诊诊查费" }, { "value": "11020000300", "text": "急诊诊查费" }, { "value": "10005", "text": "鉴定费" },
       {"value":"11020000400","text":"门急诊留观诊查费"},{"value":"11020000201","text":"副主任医师诊查费"}];
+function unitformatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < priceItme.length; i++) {
+        if (priceItme[i].value == value) {
+            return priceItme[i].text;
+        }
+    }
+}
 function onloadMethod(id,clinicName){
     $("#type").val(clinicName);
     $("#clinicTypeId").val(id);
@@ -31,7 +42,7 @@ function onloadMethod(id,clinicName){
                     textField:'text'
                 }}
             },
-            {field:'priceItem',title:'项目价表',width:'30%',align:'center',
+            {field:'priceItem',title:'项目价表',width:'30%',align:'center',formatter:unitformatter,
                 editor:{
                     type:'combobox',
                     options:{
