@@ -139,12 +139,13 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
 
     /**
      * 检索自定义服务
-     * @param id 自定义服务ID
-     * @return 自定义服务信息
+     * @param personId 人员ID
+     * @param orgId    机构ID
+     * @return 自定义服务
      * @author fengyuguang
      */
-    public OrgSelfServiceList findSelfServiceById(String id){
-        return selfServiceDao.get(id);
+    public List<OrgSelfServiceList> findSelfServiceByOrgIdPersonId(String personId, String orgId){
+        return selfServiceDao.findSelfServiceByOrgIdPersonId(personId,orgId);
     }
 
     /**

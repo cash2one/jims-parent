@@ -54,9 +54,6 @@ public class OrgRoleRest {
     @Path("merge")
     public StringData merge(BeanChangeVo<OrgRole> beanChangeVo) {
         List<OrgRole> inserted = beanChangeVo.getInserted();
-        for (OrgRole orgRole : inserted) {
-            System.out.println("roleName:" + orgRole.getRoleName());
-        }
         String num = orgRoleApi.merge(beanChangeVo);
         StringData stringData = new StringData();
         stringData.setCode(num);

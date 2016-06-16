@@ -4,6 +4,8 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.register.entity.OrgSelfServiceList;
 
+import java.util.List;
+
 /**
  * 机构自定义服务DAO接口
  * @author lgx
@@ -11,5 +13,13 @@ import com.jims.register.entity.OrgSelfServiceList;
  */
 @MyBatisDao
 public interface OrgSelfServiceListDao extends CrudDao<OrgSelfServiceList> {
-	
+
+    /**
+     * 检索自定义服务
+     * @param personId 人员ID
+     * @param orgId    机构ID
+     * @return 自定义服务
+     * @author fengyuguang
+     */
+    public List<OrgSelfServiceList> findSelfServiceByOrgIdPersonId(String personId, String orgId);
 }
