@@ -1,4 +1,5 @@
 function init(){
+    var flag =true;
     $('#clinicNoId').textbox('textbox').keydown(function(e){
         if (e.keyCode == 13) {
             getCost();
@@ -206,30 +207,36 @@ function init(){
             }
         ]],
         onSelect:function(rowIndex,rowData){
-            var row=$('#list-zhu').datagrid('getRows');
-            //for(var i=0;i<row.length;i++){
-            //    var data=row[i];
-            //
-            //    if(rowData.presc_no==data.presc_no){
-            //        var index = $('#list-zhu').datagrid('getRowIndex', data);
-            //        if(index!=rowIndex){
-            //            $("#list-zhu").datagrid('selectRow',index);
-            //           //
-            //        }
-            //    }
-            //}
-            return false;
-        },
-        onUnselect:function(rowIndex,rowData){
-            $.each($('#list-zhu').datagrid('getChecked'),function(j,val){
-                if(rowData.presc_no==val.presc_no){
-                    var index = $('#list-zhu').datagrid('getRowIndex', val);
-                    if(index!=rowIndex){
-                        $("#list-zhu").datagrid('uncheckRow',index);
+            if(flag){
+                flag = false;
+                var row=$('#list-zhu').datagrid('getRows');
+                for(var i=0;i<row.length;i++){
+                    var data=row[i];
+                    if(rowData.presc_no==data.presc_no){
+                        var index = $('#list-zhu').datagrid('getRowIndex', data);
+                        if(index!=rowIndex){
+                            $("#list-zhu").datagrid('selectRow',index);
+                            //
+                        }
                     }
                 }
-            });
-            return false;
+                flag=true;
+            }
+
+        },
+        onUnselect:function(rowIndex,rowData){
+            if(flag){
+                flag = false;
+                $.each($('#list-zhu').datagrid('getChecked'),function(j,val){
+                    if(rowData.presc_no==val.presc_no){
+                        var index = $('#list-zhu').datagrid('getRowIndex', val);
+                        if(index!=rowIndex){
+                            $("#list-zhu").datagrid('uncheckRow',index);
+                        }
+                    }
+                });
+                flag=true;
+            }
         }
     });
     $("#list-xi").datagrid({
