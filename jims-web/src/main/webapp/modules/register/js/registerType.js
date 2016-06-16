@@ -2,6 +2,44 @@ var rowNum=-1;
 var item =  [{ "value": "1", "text": "挂号费" }, { "value": "2", "text": "诊疗费" }, { "value": "3", "text": "其他费" }];
 var priceItme= [{ "value": "11020000100", "text": "普通门诊诊查费" }, { "value": "11020000300", "text": "急诊诊查费" }, { "value": "10005", "text": "鉴定费" },
       {"value":"11020000400","text":"门急诊留观诊查费"},{"value":"11020000201","text":"副主任医师诊查费"}];
+
+/**
+ * 收费项目翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function itemFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < item.length; i++) {
+        if (item[i].value == value) {
+            return item[i].text;
+        }
+    }
+}
+/**
+ * 回显项目价表翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string|string|string}
+ */
+function priceItmeFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < priceItme.length; i++) {
+        if (priceItme[i].value == value) {
+            return priceItme[i].text;
+        }
+    }
+}
+
 function onloadMethod(id,clinicName){
     $("#type").val(clinicName);
     $("#clinicTypeId").val(id);
@@ -23,7 +61,7 @@ function onloadMethod(id,clinicName){
         //pageSize:15,
         //pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'chargeItem',title:'收费项目',width:'30%',align:'center',editor:{
+            {field:'chargeItem',title:'收费项目',width:'30%',align:'center',formatter:itemFormatter,editor:{
                 type:'combobox',
                 options:{
                     data :item,
@@ -31,24 +69,24 @@ function onloadMethod(id,clinicName){
                     textField:'text'
                 }}
             },
-            {field:'priceItem',title:'项目价表',width:'30%',align:'center',
-                editor:{
-                    type:'combobox',
-                    options:{
-                        data:priceItme,
-                        valueField:'value',
-                        textField:'text',
-                        onSelect: function(data){
-                            var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
-                            var columns = $('#list_data').datagrid("options").columns;
-                            rows[rowNum][columns[rowNum][2].field]=data.text;
-                            $('#list_data').datagrid('endEdit', rowNum);
-                            $('#list_data').datagrid('beginEdit', rowNum);
-                        }
+            {field:'priceItem',title:'项目价表',width:'30%',align:'center'
+
+            },
+            {field:'itemName',title:'项目名称',width:'30%',align:'center',editor:{
+                type:'combobox',
+                options:{
+                    data:priceItme,
+                    valueField:'text',
+                    textField:'text',
+                    onSelect: function(data){
+                        var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
+                        var columns = $('#list_data').datagrid("options").columns;
+                        rows[rowNum][columns[0][1].field]=data.value;
+                        $('#list_data').datagrid('endEdit', rowNum);
+                        $('#list_data').datagrid('beginEdit', rowNum);
                     }
                 }
-            },
-            {field:'itemName',title:'项目名称',width:'30%',align:'center'},
+            }},
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
