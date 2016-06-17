@@ -1,15 +1,12 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.jims.clinic.service;
 
 import java.util.List;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.clinic.bo.ExamRptPatternBo;
+import com.jims.common.persistence.Page;
 import com.jims.exam.api.ExamRptPatternApi;
-import com.jims.clinic.dao.ExamRptPatternDao;
 import com.jims.exam.entity.ExamRptPattern;
-import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -20,14 +17,44 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version 2016-04-27
  */
 @Service(version = "1.0.0")
-
-public class ExamRptPatternServiceIpml extends CrudImplService<ExamRptPatternDao, ExamRptPattern> implements ExamRptPatternApi{
+public class ExamRptPatternServiceIpml implements ExamRptPatternApi{
 
     @Autowired
-    private ExamRptPatternDao examRptPatternDao;
+    private ExamRptPatternBo bo;
+
+    @Override
+    public Page<ExamRptPattern> findPage(Page<ExamRptPattern> page, ExamRptPattern examRptPattern) {
+        return bo.findPage(page,examRptPattern);
+    }
+
+    @Override
+    public String save(ExamRptPattern examRptPattern) {
+        try {
+            bo.save(examRptPattern);
+            return "1";
+        } catch (RuntimeException e){}
+
+        return "0";
+    }
+
+    @Override
+    public String delete(String ids) {
+        try {
+            bo.delete(ids);
+            return "1";
+        } catch (RuntimeException e){}
+
+        return "0";
+    }
+
+    @Override
+    public ExamRptPattern get(String id) {
+        return bo.get(id);
+    }
+
     @Override
     public List getExamRptPattern(String examSubClass) {
-      return examRptPatternDao.getExamRptPattern(examSubClass);
+      return bo.getExamRptPattern(examSubClass);
     }
     /**
      *
@@ -36,7 +63,7 @@ public class ExamRptPatternServiceIpml extends CrudImplService<ExamRptPatternDao
      */
     @Override
     public List<ExamRptPattern> findAll() {
-        return dao.findAllList(new ExamRptPattern());
+        return bo.findAll();
     }
 
     /**
@@ -47,6 +74,6 @@ public class ExamRptPatternServiceIpml extends CrudImplService<ExamRptPatternDao
      */
     @Override
     public List<ExamRptPattern> listByClass(String orgId, String className,String subClassName) {
-        return dao.listByClass(orgId,className,subClassName);
+        return bo.listByClass(orgId,className,subClassName);
     }
 }

@@ -455,14 +455,15 @@ $(function() {
     //加载机构所选择的服务
     $.get('/service/org-service/find-service',{orgId:currentOrgId},function(res){
         if(res) {
+            var treeIndex  = 0 ;
             for(var i=0;i<res.length;i++){
-                if(res[i].serviceName == '系统管理')continue;
+                if(res[i].serviceName == '系统管理') continue;
                 $('#selectServiceMenu').accordion('add', {
                     title: res[i].serviceName,
-                    content: '<ul class="easyui-tree" id="tree'+i+'"></ul>',
+                    content: '<ul class="easyui-tree" id="tree'+treeIndex+'"></ul>',
                     selected: i == 0
                 });
-                $('#tree'+i).tree({
+                $('#tree'+treeIndex).tree({
                     data:handlerTreeData(res[i].menus,res[i].serviceEndDate),
                     checkbox:true,
                     animate:true,
@@ -479,6 +480,7 @@ $(function() {
                         return c
                     }
                 })
+                treeIndex++;
             }
         }
     })

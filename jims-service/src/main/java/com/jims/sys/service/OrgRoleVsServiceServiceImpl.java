@@ -43,6 +43,10 @@ public class OrgRoleVsServiceServiceImpl implements OrgRoleVsServiceApi {
         return orgRoleVsServiceService.delete(orgRoleVsService);
     }
 
+    public String delete(String id){
+        return orgRoleVsServiceService.delete(id);
+    }
+
     public List<OrgRoleVsService> findAll(){
         return orgRoleVsServiceService.findAll();
     }

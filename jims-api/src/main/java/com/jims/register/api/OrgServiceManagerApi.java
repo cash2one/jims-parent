@@ -50,11 +50,12 @@ public interface OrgServiceManagerApi {
 
     /**
      * 检索自定义服务
-     * @param id 自定义服务ID
-     * @return 自定义服务信息
+     * @param personId 人员ID
+     * @param orgId    机构ID
+     * @return 自定义服务
      * @author fengyuguang
      */
-    public OrgSelfServiceList findSelfServiceById(String id);
+    public List<OrgSelfServiceList> findSelfServiceByOrgIdPersonId(String personId,String orgId);
 
     /**
      * 检索机构自定义菜单

@@ -18,7 +18,7 @@ import java.util.List;
 
 
 /**
- * 号类费用Service
+ * 号类费用Bo
  * @author zhangyao
  * @version 2016-06-16
  */

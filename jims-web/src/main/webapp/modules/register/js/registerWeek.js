@@ -1,8 +1,5 @@
 $(function(){
     var rowNum=-1;
-    var week=[{"value":"星期一","text":"星期一"},{"value":"星期二","text":"星期二"},{"value":"星期三","text":"星期三"},{"value":"星期四","text":"星期四"}
-    ,{"value":"星期五","text":"星期五"},{"value":"星期六","text":"星期六"},{"value":"星期日","text":"星期日"}];
-    var time =[{"value":"上午","text":"上午"},{"value":"下午","text":"下午"},{"value":"昼夜","text":"昼夜"}];
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -44,99 +41,6 @@ $(function(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '共 {total} 条记录'
     });
-    /*
-    $('#listWeek').datagrid({
-        iconCls:'icon-edit',//图标
-        width: 'auto',
-        height: 'auto',
-        nowrap: false,
-        striped: true,
-        border: true,
-        method:'get',
-        collapsible:false,//是否可折叠的
-        fit: true,//自动大小
-        url:'',
-        remoteSort:false,
-        idField:'id',
-        singleSelect:true,//是否单选
-        pagination:true,//分页控件
-        pageSize:15,
-        pageList: [10,15,30,50],//可以设置每页记录条数的列表
-        columns:[[      //每个列具体内容
-            {field:'clinicLabel',title:'门诊号名称',width:'20%',align:'center',editor: 'text'},
-            {field:'dayOfWeek',title:'星期',width:'23%',align:'center',editor:{
-                type:"combobox",
-                options:{
-                    data :week,
-                    valueField:'value',
-                    textField:'text'
-                }
-            }},
-            {field:'timeDesc',title:'门诊时间',width:'20%',align:'center',editor:{
-                type:"combobox",
-                options:{
-                    data:time,
-                    valueField:'value',
-                    textField:'text'
-                }
-            }},
-            {field:'registrationLimits',title:'限号数',width:'20%',align:'center',editor: 'text'},
-            {field:'appointmentLimits',title:'限约号数',width:'15%',align:'center',editor: 'text'},
-        ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
-        ]],
-        toolbar: [{
-            text: '新增',
-            iconCls: 'icon-add',
-            handler: function() {
-                if(rowNum>=0){
-                    rowNum++;
-                }
-                $("#listWeek").datagrid('insertRow', {
-                    index: 0,
-                    row: {}
-                });
-            }
-        },
-            '-',{
-                text: '删除',
-                iconCls: 'icon-remove',
-                handler: function(){
-                    deleteSchedule();
-                }
-            },{
-                text: '保存',
-                iconCls:'icon-save',
-                handler:function(){
-                    $("#listWeek").datagrid('endEdit', rowNum);
-                    saveClinicWeek();
-                }
-            }
-        ], onClickRow: function (rowIndex, rowData) {
-            var dataGrid=$('#listWeek');
-            if(!dataGrid.datagrid('validateRow', rowNum)){
-                return false
-            }else{
-                if(rowNum!=rowIndex){
-                    if(rowNum>=0){
-                        dataGrid.datagrid('endEdit', rowNum);
-                    }
-                    rowNum=rowIndex;
-                    dataGrid.datagrid('beginEdit', rowIndex);
-                }
-            }
-        }
-    });
-
-    //设置分页控件
-    var p = $('#listWeek').datagrid('getPager');
-    $(p).pagination({
-        beforePageText: '第',//页数文本框前显示的汉字
-        afterPageText: '页    共 {pages} 页',
-        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-    });
-    */
     weekTable('1');
 });
 
@@ -154,7 +58,7 @@ function weekTable(id){
                 "<td>限号数</td><td>限约号数</td><td>出诊</td><td>限号数</td><td>限约号数</td><td>出诊</td><td>限号数</td><td>限约号数</td>"+
                 "<td>出诊</td><td>限号数</td><td>限约号数</td><td>出诊</td><td>限号数</td><td>限约号数</td></tr>";
             for(var i=1;i<=7;i++ ){
-                html+="<tr><td>"+data[a].time_interval_name+"</td>";
+                html+="<tr><td>"+data[a+1].time_interval_name+"</td>";
                 for(var j=0;j<7;j++){
                     a=(i-1)*7+j;
                     var inputCheckBox=""

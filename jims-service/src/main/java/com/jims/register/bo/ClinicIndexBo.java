@@ -4,22 +4,22 @@
 package com.jims.register.bo;
 
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.dao.ClinicIndexDao;
 import com.jims.register.entity.ClinicIndex;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 /**
- * 好别Service
+ * 好别Bo
  * @author zhangyao
  * @version 2016-06-16
  */
-@org.springframework.stereotype.Service
+@Service
 @Transactional(readOnly = false)
 public class ClinicIndexBo extends CrudImplService<ClinicIndexDao, ClinicIndex> {
 

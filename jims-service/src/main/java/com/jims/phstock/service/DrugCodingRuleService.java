@@ -1,13 +1,13 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.jims.phstock.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugCodingRuleApi;
+import com.jims.phstock.bo.DrugCodingRuleServiceBo;
 import com.jims.phstock.dao.DrugCodingRuleDao;
 import com.jims.phstock.entity.DrugCodingRule;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
@@ -20,15 +20,77 @@ import java.util.List;
  */
 
 @Service(version = "1.0.0")
+public class DrugCodingRuleService implements DrugCodingRuleApi{
 
-public class DrugCodingRuleService extends CrudImplService<DrugCodingRuleDao, DrugCodingRule> implements DrugCodingRuleApi{
+    @Autowired
+    private DrugCodingRuleServiceBo drugCodingRuleServiceBo;
+
+
+    /**
+     * 获取药品编码规则
+     *
+     * @param id
+     * @return
+     */
+    public DrugCodingRule get(String id){
+        return drugCodingRuleServiceBo.get(id);
+    }
+
+    /**
+     * 根据药品编码规则获取编码列表
+     *
+     * @param drugCodingRule
+     * @return
+     */
+    public List<DrugCodingRule> findList(DrugCodingRule drugCodingRule){
+        return drugCodingRuleServiceBo.findList(drugCodingRule);
+    }
+
+    /**
+     * 根据编码规则获取带分页功能的编码列表
+     *
+     * @param page
+     * @param drugCodingRule
+     * @return
+     */
+    public Page<DrugCodingRule> findPage(Page<DrugCodingRule> page, DrugCodingRule drugCodingRule){
+        return drugCodingRuleServiceBo.findPage(page,drugCodingRule);
+    }
+
+    /**
+     * 保存功能
+     *
+     * @param drugCodingRule
+     */
+    public String save(DrugCodingRule drugCodingRule){
+        return drugCodingRuleServiceBo.save(drugCodingRule);
+    }
+
+    /**
+     * 删除功能
+     *
+     * @param drugCodingRule
+     */
+    public String delete(DrugCodingRule drugCodingRule){
+        return drugCodingRuleServiceBo.delete(drugCodingRule);
+    }
+
+    /**
+     * 删除功能
+     *
+     * @param id
+     * @return
+     */
+    public String delete(String id){
+        return drugCodingRuleServiceBo.delete(id);
+    }
 
     /**
      * 获取药品编码规则列表
      * @return
      */
     public List<DrugCodingRule> findAllList(){
-        return dao.findAll();
+        return drugCodingRuleServiceBo.findAllList();
     }
 
     /**
@@ -38,6 +100,6 @@ public class DrugCodingRuleService extends CrudImplService<DrugCodingRuleDao, Dr
      * @return
      */
     public DrugCodingRule findLevelWidth(String className){
-          return dao.findLevelWidth(className);
+          return drugCodingRuleServiceBo.findLevelWidth(className);
     }
 }

@@ -3,17 +3,17 @@
  * @author lgx
  */
  -- 诊疗项目维护菜单添加
- INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '诊疗项目维护', '/modules/clinic/clinic-item.html', '1', 1, '1', '9ED7DB110B4F41F7AED1340F9B26CF1C', '1', null, null, null, sysdate, '0', sysdate );
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES ('440df1e9ab2b49deb7ad2ae62163d8dc', '诊疗项目维护', '/modules/clinic/clinic-item.html', '1', 1, '1', '9ED7DB110B4F41F7AED1340F9B26CF1C', '1', null, null, null, sysdate, '0', sysdate );
  -- 采购计划生产菜单添加
- INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划生成', '/modules/phstock/drug-buy-plan-create.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES ('75a1acabf3c74d22a13c881d848d0581', '采购计划生成', '/modules/phstock/drug-buy-plan-create.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
  -- 采购计划调整菜单添加
- INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划调整', '/modules/phstock/drug-buy-plan-update.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES ('fab5abf284dc46378ef14a14e8aa78e5', '采购计划调整', '/modules/phstock/drug-buy-plan-update.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
  -- 采购计划审核菜单添加
- INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划审核', '/modules/phstock/drug-buy-plan-audit.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES ('b06124a036644a649a008ddd7ea55660', '采购计划审核', '/modules/phstock/drug-buy-plan-audit.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
  -- 采购计划执行菜单添加
- INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划执行', '/modules/phstock/drug-buy-plan-execute.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES ('55cd209bdcd94f288e205e2a6786f259', '采购计划执行', '/modules/phstock/drug-buy-plan-execute.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
  -- 采购计划查询菜单添加
- INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES (sys_guid(), '采购计划查询', '/modules/phstock/drug-buy-plan-query.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
+ INSERT INTO menu_dict( id, menu_name, href, icon, sort, target, pid, menu_level, remarks, update_by, create_by, update_date, del_flag, create_date ) VALUES ('27a5892967d9474e980dcea42bb8e808', '采购计划查询', '/modules/phstock/drug-buy-plan-query.html', '1', 1, '1', '065969698a724445b2c03085aad8dfcd', '1', null, null, null, sysdate, '0', sysdate );
 --项目类别
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('10AFF59F7A184E3782C757E31FCB8645','西药','A','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','1',0);
 insert into sys_dict(id,label,value,type,description,sort,del_flag) values ('E11F27EF26BD4ECDA9A1DBEF370C9F3B','中药','B','CLINIC_ITEM_CLASS_DICT','诊疗项目分类字典','2',0);

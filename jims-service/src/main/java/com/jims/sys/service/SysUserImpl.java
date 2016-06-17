@@ -6,6 +6,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.JedisUtils;
 import com.jims.common.utils.StringUtils;
 import com.jims.sys.api.SysUserApi;
+import com.jims.sys.bo.PersionServiceListBo;
 import com.jims.sys.dao.SysCompanyDao;
 import com.jims.sys.dao.SysUserDao;
 import com.jims.sys.entity.SysCompany;
@@ -26,6 +27,8 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
 
     @Autowired
     private SysCompanyDao sysCompanyDao;
+    @Autowired
+    private PersionServiceListBo persionServiceListBo;
 
     /**
      * 用户登录
@@ -35,6 +38,10 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
      */
     public SysUser login(SysUser sysUser) {
         SysUser user = dao.login(sysUser);
+        if(user!=null && !user.getLoginName().equals("admin"))
+        {
+            persionServiceListBo.save(user.getPersionId());
+        }
         return user;
     }
 

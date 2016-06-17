@@ -130,7 +130,12 @@ public class InputSettingRest {
      */
     @Path("listParam")
     @POST
-    public List<BaseDto> listParam(InputInfoVo inputInfoVo) {
+    public List<BaseDto> listParam(InputInfoVo inputInfoVo,@QueryParam("q")String q) {
+        if(StringUtils.isNotEmpty(q)){
+            List<InputParamVo> inputParamVos = inputInfoVo.getInputParamVos() ;
+            InputParamVo vo = new InputParamVo("input_code",q,"like") ;
+            inputParamVos.add(vo) ;
+        }
         List<BaseDto> list = inputSettingServiceApi.listInputDataByParam(inputInfoVo);
         return list;
     }
