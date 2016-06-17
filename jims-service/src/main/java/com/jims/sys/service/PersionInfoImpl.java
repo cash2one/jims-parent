@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.PersionInfoApi;
 import com.jims.sys.bo.PersionServiceListBo;
+import com.jims.sys.bo.PersonInfoBo;
 import com.jims.sys.dao.PersionInfoDao;
 import com.jims.sys.dao.PersionServiceListDao;
 import com.jims.sys.dao.SysServiceDao;
@@ -28,16 +29,7 @@ import java.util.UUID;
 public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo> implements PersionInfoApi {
 
     @Autowired
-    private PersionInfoDao persionInfoDao;
-
-    @Autowired
-    private SysServiceDao sysServiceDao;
-
-    @Autowired
-    private SysUserDao sysUserDao;
-
-    @Autowired
-    private PersionServiceListDao persionServiceListDao;
+    private PersonInfoBo personInfoBo;
 
 
     /**
@@ -47,63 +39,7 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
      */
     @Override
     public String register(PersionInfo persionInfo, SysUser sysUser) {
-
-        persionInfo.preInsert();
-        //向注册表中添加数据
-        int i =persionInfoDao.register(persionInfo);
-
-        String id = persionInfo.getId();
-        String serviceType="0";
-        String serviceClass ="1";
-        List<SysService> listService=sysServiceDao.serviceListByTC(serviceType,serviceClass);
-        PersionServiceList persionServiceList=new PersionServiceList();
-        if(listService!=null)
-        {
-            for(int j=0;j<listService.size();j++)
-            {
-                persionServiceList.preInsert();
-                persionServiceList.setFlag("0");
-                persionServiceList.setServiceStartDate(new Date());
-                persionServiceList.setServiceEndDate(null);
-                persionServiceList.setPersionId(id);
-                persionServiceList.setServiceId(listService.get(j).getId());
-                persionServiceListDao.insert(persionServiceList);
-            }
-        }
-        //登录表中添加记录（身份证号）
-        if (StringUtils.isNotBlank(persionInfo.getCardNo())) {
-            sysUser.preInsert();
-            sysUser.setPersionId(id);
-            sysUser.setLoginName(persionInfo.getCardNo());
-            sysUserDao.insert(sysUser);
-        }
-        //登录表中添加记录（手机号）
-        if (StringUtils.isNotBlank(persionInfo.getPhoneNum())) {
-            sysUser.preInsert();
-            sysUser.setPersionId(id);
-            sysUser.setLoginName(persionInfo.getPhoneNum());
-            sysUserDao.insert(sysUser);
-        }
-        //登录表中添加记录（用户名）
-        if (StringUtils.isNotBlank(persionInfo.getNickName())) {
-            sysUser.preInsert();
-            sysUser.setPersionId(id);
-            sysUser.setLoginName(persionInfo.getNickName());
-            sysUserDao.insert(sysUser);
-        }
-        //登录表中添加记录（邮箱）
-        if (StringUtils.isNotBlank(persionInfo.getEmail())) {
-            sysUser.preInsert();
-            sysUser.setPersionId(id);
-            sysUser.setLoginName(persionInfo.getEmail());
-            sysUserDao.insert(sysUser);
-        }
-
-        if(i!=0)
-        {
-            return "success";
-        }
-        return null;
+        return personInfoBo.register(persionInfo,sysUser);
 
     }
 
@@ -114,12 +50,8 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
      */
     public PersionInfo getCard(PersionInfo persionInfo)
     {
-        //验证数据是否正确
-        if (StringUtils.isNotBlank(persionInfo.getCardNo())) {
-            PersionInfo card = persionInfoDao.getCard(persionInfo);
-            return card;
-        }
-        return null;
+
+        return personInfoBo.getCard(persionInfo);
     }
 
     /**
@@ -129,12 +61,8 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
      * @return
      */
     public PersionInfo getNick(PersionInfo persionInfo) {
-        //验证数据是否正确
-        if (StringUtils.isNotBlank(persionInfo.getNickName())) {
-            PersionInfo nick = persionInfoDao.getNick(persionInfo);
-            return nick;
-        }
-        return null;
+
+        return personInfoBo.getNick(persionInfo);
     }
 
     /**
@@ -144,12 +72,7 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
      * @return
      */
     public PersionInfo getPhone(PersionInfo persionInfo) {
-        //验证数据是否正确
-        if (StringUtils.isNotBlank(persionInfo.getPhoneNum())) {
-            PersionInfo phone = persionInfoDao.getPhone(persionInfo);
-            return phone;
-        }
-        return null;
+        return personInfoBo.getPhone(persionInfo);
     }
 
     /**
@@ -159,12 +82,7 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
      * @return
      */
     public PersionInfo getEmail(PersionInfo persionInfo) {
-        //验证数据是否正确
-        if (StringUtils.isNotBlank(persionInfo.getEmail())) {
-            PersionInfo email = persionInfoDao.getEmail(persionInfo);
-            return email;
-        }
-        return null;
+        return personInfoBo.getEmail(persionInfo);
     }
 
     /**
@@ -174,7 +92,7 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
      */
     @Override
     public PersionInfo findInfoByCardNo(String cardNo) {
-        return persionInfoDao.findInfoByCardNo(cardNo);
+        return personInfoBo.findInfoByCardNo(cardNo);
     }
 
 
