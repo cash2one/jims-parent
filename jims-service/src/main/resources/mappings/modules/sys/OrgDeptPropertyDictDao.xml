@@ -74,7 +74,7 @@
 
     <select id="findNameByTypeAndValue" resultType="OrgDeptPropertyDict">
         SELECT property_name
-        FROM ORG_DEPT_PROPERTY_DICT WHERE property_type=#{0} and property_value=#{1}
+        FROM ORG_DEPT_PROPERTY_DICT WHERE property_type=#{0} and property_value=#{1} and org_id=#{2}
     </select>
 
     <select id="findProperty" resultType="OrgDeptPropertyDict">

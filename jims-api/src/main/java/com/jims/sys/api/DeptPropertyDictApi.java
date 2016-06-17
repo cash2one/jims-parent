@@ -1,5 +1,6 @@
 package com.jims.sys.api;
 
+import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.OrgDeptPropertyDict;
 import com.jims.sys.entity.SysCompany;
@@ -32,7 +33,7 @@ public interface DeptPropertyDictApi {
      *
      * @param
      */
-    public int add(OrgDeptPropertyDict orgDeptPropertyDict);
+    public StringData add(OrgDeptPropertyDict orgDeptPropertyDict);
 
     /**
      * 删除方法
@@ -54,7 +55,7 @@ public interface DeptPropertyDictApi {
      * @param propertyValue
      * @return
      */
-    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue);
+    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue,String orgId);
 
     /**
      * 查询所有的属性类型

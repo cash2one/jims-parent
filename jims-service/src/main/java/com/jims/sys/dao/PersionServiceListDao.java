@@ -21,10 +21,18 @@ import java.util.List;
 public interface PersionServiceListDao extends CrudDao<PersionServiceList> {
 
     /**
-     * 根据persionId查询免费的服务
+     * 根据persionId查询服务
      * @param persionId
      * @return
      */
     public List<SysService> findListByFlag(@Param("persionId") String persionId);
+
+
+    /**
+     * 根据persionId查询服务
+     * @param persionId
+     * @return
+     */
+    public List<PersionServiceList> findServiceByPersionId(@Param("persionId") String persionId);
 	
 }
