@@ -1,6 +1,13 @@
-var examSubClass = [{"value": "1", "text": "CT"}, {"value": "2", "text": "彩超"}, {"value": "3", "text": "心电"}] // 检查项目
-var reqDept = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//开单科室
-var performedBy = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//执行科室
+//var examSubClass = [{"value": "1", "text": "CT"}, {"value": "2", "text": "彩超"}, {"value": "3", "text": "心电"}] // 检查项目
+//var reqDept = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//开单科室
+//var performedBy = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//执行科室
+var rowNum=-1;
+var examSubClass = [] // 检查项目
+var reqDept = []//开单科室
+var performedBy = []//执行科室
+var priceItmeData={};
+priceItmeData.orgId="";
+priceItmeData.dictType="V_INPUT_REGISTRATION_LIST"
 
 /**
  * 检查项目翻译
@@ -15,23 +22,6 @@ function examSubClassFormatter(value, rowData, rowIndex) {
     for (var i = 0; i < examSubClass.length; i++) {
         if (examSubClass[i].value == value) {
             return examSubClass[i].text;
-        }
-    }
-}
-/**
- * 开单科室翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function reqDeptFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < reqDept.length; i++) {
-        if (reqDept[i].value == value) {
-            return reqDept[i].text;
         }
     }
 }
@@ -138,9 +128,9 @@ function onloadMethod() {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'examNo', title: '检查单号', width: '20%', align: 'center'},
-            {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center'},
-            {field: 'reqDept', title: '开单科室', width: '20%', align: 'center'},
-            {field: 'reqDept', title: '检查科室', width: '20%', align: 'center'},
+            {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center',formatter:examSubClassFormatter },
+            {field: 'reqDept', title: '开单科室', width: '20%', align: 'center',formatter:reqDeptFormatter},
+            {field: 'performedBy', title: '检查科室', width: '20%', align: 'center',formatter:performedByFormatter},
             {field: 'flag', title: '状态', width: '20%', align: 'center'},
             {
                 field: 'id',

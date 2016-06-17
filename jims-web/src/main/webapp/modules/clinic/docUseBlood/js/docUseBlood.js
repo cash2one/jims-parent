@@ -1,4 +1,4 @@
-
+var deptCode=[];
 /**
  * 设置动态行
  * @param id

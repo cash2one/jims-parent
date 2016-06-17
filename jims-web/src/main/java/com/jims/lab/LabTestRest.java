@@ -70,43 +70,6 @@ public class LabTestRest {
      * @param-response
      * @return
      */
-    @Path("items")
-    @POST
-    public List<ClinicItemNameDict> items(String consulaionId){
-        List<ClinicItemNameDict> list = new ArrayList<ClinicItemNameDict>();
-        ClinicItemNameDict one = new ClinicItemNameDict();
-        one.setItemCode("0001");
-        one.setItemName("活化部分凝血活酶时间测定");
-        one.setPrice("11.5");
-        ClinicItemNameDict one2 = new ClinicItemNameDict();
-        one2.setItemCode("0002");
-        one2.setItemName("血浆纤维蛋白原");
-        one2.setPrice("12.5");
-        list.add(one);
-        list.add(one2);
-        ClinicItemNameDict one3 = new ClinicItemNameDict();
-        one3.setItemCode("0003");
-        one3.setPrice("13.5");
-        one3.setItemName("单个凝血因子凝血活性检测");
-        ClinicItemNameDict one4 = new ClinicItemNameDict();
-        one4.setItemCode("0004");
-        one4.setItemName("蛋白C活性测定");
-        one4.setPrice("14.5");
-        ClinicItemNameDict one5= new ClinicItemNameDict();
-        one5.setItemCode("0005");
-        one5.setItemName("纤维蛋白（原）降解产物");
-        one5.setPrice("15.5");
-        list.add(one3);
-        list.add(one4);
-        list.add(one5);
-        return list;
-    }
-    /**
-     * 异步item信息列表
-     * @param-request
-     * @param-response
-     * @return
-     */
     @Path("treeresult")
     @GET
     public List<LabTestItems> treeresult(String consulaionId){
