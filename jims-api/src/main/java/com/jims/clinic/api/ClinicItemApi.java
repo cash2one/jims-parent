@@ -52,33 +52,35 @@ public interface ClinicItemApi {
     /**
      * 保存临床诊疗项目数据（插入或更新）
      * @param entity
+     * @return 0 失败，1成功
      */
     public String save(ClinicItemDict entity) ;
 
     /**
      * 批量保存临床诊疗项目数据（插入或更新）
      * @param entityList
-     * @return 成功个数
+     * @return 0 失败，1成功
      */
     public String save(List<ClinicItemDict> entityList);
 
     /**
      * 删除数据
      * @param ids,多个id以逗号隔开
+     * @return 0 失败，1成功
      */
     public String delete(String ids) ;
 
     /**
      * 删除诊疗项目数据以及所属名称和价表对照
      * @param ids,多个id以逗号隔开
-     * @return
+     * @return 0 失败，1成功
      */
     public String deleteCascade(String ids);
 
     /**
      * 删除诊疗项目数据以及所属名称和价表对照
      * @param entity
-     * @return
+     * @return 0 失败，1成功
      */
     public String deleteCascade(ClinicItemDict entity);
 
@@ -92,35 +94,35 @@ public interface ClinicItemApi {
     /**
      * 批量保存临床诊疗项目名称(正/别名)数据（插入或更新）
      * @param entityList
-     * @return
+     * @return 0 失败，1成功
      */
     public String saveNameList(List<ClinicItemNameDict> entityList);
 
     /**
      * 保存临床诊疗项目名称(正/别名)数据（插入或更新）
      * @param entity
-     * @return
+     * @return 0 失败，1成功
      */
     public String save(ClinicItemNameDict entity);
 
     /**
      * 删除临床诊疗项目名称(正/别名)数据
      * @param ids ,多个id以逗号隔开
-     * @return
+     * @return 0 失败，1成功
      */
     public String deleteName(String ids);
 
     /**
      * 删除临床诊疗项目所有名称(正/别名)数据
      * @param entity
-     * @return
+     * @return 0 失败，1成功
      */
     public String delete(ClinicItemNameDict entity);
 
     /**
      * 删除临床诊疗项目所有名称(正/别名)数据
      * @param entity
-     * @return
+     * @return 0 失败，1成功
      */
     public String deleteName(ClinicItemDict entity);
 
@@ -134,42 +136,42 @@ public interface ClinicItemApi {
     /**
      * 保存临床诊疗与价表对照数据（插入或更新）
      * @param entity
-     * @return
+     * @return 0 失败，1成功
      */
     public String save(ClinicVsCharge entity);
 
     /**
      * 批量保存临床诊疗与价表对照数据（插入或更新）
      * @param entityList
-     * @return
+     * @return 0 失败，1成功
      */
     public String saveVsList(List<ClinicVsCharge> entityList);
 
     /**
      * 删除临床诊疗与价表对照数据
      * @param entity
-     * @return
+     * @return 0 失败，1成功
      */
     public String delete(ClinicVsCharge entity);
 
     /**
      * 删除临床诊疗与价表对照数据
      * @param ids,多个id以逗号隔开
-     * @return
+     * @return 0 失败，1成功
      */
     public String deleteVs(String ids);
 
     /**
      * 删除临床诊疗与价表对照数据
      * @param entity
-     * @return
+     * @return 0 失败，1成功
      */
     public String deleteVs(ClinicItemDict entity);
 
     /**
      * 保存临床诊疗与价表对照数据
      * @param priceDictListVo
-     * @return
+     * @return 0 失败，1成功
      */
     public String saveDictList(PriceDictListVo priceDictListVo);
 
@@ -196,7 +198,7 @@ public interface ClinicItemApi {
      *                      如果为新建项目，则saveNameList为新建的正别名数据
      *                      saveVsList  为新建的对照数据
      *
-     * @return
+     * @return 0 失败，1成功
      */
     public String saveBatch(List<ClinicItemDict> list);
 }

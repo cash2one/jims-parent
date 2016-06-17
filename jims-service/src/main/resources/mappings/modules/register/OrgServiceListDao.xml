@@ -25,6 +25,8 @@
          <result property="serviceName" column="service_name"/>
          <result property="serviceStartDate" column="service_start_date"/>
          <result property="serviceEndDate" column="service_end_date"/>
+         <result property="serviceType" column="service_type"/>
+         <result property="serviceClass" column="service_class"/>
          <result property="orgId" column="org_id"/>
          <result property="remarks" column="remarks"/>
          <result property="delFlag" column="del_flag"/>
@@ -58,7 +60,7 @@
 	
 	<select id="findList" resultMap="serviceMap">
 		SELECT 
-			a.*,s.service_name,m.id menu_id,m.menu_name,v.menu_sort,m.pid,m.href
+			a.*,s.service_name,s.service_type,s.service_class,m.id menu_id,m.menu_name,v.menu_sort,m.pid,m.href
         FROM org_service_list a ,sys_service s,service_vs_menu v ,menu_dict m
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}

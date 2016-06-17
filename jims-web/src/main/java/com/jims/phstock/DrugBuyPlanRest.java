@@ -47,7 +47,7 @@ public class DrugBuyPlanRest {
      * 批量保存
      * @param entityBatch,list.get(0)添加的数据
      *                    list.get(1)删除的数据
-     * @return
+     * @return 0 失败，1 成功
      */
     @POST
     @Path("saveBatch")

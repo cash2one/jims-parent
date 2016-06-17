@@ -20,9 +20,8 @@ public interface ExamSubclassDictApi {
 
     /**
      * 保存修改数据
-     *
      * @param examSubclassDict
-     * @return
+     * @return 0失败，1成功
      */
     public String save(ExamSubclassDict examSubclassDict);
 
@@ -30,13 +29,12 @@ public interface ExamSubclassDictApi {
      * 删除数据
      *
      * @param ids
-     * @return
+     * @return 0失败，1成功
      */
     public String delete(String ids);
 
     /**
      * 获取单条数据
-     *
      * @param id
      * @return
      */
