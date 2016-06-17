@@ -81,6 +81,7 @@ $(function () {
                 }
 
                 $("#tt").treegrid('loadData', treeDepts);
+                console.log(treeDepts);
             })
         }
         loadDept();
@@ -190,7 +191,6 @@ $(function () {
             deptDictVo.id = $("#id").val();
             deptDictVo.deptCode = $("#deptCode").val();
             deptDictVo.deptName = $("#deptName").val();
-            //deptDictVo.orgId=parent.config.org_id;
             deptDictVo.orgId=orgId
             deptDictVo.inputCode=$("#inputCode").val();
             deptDictVo.parentId = $("#parentId").combobox('getValue');
@@ -202,27 +202,32 @@ $(function () {
 
             }
             deptDictVo.array = deptProperty;
-            console.log(deptDictVo);
-            jQuery.ajax({
-                'type': 'POST',
-                'url': "/service/dept-dict/add",
-                'contentType': 'application/json',
-                'data': JSON.stringify(deptDictVo),
-                'dataType': 'json',
-                'success': function (data) {
-                    console.log(data);
-                    if (data.data == "success") {
-                        $.messager.alert("系统提示", "保存成功");
-                        loadDept();
-                        clearInput();
-                        $("#deptPropertity").html("");
-                        $("#dlg").dialog('close');
+            if(deptDictVo!=null && deptDictVo.deptCode!="" && deptDictVo.deptName!="" && deptDictVo.orgId !="" && deptDictVo.inputCode !=null && deptDictVo.array!="")
+            {
+                jQuery.ajax({
+                    'type': 'POST',
+                    'url': "/service/dept-dict/add",
+                    'contentType': 'application/json',
+                    'data': JSON.stringify(deptDictVo),
+                    'dataType': 'json',
+                    'success': function (data) {
+                        console.log(data);
+                        if (data.data == "success") {
+                            $.messager.alert("系统提示", "保存成功");
+                            loadDept();
+                            clearInput();
+                            $("#deptPropertity").html("");
+                            $("#dlg").dialog('close');
+                        }
+                    },
+                    'error': function (data) {
+                        $.messager.alert("系统提示", "保存失败");
                     }
-                },
-                'error': function (data) {
-                    $.messager.alert("系统提示", "保存失败");
-                }
-            });
+                });
+            }else{
+                $.messager.alert("系统提示", "填写信息不完整，请重新填写！");
+            }
+
 
         });
         /**
@@ -235,7 +240,7 @@ $(function () {
             orgDeptProperty.propertyValue = $("#propertyValue").val();
             orgDeptProperty.orgId = orgId;
 
-            if ($("#dm").form()) {
+            if ($("#dm").form() && orgDeptProperty!=null && orgDeptProperty.propertyName!="" && orgDeptProperty.propertyType!="" && orgDeptProperty.propertyValue!="") {
                 jQuery.ajax({
                     'type': 'POST',
                     'url': "/service/dept-property/add",
@@ -243,6 +248,7 @@ $(function () {
                     'data': JSON.stringify(orgDeptProperty),
                     'dataType': 'json',
                     'success': function (data) {
+                        console.log(data.data)
                         if (data.data == "success") {
                             $.messager.alert("系统提示", "保存成功");
                             $("#propertyType").textbox('setValue', "");
@@ -260,6 +266,8 @@ $(function () {
                         $.messager.alert("系统提示", "保存失败");
                     }
                 });
+            }else{
+                $.messager.alert("系统提示", "填写信息不完整,请填写完整！");
             }
         });
 

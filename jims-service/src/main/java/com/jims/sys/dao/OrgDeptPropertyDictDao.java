@@ -40,7 +40,7 @@ public interface OrgDeptPropertyDictDao extends CrudDao<OrgDeptPropertyDict> {
      * @param propertyValue
      * @return
      */
-    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue);
+    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue,String orgId);
 
     /**
      * 查询所有的属性类型
