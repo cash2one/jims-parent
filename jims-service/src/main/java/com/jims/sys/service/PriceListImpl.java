@@ -6,6 +6,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
 import com.jims.common.utils.IdGen;
 import com.jims.sys.api.PriceListApi;
+import com.jims.sys.bo.PriceListServiceBo;
 import com.jims.sys.bo.PriceListBo;
 import com.jims.sys.dao.PriceItemNameDictDao;
 import com.jims.sys.dao.PriceListDao;
@@ -30,6 +31,7 @@ import java.util.List;
 public class PriceListImpl implements PriceListApi {
 
     @Autowired
+    private PriceListServiceBo priceListServiceBo;
     private PriceListBo bo;
 
     @Override
@@ -71,6 +73,9 @@ public class PriceListImpl implements PriceListApi {
         }
         return "0";
     }
+    public PriceList get(String id){
+        return priceListServiceBo.get(id);
+    }
 
     @Override
     public String delete(PriceList priceList) {
@@ -81,7 +86,25 @@ public class PriceListImpl implements PriceListApi {
         }
         return "0";
     }
+    /**
+     * 获取多条数据
+     *
+     * @param priceList
+     * @return
+     */
+    public List<PriceList> findList(PriceList priceList){
+        return priceListServiceBo.findList(priceList);
+    }
 
+    /**
+     * 保存修改数据
+     *
+     * @param priceList
+     */
+    public String save(PriceList priceList){
+        return priceListServiceBo.save(priceList);
+
+    }
     @Override
     public String delete(String id) {
         try {
@@ -91,6 +114,25 @@ public class PriceListImpl implements PriceListApi {
         }
         return "0";
     }
+    /**
+     * 查询字段列表
+     *
+     * @param page
+     * @param priceList
+     * @return
+     */
+    public Page<PriceList> findPage(Page<PriceList> page, PriceList priceList){
+        return priceListServiceBo.findPage(page,priceList);
+    }
+
+    /**
+     *  保存数据
+     * @param dictListVo
+     * @return
+     */
+    public String save(PriceDictListVo dictListVo) {
+       return priceListServiceBo.save(dictListVo);
+    }
 
     /**
      * 查询序列
@@ -98,7 +140,7 @@ public class PriceListImpl implements PriceListApi {
      * @return
      */
     public String findSeqences() {
-        return bo.findSeqences();
+        return priceListServiceBo.findSeqences();
     }
 
     /**
@@ -107,31 +149,32 @@ public class PriceListImpl implements PriceListApi {
      * @param inputCode
      * @return
      */
-    public List<PriceList> findCode(String inputCode){
-       return  bo.findCode(inputCode);
+    public List<PriceList> findCode(String inputCode) {
+        return priceListServiceBo.findCode(inputCode);
     }
+
     /**
      * 现行价格表
+     *
      * @param page
      * @param priceListVo
      * @return
      * @author wei
      */
-    @Override
-    public Page<PriceListVo> findPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo) {
-        return bo.findPage(orgId,page,priceListVo);
+    public Page<PriceListVo> findPage(String orgId, Page<PriceListVo> page, PriceListVo priceListVo) {
+        return priceListServiceBo.findPage(orgId, page, priceListVo);
     }
 
     /**
      * 历史价格表
+     *
      * @param page
      * @param priceListVo
      * @return
      * @author wei
      */
-    @Override
-    public Page<PriceListVo> findOLdPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo) {
-        return bo.findOLdPage(orgId,page,priceListVo);
+    public Page<PriceListVo> findOLdPage(String orgId, Page<PriceListVo> page, PriceListVo priceListVo) {
+        return priceListServiceBo.findOLdPage(orgId, page, priceListVo);
     }
 
     /**
@@ -141,43 +184,60 @@ public class PriceListImpl implements PriceListApi {
      * @return
      * @author wei
      */
-    @Override
-    public List<PriceListVo> getInputCodeNow(String orgId,String inputCode,String label) {
-        return bo.getInputCodeNow(orgId, inputCode, label);
+    public List<PriceListVo> getInputCodeNow(String orgId, String inputCode, String label) {
+        return priceListServiceBo.getInputCodeNow(orgId, inputCode, label);
     }
 
     /**
      * 拼音码查询历史价表
+     *
      * @param orgId
      * @param inputCode
      * @param label
      * @return
      */
-    @Override
     public List<PriceListVo> getInputCodeOld(String orgId, String inputCode, String label) {
-        return bo.getInputCodeOld(orgId, inputCode, label);
+        return priceListServiceBo.getInputCodeOld(orgId, inputCode, label);
     }
 
     /**
      * 下拉框查询药品类别
+     *
      * @return
      * @author wei
      */
-    @Override
     public List<PriceListVo> list() {
-        return bo.list();
+        return priceListServiceBo.list();
     }
 
 
     /**
      * 根据诊疗项目获取诊疗项目所对应的价表项目
+     *
      * @param orgId
      * @param clinicItemCode
      * @return
      */
-    @Override
     public List<PriceListVo> getListByClinicItemCodeAndOrgId(String orgId, String clinicItemCode) {
-        return bo.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
+        return priceListServiceBo.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
     }
 
+    /**
+     * 删除数据
+     *
+     * @param priceList
+     */
+    public String delete(PriceList priceList){
+        return priceListServiceBo.delete(priceList);
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param id
+     * @return
+     */
+    public String delete(String id){
+        return priceListServiceBo.delete(id);
+    }
 }

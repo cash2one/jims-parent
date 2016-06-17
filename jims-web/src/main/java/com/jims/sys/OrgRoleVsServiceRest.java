@@ -40,4 +40,14 @@ public class OrgRoleVsServiceRest {
     public List<OrgRoleVsService> findRole(@QueryParam("roleId") String roleId) {
         return orgRoleVsServiceApi.findRole(roleId);
     }
+
+    @Path("delete")
+    @POST
+    public StringData delete(String id){
+        String code = orgRoleVsServiceApi.delete(id);
+        StringData stringData = new StringData();
+        stringData.setData("success");
+        stringData.setCode(code);
+        return  stringData;
+    }
 }

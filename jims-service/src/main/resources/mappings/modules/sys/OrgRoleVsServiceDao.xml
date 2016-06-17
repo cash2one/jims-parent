@@ -115,13 +115,14 @@
 			remark = #{remark},
 			update_by = #{updateBy},
 			update_date = #{updateDate},
-			create_date = #{createDate}
+			create_date = #{createDate},
+			del_flag = #{delFlag}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE org_role_vs_service SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = 1
 		WHERE id = #{id}
 	</update>
 	
