@@ -16,7 +16,6 @@ inputParamVos.push(InputParamVo1);
 var clinicDeptCodeData={};
 clinicDeptCodeData.orgId="1";
 clinicDeptCodeData.dictType="v_outp_dept_dict"
-clinicDeptCodeData.inputParamVos=inputParamVos;
 $.ajax({
     'type': 'POST',
     'url':basePath+'/input-setting/listParam' ,
@@ -79,11 +78,33 @@ function doctorNameFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-
+    var ident='';
     for (var i = 0; i < doctorName.length; i++) {
         if (doctorName[i].id == value) {
-            return doctorName[i].name;
+            ident =doctorName[i].name;
         }
+    }
+    if(ident==''){
+        var InputParamVo={};
+        InputParamVo.colName='id';
+        InputParamVo.colValue=value;
+        InputParamVo.operateMethod='=';
+        inputParamVos.push(InputParamVo);
+        $.ajax({
+            'type': 'POST',
+            'url':basePath+'/input-setting/listParam' ,
+            data: JSON.stringify(doctorNameData),
+            'contentType': 'application/json',
+            'dataType': 'json',
+            'async': false,
+            'success': function(data){
+                doctorName.push(data[0]);
+                ident= data[0].name;
+            }
+        });
+        return  ident;
+    }else{
+        return ident;
     }
 }
 
@@ -146,43 +167,7 @@ function onloadMethod(){
                 options: {
                     data: clinicDeptCode,
                     valueField: 'id',
-                    textField: 'dept_name',
-                    keyHandler: {
-                    up: function() {},
-                    down: function() {},
-                    enter: function() {},
-                    query: function(q) {
-                        var doctorNameData={};
-                        doctorNameData.orgId="1";
-                        doctorNameData.dictType="v_staff_dict";
-                        var inputParamVos=new Array();
-                        var InputParamVo1={};
-                        InputParamVo1.colName='rownum';
-                        InputParamVo1.colValue='20';
-                        InputParamVo1.operateMethod='<';
-                        inputParamVos.push(InputParamVo1);
-                        var InputParamVo={};
-                        InputParamVo.colName='input_code';
-                        InputParamVo.colValue=q;
-                        InputParamVo.operateMethod='like';
-                        inputParamVos.push(InputParamVo);
-                        doctorNameData.inputParamVos=inputParamVos;
-                        $.ajax({
-                            'type': 'POST',
-                            'url':basePath+'/input-setting/listParam' ,
-                            data: JSON.stringify(doctorNameData),
-                            'contentType': 'application/json',
-                            'dataType': 'json',
-                            'async': false,
-                            'success': function(data){
-                                clinicDeptCode=data;
-                                var ed = $('#list_data').datagrid('getEditor', {index:rowNum,field:'clinicDept'});
-                                 $(ed.target).combobox('loadData',data);
-                                 $(ed.target).combobox('setText',q);
-                            }
-                        });
-                    }
-                }
+                    textField: 'dept_name'
                 }
             }},
             {field:'doctor',title:'医师',width:'13%',align:'center',formatter:doctorNameFormatter,editor: {
@@ -209,11 +194,13 @@ function onloadMethod(){
                             InputParamVo1.colValue='20';
                             InputParamVo1.operateMethod='<';
                             inputParamVos.push(InputParamVo1);
-                            var InputParamVo={};
-                            InputParamVo.colName='input_code';
-                            InputParamVo.colValue=q;
-                            InputParamVo.operateMethod='like';
-                            inputParamVos.push(InputParamVo);
+                            if(q!='' && q!=null){
+                                var InputParamVo={};
+                                InputParamVo.colName='input_code';
+                                InputParamVo.colValue=q;
+                                InputParamVo.operateMethod='like';
+                                inputParamVos.push(InputParamVo);
+                            }
                             clinicDeptCodeData.inputParamVos=inputParamVos;
                             $.ajax({
                                 'type': 'POST',
@@ -224,9 +211,9 @@ function onloadMethod(){
                                 'async': false,
                                 'success': function(data){
                                     doctorName=data;
-                                    var ed = $('#list_data').datagrid('getEditor', {index:rowNum,field:'clinicDept'});
-                                    $(ed.target).combobox('loadData',data);
-                                    $(ed.target).combobox('setText',q);
+                                    var ed = $('#list_data').datagrid('getEditor', {index:rowNum,field:'doctor'});
+                                    $(ed.target).combogrid("grid").datagrid("loadData", data);
+                                    $(ed.target).combogrid('setText',q);
                                 }
                             });
                         }
@@ -294,6 +281,8 @@ function onloadMethod(){
                     }
                     rowNum=rowIndex;
                     dataGrid.datagrid('beginEdit', rowIndex);
+                    var ed = $('#list_data').datagrid('getEditor', {index:rowIndex,field:'doctor'});
+                    $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
                 }
             }
         }

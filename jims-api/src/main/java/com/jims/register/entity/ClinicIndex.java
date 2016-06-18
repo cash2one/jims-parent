@@ -23,7 +23,8 @@ public class ClinicIndex extends DataEntity<ClinicIndex> {
 	private String inputCode;		// 输入码
 	private String clinicPosition;		// 门诊科室地址
 	private Integer serialNo;		// 排序号
-	
+    //扩展
+	private String doctorName;
 	public ClinicIndex() {
 		super();
 	}
@@ -111,5 +112,12 @@ public class ClinicIndex extends DataEntity<ClinicIndex> {
 	public void setSerialNo(Integer serialNo) {
 		this.serialNo = serialNo;
 	}
-	
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
 }

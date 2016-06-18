@@ -18,10 +18,12 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		b.name AS "doctorName"
 	</sql>
 	
 	<sql id="clinicIndexJoins">
+        left join persion_info b on a.doctor=b.id
 	</sql>
     
 	<select id="get" resultType="ClinicIndex">
