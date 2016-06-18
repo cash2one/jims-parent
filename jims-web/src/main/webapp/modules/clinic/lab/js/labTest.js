@@ -13,20 +13,7 @@ var priceItmeData={};
 priceItmeData.orgId="";
 priceItmeData.dictType="v_lab_class"
 
-/**
- * 门诊检验
- */
-$.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(priceItmeData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        labItemClass=data;
-    }
-});
+
 
 /**
  * 检验类别翻译
@@ -110,11 +97,6 @@ $(function(){
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';
-                    /*if(row.resultStatus=="1"){
-                        html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                    }else{
-                        html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
-                    }*/
                     html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
                     return html;
@@ -175,6 +157,20 @@ $(function(){
 });
 //新增检验
 function add(){
+    /**
+     * 门诊检验类别
+     */
+    $.ajax({
+        'type': 'POST',
+        'url':basePath+'/input-setting/listParam' ,
+        data: JSON.stringify(priceItmeData),
+        'contentType': 'application/json',
+        'dataType': 'json',
+        'async': false,
+        'success': function(data){
+            labItemClass=data;
+        }
+    });
     clearForm();
     $("#saveBut").show();
     var clinicId=$("#clinicMasterId",window.parent.document).val();
@@ -197,13 +193,15 @@ function add(){
     })
         //类别下拉框
         $('#labItemClass').combobox({
-            formatter: labItemClassFormatter,
-            //data:labItemClass,
-            valueField: 'class_code',
+        //    formatter:function(value, rowData, rowIndex){
+        //return labItemClassFormatter(rowData.class_code,'','')
+    //},
+            data:labItemClass,
+            valueField: 'dept_name',
             textField: 'class_name',
             onChange: function (n, o) {
                 SendProduct();
-                $("#performedBy").val("ii");
+                $("#performedBy").val(n);
             }
         })
 
@@ -230,16 +228,7 @@ function add(){
         //            $("#labItemClass").combobox('loadData',data);
         //        }
         //    });
-        //    //更具科室选择标本
-        //    $.ajax({
-        //        type: "POST",
-        //        url: basePath +'/speciman/findListByDeptCode',
-        //        data: code = data.deptCode,
-        //        dataType: "json",
-        //        success: function (data) {
-        //            $("#specimen").combobox('loadData',data);
-        //        }
-        //    });
+
         //}
     ////标本下拉框
     //$('#specimen').combobox({
@@ -340,14 +329,19 @@ function SendProduct() {
                         else{
                              divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
                         }
+                        //alert(data[i].expand1);
+                    $("#specimen").val(data[i].expand1);
                     }
                     divstr = divstr +"</table>";
                     divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
                     $("#SendProduct").html(divstr);
-                     $("#specimen").val("jj");
+
+
+
                 }
     });
     $("#SendProduct").dialog("open");
+
 }
 
 $("#SendProduct").dialog({
@@ -374,12 +368,12 @@ function doSelect() {
                 row.itemCode=$(this).val();//增
                 var temp = $(this).next().next(":hidden").val();
                 all += parseFloat(temp);
-                row.price=temp;//增
+                //row.price=temp;//增
                 rows.push(row);
             }
         )
         var row={};
-        row.price=all;//增
+        //row.price=all;//增
         rows.push(row);
         var selectJson={'total':selectRows.size(),'rows':rows};
         $('#items').datagrid('loadData',selectJson);

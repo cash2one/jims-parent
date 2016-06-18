@@ -207,13 +207,13 @@ function add() {
     })
     //类别下拉框
     $('#labItemClass').combobox({
-        formatter: labItemClassFormatter,
-        //data:labItemClass,
-        valueField: 'class_code',
+
+        data:labItemClass,
+        valueField: 'dept_name',
         textField: 'class_name',
         onChange: function (n, o) {
             SendProduct();
-            $("#performedBy").val("ii");
+            $("#performedBy").val(n);
         }
     })
 
@@ -396,11 +396,12 @@ function SendProduct() {
             else{
                 divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
             }
+
+                $("#specimen").val(data[i].expand1);
             }
             divstr = divstr +"</table>";
             divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
             $("#SendProduct").html(divstr);
-            $("#specimen").val("jj");
         }
     });
     $("#SendProduct").dialog("open");

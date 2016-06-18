@@ -123,15 +123,17 @@ public class LabTestRest {
     @POST
     public StringData save(LabTestMaster labTestMaster){
         StringData data=new StringData();
+        String mun="";
         if(labTestMaster!=null){
             if(labTestMaster.getVisitId()!=null)
             {
-                labTestMasterServiceApi.saveAllIn(labTestMaster);
+               labTestMasterServiceApi.saveAllIn(labTestMaster);
             }else{
-                labTestMasterServiceApi.saveAll(labTestMaster);
+                mun = labTestMasterServiceApi.saveAll(labTestMaster);
             }
         }
         data.setData("success");
+        data.setCode(mun);
         return data;
     }
 
