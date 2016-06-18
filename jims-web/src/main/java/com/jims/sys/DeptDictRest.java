@@ -146,4 +146,9 @@ public class DeptDictRest {
         List<DeptDict> list = deptDictApi.findListByCode(code);
         return list;
     }
+    @Path("getList")
+    @POST
+    public List<DeptDict> getList(){
+        return deptDictApi.getList();
+    }
 }

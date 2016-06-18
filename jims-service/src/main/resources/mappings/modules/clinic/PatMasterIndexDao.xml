@@ -314,4 +314,11 @@
          dd.DEPT_CODE)
      AND ((pit.DEPT_TRANSFERED_FROM IS NULL))
 	</select>
+
+	<select id="getPatient" resultType="PatMasterIndex">
+		SELECT *from pat_master_index WHERE
+		<if test="patientId != null and patientId != ''">
+			id=#{id}
+		</if>
+	</select>
 </mapper>

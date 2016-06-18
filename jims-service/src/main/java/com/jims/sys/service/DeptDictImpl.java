@@ -77,4 +77,12 @@ public class DeptDictImpl implements DeptDictApi {
     public List<DeptDict> findListByCode(String code){
         return deptDictBo.findListByCode(code);
     }
+
+    /**
+     * 查询所有科室
+     * @return
+     */
+    public List<DeptDict> getList(){
+        return deptDictBo.getList();
+    };
 }
