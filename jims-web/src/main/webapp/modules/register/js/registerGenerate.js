@@ -110,7 +110,7 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'clinicLabel',title:'门诊号名称',width:'30%',align:'center'},
+            {field:'clinicLabel',title:'号别名称',width:'30%',align:'center'},
             {field:'dayOfWeek',title:'星期',width:'20%',align:'center',formatter:dayWeekFormatter},
             {field:'timeDesc',title:'时间',width:'25%',align:'center',formatter:timeDescFormatter}
         ]],
