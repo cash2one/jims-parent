@@ -21,7 +21,7 @@ comment on table OPERATING_ROOM
 -- Add comments to the columns
 comment on column OPERATING_ROOM.ROOM_NO
   is '手术间号';
-comment on column OPERATING_ROOM.DEPT_CODE
+comment on column OPERATING_ROOM.dept_id
   is '所属手术室';
 comment on column OPERATING_ROOM.LOCATION
   is '位置';
