@@ -1,6 +1,97 @@
+var rowNum=-1;
+var dayWeek=[];
+var timeInterval=[];
 
+/**
+ * 星期
+ * @type {{}}
+ */
+var dayWeekData={};
+dayWeekData.orgId="";
+dayWeekData.dictType="DAY_OF_WEEK_DICT"
+$.ajax({
+    'type': 'POST',
+    'url':basePath+'/input-setting/listParam' ,
+    data: JSON.stringify(dayWeekData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        dayWeek=data;
+    }
+});
+
+/**
+ * 时间
+ * @type {{}}
+ */
+var timeIntervalData={};
+timeIntervalData.orgId="";
+timeIntervalData.dictType="TIME_INTERVAL_DICT"
+$.ajax({
+    'type': 'POST',
+    'url':basePath+'/input-setting/listParam' ,
+    data: JSON.stringify(timeIntervalData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        timeInterval=data;
+    }
+});
+/**
+ * 星期翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string|string}
+ */
+function dayWeekFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < dayWeek.length; i++) {
+        if (dayWeek[i].day_number == value) {
+            return dayWeek[i].day_symbol;
+        }
+    }
+}
+/**
+ * 时间翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string|string}
+ */
+function timeDescFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < timeInterval.length; i++) {
+        if (timeInterval[i].time_interval_code == value) {
+            return timeInterval[i].time_interval_name;
+        }
+    }
+}
 function onloadMethod(){
-    var rowNum=-1;
+    /**
+     * 星期下拉框
+     */
+    $('#weekId').combobox({
+        data: dayWeek,
+        valueField: 'time_interval_code',
+        textField: 'day_symbol'
+    })
+    /**
+     * 时间下拉框
+     */
+    $('#weekId').combobox({
+        data: dayWeek,
+        valueField: 'time_interval_code',
+        textField: 'time_interval_name'
+    })
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -19,9 +110,9 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'clinicLabel',title:'门诊号名称',width:'20%',align:'center'},
-            {field:'timeDesc',title:'时间',width:'25%',align:'center'},
-            {field:'dayOfWeek',title:'星期',width:'20%',align:'center'}
+            {field:'clinicLabel',title:'门诊号名称',width:'30%',align:'center'},
+            {field:'dayOfWeek',title:'星期',width:'20%',align:'center',formatter:dayWeekFormatter},
+            {field:'timeDesc',title:'时间',width:'25%',align:'center',formatter:timeDescFormatter}
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
@@ -54,7 +145,7 @@ function onloadMethod(){
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
             {field:'clinicDate',title:'出诊日期',width:'15%',align:'center'},
-            {field:'clinicLabel',title:'门诊号名称',width:'20%',align:'center'},
+            {field:'clinicLabel',title:'号别名称',width:'20%',align:'center'},
             {field:'timeDesc',title:'出诊时间',width:'15%',align:'center'},
             {field:'registrationLimits',title:'限号数',width:'15%',align:'center'},
             {field:'currentNo',title:'当前号',width:'15%',align:'center'},

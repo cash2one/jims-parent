@@ -19,11 +19,15 @@
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		b.name AS "doctorName"
+		b.name AS "doctorName",
+		c.dept_name as "deptName",
+		d.clinic_type_name as "clinicTypeName"
 	</sql>
 	
 	<sql id="clinicIndexJoins">
         left join persion_info b on a.doctor=b.id
+        left join dept_dict c on a.clinic_dept=c.id
+        left join clinic_type_setting d on a.clinic_type=d.id
 	</sql>
     
 	<select id="get" resultType="ClinicIndex">
@@ -42,7 +46,7 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="clinicLabel!=null and clinicLabel!='' ">
-				AND a.clinic_label=#{clinicLabel}
+				AND a.clinic_label like '%${clinicLabel}%'
 			</if>
 			<if test="clinicDept!=null and clinicDept!='' ">
 				AND a.clinic_dept=#{clinicDept}

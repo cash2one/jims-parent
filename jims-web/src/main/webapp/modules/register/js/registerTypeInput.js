@@ -75,7 +75,7 @@ function clinicDeptCodeFormatter(value, rowData, rowIndex) {
  * @returns {string|string|string|string|string}
  */
 function doctorNameFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
+    if (value == 0 || value==undefined) {
         return;
     }
     var ident='';
