@@ -35,8 +35,8 @@
 
     <select id="findList" resultType="ClinicVsCharge">
         SELECT
-        <include refid="clinicVsChargeColumns"/>
-        FROM clinic_vs_charge a
+        <include refid="clinicVsChargeColumns"/>,p.item_name chargeItemName
+        FROM clinic_vs_charge a,(select distinct item_code,item_name from price_list) p
         <include refid="clinicVsChargeJoins"/>
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
@@ -45,6 +45,7 @@
             <if test="orgId != null and orgId != ''">
                 AND a.org_id = #{orgId}
             </if>
+            AND a.charge_item_code = p.item_code
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
