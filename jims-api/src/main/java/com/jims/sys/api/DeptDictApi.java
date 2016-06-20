@@ -70,10 +70,4 @@ public interface DeptDictApi {
      * @return
      */
     public List<DeptDict> getList();
-
-    /**
-     * 查询所有科室
-     * @return
-     */
-    public List<DeptDict> getList();
 }
