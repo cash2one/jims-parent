@@ -85,7 +85,7 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
         return personInfoBo.getEmail(persionInfo);
     }
 
-    /**
+    /**     
      * 根据身份证号查询相关的信息
      * @param cardNo
      * @return
