@@ -33,7 +33,18 @@ $.ajax({
         labItemClass = data;
     }
 });
-
+/**
+ * 科室查询
+ */
+$.ajax({
+    type:"POST",
+    url:basePath+'/dept-dict/getList',
+    contentType:'application/json',
+    async:false,
+    success: function (data) {
+        performedBy=data;
+    }
+})
 
 /**
  * 检验类别翻译
@@ -65,8 +76,8 @@ function performedByFormatter(value, rowData, rowIndex) {
         return;
     }
     for (var i = 0; i < performedBy.length; i++) {
-        if (performedBy[i].value == value) {
-            return performedBy[i].text;
+        if (performedBy[i].deptCode == value) {
+            return performedBy[i].deptName;
         }
     }
 }

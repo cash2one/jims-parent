@@ -1,4 +1,32 @@
 var editRow=undefined;
+
+var operation=[];//手术名称
+var operationData={};
+operationData.orgId="";
+operationData.dictType="operation_dict"
+$.ajax({
+    'type': 'POST',
+    'url':basePath+'/input-setting/listParam' ,
+    data: JSON.stringify(operationData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data) {
+        operation = data;
+    }
+})
+
+function operationFormatter(value,rowData,rowIndex){
+    if(value == 0){
+        return ;
+    }
+    for(var i=0;i<operation.length;i++){
+        if(operation[i].operation_code == value){
+            return operation[i].operation_name;
+        }
+    }
+}
+
 var rowNum=-1;
 $(function(){
     var cId=$("#clinicMasterId",parent.document).val();
@@ -21,18 +49,20 @@ $(function(){
         url: basePath+'/operatioinOrder/getOperationName?clinicId='+cId,
         idField: 'id',
         columns: [[      //每个列具体内容
-            {field: 'operation', title: '拟实施手术名称', width: '70%', align: 'center', editor:{
+            {field: 'operation', title: '拟实施手术名称', width: '70%', align: 'center',formatter:operationFormatter
+            , editor:{
                 type:'combogrid',
                 options: {
                     panelWidth: 500,
-                    idField: 'itemCode',
-                    textField: 'itemName',
-                    url: '/modules/operation/js/clinic_data.json',
+                    data:operation,
+                    idField: 'operation_code',
+                    textField: 'operation_name',
+                    //url: '/modules/operation/js/clinic_data.json',
                     columns: [[
-                        {field: 'itemCode', title: '项目代码', width: '20%', align: 'center'},
-                        {field: 'itemName', title: '项目名称', width: '20%', align: 'center'},
-                        {field: 'inputCode', title: '拼音输入码', width: '10%', align: 'center', editor: 'text'},
-                        {field: 'inputCodeWb', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
+                        {field: 'operation_code', title: '项目代码', width: '20%', align: 'center'},
+                        {field: 'operation_name', title: '项目名称', width: '20%', align: 'center'},
+                        {field: 'input_code', title: '拼音输入码', width: '10%', align: 'center', editor: 'text'},
+                        {field: 'input_code', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
                     ]],
                     fitColumns: true
                 }

@@ -14,7 +14,18 @@ priceItmeData.orgId="";
 priceItmeData.dictType="v_lab_class"
 
 
-
+/**
+ * 科室查询
+ */
+$.ajax({
+    type:"POST",
+    url:basePath+'/dept-dict/getList',
+    contentType:'application/json',
+    async:false,
+    success: function (data) {
+        performedBy=data;
+    }
+})
 /**
  * 检验类别翻译
  * @param value
@@ -44,8 +55,8 @@ function performedByFormatter(value,rowData,rowIndex){
         return;
     }
     for(var i=0;i<performedBy.length;i++){
-        if(performedBy[i].value==value){
-            return performedBy[i].text;
+        if(performedBy[i].deptCode==value){
+            return performedBy[i].deptName;
         }
     }
 }
@@ -88,7 +99,7 @@ $(function(){
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center' },
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center', formatter:performedByFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
             {
                 field: 'id',
