@@ -5,6 +5,7 @@ select a.org_id,
        b.card_no,
        b.phone_num,
        b.id,
+       b.input_code,
        a.dept_id,
        c.dept_name
   from org_staff a, persion_info b, dept_dict c

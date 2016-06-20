@@ -5,6 +5,7 @@ create table PERSION_INFO
    SEX                  VARCHAR(2),
    NATION              VARCHAR(64),
    CARD_NO              VARCHAR(20),
+   INPUT_CODE           VARCHAR(20),
    PHONE_NUM            VARCHAR(11),
    EMAIL                VARCHAR(100),
    NICK_NAME            VARCHAR(100),
