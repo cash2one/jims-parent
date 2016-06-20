@@ -22,7 +22,6 @@ $(function () {
                 url: basePath + '/roleVs/findrole?roleId=' + data.id,
                 method: 'get',
                 idField: 'id',
-                textField:'serviceName',
                 rownumbers: true,
                 fitColumns: true, //列自适应宽度
                 singleSelect: true,
@@ -36,8 +35,21 @@ $(function () {
                                 panelHeight: '150',
                                 valueField: 'id',
                                 textField: 'serviceName',
-                                method: 'get',
-                                url: basePath + "/org-service/find-self-service?orgId="+orgId
+                                data: styleArr
+                            }
+                        },
+                        formatter: function (value, row) {
+                            for (var i = 0, j = styleArr.length; i < j; i++) {
+                                if (styleArr[i].serviceName == value) {
+                                    return styleArr[i].serviceName;
+                                }
+                                if (styleArr[i].id == value) {
+                                    return styleArr[i].serviceName;
+                                }
+                            }
+                            if (!value && styleArr && styleArr.length > 0) {
+                                row.serviceName = styleArr[0].id;
+                               return styleArr[0].serviceName;
                             }
                         }
                     }
@@ -53,6 +65,12 @@ $(function () {
                     iconCls: 'icon-save',
                     handler: function () {
                         doSave('/roleVs/save');
+                    }
+                }, '-', {
+                    text: '删除',
+                    iconCls: 'icon-remove',
+                    handler: function () {
+                        doDelete('/roleVs/delete');
                     }
                 }],
                 onSelect: function (index, data) {
@@ -115,6 +133,13 @@ $(function () {
             currentSelectId = row.id
         }
     });
+
+    function data(){
+        $.get(basePath + "/org-service/find-self-service?orgId=" + orgId, function (data){
+            styleArr = data
+        })
+    }
+    data();
 
     function menuDict() {
         var menus = [];//菜单列表
@@ -229,6 +254,54 @@ $(function () {
                 $.messager.alert('提示', "保存失败", "error");
             }
         )
+    }
+
+    //批量删除
+    function doDelete(path) {
+        //把你选中的 数据查询出来。
+        var selectRows = $('#serviceId').datagrid("getSelections");
+        if (selectRows.length < 1) {
+            $.messager.alert("提示消息", "请选中要删的数据!");
+            return;
+        }
+
+        //真删除数据
+        //提醒用户是否是真的删除数据
+        $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+            if (r) {
+                var strIds = "";
+                for (var i = 0; i < selectRows.length; i++) {
+                    strIds += selectRows[i].id;
+                }
+                del(strIds, path);
+            }
+        })
+    }
+
+    /**
+     * 删除方法
+     * @param id
+     */
+    function del(id, path) {
+        $.ajax({
+            'type': 'POST',
+            'url': basePath + path,
+            'contentType': 'application/json',
+            'data': id = id,
+            'dataType': 'json',
+            'success': function (data) {
+                if (data.data == 'success') {
+                    $.messager.alert("提示消息", data.code + "条记录，已经删除");
+                    $('#serviceId').datagrid('load');
+                    $("#tt").treegrid("loadData", []);
+                } else {
+                    $.messager.alert('提示', "删除失败", "error");
+                }
+            },
+            'error': function (data) {
+                $.messager.alert('提示', "删除失败", "error");
+            }
+        });
     }
 
     function saveMenu() {

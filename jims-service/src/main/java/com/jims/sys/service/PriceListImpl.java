@@ -44,7 +44,7 @@ public class PriceListImpl implements PriceListApi {
 
     @Override
     public Page<PriceList> findPage(Page<PriceList> page, PriceList priceList) {
-        return bo.findPage(page,priceList);
+        return bo.findPage(page, priceList);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class PriceListImpl implements PriceListApi {
      * @return
      */
     public List<PriceList> findCode(String inputCode){
-       return  bo.findCode(inputCode);
+        return  bo.findCode(inputCode);
     }
     /**
      * 现行价格表
@@ -119,7 +119,7 @@ public class PriceListImpl implements PriceListApi {
      */
     @Override
     public Page<PriceListVo> findPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo) {
-        return bo.findPage(orgId,page,priceListVo);
+        return bo.findPage(orgId, page, priceListVo);
     }
 
     /**
@@ -131,7 +131,7 @@ public class PriceListImpl implements PriceListApi {
      */
     @Override
     public Page<PriceListVo> findOLdPage(String orgId,Page<PriceListVo> page, PriceListVo priceListVo) {
-        return bo.findOLdPage(orgId,page,priceListVo);
+        return bo.findOLdPage(orgId, page, priceListVo);
     }
 
     /**

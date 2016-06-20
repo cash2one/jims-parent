@@ -40,7 +40,7 @@ public interface DrugInventoryCheckApi {
     /**
      * 保存盘点数据
      * @param drugInventoryCheckVos
-     * @return
+     * @return 0失败，1成功
      * @author txb
      */
     public String saveInventory(List<DrugInventoryCheckVo> drugInventoryCheckVos);
