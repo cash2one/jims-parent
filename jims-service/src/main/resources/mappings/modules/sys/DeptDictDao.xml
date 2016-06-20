@@ -142,4 +142,9 @@
 		FROM dept_dict a
 		WHERE a.dept_code != #{code} and a.dept_code like concat(#{code},'%')
 	</select>
+
+	<select id="getList" resultType="DeptDict">
+		SELECT *
+		FROM dept_dict where  del_flag='0'
+	</select>
 </mapper>

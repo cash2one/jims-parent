@@ -1,75 +1,4 @@
 var rowNum=-1;
-var item =  [];
-var priceItme= [];
-var priceItmeData={};
-priceItmeData.orgId="";
-priceItmeData.dictType="V_INPUT_REGISTRATION_LIST"
-
-/**
- * 门诊收费
- */
-$.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(priceItmeData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        priceItme=data;
-    }
-});
-/**
- * 挂号项目
- */
-$.ajax({
-    'type': 'GET',
-    'url':basePath+'/dict/findListByType',
-    data: 'type=classno_itme_dict',
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        item=data;
-    }
-});
-
-/**
- * 收费项目翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function itemFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-
-    for (var i = 0; i < item.length; i++) {
-        if (item[i].value == value) {
-            return item[i].label;
-        }
-    }
-}
-/**
- * 回显项目价表翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string|string|string}
- */
-function priceItmeFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-
-    for (var i = 0; i < priceItme.length; i++) {
-        if (priceItme[i].item_code == value) {
-            return priceItme[i].item_name;
-        }
-    }
-}
 
 function onloadMethod(id,clinicName){
     $("#type").val(clinicName);
@@ -126,6 +55,9 @@ function onloadMethod(id,clinicName){
                 }
                 }
             }},{field:'price',title:'项目价格',width:'24%',align:'center',formatter:function(value, rowData, rowIndex){
+                if (value==undefined) {
+                    value=0;
+                }
                 return value+"/元";
              }
             },

@@ -22,5 +22,11 @@ function getRootPath(){
     var localhostPaht=curWwwPath.substring(0,pos);
     return(localhostPaht);
 }
+var inputParamVos=new Array();
+var InputParamVo1={};
+InputParamVo1.colName='rownum';
+InputParamVo1.colValue='20';
+InputParamVo1.operateMethod='<';
+inputParamVos.push(InputParamVo1);
 
 

@@ -161,4 +161,9 @@ public class DeptDictRest {
         List<DeptDict> list = deptDictApi.findList(dept);
         return list;
     }
+    @Path("getList")
+    @POST
+    public List<DeptDict> getList(){
+        return deptDictApi.getList();
+    }
 }

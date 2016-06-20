@@ -1,95 +1,4 @@
 var rowNum=-1;
-var clinicDeptCode=[{"value":"1","text":"内科"},{"value":"2","text":"内一科"},{"value":"3","text":"外科"},{"value":"4","text":"妇科"}];
-var doctorName=[{"value":"1","text":"石佳慧"},{"value":"2","text":"张家辉"},{"value":"3","text":"李长青"},{"value":"4","text":"李惠利"},
-    {"value":"5","text":"赵丽娟"}];
-var doctorJob=[{"value":"1","text":"主治医师"},{"value":"2","text":"主任医师"},{"value":"3","text":"副主任医师"}];
-var registerTyp=[];
-
-/**
- * 科室翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string|string}
- */
-function clinicDeptCodeFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-
-    for (var i = 0; i < clinicDeptCode.length; i++) {
-        if (clinicDeptCode[i].value == value) {
-            return clinicDeptCode[i].text;
-        }
-    }
-}
-/**
- * 医生翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string|string|string}
- */
-function doctorNameFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-
-    for (var i = 0; i < doctorName.length; i++) {
-        if (doctorName[i].value == value) {
-            return doctorName[i].text;
-        }
-    }
-}
-/**
- * 医生职称翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string|string|string}
- */
-function doctorJobFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-
-    for (var i = 0; i < doctorJob.length; i++) {
-        if (doctorJob[i].value == value) {
-            return doctorJob[i].text;
-        }
-    }
-}
-
-/**
- * 翻译号类
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string|string|string}
- */
-function registerTypFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < registerTyp.length; i++) {
-        if (registerTyp[i].id == value) {
-            return registerTyp[i].clinicTypeName;
-        }
-    }
-}
-/**
- * 获取号类
- */
-$.ajax({
-    'type': 'get',
-    'url':basePath+'/clinicType/findList' ,
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        registerTyp=data;
-    }
-});
 
 function onloadMethod(){
 
@@ -117,26 +26,39 @@ function onloadMethod(){
                 type: 'combobox',
                 options: {
                     data: clinicDeptCode,
-                    valueField: 'value',
-                    textField: 'text'
+                    valueField: 'id',
+                    textField: 'dept_name'
                 }
             }},
             {field:'doctor',title:'医师',width:'13%',align:'center',formatter:doctorNameFormatter,editor: {
-                type: 'combobox',
+                type: 'combogrid',
                 options: {
                     data: doctorName,
-                    valueField: 'value',
-                    textField: 'text'
+                    idField:'id',
+                    textField:'name',
+                    columns:[[
+                        {field:'name',title:'医生姓名',width:70},
+                        {field:'dept_name',title:'科室',width:120},
+                        {field:'title',title:'职称',width:70}
+                    ]],keyHandler: {
+                        up: function() {},
+                        down: function() {},
+                        enter: function() {},
+                        query: function(q) {
+                            dataGridCompleting(q,'list_data','doctor');
+                        }
+                    },
+                    onClickRow: function (index, data) {
+                        var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
+                        var columns = $('#list_data').datagrid("options").columns;
+                        rows[rowNum][columns[0][4].field]=data.title;
+                        $('#list_data').datagrid('endEdit', rowNum);
+                        $('#list_data').datagrid('beginEdit', rowNum);
+                    }
                 }
             }},
-            {field:'doctorTitle',title:'医师职称',width:'10%',align:'center',formatter:doctorJobFormatter,editor: {
-                type: 'combobox',
-                options: {
-                    data: doctorJob,
-                    valueField: 'value',
-                    textField: 'text'
-                }
-            }},
+            {field:'doctorTitle',title:'医师职称',width:'10%',align:'center'
+               },
             {field:'clinicType',title:'号类',width:'15%',align:'center',formatter:registerTypFormatter,editor: {
                 type: 'combobox',
                 options: {
@@ -189,6 +111,8 @@ function onloadMethod(){
                     }
                     rowNum=rowIndex;
                     dataGrid.datagrid('beginEdit', rowIndex);
+                    var ed = $('#list_data').datagrid('getEditor', {index:rowIndex,field:'doctor'});
+                    $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
                 }
             }
         }

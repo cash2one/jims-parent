@@ -1,42 +1,101 @@
 var editRow = undefined;
-var serialNo='';
+var serialNo = '';
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
-function onloadMethod(){
+
+var rowNum=-1;
+var mazuifangfa = [];
+var shoushuDoctor = []
+var priceItmeData = {}
+priceItmeData.orgId = "";
+priceItmeData.dictType = "V_INPUT_REGISTRATION_LIST"
+
+/**
+ *
+ */
+$.ajax({
+    'type': 'POST',
+    'url': basePath + '/input-setting/listParam',
+    data: JSON.stringify(priceItmeData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function (data) {
+        priceItme = data;
+    }
+});
+/**
+ * 麻醉方法翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {*}
+ */
+function mazuifangfaFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < mazuifangfa.length; i++) {
+        if (mazuifangfa[i].value == value) {
+            return mazuifangfa[i].text;
+        }
+    }
+}
+
+/**
+ * 麻醉医生翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {*}
+ */
+function shoushuDoctorFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < shoushuDoctor.length; i++) {
+        if (shoushuDoctor[i].value == value) {
+            return shoushuDoctor[i].text;
+        }
+    }
+}
+function onloadMethod() {
     $('#list_data').datagrid({
-        iconCls:'icon-edit',//图标
+        iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
         nowrap: false,
         striped: true,
         border: true,
-        method:'get',
-        collapsible:false,//是否可折叠的
+        method: 'get',
+        collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url:basePath+'/docOperationApply/list',
-        remoteSort:false,
-        idField:'fldId',
-        singleSelect:false,//是否单选
-        pagination:true,//分页控件
-        pageSize:15,
-        pageList: [10,15,30,50],//可以设置每页记录条数的列表
-        columns:[[      //每个列具体内容
-            {field:'mazuifangfa',title:'麻醉方法',width:'18%',align:'center'},
-            {field:'shoushuDoctor',title:'手术医师',width:'18%',align:'center'},
-            {field:'yuyueDate',title:'预约时间',width:'30%',align:'center',formatter:formatDateBoxFull},
-            {field:'id',title:'操作',width:'40%',align:'center',formatter:function(value, row, index){
-                var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>'+
-                    '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getOperation(\''+row.id+'\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>'+
-                    '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
+        url: basePath + '/docOperationApply/list',
+        remoteSort: false,
+        idField: 'fldId',
+        singleSelect: false,//是否单选
+        pagination: true,//分页控件
+        pageSize: 15,
+        pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
+        columns: [[      //每个列具体内容
+            {field: 'mazuifangfa', title: '麻醉方法', width: '18%', align: 'center',formatter:mazuifangfaFormatter},
+            {field: 'shoushuDoctor', title: '手术医师', width: '18%', align: 'center',formatter:shoushuDoctorFormatter},
+            {field: 'yuyueDate', title: '预约时间', width: '30%', align: 'center', formatter: formatDateBoxFull},
+            {
+                field: 'id', title: '操作', width: '40%', align: 'center', formatter: function (value, row, index) {
+                var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\'' + row.id + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
+                    '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getOperation(\'' + row.id + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
+                    '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                 return html;
-            }}
+            }
+            }
         ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
+        frozenColumns: [[
+            {field: 'ck', checkbox: true}
         ]],
         toolbar: [{
             text: '修改',
             iconCls: 'icon-edit',
-            handler: function() {
+            handler: function () {
                 var selectRows = $('#list_data').datagrid("getSelections");
                 if (selectRows.length < 1) {
                     $.messager.alert("提示消息", "请选中需要修改的数据");
@@ -44,10 +103,10 @@ function onloadMethod(){
                 }
                 get(selectRows[0].id);
             }
-        }, '-',{
+        }, '-', {
             text: '删除',
             iconCls: 'icon-remove',
-            handler: function(){
+            handler: function () {
                 doDelete();
             }
         }]
@@ -61,14 +120,14 @@ function onloadMethod(){
  */
 function saveUseBloodApply() {
     $("#list_doctor").datagrid('endEdit', editRow);
-    var  rows=$('#list_doctor').datagrid('getRows');
-    var formJson=fromJson('docOperationForm');
+    var rows = $('#list_doctor').datagrid('getRows');
+    var formJson = fromJson('docOperationForm');
     formJson = formJson.substring(0, formJson.length - 1);
-    var tableJson=JSON.stringify(rows);
-    var submitJson=formJson+",\"bloodCapacityList\":"+tableJson+"}";
-    $("#inpNo").attr("value","123");
-    $("#applyNum").attr("value","123");
-    $("#matchSubNum").attr("value","1");
+    var tableJson = JSON.stringify(rows);
+    var submitJson = formJson + ",\"bloodCapacityList\":" + tableJson + "}";
+    $("#inpNo").attr("value", "123");
+    $("#applyNum").attr("value", "123");
+    $("#matchSubNum").attr("value", "1");
     $.postJSON(basePath + "/docOperationApply/save", submitJson, function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
@@ -120,28 +179,28 @@ function deleteRow(id) {
  * 删除方法
  * @param id
  */
-function del(id){
+function del(id) {
     $.ajax({
         'type': 'POST',
-        'url': basePath+'/docOperationApply/del',
+        'url': basePath + '/docOperationApply/del',
         'contentType': 'application/json',
-        'data': id=id,
+        'data': id = id,
         'dataType': 'json',
-        'success': function(data){
-            if(data.data=='success'){
-                if(data.code>0){
-                    $.messager.alert("提示消息",data.code+"条记录，已经删除");
+        'success': function (data) {
+            if (data.data == 'success') {
+                if (data.code > 0) {
+                    $.messager.alert("提示消息", data.code + "条记录，已经删除");
                     $('#list_data').datagrid('load');
                     $('#list_data').datagrid('clearChecked');
-                }else{
-                    $.messager.alert('提示',"删除失败", "error");
+                } else {
+                    $.messager.alert('提示', "删除失败", "error");
                 }
-            }else{
-                $.messager.alert('提示',"删除失败", "error");
+            } else {
+                $.messager.alert('提示', "删除失败", "error");
             }
         },
-        'error': function(data){
-            $.messager.alert('提示',"删除失败", "error");
+        'error': function (data) {
+            $.messager.alert('提示', "删除失败", "error");
         }
     });
 }
@@ -149,24 +208,27 @@ function del(id){
  * 显示修改
  * @param data
  */
-function getBloodApply(id,state){
-    if(state=="1"){
+function getBloodApply(id, state) {
+    if (state == "1") {
         $("#saveUseBlood").hide();
     }
-    else
-    {
+    else {
         $("#saveUseBlood").show();
     }
     $.ajax({
         'type': 'post',
-        'url': basePath+'/bloodApply/getBloodApply',
+        'url': basePath + '/bloodApply/getBloodApply',
         'contentType': 'application/json',
-        'data': id=id,
+        'data': id = id,
         'dataType': 'json',
-        'success': function(data){
-            $('#docOperationForm').form('load',data);
-            var applyNum=$("#applyNum").val();
-            $('#list_doctor').datagrid({ url:basePath+"/docOperationApply/getBloodCapacityList",queryParams:{'applyNum':applyNum},method:"post"});
+        'success': function (data) {
+            $('#docOperationForm').form('load', data);
+            var applyNum = $("#applyNum").val();
+            $('#list_doctor').datagrid({
+                url: basePath + "/docOperationApply/getBloodCapacityList",
+                queryParams: {'applyNum': applyNum},
+                method: "post"
+            });
         }
     })
 }
@@ -181,14 +243,14 @@ function inDoDelete() {
         return;
     }
     var copyRows = [];
-    for ( var j= 0; j < rows.length; j++) {
+    for (var j = 0; j < rows.length; j++) {
         copyRows.push(rows[j]);
     }
-    for(var i =0;i<copyRows.length;i++){
+    for (var i = 0; i < copyRows.length; i++) {
         if (typeof(copyRows[i].id) != "undefined") {
         }
-        var index = $('#list_doctor').datagrid('getRowIndex',copyRows[i]);
-        $('#list_doctor').datagrid('deleteRow',index);
+        var index = $('#list_doctor').datagrid('getRowIndex', copyRows[i]);
+        $('#list_doctor').datagrid('deleteRow', index);
     }
 }
 

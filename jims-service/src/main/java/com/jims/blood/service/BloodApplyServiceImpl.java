@@ -50,6 +50,7 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
             BloodCapacity bloodCapacity = bloodCapacityList.get(i);
             bloodCapacity.setApplyNum(bloodApply.getApplyNum());
             bloodCapacity.preInsert();
+            bloodCapacity.setMatchSubNum("11111");
             bloodCapacity.setPatientId(bloodApply.getPatientId());
             bloodCapacity.setClinicId(bloodApply.getClinicId());
             bloodCapacity.setVisitId(bloodApply.getVisitId());
