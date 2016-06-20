@@ -13,16 +13,16 @@
     <div data-options="region:'center',split:true">
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
-                <td class="text-right">门诊号名称：</td>
+                <td class="text-right">号别名称：</td>
                 <td><input type="text" class="validatebox-text vt-text-percent" id="clinicName"/></td>
                 <td class="text-right">星期：</td>
-                <td><input type="text" class="validatebox-text vt-text-percent" id="week"/></td>
+                <td><input type="text" class="easyui-combobox" id="weekId"/></td>
             </tr>
             <tr>
                 <td class="text-right">时间：</td>
-                <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                <td><input type="text" class="easyui-combobox" id="" /></td>
                 <td>
-                    <button class="easy-nbtn easy-nbtn-info" onclick="search()">查询</button>
+                    &nbsp;<button class="easyui-linkbutton"  data-options="iconCls:'icon-search'" onclick="search();">查询</button>
                 </td>
 
             </tr>

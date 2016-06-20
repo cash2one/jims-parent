@@ -18,22 +18,22 @@ comment on column DAY_OF_WEEK_DICT.day_number
 comment on column DAY_OF_WEEK_DICT.day_symbol
   is '记号';
 insert into DAY_OF_WEEK_DICT (SERIAL_NO, DAY_NUMBER, DAY_SYMBOL)
-values (1, 2, '一');
+values (1, 1, '一');
 
 insert into DAY_OF_WEEK_DICT (SERIAL_NO, DAY_NUMBER, DAY_SYMBOL)
-values (2, 3, '二');
+values (2, 2, '二');
 
 insert into DAY_OF_WEEK_DICT (SERIAL_NO, DAY_NUMBER, DAY_SYMBOL)
-values (3, 4, '三');
+values (3, 3, '三');
 
 insert into DAY_OF_WEEK_DICT (SERIAL_NO, DAY_NUMBER, DAY_SYMBOL)
-values (4, 5, '四');
+values (4, 4, '四');
 
 insert into DAY_OF_WEEK_DICT (SERIAL_NO, DAY_NUMBER, DAY_SYMBOL)
-values (5, 6, '五');
+values (5, 5, '五');
 
 insert into DAY_OF_WEEK_DICT (SERIAL_NO, DAY_NUMBER, DAY_SYMBOL)
-values (6, 7, '六');
+values (6, 6, '六');
 
 insert into DAY_OF_WEEK_DICT (SERIAL_NO, DAY_NUMBER, DAY_SYMBOL)
-values (7, 1, '日');
+values (7, 7, '日');

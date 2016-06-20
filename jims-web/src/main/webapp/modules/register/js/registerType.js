@@ -4,7 +4,24 @@ var priceItme= [];
 var priceItmeData={};
 priceItmeData.orgId="";
 priceItmeData.dictType="V_INPUT_REGISTRATION_LIST"
-
+/**
+ * 门诊科室
+ * @type {{}}
+ */
+var clinicDeptCodeData={};
+clinicDeptCodeData.orgId="1";
+clinicDeptCodeData.dictType="v_outp_dept_dict"
+$.ajax({
+    'type': 'POST',
+    'url':basePath+'/input-setting/listParam' ,
+    data: JSON.stringify(clinicDeptCodeData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        clinicDeptCode=data;
+    }
+});
 /**
  * 门诊收费
  */
@@ -126,6 +143,9 @@ function onloadMethod(id,clinicName){
                 }
                 }
             }},{field:'price',title:'项目价格',width:'24%',align:'center',formatter:function(value, rowData, rowIndex){
+                if (value==undefined) {
+                    value=0;
+                }
                 return value+"/元";
              }
             },
