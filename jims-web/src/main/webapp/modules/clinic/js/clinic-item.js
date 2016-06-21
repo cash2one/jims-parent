@@ -968,9 +968,13 @@ $(function(){
         if(name_save.length > 0 || vs_save.length > 0 || name_ids.length > 0 || vs_ids.length > 0){
             item_data_save.push({updateFlag: '1',saveNameList :name_save,saveVsList:vs_save,delNameIds:name_ids,delVsIds:vs_ids})
         }
+        if(!item_data_save || item_data_save.length == 0){
+            $.messager.alert('保存','没有需要保存的数据！','info');
+            return ;
+        }
         parent.$.postJSON('/service/clinicItem/save',JSON.stringify(item_data_save),function(res){
-            if(res.success = '0')
-                $.messager.alert('成功',res.data,'info',function(){
+            if(res = '1')
+                $.messager.alert('保存','保存成功!','info',function(){
                     window.location.reload()
                 })
         })

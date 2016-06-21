@@ -2,17 +2,13 @@ package com.jims.phstock;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
-import com.jims.phstock.api.DrugClassDictApi;
 import com.jims.phstock.api.DrugDictServiceApi;
 import com.jims.phstock.api.DrugNameDictServiceApi;
 import com.jims.phstock.api.DrugPriceListServiceApi;
-import com.jims.phstock.entity.DrugClassDict;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
 import com.jims.phstock.vo.DrugCatalogBeanVo;
-import com.jims.sys.api.DictServiceApi;
-import com.jims.sys.entity.Dict;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -33,10 +29,6 @@ public class DrugCatalogRest {
     private DrugDictServiceApi drugDictServiceApi ;
     @Reference(version ="1.0.0")
     private DrugPriceListServiceApi drugPriceListServiceApi;
-
-
-
-
 
     /**
      * 查询所有药品名称列表通过拼音码
@@ -110,12 +102,8 @@ public class DrugCatalogRest {
      */
     @Path("save")
     @POST
-    public StringData save(DrugCatalogBeanVo drugCatalogBeanVo){
-        String num = drugDictServiceApi.saveDrugCatalog(drugCatalogBeanVo);
-        StringData stringData = new StringData();
-        stringData.setCode(num);
-        stringData.setData("success");
-        return stringData;
+    public String save(DrugCatalogBeanVo drugCatalogBeanVo){
+        return drugDictServiceApi.saveDrugCatalog(drugCatalogBeanVo);
     }
 
     /**

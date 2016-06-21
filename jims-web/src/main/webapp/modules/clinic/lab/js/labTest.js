@@ -1,5 +1,82 @@
 var administration = [{ "value": "1", "text": "科室1" }, { "value": "2", "text": "科室2" }, { "value": "3", "text": "科室3" }, { "value": "4", "text": "科室4" }, { "value": "5", "text": "科室5" }];
 var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医生" }, { "value": "3", "text": "医生" }, { "value": "4", "text": "医生" }, { "value": "5", "text": "医生" }];
+
+
+//var labItemClass=[{"value":"1","text":"类别1"},{"value":"1","text":"类别1"},{"value":"1","text":"类别1"}]//检验类别
+//var performedBy=[{"value":"1","text":"科室1"},{"value":"1","text":"科室2"},{"value":"1","text":"科室3"}]//检验科室
+//var specimen=[{"value":"1","text":"标本1"},{"value":"1","text":"标本2"},{"value":"1","text":"标本3"}]//检验标本
+var rowNum=-1;
+var labItemClass=[]//检验类别
+var performedBy=[]//检验科室
+var specimen=[]//检验标本
+var priceItmeData={};
+priceItmeData.orgId="";
+priceItmeData.dictType="v_lab_class"
+
+
+/**
+ * 科室查询
+ */
+$.ajax({
+    type:"POST",
+    url:basePath+'/dept-dict/getList',
+    contentType:'application/json',
+    async:false,
+    success: function (data) {
+        performedBy=data;
+    }
+})
+/**
+ * 检验类别翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string}
+ */
+function labItemClassFormatter(value,rowData,rowIndex){
+    if(value==0){
+        return;
+    }
+    for(var i=0;i<labItemClass.length;i++){
+        if(labItemClass[i].class_code == value){
+            return labItemClass[i].class_name;
+        }
+    }
+}
+/**
+ * 检验科室翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string}
+ */
+function performedByFormatter(value,rowData,rowIndex){
+    if(value==0){
+        return;
+    }
+    for(var i=0;i<performedBy.length;i++){
+        if(performedBy[i].deptCode==value){
+            return performedBy[i].deptName;
+        }
+    }
+}
+/**
+ * 检验标本翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string}
+ */
+function specimenFormatter(value,rowData,rowIndex){
+    if(value==0){
+        return;
+    }
+    for(var i=0;i<specimen.length;i++){
+        if(specimen[i].value==value){
+            return specimen[i].text;
+        }
+    }
+}
 $(function(){
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
@@ -22,7 +99,7 @@ $(function(){
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center'},
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center', formatter:performedByFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
             {
                 field: 'id',
@@ -31,11 +108,6 @@ $(function(){
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';
-                    /*if(row.resultStatus=="1"){
-                        html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                    }else{
-                        html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
-                    }*/
                     html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
                     return html;
@@ -88,7 +160,7 @@ $(function(){
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center'},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedByFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });
@@ -96,6 +168,20 @@ $(function(){
 });
 //新增检验
 function add(){
+    /**
+     * 门诊检验类别
+     */
+    $.ajax({
+        'type': 'POST',
+        'url':basePath+'/input-setting/listParam' ,
+        data: JSON.stringify(priceItmeData),
+        'contentType': 'application/json',
+        'dataType': 'json',
+        'async': false,
+        'success': function(data){
+            labItemClass=data;
+        }
+    });
     clearForm();
     $("#saveBut").show();
     var clinicId=$("#clinicMasterId",window.parent.document).val();
@@ -110,58 +196,56 @@ function add(){
             if (data!= ""&& data!=null) {
                 var d;
                 $.each(data, function (index, item) {
-                    d = d+item.icdAndTypeNmae+"\r";
+                    d =item.description+"\r";
                 });
                 $("#relevantClinicDiag").val(d);
             }
         }
     })
-    //科室下拉框
-    $('#performedBy').combobox({
-        url: basePath + '/dept-dict/findListByCode',
-        valueField: 'deptCode',
-        textField: 'deptName',
-        queryParams:{code:'5'},
-        /*onLoadSuccess: function () {
-         var data = $(this).combobox('getData');
-         $(this).combobox('select', data[0].deptName);
-         },*/
-        onSelect: function (data) {
-            //根据科室选择类别
-            $.ajax({
-                type: "POST",
-                url: basePath +'/labitemclass/findListByDeptCode',
-                data: code = data.deptCode,
-                dataType: "json",
-                success: function (data) {
-                    $("#labItemClass").combobox('loadData',data);
-                }
-            });
-            //更具科室选择标本
-            $.ajax({
-                type: "POST",
-                url: basePath +'/speciman/findListByDeptCode',
-                data: code = data.deptCode,
-                dataType: "json",
-                success: function (data) {
-                    $("#specimen").combobox('loadData',data);
-                }
-            });
-        }
-    });
-     //类别下拉框
-    $('#labItemClass').combobox({
-        valueField: 'classCode',
-        textField: 'className'
-    });
-    //标本下拉框
-    $('#specimen').combobox({
-        valueField: 'specimanCode',
-        textField: 'specimanName',
-        onChange : function(n,o){
-            SendProduct();
-        }
-    });
+        //类别下拉框
+        $('#labItemClass').combobox({
+        //    formatter:function(value, rowData, rowIndex){
+        //return labItemClassFormatter(rowData.class_code,'','')
+    //},
+            data:labItemClass,
+            valueField: 'dept_name',
+            textField: 'class_name',
+            onChange: function (n, o) {
+                SendProduct();
+                $("#performedBy").val(n);
+            }
+        })
+
+        ////更具科室选择标本
+        //$.ajax({
+        //    type: "POST",
+        //    url: basePath +'/speciman/findListByDeptCode',
+        //    data: code = data.dept_code,
+        //    dataType: "json",
+        //    success: function (data) {
+        //        $("#specimen").combobox('loadData',data);
+        //    }
+        //});
+
+
+        //onSelect: function (data) {
+        //    //根据科室选择类别
+        //    $.ajax({
+        //        type: "POST",
+        //        url: basePath +'/labitemclass/findListByDeptCode',
+        //        data: code = data.deptCode,
+        //        dataType: "json",
+        //        success: function (data) {
+        //            $("#labItemClass").combobox('loadData',data);
+        //        }
+        //    });
+
+        //}
+    ////标本下拉框
+    //$('#specimen').combobox({
+    //    valueField: 'specimanCode',
+    //    textField: 'specimanName'
+    //});
 }
 
 function loadTreeGrid() {
@@ -228,39 +312,47 @@ function look() {
 }
 //弹出选择项目窗口
 function SendProduct() {
+    var item={};
+    item.orgId="";
+    item.dictType="lab_item_view";
     var expand3 = $("#performedBy").val();
     var expand2 = $("#labItemClass").val();
     var expand1 = $("#specimen").val();
     $.ajax({
-        type: "post",
-        //url: basePath + '/clinicitemname/selectlabitem',
-        url: basePath + '/labtest/items',
-        contentType: "application/json",
-        dataType: "json",
-        data: JSON.stringify({"expand1":expand1,"expand2":expand2,"expand3":expand3}),
-
-        success: function (data) {
+            'type': 'POST',
+            'url':basePath+'/input-setting/listParam' ,
+            data: JSON.stringify(item),
+            'contentType': 'application/json',
+            'dataType': 'json',
+            'async': false,
+        'success': function(data){
             var divstr ="<table>";
-            for(var i=0; i<data.length; i++)
-            {   if(i==0){
-                    divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].itemCode+"'>"+data[i].itemName+"<input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                    for(var i=0; i<data.length; i++)
+                    {   if(i==0){
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                        }
+                        else if(i%3==0){
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                        }
+                        else if(i%3==2){
+                            divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td></tr>";
+                        }
+                        else{
+                             divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                        }
+                        //alert(data[i].expand1);
+                    $("#specimen").val(data[i].expand1);
+                    }
+                    divstr = divstr +"</table>";
+                    divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
+                    $("#SendProduct").html(divstr);
+
+
+
                 }
-                else if(i%3==0){
-                    divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].itemCode+"'><span>"+data[i].itemName+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
-                }
-                else if(i%3==2){
-                    divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].itemCode+"'><span>"+data[i].itemName+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td></tr>";
-                }
-                else{
-                     divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].itemCode+"'><span>"+data[i].itemName+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
-                }
-            }
-            divstr = divstr +"</table>";
-            divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
-            $("#SendProduct").html(divstr);
-        }
     });
     $("#SendProduct").dialog("open");
+
 }
 
 $("#SendProduct").dialog({
@@ -287,12 +379,12 @@ function doSelect() {
                 row.itemCode=$(this).val();//增
                 var temp = $(this).next().next(":hidden").val();
                 all += parseFloat(temp);
-                row.price=temp;//增
+                //row.price=temp;//增
                 rows.push(row);
             }
         )
         var row={};
-        row.price=all;//增
+        //row.price=all;//增
         rows.push(row);
         var selectJson={'total':selectRows.size(),'rows':rows};
         $('#items').datagrid('loadData',selectJson);

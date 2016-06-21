@@ -180,10 +180,9 @@
         WHERE id = #{id}
     </update>
 
-    <update id="delete">
-		UPDATE clinic_item_dict SET 
-			del_flag = '1'
+    <delete id="delete">
+		delete from clinic_item_dict
 		WHERE id = #{id}
-	</update>
+	</delete>
 
 </mapper>

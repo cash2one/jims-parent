@@ -21,14 +21,14 @@ public interface ExamRptPatternApi {
     /**
      * 保存修改数据
      * @param examRptPattern
-     * @return
+     * @return 0失败，1成功
      */
     public String save(ExamRptPattern examRptPattern);
 
     /**
      * 删除数据
      * @param ids
-     * @return
+     * @return 0失败，1成功
      */
     public String delete(String ids);
 

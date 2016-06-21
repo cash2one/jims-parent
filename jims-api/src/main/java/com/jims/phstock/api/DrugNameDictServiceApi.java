@@ -15,7 +15,7 @@ public interface DrugNameDictServiceApi {
     /**
      * 保存药品名称
      * @param drugNameDict
-     * @return
+     * @return 0 失败，1成功
      * @author zhaoning
      * @version 2016-04-23
      */
@@ -52,7 +52,7 @@ public interface DrugNameDictServiceApi {
     /**
      * 删除数据（单条数据删除，批量删除）
      * @param ids
-     * @return
+     * @return 0 失败，1成功
      * @author zhaoning
      * @version 2016-04-23
      */

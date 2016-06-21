@@ -57,4 +57,10 @@ public interface DeptDictApi {
      * @return
      */
     public List<DeptDict> findListByCode(String code);
+
+    /**
+     * 查询所有科室
+     * @return
+     */
+    public List<DeptDict> getList();
 }

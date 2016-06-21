@@ -76,14 +76,15 @@ public class OrgServiceManagerRest {
 
     /**
      * 检索自定义服务
-     * @param id 自定义服务ID
-     * @return 自定义服务信息
+     * @param personId  人员ID
+     * @param orgId   机构ID
+     * @return  自定义服务
      * @author fengyuguang
      */
     @GET
-    @Path("find-selfServiceList-by-id")
-    public OrgSelfServiceList findSelfServiceById(@QueryParam("id")String id){
-        return api.findSelfServiceById(id);
+    @Path("find-selfServiceList-by-orgId-personId")
+    public List<OrgSelfServiceList> findSelfServiceByOrgIdPersonId(@QueryParam("personId")String personId,@QueryParam("orgId")String orgId){
+        return api.findSelfServiceByOrgIdPersonId(personId, orgId);
     }
 
     /**

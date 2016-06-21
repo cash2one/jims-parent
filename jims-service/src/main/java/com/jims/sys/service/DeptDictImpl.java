@@ -3,9 +3,11 @@ package com.jims.sys.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.DeptDictApi;
+import com.jims.sys.bo.DeptDictBo;
 import com.jims.sys.dao.DeptDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.SysCompany;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
@@ -15,24 +17,25 @@ import java.util.List;
  */
 @Service(version = "1.0.0")
 
-public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> implements DeptDictApi {
+public class DeptDictImpl implements DeptDictApi {
 
+    @Autowired
+    private DeptDictBo deptDictBo;
     /**
      * 查询所有的科室信息
      * @return
      */
     public List<DeptDict> findAllList(String orgId) {
-        return dao.findAll(orgId);
+        return deptDictBo.findAllList(orgId);
 
     }
-
     /**
      * 查询所有的科室属性的类型
      * @return
      */
     @Override
     public List<DeptDict> findProperty() {
-        return dao.findProperty();
+        return deptDictBo.findProperty();
     }
 
     /**
@@ -41,7 +44,7 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
      */
     @Override
     public List<DeptDict> findParent() {
-        return dao.findParent();
+        return deptDictBo.findParent();
     }
 
     /**
@@ -49,7 +52,22 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
      * @return
      */
     public List<DeptDict> findListParent(String orgId){
-        return dao.findListParent(orgId) ;
+        return deptDictBo.findListParent(orgId) ;
+    }
+
+    /**
+     * 保存科室
+     * @param deptDict
+     * @return
+     */
+    @Override
+    public String save(DeptDict deptDict) {
+        return deptDictBo.save(deptDict);
+    }
+
+    @Override
+    public String delete(String ids) {
+        return deptDictBo.delete(ids);
     }
 
     /**
@@ -57,6 +75,14 @@ public class DeptDictImpl extends CrudImplService<DeptDictDao, DeptDict> impleme
      * @return
      */
     public List<DeptDict> findListByCode(String code){
-        return dao.findListByCode(code);
+        return deptDictBo.findListByCode(code);
     }
+
+    /**
+     * 查询所有科室
+     * @return
+     */
+    public List<DeptDict> getList(){
+        return deptDictBo.getList();
+    };
 }

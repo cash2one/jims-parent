@@ -27,12 +27,20 @@
         FROM persion_service_list a
 
         WHERE a.id = #{id}
-</select>
+    </select>
     <select id="findListByFlag" resultType="SysService">
         select se.service_image,se.id,se.service_name from sys_service se,persion_service_list pp where pp.persion_id=#{persionId}
         and pp.service_id=se.id
 
 	</select>
+
+    <select id="findServiceByPersionId" resultType="PersionServiceList">
+        SELECT
+        *
+        FROM persion_service_list a
+
+        WHERE a.persion_id = #{persionId} and a.flag='0'
+    </select>
 
     <insert id="insert">
 		INSERT INTO persion_service_list(
@@ -83,4 +91,5 @@
 			del_flag ='1'
 		WHERE id = #{id}
 	</update>
+
 </mapper>

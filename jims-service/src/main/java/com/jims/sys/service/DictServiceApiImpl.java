@@ -4,26 +4,40 @@
 package com.jims.sys.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.PinYin2Abbreviation;
 import com.jims.sys.api.DictServiceApi;
+import com.jims.sys.bo.DictBo;
 import com.jims.sys.dao.DictDao;
 import com.jims.sys.entity.Dict;
 import com.jims.sys.vo.BeanChangeVo;
-import com.thoughtworks.xstream.mapper.Mapper;
-
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 
 /**
  * 字典Service
+ *
  * @author zhangyao
  * @version 2014-05-18
  */
 @Service(version = "1.0.0")
 
-public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implements DictServiceApi {
+public class DictServiceApiImpl implements DictServiceApi {
+    @Autowired
+    private DictBo dictBo;
+
+    @Override
+    public Dict get(String id) {
+        return dictBo.get(id);
+    }
+
+    @Override
+    public Page<Dict> findPage(Page<Dict> page, Dict dict) {
+        return dictBo.findPage(page, dict);
+    }
 
     /**
      * 查询字典表的类型和描述这两个字段
@@ -32,7 +46,7 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
      * @author fengyuguang
      */
     public List<Dict> leftList() {
-        return dao.leftList();
+        return dictBo.leftList();
     }
 
     /**
@@ -43,7 +57,7 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
      * @author fengyuguang
      */
     public List<Dict> rightList(String type) {
-        return dao.rightList(type);
+        return dictBo.rightList(type);
     }
 
     /**
@@ -55,7 +69,7 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
      * @author fengyuguang
      */
     public List<Dict> select(String type, String description) {
-        return dao.select(type, description);
+        return dictBo.select(type, description);
     }
 
     /**
@@ -66,48 +80,39 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
      * @author fengyuguang
      */
     public String merge(BeanChangeVo<Dict> beanChangeVo) {
-        List<Dict> insertedList = beanChangeVo.getInserted();
-        int inNum = 0;
-        for (Dict dict : insertedList) {
-            String label = dict.getLabel();
-            dict.setInputCode(PinYin2Abbreviation.cn2py(label));
-            inNum = Integer.valueOf(save(dict));
-            inNum++;
-        }
-        String insertedNum = inNum + "";
-        List<Dict> updatedList = beanChangeVo.getUpdated();
-
-        int updNum = 0;
-        for (Dict dict : updatedList) {
-            updNum = dao.update(dict);
-            updNum++;
-        }
-        String updatedNum = updNum + "";
-        if (insertedNum == "0" && updatedNum == "0") {
-            return "0";
-        } else {
-            return "1";
-        }
+        return dictBo.merge(beanChangeVo);
     }
-	
-	/**
+
+    /**
      * 查询字段类型列表
+     *
      * @return
      */
     public List<String> findTypeList() {
-        return dao.findTypeList(new Dict());
+        return dictBo.findTypeList();
+    }
+
+    @Override
+    public String save(Dict dict) {
+        return dictBo.save(dict);
+    }
+
+    @Override
+    public String delete(String ids) {
+        return dictBo.delete(ids);
     }
 
     public List<String> findListType(String dict) {
-        return dao.findListType(dict);
+        return dictBo.findListType(dict);
     }
 
-	public String getLabel(String type,String value){
-       return dao.getLabel(type,value);
-	}
+    public String getLabel(String type, String value) {
+        return dictBo.getLabel(type, value);
+    }
 
     /**
      * 根据类型检索字典
+     *
      * @param type
      * @return
      */
@@ -115,6 +120,6 @@ public class DictServiceApiImpl extends CrudImplService<DictDao, Dict> implement
     public List<Dict> findList(String type) {
         Dict d = new Dict();
         d.setType(type);
-        return dao.findList(d);
+        return dictBo.findList(d);
     }
 }

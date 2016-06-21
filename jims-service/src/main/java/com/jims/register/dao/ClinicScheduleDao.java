@@ -21,6 +21,6 @@ import java.util.List;
 public interface ClinicScheduleDao extends CrudDao<ClinicSchedule> {
     public List<BaseDto> findListTable(ClinicSchedule clinicSchedule);
 
-    public  int batchDel(List<ClinicSchedule> list,@Param("clinicTypeId")String clinicTypeId);
+    public  int batchDel(@Param("list")List<ClinicSchedule> list,@Param("clinicTypeId")String clinicTypeId);
 	
 }

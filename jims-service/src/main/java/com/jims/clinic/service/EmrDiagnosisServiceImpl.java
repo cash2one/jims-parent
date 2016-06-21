@@ -118,5 +118,15 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 		return dao.findAllDiagnosisForOne(emrDiagnosis);
 	}
 
+	/**
+	 * 根据clinicId 查询临床诊断
+	 * @param clinicId
+	 * @return
+	 */
+	@Override
+	public EmrDiagnosis getDescription(String clinicId) {
+		return emrDiagnosisDao.getDescription(clinicId);
+	}
+
 
 }

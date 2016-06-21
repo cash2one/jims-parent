@@ -22,9 +22,6 @@ public interface PreDischgedPatsDao extends CrudDao<PreDischgedPats> {
      * @return
      */
     public Integer findByPatientId(@Param("patientId")String patientId);
-
-
     public List<PreDischgedPatsVo> findPreDischList(String wardCode);
     public int delAll(String hospitalId);
-	
 }

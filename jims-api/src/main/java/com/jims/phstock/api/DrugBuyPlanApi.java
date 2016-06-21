@@ -29,14 +29,14 @@ public interface DrugBuyPlanApi {
     /**
      * 保存
      * @param entity
-     * @return 成功个数
+     * @return 0 失败，1 成功
      */
     public String save(DrugBuyPlan entity);
 
     /**
      * 批量保存
      * @param recordBatch 需保存的数据
-     * @return 成功个数
+     * @return 0 失败，1 成功
      */
     public String save(List<DrugBuyPlan> recordBatch);
 
@@ -44,14 +44,14 @@ public interface DrugBuyPlanApi {
      * 批量删除和保存
      * @param recordBatch 需要保存的数据
      * @param ids 需要删除的Id,多个以 , 隔开
-     * @return
+     * @return 0 失败，1 成功
      */
     public String saveAndDelete(List<DrugBuyPlan> recordBatch,String ids);
 
     /**
      * 根据主键进行删除
      * @param ids ，多个主键以 , 隔开
-     * @return
+     * @return 0 失败，1 成功
      */
     public String delete(String ids);
 
@@ -59,14 +59,14 @@ public interface DrugBuyPlanApi {
      * 根据参数删除
      * @param buyId 采购单据号
      * @param orgId 所属机构ID
-     * @return
+     * @return 0 失败，1 成功
      */
     public String delete(String buyId,String orgId);
 
     /**
      * 根据主键进行删除数据，而非修改数据的删除标志
      * @param ids ，多个主键以 , 隔开
-     * @return
+     * @return 0 失败，1 成功
      */
     public String deleteInfo(String ids);
 

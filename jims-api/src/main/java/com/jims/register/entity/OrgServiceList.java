@@ -19,6 +19,8 @@ public class OrgServiceList extends DataEntity<OrgServiceList> {
 	private Date serviceEndDate;		// 服务结束使用时间
 	private String orgId;		// 购买服务单位
 
+    private String serviceType;  // // 1,有偿服务,0无偿服务
+    private String serviceClass;  // 3,机构管理服务，2,所有服务，1,个人服务，0机构服务
     private String serviceName;  // 服务名称
     private List<MenuDict> menus;  // 菜单
 
@@ -82,4 +84,19 @@ public class OrgServiceList extends DataEntity<OrgServiceList> {
 		this.orgId = orgId;
 	}
 
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getServiceClass() {
+        return serviceClass;
+    }
+
+    public void setServiceClass(String serviceClass) {
+        this.serviceClass = serviceClass;
+    }
 }

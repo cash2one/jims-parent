@@ -55,6 +55,6 @@ alter table CLINIC_ITEM_DICT
 
 -- Create/Recreate primary, unique and foreign key constraints
 alter table CLINIC_ITEM_DICT
-  add constraint CLINIC_ITEM_DICT_UK unique (ITEM_CODE, ORG_ID);
+  add constraint CLINIC_ITEM_DICT_UK unique (ITEM_CODE, ORG_ID,ITEM_CLASS);
 
 
