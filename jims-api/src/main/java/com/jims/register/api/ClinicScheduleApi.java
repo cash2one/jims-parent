@@ -1,5 +1,6 @@
 package com.jims.register.api;
 
+import com.jims.common.persistence.Page;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.entity.ClinicSchedule;
 
@@ -11,6 +12,15 @@ import java.util.List;
  * @author zhaoning
  */
 public interface ClinicScheduleApi {
+
+    /**
+     * 分页查询啊
+     * @param page
+     * @param clinicSchedule
+     * @return
+     */
+    public Page<ClinicSchedule> findPage(Page<ClinicSchedule> page,ClinicSchedule clinicSchedule);
+
     /**
      * 查询 安排录入 list
      * @param clinicSchedule

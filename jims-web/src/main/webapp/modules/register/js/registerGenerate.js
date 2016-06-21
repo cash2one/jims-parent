@@ -77,18 +77,54 @@ function timeDescFormatter(value, rowData, rowIndex) {
 }
 function onloadMethod(){
     /**
+     * 开始时间
+     */
+    $('#startTime').datebox().datebox('calendar').calendar({
+        validator: function(date){
+            var now = new Date();
+            var d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            var d2 = new Date(now.getFullYear(), now.getMonth(), now.getDate()+100);
+            return d1<=date && date<=d2;
+        }
+    });
+    $('#startTime').datebox({
+        onSelect: function (date) {
+            $('#endTime').datebox('setValue','');
+            $('#endTime').datebox().datebox('calendar').calendar({
+                validator: function(date){
+                    var str=$('#startTime').datebox('getValue');
+                    var now =  new Date(str);
+                    var d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    var d2 = new Date(now.getFullYear(), now.getMonth(), now.getDate()+100);
+                    return d1<=date && date<=d2;
+                }
+            });
+        }
+    });
+    /**
+     * 结束
+     */
+    $('#endTime').datebox().datebox('calendar').calendar({
+        validator: function(date){
+            var now = new Date();
+            var d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            var d2 = new Date(now.getFullYear(), now.getMonth(), now.getDate()+100);
+            return d1<=date && date<=d2;
+        }
+    });
+    /**
      * 星期下拉框
      */
     $('#weekId').combobox({
         data: dayWeek,
-        valueField: 'time_interval_code',
+        valueField: 'day_number',
         textField: 'day_symbol'
     })
     /**
      * 时间下拉框
      */
-    $('#weekId').combobox({
-        data: dayWeek,
+    $('#timeIntervalId').combobox({
+        data: timeInterval,
         valueField: 'time_interval_code',
         textField: 'time_interval_name'
     })
@@ -110,7 +146,7 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'clinicLabel',title:'号别名称',width:'30%',align:'center'},
+            {field:'clinicLabelName',title:'号别名称',width:'30%',align:'center'},
             {field:'dayOfWeek',title:'星期',width:'20%',align:'center',formatter:dayWeekFormatter},
             {field:'timeDesc',title:'时间',width:'25%',align:'center',formatter:timeDescFormatter}
         ]],
@@ -144,9 +180,9 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'clinicDate',title:'出诊日期',width:'15%',align:'center'},
-            {field:'clinicLabel',title:'号别名称',width:'20%',align:'center'},
-            {field:'timeDesc',title:'出诊时间',width:'15%',align:'center'},
+            {field:'clinicDate',title:'出诊日期',width:'15%',align:'center',formatter:formatDatebox},
+            {field:'clinicLabelName',title:'号别名称',width:'20%',align:'center'},
+            {field:'timeDesc',title:'出诊时间',width:'15%',align:'center',formatter:timeDescFormatter},
             {field:'registrationLimits',title:'限号数',width:'15%',align:'center'},
             {field:'currentNo',title:'当前号',width:'15%',align:'center'},
             {field:'appointmentLimits',title:'限预约号数',width:'15%',align:'center'}
@@ -179,9 +215,20 @@ function onloadMethod(){
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
 }
+//条件查询
+function searchClinicIndex(){
+    var week=$("#weekId").combobox('getValue');
+    var timeInterval=$("#timeIntervalId").combobox('getValue');
+    var clinicLabelName=$("#clinicNameId").val();
+    $("#list_data").datagrid('reload',{"clinicLabelName":clinicLabelName,"timeDesc":timeInterval,"dayOfWeek":week});
+}
 //添加行
 function addRowCol(){
     var selectRows = $('#list_data').datagrid("getSelections");
+    if (selectRows.length < 1) {
+        $.messager.alert("提示消息", "选中安排后才可生产号表");
+        return;
+    }
     var jsonData=JSON.stringify(selectRows);
     var startTime=$('#startTime').datebox('getValue');
     var endTime=$("#endTime").datebox('getValue');
@@ -192,10 +239,10 @@ function addRowCol(){
     $.postJSON(basePath+'/clinicRegister/saveRegister?startTime='+startTime+'&endTime='+endTime,jsonData,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#list_data_num').datagrid('load');//加载号表列表
+            $('#list_data_num').datagrid('reload');//加载号表列表
             $('#list_data').datagrid('clearChecked');//取消选中的号别
-            $("#startTime").datebox('setValue','');//清空门诊号表生成日期
-            $("#endTime").datebox('setValue','');//清空门诊号表生成日期
+            //$("#startTime").datebox('setValue','');//清空门诊号表生成日期
+            //$("#endTime").datebox('setValue','');//清空门诊号表生成日期
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }

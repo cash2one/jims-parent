@@ -5,10 +5,9 @@ package com.jims.register.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.persistence.Page;
 import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.bo.ClinicIndexBo;
-import com.jims.register.dao.ClinicIndexDao;
 import com.jims.register.entity.ClinicIndex;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,6 +26,11 @@ public class ClinicIndexServiceImpl  implements ClinicIndexServiceApi {
     @Autowired
     private ClinicIndexBo clinicIndexBo;
 
+
+    @Override
+    public Page<ClinicIndex> findPage(Page<ClinicIndex> page,ClinicIndex clinicIndex) {
+        return clinicIndexBo.findPage(page,clinicIndex);
+    }
 
     @Override
     public List<ClinicIndex> findList(ClinicIndex clinicIndex) {

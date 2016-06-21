@@ -1,12 +1,18 @@
 package com.jims.register;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
+import com.jims.common.persistence.Page;
 import com.jims.register.api.ClinicIndexServiceApi;
+import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicIndex;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -28,14 +34,18 @@ public class ClinicIndexRest {
      */
     @GET
     @Path("findList")
-    public List<ClinicIndex> findClinicIndexs(@QueryParam("deptName")String deptName,
+    public PageData findClinicIndexs(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("deptName")String deptName,
                                               @QueryParam("clinicIndexName")String clinicIndexName,
                                               @QueryParam("doctor")String doctor){
-       ClinicIndex clinicIndex=new ClinicIndex();
-            clinicIndex.setClinicDept(deptName);
-            clinicIndex.setClinicLabel(clinicIndexName);
-            clinicIndex.setDoctor(doctor);
-       return clinicIndexServiceApi.findList(clinicIndex);
+        ClinicIndex clinicIndex=new ClinicIndex();
+        clinicIndex.setClinicDept(deptName);
+        clinicIndex.setClinicLabel(clinicIndexName);
+        clinicIndex.setDoctor(doctor);
+        Page<ClinicIndex> page = clinicIndexServiceApi.findPage(new Page<ClinicIndex>(request, response),clinicIndex);
+        PageData pageData = new PageData();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
     }
 
     /**
