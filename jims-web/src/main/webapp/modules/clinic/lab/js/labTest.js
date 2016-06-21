@@ -2,82 +2,8 @@ var administration = [{ "value": "1", "text": "科室1" }, { "value": "2", "text
 var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医生" }, { "value": "3", "text": "医生" }, { "value": "4", "text": "医生" }, { "value": "5", "text": "医生" }];
 
 
-//var labItemClass=[{"value":"1","text":"类别1"},{"value":"1","text":"类别1"},{"value":"1","text":"类别1"}]//检验类别
-//var performedBy=[{"value":"1","text":"科室1"},{"value":"1","text":"科室2"},{"value":"1","text":"科室3"}]//检验科室
-//var specimen=[{"value":"1","text":"标本1"},{"value":"1","text":"标本2"},{"value":"1","text":"标本3"}]//检验标本
-var rowNum=-1;
-var labItemClass=[]//检验类别
-var performedBy=[]//检验科室
-var specimen=[]//检验标本
-var priceItmeData={};
-priceItmeData.orgId="";
-priceItmeData.dictType="v_lab_class"
 
-
-/**
- * 科室查询
- */
-$.ajax({
-    type:"POST",
-    url:basePath+'/dept-dict/getList',
-    contentType:'application/json',
-    async:false,
-    success: function (data) {
-        performedBy=data;
-    }
-})
-/**
- * 检验类别翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string}
- */
-function labItemClassFormatter(value,rowData,rowIndex){
-    if(value==0){
-        return;
-    }
-    for(var i=0;i<labItemClass.length;i++){
-        if(labItemClass[i].class_code == value){
-            return labItemClass[i].class_name;
-        }
-    }
-}
-/**
- * 检验科室翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string}
- */
-function performedByFormatter(value,rowData,rowIndex){
-    if(value==0){
-        return;
-    }
-    for(var i=0;i<performedBy.length;i++){
-        if(performedBy[i].deptCode==value){
-            return performedBy[i].deptName;
-        }
-    }
-}
-/**
- * 检验标本翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string}
- */
-function specimenFormatter(value,rowData,rowIndex){
-    if(value==0){
-        return;
-    }
-    for(var i=0;i<specimen.length;i++){
-        if(specimen[i].value==value){
-            return specimen[i].text;
-        }
-    }
-}
-$(function(){
+function onloadMethod(){
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
     $('#list_data').datagrid({
@@ -98,9 +24,15 @@ $(function(){
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center', formatter:performedByFormatter},
-            {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
+            {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter:formatDateBoxFull},
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center'},
+            {field: 'resultStatus', title: '状态', width: '15%', align: 'center',formatter:function(data){
+                if(data == '1'){
+                    return '未检验';
+                }else{
+                    return '以检验';
+                }
+            }},
             {
                 field: 'id',
                 title: '操作',
@@ -165,26 +97,16 @@ $(function(){
         ]]
     });
 
-});
+};
+
+
 //新增检验
 function add(){
-    /**
-     * 门诊检验类别
-     */
-    $.ajax({
-        'type': 'POST',
-        'url':basePath+'/input-setting/listParam' ,
-        data: JSON.stringify(priceItmeData),
-        'contentType': 'application/json',
-        'dataType': 'json',
-        'async': false,
-        'success': function(data){
-            labItemClass=data;
-        }
-    });
     clearForm();
     $("#saveBut").show();
     var clinicId=$("#clinicMasterId",window.parent.document).val();
+    var newDate=new Date().toLocaleString();
+    $("#requestedDate").val(newDate);
     $.ajax({
         //添加
         url: basePath+"/labtest/zhenduan",
@@ -204,48 +126,17 @@ function add(){
     })
         //类别下拉框
         $('#labItemClass').combobox({
-        //    formatter:function(value, rowData, rowIndex){
-        //return labItemClassFormatter(rowData.class_code,'','')
-    //},
             data:labItemClass,
-            valueField: 'dept_name',
+            valueField: 'id',
             textField: 'class_name',
-            onChange: function (n, o) {
+            onSelect: function (n, o) {
+               // alert(n.dept_code);
                 SendProduct();
-                $("#performedBy").val(n);
+                $("#performedBy").val(n.dept_name);
+               $("#performedByCode").val(n.dept_code);
             }
         })
 
-        ////更具科室选择标本
-        //$.ajax({
-        //    type: "POST",
-        //    url: basePath +'/speciman/findListByDeptCode',
-        //    data: code = data.dept_code,
-        //    dataType: "json",
-        //    success: function (data) {
-        //        $("#specimen").combobox('loadData',data);
-        //    }
-        //});
-
-
-        //onSelect: function (data) {
-        //    //根据科室选择类别
-        //    $.ajax({
-        //        type: "POST",
-        //        url: basePath +'/labitemclass/findListByDeptCode',
-        //        data: code = data.deptCode,
-        //        dataType: "json",
-        //        success: function (data) {
-        //            $("#labItemClass").combobox('loadData',data);
-        //        }
-        //    });
-
-        //}
-    ////标本下拉框
-    //$('#specimen').combobox({
-    //    valueField: 'specimanCode',
-    //    textField: 'specimanName'
-    //});
 }
 
 function loadTreeGrid() {
@@ -346,12 +237,11 @@ function SendProduct() {
                     divstr = divstr +"</table>";
                     divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
                     $("#SendProduct").html(divstr);
-
-
+                    $("#SendProduct").dialog("open");
 
                 }
     });
-    $("#SendProduct").dialog("open");
+
 
 }
 
