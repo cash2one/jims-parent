@@ -1,13 +1,8 @@
 var editRow = undefined;
 var rowNum=-1;
-var editNum=-1;
 var patId ='15006135';
 var visitId = '1';
-var indicator = [{ "value": "1", "text": "长" }, { "value": "2", "text": "临" }];
-var Oclass =[{ "value": "1", "text": "药品" }, { "value": "2", "text": "非药品" }];
-var zi =[{ "value": "1", "text": "自带药" }, { "value": "2", "text": "不加价" }];
-var tujing =[{ "value": "1", "text": "无用法" }, { "value": "2", "text": "静点" }, { "value": "3", "text": "皮下注射" }];
-var pinci =[{ "value": "1", "text": "Q8H" }, { "value": "2", "text": "Q12H" }, { "value": "3", "text": "Q4H" }];
+var Oclass =[{ "value": "1", "label": "药品" }, { "value": "2", "label": "非药品" }];
 $(function(){
     $('#orderList').datagrid({
         iconCls:'icon-edit',//图标
@@ -24,17 +19,16 @@ $(function(){
         singleSelect:true,//是否单选
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'repeatIndicator',title:'长',width:'5%',align:'center',editor:{
+            {field:'repeatIndicator',title:'长',width:'5%',align:'center',formatter:itemFormatter,editor:{
                 type:'combobox',
                 options:{
                     required:true,
-                    data :indicator,
+                    data :ordersType,
                     valueField:'value',
-                    textField:'text',
-                    required:true
+                    textField:'label'
                 }
             }},
-            {field:'orderClass',title:'类别',width:'5%',align:'center',editor:{
+            {field:'orderClass',title:'类别',width:'5%',align:'center',formatter:orderClassFormatter,editor:{
                 type:'combobox',
                 options:{
                     required:true,
@@ -49,58 +43,71 @@ $(function(){
                 type:'combogrid',
                 options: {
                     panelWidth: 500,
-                    idField: 'drugName',
-                    textField: 'drugName',
-                    method:'GET',
-                    url: basePath+'/outppresc/dictlist',
-                    columns: [[
-                        {field: 'drugCode', title: '代码', width: '8%', align: 'center'},
-                        {field: 'drugName', title: '名称', width: '15%', align: 'center'},
-                        {field: 'drugSpec', title: '规格', width: '15%', align: 'center'},
-                        {field: 'firmId', title: '厂家', width: '15%', align: 'center'},
-                        {field: 'dosage', title: '单次用量', width: '15%', align: 'center', editor: 'text'},
-                        {field: 'dosageUnits', title: '用量单位', width: '15%', align: 'center', editor: 'text'}
-                    ]],onClickRow: function (index, row) {
-                        var dosage = $("#orderList").datagrid('getEditor',{index:editRow,field:'dosage'});
-                        $(dosage.target).textbox('setValue',row.dosage);
-                        var dosageUnits = $("#centerList").datagrid('getEditor',{index:editRow,field:'dosageUnits'});
-                        $(dosageUnits.target).textbox('setValue',row.dosageUnits);
+                    data:ordersDrugData,
+                    idField:'drug_code',
+                    textField:'item_name',
+                    columns:[
+                        [
+                            {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
+                            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                            {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
+                            {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
+                            {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'}
+                        ]
+
+                    ] /*,keyHandler: {
+                        up: function() {},
+                        down: function() {},
+                        enter: function() {},
+                        query: function(q) {
+                            comboGridCompleting(q,'orderText');
+                        }
+                    }*/,onClickRow: function (index, row) {
+                       var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
+                        $(dosage.target).textbox('setValue',row.dose_per_unit);
+                        var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                        $(dosageUnits.target).textbox('setValue',row.dose_units);
+
                     }
             }}},
-            {field:'billingAttr',title:'自',width:'5%',align:'center',editor:{
+            {field:'billingAttr',title:'自',width:'5%',align:'center',formatter:billingAttrFormatter,editor:{
                 type:'combobox',
                 options:{
                     required:true,
-                    data :zi,
+                    data :billingAttr,
                     valueField:'value',
                     textField:'text',
                     required:true
                 }
             }},
-            {field:'dosage',title:'剂量',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'dosage',title:'剂量',width:'5%',align:'center',editor:{type:'textbox',options:{editable:true,disable:false}}},
             {field:'dosageUnits',title:'单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'administration',title:'途径',width:'5%',align:'center',editor:{
+            {field:'administration',title:'途径',width:'5%',align:'center',formatter:administrationFormatter,editor:{
                 type:'combobox',
                 options:{
                     required:true,
-                    data :tujing,
-                    valueField:'value',
-                    textField:'text',
+                    data :administrationDict,
+                    valueField:'id',
+                    textField:'administrationName',
                     required:true
                 }
             }},
-            {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
+            {field:'frequency',title:'频次',width:'5%',align:'center',formatter:performFreqFormatter,editor:{
                 type:'combobox',
                 options:{
                     required:true,
-                    data :pinci,
-                    valueField:'value',
-                    textField:'text',
-                    required:true
+                    data :performFreqDict,
+                    valueField:'id',
+                    textField:'freqDesc',
+                    required:true,
+                    onSelect:function(rec){
+
+                    }
                 }
             }},
-            {field:'conversionDateTime',title:'执行时间',width:'10%',align:'center',editor:{type: 'datebox'}},
-          //  {field:'',title:'阴阳',width:'5%',align:'center'},
+            {field:'conversionDateTime',title:'执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'',title:'阴阳',width:'5%',align:'center'},
             {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',editor:{type: 'datebox'}},
             {field:'freqDetail',title:'医生说明',width:'10%',align:'center',editor:'text'},
             {field:'doctor',title:'医生',width:'10%',align:'center',editor:'text',
