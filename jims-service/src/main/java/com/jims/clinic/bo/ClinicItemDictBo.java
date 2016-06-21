@@ -93,12 +93,8 @@ public class ClinicItemDictBo extends CrudImplService<ClinicItemDictDao, ClinicI
      * @param entity
      * @return
      */
-    public List<ClinicItemNameDict> findNameList(ClinicItemDict entity) {
-        ClinicItemNameDict itemName = new ClinicItemNameDict();
-        itemName.setOrgId(entity.getOrgId());
-        itemName.setItemClass(entity.getItemClass());
-        itemName.setItemCode(entity.getItemCode());
-        return nameDao.findList(itemName);
+    public List<ClinicItemNameDict> findNameList(ClinicItemNameDict entity) {
+        return nameDao.findList(entity);
     }
 
     /**
@@ -132,9 +128,11 @@ public class ClinicItemDictBo extends CrudImplService<ClinicItemDictDao, ClinicI
      * @param ids ,多个id以逗号隔开
      */
     public void deleteName(String ids) {
-        String[] id = ids.split(",");
-        for (int j = 0; j < id.length; j++){
-            nameDao.delete(id[j]);
+        if(ids != null && ids.trim().length() > 0) {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++) {
+                nameDao.delete(id[j]);
+            }
         }
     }
 
@@ -167,12 +165,8 @@ public class ClinicItemDictBo extends CrudImplService<ClinicItemDictDao, ClinicI
      * @param entity
      * @return
      */
-    public List<ClinicVsCharge> findVsList(ClinicItemDict entity) {
-        ClinicVsCharge vs = new ClinicVsCharge();
-        vs.setOrgId(entity.getOrgId());
-        vs.setClinicItemClass(entity.getItemClass());
-        vs.setClinicItemCode(entity.getItemCode());
-        return vsDao.findList(vs);
+    public List<ClinicVsCharge> findVsList(ClinicVsCharge entity) {
+        return vsDao.findList(entity);
     }
 
     /**
@@ -218,9 +212,11 @@ public class ClinicItemDictBo extends CrudImplService<ClinicItemDictDao, ClinicI
      * @param ids,多个id以逗号隔开
      */
     public void deleteVs(String ids) {
-        String[] id = ids.split(",");
-        for (int j = 0; j < id.length; j++){
-            vsDao.delete(id[j]);
+        if(ids != null && ids.trim().length() > 0) {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++) {
+                vsDao.delete(id[j]);
+            }
         }
     }
 
@@ -266,32 +262,35 @@ public class ClinicItemDictBo extends CrudImplService<ClinicItemDictDao, ClinicI
      * @param list ClinicItemDict对象序列
      *          如果ClinicItemDict对象delFlag为1，该对象为删除数据参数。
      *                      该对象的Id为需要删除的数据的Id(也有可能是多个Id以‘ , ’拼接的ID字符串)
-     *          如果ClinicItemDict对象updateFlag为1，该对象为诊疗项目有修改操作的正别名、对照的修改删除数据参数。
-     *                      该对象的saveNameList属性为需要保存的正别名数据
-     *                      saveVsList为需要保存的对照数据
-     *                      delNameIds为需要删除的正别名数据的Id，多个以‘ , ’隔开
-     *                      delVsIds为需要删除的对照数据的Id，多个以‘ , ’隔开
-     *          其余为诊疗项目保存的数据，
-     *                      如果为新建项目，则saveNameList为新建的正别名数据
-     *                      saveVsList  为新建的对照数据
+     *          其余为诊疗项目保存的数据(ClinicItemDict数据没有itemCode则只处理正别名、对照)，
+     *                      saveNameList为正别名数据
+     *                      saveVsList  为对照数据
      *
+     * @return 0 失败，1成功
      */
     public void saveBatch(List<ClinicItemDict> list){
         for (int i = 0, j = (list != null ? list.size() : 0); i < j; i++) {
             ClinicItemDict itemObj = list.get(i);
             if ("1".equals(itemObj.getDelFlag())) {
                 deleteCascade(itemObj.getId());
-            } else if ("1".equals(itemObj.getUpdateFlag())) {
-                saveNameList(itemObj.getSaveNameList());
-                saveVsList(itemObj.getSaveVsList());
-                deleteName(itemObj.getDelNameIds());
-                deleteVs(itemObj.getDelVsIds());
             } else {
-                if (itemObj.getId() == null) {
-                    saveNameList(itemObj.getSaveNameList());
-                    saveVsList(itemObj.getSaveVsList());
+                if(itemObj.getSaveNameList() != null && itemObj.getSaveNameList().size() > 0){
+                    nameDao.deleteNoId(itemObj.getSaveNameList().get(0));
+                    for(ClinicItemNameDict name : itemObj.getSaveNameList()){
+                        name.preInsert();
+                        nameDao.insert(name);
+                    }
                 }
-                save(itemObj);
+                if(itemObj.getSaveVsList() != null && itemObj.getSaveVsList().size() > 0){
+                    vsDao.deleteNoId(itemObj.getSaveVsList().get(0));
+                    for(ClinicVsCharge vs : itemObj.getSaveVsList()){
+                        vs.preInsert();
+                        vsDao.insert(vs);
+                    }
+                }
+                if(itemObj.getItemCode() != null && itemObj.getItemCode().trim().length() > 0) {
+                    save(itemObj);
+                }
             }
         }
     }

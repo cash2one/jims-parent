@@ -105,4 +105,11 @@ public class DeptDictBo extends CrudImplService<DeptDictDao, DeptDict> {
         return deptDictDao.findListByCode(code);
     }
 
+    /**
+     * 查询所有科室
+     * @return
+     */
+    public List<DeptDict> getList(){
+        return deptDictDao.getList();
+    }
 }

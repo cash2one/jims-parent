@@ -16,7 +16,8 @@
 		<result column="update_by" property="updateBy.id" jdbcType="VARCHAR" />
 		<result column="update_date" property="updateDate"  />
 		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
-		<result column="del_flag" property="delFlag" jdbcType="CHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="clinic_id" property="clinicId" jdbcType="VARCHAR" />
         <association property="dict" column="{value=type,type=diagnosis_type}" select="com.jims.emr.modules.sys.dao.DictDao.getDictLabel"></association>
         <association property="emrDiagnosisList" column="{id=id}" select="findListChildren"></association>
 	</resultMap>
@@ -34,6 +35,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
+		a.clinic_id AS "clinicId",
 
 		a.del_flag AS "delFlag",
         a.patient_id AS "patientId",
@@ -299,4 +301,10 @@
 			</if>
 		</where>
 	</update>
+	<select id="getDescription" resultType="EmrDiagnosis">
+		SELECT *from emr_diagnosis WHERE
+		<if test="clinicId!=null">
+			 clinic_id=#{clinicId}
+		</if>
+	</select>
 </mapper>

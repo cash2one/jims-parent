@@ -22,7 +22,8 @@ public class ClinicSchedule extends DataEntity<ClinicSchedule> {
 	private Integer appointmentLimits;		// 限预约号数
 	private Integer phoneLimits;		// 电话预约号数
 	private Integer webLimits;		// 网上预约号数
-	
+    //扩展
+	private String clinicLabelName; // 号别名称
 	public ClinicSchedule() {
 		super();
 	}
@@ -98,5 +99,12 @@ public class ClinicSchedule extends DataEntity<ClinicSchedule> {
 	public void setWebLimits(Integer webLimits) {
 		this.webLimits = webLimits;
 	}
-	
+
+    public String getClinicLabelName() {
+        return clinicLabelName;
+    }
+
+    public void setClinicLabelName(String clinicLabelName) {
+        this.clinicLabelName = clinicLabelName;
+    }
 }

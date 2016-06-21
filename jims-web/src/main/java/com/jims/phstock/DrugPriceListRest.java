@@ -57,6 +57,23 @@ public class DrugPriceListRest {
     }
 
     /**
+     * 检索当前日期所属机构的药品
+     * @param orgId 机构ID
+     * @return
+     */
+    @GET
+    @Path("findDrugDictWithFilter")
+    public List<DrugDict> findDrugDictWithFilter(@QueryParam("orgId")String orgId,
+                                       @QueryParam("q")String q,
+                                       @QueryParam("start")Integer start,
+                                       @QueryParam("limit")Integer limit){
+        List<DrugDict> list = drugPriceListServiceApi.findDrugDict(orgId,q);
+        start = start == null || start < 0 ? 0 : start;
+        limit = limit == null || limit < 0 ? list.size() : (start + limit < list.size() ? limit : list.size()-start);
+        return list.subList(start,limit);
+    }
+
+    /**
      * 检索未删除的药品价表
      * @param orgId 所属机构Id
      * @param drugCode 药品编码

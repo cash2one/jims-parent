@@ -1,15 +1,13 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.jims.phstock.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.persistence.Page;
 import com.jims.phstock.api.DrugStockServiceApi;
-import com.jims.phstock.dao.DrugStockDao;
+import com.jims.phstock.bo.DrugStockBo;
 import com.jims.phstock.entity.DrugStock;
 import com.jims.phstock.vo.DrugStockAllVo;
 import com.jims.phstock.vo.DrugWorkCount;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
@@ -20,9 +18,43 @@ import java.util.List;
  * @version 2016-04-22
  */
 @Service(version = "1.0.0")
+public class DrugStockService implements DrugStockServiceApi{
 
-public class DrugStockService extends CrudImplService<DrugStockDao, DrugStock> implements DrugStockServiceApi{
+    @Autowired
+    private DrugStockBo bo;
 
+    @Override
+    public String save(DrugStock drugStock) {
+        try {
+            bo.save(drugStock);
+            return "1";
+        } catch (RuntimeException e){}
+        return "0";
+    }
+
+    @Override
+    public Page<DrugStock> findPage(Page<DrugStock> page, DrugStock drugStock) {
+        return bo.findPage(page,drugStock);
+    }
+
+    @Override
+    public List<DrugStock> findList(DrugStock drugStock) {
+        return bo.findList(drugStock);
+    }
+
+    @Override
+    public DrugStock get(String id) {
+        return bo.get(id);
+    }
+
+    @Override
+    public String delete(String ids) {
+        try {
+            bo.delete(ids);
+            return "1";
+        } catch (RuntimeException e){}
+        return "0";
+    }
 
     /**
      * 查询某库存一段时间内的工作量
@@ -36,7 +68,7 @@ public class DrugStockService extends CrudImplService<DrugStockDao, DrugStock> i
      */
     @Override
     public List<DrugWorkCount> getWorkCountBy(String storage, String startTime, String endDate, String orgId) {
-        return dao.getWorkCountBy(storage,startTime,endDate,orgId);
+        return bo.getWorkCountBy(storage,startTime,endDate,orgId);
     }
 
 
@@ -51,8 +83,15 @@ public class DrugStockService extends CrudImplService<DrugStockDao, DrugStock> i
      */
     @Override
     public List<DrugStockAllVo> listDrugStockAllVo(String storageCode, double priceMin, double priceMax, String orgId) {
-        return dao.listDrugStockAllVo(storageCode,priceMin,priceMax,orgId);
+        return bo.listDrugStockAllVo(storageCode,priceMin,priceMax,orgId);
     }
 
-
+    /**
+     * 检索有库存的药品库存
+     * @param drugStock
+     * @return
+     */
+    public List<DrugStock> findListHasStock(DrugStock drugStock){
+        return bo.findListHasStock(drugStock);
+    };
 }

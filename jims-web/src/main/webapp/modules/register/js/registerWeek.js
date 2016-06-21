@@ -1,50 +1,3 @@
-var clinicDeptCode=[];
-var doctorName=[];
-var inputParamVos=new Array();
-var InputParamVo1={};
-InputParamVo1.colName='rownum';
-InputParamVo1.colValue='20';
-InputParamVo1.operateMethod='<';
-inputParamVos.push(InputParamVo1);
-
-/**
- * 门诊科室
- * @type {{}}
- */
-var clinicDeptCodeData={};
-clinicDeptCodeData.orgId="1";
-clinicDeptCodeData.dictType="v_outp_dept_dict"
-$.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(clinicDeptCodeData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        clinicDeptCode=data;
-    }
-});
-/**
- * 门诊医生
- * @type {{}}
- */
-var doctorNameData={};
-doctorNameData.orgId="1";
-doctorNameData.dictType="v_staff_dict";
-doctorNameData.inputParamVos=inputParamVos;
-$.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(doctorNameData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        doctorName=data;
-    }
-});
-
 $(function(){
     /**
      * 科室下拉框
@@ -70,37 +23,7 @@ $(function(){
             down: function() {},
             enter: function() {},
             query: function(q) {
-                var clinicDeptCodeData={};
-                clinicDeptCodeData.orgId="1";
-                clinicDeptCodeData.dictType="v_staff_dict"
-                var inputParamVos=new Array();
-                var InputParamVo1={};
-                InputParamVo1.colName='rownum';
-                InputParamVo1.colValue='20';
-                InputParamVo1.operateMethod='<';
-                inputParamVos.push(InputParamVo1);
-                if(q!='' && q!=null){
-                    var InputParamVo={};
-                    InputParamVo.colName='input_code';
-                    InputParamVo.colValue=q;
-                    InputParamVo.operateMethod='like';
-                    inputParamVos.push(InputParamVo);
-                }else{
-                    $("#doctorNameId").combogrid('setValue','');
-                }
-                clinicDeptCodeData.inputParamVos=inputParamVos;
-                $.ajax({
-                    'type': 'POST',
-                    'url':basePath+'/input-setting/listParam' ,
-                    data: JSON.stringify(clinicDeptCodeData),
-                    'contentType': 'application/json',
-                    'dataType': 'json',
-                    'async': false,
-                    'success': function(data){
-                        $("#doctorNameId").combogrid("grid").datagrid("loadData", data);
-                        $("#doctorNameId").combogrid('setText',q);
-                    }
-                });
+                comboGridCompleting(q,'doctorNameId');
             }
         }
     })

@@ -1,3 +1,68 @@
+var userBlood = [];//用血要求
+var deptCode=[];//科室
+var bloodTypeName=[];//血液要求
+var userBloodData={};
+userBloodData.orgId="";
+userBloodData.dictType="BLOOD_COMPONENT";
+
+$.ajax({
+    'type': 'POST',
+    'url':basePath+'/input-setting/listParam' ,
+    data: JSON.stringify(userBloodData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        userBlood=data;
+    }
+})
+/**
+ * 科室查询
+ */
+$.ajax({
+    type:"POST",
+    url:basePath+'/dept-dict/getList',
+    contentType:'application/json',
+    async:false,
+    success: function (data) {
+        deptCode=data;
+    }
+})
+/**
+ * 科室翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
+ */
+function deptCodeFormatter(value,rowData,rowIndex){
+    if(value == 0){
+        return;
+    }
+    for(var i=0; i<deptCode.length; i++){
+        if(deptCode[i].deptCode == value){
+            return deptCode[i].deptName;
+        }
+    }
+}
+/**
+ * 血液要求翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
+ */
+function bloodTypeNameFormatter(value,rowData,rowIndex){
+    if(value == 0){
+        return;
+    }
+    for(var i=0; i<userBlood.length; i++){
+        if(userBlood[i].blood_type == value){
+            return userBlood[i].blood_type_name;
+        }
+    }
+}
+
 /**
  * 设置动态行
  * @param id
@@ -8,6 +73,7 @@ var serialNo = '';
 var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"}, {"value": "3", "text": "备血"}];
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
 $(function () {
+
     //获取住院id
     //var visitId= parent.document.getElementById("clinicMasterId").value;
     //$("#visitId").val(visitId);
@@ -45,13 +111,12 @@ $(function () {
             }
             },
             {
-                field: 'bloodType', title: '血液要求', width: '20%', align: 'center', editor: {
+                field: 'bloodType', title: '血液要求', width: '20%', align: 'center',formatter:bloodTypeNameFormatter,editor: {
                 type: 'combobox',
                 options: {
-                    url: basePath + '/bloodApply/getBloodComponent',
-                    valueField: 'bloodType',
-                    method: 'get',
-                    textField: 'bloodTypeName',
+                    data:userBlood,
+                    valueField: 'blood_type',
+                    textField: 'blood_type_name',
                     required: true
                 }
             }
@@ -64,6 +129,7 @@ $(function () {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
+
                 $("#list_doctor").datagrid('insertRow', {
                     index: 0,
                     row: {}
@@ -121,7 +187,9 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'deptCode', title: '科室', width: '18%', align: 'center'},
+            {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:function(value, rowData, rowIndex){
+                return deptCodeFormatter(rowData.deptCode,'','');
+            }},
             {field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
             {field: 'bloodInuse', title: '血源', width: '18%', align: 'center'},
             {field: 'bloodDiagnose', title: '诊断', width: '18%', align: 'center'},
@@ -176,7 +244,6 @@ function saveUseBloodApply() {
     var tableJson = JSON.stringify(rows);
     var submitJson = formJson + ",\"bloodCapacityList\":" + tableJson + "}";
     $("#inpNo").attr("value", "123");
-    //$("#applyNum").attr("value", "123");
     if (rows.length > 0) {
         $.postJSON(basePath + "/bloodApply/save", submitJson, function (data) {
             if (data.code == "1") {
