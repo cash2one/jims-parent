@@ -18,10 +18,12 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+        b.clinic_label as "clinicLabelName"
 	</sql>
 	
 	<sql id="clinicForRegistJoins">
+         LEFT JOIN clinic_index b on a.clinic_label=b.id
 	</sql>
     
 	<select id="get" resultType="ClinicForRegist">
