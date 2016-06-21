@@ -53,4 +53,9 @@ public class ClinicForRegistServiceImpl implements ClinicForRegisterSerivceApi{
     public String saveClinic(ClinicMaster clinicMaster) throws Exception {
         return clinicForRegistBo.saveClinic(clinicMaster);
     }
+
+    @Override
+    public String updateBatch(List<ClinicForRegist> clinicForRegistList){
+        return clinicForRegistBo.updateBatch(clinicForRegistList);
+    }
 }
