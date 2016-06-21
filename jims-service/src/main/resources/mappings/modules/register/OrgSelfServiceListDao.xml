@@ -126,10 +126,9 @@
 		WHERE id = #{id}
 	</update>
 	
-	<update id="delete">
-		UPDATE org_self_service_list SET 
-			del_flag = '1'
+	<delete id="delete">
+		delete from org_self_service_list
 		WHERE id = #{id}
-	</update>
+	</delete>
 	
 </mapper>
