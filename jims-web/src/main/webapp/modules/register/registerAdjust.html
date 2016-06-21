@@ -14,9 +14,9 @@
         门诊号别名称：<input type="text" class="validatebox-text" style="width: 12%" id="clinicNameId"/>&nbsp;
        门诊日期：<input type="text" class="easyui-datebox" id="clinicDateId">&nbsp;
         出诊时间：<input type="text" class="easyui-combobox" id="timeDescId"/>&nbsp;
-        <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" >查询</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchClinicAdjust();">查询</button>
         <div class="fd-right">
-        <button class="easyui-linkbutton" data-options="iconCls:'icon-add'" >保存</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="update()">保存</button>
         </div>
     </div>
     <table id="list_data_num"   cellspacing="0" cellpadding="0">
