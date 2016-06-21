@@ -60,13 +60,7 @@ function onloadMethod(){
         columns:[[      //每个列具体内容
             {field:'clinicDate',title:'出诊日期',width:'18%',align:'center',formatter:formatDatebox},
             {field:'clinicLabelName',title:'号别名称',width:'21%',align:'center'},
-            {field:'timeDesc',title:'出诊时间',width:'15%',align:'center',formatter:timeDescFormatter,editor:{
-                type:'combobox',
-                options:{
-                    data :timeInterval,
-                    valueField:'time_interval_code',
-                    textField:'time_interval_name'
-                }}
+            {field:'timeDesc',title:'出诊时间',width:'15%',align:'center',formatter:timeDescFormatter
             },
             {field:'registrationLimits',title:'限号数',width:'15%',align:'center',editor:{type:'numberbox'},formatter:function(value, rowData, rowIndex){
                 if(value=='' || value==null){
