@@ -41,6 +41,15 @@
 		<include refid="clinicForRegistJoins"/>
 		<where>
 			a.DEL_FLAG=#{DEL_FLAG_NORMAL}
+            <if test="clinicLabelName!=null and clinicLabelName!='' ">
+                AND b.clinic_label like '%${clinicLabelName}%'
+            </if>
+            <if test="clinicDate!=null and clinicDate!='' ">
+                AND a.clinic_date=#{clinicDate}
+            </if>
+            <if test="timeDesc!=null and timeDesc!='' ">
+                AND a.time_desc=#{timeDesc}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -65,11 +74,16 @@
          "CLINIC_INDEX"."CLINIC_TYPE" AS clinicType,
          "CLINIC_FOR_REGIST"."CURRENT_NO" AS currentNo,
          "CLINIC_INDEX"."INPUT_CODE" AS inputCode,
-         "CLINIC_INDEX"."CLINIC_POSITION" AS clinicPosition
+         "CLINIC_INDEX"."CLINIC_POSITION" AS clinicPosition,
+         "CLINIC_INDEX"."CLINIC_LABEL" as "clinicLabelName",
+          b.price as "price"
     FROM "CLINIC_FOR_REGIST",
          "CLINIC_INDEX"
-   WHERE ( "CLINIC_FOR_REGIST"."CLINIC_LABEL" = "CLINIC_INDEX"."CLINIC_LABEL" ) and
+         (select a.*,d.price from clinic_type_setting  a  left join(select a.type_id,sum(b.price) price from clinic_type_fee a left join V_INPUT_REGISTRATION_LIST b on a.price_item=b.ITEM_CODE GROUP BY a.type_id ) d
+    on a.id=d.type_id ) b
+   WHERE ( "CLINIC_FOR_REGIST"."CLINIC_LABEL" = "CLINIC_INDEX"."ID" ) and
          ( CLINIC_FOR_REGIST.CLINIC_DATE = to_date(#{date},'yyyy-MM-dd hh24:mi:ss') )
+         and "CLINIC_INDEX".clinic_type=b.id
 	</select>
 	<select id="findAllList" resultType="ClinicForRegist">
 		SELECT 
@@ -155,6 +169,7 @@
 		SELECT
 		<include refid="clinicForRegistColumns"/>
 		FROM clinic_for_regist a
+        <include refid="clinicForRegistJoins"/>
 		WHERE a.clinic_date=to_date(#{clinicDate},'yyyy-MM-dd') AND a.clinic_label=#{clinicLable} AND a.time_desc=#{timeDesc}
 	</select>
 	<select id="updateRegisterByReturn">

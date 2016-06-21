@@ -107,20 +107,16 @@ $(function () {
      */
     var initBtn = function () {
         $('#temporaryNo').combobox({
-            valueField: 'value',
-            textField: 'label',
+            valueField: '0',
+            textField: '0',
             editable: false,
+            url:base_url+'getBuyId?flag=4&orgId='+orgId,
+            method:'get',
+            mode:'remote',
             onSelect: function (record) {
                 planSelectIndex = 0
-                loadDrugBuyPlan(record.value, '4')
+                loadDrugBuyPlan(record[0], '4')
             }
-        })
-        $.get(base_url + 'getBuyId', {flag: '4', orgId: orgId,buyer:username}, function (res) {
-            var _temporaryNo = []
-            for (var i = 0; i < res.length; i++) {
-                _temporaryNo.push({value: res[i][0], label: res[i][0]})
-            }
-            $('#temporaryNo').combobox('loadData', _temporaryNo)
         })
 
         $('#saveButton').linkbutton({

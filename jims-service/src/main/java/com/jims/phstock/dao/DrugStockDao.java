@@ -67,4 +67,10 @@ public interface DrugStockDao extends CrudDao<DrugStock> {
     public List<DrugStock> findByUnique(String drugCode,String drugSpec,String firmId,String packageSpec,String batchNo,
                                         String storage,String subStorage,String orgId);
 
+    /**
+     * 检索有库存的药品库存
+     * @param drugStock
+     * @return
+     */
+    public List<DrugStock> findListHasStock(DrugStock drugStock);
 }

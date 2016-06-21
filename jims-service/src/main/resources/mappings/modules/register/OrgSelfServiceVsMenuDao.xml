@@ -129,16 +129,14 @@
 		WHERE id = #{id}
 	</update>
 	
-	<update id="delete">
-		UPDATE org_self_service_vs_menu SET 
-			del_flag = '1'
+	<delete id="delete">
+		delete from org_self_service_vs_menu
 		WHERE id = #{id}
-	</update>
+	</delete>
 
-    <update id="deleteByServiceId">
-        UPDATE org_self_service_vs_menu SET
-        del_flag = '1'
+    <delete id="deleteByServiceId">
+        delete from org_self_service_vs_menu
         WHERE self_service_id = #{1}
-    </update>
+    </delete>
 	
 </mapper>

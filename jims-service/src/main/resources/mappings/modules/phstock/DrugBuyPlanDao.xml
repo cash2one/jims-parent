@@ -58,10 +58,9 @@
 	<select id="findList" resultType="DrugBuyPlan">
 		SELECT 
 			<include refid="drugBuyPlanColumns"/>,t.supplier
-		FROM drug_buy_plan a,drug_supplier_catalog t
+		FROM drug_buy_plan a,(select id,supplier from drug_supplier_catalog where (used_flag is null or used_flag = '0') and del_flag = '0') t
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL} and a.firm_id = t.id and (t.used_flag is null or t.used_flag = '0')
-            and t.del_flag = '0'
+			a.del_flag = #{DEL_FLAG_NORMAL} and a.firm_id = t.id(+)
             <if test="buyId != null and buyId != ''">
                 AND a.buy_id = #{buyId}
             </if>
@@ -96,12 +95,12 @@
     </select>
 
     <select id="getBuyId" resultType="DrugBuyPlan">
-        select distinct a.buy_id,a.flag from drug_buy_plan a,drug_supplier_catalog t where
+        select distinct a.buy_id,a.flag from drug_buy_plan a
+        where
             a.del_flag = '0'
             <if test="flag != null and flag != ''">
                 AND a.flag = #{flag}
             </if>
-            AND a.firm_id = t.id and (t.used_flag is null or t.used_flag = '0') and t.del_flag = '0'
             AND a.org_id = #{1}
             <if test="buyer != null and buyer != ''">
                 AND a.buyer = #{buyer}

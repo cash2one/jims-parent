@@ -174,4 +174,19 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
         clinicForRegistDao.updateRegister(DateUtils.getDate(),clinicMaster.getClinicLabel(),clinicMaster.getVisitTimeDesc());
         return i+"";
     }
+
+
+    /**
+     * 修改号表安排
+     * @param clinicForRegistList
+     * @return
+     */
+    public String updateBatch(List<ClinicForRegist> clinicForRegistList){
+        int num=0;
+        for (int i = 0; i < clinicForRegistList.size(); i++) {
+            String record=save(clinicForRegistList.get(i));
+            num=num+Integer.parseInt(record);
+        }
+        return num+"";
+    }
 }

@@ -79,6 +79,15 @@ public class DeptDictImpl implements DeptDictApi {
     }
 
     /**
+     * 检索科室
+     * @param dept
+     * @return
+     */
+    public List<DeptDict> findList(DeptDict dept){
+        return deptDictBo.findList(dept);
+    }
+
+    /**
      * 查询所有科室
      * @return
      */

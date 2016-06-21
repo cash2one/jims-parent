@@ -199,9 +199,10 @@ $(function() {
         var allRows = $('#orgSelfService').datagrid('getRows');
         for(var i=0;i<allRows.length;i++){
             delete allRows[i].menusTreeData;
-            if(allRows[i].id && allRows[i].menus && allRows[i].menus.length > 0){
+            if(allRows[i].id && allRows[i].updateFlag){
                 rows.push({id:allRows[i].id,menus:allRows[i].menus})
                 delete allRows[i].menus;
+                delete allRows[i].updateFlag;
             }
         }
 
@@ -334,7 +335,9 @@ $(function() {
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row) {
             var menusTreeData = $('#selectedMenu').tree('getRoots');
-            row.menusTreeData = menusTreeData
+            row.menusTreeData = menusTreeData;
+            // 标志此条数据为已修改
+            row.updateFlag = '1';
             var menus = []
             for(var i=0;i<menusTreeData.length;i++){
                 menus.push(chargeMenusData(menusTreeData[i],i+1))
@@ -345,7 +348,6 @@ $(function() {
                     var menu = {
                         selfServiceId:row.id,
                         menuId:data.id,
-                        menuSort:sort,
                         menuEndDate:parent.parent.parseToDate(data.endData)
                     }
                     var childs = data.children
