@@ -68,7 +68,11 @@ public class ClinicItemDictServiceImpl implements ClinicItemApi{
 
     @Override
     public String save(ClinicItemDict entity) {
-        return bo.save(entity);
+        try {
+            bo.save(entity);
+            return "1";
+        } catch (RuntimeException e){}
+        return "0";
     }
 
     /**
@@ -88,7 +92,11 @@ public class ClinicItemDictServiceImpl implements ClinicItemApi{
 
     @Override
     public String delete(String ids) {
-        return bo.delete(ids);
+        try {
+            bo.delete(ids);
+            return "1";
+        } catch (RuntimeException e){}
+        return "0";
     }
 
     /**
@@ -126,8 +134,7 @@ public class ClinicItemDictServiceImpl implements ClinicItemApi{
      * @param entity
      * @return
      */
-    @Override
-    public List<ClinicItemNameDict> findNameList(ClinicItemDict entity) {
+    public List<ClinicItemNameDict> findNameList(ClinicItemNameDict entity) {
         return bo.findNameList(entity);
     }
 
@@ -217,7 +224,7 @@ public class ClinicItemDictServiceImpl implements ClinicItemApi{
      * @return
      */
     @Override
-    public List<ClinicVsCharge> findVsList(ClinicItemDict entity) {
+    public List<ClinicVsCharge> findVsList(ClinicVsCharge entity) {
         return bo.findVsList(entity);
     }
 
@@ -329,14 +336,9 @@ public class ClinicItemDictServiceImpl implements ClinicItemApi{
      * @param list ClinicItemDict对象序列
      *          如果ClinicItemDict对象delFlag为1，该对象为删除数据参数。
      *                      该对象的Id为需要删除的数据的Id(也有可能是多个Id以‘ , ’拼接的ID字符串)
-     *          如果ClinicItemDict对象updateFlag为1，该对象为诊疗项目有修改操作的正别名、对照的修改删除数据参数。
-     *                      该对象的saveNameList属性为需要保存的正别名数据
-     *                      saveVsList为需要保存的对照数据
-     *                      delNameIds为需要删除的正别名数据的Id，多个以‘ , ’隔开
-     *                      delVsIds为需要删除的对照数据的Id，多个以‘ , ’隔开
-     *          其余为诊疗项目保存的数据，
-     *                      如果为新建项目，则saveNameList为新建的正别名数据
-     *                      saveVsList  为新建的对照数据
+     *          其余为诊疗项目保存的数据(ClinicItemDict数据没有itemCode则只处理正别名、对照)，
+     *                      saveNameList为正别名数据
+     *                      saveVsList  为对照数据
      *
      * @return 0 失败，1成功
      */

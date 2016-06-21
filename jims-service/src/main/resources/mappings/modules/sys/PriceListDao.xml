@@ -70,6 +70,20 @@
         <include refid="priceListJoins"/>
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="orgId != null and orgId != ''">
+                and a.org_id = #{orgId}
+            </if>
+            <if test="itemClass != null and itemClass != ''">
+                and a.item_class = #{itemClass}
+            </if>
+            <if test="priceType != null and priceType != ''">
+                and instr(#{priceType},a.item_class,1,1) > 0
+            </if>
+            <if test="q != null and q != ''">
+                and (a.item_code like #{q}||'%'
+                or a.item_name like #{q}||'%'
+                or upper(a.input_code) like upper(#{q})||'%')
+            </if>
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">

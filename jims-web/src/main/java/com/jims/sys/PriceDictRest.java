@@ -131,4 +131,26 @@ public class PriceDictRest {
     public List<PriceList> findList(PriceList entity){
         return priceListApi.findList(entity);
     }
+
+    @GET
+    @Path("findListWithLimit")
+    public List<PriceList> findListWithLimit(@QueryParam("itemClass") String itemClass,
+                                             @QueryParam("orgId") String orgId,
+                                             @QueryParam("priceType") String priceType,
+                                             @QueryParam("q") String q,
+                                             @QueryParam("start") Integer start,
+                                             @QueryParam("limit") Integer limit){
+
+        PriceList entity = new PriceList();
+        entity.setItemClass(itemClass);
+        entity.setOrgId(orgId);
+        entity.setPriceType(priceType);
+        entity.setQ(q);
+        List<PriceList> list = priceListApi.findList(entity);
+        start = start == null || start < 0 ? 0 : start;
+        limit = limit == null || limit < 0 ? list.size() : (start + limit < list.size() ? limit : list.size()-start);
+        return list.subList(start,limit);
+    }
+
+
 }

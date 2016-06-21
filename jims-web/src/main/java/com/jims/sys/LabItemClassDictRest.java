@@ -65,4 +65,12 @@ public class LabItemClassDictRest {
     public List<LabItemClassDict> findList(LabItemClassDict labItemClassDict){;
         return labItemClassDictServiceApi.findList(labItemClassDict);
     }
+
+    @Path("findListByOrgId")
+    @GET
+    public List<LabItemClassDict> findListByOrgId(@QueryParam("orgId") String orgId){
+        LabItemClassDict labItemClassDict = new LabItemClassDict();
+        labItemClassDict.setOrgId(orgId);
+        return labItemClassDictServiceApi.findList(labItemClassDict);
+    }
 }
