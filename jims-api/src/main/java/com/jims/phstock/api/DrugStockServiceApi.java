@@ -83,4 +83,11 @@ public interface DrugStockServiceApi{
      * @author ztq
      */
     public List<DrugStockAllVo> listDrugStockAllVo(String storageCode,double priceMin,double priceMax,String orgId);
+
+    /**
+     * 检索有库存的药品库存
+     * @param drugStock
+     * @return
+     */
+    public List<DrugStock> findListHasStock(DrugStock drugStock);
 }

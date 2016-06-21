@@ -8,6 +8,7 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,9 +23,10 @@ public interface DrugPriceListDao extends CrudDao<DrugPriceList> {
     /**
      * 检索当前日期所属机构的药品
      * @param orgId 机构ID
+     * @param q 模糊查询字段值
      * @return
      */
-    public List<DrugDict> findDrugDict(String orgId);
+    public List<DrugDict> findDrugDict(@Param("orgId") String orgId,@Param("q")String q);
     /**
      * 根据药品代码查询当前组织结构的药品价格
      * 不同规格、不同厂商，不同单位，不同价格，不同零售价

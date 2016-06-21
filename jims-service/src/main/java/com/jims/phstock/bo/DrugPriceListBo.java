@@ -106,10 +106,11 @@ public class DrugPriceListBo extends CrudImplService<DrugPriceListDao, DrugPrice
     /**
      * 检索当前日期所属机构的药品
      * @param orgId 机构ID
+     * @param q 模糊查询字段值
      * @return
      */
-    public List<DrugDict> findDrugDict(String orgId){
-        return dao.findDrugDict(orgId);
+    public List<DrugDict> findDrugDict(String orgId,String q){
+        return dao.findDrugDict(orgId,q);
     }
     /**
      * 药品价表保存

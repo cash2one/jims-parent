@@ -1,6 +1,8 @@
 $(function(){
-    var currentOrgId = '1'
-    var currentSelectClinicIndex,currentSelectNameIndex,currentSelectVsIndex ;
+    var currentOrgId = '1'   // 当前机构ID
+        ,currentSelectClinicIndex   //诊疗项目 当前选择行
+        ,currentSelectNameIndex   // 正别名当前选择行
+        ,currentSelectVsIndex ;   // 对照项目当前选择行
 
     // 长期、临时数据
     var longArr = [{
@@ -21,6 +23,7 @@ $(function(){
         "label":"非药品"
     }]
 
+    /*********** 操作按钮等等 ☟ ***********/
     $('#item_class').combobox({
         valueField:'value',
         textField:'label',
@@ -31,11 +34,6 @@ $(function(){
             load_data()
         }
     });
-    //加载诊疗项目类别值
-    $.get('/service/dict/findListByType',{type:'CLINIC_ITEM_CLASS_DICT'},function(res){
-        typeArr = res
-        $('#item_class').combobox('loadData',res);
-    })
     $(':radio[name="adminFlag"][value="0"]').click(function(){
         $('#code_text').html('　代码定位')
         $('#filter_text').html('　代码筛选')
@@ -67,7 +65,13 @@ $(function(){
             load_data()
         }
     })
+    //加载诊疗项目类别
+    $.get('/service/dict/findListByType',{type:'CLINIC_ITEM_CLASS_DICT'},function(res){
+        typeArr = res
+        $('#item_class').combobox('loadData',res);
+    })
 
+    /***********诊疗项目 ☟ ***********/
     $("#clinic_item").datagrid({
         title : "临床诊疗项目列表",
         fit : true,
@@ -260,6 +264,7 @@ $(function(){
         }
     }
 
+    /***********诊疗项目正别名 ☟ ***********/
     $("#clinic_item_name").datagrid({
         fit : true,
         fitColumns: true, //列自适应宽度
@@ -315,6 +320,7 @@ $(function(){
         }
     }
 
+    /***********诊疗项目对照项目 ☟ ***********/
     $("#clinic_vs_charge").datagrid({
         fit : true,
         fitColumns: true, //列自适应宽度
@@ -458,7 +464,7 @@ $(function(){
                 }
                 $(editor.target).combogrid({
                     value: $(editor.target).combogrid('getValue'),
-                    url : '/service/price/findListWithLimit?limit=10&orgId='+currentOrgId+'&priceType='+type
+                    url : '/service/price/findListWithLimit?limit=50&orgId='+currentOrgId+'&priceType='+type
                 })
                 $(editor.target).combogrid('grid').datagrid('reload')
             }
@@ -592,7 +598,6 @@ $(function(){
             $.messager.alert('警告','请选择一条删除数据！','error');
         }
     });
-
     $('#add_alias').click(function(){
         if(currentSelectClinicIndex != undefined){
             if(endEditing_name()) {
@@ -711,18 +716,20 @@ $(function(){
         parent.location.href = parent.getRootPath() + '/modules/index.html';
     });
 
-
-
-// 加载诊疗项目数据
+    // 加载诊疗项目数据
     var load_data = function (){
-        $.get('/service/clinicItem/findList',getParam(),function(res){
+        var itemClass = $('#item_class').combobox('getValue') ? $('#item_class').combobox('getValue') : 'A'
+        var params = {'itemClass':itemClass}
+        params.itemCode = $(':radio[name="adminFlag"][value="0"]').prop('checked') ? $('#code_filter').textbox('getValue').toUpperCase() : ''
+        params.inputCode = $(':radio[name="adminFlag"][value="1"]').prop('checked') ? $('#code_filter').textbox('getValue').toUpperCase() : ''
+        params.orgId = currentOrgId
+        $.get('/service/clinicItem/findList',params,function(res){
             $('#clinic_item').datagrid('loadData',res)
             $('#clinic_item').datagrid('uncheckAll')
             $('#clinic_item_name').datagrid('loadData',[])
             $('#clinic_vs_charge').datagrid('loadData',[])
         })
     }
-    load_data()
 
     /**
      * 通过数组中数据格式化value
@@ -738,12 +745,6 @@ $(function(){
         }
         return value
     }
-    function getParam(){
-        var itemClass = $('#item_class').combobox('getValue') ? $('#item_class').combobox('getValue') : 'A'
-        var params = {'itemClass':itemClass}
-        params.itemCode = $(':radio[name="adminFlag"][value="0"]').prop('checked') ? $('#code_filter').textbox('getValue').toUpperCase() : ''
-        params.inputCode = $(':radio[name="adminFlag"][value="1"]').prop('checked') ? $('#code_filter').textbox('getValue').toUpperCase() : ''
-        params.orgId = currentOrgId
-        return params
-    }
+
+    load_data()
 })
