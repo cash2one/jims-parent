@@ -5,24 +5,13 @@ package com.jims.register.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.dao.ClinicMasterDao;
-import com.jims.clinic.dao.PatMasterIndexDao;
 import com.jims.clinic.entity.ClinicMaster;
-import com.jims.common.service.impl.CrudImplService;
-import com.jims.common.utils.DateUtils;
-import com.jims.patient.entity.PatMasterIndex;
+import com.jims.common.persistence.Page;
 import com.jims.register.api.ClinicForRegisterSerivceApi;
 import com.jims.register.bo.ClinicForRegistBo;
-import com.jims.register.dao.ClinicForRegistDao;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicSchedule;
-import com.jims.register.util.DateWeekUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +31,10 @@ public class ClinicForRegistServiceImpl implements ClinicForRegisterSerivceApi{
     }
 
     @Override
+    public Page<ClinicForRegist> findPage(Page<ClinicForRegist> page,ClinicForRegist clinicForRegist) {
+        return clinicForRegistBo.findPage(page,clinicForRegist);
+    }
+    @Override
     public String saveRegister(List<ClinicSchedule> clinicSchedules, String startTime, String endTime) throws Exception {
         return clinicForRegistBo.saveRegister(clinicSchedules,startTime,endTime);
     }
@@ -59,5 +52,10 @@ public class ClinicForRegistServiceImpl implements ClinicForRegisterSerivceApi{
     @Override
     public String saveClinic(ClinicMaster clinicMaster) throws Exception {
         return clinicForRegistBo.saveClinic(clinicMaster);
+    }
+
+    @Override
+    public String updateBatch(List<ClinicForRegist> clinicForRegistList){
+        return clinicForRegistBo.updateBatch(clinicForRegistList);
     }
 }

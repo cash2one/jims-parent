@@ -29,7 +29,10 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 
     //====不保存字段
     private String sumPrice;  //项目合计金额
-
+    private String expand1Name; // 标本名称
+    private String expand2Name; // 类别名称
+    private String expand3Name; // 执行科室名称
+    private String expand4Name; // 频次名称
     private Double num;  //诊疗项目的数量  不保存
 
     public String getSumPrice() {
@@ -94,7 +97,6 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 		super(id);
 	}
 
-	@Length(min=1, max=1, message="项目分类长度必须介于 1 和 1 之间")
 	public String getItemClass() {
 		return itemClass;
 	}
@@ -102,8 +104,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setItemClass(String itemClass) {
 		this.itemClass = itemClass;
 	}
-	
-	@Length(min=1, max=20, message="项目代码长度必须介于 1 和 20 之间")
+
 	public String getItemCode() {
 		return itemCode;
 	}
@@ -111,8 +112,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setItemCode(String itemCode) {
 		this.itemCode = itemCode;
 	}
-	
-	@Length(min=0, max=100, message="项目名称长度必须介于 0 和 100 之间")
+
 	public String getItemName() {
 		return itemName;
 	}
@@ -120,8 +120,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	
-	@Length(min=0, max=8, message="输入码长度必须介于 0 和 8 之间")
+
 	public String getInputCode() {
 		return inputCode;
 	}
@@ -129,8 +128,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setInputCode(String inputCode) {
 		this.inputCode = inputCode;
 	}
-	
-	@Length(min=0, max=8, message="input_code_wb长度必须介于 0 和 8 之间")
+
 	public String getInputCodeWb() {
 		return inputCodeWb;
 	}
@@ -138,8 +136,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setInputCodeWb(String inputCodeWb) {
 		this.inputCodeWb = inputCodeWb;
 	}
-	
-	@Length(min=0, max=100, message="标本长度必须介于 0 和 100 之间")
+
 	public String getExpand1() {
 		return expand1;
 	}
@@ -147,8 +144,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setExpand1(String expand1) {
 		this.expand1 = expand1;
 	}
-	
-	@Length(min=0, max=100, message="类别长度必须介于 0 和 100 之间")
+
 	public String getExpand2() {
 		return expand2;
 	}
@@ -156,8 +152,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setExpand2(String expand2) {
 		this.expand2 = expand2;
 	}
-	
-	@Length(min=0, max=100, message="执行科室长度必须介于 0 和 100 之间")
+
 	public String getExpand3() {
 		return expand3;
 	}
@@ -165,8 +160,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setExpand3(String expand3) {
 		this.expand3 = expand3;
 	}
-	
-	@Length(min=0, max=100, message="频次长度必须介于 0 和 100 之间")
+
 	public String getExpand4() {
 		return expand4;
 	}
@@ -174,8 +168,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setExpand4(String expand4) {
 		this.expand4 = expand4;
 	}
-	
-	@Length(min=0, max=100, message="长期临时长度必须介于 0 和 100 之间")
+
 	public String getExpand5() {
 		return expand5;
 	}
@@ -183,8 +176,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setExpand5(String expand5) {
 		this.expand5 = expand5;
 	}
-	
-	@Length(min=0, max=1, message="item_status长度必须介于 0 和 1 之间")
+
 	public String getItemStatus() {
 		return itemStatus;
 	}
@@ -192,8 +184,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setItemStatus(String itemStatus) {
 		this.itemStatus = itemStatus;
 	}
-	
-	@Length(min=0, max=60, message="memo长度必须介于 0 和 60 之间")
+
 	public String getMemo() {
 		return memo;
 	}
@@ -201,8 +192,7 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-	
-	@Length(min=0, max=64, message="所属组织结构长度必须介于 0 和 64 之间")
+
 	public String getOrgId() {
 		return orgId;
 	}
@@ -217,5 +207,37 @@ public class ClinicItemDict extends DataEntity<ClinicItemDict> {
 
     public void setNum(Double num) {
         this.num = num;
+    }
+
+    public String getExpand4Name() {
+        return expand4Name;
+    }
+
+    public void setExpand4Name(String expand4Name) {
+        this.expand4Name = expand4Name;
+    }
+
+    public String getExpand1Name() {
+        return expand1Name;
+    }
+
+    public void setExpand1Name(String expand1Name) {
+        this.expand1Name = expand1Name;
+    }
+
+    public String getExpand2Name() {
+        return expand2Name;
+    }
+
+    public void setExpand2Name(String expand2Name) {
+        this.expand2Name = expand2Name;
+    }
+
+    public String getExpand3Name() {
+        return expand3Name;
+    }
+
+    public void setExpand3Name(String expand3Name) {
+        this.expand3Name = expand3Name;
     }
 }

@@ -146,6 +146,21 @@ public class DeptDictRest {
         List<DeptDict> list = deptDictApi.findListByCode(code);
         return list;
     }
+
+    /**
+     * 查询所有的科室信息
+     * @return
+     */
+    @Path("findListWithFilter")
+    @GET
+    public List<DeptDict> findListWithFilter(@QueryParam("orgId") String orgId,@QueryParam("q")String q) {
+
+        DeptDict dept = new DeptDict();
+        dept.setOrgId(orgId);
+        dept.setQ(q);
+        List<DeptDict> list = deptDictApi.findList(dept);
+        return list;
+    }
     @Path("getList")
     @POST
     public List<DeptDict> getList(){

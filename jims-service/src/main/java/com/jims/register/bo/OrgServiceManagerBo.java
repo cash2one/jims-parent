@@ -94,9 +94,12 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
      */
     private void saveSelfServiceVsMenu(List<OrgSelfServiceVsMenu> menus,String selfServiceID,String parentId){
         if(menus != null && menus.size() > 0){
-            for(OrgSelfServiceVsMenu menu : menus){
+            for(int i=0;i<menus.size();i++){
+                OrgSelfServiceVsMenu menu = menus.get(i);
                 menu.setSelfServiceId(selfServiceID);
                 menu.setPid(parentId);
+                String menuSort = "00" + String.valueOf(i+1);
+                menu.setMenuSort(menuSort.substring(menuSort.length()-3));
                 if(menu.getIsNewRecord()){
                     menu.preInsert();
                     selfServiceVsMenuDao.insert(menu);

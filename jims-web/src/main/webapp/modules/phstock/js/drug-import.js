@@ -88,14 +88,6 @@ $(function () {
         {value: '9', label: '其他'}]
 
     /**
-     * 加载药品字典函数
-     * @param orgId 机构ID
-     */
-    $.ajaxAsync('/service/drug-price/findDrugDict', {orgId: currentOrgId}, function (res) {
-        drugDicts = res
-    }, 'GET', false)
-
-    /**
      * 格式化数据
      * @param arr 数组格式类似 [{value:'1',label:'测试'}...]
      * @param value
@@ -130,6 +122,17 @@ $(function () {
     var endEditing = function () {
         if (currentSelectIndex == undefined) {
             return true
+        }
+        var editor = $('#drug-import').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
+        if(editor){
+            var rows = $(editor.target).combogrid('grid').datagrid('getRows');
+            if(rows.length > 0){
+                if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
+                    $(editor.target).combogrid('grid').datagrid('selectRow',0)
+                }
+            } else {
+                $(editor.target).combogrid('setValue','')
+            }
         }
         if ($('#drug-import').datagrid('validateRow', currentSelectIndex)) {
             $('#drug-import').datagrid('endEdit', currentSelectIndex);
@@ -498,8 +501,10 @@ $(function () {
                         required: true,
                         missingMessage: '药名不能为空',
                         fitColumns: true,
-                        validType:['hasSelected'],
-                        data: drugDicts,
+                        //validType:['hasSelected'],
+                        url: '/service/drug-price/findDrugDictWithFilter?limit=50&orgId='+currentOrgId,
+                        method:'get',
+                        mode:'remote',
                         columns: [[
                             {field: 'drugCode', title: '药品代码', width: 100, align: "center"},
                             {field: 'drugName',
@@ -516,13 +521,6 @@ $(function () {
                                 }
                             }
                         ]],
-                        filter: function (field, row) {
-                            if (field && (row.drugCode && row.drugCode.toUpperCase().indexOf(field.toUpperCase()) == 0)
-                                || (row.drugName && row.drugName.toUpperCase().indexOf(field.toUpperCase()) == 0)
-                                || (row.inputCode && row.inputCode.toUpperCase().indexOf(field.toUpperCase()) == 0)) {
-                                return true
-                            }
-                        },
                         onSelect: function (index, row) {
                             loadDrugPriceData(row)
                         }

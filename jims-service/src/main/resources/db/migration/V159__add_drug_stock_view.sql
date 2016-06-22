@@ -38,18 +38,18 @@ select
      d.sub_package_spec_2,
      d.org_id,
      d.storage
-  from drug_stock d,drug_supplier_catalog s,drug_price_list p
-  where d.firm_id = s.id
+  from drug_stock d,(select id,supplier from drug_supplier_catalog where del_flag='0') s,drug_price_list p
+  where d.firm_id = s.id(+)
   and d.drug_code = p.drug_code
   and d.drug_spec = p.drug_spec
   and d.firm_id = p.firm_id
   and d.org_id = p.org_id
   and d.units = p.units
   and d.del_flag = '0'
-  and s.del_flag = '0'
   and p.del_flag = '0'
   and d.supply_indicator = '1'
   and d.quantity > 0;
+
 
 
 alter table drug_export_detail modify (firm_id varchar2(64));
