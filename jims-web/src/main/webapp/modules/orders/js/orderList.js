@@ -81,8 +81,7 @@ $(function(){
                     required:true,
                     data :billingAttr,
                     valueField:'value',
-                    textField:'label',
-                    required:true
+                    textField:'label'
                 }
             }},
             {field:'dosage',title:'剂量',width:'5%',align:'center',editor:{type:'textbox',options:{editable:true,disable:false}}},
@@ -94,7 +93,6 @@ $(function(){
                     data :administrationDict,
                     valueField:'id',
                     textField:'administrationName'
-
                 }
             }},
             {field:'frequency',title:'频次',width:'5%',align:'center',formatter:performFreqFormatter,editor:{
@@ -190,7 +188,7 @@ $(function(){
             var row = $('#orderList').datagrid('getSelected');
             var dataGrid=$('#orderList');
             var row = $('#orderList').datagrid('getSelected');
-            var status = row.orderStatus;
+           // var status = row.orderStatus;
                 if(!dataGrid.datagrid('validateRow', rowNum)){
                     return false//新开
                 }else{
@@ -199,7 +197,7 @@ $(function(){
                             dataGrid.datagrid('endEdit', rowNum);
                         }
                         rowNum=rowIndex;
-                        dataGrid.datagrid('beginEdit', rowIndex);
+                        dataGrid.datagrid('beginEdit', rowNum);
                     }
                 }
 
