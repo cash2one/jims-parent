@@ -57,7 +57,7 @@ public interface ClinicForRegisterSerivceApi {
      * 查询当前天的号表
      * @return
      */
-    public List<ClinicForRegist> findListReg(String status);
+    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist);
 
     /**
      * 保存挂号信息

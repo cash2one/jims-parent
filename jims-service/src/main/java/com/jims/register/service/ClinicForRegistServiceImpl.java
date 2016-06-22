@@ -45,8 +45,8 @@ public class ClinicForRegistServiceImpl implements ClinicForRegisterSerivceApi{
     }
 
     @Override
-    public List<ClinicForRegist> findListReg(String status) {
-        return clinicForRegistBo.findListReg(status);
+    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist) {
+        return clinicForRegistBo.findListReg(clinicForRegist);
     }
 
     @Override

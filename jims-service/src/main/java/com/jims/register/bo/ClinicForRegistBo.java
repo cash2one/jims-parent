@@ -85,16 +85,9 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
      * 查询当前天的号表
      * @return
      */
-    public List<ClinicForRegist> findListReg(String status) {
+    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist) {
         List<ClinicForRegist> list=new ArrayList<ClinicForRegist>();
-         if(status.equals("当日")){
-             String currentDate= DateUtils.getDate();
-             list= clinicForRegistDao.findListReg(currentDate);
-         } else if(status.equals("预约")){
-           String tomorrowDate= DateUtils.getTomorrow();
-             list=clinicForRegistDao.findListReg(tomorrowDate);
-         }
-
+        list= clinicForRegistDao.findListReg(clinicForRegist);
         return list;
     }
 

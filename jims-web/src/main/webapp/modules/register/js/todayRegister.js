@@ -39,32 +39,86 @@ function timeDescFormatter(value, rowData, rowIndex) {
     }
 }
 $(function(){
+    /**
+     * 科室下拉框
+     */
+    $('#deptNameId').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name'
+    })
+    /**
+     * 性别下拉框
+     */
+    $('#setId').combobox({
+        data: setData,
+        valueField: 'value',
+        textField: 'label'
+    })
+    /**
+     * 费别下拉框
+     */
+    $('#chargeTypeId').combobox({
+        data: chargeType,
+        valueField: 'id',
+        textField: 'charge_type_name'
+    })
+    /**
+     * 诊别下拉框
+     */
+    $('#clinicTypeId').combobox({
+        data: chargeTypeDict,
+        valueField: 'value',
+        textField: 'label'
+    })
+
+
+
+    getClinicForRegist();
+
+})
+//获取挂号
+function getClinicForRegist(){
     var liHtml="";
+    var deptName=$("#deptNameId").combobox('getValue');
+    var clinicTypeName=$("#clinicTypeNameId").val();
+    var clinicDate=new Date().format('yyyy-MM-dd');
+    //var data={};
+    //data.clinicDept=deptName;
+    //data.clinicDate=clinicDate;
+    //data.clinicLabelName=clinicTypeName;
     /**
      * 获取号表
      */
-    $.get(basePath+'/clinicRegister/findListReg?status='+'当日',function(data){//加载号别
-          liHtml+='<ul>';
-         for(var i=0;i<data.length;i++){
-          liHtml+= '<li onclick="centerTypeActive(this)" input_id="liClinicLabel'+i+'">'+
-                  '<div>' +
-                  '<strong>'+data[i].clinicLabelName+'</strong>' +
-                  ' <input type="hidden" value="'+data[i].id+'" class="simInput" >'+
-                    ' <input type="hidden" value="'+data[i].price+'" input_hidden="liClinicLabel'+i+'" >'+
-                  '</div>' +
-                  '<span style="padding-right:10px;">'+timeDescFormatter(data[i].timeDesc)+'</span>' +
-
-                  '<a href="#" class="color-red">1</a>/5' +
-                  '<span class="color-blue" style="padding-left:10px;">'+data[i].inputCode+'</span>' +
-                  '</li>' ;
-
-         }
+    $.postJSON(basePath+'/clinicRegister/findListReg',"{\"clinicDept\":\""+deptName+"\",\"clinicDate\":\""+clinicDate+"\",\"clinicLabelName\":\""+clinicTypeName+"\"}",function(data){
+        liHtml+='<ul>';
+        for(var i=0;i<data.length;i++){
+            liHtml+= '<li onclick="centerTypeActive(this)" input_id="liClinicLabel'+i+'">'+
+            '<div>' +
+            '<strong>'+data[i].clinicLabelName+'</strong>' +
+            ' <input type="hidden" value="'+data[i].id+'" class="simInput" >'+
+            ' <input type="hidden" value="'+data[i].price+'" input_hidden="liClinicLabel'+i+'" >'+
+            '</div>' +
+            '<span style="padding-right:10px;">'+timeDescFormatter(data[i].timeDesc)+'</span>';
+            var registrationNum=0;
+            var registrationLimits="";
+            if(data[i].registrationNum!=null){
+                registrationNum=data[i].registrationNum;
+            }
+            if(data[i].registrationLimits!='0'){
+                registrationLimits=data[i].registrationLimits
+            }
+            liHtml+='<a href="#" class="color-red">'+registrationNum+'</a>/'+registrationLimits+
+            '<span class="color-blue" style="padding-left:10px;">'+clinicDeptCodeFormatter(data[i].clinicDept, '', '')+'</span>' +
+            '</li>' ;
+        }
         liHtml+='</ul>';
         $("#clinicIndex").html(liHtml);
 
+    },function(){
+        $.messager.alert("提示信息","网络连接失败");
     });
-})
-
+}
 //挂号
 function openDialog(id,name){
     $("#"+id).dialog({title: name}).dialog("open");
@@ -74,7 +128,7 @@ function openDialog(id,name){
     for(var i=0;i<lis.length;i++){
          var li=lis[i];
          var inputName=$(li).attr("input_id");
-        //price=price+$("#")
+         price= Number(price)+ Number($("input[input_hidden]").val());
          var clinicLabel=lis[i].getElementsByTagName("strong")[0].innerHTML;
          labelHtml+='<tbody>' +
          '<tr>' +
@@ -82,9 +136,33 @@ function openDialog(id,name){
          '</tr>' +
          '</tbody>';
     }
+    $("#receiptsId").val(price);
+    $("#receiptsHiddenId").val(price);
+    $("#changeReceiptsId").val("");
     $("#clinicLabe").html(labelHtml);
-
 }
+function closeDialog(id){
+    $("#"+id).dialog("close");
+}
+
+//改变实收触发
+function onchangeInput(){
+   var receipts=$("#receiptsId").val();
+    var receiptsHidden=$("#receiptsHiddenId").val();
+    if(receipts!=receiptsHidden){
+        receipts=receipts-receiptsHidden;
+        if(receipts>0){
+            $("#changeReceiptsId").val(receipts);
+        }else{
+            $.messager.alert("提示信息","输入金额有误，请重新输入");
+            $("#receiptsId").val(receiptsHidden);
+            $("#changeReceiptsId").val("");
+        }
+    }else{
+        $("#changeReceiptsId").val("");
+    }
+}
+//选中号类
 function centerTypeActive(li){
     var classLi=$(li).attr("class");
     if(classLi=='active'){
