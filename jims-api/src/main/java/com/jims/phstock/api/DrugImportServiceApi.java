@@ -14,7 +14,7 @@ public interface DrugImportServiceApi {
     /**
      * 保存药品入库单主单
      * @param entity
-     * @return
+     * @return 0 失败，1成功
      */
     public String save(DrugImportMaster entity);
 

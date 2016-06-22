@@ -49,6 +49,13 @@ public interface OrgRoleVsServiceApi {
     public String delete(OrgRoleVsService orgRoleVsService);
 
     /**
+     * 根据主键进行删除
+     * @param id
+     * @return
+     */
+    public String delete(String id);
+
+    /**
      * 查询所有角色权限
      * @return
      */

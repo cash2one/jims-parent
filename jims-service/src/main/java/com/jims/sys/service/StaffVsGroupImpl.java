@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.sys.api.StaffGroupApi;
 import com.jims.sys.api.StaffVsGroupApi;
+import com.jims.sys.bo.StaffVsGroupBo;
 import com.jims.sys.dao.StaffGroupClassDictDao;
 import com.jims.sys.dao.StaffGroupDictDao;
 import com.jims.sys.dao.StaffVsGroupDao;
@@ -26,38 +27,12 @@ import java.util.List;
 
 public class StaffVsGroupImpl extends CrudImplService<StaffVsGroupDao, StaffVsGroup> implements StaffVsGroupApi {
 
+    @Autowired
+    private StaffVsGroupBo staffVsGroupBo;
     @Override
     public List<StaffVsGroup> saveVsGroup(StaffVsGroupVo<StaffVsGroup> staffVsGroupVo) {
-        List<StaffVsGroup> newUpdateDict = new ArrayList<StaffVsGroup>();
-        List<StaffVsGroup> inserted = staffVsGroupVo.getInserted();
-        List<StaffVsGroup> updated = staffVsGroupVo.getUpdated();
-        List<StaffVsGroup> deleted = staffVsGroupVo.getDeleted();
-        //插入
-        for (StaffVsGroup staffVsGroup : inserted) {
-            staffVsGroup.preInsert();
-            staffVsGroup.setGroupClass(staffVsGroupVo.getGroupClass());
-            staffVsGroup.setGroupCode(staffVsGroupVo.getGroupCode());
-            staffVsGroup.setGroupId(staffVsGroupVo.getGroupId());
-            int num = dao.insert(staffVsGroup);
-        }
-        //更新
-        for (StaffVsGroup staffVsGroup : updated) {
-            staffVsGroup.preUpdate();
-            staffVsGroup.setGroupClass(staffVsGroupVo.getGroupClass());
-            staffVsGroup.setGroupCode(staffVsGroupVo.getGroupCode());
-            staffVsGroup.setGroupId(staffVsGroupVo.getGroupId());
-            int num = dao.update(staffVsGroup);
-        }
-        //删除
-        List<String> ids = new ArrayList<String>();
 
-        for (StaffVsGroup staffVsGroup: deleted) {
-            ids.add(staffVsGroup.getId());
-        }
-        for (String id : ids) {
-            dao.delete(id);
-        }
-        return newUpdateDict;
+        return staffVsGroupBo.saveVsGroup(staffVsGroupVo);
     }
 
     /**
@@ -69,7 +44,7 @@ public class StaffVsGroupImpl extends CrudImplService<StaffVsGroupDao, StaffVsGr
      */
     @Override
     public List<StaffVsGroupVo> findAllListByOrgId(String orgId) {
-        return dao.findAllListByOrgId(orgId);
+        return staffVsGroupBo.findAllListByOrgId(orgId);
     }
 
     /**
@@ -80,7 +55,7 @@ public class StaffVsGroupImpl extends CrudImplService<StaffVsGroupDao, StaffVsGr
      */
     @Override
     public List<StaffVsGroupVo> findOrgStaff(String orgId) {
-        return dao.findOrgStaff(orgId);
+        return staffVsGroupBo.findOrgStaff(orgId);
     }
 
     /**
@@ -91,7 +66,7 @@ public class StaffVsGroupImpl extends CrudImplService<StaffVsGroupDao, StaffVsGr
      */
     @Override
     public List<StaffVsGroupVo> findGroupClass(String id) {
-        return dao.findGroupClass(id);
+        return staffVsGroupBo.findGroupClass(id);
     }
 
     /**
@@ -102,7 +77,7 @@ public class StaffVsGroupImpl extends CrudImplService<StaffVsGroupDao, StaffVsGr
      */
     @Override
     public List<StaffVsGroupVo> findStaffByGroupId(String groupId,String orgId){
-        return dao.findStaffByGroupId(groupId,orgId);
+        return staffVsGroupBo.findStaffByGroupId(groupId,orgId);
     }
 
     /**
@@ -113,7 +88,7 @@ public class StaffVsGroupImpl extends CrudImplService<StaffVsGroupDao, StaffVsGr
      */
     @Override
     public StaffVsGroup findStaffByStaffId(String staffId) {
-        return dao.findStaffByStaffId(staffId);
+        return staffVsGroupBo.findStaffByStaffId(staffId);
     }
 
 }

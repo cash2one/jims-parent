@@ -31,18 +31,6 @@ $(function () {
             });
         }
     })
-    $.extend($.fn.validatebox.defaults.rules, {
-        hasSelected: {
-            validator: function(value,field){
-                var editor = $('#buyPlanTable').datagrid('getEditor',{index:planSelectIndex,field:field})
-                if(editor && !$(editor.target).combogrid('grid').datagrid('getSelected')){
-                    return false
-                }
-                return true
-            },
-            message: '没有选中项'
-        }
-    });
     $.extend($.fn.combobox.methods, {
         addBlurListener: function(jq,param){
             jq.next().children(':text').blur(function(){
@@ -67,10 +55,9 @@ $(function () {
     });
     var base_url = '/service/drug-buy-plan/'
     var username = '采购员'
-        , orgId = parent.config.org_Id
+        , orgId = '1'
         , currentBuyId = '' // 当前采购单据号
         , currentStorage = parent.config.currentStorage
-        , drugDicts = []  // 检索的药品字典数据
         , suppliers = []  // 供应商数据
 
     var planSelectIndex = 0;   // 购买计划表当前选择行索引
@@ -117,6 +104,17 @@ $(function () {
     var endEditing = function () {
         if (planSelectIndex == undefined) {
             return true
+        }
+        var editor = $('#buyPlanTable').datagrid('getEditor',{index:planSelectIndex,field:'drugName'})
+        if(editor){
+            var rows = $(editor.target).combogrid('grid').datagrid('getRows');
+            if(rows.length > 0){
+                if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
+                    $(editor.target).combogrid('grid').datagrid('selectRow',0)
+                }
+            } else {
+                $(editor.target).combogrid('setValue','')
+            }
         }
         if ($('#buyPlanTable').datagrid('validateRow', planSelectIndex)) {
             $('#buyPlanTable').datagrid('endEdit', planSelectIndex);
@@ -165,17 +163,18 @@ $(function () {
                     if (value == '采购金额合计') return '<div style="text-align:right">' + value + '：　　　</div>'
                     return value
                 }},
-                {field: 'drugCode', title: '药名', width: 220, align: "center", editor: {
+                {field: 'drugName', title: '药名', width: 220, halign: "center",align:'left', editor: {
                     type: 'combogrid',
                     options: {
                         panelWidth: 463,
-                        idField: 'drugCode',
+                        idField: 'drugName',
                         textField: 'drugName',
                         required: true,
                         missingMessage: '药名不能为空',
                         fitColumns: true,
-                        validType: ['hasSelected["drugCode"]'],
-                        data: drugDicts,
+                        url : '/service/drug-price/findDrugDictWithFilter?limit=50&orgId='+orgId,
+                        method:'get',
+                        mode:'remote',
                         columns: [[
                             {field: 'drugCode', title: '药品代码', width: 100, align: "center"},
                             {field: 'drugName',
@@ -192,26 +191,10 @@ $(function () {
                                 }
                             }
                         ]],
-                        filter: function (field, row) {
-                            if (field && (row.drugCode && row.drugCode.toUpperCase().indexOf(field.toUpperCase()) == 0)
-                                || (row.inputCode && row.inputCode.toUpperCase().indexOf(field.toUpperCase()) == 0)
-                                || (row.drugName && row.drugName.toUpperCase().indexOf(field.toUpperCase()) == 0)) {
-                                return true
-                            }
-                        },
                         onSelect: function (index, row) {
                             loadDrugPriceData(row)
                         }
                     }
-                }, formatter: function (value) {
-                    if (value == undefined || value == '') return ''
-                    for (var i = 0, j = (drugDicts ? drugDicts.length : 0 ); i < j; i++) {
-                        if (drugDicts[i].drugCode == value) {
-                            value = drugDicts[i].drugName
-                            break
-                        }
-                    }
-                    return '<div style="text-align:left">' + value + '</div>';
                 }},
                 {field: 'supplier', title: '厂家', width: 200, halign: "center",align:'left'},
                 {field: 'packSpec', title: '包装规格', width: 60, align: "center"},
@@ -298,20 +281,16 @@ $(function () {
      */
     var initBtn = function () {
         $('#temporaryNo').combobox({
-            valueField: 'value',
-            textField: 'label',
+            valueField: '0',
+            textField: '0',
             editable: false,
+            url:base_url+'getBuyId?flag=2&orgId='+orgId,
+            method:'get',
+            mode:'remote',
             onSelect: function (record) {
                 planSelectIndex = 0
-                loadDrugBuyPlan(record.value, '2')
+                loadDrugBuyPlan(record[0], '2')
             }
-        })
-        $.get(base_url + 'getBuyId', {flag: '2', orgId: orgId}, function (res) {
-            var _temporaryNo = []
-            for (var i = 0; i < res.length; i++) {
-                _temporaryNo.push({value: res[i][0], label: res[i][0]})
-            }
-            $('#temporaryNo').combobox('loadData', _temporaryNo)
         })
 
         $('#addButton').linkbutton({
@@ -366,7 +345,7 @@ $(function () {
      * @param oldV 选择前的值
      */
     var rollBack = function (oldV) {
-        var editor = $('#buyPlanTable').datagrid('getEditor', {index: planSelectIndex, field: 'drugCode'})
+        var editor = $('#buyPlanTable').datagrid('getEditor', {index: planSelectIndex, field: 'drugName'})
         $(editor.target).combogrid('setValue', oldV)
         $('#buyPlanTable').datagrid('endEdit', planSelectIndex)
     }
@@ -394,6 +373,7 @@ $(function () {
                 return
             }
             _buyPlanTableRow.drugName = drugDict.drugName
+            _buyPlanTableRow.drugCode = drugDict.drugCode
             _buyPlanTableRow.drugSpec = drugPrice.drugSpec
             _buyPlanTableRow.units = drugPrice.units
             _buyPlanTableRow.packSpec = drugPrice.drugSpec
@@ -476,26 +456,16 @@ $(function () {
     }
 
     /**
-     * 加载药品字典函数
-     * @param orgId 机构ID
-     */
-    var loadDrugDict = function (orgId) {
-        $.ajaxAsync('/service/drug-price/findDrugDict', {orgId: orgId}, function (res) {
-            drugDicts = res
-        }, 'GET', false)
-    }
-
-    /**
      * 加载同一药品的不同规格、厂商等
      * @param drugDict
      */
     var loadDrugPriceData = function (drugDict) {
-        $.ajaxAsync('/service/drug-price/findList', {
+        $.get('/service/drug-price/findList', {
             orgId: drugDict.orgId,
             drugCode: drugDict.drugCode
         }, function (res) {
             showDrugPriceWindow(res, drugDict)
-        }, 'GET', false)
+        })
     }
 
     /**
@@ -519,8 +489,8 @@ $(function () {
      */
     var validateRow = function (row) {
         var _index = $('#buyPlanTable').datagrid('getRowIndex', row)
-        if (!row.drugCode) {
-            onClickCell(_index, 'drugCode')
+        if (!row.drugName) {
+            onClickCell(_index, 'drugName')
             return false
         }
         if (isNaN(row.purchasePrice)) {
@@ -636,7 +606,6 @@ $(function () {
     }
 
     var init = function () {
-        loadDrugDict(orgId)
         loadSupplier(orgId,'供应商')
 
         initBuyPlanTable()

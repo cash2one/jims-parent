@@ -1,10 +1,10 @@
 package com.jims.phstock.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugSupplierCatalogApi;
+import com.jims.phstock.bo.DrugSupplierCatalogBo;
 import com.jims.phstock.entity.DrugSupplierCatalog;
-import com.jims.phstock.dao.DrugSupplierCatalogDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
@@ -13,8 +13,14 @@ import java.util.List;
  * Created by wei on 2016/5/10.
  */
 @Service(version = "1.0.0")
+public class DrugSupplierCatalogServiceImpl implements DrugSupplierCatalogApi {
+    @Autowired
+    private DrugSupplierCatalogBo drugSupplierCatalogBo;
 
-public class DrugSupplierCatalogServiceImpl extends CrudImplService<DrugSupplierCatalogDao, DrugSupplierCatalog> implements DrugSupplierCatalogApi {
+    @Override
+    public String delete(String ids) {
+        return drugSupplierCatalogBo.delete(ids);
+    }
 
     /**
      * 查询所有供货商类别
@@ -25,10 +31,19 @@ public class DrugSupplierCatalogServiceImpl extends CrudImplService<DrugSupplier
      */
     @Override
     public List<DrugSupplierCatalog> list(String orgId) {
-        List<DrugSupplierCatalog> list = dao.list(orgId);
+        List<DrugSupplierCatalog> list = drugSupplierCatalogBo.list(orgId);
         return list;
     }
 
+    @Override
+    public String save(DrugSupplierCatalog drugSupplierCatalog) {
+        return drugSupplierCatalogBo.save(drugSupplierCatalog);
+    }
+
+
+    public String update(DrugSupplierCatalog drugSupplierCatalog) {
+        return drugSupplierCatalogBo.update(drugSupplierCatalog);
+    }
 
     /**
      * 查询全部
@@ -38,7 +53,7 @@ public class DrugSupplierCatalogServiceImpl extends CrudImplService<DrugSupplier
      */
     @Override
     public List<DrugSupplierCatalog> findList(String orgId) {
-        return dao.findList(orgId);
+        return drugSupplierCatalogBo.findList(orgId);
     }
 
     /**
@@ -51,7 +66,7 @@ public class DrugSupplierCatalogServiceImpl extends CrudImplService<DrugSupplier
      */
     @Override
     public List<DrugSupplierCatalog> listDrugSupplierCatalogByInputCode(String orgId, String inputCode) {
-        return dao.listDrugSupplierCatalogByInputCode(orgId, inputCode);
+        return drugSupplierCatalogBo.listDrugSupplierCatalogByInputCode(orgId, inputCode);
     }
 
     /**
@@ -64,6 +79,6 @@ public class DrugSupplierCatalogServiceImpl extends CrudImplService<DrugSupplier
      */
     @Override
     public List<DrugSupplierCatalog> listDrugSupplierCatalogBySupplierType(String orgId, String supplierType) {
-        return dao.listDrugSupplierCatalogBySupplierType(orgId, supplierType);
+        return drugSupplierCatalogBo.listDrugSupplierCatalogBySupplierType(orgId, supplierType);
     }
 }

@@ -5,38 +5,45 @@ package com.jims.register.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.persistence.Page;
 import com.jims.register.api.ClinicIndexServiceApi;
-import com.jims.register.dao.ClinicIndexDao;
+import com.jims.register.bo.ClinicIndexBo;
 import com.jims.register.entity.ClinicIndex;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
 
 
 /**
- * haobieService
+ * 好别Service
  * @author zhaoning
  * @version 2016-05-17
  */
 @Service(version="1.0.0")
+public class ClinicIndexServiceImpl  implements ClinicIndexServiceApi {
 
-public class ClinicIndexServiceImpl extends CrudImplService<ClinicIndexDao, ClinicIndex> implements ClinicIndexServiceApi {
+    @Autowired
+    private ClinicIndexBo clinicIndexBo;
 
-    /**
-     * 保存号别---多条
-     * @param clinicIndexList
-     * @return
-     */
+
+    @Override
+    public Page<ClinicIndex> findPage(Page<ClinicIndex> page,ClinicIndex clinicIndex) {
+        return clinicIndexBo.findPage(page,clinicIndex);
+    }
+
+    @Override
+    public List<ClinicIndex> findList(ClinicIndex clinicIndex) {
+        return clinicIndexBo.findList(clinicIndex);
+    }
+
     @Override
     public String saveList(List<ClinicIndex> clinicIndexList) {
-        String num="";
-        if(clinicIndexList!=null && clinicIndexList.size()>0){
-            for(int i=0;i<clinicIndexList.size();i++){
-                ClinicIndex clinicIndex=clinicIndexList.get(i);
-               num =save(clinicIndex);
-            }
-        }
-        return String.valueOf(num);
+        return clinicIndexBo.saveList(clinicIndexList);
+    }
+
+    @Override
+    public String delete(String id) {
+        return clinicIndexBo.delete(id);
     }
 }

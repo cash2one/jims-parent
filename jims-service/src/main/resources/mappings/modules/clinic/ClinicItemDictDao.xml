@@ -49,8 +49,10 @@
 
     <select id="findList" resultType="ClinicItemDict">
         SELECT
-        <include refid="clinicItemDictColumns"/>
-        FROM clinic_item_dict a
+        <include refid="clinicItemDictColumns"/>,d.dept_name expand3Name,
+        p.freq_desc expand4Name,l.class_name expand2Name,s.label expand1Name
+        FROM clinic_item_dict a,dept_dict d,perform_freq_dict p,lab_item_class_dict l
+        ,(select * from sys_dict where type = 'SPECIMAN_DICT' and del_flag = '0') s
         <include refid="clinicItemDictJoins"/>
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
@@ -64,6 +66,10 @@
             <if test="orgId != null and orgId != ''">
                 AND a.org_id = #{orgId}
             </if>
+            AND a.expand3 = d.id(+)
+            AND a.expand4 = p.id(+)
+            AND a.expand2 = l.id(+)
+            AND a.expand1 = s.value(+)
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -180,10 +186,9 @@
         WHERE id = #{id}
     </update>
 
-    <update id="delete">
-		UPDATE clinic_item_dict SET 
-			del_flag = '1'
+    <delete id="delete">
+		delete from clinic_item_dict
 		WHERE id = #{id}
-	</update>
+	</delete>
 
 </mapper>

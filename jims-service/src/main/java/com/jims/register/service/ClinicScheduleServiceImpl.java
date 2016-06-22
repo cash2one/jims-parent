@@ -4,12 +4,12 @@
 package com.jims.register.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.persistence.Page;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicScheduleApi;
-import com.jims.register.dao.ClinicScheduleDao;
+import com.jims.register.bo.ClinicScheduleBo;
 import com.jims.register.entity.ClinicSchedule;
-
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
@@ -21,29 +21,31 @@ import java.util.List;
  * @version 2016-05-17
  */
 @Service(version = "1.0.0")
+public class ClinicScheduleServiceImpl  implements ClinicScheduleApi {
+    @Autowired
+    private ClinicScheduleBo clinicScheduleBo;
 
-public class ClinicScheduleServiceImpl extends CrudImplService<ClinicScheduleDao, ClinicSchedule> implements ClinicScheduleApi {
     @Override
-    public List<BaseDto> findListTable(ClinicSchedule clinicSchedule) {
-        return dao.findListTable(clinicSchedule);
+    public Page<ClinicSchedule> findPage(Page<ClinicSchedule> page,ClinicSchedule clinicSchedule) {
+        return clinicScheduleBo.findPage(page,clinicSchedule);
+    }
+    @Override
+    public List<ClinicSchedule> findList(ClinicSchedule clinicSchedule) {
+        return clinicScheduleBo.findList(clinicSchedule);
     }
 
-    /**
-     * 保存号别安排
-     * @param list
-     * @return
-     */
     @Override
-    public String saveList(List<ClinicSchedule> list,String clinicIndexId) {
-        String num="";
-        if(list!=null && list.size()>0){
-            for(int i=0;i<list.size();i++){
-                ClinicSchedule clinicSchedule=list.get(i);
-                clinicSchedule.setClinicLabel(clinicIndexId);
-                num= save(clinicSchedule);
-            }
-            dao.batchDel(list,clinicIndexId);
-        }
-        return num;
+    public List<BaseDto> findListTable(ClinicSchedule clinicSchedule) {
+        return clinicScheduleBo.findListTable(clinicSchedule);
+    }
+
+    @Override
+    public String saveList(List<ClinicSchedule> list, String clinicIndexId) {
+        return clinicScheduleBo.saveList(list,clinicIndexId);
+    }
+
+    @Override
+    public String delete(String id) {
+        return clinicScheduleBo.delete(id);
     }
 }

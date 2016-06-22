@@ -1,6 +1,6 @@
 $(function () {
     var base_url = '/service/drug-buy-plan/'
-    var orgId = parent.config.org_Id
+    var orgId = '1'
         ,username = '采购员'
         , drugDicts = []  // 检索的药品字典数据
         , suppliers = []  // 供应商数据
@@ -170,7 +170,7 @@ $(function () {
                 var value = $('#drug_gps').textbox('getText')
                 var tds = $('#buyPlanTable').datagrid('getPanel').find('div.datagrid-body tr td[field="drugCode"]')
                 for(var i=0;i<tds.length-1;i++){
-                    if($('div div',tds[i]).html() && $('div div',tds[i]).html().indexOf(value.toUpperCase()) == 0){
+                    if($('div',tds[i]).html() && $('div',tds[i]).html().indexOf(value.toUpperCase()) == 0){
                         $('#buyPlanTable').datagrid('selectRow',i)
                         return
                     }

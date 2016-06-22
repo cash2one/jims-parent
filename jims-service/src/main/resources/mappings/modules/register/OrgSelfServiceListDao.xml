@@ -26,6 +26,24 @@
 		<include refid="orgSelfServiceListJoins"/>
 		WHERE a.id = #{id}
 	</select>
+
+    <select id="findSelfServiceByOrgIdPersonId" resultType="OrgSelfServiceList">
+      SELECT distinct ser.id, ser.service_name
+      FROM org_role              r,
+           persion_info          p,
+           staff_vs_role         sr,
+           org_staff             s,
+           org_self_service_list ser,
+           org_role_vs_service   rs
+      WHERE p.id = s.persion_id
+      AND s.id = sr.staff_id
+      AND sr.role_id = r.id
+      AND p.id = #{0}
+      AND s.org_id = #{1}
+      AND rs.service_id = ser.id
+      AND rs.role_id = r.id
+      ORDER BY ser.service_name
+    </select>
 	
 	<select id="findList" resultType="OrgSelfServiceList">
 		SELECT 
@@ -108,10 +126,9 @@
 		WHERE id = #{id}
 	</update>
 	
-	<update id="delete">
-		UPDATE org_self_service_list SET 
-			del_flag = '1'
+	<delete id="delete">
+		delete from org_self_service_list
 		WHERE id = #{id}
-	</update>
+	</delete>
 	
 </mapper>

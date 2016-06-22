@@ -68,24 +68,12 @@ $(function () {
     });
 
     var currentSelectIndex   // datagrid 当前选择的行索引
-        ,currentOrgId = parent.config.org_Id  // 当前登录人所属单位ID
+        ,currentOrgId = '1'  // 当前登录人所属单位ID
         ,currentStorage = parent.config.currentStorage  // 当前登录人所属管理单位
         ,currentUsername = '录入者'   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账
         ,drugDicts = []  // 检索的药品字典数据
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
-
-    /**
-     * 加载库存中有余量的药品名称数据
-     */
-    var loadDrugNameData = function(){
-        var chargeType = [{colName:'storage',colValue:currentStorage,operateMethod:"="}]
-        var param = {dictType:'v_drug_stock_name_dict',orgId:currentOrgId,inputParamVos:chargeType}
-        parent.$.postJSON('/service/input-setting/listParam',
-            JSON.stringify(param) ,function(res){
-            drugDicts = res
-        })
-    }
 
     /**
      * 重新加载收货子单位、库房子单位的数据
@@ -105,8 +93,9 @@ $(function () {
      */
     var loadDrugStockData = function (drugDict) {
         var chargeType = [{colName:'storage',colValue:drugDict['storage'],operateMethod:"="},
-            {colName:'drug_code',colValue:drugDict['drug_code'],operateMethod:"="}]
-        var param = {dictType:'v_drug_stock',orgId:drugDict['org_id'],inputParamVos:chargeType}
+            {colName:'drug_code',colValue:drugDict['drugCode'],operateMethod:"="}]
+        var param = {dictType:'v_drug_stock',orgId:drugDict['orgId'],inputParamVos:chargeType}
+
         parent.$.postJSON('/service/input-setting/listParam',
             JSON.stringify(param) ,function(res){
                 showWindow(res, drugDict)
@@ -262,6 +251,17 @@ $(function () {
         if (currentSelectIndex == undefined) {
             return true
         }
+        var editor = $('#dg').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
+        if(editor){
+            var rows = $(editor.target).combogrid('grid').datagrid('getRows');
+            if(rows.length > 0){
+                if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
+                    $(editor.target).combogrid('grid').datagrid('selectRow',0)
+                }
+            } else {
+                $(editor.target).combogrid('setValue','')
+            }
+        }
         if ($('#dg').datagrid('validateRow', currentSelectIndex)) {
             $('#dg').datagrid('endEdit', currentSelectIndex);
             return true;
@@ -411,25 +411,19 @@ $(function () {
                 type: 'combogrid',
                 options: {
                     panelWidth: 333,
-                    idField: 'drug_name',
-                    textField: 'drug_name',
+                    idField: 'drugName',
+                    textField: 'drugName',
                     required: true,
-                    validType: ['hasSelected'],
                     missingMessage: '药名不能为空',
                     fitColumns: true,
-                    data: drugDicts,
+                    url:'/service/drug-stock/findListHasStock?limit=50&orgId='+currentOrgId+'&supplyIndicator=1',
+                    method:'get',
+                    mode:'remote',
                     columns: [[
-                        {field: 'drug_code', title: '药品代码', width: 100, align: "center"},
-                        {field: 'drug_name', title: '药品名称', width: 160, halign: "center", align: "left"},
-                        {field: 'input_code', title: '输入码', width: 70, align: "center"}
+                        {field: 'drugCode', title: '药品代码', width: 100, align: "center"},
+                        {field: 'drugName', title: '药品名称', width: 160, halign: "center", align: "left"},
+                        {field: 'inputCode', title: '输入码', width: 70, align: "center"}
                     ]],
-                    filter: function (field, row) {
-                        if (field && (row['drug_code'] && row['drug_code'].toUpperCase().indexOf(field.toUpperCase()) == 0)
-                            || (row['input_code'] && row['input_code'].toUpperCase().indexOf(field.toUpperCase()) == 0)
-                            || (row['drug_name'] && row['drug_name'].toUpperCase().indexOf(field.toUpperCase()) == 0)) {
-                            return true
-                        }
-                    },
                     onSelect: function (index, row) {
                         loadDrugStockData(row)
                     }
@@ -582,7 +576,6 @@ $(function () {
         width:160,
         editable: false,
         onSelect:function(record){
-            loadDrugNameData()
             $("#dg").datagrid('loadData',[])
             currentSubStorageDeptId = record['id']
             var prefix = record['exportNoPrefix']

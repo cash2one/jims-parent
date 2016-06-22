@@ -20,7 +20,7 @@ public interface DrugPriceListServiceApi {
     /**
      * 保存药品价格数据
      * @param drugPriceList
-     * @return
+     * @return 0失败，1成功
      * @author zhaoning
      * @version 2016-04-23
      */
@@ -28,7 +28,7 @@ public interface DrugPriceListServiceApi {
     /**
      * 保存药品调价数据
      * @param drugPriceModifyVo
-     * @return
+     * @return 0失败，1成功
      * @author txb
      * @version 2016-05-18
      */
@@ -72,7 +72,7 @@ public interface DrugPriceListServiceApi {
     /**
      * 删除数据（单条数据删除，批量删除）
      * @param ids
-     * @return
+     * @return 0失败，1成功
      * @author zhaoning
      * @version 2016-04-23
      */
@@ -117,9 +117,16 @@ public interface DrugPriceListServiceApi {
     public List<DrugDict> findDrugDict(String orgId);
 
     /**
+     * 检索当前日期所属机构的药品
+     * @param orgId 机构ID
+     * @param q 模糊查询字段值
+     * @return
+     */
+    public List<DrugDict> findDrugDict(String orgId,String q);
+    /**
      * 药品价表保存
      * @param drugPriceVo 药品价表实体vo
-     * @return
+     * @return 0失败，1成功
      * @author txb
      */
     public String saveDrugPrice(DrugCatalogChangeVo drugPriceVo);
@@ -137,7 +144,7 @@ public interface DrugPriceListServiceApi {
      * 保存调价记录确认
      * @param drugPriceModifyVo
      * @author txb
-     * @return
+     * @return 0失败，1成功
      */
     public String saveModifyConfirm(DrugCatalogChangeVo<DrugPriceModify> drugPriceModifyVo);
 

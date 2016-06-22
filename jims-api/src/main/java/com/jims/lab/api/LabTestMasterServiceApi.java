@@ -20,7 +20,7 @@ public interface LabTestMasterServiceApi {
      * @author xueyx
      * @version 2016/5/06
      */
-    public void saveAll(LabTestMaster labTestMaster);
+    public String saveAll(LabTestMaster labTestMaster);
 
     /**
      * 住院保存

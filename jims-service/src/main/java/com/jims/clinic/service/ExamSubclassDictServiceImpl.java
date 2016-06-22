@@ -1,14 +1,10 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.clinic.bo.ExamSubClassDictBo;
+import com.jims.common.persistence.Page;
 import com.jims.exam.api.ExamSubclassDictApi;
-import com.jims.clinic.dao.ExamSubclassDictDao;
 import com.jims.exam.entity.ExamSubclassDict;
-
-import com.jims.common.service.impl.CrudImplService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,14 +17,44 @@ import java.util.List;
  * @version 2016-04-27
  */
 @Service(version = "1.0.0")
-
-public class ExamSubclassDictServiceImpl extends CrudImplService<ExamSubclassDictDao,ExamSubclassDict> implements ExamSubclassDictApi{
+public class ExamSubclassDictServiceImpl implements ExamSubclassDictApi{
 
     @Autowired
-    private ExamSubclassDictDao examSubclassDictDao;
+    private ExamSubClassDictBo bo;
+
+    @Override
+    public Page<ExamSubclassDict> findPage(Page<ExamSubclassDict> page, ExamSubclassDict examSubclassDict) {
+        return bo.findPage(page,examSubclassDict);
+    }
+
+    @Override
+    public String save(ExamSubclassDict examSubclassDict) {
+        try {
+            bo.save(examSubclassDict);
+            return "1";
+        } catch (Exception e) {
+        }
+        return "0";
+    }
+
+    @Override
+    public String delete(String ids) {
+        try {
+            bo.delete(ids);
+            return "1";
+        } catch (Exception e) {
+        }
+        return "0";
+    }
+
+    @Override
+    public ExamSubclassDict get(String id) {
+        return bo.get(id);
+    }
+
     @Override
     public List getEx(String examClassName) {
-        return examSubclassDictDao.getEx(examClassName);
+        return bo.getEx(examClassName);
     }
 
     /**
@@ -38,7 +64,7 @@ public class ExamSubclassDictServiceImpl extends CrudImplService<ExamSubclassDic
      */
     @Override
     public List<ExamSubclassDict> findAll() {
-        return dao.findAllList(new ExamSubclassDict());
+        return bo.findAll();
     }
 
     /**
@@ -48,7 +74,7 @@ public class ExamSubclassDictServiceImpl extends CrudImplService<ExamSubclassDic
      */
     @Override
     public List<ExamSubclassDict> findListByOrgId(String orgId) {
-        return dao.findListByOrgId(orgId);
+        return bo.findListByOrgId(orgId);
     }
     /**
      * 获取当前类别子类项目
@@ -58,6 +84,6 @@ public class ExamSubclassDictServiceImpl extends CrudImplService<ExamSubclassDic
      */
     @Override
     public List<ExamSubclassDict> listByClass(String orgId, String className) {
-        return dao.listByClass(orgId,className);
+        return bo.listByClass(orgId,className);
     }
 }

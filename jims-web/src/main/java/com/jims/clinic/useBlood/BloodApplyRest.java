@@ -42,6 +42,8 @@ public class BloodApplyRest {
     @Reference(version = "1.0.0")
     private PatVisitServiceApi patVisitServiceApi;
 
+
+
     /**
      * 点击用血申请获取病人信息通过patient_id获得
      * @return

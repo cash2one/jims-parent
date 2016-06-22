@@ -1,13 +1,18 @@
 package com.jims.register;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
+import com.jims.common.persistence.Page;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicScheduleApi;
 import com.jims.register.entity.ClinicSchedule;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +36,17 @@ public class ClinicScheduleRest {
      */
     @GET
     @Path("findList")
-    public List<ClinicSchedule> findList(@QueryParam("clinicIndexId")String clinicIndexId){
-        List<ClinicSchedule> list=new ArrayList<ClinicSchedule>();
+    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicIndexId")String clinicIndexId,@QueryParam("clinicLabelName")String clinicLabelName,@QueryParam("dayOfWeek")String dayOfWeek,@QueryParam("timeDesc")String timeDesc){
         ClinicSchedule clinicSchedule = new ClinicSchedule();
         clinicSchedule.setClinicLabel(clinicIndexId);
-        list=clinicScheduleApi.findList(clinicSchedule);
-        return list;
+        clinicSchedule.setClinicLabelName(clinicLabelName);
+        clinicSchedule.setDayOfWeek(dayOfWeek);
+        clinicSchedule.setTimeDesc(timeDesc);
+        Page<ClinicSchedule> page = clinicScheduleApi.findPage(new Page<ClinicSchedule>(request, response),clinicSchedule);
+        PageData pageData = new PageData();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
     }
 
     @POST

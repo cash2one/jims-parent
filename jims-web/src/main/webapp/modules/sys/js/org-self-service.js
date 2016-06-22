@@ -199,9 +199,10 @@ $(function() {
         var allRows = $('#orgSelfService').datagrid('getRows');
         for(var i=0;i<allRows.length;i++){
             delete allRows[i].menusTreeData;
-            if(allRows[i].id && allRows[i].menus && allRows[i].menus.length > 0){
+            if(allRows[i].id && allRows[i].updateFlag){
                 rows.push({id:allRows[i].id,menus:allRows[i].menus})
                 delete allRows[i].menus;
+                delete allRows[i].updateFlag;
             }
         }
 
@@ -334,7 +335,9 @@ $(function() {
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row) {
             var menusTreeData = $('#selectedMenu').tree('getRoots');
-            row.menusTreeData = menusTreeData
+            row.menusTreeData = menusTreeData;
+            // 标志此条数据为已修改
+            row.updateFlag = '1';
             var menus = []
             for(var i=0;i<menusTreeData.length;i++){
                 menus.push(chargeMenusData(menusTreeData[i],i+1))
@@ -345,7 +348,6 @@ $(function() {
                     var menu = {
                         selfServiceId:row.id,
                         menuId:data.id,
-                        menuSort:sort,
                         menuEndDate:parent.parent.parseToDate(data.endData)
                     }
                     var childs = data.children
@@ -455,14 +457,15 @@ $(function() {
     //加载机构所选择的服务
     $.get('/service/org-service/find-service',{orgId:currentOrgId},function(res){
         if(res) {
+            var treeIndex  = 0 ;
             for(var i=0;i<res.length;i++){
-                if(res[i].serviceName == '系统管理')continue;
+                if(res[i].serviceName == '系统管理') continue;
                 $('#selectServiceMenu').accordion('add', {
                     title: res[i].serviceName,
-                    content: '<ul class="easyui-tree" id="tree'+i+'"></ul>',
+                    content: '<ul class="easyui-tree" id="tree'+treeIndex+'"></ul>',
                     selected: i == 0
                 });
-                $('#tree'+i).tree({
+                $('#tree'+treeIndex).tree({
                     data:handlerTreeData(res[i].menus,res[i].serviceEndDate),
                     checkbox:true,
                     animate:true,
@@ -479,6 +482,7 @@ $(function() {
                         return c
                     }
                 })
+                treeIndex++;
             }
         }
     })

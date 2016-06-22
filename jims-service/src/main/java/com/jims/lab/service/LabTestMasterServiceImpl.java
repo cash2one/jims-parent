@@ -53,7 +53,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
      */
     //@Override
 
-    public void saveAll(LabTestMaster labTestMaster){
+    public String saveAll(LabTestMaster labTestMaster){
         if(true){//labTestMaster!=null && labTestMaster.getId()!=null
             String a ="";
             //本次住院标识对门诊病人为空
@@ -70,7 +70,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
             labTestMaster.setTestNo(creatTestNo());
             labTestMaster.setBillingIndicator(0);
             labTestMaster.setPrintIndicator(0);
-            save(labTestMaster);
+
              /*门诊医嘱主记录*//*
             OutpOrders outpOrders =new OutpOrders();//门诊医嘱主记录
             outpOrders.setPatientId(labTestMaster.getPatientId());
@@ -146,8 +146,11 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
                     outpOrdersCosts.setPerformedBy(labTestMaster.getPerformedBy());
                     outpOrdersCostsDao.saveOrdersCosts(outpOrdersCosts);*/
                 }
+                String mun= save(labTestMaster);
+                return mun;
             }
         }
+        return "0";
     }
 
 
@@ -167,19 +170,22 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
         SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
         String d1 =format.format(dt);
         String result="";
-        if(d1.equals(no.substring(0,6))){
-            int temp = Integer.valueOf(no.substring(6));
-            temp=temp+1;
-            result = String.format("%4d", temp).replace(" ", "0");
-            if(result.length()>4){
-                result = d1.concat("0000");
+        if(no!=null){
+            if(d1.equals(no.substring(0,6))){
+                int temp = Integer.valueOf(no.substring(6));
+                temp=temp+1;
+                result = String.format("%4d", temp).replace(" ", "0");
+                if(result.length()>4){
+                    result = d1.concat("0000");
+                }else{
+                    result=d1.concat(result);
+                }
             }else{
-                result=d1.concat(result);
+                result=d1.concat("0001");
             }
-        }else{
-            result=d1.concat("0001");
+            return result;
         }
-        return result;
+    return "000000";
     }
 
     /**
