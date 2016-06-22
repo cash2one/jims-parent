@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
  * 身份字典表Entity
  * Created by fyg on 2016/6/21.
  */
-public class IdentityDict extends DataEntity<IdentityDict>{
+public class IdentityDict extends DataEntity<IdentityDict> {
 
     private static final long serialVersionUID = 1L;
     private String identityCode;       //身份代码
@@ -16,6 +16,15 @@ public class IdentityDict extends DataEntity<IdentityDict>{
     private String priorityIndicator;       //优先标志 combobox(1优先，0不优先)
     private String militaryIndicator;       //军人标志 combobox(1是，0否)
     private String inputCodeWb;
+    private String orgId;
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
 
     @Length(min = 0, max = 1, message = "身份代码只能是一位字符或数字")
     public String getIdentityCode() {
