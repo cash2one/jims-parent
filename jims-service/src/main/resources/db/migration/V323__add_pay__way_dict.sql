@@ -9,7 +9,8 @@ create table PAY_WAY_DICT
   INP_INDICATOR     NUMBER(1),
   INPUT_CODE        VARCHAR2(8),
   REGIST_INDICATOR  NUMBER(1),
-  CHARGE_TYPE       VARCHAR2(20)
+  CHARGE_TYPE       VARCHAR2(20),
+  org_id            varchar2(64)
 );
 -- Add comments to the table
 comment on table PAY_WAY_DICT
@@ -31,6 +32,7 @@ comment on column PAY_WAY_DICT.INPUT_CODE
   is '输入码';
 comment on column PAY_WAY_DICT.CHARGE_TYPE
   is '医保类别';
+comment on column pay_way_dict.org_id is '所属组织机构';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table PAY_WAY_DICT
   add constraint PK_PAY_WAY_DICT primary key (ID);
