@@ -132,18 +132,10 @@ function onloadMethod(){
         valueField: 'deptCode',
         textField: 'deptName',
         onSelect: function (n, o) {
-            alert(n.id);
             $("#operatingRoomCode").val(n.deptCode);
-            //$("#operatingRoomNo").combobox({
-            //    data:operationRoomNo,
-            //    valueField: 'room_no',
-            //    textField: 'room_no'
-            //})
-            operationRoomNoformatter(n.id,'','');
+            comboboxLoad(n.deptCode,'operatingRoomNo');
         }
     })
-
-
 }
 
 
