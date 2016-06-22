@@ -1,7 +1,3 @@
-var administration = [{ "value": "1", "text": "科室1" }, { "value": "2", "text": "科室2" }, { "value": "3", "text": "科室3" }, { "value": "4", "text": "科室4" }, { "value": "5", "text": "科室5" }];
-var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医生" }, { "value": "3", "text": "医生" }, { "value": "4", "text": "医生" }, { "value": "5", "text": "医生" }];
-
-
 
 function onloadMethod(){
     $("#treeGrid").dialog("close");
@@ -25,7 +21,7 @@ function onloadMethod(){
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter:formatDateBoxFull},
-            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center'},
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center',formatter:function(data){
                 if(data == '1'){
                     return '未检验';
@@ -46,11 +42,32 @@ function onloadMethod(){
                 }
             }
         ]],
+    //    onExpandRow(index,row){
+    //    alert("1");
+    //}
         view: detailview,
         detailFormatter: function(rowIndex, rowData){
-            return '<table><tr>' +
+
+            var item=[];
+            $.ajax({
+                type:"POST",
+                url: basePath+"/labtest/getItem",
+                contentType: 'application/json',
+                data: testNo=rowData.testNo,
+                async:false,
+                dataType: 'json',
+                success:function(data){
+                    item=data;
+                }
+            })
+
+            return  '<table><tr>' +
                 '<td style="border:0">' +
-                '<p>检验项目: ' + rowData.memo + '</p>' +
+                '<p>检验项目: </p>' +
+                '</td>' +
+                '</tr><tr>' +
+                '<td style="border:0">' +
+                '<p> ' +item[0].itemName + '</p>' +
                 '</td>' +
                 '</tr></table>';
         },
@@ -92,7 +109,7 @@ function onloadMethod(){
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedByFormatter},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });
@@ -105,8 +122,9 @@ function add(){
     clearForm();
     $("#saveBut").show();
     var clinicId=$("#clinicMasterId",window.parent.document).val();
-    var newDate=new Date().toLocaleString();
-    $("#requestedDate").val(newDate);
+    $("#clinicId").val(clinicId);
+    var newDate=new Date();
+    $('#requestedDateTime').datetimebox('setValue',newDate);
     $.ajax({
         //添加
         url: basePath+"/labtest/zhenduan",

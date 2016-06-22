@@ -1,11 +1,3 @@
-var administration = [{"value": "1", "text": "科室1"}, {"value": "2", "text": "科室2"}, {
-    "value": "3",
-    "text": "科室3"
-}, {"value": "4", "text": "科室4"}, {"value": "5", "text": "科室5"}];
-var doctors = [{"value": "1", "text": "医生1"}, {"value": "2", "text": "医生"}, {"value": "3", "text": "医生"}, {
-    "value": "4",
-    "text": "医生"
-}, {"value": "5", "text": "医生"}];
 
 $(function () {
     $("#treeGrid").dialog("close");
@@ -30,7 +22,7 @@ $(function () {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '30%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center'},
+            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
             {
                 field: 'id',
@@ -39,11 +31,6 @@ $(function () {
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';
-                    /*if(row.resultStatus=="1"){
-                     html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                     }else{
-                     html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
-                     }*/
                     html = html + '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     html = html + '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
                     return html;
@@ -54,7 +41,11 @@ $(function () {
         detailFormatter: function (rowIndex, rowData) {
             return '<table><tr>' +
                 '<td style="border:0">' +
-                '<p>检验项目: ' + rowData.memo + '</p>' +
+                '<p>检验项目: </p>' +
+                '</td>' +
+                '</tr><tr>' +
+                '<td style="border:0">' +
+                '<p> ' +itemName + '</p>' +
                 '</td>' +
                 '</tr></table>';
         },
@@ -96,7 +87,7 @@ $(function () {
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center'},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });

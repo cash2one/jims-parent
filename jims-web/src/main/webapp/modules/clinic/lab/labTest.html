@@ -22,7 +22,7 @@
 
     <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
         <form id="form" method="post">
-            <!--<input type="hidden" name="visitId" value="1">-->
+            <input type="hidden" name="clinicId"  id="clinicId" value="">
             <div class="fitem fitem_pop">
                 <div class="fitem">
                     <label>
@@ -41,7 +41,7 @@
                         检验科室：
                     </label>
                     <input type="hidden" name="performedBy" value="" id="performedByCode"  >
-                    <input placeholder="科室"  name="performedBy" id="performedBy"   style="width: 145px;">
+                    <input placeholder="科室"   id="performedBy"   style="width: 145px;">
                 </div>
                 <div class="fitem">
                     <label>
@@ -65,7 +65,7 @@
                     <label>
                         申请时间：
                     </label>
-                    <input id="requestedDate" style="display: none;" name="requestedDateTime" class="easyui-datebox">
+                    <input id="requestedDateTime" style="display: none;" name="requestedDateTime" class="easyui-datetimebox">
                 </div>
                 <table id="items"   cellspacing="0" cellpadding="0">
 
