@@ -1,7 +1,8 @@
 /**
  * Created by fyg on 2016/6/21.
  */
-$(function(){
+$(function () {
+    var orgId = config.org_Id;
     var editIndex;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -17,11 +18,16 @@ $(function(){
         singleSelect: true,
         rownumbers: true,
         method: 'get',
-        url: basePath + '/identity-dict/list',
+        url: basePath + '/identity-dict/list?orgId=' + orgId,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
             field: "id",
+            hidden: true
+        }, {
+            title: "orgId",
+            field: "orgId",
+            align: "center",
             hidden: true
         }, {
             title: "身份代码",
@@ -103,7 +109,7 @@ $(function(){
                     return "否";
                 }
             }
-        },{
+        }, {
             title: "五笔码",
             field: "inputCodeWb",
             align: 'center',
@@ -156,6 +162,7 @@ $(function(){
 
         if (beanChangeVo.inserted.length > 0) {
             for (var i = 0; i < beanChangeVo.inserted.length; i++) {
+                beanChangeVo.inserted[i].orgId = orgId;
                 var identityName = beanChangeVo.inserted[i].identityName;
                 if (typeof (identityName) == 'undefined' || identityName.length == 0) {
                     $.messager.alert('提示', '身份名称不能为空!!', 'error');
@@ -165,12 +172,13 @@ $(function(){
                 var reg = /[\u4e00-\u9fa5]/g;
                 if (reg.test(identityCode)) {
                     $.messager.alert("系统提示", "身份代码只能是一个字母或数字，不能是中文!", "info");
-                    return ;
+                    return;
                 }
             }
         }
         if (beanChangeVo.updated.length > 0) {
             for (var i = 0; i < beanChangeVo.updated.length; i++) {
+                beanChangeVo.updated[i].orgId = orgId;
                 var roleName = beanChangeVo.updated[i].identityName;
                 if (roleName.length == 0) {
                     $.messager.alert('提示', '身份名称不能改为空!!', 'error');
@@ -196,13 +204,13 @@ $(function(){
 
     $("#searchBtn").on("click", function () {
         var name = $("#name").textbox("getValue");
-        $.get(basePath + '/identity-dict/search?identityName=' + name, function (data) {
+        $.get(basePath + '/identity-dict/search?identityName=' + name + '&orgId=' + orgId, function (data) {
             $("#dg").datagrid('loadData', data);
         });
     });
 
     var loadDict = function () {
-        $.get(basePath + '/identity-dict/list', function (data) {
+        $.get(basePath + '/identity-dict/list?orgId=' + orgId, function (data) {
             $("#dg").datagrid('loadData', data);
         });
     }

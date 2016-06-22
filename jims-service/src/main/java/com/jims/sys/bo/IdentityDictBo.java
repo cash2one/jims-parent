@@ -18,10 +18,20 @@ import java.util.List;
  */
 @Component
 @Transactional(readOnly = false)
-public class IdentityDictBo extends CrudImplService<IdentityDictDao,IdentityDict>{
+public class IdentityDictBo extends CrudImplService<IdentityDictDao, IdentityDict> {
 
     @Autowired
     private IdentityDictDao identityDictDao;
+
+    /**
+     * 查询所有记录
+     * @param orgId 所属组织机构
+     * @return
+     * @author fengyuguang
+     */
+    public List<IdentityDict> findList(String orgId) {
+        return identityDictDao.findList(orgId);
+    }
 
     /**
      * 保存增删改
@@ -29,7 +39,7 @@ public class IdentityDictBo extends CrudImplService<IdentityDictDao,IdentityDict
      * @return
      * @author fengyuguang
      */
-    public String merge(BeanChangeVo<IdentityDict> beanChangeVo){
+    public String merge(BeanChangeVo<IdentityDict> beanChangeVo) {
         List<IdentityDict> insertedList = beanChangeVo.getInserted();
         int inNum = 0;
         for (IdentityDict identityDict : insertedList) {
@@ -66,10 +76,11 @@ public class IdentityDictBo extends CrudImplService<IdentityDictDao,IdentityDict
     /**
      * 根据身份名称模糊查询记录
      * @param identityName 身份名称
+     * @param orgId        所属组织机构
      * @return
      * @author fengyuguang
      */
-    public List<IdentityDict> search(String identityName) {
-        return identityDictDao.search(identityName);
+    public List<IdentityDict> search(String identityName, String orgId) {
+        return identityDictDao.search(identityName, orgId);
     }
 }

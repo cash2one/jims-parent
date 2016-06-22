@@ -25,13 +25,14 @@ public class IdentityDictRest {
 
     /**
      * 查询所有记录
-     * @return 身份字典的list集合
+     * @param orgId 所属组织机构
+     * @return
      * @author fengyuguang
      */
     @GET
     @Path("list")
-    public List<IdentityDict> findList(){
-        return identityDictApi.findList();
+    public List<IdentityDict> findList(@QueryParam("orgId") String orgId) {
+        return identityDictApi.findList(orgId);
     }
 
     /**
@@ -57,13 +58,13 @@ public class IdentityDictRest {
 
     /**
      * 根据身份名称模糊查询记录
-     * @param identityName  身份名称
+     * @param identityName 身份名称
      * @return
      * @author fengyuguang
      */
     @GET
     @Path("search")
-    public List<IdentityDict> search(@QueryParam("identityName")String identityName){
-        return identityDictApi.search(identityName);
+    public List<IdentityDict> search(@QueryParam("identityName") String identityName, @QueryParam("orgId") String orgId) {
+        return identityDictApi.search(identityName, orgId);
     }
 }

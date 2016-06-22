@@ -14,10 +14,11 @@ public interface IdentityDictApi {
 
     /**
      * 查询所有记录
-     * @return 身份字典的list集合
+     * @param orgId 所属组织机构
+     * @return
      * @author fengyuguang
      */
-    public List<IdentityDict> findList();
+    public List<IdentityDict> findList(String orgId);
 
     /**
      * 保存增删改
@@ -28,10 +29,11 @@ public interface IdentityDictApi {
     public String merge(BeanChangeVo<IdentityDict> beanChangeVo);
 
     /**
-     * 根据身份名称模糊查询记录
+     * 根据名称查询记录
      * @param identityName 身份名称
+     * @param orgId        所属组织机构
      * @return
      * @author fengyuguang
      */
-    public List<IdentityDict> search(String identityName);
+    public List<IdentityDict> search(String identityName, String orgId);
 }

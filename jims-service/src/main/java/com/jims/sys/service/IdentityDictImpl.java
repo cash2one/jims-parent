@@ -22,11 +22,12 @@ public class IdentityDictImpl implements IdentityDictApi {
 
     /**
      * 查询所有记录
-     * @return 身份字典的list集合
+     * @param orgId 所属组织机构
+     * @return
      * @author fengyuguang
      */
-    public List<IdentityDict> findList(){
-        return identityDictBo.findList(new IdentityDict());
+    public List<IdentityDict> findList(String orgId) {
+        return identityDictBo.findList(orgId);
     }
 
     /**
@@ -35,17 +36,18 @@ public class IdentityDictImpl implements IdentityDictApi {
      * @return
      * @author fengyuguang
      */
-    public String merge(BeanChangeVo<IdentityDict> beanChangeVo){
+    public String merge(BeanChangeVo<IdentityDict> beanChangeVo) {
         return identityDictBo.merge(beanChangeVo);
     }
 
     /**
      * 根据身份名称模糊查询记录
      * @param identityName 身份名称
+     * @param orgId        所属组织机构
      * @return
      * @author fengyuguang
      */
-    public List<IdentityDict> search(String identityName){
-        return identityDictBo.search(identityName);
+    public List<IdentityDict> search(String identityName, String orgId) {
+        return identityDictBo.search(identityName, orgId);
     }
 }
