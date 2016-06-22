@@ -1,21 +1,37 @@
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
 $(function(){
     $.extend($.fn.validatebox.defaults.rules, {
-        hasNode: {
+        minLength: {
             validator: function(value, param){
-                var len = $('.combobox-item[style="display: block;"]',$('#'+param[0]).combobox('panel')).length
-                return len
+                return getByteLen(value) <= param[0];
             },
-            message: '没有符合要求的值！'
+            message: '字符过长.'
         }
     });
 
+    // 当前radio选择值，0 全部，1频次，2给药途径
+    var currentCheckRadio = '1'
+
+    // 获取字符串长度
+    var getByteLen = function(val) {
+        var len = 0;
+        for (var i = 0; i < val.length; i++) {
+            var length = val.charCodeAt(i);
+            if (length >= 0 && length <= 128) {
+                len += 1;
+            }
+            else {
+                len += 2;
+            }
+        }
+        return len;
+    }
     //加载datagrid数据
     var loadData = function(){
         var param = {}
-        if($(':radio[name="operateType"][value="1"]').prop('checked')){
+        if(currentCheckRadio == '1'){
             param.freqDesc = $('#operateCombo').combobox('getValue')
-        } else if($(':radio[name="operateType"][value="2"]').prop('checked')){
+        } else if(currentCheckRadio == '2'){
             param.administration = $('#operateCombo').combobox('getValue')
         }
         $.get('/service/performDefaultSchedule/findList',param,function(res){
@@ -23,18 +39,10 @@ $(function(){
             $("#scheduleTable").datagrid('unselectAll')
         })
     }
-    /**
-     * 加载combobox选框数据
-     * @param type 1 频次，2给药途径
-     */
-    var loadComboData = function(type){
+    //加载combobox选框数据
+    var loadComboData = function(){
         var url = '/service/performDefaultSchedule/findTypeList'
-        if(type == undefined){
-            if($(':radio[name="operateType"][value="1"]').prop('checked')){
-                type = '1'
-            }
-        }
-        if(type == '1'){
+        if(currentCheckRadio == '1'){
             url += '?type=freqDesc'
         }
         $('#operateCombo').combobox('clear')
@@ -42,19 +50,28 @@ $(function(){
     }
 
     $(':radio[name="operateType"][value="0"]').click(function(){
-        loadData()
-        $('#operateCombo').combobox('clear')
-        $('#operateCombo').combobox('disable')
+        if(currentCheckRadio != '0') {
+            currentCheckRadio = '0'
+            loadData()
+            $('#operateCombo').combobox('clear')
+            $('#operateCombo').combobox('disable')
+        }
     })
     $(':radio[name="operateType"][value="1"]').click(function(){
-        loadComboData('1');
-        $('#scheduleTable').datagrid('loadData',[]);
-        $('#operateCombo').combobox('enable')
+        if(currentCheckRadio != '1') {
+            currentCheckRadio = '1'
+            loadComboData('1');
+            $('#scheduleTable').datagrid('loadData', []);
+            $('#operateCombo').combobox('enable')
+        }
     })
     $(':radio[name="operateType"][value="2"]').click(function(){
-        loadComboData('2');
-        $('#scheduleTable').datagrid('loadData',[])
-        $('#operateCombo').combobox('enable')
+        if(currentCheckRadio != '2') {
+            currentCheckRadio = '2'
+            loadComboData('2');
+            $('#scheduleTable').datagrid('loadData', [])
+            $('#operateCombo').combobox('enable')
+        }
     })
 
     $('#operateCombo').combobox({
@@ -140,12 +157,16 @@ $(function(){
     })
     $('#defaultSchedule').textbox({
         width:155,
+        validType:'minLength[16]',
         required:true
     })
     $('#addBtn').click(function(){
         $('#saveForm').form('clear')
         $('#freqDesc').combobox('enable');
         $('#administration').combobox('enable');
+        $('#freqDesc').combobox('disableValidation')
+        $('#administration').combobox('disableValidation')
+        $('#defaultSchedule').combobox('disableValidation')
         $('#dlg').dialog('open')
     })
     $('#editBtn').click(function(){
@@ -168,6 +189,9 @@ $(function(){
     })
 
     $('#saveBtn').click(function(){
+        $('#freqDesc').combobox('enableValidation')
+        $('#administration').combobox('enableValidation')
+        $('#defaultSchedule').combobox('enableValidation')
         if(!$('#freqDesc').combobox('isValid') || !$('#administration').combobox('isValid') || !$('#defaultSchedule').combobox('isValid')){
             return false;
         }
@@ -183,9 +207,9 @@ $(function(){
                     var v = $('#operateCombo').combobox('getValue');
                     loadComboData()
                     if(! v){
-                        if($(':radio[name="operateType"][value="1"]').prop('checked')){
+                        if(currentCheckRadio = '1'){
                             $('#operateCombo').combobox('setValue',$('#freqDesc').combobox('getValue'))
-                        } else if($(':radio[name="operateType"][value="2"]').prop('checked')){
+                        } else if(currentCheckRadio = '2'){
                             $('#operateCombo').combobox('setValue',$('#administration').combobox('getValue'))
                         }
                     } else {
