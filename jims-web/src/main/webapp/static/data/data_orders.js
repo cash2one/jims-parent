@@ -153,10 +153,9 @@ function administrationFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-
     for (var i = 0; i < administrationDict.length; i++) {
-        if (administrationDict[i].value == value) {
-            return administrationDict[i].label;
+        if (administrationDict[i].id == value) {
+            return administrationDict[i].administrationName;
         }
     }
 }
@@ -175,24 +174,7 @@ $.ajax({
     }
 });
 
-/**
- * 途径翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function administrationFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
 
-    for (var i = 0; i < administrationDict.length; i++) {
-        if (administrationDict[i].value == value) {
-            return administrationDict[i].label;
-        }
-    }
-}
 
 
 /**
@@ -206,10 +188,9 @@ function performFreqFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-
     for (var i = 0; i < performFreqDict.length; i++) {
-        if (performFreqDict[i].value == value) {
-            return performFreqDict[i].label;
+        if (performFreqDict[i].id == value) {
+            return performFreqDict[i].freqDesc;
         }
     }
 }

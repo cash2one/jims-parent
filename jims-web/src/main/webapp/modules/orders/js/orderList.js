@@ -12,11 +12,15 @@ $(function(){
         striped: true,
         border: true,
         collapsible:false,//是否可折叠的
-        method:'get',
+        //fit: true,//自动大小
+        method:'GET',
         url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize(),
+        //sortName: 'code',
+        //sortOrder: 'desc',
         remoteSort:false,
         idField:'id',
-        singleSelect:true,//是否单选
+        singleSelect:false,//是否单选
+        pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
             {field:'repeatIndicator',title:'长',width:'5%',align:'center',formatter:itemFormatter,editor:{
@@ -34,7 +38,7 @@ $(function(){
                     required:true,
                     data :Oclass,
                     valueField:'value',
-                    textField:'text',
+                    textField:'label',
                     required:true
                 }
             }},
@@ -77,8 +81,7 @@ $(function(){
                     required:true,
                     data :billingAttr,
                     valueField:'value',
-                    textField:'text',
-                    required:true
+                    textField:'label'
                 }
             }},
             {field:'dosage',title:'剂量',width:'5%',align:'center',editor:{type:'textbox',options:{editable:true,disable:false}}},
@@ -89,8 +92,7 @@ $(function(){
                     required:true,
                     data :administrationDict,
                     valueField:'id',
-                    textField:'administrationName',
-                    required:true
+                    textField:'administrationName'
                 }
             }},
             {field:'frequency',title:'频次',width:'5%',align:'center',formatter:performFreqFormatter,editor:{
@@ -99,15 +101,12 @@ $(function(){
                     required:true,
                     data :performFreqDict,
                     valueField:'id',
-                    textField:'freqDesc',
-                    required:true,
-                    onSelect:function(rec){
+                    textField:'freqDesc'
 
-                    }
                 }
             }},
-            {field:'conversionDateTime',title:'执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'',title:'阴阳',width:'5%',align:'center'},
+            {field:'freqDetail',title:'执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            /*{field:'',title:'阴阳',width:'5%',align:'center'},*/
             {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',editor:{type: 'datebox'}},
             {field:'freqDetail',title:'医生说明',width:'10%',align:'center',editor:'text'},
             {field:'doctor',title:'医生',width:'10%',align:'center',editor:'text',
@@ -189,7 +188,7 @@ $(function(){
             var row = $('#orderList').datagrid('getSelected');
             var dataGrid=$('#orderList');
             var row = $('#orderList').datagrid('getSelected');
-            var status = row.orderStatus;
+           // var status = row.orderStatus;
                 if(!dataGrid.datagrid('validateRow', rowNum)){
                     return false//新开
                 }else{
@@ -198,7 +197,7 @@ $(function(){
                             dataGrid.datagrid('endEdit', rowNum);
                         }
                         rowNum=rowIndex;
-                        dataGrid.datagrid('beginEdit', rowIndex);
+                        dataGrid.datagrid('beginEdit', rowNum);
                     }
                 }
 

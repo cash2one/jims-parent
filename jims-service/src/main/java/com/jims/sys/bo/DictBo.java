@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
+ * 字典表bo事务处理层
  * Created by fyg on 2016/6/16.
  */
 @Service
@@ -22,7 +24,6 @@ public class DictBo extends CrudImplService<DictDao, Dict> {
 
     /**
      * 查询字典表的类型和描述这两个字段
-     *
      * @return 类型描述的列表list集合
      * @author fengyuguang
      */
@@ -32,7 +33,6 @@ public class DictBo extends CrudImplService<DictDao, Dict> {
 
     /**
      * 根据字典表的类型查询属于该类型的数据列表
-     *
      * @param type 字典表类型
      * @return 字典表某类的列表集合
      * @author fengyuguang
@@ -43,7 +43,6 @@ public class DictBo extends CrudImplService<DictDao, Dict> {
 
     /**
      * 根据类型或描述模糊查询
-     *
      * @param type
      * @param description
      * @return 查询到的字典表List集合
@@ -55,7 +54,6 @@ public class DictBo extends CrudImplService<DictDao, Dict> {
 
     /**
      * 保存增删改多条数据
-     *
      * @param beanChangeVo 多条数据的Vo类
      * @return 操作数据条数
      * @author fengyuguang
@@ -74,6 +72,8 @@ public class DictBo extends CrudImplService<DictDao, Dict> {
 
         int updNum = 0;
         for (Dict dict : updatedList) {
+            Date date = new Date();
+            dict.setUpdateDate(date);
             updNum = dao.update(dict);
             updNum++;
         }
