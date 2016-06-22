@@ -72,6 +72,15 @@ $(function(){
         textField: 'label'
     })
 
+    /**
+     * 诊别下拉框
+     */
+    $('#identityId').combobox({
+        data: identityDict,
+        valueField: 'id',
+        textField: 'identityName'
+    })
+
 
 
     getClinicForRegist();
