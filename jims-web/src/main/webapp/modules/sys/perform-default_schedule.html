@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>医嘱执行缺省时间维护</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../static/easyui/css/icon.css">
+    <script type="text/javascript" src="../../static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../../static/easyui/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../static/js/spell.js"></script>
+
+</head>
+<body>
+<table id="scheduleTable"></table>
+<div id="tb" style="padding:5px;height:auto;">
+    <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" name="operateType" value="0">所有</input>
+        <input type="radio" name="operateType" value="1" checked="checked">频次</input>
+        <input type="radio" name="operateType" value="2">途径</input>
+        <input id="operateCombo">
+        <a href="#" id="addBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+        <a href="#" id="editBtn" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>
+        <a href="#" id="delBtn" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a>
+    </div>
+</div>
+
+<div id="dlg" class="easyui-dialog"
+     closed="true" buttons="#dlg-buttons" data-options="title:'添加',width:300">
+    <from id="saveForm">
+        <input style="display: none" id="id" />
+        <div class="fitem" >
+            <label for="freqDesc">　　执行频率:</label>
+            <input id="freqDesc">
+        </div>
+        <div class="fitem" >
+            <label for="administration">　　给药途径:</label>
+            <input id="administration">
+        </div>
+        <div class="fitem" >
+            <label for="defaultSchedule">缺省执行时间:</label>
+            <input id="defaultSchedule">
+        </div>
+    </from>
+</div>
+
+<div id="dlg-buttons" style="text-align: center">
+    <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok"  style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">关闭</a>
+</div>
+<script src="js/perform-default_schedule.js"></script>
+</body>
+</html>
