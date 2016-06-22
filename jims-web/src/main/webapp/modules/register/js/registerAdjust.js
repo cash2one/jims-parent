@@ -40,6 +40,11 @@ function timeDescFormatter(value, rowData, rowIndex) {
     }
 }
 function onloadMethod(){
+    $('#timeDescId').combobox({
+        data: timeInterval,
+        valueField: 'time_interval_code',
+        textField: 'time_interval_name'
+    })
     $('#list_data_num').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -59,7 +64,7 @@ function onloadMethod(){
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
             {field:'clinicDate',title:'出诊日期',width:'18%',align:'center',formatter:formatDatebox},
-            {field:'clinicLabelName',title:'号别名称',width:'21%',align:'center'},
+            {field:'clinicLabelName',title:'号别名称',width:'20%',align:'center'},
             {field:'timeDesc',title:'出诊时间',width:'15%',align:'center',formatter:timeDescFormatter
             },
             {field:'registrationLimits',title:'限号数',width:'15%',align:'center',editor:{type:'numberbox'},formatter:function(value, rowData, rowIndex){
@@ -105,5 +110,34 @@ function onloadMethod(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+}
+/**
+ * 查询
+ */
+function searchClinicAdjust(){
+    var timeInterval=$("#timeDescId").combobox('getValue');
+    var clinicDate=$("#clinicDateId").datebox('getValue');
+    var clinicIndexName=$("#clinicNameId").val();
+    $("#list_data_num").datagrid('reload',{"clinicIndexName":clinicIndexName,"timeDesc":timeInterval,"clinicDateStr":clinicDate});
+}
+/**
+ * 修改
+ */
+function update(){
+    $("#list_data_num").datagrid('endEdit', rowNum);
+    var  rows=$('#list_data_num').datagrid('getRows');
+    var tableJson=JSON.stringify(rows);
+    //alert(tableJson);
+    $.postJSON(basePath+'/clinicRegister/update',tableJson,function(data){
+        if(data.code=='1'){
+            $.messager.alert("提示消息","保存成功");
+            $('#list_data_num').datagrid('load');
+            $('#list_data_num').datagrid('clearChecked');
+        }else{
+            $.messager.alert('提示',"保存失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"保存失败", "error");
+    })
 }
 

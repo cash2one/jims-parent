@@ -14,6 +14,12 @@ import java.util.List;
  */
 public interface ClinicForRegisterSerivceApi {
 
+    /**
+     * 批量修改
+     * @param clinicForRegistList
+     * @return
+     */
+    public String  updateBatch(List<ClinicForRegist> clinicForRegistList);
 
     /**
      * 分页查询啊

@@ -5,6 +5,7 @@ import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.DateUtils;
 import com.jims.register.api.ClinicForRegisterSerivceApi;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicSchedule;
@@ -36,7 +37,8 @@ public class ClinicForRegisterRest {
      */
     @GET
     @Path("findList")
-    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicDate")Date clinicDate,@QueryParam("timeDesc")String timeDesc,@QueryParam("clinicIndexName")String clinicIndexName){
+    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicDateStr")String  clinicDateStr,@QueryParam("timeDesc")String timeDesc,@QueryParam("clinicIndexName")String clinicIndexName){
+        Date clinicDate= DateUtils.parseDate(clinicDateStr);
         ClinicForRegist clinicForRegist=new ClinicForRegist();
         clinicForRegist.setClinicLabelName(clinicIndexName);
         clinicForRegist.setTimeDesc(timeDesc);
@@ -59,9 +61,7 @@ public class ClinicForRegisterRest {
     @POST
     @Path("saveRegister")
     public StringData saveRegister (List<ClinicSchedule> clinicSchedules,@QueryParam("startTime")String  startTime,@QueryParam("endTime")String  endTime)throws Exception{
-
         StringData data= new StringData();
-        SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd");
         data.setCode(clinicForRegisterSerivceApi.saveRegister(clinicSchedules,startTime,endTime));
         return data;
     }
@@ -86,7 +86,6 @@ public class ClinicForRegisterRest {
     @GET
     @Path("findListReg")
     public List<ClinicForRegist> findListReg(@QueryParam("status")String status){
-
         return clinicForRegisterSerivceApi.findListReg(status);
     }
 
@@ -102,4 +101,18 @@ public class ClinicForRegisterRest {
         data.setCode(clinicForRegisterSerivceApi.saveClinic(clinicMaster));
         return data;
     }
+    /**
+     * 保存挂号信息
+     * @param
+     * @return
+     */
+    @POST
+    @Path("update")
+    public StringData update(List<ClinicForRegist> clinicForRegistList){
+        StringData data=new StringData();
+        clinicForRegisterSerivceApi.updateBatch(clinicForRegistList);
+        data.setCode("1");
+        return data;
+    }
+
 }
