@@ -88,7 +88,7 @@ public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo
     /**
      * 根据身份证号查询相关的信息
      * @param cardNo
-     * @return         
+     * @return
      */
     @Override
     public PersionInfo findInfoByCardNo(String cardNo) {
