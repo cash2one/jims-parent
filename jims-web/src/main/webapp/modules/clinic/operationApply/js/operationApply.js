@@ -28,9 +28,10 @@ function operationFormatter(value,rowData,rowIndex){
 }
 
 var rowNum=-1;
-$(function(){
+function onloadMethod(){
     var cId=$("#clinicMasterId",parent.document).val();
     $("#clinicId").val(cId);
+
     $.ajax({
         method:"POST",
         url:basePath+"/operatioinOrder/getScheduleOut",
@@ -123,11 +124,27 @@ $(function(){
 
             }
         }
-
-
     });
-});
 
+    //手术室下拉框
+    $('#operatingRoom').combobox({
+        data:operatingRoom,
+        valueField: 'deptCode',
+        textField: 'deptName',
+        onSelect: function (n, o) {
+            alert(n.id);
+            $("#operatingRoomCode").val(n.deptCode);
+            //$("#operatingRoomNo").combobox({
+            //    data:operationRoomNo,
+            //    valueField: 'room_no',
+            //    textField: 'room_no'
+            //})
+            operationRoomNoformatter(n.id,'','');
+        }
+    })
+
+
+}
 
 
 /**

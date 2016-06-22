@@ -161,9 +161,25 @@ public class DeptDictRest {
         List<DeptDict> list = deptDictApi.findList(dept);
         return list;
     }
+
+    /**
+     * 查询检验科室
+     * @return
+     */
     @Path("getList")
     @POST
     public List<DeptDict> getList(){
         return deptDictApi.getList();
+    }
+
+    /**
+     * 手术科室
+     * @return
+     */
+    @Path("getOperation")
+    @POST
+    public List<DeptDict> getOperation(){
+        List<DeptDict> operationList=deptDictApi.getOperation();
+        return operationList;
     }
 }
