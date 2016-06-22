@@ -169,8 +169,8 @@ $(function () {
                         //dRow获取id添加到拖拽pid  sRow获取拖拽后的菜单组
                         appendMenu(sRow,dRow,point);
 
-                        action(sRow, dRow, point);
-                        tr.removeClass('treegrid-row-append treegrid-row-top treegrid-row-bottom');
+                        //action(sRow, dRow, point);
+                        //tr.removeClass('treegrid-row-append treegrid-row-top treegrid-row-bottom');
                         loadMenu();
 
 
@@ -553,7 +553,7 @@ $(function () {
                         $.postJSON(basePath + "/menuDict/updateReturnObject", JSON.stringify(menuList[x]), function (data) {
                         });
                     }
-
+                    loadMenu();
                 }
 
 
