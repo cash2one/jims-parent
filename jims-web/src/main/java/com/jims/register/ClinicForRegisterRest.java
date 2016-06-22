@@ -83,10 +83,10 @@ public class ClinicForRegisterRest {
      * 查询当前日期的号表
      * @return
      */
-    @GET
+    @POST
     @Path("findListReg")
-    public List<ClinicForRegist> findListReg(@QueryParam("status")String status){
-        return clinicForRegisterSerivceApi.findListReg(status);
+    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist){
+        return clinicForRegisterSerivceApi.findListReg(clinicForRegist);
     }
 
     /**
