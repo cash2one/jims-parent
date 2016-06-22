@@ -53,5 +53,11 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
      * @return
      */
     public List<DeptDict> findListByCode(@Param("code")String code);
+
+    /**
+     * 查询所有科室
+     * @return
+     */
+    public List<DeptDict> getList();
 	
 }

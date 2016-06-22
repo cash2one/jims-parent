@@ -1,10 +1,10 @@
 package com.jims.register.api;
 
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.common.persistence.Page;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicSchedule;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,6 +13,22 @@ import java.util.List;
  * @author  zhaoning
  */
 public interface ClinicForRegisterSerivceApi {
+
+    /**
+     * 批量修改
+     * @param clinicForRegistList
+     * @return
+     */
+    public String  updateBatch(List<ClinicForRegist> clinicForRegistList);
+
+    /**
+     * 分页查询啊
+     * @param page
+     * @param clinicForRegist
+     * @return
+     */
+    public Page<ClinicForRegist> findPage(Page<ClinicForRegist> page,ClinicForRegist clinicForRegist);
+
     /**
      * 查询号表 list
      * @param clinicForRegist

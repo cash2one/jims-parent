@@ -35,6 +35,15 @@ $(function () {
         $('#centerIframe').attr('src','/modules/sys/public-dict.html');
         $(this).parent().addClass('active')
     });
+
+    /**
+     * 医嘱执行缺省时间维护
+     */
+    $("#defaultSchedule").on("click", function () {
+        $(this).parent().siblings().removeClass('active');
+        $('#centerIframe').attr('src','/modules/sys/perform-default_schedule.html');
+        $(this).parent().addClass('active')
+    });
     /**
      * 退出
      */

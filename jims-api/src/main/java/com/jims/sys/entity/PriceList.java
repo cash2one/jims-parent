@@ -60,6 +60,15 @@ public class PriceList extends DataEntity<PriceList> {
     private String orgId; //组织机构
 
     private String priceType; // 药品分类，多个以逗号隔开（）
+    private String q;  // 过滤字段
+
+    public String getQ() {
+        return q;
+    }
+
+    public void setQ(String q) {
+        this.q = q;
+    }
 
     public String getPriceType() {
         return priceType;

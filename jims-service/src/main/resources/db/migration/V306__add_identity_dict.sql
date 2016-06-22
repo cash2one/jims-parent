@@ -24,9 +24,9 @@ comment on column IDENTITY_DICT.IDENTITY_NAME
 comment on column IDENTITY_DICT.INPUT_CODE
   is '输入码';
 comment on column IDENTITY_DICT.PRIORITY_INDICATOR
-  is '优先标志';
+  is '优先标志(1优先，0不优先)';
 comment on column IDENTITY_DICT.MILITARY_INDICATOR
-  is '军人标志';
+  is '军人标志(1是，0否)';
 comment on column IDENTITY_DICT.INPUT_CODE_WB
   is '五笔码';
 -- Create/Recreate primary, unique and foreign key constraints

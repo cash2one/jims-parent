@@ -4,11 +4,10 @@
 package com.jims.register.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.persistence.Page;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicScheduleApi;
 import com.jims.register.bo.ClinicScheduleBo;
-import com.jims.register.dao.ClinicScheduleDao;
 import com.jims.register.entity.ClinicSchedule;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +25,10 @@ public class ClinicScheduleServiceImpl  implements ClinicScheduleApi {
     @Autowired
     private ClinicScheduleBo clinicScheduleBo;
 
-
+    @Override
+    public Page<ClinicSchedule> findPage(Page<ClinicSchedule> page,ClinicSchedule clinicSchedule) {
+        return clinicScheduleBo.findPage(page,clinicSchedule);
+    }
     @Override
     public List<ClinicSchedule> findList(ClinicSchedule clinicSchedule) {
         return clinicScheduleBo.findList(clinicSchedule);

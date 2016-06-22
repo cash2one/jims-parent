@@ -42,6 +42,10 @@ public class DrugStock extends DataEntity<DrugStock> {
 	private Integer supplyIndicator;		// 供应标志
 	private Integer supplyMz;		// 适用门诊住院
 	private String orgId;		// 所属组织结构
+
+    private String drugName;  // 药品名称
+    private String inputCode;  // 拼音码
+    private String q;  // 模糊查询字段
 	
 	public DrugStock() {
 		super();
@@ -51,7 +55,31 @@ public class DrugStock extends DataEntity<DrugStock> {
 		super(id);
 	}
 
-	@Length(min=1, max=8, message="库存管理单位长度必须介于 1 和 8 之间")
+    public String getQ() {
+        return q;
+    }
+
+    public void setQ(String q) {
+        this.q = q;
+    }
+
+    public String getDrugName() {
+        return drugName;
+    }
+
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
+
+    public String getInputCode() {
+        return inputCode;
+    }
+
+    public void setInputCode(String inputCode) {
+        this.inputCode = inputCode;
+    }
+
+    @Length(min=1, max=8, message="库存管理单位长度必须介于 1 和 8 之间")
 	public String getStorage() {
 		return storage;
 	}

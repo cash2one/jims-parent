@@ -1,6 +1,8 @@
 package com.jims.clinic.clinicinspect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.clinic.api.EmrDiagnosisServiceApi;
+import com.jims.clinic.entity.EmrDiagnosis;
 import com.jims.exam.api.ExamAppointsServiceApi;;
 import com.jims.clinic.api.OutpOrdersCostsServiceApi;
 import com.jims.clinic.api.OutpTreatRecServiceApi;
@@ -12,10 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
 /**
@@ -29,6 +28,9 @@ public class ClinicInspectRest {
 
     @Reference(version = "1.0.0")
     private ExamAppointsServiceApi examAppointsServiceApi;
+    @Reference(version = "1.0.0")
+    private EmrDiagnosisServiceApi emrDiagnosisServiceApi;
+
 
     @Path("list")
     @GET
@@ -39,7 +41,12 @@ public class ClinicInspectRest {
         pageData.setTotal(page.getCount());
         return pageData;
     }
-
+    @Path("getDescription")
+    @GET
+    public EmrDiagnosis getDescription(@QueryParam("clinicIds") String clinicIds){
+       EmrDiagnosis emrDiagnosis= emrDiagnosisServiceApi.getDescription(clinicIds);
+       return emrDiagnosis;
+    }
     /**
      * 获取单条数据
      * @param id

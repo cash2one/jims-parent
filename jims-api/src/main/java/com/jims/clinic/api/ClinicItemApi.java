@@ -89,7 +89,7 @@ public interface ClinicItemApi {
      * @param entity
      * @return
      */
-    public List<ClinicItemNameDict> findNameList(ClinicItemDict entity);
+    public List<ClinicItemNameDict> findNameList(ClinicItemNameDict entity);
 
     /**
      * 批量保存临床诊疗项目名称(正/别名)数据（插入或更新）
@@ -131,7 +131,7 @@ public interface ClinicItemApi {
      * @param entity
      * @return
      */
-    public List<ClinicVsCharge> findVsList(ClinicItemDict entity);
+    public List<ClinicVsCharge> findVsList(ClinicVsCharge entity);
 
     /**
      * 保存临床诊疗与价表对照数据（插入或更新）
@@ -189,14 +189,9 @@ public interface ClinicItemApi {
      * @param list ClinicItemDict对象序列
      *          如果ClinicItemDict对象delFlag为1，该对象为删除数据参数。
      *                      该对象的Id为需要删除的数据的Id(也有可能是多个Id以‘ , ’拼接的ID字符串)
-     *          如果ClinicItemDict对象updateFlag为1，该对象为诊疗项目有修改操作的正别名、对照的修改删除数据参数。
-     *                      该对象的saveNameList属性为需要保存的正别名数据
-     *                      saveVsList为需要保存的对照数据
-     *                      delNameIds为需要删除的正别名数据的Id，多个以‘ , ’隔开
-     *                      delVsIds为需要删除的对照数据的Id，多个以‘ , ’隔开
-     *          其余为诊疗项目保存的数据，
-     *                      如果为新建项目，则saveNameList为新建的正别名数据
-     *                      saveVsList  为新建的对照数据
+     *          其余为诊疗项目保存的数据(ClinicItemDict数据没有itemCode则只处理正别名、对照)，
+     *                      saveNameList为正别名数据
+     *                      saveVsList  为对照数据
      *
      * @return 0 失败，1成功
      */

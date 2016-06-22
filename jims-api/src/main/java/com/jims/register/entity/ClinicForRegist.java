@@ -33,7 +33,11 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 	private String clinicType;
 	private String inputCode;
 	private String clinicPosition;
-	
+
+    //扩展
+	private String clinicLabelName; //号别名称
+    private String price;// 号表价格
+
 	public ClinicForRegist() {
 		super();
 	}
@@ -42,11 +46,10 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 		super(id);
 	}
 
-	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getClinicDate() {
 		return clinicDate;
 	}
-	@JsonSerialize(using = CustomDateSerializer.class)
+
 	public void setClinicDate(Date clinicDate) {
 		this.clinicDate = clinicDate;
 	}
@@ -164,4 +167,20 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 	public void setClinicPosition(String clinicPosition) {
 		this.clinicPosition = clinicPosition;
 	}
+
+    public String getClinicLabelName() {
+        return clinicLabelName;
+    }
+
+    public void setClinicLabelName(String clinicLabelName) {
+        this.clinicLabelName = clinicLabelName;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 }
