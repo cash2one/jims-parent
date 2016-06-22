@@ -93,8 +93,8 @@ $(function(){
                     required:true,
                     data :administrationDict,
                     valueField:'id',
-                    textField:'administrationName',
-                    required:true
+                    textField:'administrationName'
+
                 }
             }},
             {field:'frequency',title:'频次',width:'5%',align:'center',formatter:performFreqFormatter,editor:{
@@ -103,14 +103,11 @@ $(function(){
                     required:true,
                     data :performFreqDict,
                     valueField:'id',
-                    textField:'freqDesc',
-                    required:true,
-                    onSelect:function(rec){
+                    textField:'freqDesc'
 
-                    }
                 }
             }},
-            {field:'conversionDateTime',title:'执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'freqDetail',title:'执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             /*{field:'',title:'阴阳',width:'5%',align:'center'},*/
             {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',editor:{type: 'datebox'}},
             {field:'freqDetail',title:'医生说明',width:'10%',align:'center',editor:'text'},
