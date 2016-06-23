@@ -157,10 +157,6 @@ $(function() {
         if(!endEditing()) return false
         var row = $('#orgSelfService').datagrid('getSelected');
         if(row){
-            if(row.serviceName == '系统管理'){
-                $.messager.alert('警告','系统管理服务菜单不能修改！');
-                return
-            }
             var index = $('#selectServiceMenu').accordion('getPanelIndex',$('#selectServiceMenu').accordion('getSelected'))
             crearTreeCheck()
             if(row.menus){
@@ -317,10 +313,11 @@ $(function() {
                             node = undefined;
                             break;
                         }
-                        if(i == treeNum - 1)
-                            child = $('#selectedMenu').tree('getChildren',parent.target);
                     }
+                    if(parent && i == treeNum - 1)
+                        child = $('#selectedMenu').tree('getChildren',parent.target);
                 }
+
                 if(node)
                     node = parent;
             } while(node && (!child || child.length == 0))
@@ -459,7 +456,6 @@ $(function() {
         if(res) {
             var treeIndex  = 0 ;
             for(var i=0;i<res.length;i++){
-                if(res[i].serviceName == '系统管理') continue;
                 $('#selectServiceMenu').accordion('add', {
                     title: res[i].serviceName,
                     content: '<ul class="easyui-tree" id="tree'+treeIndex+'"></ul>',
