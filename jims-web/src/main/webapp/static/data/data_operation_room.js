@@ -58,7 +58,7 @@ function operationRoomNoFormatter(value, id, rowData, rowindex) {
  * @param q
  * @param id
  */
-function comboboxLoad(q, id) {
+function comboboxLoad(q, id,operatingRoomNoId) {
     if (q != '' && q != null) {
         var InputParamVo = {};
         InputParamVo.colName = 'DEPT_ID';
@@ -77,7 +77,10 @@ function comboboxLoad(q, id) {
                 $("#" + id).combobox({
                     data: data,
                     valueField: 'id',
-                    textField: 'room_no'
+                    textField: 'room_no',
+                    onSelect:function(data1){
+                        $("#"+operatingRoomNoId).val(data1.room_no);
+                    }
                 })
             }
         });
