@@ -3,98 +3,24 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>云his工作平台</title>
-    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
-    <script type="text/javascript" src="/static/js/head.js"></script>
-    <script type="text/javascript" src="../sys/js/unitInContract.js"></script>
+    <link rel="stylesheet" href="/static/easyui/css/color.css">
+    <link rel="stylesheet" href="/static/easyui/css/icon.css">
 </head>
-<body onload="onloadMethod()">
-
-<table id="list_data" width="100%"  cellspacing="0" cellpadding="0">
-
+<body>
+<table id="dg" class="easyui-datagrid">
 </table>
-<div id="dlg" class="easyui-dialog" style="width: 30%; height: 100%; padding: 10px 20px;"
-     closed="true" buttons="#dlg-buttons">
-    <form id="unitInContractForm" method="post">
-        <input name="id"  type="hidden" name="id"/>
-        <div class="fitem fitem_pop">
-            <label>
-                医院：
-            </label>
-            <input name="hosId" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                合同单位代码：
-            </label>
-            <input name="unitCode" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                合同单位名称：
-            </label>
-            <input name="unitName" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                输入码：
-            </label>
-            <input name="inputCode" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                单位地址：
-            </label>
-            <input name="address" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                单位性质：
-            </label>
-            <input name="unitType" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                隶属单位：
-            </label>
-            <input name="subordinateTo" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                就医距离：
-            </label>
-            <input name="distanceToHospital" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                在编人数：
-            </label>
-            <input name="regularNum" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                非编人数：
-            </label>
-            <input name="tempNum" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                离退休人数：
-            </label>
-            <input name="retiredNum" class="easyui-validatebox" required="true" />
-        </div>
-        <div class="fitem fitem_pop">
-            <label>
-                五笔码：
-            </label>
-            <input name="inputCodeWb" class="easyui-validatebox" required="true" />
-        </div>
-    </form>
-    <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveDict()" iconcls="icon-save">保存</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dlg').dialog('close')"
-           iconcls="icon-cancel">取消</a>
-    </div>
+
+<div id="tb" style="padding:2px 5px;">
+    输入码<input type="text" class="easyui-textbox" id="inputCode">
+    &nbsp;查询 <a href="#" id="searchBtn" class="easyui-linkbutton" iconCls="icon-search"></a>
+    <a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">添加</a>
+    <a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+    <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">保存</a>
 </div>
+
+<script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/static/js/head.js"></script>
+<script type="text/javascript" src="../sys/js/unitInContract.js"></script>
 </body>
 </html>
