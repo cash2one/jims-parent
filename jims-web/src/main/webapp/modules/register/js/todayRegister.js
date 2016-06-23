@@ -130,25 +130,27 @@ function getClinicForRegist(){
 }
 //挂号
 function openDialog(id,name){
-    $("#"+id).dialog({title: name}).dialog("open");
-    var lis = $('#clinicIndex li.active');
-    var price=0;
-    var labelHtml="";
-    for(var i=0;i<lis.length;i++){
-         var li=lis[i];
-         var inputName=$(li).attr("input_id");
-         price= Number(price)+ Number($("input[input_hidden]").val());
-         var clinicLabel=lis[i].getElementsByTagName("strong")[0].innerHTML;
-         labelHtml+='<tbody>' +
-         '<tr>' +
-         ' <td name="clinicLabel" class="easyui-validatebox">'+clinicLabel+'</td>' +
-         '</tr>' +
-         '</tbody>';
+    if($("#clinicForm").form("validate")) {
+        $("#"+id).dialog({title: name}).dialog("open");
+        var lis = $('#clinicIndex li.active');
+        var price=0;
+        var labelHtml="";
+        for(var i=0;i<lis.length;i++){
+            var li=lis[i];
+            var inputName=$(li).attr("input_id");
+            price= Number(price)+ Number($("input[input_hidden]").val());
+            var clinicLabel=lis[i].getElementsByTagName("strong")[0].innerHTML;
+            labelHtml+='<tbody>' +
+            '<tr>' +
+            ' <td name="clinicLabel" class="easyui-validatebox">'+clinicLabel+'</td>' +
+            '</tr>' +
+            '</tbody>';
+        }
+        $("#receiptsId").val(price);
+        $("#receiptsHiddenId").val(price);
+        $("#changeReceiptsId").val("");
+        $("#clinicLabe").html(labelHtml);
     }
-    $("#receiptsId").val(price);
-    $("#receiptsHiddenId").val(price);
-    $("#changeReceiptsId").val("");
-    $("#clinicLabe").html(labelHtml);
 }
 function closeDialog(id){
     $("#"+id).dialog("close");
@@ -182,6 +184,7 @@ function centerTypeActive(li){
 }
 //保存信息
 function saveClinic(){
+
     var tableJson="[";
     $('.simInput').each(function (index, element) {
         tableJson+='{"id":"'+$(this).val()+'"},';
@@ -191,7 +194,6 @@ function saveClinic(){
     var formJson=fromJson('clinicForm');
     formJson = formJson.substring(0, formJson.length - 1);
     var submitJson=formJson+",\"clinicForRegists\":"+tableJson+"}";
-
     $.postJSON(basePath+"/clinicRegister/saveClinic",submitJson,function(data){
         if(data.code=="1"){
             $.messager.alert("提示信息","挂号成功");
