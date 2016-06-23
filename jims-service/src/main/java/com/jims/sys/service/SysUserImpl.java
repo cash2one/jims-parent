@@ -25,8 +25,7 @@ import java.io.Serializable;
 @Service(version = "1.0.0")
 public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements SysUserApi, Serializable {
 
-    @Autowired
-    private SysCompanyDao sysCompanyDao;
+
     @Autowired
     private PersionServiceListBo persionServiceListBo;
 
@@ -48,8 +47,7 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
 
 
     public SysCompany findNameByOwner(String loginName) {
-        SysCompany sysCompany = sysCompanyDao.findNameByOwner(loginName);
-        return sysCompany;
+        return persionServiceListBo.findNameByOwner(loginName);
     }
 
 
@@ -61,11 +59,8 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
      */
     @Override
     public SysUser selectLoginName(String loginName) {
-        if (StringUtils.isNotBlank(loginName)){
-            SysUser user = dao.selectLoginName(loginName);
-            return user;
-        }
-        return null;
+
+        return persionServiceListBo.selectLoginName(loginName);
     }
 
     /**
@@ -76,10 +71,6 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
      */
     @Override
     public SysUser selectPassword(String loginName) {
-        if (StringUtils.isNotBlank(loginName)) {
-            SysUser user = dao.selectPasswrod(loginName);
-            return user;
-        }
-        return null;
+        return persionServiceListBo.selectPassword(loginName);
     }
 }

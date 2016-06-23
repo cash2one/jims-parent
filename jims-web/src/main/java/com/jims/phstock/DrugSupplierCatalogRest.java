@@ -28,6 +28,7 @@ public class DrugSupplierCatalogRest {
 
     /**
      * 查询全部
+     *
      * @param orgId
      * @return
      */
@@ -38,7 +39,8 @@ public class DrugSupplierCatalogRest {
     }
 
     /**
-     *查询厂商类别
+     * 查询厂商类别
+     *
      * @param orgId
      * @return
      */
@@ -50,6 +52,7 @@ public class DrugSupplierCatalogRest {
 
     /**
      * 根据supplierType查询
+     *
      * @param orgId
      * @param supplierType
      * @return
@@ -62,6 +65,7 @@ public class DrugSupplierCatalogRest {
 
     /**
      * 根据inputCode查询
+     *
      * @param orgId
      * @param inputCode
      * @return
@@ -74,6 +78,7 @@ public class DrugSupplierCatalogRest {
 
     /**
      * 保存增加和修改
+     *
      * @param examRptPatternVo
      * @return
      */
@@ -85,6 +90,7 @@ public class DrugSupplierCatalogRest {
         for (int i = 0; i < examRptPatternVo.getInserted().size(); i++) {
             DrugSupplierCatalog drugSupplierCatalog = new DrugSupplierCatalog();
             drugSupplierCatalog = (DrugSupplierCatalog) examRptPatternVo.getInserted().get(i);
+            drugSupplierCatalog.preInsert();
             drugSupplierCatalog.setSupplierId(drugSupplierCatalog.getSupplierId());
             drugSupplierCatalog.setSupplier(drugSupplierCatalog.getSupplier());
             drugSupplierCatalog.setSupplierClass(drugSupplierCatalog.getSupplierClass());
@@ -112,7 +118,7 @@ public class DrugSupplierCatalogRest {
             drugSupplierCatalog.setSupplierCode(drugSupplierCatalog.getSupplierCode());
             drugSupplierCatalog.setUsedFlag(drugSupplierCatalog.getUsedFlag());
             drugSupplierCatalog.setOrgId(examRptPatternVo.getOrgId());
-            count = count + Integer.parseInt(drugSupplierCatalogApi.save(drugSupplierCatalog));
+            count = count + Integer.parseInt(drugSupplierCatalogApi.update(drugSupplierCatalog));
         }
         StringData stringData = new StringData();
         if (count == (examRptPatternVo.getInserted().size() + examRptPatternVo.getUpdated().size())) {
@@ -125,6 +131,7 @@ public class DrugSupplierCatalogRest {
 
     /**
      * 删除
+     *
      * @param ids
      * @return
      */

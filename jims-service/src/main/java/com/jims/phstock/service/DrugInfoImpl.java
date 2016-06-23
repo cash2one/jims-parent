@@ -8,6 +8,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.PinYin2Abbreviation;
 import com.jims.phstock.api.DrugDictServiceApi;
 import com.jims.phstock.api.DrugInfoApi;
+import com.jims.phstock.bo.DrugInfoBo;
 import com.jims.phstock.dao.DrugCodingRuleDao;
 import com.jims.phstock.dao.DrugDictDao;
 import com.jims.phstock.dao.DrugInfoDao;
@@ -32,9 +33,11 @@ import java.util.List;
 
 public class DrugInfoImpl extends CrudImplService<DrugInfoDao, DrugInfo> implements DrugInfoApi {
 
+    @Autowired
+    private DrugInfoBo drugInfoBo;
 
     @Override
     public DrugInfo getDrugInfoByDrugCode(String drugCode) {
-        return dao.getDrugInfoByDrugCode(drugCode);
+        return drugInfoBo.getDrugInfoByDrugCode(drugCode);
     }
 }

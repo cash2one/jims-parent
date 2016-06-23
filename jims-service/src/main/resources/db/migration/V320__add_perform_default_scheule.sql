@@ -2,8 +2,8 @@
 create table PERFORM_DEFAULT_SCHEDULE
 (
   ID        varchar2(64),
-  FREQ_DESC        VARCHAR2(16),--外键与频次字典表
-  ADMINISTRATION   VARCHAR2(16),--途径
+  FREQ_DESC        VARCHAR2(64),--外键与频次字典表
+  ADMINISTRATION   VARCHAR2(64),--途径
   DEFAULT_SCHEDULE VARCHAR2(16)--默认执行时间
 );
 -- Add comments to the table
