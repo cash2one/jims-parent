@@ -30,8 +30,17 @@ public class PatsInHospitalRest {
     @Reference(version = "1.0.0")
     PatsInHospitalServiceApi patsInHospitalServiceApi;
     @Path("patientlist")
+    /**
+     * @return java.util.List<com.jims.clinic.vo.ComeDeptVo>    返回类型
+     * @throws
+     * @Title: patientlist
+     * @Description: (加载代入科病人列表)
+     * @author CTQ
+     * @date 2016/6/15
+     */
     @GET
     public List<ComeDeptVo> patientlist(){
+
         List<ComeDeptVo> list = Lists.newArrayList();
         try {
             list = patMasterIndexServiceApi.findWaitFrom();
@@ -41,13 +50,21 @@ public class PatsInHospitalRest {
         return list;
     }
 
-
+    /**
+     * @param       comeDeptVo      传递参数
+     * @return com.jims.common.data.StringData    返回类型
+     * @throws
+     * @Title: save
+     * @Description: (保存入科信息)
+     * @author CTQ
+     * @date 2016/6/15
+     */
     @Path("save")
     @POST
-    public StringData save(HttpServletRequest request,BaseDto baseDto){
+    public StringData save(HttpServletRequest request,ComeDeptVo comeDeptVo){
         StringData stringData=new StringData();
         try {
-            String data = patsInHospitalServiceApi.saveHospInfo(baseDto);
+            String data = patsInHospitalServiceApi.saveHospInfo(comeDeptVo);
             stringData.setCode(data);
             stringData.setData(data.compareTo("0") > 0 ? "success":"error");
         }catch (Exception e){
@@ -55,5 +72,28 @@ public class PatsInHospitalRest {
         }
         return stringData;
     }
+    /**
+     * @param       comeDeptVo      传递参数
+     * @return com.jims.common.data.StringData    返回类型
+     * @throws
+     * @Title: turnOutDept
+     * @Description: (病人转出)
+     * @author CTQ
+     * @date 2016/6/15
+     */
+    @Path("turnOutDept")
+    @POST
+    public StringData turnOutDept(HttpServletRequest request,ComeDeptVo comeDeptVo){
+        StringData stringData=new StringData();
+        try {
+            String data = patsInHospitalServiceApi.turnOutDept(comeDeptVo);
+            stringData.setCode(data);
+            stringData.setData(data.compareTo("0") > 0 ? "success":"error");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return stringData;
+    }
+
 
 }

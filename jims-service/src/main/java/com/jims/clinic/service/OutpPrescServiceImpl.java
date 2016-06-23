@@ -16,6 +16,9 @@ import com.jims.clinic.entity.OutpPresc;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.IdGen;
 import com.jims.common.utils.StringUtils;
+import com.jims.sys.dao.PriceListDao;
+import com.jims.sys.entity.OrgStaff;
+import com.jims.sys.vo.PriceListVo;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,6 +41,8 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     private OutpOrdersCostsDao outpOrdersCostsDao;
     @Autowired
     private ClinicMasterDao clinicMasterDao;
+    @Autowired
+    private PriceListDao priceListDao;
 
     /**
      * @param         outpPresc    传递参数
@@ -70,7 +75,8 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                        op.setClinicId(clinicMaster.getId());
                        op.setItemClass(outpPresc.getItemClass());
                        op.setPrescAttr(outpPresc.getPrescAttr());
-//                       op.setItemNo(1);//暂时不处理
+                       op.setCosts(op.getCharges()/op.getAmount());
+                       op.setItemNo(1);//暂时不处理
                        if(op.getOrderNo() == null ){  // 修改处方新增子药品
                            orderNo = dao.getOrderNo(/*clinicMaster.getOrgId()*/"",clinicMaster.getId());
                            orderNo = orderNo!=null?orderNo+1:1;//根据病人就诊记录ID查询最大orderNo号
@@ -90,10 +96,9 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                            ++i;
                        }
                        // 否则orderNo subOrderNo都按照前台传递的参数存储
-
                        if(op.getId()!=null && !op.getId().equals("")){
                            num = String.valueOf(dao.update(op));
-                           ordersCostsesList.add(makeOutpOrderCosts(op,clinicMaster));
+                           ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }else{
                            Integer prescno = dao.getMaxPrescNo(clinicMaster.getOrgId());
                            /**判断机构下该处方号是否存在，如果存在表示为存在处方增加药品，如果不存在则表示该处方也是新开处方**/
@@ -108,9 +113,10 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                                }
                            }
                            op.setSerialNo(serialNo);
+                           op.setProvidedIndicator(0);//自备标记
                            op.preInsert();
                            num = String.valueOf(dao.insert(op));
-                           ordersCostsesList.add(makeOutpOrderCosts(op,clinicMaster));
+                           ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }
                    }
                }
@@ -178,29 +184,36 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * @date 2016/5/7
      */
     public OutpOrdersCosts makeOutpOrderCosts(OutpPresc outpPresc,ClinicMaster clinicMaster){
+        OrgStaff orgStaff=new OrgStaff();
+            OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
+            outpOrdersCosts.setMasterId(outpPresc.getId());
+            outpOrdersCosts.setClinicId(clinicMaster.getId());
+            outpOrdersCosts.setOrgId(clinicMaster.getOrgId());
+            outpOrdersCosts.setOrderClass(outpPresc.getItemClass());//诊疗项目类别
+            outpOrdersCosts.setPatientId(clinicMaster.getPatientId());
+            outpOrdersCosts.setSerialNo(outpPresc.getSerialNo());
+            outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
+            outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
+            outpOrdersCosts.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + clinicMaster.getVisitNo());
+            outpOrdersCosts.setOrderNo(outpPresc.getOrderNo());
+            outpOrdersCosts.setOrderSubNo(outpPresc.getSubOrderNo());
+            outpOrdersCosts.setItemNo(outpPresc.getItemNo());
+            outpOrdersCosts.setItemClass(outpPresc.getItemClass());//收费项目类别
+            outpOrdersCosts.setItemName(outpPresc.getDrugName());
+            outpOrdersCosts.setItemCode(outpPresc.getDrugCode());
+            outpOrdersCosts.setItemSpec(outpPresc.getDrugSpec());
+            outpOrdersCosts.setUnits(outpPresc.getUnits());
+            outpOrdersCosts.setRepetition(outpPresc.getRepetition());
+            outpOrdersCosts.setAmount(outpPresc.getAmount());
+            outpOrdersCosts.setOrderedByDept(""); // 当前医师坐诊科室
+            outpOrdersCosts.setOrderedByDoctor("");
+            outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
+            outpOrdersCosts.setCosts(outpPresc.getCosts());
+            outpOrdersCosts.setCharges(outpPresc.getCharges());
+            outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
+            outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
+            outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
 
-        OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
-        outpOrdersCosts.setMasterId(outpPresc.getId());
-        outpOrdersCosts.setClinicId(clinicMaster.getId());
-        outpOrdersCosts.setSerialNo(outpPresc.getSerialNo());
-        outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
-        outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
-        outpOrdersCosts.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + clinicMaster.getVisitNo());
-        outpOrdersCosts.setOrderClass(outpPresc.getItemClass());
-        outpOrdersCosts.setOrderNo(outpPresc.getOrderNo());
-        outpOrdersCosts.setOrderSubNo(outpPresc.getSubOrderNo());
-        outpOrdersCosts.setItemNo(1);
-        outpOrdersCosts.setItemClass(outpPresc.getItemClass());
-        outpOrdersCosts.setItemName(outpPresc.getDrugName());
-        outpOrdersCosts.setItemCode(outpPresc.getDrugCode());
-        outpOrdersCosts.setItemSpec(outpPresc.getDrugSpec());
-        outpOrdersCosts.setUnits(outpPresc.getUnits());
-        outpOrdersCosts.setRepetition(outpPresc.getRepetition());
-        outpOrdersCosts.setAmount(outpPresc.getAmount());
-        outpOrdersCosts.setOrderedByDept(""); // 当前医师坐诊科室
-        outpOrdersCosts.setOrderedByDoctor("");
-        outpOrdersCosts.setPerformedBy("");
-        outpOrdersCosts.setCosts(outpPresc.getCosts());
         return  outpOrdersCosts;
     }
     /**

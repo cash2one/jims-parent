@@ -43,4 +43,31 @@ public interface UnitInContractApi {
      * @return
      */
     public UnitInContract get(String id);
+
+
+    /**
+     * 查询全部
+     * @param page
+     * @param unitInContract
+     * @return
+     * @author wei
+     */
+    public Page<UnitInContract> findAllPage(String orgId,Page<UnitInContract> page, UnitInContract unitInContract);
+
+    /**
+     * 修改数据
+     * @param unitInContract
+     * @return
+     */
+    public String update(UnitInContract unitInContract);
+
+
+    /**
+     * 根据拼音码查询
+     * @param inputCode
+     * @return
+     * @author wei
+     */
+    public List<UnitInContract> getInputCode(String orgId,String inputCode);
+
 }

@@ -3,11 +3,14 @@ var billingAttr = [];
 //药品
 var ordersDrugData={};
 ordersDrugData.orgId="1";
-ordersDrugData.dictType="v_drug_info_mz";
+ordersDrugData.dictType="v_clinic_item_price";
 //非药品V_CINIC_ITEM_NANE
 
 var administrationDict = [];
 var performFreqDict = [];
+var perSchedule = [];
+
+var drugData = [];
 
 
 var ClinicItemcolumnsData = [
@@ -56,6 +59,27 @@ function itemFormatter(value, rowData, rowIndex) {
     }
 }
 
+
+/**
+ * 药品翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function drugFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < drugData.length; i++) {
+        if (drugData[i].drug_code == value) {
+            return drugData[i].item_name;
+        }
+    }
+}
+
+
 function orderClassFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
@@ -81,7 +105,8 @@ $.ajax({
     'dataType': 'json',
     'async': false,
     'success': function(data){
-        ordersDrugData=data;
+       // ordersDrugData=data;
+        drugData = data;
     }
 });
 
@@ -226,6 +251,45 @@ function comboGridCompleting(q,id){
         'success': function(data){
             $("#"+id).combogrid("grid").datagrid("loadData", data);
             $("#"+id).combogrid('setText',q);
+        }
+    });
+}
+
+
+
+
+//根据频次和途径拿到执行时间
+function performSchedule(aid,pid){
+    var performScheduleData={};
+    performScheduleData.orgId="1";
+    performScheduleData.dictType="perform_default_schedule";
+    var inputParamVos=new Array();
+
+    if(pid!='' && pid!=null){
+        var InputParamVo1={};
+        InputParamVo1.colName='freq_desc';
+        InputParamVo1.colValue=pid;
+        InputParamVo1.operateMethod='=';
+        inputParamVos.push(InputParamVo1);
+    }
+    if(aid!='' && aid!=null){
+        var InputParamVo={};
+        InputParamVo.colName='administration';
+        InputParamVo.colValue=aid;
+        InputParamVo.operateMethod='=';
+        inputParamVos.push(InputParamVo);
+    }
+    performScheduleData.inputParamVos=inputParamVos;
+    $.ajax({
+        'type': 'POST',
+        'url':basePath+'/input-setting/listParam' ,
+        data: JSON.stringify(performScheduleData),
+        'contentType': 'application/json',
+        'dataType': 'json',
+        'async': false,
+        'success': function(data){
+            alert(JSON.stringify(data));
+
         }
     });
 }

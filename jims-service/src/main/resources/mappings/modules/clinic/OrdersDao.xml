@@ -511,7 +511,7 @@
 
 
 	<update id="issuedOrders">
-          update    orders       set  order_status = '2',start_date_time = to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')
+          update    orders       set  order_status = '6'
           where id= #{id}
 	</update>
 
