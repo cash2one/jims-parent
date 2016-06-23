@@ -202,8 +202,8 @@ $(function() {
             if(allRows[i].id && allRows[i].updateFlag){
                 rows.push({id:allRows[i].id,menus:allRows[i].menus})
                 delete allRows[i].menus;
-                delete allRows[i].updateFlag;
             }
+            delete allRows[i].updateFlag;
         }
 
         if(delIds.length > 0){

@@ -23,11 +23,11 @@ comment on column PAY_WAY_DICT.PAY_WAY_CODE
 comment on column PAY_WAY_DICT.PAY_WAY_NAME
   is '支付方式名称';
 comment on column PAY_WAY_DICT.ACCTING_INDICATOR
-  is '记账标志';
+  is '记账标志，0，不记账，1记账';
 comment on column PAY_WAY_DICT.OUTP_INDICATOR
-  is '门诊病人适用标志';
+  is '门诊病人适用标志，0，否，1是';
 comment on column PAY_WAY_DICT.INP_INDICATOR
-  is '住院病人适用标志';
+  is '住院病人适用标志，0，否，1是';
 comment on column PAY_WAY_DICT.INPUT_CODE
   is '输入码';
 comment on column PAY_WAY_DICT.CHARGE_TYPE
