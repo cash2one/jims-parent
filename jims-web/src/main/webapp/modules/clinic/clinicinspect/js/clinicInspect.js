@@ -1,6 +1,4 @@
-//var examSubClass = [{"value": "1", "text": "CT"}, {"value": "2", "text": "彩超"}, {"value": "3", "text": "心电"}] // 检查项目
-//var reqDept = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//开单科室
-//var performedBy = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//执行科室
+
 var rowNum=-1;
 var examSubClass = [] // 检查项目
 var reqDept = []//开单科室

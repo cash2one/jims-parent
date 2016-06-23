@@ -46,9 +46,9 @@ function operationRoomNoFormatter(value, id, rowData, rowindex) {
     if (value == 0) {
         return;
     }
-    var distinction = '';
     for (var i = 0; i < operationRoomNo.length; i++) {
-        distinction = operationRoomNo[i].room_no;
+        if(operationRoomNo.dept_id == value){}
+        return operationRoomNo[i].room_no;
     }
 
 }
