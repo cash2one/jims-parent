@@ -3,6 +3,7 @@ var rowNum=-1;
 var patId ='15006135';
 var visitId = '1';
 var Oclass =[{ "value": "1", "label": "药品" }, { "value": "2", "label": "非药品" }];
+var optionsOrderText = {};
 $(function(){
     $('#orderList').datagrid({
         iconCls:'icon-edit',//图标
@@ -37,8 +38,31 @@ $(function(){
                     valueField:'value',
                     textField:'label',
                     onSelect:function(){
+                        var orderClass=$('#orderClass').combobox('getValue');
                         /*如果类别是药品医嘱内容是药品的内容，如果是非药品显示非药品的医嘱内容*/
+                        if(orderClass=='1'){//药品
 
+                        }else if(orderClass=='2'){//非药品
+                            var ed = $('#list_data').datagrid('getEditor', {index:rowIndex,field:'doctor'});
+                            $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
+                            $("#orderText").combogrid({
+                                data:drugData,
+                                idField:'drug_code',
+                                textField:'item_name',
+                                selectOnNavigation:true,
+                                columns:[
+                                {field: 'item_code', title: '代码', width: '8%', align: 'center'},
+                                {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                                {field: 'input_code', title: '拼音', width: '15%', align: 'center'},
+                                {field: 'item_class', title: '类别', width: '15%', align: 'center'},
+                                {field: 'expand1', title: '扩展1', width: '15%', align: 'center'},
+                                {field: 'expand2', title: '扩展2', width: '15%', align: 'center'},
+                                {field: 'expand5', title: '扩展5', width: '15%', align: 'center'}
+                                ]
+                            });
+                        }
+                        var ed = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderText'});
+                        $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
 
                     }
                 }
