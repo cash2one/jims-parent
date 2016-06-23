@@ -85,16 +85,9 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
      * 查询当前天的号表
      * @return
      */
-    public List<ClinicForRegist> findListReg(String status) {
+    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist) {
         List<ClinicForRegist> list=new ArrayList<ClinicForRegist>();
-         if(status.equals("当日")){
-             String currentDate= DateUtils.getDate();
-             list= clinicForRegistDao.findListReg(currentDate);
-         } else if(status.equals("预约")){
-           String tomorrowDate= DateUtils.getTomorrow();
-             list=clinicForRegistDao.findListReg(tomorrowDate);
-         }
-
+        list= clinicForRegistDao.findListReg(clinicForRegist);
         return list;
     }
 
@@ -108,6 +101,23 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
        //保存就诊信息
         List<ClinicForRegist> list=clinicMaster.getClinicForRegists();
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+        PatMasterIndex patMasterIndex =new PatMasterIndex();
+        //保存主记录信息
+        patMasterIndex.setName(clinicMaster.getName());//姓名
+        patMasterIndex.setSex(clinicMaster.getSex());//性别
+        patMasterIndex.setDateOfBirth(clinicMaster.getBirthDate());//出生日期
+        patMasterIndex.setChargeType(clinicMaster.getChargeType());//费别
+        patMasterIndex.setIdentity(clinicMaster.getIdentity());//身份
+        patMasterIndex.setCreateDate(format.parse(DateUtils.getDate()));//记录时间
+        patMasterIndex.setVipIndicator(0);//重要任务标志
+        patMasterIndex.setOperator("操作人");//操作人 取当前登录的医生
+        if (patMasterIndex.getIsNewRecord()){
+            patMasterIndex.preInsert();
+            i=patMasterIndexDao.insert(patMasterIndex);
+        }else{
+            patMasterIndex.preUpdate();
+            i=patMasterIndexDao.update(patMasterIndex);
+        }
         if(list!=null && list.size()>0){
             for(int k=0;k<list.size();k++){
                 ClinicMaster master=new ClinicMaster();
@@ -115,7 +125,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                 ClinicForRegist clinicForRegist= get(registId);
                 String clinicLabel=clinicForRegist.getClinicLabel();
                 String timeDesc=clinicForRegist.getTimeDesc();
-
+                master.setPatientId(patMasterIndex.getId());
                 master.setName(clinicMaster.getName()); //姓名
                 master.setSex(clinicMaster.getSex());//性别
                 master.setChargeType(clinicMaster.getChargeType());//费别
@@ -153,23 +163,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
             }
 
         }
-        PatMasterIndex patMasterIndex =new PatMasterIndex();
-        //保存主记录信息
-        patMasterIndex.setName(clinicMaster.getName());//姓名
-        patMasterIndex.setSex(clinicMaster.getSex());//性别
-        patMasterIndex.setDateOfBirth(clinicMaster.getBirthDate());//出生日期
-        patMasterIndex.setChargeType(clinicMaster.getChargeType());//费别
-        patMasterIndex.setIdentity(clinicMaster.getIdentity());//身份
-        patMasterIndex.setCreateDate(format.parse(DateUtils.getDate()));//记录时间
-        patMasterIndex.setVipIndicator(0);//重要任务标志
-        patMasterIndex.setOperator("操作人");//操作人 取当前登录的医生
-        if (patMasterIndex.getIsNewRecord()){
-            patMasterIndex.preInsert();
-            i=patMasterIndexDao.insert(patMasterIndex);
-        }else{
-            patMasterIndex.preUpdate();
-            i=patMasterIndexDao.update(patMasterIndex);
-        }
+
        //更新 号表 信息
         clinicForRegistDao.updateRegister(DateUtils.getDate(),clinicMaster.getClinicLabel(),clinicMaster.getVisitTimeDesc());
         return i+"";

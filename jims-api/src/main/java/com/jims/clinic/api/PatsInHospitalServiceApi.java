@@ -1,7 +1,7 @@
 package com.jims.clinic.api;
 
 
-import com.jims.common.web.impl.BaseDto;
+import com.jims.clinic.vo.ComeDeptVo;
 
 /**
  * @author CTQ
@@ -10,6 +10,8 @@ import com.jims.common.web.impl.BaseDto;
  */
 public interface PatsInHospitalServiceApi {
 
-    public String saveHospInfo(BaseDto baseDto);
+    public String saveHospInfo(ComeDeptVo comeDeptVo);
+
+    public String turnOutDept(ComeDeptVo comeDeptVo);
 
 }

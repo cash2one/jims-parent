@@ -12,16 +12,16 @@ import com.jims.sys.entity.User;
  * @version 2016-04-06
  */
 public class UserUtils {
-	
-	/**
-	 * 根据ID获取用户
-	 * @param id
-	 * @return 取不到返回null
-	 */
-	public static User get(String id){
 
-		return new User();
-	}
+    /**
+     * 根据ID获取用户
+     * @param id
+     * @return 取不到返回null
+     */
+    public static User get(String id){
+
+        return new User();
+    }
     /**
      * 获取当前登录用户
      */

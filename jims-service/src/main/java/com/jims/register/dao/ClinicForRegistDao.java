@@ -44,7 +44,7 @@ public interface ClinicForRegistDao extends CrudDao<ClinicForRegist> {
      * @param date
      * @return
      */
-    public List<ClinicForRegist> findListReg(@Param("date")String date);
+    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist);
 
     /**
      * 根据，就诊日期，号别名称，就诊时间,更新号表数据---当日挂号

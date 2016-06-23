@@ -6,6 +6,7 @@ var prescSource;
 var administration = [{ "value": "口服", "text": "口服" }, { "value": "静脉注射", "text": "静脉注射" }, { "value": "小儿头皮静脉", "text": "小儿头皮静脉" }, { "value": "静脉输液", "text": "静脉输液" }, { "value": "续静滴", "text": "续静滴" }];
 var frequency = [{ "value": "一日一次", "text": "一日一次" }, { "value": "一日二次", "text": "一日二次" }, { "value": "一日三次", "text": "一日三次" }];
 var dispensary =  [{ "value": "1", "text": "西药局" }, { "value": "2", "text": "中药局" }];
+
 //页面加载
 $(function(){
     var patientId = '1';
