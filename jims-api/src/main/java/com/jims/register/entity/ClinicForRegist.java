@@ -27,7 +27,7 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 	private Integer appointmentNum;		// 已预约号数
 	private Double registPrice;		// 挂号费标准
 
-	private String clinicDept;
+	private String clinicDept;//科室
 	private String doctor;
 	private String doctorTitle;
 	private String clinicType;

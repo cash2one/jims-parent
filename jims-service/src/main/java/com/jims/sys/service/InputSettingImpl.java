@@ -6,6 +6,7 @@ import com.jims.common.utils.StringUtils;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.sys.api.DeptDictApi;
 import com.jims.sys.api.InputSettingServiceApi;
+import com.jims.sys.bo.InputSettingBo;
 import com.jims.sys.dao.DeptDictDao;
 import com.jims.sys.dao.InputSettingDetailDao;
 import com.jims.sys.dao.InputSettingMasterDao;
@@ -32,7 +33,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
 
 
     @Autowired
-    private InputSettingDetailDao inputSettingDetailDao;
+    private InputSettingBo inputSettingBo;
 
 
     /**
@@ -45,25 +46,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
      */
     @Override
     public List<BaseDto> listInputDataBy(String dictType, String orgId) {
-        List<InputSettingVo> columnName = inputSettingDetailDao.getColumnName(dictType, orgId);
-        StringBuilder sb = new StringBuilder();
-        if (columnName.size() == 1) {
-            sb.append(columnName.get(0).getColumnName());
-
-        } else {
-
-            for (int i = 0; i < columnName.size(); i++) {
-                sb.append(columnName.get(i).getColumnName() + ",");
-            }
-        }
-
-        if (columnName.size() > 1) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
-        String param = sb.toString();
-        List<BaseDto> baseDtos = inputSettingDetailDao.findListBy(param, dictType);
-
-        return baseDtos;
+        return inputSettingBo.listInputDataBy(dictType,orgId);
     }
 
     /**
@@ -74,7 +57,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
      */
     @Override
     public List<String> listTableColByTableName(String tableName) {
-        return inputSettingDetailDao.listTableColByTableName(tableName);
+        return inputSettingBo.listTableColByTableName(tableName);
     }
 
     /**
@@ -86,7 +69,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
      */
     @Override
     public List<InputSettingMaster> findAllListByOrgId(String orgId) {
-        return dao.findAllListByOrgId(orgId);
+        return inputSettingBo.findAllListByOrgId(orgId);
     }
 
 
@@ -98,33 +81,8 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
      * @author yangruidong
      */
     @Override
-
     public List<InputSettingMaster> saveAll(InputSettingVo<InputSettingMaster> inputSettingMasterVo) {
-        List<InputSettingMaster> newUpdateDict = new ArrayList<InputSettingMaster>();
-        List<InputSettingMaster> inserted = inputSettingMasterVo.getInserted();
-        List<InputSettingMaster> updated = inputSettingMasterVo.getUpdated();
-        List<InputSettingMaster> deleted = inputSettingMasterVo.getDeleted();
-        //插入
-        for (InputSettingMaster inputSettingMaster : inserted) {
-            inputSettingMaster.preInsert();
-            inputSettingMaster.setOrgId(inputSettingMasterVo.getOrgId());
-            int num = dao.insert(inputSettingMaster);
-        }
-        //更新
-        for (InputSettingMaster inputSettingMaster : updated) {
-            inputSettingMaster.preUpdate();
-            int num = dao.update(inputSettingMaster);
-        }
-        //删除
-        List<String> ids = new ArrayList<String>();
-
-        for (InputSettingMaster inputSettingMaster : deleted) {
-            ids.add(inputSettingMaster.getId());
-        }
-        for (String id : ids) {
-            dao.delete(id);
-        }
-        return newUpdateDict;
+        return inputSettingBo.saveAll(inputSettingMasterVo);
     }
 
     /**
@@ -136,7 +94,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
      */
     @Override
     public List<InputSettingDetail> findListDetail(String id) {
-        return inputSettingDetailDao.findListDetail(id);
+        return inputSettingBo.findListDetail(id);
     }
 
     /**
@@ -149,31 +107,7 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
     @Override
 
     public List<InputSettingDetail> saveDetail(InputSettingVo<InputSettingDetail> inputSettingDetailVo) {
-        List<InputSettingDetail> newUpdateDict = new ArrayList<InputSettingDetail>();
-        List<InputSettingDetail> inserted = inputSettingDetailVo.getInserted();
-        List<InputSettingDetail> updated = inputSettingDetailVo.getUpdated();
-        List<InputSettingDetail> deleted = inputSettingDetailVo.getDeleted();
-        //插入
-        for (InputSettingDetail inputSettingDetail : inserted) {
-            inputSettingDetail.preInsert();
-            //inputSettingDetail.setInputSettingMasterId(inputSettingDetailVo.getInput_setting_master_id());
-            int num = inputSettingDetailDao.insert(inputSettingDetail);
-        }
-        //更新
-        for (InputSettingDetail inputSettingDetail : updated) {
-            inputSettingDetail.preUpdate();
-            int num = inputSettingDetailDao.update(inputSettingDetail);
-        }
-        //删除
-        List<String> ids = new ArrayList<String>();
-
-        for (InputSettingDetail inputSettingDetail : deleted) {
-            ids.add(inputSettingDetail.getId());
-        }
-        for (String id : ids) {
-            inputSettingDetailDao.delete(id);
-        }
-        return newUpdateDict;
+        return inputSettingBo.saveDetail(inputSettingDetailVo);
     }
 
 
@@ -185,34 +119,6 @@ public class InputSettingImpl extends CrudImplService<InputSettingMasterDao, Inp
      */
     @Override
     public List<BaseDto> listInputDataByParam(InputInfoVo inputInfoVo) {
-        String dictType = inputInfoVo.getDictType();
-        String orgId = inputInfoVo.getOrgId();
-        List<InputSettingVo> columnName = inputSettingDetailDao.getColumnName(dictType, orgId);
-        StringBuilder sb = new StringBuilder();
-        if (columnName.size() == 1) {
-            sb.append(columnName.get(0).getColumnName());
-
-        } else {
-
-            for (int i = 0; i < columnName.size(); i++) {
-                sb.append(columnName.get(i).getColumnName() + ",");
-            }
-        }
-
-        if (columnName.size() > 1) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
-
-        String param = sb.toString();
-        List<InputParamVo> list = inputInfoVo.getInputParamVos();
-        for(int i=0;i<list.size();i++){
-            if(StringUtils.equalsIgnoreCase(list.get(i).getOperateMethod(),"like"))
-            {
-                list.get(i).setColValue("%"+list.get(i).getColValue()+"%");
-            }
-        }
-        List<BaseDto> baseDtos = inputSettingDetailDao.listInputDataByParam(param, dictType, list);
-
-        return baseDtos;
+        return inputSettingBo.listInputDataByParam(inputInfoVo);
     }
 }

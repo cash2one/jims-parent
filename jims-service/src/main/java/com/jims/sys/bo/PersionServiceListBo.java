@@ -41,6 +41,8 @@ public class PersionServiceListBo extends CrudImplService<PersionServiceListDao,
     private SysServiceDao sysServiceDao;
     @Autowired
     private SysCompanyDao sysCompanyDao;
+    @Autowired
+    private SysUserDao sysUserDao;
 
     /**
      * 根据persionId查询服务
@@ -160,5 +162,39 @@ public class PersionServiceListBo extends CrudImplService<PersionServiceListDao,
                  persionServiceListDao.delete(persionServiceLists.get(i));
             }
         }
+    }
+
+    public SysCompany findNameByOwner(String loginName) {
+        SysCompany sysCompany = sysCompanyDao.findNameByOwner(loginName);
+        return sysCompany;
+    }
+
+
+    /**
+     * 与数据库中的用户名比对，是否正确
+     *
+     * @param loginName
+     * @return
+     */
+    public SysUser selectLoginName(String loginName) {
+        if (StringUtils.isNotBlank(loginName)){
+            SysUser user = sysUserDao.selectLoginName(loginName);
+            return user;
+        }
+        return null;
+    }
+
+    /**
+     * 与数据库中的密码比对，是否正确
+     *
+     * @param loginName
+     * @return
+     */
+    public SysUser selectPassword(String loginName) {
+        if (StringUtils.isNotBlank(loginName)) {
+            SysUser user = sysUserDao.selectPasswrod(loginName);
+            return user;
+        }
+        return null;
     }
 }
