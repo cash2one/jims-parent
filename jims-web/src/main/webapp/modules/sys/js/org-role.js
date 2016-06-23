@@ -109,7 +109,7 @@ $(function () {
     });
     $("#searchBtn").on("click", function () {
         var name = $("#name").textbox("getValue");
-        $.get(basePath + '/org-role/find-by-name?roleName=' + name,function(data){
+        $.get(basePath + '/org-role/find-by-name?roleName=' + name + '&orgId=' + orgId,function(data){
             $("#dg").datagrid('loadData', data);
         });
     });
