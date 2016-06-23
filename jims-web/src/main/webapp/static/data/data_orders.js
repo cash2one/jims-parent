@@ -3,7 +3,7 @@ var billingAttr = [];
 //药品
 var ordersDrugData={};
 ordersDrugData.orgId="1";
-ordersDrugData.dictType="v_drug_info_mz";
+ordersDrugData.dictType="v_clinic_item_price";
 //非药品V_CINIC_ITEM_NANE
 
 var administrationDict = [];
