@@ -10,7 +10,7 @@ $(function () {
             editIndex = undefined;
         }
     };
-    $("#dg").datagrid({
+    typeof $("#dg").datagrid({
         title: '药品厂商维护',
         fit: true,//让#dg数据创铺满父类容器
         toolbar: '#tb',
@@ -87,13 +87,19 @@ $(function () {
                 type: 'combobox', options: {
                     editable: false,
                     width: '100px',
-                    idField: 'value',
                     valueField: 'value',
                     textField: 'text',
                     data: [
                         {'value': '0', 'text': '是', width: "100px"},
                         {'value': '1', 'text': '否', width: "100px"}
                     ]
+                }
+            },
+            formatter: function (value, index, row) {
+                if (value == 0) {
+                    return "是"
+                } else {
+                    return "否"
                 }
             }
 
@@ -114,13 +120,21 @@ $(function () {
                 type: 'combobox', options: {
                     editable: false,
                     width: '100px',
-                    idField: 'value',
                     valueField: 'value',
                     textField: 'text',
                     data: [
                         {'value': '0', 'text': '使用', width: "100px"},
                         {'value': '1', 'text': '停用', width: "100px"}
                     ]
+                }
+            },
+            formatter: function (value, index, row) {
+                console.log(value == "")
+                if (value == 0) {
+                    return "使用"
+                }
+                if (value == 1) {
+                    return "停用"
                 }
             }
 
@@ -188,7 +202,7 @@ $(function () {
 
     $("#addBtn").on('click', function () {
         stopEdit();
-        $("#dg").datagrid('appendRow', {});
+        $("#dg").datagrid('appendRow', {foreignx: "1", usedFlag: "0"});
         var rows = $("#dg").datagrid('getRows');
         var addRowIndex = $("#dg").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;
@@ -247,20 +261,7 @@ $(function () {
     var loadDict = function () {
 
         $.get(basePath + "/drug-supplier-catalog/list?orgId=" + parent.config.org_Id, function (data) {
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].foreignx == '0') {
-                    data[i].foreignx = '是'
-                } else {
-                    data[i].foreignx = '否'
-                }
-            }
-            for (var j = 0; j < data.length; j++) {
-                if (data[j].usedFlag == '0') {
-                    data[j].usedFlag = '使用'
-                } else {
-                    data[j].usedFlag = '停用'
-                }
-            }
+
             $("#dg").datagrid('loadData', data);
 
         });

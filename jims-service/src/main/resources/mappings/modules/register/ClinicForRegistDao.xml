@@ -68,6 +68,9 @@
          "CLINIC_FOR_REGIST"."REGISTRATION_LIMITS" AS registrationLimits,
          "CLINIC_FOR_REGIST"."APPOINTMENT_LIMITS" AS appointmentLimits,
          "CLINIC_FOR_REGIST"."REGIST_PRICE" AS registPrice,
+        "CLINIC_FOR_REGIST".REGISTRATION_NUM as registrationNum,
+
+
          "CLINIC_INDEX"."CLINIC_DEPT" AS clinicDept,
          "CLINIC_INDEX"."DOCTOR" AS doctor,
          "CLINIC_INDEX"."DOCTOR_TITLE" AS doctorTitle,
@@ -78,12 +81,18 @@
          "CLINIC_INDEX"."CLINIC_LABEL" as "clinicLabelName",
           b.price as "price"
     FROM "CLINIC_FOR_REGIST",
-         "CLINIC_INDEX"
+         "CLINIC_INDEX",
          (select a.*,d.price from clinic_type_setting  a  left join(select a.type_id,sum(b.price) price from clinic_type_fee a left join V_INPUT_REGISTRATION_LIST b on a.price_item=b.ITEM_CODE GROUP BY a.type_id ) d
     on a.id=d.type_id ) b
    WHERE ( "CLINIC_FOR_REGIST"."CLINIC_LABEL" = "CLINIC_INDEX"."ID" ) and
-         ( CLINIC_FOR_REGIST.CLINIC_DATE = to_date(#{date},'yyyy-MM-dd hh24:mi:ss') )
+         ( CLINIC_FOR_REGIST.CLINIC_DATE = to_date(to_char(#{clinicDate},'yyyy-mm-dd'),'yyyy-mm-dd') )
          and "CLINIC_INDEX".clinic_type=b.id
+        <if test="clinicDept!=null and clinicDept!='' ">
+            AND "CLINIC_INDEX"."CLINIC_DEPT"=#{clinicDept}
+        </if>
+        <if test="clinicLabelName!=null and clinicLabelName!='' ">
+            AND "CLINIC_INDEX"."CLINIC_LABEL" like '%${clinicLabelName}%'
+        </if>
 	</select>
 	<select id="findAllList" resultType="ClinicForRegist">
 		SELECT 

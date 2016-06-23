@@ -5,15 +5,6 @@ var prescNo;
 var itemClass;
 var clinicId;
 var chargeIndicator='新开';
-var yongtu={};
-yongtu.inpOutpFlag='0';
-var drugName = [{ "value": "氨茶碱注射液", "text": "氨茶碱注射液" }, { "value": "奥氮平（奥兰之）", "text": "奥氮平（奥兰之）" }, { "value": "奥氮平片", "text": "奥氮平片" }, { "value": "胺碘酮注射液", "text": "胺碘酮注射液" }, { "value": "阿司匹林肠溶片", "text": "阿司匹林肠溶片" }];
-var administration = [{ "value": "口服", "text": "口服" }, { "value": "静脉注射", "text": "静脉注射" }, { "value": "小儿头皮静脉", "text": "小儿头皮静脉" }, { "value": "静脉输液", "text": "静脉输液" }, { "value": "续静滴", "text": "续静滴" }];
-
-
-var frequency = [{ "value": "一日一次", "text": "一日一次" }, { "value": "一日二次", "text": "一日二次" }, { "value": "一日三次", "text": "一日三次" }];
-var providedIndicator = [{ "value": "1", "text": "取药" }];
-var skinFlag =  [{ "value": "1", "text": "阴性" }, { "value": "2", "text": "阳性" }, { "value": "3", "text": "无皮试" }];
 //页面加载
 $(function(){
     itemClass = $("#itemClass").val();
@@ -70,40 +61,30 @@ $(function(){
                 type:'combogrid',
                 options: {
                     panelWidth: 500,
-                    idField: 'drugName',
-                    textField: 'drugName',
-                    method:'GET',
-                    url: basePath+'/outppresc/dictlist',
-                    columns: [[
-                        {field: 'drugCode', title: '代码', width: '8%', align: 'center'},
-                        {field: 'drugName', title: '名称', width: '15%', align: 'center'},
-                        {field: 'drugSpec', title: '规格', width: '15%', align: 'center'},
-                        {field: 'firmId', title: '厂家', width: '15%', align: 'center'},
-                        {field: 'dosage', title: '单次用量', width: '15%', align: 'center'},
-                        {field: 'dosageUnits', title: '用量单位', width: '15%', align: 'center'},
-                        {field: 'itemClass', title: '药局', width: '15%', align: 'center',
-                            formatter: function (value, row, index) {
-                            if (value == "A") {
-                                value = "西药局";
-                            }
-                            else if (value == "B") {
-                                value = "中药局";
-                            }
-                            return value;
-                        }}
-                    ]],onClickRow: function (index, row) {
+                    data:ordersDrugData,
+                    idField:'drug_code',
+                    textField:'item_name',
+                    columns:[
+                        [
+                            {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
+                            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                            {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
+                            {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
+                            {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'}
+                        ]],onClickRow: function (index, row) {
                         var drugCode = $("#list_data").datagrid('getEditor',{index:rowNum,field:'drugCode'});
-                        $(drugCode.target).textbox('setValue',row.drugCode);
+                        $(drugCode.target).textbox('setValue',row.drug_code);
                         var drugSpec = $("#list_data").datagrid('getEditor',{index:rowNum,field:'drugSpec'});
-                        $(drugSpec.target).textbox('setValue',row.drugSpec);
+                        $(drugSpec.target).textbox('setValue',row.drug_spec);
                         var firmId = $("#list_data").datagrid('getEditor',{index:rowNum,field:'firmId'});
-                        $(firmId.target).textbox('setValue',row.firmId);
+                        $(firmId.target).textbox('setValue',row.supplier);
                         var dosage = $("#list_data").datagrid('getEditor',{index:rowNum,field:'dosage'});
-                        $(dosage.target).textbox('setValue',row.dosage);
+                        $(dosage.target).textbox('setValue',row.dose_per_unit);
                         var dosageUnits = $("#list_data").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
-                        $(dosageUnits.target).textbox('setValue',row.dosageUnits);
-                        var itemClass = $("#list_data").datagrid('getEditor',{index:rowNum,field:'itemClass'});
-                        $(itemClass.target).textbox('setValue',row.itemClass);
+                        $(dosageUnits.target).textbox('setValue',row.dose_units);
+                        /*var itemClass = $("#list_data").datagrid('getEditor',{index:rowNum,field:'itemClass'});
+                        $(itemClass.target).textbox('setValue',row.itemClass);*/
 
                     }
                 }
@@ -113,21 +94,25 @@ $(function(){
             {field:'repetition',title:'剂数',width:'5%',align:'center',editor:'numberbox'},
             {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:{type:'textbox',options:{editable:true,disable:false}}},
             {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'administration',title:'途径',width:'5%',align:'center',editor:{
+            {field:'administration',title:'途径',width:'5%',align:'center',formatter:administrationFormatter,editor:{
                 type:'combobox',
                 options:{
-                    url:basePath+"/AdministrationDict/listAdministrationByInpOrOutpFlag",
-                    queryParams: JSON.stringify(yongtu),
-                    valueField:'administrationCode',
-                    textField:'administrationName'
+                    data :administrationDict,
+                    valueField:'id',
+                    textField:'administrationName',
+                    required:true
                 }
             }},
-            {field:'frequency',title:'频次',width:'5%',align:'center',editor:{
+            {field:'frequency',title:'频次',width:'5%',align:'center',formatter:performFreqFormatter,editor:{
                 type:'combobox',
                 options:{
-                    url:basePath+"/PerformFreqDict/findList",
-                    valueField:'value',
-                    textField:'label'
+                    data :performFreqDict,
+                    valueField:'id',
+                    textField:'freqDesc',
+                    required:true,
+                    onSelect:function(rec){
+
+                    }
                 }
             }},
             {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
@@ -136,21 +121,27 @@ $(function(){
             {field:'charges',title:'实收',width:'5%',align:'center',editor:{type:'numberbox',options:{editable:false,disable:false}}},
             {field:'itemClass',title:'药局',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
-            {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
+           /* {field:'providedIndicator',title:'取药属性',width:'5%',align:'center',editor:{
                 type:'combobox',
                 options:{
                     data :providedIndicator,
                     valueField:'value',
                     textField:'text'
                 }
-            }},
+            }},*/
             /*   {field:'skinFlag',title:'代煎',width:'5%',align:'center',editor:'text'},*/
-            {field:'skinFlag',title:'皮试结果',width:'5%',align:'center',editor:{
+            {field:'skinFlag',title:'皮试',width:'5%',align:'center',formatter:skinFlagFormatter,editor:{
                 type:'combobox',
                 options:{
-                    url:basePath+"/dict/findListByType",
-                    queryParams: {"type": "DRUG_FORM_DICT"},
-                    method:"GET",
+                    data :skinFlag,
+                    valueField:'value',
+                    textField:'label'
+                }
+            }},
+            {field:'skinResult',title:'皮试结果',width:'5%',align:'center',formatter:skinResultFormatter,editor:{
+                type:'combobox',
+                options:{
+                    data :skinResult,
                     valueField:'value',
                     textField:'label'
                 }

@@ -9,7 +9,8 @@ create table IDENTITY_DICT
   INPUT_CODE         VARCHAR2(8),
   PRIORITY_INDICATOR NUMBER(1),
   MILITARY_INDICATOR NUMBER(1),
-  INPUT_CODE_WB      VARCHAR2(8)
+  INPUT_CODE_WB      VARCHAR2(8),
+  org_id             varchar2(64)
 );
 -- Add comments to the table
 comment on table IDENTITY_DICT
