@@ -54,7 +54,7 @@ comment on column OPERATION_SCALE_DICT.DEL_FLAG is
 '删除标记';
 
 
-insert into  OPERATION_SCALE_DICT (ID, SERIAL_NO, OPERATION_SCALE_CODE, OPERATION_SCALE_NAME, INPUT_CODE ,MEMO) values ( '1 ', '1 ', '1 ', '1 ', 'Y ', '一级手术，风险较低、过程简单、技术难度低的普通手术 ');
-insert into  OPERATION_SCALE_DICT (ID, SERIAL_NO, OPERATION_SCALE_CODE, OPERATION_SCALE_NAME, INPUT_CODE, MEMO) values ( '2 ', '2 ', '2 ', '2 ', 'R ', '二级手术，有一定风险、过程复杂程度一般、有一定技术难度的手术 ');
-insert into  OPERATION_SCALE_DICT (ID, SERIAL_NO, OPERATION_SCALE_CODE, OPERATION_SCALE_NAME, INPUT_CODE, MEMO) values ( '3 ', '3 ', '3 ', '3 ', 'S ', '三级手术，风险较高、过程较复杂、难度较大的手术 ');
-insert into  OPERATION_SCALE_DICT (ID, SERIAL_NO, OPERATION_SCALE_CODE, OPERATION_SCALE_NAME, INPUT_CODE, MEMO) values ( '4 ', '4 ', '4 ', '4 ', 'S ', '四级手术，风险高、过程复杂、难度大的重大手术 ');
+insert into  OPERATION_SCALE_DICT (ID, SERIAL_NO, OPERATION_SCALE_CODE, OPERATION_SCALE_NAME, INPUT_CODE ,MEMO) values ( '1', '1', '1', '1', 'Y', '一级手术，风险较低、过程简单、技术难度低的普通手术 ');
+insert into  OPERATION_SCALE_DICT (ID, SERIAL_NO, OPERATION_SCALE_CODE, OPERATION_SCALE_NAME, INPUT_CODE, MEMO) values ( '2', '2', '2', '2', 'R', '二级手术，有一定风险、过程复杂程度一般、有一定技术难度的手术 ');
+insert into  OPERATION_SCALE_DICT (ID, SERIAL_NO, OPERATION_SCALE_CODE, OPERATION_SCALE_NAME, INPUT_CODE, MEMO) values ( '3', '3', '3', '3', 'S', '三级手术，风险较高、过程较复杂、难度较大的手术 ');
+insert into  OPERATION_SCALE_DICT (ID, SERIAL_NO, OPERATION_SCALE_CODE, OPERATION_SCALE_NAME, INPUT_CODE, MEMO) values ( '4', '4', '4', '4', 'S', '四级手术，风险高、过程复杂、难度大的重大手术 ');
