@@ -111,7 +111,7 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
 //        adtLog.setOperatorNo();
             adtLog.preInsert();
             adtLogDao.insert(adtLog);
-            /**7.插入核算组记录**/
+            /**7.插入管床医生记录**/
             OrdersGroupRec ordersGroupRec = new OrdersGroupRec();
             //INSERT INTO ORDERS_group_REC ( PATIENT_ID , VISIT_ID , dept_code , ORDER_GROUP , ORDER_DOCTOR , doctor_user , SUPER_DOCTOR_ID , PARENT_DOCTOR_ID ) Values ( '02000031' , 39714817 , '130502' , '130502' , '000CWJ' , '000CWJ' , '000ZZD' , '000WHW' )
             ordersGroupRec.setPatientId(patientId);

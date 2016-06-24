@@ -108,14 +108,13 @@ $(function(){
                             index:0,	// index start with 0
                             row: {
                                 itemClass: row.item_class,
-                                drugName: row.item_name,
-                                drugSpec: row.drug_spec,
+                                itemName: row.item_name,
+                                itemSpec: row.drug_spec,
                                 amount:row.amount,
                                 units:row.units,
-                                price:row.price
+                                charges:row.price
                             }
                         });
-
                     }
                 }
             }},
@@ -171,6 +170,7 @@ $(function(){
                 }
             }},
             {field:'subOrderNo',title:'子处方',hidden:'true'},
+            {field:'id',title:'ID',hidden:'true'},
             {field:'itemNo',title:'项目序号',hidden:'true'},
             {field:'serialNo',title:'流水号',hidden:'true'},
             {field:'subjCode',title:'会计科目',hidden:'true',editor:{type:'textbox',options:{editable:false}}},
@@ -217,10 +217,11 @@ $(function(){
             }
 
         },onClickRow:function(rowIndex,rowData){
+            //alert(rowData);
             $("#prescDialog").dialog('open');
-          /*  $.get(basePath+'/outppresc/jijia?masterId=' + 1+"&clinicId="+clinicId, function (data) {
+            $.get(basePath+'/outppresc/priceItem?masterId=' + rowData.id+"&clinicId="+clinicId, function (data) {
                 $("#prescriptionDatagrid").datagrid("loadData", data);
-            });*/
+            });
         }
     });
     $("#prescDialog").dialog({
@@ -246,11 +247,11 @@ $(function(){
                     width:'15%'
                 }, {
                     title: '计价项目',
-                    field: 'drugName',
+                    field: 'itemName',
                     width:'20%'
                 }, {
                     title: '规格',
-                    field: 'drugSpec',
+                    field: 'itemSpec',
                     width:'20%'
                 }, {
                     title: '数量',
@@ -262,7 +263,7 @@ $(function(){
                     width:'15%'
                 }, {
                     title: '金额',
-                    field: 'price',
+                    field: 'charges',
                     width:'15%'
                 }]],
                 onLoadSuccess:function(data){
