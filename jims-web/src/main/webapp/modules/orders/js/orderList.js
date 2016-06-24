@@ -60,7 +60,7 @@ $(function(){
                         /*如果类别是药品医嘱内容是药品的内容，如果是非药品显示非药品的医嘱内容*/
                         if(orderClass=='1'){//药品
 
-                              $("#orderList").datagrid('addEditor',[
+                             /* $("#orderList").datagrid('addEditor',[
                              {field:'orderText',editor:{
                              type:'combogrid',
                              options:{
@@ -86,22 +86,21 @@ $(function(){
                                  }
                              }
                              }
-                             }])
-                            $("#orderList").datagrid('endEdit', rowNum);
-                            //$("#orderList").datagrid('beginEdit', rowNum);
+                             }])*/
+
                         }else if(orderClass=='2'){//非药品
-                            $("#orderList").datagrid('removeEditor','orderText');
+                          /*  $("#orderList").datagrid('removeEditor','orderText');
                             $("#orderList").datagrid('endEdit', rowNum);
                             $("#orderList").datagrid('beginEdit', rowNum);
                             $("#orderList").datagrid('addEditor',[
-                                 {field:'orderText',
-                                     editor:{
-                                         type:'combogrid',
-                                         options:{
-                                             data:clinicData,
-                                             idField:'item_code',
-                                             textField:'item_name',
-                                             columns:[
+                                {field:'orderText',
+                                    editor:{
+                                        type:'combogrid',
+                                        options:{
+                                            data:clinicData,
+                                            idField:'item_code',
+                                            textField:'item_name',
+                                            columns:[
                                                  {field: 'item_code', title: '代码', width: '8%', align: 'center'},
                                                  {field: 'item_name', title: '名称', width: '15%', align: 'center'},
                                                  {field: 'input_code', title: '拼音', width: '15%', align: 'center'},
@@ -113,7 +112,7 @@ $(function(){
                                          }
                                     }
                                 }
-                            ])
+                            ])*/
 
                         }
 
@@ -122,7 +121,31 @@ $(function(){
             }},
             //当前时间
             {field:'startDateTime',title:'下达时间',width:'10%',align:'center', editor:{type: 'datebox',options:{editable:true,disable:false}}},
-            {field:'orderText',title:'医嘱内容',width:'10%',align:'center'},
+            {field:'orderText',title:'医嘱内容',width:'10%',align:'center',formatter:drugFormatter,editor:{
+                type:'combogrid',
+                options:{
+                    panelWidth: 450,
+                    data:drugData,
+                    idField:'drug_code',
+                    textField:'item_name',
+                    columns:[
+                        [
+                            {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
+                            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                            {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
+                            {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
+                            {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
+                        ]
+                    ] ,onClickRow: function (index, row) {
+                        var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
+                        $(dosage.target).textbox('setValue',row.dose_per_unit);
+                        var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                        $(dosageUnits.target).textbox('setValue',row.dose_units);
+
+                    }
+                }
+            }},
             {field:'billingAttr',title:'自',width:'5%',align:'center',formatter:billingAttrFormatter,editor:{
                 type:'combobox',
                 options:{
@@ -309,6 +332,12 @@ $(function(){
                                    $(dosage.target).textbox('setValue',row.dose_per_unit);
                                    var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
                                    $(dosageUnits.target).textbox('setValue',row.dose_units);
+                                   //药品的计价细项
+                                   $.get(basePath+'/outppresc/priceItem?masterId=' + row.id, function (data) {
+                                       $("#orderCostList").datagrid("loadData", data);
+                                   });
+
+
 
                                }
                            }
@@ -337,10 +366,31 @@ $(function(){
             $('#orderList').datagrid("load");   //点击搜索
         });
 
-           //药品的计价细项
 
+    $("#orderCostList").datagrid({
+        iconCls: 'icon-edit',//图标
+        width: 'auto',
+        height: '86%',
+        nowrap: false,
+        striped: true,
+        border: true,
+        collapsible: false,//是否可折叠的
+        remoteSort: false,
+        idField: 'id',
+        singleSelect: false,//是否单选
+        pagination: true,//分页控件
+        rownumbers: true,//行号
+        columns: [[      //每个列具体内容
+            {field: 'item_class', title: '类别', width: '5%', align: 'center'},
+            {field: 'item_name', title: '计价项目', width: '5%', align: 'center'},
+            {field: 'drug_spec', title: '规格', width: '5%', align: 'center'},
+            {field: 'quantity', title: '数量', width: '5%', align: 'center'},
+            {field: 'dose_units', title: '单位', width: '5%', align: 'center'},
+            {field: 'price', title: '当前单价', width: '5%', align: 'center'},
+            {field: 'price', title: '计价规则', width: '5%', align: 'center'}
 
-
+        ]]
+    });
 
 
 
