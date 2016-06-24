@@ -6,6 +6,12 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/register/js/bespeakRegister.js"></script>
+    <script type="text/javascript" src="/static/data/data_register_day_time.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_dict_set.js"></script>
+    <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_dict_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>
 </head>
 <body>
 <div style="padding:10px;">
@@ -13,46 +19,37 @@
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
                 <td class="text-right">挂号日期：</td>
-                <td><input type="text" class="easyui-datebox"/></td>
+                <td><input type="text" class="easyui-datebox" id="clinicDateId"/></td>
                 <td class="text-right">门诊号别：</td>
-                <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                <td><input type="text" class="validatebox-text vt-text-percent" id="clinicTypeNameId"/></td>
                 <td class="text-right">门诊科室：</td>
-                <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                <td><input type="text" class="easyui-combobox" style="width: 60%" id="deptNameId"/></td>
                 <td>
-                    <button class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</button>
+                    <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="getClinicForRegist()">查询</button>
                 </td>
-
             </tr>
         </table>
-
     </div>
-    <form id="patMasterInfo" method="post">
-    <div>
 
-        <button class="easyui-linkbutton" data-options="iconCls:'icon-back'">读卡</button>
-        <a class="easyui-linkbutton" href="#" data-options="iconCls:'icon-add'" onclick="appointsRegister();">挂号</a>
+    <div>
+        <a class="easyui-linkbutton" href="#" data-options="iconCls:'icon-add'" onclick="appointsRegister();">预约</a>
        <!-- <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'">退号</button>-->
     </div>
     <div class="reglist-main" id="registerCenter" style="overflow: auto">
     </div>
-
+    <form id="patMasterInfo">
     <div class="reg-cusinfo">
         <ul>
-          <!--  <li><span>门诊号：</span><input type="text" class="validatebox-text" name="clinicNo"></li>-->
-            <li><span>姓名：</span><input type="text" class="validatebox-text" name="name"></li>
-            <li><span>性别：</span><input type="text" class="validatebox-text" name="sex"></li>
-            <li><span>身份证号：</span><input type="text" class="validatebox-text" name="idNo"></li>
-            <li><span>出生日期：</span><input type="text" class="easyui-datebox"  name="dateOfBirth"></li>
-            <li><span>费别：</span><input type="text" class="validatebox-text" name="chargeType"></li>
-            <li><span>身份：</span><input type="text" class="validatebox-text" name="identity"></li>
-            <li><span>通信地址：</span><input type="text" class="validatebox-text" name="mailingAddress"></li>
-            <li><span>邮政编码：</span><input type="text" class="validatebox-text" name="zipCode"></li>
-            <li><span>合同单位：</span><input type="text" class="validatebox-text" name="unitInContract"></li>
-            <li><span>单位电话：</span><input type="text" class="validatebox-text" name="phoneNumberBusiness" ></li>
+            <li><span>姓名：</span><input type="text" class="easyui-validatebox" style="width: 42%"  required="true"  id="name" name="name"></li>
+            <li><span>性别：</span><input type="text" class="easyui-combobox"  id="setId" name="sex" required="true" ></li>
+            <li><span>出生日期：</span><input type="text" class="easyui-datebox" id="birthDate" name="birthDate" required="true" ></li>
+            <li><span>费别：</span><input type="text" class="easyui-combobox" id="chargeTypeId" name="chargeType" required="true" ></li>
+            <li><span>身份：</span><input type="text" class="easyui-combobox" id="identityId" name="identity"></li>
+            <li><span>诊别：</span><input type="text" class="easyui-combobox" id="clinicTypeId" name="visitIndicator"></li>
+            <li><span>科室：</span><input type="text" class="easyui-combobox" id="visitDeptId" name="visitDept"></li>
+            <li><span>合同单位：</span><input type="text" class="easyui-validatebox" id="company" name="unitInContract"></li>
+            <li><span>身份证号：</span><input type="text" class="validatebox-text" required="true" name="idNo"></li>
         </ul>
-
-
-
     </div>
     </form>
 </div>
