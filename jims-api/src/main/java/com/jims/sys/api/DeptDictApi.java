@@ -70,4 +70,7 @@ public interface DeptDictApi {
      * @return
      */
     public List<DeptDict> getList();
+
+
+    public List<DeptDict> getOperation();
 }

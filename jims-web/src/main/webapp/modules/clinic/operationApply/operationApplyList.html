@@ -7,10 +7,12 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/clinic/operationApply/js/operationApply.js"></script>
+    <script type="text/javascript" src="/static/data/data_operation_room.js"></script>
+    <script type="text/javascript" src="/static/data/data_operation_name.js"></script>
+    <script type="text/javascript" src="/static/data/data_anaesthesia_name.js"></script>
+    <script type="text/javascript" src="/static/data/data_operation_scale.js"></script>
 </head>
-<body >
-
-
+<body  onload="onloadMethod()">
 <div  style="width:100%;height:100%;">
 
     <div data-options="region:'center',iconCls:'icon-ok'">
@@ -57,28 +59,27 @@
                 <label>
                     手术等级：
                 </label>
-                <select name="operationScale" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="1">一级手术</option>
-                    <option value="2">二级手术</option>
-                    <option value="3"> 三级手术</option>
-                    <option value="4">四级手术</option>
-                </select>
+                <input type="hidden" name="operationScale" id="operationScaleId" value="">
+                <input id="operationScale"style="width:20%;">
+                <!--<select name="operationScale" class="easyui-combobox" style="width:10%;height: 30px">-->
+                    <!--<option value="1">一级手术</option>-->
+                    <!--<option value="2">二级手术</option>-->
+                    <!--<option value="3">三级手术</option>-->
+                    <!--<option value="4">四级手术</option>-->
+                <!--</select>-->
 
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     手术室：
                 </label>
-                <select name="operatingRoom" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="1">手术室组</option>
-                </select>
+                <input type="hidden" name="operatingRoom" id="operatingRoomCode" value="">
+                <input  id="operatingRoom" style="width: 145px;">
                 <label>
                     手术间：
                 </label>
-                <select name="operatingRoomNo" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select>
+                <input type="hidden" name="operatingRoomNo" id="operatingRoomNoCode" value="">
+                <input  id="operatingRoomNo" style="width: 145px;">
                 <label>
                     手术医生：
                 </label>
@@ -112,10 +113,12 @@
                 <label>
                     麻醉方法：
                 </label>
-                <select name="anesthesiaMethod" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="1">基础</option>
-                    <option value="2">体外</option>
-                    　　</select>
+                <!--<select name="anesthesiaMethod" class="easyui-combobox" style="width:10%;height: 30px">-->
+                    <!--<option value="1">基础</option>-->
+                    <!--<option value="2">体外</option>-->
+                    <!--　　</select>-->
+                <input type="hidden" name="anesthesiaMethod" id="anesthesiaMethodId" value="">
+                <input id="anesthesiaMethod" style="width: 10%;">
                 <label>
                     麻醉医师：
                 </label>
