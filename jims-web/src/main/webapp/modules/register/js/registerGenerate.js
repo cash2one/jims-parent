@@ -1,6 +1,5 @@
 var rowNum=-1;
 var dayWeek=[];
-var timeInterval=[];
 
 /**
  * 星期
@@ -22,24 +21,6 @@ $.ajax({
 });
 
 /**
- * 时间
- * @type {{}}
- */
-var timeIntervalData={};
-timeIntervalData.orgId="";
-timeIntervalData.dictType="TIME_INTERVAL_DICT"
-$.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(timeIntervalData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        timeInterval=data;
-    }
-});
-/**
  * 星期翻译
  * @param value
  * @param rowData
@@ -54,24 +35,6 @@ function dayWeekFormatter(value, rowData, rowIndex) {
     for (var i = 0; i < dayWeek.length; i++) {
         if (dayWeek[i].day_number == value) {
             return dayWeek[i].day_symbol;
-        }
-    }
-}
-/**
- * 时间翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string|string}
- */
-function timeDescFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-
-    for (var i = 0; i < timeInterval.length; i++) {
-        if (timeInterval[i].time_interval_code == value) {
-            return timeInterval[i].time_interval_name;
         }
     }
 }

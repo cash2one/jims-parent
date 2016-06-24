@@ -24,7 +24,7 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @author xueyx
      * @version 2016/5/06
      */
-    public void saveAll(LabTestMaster labTestMaster);
+    public String saveAll(LabTestMaster labTestMaster);
 
     /**
      * 住院保存
@@ -35,7 +35,7 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @version 2016/5/06
      */
 
-    public void saveAllIn(LabTestMaster labTestMaster);
+    public String saveAllIn(LabTestMaster labTestMaster);
     /**
      * 生成申请序号
      * @param主表 当前日期
@@ -49,5 +49,5 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @author xueyx
      * @version 2016/5/09
      */
-    public void delAll(LabTestMaster labTestMaster);
+    public String delAll(String ids);
 }

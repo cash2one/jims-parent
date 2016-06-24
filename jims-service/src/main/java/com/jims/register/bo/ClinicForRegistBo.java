@@ -11,15 +11,23 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.dao.ClinicForRegistDao;
+import com.jims.register.dao.ClinicIndexDao;
+import com.jims.register.dao.ClinicTypeSettingDao;
+import com.jims.register.dao.ClinicTypeFeeDao;
 import com.jims.register.entity.ClinicForRegist;
+import com.jims.register.entity.ClinicIndex;
 import com.jims.register.entity.ClinicSchedule;
+import com.jims.register.entity.ClinicTypeFee;
 import com.jims.register.util.DateWeekUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +45,11 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
     private ClinicMasterDao clinicMasterDao;
     @Autowired
     private PatMasterIndexDao patMasterIndexDao;
+    @Autowired
+    private ClinicTypeFeeDao clinicTypeFeeDao;
+    @Autowired
+    private ClinicIndexDao clinicIndexDao;
+
     /**
      * 保存号表
      * @param clinicScheduleList
@@ -90,6 +103,26 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
         list= clinicForRegistDao.findListReg(clinicForRegist);
         return list;
     }
+    //计算年龄
+    public long getAge(Date dt1) {
+        Date dt2= new Date();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            dt1=sdf.parse(sdf.format(dt1));
+            dt2=sdf.parse(sdf.format(dt2));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt1);
+        long time1 = cal.getTimeInMillis();
+        cal.setTime(dt2);
+        long time2 = cal.getTimeInMillis();
+        long between_days=(time2-time1)/(1000*3600*24);
+        between_days=between_days/365;
+        return between_days;
+    }
+
 
     /**
      * 保存挂号信息
@@ -107,6 +140,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
         patMasterIndex.setSex(clinicMaster.getSex());//性别
         patMasterIndex.setDateOfBirth(clinicMaster.getBirthDate());//出生日期
         patMasterIndex.setChargeType(clinicMaster.getChargeType());//费别
+        patMasterIndex.setAge(getAge(clinicMaster.getBirthDate())+"");
         patMasterIndex.setIdentity(clinicMaster.getIdentity());//身份
         patMasterIndex.setCreateDate(format.parse(DateUtils.getDate()));//记录时间
         patMasterIndex.setVipIndicator(0);//重要任务标志
@@ -118,6 +152,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
             patMasterIndex.preUpdate();
             i=patMasterIndexDao.update(patMasterIndex);
         }
+
         if(list!=null && list.size()>0){
             for(int k=0;k<list.size();k++){
                 ClinicMaster master=new ClinicMaster();
@@ -125,8 +160,9 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                 ClinicForRegist clinicForRegist= get(registId);
                 String clinicLabel=clinicForRegist.getClinicLabel();
                 String timeDesc=clinicForRegist.getTimeDesc();
-                master.setPatientId(patMasterIndex.getId());
+                master.setPatientId(patMasterIndex.getId());  //病人ID
                 master.setName(clinicMaster.getName()); //姓名
+                master.setAge(Integer.valueOf(patMasterIndex.getAge())); //获取年龄
                 master.setSex(clinicMaster.getSex());//性别
                 master.setChargeType(clinicMaster.getChargeType());//费别
                 master.setIdentity(clinicMaster.getIdentity());//身份
@@ -136,21 +172,41 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                 master.setClinicLabel(clinicLabel);//门诊号名称
                 master.setVisitTimeDesc(timeDesc);//门诊时间
                 master.setVisitDate(format.parse(DateUtils.getDate()));//就诊日期
+                master.setVisitDept(clinicMaster.getVisitDept()); //就诊科室
                 Integer no= clinicMasterDao.getMaxVisitNO();
+
                 if(no!=null &&!no.equals("")){
                  master.setVisitNo(no+1);
                 }else{
                     master.setVisitNo(1);//就诊序号
                 }
                 master.setClinicNo(DateUtils.getDate("yyyyMMdd")+master.getVisitNo());//就诊号==就诊日期+就诊序号
-                if("初诊".equals(clinicMaster.getVisitIndicator())){
+                if("0".equals(clinicMaster.getVisitIndicator())){
                     master.setFirstVisitIndicator(0);//初诊标志
                 }
                 master.setRegisteringDate(format.parse(DateUtils.getDate()));//挂号日期
-                master.setRegistFee(3.0);//挂号费
-                master.setClinicFee(2.0);//诊疗费
+
+                //获取费用
+                ClinicIndex clinicIndex=clinicIndexDao.get(clinicForRegist.getClinicLabel());
+                ClinicTypeFee clinicTypeFee=new ClinicTypeFee();
+                clinicTypeFee.setTypeId(clinicIndex.getClinicType());
+                List<ClinicTypeFee> clinicTypeFeeList= clinicTypeFeeDao.findList(clinicTypeFee);
+                Double registFee=0.0;
+                Double clinicFee=0.0;
+                for (int j = 0; j < clinicTypeFeeList.size(); j++) {
+                    ClinicTypeFee c=clinicTypeFeeList.get(j);
+                    if(c.getChargeItem().equals("1")){
+                        registFee+=c.getPrice();
+                    }
+                    if(c.getChargeItem().equals("2")){
+                        clinicFee+=c.getPrice();
+                    }
+                }
+                master.setRegistFee(registFee);//挂号费
+                master.setClinicFee(clinicFee);//诊疗费
                 master.setOtherFee(0.0);//其他费
-                master.setClinicCharge(5.0);//实收费用
+                master.setClinicCharge(registFee + clinicFee);//实收费用
+                master.setRegistrationStatus(1); //挂号状态
                 master.setModeCode("现金");//挂号模式
                 master.setPayWay("现金");//挂号模式
                 if (master.getIsNewRecord()){
@@ -160,12 +216,13 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                     master.preUpdate();
                     clinicMasterDao.update(master);
                 }
+                clinicForRegistDao.updateRegister(registId);
             }
 
         }
 
        //更新 号表 信息
-        clinicForRegistDao.updateRegister(DateUtils.getDate(),clinicMaster.getClinicLabel(),clinicMaster.getVisitTimeDesc());
+
         return i+"";
     }
 

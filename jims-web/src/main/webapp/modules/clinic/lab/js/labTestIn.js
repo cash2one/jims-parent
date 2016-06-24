@@ -1,104 +1,3 @@
-var administration = [{"value": "1", "text": "科室1"}, {"value": "2", "text": "科室2"}, {
-    "value": "3",
-    "text": "科室3"
-}, {"value": "4", "text": "科室4"}, {"value": "5", "text": "科室5"}];
-var doctors = [{"value": "1", "text": "医生1"}, {"value": "2", "text": "医生"}, {"value": "3", "text": "医生"}, {
-    "value": "4",
-    "text": "医生"
-}, {"value": "5", "text": "医生"}];
-
-//var labItemClass=[{"value":"1","text":"类别1"},{"value":"1","text":"类别1"},{"value":"1","text":"类别1"}]//检验类别
-//var performedBy=[{"value":"1","text":"科室1"},{"value":"1","text":"科室2"},{"value":"1","text":"科室3"}]//检验科室
-//var specimen=[{"value":"1","text":"标本1"},{"value":"1","text":"标本2"},{"value":"1","text":"标本3"}]//检验标本
-
-var rowNum = -1;
-var labItemClass = []//检验类别
-var performedBy = []//检验科室
-var specimen = []//检验标本
-var priceItmeData = {};
-priceItmeData.orgId = "";
-priceItmeData.dictType = "v_lab_class"
-
-/**
- * 住院检验
- */
-$.ajax({
-    'type': 'POST',
-    'url': basePath + '/input-setting/listParam',
-    data: JSON.stringify(priceItmeData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function (data) {
-        labItemClass = data;
-    }
-});
-/**
- * 科室查询
- */
-$.ajax({
-    type:"POST",
-    url:basePath+'/dept-dict/getList',
-    contentType:'application/json',
-    async:false,
-    success: function (data) {
-        performedBy=data;
-    }
-})
-
-/**
- * 检验类别翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string}
- */
-function labItemClassFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < labItemClass.length; i++) {
-        if (labItemClass[i].class_code == value) {
-            return labItemClass[i].class_name;
-        }
-    }
-}
-
-/**
- * 检验科室翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string}
- */
-function performedByFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < performedBy.length; i++) {
-        if (performedBy[i].deptCode == value) {
-            return performedBy[i].deptName;
-        }
-    }
-}
-/**
- * 检验标本翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string}
- */
-function specimenFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < specimen.length; i++) {
-        if (specimen[i].value == value) {
-            return specimen[i].text;
-        }
-    }
-}
-
 
 $(function () {
     $("#treeGrid").dialog("close");
@@ -123,7 +22,7 @@ $(function () {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '30%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center', formatter: performedByFormatter},
+            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
             {
                 field: 'id',
@@ -132,11 +31,6 @@ $(function () {
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';
-                    /*if(row.resultStatus=="1"){
-                     html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                     }else{
-                     html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
-                     }*/
                     html = html + '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     html = html + '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
                     return html;
@@ -147,7 +41,11 @@ $(function () {
         detailFormatter: function (rowIndex, rowData) {
             return '<table><tr>' +
                 '<td style="border:0">' +
-                '<p>检验项目: ' + rowData.memo + '</p>' +
+                '<p>检验项目: </p>' +
+                '</td>' +
+                '</tr><tr>' +
+                '<td style="border:0">' +
+                '<p> ' +itemName + '</p>' +
                 '</td>' +
                 '</tr></table>';
         },
@@ -189,7 +87,7 @@ $(function () {
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center', formatter: performedByFormatter},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });
@@ -227,97 +125,8 @@ function add() {
             $("#performedBy").val(n);
         }
     })
-
-    ////更具科室选择标本
-    //$.ajax({
-    //    type: "POST",
-    //    url: basePath +'/speciman/findListByDeptCode',
-    //    data: code = data.dept_code,
-    //    dataType: "json",
-    //    success: function (data) {
-    //        $("#specimen").combobox('loadData',data);
-    //    }
-    //});
-
-
-    //onSelect: function (data) {
-    //    //根据科室选择类别
-    //    $.ajax({
-    //        type: "POST",
-    //        url: basePath +'/labitemclass/findListByDeptCode',
-    //        data: code = data.deptCode,
-    //        dataType: "json",
-    //        success: function (data) {
-    //            $("#labItemClass").combobox('loadData',data);
-    //        }
-    //    });
-    //    //更具科室选择标本
-    //    $.ajax({
-    //        type: "POST",
-    //        url: basePath +'/speciman/findListByDeptCode',
-    //        data: code = data.deptCode,
-    //        dataType: "json",
-    //        success: function (data) {
-    //            $("#specimen").combobox('loadData',data);
-    //        }
-    //    });
-    //}
-    ////标本下拉框
-    //$('#specimen').combobox({
-    //    valueField: 'specimanCode',
-    //    textField: 'specimanName'
-    //});
 }
-    ////下拉框选择控件，下拉框的内容是动态查询数据库信息
-    //$('#performedBy').combobox({
-    //    url: basePath + '/dept-dict/findListByCode',
-    //    valueField: 'deptCode',
-    //    textField: 'deptName',
-    //    queryParams: {code: 1502},
-    //    /*onLoadSuccess: function () {
-    //     var data = $(this).combobox('getData');
-    //     $(this).combobox('select', data[0].deptName);
-    //     },*/
-    //    onSelect: function (data) {
-    //        $.ajax({
-    //            type: "POST",
-    //            url: basePath + '/labitemclass/findListByDeptCode',
-    //            data: code = data.deptCode,
-    //            dataType: "json",
-    //            success: function (data) {
-    //                $("#labItemClass").combobox('loadData', data);
-    //            }
-    //        });
-    //        $.ajax({
-    //            type: "POST",
-    //            url: basePath + '/speciman/findListByDeptCode',
-    //            data: code = data.deptCode,
-    //            dataType: "json",
-    //            success: function (data) {
-    //                $("#specimen").combobox('loadData', data);
-    //            }
-    //        });
-    //    }
-    //});
-    //$('#labItemClass').combobox({
-    //    valueField: 'classCode',
-    //    textField: 'className'
-    //    /*,
-    //     onLoadSuccess: function () {
-    //     var data = $(this).combobox('getData');
-    //     $(this).combobox('select', data[0].className);
-    //     }*/
-    //});
-    //$('#specimen').combobox({
-    //    valueField: 'specimanCode',
-    //    textField: 'specimanName',
-    //    /*onLoadSuccess: function () {
-    //     var data = $(this).combobox('getData');
-    //     $(this).combobox('select', data[0].specimanName);*/
-    //    onChange: function (n, o) {
-    //        SendProduct();
-    //    }
-    //});
+
 
 function loadTreeGrid() {
     var menus = [];//菜单列表

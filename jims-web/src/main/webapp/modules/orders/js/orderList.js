@@ -55,17 +55,11 @@ $(function(){
                         var startDateTime = $("#orderList").datagrid('getEditor',{index:rowNum,field:'startDateTime'});
                         $(startDateTime.target).datebox('setValue',currentDate);
                         var orderClass=value;
-                        var row = $('#orderList').datagrid('getSelected');
-                        //$("#"+this.getSelected().toString()).children().eq(4).beginEdit();
-                      /*  var columns = $('#orderList').datagrid("options").columns;
 
-                         row[rowNum][columns[4]].beginEdit();*/
 
                         /*如果类别是药品医嘱内容是药品的内容，如果是非药品显示非药品的医嘱内容*/
                         if(orderClass=='1'){//药品
-                            $("#orderList").datagrid('removeEditor','orderText');
-                            $("#orderList").datagrid('endEdit', rowNum);
-                            $("#orderList").datagrid('beginEdit', rowNum);
+
                               $("#orderList").datagrid('addEditor',[
                              {field:'orderText',editor:{
                              type:'combogrid',
