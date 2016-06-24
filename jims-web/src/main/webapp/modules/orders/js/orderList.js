@@ -27,9 +27,19 @@ $(function(){
                     required:true,
                     data :ordersType,
                     valueField:'value',
-                    textField:'label'
+                    textField:'label',
+                    onSelect:function(){
+                        var performSchedule = $("#orderList").datagrid('getEditor',{index:rowNum,field:'performSchedule'});
+                        var repeatIndicatorValue = $("#orderList").datagrid('getEditor',{index:rowNum,field:'repeatIndicator'});
+                        var repeatIndicator = $(repeatIndicatorValue.target).combobox('getValue');
+                    if(repeatIndicator=='0'){//临时医嘱
+                        var d = new Date();
+                        $('#frequency').combobox('disable');
+                        alert(d.getHours()+":"+ d.getMinutes());
+                        $(performSchedule.target).textbox('setValue',d.getHours()+":"+ d.getMinutes());
+
                 }
-            }},
+            }}}},
             {field:'orderClass',title:'类别',width:'5%',align:'center',formatter:orderClassFormatter,editor:{
                 type:'combobox',
                 options:{
@@ -38,61 +48,87 @@ $(function(){
                     valueField:'value',
                     textField:'label',
                     onSelect:function(){
-                        var orderClass=$('#orderClass').combobox('getValue');
+
+                        var orderClass = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderClass'});
+                        var value = $(orderClass.target).combobox('getValue');
+                        var currentDate = new Date().format("yyyy-MM-dd hh:mm:ss");
+                        var startDateTime = $("#orderList").datagrid('getEditor',{index:rowNum,field:'startDateTime'});
+                        $(startDateTime.target).datebox('setValue',currentDate);
+                        var orderClass=value;
+                        var row = $('#orderList').datagrid('getSelected');
+                        //$("#"+this.getSelected().toString()).children().eq(4).beginEdit();
+                      /*  var columns = $('#orderList').datagrid("options").columns;
+
+                         row[rowNum][columns[4]].beginEdit();*/
+
                         /*如果类别是药品医嘱内容是药品的内容，如果是非药品显示非药品的医嘱内容*/
                         if(orderClass=='1'){//药品
+                            $("#orderList").datagrid('removeEditor','orderText');
+                            $("#orderList").datagrid('endEdit', rowNum);
+                            $("#orderList").datagrid('beginEdit', rowNum);
+                              $("#orderList").datagrid('addEditor',[
+                             {field:'orderText',editor:{
+                             type:'combogrid',
+                             options:{
+                                 panelWidth: 450,
+                                 data:drugData,
+                                 idField:'drug_code',
+                                 textField:'item_name',
+                                 columns:[
+                                     [
+                                         {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
+                                         {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                                         {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                                         {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
+                                         {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
+                                         {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
+                                     ]
+                                 ] ,onClickRow: function (index, row) {
+                                     var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
+                                     $(dosage.target).textbox('setValue',row.dose_per_unit);
+                                     var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                                     $(dosageUnits.target).textbox('setValue',row.dose_units);
 
+                                 }
+                             }
+                             }
+                             }])
+                            $("#orderList").datagrid('endEdit', rowNum);
+                            //$("#orderList").datagrid('beginEdit', rowNum);
                         }else if(orderClass=='2'){//非药品
-                            var ed = $('#list_data').datagrid('getEditor', {index:rowIndex,field:'doctor'});
-                            $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
-                            $("#orderText").combogrid({
-                                data:drugData,
-                                idField:'drug_code',
-                                textField:'item_name',
-                                selectOnNavigation:true,
-                                columns:[
-                                {field: 'item_code', title: '代码', width: '8%', align: 'center'},
-                                {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-                                {field: 'input_code', title: '拼音', width: '15%', align: 'center'},
-                                {field: 'item_class', title: '类别', width: '15%', align: 'center'},
-                                {field: 'expand1', title: '扩展1', width: '15%', align: 'center'},
-                                {field: 'expand2', title: '扩展2', width: '15%', align: 'center'},
-                                {field: 'expand5', title: '扩展5', width: '15%', align: 'center'}
-                                ]
-                            });
+                            $("#orderList").datagrid('removeEditor','orderText');
+                            $("#orderList").datagrid('endEdit', rowNum);
+                            $("#orderList").datagrid('beginEdit', rowNum);
+                            $("#orderList").datagrid('addEditor',[
+                                 {field:'orderText',
+                                     editor:{
+                                         type:'combogrid',
+                                         options:{
+                                             data:clinicData,
+                                             idField:'item_code',
+                                             textField:'item_name',
+                                             columns:[
+                                                 {field: 'item_code', title: '代码', width: '8%', align: 'center'},
+                                                 {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                                                 {field: 'input_code', title: '拼音', width: '15%', align: 'center'},
+                                                 {field: 'item_class', title: '类别', width: '15%', align: 'center'},
+                                                 {field: 'expand1', title: '扩展1', width: '15%', align: 'center'},
+                                                 {field: 'expand2', title: '扩展2', width: '15%', align: 'center'},
+                                                 {field: 'expand5', title: '扩展5', width: '15%', align: 'center'}
+                                             ]
+                                         }
+                                    }
+                                }
+                            ])
+
                         }
-                        var ed = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderText'});
-                        $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
 
                     }
                 }
             }},
             //当前时间
-            {field:'startDateTime',title:'下达时间',width:'10%',align:'center', editor:{type: 'datebox'}},
-            {field:'orderText',title:'医嘱内容',width:'10%',align:'center',editor:{
-                type:'combogrid',
-                options: {
-                    panelWidth: 450,
-                    data:drugData,
-                    idField:'drug_code',
-                    textField:'item_name',
-                    columns:[
-                        [
-                            {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
-                            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-                            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
-                            {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
-                            {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
-                            {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'}
-                        ]
-                    ] ,onClickRow: function (index, row) {
-                       var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
-                        $(dosage.target).textbox('setValue',row.dose_per_unit);
-                        var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
-                        $(dosageUnits.target).textbox('setValue',row.dose_units);
-
-                    }
-            }}},
+            {field:'startDateTime',title:'下达时间',width:'10%',align:'center', editor:{type: 'datebox',options:{editable:true,disable:false}}},
+            {field:'orderText',title:'医嘱内容',width:'10%',align:'center'},
             {field:'billingAttr',title:'自',width:'5%',align:'center',formatter:billingAttrFormatter,editor:{
                 type:'combobox',
                 options:{
@@ -121,38 +157,47 @@ $(function(){
                     data :performFreqDict,
                     valueField:'id',
                     textField:'freqDesc',
-            /*          onLoadSuccess:function(){
-                        var row = $('#orderList').datagrid('getSelected');
-                        if(row!=null){
-                            if(row.repeatIndicator=='1'){//长期医嘱
-
-                            }else if(row.repeatIndicator=='0'){//临时医嘱
-
-                            }
-                        }
-
-                    },*/
                     onSelect: function () {
                         var row = $('#orderList').datagrid('getSelected');
                         var performSchedule = $("#orderList").datagrid('getEditor',{index:rowNum,field:'performSchedule'});
-                        if(row==null || row.repeatIndicator==null){
+                        var frequency = $("#orderList").datagrid('getEditor',{index:rowNum,field:'frequency'});
+                        var frequencyValue = $(frequency.target).combobox('getValue');
+                        var repeatIndicatorValue = $("#orderList").datagrid('getEditor',{index:rowNum,field:'repeatIndicator'});
+                        var repeatIndicator = $(repeatIndicatorValue.target).combobox('getValue');
+                        var administration = $("#orderList").datagrid('getEditor',{index:rowNum,field:'administration'});
+                        var administrationValue = $(administration.target).combobox('getValue');
+                        if( repeatIndicator==null){
                             $('#frequency').combobox('disable');
                             $.messager.alert('提示', "医嘱类型不能为空！", "error");
                         }else{
-                        if(row.repeatIndicator=='1'){//长期医嘱
-                            $('#frequency').combobox('enable');
-                            $(performSchedule.target).textbox('setValue','9:00');
-                        }else if(row.repeatIndicator=='0'){//临时医嘱
-                            $('#frequency').combobox('disable');
-                            $(performSchedule.target).textbox('setValue','new Date');
-                        }
-                        }
-                        //performSchedule(row.administration,row.frequency);
-                    }
+                            if(repeatIndicator=='1'){//长期医嘱
+                                $('#frequency').combobox('enable');
+                                var perSchedule = [];
+                                $.ajax({
+                                    'type': 'GET',
+                                    'url':basePath+'/performDefaultSchedule/findList',
+                                    'contentType': 'application/json',
+                                    'data':'freqDesc='+frequencyValue+'&administration='+administrationValue,
+                                    'dataType': 'json',
+                                    'async': false,
+                                    'success': function(data){
+                                        perSchedule=data;
+                                        var defaultSchedule ;
+                                        for (var i = 0; i < perSchedule.length; i++) {
+                                            if (perSchedule[i].freqDesc == frequencyValue && perSchedule[i].administration == administrationValue) {
+                                                defaultSchedule = perSchedule[i].defaultSchedule;
+                                            }
+                                        }
+
+                                        $(performSchedule.target).textbox('setValue',defaultSchedule);
+                                    }
+                                });
+
+                            }
 
                 }
 
-            }},
+            }}}},
             {field:'performSchedule',title:'执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             /*{field:'',title:'阴阳',width:'5%',align:'center'},*/
             {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',editor:{type: 'datebox'}},
@@ -227,7 +272,6 @@ $(function(){
 
             var row = $('#orderList').datagrid('getSelected');
             var dataGrid=$('#orderList');
-            var row = $('#orderList').datagrid('getSelected');
            // var status = row.orderStatus;
                 if(!dataGrid.datagrid('validateRow', rowNum)){
                     return false//新开
@@ -243,7 +287,45 @@ $(function(){
 
 
 
-        },onDblClickRow:function(rowIndex, rowData){
+        },onClickCell:function(rowIndex, field, value){
+               if(field=="orderText"){
+
+                    var dataGrid=$('#orderList');
+                    dataGrid.datagrid('endEdit',rowNum);
+                   // dataGrid.datagrid('refreshRow', rowNum);
+                   $("#orderList").datagrid('addEditor',[
+                       {field:'orderText',editor:{
+                           type:'combogrid',
+                           options:{
+                               panelWidth: 450,
+                               data:drugData,
+                               idField:'drug_code',
+                               textField:'item_name',
+                               columns:[
+                                   [
+                                       {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
+                                       {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                                       {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                                       {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
+                                       {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
+                                       {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
+                                   ]
+                               ] ,onClickRow: function (index, row) {
+                                   var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
+                                   $(dosage.target).textbox('setValue',row.dose_per_unit);
+                                   var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                                   $(dosageUnits.target).textbox('setValue',row.dose_units);
+
+                               }
+                           }
+                       }
+                       }])
+                    dataGrid.datagrid('selectRow', rowNum);
+                    dataGrid.datagrid('beginEdit', rowNum);
+
+
+                }
+
 
         }, rowStyler:function(index,row){
             if (row.orderStatus=='1'){
@@ -436,10 +518,9 @@ function changeSubNo(row){
 }*/
 
 
-//传输医嘱（下达医嘱）
+//传输医嘱（下达医嘱）下达时间不能早于昨天22:00
 function issuedOrders(){
     var row = $('#orderList').datagrid('getSelected');
-   // alert("row.id="+row.id);
     $.ajax({
         method:"POST",
         contentType:"application/json",
