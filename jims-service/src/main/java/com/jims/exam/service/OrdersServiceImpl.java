@@ -329,4 +329,13 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
     public  List<Orders> getSubOrders(Orders orders){
         return ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(), orders.getOrderNo());
     }
+
+    /**
+     * 通过医嘱ID拿到医嘱计价
+     * @author pq
+     * @return
+     */
+    public List<OrdersCosts> getById(String ordersId){
+       return ordersCostsDao.getByOrderId(ordersId);
+    }
 }

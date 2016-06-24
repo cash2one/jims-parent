@@ -8,7 +8,7 @@ $(function(){
     $('#orderList').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
-        height: '86%',
+        height: '100%',
         nowrap: false,
         striped: true,
         border: true,
@@ -121,12 +121,12 @@ $(function(){
             }},
             //当前时间
             {field:'startDateTime',title:'下达时间',width:'10%',align:'center', editor:{type: 'datebox',options:{editable:true,disable:false}}},
-            {field:'orderText',title:'医嘱内容',width:'10%',align:'center',formatter:drugFormatter,editor:{
+            {field:'orderText',title:'医嘱内容',width:'10%',align:'center',editor:{
                 type:'combogrid',
                 options:{
                     panelWidth: 450,
                     data:drugData,
-                    idField:'drug_code',
+                    idField:'item_name',
                     textField:'item_name',
                     columns:[
                         [
@@ -136,6 +136,8 @@ $(function(){
                             {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
                             {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
                             {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
+                            {field: 'item_class', hidden:'true'},
+                            {field: 'price', hidden:'true'}
                         ]
                     ] ,onClickRow: function (index, row) {
                         var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
@@ -143,6 +145,22 @@ $(function(){
                         var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
                         $(dosageUnits.target).textbox('setValue',row.dose_units);
 
+                        var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
+                        $(orderCode.target).textbox('setValue',row.drug_code);
+                      //  $("#orderCostList").datagrid("loadData", row);
+                        $('#orderCostList').datagrid('insertRow', {
+                            index:0,	// index start with 0
+                            row: {
+                                itemClass:  row.item_class,
+                                itemName:row.item_name,
+                                itemSpec:row.drug_spec,
+                                amount:row.dose_per_unit,
+                                units:row.dose_units,
+                                costs:row.price,
+                                itemCode:row.drug_code
+                            }
+                        });
+                        $('#orderCostList').datagrid('selectRow',0);
                     }
                 }
             }},
@@ -228,7 +246,8 @@ $(function(){
             {field:'stopNurse',title:'停止校対护士',width:'5%',align:'center'},
             {field:'orderNo',hidden:'true'},
             {field:'orderSubNo',hidden:'true'},
-            {field:'orderStatus',hidden:'true'}
+            {field:'orderStatus',hidden:'true'},
+            {field:'orderCode',hidden:'true'}
 
         ]],
         toolbar: [{
@@ -302,54 +321,6 @@ $(function(){
                     }
                 }
 
-
-
-        },onClickCell:function(rowIndex, field, value){
-               if(field=="orderText"){
-
-                    var dataGrid=$('#orderList');
-                    dataGrid.datagrid('endEdit',rowNum);
-                   // dataGrid.datagrid('refreshRow', rowNum);
-                   $("#orderList").datagrid('addEditor',[
-                       {field:'orderText',editor:{
-                           type:'combogrid',
-                           options:{
-                               panelWidth: 450,
-                               data:drugData,
-                               idField:'drug_code',
-                               textField:'item_name',
-                               columns:[
-                                   [
-                                       {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
-                                       {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-                                       {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
-                                       {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
-                                       {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
-                                       {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
-                                   ]
-                               ] ,onClickRow: function (index, row) {
-                                   var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
-                                   $(dosage.target).textbox('setValue',row.dose_per_unit);
-                                   var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
-                                   $(dosageUnits.target).textbox('setValue',row.dose_units);
-                                   //药品的计价细项
-                                   $.get(basePath+'/outppresc/priceItem?masterId=' + row.id, function (data) {
-                                       $("#orderCostList").datagrid("loadData", data);
-                                   });
-
-
-
-                               }
-                           }
-                       }
-                       }])
-                    dataGrid.datagrid('selectRow', rowNum);
-                    dataGrid.datagrid('beginEdit', rowNum);
-
-
-                }
-
-
         }, rowStyler:function(index,row){
             if (row.orderStatus=='1'){
                 return 'color:black;';
@@ -381,13 +352,15 @@ $(function(){
         pagination: true,//分页控件
         rownumbers: true,//行号
         columns: [[      //每个列具体内容
-            {field: 'item_class', title: '类别', width: '5%', align: 'center'},
-            {field: 'item_name', title: '计价项目', width: '5%', align: 'center'},
-            {field: 'drug_spec', title: '规格', width: '5%', align: 'center'},
-            {field: 'quantity', title: '数量', width: '5%', align: 'center'},
-            {field: 'dose_units', title: '单位', width: '5%', align: 'center'},
-            {field: 'price', title: '当前单价', width: '5%', align: 'center'},
-            {field: 'price', title: '计价规则', width: '5%', align: 'center'}
+            {field: 'itemClass', title: '类别', width: '5%', align: 'center'},
+            {field: 'itemName', title: '计价项目', width: '5%', align: 'center'},
+            {field: 'itemSpec', title: '规格', width: '5%', align: 'center'},
+            {field: 'amount', title: '数量', width: '5%', align: 'center'},
+            {field: 'units', title: '单位', width: '5%', align: 'center'},
+            {field: 'costs', title: '当前单价', width: '5%', align: 'center'},
+            {field:'itemCode',hidden:'true'}
+
+           /* {field: 'price', title: '计价规则', width: '5%', align: 'center'}*/
 
         ]]
     });
@@ -401,9 +374,10 @@ $(function(){
 function save(){
     $("#orderList").datagrid('endEdit', rowNum);
     var  rows=$('#orderList').datagrid('getRows');
+    var  costRows=$('#orderCostList').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
-    var submitJson=tableJson+",\"patientId\":"+patId+",\"visitId\":"+visitId+"}";
-
+    var costJson = JSON.stringify(costRows);
+    var submitJson=tableJson+",\"patientId\":"+patId+",\"visitId\":"+visitId+",\"ordersCostses\":"+costJson+"}";
     $.postJSON(basePath+'/inOrders/save',tableJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息","保存成功");

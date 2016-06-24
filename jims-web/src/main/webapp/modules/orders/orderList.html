@@ -10,19 +10,19 @@
     <script type="text/javascript" src="/static/data/data_orders.js"></script>
 </head>
 <body class="easyui-layout" >
-
+<div data-options="region:'north'" style="height:80px">
 <div class="search-standard search-new clearfix">
     <form name="searchform" method="post" id ="searchform">
     <ul class="clearfix">
         <li>
-             <input type="radio" name="repeatIndicator"  checked="checked" value="1" />全部 &nbsp;&nbsp;
+             <input type="radio" name="repeatIndicator"  checked="checked" value="1" />全部
              <input type="radio" name="repeatIndicator" value="2"  />长期
              <input type="radio" name="repeatIndicator" value="3"  />临时
         </li>
         <li style="width:50%;"><input type="text" name="startDateTime" class="easyui-datetimebox"/> 至  <input type="text" name="stopDateTime" class="easyui-datetimebox"/></li>
         <li><a id="submit_search">查询</a></li>
         <li>
-            <input type="radio" name="orderStatus"  checked="checked" value="1" />都显示 &nbsp;&nbsp;
+            <input type="radio" name="orderStatus"  checked="checked" value="1" />都显示
             <input type="radio" name="orderStatus" value="2"  />已执行
             <input type="radio" name="orderStatus" value="3"  />医嘱本
         </li>
@@ -31,18 +31,18 @@
         </form>
 
 </div>
-<div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
-  注意：蓝色 - 下达医嘱    黑色 - 新开医嘱   红色 - 作废医嘱  黄色 - 停止医嘱
 </div>
-<table id="orderList" width="100%"   cellspacing="0" cellpadding="0" >
+<div data-options="region:'center'" >
+<table id="orderList" width="100%"   cellspacing="0" cellpadding="0"  style="padding-bottom: 0px;" >
 
 </table>
-
+    </div>
+<div data-options="region:'south'" style="height:150px;">
 <table id="orderCostList" width="100%"   cellspacing="0" cellpadding="0" >
 
 </table>
-<div id="ordersDialog"  >
-    <div id="ordersDatagrid">
+    <div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
+        注意：蓝色 - 下达医嘱    黑色 - 新开医嘱   红色 - 作废医嘱  黄色 - 停止医嘱
     </div>
 </div>
 </body>
