@@ -204,16 +204,18 @@ $(function(){
         parent.$.postJSON('/service/performDefaultSchedule/save',JSON.stringify(data),function(res){
             if(res == '1'){
                 $.messager.alert('保存','保存成功！','info',function(){
-                    var v = $('#operateCombo').combobox('getValue');
-                    loadComboData()
-                    if(! v){
-                        if(currentCheckRadio = '1'){
-                            $('#operateCombo').combobox('setValue',$('#freqDesc').combobox('getValue'))
-                        } else if(currentCheckRadio = '2'){
-                            $('#operateCombo').combobox('setValue',$('#administration').combobox('getValue'))
+                    if(currentCheckRadio != 0) {
+                        var v = $('#operateCombo').combobox('getValue');
+                        loadComboData()
+                        if (!v) {
+                            if (currentCheckRadio = '1') {
+                                $('#operateCombo').combobox('setValue', $('#freqDesc').combobox('getValue'))
+                            } else if (currentCheckRadio = '2') {
+                                $('#operateCombo').combobox('setValue', $('#administration').combobox('getValue'))
+                            }
+                        } else {
+                            $('#operateCombo').combobox('setValue', v)
                         }
-                    } else {
-                        $('#operateCombo').combobox('setValue',v)
                     }
                     loadData()
                     $('#dlg').dialog('close')
