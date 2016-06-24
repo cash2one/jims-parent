@@ -53,6 +53,17 @@ $(function(){
         textField: 'identityName'
     })
     $("#identityId ").combobox('select',identityDict[0].id);
+
+    /**
+     * 合同单位下拉框
+     */
+    $('#companyId').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
+
+
     getClinicForRegist();
 
 })
