@@ -42,7 +42,7 @@ function skinFlagFormatter(value, rowData, rowIndex) {
 $.ajax({
     'type': 'GET',
     'url':basePath+'/dict/findListByType',
-    data: 'type=SKIN_FLAG_DICT',
+    data: 'type=SKIN_RESULT_DICT',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,

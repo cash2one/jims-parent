@@ -5,6 +5,7 @@ import com.jims.clinic.api.EmrDiagnosisServiceApi;
 import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.EmrDiagnosis;
 import com.jims.common.data.StringData;
+import com.jims.lab.api.LabTestItemsServiceApi;
 import com.jims.lab.api.LabTestMasterServiceApi;
 import com.jims.lab.entity.LabTestItems;
 import com.jims.lab.entity.LabTestMaster;
@@ -36,6 +37,8 @@ public class LabTestRest {
 
     @Reference(version = "1.0.0")
     public EmrDiagnosisServiceApi emrDiagnosisServiceApi;
+    @Reference(version = "1.0.0")
+    private LabTestItemsServiceApi labTestItemsServiceApi;
 
     /**
      * 异步加载信息表格
@@ -159,9 +162,21 @@ public class LabTestRest {
     public StringData del(String ids){
         LabTestMaster labTestMaster = new LabTestMaster();
         labTestMaster.setId(ids);
-        labTestMasterServiceApi.delAll(labTestMaster);
+        labTestMasterServiceApi.delAll(ids);
         StringData stringData=new StringData();
         stringData.setData("success");
         return stringData;
+    }
+
+    /**
+     * 通过testNo获取对应检验项目列表
+     * @param testNo
+     * @return
+     */
+    @Path("getItem")
+    @POST
+    public List<LabTestItems> getItem(String testNo){
+        List<LabTestItems> labTestItemsList=labTestItemsServiceApi.getItemName(testNo);
+        return labTestItemsList;
     }
 }

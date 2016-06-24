@@ -59,6 +59,8 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	private String skinFlag;		// skin_flag
 	private Integer prescPsno;		// presc_psno
 	private String skinResult;		// skin_result
+	private String subjCode;
+	private String performedBy;
     private List<OutpPresc> list;
 	
 	public OutpPresc() {
@@ -383,5 +385,21 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public String getSubjCode() {
+		return subjCode;
+	}
+
+	public void setSubjCode(String subjCode) {
+		this.subjCode = subjCode;
+	}
+
+	public String getPerformedBy() {
+		return performedBy;
+	}
+
+	public void setPerformedBy(String performedBy) {
+		this.performedBy = performedBy;
 	}
 }

@@ -5,7 +5,7 @@ $(function(){
             validator: function(value, param){
                 return getByteLen(value) <= param[0];
             },
-            message: '字符过长.'
+            message: '字符过长'
         }
     });
 

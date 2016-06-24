@@ -93,5 +93,16 @@ public class DeptDictImpl implements DeptDictApi {
      */
     public List<DeptDict> getList(){
         return deptDictBo.getList();
-    };
+    }
+
+    /**
+     * 手术科室
+     * @return
+     */
+    @Override
+    public List<DeptDict> getOperation() {
+        return deptDictBo.getOperation();
+    }
+
+    ;
 }

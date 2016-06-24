@@ -49,6 +49,14 @@ public class ClinicAppointsServiceImpl extends CrudImplService<ClinicAppointsDao
     @Override
     public String saveAppointsRegis(PatMasterIndex patMasterIndex) throws Exception{
         int num=0;
+        //更新 patMasterIndex
+        if (patMasterIndex.getIsNewRecord()){
+            patMasterIndex.preInsert();
+            num=patMasterIndexDao.insert(patMasterIndex);
+        }else{
+            patMasterIndex.preUpdate();
+            num= patMasterIndexDao.update(patMasterIndex);
+        }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         List<ClinicForRegist> registList=patMasterIndex.getClinicForRegistList();
         if(registList!=null && registList.size()>0){
@@ -60,6 +68,7 @@ public class ClinicAppointsServiceImpl extends CrudImplService<ClinicAppointsDao
                  clinicAppoints.setVisitTimeAppted(regist.getTimeDesc());//预约就诊时间
                  clinicAppoints.setApptMadeDate(format.parse(DateUtils.getDate()));//何时预约
                  //clinicAppoints.setModeCode("");//预约模式
+                 clinicAppoints.setPatientId(patMasterIndex.getId());
                  clinicAppoints.setName(patMasterIndex.getName());
                  clinicAppoints.setSex(patMasterIndex.getSex());
                  String age=DateUtils.getBirthDate(patMasterIndex.getDateOfBirth());
@@ -78,14 +87,7 @@ public class ClinicAppointsServiceImpl extends CrudImplService<ClinicAppointsDao
                  String timeDesc=regist.getTimeDesc();
                  clinicForRegistDao.updateRegisterByAppoint(clinicDate,clinicLabel,timeDesc);
              }
-            //更新 patMasterIndex
-            if (patMasterIndex.getIsNewRecord()){
-                patMasterIndex.preInsert();
-                num=patMasterIndexDao.insert(patMasterIndex);
-            }else{
-                patMasterIndex.preUpdate();
-                num= patMasterIndexDao.update(patMasterIndex);
-            }
+
 
         }
         return num+"";
