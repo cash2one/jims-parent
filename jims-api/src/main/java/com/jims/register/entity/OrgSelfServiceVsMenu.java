@@ -15,7 +15,7 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
     private static final long serialVersionUID = 1L;
     private String selfServiceId;		// 服务ID
     private String menuId;		// 菜单ID
-    private String menuSort;		// 菜单排序
+    private Integer menuSort;		// 菜单排序
     private String pid ;     // 父ID
     private Date menuEndDate;    //菜单结束时间
     private String menuOperate;
@@ -74,11 +74,11 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 	}
 
 
-	public String getMenuSort() {
+	public Integer getMenuSort() {
 		return menuSort;
 	}
 
-	public void setMenuSort(String menuSort) {
+	public void setMenuSort(Integer menuSort) {
 		this.menuSort = menuSort;
 	}
 
