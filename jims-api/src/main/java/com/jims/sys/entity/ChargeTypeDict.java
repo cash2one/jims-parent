@@ -18,7 +18,7 @@ import java.util.Date;
 public class ChargeTypeDict extends DataEntity<ChargeTypeDict> {
 	
 	private static final long serialVersionUID = 1L;
-	private String hosId;		// 医院id
+	private String orgId;		// 医院id
 	private String chargeTypeCode;		// 费别代码
 	private String chargeTypeName;		// 费别名称
 	private String chargePriceIndicator;		// 享受优惠价格标志
@@ -37,15 +37,15 @@ public class ChargeTypeDict extends DataEntity<ChargeTypeDict> {
 		super(id);
 	}
 
-	public String getHosId() {
-		return hosId;
-	}
+    public String getOrgId() {
+        return orgId;
+    }
 
-	public void setHosId(String hosId) {
-		this.hosId = hosId;
-	}
-	
-	@Length(min=0, max=1, message="费别代码长度必须介于 0 和 1 之间")
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    @Length(min=0, max=1, message="费别代码长度必须介于 0 和 1 之间")
 	public String getChargeTypeCode() {
 		return chargeTypeCode;
 	}

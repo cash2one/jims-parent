@@ -38,10 +38,17 @@ public class OrgRoleRest {
         return orgRoleApi.findAllList(orgId);
     }
 
+    /**
+     * 根据角色名称模糊查询数据
+     * @param roleName  角色名称
+     * @param orgId  组织机构ID
+     * @return
+     * @author fengyuguang
+     */
     @GET
     @Path("find-by-name")
-    public List<OrgRole> findByRoleName(@QueryParam("roleName")String roleName){
-        return orgRoleApi.findByRoleName(roleName);
+    public List<OrgRole> findByRoleName(@QueryParam("roleName")String roleName,@QueryParam("orgId")String orgId){
+        return orgRoleApi.findByRoleName(roleName,orgId);
     }
 
     /**
