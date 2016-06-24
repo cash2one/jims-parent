@@ -17,8 +17,18 @@ public interface ChargeTypeDictDao extends CrudDao<ChargeTypeDict>{
      * 查询某个组织机构的费别列表
      * @param orgId  组织机构ID
      * @return
+     * @author fengyuguang
      */
-    public List<ChargeTypeDict> findListByOrgId(String q,String orgId);
+    public List<ChargeTypeDict> findListByOrgId(String q,String orgId,ChargeTypeDict chargeTypeDict);
+
+    /**
+     * 根据费别名称模糊查询数据
+     * @param chargeTypeName 费别名称
+     * @param orgId  组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<ChargeTypeDict> search(String chargeTypeName,String orgId);
 
     /**
      * 查询某个组织机构的费别列表

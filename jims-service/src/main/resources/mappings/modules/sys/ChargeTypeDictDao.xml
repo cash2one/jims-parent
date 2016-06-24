@@ -14,7 +14,7 @@
 		a.group_name AS "groupName",
 		a.insurance_type_inq AS "insuranceTypeInq",
 		a.create_by AS "createBy.id",
-		a.create_data AS "createData",
+		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
@@ -36,7 +36,15 @@
         SELECT
         <include refid="chargeTypeDictColumns"/>
         FROM charge_type_dict a
+        WHERE a.org_id = #{1} AND a.del_flag = '0'
+    </select>
+
+    <select id="search" resultType="ChargeTypeDict">
+        SELECT
+        <include refid="chargeTypeDictColumns"/>
+        FROM charge_type_dict a
         WHERE a.org_id = #{1} AND a.charge_type_name LIKE '%'|| #{0} || '%'
+        AND a.del_flag = '0'
     </select>
 
     <select id="listAll" resultType="ChargeTypeDict">
@@ -96,7 +104,7 @@
 			group_name,
 			insurance_type_inq,
 			create_by,
-			create_data,
+			create_date,
 			update_by,
 			update_date,
 			del_flag,
@@ -113,7 +121,7 @@
 			#{groupName},
 			#{insuranceTypeInq},
 			#{createBy.id},
-			#{createData},
+			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
 			#{delFlag},
@@ -132,7 +140,7 @@
 			group_no = #{groupNo},
 			group_name = #{groupName},
 			insurance_type_inq = #{insuranceTypeInq},
-			create_data = #{createData},
+			create_date = #{createDate},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remarks = #{remarks}

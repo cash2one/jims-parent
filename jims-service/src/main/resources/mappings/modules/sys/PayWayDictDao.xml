@@ -32,6 +32,7 @@
         FROM pay_way_dict a,charge_type_dict b
         WHERE a.org_id = #{orgId}
         AND a.charge_type = b.charge_type_code
+        AND a.org_id = b.org_id
     </select>
 
     <select id="listByNullChargeType" resultType="PayWayDict">

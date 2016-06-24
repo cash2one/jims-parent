@@ -21,13 +21,13 @@ public class ChargeTypeDict extends DataEntity<ChargeTypeDict> {
 	private String orgId;		// 医院id
 	private String chargeTypeCode;		// 费别代码
 	private String chargeTypeName;		// 费别名称
-	private String chargePriceIndicator;		// 享受优惠价格标志
+	private String chargePriceIndicator;		// 享受优惠价格标志    1—享受 0不享受
 	private String inputCodeWb;		// 五笔码
-	private String isInsur;		// 是否是医保类别
-	private String groupNo;		// 费别分组号
+	private String isInsur;		// 是否是医保类别   0－非医保 1－医保
+	private String groupNo;		// 费别分组号 其中需要强制定义的有:01自费  02医保 03合作医疗  其他可根据需要定义
 	private String groupName;		// 费别分组名称
-	private String insuranceTypeInq;		// 院长查询用的医保类别
-	private Date createData;		// 创建时间
+	private String insuranceTypeInq;		// 院长查询用的医保类别  0:自费 1:医保  2:合作医疗
+	private Date createDate;		// 创建时间
 	
 	public ChargeTypeDict() {
 		super();
@@ -118,12 +118,11 @@ public class ChargeTypeDict extends DataEntity<ChargeTypeDict> {
 	}
 	
 	@JsonSerialize(using = CustomDateSerializer.class)
-	public Date getCreateData() {
-		return createData;
-	}
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-	public void setCreateData(Date createData) {
-		this.createData = createData;
-	}
-	
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 }

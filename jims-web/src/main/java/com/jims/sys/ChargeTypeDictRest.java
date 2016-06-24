@@ -6,6 +6,7 @@ import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.api.ChargeTypeDictApi;
 import com.jims.sys.entity.ChargeTypeDict;
+import com.jims.sys.vo.BeanChangeVo;
 import org.apache.commons.fileupload.util.LimitedInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,39 @@ public class ChargeTypeDictRest {
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
         return pageData;
+    }
+
+    /**
+     * 保存增删改
+     * @param beanChangeVo 增删改集合
+     * @return
+     * @author fengyuguang
+     */
+    @POST
+    @Path("merge")
+    public StringData merge(BeanChangeVo<ChargeTypeDict> beanChangeVo) {
+        String num = chargeTypeDictApi.merge(beanChangeVo);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        if (Integer.parseInt(num) > 0) {
+            stringData.setData("success");
+        } else {
+            stringData.setData("error");
+        }
+        return stringData;
+    }
+
+    /**
+     * 根据名称模糊查询数据
+     * @param chargeTypeName 费别名称
+     * @param orgId  组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    @Path("search")
+    @GET
+    public List<ChargeTypeDict> search(@QueryParam("chargeTypeName")String chargeTypeName,@QueryParam("orgId")String orgId){
+        return chargeTypeDictApi.search(chargeTypeName,orgId);
     }
 
     /**
