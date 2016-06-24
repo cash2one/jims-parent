@@ -37,10 +37,6 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
      */
     public SysUser login(SysUser sysUser) {
         SysUser user = dao.login(sysUser);
-        if(user!=null && !user.getLoginName().equals("admin"))
-        {
-            persionServiceListBo.save(user.getPersionId());
-        }
         return user;
     }
 
