@@ -69,8 +69,6 @@
          "CLINIC_FOR_REGIST"."APPOINTMENT_LIMITS" AS appointmentLimits,
          "CLINIC_FOR_REGIST"."REGIST_PRICE" AS registPrice,
         "CLINIC_FOR_REGIST".REGISTRATION_NUM as registrationNum,
-
-
          "CLINIC_INDEX"."CLINIC_DEPT" AS clinicDept,
          "CLINIC_INDEX"."DOCTOR" AS doctor,
          "CLINIC_INDEX"."DOCTOR_TITLE" AS doctorTitle,
@@ -163,8 +161,7 @@
 		WHERE id = #{id}
 	</update>
 	<update id="updateRegister" >
-		update clinic_for_regist set current_no =1 + 1 , registration_num =0 + 1
-		 where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date=to_date( #{clinicDate} , 'yyyy-mm-dd' )
+		update clinic_for_regist set current_no =current_no + 1 , registration_num =registration_num + 1 where id=#{id}
 	</update>
 	<update id="delete">
 		update clinic_for_regist  SET del_flag='1'
