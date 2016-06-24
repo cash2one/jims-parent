@@ -100,7 +100,7 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
  	private String nhSerialNo;//医保登记号
 	private Integer parityNo;//胎次
 	private String fromOtherPlaceIndicator;//入院来源
-
+    private String visitIndicator; //诊别
 	private List<ClinicForRegist> clinicForRegistList;
 	private List<ClinicAppoints> clinicAppointses;
 
@@ -734,4 +734,12 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setFromOtherPlaceIndicator(String fromOtherPlaceIndicator) {
 		this.fromOtherPlaceIndicator = fromOtherPlaceIndicator;
 	}
+
+    public String getVisitIndicator() {
+        return visitIndicator;
+    }
+
+    public void setVisitIndicator(String visitIndicator) {
+        this.visitIndicator = visitIndicator;
+    }
 }

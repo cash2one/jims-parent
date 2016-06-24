@@ -124,5 +124,11 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="getItemName" resultType="LabTestItems">
+		SELECT *from lab_test_items
+		WHERE del_flag = '0'
+		<if test="testNo != '' and testNo != null">
+			 and test_no=#{testNo}
+		</if>
+	</select>
 </mapper>

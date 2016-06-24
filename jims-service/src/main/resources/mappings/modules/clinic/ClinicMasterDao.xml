@@ -116,6 +116,7 @@
 		INSERT INTO clinic_master(
 			id,
 			org_id,
+			patient_id,
 			visit_date,
 			visit_no,
 			clinic_label,
@@ -172,6 +173,7 @@
 		) VALUES (
 			#{id},
 			#{orgId},
+			#{patientId},
 			#{visitDate},
 			#{visitNo},
 			#{clinicLabel},
@@ -290,16 +292,13 @@
 		WHERE id = #{id}
 	</update>
     <select id="getMaxVisitNO" resultType="Integer">
-      select max(visit_no) from clinic_master
+      select max(visit_no) from clinic_master where visit_date=TRUNC(CURRENT_DATE,'DD')
 	</select>
 	<select id="getClinicBydoctor" resultType="ClinicMaster">
 		SELECT <include refid="clinicMasterColumns"/>
 		FROM clinic_master a
 		WHERE 1=1
-		<if test="doctorId!=null and doctorId!=''">
-			 AND  a.doctor =#{doctorId}
-		</if>
-		AND a.registration_status='0'
+		AND a.registration_status='1'
 		AND a.returned_date is null
 	</select>
 
@@ -307,10 +306,7 @@
 		SELECT <include refid="clinicMasterColumns"/>
 		FROM clinic_master a
 		WHERE 1=1
-		<if test="doctorId!=null and doctorId!=''">
-			AND  a.doctor =#{doctorId}
-		</if>
-		AND a.registration_status='1'
+		AND a.registration_status='2'
 	</select>
 
 	<select id="getClinicMaster" resultType="com.jims.clinic.entity.ClinicMaster">

@@ -1,60 +1,36 @@
-var editRow=undefined;
+var editRow = undefined;
 
-var operation=[];//手术名称
-var operationData={};
-operationData.orgId="";
-operationData.dictType="operation_dict"
-$.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(operationData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data) {
-        operation = data;
-    }
-})
 
-function operationFormatter(value,rowData,rowIndex){
-    if(value == 0){
-        return ;
-    }
-    for(var i=0;i<operation.length;i++){
-        if(operation[i].operation_code == value){
-            return operation[i].operation_name;
-        }
-    }
-}
-
-var rowNum=-1;
-$(function(){
-    var cId=$("#clinicMasterId",parent.document).val();
+var rowNum = -1;
+function onloadMethod() {
+    var cId = $("#clinicMasterId", parent.document).val();
     $("#clinicId").val(cId);
+
     $.ajax({
-        method:"POST",
-        url:basePath+"/operatioinOrder/getScheduleOut",
-        contentType:"application/json",
-        data: clinicId= cId ,
+        method: "POST",
+        url: basePath + "/operatioinOrder/getScheduleOut",
+        contentType: "application/json",
+        data: clinicId = cId,
         dataType: 'json',
-        success: function(data){
-            $('#operation').form('load',data);
+        success: function (data) {
+            $('#operation').form('load', data);
         }
     });
     $('#operationName').datagrid({
         rownumbers: true,
         singleSelect: true,
         fit: true,
-        method:'POST',
-        url: basePath+'/operatioinOrder/getOperationName?clinicId='+cId,
+        method: 'POST',
+        url: basePath + '/operatioinOrder/getOperationName?clinicId=' + cId,
         idField: 'id',
         columns: [[      //每个列具体内容
-            {field: 'operation', title: '拟实施手术名称', width: '70%', align: 'center',formatter:operationFormatter
-            , editor:{
-                type:'combogrid',
+            {
+                field: 'operation', title: '拟实施手术名称', width: '70%', align: 'center', formatter: operationFormatter
+                , editor: {
+                type: 'combogrid',
                 options: {
                     panelWidth: 500,
-                    data:operation,
+                    data: operation,
                     idField: 'operation_code',
                     textField: 'operation_name',
                     //url: '/modules/operation/js/clinic_data.json',
@@ -62,7 +38,7 @@ $(function(){
                         {field: 'operation_code', title: '项目代码', width: '20%', align: 'center'},
                         {field: 'operation_name', title: '项目名称', width: '20%', align: 'center'},
                         {field: 'input_code', title: '拼音输入码', width: '10%', align: 'center', editor: 'text'},
-                        {field: 'input_code', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
+                        //{field: 'input_code', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
                     ]],
                     fitColumns: true
                 }
@@ -74,24 +50,24 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
-                if(rowNum>=0){
+                if (rowNum >= 0) {
                     rowNum++;
                 }
-                    $("#operationName").datagrid("insertRow", {
-                        index: 0, // index start with 0
-                        row: {}
-                    });
-                }
+                $("#operationName").datagrid("insertRow", {
+                    index: 0, // index start with 0
+                    row: {}
+                });
+            }
         }, '-', {
             text: '删除',
             iconCls: 'icon-remove',
             handler: function () {
                 doDelete();
             }
-        },{
+        }, {
             text: '保存',
-            iconCls:'icon-save',
-            handler:function(){
+            iconCls: 'icon-save',
+            handler: function () {
                 $("#operationName").datagrid('endEdit', rowNum);
                 if (rowNum != undefined) {
                     $("#operationName").datagrid("endEdit", rowNum);
@@ -99,9 +75,9 @@ $(function(){
                 savePperationApply();
             }
         }
-        ],onAfterEdit: function (rowIndex, rowData, changes) {
+        ], onAfterEdit: function (rowIndex, rowData, changes) {
             editRow = undefined;
-        },onDblClickRow:function (rowIndex, rowData) {
+        }, onDblClickRow: function (rowIndex, rowData) {
             if (editRow != undefined) {
                 $("#operationName").datagrid('endEdit', editRow);
             }
@@ -109,7 +85,7 @@ $(function(){
                 $("#operationName").datagrid('beginEdit', rowIndex);
                 editRow = rowIndex;
             }
-        },onClickRow:function(rowIndex,rowData){
+        }, onClickRow: function (rowIndex, rowData) {
             var dataGrid = $('#operationName');
             if (!dataGrid.datagrid('validateRow', rowNum)) {
                 return false
@@ -123,10 +99,44 @@ $(function(){
 
             }
         }
-
-
     });
-});
+
+    //手术室下拉框
+    $('#operatingRoom').combobox({
+        data: operatingRoom,
+        valueField: 'deptCode',
+        textField: 'deptName',
+        onSelect: function (n, o) {
+            $("#operatingRoomCode").val(n.deptCode);
+            comboboxLoad(n.deptCode, 'operatingRoomNo', 'operatingRoomNoCode');
+        }
+    });
+
+    /**
+     * 麻醉方式
+     */
+    $("#anesthesiaMethod").combobox({
+        data: anaesthesiaName,
+        valueField: 'id',
+        textField: 'anaesthesia_name',
+        onSelect: function (n, o) {
+            $("#anesthesiaMethodId").val(n.id);
+        }
+    });
+
+    /**
+     * 手术等级
+     */
+    $("#operationScale").combobox({
+        data: operationScaleName,
+        valueField: 'id',
+        textField: 'MEMO',
+        onSelect: function (n, o) {
+            alert("1");
+            $("#operationScaleId").val(n.id);
+        }
+    })
+}
 
 
 
@@ -135,29 +145,29 @@ $(function(){
  * @param id
  */
 function savePperationApply() {
-    var  rows=$('#operationName').datagrid('getRows');
-    var formJson=fromJson('operation');
+    var rows = $('#operationName').datagrid('getRows');
+    var formJson = fromJson('operation');
     formJson = formJson.substring(0, formJson.length - 1);
-    var tableJson=JSON.stringify(rows);
-    var submitJson=formJson+",\"scheduledOperationNameList\":"+tableJson+"}";
+    var tableJson = JSON.stringify(rows);
+    var submitJson = formJson + ",\"scheduledOperationNameList\":" + tableJson + "}";
 
-    $.postJSON(basePath+'/operatioinOrder/saveOut',submitJson,function(data){
-        if(data=="1"){
-            $.messager.alert("提示消息",data+"条记录，保存成功");
+    $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
+        if (data == "1") {
+            $.messager.alert("提示消息", data + "条记录，保存成功");
             $('#operationName').datagrid('load');
             $('#operationName').datagrid('clearChecked');
-        }else{
-            $.messager.alert('提示',"保存失败", "error");
+        } else {
+            $.messager.alert('提示', "保存失败", "error");
             $('#operationName').datagrid('load');
             $('#operationName').datagrid('clearChecked');
         }
-    },function(data){
-        $.messager.alert('提示',"保存失败", "error");
+    }, function (data) {
+        $.messager.alert('提示', "保存失败", "error");
     })
 }
 
 //删除
-function doDelete(){
+function doDelete() {
     var selectRows = $('#operationName').datagrid("getSelections");
     if (selectRows.length < 1) {
         $.messager.alert("提示消息", "请选中要删的数据!");
@@ -171,31 +181,31 @@ function doDelete(){
                 strIds += selectRows[i].id + ",";
             }
             strIds = strIds.substr(0, strIds.length - 1);
-            if(strIds=='undefined'|| strIds==''){
-               var index1= $('#operationName').datagrid('getRowIndex', $("#operationName").datagrid('getSelected'))
-                $('#operationName').datagrid('deleteRow',index1);
-            }else{
+            if (strIds == 'undefined' || strIds == '') {
+                var index1 = $('#operationName').datagrid('getRowIndex', $("#operationName").datagrid('getSelected'))
+                $('#operationName').datagrid('deleteRow', index1);
+            } else {
 
-            //真删除数据
-            $.ajax({
-                'type': 'POST',
-                'url': basePath+'/operatioinOrder/delete',
-                'contentType': 'application/json',
-                'data': id=strIds,
-                'dataType': 'json',
-                'success': function(data){
-                    if(data==1){
-                        $.messager.alert("提示消息",data+"条记录删除成功！");
-                        $('#operationName').datagrid('load');
-                        $('#operationName').datagrid('clearChecked');
-                    }else{
-                        $.messager.alert('提示',"删除失败", "error");
+                //真删除数据
+                $.ajax({
+                    'type': 'POST',
+                    'url': basePath + '/operatioinOrder/delete',
+                    'contentType': 'application/json',
+                    'data': id = strIds,
+                    'dataType': 'json',
+                    'success': function (data) {
+                        if (data == 1) {
+                            $.messager.alert("提示消息", data + "条记录删除成功！");
+                            $('#operationName').datagrid('load');
+                            $('#operationName').datagrid('clearChecked');
+                        } else {
+                            $.messager.alert('提示', "删除失败", "error");
+                        }
+                    },
+                    'error': function (data) {
+                        $.messager.alert('提示', "删除失败", "error");
                     }
-                },
-                'error': function(data){
-                    $.messager.alert('提示',"删除失败", "error");
-                }
-            });
+                });
             }
         }
     })

@@ -1,43 +1,4 @@
-var timeInterval=[];
 
-
-/**
- * 时间
- * @type {{}}
- */
-var timeIntervalData={};
-timeIntervalData.orgId="";
-timeIntervalData.dictType="TIME_INTERVAL_DICT"
-$.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(timeIntervalData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        timeInterval=data;
-    }
-});
-
-/**
- * 时间翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string|string}
- */
-function timeDescFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-
-    for (var i = 0; i < timeInterval.length; i++) {
-        if (timeInterval[i].time_interval_code == value) {
-            return timeInterval[i].time_interval_name;
-        }
-    }
-}
 $(function(){
     /**
      * 科室下拉框
@@ -48,6 +9,15 @@ $(function(){
         textField: 'dept_name'
     })
     /**
+     * 就诊科室
+     */
+    $('#visitDeptId').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name'
+    })
+    $("#visitDeptId").combobox('select',clinicDeptCode[0].id);
+    /**
      * 性别下拉框
      */
     $('#setId').combobox({
@@ -55,6 +25,7 @@ $(function(){
         valueField: 'value',
         textField: 'label'
     })
+    $("#setId ").combobox('select',setData[0].value);
     /**
      * 费别下拉框
      */
@@ -63,6 +34,7 @@ $(function(){
         valueField: 'id',
         textField: 'charge_type_name'
     })
+    $("#chargeTypeId ").combobox('select',chargeType[0].id);
     /**
      * 诊别下拉框
      */
@@ -71,18 +43,16 @@ $(function(){
         valueField: 'value',
         textField: 'label'
     })
-
+    $("#clinicTypeId ").combobox('select',chargeTypeDict[0].value);
     /**
-     * 诊别下拉框
+     * 身份下拉框
      */
     $('#identityId').combobox({
         data: identityDict,
         valueField: 'id',
         textField: 'identityName'
     })
-
-
-
+    $("#identityId ").combobox('select',identityDict[0].id);
     getClinicForRegist();
 
 })
@@ -92,10 +62,6 @@ function getClinicForRegist(){
     var deptName=$("#deptNameId").combobox('getValue');
     var clinicTypeName=$("#clinicTypeNameId").val();
     var clinicDate=new Date().format('yyyy-MM-dd');
-    //var data={};
-    //data.clinicDept=deptName;
-    //data.clinicDate=clinicDate;
-    //data.clinicLabelName=clinicTypeName;
     /**
      * 获取号表
      */
@@ -117,7 +83,7 @@ function getClinicForRegist(){
             if(data[i].registrationLimits!='0'){
                 registrationLimits=data[i].registrationLimits
             }
-            liHtml+='<a href="#" class="color-red">'+registrationNum+'</a>/'+registrationLimits+
+            liHtml=liHtml+'<a href="#" class="color-red">'+registrationNum+'</a>/'+registrationLimits+
             '<span class="color-blue" style="padding-left:10px;">'+clinicDeptCodeFormatter(data[i].clinicDept, '', '')+'</span>' +
             '</li>' ;
         }
@@ -186,7 +152,7 @@ function centerTypeActive(li){
 function saveClinic(){
 
     var tableJson="[";
-    $('.simInput').each(function (index, element) {
+    $('#clinicIndex li.active input.simInput').each(function (index, element) {
         tableJson+='{"id":"'+$(this).val()+'"},';
     })
     tableJson = tableJson.substring(0, tableJson.length - 1);
@@ -198,7 +164,8 @@ function saveClinic(){
         if(data.code=="1"){
             $.messager.alert("提示信息","挂号成功");
             $("#clinicForm").form('clear');
-            $("#chargeId").dialog({title: '挂号结果'}).dialog("close");
+            $("#chargeId").dialog("close");
+            getClinicForRegist()
         }else{
             $.messager.alert("提示信息","挂号失败","error");
         }

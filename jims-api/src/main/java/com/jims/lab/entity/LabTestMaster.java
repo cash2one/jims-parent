@@ -4,6 +4,8 @@
 package com.jims.lab.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +64,10 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	private String  clinicId;//就诊id
 	private String  orgId;
 	private String inOrOutFlag;//是否住院标识
+
+	//增加
+	private LabTestItems labTestItems;
+
 	public LabTestMaster() {
 		super();
 	}
@@ -69,6 +75,14 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	private List<LabTestItems> list;
 	public LabTestMaster(String id){
 		super(id);
+	}
+
+	public LabTestItems getLabTestItems() {
+		return labTestItems;
+	}
+
+	public void setLabTestItems(LabTestItems labTestItems) {
+		this.labTestItems = labTestItems;
 	}
 
 	@Length(min=1, max=40, message="申请序号长度必须介于 1 和 40 之间")
@@ -226,6 +240,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 		return requestedDateTime;
 	}
 
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setRequestedDateTime(Date requestedDateTime) {
 		this.requestedDateTime = requestedDateTime;
 	}

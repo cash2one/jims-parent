@@ -59,5 +59,7 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
      * @return
      */
     public List<DeptDict> getList();
+
+    public List<DeptDict> getOperation();
 	
 }
