@@ -97,7 +97,7 @@ $(function () {
             title: "五笔码",
             field: "inputCodeWb",
             align: 'center',
-            width: '12%',
+            width: '11%',
             editor: {
                 type: 'textbox'
             }
@@ -177,7 +177,7 @@ $(function () {
             title: "院长查询用的医保类别",                //0:自费 1:医保  2:合作医疗
             field: "insuranceTypeInq",
             align: 'center',
-            width: "14%",
+            width: "15%",
             editor: {
                 type: 'combobox', options: {
                     editable: false,
