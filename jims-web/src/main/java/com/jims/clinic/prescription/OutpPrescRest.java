@@ -3,8 +3,10 @@ package com.jims.clinic.prescription;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.clinic.api.ClinicMasterServiceApi;
+import com.jims.clinic.api.OutpOrdersCostsServiceApi;
 import com.jims.clinic.api.OutpPrescServiceApi;
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpPresc;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,8 @@ public class OutpPrescRest {
     OutpPrescServiceApi outpPrescServiceApi;
     @Reference(version = "1.0.0")
     ClinicMasterServiceApi clinicMasterServiceApi;
+    @Reference(version = "1.0.0")
+    OutpOrdersCostsServiceApi outpOrdersCostsServiceApi;
 
 
     /**
@@ -148,17 +152,16 @@ public class OutpPrescRest {
         return list;
     }
 
-    @Path("jijia")
+    @Path("priceItem")
     @GET
-    public List<OutpPresc> jijia(){
-        List<OutpPresc> list = Lists.newArrayList();
-        OutpPresc dict = new OutpPresc();
-        dict.setItemClass("A");
-        dict.setDrugSpec("10g*2阿莫西林");
-        dict.setAmount(Double.valueOf(3));
-        dict.setUnits("片");
-        dict.setCosts(Double.valueOf(0.64));
-        list.add(dict);
+    public List<OutpOrdersCosts> priceItem(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("masterId") String masterId,@QueryParam("clinicId") String clinicId){
+        List<OutpOrdersCosts> list = null;
+        try {
+            list = Lists.newArrayList();
+            list = outpOrdersCostsServiceApi.getOutpCosts(masterId,clinicId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return list;
     }
 }

@@ -3,7 +3,7 @@ package com.jims.nurse.entity;
 import com.jims.common.persistence.DataEntity;
 
 /**
- * 核算组记录Entity
+ * 管床医生记录Entity
  * @author CTQ
  * @version 2016-06-06
  */

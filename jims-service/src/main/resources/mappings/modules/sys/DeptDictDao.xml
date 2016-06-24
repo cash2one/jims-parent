@@ -147,4 +147,9 @@
 		SELECT *
 		FROM dept_dict where  del_flag='0'
 	</select>
+
+	<select id="getOperation" resultType="DeptDict">
+		select *from dept_dict
+		where dept_name like '%手术%'
+	</select>
 </mapper>

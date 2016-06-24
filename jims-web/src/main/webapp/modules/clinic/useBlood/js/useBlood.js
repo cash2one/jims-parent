@@ -1,67 +1,67 @@
-var userBlood = [];//用血要求
-var deptCode=[];//科室
-var bloodTypeName=[];//血液要求
-var userBloodData={};
-userBloodData.orgId="";
-userBloodData.dictType="BLOOD_COMPONENT";
-
-$.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(userBloodData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function(data){
-        userBlood=data;
-    }
-})
-/**
- * 科室查询
- */
-$.ajax({
-    type:"POST",
-    url:basePath+'/dept-dict/getList',
-    contentType:'application/json',
-    async:false,
-    success: function (data) {
-        deptCode=data;
-    }
-})
-/**
- * 科室翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
- */
-function deptCodeFormatter(value,rowData,rowIndex){
-    if(value == 0){
-        return;
-    }
-    for(var i=0; i<deptCode.length; i++){
-        if(deptCode[i].deptCode == value){
-            return deptCode[i].deptName;
-        }
-    }
-}
-/**
- * 血液要求翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
- */
-function bloodTypeNameFormatter(value,rowData,rowIndex){
-    if(value == 0){
-        return;
-    }
-    for(var i=0; i<userBlood.length; i++){
-        if(userBlood[i].blood_type == value){
-            return userBlood[i].blood_type_name;
-        }
-    }
-}
+//var userBlood = [];//用血要求
+//var deptCode=[];//科室
+//var bloodTypeName=[];//血液要求
+//var userBloodData={};
+//userBloodData.orgId="";
+//userBloodData.dictType="BLOOD_COMPONENT";
+//
+//$.ajax({
+//    'type': 'POST',
+//    'url':basePath+'/input-setting/listParam' ,
+//    data: JSON.stringify(userBloodData),
+//    'contentType': 'application/json',
+//    'dataType': 'json',
+//    'async': false,
+//    'success': function(data){
+//        userBlood=data;
+//    }
+//})
+///**
+// * 科室查询
+// */
+//$.ajax({
+//    type:"POST",
+//    url:basePath+'/dept-dict/getList',
+//    contentType:'application/json',
+//    async:false,
+//    success: function (data) {
+//        deptCode=data;
+//    }
+//})
+///**
+// * 科室翻译
+// * @param value
+// * @param rowData
+// * @param rowIndex
+// * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
+// */
+//function deptCodeFormatter(value,rowData,rowIndex){
+//    if(value == 0){
+//        return;
+//    }
+//    for(var i=0; i<deptCode.length; i++){
+//        if(deptCode[i].deptCode == value){
+//            return deptCode[i].deptName;
+//        }
+//    }
+//}
+///**
+// * 血液要求翻译
+// * @param value
+// * @param rowData
+// * @param rowIndex
+// * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
+// */
+//function bloodTypeNameFormatter(value,rowData,rowIndex){
+//    if(value == 0){
+//        return;
+//    }
+//    for(var i=0; i<userBlood.length; i++){
+//        if(userBlood[i].blood_type == value){
+//            return userBlood[i].blood_type_name;
+//        }
+//    }
+//}
 
 /**
  * 设置动态行
@@ -187,8 +187,8 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:function(value, rowData, rowIndex){
-                return deptCodeFormatter(rowData.deptCode,'','');
+            {field: 'deptName', title: '科室', width: '18%', align: 'center',formatter:function(value, rowData, rowIndex){
+                return clinicDeptCodeFormatter(rowData.id,'','');
             }},
             {field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
             {field: 'bloodInuse', title: '血源', width: '18%', align: 'center'},

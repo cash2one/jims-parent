@@ -1,13 +1,13 @@
 var editRow = undefined;
-var rowNum=-1;
-$(function(){
-    var deptCode=$("#deptCode").val();
+var rowNum = -1;
+function onloadMethod() {
+    var deptCode = $("#deptCode").val();
     //病人列表
     $('#patient').datagrid({
         singleSelect: true,
         fit: true,
         method: 'GET',
-        url: basePath+'/operatioinOrder/findPat?deptCode='+deptCode,
+        url: basePath + '/operatioinOrder/findPat?deptCode=' + deptCode,
         idField: 'patientId',
         columns: [[      //每个列具体内容
             {field: 'bedNo', title: '床号', width: '50%', align: 'center'},
@@ -24,13 +24,13 @@ $(function(){
             $("#visitId").val(row.visitId);
             $("#sex").val(row.sex);
             $.ajax({
-                method:"POST",
-                url:basePath+"/operatioinOrder/getScheduleIn",
+                method: "POST",
+                url: basePath + "/operatioinOrder/getScheduleIn",
                 contentType: "application/json", //必须有
                 dataType: 'json',
-                data: JSON.stringify({"patientId":row.patientId,"visitId":row.visitId}),
-                success: function(data){
-                    $('#operation').form('load',data);
+                data: JSON.stringify({"patientId": row.patientId, "visitId": row.visitId}),
+                success: function (data) {
+                    $('#operation').form('load', data);
                 }
             });
 
@@ -38,25 +38,40 @@ $(function(){
                 rownumbers: true,
                 singleSelect: true,
                 fit: true,
-                method:'POST',
-                url: basePath+'/operatioinOrder/getOperationName?patientId='+row.patientId+'&visitId='+row.visitId,
+                method: 'POST',
+                url: basePath + '/operatioinOrder/getOperationName?patientId=' + row.patientId + '&visitId=' + row.visitId,
                 idField: 'id',
                 columns: [[      //每个列具体内容
-                    {field: 'operation', title: '拟实施手术名称', width: '30%', align: 'center', editor:{
-                        type:'combogrid',
-                        options: {
-                            idField: 'itemCode',
-                            textField: 'itemName',
-                            url: '/modules/operation/js/clinic_data.json',
-                            columns: [[
-                                {field: 'itemCode', title: '项目代码', width: '20%', align: 'center'},
-                                {field: 'itemName', title: '项目名称', width: '20%', align: 'center'},
-                                {field: 'inputCode', title: '拼音输入码', width: '10%', align: 'center', editor: 'text'},
-                                {field: 'inputCodeWb', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
-                            ]],
-                            fitColumns: true
+                    {
+                        field: 'operation',
+                        title: '拟实施手术名称',
+                        width: '70%',
+                        align: 'center',
+                        formatter: operationFormatter
+                        ,
+                        editor: {
+                            type: 'combogrid',
+                            options: {
+                                panelWidth: 500,
+                                data: operation,
+                                idField: 'operation_code',
+                                textField: 'operation_name',
+                                //url: '/modules/operation/js/clinic_data.json',
+                                columns: [[
+                                    {field: 'operation_code', title: '项目代码', width: '20%', align: 'center'},
+                                    {field: 'operation_name', title: '项目名称', width: '20%', align: 'center'},
+                                    {
+                                        field: 'input_code',
+                                        title: '拼音输入码',
+                                        width: '10%',
+                                        align: 'center',
+                                        editor: 'text'
+                                    },
+                                    //{field: 'input_code', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
+                                ]],
+                                fitColumns: true
+                            }
                         }
-                    }
                     },
                     {field: 'operationScale', title: '等级', width: '20%', align: 'center'}
                 ]],
@@ -64,7 +79,7 @@ $(function(){
                     text: '添加',
                     iconCls: 'icon-add',
                     handler: function () {
-                        if(rowNum>=0){
+                        if (rowNum >= 0) {
                             rowNum++;
                         }
                         $("#operationName").datagrid("insertRow", {
@@ -79,9 +94,9 @@ $(function(){
                         doDelete();
                     }
                 }
-                ],onAfterEdit: function (rowIndex, rowData, changes) {
+                ], onAfterEdit: function (rowIndex, rowData, changes) {
                     editRow = undefined;
-                },onDblClickRow:function (rowIndex, rowData) {
+                }, onDblClickRow: function (rowIndex, rowData) {
                     if (editRow != undefined) {
                         $("#operationName").datagrid('endEdit', editRow);
                     }
@@ -89,7 +104,7 @@ $(function(){
                         $("#operationName").datagrid('beginEdit', rowIndex);
                         editRow = rowIndex;
                     }
-                },onClickRow:function(rowIndex,rowData){
+                }, onClickRow: function (rowIndex, rowData) {
                     var dataGrid = $('#operationName');
                     if (!dataGrid.datagrid('validateRow', rowNum)) {
                         return false
@@ -104,40 +119,49 @@ $(function(){
                     }
                 }
             });
-
-
         }
-
     });
-});
+
+    ////手术室下拉框
+    //$('#operatingRoom').combobox({
+    //    data: operatingRoom,
+    //    valueField: 'deptCode',
+    //    textField: 'deptName',
+    //    onSelect: function (n, o) {
+    //        $("#operatingRoomCode").val(n.deptCode);
+    //        comboboxLoad(n.deptCode, 'operatingRoomNo');
+    //    }
+    //})
+
+};
 
 //增加手术名称
-function save(){
+function save() {
     $("#operationName").datagrid('endEdit', rowNum);
-    var  rows=$('#operationName').datagrid('getRows');
-    var formJson=fromJson('operation');
+    var rows = $('#operationName').datagrid('getRows');
+    var formJson = fromJson('operation');
     formJson = formJson.substring(0, formJson.length - 1);
-    var tableJson=JSON.stringify(rows);
-    var submitJson=formJson+",\"scheduledOperationNameList\":"+tableJson+"}";
-    $.postJSON(basePath+'/operatioinOrder/saveIn',submitJson,function(data){
-        if(data=="1"){
-            $.messager.alert("提示消息",data+"条记录，保存成功");
+    var tableJson = JSON.stringify(rows);
+    var submitJson = formJson + ",\"scheduledOperationNameList\":" + tableJson + "}";
+    $.postJSON(basePath + '/operatioinOrder/saveIn', submitJson, function (data) {
+        if (data == "1") {
+            $.messager.alert("提示消息", data + "条记录，保存成功");
             $('#operationName').datagrid('load');
             $('#operationName').datagrid('clearChecked');
-        }else{
-            $.messager.alert('提示',"保存失败", "error");
+        } else {
+            $.messager.alert('提示', "保存失败", "error");
             $('#operationName').datagrid('load');
             $('#operationName').datagrid('clearChecked');
         }
-    },function(data){
-        $.messager.alert('提示',"保存失败", "error");
+    }, function (data) {
+        $.messager.alert('提示', "保存失败", "error");
     })
 
 
 }
 
 //删除
-function doDelete(){
+function doDelete() {
     var selectRows = $('#operationName').datagrid("getSelections");
     if (selectRows.length < 1) {
         $.messager.alert("提示消息", "请选中要删的数据!");
@@ -151,10 +175,10 @@ function doDelete(){
                 strIds += selectRows[i].id + ",";
             }
             strIds = strIds.substr(0, strIds.length - 1);
-            if(strIds=='undefined'|| strIds==''){
-                var index1= $('#operationName').datagrid('getRowIndex', $("#operationName").datagrid('getSelected'))
-                $('#operationName').datagrid('deleteRow',index1);
-            }else {
+            if (strIds == 'undefined' || strIds == '') {
+                var index1 = $('#operationName').datagrid('getRowIndex', $("#operationName").datagrid('getSelected'))
+                $('#operationName').datagrid('deleteRow', index1);
+            } else {
                 //真删除数据
                 $.ajax({
                     'type': 'POST',

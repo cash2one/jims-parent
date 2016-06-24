@@ -5,7 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.nurse.api.OrdersGroupRecServiceApi;
 
 /**
- * 核算组记录Service
+ * 管床医生记录Service
  * @author CTQ
  * @version 2016-06-06
  */

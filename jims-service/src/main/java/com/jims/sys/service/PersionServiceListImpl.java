@@ -36,7 +36,6 @@ public class PersionServiceListImpl implements PersionServiceListApi {
         return services;
     }
 
-
     /**
      * 保存个人购买的服务
      *
@@ -60,20 +59,5 @@ public class PersionServiceListImpl implements PersionServiceListApi {
     @Override
     public SysCompany getOrgName(String orgName) {
         return persionServiceListBo.getOrgName(orgName);
-    }
-
-    /**
-     * 根据人员Id 查询免费的服务 并保存
-     * @param persionId
-     * @return
-     */
-    public String  save(String persionId){
-        String result="0";
-        try {
-            persionServiceListBo.save(persionId);
-            result="1";
-        } catch (Exception e) {
-        }
-        return result;
     }
 }

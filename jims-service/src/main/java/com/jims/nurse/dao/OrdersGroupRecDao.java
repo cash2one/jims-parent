@@ -6,7 +6,7 @@ import com.jims.nurse.entity.OrdersGroupRec;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 核算组记录DAO接口
+ * 管床医生记录DAO接口
  * @author CTQ
  * @version 2016-06-06
  */
@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
 public interface OrdersGroupRecDao extends CrudDao<OrdersGroupRec> {
 
     /**
-     * 根据病人ID删除核算记录
+     * 根据病人ID删除管床医生记录
      * @param patientId
      * @return
      */

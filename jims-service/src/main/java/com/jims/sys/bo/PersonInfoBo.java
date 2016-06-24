@@ -36,9 +36,6 @@ public class PersonInfoBo extends CrudImplService<PersionInfoDao, PersionInfo> {
     @Autowired
     private SysUserDao sysUserDao;
 
-    @Autowired
-    private PersionServiceListDao persionServiceListDao;
-
 
     /**
      * 用户注册
@@ -53,23 +50,6 @@ public class PersonInfoBo extends CrudImplService<PersionInfoDao, PersionInfo> {
         int i =persionInfoDao.register(persionInfo);
 
         String id = persionInfo.getId();
-        String serviceType="0";
-        String serviceClass ="1";
-        List<SysService> listService=sysServiceDao.serviceListByTC(serviceType,serviceClass);
-        PersionServiceList persionServiceList=new PersionServiceList();
-        if(listService!=null)
-        {
-            for(int j=0;j<listService.size();j++)
-            {
-                persionServiceList.preInsert();
-                persionServiceList.setFlag("0");
-                persionServiceList.setServiceStartDate(new Date());
-                persionServiceList.setServiceEndDate(null);
-                persionServiceList.setPersionId(id);
-                persionServiceList.setServiceId(listService.get(j).getId());
-                persionServiceListDao.insert(persionServiceList);
-            }
-        }
         //登录表中添加记录（身份证号）
         if (StringUtils.isNotBlank(persionInfo.getCardNo())) {
             sysUser.preInsert();
