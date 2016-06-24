@@ -9,13 +9,31 @@ import java.util.List;
  * Created by Administrator on 2016/4/18.
  */
 public interface ChargeTypeDictApi {
+
+    /**
+     * 查询某个组织机构的费别列表
+     * @param orgId  组织机构ID
+     * @param page  分页
+     * @param chargeTypeDict
+     * @return
+     * @author fengyuguang
+     */
+    public Page<ChargeTypeDict> findPage(String q,String orgId,Page<ChargeTypeDict> page,ChargeTypeDict chargeTypeDict);
+
+    /**
+     * 查询某个组织机构的费别列表
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<ChargeTypeDict> listAll(String orgId);
+
     /**
      * 查询字段列表
      * @param page
      * @param chargeTypeDict
      * @return
      */
-
     public Page<ChargeTypeDict> findPage(Page<ChargeTypeDict> page, ChargeTypeDict chargeTypeDict);
 
     /**
