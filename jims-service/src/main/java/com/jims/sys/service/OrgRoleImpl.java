@@ -36,11 +36,12 @@ public class OrgRoleImpl implements OrgRoleApi {
     /**
      * 根据角色名称模糊查询角色信息
      * @param roleName 角色名称
+     * @param orgId  组织机构ID
      * @return 角色信息列表
      * @author fengyuguang
      */
-    public List<OrgRole> findByRoleName(String roleName){
-        return orgRoleBo.findByRoleName(roleName);
+    public List<OrgRole> findByRoleName(String roleName,String orgId){
+        return orgRoleBo.findByRoleName(roleName,orgId);
     }
 
     /**
