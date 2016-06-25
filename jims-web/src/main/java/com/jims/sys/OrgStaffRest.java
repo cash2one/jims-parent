@@ -217,30 +217,27 @@ public class OrgStaffRest {
      * 根据roleServiceId查询数据列表
      * @param serviceId 服务ID
      * @param staffId 员工ID
-     * @return role_service_menu和menu_dict两个表联查集合
+     * @return
      * @author fengyuguang
      */
     @GET
     @Path("find-list-by-serviceId")
     public List<OrgSelfServiceVsMenu> findByServiceId(@QueryParam("serviceId")String serviceId,@QueryParam("staffId")String staffId){
         List<OrgSelfServiceVsMenu> menus = orgStaffApi.findByServiceId(serviceId,staffId);
+        //去掉重复的菜单
         List<OrgSelfServiceVsMenu> lists = new ArrayList<OrgSelfServiceVsMenu>();
         Map<String, OrgSelfServiceVsMenu> map = new HashMap<String, OrgSelfServiceVsMenu>();
-        for(int i=menus.size()-1;i>=0;i--){
-            if(map.containsKey(menus.get(i).getMenuId())){
-                String oldOperate = map.get(menus.get(i).getMenuId()).getMenuOperate();
-                String newOperate = menus.get(i).getMenuOperate();
-                if(Integer.parseInt(newOperate) >= Integer.parseInt(oldOperate)){
-                    map.remove(menus.get(i).getMenuId());
-                    map.put(menus.get(i).getMenuId(),menus.get(i));
-                }
-            }else{
-                map.put(menus.get(i).getMenuId(),menus.get(i));
-            }
+        for(int i = 0; i < menus.size(); i++){
+            map.put(menus.get(i).getMenuId(),menus.get(i));
         }
+        //排序
         Set<String> sets = map.keySet();
-        for (String key : map.keySet()) {
-            lists.add(map.get(key));
+        for(int i = 0; i < menus.size(); i++){
+            for (String key : map.keySet()) {
+                if(key == menus.get(i).getMenuId()){
+                    lists.add(map.get(key));
+                }
+            }
         }
 
         return lists;
