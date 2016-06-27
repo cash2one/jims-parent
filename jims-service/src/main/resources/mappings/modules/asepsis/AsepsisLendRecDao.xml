@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.asepsis.dao.AsepsisLendRecDao">
+
+    <sql id="asepsisLendRecColumns">
+        "ID" as "id"
+        ,"DOCUMENT_NO" as "documentNo"
+        ,"ITEM_NO" as "itemNo"
+        ,"TO_DEPT" as "toDept"
+        ,"LEND_DATE" as "lendDate"
+        ,"ITEM_CODE" as "itemCode"
+        ,"ITEM_NAME" as "itemName"
+        ,"ITEM_SPEC" as "itemSpec"
+        ,"LEND_AMOUNT" as "lendAmount"
+        ,"UNITS" as "units"
+        ,"RETURN_AMOUNT" as "returnAmount"
+        ,"RETURN_DATE" as "returnDate"
+        ,"RETURN_FLAG" as "returnFlag"
+        ,"OPERATOR" as "operator"
+        ,"LENDER" as "lender"
+        ,"MEMOS" as "memos"
+        ,"ANTI_FEE" as "antiFee"
+        ,"ANTI_FEE_SUM" as "antiFeeSum"
+        ,"ANTI_DATE" as "antiDate"
+        ,"EXP_DOCUMENT_NO" as "expDocumentNo"
+        ,"NOBACK_FEE" as "nobackFee"
+        ,"REQ_DATE" as "reqDate"
+        ,"REQ_OPERATOR" as "reqOperator"
+        ,"OPERATOR2" as "operator2"
+        ,"ORG_ID" as "orgId"
+    </sql>
+
+    <select id="get" resultType="AsepsisLendRec">
+        SELECT
+        <include refid="asepsisLendRecColumns"/>
+        FROM ASEPSIS_LEND_REC a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="AsepsisLendRec">
+        SELECT
+        <include refid="asepsisLendRecColumns"/>
+        FROM ASEPSIS_LEND_REC a
+        <where>
+            a.org_id =  #{orgId}
+        </where>
+    </select>
+
+    <select id="findAllList" resultType="AsepsisLendRec">
+        SELECT
+        <include refid="asepsisLendRecColumns"/>
+        FROM ASEPSIS_LEND_REC a
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ASEPSIS_LEND_REC(
+            ID
+            ,DOCUMENT_NO
+            ,ITEM_NO
+            ,TO_DEPT
+            ,LEND_DATE
+            ,ITEM_CODE
+            ,ITEM_NAME
+            ,ITEM_SPEC
+            ,LEND_AMOUNT
+            ,UNITS
+            ,RETURN_AMOUNT
+            ,RETURN_DATE
+            ,RETURN_FLAG
+            ,OPERATOR
+            ,LENDER
+            ,MEMOS
+            ,ANTI_FEE
+            ,ANTI_FEE_SUM
+            ,ANTI_DATE
+            ,EXP_DOCUMENT_NO
+            ,NOBACK_FEE
+            ,REQ_DATE
+            ,REQ_OPERATOR
+            ,OPERATOR2
+            ,ORG_ID
+        ) VALUES (
+            #{id}
+            ,#{documentNo}
+            ,#{itemNo}
+            ,#{toDept}
+            ,#{lendDate}
+            ,#{itemCode}
+            ,#{itemName}
+            ,#{itemSpec}
+            ,#{lendAmount}
+            ,#{units}
+            ,#{returnAmount}
+            ,#{returnDate}
+            ,#{returnFlag}
+            ,#{operator}
+            ,#{lender}
+            ,#{memos}
+            ,#{antiFee}
+            ,#{antiFeeSum}
+            ,#{antiDate}
+            ,#{expDocumentNo}
+            ,#{nobackFee}
+            ,#{reqDate}
+            ,#{reqOperator}
+            ,#{operator2}
+            ,#{orgId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE INTO ASEPSIS_LEND_REC SET
+            ID = #{id}
+            ,DOCUMENT_NO = #{documentNo}
+            ,ITEM_NO = #{itemNo}
+            ,TO_DEPT = #{toDept}
+            ,LEND_DATE = #{lendDate}
+            ,ITEM_CODE = #{itemCode}
+            ,ITEM_NAME = #{itemName}
+            ,ITEM_SPEC = #{itemSpec}
+            ,LEND_AMOUNT = #{lendAmount}
+            ,UNITS = #{units}
+            ,RETURN_AMOUNT = #{returnAmount}
+            ,RETURN_DATE = #{returnDate}
+            ,RETURN_FLAG = #{returnFlag}
+            ,OPERATOR = #{operator}
+            ,LENDER = #{lender}
+            ,MEMOS = #{memos}
+            ,ANTI_FEE = #{antiFee}
+            ,ANTI_FEE_SUM = #{antiFeeSum}
+            ,ANTI_DATE = #{antiDate}
+            ,EXP_DOCUMENT_NO = #{expDocumentNo}
+            ,NOBACK_FEE = #{nobackFee}
+            ,REQ_DATE = #{reqDate}
+            ,REQ_OPERATOR = #{reqOperator}
+            ,OPERATOR2 = #{operator2}
+            ,ORG_ID = #{orgId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM ASEPSIS_LEND_REC
+        WHERE id = #{id}
+    </delete>
+</mapper>
