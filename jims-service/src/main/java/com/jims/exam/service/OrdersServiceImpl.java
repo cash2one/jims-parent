@@ -11,6 +11,7 @@ import com.jims.clinic.dao.ExamItemsDao;
 import com.jims.clinic.dao.OrdersCostsDao;
 import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.exam.api.OrdersServiceApi;
 import com.jims.exam.dao.OrdersDao;
 import com.jims.exam.entity.ExamAppoints;
@@ -163,7 +164,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
                         orders.setOrderStatus("5");//医生保存
                         orders.setPatientId("15006135");
                         orders.setVisitId("1");
-                        Integer no=orders.getOrderNo();
+                       /* Integer no=orders.getOrderNo();
                         Integer subNo= orders.getOrderSubNo();
                         List<Orders> orderses=ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(), no!=null?(no):0);
                         if(orderses.size()>=1) {//保存子医嘱
@@ -175,7 +176,7 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
                             Integer orderSubNo= ordersDao.getOrderSubNo(orders.getPatientId(), orders.getVisitId(), orderNo!=null?(orderNo):0);
                             orders.setOrderNo(orderNo!=null?(orderNo+1):1);
                             orders.setOrderSubNo(1);
-                        }
+                        }*/
 
                        if(orders.getOrdersCostses()!=null){
                            List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
@@ -337,5 +338,16 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
      */
     public List<OrdersCosts> getById(String ordersId){
        return ordersCostsDao.getByOrderId(ordersId);
+    }
+
+
+    /**
+     * 查询非药品的计价
+     * @param itemCode
+     * @author pq
+     * @return
+     */
+    public  List<BaseDto>  getClinicPrice(String itemCode){
+     return ordersDao.getClinicPrice(itemCode);
     }
 }

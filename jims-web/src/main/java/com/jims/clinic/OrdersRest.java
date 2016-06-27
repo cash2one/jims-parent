@@ -1,7 +1,9 @@
 package com.jims.clinic;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.data.StringData;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.exam.api.OrdersServiceApi;
 import com.jims.exam.entity.Orders;
 
@@ -149,5 +151,29 @@ public class OrdersRest {
     public List<Orders> getSubOrders(Orders orders){
            List<Orders> ordersList = ordersServiceApi.getSubOrders(orders);
         return ordersList;
+    }
+
+
+    /**
+     * 查询非药品的计价
+     * @param itemCode
+     * @author pq
+     * @return
+     */
+    @Path("getClinicPrice")
+    @GET
+    public List<BaseDto> getClinicPrice(@QueryParam("itemCode") String itemCode){
+        return ordersServiceApi.getClinicPrice(itemCode);
+    }
+
+    /**
+     * 通过医嘱ID拿到医嘱计价
+     * @author pq
+     * @return
+     */
+    @Path("getCostById")
+    @GET
+    public List<OrdersCosts> getCostById(@QueryParam("ordersId")String ordersId){
+      return ordersServiceApi.getById(ordersId);
     }
 }

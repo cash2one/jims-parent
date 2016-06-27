@@ -5,6 +5,7 @@ package com.jims.exam.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.exam.entity.Orders;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.core.annotation.Order;
@@ -141,5 +142,15 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @return
      */
     public int executeOrders(Orders orders);
+
+
+
+    /**
+     * 查询非药品的计价
+     * @param itemCode
+     * @author pq
+     * @return
+     */
+    public List<BaseDto> getClinicPrice(@Param("itemCode")String itemCode);
 
 }

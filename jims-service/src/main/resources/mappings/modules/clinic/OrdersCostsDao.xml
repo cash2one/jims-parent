@@ -35,7 +35,7 @@
 			<include refid="ordersCostsColumns"/>
 		FROM orders_costs a
 		<include refid="ordersCostsJoins"/>
-		WHERE a.order_id = #{ordersId}
+		WHERE a.id =#{id}
 	</select>
 
 
@@ -44,7 +44,7 @@
 		<include refid="ordersCostsColumns"/>
 		FROM orders_costs a
 		<include refid="ordersCostsJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.order_id = #{ordersId}
 	</select>
 
 	<select id="findList" resultType="OrdersCosts">

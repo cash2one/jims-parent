@@ -1,6 +1,7 @@
 package com.jims.exam.api;
 
 import com.jims.clinic.entity.OrdersCosts;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.Orders;
 
@@ -122,4 +123,12 @@ public interface OrdersServiceApi {
      * @return
      */
     public  List<OrdersCosts> getById(String orderId);
+
+    /**
+     * 查询非药品的计价
+     * @param itemCode
+     * @author pq
+     * @return
+     */
+    public List<BaseDto> getClinicPrice(String itemCode);
 }
