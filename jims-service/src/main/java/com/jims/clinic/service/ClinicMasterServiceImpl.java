@@ -37,8 +37,8 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
      * @author zhaoning
      */
     @Override
-    public List<ClinicMaster> getClinicMasterList(String doctorID) {
-      List<ClinicMaster> list= clinicMasterDao.getClinicBydoctor(doctorID);
+    public List<ClinicMaster> getClinicMasterList(String doctorID,String visitDept) {
+      List<ClinicMaster> list= clinicMasterDao.getClinicBydoctor(doctorID,visitDept);
         return list;
 
     }
@@ -50,8 +50,8 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
      * @author zhaoning
      */
     @Override
-    public List<ClinicMaster> getClinicMasterDiagnosed(String doctorID) {
-        return clinicMasterDao.getClinicMasterDiagnosed(doctorID);
+    public List<ClinicMaster> getClinicMasterDiagnosed(String doctorID,String visitDept) {
+        return clinicMasterDao.getClinicMasterDiagnosed(doctorID,visitDept);
     }
 
     @Override

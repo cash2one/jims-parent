@@ -231,7 +231,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE clinic_master SET 	
+		UPDATE clinic_master SET
 			org_id = #{orgId},
 			visit_date = #{visitDate},
 			visit_no = #{visitNo},
@@ -285,7 +285,6 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
 	<update id="delete">
 		UPDATE clinic_master SET 
 			del_flag = #{DEL_FLAG_DELETE}
@@ -299,6 +298,9 @@
 		FROM clinic_master a
 		WHERE 1=1
 		AND a.registration_status='1'
+		<if test="visitDept!=null and visitDept!='' and visitDept!='undefined' ">
+			AND a.visit_dept=#{visitDept}
+		</if>
 		AND a.returned_date is null
 	</select>
 
@@ -307,6 +309,9 @@
 		FROM clinic_master a
 		WHERE 1=1
 		AND a.registration_status='2'
+		<if test="visitDept!=null and visitDept!='' and visitDept!='undefined' ">
+			AND a.visit_dept=#{visitDept}
+		</if>
 	</select>
 
 	<select id="getClinicMaster" resultType="com.jims.clinic.entity.ClinicMaster">
