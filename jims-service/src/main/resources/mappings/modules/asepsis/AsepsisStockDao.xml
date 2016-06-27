@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.asepsis.dao.AsepsisStockDao">
+
+    <sql id="asepsisStockColumns">
+        "ID" as "id"
+        ,"DOCUMENT_NO" as "documentNo"
+        ,"FROM_DEPT" as "fromDept"
+        ,"ITEM_CODE" as "itemCode"
+        ,"ITEM_NAME" as "itemName"
+        ,"ITEM_SPEC" as "itemSpec"
+        ,"AMOUNT" as "amount"
+        ,"UNITS" as "units"
+        ,"MEMOS" as "memos"
+        ,"ANTI_DATE" as "antiDate"
+        ,"OPERATOR" as "operator"
+        ,"ALTER_DATE" as "alterDate"
+        ,"ANTI_BATCH_NO" as "antiBatchNo"
+        ,"ITEM_NO" as "itemNo"
+        ,"ORG_ID" as "orgId"
+    </sql>
+
+    <select id="get" resultType="AsepsisStock">
+        SELECT
+        <include refid="asepsisStockColumns"/>
+        FROM ASEPSIS_STOCK a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="AsepsisStock">
+        SELECT
+        <include refid="asepsisStockColumns"/>
+        FROM ASEPSIS_STOCK a
+        <where>
+            a.org_id =  #{orgId}
+        </where>
+    </select>
+
+    <select id="findAllList" resultType="AsepsisStock">
+        SELECT
+        <include refid="asepsisStockColumns"/>
+        FROM ASEPSIS_STOCK a
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ASEPSIS_STOCK(
+            ID
+            ,DOCUMENT_NO
+            ,FROM_DEPT
+            ,ITEM_CODE
+            ,ITEM_NAME
+            ,ITEM_SPEC
+            ,AMOUNT
+            ,UNITS
+            ,MEMOS
+            ,ANTI_DATE
+            ,OPERATOR
+            ,ALTER_DATE
+            ,ANTI_BATCH_NO
+            ,ITEM_NO
+            ,ORG_ID
+        ) VALUES (
+            #{id}
+            ,#{documentNo}
+            ,#{fromDept}
+            ,#{itemCode}
+            ,#{itemName}
+            ,#{itemSpec}
+            ,#{amount}
+            ,#{units}
+            ,#{memos}
+            ,#{antiDate}
+            ,#{operator}
+            ,#{alterDate}
+            ,#{antiBatchNo}
+            ,#{itemNo}
+            ,#{orgId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE INTO ASEPSIS_STOCK SET
+            ID = #{id}
+            ,DOCUMENT_NO = #{documentNo}
+            ,FROM_DEPT = #{fromDept}
+            ,ITEM_CODE = #{itemCode}
+            ,ITEM_NAME = #{itemName}
+            ,ITEM_SPEC = #{itemSpec}
+            ,AMOUNT = #{amount}
+            ,UNITS = #{units}
+            ,MEMOS = #{memos}
+            ,ANTI_DATE = #{antiDate}
+            ,OPERATOR = #{operator}
+            ,ALTER_DATE = #{alterDate}
+            ,ANTI_BATCH_NO = #{antiBatchNo}
+            ,ITEM_NO = #{itemNo}
+            ,ORG_ID = #{orgId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete FROM ASEPSIS_STOCK
+        WHERE id = #{id}
+    </delete>
+</mapper>
