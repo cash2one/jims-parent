@@ -5,7 +5,6 @@
  */
 $(function(){
     var list=[];
-    var orgId=parent.config.org_Id;
     var obj = [];
     var way = "*";
     var classCodeWay=true;
@@ -187,7 +186,6 @@ $(function(){
             drugClassDict.parentId=$("#drugParentId").combogrid('getValue');
 
         };
-        drugClassDict.orgId=orgId;
         drugClassDict.delFlag="0";
         var all=true;
 
@@ -245,7 +243,6 @@ $(function(){
                     drugClassDict.classCode=row.classCode;
                     drugClassDict.className=row.className;
                     drugClassDict.parentId=row.parentId;
-                    drugClassDict.orgId=orgId;
                     drugClassDict.delFlag="1";
                     console.log(drugClassDict);
 
