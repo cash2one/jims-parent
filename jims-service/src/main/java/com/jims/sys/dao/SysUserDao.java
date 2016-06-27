@@ -3,6 +3,7 @@ package com.jims.sys.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,18 +22,18 @@ public interface SysUserDao extends CrudDao<SysUser> {
 
     /**
      * 查询登录名是否正确
-     * @param sysUser
+     * @param loginName
      * @return
      */
 
-    public SysUser selectLoginName(SysUser sysUser);
+    public SysUser selectLoginName(@Param("loginName")String loginName);
 
     /**
      * 查询登录密码是否正确
-     * @param sysUser
+     * @param loginName
      * @return
      */
-    public SysUser selectPasswrod(SysUser sysUser);
+    public SysUser selectPasswrod(@Param("loginName") String loginName );
 
     /**
      * 根据名称修改用户信息

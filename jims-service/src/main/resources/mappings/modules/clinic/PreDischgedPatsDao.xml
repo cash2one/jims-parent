@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.clinic.dao.PreDischgedPatsDao">
+    
+	<sql id="preDischgedPatsColumns">
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		a.discharge_date_expcted AS "dischargeDateExpcted",
+		a.create_date_time AS "createDateTime",
+		a.order_no AS "orderNo",
+		a.discharge_disposition_name AS "dischargeDispositionName",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="preDischgedPatsJoins">
+	</sql>
+    
+	<select id="get" resultType="PreDischgedPats">
+		SELECT 
+			<include refid="preDischgedPatsColumns"/>
+		FROM pre_dischged_pats a
+		<include refid="preDischgedPatsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PreDischgedPats">
+		select  distinct
+		c.PATIENT_ID AS "patsInHospital.patientId",
+		a.id AS "patsInHospital.id",
+		c.INP_NO AS "patMasterIndex.inpNo",
+		a.BED_NO AS "bedNo",
+		b.BED_LABEL AS "bedRec.bedLabel" ,
+		c.NAME AS "patMasterIndex.name"
+		from pats_in_hospital a ,bed_rec b ,pat_master_index c
+		where (a.BED_NO = b.BED_NO
+		and  a.WARD_CODE = b.WARD_CODE)
+		and  (a.PATIENT_ID = c.PATIENT_ID )
+		and  a.WARD_CODE =#{patsInHospital.wardCode}
+		and a.PATIENT_ID not in (select PATIENT_ID from pre_dischged_pats where patient_id=#{patientId})
+	</select>
+	<select id="findPreDischList" resultType="PreDischgedPatsVo">
+        SELECT  PRE_DISCHGED_PATS.DISCHARGE_DATE_EXPCTED AS "dischargeDateExpcted",
+           PAT_MASTER_INDEX.NAME AS "name",
+           PAT_MASTER_INDEX.SEX AS "sex",
+           PATS_IN_HOSPITAL.DIAGNOSIS AS "diagnosis",
+           PATS_IN_HOSPITAL.ADMISSION_DATE_TIME AS "admissionDateTime" ,
+           PRE_DISCHGED_PATS.CREATE_DATE_TIME AS "createDateTime" ,
+           PRE_DISCHGED_PATS.PATIENT_ID AS "patientId" ,
+           PRE_DISCHGED_PATS.ORDER_NO AS "orderNo" ,
+           PATS_IN_HOSPITAL.VISIT_ID AS "visitId" ,
+           BED_REC.BED_LABEL AS "bedLabel" ,
+           BED_REC.BED_NO  AS "bedNo",
+           PATS_IN_HOSPITAL.WARD_CODE AS "wardCode" ,
+        DEPT_DICT.DEPT_NAME AS "deptName",
+        PRE_DISCHGED_PATS.DISCHARGE_DISPOSITION_NAME,
+        PATS_IN_HOSPITAL.id AS "hospitalId"
+        FROM PAT_MASTER_INDEX ,
+           PRE_DISCHGED_PATS ,
+           PATS_IN_HOSPITAL ,
+           BED_REC,
+		   DEPT_DICT
+        WHERE ( PAT_MASTER_INDEX.PATIENT_ID = PRE_DISCHGED_PATS.PATIENT_ID ) and    ( PRE_DISCHGED_PATS.PATIENT_ID = PATS_IN_HOSPITAL.PATIENT_ID ) and
+                 ( PATS_IN_HOSPITAL.WARD_CODE = BED_REC.WARD_CODE ) and          ( PATS_IN_HOSPITAL.BED_NO = BED_REC.BED_NO ) and
+                      ( ( PATS_IN_HOSPITAL.WARD_CODE =#{wardCode} ) )  AND (PATS_IN_HOSPITAL.DEPT_CODE = DEPT_DICT.DEPT_CODE)
+	</select>
+	
+	<select id="findAllList" resultType="PreDischgedPats">
+		SELECT 
+			<include refid="preDischgedPatsColumns"/>
+		FROM pre_dischged_pats a
+		<include refid="preDischgedPatsJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO pre_dischged_pats(
+			id,
+			patient_id,
+			hospital_id,
+			orders_id,
+			org_id,
+			visit_id,
+			discharge_date_expcted,
+			create_date_time,
+			order_no,
+			discharge_disposition_name,
+			create_by,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{patientId},
+			#{hospitalId},
+			#{ordersId},
+			#{orgId},
+			#{visitId},
+			#{dischargeDateExpcted},
+			#{createDateTime},
+			#{orders.orderNo},
+			#{dischargeDispositionName},
+			#{createBy.id},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE pre_dischged_pats SET 	
+			patient_id = #{patientId},
+			hospital_id = #{hospitalId},
+			orders_id = #{ordersId},
+			org_id = #{orgId},
+			visit_id = #{visitId},
+			discharge_date_expcted = #{dischargeDateExpcted},
+			order_no=#{orders.orderNo},
+			create_date_time = #{createDateTime},
+			discharge_disposition_name = #{dischargeDispositionName},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE  FROM pre_dischged_pats
+		WHERE HOSPITAL_ID = #{id}
+	</update>
+	<update id="delAll">
+		DELETE  FROM orders
+		WHERE id in(select orders_id from pre_dischged_pats where HOSPITAL_ID= #{hospitalId})
+	</update>
+
+
+	<select id="findByPatientId" resultType="Integer">
+		SELECT count (1) From pre_dischged_pats where del_flag=0 and  patient_id =#{patientId}
+	</select>
+
+</mapper>

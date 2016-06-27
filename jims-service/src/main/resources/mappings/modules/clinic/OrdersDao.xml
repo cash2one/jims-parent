@@ -68,7 +68,10 @@
 		a.processing_date_time AS "processingDateTime",
 		a.PROCESSING_NURSE AS "processingNurse",
 		a.STOP_PROCESSING_NURSE AS "stopProcessingNurse",
-        a.STOP_PROCESSING_DATE_TIME AS  "stopProcessingDateTime"
+        a.STOP_PROCESSING_DATE_TIME AS  "stopProcessingDateTime",
+        a.EXEC_OPERATOR AS "execOperator",
+        a.EXEC_DATE_TIME AS  "execDateTime"
+
 	</sql>
 	
 	<sql id="ordersJoins">
@@ -190,6 +193,77 @@
 			   CLINIC_ITEM_NAME_DICT.STD_INDICATOR is null)
 			   AND "ORDERS"."DEL_FLAG" = '0'
 
+	</select>
+
+
+
+	<select id="getNurseOrders" resultType="Orders">
+		SELECT
+		"ORDERS"."ID" as "id",
+		"ORDERS"."START_DATE_TIME" as "startDateTime",
+		"ORDERS"."ORDER_TEXT" as "orderText",
+		"ORDERS"."DOSAGE" as "dosage",
+		"ORDERS"."EXEC_OPERATOR" AS "execOperator",
+        "ORDERS"."EXEC_DATE_TIME" AS  "execDateTime",
+		"ORDERS"."DOSAGE_UNITS" as "dosageUnits" ,
+		"ORDERS"."ADMINISTRATION" as "administration" ,
+		"ORDERS"."DURATION" as "duration",
+		"ORDERS"."DURATION_UNITS" as "durationUnits" ,
+		"ORDERS"."FREQUENCY" as "frequency",
+		"ORDERS"."FREQ_COUNTER" as "freqCounter",
+		"ORDERS"."FREQ_INTERVAL" as "freqInterval",
+		"ORDERS"."FREQ_INTERVAL_UNIT" as "freqIntervalUnit",
+		"ORDERS"."DOCTOR" as "doctor",
+		"ORDERS"."NURSE" as "nurse",
+		"ORDERS"."STOP_DOCTOR" as "stopDoctor",
+		"ORDERS"."ORDER_CLASS" as "orderClass",
+		"ORDERS"."REPEAT_INDICATOR" as "repeatIndicator",
+		"ORDERS"."STOP_DATE_TIME" as "stopDateTime",
+		"ORDERS"."ORDER_CODE" as "orderCode",
+		"ORDERS"."ORDER_STATUS" as "orderStatus",
+		"ORDERS"."ENTER_DATE_TIME" as "enterDateTime",
+		"ORDERS"."FREQ_DETAIL" as "freqDetail",
+		"ORDERS"."PATIENT_ID" as "patientId",
+		"ORDERS"."VISIT_ID" as "visitId",
+		"ORDERS"."ORDER_NO" as "orderNo",
+		"ORDERS"."ORDER_SUB_NO" as "orderSubNo",
+		"ORDERS"."PERFORM_SCHEDULE" as "performSchedule",
+		"ORDERS"."BILLING_ATTR" as "billingAttr",
+		'9',
+		"ORDERS"."LAST_ACCTING_DATE_TIME" as "lastAcctingDateTime",
+		"ORDERS"."PERFORM_RESULT" as "performResult",
+		"ORDERS"."LAST_PERFORM_DATE_TIME" as "lastPerformDateTime",
+		"ORDERS"."ORDERING_DEPT" as "orderingDept",
+		"ORDERS"."STOP_NURSE" as "stopNurse",
+		"ORDERS"."DRUG_BILLING_ATTR" as "drugBillingAttr",
+		"ORDERS"."DOCTOR_USER" as "doctorUser",
+		"ORDERS"."VERIFY_DATA_TIME" as "verifyDataTime",
+		"ORDERS"."ORDER_PRINT_INDICATOR" as "orderPrintIndicator",
+		"ORDERS"."PROCESSING_DATE_TIME" as "processingDateTime",
+		"ORDERS"."PROCESSING_NURSE" as "processingNurse",
+		"ORDERS"."STOP_PROCESSING_NURSE" as "stopProcessingNurse",
+		"ORDERS"."STOP_PROCESSING_DATE_TIME" as "stopProcessingDateTime",
+		"ORDERS"."CANCEL_DATE_TIME" as "cancelDateTime",
+		"ORDERS"."CANCEL_DOCTOR" as "cancelDoctor",
+		"ORDERS"."CURRENT_PRESC_NO" as "currentPrescNo",
+		"ORDERS"."DEGREE" as "degree",
+		"ORDERS"."APP_NO" as "appNo",
+		"ORDERS"."STOP_FLAG" as "stopFlag",
+		0 as nwarn,
+		"ORDERS"."CONTINUE_ORDER_NO",
+		(case
+		when ORDER_CLASS = 'A' or ORDER_CLASS = 'B' then
+		'A'
+		else
+		'B'
+		end) aa,
+		0.00 bb
+		FROM "ORDERS"
+		WHERE (ORDERS.PATIENT_ID = #{patientId})
+		AND (ORDERS.VISIT_ID = #{visitId})
+		AND "ORDERS"."DEL_FLAG" = '0' AND
+		(ORDERS.ORDER_STATUS  &lt;&gt; 5 AND
+		ORDERS.ORDER_STATUS &lt;&gt; 6)
 	</select>
 
 
@@ -437,7 +511,7 @@
 
 
 	<update id="issuedOrders">
-          update    orders       set  order_status = '2',start_date_time = to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')
+          update    orders       set  order_status = '6'
           where id= #{id}
 	</update>
 
@@ -454,7 +528,7 @@
 				<if test="visitId!=null and visitId!='' ">
 					AND visit_id=#{visitId}
 				</if>
-				<if test="orderNo!=null and orderNo!='' ">
+				<if test="orderNo!=null">
 					AND order_no=#{orderNo}
 			    </if>
 		</where>
@@ -473,5 +547,73 @@
 		</if>
 
 	</select>
+
+
+	<select id="ordersCopied" resultType="Orders">
+      select <include refid="ordersColumns"/> ,pmi.name as "name",pih.bed_no as "bedNo"
+		FROM orders a,
+		  pat_master_index pmi,
+		  pats_in_hospital pih
+		WHERE ( pih.patient_id = pmi.patient_id (+)) and
+		( pmi.patient_id = a.patient_id ) and
+		( pih.visit_id = a.visit_id )
+		<if test="wardCode !=null and wardCode !=''">
+		and	( pih.ward_code =#{wardCode})
+		</if>
+
+		AND a."ORDER_STATUS"='6'
+	</select>
+
+
+	<select id="findOrderCount" resultType="Integer">
+		SELECT count (1) FROM orders Where patient_id =#{patientId} And Visit_id =#{visitId} And start_date_time >= #{admissionDateTime}
+	</select>
+
+
+	<update id="operationCopied">
+        UPDATE orders
+        SET
+		ORDER_STATUS = '1'
+        <if test="processingNurse !=null and processingNurse !=''">
+			,PROCESSING_NURSE = #{processingNurse}
+		</if>
+		<if test="startDateTime != null and startDateTime !=''">
+			, STOP_DATE_TIME = #{startDateTime}
+		</if>
+           ,PROCESSING_DATE_TIME = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		WHERE id = #{id}
+
+
+	</update>
+
+
+	<update id="proofOrders">
+		UPDATE  orders
+		set
+		ORDER_STATUS ='2'
+		<if test="nurse !=null and nurse !=''">
+         ,nurse = #{nurse}
+		</if>
+        <if test="billingAttr !=null and billingAttr !=''">
+         ,BILLING_ATTR = #{billingAttr}
+		</if>
+		<if test="doctorUser!=null and doctorUser !=''">
+         ,DOCTOR_USER = #{doctorUser}
+		</if>
+		,VERIFY_DATA_TIME = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		WHERE id = #{id}
+	</update>
+
+	<update id="executeOrders">
+		update orders
+		set EXEC_DATE_TIME = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		<if test="doctorUser!=null and doctorUser !=''">
+			,DOCTOR_USER = #{doctorUser}
+		</if>
+		<if test="execOperator !=null and execOperator !=''">
+            ,EXEC_OPERATOR = #{execOperator}
+		</if>
+		WHERE id = #{id}
+	</update>
 
 </mapper>

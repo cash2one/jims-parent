@@ -9,6 +9,7 @@ import com.jims.exam.entity.Orders;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.core.annotation.Order;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -83,7 +84,7 @@ public interface OrdersDao extends CrudDao<Orders> {
     public List<Orders> getSubOrders(@Param("patientId")String patientId,@Param("visitId")String visitId,@Param("orderNo")Integer orderNo);
 
 
-    /**
+    /**s
      * 拿到最大的医嘱号
      * @param patientId
      * @param visitId
@@ -91,4 +92,54 @@ public interface OrdersDao extends CrudDao<Orders> {
      * pq
      */
     public  Integer getMaxOrderNo(@Param("patientId")String patientId,@Param("visitId")String visitId);
+
+    /**
+     * 护理端 - 查询医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public List<Orders> getNurseOrders(Orders orders);
+
+
+    /**
+     * 护理端 - 转抄医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public List<Orders> ordersCopied(Orders orders);
+
+    /**
+     * 护士-取消入科，判断是否有下达医嘱
+     * @param patientId
+     * @param visitId
+     * @param admissionDateTime
+     * @author CTQ
+     * @return
+     */
+    public Integer findOrderCount(@Param("patientId")String patientId,@Param("visitId")String visitId,@Param("admissionDateTime")Date admissionDateTime);
+    /**
+     * 护理端 - 转抄
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public  int operationCopied(Orders orders);
+
+    /**
+     * 护理端 - 医嘱校验
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public int proofOrders(Orders orders);
+
+    /**
+     * 护理端 - 医嘱执行
+     * @param orders
+     * @return
+     */
+    public int executeOrders(Orders orders);
+
 }

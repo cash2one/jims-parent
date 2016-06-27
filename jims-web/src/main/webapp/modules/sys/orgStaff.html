@@ -14,14 +14,11 @@
 </style>
 <!--科室信息  start-->
 <div id=examClass" data-options="region:'west'" style="padding:1px;background:#eee;width: 200px;">
-    <table id="examClassGrid" class="easyui-datagrid">
+    <table id="staff" class="easyui-datagrid">
 
     </table>
 </div>
-<div id="classft" style="margin:5px;">
-    <a href="#" id="addClassBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加科室</a>
-    <a href="#" id="removeClassBtn" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除科室</a>
-</div>
+
 <!--科室信息  end-->
 
 
@@ -38,70 +35,75 @@
 <!--组织机构人员维护  end-->
 
 <!--添加组织机构人员模态  start-->
-<div id="addStaff" style="height: 635px;width:550px;" data-options="footer:'#addStaffFt'">
+<div id="addStaff" style="height: 500px;width:700px;" data-options="footer:'#addStaffFt'">
     <div style="padding-top:10px;" class="fitem">
-        <label for="selectCardNo">       </label>
-        <input class="easyui-validatebox" id="selectCardNo" type="text" value="请输入身份证号"/>
+        <label  style="width: 150px;" for="selectCardNo"> 请输入身份证号：      </label>
+        <input class="easyui-validatebox" id="selectCardNo" type="text" style="width: 320px"/>
         <a href="#" id="select" class="easyui-linkbutton" icon="icon-search">检索</a>
         <a href="#" id="saveStaff" class="easyui-linkbutton" icon="icon-ok">添加</a>
     </div>
 
     <form id="staffForm" data-options="fit:true">
-
-        <div style="padding-top:10px;" class="fitem">
-            <label for="deptName">所属科室：</label>
-            <select class="easyui-combobox" id="deptName" style="width:310px;height:27px">
+        <input type="hidden" id="id" />
+        <input type="hidden" id="staffId" />
+        <div class="fitem">
+            <label style="width: 150px;">所属科室：</label>
+            <select class="easyui-combobox" id="deptName" style="width:320px;height:27px">
 
             </select>
         </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="cardNo">身份证号：</label>
-            <input class="easyui-validatebox" id="cardNo" type="text" data-options="required:true,missingMessage:'请输入身份证号'"/>
+
+        <div class="fitem">
+            <label style="width: 150px;" for="cardNo">身份证号：</label>
+            <input class="easyui-validatebox" id="cardNo" type="text" style="width:320px"/>
             <span id="res-card"></span>
+
         </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="phoneNum">联系电话：</label>
-            <input class="easyui-validatebox" id="phoneNum" type="text" data-options="required:true,missingMessage:'请输入联系电话'"/>
+        <div  class="fitem">
+            <label style="width: 150px;" style="width: 150px;" for="role">角色：</label>
+            <input class="easyui-combobox" id="role" type="text" style="width:320px;height:27px"/>
+        </div>
+        <div class="fitem">
+            <label style="width: 150px;" for="title">职称：</label>
+            <input class="easyui-validatebox" id="title" style="width:320px" type="text"/>
+            <span id="res-title"></span>
+        </div>
+        <div class="fitem">
+            <label style="width: 150px;" for="title">联系电话：</label>
+            <input class="easyui-validatebox" id="phoneNum" style="width:320px" type="text"/>
             <span id="res-phone"></span>
         </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="title">职称：</label>
-            <input class="easyui-validatebox" id="title" type="text" data-options="required:true,missingMessage:'请填写职称'"/>
+        <div class="fitem">
+            <label style="width: 150px;" for="name">姓名：</label>
+            <input class="easyui-validatebox" id="name" style="width:320px" type="text"/>
+            <span id="res-name"></span>
         </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="name">姓名：</label>
-            <input class="easyui-validatebox" id="name" type="text" data-options="required:true,missingMessage:'请填写姓名'"/>
+        <div class="fitem">
+            <label style="width: 150px;" for="email">邮箱：</label>
+            <input class="easyui-validatebox" id="email" style="width:320px" type="text" />
+            <span id="res-email"></span>
         </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="email">邮箱：</label>
-            <input class="easyui-validatebox" id="email" type="text" data-options="required:true,missingMessage:'请输入邮箱'"/>
-            <span id="#res-email"></span>
-        </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="nickName">昵称：</label>
-            <input class="easyui-validatebox" id="nickName" type="text" data-options="required:true,missingMessage:'请输入昵称'"/>
+        <div  class="fitem">
+            <label  style="width: 150px;" for="nickName">昵称：</label>
+            <input class="easyui-validatebox" id="nickName" style="width:320px" type="text"/>
             <span id="res-nick"></span>
         </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="password">密码：</label>
-            <input class="easyui-validatebox" id="password" type="text" data-options=" validType:'minLength[6]',validType:'maxLength[12]',required:true,missingMessage:'请输入密码'"/>
+        <div class="fitem">
+            <label style="width: 150px;" for="password">密码：</label>
+            <input class="easyui-validatebox" id="password" style="width:320px" type="text"/>
+            <span id="res-password"></span>
         </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="sex">性别：</label>
-          <!--  <select class="easyui-combobox" id="sex" style="width:310px;height:27px">
-
-            </select>-->
+        <div  class="fitem">
+            <label style="width: 150px;" for="sex">性别：</label>
             <input class="easyui-combobox" style="width:320px;height:27px" id="sex" />
-
-
         </div>
-        <div style="padding-top:10px;" class="fitem">
-            <label for="nation">民族：</label>
+        <div  class="fitem">
+            <label style="width: 150px;" for="nation">民族：</label>
             <select class="easyui-combobox" id="nation" style="width:320px;height:27px">
 
             </select>
         </div>
-        <input type="hidden" class="easyui-textbox" id="id" />
+
     </form>
 </div>
 <div style="padding:5px;text-align:right;" id="addStaffFt">

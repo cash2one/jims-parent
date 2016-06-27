@@ -7,7 +7,6 @@ import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.util
 
 import com.jims.common.utils.IdGen;
 import com.jims.sys.entity.User;
-import com.jims.common.utils.UserUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
@@ -48,7 +47,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 		if (!this.isNewRecord){
 			setId(IdGen.uuid());
 		}
-		User user = UserUtils.getUser();
+		User user = new User();
 		if (StringUtils.isNotBlank(user.getId())){
 			this.updateBy = user;
 			this.createBy = user;
@@ -64,7 +63,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	 */
 	@Override
 	public void preUpdate(){
-		User user = UserUtils.getUser();
+		User user = new User();
 		if (StringUtils.isNotBlank(user.getId())){
 			this.updateBy = user;
 		}

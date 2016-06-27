@@ -5,6 +5,7 @@ import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.operation.api.OperatioinOrderServiceApi;
+import com.jims.operation.bo.OperationBo;
 import com.jims.operation.dao.OperationScheduleDao;
 import com.jims.operation.dao.ScheduledOperationNameDao;
 import com.jims.operation.entity.OperationSchedule;
@@ -30,6 +31,9 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
     private ScheduledOperationNameDao scheduledOperationNameDao;
     @Autowired
     private OperationScheduleDao operationScheduleDao;
+
+    @Autowired
+    private OperationBo operationBo;
 
     /**
      * 通过科室Code拿到医生所负责的病人
@@ -110,59 +114,7 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      */
 
     public String saveOperationOut(OperationSchedule operationSchedule){
-        if(operationSchedule!=null) {
-            if (operationSchedule.getIsNewRecord()) {
-                String scheduleId = getScheduleId(operationSchedule.getPatientId(), operationSchedule.getVisitId());
-                int sId=Integer.parseInt(scheduleId)+1;
-                operationSchedule.setScheduleId(sId);
-                operationSchedule.preInsert();
-                operationScheduleDao.insert(operationSchedule);
-                if (operationSchedule.getScheduledOperationNameList() != null) {
-                    List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
-                    for (int i = 0; i < scheduledOperationNameList.size(); i++) {
-                        ScheduledOperationName scheduledOperationName = new ScheduledOperationName();
-                        scheduledOperationName = scheduledOperationNameList.get(i);
-                        if (scheduledOperationName.getIsNewRecord()) {
-                            scheduledOperationName.setOperationNo(i+1);
-                            scheduledOperationName.preInsert();
-                            scheduledOperationName.setScheduleId(operationSchedule.getId());
-                            scheduledOperationNameDao.insert(scheduledOperationName);
-                        } else {
-                            scheduledOperationName.preUpdate();
-                            scheduledOperationNameDao.update(scheduledOperationName);
-                        }
-                    }
-                }
-
-
-            } else {
-                operationSchedule.preUpdate();
-                operationScheduleDao.update(operationSchedule);
-                if (operationSchedule.getScheduledOperationNameList() != null) {
-                    List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
-                    for (int i = 0; i < scheduledOperationNameList.size(); i++) {
-                        ScheduledOperationName scheduledOperationName = new ScheduledOperationName();
-                        scheduledOperationName = scheduledOperationNameList.get(i);
-                        if (scheduledOperationName.getIsNewRecord()) {
-                            scheduledOperationName.setOperationNo(i+1);
-                            scheduledOperationName.preInsert();
-                            scheduledOperationName.setScheduleId(operationSchedule.getId());
-                            scheduledOperationNameDao.insert(scheduledOperationName);
-                        } else {
-                            scheduledOperationName.preUpdate();
-                            scheduledOperationNameDao.update(scheduledOperationName);
-
-                        }
-                    }
-                }
-            }
-
-            return "1";
-
-
-        }else{
-            return "0";
-        }
+      return operationBo.saveOperationOut(operationSchedule);
     }
 
 
@@ -173,11 +125,7 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @return
      */
     public String getScheduleId(String patientId,String visitId){
-        String   scheduleId =operationScheduleDao.getScheduleId(patientId, visitId);
-        if(scheduleId==null){
-            scheduleId="0";
-        }
-       return scheduleId;
+        return operationBo.getScheduleId(patientId,visitId);
     }
 
     /**
@@ -187,8 +135,7 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @return
      */
     public OperationSchedule getSchedule(String patientId,String visitId,String clinicId){
-        OperationSchedule operationSchedule=operationScheduleDao.getSchedule(patientId,visitId,clinicId);
-        return operationSchedule;
+       return operationBo.getSchedule(patientId,visitId,clinicId);
     }
 
     /**
@@ -198,9 +145,7 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @return
      */
     public List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId,String scheduleId){
-        OperationSchedule operationSchedule=operationScheduleDao.getSchedule(patientId,visitId,clinicId);
-        List<ScheduledOperationName>  operationNameList= scheduledOperationNameDao.getOperationName(patientId,visitId,clinicId,scheduleId);
-      return operationNameList;
+      return operationBo.getOperationName(patientId,visitId,clinicId,scheduleId);
     }
 
     /**
@@ -209,6 +154,6 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @return
      */
     public int deleteOperationName(String id){
-      return   scheduledOperationNameDao.delete(id);
+      return  operationBo.deleteOperationName(id);
     }
 }

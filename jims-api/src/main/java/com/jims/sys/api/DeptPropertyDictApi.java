@@ -1,5 +1,6 @@
 package com.jims.sys.api;
 
+import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.OrgDeptPropertyDict;
 import com.jims.sys.entity.SysCompany;
@@ -32,7 +33,7 @@ public interface DeptPropertyDictApi {
      *
      * @param
      */
-    public int add(OrgDeptPropertyDict orgDeptPropertyDict);
+    public StringData add(OrgDeptPropertyDict orgDeptPropertyDict);
 
     /**
      * 删除方法
@@ -46,7 +47,7 @@ public interface DeptPropertyDictApi {
      * @param propertyType
      * @return
      */
-    public List<OrgDeptPropertyDict> findNameByType(String propertyType);
+    public List<OrgDeptPropertyDict> findNameByType(String propertyType,String orgId);
 
     /**
      * 根据属性类型和属性值来查询属性名称
@@ -54,13 +55,13 @@ public interface DeptPropertyDictApi {
      * @param propertyValue
      * @return
      */
-    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue);
+    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue,String orgId);
 
     /**
      * 查询所有的属性类型
      * @return
      */
-    public List<OrgDeptPropertyDict> findProperty();
+    public List<OrgDeptPropertyDict> findProperty(String orgId);
 
     /**
      * 查询所有的科室信息
@@ -77,10 +78,10 @@ public interface DeptPropertyDictApi {
 
     /**
      * 查询属性名称
-     * @param propertyName
+     * @param
      * @return
      */
-    public List<OrgDeptPropertyDict> findName(String propertyType);
+    public List<OrgDeptPropertyDict> findName(String propertyType,String orgId);
 
     /**
      * 查询最大的排序值
@@ -88,5 +89,5 @@ public interface DeptPropertyDictApi {
      * @param
      * @return
      */
-    public OrgDeptPropertyDict findSort();
+    public OrgDeptPropertyDict findSort(String orgId);
 }

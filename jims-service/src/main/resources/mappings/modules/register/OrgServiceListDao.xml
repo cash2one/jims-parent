@@ -25,6 +25,8 @@
          <result property="serviceName" column="service_name"/>
          <result property="serviceStartDate" column="service_start_date"/>
          <result property="serviceEndDate" column="service_end_date"/>
+         <result property="serviceType" column="service_type"/>
+         <result property="serviceClass" column="service_class"/>
          <result property="orgId" column="org_id"/>
          <result property="remarks" column="remarks"/>
          <result property="delFlag" column="del_flag"/>
@@ -32,8 +34,22 @@
              <id property="id" column="menu_id"/>
              <result property="menuName" column="menu_name"/>
              <result property="sort" column="menu_sort"/>
+             <result property="pid" column="pid"/>
+             <result property="href" column="href"/>
          </collection>
     </resultMap>
+
+    <select id="findByOrgId" resultType="OrgServiceList">
+        SELECT
+        *
+        FROM org_service_list
+        WHERE 1 = 1
+        <if test=" _parameter!=null and _parameter!='' ">
+            AND org_id = #{_parameter}
+        </if>
+        AND DEL_FLAG='0'
+    </select>
+
 	<select id="get" resultType="OrgServiceList">
 		SELECT 
 			<include refid="orgServiceListColumns"/>
@@ -44,7 +60,7 @@
 	
 	<select id="findList" resultMap="serviceMap">
 		SELECT 
-			<include refid="orgServiceListColumns"/>,s.service_name,m.id menu_id,m.menu_name,v.menu_sort
+			a.*,s.service_name,s.service_type,s.service_class,m.id menu_id,m.menu_name,v.menu_sort,m.pid,m.href
         FROM org_service_list a ,sys_service s,service_vs_menu v ,menu_dict m
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
@@ -121,8 +137,8 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE org_service_list SET 
-			del_flag = #{DEL_FLAG_DELETE}
+		UPDATE org_service_list SET
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 	

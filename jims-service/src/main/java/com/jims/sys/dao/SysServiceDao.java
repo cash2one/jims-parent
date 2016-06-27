@@ -4,6 +4,7 @@ package com.jims.sys.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.SysService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,4 +24,19 @@ public interface SysServiceDao extends CrudDao<SysService> {
      * @version 2016-06-02
      */
     public List<SysService> serviceListByTC( String serviceType,String serviceClass);
+
+    /**
+     * 检索不同人群的服务
+     * @param serviceClass 服务人群 1,个人服务，0机构服务
+     * @param serviceType  服务类型
+     * @return
+     */
+    public List<SysService> findServiceWithPrice(@Param("serviceClass")String serviceClass,@Param("serviceType")String serviceType);
+
+    /**
+     * 通过服务Id查询服务列表
+     * @param serviceId 服务id
+     * @return
+     */
+    public List<SysService> findServiceById(@Param("serviceId") String serviceId);
 }

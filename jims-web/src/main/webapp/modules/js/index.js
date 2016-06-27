@@ -1,75 +1,64 @@
 function centerRefresh(id, name, url) {
     $(window.parent.document).contents().find("#centerIframe")[0].contentWindow.addTabs(id, name, url);
 }
+var str = decodeURI(window.location.search);   //location.search是从当前URL的
+if (str.indexOf(name) != -1) {
+    var pos_start = str.indexOf(name) + name.length + 1;
+    var pos_end = str.indexOf("&", pos_start);
+    if (pos_end == -1) {
+        var id = str.substring(4,str.lastIndexOf("?") );
+        //人员id
+        var pid=str.substring(id.length+16);
+    }
+
+
+}
 var config = {} ;
-config.org_Id = '1';
+
+config.org_Id = id;
+config.persion_Id=pid;
 config.operator = 'thinkgem';
 config.currentStorage = '1001';
 $(function () {
-    //标题菜单维护
-    $.get(basePath + "/menuDict/list", function (data) {
-        var menus = [];//菜单列表
-        var menuTreeData = [];//菜单树的列表
-        $.each(data, function (index, item) {
-            var menu = {};
-            menu.id = item.id;
-            menu.pid = item.pid;
-            menu.menuName = item.menuName;
-            menu.href = item.href;
-            menu.icon = item.icon;
-            menu.sort = item.sort;
-            menu.target = item.target;
-            menu.menuLevel = item.menuLevel;
-            menu.children = [];
-            menu.childrenDivId = "menu" + index;
-            menus.push(menu);
-        });
-        for (var i = 0; i < menus.length; i++) {
-            //判断儿子节点
-            for (var j = 0; j < menus.length; j++) {
-                if (menus[i].id == menus[j].pid) {
-                    menus[i].children.push(menus[j]);
-                }
-            }
-            //判断是不是根节点  start
-            if (menus[i].children.length > 0 && !menus[i].pid) {
-                menuTreeData.push(menus[i]);
-            }
+    var orgId = config.org_Id;
+    var personId = config.persion_Id;
+    var staffId = '';   //员工Id
+    //var serviceId = []; //员工对应的多个角色下的所有服务(去掉重复的服务)
+    var sysService ;    //名称为系统管理的服务
 
-            if (!menus[i].pid && menus[i].children.length <= 0) {
-                menuTreeData.push(menus[i]);
+    //根据机构ID和人员ID查询员工ID
+    $.get(basePath + '/orgStaff/find-staff-by-orgId-personId?persionId=' + personId + '&orgId=' + orgId, function (data) {
+        staffId = data.id;
+    });
+    //根据机构ID和人员ID查询该员工在该机构的所有服务
+    $.get(basePath + '/org-service/find-selfServiceList-by-orgId-personId?personId=' + personId + '&orgId=' + orgId,function(data){
+        for(var i=0;i<data.length;i++){
+            if (data[i].serviceName != '系统管理') {
+                $("#menu").append("<li><a id='" + data[i].id + "'>" + data[i].serviceName + "</a></li>");
+                $("#" + data[i].id).on('click', function () {
+
+                    var iframe = '<iframe width="100%" id="centerIframe" height="99.6%" frameborder="no"  border="0"  ' +
+                        'scrolling="yes" src="/modules/sys/template.html?serviceId=' + this.id + '?staffId=' + staffId + '"></iframe>'
+                    $("#iframe").html('');
+                    $("#iframe").append(iframe);
+                });
             }
-            //判断是不是根节点  end
+            if(data[i].serviceName == '系统管理'){
+                sysService = {}
+                sysService.id = data[i].id;
+                sysService.serviceName = data[i].serviceName;
+            }
         }
-        $.each(menuTreeData, function (index, item) {
-            if (item.target == 1) {//直接打开
-                $("#menu").append("<li><a id='"+item.id+"'>" + item.menuName + "</a></li>");
-                $("#"+item.id).on("click", function () {
-                    $("#centerIframe").attr("src", item.href);
-                });
-            }
+        if(sysService) {
+            $("#menu").append("<li><a id='" + sysService.id + "'>" + sysService.serviceName + "</a></li>");
+            $("#" + sysService.id).on('click', function () {
 
-            if (item.target == 2) {//子菜单打开
-                var id2 = item.childrenDivId + item.target;
-                var str = "<div class='menu-content' id='"+item.childrenDivId+"'style='background:#3b4c5c;padding:10px;text-align:left'>";
-                var script="<script type='text/javascript'> $(function() { ";
-                $.each(item.children, function (i,t) {
-                    str = str + "<a id='"+t.id+"'>" + t.menuName +"</a>";
-                    script = script + "$('#"+t.id+"').on('click', function () {$('#centerIframe').attr('src','"+ t.href+"');});";
-                });
-                $("body").append(str + "</div>");
-                $("body").append(script + "})</script>");//
+                var iframe = '<iframe width="100%" id="centerIframe" height="99.6%" frameborder="no"  border="0"  ' +
+                    'scrolling="yes" src="/modules/sys/template.html?serviceId=' + sysService.id + '?staffId=' + staffId + '"></iframe>'
 
-
-                $("#menu").append("<li id='"+id2+"'> " +
-                "<a class='easyui-menubutton' href='" + item.href + "'  data-options=\"menu:'#" + item.childrenDivId + "'\">" +
-                "<span class='neweu-mparent' >" + item.menuName +"</span></a></li>" );
-
-                $("#"+id2 + "> a").menubutton();
-
-
-
-            }
-        })
+                $("#iframe").html('');
+                $("#iframe").append(iframe);
+            });
+        }
     });
 });

@@ -93,21 +93,22 @@ public class DictRest {
 
     /**
      * 异步加载表格
+     *
      * @param request
      * @param response
      * @return
      */
-      @Path("list")
-      @GET
-      public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-            Page<Dict> page = dictService.findPage(new Page<Dict>(request,response), new Dict());
-            PageData pageData=new PageData();
-            pageData.setRows(page.getList());
-            pageData.setTotal(page.getCount());
-            return pageData;
-         }
+    @Path("list")
+    @GET
+    public PageData list(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+        Page<Dict> page = dictService.findPage(new Page<Dict>(request, response), new Dict());
+        PageData pageData = new PageData();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
+    }
 
-  
+
     /**
      * 获取单条数据
      *
@@ -123,6 +124,7 @@ public class DictRest {
 
     /**
      * 保存修改方法
+     *
      * @param dict
      * @return
      */
@@ -151,42 +153,45 @@ public class DictRest {
         return stringData;
     }
 
-        /**
-         * 获取指定类型的数据
-         * @param type
-         * @return
-         */
-        @Path("findType")
-        @GET
-        public List<String> findListType(String type){
-            List<String> data =dictService.findListType(type);
-            for(int i=0;i<data.size();i++){
-               String b=  data.get(i);
-                System.out.print("b="+b);
-            }
-            return data;
-        }
-
     /**
-     * 根据类型检索字典
+     * 获取指定类型的数据
+     *
      * @param type
      * @return
      */
-        @GET
-        @Path("findListByType")
-        public List<Dict> findListByType(@QueryParam("type") String type){
-            return dictService.findList(type);
+    @Path("findType")
+    @GET
+    public List<String> findListType(String type) {
+        List<String> data = dictService.findListType(type);
+        for (int i = 0; i < data.size(); i++) {
+            String b = data.get(i);
+            System.out.print("b=" + b);
         }
+        return data;
+    }
+
+    /**
+     * 根据类型检索字典
+     *
+     * @param type
+     * @return
+     */
+    @GET
+    @Path("findListByType")
+    public List<Dict> findListByType(@QueryParam("type") String type) {
+        return dictService.findList(type);
+    }
 
     /**
      * 获得字典label值
+     *
      * @param type
      * @param value
      * @return
      */
     @Path("getLabel")
     @GET
-    public String findLabel(String type,String value){
-       return dictService.getLabel(type,value);
+    public String findLabel(String type, String value) {
+        return dictService.getLabel(type, value);
     }
 }

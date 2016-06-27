@@ -1,7 +1,7 @@
 $(function () {
 
         var property = [];
-
+        var orgId=config.org_Id;
         //设置列
         $("#tt").treegrid({
             //fit: true,
@@ -44,8 +44,8 @@ $(function () {
 
             var depts = [];
             var treeDepts = [];
-            //var orgId= parent.config.org_id;
-            var orgId=1
+
+            //var orgId=1
             var loadPromise = $.get("/service/dept-dict/list?orgId="+ orgId, function (data) {
                 $.each(data, function (index, item) {
                     var obj = {};
@@ -81,6 +81,7 @@ $(function () {
                 }
 
                 $("#tt").treegrid('loadData', treeDepts);
+                console.log(treeDepts);
             })
         }
         loadDept();
@@ -112,7 +113,7 @@ $(function () {
 
 
             $.ajax({
-                url: "/service/dept-property/selectProperty",
+                url: "/service/dept-property/selectProperty?orgId="+orgId,
                 type: 'get',
                 dataType: 'json',
                 error: function (data) {
@@ -131,7 +132,7 @@ $(function () {
                         $("#" + propertyFitem).append("<select style='width: 173px;' name='propertyName' id='" + propertyId + "'/><br/>");
 
                         $("#" + propertyId).combobox({
-                            'url': '/service/dept-property/selectName/' + deptPropertity,
+                            'url':  '/service/dept-property/selectName/'+deptPropertity+'/'+orgId,
                             valueField: 'propertyValue',
                             textField: 'propertyName'
                         });
@@ -144,7 +145,7 @@ $(function () {
             //  clearInput();
 
             $("#parentId").combobox({
-                'url': '/service/dept-dict/selectParent',
+                'url': '/service/dept-dict/selectParentByOrgId?orgId='+orgId,
                 valueField: 'id',
                 textField: 'deptName'
             });
@@ -163,7 +164,7 @@ $(function () {
 
         //给上级科室的下拉列表赋值
         $("#parentId").combobox({
-            'url': '/service/dept-dict/selectParent',
+            'url': '/service/dept-dict/selectParentByOrgId?orgId='+orgId,
             valueField: 'id',
             textField: 'deptName'
         });
@@ -190,8 +191,7 @@ $(function () {
             deptDictVo.id = $("#id").val();
             deptDictVo.deptCode = $("#deptCode").val();
             deptDictVo.deptName = $("#deptName").val();
-            //deptDictVo.orgId=parent.config.org_id;
-            deptDictVo.orgId=1
+            deptDictVo.orgId=orgId
             deptDictVo.inputCode=$("#inputCode").val();
             deptDictVo.parentId = $("#parentId").combobox('getValue');
             for (var i = 0; i < deptPropertitys.length; i++) {
@@ -202,27 +202,32 @@ $(function () {
 
             }
             deptDictVo.array = deptProperty;
-            console.log(deptDictVo);
-            jQuery.ajax({
-                'type': 'POST',
-                'url': "/service/dept-dict/add",
-                'contentType': 'application/json',
-                'data': JSON.stringify(deptDictVo),
-                'dataType': 'json',
-                'success': function (data) {
-                    console.log(data);
-                    if (data.data == "success") {
-                        $.messager.alert("系统提示", "保存成功");
-                        loadDept();
-                        clearInput();
-                        $("#deptPropertity").html("");
-                        $("#dlg").dialog('close');
+            if(deptDictVo!=null && deptDictVo.deptCode!="" && deptDictVo.deptName!="" && deptDictVo.orgId !="" && deptDictVo.inputCode !=null && deptDictVo.array!="")
+            {
+                jQuery.ajax({
+                    'type': 'POST',
+                    'url': "/service/dept-dict/add",
+                    'contentType': 'application/json',
+                    'data': JSON.stringify(deptDictVo),
+                    'dataType': 'json',
+                    'success': function (data) {
+                        console.log(data);
+                        if (data.data == "success") {
+                            $.messager.alert("系统提示", "保存成功");
+                            loadDept();
+                            clearInput();
+                            $("#deptPropertity").html("");
+                            $("#dlg").dialog('close');
+                        }
+                    },
+                    'error': function (data) {
+                        $.messager.alert("系统提示", "保存失败");
                     }
-                },
-                'error': function (data) {
-                    $.messager.alert("系统提示", "保存失败");
-                }
-            });
+                });
+            }else{
+                $.messager.alert("系统提示", "填写信息不完整，请重新填写！");
+            }
+
 
         });
         /**
@@ -233,9 +238,9 @@ $(function () {
             orgDeptProperty.propertyType = $("#propertyType").val();
             orgDeptProperty.propertyName = $("#propertyName").val();
             orgDeptProperty.propertyValue = $("#propertyValue").val();
-            orgDeptProperty.orgId = parent.config.org_id;
+            orgDeptProperty.orgId = orgId;
 
-            if ($("#dm").form()) {
+            if ($("#dm").form() && orgDeptProperty!=null && orgDeptProperty.propertyName!="" && orgDeptProperty.propertyType!="" && orgDeptProperty.propertyValue!="") {
                 jQuery.ajax({
                     'type': 'POST',
                     'url': "/service/dept-property/add",
@@ -243,6 +248,7 @@ $(function () {
                     'data': JSON.stringify(orgDeptProperty),
                     'dataType': 'json',
                     'success': function (data) {
+                        console.log(data.data)
                         if (data.data == "success") {
                             $.messager.alert("系统提示", "保存成功");
                             $("#propertyType").textbox('setValue', "");
@@ -260,6 +266,8 @@ $(function () {
                         $.messager.alert("系统提示", "保存失败");
                     }
                 });
+            }else{
+                $.messager.alert("系统提示", "填写信息不完整,请填写完整！");
             }
         });
 
@@ -299,7 +307,7 @@ $(function () {
 
 
             $.ajax({
-                url: "/service/dept-property/selectProperty",
+                url: "/service/dept-property/selectProperty?orgId="+orgId,
                 type: 'get',
                 dataType: 'json',
                 error: function (data) {
@@ -317,13 +325,13 @@ $(function () {
                         $("#" + propertyFitem).append("<label>" + deptPropertity + ": </label>");
                         $("#" + propertyFitem).append("<select style='width: 173px;' name='propertyName' id='" + propertyId + "'/><br/>");
                         $("#" + propertyId).combobox({
-                            'url': '/service/dept-property/selectName/' + deptPropertity,
+                            'url': '/service/dept-property/selectName/'+deptPropertity+'/'+orgId,
                             valueField: 'propertyValue',
                             textField: 'propertyName'
                         });
                       /*  var deptArray = [];
 
-
+                       deptPropertity=' + deptPropertity+'&orgId='+orgId
                         console.log(propertyIds);
 
 
@@ -420,7 +428,7 @@ $(function () {
             });
         });
       //  var orgId =parent.config.org_id;
-        var orgId=1
+       // var orgId=1
         $('#dg').datagrid({
 
             iconCls: 'icon-edit',//图标

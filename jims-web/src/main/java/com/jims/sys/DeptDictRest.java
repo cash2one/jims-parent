@@ -41,35 +41,6 @@ public class DeptDictRest {
 
         //查询出所有的科室信息
         List<DeptDict> list = deptDictApi.findAllList(orgId);
-
-        //查询出所有的科室属性的类型
-        List<OrgDeptPropertyDict> listProperty = deptPropertyDictApi.findProperty();
-        if (listProperty.size() > 0) {
-            //遍历所有的科室信息
-            for (int i = 0; i < list.size(); i++) {
-                StringBuilder sb = new StringBuilder();
-                //得到每一个对象的科室属性，以；进行切割
-                String[] str = list.get(i).getDeptPropertity().split(";");
-                //遍历获得的数组
-
-                for (int y = 0; y < str.length; y++) {
-                    //得到每一个切割后的科室属性值
-                    if (StringUtils.isNotBlank(str[y])) {
-                        //拿科室属性值和科室的类型去数据库中查询科室属性名称
-                        OrgDeptPropertyDict listName = deptPropertyDictApi.findNameByTypeAndValue(listProperty.get(y).getPropertyType(), str[y]);
-                        if (listName == null) {
-                            sb.append("");
-                        } else {
-
-                            sb.append(listName.getPropertyName() + " ");
-                        }
-                    }
-                }
-
-                list.get(i).setDeptPropertity(sb.toString());
-
-            }
-        }
         return list;
     }
 
@@ -87,6 +58,19 @@ public class DeptDictRest {
     }
 
     /**
+     * 查询某个机构上级科室
+     *
+     * @return
+     */
+    @Path("selectParentByOrgId")
+    @POST
+    public List<DeptDict> findParent(@QueryParam("orgId") String orgId) {
+
+        List<DeptDict> list = deptDictApi.findListParent(orgId);
+        return list;
+    }
+
+    /**
      * 保存修改方法
      *
      * @param
@@ -94,7 +78,7 @@ public class DeptDictRest {
      */
     @Path("add")
     @POST
-    public StringData save(DeptDictVo deptDictVo) {
+    public StringData saveDept(DeptDictVo deptDictVo) {
 
 
         DeptDict deptDict = new DeptDict();
@@ -106,6 +90,7 @@ public class DeptDictRest {
         deptDict.setDeptName(deptDictVo.getDeptName());
         deptDict.setOrgId(deptDictVo.getOrgId());
         deptDict.setInputCode(deptDictVo.getInputCode());
+
         StringBuilder sb = new StringBuilder();
         String deptPropertity[] = deptDictVo.getArray();
         if (deptPropertity.length == 1) {
@@ -160,5 +145,41 @@ public class DeptDictRest {
         code = code.substring(index + 1);
         List<DeptDict> list = deptDictApi.findListByCode(code);
         return list;
+    }
+
+    /**
+     * 查询所有的科室信息
+     * @return
+     */
+    @Path("findListWithFilter")
+    @GET
+    public List<DeptDict> findListWithFilter(@QueryParam("orgId") String orgId,@QueryParam("q")String q) {
+
+        DeptDict dept = new DeptDict();
+        dept.setOrgId(orgId);
+        dept.setQ(q);
+        List<DeptDict> list = deptDictApi.findList(dept);
+        return list;
+    }
+
+    /**
+     * 查询检验科室
+     * @return
+     */
+    @Path("getList")
+    @POST
+    public List<DeptDict> getList(){
+        return deptDictApi.getList();
+    }
+
+    /**
+     * 手术科室
+     * @return
+     */
+    @Path("getOperation")
+    @POST
+    public List<DeptDict> getOperation(){
+        List<DeptDict> operationList=deptDictApi.getOperation();
+        return operationList;
     }
 }

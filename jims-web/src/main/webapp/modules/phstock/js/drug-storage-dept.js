@@ -1,18 +1,18 @@
 /**
  * Created by fyg on 2016/5/12.
  */
-$(function(){
-    var editIndex ;
+$(function () {
+    var editIndex;
     var orgId = parent.config.org_Id;
 
     var inserted = [];
     var updated = [];
     var deleted = [];
 
-    var stopEdit = function(){
-        if(editIndex || editIndex == 0){
-            $("#dg").datagrid('endEdit',editIndex);
-            editIndex == undefined ;
+    var stopEdit = function () {
+        if (editIndex || editIndex == 0) {
+            $("#dg").datagrid('endEdit', editIndex);
+            editIndex == undefined;
         }
     }
 
@@ -27,6 +27,7 @@ $(function(){
 
             if (insertData && insertData.length > 0) {
                 for (var i = 0; i < insertData.length; i++) {
+                    insertData[i].orgId = orgId;
                     inserted.push(insertData[i]);
                 }
             }
@@ -53,7 +54,7 @@ $(function(){
         method: 'get',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/drug-storage-dept/list?orgId='+ orgId,
+        url: basePath + '/drug-storage-dept/list?orgId=' + orgId,
         remoteSort: false,  //定义从服务器对数据进行排序
         singleSelect: true,
         columns: [[
@@ -61,12 +62,12 @@ $(function(){
                 title: 'ID',
                 field: 'id',
                 hidden: true
-            },{
+            }, {
                 title: '单位代码',
                 field: 'storageCode',
                 width: '14%',
                 align: 'center'
-            },{
+            }, {
                 title: '单位名称',
                 field: 'storageName',
                 width: '14%',
@@ -90,15 +91,15 @@ $(function(){
                 width: '14%',
                 align: 'center',
                 editor: {
-                    type: 'combogrid',options: {
+                    type: 'combogrid', options: {
                         idField: 'label',
                         treeField: "label",
                         mode: 'remote',
                         url: basePath + '/dict/label-value-list?type=' + 'DRUG_STOCK_TYPE_DICT',
                         method: 'get',
                         columns: [[
-                            {title: '标签',field: 'label',align: 'center', width: '50%'},
-                            {title: '键值',field: 'value',align: 'center', width: '50%'}
+                            {title: '标签', field: 'label', align: 'center', width: '50%'},
+                            {title: '键值', field: 'value', align: 'center', width: '50%'}
                         ]]
                     }
                 }
@@ -134,12 +135,16 @@ $(function(){
                 editor: {
                     type: 'textbox'
                 }
+            }, {
+                title: '组织机构',
+                field: 'orgId',
+                hidden: true
             }
         ]],
-        onClickRow: function(rowIndex,rowData){
+        onClickRow: function (rowIndex, rowData) {
             stopEdit();
-            $("#dg").datagrid('beginEdit',rowIndex);
-            editIndex = rowIndex ;
+            $("#dg").datagrid('beginEdit', rowIndex);
+            editIndex = rowIndex;
         }
     });
 
@@ -158,12 +163,12 @@ $(function(){
         deleted = [];
     }
 
-    $("#addBtn").on('click', function(){
+    $("#addBtn").on('click', function () {
         stopEdit();
-        $("#dg").datagrid('appendRow',{});
+        $("#dg").datagrid('appendRow', {});
         var rows = $("#dg").datagrid('getRows');
-        var addRowIndex = $("#dg").datagrid('getRowIndex',rows[rows.length - 1]);
-        editIndex = addRowIndex ;
+        var addRowIndex = $("#dg").datagrid('getRowIndex', rows[rows.length - 1]);
+        editIndex = addRowIndex;
         $("#dg").datagrid('selectRow', editIndex);
         $("#dg").datagrid('beginEdit', editIndex);
     });
@@ -181,14 +186,13 @@ $(function(){
         }
     });
 
-    $("#saveBtn").on('click', function(){
+    $("#saveBtn").on('click', function () {
         addData();
         var beanChangeVo = {};
 
         beanChangeVo.inserted = inserted;// inserted;
         beanChangeVo.deleted = deleted; //deleted;
         beanChangeVo.updated = updated; //updated;
-        console.log(beanChangeVo);
         if (beanChangeVo) {
             $.postJSON(basePath + '/drug-storage-dept/save', JSON.stringify(beanChangeVo), function (resp) {
                 if (resp.data == 'success') {
@@ -204,4 +208,5 @@ $(function(){
             });
         }
     });
+
 });

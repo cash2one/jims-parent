@@ -3,6 +3,7 @@ package com.jims.register.entity;
 import com.jims.common.persistence.DataEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 机构自定义服务对应菜单Entity
@@ -14,19 +15,46 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
     private static final long serialVersionUID = 1L;
     private String selfServiceId;		// 服务ID
     private String menuId;		// 菜单ID
-    private String menuSort;		// 菜单排序
-    private String careateBy;		// careate_by
-    private String remark;		// remark
-    private Date createTime;		// create_time
-	
-	public OrgSelfServiceVsMenu() {
+    private Integer menuSort;		// 菜单排序
+    private String pid ;     // 父ID
+    private Date menuEndDate;    //菜单结束时间
+    private String menuOperate;
+    private String href;
+
+    private List<OrgSelfServiceVsMenu> children ; // 子节点
+    private String menuName;  // 菜单名称
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
+
+    public List<OrgSelfServiceVsMenu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<OrgSelfServiceVsMenu> children) {
+        this.children = children;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public OrgSelfServiceVsMenu() {
 		super();
 	}
 
 	public OrgSelfServiceVsMenu(String id){
 		super(id);
 	}
-
 
 	public String getSelfServiceId() {
 		return selfServiceId;
@@ -46,39 +74,35 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 	}
 
 
-	public String getMenuSort() {
+	public Integer getMenuSort() {
 		return menuSort;
 	}
 
-	public void setMenuSort(String menuSort) {
+	public void setMenuSort(Integer menuSort) {
 		this.menuSort = menuSort;
 	}
 
+    public Date getMenuEndDate() {
+        return menuEndDate;
+    }
 
-	public String getCareateBy() {
-		return careateBy;
-	}
+    public void setMenuEndDate(Date menuEndDate) {
+        this.menuEndDate = menuEndDate;
+    }
 
-	public void setCareateBy(String careateBy) {
-		this.careateBy = careateBy;
-	}
+    public String getMenuName() {
+        return menuName;
+    }
 
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getMenuOperate() {
+        return menuOperate;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
+    public void setMenuOperate(String menuOperate) {
+        this.menuOperate = menuOperate;
+    }
 }

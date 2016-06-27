@@ -43,7 +43,7 @@
 		SELECT
 		a.id                  AS "id",
 		a.org_id              AS "orgId",
-		b.clinic_label        AS "clinicLabel",
+		a.clinic_label        AS "clinicLabel",
 		a.day_of_week         AS "dayOfWeek",
 		a.time_desc           AS "timeDesc",
 		a.registration_limits AS "registrationLimits",
@@ -55,7 +55,8 @@
 		a.update_date         AS "updateDate",
 		a.update_by           AS "updateBy.id",
 		a.remarks             AS "remarks",
-		a.del_flag            AS "delFlag"
+		a.del_flag            AS "delFlag",
+        b.clinic_label  as "clinicLabelName"
 		FROM clinic_schedule a
         LEFT JOIN clinic_index b on a.clinic_label=b.id
 		<where>
@@ -63,6 +64,15 @@
 			<if test="clinicLabel!=null and clinicLabel!=''">
 				AND a.clinic_label=#{clinicLabel}
 			</if>
+            <if test="clinicLabelName!=null and clinicLabelName!=''">
+                AND b.clinic_label like '%${clinicLabelName}%'
+            </if>
+            <if test="dayOfWeek!=null and dayOfWeek!=''">
+                AND a.day_of_week=#{dayOfWeek}
+            </if>
+            <if test="timeDesc!=null and timeDesc!=''">
+                AND a.time_desc=#{timeDesc}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -150,13 +160,15 @@
 		WHERE id = #{id}
 	</update>
 
-    <delete id="batchDel" parameterType="java.util.List">
-      delete from clinic_schedule where clinic_label=#{clinicTypeId} AND id not in(
-        <foreach collection="list" item="item" index="index" separator="," >
-            #{item.id}
-        </foreach>
-      )
-
+    <delete id="batchDel">
+      delete from clinic_schedule where clinic_label=#{clinicTypeId}
+        <if test="list.size() > 0">
+        AND id not in(
+            <foreach collection="list" item="item" index="index" separator="," >
+                #{item.id}
+            </foreach>
+          )
+        </if>
     </delete>
 
 </mapper>

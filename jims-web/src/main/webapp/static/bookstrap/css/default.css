@@ -175,13 +175,17 @@ span.num-sign
 }
 .ser-type ul li a span.service-name
 {
-	font-size:25px;
+	font-size:30px;
+
 }
 .ser-type ul li img
  {
      position:absolute;
      top:0;
      left:0;
+    width:180px;
+    height:180px;
+
  }
 .ser-type ul li div
 {

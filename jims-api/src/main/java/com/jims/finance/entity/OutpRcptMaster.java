@@ -6,10 +6,6 @@ package com.jims.finance.entity;
 
 import com.jims.common.persistence.DataEntity;
 
-import com.jims.common.utils.CustomDateDeSerializer;
-import com.jims.common.utils.CustomDateSerializer;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
@@ -48,14 +44,15 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 	private String ordInvoiceNo;		// ord_invoice_no
 	private String reckonNo;		// 银海医保清算流水号
 	private String rcptPrint;		// 序列号
-
+	private String doctor;//门诊医生
+	private String visitDept;//门诊就诊科室
 
 	/*收费结账所需的*/
 	private Integer freeCount;//免费张数
 	private Integer  refundCount;//退费张数
 	private Double sumCosts;//计价
 	private Double sumCharges;//应收费用
-    private Double refundMoney;//退费金额
+	private Double refundMoney;//退费金额
 	private String minRcptNo;//最小收据号
 	private String maxRcptNo;//最大收据号
 	private Integer countNo;//收据张数
@@ -293,6 +290,21 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 		this.rcptPrint = rcptPrint;
 	}
 
+	public String getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(String doctor) {
+		this.doctor = doctor;
+	}
+
+	public String getVisitDept() {
+		return visitDept;
+	}
+
+	public void setVisitDept(String visitDept) {
+		this.visitDept = visitDept;
+	}
 
 	public Integer getFreeCount() {
 		return freeCount;
@@ -358,6 +370,13 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 		this.countNo = countNo;
 	}
 
+	public String getAcctDate() {
+		return acctDate;
+	}
+
+	public void setAcctDate(String acctDate) {
+		this.acctDate = acctDate;
+	}
 
 	public List<OutpPaymentsMoney> getOutpAcctMoneyList() {
 		return outpAcctMoneyList;
@@ -373,13 +392,5 @@ public class OutpRcptMaster extends DataEntity<OutpRcptMaster> {
 
 	public void setOutpAcctDetailList(List<OutpBillItems> outpAcctDetailList) {
 		this.outpAcctDetailList = outpAcctDetailList;
-	}
-
-	public String getAcctDate() {
-		return acctDate;
-	}
-
-	public void setAcctDate(String acctDate) {
-		this.acctDate = acctDate;
 	}
 }

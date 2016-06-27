@@ -17,7 +17,7 @@ public interface DrugDictServiceApi {
     /**
      * 保存药品字典数据
      * @param drugDict
-     * @return
+     * @return 0 失败，1 成功
      * @author zhaoning
      * @version 2016-04-23
      */
@@ -54,7 +54,7 @@ public interface DrugDictServiceApi {
     /**
      * 根据ID删除数据(单条数据删除、批量删除)
      * @param ids
-     * @return
+     * @return 0 失败，1 成功
      * @author zhaoning
      * @version 2016-04-23
      */
@@ -83,7 +83,7 @@ public interface DrugDictServiceApi {
     /**
      * 药品目录保存
      * @param drugCatalogBeanVo 药品目录实体vo
-     * @return
+     * @return 0 失败，1 成功
      * @author txb
      */
     public String saveDrugCatalog(DrugCatalogBeanVo drugCatalogBeanVo);

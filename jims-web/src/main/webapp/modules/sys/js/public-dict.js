@@ -498,9 +498,12 @@ $(function(){
         }
     }
 
+
+
     //查询
     $("#searchBtn").on('click',function(){
         var selectName = $("#name").val();
+        selectName=encodeURI(selectName);
         $.get(basePath + '/dict/search?type='+selectName+'&description='+selectName,function(data){
             $("#descrip").datagrid('loadData',data);
             $("#label_value").datagrid('clearSelections');

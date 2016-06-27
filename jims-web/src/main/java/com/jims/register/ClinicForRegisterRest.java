@@ -2,13 +2,21 @@ package com.jims.register;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
+import com.jims.common.persistence.Page;
+import com.jims.common.utils.DateUtils;
 import com.jims.register.api.ClinicForRegisterSerivceApi;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicSchedule;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,9 +37,17 @@ public class ClinicForRegisterRest {
      */
     @GET
     @Path("findList")
-    public List<ClinicForRegist> findList(){
-        ClinicForRegist clinicForRegist = new ClinicForRegist();
-        return clinicForRegisterSerivceApi.findList(clinicForRegist);
+    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicDateStr")String  clinicDateStr,@QueryParam("timeDesc")String timeDesc,@QueryParam("clinicIndexName")String clinicIndexName){
+        Date clinicDate= DateUtils.parseDate(clinicDateStr);
+        ClinicForRegist clinicForRegist=new ClinicForRegist();
+        clinicForRegist.setClinicLabelName(clinicIndexName);
+        clinicForRegist.setTimeDesc(timeDesc);
+        clinicForRegist.setClinicDate(clinicDate);
+        Page<ClinicForRegist> page = clinicForRegisterSerivceApi.findPage(new Page<ClinicForRegist>(request, response), clinicForRegist);
+        PageData pageData = new PageData();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
     }
 
     /**
@@ -45,8 +61,7 @@ public class ClinicForRegisterRest {
     @POST
     @Path("saveRegister")
     public StringData saveRegister (List<ClinicSchedule> clinicSchedules,@QueryParam("startTime")String  startTime,@QueryParam("endTime")String  endTime)throws Exception{
-         StringData data= new StringData();
-        SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd");
+        StringData data= new StringData();
         data.setCode(clinicForRegisterSerivceApi.saveRegister(clinicSchedules,startTime,endTime));
         return data;
     }
@@ -68,11 +83,10 @@ public class ClinicForRegisterRest {
      * 查询当前日期的号表
      * @return
      */
-    @GET
+    @POST
     @Path("findListReg")
-    public List<ClinicForRegist> findListReg(@QueryParam("status")String status){
-
-        return clinicForRegisterSerivceApi.findListReg(status);
+    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist){
+        return clinicForRegisterSerivceApi.findListReg(clinicForRegist);
     }
 
     /**
@@ -87,4 +101,18 @@ public class ClinicForRegisterRest {
         data.setCode(clinicForRegisterSerivceApi.saveClinic(clinicMaster));
         return data;
     }
+    /**
+     * 保存挂号信息
+     * @param
+     * @return
+     */
+    @POST
+    @Path("update")
+    public StringData update(List<ClinicForRegist> clinicForRegistList){
+        StringData data=new StringData();
+        clinicForRegisterSerivceApi.updateBatch(clinicForRegistList);
+        data.setCode("1");
+        return data;
+    }
+
 }

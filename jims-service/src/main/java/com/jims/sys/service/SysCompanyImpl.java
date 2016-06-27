@@ -2,11 +2,23 @@ package com.jims.sys.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.register.dao.OrgSelfServiceListDao;
+import com.jims.register.dao.OrgSelfServiceVsMenuDao;
+import com.jims.register.dao.OrgServiceListDao;
+import com.jims.register.entity.OrgSelfServiceList;
+import com.jims.register.entity.OrgSelfServiceVsMenu;
+import com.jims.register.entity.OrgServiceList;
 import com.jims.sys.api.SysCompanyApi;
+import com.jims.sys.dao.ServiceVsMenuDao;
+import com.jims.sys.bo.SysCompanyBo;
 import com.jims.sys.dao.SysCompanyDao;
+import com.jims.sys.dao.SysServiceDao;
+import com.jims.sys.entity.ServiceVsMenu;
 import com.jims.sys.entity.SysCompany;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,7 +26,19 @@ import java.util.List;
  */
 @Service(version = "1.0.0")
 public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> implements SysCompanyApi {
-
+    @Autowired
+    private SysCompanyDao sysCompanyDao;
+    @Autowired
+    private SysCompanyBo bo;
+    /**
+     * 根据申请状态查询组织机构列表
+     * @param applyStatus 申请状态
+     * @return 组织机构list集合
+     * @author fengyuguang
+     */
+    public List<SysCompany> findListByApplyStatus(String applyStatus){
+        return dao.findListByApplyStatus(applyStatus);
+    }
 
     /**
      * 查询父机构名称
@@ -48,10 +72,37 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
         return id;
     }
 
-
+    /**
+     * 组织机构通过审核
+     * @param sysCompany
+     * @return
+     * @author fengyuguang
+     */
     public int update(SysCompany sysCompany) {
-        sysCompany.preUpdate();
-        int i = dao.update(sysCompany);
-        return i;
+        return bo.update(sysCompany);
+    }
+
+    /**
+     * 驳回组织机构审核
+     * @param sysCompany
+     * @return
+     */
+    public int failPass(SysCompany sysCompany) {
+        return bo.failPass(sysCompany);
+    }
+
+    /**
+     * 保存注册信息以及选择的服务
+     * @param company
+     * @return 1 成功 ,0 失败
+     */
+    public String saveCompanyAndService(SysCompany company){
+        String result = "0";
+        try{
+            bo.saveCompanyAndService(company);
+            result = "1";
+        } catch (Exception e){
+        }
+        return result;
     }
 }

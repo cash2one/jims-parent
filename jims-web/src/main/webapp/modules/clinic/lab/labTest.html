@@ -8,8 +8,10 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/easyui/js/datagrid-detailview.js"></script>
     <script type="text/javascript" src="js/labTest.js"></script>
+    <script type="text/javascript" src="/static/data/data_lab_item.js"></script>
+    <script type="text/javascript" src="/static/data/data_lab_dept.js"></script>
 </head>
-<body  class="easyui-layout">
+<body  class="easyui-layout" onload="onloadMethod()">
 <div class="easyui-layout" style="width:100%;height:100%;">
 
     <div data-options="region:'east',split:true"  style="width:41%;">
@@ -20,7 +22,7 @@
 
     <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
         <form id="form" method="post">
-            <!--<input type="hidden" name="visitId" value="1">-->
+            <input type="hidden" name="clinicId"  id="clinicId" value="">
             <div class="fitem fitem_pop">
                 <div class="fitem">
                     <label>
@@ -30,15 +32,16 @@
                 </div>
                 <div class="fitem">
                     <label>
-                        检验科室：
-                    </label>
-                    <input placeholder="科室"  name="performedBy" id="performedBy"   style="width: 145px;">
-                </div>
-                <div class="fitem">
-                    <label>
                         类别：
                     </label>
                     <input name="labItemClass"  id="labItemClass" style="width: 145px;" >
+                </div>
+                <div class="fitem">
+                    <label>
+                        检验科室：
+                    </label>
+                    <input type="hidden" name="performedBy" value="" id="performedByCode"  >
+                    <input placeholder="科室"   id="performedBy"   style="width: 145px;">
                 </div>
                 <div class="fitem">
                     <label>
@@ -62,7 +65,7 @@
                     <label>
                         申请时间：
                     </label>
-                    <input style="display: none;" name="requestedDateTime" class="easyui-datebox">
+                    <input id="requestedDateTime" style="display: none;" name="requestedDateTime" class="easyui-datetimebox">
                 </div>
                 <table id="items"   cellspacing="0" cellpadding="0">
 
@@ -71,7 +74,7 @@
                 </div>
                 <div class="fitem">
                     <div id="SendProduct" class="easyui-window"  title="检验项目"  style="width:1000px;height:400px;" closed="true">
-
+aasdasdsa
                     </div>
                 </div>
             </div>

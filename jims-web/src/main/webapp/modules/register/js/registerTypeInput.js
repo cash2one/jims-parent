@@ -1,9 +1,7 @@
 var rowNum=-1;
-var clinicDeptCode=[{"value":"1","text":"内科"},{"value":"2","text":"内一科"},{"value":"3","text":"外科"},{"value":"4","text":"妇科"}];
-var doctorName=[{"value":"1","text":"石佳慧"},{"value":"2","text":"张家辉"},{"value":"3","text":"李长青"},{"value":"4","text":"李惠利"},
-    {"value":"5","text":"赵丽娟"}];
-var doctorJob=[{"value":"1","text":"主治医师"},{"value":"2","text":"主任医师"},{"value":"3","text":"副主任医师"}];
+
 function onloadMethod(){
+
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -22,45 +20,51 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'clinicLabel',title:'门诊名称',width:'15%',align:'center',editor: 'text'},
+            {field:'clinicLabel',title:'号别名称',width:'15%',align:'center',editor: 'text'},
             {field:'inputCode',title:'输入码',width:'10%',align:'center',editor: 'text'},
-            {field:'clinicDept',title:'门诊科室',width:'15%',align:'center',editor: {
+            {field:'clinicDept',title:'门诊科室',width:'15%',align:'center',formatter:clinicDeptCodeFormatter,editor: {
                 type: 'combobox',
                 options: {
                     data: clinicDeptCode,
-                    valueField: 'value',
-                    textField: 'text'
+                    valueField: 'id',
+                    textField: 'dept_name'
                 }
             }},
-            {field:'doctor',title:'医师',width:'13%',align:'center',editor: {
-                type: 'combobox',
+            {field:'doctor',title:'医师',width:'13%',align:'center',formatter:doctorNameFormatter,editor: {
+                type: 'combogrid',
                 options: {
                     data: doctorName,
-                    valueField: 'value',
-                    textField: 'text'
-                }
-            }},
-            {field:'doctorTitle',title:'医师职称',width:'10%',align:'center',editor: {
-                type: 'combobox',
-                options: {
-                    data: doctorJob,
-                    valueField: 'value',
-                    textField: 'text'
-                }
-            }},
-            {field:'clinicType',title:'号类',width:'15%',align:'center',editor: {
-                type: 'combobox',
-                options: {
-                    required: true,
-                    url:basePath+'/clinicType/findList' ,
-                    valueField: 'id',
-                    textField: 'clinicTypeName',
-                    method:'get',
-                    onLoadSuccess: function (row) {
-                        var data = $(this).combobox('getData');
-                        $(this).combobox('select', data[0].id);
+                    idField:'id',
+                    textField:'name',
+                    columns:[[
+                        {field:'name',title:'医生姓名',width:70},
+                        {field:'dept_name',title:'科室',width:120},
+                        {field:'title',title:'职称',width:70}
+                    ]],keyHandler: {
+                        up: function() {},
+                        down: function() {},
+                        enter: function() {},
+                        query: function(q) {
+                            dataGridCompleting(q,'list_data','doctor');
+                        }
+                    },
+                    onClickRow: function (index, data) {
+                        var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
+                        var columns = $('#list_data').datagrid("options").columns;
+                        rows[rowNum][columns[0][4].field]=data.title;
+                        $('#list_data').datagrid('endEdit', rowNum);
+                        $('#list_data').datagrid('beginEdit', rowNum);
                     }
-
+                }
+            }},
+            {field:'doctorTitle',title:'医师职称',width:'10%',align:'center'
+               },
+            {field:'clinicType',title:'号类',width:'15%',align:'center',formatter:registerTypFormatter,editor: {
+                type: 'combobox',
+                options: {
+                    data:registerTyp,
+                    valueField: 'id',
+                    textField: 'clinicTypeName'
                 }
             }},
             {field:'clinicPosition',title:'门诊位置',width:'15%',align:'center',editor: 'text'},
@@ -107,6 +111,8 @@ function onloadMethod(){
                     }
                     rowNum=rowIndex;
                     dataGrid.datagrid('beginEdit', rowIndex);
+                    var ed = $('#list_data').datagrid('getEditor', {index:rowIndex,field:'doctor'});
+                    $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
                 }
             }
         }

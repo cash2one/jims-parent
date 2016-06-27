@@ -1,4 +1,75 @@
+
+var rowNum=-1;
+var examSubClass = [] // 检查项目
+var reqDept = []//开单科室
+var performedBy = []//执行科室
+var priceItmeData={};
+priceItmeData.orgId="";
+priceItmeData.dictType="V_INPUT_REGISTRATION_LIST"
+
+
+/**
+ * 检查项目翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ */
+function examSubClassFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < examSubClass.length; i++) {
+        if (examSubClass[i].value == value) {
+            return examSubClass[i].text;
+        }
+    }
+}
+/**
+ * 开单科室翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function reqDeptFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < reqDept.length; i++) {
+        if (reqDept[i].value == value) {
+            return reqDept[i].text;
+        }
+    }
+}
+/**
+ * 执行科室翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function performedByFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < performedBy.length; i++) {
+        if (performedBy[i].value == value) {
+            return performedBy[i].text;
+        }
+    }
+}
+
 function onloadMethod() {
+
+    $.ajax({
+        type: "GET",
+        url: basePath + '/clinicInspect/getDescription',
+        data: {"clinicIds": $("#clinicMasterId", window.parent.document).val()},
+        success: function (data) {
+            $("#clinDiag").val(data.description);
+        }
+    })
+
 
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
@@ -6,8 +77,7 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            //var clinicId= parent.document.getElementById("clinicMasterId").value;
-            var clinicId= $("#clinicMasterId",window.parent.document).val();
+            var clinicId = $("#clinicMasterId", window.parent.document).val();
             $("#clinicId").val(clinicId);
             $("#reqDept").val(data.deptDict.deptName);
             //清空二级联动
@@ -38,22 +108,22 @@ function onloadMethod() {
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
-                    var hidden="";
-                    var divHtmls=$('#target .submitName');
-                    var isin=true;
+                    var hidden = "";
+                    var divHtmls = $('#target .submitName');
+                    var isin = true;
                     for (var i = 0; i < data.length; i++) {
                         for (var j = 0; j < divHtmls.length; j++) {
-                            if($(divHtmls[j]).val()==data[i].description ){
-                                isin=false;
+                            if ($(divHtmls[j]).val() == data[i].description) {
+                                isin = false;
                                 break;
                             }
                         }
-                        if(isin){
-                            var jsonHtml="{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
+                        if (isin) {
+                            var jsonHtml = "{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
 
-                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">'+jsonHtml+'</div></div>'
-                        }else{
-                            isin=true;
+                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">' + jsonHtml + '</div></div>'
+                        } else {
+                            isin = true;
                         }
 
                     }
@@ -82,9 +152,9 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center'},
-            {field: 'reqDept', title: '开单科室', width: '25%', align: 'center'},
-            {field: 'reqDept', title: '检查科室', width: '25%', align: 'center'},
+            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center',formatter:examSubClassFormatter },
+            {field: 'reqDept', title: '开单科室', width: '25%', align: 'center',formatter:reqDeptFormatter},
+            {field: 'performedBy', title: '执行科室', width: '25%', align: 'center',formatter:performedByFormatter},
             {field: 'flag', title: '状态', width: '23%', align: 'center'},
             {
                 field: 'id',
@@ -93,7 +163,7 @@ function onloadMethod() {
                 align: 'center',
                 formatter: function (value, row, index) {
                     //var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
-                        //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
+                    //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
                     var html = '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     return html;
                 }
@@ -114,12 +184,12 @@ function onloadMethod() {
             }
         },
             '-', {
-            text: '删除',
-            iconCls: 'icon-remove',
-            handler: function () {
-                doDelete();
-            }
-        }]
+                text: '删除',
+                iconCls: 'icon-remove',
+                handler: function () {
+                    doDelete();
+                }
+            }]
     });
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
@@ -128,13 +198,13 @@ function onloadMethod() {
 function selecteds() {
     $('#descriptionId input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
-        var html=selected.prop("outerHTML");
+        var html = selected.prop("outerHTML");
         selected.remove();
         $("#target").append(html);
     })
 };
 //检查取消
-function cancels(){
+function cancels() {
     $('#target input[type=checkbox]:checked').each(function () {
         var selected = $(this).parent();
         var html = selected.prop("outerHTML");
@@ -242,7 +312,7 @@ function get(id) {
 }
 //保存
 function saveClinicInspect() {
-    if(!$("#clinicInspectForm").form("validate")){
+    if (!$("#clinicInspectForm").form("validate")) {
         return false;
     }
     var formJson = fromJson('clinicInspectForm');
@@ -254,14 +324,14 @@ function saveClinicInspect() {
     divJson = divJson.substring(0, divJson.length - 1);
     var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
 
-    var save=$("#modify").val();
-    var url="";
-    if(save=="1"){
-        url=basePath + "/clinicInspect/saveExamAppoints";
-    }else{
-        url=basePath + "/clinicInspect/update";
+    var save = $("#modify").val();
+    var url = "";
+    if (save == "1") {
+        url = basePath + "/clinicInspect/saveExamAppoints";
+    } else {
+        url = basePath + "/clinicInspect/update";
     }
-    $.postJSON( url, submitJson, function (data) {
+    $.postJSON(url, submitJson, function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
             $('#list_data').datagrid('load');

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html class="panel-fit"><head>
     <meta charset="UTF-8">
-    <title>号类</title>
+    <title>号表生成</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/register/js/registerGenerate.js"></script>
+    <script type="text/javascript" src="/static/data/data_register_day_time.js"></script>
 </head>
 
 <body onload="onloadMethod()">
@@ -13,18 +14,17 @@
     <div data-options="region:'center',split:true">
         <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
-                <td class="text-right">门诊号名称：</td>
-                <td><input type="text" class="validatebox-text vt-text-percent" id="clinicName"/></td>
                 <td class="text-right">星期：</td>
-                <td><input type="text" class="validatebox-text vt-text-percent" id="week"/></td>
+                <td><input type="text" class="easyui-combobox" id="weekId"/></td>
+                <td class="text-right">时间：</td>
+                <td><input type="text" class="easyui-combobox" id="timeIntervalId" /></td>
             </tr>
             <tr>
-                <td class="text-right">时间：</td>
-                <td><input type="text" class="validatebox-text vt-text-percent"/></td>
+                <td class="text-right">号别名称：</td>
+                <td><input type="text" class="validatebox-text vt-text-percent" id="clinicNameId"/></td>
                 <td>
-                    <button class="easy-nbtn easy-nbtn-info" onclick="search()">查询</button>
+                    &nbsp;<button class="easyui-linkbutton"  data-options="iconCls:'icon-search'" onclick="searchClinicIndex();">查询</button>
                 </td>
-
             </tr>
         </table>
         <table id="list_data"   cellspacing="0" cellpadding="0">

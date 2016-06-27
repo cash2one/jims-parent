@@ -5,6 +5,7 @@ import com.jims.clinic.api.EmrDiagnosisServiceApi;
 import com.jims.clinic.entity.ClinicItemNameDict;
 import com.jims.clinic.entity.EmrDiagnosis;
 import com.jims.common.data.StringData;
+import com.jims.lab.api.LabTestItemsServiceApi;
 import com.jims.lab.api.LabTestMasterServiceApi;
 import com.jims.lab.entity.LabTestItems;
 import com.jims.lab.entity.LabTestMaster;
@@ -36,6 +37,8 @@ public class LabTestRest {
 
     @Reference(version = "1.0.0")
     public EmrDiagnosisServiceApi emrDiagnosisServiceApi;
+    @Reference(version = "1.0.0")
+    private LabTestItemsServiceApi labTestItemsServiceApi;
 
     /**
      * 异步加载信息表格
@@ -64,43 +67,6 @@ public class LabTestRest {
         return pageData;*/
     }
 
-    /**
-     * 异步item信息列表
-     * @param-request
-     * @param-response
-     * @return
-     */
-    @Path("items")
-    @POST
-    public List<ClinicItemNameDict> items(String consulaionId){
-        List<ClinicItemNameDict> list = new ArrayList<ClinicItemNameDict>();
-        ClinicItemNameDict one = new ClinicItemNameDict();
-        one.setItemCode("0001");
-        one.setItemName("活化部分凝血活酶时间测定");
-        one.setPrice("11.5");
-        ClinicItemNameDict one2 = new ClinicItemNameDict();
-        one2.setItemCode("0002");
-        one2.setItemName("血浆纤维蛋白原");
-        one2.setPrice("12.5");
-        list.add(one);
-        list.add(one2);
-        ClinicItemNameDict one3 = new ClinicItemNameDict();
-        one3.setItemCode("0003");
-        one3.setPrice("13.5");
-        one3.setItemName("单个凝血因子凝血活性检测");
-        ClinicItemNameDict one4 = new ClinicItemNameDict();
-        one4.setItemCode("0004");
-        one4.setItemName("蛋白C活性测定");
-        one4.setPrice("14.5");
-        ClinicItemNameDict one5= new ClinicItemNameDict();
-        one5.setItemCode("0005");
-        one5.setItemName("纤维蛋白（原）降解产物");
-        one5.setPrice("15.5");
-        list.add(one3);
-        list.add(one4);
-        list.add(one5);
-        return list;
-    }
     /**
      * 异步item信息列表
      * @param-request
@@ -160,15 +126,17 @@ public class LabTestRest {
     @POST
     public StringData save(LabTestMaster labTestMaster){
         StringData data=new StringData();
+        String mun="";
         if(labTestMaster!=null){
             if(labTestMaster.getVisitId()!=null)
             {
-                labTestMasterServiceApi.saveAllIn(labTestMaster);
+               labTestMasterServiceApi.saveAllIn(labTestMaster);
             }else{
-                labTestMasterServiceApi.saveAll(labTestMaster);
+                mun = labTestMasterServiceApi.saveAll(labTestMaster);
             }
         }
         data.setData("success");
+        data.setCode(mun);
         return data;
     }
 
@@ -194,9 +162,21 @@ public class LabTestRest {
     public StringData del(String ids){
         LabTestMaster labTestMaster = new LabTestMaster();
         labTestMaster.setId(ids);
-        labTestMasterServiceApi.delAll(labTestMaster);
+        labTestMasterServiceApi.delAll(ids);
         StringData stringData=new StringData();
         stringData.setData("success");
         return stringData;
+    }
+
+    /**
+     * 通过testNo获取对应检验项目列表
+     * @param testNo
+     * @return
+     */
+    @Path("getItem")
+    @POST
+    public List<LabTestItems> getItem(String testNo){
+        List<LabTestItems> labTestItemsList=labTestItemsServiceApi.getItemName(testNo);
+        return labTestItemsList;
     }
 }

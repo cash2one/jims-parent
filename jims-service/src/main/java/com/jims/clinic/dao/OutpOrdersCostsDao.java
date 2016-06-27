@@ -28,7 +28,7 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
      * @param masterId
      * @return
      */
-    public List<OutpOrdersCosts> getOutpCosts(String clinicId, String masterId);
+    public List<OutpOrdersCosts> getOutpCosts(@Param("masterId")String masterId,@Param("clinicId")String clinicId);
 
     /**
      * 保存门诊医师收费明细
@@ -100,5 +100,9 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
 
     public List<BaseDto> getCostAll(@Param(value = "clinicId")String clinicId);
 
-
+    /**
+     * 确认收费
+     * @param ids
+     */
+    public void confirmPay(String ids);
 }

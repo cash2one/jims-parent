@@ -297,4 +297,28 @@
 			</if>
 		</where>
 	</update>
+	<select id="findWaitFrom" resultType="com.jims.clinic.vo.ComeDeptVo">
+		  SELECT pmi.NAME as 'name',
+         pmi.PATIENT_ID as 'patientId',
+         pit.DEPT_TRANSFERED_FROM as 'deptTransferedFrom',
+         pit.DEPT_TRANSFERED_TO as 'deptTransferedTo',
+         dvw.WARD_CODE as 'wardCode'
+    FROM PAT_MASTER_INDEX pmi,
+         DEPT_VS_WARD dvw,
+         PATS_IN_TRANSFERRING pit,
+         DEPT_DICT dd
+   WHERE (dvw.dept_code(+) = dd.dept_code)
+     AND (pmi.PATIENT_ID =
+         pit.PATIENT_ID)
+     AND (pit.DEPT_TRANSFERED_TO =
+         dd.DEPT_CODE)
+     AND ((pit.DEPT_TRANSFERED_FROM IS NULL))
+	</select>
+
+	<select id="getPatient" resultType="PatMasterIndex">
+		SELECT *from pat_master_index WHERE
+		<if test="patientId != null and patientId != ''">
+			id=#{id}
+		</if>
+	</select>
 </mapper>

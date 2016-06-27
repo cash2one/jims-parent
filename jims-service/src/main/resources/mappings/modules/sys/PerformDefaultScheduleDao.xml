@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.sys.dao.PerformDefaultScheduleDao">
+
+    <sql id="performDefaultScheduleColumns">
+        a.id AS "id",
+        a.freq_desc AS "freqDesc",
+        a.administration AS "administration",
+        a.default_schedule AS "defaultSchedule"
+    </sql>
+
+    <select id="get" resultType="Dict">
+		SELECT
+        <include refid="performDefaultScheduleColumns" />
+		FROM perform_default_schedule
+		WHERE id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PerformDefaultSchedule">
+		SELECT
+        <include refid="performDefaultScheduleColumns" />,p.freq_desc freqDescName,ad.administration_name administrationName
+		FROM perform_default_schedule a,administration_dict ad,perform_freq_dict p
+		WHERE a.freq_desc = p.id and a.administration = ad.id
+		<if test="freqDesc != null and freqDesc != ''">
+			AND a.freq_desc = #{freqDesc}
+		</if>
+        <if test="administration != null and administration != ''">
+			AND a.administration = #{administration}
+		</if>
+		ORDER BY p.rowid, a.administration
+	</select>
+
+    <select id="findTypeList" resultType="PerformDefaultSchedule">
+        SELECT b.id,b.qname administrationName FROM
+        (SELECT
+        distinct
+        <if test="type == 'freqDesc'">
+            freq_desc
+        </if>
+        <if test="type != 'freqDesc'">
+            administration
+        </if>
+        id
+        FROM perform_default_schedule) a,
+        <if test="type == 'freqDesc'">
+            (select id,freq_desc qname from perform_freq_dict order by rowid) b
+        </if>
+        <if test="type != 'freqDesc'">
+            (select id,administration_name qname from administration_dict order by administration_code) b
+        </if>
+        where a.id = b.id
+    </select>
+
+    <select id="findNoExistFreq" resultType="PerformFreqDict">
+        select t.id,t.freq_desc
+        from perform_freq_dict t
+        where
+          not exists(select 1 from perform_default_schedule p
+          where p.freq_desc = t.id and p.administration = #{1})
+        order by t.rowid
+    </select>
+
+    <select id="findNoExistAdministration" resultType="AdministrationDict">
+        select t.id,t.administration_name
+        from administration_dict t
+        where
+        not exists(select 1 from perform_default_schedule p
+        where p.administration = t.id and p.freq_desc = #{1})
+        order by t.administration_code
+    </select>
+	
+	<select id="findAllList" resultType="PerformDefaultSchedule">
+		SELECT
+        <include refid="performDefaultScheduleColumns" />,p.freq_desc freqDescName,ad.administration_name administrationName
+        FROM perform_default_schedule a,administration_dict ad,perform_freq_dict p
+        WHERE a.freq_desc = p.id and a.administration = ad.id
+		ORDER BY a.freq_desc, a.administration
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO perform_default_schedule(
+			id, 
+			freq_desc,
+			administration,
+			default_schedule
+		) VALUES (
+			#{id}, 
+			#{freqDesc},
+			#{administration},
+			#{defaultSchedule}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE perform_default_schedule SET
+			freq_desc = #{freqDesc},
+			administration = #{administration},
+			default_schedule = #{defaultSchedule}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from perform_default_schedule
+		WHERE id = #{id}
+	</delete>
+
+</mapper>

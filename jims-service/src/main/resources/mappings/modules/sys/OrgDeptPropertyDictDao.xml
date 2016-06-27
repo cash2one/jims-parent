@@ -13,7 +13,7 @@
     <select id="findList" resultType="OrgDeptPropertyDict">
         SELECT
         *
-        FROM ORG_DEPT_PROPERTY_DICT
+        FROM ORG_DEPT_PROPERTY_DICT  where org_id=#{orgId}
 
     </select>
 
@@ -69,25 +69,25 @@
 
     <select id="findNameByType" resultType="OrgDeptPropertyDict">
         SELECT *
-        FROM ORG_DEPT_PROPERTY_DICT WHERE property_type=#{propertyType}
+        FROM ORG_DEPT_PROPERTY_DICT WHERE property_type=#{propertyType} and org_id=#{orgId}
     </select>
 
     <select id="findNameByTypeAndValue" resultType="OrgDeptPropertyDict">
         SELECT property_name
-        FROM ORG_DEPT_PROPERTY_DICT WHERE property_type=#{0} and property_value=#{1}
+        FROM ORG_DEPT_PROPERTY_DICT WHERE property_type=#{0} and property_value=#{1} and org_id=#{2}
     </select>
 
     <select id="findProperty" resultType="OrgDeptPropertyDict">
-     select property_type,sum(sort) as sort from org_dept_property_dict
-     group by property_type order by sort
+     select property_type,sum(sort) as sort from org_dept_property_dict  where org_id=#{orgId}
+     group by property_type  order by sort
     </select>
 
     <select id="findName" resultType="OrgDeptPropertyDict">
-        select * from ORG_DEPT_PROPERTY_DICT where property_type=#{propertyType}
+        select * from ORG_DEPT_PROPERTY_DICT where property_type=#{propertyType} and org_id=#{orgId}
     </select>
 
     <select id="findSort" resultType="OrgDeptPropertyDict">
-        select max(sort) as sort from ORG_DEPT_PROPERTY_DICT
+        select max(sort) as sort from ORG_DEPT_PROPERTY_DICT where org_id=#{orgId}
     </select>
 
     <select id="findByCondition" resultType="OrgDeptPropertyDict">

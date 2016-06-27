@@ -25,12 +25,20 @@ public class ClinicItemRest {
 
     /**
      * 检索诊疗项目
-     * @param clinicItemDict
+     * @param
      * @return
      */
-    @POST
+    @GET
     @Path("findList")
-    public List<ClinicItemDict> findList(ClinicItemDict clinicItemDict){
+    public List<ClinicItemDict> findList(@QueryParam("itemClass")String itemClass,
+                                         @QueryParam("itemCode")String itemCode,
+                                         @QueryParam("inputCode")String inputCode,
+                                         @QueryParam("orgId")String orgId){
+        ClinicItemDict clinicItemDict = new ClinicItemDict();
+        clinicItemDict.setItemClass(itemClass);
+        clinicItemDict.setItemCode(itemCode);
+        clinicItemDict.setInputCode(inputCode);
+        clinicItemDict.setOrgId(orgId);
         return clinicItemApi.findList(clinicItemDict);
     }
 
@@ -47,24 +55,36 @@ public class ClinicItemRest {
 
     /**
      * 检索诊疗项目别名
-     * @param clinicItemDict
+     * @param
      * @return
      */
-    @POST
+    @GET
     @Path("findNameList")
-    public List<ClinicItemNameDict> findNameList(ClinicItemDict clinicItemDict){
-        return clinicItemApi.findNameList(clinicItemDict);
+    public List<ClinicItemNameDict> findNameList(@QueryParam("itemClass")String itemClass,
+                                                 @QueryParam("itemCode")String itemCode,
+                                                 @QueryParam("orgId")String orgId){
+        ClinicItemNameDict name = new ClinicItemNameDict();
+        name.setItemClass(itemClass);
+        name.setItemCode(itemCode);
+        name.setOrgId(orgId);
+        return clinicItemApi.findNameList(name);
     };
 
     /**
      * 检索诊疗项目对照
-     * @param clinicItemDict
+     * @params
      * @return
      */
-    @POST
+    @GET
     @Path("findVsList")
-    public List<ClinicVsCharge> findVsList(ClinicItemDict clinicItemDict){
-        return clinicItemApi.findVsList(clinicItemDict);
+    public List<ClinicVsCharge> findVsList(@QueryParam("itemClass")String itemClass,
+                                           @QueryParam("itemCode")String itemCode,
+                                           @QueryParam("orgId")String orgId){
+        ClinicVsCharge vs = new ClinicVsCharge();
+        vs.setClinicItemClass(itemClass);
+        vs.setClinicItemCode(itemCode);
+        vs.setOrgId(orgId);
+        return clinicItemApi.findVsList(vs);
     }
 
     /**

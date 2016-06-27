@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.jims.sys.api;
 
 import com.jims.common.persistence.Page;
@@ -11,7 +8,8 @@ import java.util.List;
 
 
 /**
- * 字典Service
+ * 字典表Service
+ *
  * @author fengyuguang
  * @version 2016-04-18
  */
@@ -20,6 +18,7 @@ public interface DictServiceApi {
 
     /**
      * 获取单条数据
+     *
      * @param id
      * @return
      */
@@ -27,12 +26,14 @@ public interface DictServiceApi {
 
     /**
      * 查询字典类型列表
+     *
      * @return
      */
     public Page<Dict> findPage(Page<Dict> page, Dict dict);
 
     /**
      * 查询字典表的类型和描述这两个字段
+     *
      * @return 字典表type和description字段的集合
      * @author fengyuguang
      */
@@ -40,6 +41,7 @@ public interface DictServiceApi {
 
     /**
      * 根据字典表的类型查询属于该类型的数据列表
+     *
      * @param type 字典表类型
      * @return 字典表list集合
      * @author fengyuguang
@@ -48,6 +50,7 @@ public interface DictServiceApi {
 
     /**
      * 保存增删改多条数据
+     *
      * @param beanChangeVo 多条增删改数据的集合
      * @return 操作的数据条数
      * @author fengyuguang
@@ -56,33 +59,38 @@ public interface DictServiceApi {
 
     /**
      * 根据类型或描述模糊查询
+     *
      * @param type
      * @param description
-     * @return  查询到的字典表List集合
+     * @return 查询到的字典表List集合
      * @author fengyuguang
      */
-    public List<Dict> select(String type,String description);
+    public List<Dict> select(String type, String description);
 
     /**
      * 查询html类型列表
+     *
      * @return
      */
-	public List<String> findTypeList();
+    public List<String> findTypeList();
 
     /**
      * 保存修改方法
+     *
      * @param dict
      */
-	public String save(Dict dict);
+    public String save(Dict dict);
 
     /**
      * 删除方法
+     *
      * @param ids
      */
-	public String delete(String ids);
+    public String delete(String ids);
 
     /**
      * 获取指定类型列表
+     *
      * @param type
      * @return
      */
@@ -90,20 +98,18 @@ public interface DictServiceApi {
 
     /**
      * 通过value值拿到label
+     *
      * @param value
      * @return
      */
-    public String getLabel(String value,String type);
+    public String getLabel(String value, String type);
 
     /**
      * 根据类型查询字典
+     *
      * @param type
      * @return
      */
     public List<Dict> findList(String type);
-
-
-
-
 
 }

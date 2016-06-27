@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.sys.dao.OrgStaffDao">
-    
-	<sql id="orgStaffColumns">
+
+    <sql id="orgStaffColumns">
 		a.id AS "id",
 		a.dept_id AS "deptId",
 		a.org_id AS "orgId",
@@ -30,10 +30,51 @@
 
     <select id="findTitleByPersionId" resultType="OrgStaff">
         SELECT
-        title
+        *
         FROM org_staff a
 
         WHERE a.persion_id = #{1}
+    </select>
+
+    <select id="findStaffByPersonIdOrgId" resultType="OrgStaff">
+        SELECT
+        *
+        FROM org_staff a
+
+        WHERE a.persion_id = #{0}
+        AND a.org_id = #{1}
+        AND a.del_flag = '0'
+    </select>
+
+    <select id="findByServiceId" resultType="OrgSelfServiceVsMenu">
+        SELECT sv.id AS "id",
+		sv.self_service_id AS "selfServiceId",
+		sv.menu_id AS "menuId",
+		sv.menu_sort AS "menuSort",
+		sv.pid AS "pid",
+		sv.menu_end_date AS "menuEndDate",
+		sv.create_by AS "createBy",
+		sv.remarks AS "remarks",
+		sv.update_by AS "updateBy.id",
+		sv.update_date AS "updateDate",
+		sv.del_flag AS "delFlag",
+		sv.create_date AS "createDate",
+        md.menu_name,
+        md.href
+        FROM staff_vs_role svr,org_role_vs_service orvs,role_service_menu rsm,
+        org_self_service_vs_menu sv,menu_dict md
+        WHERE orvs.service_id = #{0}
+        AND svr.staff_id = #{1}
+        AND orvs.role_id = svr.role_id
+        AND orvs.id = rsm.role_service_id
+        AND sv.id = rsm.menu_id
+        AND sv.menu_id = md.id
+        AND svr.del_flag = '0'
+        AND orvs.del_flag = '0'
+        AND rsm.del_flag = '0'
+        AND sv.del_flag = '0'
+        AND md.del_flag = '0'
+        ORDER BY sv.menu_sort
     </select>
 
     <select id="getByPersionId" resultType="OrgStaff">
@@ -43,62 +84,73 @@
 
         WHERE a.persion_id = #{persionId}
     </select>
-	
-	<select id="findListByVo" resultType="OrgStaffVo">
+
+    <select id="findListByPersionId" resultType="OrgStaff">
+        SELECT
+        *
+        FROM org_staff a
+
+        WHERE a.persion_id = #{persionId}
+    </select>
+
+    <select id="findListByVo" resultType="OrgStaffVo">
 		SELECT
         p.id,p.name,p.sex,p.card_no,p.phone_num,p.email,o.title
 		FROM org_staff o,persion_info p
         WHERE o.dept_id=#{deptId} and o.org_id=#{orgId} and o.persion_id=p.id and o.del_flag='0' and p.del_flag='0'
 
 	</select>
-	
-	<select id="findAllList" resultType="OrgStaff">
-		SELECT 
-			<include refid="orgStaffColumns"/>
-		FROM org_staff a
-		<include refid="orgStaffJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
-		INSERT INTO org_staff(
-			id,
-			dept_id,
-			org_id,
-			title,
-			persion_id,
-			remarks,
-			update_by,
-			create_by,
-			update_date,
-			del_flag,
-			create_date
-		) VALUES (
-			#{id},
-			#{deptId},
-			#{orgId},
-			#{title},
-			#{persionId},
-			#{remarks},
-			#{updateBy},
-			#{createBy},
-			#{updateDate},
-			#{delFlag},
-			#{createDate}
-		)
-	</insert>
-	
-	<update id="update">
+
+    <select id="findAllList" resultType="OrgStaff">
+        SELECT
+        <include refid="orgStaffColumns"/>
+        FROM org_staff a
+        <include refid="orgStaffJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            select sys_guid() as id from dual
+        </selectKey>
+        INSERT INTO org_staff(
+        id,
+        dept_id,
+        org_id,
+        title,
+        persion_id,
+        remarks,
+        update_by,
+        create_by,
+        update_date,
+        del_flag,
+        create_date
+        ) VALUES (
+        #{id},
+        #{deptId},
+        #{orgId},
+        #{title},
+        #{persionId},
+        #{remarks},
+        #{updateBy},
+        #{createBy},
+        #{updateDate},
+        #{delFlag},
+        #{createDate}
+        )
+    </insert>
+
+    <update id="update">
 		UPDATE org_staff SET 	
 			dept_id = #{deptId},
 			org_id = #{orgId},
@@ -110,8 +162,8 @@
 			del_flag=#{delFlag}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
+
+    <update id="delete">
 		UPDATE org_staff SET 
 			del_flag ='1'
 		WHERE id = #{id}
@@ -123,5 +175,5 @@
     </update>
 
 
-	
+
 </mapper>

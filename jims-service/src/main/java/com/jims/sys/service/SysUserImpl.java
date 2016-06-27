@@ -6,6 +6,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.JedisUtils;
 import com.jims.common.utils.StringUtils;
 import com.jims.sys.api.SysUserApi;
+import com.jims.sys.bo.PersionServiceListBo;
 import com.jims.sys.dao.SysCompanyDao;
 import com.jims.sys.dao.SysUserDao;
 import com.jims.sys.entity.SysCompany;
@@ -24,8 +25,9 @@ import java.io.Serializable;
 @Service(version = "1.0.0")
 public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements SysUserApi, Serializable {
 
+
     @Autowired
-    private SysCompanyDao sysCompanyDao;
+    private PersionServiceListBo persionServiceListBo;
 
     /**
      * 用户登录
@@ -41,38 +43,30 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
 
 
     public SysCompany findNameByOwner(String loginName) {
-        SysCompany sysCompany = sysCompanyDao.findNameByOwner(loginName);
-        return sysCompany;
+        return persionServiceListBo.findNameByOwner(loginName);
     }
 
 
     /**
      * 与数据库中的用户名比对，是否正确
      *
-     * @param sysUser
+     * @param loginName
      * @return
      */
     @Override
-    public SysUser selectLoginName(SysUser sysUser) {
-        if (StringUtils.isNotBlank(sysUser.getLoginName())) {
-            SysUser user = dao.selectLoginName(sysUser);
-            return user;
-        }
-        return null;
+    public SysUser selectLoginName(String loginName) {
+
+        return persionServiceListBo.selectLoginName(loginName);
     }
 
     /**
      * 与数据库中的密码比对，是否正确
      *
-     * @param sysUser
+     * @param loginName
      * @return
      */
     @Override
-    public SysUser selectPassword(SysUser sysUser) {
-        if (StringUtils.isNotBlank(sysUser.getPassword())) {
-            SysUser user = dao.selectPasswrod(sysUser);
-            return user;
-        }
-        return null;
+    public SysUser selectPassword(String loginName) {
+        return persionServiceListBo.selectPassword(loginName);
     }
 }

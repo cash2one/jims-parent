@@ -13,7 +13,7 @@
 <table id="list" class="easyui-datagrid">
 
 </table>
-<div id="chargeDiv" closed="true" data-options="modal:true" footer="#chargeDivButton" class="easyui-window" title="门诊医师开单-门诊选择收费" style="width:70%;height:50%">
+<div id="chargeDiv" closed="true" footer="#chargeDivButton" class="easyui-window" title="门诊医师开单-门诊选择收费" style="width:70%;height:50%">
     <div class="easyui-layout"  style="width:100%;height:100%">
         <div data-options="region:'north'" style="height:50%">
             <table id="list-zhu" class="easyui-datagrid">
@@ -88,14 +88,16 @@
 </div>
 
 <div id="returnsDiv" data-options="modal:true" closed="true"  class="easyui-window" title="退费"  style="width:70%;height:85%">
+
     <div class="easyui-layout"  style="width:100%;height:95%">
         <div data-options="region:'north'" style="height:30%">
+            <form id="baseInfo">
             <table style="padding-left:20px; font-size:15px" class="medical-tab-new1">
                 <tr style="height: 30px">
                     <td>门诊号：</td>
-                    <td><input   class="easyui-textbox"></td>
+                    <td><input   class="easyui-textbox" name="clinicNo" id="backClinicNo"></td>
                     <td>序号：</td>
-                    <td><input class="easyui-textbox"></td>
+                    <td><input class="easyui-textbox" ></td>
                     <td>卡号：</td>
                     <td><input class="easyui-textbox"></td>
                     <td>收据号：</td>
@@ -103,21 +105,25 @@
                 </tr>
                 <tr style="height: 30px">
                     <td>姓名：</td>
-                    <td colspan="3"><input class="easyui-textbox" style="width: 99%"></td>
+                    <td colspan="3"><input class="easyui-textbox" style="width: 99%" name="name"></td>
                     <td>身份：</td>
-                    <td><input  class="easyui-textbox"></td>
+                    <td><input  class="easyui-textbox" name="identity"></td>
                     <td>费别：</td>
-                    <td><input  class="easyui-textbox"></td>
+                    <td><input  class="easyui-textbox" name="chargeType"></td>
                 </tr>
                 <tr style="height: 30px">
                     <td>医生：</td>
-                    <td colspan="3"><input class="easyui-textbox" style="width: 99%"></td>
+                    <td colspan="3"><input class="easyui-textbox" style="width: 99%" name="consultingDoctor"></td>
                     <td>科室：</td>
                     <td><input  class="easyui-textbox"></td>
                     <td>合同单位：</td>
-                    <td><input  class="easyui-textbox"></td>
+                    <td><input  class="easyui-textbox" name="unitInContract"></td>
                 </tr>
             </table>
+                <div id="backCharge" class="fd-right">
+                    <button class="easyui-linkbutton" onclick="confirmBackCharge()">确认退费</button>
+                </div>
+            </form>
         </div>
         <div data-options="region:'east'" style="width:60%">
             <table id="list-xi-t" class="easyui-datagrid">
@@ -129,7 +135,9 @@
 
             </table>
         </div>
+
     </div>
+
 </div>
 <div id="tb">
 <form id="xiForm" onsubmit="return false;">

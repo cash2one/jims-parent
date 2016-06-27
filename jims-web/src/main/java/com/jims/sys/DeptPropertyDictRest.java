@@ -42,10 +42,10 @@ public class DeptPropertyDictRest {
      */
     @GET
     @Path("list")
-    public PageData list(@QueryParam("orgId") String orgId,@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        OrgDeptPropertyDict orgDeptPropertyDict=new OrgDeptPropertyDict();
+    public PageData list(@QueryParam("orgId") String orgId, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+        OrgDeptPropertyDict orgDeptPropertyDict = new OrgDeptPropertyDict();
         orgDeptPropertyDict.setOrgId(orgId);
-        Page<OrgDeptPropertyDict> page = deptPropertyDictApi.findPage(new Page<OrgDeptPropertyDict>(request, response),orgDeptPropertyDict);
+        Page<OrgDeptPropertyDict> page = deptPropertyDictApi.findPage(new Page<OrgDeptPropertyDict>(request, response), orgDeptPropertyDict);
         PageData<OrgDeptPropertyDict> pageData = new PageData<OrgDeptPropertyDict>();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
@@ -74,9 +74,8 @@ public class DeptPropertyDictRest {
      */
     @Path("selectProperty")
     @GET
-    public List<OrgDeptPropertyDict> findProperty() {
-
-        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findProperty();
+    public List<OrgDeptPropertyDict> findProperty(@QueryParam("orgId") String orgId) {
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findProperty(orgId);
         return list;
     }
 
@@ -110,11 +109,10 @@ public class DeptPropertyDictRest {
      * @return
      */
     @POST
-    @Path("selectName/{deptPropertity}")
-    public List<OrgDeptPropertyDict> findNameByType(@PathParam("deptPropertity") String deptPropertity) {
+    @Path("selectName/{deptPropertity}/{orgId}")
+    public List<OrgDeptPropertyDict> findNameByType(@PathParam("deptPropertity") String deptPropertity, @PathParam("orgId") String orgId) {
 
-        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findNameByType(deptPropertity);
-        System.out.print(list.toString());
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findNameByType(deptPropertity, orgId);
         return list;
     }
 
@@ -129,41 +127,9 @@ public class DeptPropertyDictRest {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public StringData save(OrgDeptPropertyDict orgDeptPropertyDict) {
-        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findName(orgDeptPropertyDict.getPropertyType());
-        //给插入的科室属性进行排序
-        OrgDeptPropertyDict sort = deptPropertyDictApi.findSort();
-        if (list.size() > 0) {
-            orgDeptPropertyDict.setSort(null);
-        } else {
-            if (sort.getSort() == null) {
-                orgDeptPropertyDict.setSort(0L);
-            } else {
-                orgDeptPropertyDict.setSort(sort.getSort() + 1);
-            }
 
-        }
-      //  if(list.get())
-        for(int i=0;i<=list.size();i++)
-        {
-            if(StringUtils.equalsIgnoreCase(orgDeptPropertyDict.getPropertyValue(),list.get(i).getPropertyValue()))
-            {
-                StringData stringData = new StringData();
-                stringData.setData("fail");
-                return stringData;
-            }
-            else{
-                int num = deptPropertyDictApi.add(orgDeptPropertyDict);
-                if (num != 0) {
-                    StringData stringData = new StringData();
-                    stringData.setData("success");
-                    return stringData;
-                }
-            }
-        }
-
-
-        return null;
-
+       StringData stringData= deptPropertyDictApi.add(orgDeptPropertyDict);
+        return stringData;
     }
 
     /**

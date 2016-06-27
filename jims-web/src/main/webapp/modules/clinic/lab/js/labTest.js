@@ -1,6 +1,5 @@
-var administration = [{ "value": "1", "text": "科室1" }, { "value": "2", "text": "科室2" }, { "value": "3", "text": "科室3" }, { "value": "4", "text": "科室4" }, { "value": "5", "text": "科室5" }];
-var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医生" }, { "value": "3", "text": "医生" }, { "value": "4", "text": "医生" }, { "value": "5", "text": "医生" }];
-$(function(){
+
+function onloadMethod(){
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
     $('#list_data').datagrid({
@@ -21,9 +20,15 @@ $(function(){
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center'},
-            {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
+            {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter:formatDateBoxFull},
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'resultStatus', title: '状态', width: '15%', align: 'center',formatter:function(data){
+                if(data == '1'){
+                    return '未检验';
+                }else{
+                    return '以检验';
+                }
+            }},
             {
                 field: 'id',
                 title: '操作',
@@ -31,22 +36,38 @@ $(function(){
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';
-                    /*if(row.resultStatus=="1"){
-                        html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                    }else{
-                        html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
-                    }*/
                     html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
                     return html;
                 }
             }
         ]],
+    //    onExpandRow(index,row){
+    //    alert("1");
+    //}
         view: detailview,
         detailFormatter: function(rowIndex, rowData){
-            return '<table><tr>' +
+
+            var item=[];
+            $.ajax({
+                type:"POST",
+                url: basePath+"/labtest/getItem",
+                contentType: 'application/json',
+                data: testNo=rowData.testNo,
+                async:false,
+                dataType: 'json',
+                success:function(data){
+                    item=data;
+                }
+            })
+
+            return  '<table><tr>' +
                 '<td style="border:0">' +
-                '<p>检验项目: ' + rowData.memo + '</p>' +
+                '<p>检验项目: </p>' +
+                '</td>' +
+                '</tr><tr>' +
+                '<td style="border:0">' +
+                '<p> ' +item[0].itemName + '</p>' +
                 '</td>' +
                 '</tr></table>';
         },
@@ -88,17 +109,22 @@ $(function(){
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center'},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });
 
-});
+};
+
+
 //新增检验
 function add(){
     clearForm();
     $("#saveBut").show();
     var clinicId=$("#clinicMasterId",window.parent.document).val();
+    $("#clinicId").val(clinicId);
+    var newDate=new Date();
+    $('#requestedDateTime').datetimebox('setValue',newDate);
     $.ajax({
         //添加
         url: basePath+"/labtest/zhenduan",
@@ -110,58 +136,25 @@ function add(){
             if (data!= ""&& data!=null) {
                 var d;
                 $.each(data, function (index, item) {
-                    d = d+item.icdAndTypeNmae+"\r";
+                    d =item.description+"\r";
                 });
                 $("#relevantClinicDiag").val(d);
             }
         }
     })
-    //科室下拉框
-    $('#performedBy').combobox({
-        url: basePath + '/dept-dict/findListByCode',
-        valueField: 'deptCode',
-        textField: 'deptName',
-        queryParams:{code:'5'},
-        /*onLoadSuccess: function () {
-         var data = $(this).combobox('getData');
-         $(this).combobox('select', data[0].deptName);
-         },*/
-        onSelect: function (data) {
-            //根据科室选择类别
-            $.ajax({
-                type: "POST",
-                url: basePath +'/labitemclass/findListByDeptCode',
-                data: code = data.deptCode,
-                dataType: "json",
-                success: function (data) {
-                    $("#labItemClass").combobox('loadData',data);
-                }
-            });
-            //更具科室选择标本
-            $.ajax({
-                type: "POST",
-                url: basePath +'/speciman/findListByDeptCode',
-                data: code = data.deptCode,
-                dataType: "json",
-                success: function (data) {
-                    $("#specimen").combobox('loadData',data);
-                }
-            });
-        }
-    });
-     //类别下拉框
-    $('#labItemClass').combobox({
-        valueField: 'classCode',
-        textField: 'className'
-    });
-    //标本下拉框
-    $('#specimen').combobox({
-        valueField: 'specimanCode',
-        textField: 'specimanName',
-        onChange : function(n,o){
-            SendProduct();
-        }
-    });
+        //类别下拉框
+        $('#labItemClass').combobox({
+            data:labItemClass,
+            valueField: 'id',
+            textField: 'class_name',
+            onSelect: function (n, o) {
+               // alert(n.dept_code);
+                SendProduct();
+                $("#performedBy").val(n.dept_name);
+               $("#performedByCode").val(n.dept_code);
+            }
+        })
+
 }
 
 function loadTreeGrid() {
@@ -228,39 +221,46 @@ function look() {
 }
 //弹出选择项目窗口
 function SendProduct() {
+    var item={};
+    item.orgId="";
+    item.dictType="lab_item_view";
     var expand3 = $("#performedBy").val();
     var expand2 = $("#labItemClass").val();
     var expand1 = $("#specimen").val();
     $.ajax({
-        type: "post",
-        //url: basePath + '/clinicitemname/selectlabitem',
-        url: basePath + '/labtest/items',
-        contentType: "application/json",
-        dataType: "json",
-        data: JSON.stringify({"expand1":expand1,"expand2":expand2,"expand3":expand3}),
-
-        success: function (data) {
+            'type': 'POST',
+            'url':basePath+'/input-setting/listParam' ,
+            data: JSON.stringify(item),
+            'contentType': 'application/json',
+            'dataType': 'json',
+            'async': false,
+        'success': function(data){
             var divstr ="<table>";
-            for(var i=0; i<data.length; i++)
-            {   if(i==0){
-                    divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].itemCode+"'>"+data[i].itemName+"<input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                    for(var i=0; i<data.length; i++)
+                    {   if(i==0){
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                        }
+                        else if(i%3==0){
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                        }
+                        else if(i%3==2){
+                            divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td></tr>";
+                        }
+                        else{
+                             divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                        }
+                        //alert(data[i].expand1);
+                    $("#specimen").val(data[i].expand1);
+                    }
+                    divstr = divstr +"</table>";
+                    divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
+                    $("#SendProduct").html(divstr);
+                    $("#SendProduct").dialog("open");
+
                 }
-                else if(i%3==0){
-                    divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].itemCode+"'><span>"+data[i].itemName+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
-                }
-                else if(i%3==2){
-                    divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].itemCode+"'><span>"+data[i].itemName+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td></tr>";
-                }
-                else{
-                     divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].itemCode+"'><span>"+data[i].itemName+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
-                }
-            }
-            divstr = divstr +"</table>";
-            divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
-            $("#SendProduct").html(divstr);
-        }
     });
-    $("#SendProduct").dialog("open");
+
+
 }
 
 $("#SendProduct").dialog({
@@ -287,12 +287,12 @@ function doSelect() {
                 row.itemCode=$(this).val();//增
                 var temp = $(this).next().next(":hidden").val();
                 all += parseFloat(temp);
-                row.price=temp;//增
+                //row.price=temp;//增
                 rows.push(row);
             }
         )
         var row={};
-        row.price=all;//增
+        //row.price=all;//增
         rows.push(row);
         var selectJson={'total':selectRows.size(),'rows':rows};
         $('#items').datagrid('loadData',selectJson);

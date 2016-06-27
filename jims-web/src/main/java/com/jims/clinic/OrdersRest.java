@@ -39,7 +39,7 @@ public class OrdersRest {
         Orders orders=new Orders();
         orders.setRepeatIndicator(repeatIndicator);
         orders.setOrderStatus(orderStatus);
-        orders.setPatientId("15005451");
+        orders.setPatientId("15006135");
         orders.setVisitId("1");
         return ordersServiceApi.getPatientOrders(orders);
     }
@@ -138,4 +138,16 @@ public class OrdersRest {
         return orders1;
    }
 
+    /**
+     * 查询子医嘱
+     * @param orders
+     * @return
+     * pq
+     */
+    @Path("getSubOrders")
+    @POST
+    public List<Orders> getSubOrders(Orders orders){
+           List<Orders> ordersList = ordersServiceApi.getSubOrders(orders);
+        return ordersList;
+    }
 }

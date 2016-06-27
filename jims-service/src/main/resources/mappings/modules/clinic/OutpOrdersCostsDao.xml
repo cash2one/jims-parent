@@ -251,7 +251,15 @@
 		SELECT
 		<include refid="outpOrdersCostsColumns"/>
 		FROM outp_orders_costs a
-		WHERE a.masterId=#{masterId} AND a.patientId=#{clinicId}
+		<where>
+			a.del_flag = '0'
+			<if test="masterId!=null and masterId!=''">
+				and a.master_id=#{masterId}
+			</if>
+			<if test="clinicId!=null and clinicId!=''">
+				AND a.clinic_id=#{clinicId}
+			</if>
+		</where>
 	</select>
 
 	<insert id="saveOrdersCosts">
@@ -456,4 +464,8 @@
       ("OUTP_ORDERS_COSTS"."CHARGE_INDICATOR" =0)
       order by "OUTP_ORDERS_COSTS"."ITEM_CLASS"
     </select>
+
+	<select id="confirmPay" statementType="CALLABLE">
+		{call p_fin_outcalc(#{ids,mode=IN})}
+	</select>
 </mapper>

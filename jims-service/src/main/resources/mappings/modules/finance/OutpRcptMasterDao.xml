@@ -199,6 +199,34 @@
 		WHERE id = #{id}
 	</update>
 
+   <select id="getBackChargeInfo" resultType="OutpRcptMaster">
+	 SELECT
+	   a.name,
+	   a.name_phonetic,
+	   a.identity,
+	   a.charge_type,
+	   a.unit_in_contract,
+	   b.doctor,
+	   b.visit_dept,
+	   b.visit_no,
+	   a.RCPT_NO,
+	   a.VISIT_DATE,
+	   a.TOTAL_COSTS,
+	   a.TOTAL_CHARGES,
+	   a.OPERATOR_NO,
+	   a.REFUNDED_RCPT_NO,
+	   a.PRINTED_OPERATOR_NO,
+	   a.PRINTED_DATE,
+	   a.INVOICE_NO,
+	   a.RCPT_PRINT
+	   FROM OUTP_RCPT_MASTER a , clinic_master b
+	   where b.clinic_no=#{clinicNo}
+	   and a.patientid=b.id
+	   and (TOTAL_COSTS >= 0 and TOTAL_CHARGES >= 0)
+	   and REFUNDED_RCPT_NO is null
+	   and (card_flag &lt; 'Y' or card_flag is null)
+   </select>
+
 
 	<select id="findCharge" resultType="OutpRcptMaster">
 		SELECT
@@ -235,5 +263,7 @@
 			acct_no = #{acctNo}
 		WHERE id = #{id}
 	</update>
-
+    <select id="confirmBackCharge" statementType="CALLABLE" parameterType="java.util.Map">
+		{call p_back_charge(#{rcptNo,mode=IN,jdbcType=VARCHAR},#{o_outp_flag,mode=OUT,jdbcType=VARCHAR})}
+	</select>
 </mapper>

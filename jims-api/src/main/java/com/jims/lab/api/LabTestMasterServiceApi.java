@@ -20,7 +20,7 @@ public interface LabTestMasterServiceApi {
      * @author xueyx
      * @version 2016/5/06
      */
-    public void saveAll(LabTestMaster labTestMaster);
+    public String saveAll(LabTestMaster labTestMaster);
 
     /**
      * 住院保存
@@ -31,7 +31,7 @@ public interface LabTestMasterServiceApi {
      * @version 2016/5/06
      */
 
-    public void saveAllIn(LabTestMaster labTestMaster);
+    public String saveAllIn(LabTestMaster labTestMaster);
 
     /**
      * 生成申请序号
@@ -47,7 +47,7 @@ public interface LabTestMasterServiceApi {
      * @author xueyx
      * @version 2016/5/09
      */
-    public void delAll(LabTestMaster labTestMaster);
+    public void delAll(String ids);
 
     /**
      *

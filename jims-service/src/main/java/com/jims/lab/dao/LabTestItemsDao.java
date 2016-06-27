@@ -6,6 +6,9 @@ package com.jims.lab.dao;
 import com.jims.lab.entity.LabTestItems;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 检验项目DAO接口
@@ -14,5 +17,5 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface LabTestItemsDao extends CrudDao<LabTestItems> {
-	
+	public List<LabTestItems> getItemName(@Param("testNo")String testNo);
 }

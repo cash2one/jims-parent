@@ -70,4 +70,11 @@ public interface EmrDiagnosisServiceApi {
      * @return
      */
     public List<EmrDiagnosis> findAllDiagnosisForOne(EmrDiagnosis emrDiagnosis);
+
+    /**
+     * 根据clinicId 查询临床诊断
+     * @param clinicId
+     * @return
+     */
+    public EmrDiagnosis getDescription(String clinicId);
 }

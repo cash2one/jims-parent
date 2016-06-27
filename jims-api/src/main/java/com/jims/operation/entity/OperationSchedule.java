@@ -150,8 +150,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public void setOperatingRoom(String operatingRoom) {
 		this.operatingRoom = operatingRoom;
 	}
-	
-	@Length(min=0, max=6, message="手术间长度必须介于 0 和 6 之间")
+
 	public String getOperatingRoomNo() {
 		return operatingRoomNo;
 	}
@@ -159,7 +158,7 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	public void setOperatingRoomNo(String operatingRoomNo) {
 		this.operatingRoomNo = operatingRoomNo;
 	}
-	
+
 	public Integer getSequence() {
 		return sequence;
 	}

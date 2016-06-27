@@ -35,8 +35,8 @@
 
     <select id="findList" resultType="ClinicVsCharge">
         SELECT
-        <include refid="clinicVsChargeColumns"/>
-        FROM clinic_vs_charge a
+        <include refid="clinicVsChargeColumns"/>,p.item_name chargeItemName
+        FROM clinic_vs_charge a,(select distinct item_code,item_name from price_list) p
         <include refid="clinicVsChargeJoins"/>
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
@@ -45,6 +45,7 @@
             <if test="orgId != null and orgId != ''">
                 AND a.org_id = #{orgId}
             </if>
+            AND a.charge_item_code = p.item_code
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -132,21 +133,19 @@
 		WHERE id = #{id}
 	</update>
 
-    <update id="delete">
-        UPDATE clinic_vs_charge SET
-        del_flag = '1'
+    <delete id="delete">
+        delete from clinic_vs_charge
         WHERE id = #{id}
-    </update>
+    </delete>
 
-    <update id="deleteNoId">
-        UPDATE clinic_vs_charge SET
-        del_flag = '1'
+    <delete id="deleteNoId">
+        delete from clinic_vs_charge
         WHERE
         clinic_item_class = #{clinicItemClass}
         AND clinic_item_code = #{clinicItemCode}
         <if test="orgId != null and orgId != ''">
             AND org_id = #{orgId}
         </if>
-    </update>
+    </delete>
 
 </mapper>

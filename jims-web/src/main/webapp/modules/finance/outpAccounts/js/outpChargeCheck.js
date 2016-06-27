@@ -27,7 +27,6 @@ $(function(){
             {field: 'xiaoji', title: '小计', width: '10%', align: 'center'}
         ]],onLoadSuccess:function(index,row){
 
-            if(row!=null){
                 $('#payments').datagrid('appendRow', {
                     moneyType: '<span>合计</span>',
                     paymentAmount: '<span class="subtotal">' + compute("payments","paymentAmount") + '</span>',
@@ -36,7 +35,7 @@ $(function(){
                 });
             }
 
-        }
+
     });
 
     $("#itemsTables").datagrid({
@@ -50,14 +49,12 @@ $(function(){
             {field: 'costs', title: '金额', width: '15%', align: 'center'},
             {field: 'charges', title: '应收金额', width: '25%', align: 'center'}
         ]],onLoadSuccess:function(index,row){
-
-            if(row!=null){
                 $('#itemsTables').datagrid('appendRow', {
                     subjcode: '<span>合计</span>',
                     costs: '<span class="subtotal">' + compute("itemsTables","costs") + '</span>',
                     charges: '<span class="subtotal">' + compute("itemsTables","charges") + '</span>'
                 });
-            }
+
 
         }
     });
@@ -108,8 +105,6 @@ function compute(tableName,colName) {
         }else{
             total += parseFloat(rows[i][colName]);
         }
-
-
     }
     return total;
 }
