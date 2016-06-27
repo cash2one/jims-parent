@@ -194,7 +194,7 @@ public class ClinicMasterRest {
     @Path("savePatInfo")
     public StringData savePatInfo(ClinicMaster clinicMaster){
        StringData data = new StringData();
-       data.setCode(clinicMasterServiceApi.save(clinicMaster));
+       data.setCode(clinicMasterServiceApi.updatePatInfo(clinicMaster));
         return data;
     }
 }

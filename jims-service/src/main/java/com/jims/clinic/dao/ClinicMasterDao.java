@@ -21,6 +21,11 @@ import java.util.List;
 @MyBatisDao
 public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
     /**
+     * 病人信息更新
+     * @param clinicMaster
+     */
+    public void updateMasterInfo(ClinicMaster clinicMaster);
+    /**
      * 根据当前登录人 医生ID查询 门诊病人(待诊病人)
      * 查询的病人列表是  -----我的病人 列表   非  全科病人列表
      * @param doctorId

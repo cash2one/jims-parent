@@ -87,4 +87,16 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     public ClinicMaster getCheckItem(String operator, String registeringDate) {
         return clinicMasterDao.getCheckItem(operator,registeringDate);
     }
+
+    /**
+     * 病人 信息保存
+     * @param clinicMaster
+     * @return
+     */
+    @Override
+    public String updatePatInfo(ClinicMaster clinicMaster) {
+        String i="1";
+        clinicMasterDao.updateMasterInfo(clinicMaster);
+        return i;
+    }
 }

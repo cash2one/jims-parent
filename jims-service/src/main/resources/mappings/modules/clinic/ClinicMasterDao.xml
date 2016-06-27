@@ -229,7 +229,25 @@
 			#{delFlag}
 		)
 	</insert>
-	
+	<update id="updateMasterInfo">
+		update clinic_master SET
+		<if test="name!=null and name!=''">
+			name = #{name},
+		</if>
+		<if test="sex!=null and sex!=''">
+			sex=#{sex},
+		</if>
+        <if test="identity!=null and identity!=''">
+			identity = #{identity},
+		</if>
+		<if test="chargeType!=null and chargeType!=''">
+			charge_type = #{chargeType},
+		</if>
+		<if test="unitInContract!=null and  unitInContract!='' ">
+			unit_in_contract = #{unitInContract}
+		</if>
+		where id=#{id}
+	</update>
 	<update id="update">
 		UPDATE clinic_master SET
 			org_id = #{orgId},

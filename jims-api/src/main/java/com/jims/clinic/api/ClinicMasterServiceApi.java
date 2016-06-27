@@ -61,6 +61,6 @@ public interface ClinicMasterServiceApi {
      */
     public ClinicMaster getCheckItem(String operator,String registeringDate);
 
-    public String save(ClinicMaster clinicMaster);
+    public String updatePatInfo(ClinicMaster clinicMaster);
 
 }
