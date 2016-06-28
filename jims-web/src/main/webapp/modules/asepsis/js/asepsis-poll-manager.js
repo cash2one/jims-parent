@@ -194,6 +194,30 @@ $(function () {
         onClickCell:onClickCell
     });
 
+    $('#pollManager').datagrid({
+        fit : true,
+        border:1,
+        fitColumns: true,
+        singleSelect : true,
+        remoteSort: false,
+        idField :'id',
+        columns:[[      //每个列具体内容
+            {field:'fromDept',title:'领物科室',width:'100',align:'center'}
+            ,{field:'documentNo',title:'单据号',width:'80',align:'center'}
+            ,{field:'itemNo',title:'序号',width:'50',align:'center'}
+            ,{field:'itemCode',title:'包代码',width:'80',align:'center'}
+            ,{field:'itemName',title:'包名称',width:'150',align:'center'}
+            ,{field:'itemSpec',title:'规格',width:'50',align:'center'}
+            ,{field:'units',title:'单位',width:'50',align:'center'}
+            ,{field:'sendAmount',title:'送物数量',width:'80',align:'center'}
+            ,{field:'getAmount',title:'已领数量',width:'80',align:'center'}
+            ,{field:'stock',title:'可领数量',width:'80',align:'center'}
+            ,{field:'getDate',title:'领物日期',width:'80',align:'center'}
+            ,{field:'sendDate',title:'送物日期',width:'80',align:'center'}
+            ,{field:'memos',title:'备注',width:'70',align:'center'}
+        ]]
+    });
+
     /**
      * 加载库存
      * @param drugDict

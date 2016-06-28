@@ -20,4 +20,11 @@ public interface AsepsisDictDao extends CrudDao<AsepsisDict> {
      * @return
      */
     public List<AsepsisDict> findPageByDept(AsepsisDict entity);
+
+    /**
+     * 检索有库存的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisDict> findListHasStock(AsepsisDict entity);
 }

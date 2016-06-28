@@ -39,6 +39,22 @@
         </where>
     </select>
 
+    <select id="findListHasStock" resultType="AsepsisDict">
+        SELECT DISTINCT
+        <include refid="asepsisDictColumns"/>
+        FROM ASEPSIS_DICT a, ASEPSIS_STOCK s
+        <where>
+            a.asepsis_code = s.item_code and flag = '1'
+            <if test="belongDept != null and belongDept != ''">
+                and a.belong_dept = #{belongDept}
+            </if>
+            <if test="orgId != null and orgId != ''">
+                and a.org_id = #{orgId}
+            </if>
+            and s.amount > 0
+        </where>
+    </select>
+
     <select id="findPageByDept" resultType="AsepsisDict">
         SELECT
         <include refid="asepsisDictColumns"/>

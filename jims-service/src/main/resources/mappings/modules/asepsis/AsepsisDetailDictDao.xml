@@ -73,7 +73,7 @@
     </insert>
 
     <update id="update">
-        UPDATE INTO ASEPSIS_DETAIL_DICT SET
+        UPDATE ASEPSIS_DETAIL_DICT SET
             ID = #{id}
             ,ASEPSIS_CODE = #{asepsisCode}
             ,ITEM_CODE = #{itemCode}

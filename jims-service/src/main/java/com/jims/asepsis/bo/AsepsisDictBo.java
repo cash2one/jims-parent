@@ -85,4 +85,13 @@ public class AsepsisDictBo extends CrudImplService<AsepsisDictDao, AsepsisDict>{
         return newUpdateDict;
     }
 
+    /**
+     * 检索有库存的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisDict> findListHasStock(AsepsisDict entity){
+        return dao.findListHasStock(entity);
+    }
+
 }
