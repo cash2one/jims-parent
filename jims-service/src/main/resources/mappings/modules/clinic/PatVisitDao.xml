@@ -964,6 +964,15 @@
 	           (b.dept_code = #{deptCode} and b.dept_code_lend is null)
 	              or (b.dept_code_lend = #{deptCode} and b.dept_code_lend is not null)
 	           )
+	           <if test="patName!=null and patName!='' ">
+				   and  a.name=#{patName}
+		       </if>
+				<if test="startTime!=null and startTime!=''">
+					<![CDATA[ and d.discharge_date_time >=  to_date(#{startTime}, 'yyyy-MM-dd') ]]>
+				</if>
+				<if test="endTime!=null and endTime!=''">
+					<![CDATA[ and d.discharge_date_time <=  to_date(#{endTime}, 'yyyy-MM-dd') ]]>
+				</if>
 	</select>
 	<select id="getPatientListOutHos" resultType="com.jims.patient.Dto.PatientListDto">
 		select
@@ -984,6 +993,9 @@
 		from pat_master_index a , pat_visit d
 		where a.id = d.patient_id
 		and d.dept_discharge_from = #{deptDischargeFrom}
+		<if test="patName!=null and patName!='' ">
+			and  a.name=#{patName}
+		</if>
 	</select>
 	<select id="getPatientInformation" resultType="PatVisit">
 		SELECT
@@ -1005,4 +1017,42 @@
 			</if>
 		</where>
 	</update>
+	<select id="getPatMaster" resultType="com.jims.patient.entity.PatMasterIndex">
+				select
+		       ID  AS id,
+			   INP_NO AS inpNo,
+			   SEX AS sex,
+			   BED_NO AS bedNo,
+			   DIAGNOSIS AS diagnosis,
+			   DOCTOR_IN_CHARGE AS doctorInCharge,
+			   NAME_PHONETIC AS namePhonetic,
+			   DATE_OF_BIRTH AS dateOfBirth,
+			   CHARGE_TYPE AS chargeType,
+			   PATIENT_CONDITION AS patientCondition,
+			   DEPT_CODE AS deptCode,
+			   BED_LABEL AS bedLabel,
+			   NAME AS name
+				from
+				(
+				SELECT B.id,
+					   B.INP_NO,
+					   B.SEX,
+					   A.BED_NO,
+					   A.DIAGNOSIS,
+					   A.DOCTOR_IN_CHARGE,
+					   B.NAME_PHONETIC,
+					   B.DATE_OF_BIRTH,
+					   B.CHARGE_TYPE,
+					   A.PATIENT_CONDITION,
+					   (case when A.DEPT_CODE_LEND is null then A.DEPT_CODE else A.DEPT_CODE_LEND end) DEPT_CODE,
+					   C.BED_LABEL,
+					   B.NAME
+				  FROM PAT_MASTER_INDEX B, PATS_IN_HOSPITAL A, BED_REC C
+				 WHERE B.PATIENT_ID = A.PATIENT_ID
+				   and A.BED_NO = C.BED_NO
+				   and A.WARD_CODE = C.WARD_CODE
+				   and ((A.DEPT_CODE =#{deptCode} and A.DEPT_CODE_LEND is null) or
+						(A.DEPT_CODE_LEND = #{deptCode} and A.DEPT_CODE_LEND is not null))
+				  )
+	</select>
 </mapper>
