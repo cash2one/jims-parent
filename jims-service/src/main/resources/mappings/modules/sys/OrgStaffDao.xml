@@ -97,7 +97,12 @@
 		SELECT
         p.id,p.name,p.sex,p.card_no,p.phone_num,p.email,o.title
 		FROM org_staff o,persion_info p
-        WHERE o.dept_id=#{deptId} and o.org_id=#{orgId} and o.persion_id=p.id and o.del_flag='0' and p.del_flag='0'
+        WHERE o.persion_id=p.id
+        <if test="deptId != null and deptId != ''">
+            and o.dept_id=#{deptId}
+        </if>
+        and o.org_id=#{orgId}
+        and o.persion_id=p.id and o.del_flag='0' and p.del_flag='0'
 
 	</select>
 

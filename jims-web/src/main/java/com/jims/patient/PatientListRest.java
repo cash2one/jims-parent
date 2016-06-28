@@ -31,7 +31,7 @@ public class PatientListRest {
      */
     @Path("patVistList")
     @GET
-    public List<PatientListDto>  getPatientList(@QueryParam("status") String status){
+    public List<PatientListDto>  getPatientList(@QueryParam("status") String status,@QueryParam("patName")String patName){
         List<PatientListDto> patientList = new ArrayList<PatientListDto>();
         if(status!=null && status.equals("0")){//在院中
             //获取当前登录人的 科室编码

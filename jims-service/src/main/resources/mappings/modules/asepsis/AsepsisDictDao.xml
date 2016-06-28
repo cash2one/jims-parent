@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.asepsis.dao.AsepsisDictDao">
+
+    <sql id="asepsisDictColumns">
+        a."ID" as "id"
+        ,a."ITEM_CLASS" as "itemClass"
+        ,a."ASEPSIS_CODE" as "asepsisCode"
+        ,a."ASEPSIS_NAME" as "asepsisName"
+        ,a."ASEPSIS_SPEC" as "asepsisSpec"
+        ,a."UNITS" as "units"
+        ,a."ANTI_PRICE" as "antiPrice"
+        ,a."NOBACK_PRICE" as "nobackPrice"
+        ,a."BELONG_DEPT" as "belongDept"
+        ,a."MEMOS" as "memos"
+        ,a."INPUT_CODE" as "inputCode"
+        ,a."VALID_DAYS" as "validDays"
+        ,a."CLEAN_PRICE" as "cleanPrice"
+        ,a."PACK_PRICE" as "packPrice"
+        ,a."ASEP_PRICE" as "asepPrice"
+        ,a."ITEM_ROLLBACK_FLAG" as "itemRollbackFlag"
+        ,a."FLAG" as "flag"
+        ,a."ORG_ID" as "orgId"
+    </sql>
+
+    <select id="get" resultType="AsepsisDict">
+        SELECT
+        <include refid="asepsisDictColumns"/>
+        FROM ASEPSIS_DICT a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="AsepsisDict">
+        SELECT
+        <include refid="asepsisDictColumns"/>
+        FROM ASEPSIS_DICT a
+        <where>
+            a.org_id =  #{orgId}
+        </where>
+    </select>
+
+    <select id="findListHasStock" resultType="AsepsisDict">
+        SELECT DISTINCT
+        <include refid="asepsisDictColumns"/>
+        FROM ASEPSIS_DICT a, ASEPSIS_STOCK s
+        <where>
+            a.asepsis_code = s.item_code and flag = '1'
+            <if test="belongDept != null and belongDept != ''">
+                and a.belong_dept = #{belongDept}
+            </if>
+            <if test="orgId != null and orgId != ''">
+                and a.org_id = #{orgId}
+            </if>
+            and s.amount > 0
+        </where>
+    </select>
+
+    <select id="findAllList" resultType="AsepsisDict">
+        SELECT
+        <include refid="asepsisDictColumns"/>
+        FROM ASEPSIS_DICT a
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ASEPSIS_DICT(
+            ID
+            ,ITEM_CLASS
+            ,ASEPSIS_CODE
+            ,ASEPSIS_NAME
+            ,ASEPSIS_SPEC
+            ,UNITS
+            ,ANTI_PRICE
+            ,NOBACK_PRICE
+            ,BELONG_DEPT
+            ,MEMOS
+            ,INPUT_CODE
+            ,VALID_DAYS
+            ,CLEAN_PRICE
+            ,PACK_PRICE
+            ,ASEP_PRICE
+            ,ITEM_ROLLBACK_FLAG
+            ,FLAG
+            ,ORG_ID
+        ) VALUES (
+            #{id}
+            ,#{itemClass}
+            ,#{asepsisCode}
+            ,#{asepsisName}
+            ,#{asepsisSpec}
+            ,#{units}
+            ,#{antiPrice}
+            ,#{nobackPrice}
+            ,#{belongDept}
+            ,#{memos}
+            ,#{inputCode}
+            ,#{validDays}
+            ,#{cleanPrice}
+            ,#{packPrice}
+            ,#{asepPrice}
+            ,#{itemRollbackFlag}
+            ,#{flag}
+            ,#{orgId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE INTO ASEPSIS_DICT SET
+            ID = #{id}
+            ,ITEM_CLASS = #{itemClass}
+            ,ASEPSIS_CODE = #{asepsisCode}
+            ,ASEPSIS_NAME = #{asepsisName}
+            ,ASEPSIS_SPEC = #{asepsisSpec}
+            ,UNITS = #{units}
+            ,ANTI_PRICE = #{antiPrice}
+            ,NOBACK_PRICE = #{nobackPrice}
+            ,BELONG_DEPT = #{belongDept}
+            ,MEMOS = #{memos}
+            ,INPUT_CODE = #{inputCode}
+            ,VALID_DAYS = #{validDays}
+            ,CLEAN_PRICE = #{cleanPrice}
+            ,PACK_PRICE = #{packPrice}
+            ,ASEP_PRICE = #{asepPrice}
+            ,ITEM_ROLLBACK_FLAG = #{itemRollbackFlag}
+            ,FLAG = #{flag}
+            ,ORG_ID = #{orgId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete FROM ASEPSIS_DICT
+        WHERE id = #{id}
+    </delete>
+</mapper>

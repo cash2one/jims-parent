@@ -142,13 +142,13 @@
         UPDATE course_record_stage SET
         <if test="courseRecord != null and courseRecord.id != '' and courseRecord.id !=null ">
             bingcheng_id = #{courseRecord.id},
-        </if>
-        <if test="yibanqingkuang != null and yibanqingkuang != '' ">
-            yibanqingkuang = #{yibanqingkuang},
-        </if>
-        <if test="ruyuanzhenduan != null and ruyuanzhenduan != '' ">
-            ruyuanzhenduan = #{ruyuanzhenduan},
-        </if>
+    </if>
+    <if test="yibanqingkuang != null and yibanqingkuang != '' ">
+        yibanqingkuang = #{yibanqingkuang},
+    </if>
+    <if test="ruyuanzhenduan != null and ruyuanzhenduan != '' ">
+        ruyuanzhenduan = #{ruyuanzhenduan},
+    </if>
         <if test="zhenliaojingguo != null and zhenliaojingguo != '' ">
             zhenliaojingguo = #{zhenliaojingguo},
         </if>
