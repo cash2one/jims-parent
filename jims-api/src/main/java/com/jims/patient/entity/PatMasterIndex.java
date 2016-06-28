@@ -86,15 +86,15 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private String maritalStatus;//婚姻状况
 	//private String occupation;//职业
 	private String insuranceType;//工作单位
-	private String insuranceAera;//所属地区
-	private Date admissionDateTime;//入院时间
-	private Date consultingDate;//接诊时间
-	private String deptAdmissionTo;//入院科室
-	//private String patientClass;//入院方式
-	private String admissionCause;//住院目的
-	private String patAdmCondition;//病情
-	private String consultingDoctor;//接诊医生
-	private String admittedBy;//经办人
+    private String insuranceAera;//所属地区
+    private Date admissionDateTime;//入院时间
+    private Date consultingDate;//接诊时间
+    private String deptAdmissionTo;//入院科室
+    //private String patientClass;//入院方式
+    private String admissionCause;//住院目的
+    private String patAdmCondition;//病情
+    private String consultingDoctor;//接诊医生
+    private String admittedBy;//经办人
 	private String ddtRoomNo;//出院科室
 	private Date onsetDate;//发病日期
  	private String nhSerialNo;//医保登记号
@@ -103,6 +103,10 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
     private String visitIndicator; //诊别
 	private List<ClinicForRegist> clinicForRegistList;
 	private List<ClinicAppoints> clinicAppointses;
+
+
+    //扩展
+    private  String visitDept; //就诊科室
 
 	public PatMasterIndex() {
 		super();
@@ -741,5 +745,13 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 
     public void setVisitIndicator(String visitIndicator) {
         this.visitIndicator = visitIndicator;
+    }
+
+    public String getVisitDept() {
+        return visitDept;
+    }
+
+    public void setVisitDept(String visitDept) {
+        this.visitDept = visitDept;
     }
 }
