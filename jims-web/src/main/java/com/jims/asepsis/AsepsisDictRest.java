@@ -3,10 +3,14 @@ package com.jims.asepsis;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.asepsis.entity.AsepsisDict;
 import com.jims.asepsis.api.AsepsisDictApi;
+import com.jims.asepsis.vo.AsepsisDictVo;
+import com.jims.common.data.StringData;
+import com.jims.sys.entity.InputSettingMaster;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +40,21 @@ public class AsepsisDictRest {
     }
 
     /**
+     * 检索科室下的包
+     * @param orgId
+     * @return
+     */
+    @GET
+    @Path("findPage")
+    public List<AsepsisDict> findPage(@QueryParam("deptCode") String deptCode,@QueryParam("orgId")String orgId,@QueryParam("pageName") String pageName) {
+        AsepsisDict entity = new AsepsisDict();
+        entity.setOrgId(orgId);
+        entity.setBelongDept(deptCode);
+        entity.setAsepsisName(pageName);
+        return api.findPageByDept(entity);
+    }
+
+    /**
     * 保存（插入或更新）
     * @param entity
     * @return 0 失败，1成功
@@ -55,6 +74,24 @@ public class AsepsisDictRest {
     @Path("saveList")
     public String saveList(List<AsepsisDict> list) {
         return api.save(list);
+    }
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisDictVo
+     * @return
+     * @author yangruidong
+     */
+    @Path("saveAll")
+    @POST
+    public StringData saveAll(AsepsisDictVo<AsepsisDict> asepsisDictVo) {
+        List<AsepsisDict> newUpdateDict = new ArrayList<AsepsisDict>();
+        newUpdateDict = api.saveAll(asepsisDictVo);
+        StringData stringData = new StringData();
+        stringData.setData("success");
+        return stringData;
+
     }
 
     /**

@@ -39,6 +39,25 @@
         </where>
     </select>
 
+    <select id="findPageByDept" resultType="AsepsisDict">
+        SELECT
+        <include refid="asepsisDictColumns"/>
+        FROM ASEPSIS_DICT a
+        <where>
+
+            a.org_id =  #{orgId}
+            <if test="belongDept!=null and  belongDept!=''">
+                and a.BELONG_DEPT=#{belongDept}
+            </if>
+
+            <if test="asepsisName!=null and  asepsisName!=''">
+                and a.ASEPSIS_NAME=#{asepsisName}
+            </if>
+
+
+    </where>
+    </select>
+
     <select id="findAllList" resultType="AsepsisDict">
         SELECT
         <include refid="asepsisDictColumns"/>
@@ -88,9 +107,8 @@
     </insert>
 
     <update id="update">
-        UPDATE INTO ASEPSIS_DICT SET
-            ID = #{id}
-            ,ITEM_CLASS = #{itemClass}
+        UPDATE  ASEPSIS_DICT SET
+            ITEM_CLASS = #{itemClass}
             ,ASEPSIS_CODE = #{asepsisCode}
             ,ASEPSIS_NAME = #{asepsisName}
             ,ASEPSIS_SPEC = #{asepsisSpec}
