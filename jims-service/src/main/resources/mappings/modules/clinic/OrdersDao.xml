@@ -631,4 +631,11 @@
        where b.charge_item_code = a.item_code
       and clinic_item_code = #{itemCode}
 	</select>
+	<update id="updateOrders">
+		update orders set stop_doctor=#{stopDoctor} ,order_status=#{orderStatus}
+			<where>
+			del_flag='0'
+				and clinic_id=#{clinicId}
+		</where>
+	</update>
 </mapper>
