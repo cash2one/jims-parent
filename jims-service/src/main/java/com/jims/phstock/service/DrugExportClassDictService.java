@@ -7,6 +7,7 @@ import com.jims.phstock.api.DrugExportClassDictApi;
 import com.jims.phstock.bo.DrugExportClassDictServiceBo;
 import com.jims.phstock.dao.DrugExportClassDictDao;
 import com.jims.phstock.entity.DrugExportClassDict;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -24,6 +25,15 @@ public class DrugExportClassDictService  implements DrugExportClassDictApi{
     @Autowired
     private DrugExportClassDictServiceBo drugExportClassDictServiceBo;
 
+    /**
+     * 保存增删改
+     * @param beanChangeVo
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<DrugExportClassDict> beanChangeVo){
+        return drugExportClassDictServiceBo.merge(beanChangeVo);
+    }
 
     /**
      * 获取出库类型

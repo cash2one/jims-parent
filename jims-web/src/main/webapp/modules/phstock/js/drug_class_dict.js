@@ -1,65 +1,113 @@
 /**
- * Created by Administrator on 2016/5/10.
+ * Created by fyg on 2016/6/27.
  */
-$(function (){
-    var editRow = undefined;//保存行的索引
-    var editIndex = undefined;
-    var statistic = [{statisticClass: '生产入库'}, {statisticClass: '采购入库'}, {statisticClass: '赠送入库'},
-                     {statisticClass: '盘点入库'}, {statisticClass: '部门入库'}, {statisticClass: '调整入库'},
-                     {statisticClass: '发放入库'}, {statisticClass: '退药入库'}];
+$(function(){
+    var editIndex;
+    var stopEdit = function () {
+        if (editIndex || editIndex == 0) {
+            $("#drugdict").datagrid('endEdit', editIndex);
+            //$("#drugdict").datagrid('unselectAll');
+            editIndex = undefined;
+        }
+    }
+
     var storage = [{storageType: '全部'}, {storageType: '药库'}, {storageType: '药局'}];
+
     $("#importDict").on("click", function () {
         $("#drugdict").datagrid({
             title: "药品入库类型字典",
             url: basePath + '/drug-import/findAll',
             method: 'get',
-            idField: 'id',
             fit: true,
             rownumbers: true,
-            pagination: false, //显示分页
             singleSelect: true,//是否单选
             fitColumns: true, //列自适应宽度
-            ctrlSelect:true,
-            sortName:'importClass',
-            sortOrder:'asc',
-            columns: [[//显示的列
-                {field: 'importClass', title: '入库类别名称', width: 120, editor: {
-                    type: 'text', options: {required: true}}},
-                {field: 'statisticClass', title: '统计用户别名', width: 120,editor:{
-                    type: 'combobox', options: {
-                        valueField: 'statisticClass',
-                        textField: 'statisticClass',
-                        data: statistic
-                    }}},
-                {field: 'storageType', title: '适用单位', width: 120,editor: {
-                    type: 'combobox', options: {
+            columns: [[{
+                title: 'id',
+                field: 'id',
+                hidden: true
+            },{
+                title: '入库分类',
+                field: 'importClass',
+                align: 'center',
+                width: '20%',
+                editor: 'textbox'
+            }, {
+                title: '所属类别',
+                field: 'statisticClass',
+                align: 'center',
+                width: '20%',
+                editor: 'textbox'
+            }, {
+                title: '库存类型',
+                field: 'storageType',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        editable: false,
+                        align: 'center',
                         valueField: 'storageType',
                         textField: 'storageType',
                         data: storage
                     }
-                }}
-            ]],
+                }
+            },{
+                title: '是否记账',
+                field: 'accountFlag',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox', options: {
+                        editable: false,
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'text',
+                        data: [{
+                            value: '1',
+                            text: '记账',
+                            selected: true
+                        }, {
+                            value: '0',
+                            text: '不记账'
+                        }]
+                    }
+                },
+                formatter: function (value, row, index) {
+                    if (value == "1") {
+                        return "记账";
+                    }
+                    if (value == "0") {
+                        return "不记账";
+                    }
+                }
+            }]],
             toolbar: [{
-                 text: '新增',
-                 iconCls: 'icon-add',
-                 handler: function () {
-                   doAdd();
-              }
-             },'-',{
-                 text: '删除',
-                 iconCls: 'icon-remove',
-                 handler: function () {
-                   doDelete('/drug-import/delete');
-                 }
-             },{
+                text: '新增',
+                iconCls: 'icon-add',
+                handler: function () {
+                    add();
+                }
+            }, '-', {
+                text: '删除',
+                iconCls: 'icon-remove',
+                handler: function () {
+                    del();
+                }
+            }, {
                 text: '保存',
                 iconCls: 'icon-save',
                 handler: function () {
-                  doSave('/drug-import/save');
+                    saveDrugImportClass();
                 }
             }],
-            onClickCell: onClickCell
-    });
+            onClickRow: function (index, row) {
+                stopEdit();
+                $(this).datagrid('beginEdit', index);
+                editIndex = index;
+            }
+        });
     });
 
     $("#exportDict").on("click", function () {
@@ -67,53 +115,97 @@ $(function (){
             title: "药品出库类型字典",
             url: basePath + '/drug-export/findAll',
             method: 'get',
-            idField: 'id',
             fit: true,
             rownumbers: true,
-            pagination: false, //显示分页
             singleSelect: true,//是否单选
             fitColumns: true, //列自适应宽度
             sortName: 'exportClass',
             sortOrder: 'asc',
-            columns: [[//显示的列
-                {field: 'exportClass', title: '出库类别名称', width: 120, editor: {
-                    type: 'text', options: {required: true}
-                }},
-                {field: 'statisticClass', title: '统计用户别名', width: 120, editor: {
-                    type: 'combobox', options: {
-                        valueField: 'statisticClass',
-                        textField: 'statisticClass',
-                        data: statistic
-                    }
-                }},
-                {field: 'storageType', title: '适用单位', width: 120, editor: {
-                    type: 'combobox', options: {
+            columns: [[{
+                title: 'id',
+                field: 'id',
+                hidden: true
+            }, {
+                title: '出库分类',
+                field: 'exportClass',
+                align: 'center',
+                width: '20%',
+                editor: 'textbox'
+            }, {
+                title: '所属类别',
+                field: 'statisticClass',
+                align: 'center',
+                width: '20%',
+                editor: 'textbox'
+            }, {
+                title: '库存类型',
+                field: 'storageType',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        editable: false,
+                        align: 'center',
                         valueField: 'storageType',
                         textField: 'storageType',
                         data: storage
                     }
-                }}
-            ]],
+                }
+            }, {
+                title: '是否记账',
+                field: 'accountFlag',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox', options: {
+                        editable: false,
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'text',
+                        data: [{
+                            value: '1',
+                            text: '记账',
+                            selected: true
+                        }, {
+                            value: '0',
+                            text: '不记账'
+                        }]
+                    }
+                },
+                formatter: function (value, row, index) {
+                    if (value == "1") {
+                        return "记账";
+                    }
+                    if (value == "0") {
+                        return "不记账";
+                    }
+                }
+            }]],
             toolbar: [{
                 text: '新增',
                 iconCls: 'icon-add',
                 handler: function () {
-                    doAdd();
+                    add();
                 }
             }, '-', {
                 text: '删除',
                 iconCls: 'icon-remove',
                 handler: function () {
-                    doDelete('/drug-export/delete');
+                    del();
                 }
             }, {
                 text: '保存',
                 iconCls: 'icon-save',
                 handler: function () {
-                    doSave('/drug-export/save');
+                    saveDrugExportClass();
                 }
             }],
-            onClickCell: onClickCell
+            onClickRow: function (index, row) {
+                stopEdit();
+                $(this).datagrid('beginEdit', index);
+                editIndex = index;
+            }
         });
     });
 
@@ -131,35 +223,45 @@ $(function (){
             sortName: 'codeLevel',
             sortOrder: 'asc',
             columns: [[//显示的列
-                {field: 'codeLevel', title: '编码级别', width: 120, editor: {
+                {
+                    field: 'codeLevel', title: '编码级别',align: 'center', width: '20%', editor: {
                     type: 'text', options: {required: true}
-                }},
-                {field: 'levelWidth', title: '编码长度', width: 120, editor: {
+                }
+                },
+                {
+                    field: 'levelWidth', title: '编码级长度',align: 'center', width: '20%', editor: {
                     type: 'text', options: {required: true}
-                }},
-                {field: 'className', title: '编码级名称', width: 120, editor: {
+                }
+                },
+                {
+                    field: 'className', title: '编码级名称',align: 'center', width: '20%', editor: {
                     type: 'text', options: {required: true}
-                }}]],
+                }
+                }]],
             toolbar: [{
                 text: '新增',
                 iconCls: 'icon-add',
                 handler: function () {
-                    doAdd();
+                    add();
                 }
             }, '-', {
                 text: '删除',
                 iconCls: 'icon-remove',
                 handler: function () {
-                    doDelete('/drug-code/delete');
+                    del();
                 }
             }, {
                 text: '保存',
                 iconCls: 'icon-save',
                 handler: function () {
-                    doSave('/drug-code/save');
+                    saveDrugCodingRule();
                 }
             }],
-            onClickCell: onClickCell
+            onClickRow: function (index, row) {
+                stopEdit();
+                $(this).datagrid('beginEdit', index);
+                editIndex = index;
+            }
         });
     });
     $("#dispproperty").on("click", function () {
@@ -176,148 +278,177 @@ $(function (){
             sortName: 'dispensingProperty',
             sortOrder: 'asc',
             columns: [[//显示的列
-                {field: 'dispensingProperty', title: '摆药类别', width: 120, editor: {
+                {
+                    field: 'dispensingProperty', title: '摆药类别',align: 'center', width: '20%', editor: {
                     type: 'text', options: {required: true}
-                }},
-                {field: 'drugAdministrations', title: '服药途径', width: 240, editor: {
+                }
+                },
+                {
+                    field: 'drugAdministrations', title: '服药途径',align: 'center', width: '30%', editor: {
                     type: 'text', options: {required: true}
-                }}]],
+                }
+                }]],
             toolbar: [{
                 text: '新增',
                 iconCls: 'icon-add',
                 handler: function () {
-                    doAdd();
+                    add();
                 }
             }, '-', {
                 text: '删除',
                 iconCls: 'icon-remove',
                 handler: function () {
-                    doDelete('/drug-disp/delete');
+                    del();
                 }
             }, {
                 text: '保存',
                 iconCls: 'icon-save',
                 handler: function () {
-                    doSave('/drug-disp/save');
+                    saveDrugDispPropertyDict();
                 }
             }],
-            onClickCell: onClickCell
+            onClickRow: function (index, row) {
+                stopEdit();
+                $(this).datagrid('beginEdit', index);
+                editIndex = index;
+            }
         });
     });
 
-function endEditing() {
-    if (editIndex == undefined) {
-        return true
+    function saveDrugImportClass() {     //保存入库类型字典增删改
+        if (editIndex || editIndex == 0) {
+            $("#drugdict").datagrid("endEdit", editIndex);
+        }
+
+        var insertData = $("#drugdict").datagrid("getChanges", "inserted");
+        var updateData = $("#drugdict").datagrid("getChanges", "updated");
+        var deleteData = $("#drugdict").datagrid("getChanges", "deleted");
+
+        var beanChangeVo = {};
+        beanChangeVo.inserted = insertData;
+        beanChangeVo.deleted = deleteData;
+        beanChangeVo.updated = updateData;
+
+        if (beanChangeVo) {
+            $.postJSON(basePath + '/drug-import/merge', JSON.stringify(beanChangeVo), function (data) {
+                $.messager.alert("系统提示", "保存成功", "info");
+                loadDrugImportClass();
+            }, function (data) {
+                $.messager.alert('提示', '保存失败', "error");
+            })
+        }
     }
-    if ($('#drugdict').datagrid('validateRow', editIndex)) {
-        $('#drugdict').datagrid('endEdit', editIndex);
-        editIndex = undefined;
-        return true;
-    } else {
-        return false;
+    function saveDrugExportClass() {     //保存出库类型字典增删改
+        if (editIndex || editIndex == 0) {
+            $("#drugdict").datagrid("endEdit", editIndex);
+        }
+
+        var insertData = $("#drugdict").datagrid("getChanges", "inserted");
+        var updateData = $("#drugdict").datagrid("getChanges", "updated");
+        var deleteData = $("#drugdict").datagrid("getChanges", "deleted");
+
+        var beanChangeVo = {};
+        beanChangeVo.inserted = insertData;
+        beanChangeVo.deleted = deleteData;
+        beanChangeVo.updated = updateData;
+
+        if (beanChangeVo) {
+            $.postJSON(basePath + '/drug-export/merge', JSON.stringify(beanChangeVo), function (data) {
+                $.messager.alert("系统提示", "保存成功", "info");
+                loadDrugExportClass();
+            }, function (data) {
+                $.messager.alert('提示', '保存失败', "error");
+            })
+        }
     }
-}
-function onClickCell(index, field) {
-    if (endEditing()) {
-        $('#drugdict').datagrid('selectRow', index)
-            .datagrid('editCell', {index: index, field: field});
-        editIndex = index;
+    function saveDrugCodingRule(){      //保存编码描述字典增删改
+        if (editIndex || editIndex == 0) {
+            $("#drugdict").datagrid("endEdit", editIndex);
+        }
+
+        var insertData = $("#drugdict").datagrid("getChanges", "inserted");
+        var updateData = $("#drugdict").datagrid("getChanges", "updated");
+        var deleteData = $("#drugdict").datagrid("getChanges", "deleted");
+
+        var beanChangeVo = {};
+        beanChangeVo.inserted = insertData;
+        beanChangeVo.deleted = deleteData;
+        beanChangeVo.updated = updateData;
+
+        if (beanChangeVo) {
+            $.postJSON(basePath + '/drug-code/merge', JSON.stringify(beanChangeVo), function (data) {
+                $.messager.alert("系统提示", "保存成功", "info");
+                loadDrugCodingRule();
+            }, function (data) {
+                $.messager.alert('提示', '保存失败', "error");
+            })
+        }
     }
-}
-function doAdd(){
-    if (editRow != undefined) {
-        $("#drugdict").datagrid('endEdit', editRow);
+    function saveDrugDispPropertyDict(){        //保存摆药类别字典增删改
+        if (editIndex || editIndex == 0) {
+            $("#drugdict").datagrid("endEdit", editIndex);
+        }
+
+        var insertData = $("#drugdict").datagrid("getChanges", "inserted");
+        var updateData = $("#drugdict").datagrid("getChanges", "updated");
+        var deleteData = $("#drugdict").datagrid("getChanges", "deleted");
+
+        var beanChangeVo = {};
+        beanChangeVo.inserted = insertData;
+        beanChangeVo.deleted = deleteData;
+        beanChangeVo.updated = updateData;
+
+        if (beanChangeVo) {
+            $.postJSON(basePath + '/drug-disp/merge', JSON.stringify(beanChangeVo), function (data) {
+                $.messager.alert("系统提示", "保存成功", "info");
+                loadDrugDispPropertyDict();
+            }, function (data) {
+                $.messager.alert('提示', '保存失败', "error");
+            })
+        }
     }
-    if (editRow == undefined) {
+
+    function add(){      //增加
+        stopEdit();
         $("#drugdict").datagrid('appendRow', {});
-        $("#drugdict").datagrid('beginEdit', 0);
-        editRow = undefined;
+        var rows = $("#drugdict").datagrid('getRows');
+        var addRowIndex = $("#drugdict").datagrid('getRowIndex', rows[rows.length - 1]);
+        editIndex = addRowIndex;
+        $("#drugdict").datagrid('selectRow', editIndex);
+        $("#drugdict").datagrid('beginEdit', editIndex);
     }
-}
-function doSave(path){
-    var _index = $('#drugdict').datagrid('getRowIndex',$('#drugdict').datagrid('getSelected'))
-    $('#drugdict').datagrid('endEdit',_index)
-    var param =[]
-    param = param.concat($("#drugdict").datagrid('getChanges', 'inserted'))
-    param = param.concat($("#drugdict").datagrid('getChanges', 'updated'))
-    $.postJSON(basePath + path, JSON.stringify(param), function (data) {
-          if (data.data == 'success') {
-            $.messager.alert("提示消息", "保存成功"+ data.code+"条数据", "success");
-            $('#drugdict').datagrid('load');
-            $('#drugdict').datagrid('clearChecked');
-          } else {
-            $.messager.alert('提示消息', data.code, "error");
-          }
-        }, function (data) {
-            $.messager.alert('提示', "保存失败", "error");
+    function del(){      //删除
+        var row = $("#drugdict").datagrid('getSelected');
+        if (row) {
+            var rowIndex = $("#drugdict").datagrid('getRowIndex', row);
+            $("#drugdict").datagrid('deleteRow', rowIndex);
+            if (editIndex == rowIndex) {
+                editIndex = undefined;
+            }
+        } else {
+            $.messager.alert('系统提示', "请选择要删除的行", 'info');
         }
-    )
-}
-
-//批量删除
-function doDelete(path) {
-    //把你选中的 数据查询出来。
-    var selectRows = $('#drugdict').datagrid("getSelections");
-    if (selectRows.length < 1) {
-        $.messager.alert("提示消息", "请选中要删的数据!");
-        return;
     }
 
-    //真删除数据
-    //提醒用户是否是真的删除数据
-    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
-        if (r) {
-            var strIds = "";
-            for (var i = 0; i < selectRows.length; i++) {
-                strIds += selectRows[i].id + ",";
-            }
-            del(strIds,path);
-        }
-    })
-}
-/**
- * 删除方法
- * @param id
- */
-function del(id,path) {
-    $.ajax({
-        'type': 'POST',
-        'url': basePath + path,
-        'contentType': 'application/json',
-        'data': id = id,
-        'dataType': 'json',
-        'success': function (data) {
-            if (data.data == 'success') {
-                $.messager.alert("提示消息", data.code + "条记录，已经删除");
-                $('#drugdict').datagrid('load');
-                $('#drugdict').datagrid('clearChecked');
-            } else {
-                $.messager.alert('提示', "删除失败", "error");
-            }
-        },
-        'error': function (data) {
-            $.messager.alert('提示', "删除失败", "error");
-        }
-    });
-}
-$.extend($.fn.datagrid.methods, {
-    editCell: function (jq, param) {
-        return jq.each(function () {
-            var opts = $(this).datagrid('options');
-            var fields = $(this).datagrid('getColumnFields', true).concat($(this).datagrid('getColumnFields'));
-            for (var i = 0; i < fields.length; i++) {
-                var col = $(this).datagrid('getColumnOption', fields[i]);
-                col.editor1 = col.editor;
-                if (fields[i] != param.field) {
-                    col.editor = null;
-                }
-            }
-            $(this).datagrid('beginEdit', param.index);
-            for (var i = 0; i < fields.length; i++) {
-                var col = $(this).datagrid('getColumnOption', fields[i]);
-                col.editor = col.editor1;
-            }
+    var loadDrugImportClass = function () {     //刷新入库类型字典页面
+        $.get(basePath + '/drug-import/findAll', function (data) {
+            $("#drugdict").datagrid('loadData', data);
         });
     }
+    var loadDrugExportClass = function () {     //刷新出库类型字典页面
+        $.get(basePath + '/drug-export/findAll', function (data) {
+            $("#drugdict").datagrid('loadData', data);
+        });
+    }
+    var loadDrugCodingRule = function(){        //刷新编码描述字典页面
+        $.get(basePath + '/drug-code/findAll', function (data) {
+            $("#drugdict").datagrid('loadData', data);
+        });
+    }
+    var loadDrugDispPropertyDict = function(){  //刷新摆药类别字典页面
+        $.get(basePath + '/drug-disp/findAll', function (data) {
+            $("#drugdict").datagrid('loadData', data);
+        });
+    }
+
 });
-})

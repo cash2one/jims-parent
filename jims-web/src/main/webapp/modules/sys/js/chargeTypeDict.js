@@ -266,11 +266,21 @@ $(function () {
         if (beanChangeVo.inserted.length > 0) {
             for (var i = 0; i < beanChangeVo.inserted.length; i++) {
                 beanChangeVo.inserted[i].orgId = orgId;
+                var chargeTypeCode = beanChangeVo.inserted[i].chargeTypeCode;
+                if(chargeTypeCode.length > 1){
+                    $.messager.alert("系统提示","费别代码只能1位字母或数字!","error");
+                    return ;
+                }
             }
         }
         if (beanChangeVo.updated.length > 0) {
             for (var i = 0; i < beanChangeVo.updated.length; i++) {
                 beanChangeVo.updated[i].orgId = orgId;
+                var chargeTypeCode = beanChangeVo.updated[i].chargeTypeCode;
+                if(chargeTypeCode.length > 1){
+                    $.messager.alert("系统提示","费别代码只能1位字母或数字!","error");
+                    return ;
+                }
             }
         }
         if (beanChangeVo) {
