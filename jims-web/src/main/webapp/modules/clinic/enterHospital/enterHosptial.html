@@ -9,6 +9,8 @@
     <script type="text/javascript" src="/static/js/formSubmit.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <script type="text/javascript" src="../enterHospital/js/enterHosptial.js"></script>
+    <script type="text/javascript" src="../emrDiagnosis/js/diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
 </head>
 <body >
 
@@ -100,6 +102,11 @@
                         <input type="hidden" id="fuzhujiancha" name="fuzhujiancha"
                                style="width: 1110px;">
                     </div>
+                    <div class="detail-wrapp">
+
+                    <div class="fitem fitem_pop" style="width:100%;height: 200px;">
+                        <table id="zhenduan"></table>
+                        </div>
                 </div>
             </div>
         </div>
@@ -107,9 +114,9 @@
 
     </div>
     </div>
-  <!--  <input name="clinicId" type="hidden" value="15001159">-->
   <input name="zhuyuanId" type="hidden" value="10d4d1beef2b519cacfe806e96117ae8">
     <input name="patientId" id="patientId" type="hidden" >
+    <input  id="diagnosisParent" type="hidden">
     <input name="id" id="id" type="hidden">
 </form>
 <div id="dlg-buttons" class="btn-save" style="right: 10px;">

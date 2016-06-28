@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.List;
 
@@ -33,9 +30,10 @@ public class EmrDiagnosisRest {
 
     @Path("findListOfOut")
     @GET
-    public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response){
+    public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("diagnosisParent")String diagnosisParent){
        EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
         emrDiagnosis.setInOrOutFlag("0");//门诊
+        emrDiagnosis.setDiagnosisParent(diagnosisParent);
         List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
     }
