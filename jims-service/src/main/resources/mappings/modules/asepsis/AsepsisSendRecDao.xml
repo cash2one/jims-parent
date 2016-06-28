@@ -36,10 +36,11 @@
 
     <select id="findList" resultType="AsepsisSendRec">
         SELECT
-        <include refid="asepsisSendRecColumns"/>
-        FROM ASEPSIS_SEND_REC a
+        <include refid="asepsisSendRecColumns"/>,stock
+        FROM ASEPSIS_SEND_REC a,asepsis_stock s
         <where>
             a.org_id =  #{orgId}
+            and s.org_id =  #{orgId}
         </where>
     </select>
 
@@ -100,8 +101,7 @@
     </insert>
 
     <update id="update">
-        UPDATE INTO ASEPSIS_SEND_REC SET
-            ID = #{id}
+        UPDATE ASEPSIS_SEND_REC SET
             ,DOCUMENT_NO = #{documentNo}
             ,ITEM_NO = #{itemNo}
             ,FROM_DEPT = #{fromDept}

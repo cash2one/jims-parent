@@ -34,6 +34,16 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private String reqOperator;  // 申请人
     private String orgId;  // 所属机构ID
 
+    private String stock;
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
+    }
+
     public AsepsisSendRec() {
         super();
     }
