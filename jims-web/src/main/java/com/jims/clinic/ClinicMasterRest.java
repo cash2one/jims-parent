@@ -43,6 +43,19 @@ public class ClinicMasterRest {
         ClinicMaster clinicMaster=  clinicMasterServiceApi.get(id);
         return clinicMaster;
     }
+
+    /**
+     * 获取病人信息
+     * @param id
+     * @return
+     * @author zhaoning
+     */
+      @Path("getPatInfo")
+      @GET
+    public ClinicMaster getPatInfo(@QueryParam("id") String id){
+        ClinicMaster clinicMaster=  clinicMasterServiceApi.getPatInfo(id);
+        return clinicMaster;
+    }
     /**
      * 根据当前登录医生的 医生ID 查询 ClinicMaster(待诊)
      * @return

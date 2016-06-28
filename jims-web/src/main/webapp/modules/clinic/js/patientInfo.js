@@ -30,7 +30,7 @@ $(function() {
     var clinicId=$("#clinicMasterId",parent.document).val();
     $.ajax({
         'type': 'get',
-        'url':basePath + '/clinicMaster/get',
+        'url':basePath + '/clinicMaster/getPatInfo',
         'contentType': 'application/json',
         'data': {id:clinicId},
         'dataType': 'json',
