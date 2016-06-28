@@ -35,7 +35,6 @@ $(function(){
                         var performSchedule = $("#orderList").datagrid('getEditor',{index:idx,field:'performSchedule'});
                         var repeatIndicatorValue = $("#orderList").datagrid('getEditor',{index:idx,field:'repeatIndicator'});
                         var repeatIndicator = $(repeatIndicatorValue.target).combobox('getValue');
-                        alert(repeatIndicatorValue);
                         if(repeatIndicator=='0'){//临时医嘱
                             var d = new Date();
                             $('#frequency').combobox('disable');
@@ -99,20 +98,28 @@ $(function(){
                         down: function() {},
                         enter: function() {},
                         query: function(q) {
-                            comboGridCompleting(q,'orderText');
+                            var orderClass = $('#orderList').datagrid('getEditor', {index:idx,field:'orderClass'});
                             var ed = $('#orderList').datagrid('getEditor', {index:idx,field:'orderText'});
+                            var value = $(orderClass.target).combobox('getValue');
+                            if(value=='1'){//药品
+                                comboGridCompleting(q,'orderText');
                                 $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                            }else if(value=='2'){//非药品
+                                clinicCompleting(q,'orderText');
+                                $(ed.target).combogrid("grid").datagrid("loadData", clinicOrderData);
+                            }
+
                         }
                     },onClickRow: function (index, row) {
                         var dosage = $("#orderList").datagrid('getEditor',{index:idx,field:'dosage'});
                         $(dosage.target).textbox('setValue',row.dose_per_unit);
                         var dosageUnits = $("#orderList").datagrid('getEditor',{index:idx,field:'dosageUnits'});
                         $(dosageUnits.target).textbox('setValue',row.dose_units);
-
-
-                        //  $("#orderCostList").datagrid("loadData", row);
                         var orderClass = $('#orderList').datagrid('getEditor', {index:idx,field:'orderClass'});
                         var value = $(orderClass.target).combobox('getValue');
+
+                        //  $("#orderCostList").datagrid("loadData", row);
+
                         if(value=='1'){//药品
                             var orderCode = $("#orderList").datagrid('getEditor',{index:idx,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.drug_code);
@@ -388,7 +395,7 @@ $(function(){
 });
 //保存
 function save(){
-    $("#orderList").datagrid('endEdit', rowNum);
+    $("#orderList").datagrid('endEdit', idx);
     var  rows=$('#orderList').datagrid('getRows');
     var  costRows=$('#orderCostList').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
@@ -396,7 +403,6 @@ function save(){
     tableJson=tableJson.substring(0, tableJson.length - 1);
     var costJson = JSON.stringify(costRows);
     var submitJson=tableJson+",\"patientId\":"+patId+",\"visitId\":"+visitId+",\"ordersCostses\":"+costJson+"}]";
-    alert(submitJson);
     $.postJSON(basePath+'/inOrders/save',submitJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息","保存成功");

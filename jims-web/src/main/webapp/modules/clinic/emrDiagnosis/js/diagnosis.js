@@ -1,17 +1,16 @@
 var administration = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
-var editRow = undefined;
-var rowNum=-1;
+var editRow1 = undefined;
+var rowNum1=-1;
 $(function(){
     var clinicId=$("#clinicMasterId",parent.document).val();
+    var parentId = $("#diagnosisParent").val();
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
         method:'GET',
-        url:basePath+'/diagnosis/findListOfOut',
+        url:basePath+'/diagnosis/findListOfOut?diagnosisParent='+parentId,
         idField:'id',
         columns:[[      //每个列具体内容
-           // {field:'id',title:'序号',width:'5%',align:'center',editor:'text'},
-            /*{field:'itemNo',title:'序号',width:'5%',align:'center',editor:'text'},*/
              {field:'type',title:'诊断类型',width:'10%',align:'center',editor:{
                  type:'combobox',
                  options:{
@@ -23,40 +22,58 @@ $(function(){
                  }
              }
              },
-            {field:'diagnosisId',title:'诊断名称',width:'30%',align:'center',editor:{
-                type:'combobox',
+            {field:'diagnosisId',title:'诊断名称',width:'30%',align:'center',formatter:icdFormatter,editor:{
+                type:'combogrid',
                 options:{
-                    required:true,
-                    url: basePath+'/dataicd/autoComplete',
-                    valueField: 'code',
-                    textField: 'keywordShuoming',
-                    method: 'GET',
-                    onLoadSuccess: function (row) {
-                        var data = $(this).combobox('getData');
-                        $(this).combobox('select', data[0].keywordShuoming);
-                    }
+                    panelWidth: 200,
+                    data:icdAllData,
+                    idField:'code',
+                    textField:'zhongwen_mingcheng',
+                    columns:[
+                        [
+                            {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
+                            {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
+                            {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
+                        ]
+                    ],onClickRow: function (index, row) {
+                        var icdMingcheng = $("#zhenduan").datagrid('getEditor', {index: index, field: 'icdMingcheng'});
+                        $(icdMingcheng.target).textbox('setValue', row.zhongwen_mingcheng);
+
+                    },
+              keyHandler: {
+                up: function() {},
+                down: function() {},
+                enter: function() {},
+                query: function(q) {
+                    var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
+                        comboGridCompleting(q,'diagnosisId');
+                        $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
                 }
-            }},
+            }
+            }}},
             {field:'diagnosisDate',title:'诊断时间',width:'30%',align:'center',editor:{type: 'datebox'}
             },
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
                 formatter:function(value, row, index){
                   return "李俊山";
             }},
-            {field:'clinicId',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'}
+            {field:'clinicId',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
+            {field:'icdMingcheng',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
+            {field:'itemNo',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'}
         ]],
         toolbar: [{
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
 
-                if(rowNum>=0){
-                    rowNum++;
+                if(rowNum1>=0){
+                    rowNum1++;
                 }
                     $("#zhenduan").datagrid("insertRow", {
                         index: 0, // index start with 0
                         row: {
                             clinicId:clinicId
+
                         }
                     });
 
@@ -70,43 +87,49 @@ $(function(){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
-                $("#zhenduan").datagrid('endEdit', rowNum);
-                if (rowNum != -1) {
-                    $("#zhenduan").datagrid("endEdit", rowNum);
+                $("#zhenduan").datagrid('endEdit', rowNum1);
+                if (rowNum1 != -1) {
+                    $("#zhenduan").datagrid("endEdit", rowNum1);
                 }
-                save();
+
+                saveDiagnosis();
             }
           }
 
         ],onAfterEdit: function (rowIndex, rowData, changes) {
 
         },onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#zhenduan").datagrid('endEdit', rowNum);
+            if (editRow1 != undefined) {
+                $("#zhenduan").datagrid('endEdit', rowNum1);
             }
-            if (editRow == undefined) {
+            if (editRow1 == undefined) {
                 $("#zhenduan").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
+                editRow1 = rowIndex;
             }
         },onClickRow:function(rowIndex,rowData) {
             var dataGrid = $('#zhenduan');
-            if (!dataGrid.datagrid('validateRow', rowNum)) {
+
+            if (!dataGrid.datagrid('validateRow', rowNum1)) {
                 return false
             }
-            if (rowNum != rowIndex) {
-                if (rowNum >= 0) {
-                    dataGrid.datagrid('endEdit', rowNum);
+            if (rowNum1 != rowIndex) {
+                if (rowNum1 >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum1);
                 }
-                rowNum = rowIndex;
+                rowNum1 = rowIndex;
                 dataGrid.datagrid('beginEdit', rowIndex);
 
+                var itemNo = dataGrid.datagrid("getRowIndex",rowData) +1;
+                var itemNoTarget = $("#zhenduan").datagrid('getEditor', {index: rowNum1, field: 'itemNo'});
+                $(itemNoTarget.target).textbox('setValue', itemNo);
             }
         }
     });
 
 });
 
-function save(){
+function saveDiagnosis(){
+
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
