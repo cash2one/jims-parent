@@ -62,7 +62,7 @@
         <if test='param==null or param==""'>
            *
         </if>
-        from  ${dictType} WHERE 1=1
+        from  ${dictType} WHERE 1=1 and rownum &lt; 10
         <if test='list!=null and list!=""'>
             <foreach collection="list" item="item" index="index">
                 AND ${item.colName} ${item.operateMethod} #{item.colValue}
