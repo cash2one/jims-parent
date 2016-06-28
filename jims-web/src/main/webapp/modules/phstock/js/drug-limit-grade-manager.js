@@ -29,14 +29,13 @@ $(function () {
         }
     }
 
-    var editIndex;
-    var stopEdit = function () {
-        if (editIndex || editIndex == 0) {
-            $("#adminDict").datagrid('endEdit', editIndex);
-            editIndex = undefined;
-        }
-    }
-
+    //var editIndex;
+    //var stopEdit = function () {
+    //    if (editIndex || editIndex == 0) {
+    //        $("#adminDict").datagrid('endEdit', editIndex);
+    //        editIndex = undefined;
+    //    }
+    //}
 
     $("#drug-limit-grade-manager").datagrid({
         fit: true,
@@ -47,7 +46,6 @@ $(function () {
         method: 'GET',
         rownumbers: true,
         /*  url: basePath + '/drug-class-dict/list?orgId=1',*/
-
         loadMsg: '数据正在加载中，请稍后.....',
         pagination: true,//分页控件
         pageSize: 15,
@@ -155,11 +153,11 @@ $(function () {
         }
     });
      var datas=[]
+    //药品类别下拉选择框
      $("#drugClass").combobox({
          valueField: 'classCode',
          textField: 'className'
      });
-
 
     var load=function(){
         $.get(basePath + '/drug-class-dict/list',function(drugClassList){
@@ -172,9 +170,7 @@ $(function () {
             $("#drugClass").combobox('loadData', datas);
         });
     }
-
     load();
-
 
 });
 

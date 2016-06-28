@@ -10,7 +10,8 @@ $(function () {
             editIndex = undefined;
         }
     };
-    typeof $("#dg").datagrid({
+
+    $("#dg").datagrid({
         title: '药品厂商维护',
         fit: true,//让#dg数据创铺满父类容器
         toolbar: '#tb',
@@ -58,7 +59,6 @@ $(function () {
             title: '输入码',
             field: 'inputCode',
             width: "10%"
-
         }, {
             title: '备注',
             field: 'memo',
@@ -68,7 +68,6 @@ $(function () {
                     disabled: false
                 }
             }
-
         }, {
             title: '注册商标',
             field: 'trademark',
@@ -78,7 +77,6 @@ $(function () {
                     disabled: false
                 }
             }
-
         }, {
             title: '是否国外',
             field: 'foreignx',
@@ -102,7 +100,6 @@ $(function () {
                     return "否"
                 }
             }
-
         }, {
             title: '厂商代码',
             field: 'supplierCode',
@@ -129,7 +126,6 @@ $(function () {
                 }
             },
             formatter: function (value, index, row) {
-                console.log(value == "")
                 if (value == 0) {
                     return "使用"
                 }
@@ -137,7 +133,6 @@ $(function () {
                     return "停用"
                 }
             }
-
         }]],
         onClickRow: function (index, row) {
             stopEdit();
@@ -146,9 +141,7 @@ $(function () {
         }
     });
 
-
     $('#supplierType').combogrid({
-
         delay: 150,
         width: '150px',
         mode: 'remote',
@@ -171,11 +164,10 @@ $(function () {
 
     $('#chk2').click(function () {
         $("#supplierType").combogrid('setValue', '');
-
         $("#inputCode").textbox('enable');
-
         $("#supplierType").combogrid('disable');
     });
+
     $('#chk1').click(function () {
         $("#inputCode").textbox('setValue', '');
         $("#inputCode").textbox('disable');
@@ -183,18 +175,15 @@ $(function () {
 
     });
 
-
     $("#searchBtn").on("click", function () {
         var inputCode = $("#inputCode").textbox("getValue");
         var supplierType = $("#supplierType").textbox("getValue");
         if (supplierType == "") {
             $.get(basePath + "/drug-supplier-catalog/list-supplier-input-code?orgId=" + parent.config.org_Id + "&inputCode=" + inputCode, function (data) {
-
                 $("#dg").datagrid('loadData', data);
             });
         } else {
             $.get(basePath + "/drug-supplier-catalog/list-supplier-type?orgId=" + parent.config.org_Id + "&supplierClass=" + supplierType, function (data) {
-
                 $("#dg").datagrid('loadData', data);
             });
         }
@@ -219,13 +208,11 @@ $(function () {
         if (!row.id) {
             //判断是否是新加项目
             var index = $("#dg").datagrid('getRowIndex', row);
-
             $.messager.confirm('系统提示', '确定要进行删除操作吗', function (r) {
                 if (r) {
                     $("#dg").datagrid('deleteRow', index);
                 }
             });
-
         } else {
             $.messager.confirm('系统提示', '确定要进行删除操作吗', function (r) {
                 if (r) {
@@ -236,7 +223,6 @@ $(function () {
                 }
             });
         }
-
     });
 
     $("#editBtn").on('click', function () {
@@ -259,14 +245,10 @@ $(function () {
     });
 
     var loadDict = function () {
-
         $.get(basePath + "/drug-supplier-catalog/list?orgId=" + parent.config.org_Id, function (data) {
-
             $("#dg").datagrid('loadData', data);
-
         });
     };
-
     loadDict();
 
     $("#saveBtn").on('click', function () {
@@ -294,14 +276,13 @@ $(function () {
             if (examRptPatternVo.updated[i].foreignx == '否') {
                 examRptPatternVo.updated[i].foreignx = '1';
             }
-
         }
+
         $.postJSON(basePath + "/drug-supplier-catalog/merge", JSON.stringify(examRptPatternVo), function (data) {
             $.messager.alert('系统提示', '保存成功', 'info');
             loadDict();
             $('#supplierType').combogrid();
         })
-
-
     });
+
 });

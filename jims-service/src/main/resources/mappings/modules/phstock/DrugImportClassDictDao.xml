@@ -108,7 +108,7 @@
 		    import_class = #{importClass},
 		    statistic_class = #{statisticClass},
 		    storage_type = #{storageType},
-			remarks = #{remarks},
+			account_flag = #{accountFlag},
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
