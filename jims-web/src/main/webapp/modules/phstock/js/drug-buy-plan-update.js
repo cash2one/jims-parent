@@ -55,7 +55,7 @@ $(function () {
     });
     var base_url = '/service/drug-buy-plan/'
     var username = '采购员'
-        , orgId = '1'
+        , orgId = parent.config.org_Id
         , currentBuyId = '' // 当前采购单据号
         , currentStorage = parent.config.currentStorage
         , suppliers = []  // 供应商数据
@@ -473,11 +473,12 @@ $(function () {
      * @param orgId
      * @param supplierClass
      */
-    var loadSupplier = function(orgId,supplierClass){
+    var loadSupplier = function(supplierClass){
         $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-type', {
-            orgId: orgId,
+            orgId: parent.config.org_Id,
             supplierClass: supplierClass
         }, function (res) {
+            console.log(res);
             suppliers = res
         }, 'GET', false)
     }
@@ -606,10 +607,9 @@ $(function () {
     }
 
     var init = function () {
-        loadSupplier(orgId,'供应商')
-
-        initBuyPlanTable()
-        initBtn()
+        loadSupplier('批发商')
+        initBuyPlanTable();
+        initBtn();
     }
 
     init()
