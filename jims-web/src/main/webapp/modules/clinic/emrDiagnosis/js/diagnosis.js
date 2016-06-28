@@ -11,7 +11,7 @@ $(function(){
         url:basePath+'/diagnosis/findListOfOut?diagnosisParent='+parentId,
         idField:'id',
         columns:[[      //每个列具体内容
-             {field:'type',title:'诊断类型',width:'10%',align:'center',editor:{
+             {field:'type',title:'诊断类型',width:'10%',align:'center',formatter:typeFormatter,editor:{
                  type:'combobox',
                  options:{
                      required:true,
@@ -36,7 +36,7 @@ $(function(){
                             {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
                         ]
                     ],onClickRow: function (index, row) {
-                        var icdMingcheng = $("#zhenduan").datagrid('getEditor', {index: index, field: 'icdMingcheng'});
+                        var icdMingcheng = $("#zhenduan").datagrid('getEditor', {index: rowNum1, field: 'icdMingcheng'});
                         $(icdMingcheng.target).textbox('setValue', row.zhongwen_mingcheng);
 
                     },
@@ -51,7 +51,7 @@ $(function(){
                 }
             }
             }}},
-            {field:'diagnosisDate',title:'诊断时间',width:'30%',align:'center',editor:{type: 'datebox'}
+            {field:'diagnosisDate',title:'诊断时间',width:'30%',align:'center',formatter:formatDatebox,editor:{type: 'datebox'}
             },
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
                 formatter:function(value, row, index){

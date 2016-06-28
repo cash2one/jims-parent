@@ -44,6 +44,7 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 						EmrDiagnosis diagnosis=emrDiagnosisList.get(i);
 						diagnosis.setDiagnosisParent(electronEnterHospital.getId());
 						diagnosis.setInOrOutFlag("0");//门诊
+						diagnosis.setParentId("0");
 						try{
 							if (diagnosis.getIsNewRecord()){
 								diagnosis.preInsert();

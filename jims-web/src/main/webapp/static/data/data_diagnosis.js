@@ -69,7 +69,27 @@ function icdFormatter(value, rowData, rowIndex) {
 
     for (var i = 0; i < icdAllData.length; i++) {
         if (icdAllData[i].code == value) {
-            return icdAllData[i].zhongwenMingcheng;
+            return icdAllData[i].zhongwen_mingcheng;
+        }
+    }
+}
+
+
+/**
+ * 诊断类型
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function typeFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < administration.length; i++) {
+        if (administration[i].value == value) {
+            return administration[i].text;
         }
     }
 }

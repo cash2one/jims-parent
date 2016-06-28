@@ -15,7 +15,7 @@ function save(){
     var submitJson = formJson + ",\"diagnosisList\":" + tableJson + "}";
     $.postJSON(basePath+"/enter/save", submitJson, function (data) {
         if(data.code=="1"){
-          //  $.messager.alert("提示信息","保存成功");
+           $.messager.alert("提示信息","保存成功");
             $.ajax({
                 'type': 'post',
                 'url': basePath+'/enter/get',
