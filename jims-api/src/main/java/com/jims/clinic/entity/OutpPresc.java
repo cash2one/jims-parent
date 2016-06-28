@@ -62,6 +62,7 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	private String subjCode;
 	private String performedBy;
     private List<OutpPresc> list;
+	private Integer rowId;
 	
 	public OutpPresc() {
 		super();
@@ -401,5 +402,13 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 
 	public void setPerformedBy(String performedBy) {
 		this.performedBy = performedBy;
+	}
+
+	public Integer getRowId() {
+		return rowId;
+	}
+
+	public void setRowId(Integer rowId) {
+		this.rowId = rowId;
 	}
 }
