@@ -33,7 +33,6 @@ public class DrugStorageDeptService extends CrudImplService<DrugStorageDeptDao, 
 
     /**
      * 保存增删改数据
-     *
      * @param beanChangeVo 增删改数据集合
      * @return
      * @author fengyuguang
