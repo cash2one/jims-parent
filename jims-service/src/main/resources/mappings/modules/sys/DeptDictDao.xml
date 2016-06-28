@@ -6,7 +6,8 @@
 		a.id AS "id",
 		a.parent_id AS "parentId",
 		a.dept_name AS "deptName",
-		a.dept_code AS "deptCode"
+		a.dept_code AS "deptCode",
+		a.input_code AS "inputCode"
 
 	</sql>
 	
