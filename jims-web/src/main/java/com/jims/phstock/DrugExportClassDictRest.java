@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.phstock.api.DrugExportClassDictApi;
 import com.jims.phstock.entity.DrugExportClassDict;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -28,6 +29,26 @@ public class DrugExportClassDictRest {
     @GET
     public List<DrugExportClassDict> findAllList() {
         return drugExportClassDictApi.findAllList();
+    }
+
+    /**
+     * 保存增删改
+     * @param beanChangeVo
+     * @return
+     * @author fengyuguang
+     */
+    @Path("merge")
+    @POST
+    public StringData merge(BeanChangeVo<DrugExportClassDict> beanChangeVo) {
+        String num = drugExportClassDictApi.merge(beanChangeVo);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        if (Integer.parseInt(num) > 0) {
+            stringData.setData("success");
+        } else {
+            stringData.setData("error");
+        }
+        return stringData;
     }
 
     @Path("save")

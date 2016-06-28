@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugImportClassDict;
+import com.jims.sys.vo.BeanChangeVo;
 
 import java.util.List;
 
@@ -10,6 +11,14 @@ import java.util.List;
  * Created by  ztq on 2016/5/10.
  */
 public interface DrugImportClassDictApi {
+
+    /**
+     * 保存增删改
+     * @param beanChangeVo
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<DrugImportClassDict> beanChangeVo);
 
     /**
      * 根据入库类别字典id获取入库类别列表
