@@ -60,15 +60,12 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
             if(outpPresc!=null){
                 //根据病人就诊ID，查询病人就诊记录信息
                 ClinicMaster clinicMaster = clinicMasterDao.get(outpPresc.getClinicId());
-                Integer orderNo ;
-                Integer subOrderNo = 1;//子医嘱号默认值
                 String serialNo = IdGen.uuid();
                 OutpOrders oo = new OutpOrders();
                 List<OutpPresc> lists = outpPresc.getList();
                 List<OutpOrdersCosts> ordersCostsesList = new ArrayList<OutpOrdersCosts>();
                if(lists!=null && lists.size()>0){
-                   for (int i = 0; i < lists.size(); ) {
-                       OutpPresc op = lists.get(i);
+                   for (OutpPresc op : lists) {
                        op.setChargeIndicator(0); // 未收费
                        op.setVisitNo(clinicMaster.getVisitNo());
                        op.setVisitDate(clinicMaster.getVisitDate());
@@ -76,26 +73,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                        op.setItemClass(outpPresc.getItemClass());
                        op.setPrescAttr(outpPresc.getPrescAttr());
                        op.setCosts(op.getCharges()/op.getAmount());
-                       op.setItemNo(1);//暂时不处理
-                       if(op.getOrderNo() == null ){  // 修改处方新增子药品
-                           orderNo = dao.getOrderNo(/*clinicMaster.getOrgId()*/"",clinicMaster.getId());
-                           orderNo = orderNo!=null?orderNo+1:1;//根据病人就诊记录ID查询最大orderNo号
-                           if( ++i < lists.size()-1 && lists.get(i).getSubOrderNo() != null ){
-                               // 下一条药品为子药品
-                               op.setOrderNo(++orderNo);
-                               op.setSubOrderNo(++subOrderNo);
-                               lists.get(i).setOrderNo(orderNo);
-                               lists.get(i).setSubOrderNo(++subOrderNo);
-                           }else{
-                               // 下一条医嘱非子医嘱 orderNo++ subOrderNo 赋值为初始值
-                               subOrderNo=0;
-                               op.setOrderNo(++orderNo);
-                               op.setSubOrderNo(++subOrderNo);
-                           }
-                       } else {
-                           ++i;
-                       }
-                       // 否则orderNo subOrderNo都按照前台传递的参数存储
+                       op.setItemNo(1);
                        if(op.getId()!=null && !op.getId().equals("")){
                            num = String.valueOf(dao.update(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));

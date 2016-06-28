@@ -1,4 +1,5 @@
 var rowNum=-1;
+var orderNo=0;
 var visitDate;
 var visitNo;
 var prescNo;
@@ -57,6 +58,7 @@ $(function(){
         fitColumns: true,
         nowrap: false,
         columns:[[      //每个列具体内容
+            {field:'id',title:'ID',hidden:'true'},
             {field:'prescNo',title:'处方号',width:'5%',align:'center'},
             {field:'drugName',title:'药名',width:'10%',align:'center',editor:{
                 type:'combogrid',
@@ -147,7 +149,7 @@ $(function(){
                     }
                 }
             }},
-            {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox'},
+            {field:'amount',title:'药品数量',width:'5%',align:'center',editor:'numberbox',required:true},
             {field:'units',title:'单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
             {field:'charges',title:'实收',width:'5%',align:'center',editor:{type:'numberbox',options:{editable:false,disable:false}}},
@@ -169,9 +171,12 @@ $(function(){
                     textField:'label'
                 }
             }},
+            {field:'orderNo',title:'处方',hidden:'true',
+                formatter: function (value, row, index) {
+                 orderNo = value;
+                return value;
+            }},
             {field:'subOrderNo',title:'子处方',hidden:'true'},
-            {field:'id',title:'ID',hidden:'true'},
-            {field:'itemNo',title:'项目序号',hidden:'true'},
             {field:'serialNo',title:'流水号',hidden:'true'},
             {field:'subjCode',title:'会计科目',hidden:'true',editor:{type:'textbox',options:{editable:false}}},
             {field:'performedBy',title:'执行科室',hidden:'true',editor:{type:'textbox',options:{editable:false}}},
@@ -182,18 +187,34 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
+
                 if(rowNum>=0){
                     rowNum++;
                 }
                 var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
                 if(selRow!=null&&selRow!=''&&selRow!='undefined'){
-                    $("#list_data").datagrid('insertRow', {
-                        index:0,
-                        row:{prescNo:selRow[0].prescNo}
-                    });
+                    orderNo++;
+                   var idx = $("#list_data").datagrid('appendRow', {
+                            prescNo:selRow[0].prescNo,
+                            orderNo:orderNo,
+                            subOrderNo:orderNo
+                    }).datagrid('getRows').length-1;
+
+                    $('#list_data').datagrid('beginEdit', idx);
                 }else{
                     $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
                     return;
+                }
+            }
+        },{
+            text: '子处方',
+            iconCls: 'icon-edit',
+            handler: function() {
+                var selRow = $('#list_data').datagrid('getChecked');
+                if(selRow!=null&&selRow!=''&&selRow!='undefined') {
+                    changeSubPresc(selRow);
+                }else{
+                    $.messager.alert('提示',"请选择要操作的处方！", "error");
                 }
             }
         }, '-',{
@@ -283,6 +304,7 @@ function subLoadData(row){
         }else{
             disableForm('prescForm',false);
         }
+
         if(row.itemClass=='A'){
             changeRadio('A');
             $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
@@ -334,6 +356,8 @@ function subItem(itemClass,selRow){
 }
 //点击新方
 function addPre(){
+    $("#list_data").datagrid('loadData', { total: 0, rows: [] });
+    orderNo=0;
     disableForm('prescForm',false);
     //获取处方列表所有行，并取出所有行中处方号prescNo的最大值，加1后作为新处方的处方号
      var rows = $('#leftList').datagrid('getRows');
@@ -356,7 +380,7 @@ function addPre(){
      }else{
         prescNo=1;
      }
-
+/*    var index= $('#list_data').datagrid('getRowIndex',nowrow);*/
     $.ajax({
         'type': 'POST',
         'url': basePath+'/outppresc/getClinicMaster',
@@ -370,18 +394,15 @@ function addPre(){
             itemClass = itemClass;
             prescNo = prescNo;
             chargeIndicator = chargeIndicator;
-            $('#leftList').datagrid('insertRow', {
-                url:{},//
-                index:0,	// index start with 0
-                row: {
+            var idx = $('#leftList').datagrid('appendRow', {
                     visitDate: visitDate,
                     visitNo: visitNo,
                     prescNo: prescNo,
                     itemClass:itemClass,
                     chargeIndicator:chargeIndicator
-                }
-            });
-            $('#leftList').datagrid('selectRow',0);
+
+            }).datagrid('getRows').length-1;
+            $('#leftList').datagrid('selectRow',idx);
         }
     })
     $("#list_data").datagrid();
@@ -466,12 +487,6 @@ function disableForm(formId,isDisabled) {
     $("form[id='"+formId+"'] select").attr("disabled",isDisabled);
     $("form[id='"+formId+"'] :radio").attr("disabled",isDisabled);
 
-    /*//禁用jquery easyui中的下拉选（使用select生成的combox）
-    $("#" + formId + " select[class='textbox-text validatebox-text']").each(function () {
-        if (this.id) {
-            $("#" + this.id).combobox(attr);
-        }
-    });*/
 }
 //选中处方行，更改radio选中值
 function changeRadio(obj){
@@ -485,6 +500,23 @@ function changeRadio(obj){
         }
     });
 }
+
+
+//把选中处方修改成子处方
+function changeSubPresc(row){
+    var rows = $('#list_data').datagrid('getRows');    // 获取所有行
+    var prerow;//rows[rowIndex]//根据行索引获取行数据
+    var nowrow = row[0];
+    var index= $('#list_data').datagrid('getRowIndex',nowrow);
+     if(index>=0) {
+         //1.判断该条医嘱是否有子处方，如果有，则不允许把当前处方变成其他处方的子处方
+        prerow = rows[index-1];
+        nowrow.subOrderNo = prerow.orderNo;
+    }else{
+        $.messager.alert('提示',"第一条处方不能设置子医嘱", "warning");
+    }
+}
+
 
 
 

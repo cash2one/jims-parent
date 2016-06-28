@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.asepsis.dao.AsepsisSendRecDao">
+
+    <sql id="asepsisSendRecColumns">
+        "ID" as "id"
+        ,"DOCUMENT_NO" as "documentNo"
+        ,"ITEM_NO" as "itemNo"
+        ,"FROM_DEPT" as "fromDept"
+        ,"SEND_DATE" as "sendDate"
+        ,"ITEM_CODE" as "itemCode"
+        ,"ITEM_NAME" as "itemName"
+        ,"ITEM_SPEC" as "itemSpec"
+        ,"SEND_AMOUNT" as "sendAmount"
+        ,"GET_AMOUNT" as "getAmount"
+        ,"GET_DATE" as "getDate"
+        ,"GET_FLAG" as "getFlag"
+        ,"UNITS" as "units"
+        ,"OPERATOR" as "operator"
+        ,"SENDER" as "sender"
+        ,"MEMOS" as "memos"
+        ,"ANTI_FEE" as "antiFee"
+        ,"ANTI_FEE_SUM" as "antiFeeSum"
+        ,"NOBACK_FEE" as "nobackFee"
+        ,"REQ_DATE" as "reqDate"
+        ,"REQ_OPERATOR" as "reqOperator"
+        ,"ORG_ID" as "orgId"
+    </sql>
+
+    <select id="get" resultType="AsepsisSendRec">
+        SELECT
+        <include refid="asepsisSendRecColumns"/>
+        FROM ASEPSIS_SEND_REC a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="AsepsisSendRec">
+        SELECT
+        <include refid="asepsisSendRecColumns"/>
+        FROM ASEPSIS_SEND_REC a
+        <where>
+            a.org_id =  #{orgId}
+        </where>
+    </select>
+
+    <select id="findAllList" resultType="AsepsisSendRec">
+        SELECT
+        <include refid="asepsisSendRecColumns"/>
+        FROM ASEPSIS_SEND_REC a
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ASEPSIS_SEND_REC(
+            ID
+            ,DOCUMENT_NO
+            ,ITEM_NO
+            ,FROM_DEPT
+            ,SEND_DATE
+            ,ITEM_CODE
+            ,ITEM_NAME
+            ,ITEM_SPEC
+            ,SEND_AMOUNT
+            ,GET_AMOUNT
+            ,GET_DATE
+            ,GET_FLAG
+            ,UNITS
+            ,OPERATOR
+            ,SENDER
+            ,MEMOS
+            ,ANTI_FEE
+            ,ANTI_FEE_SUM
+            ,NOBACK_FEE
+            ,REQ_DATE
+            ,REQ_OPERATOR
+            ,ORG_ID
+        ) VALUES (
+            #{id}
+            ,#{documentNo}
+            ,#{itemNo}
+            ,#{fromDept}
+            ,#{sendDate}
+            ,#{itemCode}
+            ,#{itemName}
+            ,#{itemSpec}
+            ,#{sendAmount}
+            ,#{getAmount}
+            ,#{getDate}
+            ,#{getFlag}
+            ,#{units}
+            ,#{operator}
+            ,#{sender}
+            ,#{memos}
+            ,#{antiFee}
+            ,#{antiFeeSum}
+            ,#{nobackFee}
+            ,#{reqDate}
+            ,#{reqOperator}
+            ,#{orgId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE INTO ASEPSIS_SEND_REC SET
+            ID = #{id}
+            ,DOCUMENT_NO = #{documentNo}
+            ,ITEM_NO = #{itemNo}
+            ,FROM_DEPT = #{fromDept}
+            ,SEND_DATE = #{sendDate}
+            ,ITEM_CODE = #{itemCode}
+            ,ITEM_NAME = #{itemName}
+            ,ITEM_SPEC = #{itemSpec}
+            ,SEND_AMOUNT = #{sendAmount}
+            ,GET_AMOUNT = #{getAmount}
+            ,GET_DATE = #{getDate}
+            ,GET_FLAG = #{getFlag}
+            ,UNITS = #{units}
+            ,OPERATOR = #{operator}
+            ,SENDER = #{sender}
+            ,MEMOS = #{memos}
+            ,ANTI_FEE = #{antiFee}
+            ,ANTI_FEE_SUM = #{antiFeeSum}
+            ,NOBACK_FEE = #{nobackFee}
+            ,REQ_DATE = #{reqDate}
+            ,REQ_OPERATOR = #{reqOperator}
+            ,ORG_ID = #{orgId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM ASEPSIS_SEND_REC
+        WHERE id = #{id}
+    </delete>
+</mapper>

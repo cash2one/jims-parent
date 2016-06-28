@@ -6,6 +6,7 @@ import com.jims.common.persistence.Page;
 import com.jims.phstock.api.DrugImportClassDictApi;
 import com.jims.phstock.bo.DrugImportDictServiceBo;
 import com.jims.phstock.entity.DrugImportClassDict;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -23,10 +24,18 @@ public class DrugImportClassDictService implements DrugImportClassDictApi {
     @Autowired
     private DrugImportDictServiceBo drugImportClassDictServiceBo;
 
+    /**
+     * 保存增删改
+     * @param beanChangeVo
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<DrugImportClassDict> beanChangeVo){
+        return drugImportClassDictServiceBo.merge(beanChangeVo);
+    }
 
     /**
      * 根据入库类别字典id获取入库类别列表
-     *
      * @param id 入库类别字典主键id
      * @return 入库类别字典的一条数据
      * @author luohk

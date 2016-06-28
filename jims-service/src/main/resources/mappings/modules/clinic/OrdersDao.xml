@@ -192,7 +192,7 @@
 		   AND ((CLINIC_ITEM_NAME_DICT.STD_INDICATOR = 1) or
 			   CLINIC_ITEM_NAME_DICT.STD_INDICATOR is null)
 			   AND "ORDERS"."DEL_FLAG" = '0'
-
+     order by order_no
 	</select>
 
 
@@ -616,4 +616,19 @@
 		WHERE id = #{id}
 	</update>
 
+
+	<select id="getClinicPrice" resultType="BaseDto">
+    select a.item_class,
+            a.item_code,
+            a.item_name,
+            a.item_spec,
+            a.units,
+            a.price,
+            a.subj_code,
+		    b.charge_item_no
+            from current_price_list a ,
+                  clinic_vs_charge b
+       where b.charge_item_code = a.item_code
+      and clinic_item_code = #{itemCode}
+	</select>
 </mapper>
