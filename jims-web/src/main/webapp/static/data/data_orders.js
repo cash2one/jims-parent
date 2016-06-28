@@ -3,8 +3,9 @@ var billingAttr = [];
 //药品
 var ordersDrugData={};
 ordersDrugData.orgId="1";
-ordersDrugData.dictType="v_drug_info_mz";
+ordersDrugData.dictType="v_clinic_item_price";
 //非药品V_CINIC_ITEM_NANE
+
 
 var administrationDict = [];
 var performFreqDict = [];
@@ -13,15 +14,6 @@ var perSchedule = [];
 var drugData = [];
 
 
-var ClinicItemcolumnsData = [
-    {field: 'item_code', title: '代码', width: '8%', align: 'center'},
-    {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-    {field: 'input_code', title: '拼音', width: '15%', align: 'center'},
-    {field: 'item_class', title: '类别', width: '15%', align: 'center'},
-    {field: 'expand1', title: '扩展1', width: '15%', align: 'center'},
-    {field: 'expand2', title: '扩展2', width: '15%', align: 'center'},
-    {field: 'expand5', title: '扩展5', width: '15%', align: 'center'}
-];
 /**
  * 医嘱类型
  */
@@ -60,24 +52,7 @@ function itemFormatter(value, rowData, rowIndex) {
 }
 
 
-/**
- * 药品翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function drugFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
 
-    for (var i = 0; i < drugData.length; i++) {
-        if (drugData[i].drug_code == value) {
-            return drugData[i].item_name;
-        }
-    }
-}
 
 
 function orderClassFormatter(value, rowData, rowIndex) {
@@ -105,7 +80,6 @@ $.ajax({
     'dataType': 'json',
     'async': false,
     'success': function(data){
-       // ordersDrugData=data;
         drugData = data;
     }
 });
