@@ -34,4 +34,12 @@ public interface PerformDefaultScheduleDao extends CrudDao<PerformDefaultSchedul
      * @return
      */
     public List<AdministrationDict> findNoExistAdministration(String freqDesc);
+
+    /**
+     * 住院处方写医嘱时，长期医嘱根据频次和途径获取执行时间
+     * @param performDefaultSchedule
+     * @author CTQ
+     * @return
+     */
+    public PerformDefaultSchedule findByParams(PerformDefaultSchedule performDefaultSchedule);
 }

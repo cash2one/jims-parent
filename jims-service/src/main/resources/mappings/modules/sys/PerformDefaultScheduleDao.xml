@@ -104,4 +104,11 @@
 		WHERE id = #{id}
 	</delete>
 
+    <select id="findByParams" resultType="PerformDefaultSchedule">
+        SELECT
+        <include refid="performDefaultScheduleColumns" />
+        FROM perform_default_schedule a
+        WHERE a.freq_desc=#{freqDesc} and a.administration=#{administration}
+    </select>
+
 </mapper>

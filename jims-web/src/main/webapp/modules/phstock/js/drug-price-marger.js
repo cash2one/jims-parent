@@ -493,7 +493,7 @@ $(function () {
         url: '',
         onSelect: function(rowData){
             $('#datagridRight').datagrid('loadData', { total: 0, rows: [] });
-            var url = basePath + "/drug-price/listDrugNameDictByClassCode?orgId=" +parent.config.org_Id +"&classCode="+ rowData.classCode;
+            var url = basePath + "/drug-price/listDrugNameDictByClassCode?classCode="+ rowData.classCode;
             $('#datagridLeft').datagrid('reload', url);
         }
     });

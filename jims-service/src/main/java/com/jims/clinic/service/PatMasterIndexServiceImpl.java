@@ -166,6 +166,7 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
         patsInHospital.setGuarantor(null);
         patsInHospital.setGuarantorOrg(null);
         patsInHospital.setGuarantorPhoneNum(null);
+        patsInHospital.setDoctorInCharge("");
         patsInHospital.setPrepayments(Double.valueOf(0));
         patsInHospital.setTotalCharges(Double.valueOf(0));
         patsInHospital.setTotalCosts(Double.valueOf(0));

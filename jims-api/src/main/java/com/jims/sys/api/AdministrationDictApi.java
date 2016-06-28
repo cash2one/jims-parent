@@ -67,5 +67,15 @@ public interface AdministrationDictApi {
      * @return
      */
     public List<AdministrationDict> listAdministrationByInpOrOutpFlag(String inpOrOutpFlag) ;
+    /**
+     * @param        orgId     传递参数
+     * @return java.util.List<com.jims.sys.entity.AdministrationDict>    返回类型
+     * @throws
+     * @Title: mzViewList
+     * @Description: (查询门诊用药途径)
+     * @author CTQ
+     * @date 2016/6/28
+     */
+    public List<AdministrationDict> mzViewList(String orgId);
 
 }
