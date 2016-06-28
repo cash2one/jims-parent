@@ -11,6 +11,7 @@ import com.jims.phstock.api.DrugDispPropertyDictApi;
 import com.jims.phstock.bo.DrugDispPropertyDictServiceBo;
 import com.jims.phstock.dao.DrugDispPropertyDictDao;
 import com.jims.phstock.entity.DrugDispPropertyDict;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -27,6 +28,15 @@ public class DrugDispPropertyDictService  implements DrugDispPropertyDictApi{
     @Autowired
     private DrugDispPropertyDictServiceBo drugDispPropertyDictServiceBo;
 
+    /**
+     * 保存增删改
+     * @param beanChangeVo
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<DrugDispPropertyDict> beanChangeVo){
+        return drugDispPropertyDictServiceBo.merge(beanChangeVo);
+    }
 
     /**
      * 获取摆药类别

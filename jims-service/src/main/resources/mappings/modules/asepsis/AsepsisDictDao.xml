@@ -3,24 +3,24 @@
 <mapper namespace="com.jims.asepsis.dao.AsepsisDictDao">
 
     <sql id="asepsisDictColumns">
-        a."ID" as "id"
-        ,a."ITEM_CLASS" as "itemClass"
-        ,a."ASEPSIS_CODE" as "asepsisCode"
-        ,a."ASEPSIS_NAME" as "asepsisName"
-        ,a."ASEPSIS_SPEC" as "asepsisSpec"
-        ,a."UNITS" as "units"
-        ,a."ANTI_PRICE" as "antiPrice"
-        ,a."NOBACK_PRICE" as "nobackPrice"
-        ,a."BELONG_DEPT" as "belongDept"
-        ,a."MEMOS" as "memos"
-        ,a."INPUT_CODE" as "inputCode"
-        ,a."VALID_DAYS" as "validDays"
-        ,a."CLEAN_PRICE" as "cleanPrice"
-        ,a."PACK_PRICE" as "packPrice"
-        ,a."ASEP_PRICE" as "asepPrice"
-        ,a."ITEM_ROLLBACK_FLAG" as "itemRollbackFlag"
-        ,a."FLAG" as "flag"
-        ,a."ORG_ID" as "orgId"
+        "ID" as "id"
+        ,"ITEM_CLASS" as "itemClass"
+        ,"ASEPSIS_CODE" as "asepsisCode"
+        ,"ASEPSIS_NAME" as "asepsisName"
+        ,"ASEPSIS_SPEC" as "asepsisSpec"
+        ,"UNITS" as "units"
+        ,"ANTI_PRICE" as "antiPrice"
+        ,"NOBACK_PRICE" as "nobackPrice"
+        ,"BELONG_DEPT" as "belongDept"
+        ,"MEMOS" as "memos"
+        ,"INPUT_CODE" as "inputCode"
+        ,"VALID_DAYS" as "validDays"
+        ,"CLEAN_PRICE" as "cleanPrice"
+        ,"PACK_PRICE" as "packPrice"
+        ,"ASEP_PRICE" as "asepPrice"
+        ,"ITEM_ROLLBACK_FLAG" as "itemRollbackFlag"
+        ,"FLAG" as "flag"
+        ,"ORG_ID" as "orgId"
     </sql>
 
     <select id="get" resultType="AsepsisDict">
@@ -39,20 +39,23 @@
         </where>
     </select>
 
-    <select id="findListHasStock" resultType="AsepsisDict">
-        SELECT DISTINCT
+    <select id="findPageByDept" resultType="AsepsisDict">
+        SELECT
         <include refid="asepsisDictColumns"/>
-        FROM ASEPSIS_DICT a, ASEPSIS_STOCK s
+        FROM ASEPSIS_DICT a
         <where>
-            a.asepsis_code = s.item_code and flag = '1'
-            <if test="belongDept != null and belongDept != ''">
-                and a.belong_dept = #{belongDept}
+
+            a.org_id =  #{orgId}
+            <if test="belongDept!=null and  belongDept!=''">
+                and a.BELONG_DEPT=#{belongDept}
             </if>
-            <if test="orgId != null and orgId != ''">
-                and a.org_id = #{orgId}
+
+            <if test="asepsisName!=null and  asepsisName!=''">
+                and a.ASEPSIS_NAME=#{asepsisName}
             </if>
-            and s.amount > 0
-        </where>
+
+
+    </where>
     </select>
 
     <select id="findAllList" resultType="AsepsisDict">
@@ -104,9 +107,8 @@
     </insert>
 
     <update id="update">
-        UPDATE INTO ASEPSIS_DICT SET
-            ID = #{id}
-            ,ITEM_CLASS = #{itemClass}
+        UPDATE  ASEPSIS_DICT SET
+            ITEM_CLASS = #{itemClass}
             ,ASEPSIS_CODE = #{asepsisCode}
             ,ASEPSIS_NAME = #{asepsisName}
             ,ASEPSIS_SPEC = #{asepsisSpec}

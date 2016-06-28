@@ -406,6 +406,7 @@
 				and clinic_id=#{clinicId}
 			</if>
 		</where>
+		order by ORDER_NO,SUB_ORDER_NO
 	</select>
 
 	<select id="getMaxPrescNo" resultType="Integer">

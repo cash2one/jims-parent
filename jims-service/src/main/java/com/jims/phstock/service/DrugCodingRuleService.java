@@ -7,6 +7,7 @@ import com.jims.phstock.api.DrugCodingRuleApi;
 import com.jims.phstock.bo.DrugCodingRuleServiceBo;
 import com.jims.phstock.dao.DrugCodingRuleDao;
 import com.jims.phstock.entity.DrugCodingRule;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -25,6 +26,15 @@ public class DrugCodingRuleService implements DrugCodingRuleApi{
     @Autowired
     private DrugCodingRuleServiceBo drugCodingRuleServiceBo;
 
+    /**
+     * 保存增删改
+     * @param beanChangeVo
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<DrugCodingRule> beanChangeVo){
+        return drugCodingRuleServiceBo.merge(beanChangeVo);
+    }
 
     /**
      * 获取药品编码规则

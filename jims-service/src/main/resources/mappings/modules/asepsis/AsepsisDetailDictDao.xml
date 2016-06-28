@@ -94,4 +94,9 @@
         delete FROM ASEPSIS_DETAIL_DICT
         WHERE id = #{id}
     </delete>
+
+    <delete id="deleteByCode">
+        delete FROM ASEPSIS_DETAIL_DICT
+        WHERE ASEPSIS_CODE = #{asepsisCode}
+    </delete>
 </mapper>
