@@ -107,15 +107,14 @@ public class DrugPriceListService implements DrugPriceListServiceApi {
 
     /**
      * 根据当前组织结构，和当前类别获取所有的药品名称字典。
-     * @param orgId  组织机构id
      * @param classCode 类别代码
      * @return
      * @author txb
      *
      */
     @Override
-    public List<DrugNameDict> listDrugNameDictByClassCode(String orgId, String classCode) {
-        return bo.listDrugNameDictByClassCode(orgId, classCode);
+    public List<DrugNameDict> listDrugNameDictByClassCode(String classCode) {
+        return bo.listDrugNameDictByClassCode(classCode);
     }
 
     /**
