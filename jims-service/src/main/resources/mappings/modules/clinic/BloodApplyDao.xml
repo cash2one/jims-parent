@@ -237,7 +237,7 @@
 	
 	<update id="delete">
 		UPDATE blood_apply SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
 
