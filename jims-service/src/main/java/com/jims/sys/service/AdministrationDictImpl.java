@@ -27,8 +27,19 @@ import java.util.List;
 @Service(version = "1.0.0")
 
 public class AdministrationDictImpl extends CrudImplService<AdministrationDictDao, AdministrationDict> implements AdministrationDictApi {
-
-
+    /**
+     * @param        orgId     传递参数
+     * @return java.util.List<com.jims.sys.entity.AdministrationDict>    返回类型
+     * @throws
+     * @Title: mzViewList
+     * @Description: (查询视图中门诊用药途径)
+     * @author CTQ
+     * @date 2016/6/28
+     */
+    @Override
+    public List<AdministrationDict> mzViewList(String orgId) {
+        return dao.mzViewList(orgId);
+    }
 
     /**
      * 查询给药途径字典列表,并使用文字回显门诊住院标识

@@ -124,5 +124,20 @@ public class AdministrationDictRest {
 
 
     }
+    /**
+     * @param        orgId     传递参数
+     * @return java.util.List<com.jims.sys.entity.AdministrationDict>    返回类型
+     * @throws
+     * @Title: mzViewList
+     * @Description: (查询门诊用药途径)
+     * @author CTQ
+     * @date 2016/6/28
+     */
+    @Path("mzViewList")
+    @GET
+    public List<AdministrationDict> mzViewList(@QueryParam("orgId") String orgId){
 
+        List<AdministrationDict> list = administrationDictApi.mzViewList(orgId);
+        return list;
+    }
 }
