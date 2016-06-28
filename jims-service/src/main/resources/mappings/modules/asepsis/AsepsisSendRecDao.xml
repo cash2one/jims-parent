@@ -102,7 +102,7 @@
 
     <update id="update">
         UPDATE ASEPSIS_SEND_REC SET
-            ,DOCUMENT_NO = #{documentNo}
+            DOCUMENT_NO = #{documentNo}
             ,ITEM_NO = #{itemNo}
             ,FROM_DEPT = #{fromDept}
             ,SEND_DATE = #{sendDate}
