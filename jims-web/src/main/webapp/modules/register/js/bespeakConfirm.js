@@ -152,7 +152,6 @@ function saveAppointReg(){
                     strIds += selectRows[i].id + ",";
                 }
                 strIds = strIds.substr(0, strIds.length - 1);
-                alert(strIds);
                 //删除
                 $.ajax({
                     'type': 'POST',
@@ -183,7 +182,6 @@ function saveAppointInfo(){
     var rows = $('#confirm_data').datagrid("getSelected");
     rows.masterId=clinicMasterId;
     var tableJson=JSON.stringify(rows);
-    alert(tableJson);
     $.postJSON(basePath+"/clinicAppoints/editAppoints",tableJson,function(data){
         if(data.code=="1"){
             $.messager.alert("提示信息","保存成功");

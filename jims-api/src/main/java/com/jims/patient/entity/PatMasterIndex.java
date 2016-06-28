@@ -104,13 +104,6 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private List<ClinicForRegist> clinicForRegistList;
 	private List<ClinicAppoints> clinicAppointses;
 
-	private String bedNo;//床号
-	private String doctorInCharge;//经治医师
-	private String patientCondition;
-	private String deptCode;
-	private String bedLabel;//床标号
-
-
 	public PatMasterIndex() {
 		super();
 	}
