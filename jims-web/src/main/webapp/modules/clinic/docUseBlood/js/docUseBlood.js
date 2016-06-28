@@ -102,7 +102,7 @@ $(function(){
                 field: 'bloodType', title: '血液要求', width: '20%', align: 'center',formatter:bloodTypeNameFormatter,editor: {
                 type: 'combobox',
                 options: {
-                    data:userBlood,
+                    data:bloodTypeName,
                     valueField: 'blood_type',
                     textField: 'blood_type_name',
                     required: true

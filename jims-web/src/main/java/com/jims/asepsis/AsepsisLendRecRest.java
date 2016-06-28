@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,9 +30,15 @@ public class AsepsisLendRecRest {
     */
     @GET
     @Path("findList")
-    public List<AsepsisLendRec> findList(@QueryParam("orgId")String orgId) {
+    public List<AsepsisLendRec> findList(@QueryParam("orgId")String orgId,
+                                         @QueryParam("lendDate")Date lendDate,
+                                         @QueryParam("toDept")String toDept,
+                                         @QueryParam("lender")String lender) {
         AsepsisLendRec entity = new AsepsisLendRec();
         entity.setOrgId(orgId);
+        entity.setLendDate(lendDate);
+        entity.setToDept(toDept);
+        entity.setLender(lender);
         return api.findList(entity);
     }
 

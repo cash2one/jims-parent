@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugCodingRule;
+import com.jims.sys.vo.BeanChangeVo;
 
 import java.util.List;
 
@@ -10,6 +11,14 @@ import java.util.List;
  * Created by ztq on 2016/5/10.
  */
 public interface DrugCodingRuleApi {
+
+    /**
+     * 保存增删改
+     * @param beanChangeVo
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<DrugCodingRule> beanChangeVo);
 
     /**
      * 获取药品编码规则

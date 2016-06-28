@@ -62,7 +62,10 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	private String subjCode;
 	private String performedBy;
     private List<OutpPresc> list;
-	
+	private Integer rowId;
+
+    //扩展
+    private String markSubOrderNo;  //标示是否子医嘱
 	public OutpPresc() {
 		super();
 	}
@@ -402,4 +405,20 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	public void setPerformedBy(String performedBy) {
 		this.performedBy = performedBy;
 	}
+
+	public Integer getRowId() {
+		return rowId;
+	}
+
+	public void setRowId(Integer rowId) {
+		this.rowId = rowId;
+	}
+
+    public String getMarkSubOrderNo() {
+        return markSubOrderNo;
+    }
+
+    public void setMarkSubOrderNo(String markSubOrderNo) {
+        this.markSubOrderNo = markSubOrderNo;
+    }
 }

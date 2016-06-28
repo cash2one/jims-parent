@@ -108,4 +108,13 @@ public class AsepsisDictServiceImpl implements AsepsisDictApi{
         } catch(RuntimeException e) {}
         return "0";
     }
+
+    /**
+     * 检索有库存的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisDict> findListHasStock(AsepsisDict entity){
+        return bo.findListHasStock(entity);
+    }
 }

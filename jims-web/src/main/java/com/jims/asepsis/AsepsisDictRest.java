@@ -104,4 +104,23 @@ public class AsepsisDictRest {
     public String delete(String ids) {
         return api.delete(ids);
     }
+
+    /**
+     * 检索有库存的数据
+     * @param orgId
+     * @param belongDept
+     * @param q
+     * @return
+     */
+    @GET
+    @Path("findListHasStock")
+    public List<AsepsisDict> findListHasStock(@QueryParam("orgId")String orgId,
+                                              @QueryParam("belongDept")String belongDept,
+                                              @QueryParam("q")String q) {
+        AsepsisDict entity = new AsepsisDict();
+        entity.setOrgId(orgId);
+        entity.setBelongDept(belongDept);
+        entity.setQ(q);
+        return api.findListHasStock(entity);
+    }
 }

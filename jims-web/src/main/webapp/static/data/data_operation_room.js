@@ -1,6 +1,7 @@
 var operatingRoom = [];//手术室
 var operatingDate = {};
 operatingDate.orgId = "";
+InputParamVo1.colValue='20';
 var operationRoomNo = [];//手术间
 var operationRoomNoData = {};
 operationRoomNoData.orgId = "";

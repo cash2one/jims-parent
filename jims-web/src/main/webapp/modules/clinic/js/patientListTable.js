@@ -97,6 +97,13 @@ function onloadMethod(status){
     });
 }
 /**
+ * 条件查询
+ */
+function searchPatList(){
+     var patName=$("#patName").val();
+     $("#list_data").datagrid('reload',{"patName":patName});
+}
+/**
  * 切换病了列表
  */
 function loadTableList(){

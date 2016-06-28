@@ -29,6 +29,8 @@ public class AsepsisDict extends DataEntity<AsepsisDict> {
     private String flag;  // 已经使用标记（0停止，1使用）
     private String orgId;  // 所属机构ID
 
+    private String q; // 作模糊查询
+
     public AsepsisDict() {
         super();
     }
@@ -173,5 +175,11 @@ public class AsepsisDict extends DataEntity<AsepsisDict> {
         this.orgId = orgId;
     }
 
+    public String getQ() {
+        return q;
+    }
 
+    public void setQ(String q) {
+        this.q = q;
+    }
 }
