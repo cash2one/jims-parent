@@ -86,4 +86,23 @@
         WHERE id = #{id}
     </update>
 
+    <select id="findByParams" resultType="com.jims.common.web.impl.BaseDto">
+        select * from v_administration_dict
+        WHERE 1=1
+        and (PRICE_ITEM_NAME_DICT.STD_INDICATOR = 1)
+        <if test="itemName!=null and itemName!=''">
+            and (CLINIC_ITEM_NAME_DICT.ITEM_NAME = #{itemName})
+        </if>
+        <if test="itemClass!=null and itemClass!=''">
+            and (CLINIC_ITEM_NAME_DICT.ITEM_CLASS = #{itemClass})
+        </if>
+
+    </select>
+
+    <select id="mzViewList" resultType="AdministrationDict">
+        SELECT
+                    *
+                FROM v_administration_mz
+    </select>
+
 </mapper>

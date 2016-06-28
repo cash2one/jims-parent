@@ -38,10 +38,8 @@
     </sql>
 
     <select id="listDrugNameDictByClassCode" resultType="com.jims.phstock.entity.DrugNameDict">
-        select distinct a.drug_code ,a.drug_name from drug_name_dict a ,drug_price_list b
-        where a.drug_code = b.drug_code
-        AND b.org_id = #{0}
-        and b.drug_code like #{1} || '%'
+        select distinct a.drug_code ,a.drug_name from drug_name_dict a
+        where a.drug_code like #{0} || '%'
     </select>
 
     <select id="listDrugNameDict" resultType="com.jims.phstock.entity.DrugNameDict">

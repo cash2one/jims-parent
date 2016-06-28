@@ -49,7 +49,7 @@ comment on column ASEPSIS_SEND_REC.get_amount
 comment on column ASEPSIS_SEND_REC.get_date
   is '领物日期';
 comment on column ASEPSIS_SEND_REC.get_flag
-  is '领物标记,0-新开申请,1-申请确认(未领取),2-申请确认已消毒， 3-部分领取, 4-全部取完';
+  is '领物标记,1-申请确认(未领取),2-部分领取， 3-全部领取';
 comment on column ASEPSIS_SEND_REC.units
   is '单位';
 comment on column ASEPSIS_SEND_REC.operator

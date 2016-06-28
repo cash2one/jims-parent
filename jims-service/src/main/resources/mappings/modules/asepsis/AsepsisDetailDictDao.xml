@@ -73,7 +73,7 @@
     </insert>
 
     <update id="update">
-        UPDATE INTO ASEPSIS_DETAIL_DICT SET
+        UPDATE ASEPSIS_DETAIL_DICT SET
             ID = #{id}
             ,ASEPSIS_CODE = #{asepsisCode}
             ,ITEM_CODE = #{itemCode}
@@ -93,5 +93,10 @@
     <delete id="delete">
         delete FROM ASEPSIS_DETAIL_DICT
         WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByCode">
+        delete FROM ASEPSIS_DETAIL_DICT
+        WHERE ASEPSIS_CODE = #{asepsisCode}
     </delete>
 </mapper>
