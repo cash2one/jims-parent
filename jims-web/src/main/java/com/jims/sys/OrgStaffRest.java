@@ -243,4 +243,22 @@ public class OrgStaffRest {
         return lists;
     }
 
+    /**
+     * 检索机构科室的员工
+     * @param orgId
+     * @param deptId
+     * @return
+     */
+    @Path("findList")
+    @GET
+    public List<OrgStaffVo> findList(@QueryParam("orgId")String orgId,@QueryParam("deptId")String deptId) {
+        OrgStaffVo orgStaffVo = new OrgStaffVo();
+
+        orgStaffVo.setOrgId(orgId);
+        orgStaffVo.setDeptId(deptId);
+
+        Page<OrgStaffVo> page = orgStaffApi.findPageByVo(new Page<OrgStaffVo>(), orgStaffVo);
+        return page.getList();
+    }
+
 }

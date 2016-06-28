@@ -31,8 +31,13 @@
         SELECT
         <include refid="asepsisStockColumns"/>
         FROM ASEPSIS_STOCK a
-        <where>
-            a.org_id =  #{orgId}
+        <where> a.org_id =  #{orgId}
+            <if test="fromDept != null and fromDept != ''">
+                and a.FROM_DEPT = #{fromDept}
+            </if>
+            <if test="itemCode != null and itemCode != ''">
+                and a.item_code = #{itemCode}
+            </if>
         </where>
     </select>
 

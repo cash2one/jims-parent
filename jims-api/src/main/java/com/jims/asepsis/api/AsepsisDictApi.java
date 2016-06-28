@@ -54,4 +54,11 @@ public interface AsepsisDictApi {
     * @return 0 失败，1成功
     */
     public String delete(String ids) ;
+
+    /**
+     * 检索有库存的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisDict> findListHasStock(AsepsisDict entity);
 }

@@ -43,6 +43,15 @@
         FROM ASEPSIS_LEND_REC a
         <where>
             a.org_id =  #{orgId}
+            <if test="lendDate != null and lendDate != ''">
+                and to_char(a.lend_date,'yyyy-MM-dd') = to_char(#{lendDate},'yyyy-MM-dd')
+            </if>
+            <if test="toDept != null and toDept != ''">
+                and a.to_dept = #{toDept}
+            </if>
+            <if test="lender != null and lender != ''">
+                and a.lender = #{lender}
+            </if>
         </where>
     </select>
 
