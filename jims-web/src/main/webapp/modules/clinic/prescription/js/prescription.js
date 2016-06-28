@@ -487,12 +487,6 @@ function disableForm(formId,isDisabled) {
     $("form[id='"+formId+"'] select").attr("disabled",isDisabled);
     $("form[id='"+formId+"'] :radio").attr("disabled",isDisabled);
 
-    /*//禁用jquery easyui中的下拉选（使用select生成的combox）
-    $("#" + formId + " select[class='textbox-text validatebox-text']").each(function () {
-        if (this.id) {
-            $("#" + this.id).combobox(attr);
-        }
-    });*/
 }
 //选中处方行，更改radio选中值
 function changeRadio(obj){
@@ -515,6 +509,7 @@ function changeSubPresc(row){
     var nowrow = row[0];
     var index= $('#list_data').datagrid('getRowIndex',nowrow);
      if(index>=0) {
+         //1.判断该条医嘱是否有子处方，如果有，则不允许把当前处方变成其他处方的子处方
         prerow = rows[index-1];
         nowrow.subOrderNo = prerow.orderNo;
     }else{
