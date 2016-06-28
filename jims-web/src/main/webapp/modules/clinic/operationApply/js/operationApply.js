@@ -101,6 +101,7 @@ function onloadMethod() {
         }
     });
 
+
     //手术室下拉框
     $('#operatingRoom').combobox({
         data: operatingRoom,
@@ -113,12 +114,12 @@ function onloadMethod() {
     });
 
     /**
-     * 麻醉方式
-     */
+    * 麻醉方式
+    */
     $("#anesthesiaMethod").combobox({
         data: anaesthesiaName,
         valueField: 'id',
-        textField: 'anaesthesia_name',
+        textField: 'label',
         onSelect: function (n, o) {
             $("#anesthesiaMethodId").val(n.id);
         }
@@ -130,12 +131,12 @@ function onloadMethod() {
     $("#operationScale").combobox({
         data: operationScaleName,
         valueField: 'id',
-        textField: 'MEMO',
+        textField: 'label',
         onSelect: function (n, o) {
-            alert("1");
             $("#operationScaleId").val(n.id);
         }
-    })
+    });
+
 }
 
 
