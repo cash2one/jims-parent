@@ -54,7 +54,14 @@ $(function(){
         textField: 'identityName'
     })
     $("#identityId ").combobox('select',identityDict[0].id);
-
+    /**
+     * 合同单位下拉框
+     */
+    $('#companyId').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
 })
 //获取挂号
 function getClinicForRegist(){
@@ -106,21 +113,21 @@ function centerTypeActive(li){
 }
 //预约挂号 ---
 function appointsRegister(){
-  // if($("#patMasterInfo").form("validate")) {
+   if($("#patMasterInfoForm").form("validate")) {
         var tableJson = "[";
         $('#registerCenter li.active input.simInput').each(function (index, element) {
             tableJson += '{"id":"' + $(this).val() + '"},';
         });
         tableJson = tableJson.substring(0, tableJson.length - 1);
         tableJson += "]";
-        var formJson = fromJson('patMasterInfo');
+        var formJson = fromJson('patMasterInfoForm');
         formJson = formJson.substring(0, formJson.length - 1);
         var submitJson = formJson + ",\"clinicForRegistList\":" + tableJson + "}";
         alert(submitJson);
         $.postJSON(basePath + '/clinicAppoints/saveAppoints', submitJson, function (data) {
             if (data.code == "1") {
                 $.messager.alert("提示信息", "预约成功");
-                $("#patMasterInfo").form('clear');
+                $("#patMasterInfoForm").form('clear');
                 getClinicForRegist();
             } else {
                 $.messager.alert("提示信息", "预约失败", "error");
@@ -129,5 +136,6 @@ function appointsRegister(){
         }, function (data) {
             $.messager.alert("提示信息", "预约失败", "error");
         })
-   // }
+    }
+    alert(1);
 }
