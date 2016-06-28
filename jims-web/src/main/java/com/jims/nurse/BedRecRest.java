@@ -75,7 +75,9 @@ public class BedRecRest {
      */
     @Path("getAllBed")
     @POST
-    public List<BaseDto> getAllBed(BedRec bedRec){
+    public List<BaseDto> getAllBed(@QueryParam("wardCode")String wardCode){
+        BedRec bedRec = new BedRec();
+        bedRec.setWardCode(wardCode);
         return  bedRecServiceApi.getAllBed(bedRec);
     }
 
