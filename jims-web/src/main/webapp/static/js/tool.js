@@ -185,10 +185,8 @@ $.extend({
     },
     postJSON: function  (url, data, callback, error) {
         if(typeof(data)==Object){
-            data = JSON.stringify(data) ;
-
+            data = JSON.stringify(data);
         }
-        alert(data);
         return jQuery.ajax({
             'type': 'POST',
             'url': url,

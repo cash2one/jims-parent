@@ -390,7 +390,6 @@ $(function () {
 
         asepsisDictVo.orgId = orgId;
 
-                                alert(updateData.length)
         if (asepsisDictVo) {
             $.postJSON(basePath + "/asepsisDict/saveAll", JSON.stringify(asepsisDictVo), function (data) {
                 if (data.data == "success") {
@@ -398,7 +397,7 @@ $(function () {
                     $("#asepsis-dict").datagrid('reload');
                 }
             }, function (data) {
-                $.messager.alert('提示', "保存失败，字段是唯一键或者其他字段不能为空", "error");
+                $.messager.alert('提示', "保存失败", "error");
             })
         }
     });
