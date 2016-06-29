@@ -42,7 +42,7 @@ public class DoctDrugPrescDetail extends DataEntity<DoctDrugPrescDetail>  implem
 	private Double dosageEach;		// 单次剂量
 	private String freqDetail;		// 医嘱说明
 	private String batchNo;		// batch_no
-	
+	private String markSubOrderNo;  //标示是否子医嘱
 	public DoctDrugPrescDetail() {
 		super();
 	}
@@ -294,4 +294,11 @@ public class DoctDrugPrescDetail extends DataEntity<DoctDrugPrescDetail>  implem
 		this.batchNo = batchNo;
 	}
 
+	public String getMarkSubOrderNo() {
+		return markSubOrderNo;
+	}
+
+	public void setMarkSubOrderNo(String markSubOrderNo) {
+		this.markSubOrderNo = markSubOrderNo;
+	}
 }

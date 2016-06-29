@@ -73,6 +73,7 @@ $(function(){
                 type:'combogrid',
                 options: {
                     panelWidth: 500,
+                    required: true,
                     data:drugData,
                     idField:'item_name',
                     textField:'item_name',
@@ -137,7 +138,7 @@ $(function(){
             {field:'administration',title:'途径',width:'5%',align:'center',formatter:administrationFormatter,editor:{
                 type:'combobox',
                 options:{
-                    data :administrationDict,
+                    data :administrationmzDict,
                     valueField:'id',
                     textField:'administrationName',
                     required:true,
@@ -198,7 +199,7 @@ $(function(){
             handler: function() {
                 var dataGrid=$('#list_data');
                 if(!dataGrid.datagrid('validateRow', rowNum)){
-                    $.messager.alert('提示',"请填写本行数据后，在添加下一句", "error");
+                    $.messager.alert('提示',"请填写完本行数据后，再添加下一条处方", "error");
                     return false
                 }
                 $("#list_data").datagrid('endEdit', rowNum);
@@ -245,7 +246,7 @@ $(function(){
         }],onClickRow:function(rowIndex,rowData){
             var dataGrid=$('#list_data');
             if(!dataGrid.datagrid('validateRow', rowNum)){
-                $.messager.alert('提示',"数据填写不完整，请填写完后在对其他行进行编辑", "error");
+                $.messager.alert('提示',"数据填写不完整，请填写完整后再对其他行进行编辑", "error");
                 return false
             }else{
                 if(rowNum!=rowIndex){
@@ -311,6 +312,14 @@ $(function(){
             });
         }
     });
+
+    //处方属性下拉框
+    $('#prescAttr').combobox({
+        data: prescAttrDict,
+        valueField: 'label',
+        textField: 'label'
+    });
+
 });
 //加载数据时加载子项方法
 function subLoadData(row){
@@ -322,7 +331,6 @@ function subLoadData(row){
         }else{
             disableForm('prescForm',false);
         }
-
         if(row.itemClass=='A'){
             changeRadio('A');
             $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
@@ -429,7 +437,7 @@ function addPre(){
 function savePre(){
     var dataGrid=$('#list_data');
     if(!dataGrid.datagrid('validateRow', rowNum)){
-        $.messager.alert('提示',"请填写本行数据后，在保存", "error");
+        $.messager.alert('提示',"请填写完本行数据后，再保存", "error");
         return false
     }
     $("#list_data").datagrid('endEdit', rowNum);
@@ -536,7 +544,7 @@ function changeSubPresc(row){
      if(index>0) {
          var dataGrid=$('#list_data');
          if(!dataGrid.datagrid('validateRow', index)){
-             $.messager.alert('提示',"数据填写不完整，请填写完后在添加子处方", "error");
+             $.messager.alert('提示',"数据填写不完整，请填写完整后再添加子处方", "error");
              return false
          }
          $('#list_data').datagrid('endEdit', index);
