@@ -41,6 +41,7 @@ $.ajax({
 
 //床位等级翻译
 function bedClassFormatter(value, rowData, RowIndex) {
+
     if (value == 0) {
         return;
     }
@@ -81,7 +82,6 @@ function bedFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-
     for (var i = 0; i < bedApprovedType.length; i++) {
         if (bedApprovedType[i].value == value) {
             return bedApprovedType[i].label;

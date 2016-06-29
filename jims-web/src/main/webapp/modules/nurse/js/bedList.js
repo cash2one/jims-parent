@@ -61,7 +61,7 @@ $(function(){
                     method: 'GET'
 
             }
-        },formatter: function (value, rowData, RowIndex) {
+        },formatter:function (value, rowData, RowIndex) {
             if(value=='1'){
                 return "女";
             }else if(value=='2'){
@@ -296,9 +296,9 @@ $(function(){
                     return "男";
                 }
             }},
-            {field: 'bedClass', title: '等级', width: '15%',formatter:bedClassFormatter, align: 'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field: 'airconditionClass', title: '空调等级',formatter:airconditionClass, width: '15%', align: 'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field: 'bedApprovedType', title: '类型',formatter:bedFormatter, width: '15%', align: 'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field: 'bedClass', title: '等级', width: '15%',formatter:bedClassFormatter, align: 'center'},
+            {field: 'airconditionClass', title: '空调等级',formatter:airconditionFormatter, width: '15%', align: 'center'},
+            {field: 'bedApprovedType', title: '类型',formatter:bedFormatter, width: '15%', align: 'center'},
             {field: 'bedStatus', title: '空床', width: '10%', align: 'center',formatter:function(value, rowData, RowIndex){
                 if(value=='0'||value=='' || value ==null){
                     return "是";
@@ -343,9 +343,9 @@ $(function(){
                     return "男";
                 }
             }},
-            {field: 'bedClass', title: '等级', width: '15%',formatter:bedClassFormatter, align: 'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field: 'airconditionClass', title: '空调等级',formatter:airconditionClass, width: '15%', align: 'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field: 'bedApprovedType', title: '类型',formatter:bedFormatter, width: '15%', align: 'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field: 'bedClass', title: '等级', width: '15%',formatter:bedClassFormatter, align: 'center'},
+            {field: 'airconditionClass', title: '空调等级',formatter:airconditionFormatter, width: '15%', align: 'center'},
+            {field: 'bedApprovedType', title: '类型',formatter:bedFormatter, width: '15%', align: 'center'},
             {field: 'bedStatus', title: '空床', width: '10%', align: 'center',formatter:function(value, rowData, RowIndex){
                 if(value=='0'||value=='' || value ==null){
                     return "是";
