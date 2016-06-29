@@ -38,4 +38,12 @@ public interface PatVisitServiceApi {
      * @return
      */
     public List<PatMasterIndex> getPatMaster(String deptCode);
+
+    /**
+     * 确认新建病历
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    public String confirmNewMr(String patId);
 }

@@ -25,7 +25,12 @@
 		<include refid="ordersGroupRecJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="getOrdersByPat" resultType="OrdersGroupRec">
+		SELECT
+		<include refid="ordersGroupRecColumns"/>
+		FROM orders_group_rec a
+		WHERE a.patient_id=#{patientId}
+	</select>
 	<select id="findList" resultType="OrdersGroupRec">
 		SELECT 
 			<include refid="ordersGroupRecColumns"/>
@@ -108,7 +113,11 @@
 	<delete id="deleteByParentId">
 		DELETE From ORDERS_group_REC Where patient_id = #{patientId}
 	</delete>
-
+    <update id="updateByMrNew">
+		update ORDERS_GROUP_REC
+	   set ORDER_DOCTOR =#{orderDoctor} ,DEPT_CODE=#{deptCode} ,
+	   ORDER_GROUP=#{orderGroup} ,DOCTOR_USER =#{doctorUser} where id=#{id}
+	</update>
 
 	
 </mapper>
