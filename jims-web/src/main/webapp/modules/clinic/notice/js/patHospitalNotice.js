@@ -1,4 +1,15 @@
 function onloadMethod() {
+    $.ajax({
+        'type': 'get',
+        'url':basePath + '/clinicMaster/getPatInfo',
+        'contentType': 'application/json',
+        'data': {id:clinicId},
+        'dataType': 'json',
+        'success': function(data){
+            $("#patientInfo").form('load',data);
+        }
+    })
+
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',

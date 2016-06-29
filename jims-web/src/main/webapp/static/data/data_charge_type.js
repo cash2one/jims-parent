@@ -29,8 +29,8 @@ function itemFormatter(value, rowData, rowIndex) {
     }
 
     for (var i = 0; i < chargeType.length; i++) {
-        if (chargeType[i].value == value) {
-            return chargeType[i].label;
+        if (chargeType[i].id == value) {
+            return chargeType[i].charge_type_name;
         }
     }
 }

@@ -147,4 +147,11 @@
 		DELETE FROM blood_capacity
 		WHERE apply_num = #{applyNum}
 	</update>
+
+	<select id="getMatchSubNum" resultType="java.lang.String">
+		SELECT match_sub_num FROM blood_capacity
+		<if test="applyNum!=null and applyNum!=''">
+			and apply_num = #{applyNum}
+		</if>
+	</select>
 </mapper>
