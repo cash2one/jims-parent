@@ -551,7 +551,17 @@
 	<select id="getPatient" resultType="ClinicMaster">
 		SELECT <include refid="clinicMasterColumns"/>,
 		b.DATE_OF_BIRTH AS "patMaster.dateOfBirth",
-		b. MAILING_ADDRESS AS "patMaster.mailingAddress"
+		b. MAILING_ADDRESS AS "patMaster.mailingAddress",
+		b.NATION AS "patMaster.nation",
+		b.BIRTH_PLACE AS "patMaster.birthPlace",
+		b.NEXT_OF_KIN AS "patMaster.nextOfKin",
+		b.DATE_OF_BIRTH AS "patMaster.dateOfBirth",
+		b.NATION AS "patMaster.nation",
+		b.ID_NO AS "patMaster.idNo",
+		b.RELATIONSHIP AS "patMaster.relationship",
+		b.NEXT_OF_KIN_ADDR AS "patMaster.nextOfKinAddr",
+		b.NEXT_OF_KIN_PHONE AS "patMaster.nextOfKinPhone",
+		b.NEXT_OF_KIN_ADDR AS "patMaster.nextOfKinAddr"
 		 FROM CLINIC_MASTER a <include refid="clinicMasterJoins1"/>
 		WHERE
 		<if test="id!=null and id!=''">

@@ -1,12 +1,16 @@
 function onloadMethod() {
+    var clinicId=$("#clinicMasterId",parent.document).val();
     $.ajax({
-        'type': 'get',
-        'url':basePath + '/clinicMaster/getPatInfo',
+        'type': 'POST',
+        'url':basePath + '/bloodApply/getPatient',
         'contentType': 'application/json',
-        'data': {id:clinicId},
+        'data': id = clinicId,
         'dataType': 'json',
         'success': function(data){
-            $("#patientInfo").form('load',data);
+            $("#dateOfBirth").val(data.patMaster.dateOfBirth);
+            $("#nation").val(data.patMaster.nation);
+            $("#patHospitalForm").form('load',data);
+
         }
     })
 
