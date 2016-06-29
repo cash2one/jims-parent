@@ -69,7 +69,7 @@ $(function () {
         }
     });
 
-    var currentOrgId = '1'
+    var currentOrgId = config.org_Id;
     var currentStorage = parent.config.currentStorage
         ,currentUsername = '录入者'
     var accountFlag // 0，不记账，1记账
@@ -111,6 +111,7 @@ $(function () {
      */
     var loadSubDept = function(id,orgId,storageCode){
         $.get('/service/drug-storage-dept/findSubList',{orgId : orgId,storageCode : storageCode},function(res){
+            alert(res);
             $('#' + id).combobox('loadData',res)
         })
     }
