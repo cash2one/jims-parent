@@ -566,6 +566,7 @@ $(function () {
         }else{
             second=num;
         }
+
         drugNameCode=(first+second+last);
         $('#drugNameDict').datagrid('appendRow', {drugCode: drugNameCode, drugName: '',stdIndicator:'0'});
         var rows = $("#drugNameDict").datagrid("getRows");
