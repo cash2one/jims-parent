@@ -18,11 +18,11 @@ create table CLINIC_APPOINTS
    SEX                  VARCHAR2(4),
    AGE                  NUMBER(16),
    ID_NO                VARCHAR2(64),
-   IDENTITY             VARCHAR2(10),
-   CHARGE_TYPE          VARCHAR2(16),
+   IDENTITY             VARCHAR2(64),
+   CHARGE_TYPE          VARCHAR2(64),
    INSURANCE_NO         VARCHAR2(18),
    INSURANCE_TYPE       VARCHAR2(16),
-   UNIT_IN_CONTRACT     VARCHAR2(11),
+   UNIT_IN_CONTRACT     VARCHAR2(64),
    NAME_PHONETIC        VARCHAR2(16),
    CREATE_DATE          TIMESTAMP,
    CREATE_BY            VARCHAR2(64),
@@ -30,6 +30,8 @@ create table CLINIC_APPOINTS
    UPDATE_BY            VARCHAR2(64),
    REMARKS              VARCHAR2(200 char),
    DEL_FLAG             char                 default '0',
+   VISIT_INDICATOR       VARCHAR2(64),
+   VISIT_DEPT              VARCHAR2(64),
    constraint PK_CLINIC_APPOINTS primary key (ID)
 );
 
@@ -113,3 +115,9 @@ comment on column CLINIC_APPOINTS.REMARKS is
 
 comment on column CLINIC_APPOINTS.DEL_FLAG is
 '删除标志';
+
+comment on column CLINIC_APPOINTS.VISIT_INDICATOR is
+'诊别';
+
+comment on column CLINIC_APPOINTS.VISIT_DEPT is
+'就诊科室';
