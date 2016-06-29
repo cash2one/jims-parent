@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>极目云医工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <script type="text/javascript" src="../nurse/js/bedInfo.js"></script>
+    <script type="text/javascript" src="/modules/clinic/js/centerRegion.js"></script>
+    <script type="text/javascript" src="../nurse/js/orders.js"></script>
+</head>
+<body class="easyui-layout">
+
+    <div class="easyui-tabs" id="tabs-header" style="width:100%;height:91%">
+
+    </div>
+    <div class="bot-menu">
+    <div class="bot-out">
+        <ul>
+            <li><a class="active"
+                   onclick="addTabs('1','床位信息','/modules/nurse/bedInfo.html',this)"><span>床位信息</span></a>
+            </li>
+            <li><a
+                   onclick="addTabs('2','医嘱信息','/modules/nurse/orders.html',this)"><span>医嘱信息</span></a>
+            </li>
+            <li><a
+                   onclick="addTabs('3','医嘱转抄','/modules/nurse/ordersCopied.html',this)"><span>医嘱转抄</span></a>
+            </li>
+            <li><a
+                   onclick="addTabs('4','病人流转','/modules/nurse/patientFlow.html',this)"><span>病人流转</span></a>
+            </li>
+            <li><a
+                   onclick="addTabs('5','床位维护','/modules/nurse/bedList.html',this)"><span>床位维护</span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+</body>
+</html>
