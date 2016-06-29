@@ -91,7 +91,13 @@ $(function(){
                             {field: 'subj_code', title: '',hidden:true},
                             {field: 'performed_by', title: '',hidden:true},
                             {field: 'price', title: '',hidden:true}
-                        ]],onClickRow: function (index, row) {
+                        ]],keyHandler: {
+                        query: function(q) {
+                            var ed = $('#list_data').datagrid('getEditor', {index:rowNum,field:'drugName'});
+                            comboGridCompleting(q,'drugName');
+                            $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                        }
+                    },onClickRow: function (index, row) {
                         var drugCode = $("#list_data").datagrid('getEditor',{index:rowNum,field:'drugCode'});
                         $(drugCode.target).textbox('setValue',row.drug_code);
                         var drugSpec = $("#list_data").datagrid('getEditor',{index:rowNum,field:'drugSpec'});

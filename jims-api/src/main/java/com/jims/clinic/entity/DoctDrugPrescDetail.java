@@ -43,6 +43,7 @@ public class DoctDrugPrescDetail extends DataEntity<DoctDrugPrescDetail>  implem
 	private String freqDetail;		// 医嘱说明
 	private String batchNo;		// batch_no
 	private String markSubOrderNo;  //标示是否子医嘱
+	private String firm;//
 	public DoctDrugPrescDetail() {
 		super();
 	}
@@ -300,5 +301,13 @@ public class DoctDrugPrescDetail extends DataEntity<DoctDrugPrescDetail>  implem
 
 	public void setMarkSubOrderNo(String markSubOrderNo) {
 		this.markSubOrderNo = markSubOrderNo;
+	}
+
+	public String getFirm() {
+		return firm;
+	}
+
+	public void setFirm(String firm) {
+		this.firm = firm;
 	}
 }
