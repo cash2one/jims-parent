@@ -182,7 +182,8 @@ $(function(){
             }},
             {field:'orderNo',title:'处方',hidden:'true',
                 formatter: function (value, row, index) {
-                 orderNo = value;
+                    if(orderNo < value){ orderNo = value;}
+
                 return value;
             }},
             {field:'subOrderNo',title:'子处方',hidden:'true'},

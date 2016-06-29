@@ -226,7 +226,20 @@
 			#{delFlag}
 		)
 	</insert>
-	
+	<update id="updatePatInfo">
+		update pat_master_index SET
+		    name = #{name},
+            sex = #{sex},
+			date_of_birth = #{dateOfBirth},
+			identity = #{identity},
+			charge_type = #{chargeType},
+	        phone_number_home = #{phoneNumberHome},
+	        unit_in_contract = #{unitInContract},
+	        mailing_address = #{mailingAddress},
+	        address_now = #{addressNow},
+	        id_no = #{idNo}
+	        WHERE id=#{id}
+	</update>
 	<update id="update">
 		UPDATE pat_master_index SET
 			inp_no = #{inpNo},
@@ -297,6 +310,7 @@
 			</if>
 		</where>
 	</update>
+
 	<select id="findWaitFrom" resultType="com.jims.clinic.vo.ComeDeptVo">
 		  SELECT pmi.NAME as 'name',
          pmi.PATIENT_ID as 'patientId',
