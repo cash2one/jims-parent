@@ -3,10 +3,13 @@ package com.jims.asepsis;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.asepsis.entity.AsepsisStock;
 import com.jims.asepsis.api.AsepsisStockApi;
+import com.jims.asepsis.vo.AsepsisStockVo;
+import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,11 +34,13 @@ public class AsepsisStockRest {
     @Path("findList")
     public List<AsepsisStock> findList(@QueryParam("orgId")String orgId,
                                        @QueryParam("fromDept")String fromDept,
-                                       @QueryParam("itemCode")String itemCode) {
+                                       @QueryParam("itemCode")String itemCode,
+                                       @QueryParam("itemName")String itemName) {
         AsepsisStock entity = new AsepsisStock();
         entity.setOrgId(orgId);
         entity.setFromDept(fromDept);
         entity.setItemCode(itemCode);
+        entity.setItemName(itemName);
         return api.findList(entity);
     }
 
@@ -59,6 +64,24 @@ public class AsepsisStockRest {
     @Path("saveList")
     public String saveList(List<AsepsisStock> list) {
         return api.save(list);
+    }
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisStockVo
+     * @return
+     * @author yangruidong
+     */
+    @Path("saveAll")
+    @POST
+    public StringData saveAll(AsepsisStockVo<AsepsisStock> asepsisStockVo) {
+        List<AsepsisStock> newUpdateDict = new ArrayList<AsepsisStock>();
+        newUpdateDict = api.saveAll(asepsisStockVo);
+        StringData stringData = new StringData();
+        stringData.setData("success");
+        return stringData;
+
     }
 
     /**
