@@ -14,7 +14,7 @@
 		a.del_flag AS "delFlag",
 		a.create_date AS "createDate",
 		a.org_id AS "orgId",
-		a.dict_code AS "dictCode"
+		a.dept_code AS "deptCode"
 	</sql>
 	
 	<sql id="labItemClassDictJoins">
@@ -55,7 +55,7 @@
 			del_flag,
 			create_date,
 			org_id,
-			dict_code
+			dept_code
 		) VALUES (
 			#{id},
 			#{classCode},
@@ -67,7 +67,7 @@
 			#{delFlag},
 			#{createDate},
 			#{orgId},
-			#{dictCode}
+			#{deptCode}
 		)
 	</insert>
 	
@@ -79,7 +79,7 @@
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			org_id = #{orgId},
-			dict_code = #{dictCode}
+			dept_code = #{deptCode}
 		WHERE id = #{id}
 	</update>
 	

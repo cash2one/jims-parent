@@ -3,8 +3,7 @@ $(function () {
     var list=[];
     var classCodeTest=false;
     var classNameTest=false;
-    var orgIdTest=false;
-
+    var orgId=parent.config.org_Id;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
             $("#dg").datagrid('endEdit', editIndex);
@@ -33,8 +32,11 @@ $(function () {
             width: "33%"
         },{
             title: '所属部门',
-            field: 'dictCode',
-            width: "33%"
+            field: 'deptCode',
+            width: "33%",
+            editor:{
+
+            }
         },{
             title: '所属组织结构',
             field: 'orgId',
@@ -47,26 +49,38 @@ $(function () {
             editIndex = index;
         }
     });
+    //var deptNameList=$.get(basePath + '/dept-dict/list');
 
     var loadDept = function (){
         $.get(basePath + '/labitemclass/list', function (data) {
-            list=data;
-            $("#dg").datagrid('loadData', list);
+
+            $.get(basePath + '/dept-dict/list', function (node) {
+                list=data;
+                for(var i=0;i<list.length;i++){
+                    for (var j=0;j<node.length;j++){
+                        if(list[i].deptCode==node[j].deptCode){
+                            list[i].deptCode=node[j].deptName;
+                        }
+                    }
+                }
+                $("#dg").datagrid('loadData', list);
+            })
         });
     }
     loadDept();
 
 //弹出框的下拉框
-    $('#dictCode').combogrid({
+    $('#deptCode').combogrid({
         delay: 300,
         width:'196px',
         mode: 'remote',
         method: 'GET',
         url: basePath + '/dept-dict/list',
-        idField: 'deptName',
+        idField: 'deptCode',
         textField: 'deptName',
         columns: [[
-            {field:'deptName',title:'部门名称',width:"180px",sortable:true}
+            {field:'deptName',title:'部门名称',width:"150px",sortable:true},
+            {field:'deptCode',title:'部门编码',width:"150px",sortable:true}
         ]]
     });
 
@@ -85,13 +99,11 @@ $(function () {
     var reset = function(){
         $("#classCodeChange").html("");
         $("#classNameChange").html("");
-        $("#orgIdChange").html("");
-        $("#dictCodeChange").html("");
+        $("#deptCodeChange").html("");
         $("#id").textbox("setValue","");
         $("#classCode").textbox("setValue","");
         $("#className").textbox("setValue","");
-        $("#orgId").textbox("setValue","");
-        $('#dictCode').combogrid('setValue',"");
+        $('#deptCode').combogrid('setValue',"");
     }
 
     //删除按钮
@@ -125,9 +137,9 @@ $(function () {
         labItemClassDict.id = $("#id").textbox("getValue")
         labItemClassDict.classCode = $("#classCode").textbox("getValue")
         labItemClassDict.className = $("#className").textbox("getValue")
-        labItemClassDict.orgId = $("#orgId").textbox("getValue")
-        labItemClassDict.dictCode = $("#dictCode").combogrid('getValue');
-        if(classCodeTest &&classNameTest && orgIdTest && labItemClassDict.dictCode.length>0 && labItemClassDict.classCode.length>0 && labItemClassDict.className.length>0 && labItemClassDict.orgId.length>0){
+        labItemClassDict.deptCode = $("#deptCode").combogrid('getValue');
+        labItemClassDict.orgId=orgId;
+        if(classCodeTest &&classNameTest  && labItemClassDict.deptCode.length>0 && labItemClassDict.classCode.length>0 && labItemClassDict.className.length>0 ){
 
             $.postJSON(basePath + '/labitemclass/save',JSON.stringify(labItemClassDict), function (data) {
                 $('#dlg').dialog('close');
@@ -144,13 +156,10 @@ $(function () {
                 $("#classNameChange").css("color","red");
                 $("#classNameChange").html("请输入名称");
             }
-            if(labItemClassDict.orgId.length==0){
-                $("#orgIdChange").css("color","red");
-                $("#orgIdChange").html("请输入所属组织编码");
-            }
-            if(labItemClassDict.dictCode.length==0){
-                $("#dictCodeChange").css("color","red");
-                $("#dictCodeChange").html("请选择部门");
+
+            if(labItemClassDict.deptCode.length==0){
+                $("#deptCodeChange").css("color","red");
+                $("#deptCodeChange").html("请选择部门");
             }
         }
 
@@ -165,7 +174,6 @@ $(function () {
         //            $.messager.alert("系统提示", "保存成功", "info");
         //            $("#dg").datagrid();
         //            reset();
-        //        console.log(config.org_id);
         //    }
         //});
     });
@@ -176,8 +184,7 @@ $(function () {
             $("#id").textbox("setValue",row.id);
             $("#classCode").textbox("setValue",row.classCode);
             $("#className").textbox("setValue",row.className);
-            $("#orgId").textbox("setValue",row.orgId);
-            $('#dictCode').combogrid('setValue',row.dictCode);
+            $('#deptCode').combogrid('setValue',row.deptCode);
             $('#dlg').dialog('open').dialog('center').dialog('setTitle', '修改类别');
         } else {
             $.messager.alert('系统提示', "请选择要修改的行", 'info');
@@ -248,25 +255,10 @@ $(function () {
         }
     });
 
-    $("#orgId").textbox({
-        onChange:function(value){
-            orgIdTest=true;
-            var orgIdChange=$("#orgId").textbox("getValue");
-            if(orgIdChange!=config.org_id){
-                $("#orgIdChange").css("color","red");
-                $("#orgIdChange").html("请输入正确的编码");
-                orgIdTest=false;
-            }else{
-                $("#orgIdChange").css("color","green");
-                $("#orgIdChange").html("✔");
-                orgIdTest=true;
-            }
-        }
-    })
 
-    $("#dictCode").combogrid({
+    $("#deptCode").combogrid({
         onChange:function(value){
-            $("#dictCodeChange").html("");
+            $("#deptCodeChange").html("");
         }
     })
 

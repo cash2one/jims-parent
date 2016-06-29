@@ -33,11 +33,11 @@ $(function(){
     })
     var base_url = '/service/drug-buy-plan/'
     var username  = '仓管员'
-        ,orgId = '1'
+        ,orgId = parent.config.org_Id
         ,currentBuyId = '' // 当前采购单据号
         ,currentStorage = parent.config.currentStorage
         ,drugDicts = []  // 检索的药品字典数据
-
+    console.log(orgId);
     // 购买计划表当前选择行索引
     var planSelectIndex = 0;
     // 药品类别
