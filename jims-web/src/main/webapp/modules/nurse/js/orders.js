@@ -36,8 +36,8 @@ $(function() {
             {field: 'verifyDataTime', title: '校对时间', width: '8%', align: 'center',formatter:formatDateBoxFull},
             {field: 'time', title: '摆药截至时间', width: '8%', align: 'center'},
             {field: 'billingAttr', title: '自', width: '2%', align: 'center'},
-          //  {field:'',title:'阴阳',width:'5%',align:'center'},
-           // {field: 'freqDetail', title: '医生说明', width: '5%', align: 'center'},
+            {field:'performResult',title:'阴阳',width:'5%',align:'center',editor:'text'},
+            {field: 'freqDetail', title: '医生说明', width: '5%', align: 'center'},
             {
                 field: 'dosageUnits',
                 title: '单位',

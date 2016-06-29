@@ -408,6 +408,7 @@
 	
 	<update id="update">
 		UPDATE orders SET
+			order_sub_no = #{orderSubNo},
 			repeat_indicator = #{repeatIndicator},
 			order_class = #{orderClass},
 			order_text = #{orderText},
