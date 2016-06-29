@@ -6,7 +6,6 @@ var operationRoomNo = [];//手术间
 var operationRoomNoData = {};
 operationRoomNoData.orgId = "";
 operationRoomNoData.dictType = "OPERATING_ROOM";
-operationRoomNoData.inputParamVos = inputParamVos;
 
 $.ajax({
     'type': 'POST',
@@ -61,7 +60,11 @@ function operationRoomNoFormatter(value, id, rowData, rowindex) {
  */
 function comboboxLoad(q, id,operatingRoomNoId) {
     if (q != '' && q != null) {
+        var operationRoomNoData = {};
+        operationRoomNoData.orgId = "";
+        operationRoomNoData.dictType = "OPERATING_ROOM";
         var InputParamVo = {};
+        var inputParamVos=[];
         InputParamVo.colName = 'DEPT_ID';
         InputParamVo.colValue = q;
         InputParamVo.operateMethod = '=';

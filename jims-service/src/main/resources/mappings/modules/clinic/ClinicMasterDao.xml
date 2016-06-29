@@ -6,6 +6,7 @@
 		a.id AS "id",
 		a.org_id AS "orgId",
 		a.visit_date AS "visitDate",
+		a.patient_id AS "patientId",
 		a.visit_no AS "visitNo",
 		a.clinic_label AS "clinicLabel",
 		a.visit_time_desc AS "visitTimeDesc",
@@ -61,6 +62,9 @@
 	</sql>
 	
 	<sql id="clinicMasterJoins">
+	</sql>
+	<sql id="clinicMasterJoins1">
+		LEFT JOIN pat_master_index b on a.patient_id = b.id
 	</sql>
     
 	<select id="get" resultType="ClinicMaster">
@@ -511,4 +515,15 @@
 			</if>
 		</where>
 	</update>
+
+	<select id="getPatient" resultType="ClinicMaster">
+		SELECT <include refid="clinicMasterColumns"/>,
+		b.DATE_OF_BIRTH AS "patMaster.dateOfBirth",
+		b. MAILING_ADDRESS AS "patMaster.mailingAddress"
+		 FROM CLINIC_MASTER a <include refid="clinicMasterJoins1"/>
+		WHERE
+		<if test="id!=null and id!=''">
+			 a.id = #{id}
+		</if>
+	</select>
 </mapper>

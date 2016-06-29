@@ -7,10 +7,13 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/clinic/operationApply/js/operationApply.js"></script>
+    <script type="text/javascript" src="/static/data/data_operation_patientCondition.js"></script>
     <script type="text/javascript" src="/static/data/data_operation_room.js"></script>
     <script type="text/javascript" src="/static/data/data_operation_name.js"></script>
     <script type="text/javascript" src="/static/data/data_operation_scale.js"></script>
     <script type="text/javascript" src="/static/data/data_anaesthesia_name.js"></script>
+    <script type="text/javascript" src="/static/data/data_operation_quarantine.js"></script>
+
 
 </head>
 <body  onload="onloadMethod()">
@@ -32,20 +35,18 @@
                <label>
                     病情：
                 </label>
-                <select name="patientCondition" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="0">请选择</option>
-                    <option value="1">严重</option>
-                    <option value="2">病危</option>
-                    <option value="3">一般</option>
-                </select>
+                <input type="hidden" name="patientCondition" id="patientConditionId" value="">
+                <input id="patientCondition"style="width:10%;">
                 <label>
                     隔离：
                 </label>
-                <select name="isolationIndicator" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="1">正常</option>
-                    <option value="2">隔离</option>
-                    <option value="3">放射</option>
-                </select>
+                <!--<select name="isolationIndicator" class="easyui-combobox" style="width:10%;height: 30px">-->
+                    <!--<option value="1">正常</option>-->
+                    <!--<option value="2">隔离</option>-->
+                    <!--<option value="3">放射</option>-->
+                <!--</select>-->
+                <input type="hidden" name="isolationIndicator" id="isolationIndicatorId" value="">
+                <input id="isolationIndicator"style="width:10%;">
                 <label>
                     急症：
                 </label>
@@ -62,12 +63,7 @@
                 </label>
                 <input type="hidden" name="operationScale" id="operationScaleId" value="">
                 <input id="operationScale"style="width:45%;">
-                <!--<select name="operationScale" class="easyui-combobox" style="width:10%;height: 30px">-->
-                    <!--<option value="1">一级手术</option>-->
-                    <!--<option value="2">二级手术</option>-->
-                    <!--<option value="3">三级手术</option>-->
-                    <!--<option value="4">四级手术</option>-->
-                <!--</select>-->
+
 
             </div>
             <div class="fitem fitem_pop">

@@ -1,8 +1,4 @@
-var clinicDeptCode=[];
-/**
- * 门诊科室
- * @type {{}}
- */
+var clinicDeptCode=[];//门诊科室
 var clinicDeptCodeData={};
 clinicDeptCodeData.orgId="1";
 clinicDeptCodeData.dictType="v_outp_dept_dict"
@@ -29,9 +25,8 @@ function clinicDeptCodeFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-
     for (var i = 0; i < clinicDeptCode.length; i++) {
-        if (clinicDeptCode[i].id == value) {
+        if (clinicDeptCode[i].dept_code == value) {
             return clinicDeptCode[i].dept_name;
         }
     }

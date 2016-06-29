@@ -61,4 +61,6 @@ public interface ClinicMasterServiceApi {
      */
     public ClinicMaster getCheckItem(String operator,String registeringDate);
 
+    public ClinicMaster getPatient(String id);
+
 }
