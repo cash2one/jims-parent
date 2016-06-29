@@ -160,6 +160,8 @@ $(function () {
             //drugNameCode = drugNameCode + $("#drugSubClass").combobox('getValue') + rowData.value;
             $.ajaxAsync(basePath + "/drug-catalog/getDrugCodeByRule?secondType="+$("#drugSubClass").combobox('getValue')+"&drugForm="+rowData.value,function(data){
                 drugNameCode = data.code;
+                console.log(data.code);
+                console.log(rowData.value);
             });
             //drugNameCode = drugNameCode +
             stopEdit();
@@ -550,9 +552,22 @@ $(function () {
             return;
         }
         stopEdit();
-        $('#drugNameDict').datagrid('appendRow', {
-            drugCode: drugNameCode, drugName: '',stdIndicator:'0'
-        });
+
+        var first=drugNameCode.substr(0,5);
+        var num=Number(drugNameCode.substr(5,3))+1;
+        var last=drugNameCode.substr(8);
+        var second='';
+        if(num<100){
+            if(num.length=1){
+                second='00'+num;
+            }else {
+                second = '0' + num;
+            }
+        }else{
+            second=num;
+        }
+        drugNameCode=(first+second+last);
+        $('#drugNameDict').datagrid('appendRow', {drugCode: drugNameCode, drugName: '',stdIndicator:'0'});
         var rows = $("#drugNameDict").datagrid("getRows");
         var addRowIndex = $("#drugNameDict").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;

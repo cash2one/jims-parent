@@ -39,7 +39,7 @@
              end
          from drug_name_dict a
           where
-            length(a.drug_code) = (select sum(b.level_width) from drug_coding_rule b )
+            length(a.drug_code) &lt;= (select sum(b.level_width) from drug_coding_rule b )
             and substr(drug_code,1,length(#{0})) = #{0}
             and substr(a.drug_code, length(#{0}) + #{2} + 1, length(#{1})) = #{1}
 	</select>
