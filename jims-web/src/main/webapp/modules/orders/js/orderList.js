@@ -108,10 +108,11 @@ $(function(){
                             var value = $(orderClass.target).combobox('getValue');
                             if(value=='1'){//药品
                                 comboGridCompleting(q,'orderText');
+
                                 $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
                             }else if(value=='2'){//非药品
                                 clinicCompleting(q,'orderText');
-                                $(ed.target).combogrid("grid").datagrid("loadData", clinicOrderData);
+                                $(ed.target).combogrid("grid").datagrid("loadData", clinicCompleteAuto);
                             }
 
                         }
@@ -359,7 +360,11 @@ $(function(){
             });
 
         }, rowStyler:function(index,row){
-
+            if (row.orderNo!=row.orderSubNo){
+                return 'background-color:#D4D4D4;';
+            }else{
+                return 'background-color:#FCFCFC;';
+            }
 
 
             if(row.orderStatus=='6'){//传输
@@ -374,15 +379,6 @@ $(function(){
                 return 'background-color:#A7CACB;color:red;';
             }
 
-
-        },onLoadSuccess:function(){
-           /* var  rows=$('#orderList').datagrid('getRows');
-            for(var i=0;i<rows.length;i++){
-                if(rows[i].orderNo!=rows[i].orderSubNo){
-                    $("#orderList").datagrid("selectRecord",rows[i-1].id);
-                    $("#orderList").datagrid("selectRecord",rows[i].id);
-                }
-            }*/
 
         }
     });
@@ -416,7 +412,7 @@ $(function(){
 //保存
 function save(){
     $("#orderList").datagrid('endEdit', rowNum);
-    var  rows=$('#orderList').datagrid('getRows');
+    var  rows=$('#orderList').datagrid('getChanges');
     var  costRows=$('#orderCostList').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     tableJson=tableJson.substring(0, tableJson.length - 1);
@@ -573,10 +569,7 @@ function changeSubNo(row){
                         $(subNo.target).textbox('setValue',prerow.orderSubNo);
                         $('#orderList').datagrid('endEdit', index);
                         $('#orderList').datagrid('beginEdit', index);
-
-
-
-                  save();
+                          save();
 
 
 

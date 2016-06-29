@@ -235,7 +235,7 @@ function comboGridCompleting(q,id){
 
 
 //非药品自动补全
-function comboGridCompleting(q,id){
+function clinicCompleting(q,id){
     var clinicNameData={};
     clinicNameData.orgId="1";
     clinicNameData.dictType="V_CINIC_ITEM_NANE"
