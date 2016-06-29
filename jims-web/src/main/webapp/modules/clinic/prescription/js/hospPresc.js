@@ -17,7 +17,7 @@ $(function(){
         url:basePath+'/doctDrugPrescMaster/list?patientId='+patientId,
         columns:[[      //每个列具体内容
             {field:'id',title:'ID',hidden:'true'},
-            {field:'dispensarySub',title:'发药子药局',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'dispensarySub',title:'发药子药局',hidden:'true'},
             {field:'prepayment',title:'预交金',hidden:'true'},
             {field:'prescSource',title:'处方来源',hidden:'true'},
             {field:'dianosis',title:'诊断',hidden:'true'},
@@ -48,8 +48,8 @@ $(function(){
         nowrap: false,
         columns:[[      //每个列具体内容
             {field:'id',title:'ID',hidden:true},
-            {field:'markSubOrderNo',title:'全',width:'3%',align:'center',formatter:function(value, rowData, rowIndex){
-                if(rowData.subOrderNo==rowData.orderNo){
+            {field:'markorderSubNo',title:'全',width:'3%',align:'center',formatter:function(value, rowData, rowIndex){
+                if(rowData.orderSubNo==rowData.orderNo){
                     return "";
                 }else{
                     return "子";
@@ -80,14 +80,22 @@ $(function(){
                         {field: 'package_units', title: '',hidden:true},
                         {field: 'package_spec', title: '',hidden:true},
                         {field: 'sub_storage', title: '',hidden:true},
-
-                    ]],onClickRow: function (index, row) {
+                        {field: 'firm_id', title: '',hidden:true}
+                    ]],keyHandler: {
+                        query: function(q) {
+                            var ed = $('#centerList').datagrid('getEditor', {index:rowNum,field:'drugName'});
+                            comboGridCompleting(q,'drugName');
+                            $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                        }
+                    },onClickRow: function (index, row) {
                         var drugCode = $("#centerList").datagrid('getEditor',{index:rowNum,field:'drugCode'});
                         $(drugCode.target).textbox('setValue',row.drug_code);
                         var drugSpec = $("#centerList").datagrid('getEditor',{index:rowNum,field:'drugSpec'});
                         $(drugSpec.target).textbox('setValue',row.drug_spec);
+                        var firm = $("#centerList").datagrid('getEditor',{index:rowNum,field:'firm'});
+                        $(firm.target).textbox('setValue',row.supplier);
                         var firmId = $("#centerList").datagrid('getEditor',{index:rowNum,field:'firmId'});
-                        $(firmId.target).textbox('setValue',row.supplier);
+                        $(firmId.target).textbox('setValue',row.firm_id);
                         var dosage = $("#centerList").datagrid('getEditor',{index:rowNum,field:'dosage'});
                         $(dosage.target).textbox('setValue',row.dose_per_unit);
                         var packageUnits = $("#centerList").datagrid('getEditor',{index:rowNum,field:'packageUnits'});
@@ -100,14 +108,15 @@ $(function(){
                         $(payments.target).textbox('setValue',row.price);
                         var dosageUnits = $("#centerList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
                         $(dosageUnits.target).textbox('setValue',row.dose_units);
-                        var dispensarySub = $("#leftList").datagrid('getEditor',{index:rowNum,field:'dispensarySub'});
-                        $(dispensarySub.target).textbox('setValue',row.sub_storage);
-
+                        $('#leftList').datagrid('getChecked');
+                        var selrow = $('#leftList').datagrid('getChecked');
+                        selrow[0].dispensarySub = row.sub_storage;
                     }
                 }
             }},
             {field:'drugSpec',title:'规格',width:'10%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'firmId',title:'厂商',width:'12%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'firm',title:'厂商',width:'12%',align:'center',formatter:drugFirmFormatter,editor:{type:'textbox',options:{editable:false,disable:false}}},
+
             {field:'dosageEach',title:'单次剂量',width:'5%',align:'center',editor: { type:'numberbox', options: {required: true}}},
             {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'administration',title:'途径',width:'10%',align:'center',formatter:administrationFormatter,editor:{
@@ -136,12 +145,13 @@ $(function(){
             {field:'payments',title:'实收',width:'8%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'dosage',title:'剂量',width:'5%',align:'center',hidden:true,editor:{type:'textbox',options:{editable:true}}},
             {field:'packageSpec',title:'包装规格',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'firmId',title:'厂商ID',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:true}}},
             {field:'orderNo',title:'处方',hidden:'true',
                 formatter: function (value, row, index) {
                     orderNo = value;
                     return value;
                 }},
-            {field:'subOrderNo',title:'子处方',hidden:'true'},
+            {field:'orderSubNo',title:'子处方',hidden:'true'},
             {field:'drugCode',title:'药品编号',hidden:'true',editor:{type:'textbox',options:{editable:false}}}
 
         ]],
@@ -163,7 +173,7 @@ $(function(){
                     var index = $("#centerList").datagrid('appendRow', {
                             prescNo:prescNo,
                             orderNo:orderNo,
-                            subOrderNo:orderNo
+                            orderSubNo:orderNo
                         }).datagrid('getRows').length-1;
                     rowNum=index;
                     $("#centerList").datagrid('beginEdit', index);
@@ -416,13 +426,13 @@ function changeSubPresc(row){
         //判断本身是否是子处方
         if(afterrow!=undefined){
             //判断是否是子处方
-            if(nowrow.orderNo!=nowrow.subOrderNo){
+            if(nowrow.orderNo!=nowrow.orderSubNo){
                 //判断是否有子处方
-                if(afterrow.subOrderNo == nowrow.subOrderNo){
+                if(afterrow.orderSubNo == nowrow.orderSubNo){
                     return false;
                 }else{
                     //删除子处方
-                    nowrow.subOrderNo = nowrow.orderNo;
+                    nowrow.orderSubNo = nowrow.orderNo;
                     rowNum=index;
                     $('#centerList').datagrid('endEdit', index);
                     $('#centerList').datagrid('beginEdit', index);
@@ -430,8 +440,8 @@ function changeSubPresc(row){
                 }
             }
         }else{
-            if(nowrow.orderNo!=nowrow.subOrderNo){
-                nowrow.subOrderNo = nowrow.orderNo;
+            if(nowrow.orderNo!=nowrow.orderSubNo){
+                nowrow.orderSubNo = nowrow.orderNo;
                 rowNum=index;
                 $('#centerList').datagrid('endEdit', index);
                 $('#centerList').datagrid('beginEdit', index);
@@ -439,7 +449,7 @@ function changeSubPresc(row){
             }
         }
         if(afterrow!=undefined){
-            if(afterrow.subOrderNo == nowrow.orderNo){
+            if(afterrow.orderSubNo == nowrow.orderNo){
                 $.messager.alert('提示',"此处方已经有子处方，不能设置子处方", "error");
                 return false;
             }
@@ -454,7 +464,7 @@ function changeSubPresc(row){
             $.messager.alert('提示',"子处方与处方频次不一致，不能设置为子处方", "error");
             return false;
         }
-        nowrow.subOrderNo = prerow.orderNo;
+        nowrow.orderSubNo = prerow.orderNo;
         nowrow.administration=prerow.administration;
         nowrow.frequency=prerow.frequency;
         $('#centerList').datagrid('endEdit', index);

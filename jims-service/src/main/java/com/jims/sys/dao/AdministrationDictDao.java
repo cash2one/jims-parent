@@ -36,12 +36,11 @@ public interface AdministrationDictDao extends CrudDao<AdministrationDict> {
     /**
      * 选择用药途径，根据用药途径信息获取途径费用信息
      * @param itemName
-     * @param itemClass
      * @param orgId
      * @author CTQ
      * @return
      */
-    public BaseDto findByParams(@Param("itemName")String itemName,@Param("itemClass")String itemClass,@Param("orgId")String orgId);
+    public BaseDto findByParams(@Param("itemName")String itemName,/*@Param("itemClass")String itemClass,*/@Param("orgId")String orgId);
     /**
      * @param        orgId     传递参数
      * @return java.util.List<com.jims.sys.entity.AdministrationDict>    返回类型
