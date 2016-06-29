@@ -7,8 +7,7 @@
 		a.parent_id AS "parentId",
 		a.dept_name AS "deptName",
 		a.dept_code AS "deptCode",
-		a.input_code AS "inputCode"
-
+        a.input_code AS "inputCode"
 	</sql>
 	
 	<sql id="deptDictJoins">

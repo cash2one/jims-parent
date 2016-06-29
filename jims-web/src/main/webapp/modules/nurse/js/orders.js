@@ -18,8 +18,8 @@ $(function() {
         fitColumns:true,
         fit: true,//自动大小
         columns: [[      //每个列具体内容
-            {field: 'repeatIndicator', title: '长', width: '2%', align: 'center'},
-            {field: 'orderClass', title: '类别', width: '3%', align: 'center'},
+            {field: 'repeatIndicator', title: '长', formatter:itemFormatter,width: '2%', align: 'center'},
+            {field: 'orderClass', title: '类别', width: '3%', formatter:orderClassFormatter,align: 'center'},
             {field: 'startDateTime', title: '开始时间', width: '6%', align: 'center',formatter:formatDateBoxFull},
             {field: 'orderText', title: '医嘱内容', width: '5%', align: 'center'},
 
@@ -29,15 +29,15 @@ $(function() {
                 width: '3%',
                 align: 'center'
             },
-            {field: 'administration', title: '途径', width: '5%', align: 'center'},
-            {field: 'frequency', title: '次数', width: '3%', align: 'center'},
+            {field: 'administration', title: '途径', width: '5%', formatter:billingAttrFormatter,align: 'center'},
+            {field: 'frequency', title: '次数', width: '3%',formatter:performFreqFormatter, align: 'center'},
             {field: 'performSchedule', title: '执行时间', width: '5%', align: 'center'},
             {field: 'stopDateTime', title: '结束时间', width: '7%', align: 'center',formatter:formatDateBoxFull},
             {field: 'verifyDataTime', title: '校对时间', width: '8%', align: 'center',formatter:formatDateBoxFull},
             {field: 'time', title: '摆药截至时间', width: '8%', align: 'center'},
             {field: 'billingAttr', title: '自', width: '2%', align: 'center'},
-          //  {field:'',title:'阴阳',width:'5%',align:'center'},
-           // {field: 'freqDetail', title: '医生说明', width: '5%', align: 'center'},
+            {field:'performResult',title:'阴阳',width:'5%',align:'center',editor:'text'},
+            {field: 'freqDetail', title: '医生说明', width: '5%', align: 'center'},
             {
                 field: 'dosageUnits',
                 title: '单位',

@@ -1,4 +1,17 @@
 function onloadMethod(status){
+    /**
+     * 病历状态 下拉框
+     */
+    $('#mrStatus').combobox({
+        data: mrStatus,
+        valueField: 'id',
+        textField: 'label'
+    })
+    $('#doctorRole').combobox({
+        data: doctorRole,
+        valueField: 'id',
+        textField: 'label'
+    })
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -43,7 +56,8 @@ function onloadMethod(status){
             text: '新建病历',
             iconCls: 'icon-add',
             handler: function() {
-
+               window.location.href="/modules/clinic/newMr.html";
+              /*document.getElementsByTagName("iframe").src = "/modules/clinic/newMr.html";*/
             }
         }, '-', {
             text: '移入病历',
@@ -101,7 +115,10 @@ function onloadMethod(status){
  */
 function searchPatList(){
      var patName=$("#patName").val();
-     $("#list_data").datagrid('reload',{"patName":patName});
+     var startTime=$("#startTime").datebox('getValue');
+     var endTime=$("#endTime").datebox('getValue');
+     var status=$('#wrap input[name="status"]:checked ').val();
+     $("#list_data").datagrid({queryParams:{"status":status,"patName":patName,"startTime":startTime,"endTime":endTime}});
 }
 /**
  * 切换病了列表
