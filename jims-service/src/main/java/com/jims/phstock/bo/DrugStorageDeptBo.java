@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,10 +28,11 @@ public class DrugStorageDeptBo extends CrudImplService<DrugStorageDeptDao, DrugS
     private DeptDictDao deptDictDao;
     @Autowired
     private DrugSubStorageDeptDao subDao;
+    @Autowired
+    private DrugSubStorageDeptBo drugSubStorageDeptBo;
 
     /**
      * 保存增删改数据
-     *
      * @param beanChangeVo 增删改数据集合
      * @return
      * @author fengyuguang
@@ -50,6 +52,21 @@ public class DrugStorageDeptBo extends CrudImplService<DrugStorageDeptDao, DrugS
         for (DrugStorageDept drugStorageDept : updated) {
             DeptDict deptDict = deptDictDao.getByName(drugStorageDept.getStorageName()).get(0);
             drugStorageDept.setStorageCode(deptDict.getDeptCode());
+
+            //修改库存单位表的同时更新库存子单位表数据
+            DrugStorageDept old = dao.get(drugStorageDept.getId());
+            //查出需要更新的库存子单位数据
+            List<DrugSubStorageDept> oldSubStorages = drugSubStorageDeptBo.getListByStorageCode(drugStorageDept.getOrgId(), old
+                    .getStorageCode());
+            List<DrugSubStorageDept> newSubStorages = new ArrayList<DrugSubStorageDept>();
+            for (DrugSubStorageDept oldSubStorage : oldSubStorages) {
+                oldSubStorage.setStorageCode(drugStorageDept.getStorageCode());     //更新库存子单位
+                newSubStorages.add(oldSubStorage);
+            }
+            for (DrugSubStorageDept newSubStorage : newSubStorages) {
+                subDao.update(newSubStorage);
+            }
+
             updNum = Integer.valueOf(this.save(drugStorageDept));
             updNum++;
         }

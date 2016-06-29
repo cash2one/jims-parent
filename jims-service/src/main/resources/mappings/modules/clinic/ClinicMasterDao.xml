@@ -5,6 +5,7 @@
 	<sql id="clinicMasterColumns">
 		a.id AS "id",
 		a.org_id AS "orgId",
+		a.patient_id AS "patientId",
 		a.visit_date AS "visitDate",
 		a.patient_id AS "patientId",
 		a.visit_no AS "visitNo",
@@ -74,7 +75,24 @@
 		<include refid="clinicMasterJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="getPatInfo" resultType="ClinicMaster">
+		SELECT
+		a.id AS id,
+		a.patient_id AS patientId,
+		a.clinic_no AS clinicNo,
+		a.name AS name,
+		a.sex AS sex,
+		a.identity AS IDENTITY ,
+		a.unit_in_contract AS unitInContract,
+		b.date_of_birth AS birthDate,
+		b.charge_type AS chargeType,
+		b.phone_number_home AS phoneNumberHome,
+		b.mailing_address AS mailingAddress,
+		b.address_now AS addressNow,
+		b.id_no AS idNo
+		FROM clinic_master a , pat_master_index b
+		WHERE a.patient_id=b.id AND a.id=#{id}
+	</select>
 	<select id="findList" resultType="ClinicMaster">
 		SELECT 
 			<include refid="clinicMasterColumns"/>
@@ -233,9 +251,18 @@
 			#{delFlag}
 		)
 	</insert>
-	
+	<update id="updateMasterInfo">
+		update clinic_master SET
+			name = #{name},
+			sex=#{sex},
+			identity = #{identity},
+			charge_type = #{chargeType},
+			unit_in_contract = #{unitInContract}
+
+		where id=#{id}
+	</update>
 	<update id="update">
-		UPDATE clinic_master SET 	
+		UPDATE clinic_master SET
 			org_id = #{orgId},
 			visit_date = #{visitDate},
 			visit_no = #{visitNo},
@@ -289,7 +316,6 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
 	<update id="delete">
 		UPDATE clinic_master SET 
 			del_flag = #{DEL_FLAG_DELETE}
@@ -303,6 +329,9 @@
 		FROM clinic_master a
 		WHERE 1=1
 		AND a.registration_status='1'
+		<if test="visitDept!=null and visitDept!='' and visitDept!='undefined' ">
+			AND a.visit_dept=#{visitDept}
+		</if>
 		AND a.returned_date is null
 	</select>
 
@@ -311,6 +340,9 @@
 		FROM clinic_master a
 		WHERE 1=1
 		AND a.registration_status='2'
+		<if test="visitDept!=null and visitDept!='' and visitDept!='undefined' ">
+			AND a.visit_dept=#{visitDept}
+		</if>
 	</select>
 
 	<select id="getClinicMaster" resultType="com.jims.clinic.entity.ClinicMaster">

@@ -15,6 +15,7 @@
         ,"UNITS" as "units"
         ,"RETURN_AMOUNT" as "returnAmount"
         ,"RETURN_DATE" as "returnDate"
+        ,"RETURN_MAN" as "returnMan"
         ,"RETURN_FLAG" as "returnFlag"
         ,"OPERATOR" as "operator"
         ,"LENDER" as "lender"
@@ -43,6 +44,24 @@
         FROM ASEPSIS_LEND_REC a
         <where>
             a.org_id =  #{orgId}
+            <if test="lendDate != null and lendDate != ''">
+                and to_char(a.lend_date,'yyyy-MM-dd') = to_char(#{lendDate},'yyyy-MM-dd')
+            </if>
+            <if test="lendDateStart != null and lendDateStart != ''">
+                and a.lend_date >= #{lendDateStart}
+            </if>
+            <if test="lendDateEnd != null and lendDateEnd != ''">
+                and #{lendDateEnd} >= a.lend_date
+            </if>
+            <if test="toDept != null and toDept != ''">
+                and a.to_dept = #{toDept}
+            </if>
+            <if test="lender != null and lender != ''">
+                and a.lender = #{lender}
+            </if>
+            <if test="returnFlag != null and returnFlag != ''">
+                and a.return_flag = #{returnFlag}
+            </if>
         </where>
     </select>
 
@@ -79,6 +98,7 @@
             ,REQ_OPERATOR
             ,OPERATOR2
             ,ORG_ID
+            ,RETUR_NMAN
         ) VALUES (
             #{id}
             ,#{documentNo}
@@ -105,13 +125,13 @@
             ,#{reqOperator}
             ,#{operator2}
             ,#{orgId}
+            ,#{returnMan}
         )
     </insert>
 
     <update id="update">
-        UPDATE INTO ASEPSIS_LEND_REC SET
-            ID = #{id}
-            ,DOCUMENT_NO = #{documentNo}
+        UPDATE ASEPSIS_LEND_REC SET
+            DOCUMENT_NO = #{documentNo}
             ,ITEM_NO = #{itemNo}
             ,TO_DEPT = #{toDept}
             ,LEND_DATE = #{lendDate}
@@ -135,6 +155,7 @@
             ,REQ_OPERATOR = #{reqOperator}
             ,OPERATOR2 = #{operator2}
             ,ORG_ID = #{orgId}
+            ,RETURN_MAN = #{returnMan}
         WHERE id = #{id}
     </update>
 

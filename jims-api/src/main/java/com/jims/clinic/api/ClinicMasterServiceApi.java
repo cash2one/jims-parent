@@ -21,18 +21,25 @@ public interface ClinicMasterServiceApi {
     public ClinicMaster get(String id);
 
     /**
+     * 获取基本信息 （clinicMaster，patMasterIndex 中的信息）
+     * @param id
+     * @return
+     */
+    public ClinicMaster getPatInfo(String id);
+
+    /**
      * 根据当前登录人 查询 病人列表(待诊病人)
      * @param doctorID
      * @return
      */
-    public List<ClinicMaster> getClinicMasterList(String doctorID);
+    public List<ClinicMaster> getClinicMasterList(String doctorID,String visitDept);
 
     /**
      * 根据当前登录人 查询  病人列表（已诊病人）
      * @param doctorID
      * @return
      */
-    public List<ClinicMaster> getClinicMasterDiagnosed(String doctorID);
+    public List<ClinicMaster> getClinicMasterDiagnosed(String doctorID,String visitDept);
 
     /**
      * 根据参数查询挂号数据
@@ -61,6 +68,11 @@ public interface ClinicMasterServiceApi {
      */
     public ClinicMaster getCheckItem(String operator,String registeringDate);
 
-    public ClinicMaster getPatient(String id);
+    /**
+     * 更新 病人信息
+     * @param clinicMaster
+     * @return
+     */
+    public String updatePatInfo(ClinicMaster clinicMaster);
 
 }

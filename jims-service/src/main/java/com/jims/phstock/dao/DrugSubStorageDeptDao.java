@@ -13,6 +13,16 @@ import java.util.List;
  */
 @MyBatisDao
 public interface DrugSubStorageDeptDao extends CrudDao<DrugSubStorageDept> {
+
+    /**
+     * 根据库存单位代码获取该库存单位下的子库存单位列表
+     * @param orgId 所属组织机构ID
+     * @param storageCode 库存单位代码
+     * @return 子库存单位列表
+     * @author fengyuguang
+     */
+    public List<DrugSubStorageDept> getListByStorageCode(String orgId,String storageCode);
+
     /**
      * 通过唯一键获取子库房
      * @param storageCode 父库房编码

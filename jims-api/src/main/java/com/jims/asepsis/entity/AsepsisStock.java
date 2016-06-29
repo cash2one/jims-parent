@@ -27,12 +27,33 @@ public class AsepsisStock extends DataEntity<AsepsisStock> {
     private Double itemNo;  // 序号
     private String orgId;  // 所属机构ID
 
+
+
+    private String fromDeptName;  //科室名称
+    private String label;    //包单位
+
     public AsepsisStock() {
         super();
     }
 
     public AsepsisStock(String id) {
         super(id);
+    }
+
+    public String getFromDeptName() {
+        return fromDeptName;
+    }
+
+    public void setFromDeptName(String fromDeptName) {
+        this.fromDeptName = fromDeptName;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public  String getDocumentNo() {

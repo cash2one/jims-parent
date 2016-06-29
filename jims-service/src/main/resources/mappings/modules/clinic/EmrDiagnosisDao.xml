@@ -92,22 +92,13 @@
      <!--   <include refid="deathDiagnosisJoins"/>-->
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="parentId!=null and parentId!=''">
-				AND a.parent_id=#{parentId}
+			<if test="diagnosisParent!=null and diagnosisParent!=''">
+				AND a.diagnosis_parent=#{diagnosisParent}
 			</if>
 			<if test="inOrOutFlag !=null and inOrOutFlag !=null">
                 AND a.INOROUT_FLAG = #{inOrOutFlag}
 			</if>
-            <if test="isno==true">
-                AND a.parent_id in (
-                <foreach collection="list" item="item" index="index" separator="," >
-                    #{item.id}
-                </foreach>
-                )
-            </if>
-            <if test="parentIds!=null and parentIds!=''">
-                AND a.parent_ids=#{parentIds}
-            </if>
+
 		</where>
 
 		<choose>

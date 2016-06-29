@@ -1,12 +1,12 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.jims.clinic.dao;
 
 
 import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 医嘱计价项目DAO接口
@@ -15,5 +15,10 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface OrdersCostsDao extends CrudDao<OrdersCosts> {
-	
+    /**
+     * 通过医嘱ID拿到医嘱计价
+     * @author pq
+     * @return
+     */
+   public List<OrdersCosts> getByOrderId(@Param("ordersId")String ordersId);
 }

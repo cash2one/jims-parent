@@ -75,8 +75,13 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	private String printOperator;		// 打印操作员
 	private Integer peVisitId;		// pe_visit_id
 	private String mailingAddress;		// 住址
+	private String addressNow;//现住址
+	private String idNo;//身份证号
+
 
 	private Date birthDate;//出生日期
+	private String phoneNumberHome;//联系电话
+
 	private List<ClinicForRegist> clinicForRegists;
 
 	private Double registNum;//挂号数量
@@ -628,5 +633,29 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 
 	public void setItem(String item) {
 		this.item = item;
+	}
+
+	public String getAddressNow() {
+		return addressNow;
+	}
+
+	public void setAddressNow(String addressNow) {
+		this.addressNow = addressNow;
+	}
+
+	public String getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
+	}
+
+	public String getPhoneNumberHome() {
+		return phoneNumberHome;
+	}
+
+	public void setPhoneNumberHome(String phoneNumberHome) {
+		this.phoneNumberHome = phoneNumberHome;
 	}
 }

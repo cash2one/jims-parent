@@ -21,13 +21,27 @@ import java.util.List;
 @MyBatisDao
 public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
     /**
+     * 病人信息更新
+     * @param clinicMaster
+     * @author zhaoning
+     */
+    public void updateMasterInfo(ClinicMaster clinicMaster);
+
+    /**
+     * 获取基本信息
+     * @param id
+     * @return
+     * @author zhaoning
+     */
+    public ClinicMaster getPatInfo(String id);
+    /**
      * 根据当前登录人 医生ID查询 门诊病人(待诊病人)
      * 查询的病人列表是  -----我的病人 列表   非  全科病人列表
      * @param doctorId
      * @return
      * @author zhaoning
      */
-    public List<ClinicMaster>  getClinicBydoctor(@Param("doctorId")String doctorId);
+    public List<ClinicMaster>  getClinicBydoctor(@Param("doctorId")String doctorId,@Param("visitDept")String visitDept);
 
     /**
      * 根据当前登录人 医生ID 查询 门诊病人（已诊病人）
@@ -35,7 +49,7 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @return
      * @author zhaoning
      */
-    public List<ClinicMaster> getClinicMasterDiagnosed(@Param("doctorId")String doctorId);
+    public List<ClinicMaster> getClinicMasterDiagnosed(@Param("doctorId")String doctorId,@Param("visitDept")String visitDept);
 
     /**
      * 根据 就诊日期，就诊序号 ，查询 有关退号的基本信息

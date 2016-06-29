@@ -29,12 +29,33 @@ public class AsepsisDict extends DataEntity<AsepsisDict> {
     private String flag;  // 已经使用标记（0停止，1使用）
     private String orgId;  // 所属机构ID
 
+    private String q; // 作模糊查询
+
+    private String deptName;   //科室名称
+    private String label;    //包单位label
+
     public AsepsisDict() {
         super();
     }
 
     public AsepsisDict(String id) {
         super(id);
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public  String getItemClass() {
@@ -173,5 +194,11 @@ public class AsepsisDict extends DataEntity<AsepsisDict> {
         this.orgId = orgId;
     }
 
+    public String getQ() {
+        return q;
+    }
 
+    public void setQ(String q) {
+        this.q = q;
+    }
 }

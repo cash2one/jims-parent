@@ -53,6 +53,17 @@ $(function(){
         textField: 'identityName'
     })
     $("#identityId ").combobox('select',identityDict[0].id);
+
+    /**
+     * 合同单位下拉框
+     */
+    $('#companyId').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
+
+
     getClinicForRegist();
 
 })
@@ -75,7 +86,7 @@ function getClinicForRegist(){
             ' <input type="hidden" value="'+data[i].price+'" input_hidden="liClinicLabel'+i+'" >'+
             '</div>' +
             '<span style="padding-right:10px;">'+timeDescFormatter(data[i].timeDesc)+'</span>';
-            var registrationNum=0;
+            var registrationNum=0;currentNo
             var registrationLimits="";
             if(data[i].registrationNum!=null){
                 registrationNum=data[i].registrationNum;

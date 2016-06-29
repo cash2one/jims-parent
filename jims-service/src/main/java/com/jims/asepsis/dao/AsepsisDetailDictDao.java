@@ -12,5 +12,10 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 @MyBatisDao
 public interface AsepsisDetailDictDao extends CrudDao<AsepsisDetailDict> {
 
-
+    /**
+     * 根据代码删除
+     * @param asepsisCode
+     * @return
+     */
+     public  int deleteByCode(String asepsisCode);
 }

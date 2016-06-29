@@ -3,8 +3,9 @@ var billingAttr = [];
 //药品
 var ordersDrugData={};
 ordersDrugData.orgId="1";
-ordersDrugData.dictType="v_drug_info_mz";
+ordersDrugData.dictType="v_clinic_item_price";
 //非药品V_CINIC_ITEM_NANE
+
 
 var administrationDict = [];
 var performFreqDict = [];
@@ -12,16 +13,10 @@ var perSchedule = [];
 
 var drugData = [];
 
+var comboGridComplete = [];
+var clinicCompleteAuto = [];
 
-var ClinicItemcolumnsData = [
-    {field: 'item_code', title: '代码', width: '8%', align: 'center'},
-    {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-    {field: 'input_code', title: '拼音', width: '15%', align: 'center'},
-    {field: 'item_class', title: '类别', width: '15%', align: 'center'},
-    {field: 'expand1', title: '扩展1', width: '15%', align: 'center'},
-    {field: 'expand2', title: '扩展2', width: '15%', align: 'center'},
-    {field: 'expand5', title: '扩展5', width: '15%', align: 'center'}
-];
+
 /**
  * 医嘱类型
  */
@@ -60,24 +55,7 @@ function itemFormatter(value, rowData, rowIndex) {
 }
 
 
-/**
- * 药品翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function drugFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
 
-    for (var i = 0; i < drugData.length; i++) {
-        if (drugData[i].drug_code == value) {
-            return drugData[i].item_name;
-        }
-    }
-}
 
 
 function orderClassFormatter(value, rowData, rowIndex) {
@@ -105,7 +83,6 @@ $.ajax({
     'dataType': 'json',
     'async': false,
     'success': function(data){
-       // ordersDrugData=data;
         drugData = data;
     }
 });
@@ -224,7 +201,7 @@ function performFreqFormatter(value, rowData, rowIndex) {
 function comboGridCompleting(q,id){
     var drugNameData={};
     drugNameData.orgId="1";
-    drugNameData.dictType="v_drug_info_mz"
+    drugNameData.dictType="v_clinic_item_price"
     var inputParamVos=new Array();
     var InputParamVo1={};
     InputParamVo1.colName='rownum';
@@ -249,89 +226,48 @@ function comboGridCompleting(q,id){
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            $("#"+id).combogrid("grid").datagrid("loadData", data);
-            $("#"+id).combogrid('setText',q);
+            comboGridComplete = data;
+
         }
     });
 }
 
 
 
-
-//根据频次和途径拿到执行时间
-function performSchedule(aid,pid){
-    var performScheduleData={};
-    performScheduleData.orgId="1";
-    performScheduleData.dictType="perform_default_schedule";
+//非药品自动补全
+function comboGridCompleting(q,id){
+    var clinicNameData={};
+    clinicNameData.orgId="1";
+    clinicNameData.dictType="V_CINIC_ITEM_NANE"
     var inputParamVos=new Array();
-
-    if(pid!='' && pid!=null){
-        var InputParamVo1={};
-        InputParamVo1.colName='freq_desc';
-        InputParamVo1.colValue=pid;
-        InputParamVo1.operateMethod='=';
-        inputParamVos.push(InputParamVo1);
-    }
-    if(aid!='' && aid!=null){
+    var InputParamVo1={};
+    InputParamVo1.colName='rownum';
+    InputParamVo1.colValue='20';
+    InputParamVo1.operateMethod='<';
+    inputParamVos.push(InputParamVo1);
+    if(q!='' && q!=null){
         var InputParamVo={};
-        InputParamVo.colName='administration';
-        InputParamVo.colValue=aid;
-        InputParamVo.operateMethod='=';
+        InputParamVo.colName='input_code';
+        InputParamVo.colValue=q;
+        InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
+    }else{
+        $("#"+id).combogrid('setValue','');
     }
-    performScheduleData.inputParamVos=inputParamVos;
+    clinicNameData.inputParamVos=inputParamVos;
     $.ajax({
         'type': 'POST',
         'url':basePath+'/input-setting/listParam' ,
-        data: JSON.stringify(performScheduleData),
+        data: JSON.stringify(clinicNameData),
         'contentType': 'application/json',
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            alert(JSON.stringify(data));
+            clinicCompleteAuto = data;
 
         }
     });
 }
 
-/*
-function getOrderText(type){
-    if(type=='2'){//非药品
-        ordersDrugData.dictType='v_cinic_item_nane';
-        drugcolumnsData = [
-            {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
-            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
-            {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
-            {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center', editor: 'text'},
-            {field: 'dose_units', title: '用量单位', width: '15%', align: 'center', editor: 'text'}
-        ];
-        drugColumns=drugColumns.push(drugcolumnsData);
-        $('#doctorNameId').combogrid({
-            options: {
-                panelWidth: 500,
-                data: ordersDrugData,
-                idField: 'drug_code',
-                textField: 'item_name',
-                columns: drugColumns
-                 */
-/*,keyHandler: {
-                 up: function() {},
-                 down: function() {},
-                 enter: function() {},
-                 query: function(q) {
-                 comboGridCompleting(q,'orderText');
-                 }
-                 }*//*
-, onClickRow: function (index, row) {
-                    var dosage = $("#orderList").datagrid('getEditor', {index: rowNum, field: 'dosage'});
-                    $(dosage.target).textbox('setValue', row.dose_per_unit);
-                    var dosageUnits = $("#orderList").datagrid('getEditor', {index: rowNum, field: 'dosageUnits'});
-                    $(dosageUnits.target).textbox('setValue', row.dose_units);
 
-                }
-            }
-        });
-    }
-}
-*/
+

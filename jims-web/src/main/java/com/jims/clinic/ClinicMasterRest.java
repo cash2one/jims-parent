@@ -4,10 +4,13 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.clinic.api.ClinicMasterServiceApi;
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.common.data.StringData;
 import com.jims.common.utils.DateUtils;
 import com.jims.common.utils.StringUtils;
 import com.jims.finance.outpAccounts.entity.RegistAcctDetail;
 import com.jims.finance.outpAccounts.entity.RegistAcctMoney;
+import com.jims.patient.api.PatMasterIndexServiceApi;
+import com.jims.patient.entity.PatMasterIndex;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +33,6 @@ public class ClinicMasterRest {
 
 
 
-
     /**
      *获取就诊记录
      * @return
@@ -41,19 +43,32 @@ public class ClinicMasterRest {
         ClinicMaster clinicMaster=  clinicMasterServiceApi.get(id);
         return clinicMaster;
     }
+
+    /**
+     * 获取病人信息
+     * @param id
+     * @return
+     * @author zhaoning
+     */
+      @Path("getPatInfo")
+      @GET
+    public ClinicMaster getPatInfo(@QueryParam("id") String id){
+        ClinicMaster clinicMaster=  clinicMasterServiceApi.getPatInfo(id);
+        return clinicMaster;
+    }
     /**
      * 根据当前登录医生的 医生ID 查询 ClinicMaster(待诊)
      * @return
      */
     @Path("clinicMasterList")
     @GET
-    public List<ClinicMaster> getClinicMasterList(){
+    public List<ClinicMaster> getClinicList(@QueryParam("deptName")String deptName){
         List<ClinicMaster> list= new ArrayList<ClinicMaster>();
       /* User user =  UserUtils.getUser();
        if(user!=null && user.getId()!=null){
            list=clinicMasterServiceApi.getClinicMasterList(user.getId());
        }*/
-        list= clinicMasterServiceApi.getClinicMasterList("174");
+        list= clinicMasterServiceApi.getClinicMasterList("174",deptName);
        return list;
     }
 
@@ -63,7 +78,7 @@ public class ClinicMasterRest {
      */
     @Path("clinicMasterDiagnosed")
     @GET
-    public List<ClinicMaster> getClinicMasterDiagnosed(){
+    public List<ClinicMaster> getClinicMasterDiagnosed(@QueryParam("deptName")String deptName){
 
         List<ClinicMaster> list= new ArrayList<ClinicMaster>();
 
@@ -71,9 +86,10 @@ public class ClinicMasterRest {
         if(user!=null && user.getId()!=null){
             list=clinicMasterServiceApi.getClinicMasterDiagnosed(user.getId());
         }*/
-        list= clinicMasterServiceApi.getClinicMasterDiagnosed("174");//测试中----医生ID给的定值
+        list= clinicMasterServiceApi.getClinicMasterDiagnosed("174",deptName);//测试中----医生ID给的定值
         return list;
     }
+
     /**
      * @param          date   传递参数
      * @return com.jims.clinic.entity.ClinicMaster    返回类型
@@ -180,5 +196,18 @@ public class ClinicMasterRest {
             moneyList.add(money);
         }
         return moneyList;
+    }
+
+    /**
+     * 保存 病人信息
+     * @param clinicMaster
+     * @return
+     */
+    @POST
+    @Path("savePatInfo")
+    public StringData savePatInfo(ClinicMaster clinicMaster){
+       StringData data = new StringData();
+       data.setCode(clinicMasterServiceApi.updatePatInfo(clinicMaster));
+        return data;
     }
 }

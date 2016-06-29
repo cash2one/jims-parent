@@ -7,18 +7,20 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="../clinic/js/patientListTable.js"></script>
+    <script type="text/javascript" src="/static/data/data_mrStatus_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_doctorRole_dict.js"></script>
 </head>
 <body class="easyui-layout" onload="onloadMethod('0')">
 <div class="search-standard clearfix">
-    <ul class="clearfix">
+    <ul class="clearfix" id="wrap">
         <li>住院状态:
             <input type="radio" name="status" id="dai" checked="checked" onclick="onloadMethod('0')"/>在院中
             <input type="radio" name="status" id="yi" onclick="onloadMethod('1')"/>已出院</li>
-        <li>医师权限:<select class="validatebox-text"/><option>111</option></select></li>
-        <li>病历状态:<select class="validatebox-text"/><option>111</option></select></li>
-        <li>按开始日期查询：<input type="text" class="validatebox-text validatebox-text-sm"/> 至  <input type="text" class="validatebox-text validatebox-text-sm"/></li>
-        <li>病人姓名:<input type="text" class="validatebox-text"/></li>
-        <li><button class="easy-nbtn easy-nbtn-info">查询</button></li>
+        <li>医师权限:<input class="easyui-combobox" id="doctorRole"></li>
+        <li>病历状态:<input class="easyui-combobox" id="mrStatus"></li>
+        <li>出院时间：<input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="startTime"/> 至  <input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="endTime"/></li>
+        <li>病人姓名:<input type="text" class="validatebox-text" id="patName"/></li>
+        <li><button class="easy-nbtn easy-nbtn-info" onclick="searchPatList();">查询</button></li>
     </ul>
 </div>
 <div id="patientDivId">

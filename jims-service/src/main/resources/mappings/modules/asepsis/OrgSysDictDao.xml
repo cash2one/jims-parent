@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.asepsis.dao.OrgSysDictDao">
+
+    <sql id="orgSysDictColumns">
+        "ID" as "id"
+        ,"LABEL" as "label"
+        ,"VALUE" as "value"
+        ,"TYPE" as "type"
+        ,"DESCRIPTION" as "description"
+        ,"INPUT_CODE" as "inputCode"
+        ,"ORG_ID" as "orgId"
+    </sql>
+
+    <select id="get" resultType="OrgSysDict">
+        SELECT
+        <include refid="orgSysDictColumns"/>
+        FROM ORG_SYS_DICT a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="OrgSysDict">
+        SELECT
+        <include refid="orgSysDictColumns"/>
+        FROM ORG_SYS_DICT a
+        <where>
+            a.org_id =  #{orgId}
+        </where>
+    </select>
+
+    <select id="findUnits" resultType="OrgSysDict">
+        SELECT
+        <include refid="orgSysDictColumns"/>
+        FROM ORG_SYS_DICT a
+        <where>
+            a.TYPE =  #{type} and  a.org_id =  #{orgId}
+        </where>
+    </select>
+
+    <select id="findAllList" resultType="OrgSysDict">
+        SELECT
+        <include refid="orgSysDictColumns"/>
+        FROM ORG_SYS_DICT a
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ORG_SYS_DICT(
+            ID
+            ,LABEL
+            ,VALUE
+            ,TYPE
+            ,DESCRIPTION
+            ,INPUT_CODE
+            ,ORG_ID
+        ) VALUES (
+            #{id}
+            ,#{label}
+            ,#{value}
+            ,#{type}
+            ,#{description}
+            ,#{inputCode}
+            ,#{orgId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE ORG_SYS_DICT SET
+            LABEL = #{label}
+            ,VALUE = #{value}
+            ,TYPE = #{type}
+            ,DESCRIPTION = #{description}
+            ,INPUT_CODE = #{inputCode}
+            ,ORG_ID = #{orgId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete FROM ORG_SYS_DICT
+        WHERE id = #{id}
+    </delete>
+</mapper>
