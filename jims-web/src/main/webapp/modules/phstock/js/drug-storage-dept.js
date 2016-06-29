@@ -296,7 +296,7 @@ $(function () {
             field: 'importNoAva',
             align: 'center',
             width: '15%',
-            editor: 'textbox'
+            editor: 'numberbox'
         },{
             title: '出库单前缀',
             field: 'exportNoPrefix',
@@ -308,7 +308,7 @@ $(function () {
             field: 'exportNoAva',
             align: 'center',
             width: '15%',
-            editor: 'textbox'
+            editor: 'numberbox'
         }]],
         onClickRow: function(index,row){
             stopEdit();

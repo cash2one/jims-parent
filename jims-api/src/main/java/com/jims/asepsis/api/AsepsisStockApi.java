@@ -1,6 +1,7 @@
 package com.jims.asepsis.api;
 
 import com.jims.asepsis.entity.AsepsisStock;
+import com.jims.asepsis.vo.AsepsisStockVo;
 import com.jims.common.persistence.Page;
 
 import java.util.List;
@@ -47,6 +48,14 @@ public interface AsepsisStockApi {
     * @return 0 失败，1成功
     */
     public String save(List<AsepsisStock> list);
+
+    /**
+     * 保存  增删改
+     * @param asepsisStockVo
+     * @return
+     *  @author  yangruidong
+     */
+    public List<AsepsisStock> saveAll(AsepsisStockVo<AsepsisStock> asepsisStockVo);
 
     /**
     * 删除数据
