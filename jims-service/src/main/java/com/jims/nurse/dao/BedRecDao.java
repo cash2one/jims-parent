@@ -85,4 +85,12 @@ public interface BedRecDao extends CrudDao<BedRec> {
     public BaseDto getInPatOne(BedRec bedRec);
 
 
+    /**
+     * 查询床位相关费用
+     * @author pq
+     * @param itemClass
+     * @return
+     */
+    public List<BaseDto> findBedPrice(@Param(value = "itemClass")String itemClass);
+
 }
