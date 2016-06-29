@@ -41,11 +41,12 @@ public class OrgRoleBo extends CrudImplService<OrgRoleDao, OrgRole> {
     /**
      * 根据角色名称模糊查询角色信息
      * @param roleName 角色名称
+     * @param orgId  组织机构ID
      * @return 角色信息列表
      * @author fengyuguang
      */
-    public List<OrgRole> findByRoleName(String roleName){
-        return orgRoleDao.findByRoleName(roleName);
+    public List<OrgRole> findByRoleName(String roleName,String orgId){
+        return orgRoleDao.findByRoleName(roleName,orgId);
     }
 
     /**

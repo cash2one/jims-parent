@@ -164,7 +164,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 orgSelfServiceVsMenu.setPid(parentId);
                 orgSelfServiceVsMenu.setSelfServiceId(serviceId);
                 orgSelfServiceVsMenu.setMenuId(menu.getId());
-                orgSelfServiceVsMenu.setMenuSort(String.valueOf(i+1));
+                orgSelfServiceVsMenu.setMenuSort(i+1);
                 orgSelfServiceVsMenu.setMenuEndDate(endDate);
                 orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
 

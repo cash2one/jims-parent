@@ -205,7 +205,34 @@ $(function(){
     function loadNameAndVs(index){
         if(currentSelectClinicIndex != undefined && index != currentSelectClinicIndex){
             var row = $('#clinic_item').datagrid('getRows')[currentSelectClinicIndex];
-            if(row.saveNameList){
+            var nameRows = $('#clinic_item_name').datagrid('getRows');
+            //五个字段是否更新
+            var flags = [row.expand1!=nameRows[0].expand1,
+                row.expand2!=nameRows[0].expand2,
+                row.expand3!=nameRows[0].expand3,
+                row.expand4!=nameRows[0].expand4,
+                row.expand5!=nameRows[0].expand5];
+            //拓展的五个字段是否有更新
+            var updateFlag = flags[0] || flags[1] || flags[2] || flags[3] || flags[4]
+            for(var i=0;i<nameRows.length;i++){
+                if(flags[0]){
+                    nameRows[i].expand1 = row.expand1
+                }
+                if(flags[1]){
+                    nameRows[i].expand2 = row.expand2
+                }
+                if(flags[2]){
+                    nameRows[i].expand3 = row.expand3
+                }
+                if(flags[3]){
+                    nameRows[i].expand4 = row.expand4
+                }
+                if(flags[4]){
+                    nameRows[i].expand5 = row.expand5
+                }
+            }
+
+            if(updateFlag || row.saveNameList){
                 row.saveNameList = $('#clinic_item_name').datagrid('getRows');
             } else {
                 var names = $('#clinic_item_name').datagrid('getChanges', 'inserted')
@@ -660,6 +687,7 @@ $(function(){
         window.location.reload();
     });
     $('#save_data').click( function(){
+        endEditing_clinic();
         if(!endEditing_vs() || !endEditing_name() || !validVs()) return
         loadNameAndVs();
         // 传输修改的参数

@@ -5,7 +5,7 @@ CREATE TABLE ORG_SELF_SERVICE_VS_MENU
    ID                 VARCHAR2(64)         NOT NULL,
    SELF_SERVICE_ID    VARCHAR2(64),
    MENU_ID            VARCHAR2(64),
-   MENU_SORT          VARCHAR2(10),
+   MENU_SORT          NUMBER,
    PID                VARCHAR2(64),
    MENU_END_DATE        DATE,
    CREATE_BY           VARCHAR2(64),

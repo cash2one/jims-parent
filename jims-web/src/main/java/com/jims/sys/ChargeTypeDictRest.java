@@ -6,16 +6,16 @@ import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.api.ChargeTypeDictApi;
 import com.jims.sys.entity.ChargeTypeDict;
+import com.jims.sys.vo.BeanChangeVo;
+import org.apache.commons.fileupload.util.LimitedInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/20.
@@ -27,6 +27,71 @@ public class ChargeTypeDictRest {
 
     @Reference(version = "1.0.0")
     private ChargeTypeDictApi chargeTypeDictApi;
+
+    /**
+     * 查询某个组织机构的费别列表
+     * @param orgId  组织机构ID
+     * @param request
+     * @param response
+     * @return
+     * @author fengyuguang
+     */
+    @Path("list-by-orgId")
+    @GET
+    public PageData list(@QueryParam("q")String q,@QueryParam("orgId") String orgId, @Context HttpServletRequest request, @Context
+    HttpServletResponse
+            response) {
+        Page<ChargeTypeDict> page = chargeTypeDictApi.findPage(q,orgId,new Page<ChargeTypeDict>(request, response), new ChargeTypeDict());
+        PageData<ChargeTypeDict> pageData = new PageData<ChargeTypeDict>();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
+    }
+
+    /**
+     * 保存增删改
+     * @param beanChangeVo 增删改集合
+     * @return
+     * @author fengyuguang
+     */
+    @POST
+    @Path("merge")
+    public StringData merge(BeanChangeVo<ChargeTypeDict> beanChangeVo) {
+        String num = chargeTypeDictApi.merge(beanChangeVo);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        if (Integer.parseInt(num) > 0) {
+            stringData.setData("success");
+        } else {
+            stringData.setData("error");
+        }
+        return stringData;
+    }
+
+    /**
+     * 根据名称模糊查询数据
+     * @param chargeTypeName 费别名称
+     * @param orgId  组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    @Path("search")
+    @GET
+    public List<ChargeTypeDict> search(@QueryParam("chargeTypeName")String chargeTypeName,@QueryParam("orgId")String orgId){
+        return chargeTypeDictApi.search(chargeTypeName,orgId);
+    }
+
+    /**
+     * 查询某个组织机构的费别列表
+     * @param orgId  组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    @Path("list-all")
+    @GET
+    public List<ChargeTypeDict> listAll(@QueryParam("orgId")String orgId){
+        return chargeTypeDictApi.listAll(orgId);
+    }
 
     @Path("list")
     @GET

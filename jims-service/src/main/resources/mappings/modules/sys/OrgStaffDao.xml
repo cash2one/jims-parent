@@ -47,7 +47,7 @@
     </select>
 
     <select id="findByServiceId" resultType="OrgSelfServiceVsMenu">
-        select sv.id AS "id",
+        SELECT sv.id AS "id",
 		sv.self_service_id AS "selfServiceId",
 		sv.menu_id AS "menuId",
 		sv.menu_sort AS "menuSort",
@@ -61,20 +61,20 @@
 		sv.create_date AS "createDate",
         md.menu_name,
         md.href
-        from staff_vs_role svr,org_role_vs_service orvs,role_service_menu rsm,
+        FROM staff_vs_role svr,org_role_vs_service orvs,role_service_menu rsm,
         org_self_service_vs_menu sv,menu_dict md
-        where orvs.service_id = #{0}
-        and svr.staff_id = #{1}
-        and orvs.role_id = svr.role_id
-        and orvs.id = rsm.role_service_id
-        and sv.id = rsm.menu_id
-        and sv.menu_id = md.id
-        and svr.del_flag = '0'
-        and orvs.del_flag = '0'
-        and rsm.del_flag = '0'
-        and sv.del_flag = '0'
-        and md.del_flag = '0'
-        order by sv.menu_sort
+        WHERE orvs.service_id = #{0}
+        AND svr.staff_id = #{1}
+        AND orvs.role_id = svr.role_id
+        AND orvs.id = rsm.role_service_id
+        AND sv.id = rsm.menu_id
+        AND sv.menu_id = md.id
+        AND svr.del_flag = '0'
+        AND orvs.del_flag = '0'
+        AND rsm.del_flag = '0'
+        AND sv.del_flag = '0'
+        AND md.del_flag = '0'
+        ORDER BY sv.menu_sort
     </select>
 
     <select id="getByPersionId" resultType="OrgStaff">
