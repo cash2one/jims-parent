@@ -8,7 +8,7 @@ var inputParamVos=[];
 var q='QUARANTINE_DICT';
 InputParamVo.colName = 'TYPE';
 InputParamVo.colValue = q;
-InputParamVo1.colValue='20';
+InputParamVo1.colValue = '20';
 InputParamVo.operateMethod = '=';
 inputParamVos.push(InputParamVo);
 quarantineData.inputParamVos = inputParamVos;

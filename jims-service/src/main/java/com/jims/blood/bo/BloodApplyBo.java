@@ -6,6 +6,7 @@ import com.jims.blood.entity.BloodApply;
 import com.jims.blood.entity.BloodCapacity;
 import com.jims.clinic.bo.CostOrdersUtilsService;
 import com.jims.clinic.entity.ClinicItemDict;
+import com.jims.common.utils.IdGen;
 import com.jims.exam.dao.OrdersDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,7 @@ public class BloodApplyBo {
         int strState=0;
         if (bloodApply.getIsNewRecord()) {
             bloodApply.preInsert();
+            bloodApply.setApplyNum(IdGen.uuid());
             strState = bloodApplylDao.insert(bloodApply);
 //            bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
             List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
@@ -58,9 +60,9 @@ public class BloodApplyBo {
                 }else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
-//                    bloodCapacity.setPatientId(bloodApply.getPatientId());
-//                    bloodCapacity.setClinicId(bloodApply.getClinicId());
-//                    bloodCapacity.setVisitId(bloodApply.getVisitId());
+                    bloodCapacity.setPatientId(bloodApply.getPatientId());
+                    bloodCapacity.setClinicId(bloodApply.getClinicId());
+                    bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
                 }
 
@@ -89,9 +91,9 @@ public class BloodApplyBo {
                 }else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
-//                    bloodCapacity.setPatientId(bloodApply.getPatientId());
-//                    bloodCapacity.setClinicId(bloodApply.getClinicId());
-//                    bloodCapacity.setVisitId(bloodApply.getVisitId());
+                    bloodCapacity.setPatientId(bloodApply.getPatientId());
+                    bloodCapacity.setClinicId(bloodApply.getClinicId());
+                    bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
                 }
                 clinicItemDictList.add(clinicItemDict);

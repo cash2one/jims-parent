@@ -156,10 +156,8 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:function(value, rowData, rowIndex){
-                return clinicDeptCodeFormatter(rowData.deptCode,'','');
-            }},
-            {field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
+            {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:clinicDeptCodeFormatter},
+            //{field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
             {field: 'bloodInuse', title: '血源', width: '18%', align: 'center'},
             {field: 'bloodDiagnose', title: '诊断', width: '18%', align: 'center'},
             {field: 'preBloodType', title: '血型', width: '18%', align: 'center'},
@@ -200,6 +198,7 @@ function onloadMethod() {
     });
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
+
     $.ajax({
         'type':"POST",
         'url':  basePath + "/bloodApply/getPatient",
@@ -225,10 +224,16 @@ function onloadMethod() {
             $("#birthday").val(data.name);
             $("#patSource").val(data.patMaster.mailingAddress);
             $("#birthday").val( new Date(data.patMaster.dateOfBirth));
-
         }
     })
-
+    $("#preBloodType").combobox({
+        data:bloodType,
+        valueField:'value',
+        textField:'label',
+        onSelect:function(n){
+            $("#preBloodTypeId").val(n.value);
+        }
+    })
 }
 
 

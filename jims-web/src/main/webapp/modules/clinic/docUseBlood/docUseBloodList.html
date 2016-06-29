@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/static/data/data_user_blood.js"></script>
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
     <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_blood_type_dict.js"></script>
 </head>
 <body onload="onloadMethod()" class="easyui-layout">
 <div class="easyui-layout" style="width:100%;height:100%;">
@@ -28,26 +29,31 @@
                 <label>
                     姓名：
                 </label>
-                <input name="patName" id="patName" class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input name="patName" id="patName" class="easyui-validatebox validatebox-text validatebox-invalid" readOnly="true"
+                       style="width:30%;"/>
+                <label>
+                    性别：
+                </label>
+                <input name="patSex" id="patSex" class="easyui-validatebox validatebox-text validatebox-invalid" readOnly="true"
                        style="width:30%;"/>
                 <!--<label>-->
                     <!--单号：-->
                 <!--</label>-->
                 <!--<input name="applyNum" id="applyNum" required="true" class="easyui-validatebox validatebox-text validatebox-invalid"-->
                        <!--style="width:30%;"/>-->
-                <label>
-                    血库收到日期：
-                </label>
-                <input name="gatherDate" class="easyui-datetimebox"
-                       style="width:30%;"/>
+                <!--<label>-->
+                    <!--血库收到日期：-->
+                <!--</label>-->
+                <!--<input name="gatherDate" class="easyui-datetimebox"-->
+                       <!--style="width:30%;"/>-->
             </div>
-            <div class="fitem fitem_pop">
 
+            <div class="fitem fitem_pop">
                 <label>
-                    性别：
+                    费别：
                 </label>
-                <input name="patSex" id="patSex" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                <input style="width:30%;" id="feeType" name="feeType" class="easyui-validatebox validatebox-text validatebox-invalid"
+                       readOnly="true" >
                 <!--<label>-->
                     <!--病人号：-->
                 <!--</label>-->
@@ -57,40 +63,32 @@
                     属地：
                 </label>
                 <input name="patSource" id="patSource" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
-
+                       readOnly="true"   style="width:30%;"/>
             </div>
+
             <div class="fitem fitem_pop">
-                <label>
-                    费别：
-                </label>
-                <input style="width:30%;" id="feeType" name="feeType" class="easyui-validatebox validatebox-text validatebox-invalid">
                 <label>
                     申请科室：
                 </label>
-                <input style="width:30%;" id="deptCode" name="deptCode" class="easyui-validatebox validatebox-text validatebox-invalid">
-
-            </div>
-            <!--<div class="fitem fitem_pop">-->
-
-            <!--</div>-->
-            <div class="fitem fitem_pop">
-                <label>
-                    出生日期：
-                </label>
-                <input id="birthday" name="birthday"
-                       style="width:30%;"/>
+                <input style="width:30%;" id="deptCode" name="deptCode" class="easyui-validatebox validatebox-text validatebox-invalid" readOnly="true" >
                 <label>
                     就诊号：
                 </label>
-                <input style="width:30%;"  id="inpNo" name="inpNo" class="easyui-validatebox validatebox-text validatebox-invalid"
-                        >
+                <input style="width:30%;"  id="inpNo" name="inpNo" class="easyui-validatebox validatebox-text validatebox-invalid" readOnly="true" >
             </div>
+            <!--<div class="fitem fitem_pop">-->
+                <!--<label>-->
+                    <!--出生日期：-->
+                <!--</label>-->
+                <!--<input id="birthday" name="birthday"-->
+                       <!--style="width:30%;"/>-->
+            <!--</div>-->
             <div class="fitem fitem_pop">
                 <label>
                     血型：
                 </label>
-                <input name="preBloodType" class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input type="hidden" id="preBloodTypeId" name="preBloodType" value="">
+                <input id="preBloodType" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:30%;"/>
                 <label>
                     RH(D)：
@@ -98,6 +96,7 @@
                 <input name="rh" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:30%;"/>
             </div>
+
             <div class="fitem fitem_pop">
                 <label>
                     申请时间：

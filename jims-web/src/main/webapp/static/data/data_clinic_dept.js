@@ -26,7 +26,7 @@ function clinicDeptCodeFormatter(value, rowData, rowIndex) {
         return;
     }
     for (var i = 0; i < clinicDeptCode.length; i++) {
-        if (clinicDeptCode[i].dept_code == value) {
+        if (clinicDeptCode[i].id == value) {
             return clinicDeptCode[i].dept_name;
         }
     }
