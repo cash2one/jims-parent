@@ -36,13 +36,19 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 	private String insuranceType;		// 保险类型
 	private String unitInContract;		// 合同单位
 	private String namePhonetic;		// 姓名拼音码
-
+    private String visitIndicator; //诊别
+    private String visitDept; //就诊科室
+//扩展
 	private String clinicDept;
 	private String doctor ;
 	private String doctorTitle;
 	private String clinicType;
 	private String clinicPosition;
     private String masterId;
+    private String clinicLabelName;
+    private Date dateOfBirth;		// 出生日期
+
+
 	public ClinicAppoints() {
 		super();
 	}
@@ -60,11 +66,11 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 		this.orgId = orgId;
 	}
 
-	@JsonSerialize(using = CustomDateSerializer.class)
+
 	public Date getVisitDateAppted() {
 		return visitDateAppted;
 	}
-	@JsonDeserialize(using = CustomDateDeSerializer.class)
+
 	public void setVisitDateAppted(Date visitDateAppted) {
 		this.visitDateAppted = visitDateAppted;
 	}
@@ -278,4 +284,36 @@ public class ClinicAppoints extends DataEntity<ClinicAppoints> {
 	public void setMasterId(String masterId) {
 		this.masterId = masterId;
 	}
+
+    public String getClinicLabelName() {
+        return clinicLabelName;
+    }
+
+    public void setClinicLabelName(String clinicLabelName) {
+        this.clinicLabelName = clinicLabelName;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getVisitIndicator() {
+        return visitIndicator;
+    }
+
+    public void setVisitIndicator(String visitIndicator) {
+        this.visitIndicator = visitIndicator;
+    }
+
+    public String getVisitDept() {
+        return visitDept;
+    }
+
+    public void setVisitDept(String visitDept) {
+        this.visitDept = visitDept;
+    }
 }

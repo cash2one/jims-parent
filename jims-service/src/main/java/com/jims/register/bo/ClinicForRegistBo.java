@@ -12,7 +12,6 @@ import com.jims.common.utils.DateUtils;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.dao.ClinicForRegistDao;
 import com.jims.register.dao.ClinicIndexDao;
-import com.jims.register.dao.ClinicTypeSettingDao;
 import com.jims.register.dao.ClinicTypeFeeDao;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicIndex;
