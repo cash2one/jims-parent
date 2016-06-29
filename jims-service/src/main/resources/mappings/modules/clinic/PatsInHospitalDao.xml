@@ -46,7 +46,12 @@
 		<include refid="patsInHospitalJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="getPatsInfoByMaster" resultType="PatsInHospital">
+		SELECT
+		<include refid="patsInHospitalColumns"/>
+		FROM pats_in_hospital a
+		WHERE a.patient_id=#{patId}
+	</select>
 	<select id="findList" resultType="PatsInHospital">
 		SELECT 
 			<include refid="patsInHospitalColumns"/>
@@ -225,5 +230,8 @@
 	<update id="updateInfo">
 		update pats_in_hospital SET ward_code =NULL , bed_no =NULL , patient_condition ='3' , adm_ward_date_time =NULL , dept_code =NULL , doctor_in_charge =NULL WHERE id=#{id}
 	</update>
-	
+	<update id="updateByMrNew">
+		update pats_in_hospital SET doctor_in_charge =#{doctorInCharge} WHERE id=#{id}
+	</update>
+
 </mapper>
