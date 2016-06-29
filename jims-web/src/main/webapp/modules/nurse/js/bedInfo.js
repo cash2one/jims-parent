@@ -18,7 +18,7 @@ $(function(){
                 html = html+'<tr><td>入院日期：</td> <td >'+item.admission_date_time+'</td></tr>';
                 html = html+'<tr><td>医生：</td> <td >'+item.doctor_in_charge+'</td></tr>';
                 html = html+'<tr><td>护理等级：</td> <td >'+item.nursing_class+'</td></tr>';
-                html = html+'<tr><td>住院号：</td> <td >'+item.visitId+'</td></tr>';
+                html = html+'<tr><td>住院号：</td> <td >'+item.visit_id+'</td></tr>';
                 html = html+'<tr><td>费别：</td> <td >'+item.charge_type+'</td></tr>';
                 html = html+'</table>';
                 html = html +'</li>';
@@ -45,6 +45,8 @@ return false;
 function getVisitId(visitId){
     $("#visitId").val(visitId);
 }
+
+
 
 
 

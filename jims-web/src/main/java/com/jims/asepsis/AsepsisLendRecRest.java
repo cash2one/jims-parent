@@ -32,13 +32,19 @@ public class AsepsisLendRecRest {
     @Path("findList")
     public List<AsepsisLendRec> findList(@QueryParam("orgId")String orgId,
                                          @QueryParam("lendDate")Date lendDate,
+                                         @QueryParam("lendDateStart")Date lendDateStart,
+                                         @QueryParam("lendDateEnd")Date lendDateEnd,
                                          @QueryParam("toDept")String toDept,
+                                         @QueryParam("returnFlag")String returnFlag,
                                          @QueryParam("lender")String lender) {
         AsepsisLendRec entity = new AsepsisLendRec();
         entity.setOrgId(orgId);
         entity.setLendDate(lendDate);
+        entity.setLendDateStart(lendDateStart);
+        entity.setLendDateEnd(lendDateEnd);
         entity.setToDept(toDept);
         entity.setLender(lender);
+        entity.setReturnFlag(returnFlag);
         return api.findList(entity);
     }
 

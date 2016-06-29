@@ -123,7 +123,6 @@ function appointsRegister(){
         var formJson = fromJson('patMasterInfoForm');
         formJson = formJson.substring(0, formJson.length - 1);
         var submitJson = formJson + ",\"clinicForRegistList\":" + tableJson + "}";
-        alert(submitJson);
         $.postJSON(basePath + '/clinicAppoints/saveAppoints', submitJson, function (data) {
             if (data.code == "1") {
                 $.messager.alert("提示信息", "预约成功");
@@ -137,5 +136,4 @@ function appointsRegister(){
             $.messager.alert("提示信息", "预约失败", "error");
         })
     }
-    alert(1);
 }

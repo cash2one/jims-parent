@@ -224,7 +224,7 @@
         bed_no1 ,
         BED_REC.WARD_CODE ,
         PATS_IN_HOSPITAL.PATIENT_ID ,
-        PATS_IN_HOSPITAL.ID as 'visitId' ,
+        PATS_IN_HOSPITAL.ID  as "visit_id",
 
         decode(PAT_MASTER_INDEX.NAME,null,(select a.name||'的包床' from PAT_MASTER_INDEX a where a.PATIENT_ID
         =BED_REC.PATIENT_ID and BED_REC.PATIENT_ID is not null),PAT_MASTER_INDEX.NAME) name ,

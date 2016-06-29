@@ -153,4 +153,11 @@ public interface OrdersDao extends CrudDao<Orders> {
      */
     public List<BaseDto> getClinicPrice(@Param("itemCode")String itemCode);
 
+    /**
+     * 住院处方毁方时-更新医嘱状态
+     * @param orders
+     * @return
+     */
+    public int updateOrders(Orders orders);
+
 }
