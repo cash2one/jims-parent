@@ -4,7 +4,7 @@ var patId ='15006135';
 var visitId = '1';
 var orderNo =0 ;
 var orderSubNo = 1;
-var Oclass =[{ "value": "1", "label": "药品" }, { "value": "2", "label": "非药品" }];
+
 var clinicPrice =  [];
 
 $(function(){
@@ -55,11 +55,6 @@ $(function(){
                         var orderClass = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderClass'});
                         var value = $(orderClass.target).combobox('getValue');
                         var orderClass=value;
-                /*        var currentDate = new Date();
-                        var year = (currentDate.getFullYear() + "").substr(4 - RegExp.$1.length);
-                        var day = year+"-"+currentDate.getMonth()+1+"-"+currentDate.getDate();
-                        var startDateTime = $("#orderList").datagrid('getEditor',{index:rowNum,field:'startDateTime'});
-                        $(startDateTime.target).datebox('setValue',day);*/
                         var ed = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderText'});
                         $('#orderCostList').datagrid('loadData', { total: 0, rows: [] });
                         /*如果类别是药品医嘱内容是药品的内容，如果是非药品显示非药品的医嘱内容*/
@@ -332,21 +327,23 @@ $(function(){
         }
         ],onClickRow: function (rowIndex, rowData) {
 
-            var row = $('#orderList').datagrid('getSelected');
-            var dataGrid=$('#orderList');
-            // var status = row.orderStatus;
-            if(!dataGrid.datagrid('validateRow', rowNum)){
-                return false//新开
-            }else{
-                if(rowNum!=rowIndex){
-                    if(rowNum>=0){
-                        dataGrid.datagrid('endEdit', rowNum);
+                var row = $('#orderList').datagrid('getSelected');
+                var dataGrid = $('#orderList');
+                // var status = row.orderStatus;
+                if (!dataGrid.datagrid('validateRow', rowNum)) {
+                    return false//新开
+                } else {
+                    if (rowNum != rowIndex) {
+                        if (rowNum >= 0) {
+                            dataGrid.datagrid('endEdit', rowNum);
+                        }
+                        rowNum = rowIndex;
+                        if(rowData.orderStatus=='5'||rowData.orderStatus=='') {
+                        dataGrid.datagrid('beginEdit', rowNum);
+                        }
                     }
-                    rowNum=rowIndex;
-                    dataGrid.datagrid('beginEdit', rowNum);
-                }
-            }
 
+            }
             $.ajax({
                 'type': 'GET',
                 'url':basePath+'/inOrders/getCostById',
@@ -362,22 +359,34 @@ $(function(){
         }, rowStyler:function(index,row){
             if (row.orderNo!=row.orderSubNo){
                 return 'background-color:#D4D4D4;';
+                if(row.orderStatus=='6'){//传输
+                    return 'color:#8A2BE2;';
+                }else if(row.orderStatus=='1'){//转抄
+                    return 'color:black;';
+                }else if(row.orderStatus=='2') {//执行
+                    return 'color:blue;';
+                }else if(row.orderStatus=='3') {//停止
+                    return 'color:yellow;';
+                }else if(row.orderStatus=='4') {//作废
+                    return 'color:red;';
+                }
+
             }else{
-                return 'background-color:#FCFCFC;';
+                if(row.orderStatus=='6'){//传输
+                    return 'background-color:#90EE90;color:#8A2BE2;';
+                }else if(row.orderStatus=='1'){//转抄
+                    return 'background-color:#A7CACB;color:black;';
+                }else if(row.orderStatus=='2') {//执行
+                    return 'background-color:#A7CACB;color:blue;';
+                }else if(row.orderStatus=='3') {//停止
+                    return 'background-color:#A7CACB;color:yellow;';
+                }else if(row.orderStatus=='4') {//作废
+                    return 'background-color:#A7CACB;color:red;';
+                }
             }
 
 
-            if(row.orderStatus=='6'){//传输
-                return 'background-color:#A7CACB;color:#F49C00;';
-            }else if(row.orderStatus=='1'){//转抄
-                return 'background-color:#A7CACB;color:black;';
-            }else if(row.orderStatus=='2') {//执行
-                return 'background-color:#A7CACB;color:blue;';
-            }else if(row.orderStatus=='3') {//停止
-                return 'background-color:#A7CACB;color:yellow;';
-            }else if(row.orderStatus=='4') {//作废
-                return 'background-color:#A7CACB;color:red;';
-            }
+
 
 
         }
