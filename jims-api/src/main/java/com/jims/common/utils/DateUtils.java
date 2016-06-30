@@ -5,6 +5,7 @@ package com.jims.common.utils;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -188,6 +189,20 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		// System.out.print("明天的日期"+tomorrow);
 		return tomorrow;
 	}
+
+    /**
+     * 获取几天后的这个时间
+     * @param beginDate
+     * @param daysAfter
+     * @return
+     */
+    public static Date getDaysAfter(Date beginDate,int daysAfter){
+        Calendar calendar = Calendar.getInstance() ;
+        calendar.setTime(beginDate);
+        calendar.add(Calendar.DAY_OF_MONTH,daysAfter);
+        return calendar.getTime();
+    }
+
 	/**
 	 * @param args
 	 * @throws java.text.ParseException
@@ -197,6 +212,14 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 //		System.out.println(getDate("yyyy年MM月dd日 E"));
 //		long time = new Date().getTime()-parseDate("2012-11-19").getTime();
 //		System.out.println(time/(24*60*60*1000));
+//        Date date = new Date("2016-06-30 23:59:59") ;
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
+        Date date = dateFormat.parse("2016-06-30 23:59:59") ;
+        Date date1  = DateUtils.getDaysAfter(date,50);
+        System.out.println(dateFormat.format(date));
+        System.out.println(dateFormat.format(date1));
+
 	}
 	public static String getBirthDate(Date birthDate) throws ParseException {
 		if (birthDate == null) {

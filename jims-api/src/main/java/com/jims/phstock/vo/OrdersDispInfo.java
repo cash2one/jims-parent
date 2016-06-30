@@ -2,6 +2,7 @@ package com.jims.phstock.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 摆药医嘱信息表
@@ -35,13 +36,14 @@ public class OrdersDispInfo implements Serializable {
     private String freqDetail;//执行时间详细描述
     private String performSchedule;//执行时间详细描述
     private String orderStatus;//医嘱状态
+    private List<Date> performDates;//具体执行时间
 
 
     public OrdersDispInfo() {
 
     }
 
-    public OrdersDispInfo(String patientId, int visitId, int orderNo, int orderSubNo, String drugCode, String drugSpec, String drugUnit, String firmId, double amount, String dispTime, String orgId, Date lastPerformDateTime, double dosage, String dosageUnits, String administration, Date startDateTime, Date stopDateTime, String repeatIndicator, String orderText, String frequency, double freqCounter, double freqInterval, String freqIntervalUnit, String freqDetail, String performSchedule, String orderStatus) {
+    public OrdersDispInfo(String patientId, int visitId, int orderNo, int orderSubNo, String drugCode, String drugSpec, String drugUnit, String firmId, double amount, String dispTime, String orgId, Date lastPerformDateTime, double dosage, String dosageUnits, String administration, Date startDateTime, Date stopDateTime, String repeatIndicator, String orderText, String frequency, double freqCounter, double freqInterval, String freqIntervalUnit, String freqDetail, String performSchedule, String orderStatus, List<Date> performDates) {
         this.patientId = patientId;
         this.visitId = visitId;
         this.orderNo = orderNo;
@@ -68,6 +70,7 @@ public class OrdersDispInfo implements Serializable {
         this.freqDetail = freqDetail;
         this.performSchedule = performSchedule;
         this.orderStatus = orderStatus;
+        this.performDates = performDates;
     }
 
     public double getDosage() {
@@ -276,5 +279,13 @@ public class OrdersDispInfo implements Serializable {
 
     public void setLastPerformDateTime(Date lastPerformDateTime) {
         this.lastPerformDateTime = lastPerformDateTime;
+    }
+
+    public List<Date> getPerformDates() {
+        return performDates;
+    }
+
+    public void setPerformDates(List<Date> performDates) {
+        this.performDates = performDates;
     }
 }

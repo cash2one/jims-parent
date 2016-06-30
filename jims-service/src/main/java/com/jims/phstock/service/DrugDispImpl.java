@@ -6,6 +6,7 @@ import com.jims.phstock.bo.DrugDispBo;
 import com.jims.phstock.vo.PatDrugDisp;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,9 +28,15 @@ public class DrugDispImpl implements DrugDispApi {
      * @param bedNos          摆药床位
      * @param repeatIndicator 长临
      * @param dispDays        摆药天数
+     * @param dispStartTime   摆药开始时间
+     * @param dispStopTime    摆药结束时间
      * @return
      */
-    public List<PatDrugDisp> calcPatDrugDisp(String orgId, String deptCode, String wardDeptCode, List<String> administations, List<String> bedNos, String repeatIndicator, int dispDays) {
-        return drugDispBo.calcPatDrugDisp(orgId, deptCode, wardDeptCode, administations, bedNos, repeatIndicator, dispDays);
+    public List<PatDrugDisp> calcPatDrugDisp(String orgId, String deptCode, String wardDeptCode, List<String> administations,
+                                             List<String> bedNos, String repeatIndicator, int dispDays,
+                                             Date dispStartTime,Date dispStopTime) {
+        return drugDispBo.calcPatDrugDisp(orgId, deptCode, wardDeptCode, administations,
+                bedNos, repeatIndicator, dispDays,dispStartTime,dispStopTime);
+
     }
 }
