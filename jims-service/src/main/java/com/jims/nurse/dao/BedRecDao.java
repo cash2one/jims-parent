@@ -93,4 +93,13 @@ public interface BedRecDao extends CrudDao<BedRec> {
      */
     public List<BaseDto> findBedPrice(@Param(value = "itemClass")String itemClass);
 
+
+    /**
+     * 解除包床
+     * @author pq
+     * @param bedRec
+     * @return
+     */
+    public int accountsConfirm(BedRec bedRec);
+
 }

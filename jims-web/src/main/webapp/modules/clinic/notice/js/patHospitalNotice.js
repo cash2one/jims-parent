@@ -1,12 +1,61 @@
 function onloadMethod() {
+    var clinicId=$("#clinicMasterId",parent.document).val();
     $.ajax({
-        'type': 'get',
-        'url':basePath + '/clinicMaster/getPatInfo',
+        'type': 'POST',
+        'url':basePath + '/bloodApply/getPatient',
         'contentType': 'application/json',
-        'data': {id:clinicId},
+        'data': id = clinicId,
         'dataType': 'json',
         'success': function(data){
-            $("#patientInfo").form('load',data);
+            $("#name").val(data.name);
+            $("#sex").val(function(value,rowData,rowIndex){
+                return sexFormatter(data.sex,'','');
+            });
+            $("#age").val(data.age);
+            $("#patientId").val(data.patientId);
+            $("#masterId").val(data.id);
+            $("#dateOfBirth").val(data.patMaster.dateOfBirth);//出生日期
+            $("#idNo").val(data.patMaster.idNo);//身份证
+            $("#nation").val(function(value,rowData,rowIndex){
+                return nationFormatter(data.patMaster.nation);
+            });//名族
+            $("#birthPlace").val(data.patMaster.mailingAddress);//出生地
+            $("#serviceAgencyPhone").val(data.patMaster.phoneNumberHome);//本人联系方式
+            $("#relationship").val(data.patMaster.relationship);//联系人关系
+            $("#nextOfKin").val(data.patMaster.nextOfKin);//联系人
+            $("#nextOfIdNo").val(data.patMaster.nextOfIdNo);//联系人身份证
+            $("#nextOfKinAddr").val(data.patMaster.nextOfKinAddr);//联系人地址
+            $("#nextOfKinPhone").val(data.patMaster.nextOfKinPhone);//联系人电话
+            $("#nextOfNation").val(function(value,rowData,rowIndex) {
+                return nationFormatter(data.patMaster.nextOfNation);
+            });//联系人名族
+            $("#visitDate").val(data.visitDate);//入院时间
+            $("#visitDept").val(function(value,rowData,rowIndex){
+                return clinicDeptCodeFormatter(data.visitDept,'','');
+            });//入院科室
+            $("#chargeType").val(function(value,rowData,rowIndex){
+                return itemFormatter(data.chargeType,'','');
+            });//费别
+            $("#enterDate").datetimebox("setValue",new Date);
+
+        }
+    })
+
+    $("#maritalStatus").combobox({
+        data:marriage,
+        valueField:'value',
+        textField:'label',
+        onSelect:function(data){
+            $("#maritalStatusId").val(data.value);
+        }
+    })
+
+    $("#patAdmCondition").combobox({
+        data:situation,
+        valueField:'value',
+        textField:'label',
+        onSelect:function(data){
+            $("#patAdmConditionId").val(data.value);
         }
     })
 
@@ -72,10 +121,6 @@ function onloadMethod() {
  * @param id
  */
 function savePatHospitalNotice() {
-    $("#idNo").attr("value", "123");
-    $("#masterId").attr("value", "123");
-    $("#patientId").attr("value", "123");
-    $("#noticeId").attr("value", "1");
     $.postForm(basePath + "/patHospitalNotice/save", "patHospitalForm", function (data) {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
@@ -166,6 +211,8 @@ function get(id){
         'dataType': 'json',
         'success': function(data){
             $('#patHospitalForm').form('load',data);
+            $("#maritalStatus ").combobox('select',data.maritalStatus);
+            $("#patAdmCondition ").combobox('select',data.patAdmCondition);
         }
     });
 }
@@ -183,6 +230,8 @@ function look(id){
         'dataType': 'json',
         'success': function(data){
             $('#patHospitalForm').form('load',data);
+            $("#maritalStatus ").combobox('select',data.maritalStatus);
+            $("#patAdmCondition ").combobox('select',data.patAdmCondition);
         }
     });
 }

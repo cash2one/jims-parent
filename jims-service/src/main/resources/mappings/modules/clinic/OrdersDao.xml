@@ -192,6 +192,18 @@
 		   AND ((CLINIC_ITEM_NAME_DICT.STD_INDICATOR = 1) or
 			   CLINIC_ITEM_NAME_DICT.STD_INDICATOR is null)
 			   AND "ORDERS"."DEL_FLAG" = '0'
+		<if test="orderStatus !=null and orderStatus !=''">
+			and ORDERS.ORDER_STATUS = #{orderStatus}
+		</if>
+		<if test="repeatIndicator !=null and repeatIndicator !=''">
+			and ORDERS.repeat_indicator = #{repeatIndicator}
+		</if>
+		<if test="startDateTime!=null and startDateTime!=''">
+			and ORDERS.START_DATE_TIME  &gt;= to_date(to_char(startDateTime,'yyyy-mm-dd'),'yyyy-mm-dd')
+		</if>
+		<if test="stopDateTime!=null and stopDateTime!=''">
+			and ORDERS.START_DATE_TIME   &lt;= to_date(to_char(stopDateTime,'yyyy-mm-dd'),'yyyy-mm-dd')
+		</if>
      order by order_no
 	</select>
 
@@ -567,7 +579,9 @@
 		<if test="wardCode !=null and wardCode !=''">
 		and	( pih.ward_code =#{wardCode})
 		</if>
-
+		<if test="repeatIndicator !=null and repeatIndicator !=''">
+			AND 	a.repeat_indicator = #{repeatIndicator}
+		</if>
 		AND a."ORDER_STATUS"='6'
 	</select>
 

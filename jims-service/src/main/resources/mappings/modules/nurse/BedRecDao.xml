@@ -226,7 +226,7 @@
         PATS_IN_HOSPITAL.PATIENT_ID ,
         PATS_IN_HOSPITAL.ID  as "visit_id",
 
-        decode(PAT_MASTER_INDEX.NAME,null,(select a.name||'的包床' from PAT_MASTER_INDEX a where a.PATIENT_ID
+        decode(PAT_MASTER_INDEX.NAME,null,(select a.name||'的包床' from PAT_MASTER_INDEX a where a.ID
         =BED_REC.PATIENT_ID and BED_REC.PATIENT_ID is not null),PAT_MASTER_INDEX.NAME) name ,
         PAT_MASTER_INDEX.SEX,
         PAT_MASTER_INDEX.DATE_OF_BIRTH,
@@ -254,7 +254,7 @@
         WHERE  BED_REC.DEL_FLAG = '0' and
         ( BED_REC.WARD_CODE = PATS_IN_HOSPITAL.WARD_CODE(+) ) and
         ( BED_REC.BED_NO = PATS_IN_HOSPITAL.BED_NO(+) ) and
-        ( PATS_IN_HOSPITAL.PATIENT_ID = PAT_MASTER_INDEX.PATIENT_ID(+) )
+        ( PATS_IN_HOSPITAL.PATIENT_ID = PAT_MASTER_INDEX.ID(+) )
         <if test="wardCode !=null and wardCode !=''">
             and ( ( BED_REC.WARD_CODE = #{wardCode} ) )
         </if>
@@ -280,7 +280,7 @@
           WHERE   BED_REC.DEL_FLAG = '0' AND
         ("BED_REC"."BED_NO" = "PATS_IN_HOSPITAL"."BED_NO")
             and ("BED_REC"."WARD_CODE" = "PATS_IN_HOSPITAL"."WARD_CODE")
-            and ("PATS_IN_HOSPITAL"."PATIENT_ID" = "PAT_MASTER_INDEX"."PATIENT_ID")
+            and ("PATS_IN_HOSPITAL"."PATIENT_ID" = "PAT_MASTER_INDEX"."ID")
         <if test="wardCode !=null and wardCode !=''">
             and ( ( BED_REC.WARD_CODE = #{wardCode} ) )
         </if>
@@ -328,5 +328,12 @@
         </if>
 
     </select>
+
+
+    <update id="accountsConfirm">
+        update BED_REC
+        SET PATIENT_ID =NULL , BED_STATUS ='0'
+         WHERE id = #{id}
+    </update>
 
 </mapper>

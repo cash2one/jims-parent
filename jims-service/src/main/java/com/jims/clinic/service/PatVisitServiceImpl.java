@@ -124,4 +124,64 @@ public class PatVisitServiceImpl extends CrudImplService<PatVisitDao,PatVisit> i
         }
         return code;
     }
+
+    /**
+     * 插入病历，病人列表
+     * @param deptCode
+     * @return
+     */
+    @Override
+    public List<PatMasterIndex> getPatMasterByIn(String deptCode) {
+        return patVisitDao.getPatMasterByIn(deptCode);
+    }
+
+    /**
+     * 确认 移入病历
+     * @param patId
+     * @return
+     */
+    @Override
+    public String confirmMoveIn(String patId) {
+        String code="1";
+        //更新 mr_on_line
+        MrOnLine mrOnLine=  mrOnLineDao.getMrOnLByPatId(patId);
+        if(mrOnLine!=null){
+            mrOnLine.setStatus("0");
+            mrOnLine.setRequestDoctorId("当前登录人");
+            mrOnLineDao.updateMrOnLByMoveIn(mrOnLine);
+        }
+        //更新 pats_in_hospital
+        PatsInHospital patsInHospital= patsInHospitalDao.getPatsInfoByMaster(patId);
+        if(patsInHospital!=null){
+            patsInHospitalDao.updateByMrNew(patsInHospital.getId(),"当前登录人");
+        }
+       //更新  ORDERS_GROUP_REC
+       OrdersGroupRec ordersGroupRec= ordersGroupRecDao.getOrdersByPat(patId);
+        if(ordersGroupRec!=null){
+            ordersGroupRec.setOrderGroup("140103");//当前登录人所在核算组
+            ordersGroupRec.setOrderDoctor("当前登录人");//当前登录人姓名
+            ordersGroupRec.setDoctorUser("dqdlr");//当前登录人 代码
+            ordersGroupRecDao.updateByMrNew(ordersGroupRec);
+        }
+
+        return code;
+    }
+    /**
+     * 移除病历
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    @Override
+    public String removMr(String patId) {
+        String code="1";
+        //更新 mr_on_line
+        MrOnLine mrOnLine =mrOnLineDao.getMrOnLByPatId(patId);
+        if(mrOnLine!=null){
+            mrOnLine.setStatus("*");
+            mrOnLine.setRequestDoctorId("*");
+            mrOnLineDao.updateMrOnLByMoveIn(mrOnLine);
+        }
+        return code;
+    }
 }

@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.asepsis.entity.AsepsisDetailDict;
 import com.jims.asepsis.api.AsepsisDetailDictApi;
 import com.jims.asepsis.bo.AsepsisDetailDictBo;
+import com.jims.asepsis.vo.AsepsisDetailDictVo;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -72,6 +73,19 @@ public class AsepsisDetailDictServiceImpl implements AsepsisDetailDictApi{
             return "1";
         } catch(RuntimeException e) {}
         return "0";
+    }
+
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisDetailDictVo
+     * @return
+     * @author yangruidong
+     */
+    @Override
+    public List<AsepsisDetailDict> saveAll(AsepsisDetailDictVo<AsepsisDetailDict> asepsisDetailDictVo) {
+        return bo.saveAll(asepsisDetailDictVo);
     }
 
     /**

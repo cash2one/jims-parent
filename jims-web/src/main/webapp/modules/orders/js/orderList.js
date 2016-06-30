@@ -398,7 +398,7 @@ $(function(){
         }
     });
     $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true }).click(function () {
-        $('#orderList').datagrid("load");   //点击搜索
+        $('#orderList').datagrid({url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize() });
     });
 
 
@@ -570,7 +570,7 @@ function changeSubNo(row){
                         }
                         if(afterrow!=undefined){
                             if(afterrow.orderSubNo == nowrow.orderNo){
-                                $.messager.alert('提示',"此处方已经有子医嘱，不能设置子医嘱", "error");
+                                $.messager.alert('提示',"此医嘱已经有子医嘱，不能设置子医嘱", "error");
                                 return false;
                             }
                         }
@@ -602,7 +602,7 @@ function changeSubNo(row){
             $.messager.alert('提示',"长期和临时医嘱不能构成组合医嘱！", "error");
         }
     }else{
-        $.messager.alert('提示',"第一条处方不能设置子医嘱", "warning");
+        $.messager.alert('提示',"第一条不医嘱能设置子医嘱", "warning");
     }
 }
 

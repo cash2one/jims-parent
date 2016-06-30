@@ -20,14 +20,14 @@ $(function() {
             },
             {field: 'bedNo', title: '床号', width: '5%', align: 'center'},
             {field: 'name', title: '姓名', width: '5%', align: 'center'},
-            {field: 'orderClass', title: '类别', width: '5%', align: 'center'},
+            {field: 'orderClass', title: '类别', width: '5%', formatter:orderClassFormatter,align: 'center'},
             {field: 'startDateTime', title: '下达医嘱时间', width: '10%', align: 'center',formatter:formatDateBoxFull},
             {field: 'orderText', title: '医嘱内容', width: '10%', align: 'center'},
-            {field: 'billingAttr', title: '自', width: '5%', align: 'center'},
+            {field: 'billingAttr', title: '自', width: '5%', align: 'center',formatter:billingAttrFormatter},
             {field: 'dosage', title: '剂量', width: '5%', align: 'center'},
             {field: 'dosageUnits', title: '单位', width: '5%', align: 'center'},
-            {field: 'administration', title: '途径', width: '5%', align: 'center'},
-            {field: 'freqCounter', title: '频次', width: '5%', align: 'center'},
+            {field: 'administration', title: '途径', width: '5%',formatter:administrationFormatter, align: 'center'},
+            {field: 'freqCounter', title: '频次', width: '5%',formatter:performFreqFormatter, align: 'center'},
             {field: 'freqDetail', title: '医生说明', width: '10%', align: 'center'},
             {field:'doctor',title:'开医嘱医生',width:'10%',align:'center'},
             {field: 'stopDateTime', title: '停止时间', width: '10%', align: 'center',formatter:formatDateBoxFull}
@@ -46,7 +46,7 @@ $(function() {
         }
     });
     $("#submit_search").linkbutton({iconCls: 'icon-search', plain: true}).click(function () {
-        $('#orderCopied').datagrid("load");   //点击搜索
+        $('#orderCopied').datagrid({url:basePath + '/ordersNurse/findOrdersCopied?' + $('#searchform').serialize() });   //点击搜索
     });
 });
 
