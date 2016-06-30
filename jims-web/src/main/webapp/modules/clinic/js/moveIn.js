@@ -59,7 +59,7 @@ function confirmMr(){
         'success': function(data){
             if(data.code=='1'){
                 $.messager.alert("提示消息","移入成功");
-                window.location.href="/modules/clinic/patientList.html";
+                window.location.href="/modules/clinic/patientListTable.html";
             }else{
                 $.messager.alert('提示',"移入失败", "error");
             }

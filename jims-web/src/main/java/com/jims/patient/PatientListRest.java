@@ -76,6 +76,7 @@ public class PatientListRest {
      * 移入病历 病人列表
      * @param
      * @return
+     * @author zhaoning
      */
     @GET
     @Path("getPatMasterByIn")

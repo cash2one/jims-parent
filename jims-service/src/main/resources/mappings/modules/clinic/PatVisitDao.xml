@@ -957,9 +957,14 @@
                b.ward_code as wardCode
           from pat_master_index a,
                pats_in_hospital b,
-               pat_visit        d
+		       bed_rec          c,
+               pat_visit        d,
+		       mr_on_line       e
          where a.id = b.patient_id
            and a.id = d.patient_id
+		   and b.ward_code(+) = c.ward_code
+		   and b.bed_no(+) = c.bed_no
+		   and e.status = '0'
 	       and (
 	           (b.dept_code = #{deptCode} and b.dept_code_lend is null)
 	              or (b.dept_code_lend = #{deptCode} and b.dept_code_lend is not null)
@@ -990,8 +995,10 @@
 		d.identity as patIdentity,
 		0 as prepayment,
 		'出院' as ward_code
-		from pat_master_index a , pat_visit d
+		from pat_master_index a , pat_visit d,mr_on_line e
 		where a.id = d.patient_id
+		and a.id=e.patient_id
+		and e.status = '0'
 		and d.dept_discharge_from = #{deptDischargeFrom}
 		<if test="patName!=null and patName!='' ">
 			and  a.name=#{patName}

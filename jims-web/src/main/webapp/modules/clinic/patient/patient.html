@@ -8,6 +8,9 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/js/formSubmit.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <script type="text/javascript" src="/static/data/data_dict_set.js"></script>
+    <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>
+
 </head>
 
 <body>
@@ -31,10 +34,7 @@
                       病人ID号 <input  name="name" style="width: 100px;" class="validatebox-text" required="true">
                       &nbsp; 出生日期 <input name="dateOfBirth"
                                 class="easyui-datebox datebox-f combo-f textbox-f validatebox-text-s">
-                    &nbsp;&nbsp;性&nbsp;&nbsp;别 <select class="easyui-validatebox" name="citizenship" style="width:80px;">
-                    <option>请选择</option>
-                    <option>1111</option>
-                </select>
+                    &nbsp;&nbsp;性&nbsp;&nbsp;别 <input  name="sex" class="validatebox-text " required="true" id="setId">
                     &nbsp;&nbsp;&nbsp; 身份证号 <input  name="name" style="width: 200px;" class="validatebox-text" required="true">
                 </td>
             </tr>
@@ -115,9 +115,9 @@
             </tr>
         </table>
     </form>
-  <!--  <div class="col-xs-12 text-center">
-        <input type="button" value="保存" class="easyui-linkbutton c6" id="savePat" iconCls="icon-ok" style="width:90px">
+    <div class="col-xs-12 text-center">
+        <input type="button" value="保存" class="eeasyui-linkbutton l-btn " id="savePat" data-options="iconCls:'icon-save'" style="width:90px">
     </div>
--->
+
 </div>
 </body>
