@@ -497,7 +497,7 @@ function changeBedOk(){
         'type': 'POST',
         'url': basePath+'/bedRec/changeBed',
         'contentType': 'application/json',
-        'data': JSON.stringify({"visitId":visitId,"newBedNo":newBedNo,"oldBedNo":oldBedNo,"wardCode":wardCode}),
+        'data': JSON.stringify({"visitId":visitId,"newBedNo":newBedNo,"oldBedNo":oldBedNo,"wardCode":wardCode,"patientId":patient}),
         'dataType': 'json',
         'success': function(data){
             if(data.data=='success'){

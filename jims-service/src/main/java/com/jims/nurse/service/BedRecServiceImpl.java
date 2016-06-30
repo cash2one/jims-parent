@@ -110,11 +110,11 @@ public class BedRecServiceImpl implements BedRecServiceApi {
   public String changeBed(BedRec bedRec){
     int num = 0;
     PatsInHospital patsInHospital = new PatsInHospital();
-    patsInHospital.setBedNo(bedRec.getOldBedNo());
+    patsInHospital.setBedNo(bedRec.getNewBedNo());
     patsInHospital.setPatientId(bedRec.getPatientId());
      bedRecBo.updateBedNo(patsInHospital);//修改床位
-     bedRecBo.updateBedStatus("0",bedRec.getOldBedNo(),0,bedRec.getWardCode());//以前的s
-    num = bedRecBo.updateBedStatus("1",0, bedRec.getNewBedNo(),bedRec.getWardCode());
+     bedRecBo.updateBedStatus("0",bedRec.getOldBedNo(),0,bedRec.getWardCode(),"");//以前的s
+    num = bedRecBo.updateBedStatus("1",0, bedRec.getNewBedNo(),bedRec.getWardCode(),bedRec.getPatientId());
     return num+"";
   }
 
