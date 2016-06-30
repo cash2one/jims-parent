@@ -42,7 +42,7 @@ $(function(){
 
 //条件查询
 function searchClinicIndex(){
-    var transactType=$("#transactType").combobox('getValue');
+    var transactType=$("#transactType").val();
     var endDate=$("#endDate").val();
     var startDate=$("#startDate").val();
     $("#list_data").datagrid('reload',{"transactType":transactType,"endDate":endDate,"startDate":startDate});
