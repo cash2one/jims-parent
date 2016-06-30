@@ -166,7 +166,7 @@ $(function () {
             //drugNameCode = drugNameCode +
             stopEdit();
             $('#clear').click();
-
+            drugForms=rowData.label;
             $('#drugNameDict').datagrid('appendRow', {
                 drugCode: drugNameCode, drugName: '',stdIndicator:'0'
             });
@@ -243,6 +243,9 @@ $(function () {
 
         }
     });
+
+    var drugForms='';
+
     //定义页面下方drugDict列表
     $("#drugDict").datagrid({
         title:'药品剂型剂量',
@@ -625,7 +628,7 @@ $(function () {
             name = stdIndicatorRow.drugName;
 
             $('#drugDict').datagrid('appendRow', {
-                drugCode: code, drugName: name, drugSpec: '', units: '', drugForm: '', toxiProperty: '',otc: '0', dosePerUnit: '',
+                drugCode: code, drugName: name, drugSpec: '', units: '', drugForm:drugForms, toxiProperty: '',otc: '0', dosePerUnit: '',
                 doseUnits: '',limitClass:'',preciousFlag:'',  drugIndicator: '1'
             });
 
