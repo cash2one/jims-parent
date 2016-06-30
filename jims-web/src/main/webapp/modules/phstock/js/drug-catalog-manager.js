@@ -533,7 +533,13 @@ $(function () {
         if (drugCatalogBeanVo) {
             $.postJSON(basePath + "/drug-catalog/save", JSON.stringify(drugCatalogBeanVo), function (data) {
                 if("1" == data) {
-                    $.messager.alert("系统提示", "保存成功", "info");
+                    //$.messager.alert("系统提示", "保存成功", "info");
+                    $.messager.confirm('系统提示, 保存成功','是否定义价格？',function(r){
+                        if(r){
+                            var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
+                            parent.addTab('定义价格',https);
+                        }
+                    })
                 } else {
                     $.messager.alert('提示', "保存失败，请确认是否唯一", "error");
                 }
@@ -647,6 +653,11 @@ $(function () {
             })
         }
     });
+
+    $("#listPrice").on('click',function(){
+        var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
+        parent.addTab('定义价格',https);
+    })
 
 
 
