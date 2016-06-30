@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicIndex;
@@ -71,8 +72,21 @@ public class ClinicIndexRest {
     @Path("delete")
     @POST
     public StringData deleteClinicIndex(String id){
-     StringData data = new StringData();
+        StringData data = new StringData();
         data.setCode(clinicIndexServiceApi.delete(id));
         return data;
+    }
+
+
+    /**
+     * 获取号别中的费用
+     * @param id
+     * @return
+     */
+    @Path("getCost")
+    @GET
+    public BaseDto getCost(@QueryParam("id")String id){
+        BaseDto baseDto=clinicIndexServiceApi.getCost(id);
+        return baseDto;
     }
 }

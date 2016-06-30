@@ -252,5 +252,5 @@
 			del_flag ='1'
 		WHERE id = #{id}
 	</update>
-	
+
 </mapper>
