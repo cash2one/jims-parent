@@ -25,7 +25,7 @@ function onloadMethod() {
         idField: 'id',
         columns: [[      //每个列具体内容
             {
-                field: 'operation', title: '拟实施手术名称', width: '70%', align: 'center', formatter: operationFormatter
+                field: 'operation', title: '拟实施手术名称', width: '48%', align: 'center', formatter: operationFormatter
                 , editor: {
                 type: 'combogrid',
                 options: {
@@ -44,7 +44,13 @@ function onloadMethod() {
                 }
             }
             },
-            {field: 'operationScale', title: '等级', width: '20%', align: 'center'}
+            {field: 'schedule', title: '等级', width: '50%', align: 'center',formatter:function(value,rowData,rowIndex){
+                if(operationScale == undefined ){
+                    return '';
+            }else{
+                    return operationScaleNameFormatter(rowData.schedule.operationScale,'','');
+                }
+            }}
         ]],
         toolbar: [{
             text: '添加',
@@ -121,7 +127,7 @@ function onloadMethod() {
         valueField: 'id',
         textField: 'label',
         onSelect: function (n, o) {
-            $("#anesthesiaMethodId").val(n.id);
+            $("#anesthesiaMethodId").val(n.value);
         }
     });
 
@@ -133,13 +139,36 @@ function onloadMethod() {
         valueField: 'id',
         textField: 'label',
         onSelect: function (n, o) {
-            $("#operationScaleId").val(n.id);
+            $("#operationScaleId").val(n.value);
         }
     });
-
+    /**
+     * 手术病情
+     */
+    $("#patientCondition").combobox({
+        data:patientCondition,
+        valueField:'id',
+        textField:'label',
+        onSelect:function(n,o){
+            $("#patientConditionId").val(n.value);
+        }
+    })
+    /**
+     * 隔离
+     */
+    $("#isolationIndicator").combobox({
+        data:isolationIndicator,
+        valueField:'id',
+        textField:'label',
+        onSelect:function(n,o){
+            $("#isolationIndicatorId").val(n.value);
+        }
+    })
 }
 
-
+//function formatSchedule(value){
+//    return  return value.operationScale;
+//}
 
 /**
  * 保存申请记录

@@ -1,6 +1,6 @@
 $(function () {
     var base_url = '/service/drug-buy-plan/'
-    var orgId = '1'
+    var orgId = parent.config.org_Id
         ,username = '采购员'
         , drugDicts = []  // 检索的药品字典数据
         , suppliers = []  // 供应商数据

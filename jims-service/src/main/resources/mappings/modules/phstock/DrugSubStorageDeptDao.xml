@@ -67,8 +67,8 @@
 
 	<insert id="insert">
 		INSERT INTO drug_sub_storage_dept(
-                id,
-                storage_code,
+              id,
+              storage_code,
               sub_storage,
               import_no_prefix,
               import_no_ava,
@@ -87,10 +87,10 @@
 			#{id},
 			#{storageCode},
 			#{subStorage},
-			#{importNoAva},
 			#{importNoPrefix},
-			#{exportNoAva},
+			#{importNoAva},
 			#{exportNoPrefix},
+			#{exportNoAva},
 			#{subStorageCode},
 			#{inputCode},
 			#{orgId},

@@ -264,6 +264,12 @@
 		AND "ORDERS"."DEL_FLAG" = '0' AND
 		(ORDERS.ORDER_STATUS  &lt;&gt; 5 AND
 		ORDERS.ORDER_STATUS &lt;&gt; 6)
+		<if test="orderStatus !=null and orderStatus !=''">
+			and ORDERS.ORDER_STATUS = #{orderStatus}
+		</if>
+		<if test="repeatIndicator !=null and repeatIndicator !=''">
+			and ORDERS.repeat_indicator = #{repeatIndicator}
+		</if>
 	</select>
 
 
@@ -408,6 +414,7 @@
 	
 	<update id="update">
 		UPDATE orders SET
+			order_sub_no = #{orderSubNo},
 			repeat_indicator = #{repeatIndicator},
 			order_class = #{orderClass},
 			order_text = #{orderText},
@@ -554,8 +561,8 @@
 		FROM orders a,
 		  pat_master_index pmi,
 		  pats_in_hospital pih
-		WHERE ( pih.patient_id = pmi.patient_id (+)) and
-		( pmi.patient_id = a.patient_id ) and
+		WHERE ( pih.patient_id = pmi.id (+)) and
+		( pmi.id = a.patient_id ) and
 		( pih.visit_id = a.visit_id )
 		<if test="wardCode !=null and wardCode !=''">
 		and	( pih.ward_code =#{wardCode})
@@ -631,6 +638,7 @@
        where b.charge_item_code = a.item_code
       and clinic_item_code = #{itemCode}
 	</select>
+
 	<update id="updateOrders">
 		update orders set stop_doctor=#{stopDoctor} ,order_status=#{orderStatus}
 			<where>

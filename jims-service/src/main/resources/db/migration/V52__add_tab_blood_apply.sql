@@ -4,7 +4,7 @@ create table BLOOD_APPLY
   APPLY_NUM       VARCHAR2(60) not null,
   INP_NO          VARCHAR2(100),
   ID_NO      VARCHAR2(100),
-  DEPT_CODE       VARCHAR2(8),
+  DEPT_CODE       VARCHAR2(64),
   PAT_NAME        VARCHAR2(20),
   PAT_SEX         VARCHAR2(40),
   BIRTHDAY        DATE,

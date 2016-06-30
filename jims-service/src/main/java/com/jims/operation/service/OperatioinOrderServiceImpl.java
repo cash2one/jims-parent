@@ -145,7 +145,8 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @return
      */
     public List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId,String scheduleId){
-      return operationBo.getOperationName(patientId,visitId,clinicId,scheduleId);
+       List<ScheduledOperationName> scheduledOperationNameList =operationBo.getOperationName(patientId,visitId,clinicId,scheduleId);
+        return scheduledOperationNameList;
     }
 
     /**

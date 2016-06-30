@@ -1,28 +1,28 @@
 var operationScaleName = [];//手术等级
-var operationScaleData = {};
-operationScaleData.orgId = "";
-operationScaleData.dictType = "SYS_DICT";
-//doctorNameData.inputParamVos=inputParamVos1;
+var operationScaleNameData = {};
+operationScaleNameData.orgId = "";
+operationScaleNameData.dictType = "SYS_DICT";
 
-    var InputParamVo = {};
-    var q='OPERATION_SCALE_DICT';
-    InputParamVo.colName = 'TYPE';
-    InputParamVo.colValue = q;
-    InputParamVo1.colValue='20';
-    InputParamVo.operateMethod = '=';
-    inputParamVos.push(InputParamVo);
-    operationScaleData.inputParamVos = inputParamVos;
-    $.ajax({
-        'type': 'POST',
-        'url': basePath + '/input-setting/listParam',
-        data: JSON.stringify(operationScaleData),
-        'contentType': 'application/json',
-        'dataType': 'json',
-        'async': false,
-        'success': function (data) {
-            operationScaleName=data;
-        }
-    });
+var InputParamVo = {};
+var inputParamVos=[];
+var q = 'OPERATION_SCALE_DICT';
+InputParamVo.colName = 'TYPE';
+InputParamVo.colValue = q;
+InputParamVo1.colValue = '20';
+InputParamVo.operateMethod = '=';
+inputParamVos.push(InputParamVo);
+operationScaleNameData.inputParamVos = inputParamVos;
+$.ajax({
+    'type': 'POST',
+    'url': basePath + '/input-setting/listParam',
+    data: JSON.stringify(operationScaleNameData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function (data) {
+        operationScaleName = data;
+    }
+});
 
 /**
  * 手术等级翻译
@@ -36,8 +36,8 @@ function operationScaleNameFormatter(value, rowData, RowIndex) {
         return;
     }
     for (var i = 0; i < operationScaleName.length; i++) {
-        if (operationScaleName[i].id == value) {
-            return operationScaleName[i].MEMO;
+        if (operationScaleName[i].value == value) {
+            return operationScaleName[i].label;
         }
     }
 }
