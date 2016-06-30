@@ -609,7 +609,7 @@ $(function () {
     }
 
     var init = function () {
-        loadSupplier('批发商')
+        loadSupplier('供应商');
         initBuyPlanTable();
         initBtn();
     }
