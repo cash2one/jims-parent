@@ -27,7 +27,7 @@ $(function() {
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
                 row.checker = $("#checker").combobox("getValue");
-                row.checkerDes = $("#checkerDes").combobox("getText");
+                row.checkerDes = $("#checker").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -42,7 +42,7 @@ $(function() {
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
                 row.antiOperator = $("#antiOperator").combobox("getValue");
-                row.antiOperatorDes = $("#antiOperatorDes").combobox("getText");
+                row.antiOperatorDes = $("#antiOperator").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -58,7 +58,7 @@ $(function() {
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
                 row.antiWays = $("#antiWays").combobox("getValue");
-                row.antiWaysDes = $("#antiWaysDes").combobox("getText");
+                row.antiWaysDes = $("#antiWays").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -153,9 +153,9 @@ $(function() {
             row.antiOperator = $("#antiOperator").combobox("getValue");
             row.antiWays = $("#antiWays").combobox("getValue");
             row.checker = $("#checker").combobox("getValue");
-            row.antiOperatorDes = $("#antiOperatorDes").combobox("getText");
-            row.antiWaysDes = $("#antiWaysDes").combobox("getText");
-            row.checkerDes = $("#checkerDes").combobox("getText");
+            row.antiOperatorDes = $("#antiOperator").combobox("getText");
+            row.antiWaysDes = $("#antiWays").combobox("getText");
+            row.checkerDes = $("#checker").combobox("getText");
             row.boilerNo = $("#boilerNo").combobox("getValue");
             row.boilerTimes = $("#boilerTimes").combobox("getValue");
             row.asepsisState = "3";

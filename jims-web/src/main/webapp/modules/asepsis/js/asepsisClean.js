@@ -29,7 +29,7 @@ $(function() {
             var ordersRow = $('#list_data').datagrid("getChecked");
             $.each(ordersRow, function(index, row){
                 row.checker = $("#checker").combobox("getValue");
-                row.checkerDes = $("#checkerDes").combobox("getText");
+                row.checkerDes = $("#checker").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -44,7 +44,7 @@ $(function() {
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
                 row.sterOperator = $("#sterOperator").combobox("getValue");
-                row.sterOperatorDes = $("#sterOperatorDes").combobox("getText");
+                row.sterOperatorDes = $("#sterOperator").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -60,7 +60,7 @@ $(function() {
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
                 row.cleanWays = $("#cleanWays").combobox("getValue");
-                row.cleanWaysDes = $("#cleanWaysDes").combobox("getText");
+                row.cleanWaysDes = $("#cleanWays").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -113,22 +113,22 @@ $(function() {
         rownumbers: true,//行号
         columns: [[      //每个列具体内容
             {field: 'documnetNo', title: '业务单据'},
-            {field: 'belongDept', title: '所属科室', width: '10%', align: 'center'},
+            {field: 'belongDept', title: '所属科室', width: '12%', align: 'center'},
             //{field: 'belongDeptDes', title: '所属科室', width: '10%', align: 'center'},
             {field: 'asepsisCode', title: '代码', width: '8%', align: 'center'},
-            {field: 'asepsisName', title: '名称', width: '10%', align: 'center'},
+            {field: 'asepsisName', title: '名称', width: '12%', align: 'center'},
             {field: 'asepsisSpec', title: '规格', width: '3%', align: 'center'},
             {field: 'amount', title: '数量', width: '3%', align: 'center'},
             {field: 'units', title: '单位', width: '3%', align: 'center'},
             //{field: 'impDate', title: '送物时间', width: '10%', align: 'center'},
             {field: 'sterOperator', hidden:true},
-            {field: 'sterOperatorDes', title: '清洗人', width: '10%', align: 'center'},
+            {field: 'sterOperatorDes', title: '清洗人', width: '8%', align: 'center'},
             {field: 'cleanWays', hidden:true},
             {field: 'cleanWaysDes', title: '清洗方式', width: '10%', align: 'center'},
             {field: 'cleanNo', title: '清洗机号', width: '6%', align: 'center'},
             {field: 'cleanTimes', title: '清洗机次', width: '6%', align: 'center'},
             {field: 'checker', hidden:true},
-            {field: 'checkerDes', title: '查对者', width: '10%', align: 'center'},
+            {field: 'checkerDes', title: '查对者', width: '8%', align: 'center'},
             {field: 'memos', title: '备注', width: '10%', align: 'center'},
             {field: 'asepsisState', hidden:true},
             {field: 'sterDate', hidden:true}
@@ -145,9 +145,9 @@ $(function() {
             row.sterOperator = $("#sterOperator").combobox("getValue");
             row.checker = $("#checker").combobox("getValue");
             row.cleanWays = $("#cleanWays").combobox("getValue");
-            row.sterOperatorDes = $("#sterOperatorDes").combobox("getText");
-            row.checkerDes = $("#checkerDes").combobox("getText");
-            row.cleanWaysDes = $("#cleanWaysDes").combobox("getText");
+            row.sterOperatorDes = $("#sterOperator").combobox("getText");
+            row.checkerDes = $("#checker").combobox("getText");
+            row.cleanWaysDes = $("#cleanWays").combobox("getText");
             row.cleanNo = $("#cleanNo").combobox("getValue");
             row.cleanTimes = $("#cleanTimes").combobox("getValue");
             row.asepsisState = "1";

@@ -26,8 +26,9 @@ $(function() {
         onSelect:function(){
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
+                alert($("#checker").combobox("getText"));
                 row.checker = $("#checker").combobox("getValue");
-                row.checkerDes = $("#checkerDes").combobox("getText");
+                row.checkerDes = $("#checker").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -42,7 +43,7 @@ $(function() {
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
                 row.packOperator = $("#packOperator").combobox("getValue");
-                row.packOperatorDes = $("#packOperatorDes").combobox("getText");
+                row.packOperatorDes = $("#packOperator").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -58,7 +59,7 @@ $(function() {
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
                 row.packWays = $("#packWays").combobox("getValue");
-                row.packWaysDes = $("#packWaysDes").combobox("getText");
+                row.packWaysDes = $("#packWays").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
             });
         }
@@ -113,9 +114,9 @@ $(function() {
             row.packOperator = $("#packOperator").combobox("getValue");
             row.packWays = $("#packWays").combobox("getValue");
             row.checker = $("#checker").combobox("getValue");
-            row.packOperatorDes = $("#packOperatorDes").combobox("getText");
-            row.packWaysDes = $("#packWaysDes").combobox("getText");
-            row.checkerDes = $("#checkerDes").combobox("getText");
+            row.packOperatorDes = $("#packOperator").combobox("getText");
+            row.packWaysDes = $("#packWays").combobox("getText");
+            row.checkerDes = $("#checker").combobox("getText");
             row.asepsisState = "2";
             row.packDate = new Date();
             $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
