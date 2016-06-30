@@ -26,7 +26,6 @@ $(function() {
         onSelect:function(){
             var ordersRow = $('#list_data').datagrid("getSelections");
             $.each(ordersRow, function(index, row){
-                alert($("#checker").combobox("getText"));
                 row.checker = $("#checker").combobox("getValue");
                 row.checkerDes = $("#checker").combobox("getText");
                 $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row))
