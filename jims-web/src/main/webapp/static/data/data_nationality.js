@@ -1,35 +1,37 @@
-var marriageDict = [];
+var nationalityDict = [];
+
+
 /**
- * 婚姻状况
+ * 国籍
  */
 
 $.ajax({
     'type': 'GET',
     'url':basePath+'/dict/findListByType',
-    data: 'type=MARRIAGE_DICT',
+    data: 'type=NATIONALITY_DICT',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
     'success': function(data){
-        marriageDict=data;
+        nationalityDict=data;
     }
 });
 
 /**
- * 婚姻状况翻译
+ * 国籍翻译
  * @param value
  * @param rowData
  * @param rowIndex
  * @returns {string|string|string}
  */
-function marriageFormatter(value, rowData, rowIndex) {
+function nationalityFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
 
-    for (var i = 0; i < marriageDict.length; i++) {
-        if (marriageDict[i].value == value) {
-            return marriageDict[i].label;
+    for (var i = 0; i < nationalityDict.length; i++) {
+        if (nationalityDict[i].value == value) {
+            return nationalityDict[i].label;
         }
     }
 }

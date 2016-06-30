@@ -2,6 +2,8 @@ package com.jims.patient;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
+import com.jims.clinic.api.PatsInHospitalServiceApi;
+import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.data.StringData;
 import com.jims.finance.api.PrepaymentRcptServiceApi;
 import com.jims.finance.entity.PrepaymentRcpt;
@@ -27,6 +29,8 @@ public class PatMasterIndexRest {
     PatMasterIndexServiceApi patMasterIndexServiceApi;
     @Reference(version = "1.0.0")
     PrepaymentRcptServiceApi prepaymentRcptServiceApi;
+    @Reference(version = "1.0.0")
+    PatsInHospitalServiceApi patsInHospitalServiceApi;
     /**
      * @param        patientId     传递参数
      * @return java.util.List<com.jims.patient.entity.PatMasterIndex>    返回类型
@@ -86,16 +90,22 @@ public class PatMasterIndexRest {
         String num = "";
         //判断是否缴纳预交金，如果没有，执行取消登记
         List<PrepaymentRcpt> list = Lists.newArrayList();
-
         if(ids!=null&&!"".equals(ids)){
-            list =  prepaymentRcptServiceApi.findByPatientId(ids);
-            if(list!=null&&list.size()>0){
-                stringData.setCode("warning");
-            }else{
-                num=patMasterIndexServiceApi.deleteMasterIndex(ids);
-                stringData.setCode(num);
-                stringData.setData(num.compareTo("0")>1?"success":"error");
+            //判断选中病人是否是已入院病人
+            PatsInHospital patsInHospital = patsInHospitalServiceApi.findByPatientId(ids);
+            if(patsInHospital!=null){
+                list =  prepaymentRcptServiceApi.findByPatientId(ids);
+                if(list!=null&&list.size()>0){
+                    stringData.setData("warning");
+                }else{
+                    num=patMasterIndexServiceApi.deleteMasterIndex(ids);
+                    stringData.setCode(num);
+                    stringData.setData(num.compareTo("0")>0?"success":"error");
+                }
+            }else {
+                stringData.setData("warn");
             }
+
         }
         return stringData;
     }

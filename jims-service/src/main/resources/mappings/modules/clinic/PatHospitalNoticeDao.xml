@@ -253,4 +253,13 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="updateNotice">
+		UPDATE pat_hospital_notice SET visit_id =null
+		<where>
+			notice_id=NULL
+			<if test="patientId!=null and patientId!=''">
+				and patient_id=#{patientId}
+			</if>
+		</where>
+	</update>
 </mapper>
