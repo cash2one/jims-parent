@@ -63,12 +63,14 @@
         FROM ASEPSIS_DICT a, ASEPSIS_STOCK s
         <where>
             a.asepsis_code = s.item_code and flag = '1'
+            and s.from_dept = a.belong_dept
             <if test="belongDept != null and belongDept != ''">
                 and a.belong_dept = #{belongDept}
             </if>
             <if test="orgId != null and orgId != ''">
                 and a.org_id = #{orgId}
             </if>
+            and (s.anti_date+a.valid_days) >= sysdate
             and s.amount > 0
         </where>
     </select>

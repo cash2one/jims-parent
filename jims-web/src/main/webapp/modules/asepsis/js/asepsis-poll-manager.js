@@ -53,11 +53,13 @@ $(function () {
             {field: 'inputCode', title: '拼音码', width: 70, align: "center"}
         ]],
         onSelect: function(){
+            $('#dept').combo('panel').attr('selectedIndex', $('#dept').combogrid('grid').datagrid('getRowIndex', $('#dept').combogrid('grid').datagrid('getSelected')))
             query();
         }
     })
     $('#dept').combo('panel').panel({
         onBeforeClose: function(){
+            var r = $('#dept').combogrid('grid').datagrid('getSelected');
             if($('#dept').combogrid('getValue') == ''){
                 return
             }
@@ -185,7 +187,7 @@ $(function () {
                         required:true,
                         missingMessage:'不能为空',
                         fitColumns: true,
-                        url : parent.basePath + '/asepsisDict/findListHasStock?orgId='+currentOrgId,
+                        url : parent.basePath + '/asepsisDict/findListHasStock?orgId='+currentOrgId+'&belongDept=161303',
                         method:'get',
                         mode:'remote',
                         columns:[[
@@ -206,7 +208,15 @@ $(function () {
                     min : 1,
                     precision : 0
                 }
+            },formatter:function(value,row){
+                var v = isNaN(value) ? 0 : +value;
+                var s = isNaN(row.stock) ? 0 : +row.stock;
+                if(v > s && s > 0){
+                    row.lendAmount = s;
+                }
+                return row.lendAmount
             }}
+            ,{field:'stock',title:'库存数量',width:'60',align:'center'}
             ,{field:'units',title:'单位',width:'50',align:'center'}
             ,{field:'antiFee',title:'消毒费',width:'60',align:'center'}
             ,{field:'antiFeeSum',title:'消毒费合计',width:'80',align:'center',formatter:function(value,row){
@@ -216,7 +226,9 @@ $(function () {
                 return row.antiFeeSum
             }}
             ,{field:'nobackFee',title:'辅料费',width:'60',align:'center'}
-            ,{field:'antiDate',title:'消毒日期',width:'80',align:'center'}
+            ,{field:'antiDate',title:'消毒日期',width:'80',align:'center',formatter: function(value){
+                return parent.formatDatebox(value)
+            }}
             ,{field:'lendDate',title:'借物日期',width:'80',align:'center',formatter: function(value){
                 return parent.formatDatebox(value)
             }}
@@ -295,13 +307,76 @@ $(function () {
         }
     });
 
+    $('#tradeManager').datagrid({
+        fit : true,
+        border:1,
+        fitColumns: true,
+        remoteSort: false,
+        idField :'id',
+        columns:[[      //每个列具体内容
+            {field:'id',title:'领取',width:'40',align:'center',formatter:function(value,row){
+                return '<input id=' + value +' type="checkbox"  name="cb" ' + (row.stock == 0 ? 'disabled="disabled"' : '')  + '>'
+            }}
+            ,{field:'toDeptName',title:'对换科室',width:'100',align:'center'}
+            ,{field:'documentNo',title:'单据号',width:'80',align:'center'}
+            ,{field:'itemNo',title:'序号',width:'50',align:'center'}
+            ,{field:'itemCode',title:'代码',width:'80',align:'center'}
+            ,{field:'itemName',title:'名称',width:'150',align:'center'}
+            ,{field:'itemSpec',title:'规格',width:'50',align:'center'}
+            ,{field:'returnAmount',title:'对换数量',width:'80',align:'center'}
+            ,{field:'units',title:'单位',width:'50',align:'center'}
+            ,{field:'getAmount',title:'领取数量',width:'80',align:'center',editor:{
+                type : 'numberbox',
+                options:{
+                    required:true,
+                    missingMessage:'数量不能为空',
+                    min : 1,
+                    precision : 0
+                }
+            },formatter:function(value,row){
+                var r = isNaN(row.returnAmount) ? 0 : +row.returnAmount;
+                var l = isNaN(row.lendAmount) ? 0 : +row.lendAmount;
+                var s = isNaN(row.stock) ? 0 : +row.stock;
+                var min = (r-l)>s ? s : r-l
+                if(row.getAmount == undefined || +value > min){
+                    row.getAmount = (r-l)>s ? s : r-l;
+                }
+                return row.getAmount
+            }}
+            ,{field:'stock',title:'库存参考数量',width:'100',align:'center'}
+            ,{field:'lendAmount',title:'已领数量',width:'80',align:'center',formatter:function(value){
+                if(!value) return 0;
+                return value;
+            }}
+            ,{field:'lendDate',title:'发放日期',width:'80',align:'center',formatter:function(value,row){
+                row.lendDate = parent.formatDatebox(new Date())
+                return row.lendDate
+            }}
+            ,{field:'memos',title:'备注',width:'70',align:'center'}
+        ]],
+        onClickCell: function(index,field){
+            if(!$(this).datagrid('getRows')[index].stock) return ;
+            for(var i= 0,j=$(this).datagrid('getRows').length;i<j;i++) {
+                var c = $(':checkbox[name="cb"]')[i].checked
+                $(this).datagrid('endEdit', i)
+                $(':checkbox[name="cb"]')[i].checked = c
+            }
+            if(field == 'getAmount'){
+                $(this).datagrid('beginEdit',index)
+            }
+        },
+        onBeforeSelect: function(index,row){
+            return false;
+        }
+    });
+
     /**
      * 加载库存
      * @param drugDict
      */
     var loadStock = function(asepsisDict){
-        $.get('/service/asepsisStock/findList',
-            {orgId:asepsisDict.orgId,fromDept:asepsisDict.belongDept,itemCode:asepsisDict.asepsisCode},function(res){
+        $.get('/service/asepsisStock/findListHasStock',
+            {orgId:currentOrgId,fromDept:'161303',itemCode:asepsisDict.asepsisCode},function(res){
                 showAsepsisWindow(res,asepsisDict)
         })
     }
@@ -354,6 +429,7 @@ $(function () {
             row.nobackFee = asepsisDict.nobackPrice
             row.antiDate = stock.antiDate
             row.expDocumentNo = stock.documentNo
+            row.stock = stock.amount
 
             $('#lendManager').datagrid('endEdit',currentSelectIndex)
             tempFlag = true
@@ -450,29 +526,82 @@ $(function () {
     })
     $('#saveBtn').click(function(){
         var index = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
+        var saveRows = [];
+        var url = '';
         if(index == 0){
-            var rows = $('#lendManager').datagrid('getChanges','inserted');
-            parent.$.postJSON(parent.basePath + '/asepsisLendRec/saveList',JSON.stringify((rows)), function (res) {
-                alert(res)
-            })
+            saveRows = $('#lendManager').datagrid('getChanges','inserted');
+            url = parent.basePath + '/asepsisLendRec/saveList'
         } else if(index == 1){
+            if ($('#staff').combobox('getValue') == '') {
+                $.messager.alert('提示', '请选择取物人！', 'warning');
+                return false;
+            }
+            if ($('#dept').combobox('getValue') == '') {
+                $.messager.alert('提示', '请选择取物科室！', 'warning');
+                return false;
+            }
             var rows = $('#pollManager').datagrid('getRows');
-            var saveRows = [];
             $(':checkbox[name="pb"]').each(function(index){
                 if($(this).prop('checked')){
-                    var row = $('#pollManager').datagrid('getRows')[index];
-                    row.getAmount = isNaN(row.getAmount) ? row.stock : +row.getAmount + +row.stock
+                    var row = rows[index];
+                    row.getAmount = isNaN(row.getAmount) ? row.stock : +row.getAmount + +row.stock;
+                    if(row.getAmount == row.sendAmount){
+                        row.getFlag = '3';
+                    } else {
+                        row.getFlag = '2';
+                    }
+                    if(row.getMan == undefined) row.getMan = $('#staff').combobox('getValue');
+                    else {
+                        if((','+row.getMan+',').indexOf(','+$('#staff').combobox('getValue')+',') == -1){
+                            row.getMan.length == 0 ? $('#staff').combobox('getValue') : (row.getMan + ',' + $('#staff').combobox('getValue'))
+                        }
+                    }
                     delete row.tempAmount;
-                    saveRows.push(row)
+                    saveRows.push(row);
                 }
             })
-            parent.$.postJSON(parent.basePath + '/asepsisSendRec/saveList',JSON.stringify(saveRows), function (res) {
-                alert(res)
-            })
+            url = parent.basePath + '/asepsisSendRec/saveList'
         } else if(index == 2){
-
+            if ($('#staff').combobox('getValue') == '') {
+                $.messager.alert('提示', '请选择对换人！', 'warning');
+                return false;
+            }
+            if ($('#dept').combobox('getValue') == '') {
+                $.messager.alert('提示', '请选择对换科室！', 'warning');
+                return false;
+            }
+            var rows = $('#tradeManager').datagrid('getRows');
+            $(':checkbox[name="cb"]').each(function(index){
+                if($(this).prop('checked')){
+                    var row = rows[index];
+                    row.lendAmount = isNaN(row.lendAmount) ? row.getAmount : +row.lendAmount + +row.getAmount;
+                    row.lender = $('#staff').combobox('getValue');
+                    if(row.lender == undefined) row.lender = $('#staff').combobox('getValue');
+                    else {
+                        if((','+row.lender+',').indexOf(','+$('#staff').combobox('getValue')+',') == -1){
+                            row.lender.length == 0 ? $('#staff').combobox('getValue') : (row.lender + ',' + $('#staff').combobox('getValue'))
+                        }
+                    }
+                    row.stock = row.getAmount;
+                    delete row.getAmount;
+                    saveRows.push(row);
+                }
+            })
+            url = parent.basePath + '/asepsisLendRec/saveList'
         }
-
+        if(saveRows.length == 0){
+            $.messager.alert('提示','没有要保存的数据！','warning');
+            return false;
+        }
+        parent.$.postJSON(url,JSON.stringify(saveRows), function (res) {
+            if(res == '1') {
+                $.messager.alert('保存','保存成功！','info',function(){
+                    window.location.reload()
+                })
+            } else {
+                $.messager.alert('保存','保存失败！','error');
+            }
+        })
     })
     $('#closeBtn').click(function(){
 
@@ -484,26 +613,27 @@ $(function () {
     function query(){
         var index = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
         if(index == 1){
-            $.get(parent.basePath + '/asepsisSendRec/findListWithStock',getParams(),function(res){
+            var params = {
+                orgId: currentOrgId,
+                sendDateStart: $('#exchangeStart').datebox('getValue'),
+                sendDateEnd: $('#exchangeEnd').datebox('getValue')+' 23:59:59',
+                fromDept: $('#dept').combogrid('getValue')
+            }
+            $.get(parent.basePath + '/asepsisSendRec/findListWithStock',params,function(res){
                 $('#pollManager').datagrid('loadData',res)
             })
         } else if(index == 2){
-            $.get(parent.basePath + '/asepsisLendRec/findListWithStock',getParams(),function(res){
-                $('#pollManager').datagrid('loadData',res)
+            var params = {
+                orgId: currentOrgId,
+                lendDateStart: $('#exchangeStart').datebox('getValue'),
+                lendDateEnd: $('#exchangeEnd').datebox('getValue')+' 23:59:59',
+                toDept: $('#dept').combogrid('getValue')
+            }
+            $.get(parent.basePath + '/asepsisLendRec/findListWithStock',params,function(res){
+                $('#tradeManager').datagrid('loadData',res)
             })
         }
     }
-
-    function getParams(){
-        var params = {
-            orgId: currentOrgId,
-            sendDateStart: $('#exchangeStart').datebox('getValue'),
-            sendDateEnd: $('#exchangeEnd').datebox('getValue')+' 23:59:59',
-            fromDept: $('#dept').combogrid('getValue')
-        }
-        return params
-    }
-
 });
 
 

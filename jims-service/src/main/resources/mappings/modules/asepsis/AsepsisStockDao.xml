@@ -3,21 +3,21 @@
 <mapper namespace="com.jims.asepsis.dao.AsepsisStockDao">
 
     <sql id="asepsisStockColumns">
-        "ID" as "id"
-        ,"DOCUMENT_NO" as "documentNo"
-        ,"FROM_DEPT" as "fromDept"
-        ,"ITEM_CODE" as "itemCode"
-        ,"ITEM_NAME" as "itemName"
-        ,"ITEM_SPEC" as "itemSpec"
-        ,"AMOUNT" as "amount"
-        ,"UNITS" as "units"
-        ,"MEMOS" as "memos"
-        ,"ANTI_DATE" as "antiDate"
-        ,"OPERATOR" as "operator"
-        ,"ALTER_DATE" as "alterDate"
-        ,"ANTI_BATCH_NO" as "antiBatchNo"
-        ,"ITEM_NO" as "itemNo"
-        ,"ORG_ID" as "orgId"
+        a."ID" as "id"
+        ,a."DOCUMENT_NO" as "documentNo"
+        ,a."FROM_DEPT" as "fromDept"
+        ,a."ITEM_CODE" as "itemCode"
+        ,a."ITEM_NAME" as "itemName"
+        ,a."ITEM_SPEC" as "itemSpec"
+        ,a."AMOUNT" as "amount"
+        ,a."UNITS" as "units"
+        ,a."MEMOS" as "memos"
+        ,a."ANTI_DATE" as "antiDate"
+        ,a."OPERATOR" as "operator"
+        ,a."ALTER_DATE" as "alterDate"
+        ,a."ANTI_BATCH_NO" as "antiBatchNo"
+        ,a."ITEM_NO" as "itemNo"
+        ,a."ORG_ID" as "orgId"
     </sql>
 
     <select id="get" resultType="AsepsisStock">
@@ -60,6 +60,43 @@
             and a.FROM_DEPT = b.dept_code and o.value=a.units
             <if test="documentNo != null and documentNo != ''">
                 and a.document_no = #{documentNo}
+            </if>
+        </where>
+        order by a.document_no, a.anti_date
+    </select>
+
+    <select id="findListNoJoin" resultType="AsepsisStock">
+        SELECT
+        <include refid="asepsisStockColumns" />
+        FROM ASEPSIS_STOCK a
+        <where> a.org_id =  #{orgId}
+            <if test="fromDept != null and fromDept != ''">
+                and a.FROM_DEPT = #{fromDept}
+            </if>
+            <if test="itemCode != null and itemCode != ''">
+                and a.item_code = #{itemCode}
+            </if>
+            <if test="documentNo != null and documentNo != ''">
+                and a.document_no like #{documentNo} || '%'
+            </if>
+        </where>
+        order by a.document_no, a.anti_date
+    </select>
+
+    <select id="findListHasStock" resultType="AsepsisStock">
+        SELECT
+        <include refid="asepsisStockColumns" />
+        FROM ASEPSIS_STOCK a,ASEPSIS_DICT d
+        <where> a.org_id =  #{orgId}
+            and d.asepsis_code = a.item_code and d.flag = '1'
+            and a.from_dept = d.belong_dept
+            and (a.anti_date+d.valid_days) >= sysdate
+            and a.amount > 0
+            <if test="fromDept != null and fromDept != ''">
+                and a.FROM_DEPT = #{fromDept}
+            </if>
+            <if test="itemCode != null and itemCode != ''">
+                and a.item_code = #{itemCode}
             </if>
         </where>
         order by a.document_no, a.anti_date

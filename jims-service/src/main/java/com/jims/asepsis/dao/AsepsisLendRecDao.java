@@ -4,6 +4,8 @@ import com.jims.asepsis.entity.AsepsisLendRec;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 
+import java.util.List;
+
 /**
 * 借物还物Dao
 * @author lgx
@@ -18,6 +20,13 @@ public interface AsepsisLendRecDao extends CrudDao<AsepsisLendRec> {
      * @return
      */
     public String getMaxDocumentNo(String orgId);
+
+    /**
+     * 检索有库存的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisLendRec> findListWithStock(AsepsisLendRec entity);
 
 
 }

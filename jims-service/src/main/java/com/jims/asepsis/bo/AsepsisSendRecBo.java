@@ -35,7 +35,7 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
                     stockParam.setFromDept(entity.getFromDept());
                     stockParam.setDocumentNo(entity.getDocumentNo());
                     stockParam.setOrgId(entity.getOrgId());
-                    List<AsepsisStock> stocks = stockDao.findList(stockParam);
+                    List<AsepsisStock> stocks = stockDao.findListNoJoin(stockParam);
                     for(int i=0;i<stocks.size();i++){
                         AsepsisStock asepsisStock = stocks.get(i);
                         Integer amount =  asepsisStock.getAmount() == null ? 0 : asepsisStock.getAmount().intValue();

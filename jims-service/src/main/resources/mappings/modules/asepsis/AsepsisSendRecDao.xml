@@ -15,6 +15,7 @@
         ,a."GET_AMOUNT" as "getAmount"
         ,a."GET_DATE" as "getDate"
         ,a."GET_FLAG" as "getFlag"
+        ,a."GET_MAN" as "getMan"
         ,a."UNITS" as "units"
         ,a."OPERATOR" as "operator"
         ,a."SENDER" as "sender"
@@ -50,12 +51,13 @@
         FROM ASEPSIS_SEND_REC a,(select sum(s.amount) amount,s.document_no
             from asepsis_stock s,asepsis_dict d
               where s.item_code = d.asepsis_code
-              and s.org_id=#{orgId} and (s.anti_date+d.valid_days) > sysdate group by s.document_no) s,
+              and s.org_id=#{orgId} and (s.anti_date+d.valid_days) >= sysdate group by s.document_no) s,
         (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) d
         <where>
             a.org_id =  #{orgId}
             and a.from_dept = d.dept_code
             and a.document_no = s.document_no(+)
+            and (a.get_flag = '1' or a.get_flag = '2')
             <if test="sendDateStart != null and sendDateStart != ''">
                 and a.send_date >= #{sendDateStart}
             </if>
@@ -108,6 +110,7 @@
             ,REQ_DATE
             ,REQ_OPERATOR
             ,ORG_ID
+            ,GET_MAN
         ) VALUES (
             #{id}
             ,#{documentNo}
@@ -131,6 +134,7 @@
             ,#{reqDate}
             ,#{reqOperator}
             ,#{orgId}
+            ,#{getMan}
         )
     </insert>
 
@@ -157,6 +161,7 @@
             ,REQ_DATE = #{reqDate}
             ,REQ_OPERATOR = #{reqOperator}
             ,ORG_ID = #{orgId}
+            ,GET_MAN = #{getMan}
         WHERE id = #{id}
     </update>
 

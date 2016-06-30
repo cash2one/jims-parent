@@ -99,4 +99,13 @@ public class AsepsisStockServiceImpl implements AsepsisStockApi{
         } catch(RuntimeException e) {}
         return "0";
     }
+
+    /**
+     * 检索有库存的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisStock> findListHasStock(AsepsisStock entity){
+        return bo.findListHasStock(entity);
+    }
 }

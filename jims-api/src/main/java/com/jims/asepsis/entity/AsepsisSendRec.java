@@ -21,8 +21,9 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private String itemSpec;  // 规格
     private Double sendAmount;  // 送物数量
     private Double getAmount;  // 已领数量
+    private Double getMan;  // 领物人
     private Date getDate;  // 领物日期
-    private String getFlag;  // 领物标记,0-新开申请,1-申请确认(未领取),2-申请确认已消毒， 3-部分领取, 4-全部取完
+    private String getFlag;  // 领物标记,1-申请确认(未领取),2-部分领取， 3-全部领取';
     private String units;  // 单位
     private String operator;  // 操作员
     private String sender;  // 送物人
@@ -245,5 +246,13 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
 
     public void setFromDeptName(String fromDeptName) {
         this.fromDeptName = fromDeptName;
+    }
+
+    public Double getGetMan() {
+        return getMan;
+    }
+
+    public void setGetMan(Double getMan) {
+        this.getMan = getMan;
     }
 }

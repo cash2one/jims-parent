@@ -40,6 +40,8 @@ public class AsepsisLendRec extends DataEntity<AsepsisLendRec> {
 
     private Date lendDateStart;
     private Date lendDateEnd;
+    private Integer stock;
+    private String toDeptName;
 
     public AsepsisLendRec() {
         super();
@@ -263,5 +265,21 @@ public class AsepsisLendRec extends DataEntity<AsepsisLendRec> {
 
     public void setReturnMan(String returnMan) {
         this.returnMan = returnMan;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public String getToDeptName() {
+        return toDeptName;
+    }
+
+    public void setToDeptName(String toDeptName) {
+        this.toDeptName = toDeptName;
     }
 }

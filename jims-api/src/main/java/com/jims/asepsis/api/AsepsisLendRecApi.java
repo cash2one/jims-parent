@@ -61,4 +61,11 @@ public interface AsepsisLendRecApi {
      * @return
      */
     public String getMaxDocumentNo(String orgId);
+
+    /**
+     * 检索有库存的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisLendRec> findListWithStock(AsepsisLendRec entity);
 }
