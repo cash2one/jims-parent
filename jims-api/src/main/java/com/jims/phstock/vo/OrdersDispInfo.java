@@ -36,6 +36,7 @@ public class OrdersDispInfo implements Serializable {
     private String freqDetail;//执行时间详细描述
     private String performSchedule;//执行时间详细描述
     private String orderStatus;//医嘱状态
+    private double times ;//摆药次数
     private List<Date> performDates;//具体执行时间
 
 
@@ -43,7 +44,7 @@ public class OrdersDispInfo implements Serializable {
 
     }
 
-    public OrdersDispInfo(String patientId, int visitId, int orderNo, int orderSubNo, String drugCode, String drugSpec, String drugUnit, String firmId, double amount, String dispTime, String orgId, Date lastPerformDateTime, double dosage, String dosageUnits, String administration, Date startDateTime, Date stopDateTime, String repeatIndicator, String orderText, String frequency, double freqCounter, double freqInterval, String freqIntervalUnit, String freqDetail, String performSchedule, String orderStatus, List<Date> performDates) {
+    public OrdersDispInfo(String patientId, int visitId, int orderNo, int orderSubNo, String drugCode, String drugSpec, String drugUnit, String firmId, double amount, String dispTime, String orgId, Date lastPerformDateTime, double dosage, String dosageUnits, String administration, Date startDateTime, Date stopDateTime, String repeatIndicator, String orderText, String frequency, double freqCounter, double freqInterval, String freqIntervalUnit, String freqDetail, String performSchedule, String orderStatus, double times, List<Date> performDates) {
         this.patientId = patientId;
         this.visitId = visitId;
         this.orderNo = orderNo;
@@ -70,6 +71,7 @@ public class OrdersDispInfo implements Serializable {
         this.freqDetail = freqDetail;
         this.performSchedule = performSchedule;
         this.orderStatus = orderStatus;
+        this.times = times;
         this.performDates = performDates;
     }
 
@@ -287,5 +289,13 @@ public class OrdersDispInfo implements Serializable {
 
     public void setPerformDates(List<Date> performDates) {
         this.performDates = performDates;
+    }
+
+    public double getTimes() {
+        return times;
+    }
+
+    public void setTimes(double times) {
+        this.times = times;
     }
 }
