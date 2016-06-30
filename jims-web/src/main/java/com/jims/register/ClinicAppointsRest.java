@@ -73,15 +73,15 @@ public class ClinicAppointsRest {
     }
 
     /**
-     * 保存预约收费 确认信息
-     * @param patMasterIndex
+     * 预约确认
+     * @param id
      * @return
      */
     @POST
     @Path("saveAppointReg")
-    public StringData saveAppointReg(PatMasterIndex patMasterIndex){
+    public StringData saveAppointReg(ClinicAppoints clinicAppoints){
         StringData data=new StringData();
-        data.setCode(clinicAppointsServiceApi.saveAppointReg(patMasterIndex));
+        data.setCode(clinicAppointsServiceApi.saveAppointReg(clinicAppoints.getId()));
         return data;
     }
 

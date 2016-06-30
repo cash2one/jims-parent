@@ -1,6 +1,6 @@
 var setData =  [];
 /**
- * 挂号项目
+ * 性别
  */
 $.ajax({
     'type': 'GET',

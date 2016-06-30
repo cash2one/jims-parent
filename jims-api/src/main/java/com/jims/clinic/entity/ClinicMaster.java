@@ -91,6 +91,7 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	private String acctDate;//截至日期
 	private String item;//检查项目
 	private Double fee;
+    private String clinicLabelName; //号别名称
 	
 	public ClinicMaster() {
 		super();
@@ -648,4 +649,12 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	public void setPhoneNumberHome(String phoneNumberHome) {
 		this.phoneNumberHome = phoneNumberHome;
 	}
+
+    public String getClinicLabelName() {
+        return clinicLabelName;
+    }
+
+    public void setClinicLabelName(String clinicLabelName) {
+        this.clinicLabelName = clinicLabelName;
+    }
 }

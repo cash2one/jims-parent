@@ -16,7 +16,10 @@ $(function (){
         valueField: 'id',
         textField: 'dept_name'
     })
-    $("#visitDeptId").combobox('select',clinicDeptCode[0].id);
+    if(clinicDeptCode.length>0){
+        $("#visitDeptId").combobox('select',clinicDeptCode[0].id)
+    }
+;
     /**
      * 性别下拉框
      */
@@ -25,7 +28,10 @@ $(function (){
         valueField: 'value',
         textField: 'label'
     })
-    $("#setId ").combobox('select',setData[0].value);
+    if(setData.length>0){
+        $("#setId ").combobox('select',setData[0].value);
+    }
+
     /**
      * 费别下拉框
      */
@@ -34,7 +40,11 @@ $(function (){
         valueField: 'id',
         textField: 'charge_type_name'
     })
-    $("#chargeTypeId ").combobox('select',chargeType[0].id);
+    if(chargeType.length>0){
+        $("#chargeTypeId ").combobox('select',chargeType[0].id);
+    }
+
+
     /**
      * 诊别下拉框
      */
@@ -43,7 +53,9 @@ $(function (){
         valueField: 'value',
         textField: 'label'
     })
-    $("#clinicTypeId ").combobox('select',chargeTypeDict[0].value);
+    if(chargeTypeDict.length>0){
+        $("#clinicTypeId ").combobox('select',chargeTypeDict[0].value);
+    }
     /**
      * 身份下拉框
      */
@@ -52,7 +64,10 @@ $(function (){
         valueField: 'id',
         textField: 'identityName'
     })
-    $("#identityId ").combobox('select',identityDict[0].id);
+    if(identityDict.length>0){
+        $("#identityId ").combobox('select',identityDict[0].id);
+    }
+
     /**
      * 合同单位下拉框
      */
@@ -150,32 +165,57 @@ function searchConfirm(){
 
 //弹出 收费 确认信息
 function confirmAppoint(id,name){
-    $("#"+id).dialog({title: name}).dialog("open");
-    var selectRows = $('#confirm_data').datagrid("getChecked");
-    //得要判断 就诊日期和当前日期是否是一天
-    var labelHtml="";
-        for(var i=0;i<selectRows.length;i++){
-            labelHtml+='<tbody>' +
-            '<tr>' +
-            ' <td name="clinicLabel" class="easyui-validatebox">'+selectRows[i].clinicLabel+'</td>' +
-            '</tr>' +
-            '</tbody>';
+    var rows = $('#confirm_data').datagrid("getSelections");
+    $.ajax({
+        'type': 'get',
+        'url': basePath + '/clinicIndex/getCost',
+        'contentType': 'application/json',
+        'data': {id:rows[0].clinicLabel},
+        'dataType': 'json',
+        'success': function (data) {
+            $("#"+id).dialog({title: name}).dialog("open");
+            //得要判断 就诊日期和当前日期是否是一天
+            var labelHtml="";
+                labelHtml+='<tbody>' +
+                '<tr>' +
+                ' <td name="clinicLabel" class="easyui-validatebox">'+data.clinic_label+'</td>' +
+                '</tr>' +
+                '</tbody>';
+            $("#clinicLabe").html(labelHtml);
+            $("#receiptsId").val(data.price);
+            $("#receiptsHiddenId").val(data.price);
+            $("#changeReceiptsId").val("");
+        },
+        'error': function (data) {
+            $.messager.alert('提示', "网络连接错误", "error");
         }
+    });
 
-    $("#clinicLabe").html(labelHtml);
+}
+//改变实收触发
+function onchangeInput(){
+    var receipts=$("#receiptsId").val();
+    var receiptsHidden=$("#receiptsHiddenId").val();
+    if(receipts!=receiptsHidden){
+        receipts=receipts-receiptsHidden;
+        if(receipts>0){
+            $("#changeReceiptsId").val(receipts);
+        }else{
+            $.messager.alert("提示信息","输入金额有误，请重新输入");
+            $("#receiptsId").val(receiptsHidden);
+            $("#changeReceiptsId").val("");
+        }
+    }else{
+        $("#changeReceiptsId").val("");
+    }
 }
 //保存预约挂号
 function saveAppointReg(){
     var rows = $('#confirm_data').datagrid("getSelections");
-    var tableJson=JSON.stringify(rows);
-    var formJson=fromJson('patIndex');
-    formJson = formJson.substring(0, formJson.length - 1);
-    var submitJson=formJson+",\"clinicAppointses\":"+tableJson+"}";
-    //alert(submitJson);
-    $.postJSON(basePath+"/clinicAppoints/saveAppointReg",submitJson,function(data){
+    $.postJSON(basePath+"/clinicAppoints/saveAppointReg","{\"id\":\""+rows[0].id+"\"}",function(data){
         if(data.code=="1"){
-            $.messager.alert("提示信息","确认成功");
-            $("#"+'chargeId').dialog({title: '预约结果'}).dialog("close");
+            $.messager.alert("提示信息","挂号成功");
+            closeDialog('chargeId')
             $('#confirm_data').datagrid('load');
             $('#confirm_data').datagrid('clearChecked');
             $("#patIndex").form('clear');
@@ -193,10 +233,10 @@ function saveAppointReg(){
     function deleteAppoint() {
         var selectRows = $('#confirm_data').datagrid("getSelections");
         if (selectRows.length < 1) {
-            $.messager.alert("提示消息", "请选中要删的数据!");
+            $.messager.alert("提示消息", "请选中需要退约的数据!");
             return;
         }
-        $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        $.messager.confirm("确认消息", "您确定要退约吗？", function (r) {
             if (r) {
                 var strIds = "";
                 for (var i = 0; i < selectRows.length; i++) {
@@ -212,15 +252,15 @@ function saveAppointReg(){
                     'dataType': 'json',
                     'success': function (data) {
                         if (data.code == '1') {
-                            $.messager.alert("提示消息", data.code + "条记录删除成功！");
+                            $.messager.alert("提示消息", "退约成功！");
                             $('#confirm_data').datagrid('load');
                             $('#confirm_data').datagrid('clearChecked');
                         } else {
-                            $.messager.alert('提示', "删除失败", "error");
+                            $.messager.alert('提示', "退约失败", "error");
                         }
                     },
                     'error': function (data) {
-                        $.messager.alert('提示', "删除失败", "error");
+                        $.messager.alert('提示', "退约失败", "error");
                     }
                 });
             }
@@ -241,4 +281,8 @@ function saveAppointInfo(){
     }),function(data){
         $.messager.alert("提示信息","保存失败","errorzn");
     }
+}
+
+function closeDialog(id){
+    $("#"+id).dialog("close");
 }
