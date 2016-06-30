@@ -320,4 +320,20 @@
     </select>
 
 
+    <select id="findBedPrice" resultType="com.jims.common.web.impl.BaseDto">
+        select * from current_price_list
+        where 1=1
+        <if test="itemClass!=null and itemClass!=''">
+           and  item_class = #{itemClass}
+        </if>
+
+    </select>
+
+
+    <update id="accountsConfirm">
+        update BED_REC
+        SET PATIENT_ID =NULL , BED_STATUS ='0'
+         WHERE id = #{id}
+    </update>
+
 </mapper>

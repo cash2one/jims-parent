@@ -154,4 +154,36 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
     public PatsInHospital getInPat(String visitId){
        return patsInHospitalDao.get(visitId);
     }
+
+
+
+    /**
+     * 查询床位相关费用
+     * @author pq
+     * @param itemClass
+     * @return
+     */
+    public List<BaseDto> findBedPrice(String itemClass){
+      return dao.findBedPrice(itemClass);
+    }
+
+    /**
+     * 解除包床
+     * @author pq
+     * @param bedRecList
+     * @return
+     */
+    public String accountsConfirm(List<BedRec> bedRecList){
+        String num="";
+        if(bedRecList !=null && bedRecList.size()>0){
+            BedRec bedRec=new BedRec();
+            for (int i = 0; i < bedRecList.size(); i++) {
+                bedRec= bedRecList.get(i);
+                num=  num +  dao.accountsConfirm(bedRec);
+            }
+        }else{
+            num = "0";
+        }
+        return  num;
+    }
 }

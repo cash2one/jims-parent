@@ -140,4 +140,24 @@ public class BedRecServiceImpl implements BedRecServiceApi {
    return  bedRecBo.getInPat(visitId);
   }
 
+
+
+  /**
+   * 查询床位相关费用
+   * @author pq
+   * @param itemClass
+   * @return
+   */
+  public List<BaseDto> findBedPrice(String itemClass){
+    return bedRecBo.findBedPrice(itemClass);
+  }
+
+  /**
+   * 解除包床
+   * @param bedRecList
+   * @return
+   */
+  public String accountsConfirm(List<BedRec> bedRecList){
+    return bedRecBo.accountsConfirm(bedRecList);
+  }
 }

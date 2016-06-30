@@ -7,6 +7,10 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="../nurse/js/ordersCopied.js"></script>
+    <script type="text/javascript" src="../nurse/js/orders.js"></script>
+    <script type="text/javascript" src="/static/data/data_orders.js"></script>
+    <script type="text/javascript" src="/static/data/data_orders_administration.js"></script>
+    <script type="text/javascript" src="/static/data/data_orders_freq.js"></script>
 </head>
 <body >
 
@@ -16,13 +20,13 @@
         <form name="searchform" method="post" id ="searchform">
             <li>
                 长期/临时:
-                <input type="radio" name="repeatIndicator"  checked="checked" value="1" />全部
-                <input type="radio" name="repeatIndicator" value="2"  />长期
-                <input type="radio" name="repeatIndicator" value="3"  />临时
+                <input type="radio" name="repeatIndicator"   value="" />全部
+                <input type="radio" name="repeatIndicator" value="1"  />长期
+                <input type="radio" name="repeatIndicator" value="0" checked  />临时
             </li>
-            <li>
+            <!--<li>
                 <input type="radio" name="orderStatus"  checked="checked" value="1" />未执行
-            </li>
+            </li>-->
             <input type="hidden" name="wardCode" value="160101">
         </form>
         <li><a id="submit_search">查询</a></li>
