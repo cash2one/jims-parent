@@ -329,4 +329,11 @@
 
     </select>
 
+
+    <update id="accountsConfirm">
+        update BED_REC
+        SET PATIENT_ID =NULL , BED_STATUS ='0'
+         WHERE id = #{id}
+    </update>
+
 </mapper>
