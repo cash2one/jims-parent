@@ -320,4 +320,13 @@
     </select>
 
 
+    <select id="findBedPrice" resultType="com.jims.common.web.impl.BaseDto">
+        select * from current_price_list
+        where 1=1
+        <if test="itemClass!=null and itemClass!=''">
+           and  item_class = #{itemClass}
+        </if>
+
+    </select>
+
 </mapper>
