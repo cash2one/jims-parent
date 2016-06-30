@@ -55,7 +55,7 @@ comment on column ASEPSIS_LEND_REC.return_amount
 comment on column ASEPSIS_LEND_REC.return_date
   is '还物日期';
 comment on column ASEPSIS_LEND_REC.return_flag
-  is '操作标志:1-借还物,2-包对换';
+  is '返还标志:1-未还，2-部分还，3-全部还,4-包对换';
 comment on column ASEPSIS_LEND_REC.operator
   is '操作员(同时用于记录对换(回收)的操作员)';
   comment on column ASEPSIS_LEND_REC.return_man

@@ -63,4 +63,11 @@ public interface AsepsisStockApi {
     * @return 0 失败，1成功
     */
     public String delete(String ids) ;
+
+    /**
+     * 检索有库存的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisStock> findListHasStock(AsepsisStock entity);
 }

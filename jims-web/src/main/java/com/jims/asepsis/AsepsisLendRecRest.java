@@ -49,6 +49,25 @@ public class AsepsisLendRecRest {
     }
 
     /**
+     * 检索有库存的
+     * @param
+     * @return
+     */
+    @GET
+    @Path("findListWithStock")
+    public List<AsepsisLendRec> findListWithStock(@QueryParam("orgId")String orgId,
+                                                  @QueryParam("lendDateStart")Date lendDateStart,
+                                                  @QueryParam("lendDateEnd")Date lendDateEnd,
+                                                  @QueryParam("toDept")String toDept){
+        AsepsisLendRec entity = new AsepsisLendRec();
+        entity.setOrgId(orgId);
+        entity.setLendDateStart(lendDateStart);
+        entity.setLendDateEnd(lendDateEnd);
+        entity.setToDept(toDept);
+        return api.findListWithStock(entity);
+    }
+
+    /**
     * 保存（插入或更新）
     * @param entity
     * @return 0 失败，1成功
@@ -61,7 +80,8 @@ public class AsepsisLendRecRest {
 
     /**
     * 批量保存（插入或更新）
-    * @param list
+    * @param list   当AsepsisLendRec的id为空时，stock有值则为
+     *              当id不为空时，
     * @return 0 失败，1成功
     */
     @POST
@@ -77,7 +97,18 @@ public class AsepsisLendRecRest {
     */
     @GET
     @Path("delete")
-    public String delete(String ids) {
+    public String delete(@QueryParam("ids")String ids) {
         return api.delete(ids);
+    }
+
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @return
+     */
+    @GET
+    @Path("getMaxDocumentNo")
+    public String getMaxDocumentNo(@QueryParam("orgId")String orgId){
+        return api.getMaxDocumentNo(orgId);
     }
 }
