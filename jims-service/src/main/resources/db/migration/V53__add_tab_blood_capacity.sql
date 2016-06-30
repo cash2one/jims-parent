@@ -1,7 +1,7 @@
 -- Create table
 create table BLOOD_CAPACITY
 (
-  APPLY_NUM      VARCHAR2(6) not null,
+  APPLY_NUM      VARCHAR2(64) not null,
   MATCH_SUB_NUM  VARCHAR2(10) not null,
   FAST_SLOW      VARCHAR2(10),
   TRANS_DATE     TIMESTAMP ,

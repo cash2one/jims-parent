@@ -35,6 +35,18 @@ public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
      */
     public Integer deleteByPatientId(@Param("patientId")String patientId);
 
+    /**
+     * 新建病历时更新 病人在院记录的 经治医生
+     * @param doctorInCharge
+     * @author zhaoning
+     */
+    public void updateByMrNew(@Param("id")String id,@Param("doctorInCharge")String doctorInCharge);
 
-
+    /**
+     * 根据病人ID 查询 在院记录信息
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    public PatsInHospital getPatsInfoByMaster(@Param("patId")String patId);
 }

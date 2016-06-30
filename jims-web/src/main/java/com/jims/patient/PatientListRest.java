@@ -2,15 +2,13 @@ package com.jims.patient;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.support.Parameter;
+import com.jims.common.data.StringData;
 import com.jims.patient.Dto.PatientListDto;
 import com.jims.patient.api.PatVisitServiceApi;
 import com.jims.patient.entity.PatMasterIndex;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +48,31 @@ public class PatientListRest {
     /**
      * 查询所有 需要新建病历的病人信息
      * @return
+     * @author zhaoning
      */
     @GET
     @Path("getPatMaster")
     public List<PatMasterIndex> getPatMaster(){
         String deptCode="140101";//当前登录人所在科室
         List<PatMasterIndex> patMasterIndexes=patVisitServiceApi.getPatMaster(deptCode);
+        return patMasterIndexes;
+    }
+
+    /**
+     * 确认新建病历
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("confirmNewMr")
+    public StringData confirmNewMr(String patId){
+        StringData data = new StringData();
+        data.setCode(patVisitServiceApi.confirmNewMr(patId));
+        return data;
+    }
+    public List<PatMasterIndex> getPatMasterByIn(String patId){
+        List<PatMasterIndex> patMasterIndexes=null;
         return patMasterIndexes;
     }
 }

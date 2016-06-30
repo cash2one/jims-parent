@@ -1,6 +1,6 @@
 var ordersType =  [];
 var billingAttr = [];
-
+var Oclass =[{ "value": "1", "label": "药品" }, { "value": "2", "label": "非药品" }];
 
 
 

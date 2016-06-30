@@ -16,7 +16,7 @@ public interface ClinicAppointsServiceApi {
      * @param patMasterIndex
      * @return
      */
-    public String saveAppointsRegis(PatMasterIndex patMasterIndex) throws Exception;
+    public String saveAppointsRegis(PatMasterIndex patMasterIndex);
 
     /**
      * 根据条件查询  预约list

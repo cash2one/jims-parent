@@ -1048,7 +1048,7 @@
 					   C.BED_LABEL,
 					   B.NAME
 				  FROM PAT_MASTER_INDEX B, PATS_IN_HOSPITAL A, BED_REC C
-				 WHERE B.PATIENT_ID = A.PATIENT_ID
+				 WHERE B.id = A.PATIENT_ID
 				   and A.BED_NO = C.BED_NO
 				   and A.WARD_CODE = C.WARD_CODE
 				   and ((A.DEPT_CODE =#{deptCode} and A.DEPT_CODE_LEND is null) or

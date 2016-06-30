@@ -2,6 +2,7 @@ package com.jims.register;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.DateUtils;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.api.ClinicAppointsServiceApi;
 import com.jims.register.entity.ClinicAppoints;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,7 +35,7 @@ public class ClinicAppointsRest {
      */
     @POST
     @Path("saveAppoints")
-    public StringData saveAppoints(PatMasterIndex patMasterIndex) throws Exception{
+    public StringData saveAppoints(PatMasterIndex patMasterIndex){
         StringData data=new StringData();
         data.setCode(clinicAppointsServiceApi.saveAppointsRegis(patMasterIndex));
         return data;
@@ -42,18 +44,19 @@ public class ClinicAppointsRest {
 
     /**
      * 条件查询预约的记录
-     * @param clinicNo
+     * @param idNo
      * @param name
-     * @param cardNo
      * @param visitDate
      * @return
      */
     @GET
     @Path("searchAppoints")
-    public List<ClinicAppoints> searchAppointsList(@QueryParam("clinicNo")String clinicNo,@QueryParam("name")String name,
-                                                   @QueryParam("cardNo")String cardNo,@QueryParam("visitDate")String visitDate)throws Exception{
-
-        List<ClinicAppoints>  list=clinicAppointsServiceApi.findListAppoints(name,cardNo,visitDate);
+    public List<ClinicAppoints> searchAppointsList(@QueryParam("idNo")String idNo,@QueryParam("name")String name,@QueryParam("visitDate")String visitDate)throws Exception{
+        ClinicAppoints clinicAppoints=new ClinicAppoints();
+        clinicAppoints.setIdNo(idNo);
+        clinicAppoints.setName(name);
+        clinicAppoints.setVisitDateAppted(DateUtils.parseDate(visitDate));
+        List<ClinicAppoints>  list=clinicAppointsServiceApi.findList(clinicAppoints);
         return list;
     }
 

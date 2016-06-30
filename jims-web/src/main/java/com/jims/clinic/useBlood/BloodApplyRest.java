@@ -8,6 +8,8 @@ import com.jims.blood.api.BloodComponentServiceApi;
 import com.jims.blood.entity.BloodApply;
 import com.jims.blood.entity.BloodCapacity;
 import com.jims.blood.entity.BloodComponent;
+import com.jims.clinic.api.ClinicMasterServiceApi;
+import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
@@ -41,6 +43,8 @@ public class BloodApplyRest {
     private BloodCapacityServiceApi bloodCapacityServiceApi;
     @Reference(version = "1.0.0")
     private PatVisitServiceApi patVisitServiceApi;
+    @Reference(version = "1.0.0")
+    private ClinicMasterServiceApi clinicMasterServiceApi;
 
 
 
@@ -125,7 +129,7 @@ public class BloodApplyRest {
     }
 
     /**
-     * 根据id查询手术申请表信息
+     * 根据id查询用血申请表信息
      */
     @Path("getBloodCapacityList")
     @POST
@@ -138,5 +142,12 @@ public class BloodApplyRest {
             return bloodCapacityList;
         }
         return null;
+    }
+
+    @Path("getPatient")
+    @POST
+    public ClinicMaster getPatient(String id){
+        ClinicMaster clinicMaster=clinicMasterServiceApi.getPatient(id);
+        return clinicMaster;
     }
 }
