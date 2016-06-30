@@ -71,7 +71,7 @@ public interface BedRecServiceApi {
      * @author pq
      * @return
      */
-    public String packBed(List<BedRec> bedRec);
+    public String packBed(List<BedRec> bedRec,String patId);
 
 
     /**
