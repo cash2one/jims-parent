@@ -107,6 +107,8 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 
     private String bedNo;//床号
     private String doctorInCharge;//经治医师
+	private String requestDoctorId;
+	private Date requestDateTime;
     private String patientCondition;
     private String deptCode;
     private String bedLabel;//床标号
@@ -162,9 +164,12 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
+
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -803,4 +808,20 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
     public void setVisitDept(String visitDept) {
         this.visitDept = visitDept;
     }
+
+	public String getRequestDoctorId() {
+		return requestDoctorId;
+	}
+
+	public void setRequestDoctorId(String requestDoctorId) {
+		this.requestDoctorId = requestDoctorId;
+	}
+
+	public Date getRequestDateTime() {
+		return requestDateTime;
+	}
+
+	public void setRequestDateTime(Date requestDateTime) {
+		this.requestDateTime = requestDateTime;
+	}
 }

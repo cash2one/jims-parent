@@ -23,6 +23,8 @@ public class BedRec extends DataEntity<BedRec> {
 	private String lendAttr;		// lend_attr
 	private Integer lendBedNo;		// lend_bed_no
 
+
+
 	public Integer getOldBedNo() {
 		return oldBedNo;
 	}
@@ -46,6 +48,7 @@ public class BedRec extends DataEntity<BedRec> {
 	private String airconditionClass;		// 空调类型
 	private String patientId;		// patient_id
 
+	private String patId;
 	private Integer newBedNo;
 	private  Integer oldBedNo;
 
@@ -211,4 +214,12 @@ public class BedRec extends DataEntity<BedRec> {
 		this.patientId = patientId;
 	}
 
+
+	public String getPatId() {
+		return patId;
+	}
+
+	public void setPatId(String patId) {
+		this.patId = patId;
+	}
 }

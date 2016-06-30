@@ -92,8 +92,8 @@ public class BedRecServiceImpl implements BedRecServiceApi {
    * @author pq
    * @return
    */
-  public String packBed(List<BedRec> bedRec){
-    return  bedRecBo.packBed(bedRec);
+  public String packBed(List<BedRec> bedRec,String patId){
+    return  bedRecBo.packBed(bedRec,patId);
   }
 
   public List<BedRec> findList(BedRec bedRec){

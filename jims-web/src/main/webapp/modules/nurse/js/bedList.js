@@ -257,11 +257,11 @@ $(function(){
             {field: 'visitid', title: '住院号', width: '20%', align: 'center'},
             {field: 'dedlabel', title: '床标号', width: '15%', align: 'center'}
         ]],onClickRow: function (index, row) {//单击行事件
+
              patId = row.patientid;
             $('#hasBed').datagrid({url: basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=1' + '&patientId='+patId });
-
-
-
+            $('#emptyBed').datagrid({url:basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=' + '0'+'&patientId='+""});
+            $('#emptyBed').datagrid("reload");
         },onLoadSuccess: function (data) {
             if (data.total == 0) {
                 var body = $(this).data().datagrid.dc.body2;
@@ -281,7 +281,6 @@ $(function(){
         method: 'GET',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=' + '0'+'&patientId='+"",
         remoteSort: false,
         idField: 'id',
         singleSelect: false,//是否单选
@@ -305,12 +304,16 @@ $(function(){
                 }else{
                     return "否";
                 }
+            }},
+            {field: 'patientId', hidden:true,editor:{type:'textbox',options:{editable:false,disable:false}},formatter:function(value, rowData, RowIndex){
+                    return patId;
             }}
         ]
         ],
         frozenColumns:[[
             {field:'ck',checkbox:true}
         ]],onLoadSuccess: function (data) {
+
             if (data.total == 0) {
                 var body = $(this).data().datagrid.dc.body2;
                 body.find('table tbody').append('<tr><td colspan="10" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
@@ -353,6 +356,7 @@ $(function(){
                     return "否";
                 }
             }}
+
         ]],onLoadSuccess: function (data) {
         if (data.total == 0) {
             var body = $(this).data().datagrid.dc.body2;
@@ -403,6 +407,7 @@ function save(){
     $.postJSON(basePath+'/bedRec/save',tableJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
+
             $('#bedRec').datagrid('load');
             $('#bedRec').datagrid('clearChecked');
         }else{
@@ -458,10 +463,8 @@ function doDelete(){
 function packBed(){
   var bedInfo =  $("#emptyBed").datagrid("getSelections");
     var tableJson=JSON.stringify(bedInfo);
-    var submitJson=tableJson+",\"patientId\":"+patId+"}";
-  //  alert(submitJson);
-  //  alert(tableJson);
-    $.postJSON(basePath+'/bedRec/packBed',submitJson,function(data){
+
+    $.postJSON(basePath+'/bedRec/packBed?patId='+patId,tableJson,function(data){
         if(data.data=='success'){
             var row = $('#inPat').datagrid('getSelected');
           //  alert(JSON.stringify(row));
@@ -475,7 +478,6 @@ function packBed(){
     },function(data){
         $.messager.alert('提示',"包床失败", "error");
     })
-
 
 }
 
@@ -520,5 +522,19 @@ function refash(){
 }
 //解除包床
 function accountsConfirm(){
+    var hasBed =  $("#hasBed").datagrid("getSelections");
+    var tableJson=JSON.stringify(hasBed);
+    $.postJSON(basePath+'/bedRec/accountsConfirm',tableJson,function(data){
+        if(data.data=='success'){
+            var row = $('#inPat').datagrid('getSelected');
+            $.messager.alert("提示消息","解除成功");
+            $('#emptyBed').datagrid('load');
+            $('#hasBed').datagrid('load');
+        }else{
+            $.messager.alert('提示',"解除失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"解除失败", "error");
+    })
 
 }
