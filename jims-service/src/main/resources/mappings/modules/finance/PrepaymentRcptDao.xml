@@ -194,5 +194,37 @@
 			</if>
 		</where>
 	</select>
+
+	<select id="findRecordList" resultType="com.jims.common.web.impl.BaseDto">
+	  SELECT a.RCPT_NO,
+			 a.PATIENT_ID,
+			 b.NAME,
+			 a.AMOUNT,
+			 a.PAY_WAY,
+			 a.CHECK_NO,
+			 a.BANK,
+			 a.TRANSACT_TYPE,
+			 a.TRANSACT_DATE,
+			 a.ACCT_NO,
+			 a.OPERATOR_NO
+		FROM PREPAYMENT_RCPT a, PAT_MASTER_INDEX b
+		<where>
+	    	(a.PATIENT_ID = b.PATIENT_ID)
+			<if test="startDate!=null and startDate!=''">
+				and to_char(transact_date, 'yyyy-mm-dd') &gt; #{startDate}
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				and to_char(transact_date, 'yyyy-mm-dd') &lt; #{endDate}
+			</if>
+			<choose>
+				<when test="transactType!=null and transactType!=''">
+					and transact_type = #{transactType}
+				</when>
+				<otherwise>
+					and transact_type in ('交款', '退款')
+				</otherwise>
+			</choose>
+		</where>
+	</select>
 	
 </mapper>
