@@ -170,11 +170,8 @@ $(function () {
                             selectedSpec =  $(spec.target).textbox("getValue");
 
                         }
-                        if (newValue != 1 ){
+                        if (newValue){
                             $(spec.target).textbox("setValue",newValue +"*"+row.minSpec);
-                        }else{
-
-                            $(spec.target).textbox("setValue",row.minSpec)
                         }
                     }
                 }
