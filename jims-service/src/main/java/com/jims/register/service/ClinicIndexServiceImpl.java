@@ -6,6 +6,7 @@ package com.jims.register.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.persistence.Page;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.bo.ClinicIndexBo;
 import com.jims.register.entity.ClinicIndex;
@@ -45,5 +46,10 @@ public class ClinicIndexServiceImpl  implements ClinicIndexServiceApi {
     @Override
     public String delete(String id) {
         return clinicIndexBo.delete(id);
+    }
+
+    @Override
+    public BaseDto getCost(String id) {
+        return clinicIndexBo.getCost(id);
     }
 }

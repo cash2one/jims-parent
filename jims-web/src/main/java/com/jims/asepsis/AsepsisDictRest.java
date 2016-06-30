@@ -33,9 +33,11 @@ public class AsepsisDictRest {
     */
     @GET
     @Path("findList")
-    public List<AsepsisDict> findList(@QueryParam("orgId")String orgId) {
+    public List<AsepsisDict> findList(@QueryParam("orgId")String orgId,@QueryParam("belongDept") String belongDept,@QueryParam("asepsisName") String asepsisName) {
         AsepsisDict entity = new AsepsisDict();
         entity.setOrgId(orgId);
+        entity.setBelongDept(belongDept);
+        entity.setAsepsisName(asepsisName);
         return api.findList(entity);
     }
 
