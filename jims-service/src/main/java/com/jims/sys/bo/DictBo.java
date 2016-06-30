@@ -72,6 +72,7 @@ public class DictBo extends CrudImplService<DictDao, Dict> {
 
         int updNum = 0;
         for (Dict dict : updatedList) {
+            dict.setInputCode(PinYin2Abbreviation.cn2py(dict.getLabel()));
             Date date = new Date();
             dict.setUpdateDate(date);
             updNum = dao.update(dict);
