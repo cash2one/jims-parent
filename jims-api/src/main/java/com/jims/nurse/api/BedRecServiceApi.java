@@ -105,4 +105,12 @@ public interface BedRecServiceApi {
      */
     public PatsInHospital getInPat(String visitId);
 
+
+    /**
+     * 查询床位相关费用
+     * @author pq
+     * @param itemClass
+     * @return
+     */
+     public List<BaseDto> findBedPrice(String itemClass);
 }
