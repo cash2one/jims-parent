@@ -38,10 +38,9 @@
     </sql>
 
     <select id="listDrugNameDictByClassCode" resultType="com.jims.phstock.entity.DrugNameDict">
-        select distinct a.drug_code ,a.drug_name from drug_name_dict a ,drug_price_list b
-        where a.drug_code = b.drug_code
-        AND b.org_id = #{0}
-        and b.drug_code like #{1} || '%'
+        select  a.drug_code ,a.drug_name from drug_name_dict a
+        where a.drug_code like #{0} || '%'
+
     </select>
 
     <select id="listDrugNameDict" resultType="com.jims.phstock.entity.DrugNameDict">
@@ -50,12 +49,13 @@
         WHERE a.org_id = #{orgId}
     </select>
     <select id="listDrugPriceList" resultType="DrugPriceList">
-		SELECT
-			*
-		FROM drug_price_list a
-		WHERE a.org_id = #{1}
-		and a.drug_code = #{0}
-	</select>
+        SELECT
+        <include refid="drugPriceListColumns"/>
+        FROM drug_price_list a
+        WHERE a.org_id = #{1}
+        and a.drug_code = #{0}
+        and a.del_flag ='0'
+    </select>
     <select id="get" resultType="DrugPriceList">
         SELECT
         <include refid="drugPriceListColumns"/>
@@ -94,30 +94,28 @@
 
     <select id="findDrugDict" resultType="com.jims.phstock.entity.DrugDict">
         SELECT
-            DISTINCT
-            a.drug_code AS "drugCode",
-            a.drug_name AS "drugName",
-            a.toxi_property AS "toxiProperty",
-            a.drug_indicator AS "drugIndicator",
-            a.input_code AS "inputCode",
-            a.drug_form as drugForm,
-            a.dose_per_unit AS "dosePerUnit",
-		    a.dose_units AS "doseUnits"
-         FROM drug_dict a
-         where a.del_flag = '0' AND (a.stop_flag is null or a.stop_flag = '0') AND EXISTS
-            (SELECT 1 FROM drug_price_list t WHERE a.drug_code=t.drug_code
-                AND t.del_flag = '0'
-                AND t.org_id=#{orgId}
-                AND t.start_date &lt;= sysdate
-                AND (t.stop_date IS NULL OR t.stop_date &gt;= sysdate)
-            )
+        DISTINCT
+        a.drug_code AS "drugCode",
+        a.drug_name AS "drugName",
+        a.toxi_property AS "toxiProperty",
+        a.drug_indicator AS "drugIndicator",
+        a.input_code AS "inputCode",
+        a.drug_form as drugForm
+        FROM drug_dict a
+        where a.del_flag = '0' AND (a.stop_flag is null or a.stop_flag = '0') AND EXISTS
+        (SELECT 1 FROM drug_price_list t WHERE a.drug_code=t.drug_code
+        AND t.del_flag = '0'
+        AND t.org_id=#{orgId}
+        AND t.start_date &lt;= sysdate
+        AND (t.stop_date IS NULL OR t.stop_date &gt;= sysdate)
+        )
         <if test="q != null and q != ''">
             and (upper(a.drug_code) like upper(#{q})||'%'
             or a.drug_name like #{q}||'%'
             or upper(a.input_code) like upper(#{q})||'%')
         </if>
-             ORDER BY a.drug_code
-	</select>
+        ORDER BY a.drug_code
+    </select>
 
     <select id="findAllList" resultType="DrugPriceList">
         SELECT
