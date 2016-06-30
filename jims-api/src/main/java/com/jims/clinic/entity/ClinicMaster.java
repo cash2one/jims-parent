@@ -5,6 +5,7 @@ package com.jims.clinic.entity;
 
 import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
+import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.entity.ClinicForRegist;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -91,6 +92,8 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	private String acctDate;//截至日期
 	private String item;//检查项目
 	private Double fee;
+	private PatMasterIndex patMaster;
+
 	
 	public ClinicMaster() {
 		super();
@@ -100,8 +103,15 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 		super(id);
 	}
 
+	public PatMasterIndex getPatMaster() {
+		return patMaster;
+	}
 
-    public String getOrgId() {
+	public void setPatMaster(PatMasterIndex patMaster) {
+		this.patMaster = patMaster;
+	}
+
+	public String getOrgId() {
         return orgId;
     }
 

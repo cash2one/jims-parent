@@ -94,7 +94,7 @@ public class DrugSupplierCatalogRest {
             drugSupplierCatalog.setSupplierId(drugSupplierCatalog.getSupplierId());
             drugSupplierCatalog.setSupplier(drugSupplierCatalog.getSupplier());
             drugSupplierCatalog.setSupplierClass(drugSupplierCatalog.getSupplierClass());
-            drugSupplierCatalog.setInputCode(PinYin2Abbreviation.cn2py(drugSupplierCatalog.getSupplierId()));
+            drugSupplierCatalog.setInputCode(PinYin2Abbreviation.cn2py(drugSupplierCatalog.getSupplier()));
             drugSupplierCatalog.setMemo(drugSupplierCatalog.getMemo());
             drugSupplierCatalog.setTrademark(drugSupplierCatalog.getTrademark());
             drugSupplierCatalog.setInputCodeWb(drugSupplierCatalog.getInputCodeWb());
@@ -110,7 +110,7 @@ public class DrugSupplierCatalogRest {
             drugSupplierCatalog.setSupplierId(drugSupplierCatalog.getSupplierId());
             drugSupplierCatalog.setSupplier(drugSupplierCatalog.getSupplier());
             drugSupplierCatalog.setSupplierClass(drugSupplierCatalog.getSupplierClass());
-            drugSupplierCatalog.setInputCode(PinYin2Abbreviation.cn2py(drugSupplierCatalog.getSupplierId()));
+            drugSupplierCatalog.setInputCode(PinYin2Abbreviation.cn2py(drugSupplierCatalog.getSupplier()));
             drugSupplierCatalog.setMemo(drugSupplierCatalog.getMemo());
             drugSupplierCatalog.setTrademark(drugSupplierCatalog.getTrademark());
             drugSupplierCatalog.setInputCodeWb(drugSupplierCatalog.getInputCodeWb());

@@ -60,6 +60,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
             if(outpPresc!=null){
                 //根据病人就诊ID，查询病人就诊记录信息
                 ClinicMaster clinicMaster = clinicMasterDao.get(outpPresc.getClinicId());
+                Integer prescno=dao.getMaxPrescNo(clinicMaster.getOrgId());
                 String serialNo = IdGen.uuid();
                 OutpOrders oo = new OutpOrders();
                 List<OutpPresc> lists = outpPresc.getList();
@@ -78,7 +79,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                            num = String.valueOf(dao.update(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }else{
-                           Integer prescno = dao.getMaxPrescNo(clinicMaster.getOrgId());
                            /**判断机构下该处方号是否存在，如果存在表示为存在处方增加药品，如果不存在则表示该处方也是新开处方**/
                            Integer flag = dao.searchPrescNoIfExist(/*clinicMaster.getOrgId()*/"","", op.getPrescNo());
                            if(flag<=0 || flag==null){

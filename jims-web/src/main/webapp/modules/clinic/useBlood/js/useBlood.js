@@ -1,67 +1,3 @@
-//var userBlood = [];//用血要求
-//var deptCode=[];//科室
-//var bloodTypeName=[];//血液要求
-//var userBloodData={};
-//userBloodData.orgId="";
-//userBloodData.dictType="BLOOD_COMPONENT";
-//
-//$.ajax({
-//    'type': 'POST',
-//    'url':basePath+'/input-setting/listParam' ,
-//    data: JSON.stringify(userBloodData),
-//    'contentType': 'application/json',
-//    'dataType': 'json',
-//    'async': false,
-//    'success': function(data){
-//        userBlood=data;
-//    }
-//})
-///**
-// * 科室查询
-// */
-//$.ajax({
-//    type:"POST",
-//    url:basePath+'/dept-dict/getList',
-//    contentType:'application/json',
-//    async:false,
-//    success: function (data) {
-//        deptCode=data;
-//    }
-//})
-///**
-// * 科室翻译
-// * @param value
-// * @param rowData
-// * @param rowIndex
-// * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
-// */
-//function deptCodeFormatter(value,rowData,rowIndex){
-//    if(value == 0){
-//        return;
-//    }
-//    for(var i=0; i<deptCode.length; i++){
-//        if(deptCode[i].deptCode == value){
-//            return deptCode[i].deptName;
-//        }
-//    }
-//}
-///**
-// * 血液要求翻译
-// * @param value
-// * @param rowData
-// * @param rowIndex
-// * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
-// */
-//function bloodTypeNameFormatter(value,rowData,rowIndex){
-//    if(value == 0){
-//        return;
-//    }
-//    for(var i=0; i<userBlood.length; i++){
-//        if(userBlood[i].blood_type == value){
-//            return userBlood[i].blood_type_name;
-//        }
-//    }
-//}
 
 /**
  * 设置动态行
@@ -72,11 +8,45 @@ var editRow = undefined;
 var serialNo = '';
 var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"}, {"value": "3", "text": "备血"}];
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
+/**
+ * 用血方式翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function fastSloFormatter(value,rowData,rowIndex){
+    if(value == 0){
+        return ;
+    }
+    for(var i=0;i<fastSlo.length;i++){
+        if(fastSlo[i].value == value){
+            return fastSlo[i].text;
+        }
+    }
+}
+/**
+ * 血量翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function unitsFormatter(value,rowData,rowIndex){
+    if(value == 0){
+        return ;
+    }
+    for(var i=0;i<units.length;i++){
+        if(fastSlo[i].value == value){
+            return units[i].text;
+        }
+    }
+}
 $(function () {
 
     //获取住院id
-    //var visitId= parent.document.getElementById("clinicMasterId").value;
-    //$("#visitId").val(visitId);
+    var visitId= parent.document.getElementById("clinicMasterId").value;
+    $("#visitId").val(visitId);
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,
@@ -85,8 +55,7 @@ $(function () {
         url: basePath + '/bloodApply/getBloodCapacityList',
         columns: [[
             {field: 'id', title: 'id', hidden: true, align: 'center'},
-            {
-                field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: {
+            {field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: fastSlo,
@@ -94,13 +63,14 @@ $(function () {
                     textField: 'text',
                     required: true
                 }
+            },formatter:function(value,rowData,rowIndex){
+                return fastSloFormatter(rowData.fastSlow,'','');
             }
             },
             //每个列具体内容
             {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'text'},
             {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: 'text'},
-            {
-                field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
+            {field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: units,
@@ -108,12 +78,12 @@ $(function () {
                     textField: 'text',
                     required: true
                 }
+            },formatter:function(value,rowData,rowIndex){
+                return unitsFormatter(rowData.unit,'','');
             }
             },
             {
-                field: 'blood_type', title: '血液要求', width: '20%', align: 'center',formatter:function(value,rowData,rowIndex){
-
-            },editor: {
+                field: 'bloodType', title: '血液要求', width: '20%', align: 'center',editor: {
                 type: 'combobox',
                 options: {
                     data:bloodTypeName,
@@ -121,6 +91,8 @@ $(function () {
                     textField: 'blood_type_name',
                     required: true
                 }
+            },formatter:function(value,rowData,rowIndex){
+                return bloodTypeNameFormatter(rowData.bloodType,'','');
             }
             },
         ]],
@@ -131,7 +103,6 @@ $(function () {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
-
                 $("#list_doctor").datagrid('insertRow', {
                     index: 0,
                     row: {}
@@ -189,8 +160,8 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'deptName', title: '科室', width: '18%', align: 'center',formatter:function(value, rowData, rowIndex){
-                return clinicDeptCodeFormatter(rowData.id,'','');
+            {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:function(value, rowData, rowIndex){
+                return clinicDeptCodeFormatter(rowData.deptCode,'','');
             }},
             {field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
             {field: 'bloodInuse', title: '血源', width: '18%', align: 'center'},

@@ -3,6 +3,7 @@ package com.jims.finance;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.common.data.StringData;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.api.PrepaymentRcptServiceApi;
 import com.jims.finance.entity.PrepaymentRcpt;
 import org.springframework.stereotype.Component;
@@ -86,6 +87,32 @@ public class PrepaymentRcptRest {
             e.printStackTrace();
         }
         return stringData;
+    }
+
+    /**
+     * @param      startDate,   endDate    传递参数
+     * @return java.util.List<com.jims.finance.entity.PrepaymentRcpt>    返回类型
+     * @throws
+     * @Title: recordlist
+     * @Description: (这里用一句话描述这个方法的作用)
+     * @author JIMS
+     * @date 2016/6/29
+     */
+    @Path("recordlist")
+    @GET
+    public List<BaseDto> recordlist(@QueryParam("startDate") String startDate,@QueryParam("endDate") String endDate,@QueryParam("transactType") String transactType){
+
+        PrepaymentRcpt prepaymentRcpt = new PrepaymentRcpt();
+        prepaymentRcpt.setStartDate(startDate);
+        prepaymentRcpt.setEndDate(endDate);
+        prepaymentRcpt.setTransactType(transactType);
+        List<BaseDto> list = Lists.newArrayList();
+        try {
+            list = prepaymentRcptServiceApi.findRecordList(prepaymentRcpt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

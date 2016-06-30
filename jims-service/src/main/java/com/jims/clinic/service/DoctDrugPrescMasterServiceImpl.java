@@ -143,7 +143,7 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
                         if(ddpd.getAdministration()!=null&&!"".equals(ddpd.getAdministration())){
                             AdministrationDict administrationDict = administrationDictDao.get(ddpd.getAdministration());
                             if(administrationDict!=null){
-                                BaseDto baseDto = administrationDictDao.findByParams(administrationDict.getAdministrationName(),"",orders.getOrgId());
+                                BaseDto baseDto = administrationDictDao.findByParams(administrationDict.getAdministrationName(),orders.getOrgId());
                                 if(baseDto!=null){
                                     OrdersCosts ordersCosts = new OrdersCosts();
                                     ordersCosts.setItemName(baseDto.get("item_name").toString());

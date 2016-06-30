@@ -38,4 +38,6 @@ public interface BloodApplyServiceApi {
      * @version 2016/4/20
      */
     public String delete(String ids);
+
+//    public String getMatchSubNum(String applyNum);
 }

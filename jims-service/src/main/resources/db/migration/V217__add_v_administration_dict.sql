@@ -23,6 +23,7 @@ SELECT pind.ITEM_NAME,
    and (cvc.ORG_ID=pl.ORG_ID)*/
     AND sysdate >= START_DATE
       and (pl.STOP_DATE IS NULL or SYSDATE <= STOP_DATE)
+      and pl.item_class =  cind.ITEM_CLASS
  /*  and ((cind.ITEM_NAME = '皮内注射'))
    and (pind.STD_INDICATOR = 1)
    and (cind.ITEM_CLASS = 'E');*/

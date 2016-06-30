@@ -58,53 +58,43 @@ $(function(){
                     url: basePath+'/dict/label-value-list?type='+"SEX_DICT",
                     valueField: 'value',
                     textField: 'label',
-                    method: 'GET',
-                    onLoadSuccess: function (row) {
-                        var data = $(this).combobox('getData');
-                        //$(this).combobox('setValues', row.bedSexType);
-                    }
+                    method: 'GET'
+
+            }
+        },formatter:function (value, rowData, RowIndex) {
+            if(value=='1'){
+                return "女";
+            }else if(value=='2'){
+                return "男";
             }
         }},
-            {field: 'bedClass', title: '等级', width: '20%', align: 'center',editor:{
+            {field: 'bedClass', title: '等级', width: '20%',formatter:bedClassFormatter, align: 'center',editor:{
                 type:'combobox',
                 options: {
-                    url: basePath + '/dict/label-value-list?type=' + "SEX_DICT",
-                    valueField: 'value',
-                    textField: 'label',
-                    method: 'GET',
-                    onLoadSuccess: function (row) {
-                        var data = $(this).combobox('getData');
-                       // $(this).combobox('setValues', row.bedClass);
-                    }
+                    data:bedClass,
+                    valueField: 'item_code',
+                    textField: 'item_name'
+
                 }
                 }},
-            {field: 'airconditionClass', title: '空调等级', width: '15%', align: 'center',editor:{
+            {field: 'airconditionClass', title: '空调等级',formatter:airconditionFormatter, width: '15%', align: 'center',editor:{
                 type:'combobox',
                 options: {
-                    url: basePath + '/dict/label-value-list?type=' + "SEX_DICT",
-                    valueField: 'value',
-                    textField: 'label',
-                    method: 'GET',
-                    onLoadSuccess: function (row) {
-                        var data = $(this).combobox('getData');
-                      //  $(this).combobox('setValues', row.airconditionClass);
-                    }
+                   data:airconditionClass,
+                    valueField: 'item_code',
+                    textField: 'item_name'
                 }
             }},
-            {field: 'bedApprovedType', title: '类型', width: '15%', align: 'center',editor:{
+            {field: 'bedApprovedType', title: '类型', width: '15%',formatter:bedFormatter,align: 'center',editor:{
                 type:'combobox',
                 options: {
-                    url: basePath + '/dict/label-value-list?type=' + "SEX_DICT",
+                   data:bedApprovedType,
                     valueField: 'value',
-                    textField: 'label',
-                    method: 'GET',
-                    onLoadSuccess: function (row) {
-                        var data = $(this).combobox('getData');
-                     //   $(this).combobox('setValues', row.bedApprovedType);
-                    }
+                    textField: 'label'
+
                 }
             }},
-            {field: 'bedStatus', title: '空床', width: '10%', align: 'center', formatter:function(value, row, index){
+            {field: 'bedStatus', title: '空床', width: '10%', align: 'center',formatter:function(value, row, index){
                  if(row.bedStatus=='0'||row.bedStatus=='' || row.bedStatus ==null){
                      return "是";
                  }else{
@@ -256,7 +246,13 @@ $(function(){
         columns: [[      //每个列具体内容
             {field: 'bedno', title: '床号', width: '15%', align: 'center'},
             {field: 'name', title: '姓名', width: '15%', align: 'center'},
-            {field: 'sex', title: '性别', width: '15%', align: 'center'},
+            {field: 'sex', title: '性别', width: '15%', align: 'center',formatter: function (value, rowData, RowIndex) {
+                if(value=='1'){
+                    return "女";
+                }else if(value=='2'){
+                    return "男";
+                }
+            }},
             {field: 'patientid', title: '病人ID', width: '20%', align: 'center'},
             {field: 'visitid', title: '住院号', width: '20%', align: 'center'},
             {field: 'dedlabel', title: '床标号', width: '15%', align: 'center'}
@@ -285,7 +281,7 @@ $(function(){
         method: 'GET',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=' + '0&patientId='+"",
+        url: basePath + '/bedRec/findList?wardCode=' + wardCode + '&bedStatus=' + '0'+'&patientId='+"",
         remoteSort: false,
         idField: 'id',
         singleSelect: false,//是否单选
@@ -293,12 +289,18 @@ $(function(){
             {field: 'bedNo', title: '床号', width: '10%', align: 'center'},
             {field: 'bedLabel', title: '床标号', width: '10%', align: 'center'},
             {field: 'roomNo', title: '房间', width: '10%', align: 'center'},
-            {field: 'bedSexType', title: '男/女', width: '10%', align: 'center'},
-            {field: 'bedClass', title: '等级', width: '15%', align: 'center'},
-            {field: 'airconditionClass', title: '空调等级', width: '15%', align: 'center'},
-            {field: 'bedApprovedType', title: '类型', width: '15%', align: 'center'},
-            {field: 'bedStatus', title: '空床', width: '10%', align: 'center', formatter:function(value, row, index){
-                if(row.bedStatus=='0'||row.bedStatus=='' || row.bedStatus ==null){
+            {field: 'bedSexType', title: '男/女', width: '10%', align: 'center',formatter: function (value, rowData, RowIndex) {
+                if(value=='1'){
+                    return "女";
+                }else if(value=='2'){
+                    return "男";
+                }
+            }},
+            {field: 'bedClass', title: '等级', width: '15%',formatter:bedClassFormatter, align: 'center'},
+            {field: 'airconditionClass', title: '空调等级',formatter:airconditionFormatter, width: '15%', align: 'center'},
+            {field: 'bedApprovedType', title: '类型',formatter:bedFormatter, width: '15%', align: 'center'},
+            {field: 'bedStatus', title: '空床', width: '10%', align: 'center',formatter:function(value, rowData, RowIndex){
+                if(value=='0'||value=='' || value ==null){
                     return "是";
                 }else{
                     return "否";
@@ -334,12 +336,18 @@ $(function(){
             {field: 'bedNo', title: '床号', width: '10%', align: 'center'},
             {field: 'bedLabel', title: '床标号', width: '10%', align: 'center'},
             {field: 'roomNo', title: '房间', width: '10%', align: 'center'},
-            {field: 'bedSexType', title: '男/女', width: '10%', align: 'center'},
-            {field: 'bedClass', title: '等级', width: '15%', align: 'center'},
-            {field: 'airconditionClass', title: '空调等级', width: '15%', align: 'center'},
-            {field: 'bedApprovedType', title: '类型', width: '15%', align: 'center'},
-            {field: 'bedStatus', title: '空床', width: '10%', align: 'center', formatter:function(value, row, index){
-                if(row.bedStatus=='0'||row.bedStatus=='' || row.bedStatus ==null){
+            {field: 'bedSexType', title: '男/女', width: '10%', align: 'center',formatter: function (value, rowData, RowIndex) {
+                if(value=='1'){
+                    return "女";
+                }else if(value=='2'){
+                    return "男";
+                }
+            }},
+            {field: 'bedClass', title: '等级', width: '15%',formatter:bedClassFormatter, align: 'center'},
+            {field: 'airconditionClass', title: '空调等级',formatter:airconditionFormatter, width: '15%', align: 'center'},
+            {field: 'bedApprovedType', title: '类型',formatter:bedFormatter, width: '15%', align: 'center'},
+            {field: 'bedStatus', title: '空床', width: '10%', align: 'center',formatter:function(value, rowData, RowIndex){
+                if(value=='0'||value=='' || value ==null){
                     return "是";
                 }else{
                     return "否";
@@ -503,4 +511,14 @@ function changeBedOk(){
             $.messager.alert('提示',"换床失败", "error");
         }
     });
+}
+
+
+function refash(){
+    $('#emptyBed').datagrid('reload');
+    $('#hasBed').datagrid('reload');
+}
+//解除包床
+function accountsConfirm(){
+
 }
