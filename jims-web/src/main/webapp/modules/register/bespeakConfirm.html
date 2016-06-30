@@ -104,13 +104,14 @@
                 </h1>
                 <br>
                 <div>
-                    实收：<input type="text" class="easyui-validatebox validatebox-text-sm" >&nbsp;
-                    找零：<input  type="text" class="easyui-validatebox validatebox-text-sm">
+                    实收：<input type="text"  id="receiptsId" onchange="onchangeInput()" class="easyui-validatebox validatebox-text-sm" >&nbsp;
+                    <input type="hidden" id="receiptsHiddenId">
+                    找零：<input  type="text" id="changeReceiptsId" readonly="true" class="easyui-validatebox validatebox-text-sm">
                 </div>
                 <br>
                 <div style="text-align:right;">
                     <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'" href="#" onclick="saveAppointReg()">保存</a>&nbsp;
-                    <button  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-cancel'">取消</button>
+                    <button  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-cancel'" onclick="closeDialog('chargeId')">取消</button>
                 </div>
             </div>
         </form>

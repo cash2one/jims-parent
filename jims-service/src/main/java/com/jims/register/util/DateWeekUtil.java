@@ -32,7 +32,6 @@ public class DateWeekUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 // 需要查询的星期系数
         String strWeekNumber = weekForNum(weekDays);
-        System.out.print(strWeekNumber);
         try {
             dateFrom = sdf.format(sdf.parse(dateFrom).getTime() - perDayMilSec);
             while (true) {

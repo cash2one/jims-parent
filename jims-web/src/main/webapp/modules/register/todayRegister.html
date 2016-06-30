@@ -36,7 +36,7 @@
     <div>
         <!--<button class="easyui-linkbutton" data-options="iconCls:'icon-back'">读卡</button>-->
         <button class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="openDialog('chargeId','挂号结果')">挂号</button>
-        <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="openDialog('backNumberId','退号')">退号</button>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="openDialogRetreat('backNumberId','退号')">退号</button>
     </div>
     <div class="reglist-main" id="clinicIndex">
 
@@ -92,10 +92,10 @@
                     <td><input type="text" class="easyui-datebox vt-text-percent" id="visitDate" style="width:150px;"/></td>
                    <!-- <td class="text-right">就诊序号：</td>
                     <td><input type="text" class="validatebox-text vt-text-percent" id="visitNo"/></td>-->
-                    <td class="text-right">序号：</td>
-                    <td><input type="text" class="validatebox-text vt-text-percent" id="visitNo"style="width:150px;"/></td>
+                    <td class="text-right">门诊号：</td>
+                    <td><input type="text" class="validatebox-text vt-text-percent" id="clinicNoId"style="width:150px;"/></td>
                     <td>
-                        <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchReturn();">查询</button>
+                        <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchReturn();">提取</button>
                     </td>
                 </tr>
                 <!-- <tr>
@@ -110,7 +110,6 @@
         </div>
 
         <div class="bg-gray">
-            <button class="easyui-linkbutton" data-options="iconCls:'icon-add'">提取</button>
             <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="clinicReturnInfo();">退号</button>
         </div>
         <form id="regreteatInfo" method="post">
@@ -119,22 +118,21 @@
             <table cellpadding="0" cellspacing="0" width="100%" class="apply-tab">
                 <tr>
                     <td>门诊号：</td>
-                    <td><input  name="clinicNo" class="validatebox-text " required="true" ></td>
+                    <td><input  name="clinicNo" class="validatebox-text" ></td>
                     <td>姓名：</td>
-                    <td colspan="3"><input  name="name" class="validatebox-text " required="true"></td>
+                    <td colspan="3"><input  name="name" class="validatebox-text"></td>
                     <td>性别：</td>
-                    <td><input  name="sex" class="validatebox-text " required="true"></td>
+                    <td><input  name="sex"class="easyui-combobox"  id="setIdt"></td>
                     <td>年龄：</td>
-                    <td><input  name="age" class="validatebox-text " required="true"></td>
-
+                    <td><input  name="age" class="validatebox-text"></td>
                 </tr>
                 <tr>
                     <td>费别：</td>
-                    <td><input  name="chargeType" class="validatebox-text " required="true"></td>
+                    <td><input  name="chargeType" id="chargeTypeIdt" class="easyui-combobox"></td>
                     <td>合同单位：</td>
-                    <td colspan="3"><input name="unitInContract" class="validatebox-text " required="true"></td>
+                    <td colspan="3"><input name="unitInContract" id="companyIdt" class="validatebox-text " required="true"></td>
                     <td>身份：</td>
-                    <td colspan="3"><input  name="identity" class="validatebox-text " required="true"></td>
+                    <td colspan="3"><input  name="identity" id="identityIdt" class="easyui-combobox"></td>
 
                 </tr>
                 <tr>
@@ -149,12 +147,12 @@
                 </tr>
                 <tr>
                     <td>就诊日期：</td>
-                    <td><input  name="visitDate" class="validatebox-text " required="true"></td>
+                    <td><input  name="visitDate"   class="easyui-datebox"></td>
                     <td>就诊序号：</td>
                     <td><input  name="visitNo" class="validatebox-text " required="true"></td>
                     <td>门诊时间：</td>
                     <td>
-                        <input  name="visitTimeDesc" class="validatebox-text " required="true">
+                        <input  name="visitTimeDesc"  id="visitTimeDescId"  class="easyui-combobox" >
                     </td>
                     <td>挂号状态：</td>
                     <td  colspan="3">
@@ -164,32 +162,18 @@
                 <Tr>
                     <td>门诊号别：</td>
                     <td  colspan="3">
-                        <input  name="clinicLabel" class="validatebox-text " required="true">
+                        <input  name="clinicLabelName" class="validatebox-text" >
                     </td>
                     <td>门诊科室：</td>
                     <td  colspan="5">
-                        <input  name="visitDept" class="validatebox-text " required="true">
+                        <input  name="visitDept" id="visitDeptIdt" class="easyui-combobox" >
                     </td>
 
                 </tr>
                 <tr>
-                    <td>序号：</td>
-                    <td>
-                        <input  name="serialNo" class="validatebox-text" required="true">
-                    </td>
-                    <td>医生姓名：</td>
-                    <!--<td colspan="3">
-                        <input  name="doctor" class="validatebox-text " required="true">
-                    </td>
-                    <td>门诊类别：</td>
-                    <td colspan="3">
-                        <input  name="clinicType" class="validatebox-text " required="true">
-                    </td>-->
-                </tr>
-                <tr>
                     <td>初诊标志：</td>
                     <td>
-                        <input  name="firstVisitIndicator" class="validatebox-text" required="true">
+                        <input  name="firstVisitIndicator" class="validatebox-text">
                     </td>
                     <td>提供病案：</td>
                     <td colspan="3">
@@ -207,7 +191,7 @@
                     </td>
                     <td>挂号日期：</td>
                     <td colspan="3">
-                        <input  name="registeringDate" class="validatebox-text" required="true">
+                        <input  name="registeringDate" class="easyui-datebox" >
                     </td>
                     <td>诊疗费：</td>
                     <td colspan="3">
@@ -218,11 +202,11 @@
                 <tr>
                     <td>退号员：</td>
                     <td>
-                        <input  name="returnedOperator" class="validatebox-text" required="true">
+                        <input  name="returnedOperator" class="validatebox-text">
                     </td>
                     <td>退号日期：</td>
                     <td colspan="3">
-                        <input  name="returnedDate" class="validatebox-text" required="true" id="returnDate">
+                        <input  name="returnedDate" class="easyui-datebox" required="true" id="returnDate">
                     </td>
                     <td>其他费用：</td>
                     <td colspan="3">
