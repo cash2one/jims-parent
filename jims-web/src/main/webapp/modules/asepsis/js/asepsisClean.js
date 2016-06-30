@@ -120,7 +120,9 @@ $(function() {
             {field: 'asepsisSpec', title: '规格', width: '3%', align: 'center'},
             {field: 'amount', title: '数量', width: '3%', align: 'center'},
             {field: 'units', title: '单位', width: '3%', align: 'center'},
-            //{field: 'impDate', title: '送物时间', width: '10%', align: 'center'},
+            {field: 'impDate', title: '送物时间', width: '10%', align: 'center',formatter: function(value){
+                return parent.formatDatebox(value)
+            }},
             {field: 'sterOperator', hidden:true},
             {field: 'sterOperatorDes', title: '清洗人', width: '8%', align: 'center'},
             {field: 'cleanWays', hidden:true},
@@ -212,9 +214,9 @@ $(function() {
             var belongDept=$("#belongDept").combobox('getValue');
             var asepsisName=$("#asepsisName").combobox('getValue');
             $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"0","orgId":orgId,"belongDept":belongDept,"asepsisName":asepsisName}});
-            return;
+        }else{
+            $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"0","orgId":orgId}});
         }
-        $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"0","orgId":orgId}});
         setTimeout("loadAnotherData()",500);
     }
     loadListData();

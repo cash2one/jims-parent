@@ -162,7 +162,24 @@
         <if test="antiDate != null and antiDate !=''">
             , anti_DATE = #{antiDate}
         </if>
-        WHERE documnet_no = #{documnetNo}
+        <if test="amountAnti != null and amountAnti != '' and amountAnti != '0.00' and amountAnti != '0'">
+            , amount = ${amountAnti}
+        </if>
+        WHERE id=${id} and documnet_no = #{documnetNo}
+        <choose>
+            <when test="asepsisState !=null and asepsisState == '1'">
+                and asepsis_state =  '0'
+            </when>
+            <when test="asepsisState !=null and asepsisState == '2'">
+                and asepsis_state =  '1'
+            </when>
+            <when test="asepsisState !=null and asepsisState == '3'">
+                and asepsis_state =  '2'
+            </when>
+        </choose>
+        <if test="amount != null and amount != ''">
+            and amount = ${amount}
+        </if>
     </update>
 
     <insert id="insert">

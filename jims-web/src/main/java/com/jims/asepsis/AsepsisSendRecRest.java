@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,13 +26,30 @@ public class AsepsisSendRecRest {
     /**
     * 检索
     * @param orgId
-    * @return
+     * @param sendDate,
+     * @param sendDateStart,
+     * @param sendDateEnd,
+     * @param fromDept,
+     * @param getFlag,
+     * @param sender
+    * @return List<AsepsisSendRec>
     */
     @GET
     @Path("findList")
-    public List<AsepsisSendRec> findList(@QueryParam("orgId")String orgId) {
+    public List<AsepsisSendRec> findList(@QueryParam("orgId")String orgId,
+                                         @QueryParam("sendDate")Date sendDate,
+                                         @QueryParam("sendDateStart")Date sendDateStart,
+                                         @QueryParam("sendDateEnd")Date sendDateEnd,
+                                         @QueryParam("fromDept")String fromDept,
+                                         @QueryParam("getFlag")String getFlag,
+                                         @QueryParam("sender")String sender) {
         AsepsisSendRec entity = new AsepsisSendRec();
         entity.setOrgId(orgId);
+        entity.setFromDept(fromDept);
+        entity.setSendDate(sendDate);
+        entity.setSendDateStart(sendDateStart);
+        entity.setSendDateEnd(sendDateEnd);
+        entity.setGetFlag(getFlag);
         return api.findList(entity);
     }
 

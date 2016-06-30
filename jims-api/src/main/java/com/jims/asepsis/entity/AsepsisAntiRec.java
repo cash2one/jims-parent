@@ -17,7 +17,7 @@ public class AsepsisAntiRec extends DataEntity<AsepsisAntiRec> {
 //public class AsepsisAntiRec implements java.io.Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String id;//
+//	private String id;//与DataEntity有冲突，若写了就获取不到ｉｄ值了//
 	private String documnetNo;//	业务单据号
 	private String asepsisCode;//	代码
 	private String asepsisName;//	名称
@@ -59,19 +59,10 @@ public class AsepsisAntiRec extends DataEntity<AsepsisAntiRec> {
 	private String orgId;//	所属机构ID
 
 	public AsepsisAntiRec() {}
-//	public AsepsisAntiRec(String id){
-//		super(id);
-//	}
+	public AsepsisAntiRec(String id){
+		super(id);
+	}
 //	@Length(min=0, max=128, message="收据号长度必须介于 0 和 128 之间")
-
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public Date getAntiDate() {
 		return antiDate;
