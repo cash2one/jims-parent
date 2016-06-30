@@ -1,4 +1,8 @@
-<!--医嘱非药品-->
+/*==============================================================*/
+/* VIEW: V_CLINIC_NAME_PRICE    住院医嘱的非药品视图                              */
+/* CREATE_BY :  pq                                             */
+/*=============================================================*/
+
 CREATE OR REPLACE VIEW V_CLINIC_NAME_PRICE AS
 select c.item_class,c.item_code,c.item_name,c.item_spec,
        c.units,c.price,c.prefer_price,c.performed_by,c.subj_code,a.INPUT_CODE,
