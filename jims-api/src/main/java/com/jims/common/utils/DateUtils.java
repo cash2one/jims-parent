@@ -236,5 +236,23 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 					0;
 		return Integer.toString(age);
 	}
-
+    //计算年龄
+    public static long getAge(Date dt1) {
+        Date dt2= new Date();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            dt1=sdf.parse(sdf.format(dt1));
+            dt2=sdf.parse(sdf.format(dt2));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt1);
+        long time1 = cal.getTimeInMillis();
+        cal.setTime(dt2);
+        long time2 = cal.getTimeInMillis();
+        long between_days=(time2-time1)/(1000*3600*24);
+        between_days=between_days/365;
+        return between_days;
+    }
 }

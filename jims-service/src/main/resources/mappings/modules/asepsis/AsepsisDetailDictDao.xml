@@ -74,8 +74,7 @@
 
     <update id="update">
         UPDATE ASEPSIS_DETAIL_DICT SET
-            ID = #{id}
-            ,ASEPSIS_CODE = #{asepsisCode}
+           ASEPSIS_CODE = #{asepsisCode}
             ,ITEM_CODE = #{itemCode}
             ,ITEM_NAME = #{itemName}
             ,ITEM_SPEC = #{itemSpec}

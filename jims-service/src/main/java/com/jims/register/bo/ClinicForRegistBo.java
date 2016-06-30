@@ -12,7 +12,6 @@ import com.jims.common.utils.DateUtils;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.dao.ClinicForRegistDao;
 import com.jims.register.dao.ClinicIndexDao;
-import com.jims.register.dao.ClinicTypeSettingDao;
 import com.jims.register.dao.ClinicTypeFeeDao;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicIndex;
@@ -77,6 +76,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                     clinicForRegist.setTimeDesc(clinicSchedule.getTimeDesc());//出诊时间==门诊时间描述
                     clinicForRegist.setRegistrationLimits(clinicSchedule.getRegistrationLimits());//限号数
                     clinicForRegist.setAppointmentLimits(clinicSchedule.getAppointmentLimits());//限约号数
+                    clinicForRegist.setAppointmentNum(0);
                     Integer currentNo=clinicForRegistDao.currentNoMax(clinicDate,clinicSchedule.getClinicLabel(),clinicSchedule.getTimeDesc());
                     if(currentNo!=null){
                         clinicForRegist.setCurrentNo(currentNo+1);  //当前号(根据，门诊日期，门诊号名称，出诊时间 查询出最大的当前号数+1)
@@ -103,26 +103,6 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
         list= clinicForRegistDao.findListReg(clinicForRegist);
         return list;
     }
-    //计算年龄
-    public long getAge(Date dt1) {
-        Date dt2= new Date();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            dt1=sdf.parse(sdf.format(dt1));
-            dt2=sdf.parse(sdf.format(dt2));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(dt1);
-        long time1 = cal.getTimeInMillis();
-        cal.setTime(dt2);
-        long time2 = cal.getTimeInMillis();
-        long between_days=(time2-time1)/(1000*3600*24);
-        between_days=between_days/365;
-        return between_days;
-    }
-
 
     /**
      * 保存挂号信息
@@ -140,7 +120,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
         patMasterIndex.setSex(clinicMaster.getSex());//性别
         patMasterIndex.setDateOfBirth(clinicMaster.getBirthDate());//出生日期
         patMasterIndex.setChargeType(clinicMaster.getChargeType());//费别
-        patMasterIndex.setAge(getAge(clinicMaster.getBirthDate())+"");
+        patMasterIndex.setAge(DateUtils.getAge(clinicMaster.getBirthDate())+"");
         patMasterIndex.setIdentity(clinicMaster.getIdentity());//身份
         patMasterIndex.setCreateDate(format.parse(DateUtils.getDate()));//记录时间
         patMasterIndex.setVipIndicator(0);//重要任务标志

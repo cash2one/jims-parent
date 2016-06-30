@@ -1,7 +1,66 @@
 var rowNum=-1;
 $(function (){
-    var editRow = undefined; //定义全局变量：当前编辑的行
-
+    /**
+     * 科室下拉框
+     */
+    $('#deptNameId').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name'
+    })
+    /**
+     * 就诊科室
+     */
+    $('#visitDeptId').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name'
+    })
+    $("#visitDeptId").combobox('select',clinicDeptCode[0].id);
+    /**
+     * 性别下拉框
+     */
+    $('#setId').combobox({
+        data: setData,
+        valueField: 'value',
+        textField: 'label'
+    })
+    $("#setId ").combobox('select',setData[0].value);
+    /**
+     * 费别下拉框
+     */
+    $('#chargeTypeId').combobox({
+        data: chargeType,
+        valueField: 'id',
+        textField: 'charge_type_name'
+    })
+    $("#chargeTypeId ").combobox('select',chargeType[0].id);
+    /**
+     * 诊别下拉框
+     */
+    $('#clinicTypeId').combobox({
+        data: chargeTypeDict,
+        valueField: 'value',
+        textField: 'label'
+    })
+    $("#clinicTypeId ").combobox('select',chargeTypeDict[0].value);
+    /**
+     * 身份下拉框
+     */
+    $('#identityId').combobox({
+        data: identityDict,
+        valueField: 'id',
+        textField: 'identityName'
+    })
+    $("#identityId ").combobox('select',identityDict[0].id);
+    /**
+     * 合同单位下拉框
+     */
+    $('#companyId').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
     $('#confirm_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -19,16 +78,16 @@ $(function (){
        // pageSize:15,
         //pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'visitDateAppted',title:'就诊日期',align:'center'},
-            {field:'visitTimeAppted',title:'就诊时间',align:'center'},
-            {field:'clinicLabel',title:'门诊号别',align:'center'},
-            {field:'doctor',title:'医生',align:'center'},
-            {field:'name',title:'姓名',align:'center',editor: 'text'},
-            {field:'cardNo',title:'预约卡号',align:'center',editor: 'text'},
-            {field:'cardName',title:'预约卡类',align:'center',editor: 'text'},
-            {field:'clinicType',title:'门诊类别',align:'center'},
-            {field:'apptMadeDate',title:'预约时间',align:'center',editor: 'text'},
-            {field:'modeCode',title:'预约方式',align:'center',editor: 'text'},
+            {field:'visitDateAppted',title:'就诊日期',width:'20%',align:'center',formatter:formatDatebox},
+            {field:'visitTimeAppted',title:'就诊时间',width:'20%',align:'center',formatter:timeDescFormatter},
+            {field:'clinicLabelName',title:'门诊号别',width:'20%',align:'center'},
+            //{field:'doctor',title:'医生',align:'center'},
+            {field:'name',title:'姓名',width:'18%',align:'center'},
+            //{field:'cardNo',title:'预约卡号',align:'center',editor: 'text'},
+            //{field:'cardName',title:'预约卡类',align:'center',editor: 'text'},
+            //{field:'clinicType',title:'门诊类别',align:'center'},
+            {field:'apptMadeDate',title:'预约时间',align:'center',width:'20%',formatter:formatDatebox},
+            //{field:'modeCode',title:'预约方式',align:'center',editor: 'text'},
             {field:'masterId',hidden:true},
         ]],
         frozenColumns:[[
@@ -57,9 +116,7 @@ $(function (){
                 }
             }
         ], onClickRow: function (rowIndex, rowData) {
-            var selectRows = $('#confirm_data').datagrid("getSelected");
-            var appointId=  selectRows['id'];//号别ID
-            indexInfo(appointId);
+            $("#patIndex").form('load',rowData);
             var dataGrid=$('#confirm_data');
             if(!dataGrid.datagrid('validateRow', rowNum)){
                 return false
@@ -85,18 +142,12 @@ $(function (){
 });
 //查询预约的list数据
 function searchConfirm(){
-    var clinicNo=$("#clinicNo").val();
+    var idNo=$("#idNo").val();
     var name=$("#name").val();
-    var cardNo=$("#cardNo").val();
     var visitDate=$("#visitDate").datebox("getValue");
-   $("#confirm_data").datagrid({url:basePath+'/clinicAppoints/searchAppoints',queryParams:{"clinicNo":clinicNo,"name":name,"cardNo":cardNo,"visitDate":visitDate}});
+   $("#confirm_data").datagrid({url:basePath+'/clinicAppoints/searchAppoints',queryParams:{"idNo":idNo,"name":name,"visitDate":visitDate}});
 }
-//查询右边基本信息
-function indexInfo(id){
-    $.get(basePath+'/clinicAppoints/get?id='+id,function(data){
-      $("#patIndex").form('load',data);
-    });
-}
+
 //弹出 收费 确认信息
 function confirmAppoint(id,name){
     $("#"+id).dialog({title: name}).dialog("open");
@@ -113,7 +164,7 @@ function confirmAppoint(id,name){
 
     $("#clinicLabe").html(labelHtml);
 }
-//保存
+//保存预约挂号
 function saveAppointReg(){
     var rows = $('#confirm_data').datagrid("getSelections");
     var tableJson=JSON.stringify(rows);
@@ -152,7 +203,6 @@ function saveAppointReg(){
                     strIds += selectRows[i].id + ",";
                 }
                 strIds = strIds.substr(0, strIds.length - 1);
-                alert(strIds);
                 //删除
                 $.ajax({
                     'type': 'POST',
@@ -178,20 +228,14 @@ function saveAppointReg(){
     }
 //保存 修改预约信息
 function saveAppointInfo(){
-    $('#confirm_data').datagrid('endEdit', rowNum);
-    var clinicMasterId=$("#clinicMasterId").val();
-    var rows = $('#confirm_data').datagrid("getSelected");
-    rows.masterId=clinicMasterId;
-    var tableJson=JSON.stringify(rows);
-    alert(tableJson);
-    $.postJSON(basePath+"/clinicAppoints/editAppoints",tableJson,function(data){
+    $.postForm(basePath+"/clinicAppoints/editAppoints",'patIndex',function(data){
         if(data.code=="1"){
             $.messager.alert("提示信息","保存成功");
             $('#confirm_data').datagrid('load');
             $('#confirm_data').datagrid('clearChecked');
             $("#patIndex").form('clear');
         }else{
-            $.messager.alert("提示信息","保存失败","error");
+            $.messager.alert("提示信息","保存失败"+data.code,"error");
         }
 
     }),function(data){

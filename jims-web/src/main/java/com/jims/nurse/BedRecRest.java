@@ -75,7 +75,9 @@ public class BedRecRest {
      */
     @Path("getAllBed")
     @POST
-    public List<BaseDto> getAllBed(BedRec bedRec){
+    public List<BaseDto> getAllBed(@QueryParam("wardCode")String wardCode){
+        BedRec bedRec = new BedRec();
+        bedRec.setWardCode(wardCode);
         return  bedRecServiceApi.getAllBed(bedRec);
     }
 
@@ -200,5 +202,18 @@ public class BedRecRest {
     @POST
     public List<BaseDto> getInPats(BedRec bedRec){
         return  bedRecServiceApi.getAllBed(bedRec);
+    }
+
+
+    /**
+     * 查询床位相关费用
+     * @author pq
+     * @param itemClass
+     * @return
+     */
+    @Path("findBedPrice")
+    @GET
+    public List<BaseDto> findBedPrice(@QueryParam("itemClass")String itemClass){
+        return bedRecServiceApi.findBedPrice(itemClass);
     }
 }

@@ -18,26 +18,25 @@ $(function() {
         fitColumns:true,
         fit: true,//自动大小
         columns: [[      //每个列具体内容
-            {field: 'repeatIndicator', title: '长', width: '2%', align: 'center'},
-            {field: 'orderClass', title: '类别', width: '3%', align: 'center'},
+            {field: 'repeatIndicator', title: '长', formatter:itemFormatter,width: '2%', align: 'center'},
+            {field: 'orderClass', title: '类别', width: '3%', formatter:orderClassFormatter,align: 'center'},
             {field: 'startDateTime', title: '开始时间', width: '6%', align: 'center',formatter:formatDateBoxFull},
             {field: 'orderText', title: '医嘱内容', width: '5%', align: 'center'},
-
             {
                 field: 'dosage',
                 title: '剂量',
                 width: '3%',
                 align: 'center'
             },
-            {field: 'administration', title: '途径', width: '5%', align: 'center'},
-            {field: 'frequency', title: '次数', width: '3%', align: 'center'},
+            {field: 'administration', title: '途径', width: '5%', formatter:billingAttrFormatter,align: 'center'},
+            {field: 'frequency', title: '次数', width: '3%',formatter:performFreqFormatter, align: 'center'},
             {field: 'performSchedule', title: '执行时间', width: '5%', align: 'center'},
             {field: 'stopDateTime', title: '结束时间', width: '7%', align: 'center',formatter:formatDateBoxFull},
             {field: 'verifyDataTime', title: '校对时间', width: '8%', align: 'center',formatter:formatDateBoxFull},
             {field: 'time', title: '摆药截至时间', width: '8%', align: 'center'},
-            {field: 'billingAttr', title: '自', width: '2%', align: 'center'},
-          //  {field:'',title:'阴阳',width:'5%',align:'center'},
-           // {field: 'freqDetail', title: '医生说明', width: '5%', align: 'center'},
+            {field: 'billingAttr', title: '自', width: '2%', align: 'center',formatter:billingAttrFormatter},
+            {field:'performResult',title:'阴阳',width:'5%',align:'center',editor:'text'},
+            {field: 'freqDetail', title: '医生说明', width: '5%', align: 'center'},
             {
                 field: 'dosageUnits',
                 title: '单位',
@@ -46,7 +45,6 @@ $(function() {
 
             },
             {field: 'freqCounter', title: '临嘱执行次数', width: '5%', align: 'center'},
-            {field:'orderClass',title:'项目类别',width:'5%',align:'center'},
             {field:'doctor',title:'开医嘱医生',width:'5%',align:'center'},
             {field:'nurse',title:'校对护士',width:'5%',align:'center'},
             {field:'stopDoctor',title:'停医生',width:'5%',align:'center'},
@@ -62,19 +60,6 @@ $(function() {
             var row = $('#orderList').datagrid('getSelected');
             var dataGrid = $('#orderList');
             var row = $('#orderList').datagrid('getSelected');
-
-           $.ajax({
-               method: "POST",
-               dataType: 'json',
-               contentType: 'application/json',
-               data: JSON.stringify({"patientId":row.patientId,"visitId":row.visitId,"orderNo":row.orderNo}),
-               url: basePath + '/inOrders/getSubOrders',
-               success: function (data) {
-                   $.each(data,function(id,item) { //循环对象取值
-                       $("#orderList").datagrid("selectRecord",item.id);
-                   })
-               }
-           });
             var status = row.orderStatus;
             if (!dataGrid.datagrid('validateRow', rowNum)) {
                 return false//新开
@@ -91,16 +76,39 @@ $(function() {
 
         }, onDblClickRow: function (rowIndex, rowData) {
             $("#ordersDialog").dialog('open');
-        }, rowStyler: function (index, row) {
-            if (row.orderStatus == '1') {
-                return 'color:black;';
-            } else if (row.orderStatus == "2") {
-                return 'color:blue;';
-            } else if (row.orderStatus == "3") {
-                return 'color:yellow;';
-            } else if (row.orderStatus == "4") {
-                return 'color:red;';
+        }, rowStyler:function(index,row){
+            if (row.orderNo!=row.orderSubNo){
+                return 'background-color:#D4D4D4;';
+                if(row.orderStatus=='6'){//传输
+                    return 'color:#8A2BE2;';
+                }else if(row.orderStatus=='1'){//转抄
+                    return 'color:black;';
+                }else if(row.orderStatus=='2') {//执行
+                    return 'color:blue;';
+                }else if(row.orderStatus=='3') {//停止
+                    return 'color:yellow;';
+                }else if(row.orderStatus=='4') {//作废
+                    return 'color:red;';
+                }
+
+            }else{
+                if(row.orderStatus=='6'){//传输
+                    return 'background-color:#90EE90;color:#8A2BE2;';
+                }else if(row.orderStatus=='1'){//转抄
+                    return 'background-color:#A7CACB;color:black;';
+                }else if(row.orderStatus=='2') {//执行
+                    return 'background-color:#A7CACB;color:blue;';
+                }else if(row.orderStatus=='3') {//停止
+                    return 'background-color:#A7CACB;color:yellow;';
+                }else if(row.orderStatus=='4') {//作废
+                    return 'background-color:#A7CACB;color:red;';
+                }
             }
+
+
+
+
+
         }
     });
     $("#submit_search").linkbutton({iconCls: 'icon-search', plain: true}).click(function () {
@@ -158,4 +166,21 @@ function loadBaseInfo(id){
             })
         }
     });
+}
+
+//转抄
+function operationCopied(){
+    var ordersRow = $('#orderCopied').datagrid("getSelections");
+    var tableJson=JSON.stringify(ordersRow);
+    $.postJSON(basePath+'/ordersNurse/operationCopied',tableJson,function(data){
+        if(data.data=='success'){
+            $.messager.alert("提示消息","处理成功");
+            $('#orderCopied').datagrid("load");
+        }else{
+            $.messager.alert('提示',"处理失败", "error");
+        }
+    },function(data){
+        $.messager.alert('提示',"处理失败", "error");
+    })
+
 }

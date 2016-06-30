@@ -5,7 +5,7 @@ $(function(){
      */
     $('#deptNameId').combobox({
         data: clinicDeptCode,
-        valueField: 'id',
+        valueField: 'dept_code',
         textField: 'dept_name'
     })
     /**
