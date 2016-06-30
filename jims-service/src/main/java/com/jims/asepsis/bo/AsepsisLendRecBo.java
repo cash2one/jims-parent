@@ -28,4 +28,13 @@ public class AsepsisLendRecBo extends CrudImplService<AsepsisLendRecDao, Asepsis
             }
         }
     }
+
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @return
+     */
+    public String getMaxDocumentNo(String orgId){
+        return dao.getMaxDocumentNo(orgId);
+    }
 }

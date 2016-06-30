@@ -34,13 +34,16 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private String reqOperator;  // 申请人
     private String orgId;  // 所属机构ID
 
-    private String stock;
+    private Integer stock;  // 领物数量
+    private Date sendDateStart;
+    private Date sendDateEnd;
+    private String fromDeptName;
 
-    public String getStock() {
+    public Integer getStock() {
         return stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(Integer stock) {
         this.stock = stock;
     }
 
@@ -220,5 +223,27 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
         this.orgId = orgId;
     }
 
+    public Date getSendDateEnd() {
+        return sendDateEnd;
+    }
 
+    public void setSendDateEnd(Date sendDateEnd) {
+        this.sendDateEnd = sendDateEnd;
+    }
+
+    public Date getSendDateStart() {
+        return sendDateStart;
+    }
+
+    public void setSendDateStart(Date sendDateStart) {
+        this.sendDateStart = sendDateStart;
+    }
+
+    public String getFromDeptName() {
+        return fromDeptName;
+    }
+
+    public void setFromDeptName(String fromDeptName) {
+        this.fromDeptName = fromDeptName;
+    }
 }

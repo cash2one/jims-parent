@@ -12,5 +12,12 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 @MyBatisDao
 public interface AsepsisLendRecDao extends CrudDao<AsepsisLendRec> {
 
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @return
+     */
+    public String getMaxDocumentNo(String orgId);
+
 
 }

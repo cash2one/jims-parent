@@ -71,6 +71,12 @@
         FROM ASEPSIS_LEND_REC a
     </select>
 
+    <select id="getMaxDocumentNo" resultType="string">
+        select max(document_no)
+        from asepsis_lend_rec t
+        where document_no like 'S'||to_char(sysdate,'yyMMdd')||'%' and org_id = #{1}
+    </select>
+
     <insert id="insert">
         INSERT INTO ASEPSIS_LEND_REC(
             ID
@@ -98,7 +104,7 @@
             ,REQ_OPERATOR
             ,OPERATOR2
             ,ORG_ID
-            ,RETUR_NMAN
+            ,RETURN_MAN
         ) VALUES (
             #{id}
             ,#{documentNo}
