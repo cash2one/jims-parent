@@ -41,71 +41,70 @@ $(function(){
             var typeUpdateData = $("#descrip").datagrid("getChanges", "updated");
             if (typeInsertData && typeInsertData.length > 0) {
                 for (var i = 0; i < typeInsertData.length; i++) {
-                    if(typeInsertData[i].type == undefined || typeInsertData[i].type == "" || typeInsertData[i].description == undefined || typeInsertData[i].description == ""){
-                        $.messager.alert("提示消息", "类型或描述不能为空!");
-                        $("#descrip").datagrid('reload');
-                        $("#label_value").datagrid('reload');
-                    }else{
+                    typeInsertData[i].type = trim(typeInsertData[i].type);
+                    typeInsertData[i].description = trim(typeInsertData[i].description);
+                    if(typeof(typeInsertData[i].type) != "undefined" && typeInsertData[i].type != ""
+                        && typeof(typeInsertData[i].description) != "undefined" && typeInsertData[i].description != ""){
                         var labelInsertData = $("#label_value").datagrid("getChanges", "inserted");
                         if (labelInsertData && labelInsertData.length > 0) {
                             for (var j = 0; j < labelInsertData.length; j++) {
-                                insertedData.type = typeInsertData[i].type;
-                                insertedData.description = typeInsertData[i].description;
-                                insertedData.label = labelInsertData[j].label;
-                                insertedData.value = labelInsertData[j].value;
-                                insertedData.sort = labelInsertData[j].sort;
-                                insertedData.remarks = labelInsertData[j].remarks;
-                                insertedData.inputCode = labelInsertData[j].inputCode;
-                                if(insertedData.label == undefined || insertedData.label == ""){
-                                    $.messager.alert("提示消息","标签不能为空!");
-                                }else if(insertedData.value == undefined || insertedData.value == ""){
-                                    $.messager.alert("提示消息", "键值不能为空!");
-                                }else if(insertedData.sort == undefined || insertedData.sort == ""){
-                                    $.messager.alert("提示消息", "请指定排序!");
-                                }else{
+                                labelInsertData[j].label = trim(labelInsertData[j].label);
+                                labelInsertData[j].value = trim(labelInsertData[j].value);
+                                labelInsertData[j].sort = trim(labelInsertData[j].sort);
+                                if(typeof(labelInsertData[j].label) != "undefined" && labelInsertData[j].label != ""
+                                && typeof(labelInsertData[j].value) != "undefined" && labelInsertData[j].value != ""
+                                && typeof(labelInsertData[j].sort) != "undefined" && labelInsertData[j].sort != ""){
+                                    insertedData.type = typeInsertData[i].type;
+                                    insertedData.description = typeInsertData[i].description;
+                                    insertedData.label = labelInsertData[j].label;
+                                    insertedData.value = labelInsertData[j].value;
+                                    insertedData.sort = labelInsertData[j].sort;
+                                    insertedData.remarks = labelInsertData[j].remarks;
+                                    insertedData.inputCode = labelInsertData[j].inputCode;
+
                                     inserted.push(insertedData);
                                     insertedData = {};
+                                }else{
+                                    $.messager.alert("提示消息", "请完整填写必填项!");
+                                    $("#label_value").datagrid('reload');
+                                    $("#label_value").datagrid('clearSelections');
+                                    return;
                                 }
                             }
                         }
+                    }else{
+                        $.messager.alert("提示消息", "类型或描述不能为空!");
+                        $("#descrip").datagrid('reload');
+                        $("#label_value").datagrid('clearSelections');
+                        return ;
                     }
                 }
-                $.messager.confirm('提示', '您要保存刚才的操作吗?', function (r) {
-                    if (r) {
-                        save();
-                        $("#descrip").datagrid('load');
-                        loadTypeDict();
-                        loadLabelDict();
-                    } else {
-                        loadTypeDict();
-                        loadLabelDict();
-                    }
-                });
             }
             if (typeUpdateData && typeUpdateData.length > 0) {
                 for (var i = 0; i < typeUpdateData.length; i++) {
                     for(var j=0;j< datasForType.length;j++){
-                        updatedData.id = datasForType[j].id;
-                        updatedData.label = datasForType[j].label;
-                        updatedData.value = datasForType[j].value;
-                        updatedData.remarks = datasForType[j].remarks;
-                        updatedData.inputCode = datasForType[j].inputCode;
-                        updatedData.sort = datasForType[j].sort;
-                        updatedData.type = typeUpdateData[i].type;
-                        updatedData.description = typeUpdateData[i].description;
-                        updated.push(updatedData);
-                        updatedData = {};
+                        typeUpdateData[i].type = trim(typeUpdateData[i].type);
+                        typeUpdateData[i].description = trim(typeUpdateData[i].description);
+                        if(typeof(typeUpdateData[i].type) != "undefined" && typeUpdateData[i].type != ""
+                            && typeUpdateData[i].description != "undefined" && typeUpdateData[i].description != ""){
+                            updatedData.id = datasForType[j].id;
+                            updatedData.label = datasForType[j].label;
+                            updatedData.value = datasForType[j].value;
+                            updatedData.remarks = datasForType[j].remarks;
+                            updatedData.inputCode = datasForType[j].inputCode;
+                            updatedData.sort = datasForType[j].sort;
+                            updatedData.type = typeUpdateData[i].type;
+                            updatedData.description = typeUpdateData[i].description;
+                            updated.push(updatedData);
+                            updatedData = {};
+                        }else{
+                            $.messager.alert("提示消息", "类型或描述不能为空!");
+                            $("#descrip").datagrid('reload');
+                            $("#label_value").datagrid('clearSelections');
+                            return;
+                        }
                     }
                 }
-                $.messager.confirm('提示', '您确定修改吗?', function (r) {
-                    if (r) {
-                        save();
-                        $("#descrip").datagrid('load');
-                    } else {
-                        loadTypeDict();
-                        loadLabelDict();
-                    }
-                });
             }
         }else if($("#label_value").datagrid("getChanges").length > 0) {
             var theRowData = $("#descrip").datagrid('getSelected');
@@ -113,37 +112,37 @@ $(function(){
             var labelUpdatedData = $("#label_value").datagrid("getChanges", "updated");
             if (labelInsertData && labelInsertData.length > 0) {    //插入数据
                 for (var j = 0; j < labelInsertData.length; j++) {
-                    insertedData.type = theRowData.type;
-                    insertedData.description = theRowData.description;
-                    insertedData.label = labelInsertData[j].label;
-                    insertedData.value = labelInsertData[j].value;
-                    insertedData.sort = labelInsertData[j].sort;
-                    insertedData.remarks = labelInsertData[j].remarks;
-                    insertedData.inputCode = labelInsertData[j].inputCode;
-                    if (insertedData.label == undefined || insertedData.label == "") {
-                        $.messager.alert("提示消息", "标签不能为空!");
-                    } else if (insertedData.value == undefined || insertedData.value == "") {
-                        $.messager.alert("提示消息", "键值不能为空!");
-                    } else if (insertedData.sort == undefined || insertedData.sort == "") {
-                        $.messager.alert("提示消息", "请指定排序!");
-                    } else {
+                    labelInsertData[j].label = trim(labelInsertData[j].label);
+                    labelInsertData[j].value = trim(labelInsertData[j].value);
+                    labelInsertData[j].sort = trim(labelInsertData[j].sort);
+                    if(typeof(labelInsertData[j].label) != "undefined" && labelInsertData[j].label != ""
+                    && typeof(labelInsertData[j].value) != "undefined" && labelInsertData[j].value != ""
+                    && typeof(labelInsertData[j].sort) != "undefined" && labelInsertData[j].sort != ""){
+                        insertedData.type = theRowData.type;
+                        insertedData.description = theRowData.description;
+                        insertedData.label = labelInsertData[j].label;
+                        insertedData.value = labelInsertData[j].value;
+                        insertedData.sort = labelInsertData[j].sort;
+                        insertedData.remarks = labelInsertData[j].remarks;
+                        insertedData.inputCode = labelInsertData[j].inputCode;
                         inserted.push(insertedData);
                         insertedData = {};
+                    }else{
+                        $.messager.alert("提示消息", "请完整填写必填项!");
+                        $("#label_value").datagrid('reload');
+                        $("#label_value").datagrid('clearSelections');
+                        return;
                     }
                 }
-                $.messager.confirm('提示', '您要保存刚才的操作吗?', function (r) {
-                    if (r) {
-                        save();
-                        loadTypeDict();
-                        loadLabelDict();
-                    } else {
-                        loadTypeDict();
-                        loadLabelDict();
-                    }
-                });
             }
             if(labelUpdatedData && labelUpdatedData.length > 0){    //更新数据
                 for (var i = 0; i < labelUpdatedData.length; i++) {
+                    labelUpdatedData[i].label = trim(labelUpdatedData[i].label);
+                    labelUpdatedData[i].value = trim(labelUpdatedData[i].label);
+                    labelUpdatedData[i].sort = trim(labelUpdatedData[i].sort);
+                    if(typeof(labelUpdatedData[i].label) != "undefined" && labelUpdatedData[i].label != ""
+                    && typeof(labelUpdatedData[i].value) != "undefined" && labelUpdatedData[i].value != ""
+                    && typeof(labelUpdatedData[i].sort) != "undefined" && labelUpdatedData[i].sort != ""){
                         updatedData.id = datasForType[i].id;
                         updatedData.label = labelUpdatedData[i].label;
                         updatedData.value = labelUpdatedData[i].value;
@@ -154,16 +153,13 @@ $(function(){
                         updatedData.description = theRowData.description;
                         updated.push(updatedData);
                         updatedData = {};
-                }
-                $.messager.confirm('提示', '您确定修改吗?', function (r) {
-                    if (r) {
-                        save();
-                        $("#descrip").datagrid('load');
-                    } else {
-                        loadTypeDict();
-                        loadLabelDict();
+                    }else{
+                        $.messager.alert("提示消息", "请完整填写必填项!");
+                        $("#label_value").datagrid('reload');
+                        $("#label_value").datagrid('clearSelections');
+                        return;
                     }
-                });
+                }
             }
         }
     }
@@ -221,11 +217,13 @@ $(function(){
         //点击一行触发事件查询属于该类型的所有数据
         onClickRow:function(rowIndex, rowData){
             stopTypeEdit();
-            tempSave();
+            //tempSave();
+            decide();
             theRowData = {};
             sysDictType = rowData.type;  //赋值给字典表类型
             $.get(basePath + "/dict/label-value-list?type=" + sysDictType,function(data){
                 $("#label_value").datagrid('loadData',data);
+                $("#label_value").datagrid('clearSelections');
                 var oneData = {};
                 if (datasForType == null) {
                     for (var a = 0; a < data.length; a++) {
@@ -370,10 +368,8 @@ $(function(){
 
     var loadTypeDict = function () {
         //提交成功后刷新左侧datagrid
-        $.get(basePath + '/dict/type-description-list', function (data) {
-            $("#descrip").datagrid('load', data);
-            $("#label_value").datagrid('clearSelections');
-        });
+        $("#descrip").datagrid('reload');
+        $("#label_value").datagrid('clearSelections');
         //提交完成后重置增删改数据
         inserted = [];
         updated = [];
@@ -396,6 +392,8 @@ $(function(){
     $("#addTypeBtn").on('click', function () {
         stopTypeEdit();
         stopLabelEdit();
+        tempSave();
+        decide();
         //增加字典
         $('#descrip').datagrid('appendRow',{});
         var typeRows = $("#descrip").datagrid('getRows');
@@ -418,6 +416,7 @@ $(function(){
     $("#addChildBtn").on('click',function(){
         stopTypeEdit();
         stopLabelEdit();
+        $("#label_value").datagrid('clearSelections');
         $('#label_value').datagrid('appendRow', {});
         var labelRows = $("#label_value").datagrid('getRows');
         var addLabelRowIndex = $("#label_value").datagrid('getRowIndex', labelRows[labelRows.length - 1]);
@@ -471,7 +470,7 @@ $(function(){
     }
 
     //保存
-    $("#saveBtn").on('click', tempSave);
+    $("#saveBtn").on('click', decide);
 
     function save(){
         var beanChangeVo = {};
@@ -483,22 +482,38 @@ $(function(){
                 if (resp.data == 'success') {
                     $.messager.alert("提示消息","保存成功!");
                     loadTypeDict();
-                    loadLabelDict();
                 }else{
                     $.messager.alert('提示', "保存失败", "error");
                     loadTypeDict();
-                    loadLabelDict();
                 }
             }, function (data) {
-                alert(data.data);
                 $.messager.alert('提示', "保存失败", "error");
                 loadTypeDict();
-                loadLabelDict();
             });
         }
     }
 
+    function decide(){
+        tempSave();
+        if(inserted.length > 0 || updated.length > 0){
+            $.messager.confirm('提示', '您要保存刚才的操作吗?', function (r) {
+                if (r) {
+                    save();
+                } else {
+                    inserted = [];
+                    updated = [];
+                    loadTypeDict();
+                }
+            });
+        }
+    }
 
+    function trim(value) {
+        if (typeof(value) != "undefined") {
+            value = value.trim();
+            return value;
+        }
+    }
 
     //查询
     $("#searchBtn").on('click',function(){
