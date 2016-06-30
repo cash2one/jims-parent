@@ -113,4 +113,13 @@ public interface BedRecServiceApi {
      * @return
      */
      public List<BaseDto> findBedPrice(String itemClass);
+
+
+    /**
+     * 解除包床
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    public String accountsConfirm(List<BedRec> bedRec);
 }
