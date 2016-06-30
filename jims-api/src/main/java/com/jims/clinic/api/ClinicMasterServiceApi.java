@@ -75,4 +75,6 @@ public interface ClinicMasterServiceApi {
      */
     public String updatePatInfo(ClinicMaster clinicMaster);
 
+
+    public ClinicMaster getPatient(String id);
 }

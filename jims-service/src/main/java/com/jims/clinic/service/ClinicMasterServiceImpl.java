@@ -78,7 +78,7 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
      */
     @Override
     public List<ClinicMaster> getGroupData(String operator, String registeringDate) {
-        return clinicMasterDao.getGroupData(operator,registeringDate);
+        return clinicMasterDao.getGroupData(operator, registeringDate);
     }
     /**
      * 根据参数获取检查费用项目信息
@@ -121,5 +121,15 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
         //更新 patMasterIndex
         patMasterIndexDao.updatePatInfo(patMasterIndex);
         return i;
+    }
+
+    /**
+     * 用血获取病人信息
+     * @param id
+     * @return
+     */
+    public ClinicMaster getPatient(String id){
+        ClinicMaster clinicMaster = clinicMasterDao.getPatient(id);
+        return clinicMaster;
     }
 }

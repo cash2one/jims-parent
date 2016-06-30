@@ -56,7 +56,7 @@ $(function () {
 
     var base_url = '/service/drug-buy-plan/'
     var username = '审核员'
-        , orgId = '1'
+        , orgId = parent.config.org_Id
         , currentBuyId = '' // 当前采购单据号
         , currentStorage = parent.config.currentStorage
         , suppliers = []  // 供应商数据
@@ -473,7 +473,7 @@ $(function () {
      */
     var loadDrugPriceData = function (drugDict) {
         $.ajaxAsync('/service/drug-price/findList', {
-            orgId: drugDict.orgId,
+            orgId: parent.config.org_Id,
             drugCode: drugDict.drugCode
         }, function (res) {
             showDrugPriceWindow(res, drugDict)
@@ -485,9 +485,9 @@ $(function () {
      * @param orgId
      * @param supplierClass
      */
-    var loadSupplier = function(orgId,supplierClass){
+    var loadSupplier = function(supplierClass){
         $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-type', {
-            orgId: orgId,
+            orgId: parent.config.org_Id,
             supplierClass: supplierClass
         }, function (res) {
             suppliers = res
@@ -620,7 +620,7 @@ $(function () {
     }
 
     var init = function () {
-        loadSupplier(orgId,'供应商')
+        loadSupplier('批发商')
 
         initBuyPlanTable()
         initBtn()

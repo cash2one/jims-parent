@@ -15,7 +15,7 @@ function onloadMethod(){
         remoteSort:false,
         idField:'id',
         singleSelect:false,//是否单选
-        pagination:true,//分页控件
+        pagination:false,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
             /*{field:'id',title:'病人ID号',width:'10%',align:'center'},*/
@@ -27,19 +27,12 @@ function onloadMethod(){
             {field:'diagnosis',title:'主要诊断',width:'10%',align:'center'},
             {field:'doctorInCharge',title:'经治医师',width:'10%',align:'center'},
         ]],
-        onDblClickRow: function (rowIndex, rowData) {
-            parent.addTabs(rowData.name,rowData.name,'/modules/clinic/patientHospital.html');
-        },onRowContextMenu: function(e, rowIndex, rowData) { //右键时触发事件
-            e.preventDefault(); //阻止浏览器捕获右键事件
-            $(this).datagrid("clearSelections"); //取消所有选中项
-            $(this).datagrid("selectRow", rowIndex); //根据索引选中该行
-            $('#menu').menu('show', {
-                left: e.pageX,//在鼠标点击处显示菜单
-                top: e.pageY
-            });
+        onClickRow:function(rowIndex,rowData){
+            var selectRows = $('#list_data').datagrid("getSelected");
+            var clinicIndexId=  selectRows['id'];//病人主索引ID
         }
     });
-    //设置分页控件
+   /* //设置分页控件
     var p = $('#list_data').datagrid('getPager');
     $(p).pagination({
         pageSize: 10,//每页显示的记录条数，默认为10
@@ -47,6 +40,34 @@ function onloadMethod(){
         beforePageText: '第',//页数文本框前显示的汉字
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    });*/
+}
+/**
+ * 确认生成病历
+ */
+function confirmMr(){
+    var selectRows = $('#list_data').datagrid("getSelected");
+    if(selectRows==null ){
+        alert("未选中病人");
+        return false;
+    }
+    var patId=  selectRows['id'];//病人主索引ID
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/patList/confirmNewMr',
+        'contentType': 'application/json',
+        'data': patId=patId,
+        'dataType': 'json',
+        'success': function(data){
+            if(data.code=='1'){
+                $.messager.alert("提示消息","新建病历成功");
+            }else if(data.code=='2'){
+                $.messager.alert('提示',"病历已经新建");
+            }
+        },
+        'error': function(data){
+            $.messager.alert('提示',"新建失败", "error");
+        }
     });
 }
 

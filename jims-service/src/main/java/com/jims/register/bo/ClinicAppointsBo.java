@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class ClinicAppointsBo extends CrudImplService<ClinicAppointsDao, ClinicA
      * @return
      * @author zhaoning
      */
-    public String saveAppointsRegis(PatMasterIndex patMasterIndex) throws Exception{
+    public String saveAppointsRegis(PatMasterIndex patMasterIndex){
         int num=0;
         patMasterIndex.setAge(DateUtils.getAge(patMasterIndex.getDateOfBirth())+"");
         //更新 patMasterIndex
@@ -66,7 +67,13 @@ public class ClinicAppointsBo extends CrudImplService<ClinicAppointsDao, ClinicA
                  clinicAppoints.setVisitDateAppted(regist.getClinicDate());//预约就诊日期
                  clinicAppoints.setClinicLabel(regist.getClinicLabel());//预约就诊号别
                  clinicAppoints.setVisitTimeAppted(regist.getTimeDesc());//预约就诊时间
-                 clinicAppoints.setApptMadeDate(format.parse(DateUtils.getDate()));//何时预约
+                 clinicAppoints.setVisitDept(patMasterIndex.getVisitDept());//就诊科室
+                 clinicAppoints.setVisitIndicator(patMasterIndex.getVisitIndicator());
+                 try {
+                     clinicAppoints.setApptMadeDate(format.parse(DateUtils.getDate()));//何时预约
+                 } catch (ParseException e) {
+                     e.printStackTrace();
+                 }
                  //clinicAppoints.setModeCode("");//预约模式
                  clinicAppoints.setPatientId(patMasterIndex.getId());
                  clinicAppoints.setName(patMasterIndex.getName());
@@ -165,7 +172,7 @@ public class ClinicAppointsBo extends CrudImplService<ClinicAppointsDao, ClinicA
         String clinicDate=format.format(appoints.getVisitDateAppted());
         String clinicLabel=appoints.getClinicLabel();
         String timeDesc=appoints.getVisitTimeAppted();
-        clinicForRegistDao.updateRegByAppointReturn(clinicDate,clinicLabel,timeDesc);
+        clinicForRegistDao.updateRegByAppointReturn(id);
         return num;
     }
 
@@ -175,17 +182,56 @@ public class ClinicAppointsBo extends CrudImplService<ClinicAppointsDao, ClinicA
      * @return
      */
     public String editAppoints(ClinicAppoints clinicAppoints) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String num="";
         if(clinicAppoints!=null){
-            num= save(clinicAppoints);//编辑预约信息
-            String masterId=clinicAppoints.getMasterId();
-            PatMasterIndex patMasterIndex= patMasterIndexDao.get(masterId);
-            if(patMasterIndex!=null){
-                if(clinicAppoints.getName()!=null && !clinicAppoints.getName().equals("")){
-                    patMasterIndex.setName(clinicAppoints.getName());
+            ClinicAppoints clinicAppointsOld=get(clinicAppoints.getId());
+            ClinicForRegist clinicForRegist=new ClinicForRegist();
+            //判断预约就诊时间是否与原本的时间相同  更新号表
+            if(!org.apache.commons.lang3.time.DateUtils.isSameDay(clinicAppointsOld.getVisitDateAppted(),clinicAppoints.getVisitDateAppted())){
+                clinicForRegist.setClinicDate(clinicAppointsOld.getVisitDateAppted());
+                clinicForRegist.setClinicLabel(clinicAppointsOld.getClinicLabel());
+                clinicForRegist.setTimeDesc(clinicAppointsOld.getVisitTimeAppted());
+                //获取当前号表安排
+                clinicForRegist=clinicForRegistDao.getClinicForRegist(clinicForRegist);
+                clinicForRegistDao.updateRegByAppointReturn(clinicForRegist.getId());
+                try {
+                    clinicForRegist.setClinicDate(format.parse(DateUtils.formatDateTime(clinicAppoints.getVisitDateAppted())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-                if(clinicAppoints.getInsuranceNo()!=null && !clinicAppoints.getInsuranceNo().equals("")){
-                    patMasterIndex.setInsuranceNo(clinicAppoints.getInsuranceNo());
+                //获取修改后号表安排
+                clinicForRegist=clinicForRegistDao.getClinicForRegist(clinicForRegist);
+                if(clinicForRegist==null){
+                    return "此时间没有坐诊信息";
+                }
+                clinicForRegistDao.updateRegister(clinicForRegist.getId());
+                clinicAppointsOld.setClinicLabel(clinicForRegist.getId());
+                clinicAppointsOld.setVisitDateAppted(clinicAppoints.getVisitDateAppted());
+            }
+            //设置修改预约信息的值
+            clinicAppointsOld.setName(clinicAppoints.getName());
+            clinicAppointsOld.setSex(clinicAppoints.getSex());
+            clinicAppointsOld.setAge(Long.valueOf(DateUtils.getAge(clinicAppoints.getDateOfBirth())));
+            clinicAppointsOld.setVisitIndicator(clinicAppoints.getVisitIndicator());
+            clinicAppointsOld.setIdentity(clinicAppoints.getIdentity());
+            clinicAppointsOld.setChargeType(clinicAppoints.getChargeType());
+            clinicAppointsOld.setVisitDept(clinicAppoints.getVisitDept());
+            clinicAppointsOld.setUnitInContract(clinicAppoints.getUnitInContract());
+            clinicAppointsOld.setIdNo(clinicAppoints.getIdNo());
+
+            //保存预约信息
+            num= save(clinicAppointsOld);//编辑预约信息
+            String masterId=clinicAppointsOld.getMasterId();
+            PatMasterIndex patMasterIndex= patMasterIndexDao.get(clinicAppointsOld.getPatientId());
+            patMasterIndex.setDateOfBirth(clinicAppoints.getDateOfBirth());
+            patMasterIndex.setAge(clinicAppointsOld.getAge()+"");
+            if(patMasterIndex!=null){
+                if(clinicAppointsOld.getName()!=null && !clinicAppointsOld.getName().equals("")){
+                    patMasterIndex.setName(clinicAppointsOld.getName());
+                }
+                if(clinicAppointsOld.getInsuranceNo()!=null && !clinicAppointsOld.getInsuranceNo().equals("")){
+                    patMasterIndex.setInsuranceNo(clinicAppointsOld.getInsuranceNo());
                 }
                 patMasterIndexDao.update(patMasterIndex);
             }

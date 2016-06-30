@@ -5,7 +5,7 @@ $(function(){
      */
     $('#deptNameId').combobox({
         data: clinicDeptCode,
-        valueField: 'id',
+        valueField: 'dept_code',
         textField: 'dept_name'
     })
     /**
@@ -86,7 +86,7 @@ function getClinicForRegist(){
             ' <input type="hidden" value="'+data[i].price+'" input_hidden="liClinicLabel'+i+'" >'+
             '</div>' +
             '<span style="padding-right:10px;">'+timeDescFormatter(data[i].timeDesc)+'</span>';
-            var registrationNum=0;currentNo
+            var registrationNum=0;
             var registrationLimits="";
             if(data[i].registrationNum!=null){
                 registrationNum=data[i].registrationNum;

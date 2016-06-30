@@ -17,8 +17,10 @@
 		a.create_date AS "createDate"
 
 	</sql>
-	
 	<sql id="scheduledOperationNameJoins">
+	</sql>
+	<sql id="scheduledOperationNameJoins1">
+		LEFT JOIN operation_schedule b ON b.ID = a.schedule_id
 	</sql>
     
 	<select id="get" resultType="ScheduledOperationName">
@@ -30,10 +32,10 @@
 	</select>
 	
 	<select id="getOperationName" resultType="ScheduledOperationName">
-		SELECT 
-			<include refid="scheduledOperationNameColumns"/>
+		SELECT
+		b.operation_scale AS "schedule.operationScale",<include refid="scheduledOperationNameColumns"/>
 		FROM scheduled_operation_name a
-
+			<include refid="scheduledOperationNameJoins1"/>
 		<where>
 			a.del_flag = '0'
 			<if test="scheduleId !=null and scheduleId !=''">

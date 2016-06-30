@@ -19,5 +19,19 @@ public interface OrdersGroupRecDao extends CrudDao<OrdersGroupRec> {
      * @return
      */
     public int deleteByParentId(@Param("patientId")String patientId);
+
+    /**
+     * 根据病人ID 查询 对象
+     * @param patientId
+     * @return
+     * @author zhaoning
+     */
+    public OrdersGroupRec getOrdersByPat(@Param("patientId")String patientId);
+
+    /**
+     * 新建病历 更新 管床医生
+     * @author zhaoning
+     */
+    public void updateByMrNew(OrdersGroupRec ordersGroupRec);
 	
 }

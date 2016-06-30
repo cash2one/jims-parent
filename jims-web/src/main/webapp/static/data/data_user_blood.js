@@ -23,13 +23,12 @@ $.ajax({
  * @returns {Document.deptName|.queryParams.deptName|*|deptName|obj.deptName|deptDictVo.deptName}
  */
 function bloodTypeNameFormatter(value, rowData, rowIndex) {
-    alert(value);
     if (value == 0) {
         return;
     }
     for (var i = 0; i < bloodTypeName.length; i++) {
         if (bloodTypeName[i].blood_type == value) {
-            distinction = bloodTypeName[i].blood_type_name;
+           return distinction = bloodTypeName[i].blood_type_name;
         }
     }
 }
