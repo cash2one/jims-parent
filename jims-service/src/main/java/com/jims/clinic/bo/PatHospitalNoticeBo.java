@@ -17,10 +17,17 @@ public class PatHospitalNoticeBo extends CrudImplService<PatHospitalNoticeDao, P
     private PatHospitalNoticeDao patHospitalNoticeDao;
     public int savePatHospitalNotice(PatHospitalNotice patHospitalNotice){
         int num ;
-        patHospitalNotice.preInsert();
-        patHospitalNotice.setNoticeId((long)1);
-        num= patHospitalNoticeDao.insert(patHospitalNotice);
+        if(patHospitalNotice.getIsNewRecord()){
+            patHospitalNotice.preInsert();
+            patHospitalNotice.setNoticeId((long)1);
+            num= patHospitalNoticeDao.insert(patHospitalNotice);
+        }else {
+            patHospitalNotice.preUpdate();
+            patHospitalNotice.setNoticeId((long)1);
+            num= patHospitalNoticeDao.update(patHospitalNotice);
+        }
         return num;
+
     }
 
 }

@@ -211,6 +211,8 @@ function get(id){
         'dataType': 'json',
         'success': function(data){
             $('#patHospitalForm').form('load',data);
+            $("#maritalStatus ").combobox('select',data.maritalStatus);
+            $("#patAdmCondition ").combobox('select',data.patAdmCondition);
         }
     });
 }
@@ -228,6 +230,8 @@ function look(id){
         'dataType': 'json',
         'success': function(data){
             $('#patHospitalForm').form('load',data);
+            $("#maritalStatus ").combobox('select',data.maritalStatus);
+            $("#patAdmCondition ").combobox('select',data.patAdmCondition);
         }
     });
 }
