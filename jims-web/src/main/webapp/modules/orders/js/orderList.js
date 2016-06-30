@@ -74,20 +74,21 @@ $(function(){
             {field:'orderText',title:'医嘱内容',width:'10%',align:'center',editor:{
                 type:'combogrid',
                 options:{
-                    panelWidth: 450,
+                    panelWidth: 550,
                     idField:'item_name',
                     textField:'item_name',
                     columns:[
                         [
                             {field: 'drug_code', title: '药品代码', width: '10%', align: 'center'},
-                            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-                            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                            {field: 'item_name', title: '名称', width: '10%', align: 'center'},
+                            {field: 'drug_spec', title: '药品规格', width: '5%', align: 'center'},
+                            {field: 'item_spec', title: '项目规格', width: '5%', align: 'center'},
                             {field: 'supplier', title: '厂家', width: '20%', align: 'center'},
-                            {field: 'dose_per_unit', title: '单次用量', width: '5%', align: 'center'},
-                            {field: 'units', title: '用量单位', width: '5%', align: 'center'},
+                            {field: 'dose_per_unit', title: '单次用量', width: '10%', align: 'center'},
+                            {field: 'units', title: '用量单位', width: '10%', align: 'center'},
                             {field: 'item_code', title: '项目代码', width: '10%', align: 'center'},
                             {field: 'input_code', title: '拼音', width: '5%', align: 'center'},
-                                {field: 'expand1', title: '扩展1', width: '5%', align: 'center'},
+                            {field: 'expand1', title: '扩展1', width: '5%', align: 'center'},
                              {field: 'expand2', title: '扩展2', width: '5%', align: 'center'},
                              {field: 'expand5', title: '扩展5', width: '5%', align: 'center'},
                             {field: 'price', hidden:'true'},
@@ -112,13 +113,14 @@ $(function(){
 
                         }
                     },onClickRow: function (index, row) {
-                        var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
-                        $(dosage.target).textbox('setValue',row.dose_per_unit);
-                        var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
-                        $(dosageUnits.target).textbox('setValue',row.dose_units);
+
                         var orderClass = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderClass'});
                         var value = $(orderClass.target).combobox('getValue');
                         if(value=='1'){//药品
+                            var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
+                            $(dosage.target).textbox('setValue',row.dose_per_unit);
+                            var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                            $(dosageUnits.target).textbox('setValue',row.dose_units);
                             var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.drug_code);
                             $('#orderCostList').datagrid('insertRow', {
@@ -135,6 +137,10 @@ $(function(){
                                 }
                             });
                         }else if(value=='2'){//非药品
+                            var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
+                            $(dosage.target).textbox('setValue',1);
+                            var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                            $(dosageUnits.target).textbox('setValue',row.units);
                             var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.item_code);
                             $.ajax({
