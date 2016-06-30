@@ -1,5 +1,6 @@
 package com.jims.finance.api;
 
+import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.entity.PrepaymentRcpt;
 
 import java.util.List;
@@ -44,5 +45,13 @@ public interface PrepaymentRcptServiceApi{
      * @return
      */
     public PrepaymentRcpt get(String id);
+
+    /**
+     * @return BaseDto   返回类型
+     * @Descripion: (根据参数查询预交金交费记录列表)
+     * @author CTQ
+     * @date 2016/6/29
+     */
+    public List<BaseDto> findRecordList(PrepaymentRcpt prepaymentRcpt);
 	
 }

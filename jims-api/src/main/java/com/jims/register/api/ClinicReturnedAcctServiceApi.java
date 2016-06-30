@@ -12,11 +12,11 @@ public interface ClinicReturnedAcctServiceApi {
     /**
      * 根据 就诊日期和就诊序号 查询 有关退号的基本信息
      * @param visitDate
-     * @param visitNo
+     * @param clinicNo
      * @return
      * @author zhaoning
      */
-    public ClinicMaster getClinicMaster(String visitDate,Integer visitNo);
+    public ClinicMaster getClinicMaster(String visitDate,Integer clinicNo);
 
     /**
      * 退号
@@ -24,5 +24,5 @@ public interface ClinicReturnedAcctServiceApi {
      * @return
      * @author zhaoning
      */
-    public String returnedAcctInfo(String id)throws Exception;
+    public String returnedAcctInfo(String id);
 }

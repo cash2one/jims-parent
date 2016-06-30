@@ -1,6 +1,7 @@
 package com.jims.asepsis.api;
 
 import com.jims.asepsis.entity.AsepsisDetailDict;
+import com.jims.asepsis.vo.AsepsisDetailDictVo;
 import com.jims.common.persistence.Page;
 
 import java.util.List;
@@ -40,6 +41,14 @@ public interface AsepsisDetailDictApi {
     * @return 0 失败，1成功
     */
     public String save(AsepsisDetailDict entity) ;
+
+    /**
+     * 保存  增删改
+     * @param asepsisDetailDictVo
+     * @return
+     *  @author  yangruidong
+     */
+    public List<AsepsisDetailDict> saveAll(AsepsisDetailDictVo<AsepsisDetailDict> asepsisDetailDictVo);
 
     /**
     * 批量保存（插入或更新）

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.asepsis.dao.AsepsisAntiRecDao">
+
+    <sql id="AsepsisAntiRecColumns">
+        a.ID AS "id",
+        a.DOCUMNET_NO AS "documnetNo",
+        a.ASEPSIS_CODE AS "asepsisCode",
+        a.ASEPSIS_NAME AS "asepsisName",
+        a.ASEPSIS_SPEC AS "asepsisSpec",
+        a.UNITS AS "units",
+        a.BELONG_DEPT AS "belongDept",
+        a.ANTI_DATE AS "antiDate",
+        a.ANTI_OPERATOR AS "antiOperator",
+        a.ANTI_WAYS AS "antiWays",
+        a.STER_OPERATOR AS "sterOperator",
+        a.STER_DATE AS "sterDate",
+        a.PACK_OPERATOR AS "packOperator",
+        a.PACK_DATE AS "packDate",
+        a.MEMOS AS "memos",
+        a.ASEPSIS_STATE AS "asepsisState",
+        a.AMOUNT AS "amount",
+        a.ANTI_BATCH_NO AS "antiBatchNo",
+        a.IMP_DATE AS "impDate",
+        a.BOILER_NO AS "boilerNo",
+        a.BOILER_TIMES AS "boilerTimes",
+        a.CHECKER AS "checker",
+        a.ITEM_NO AS "itemNo",
+        a.PACK_WAYS AS "packWays",
+        a.CLEAN_WAYS AS "cleanWays",
+        a.CLEAN_NO AS "cleanNo",
+        a.CLEAN_TIMES AS "cleanTimes",
+        a.ORG_ID AS "orgId"
+    </sql>
+
+    <sql id="AsepsisAntiRecJoins">
+    </sql>
+
+    <select id="getAsepsisAntiRecByState" resultType="AsepsisAntiRec">
+        SELECT
+        a.id,
+        a.documnet_No,
+        a.asepsis_Code,
+        a.asepsis_Name,
+        a.asepsis_Spec,
+        a.units,
+        a.belong_Dept,
+        a.anti_Date,
+        a.anti_Operator,
+        a.anti_Ways,
+        a.ster_Operator,
+        a.ster_Date,
+        a.pack_Operator,
+        a.pack_Date,
+        a.memos,
+        a.asepsis_State,
+        a.amount,
+        a.amount as amountAnti,
+        a.anti_Batch_No,
+        a.imp_Date,
+        a.boiler_No,
+        a.boiler_Times,
+        a.checker,
+        a.item_No,
+        a.pack_Ways,
+        a.clean_Ways,
+        a.clean_No,
+        a.clean_Times,
+        a.org_Id
+        FROM asepsis_anti_rec a
+        <include refid="AsepsisAntiRecJoins"/>
+        <where>
+            a.asepsis_state = #{asepsisState}
+            <if test="orgId!=null and orgId!=''">
+                and  a.org_id = #{orgId}
+            </if>
+            <if test="belongDept != null and belongDept != ''">
+                AND a.belong_dept = #{belongDept}
+            </if>
+            <if test="asepsisName != null and asepsisName != ''">
+                AND a.asepsis_name = #{asepsisName}
+            </if>
+        </where>
+    </select>
+    <!--         (#{state} is null or (#{state} is not null and a.asepsis_state=#{state}))-->
+
+
+
+
+
+
+
+
+
+    <select id="get" resultType="AsepsisAntiRec">
+        SELECT
+        <include refid="AsepsisAntiRecColumns"/>
+        FROM asepsis_anti_rec a
+        <include refid="AsepsisAntiRecJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="AsepsisAntiRec">
+        SELECT
+        <include refid="AsepsisAntiRecColumns"/>
+        FROM asepsis_anti_rec a
+        <include refid="AsepsisAntiRecJoins"/>
+        <where>
+            a.ORG_ID = #{orgId}
+        </where>
+    </select>
+
+
+    <update id="saveClean">
+        UPDATE asepsis_anti_rec
+        SET asepsis_state =  #{asepsisState}
+
+        <!-- 清洗 -->
+        <if test="sterOperator != null and sterOperator !=''">
+            , ster_operator = #{sterOperator}
+        </if>
+        <if test="checker != null and checker !=''">
+            , checker = #{checker}
+        </if>
+        <if test="cleanWays != null and cleanWays !=''">
+            , clean_ways = #{cleanWays}
+        </if>
+        <if test="cleanNo != null and cleanNo !=''">
+            , clean_no = #{cleanNo}
+        </if>
+        <if test="cleanTimes != null and cleanTimes !=''">
+            , clean_times = #{cleanTimes}
+        </if>
+        <if test="sterDate != null and sterDate !=''">
+            , STER_DATE = #{sterDate}
+        </if>
+
+        <!-- 打包 -->
+        <if test="packOperator != null and packOperator !=''">
+            , pack_operator = #{packOperator}
+        </if>
+        <if test="packWays != null and packWays !=''">
+            , pack_ways = #{packWays}
+        </if>
+        <if test="packDate != null and packDate !=''">
+            , pack_DATE = #{packDate}
+        </if>
+
+        <!-- 灭菌 -->
+        <if test="antiOperator != null and antiOperator !=''">
+            , anti_operator = #{antiOperator}
+        </if>
+        <if test="antiWays != null and antiWays !=''">
+            , anti_ways = #{antiWays}
+        </if>
+        <if test="boilerNo != null and boilerNo !=''">
+            , boiler_no = #{boilerNo}
+        </if>
+        <if test="boilerTimes != null and boilerTimes !=''">
+            , boiler_times = #{boilerTimes}
+        </if>
+        <if test="antiDate != null and antiDate !=''">
+            , anti_DATE = #{antiDate}
+        </if>
+        WHERE documnet_no = #{documnetNo}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO asepsis_anti_rec(
+        a.id,
+        a.documnet_No,
+        a.asepsis_Code,
+        a.asepsis_Name,
+        a.asepsis_Spec,
+        a.units,
+        a.belong_Dept,
+        a.anti_Date,
+        a.anti_Operator,
+        a.anti_Ways,
+        a.ster_Operator,
+        a.ster_Date,
+        a.pack_Operator,
+        a.pack_Date,
+        a.memos,
+        a.asepsis_State,
+        a.amount,
+        a.anti_Batch_No,
+        a.imp_Date,
+        a.boiler_No,
+        a.boiler_Times,
+        a.checker,
+        a.item_No,
+        a.pack_Ways,
+        a.clean_Ways,
+        a.clean_No,
+        a.clean_Times,
+        a.org_Id
+        ) VALUES (
+        #{id},
+        #{documnetNo},
+        #{asepsisCode},
+        #{asepsisName},
+        #{asepsisSpec},
+        #{units},
+        #{belongDept},
+        #{antiDate},
+        #{antiOperator},
+        #{antiWays},
+        #{sterOperator},
+        #{sterDate},
+        #{packOperator},
+        #{packDate},
+        #{memos},
+        #{asepsisState},
+        #{amount},
+        #{antiBatchNo},
+        #{impDate},
+        #{boilerNo},
+        #{boilerTimes},
+        #{checker},
+        #{itemNo},
+        #{packWays},
+        #{cleanWays},
+        #{cleanNo},
+        #{cleanTimes},
+        #{orgId}
+        )
+    </insert>
+    <update id="delete">
+        UPDATE asepsis_anti_rec SET
+        del_flag = #{DEL_FLAG_DELETE}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

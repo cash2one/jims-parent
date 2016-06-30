@@ -164,9 +164,12 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
+
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}

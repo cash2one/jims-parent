@@ -1,6 +1,7 @@
 package com.jims.register.api;
 
 import com.jims.common.persistence.Page;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.register.entity.ClinicIndex;
 
 import java.util.List;
@@ -42,4 +43,13 @@ public interface ClinicIndexServiceApi {
      * @return
      */
     public String delete(String id);
+
+    /**
+     * 获取号别费用
+     * @param id
+     * @return
+     */
+    public BaseDto getCost(String id);
+
+
 }

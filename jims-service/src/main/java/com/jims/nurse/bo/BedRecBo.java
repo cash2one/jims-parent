@@ -69,7 +69,7 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
 
     /**
      * 查询病区下所有的床位信息
-     * @param wardCode
+     * @param bedRec
      * @author pq
      * @return
      */
@@ -94,12 +94,14 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
      * @author pq
      * @return
      */
-    public String packBed(List<BedRec> bedRecList){
+    public String packBed(List<BedRec> bedRecList,String patId){
         String num="";
        if(bedRecList !=null && bedRecList.size()>0){
+
            BedRec bedRec=new BedRec();
            for (int i = 0; i < bedRecList.size(); i++) {
                bedRec= bedRecList.get(i);
+               bedRec.setPatientId(patId);
                num=  num +  dao.packBed(bedRec);
            }
        }else{
@@ -153,5 +155,37 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
      */
     public PatsInHospital getInPat(String visitId){
        return patsInHospitalDao.get(visitId);
+    }
+
+
+
+    /**
+     * 查询床位相关费用
+     * @author pq
+     * @param itemClass
+     * @return
+     */
+    public List<BaseDto> findBedPrice(String itemClass){
+      return dao.findBedPrice(itemClass);
+    }
+
+    /**
+     * 解除包床
+     * @author pq
+     * @param bedRecList
+     * @return
+     */
+    public String accountsConfirm(List<BedRec> bedRecList){
+        String num="";
+        if(bedRecList !=null && bedRecList.size()>0){
+            BedRec bedRec=new BedRec();
+            for (int i = 0; i < bedRecList.size(); i++) {
+                bedRec= bedRecList.get(i);
+                num=  num +  dao.accountsConfirm(bedRec);
+            }
+        }else{
+            num = "0";
+        }
+        return  num;
     }
 }

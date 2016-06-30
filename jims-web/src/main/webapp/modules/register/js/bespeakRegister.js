@@ -127,7 +127,7 @@ function appointsRegister(){
             if (data.code == "1") {
                 $.messager.alert("提示信息", "预约成功");
                 $("#patMasterInfoForm").form('clear');
-                getClinicForRegist();
+                getClinicForRegist()
             } else {
                 $.messager.alert("提示信息", "预约失败", "error");
             }
