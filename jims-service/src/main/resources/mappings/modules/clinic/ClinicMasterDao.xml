@@ -561,7 +561,8 @@
 		b.RELATIONSHIP AS "patMaster.relationship",
 		b.NEXT_OF_KIN_ADDR AS "patMaster.nextOfKinAddr",
 		b.NEXT_OF_KIN_PHONE AS "patMaster.nextOfKinPhone",
-		b.NEXT_OF_KIN_ADDR AS "patMaster.nextOfKinAddr"
+		b.NEXT_OF_KIN_ADDR AS "patMaster.nextOfKinAddr",
+		b.PHONE_NUMBER_HOME AS "patMaster.phoneNumberHome"
 		 FROM CLINIC_MASTER a <include refid="clinicMasterJoins1"/>
 		WHERE
 		<if test="id!=null and id!=''">
