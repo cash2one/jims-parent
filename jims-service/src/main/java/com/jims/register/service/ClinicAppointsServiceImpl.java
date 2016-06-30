@@ -24,7 +24,7 @@ public class ClinicAppointsServiceImpl  implements ClinicAppointsServiceApi {
     private ClinicAppointsBo clinicAppointsBo;
 
     @Override
-    public String saveAppointsRegis(PatMasterIndex patMasterIndex) throws Exception {
+    public String saveAppointsRegis(PatMasterIndex patMasterIndex) {
         return clinicAppointsBo.saveAppointsRegis(patMasterIndex);
     }
 
@@ -44,8 +44,8 @@ public class ClinicAppointsServiceImpl  implements ClinicAppointsServiceApi {
     }
 
     @Override
-    public String saveAppointReg(PatMasterIndex patMasterIndex) {
-        return clinicAppointsBo.saveAppointReg(patMasterIndex);
+    public String saveAppointReg(String id) {
+        return clinicAppointsBo.saveAppointReg(id);
     }
 
     @Override

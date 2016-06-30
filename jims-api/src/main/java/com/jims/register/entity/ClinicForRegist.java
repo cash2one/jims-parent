@@ -54,7 +54,7 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 		this.clinicDate = clinicDate;
 	}
 	
-	@Length(min=1, max=16, message="号别长度必须介于 1 和 16 之间")
+
 	public String getClinicLabel() {
 		return clinicLabel;
 	}

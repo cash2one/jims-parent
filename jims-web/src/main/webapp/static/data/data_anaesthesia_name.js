@@ -2,8 +2,9 @@ var anaesthesiaName =[];//麻醉方式
 var anaesthesiaData={};
 anaesthesiaData.orgId="";
 anaesthesiaData.dictType="SYS_DICT";
-doctorNameData.inputParamVos=inputParamVos;
+
 var InputParamVo = {};
+var inputParamVos=[];
 var q='ANAESTHESIA_DICT';
 InputParamVo.colName = 'TYPE';
 InputParamVo.colValue = q;

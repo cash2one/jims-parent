@@ -3,10 +3,11 @@
 <mapper namespace="com.jims.clinic.dao.ClinicMasterDao">
     
 	<sql id="clinicMasterColumns">
-		a.id AS "id",
+		  a.id AS "id",
 		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.visit_date AS "visitDate",
+		a.patient_id AS "patientId",
 		a.visit_no AS "visitNo",
 		a.clinic_label AS "clinicLabel",
 		a.visit_time_desc AS "visitTimeDesc",
@@ -58,10 +59,15 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		b.clinic_label  as "clinicLabelName"
 	</sql>
 	
 	<sql id="clinicMasterJoins">
+        LEFT  join CLINIC_INDEX b on a.clinic_label=b.id
+	</sql>
+	<sql id="clinicMasterJoins1">
+		LEFT JOIN pat_master_index b on a.patient_id = b.id
 	</sql>
     
 	<select id="get" resultType="ClinicMaster">
@@ -69,7 +75,7 @@
 			<include refid="clinicMasterColumns"/>
 		FROM clinic_master a
 		<include refid="clinicMasterJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.id = #{id} and a.del_flag = '0'
 	</select>
 	<select id="getPatInfo" resultType="ClinicMaster">
 		SELECT
@@ -314,7 +320,7 @@
 	</update>
 	<update id="delete">
 		UPDATE clinic_master SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = '1'
 		WHERE id = #{id}
 	</update>
     <select id="getMaxVisitNO" resultType="Integer">
@@ -323,8 +329,9 @@
 	<select id="getClinicBydoctor" resultType="ClinicMaster">
 		SELECT <include refid="clinicMasterColumns"/>
 		FROM clinic_master a
-		WHERE 1=1
-		AND a.registration_status='1'
+        <include refid="clinicMasterJoins"/>
+		WHERE a.registration_status='1'
+        and a.del_flag='0'
 		<if test="visitDept!=null and visitDept!='' and visitDept!='undefined' ">
 			AND a.visit_dept=#{visitDept}
 		</if>
@@ -334,8 +341,9 @@
 	<select id="getClinicMasterDiagnosed" resultType="ClinicMaster">
 		SELECT <include refid="clinicMasterColumns"/>
 		FROM clinic_master a
-		WHERE 1=1
-		AND a.registration_status='2'
+        <include refid="clinicMasterJoins"/>
+		WHERE a.registration_status='2'
+        and a.del_flag='0'
 		<if test="visitDept!=null and visitDept!='' and visitDept!='undefined' ">
 			AND a.visit_dept=#{visitDept}
 		</if>
@@ -344,12 +352,13 @@
 	<select id="getClinicMaster" resultType="com.jims.clinic.entity.ClinicMaster">
 		SELECT <include refid="clinicMasterColumns"/>
 		FROM clinic_master a
+        <include refid="clinicMasterJoins"/>
 		WHERE 1=1
 		<if test="visitDate!=null and visitDate!=''">
 			AND   a.visit_date = to_date(#{visitDate},'yyyy-mm-dd')
 	   </if>
-		<if test="visitNo!=null and visitNo!=''">
-		   AND 	a.visit_no=#{visitNo}
+		<if test="clinicNo!=null and clinicNo!=''">
+		   AND 	a.clinic_no=#{clinicNo}
 		</if>
 	</select>
 	<select id="updateClinicMasterByReturn">
@@ -361,6 +370,7 @@
     <select id="getClinicMasterCost" resultType="com.jims.common.web.impl.BaseDto">
         SELECT <include refid="clinicMasterColumns"/>
         FROM clinic_master a
+        <include refid="clinicMasterJoins"/>
         WHERE  a.org_id = #{orgId} AND 	a.clinic_no=#{clinicNo}
     </select>
     <select id="getClinicMasterCostAll" resultType="com.jims.common.web.impl.BaseDto">
@@ -543,4 +553,26 @@
 			</if>
 		</where>
 	</update>
+
+	<select id="getPatient" resultType="ClinicMaster">
+		SELECT <include refid="clinicMasterColumns"/>,
+		b.DATE_OF_BIRTH AS "patMaster.dateOfBirth",
+		b. MAILING_ADDRESS AS "patMaster.mailingAddress",
+		b.NATION AS "patMaster.nation",
+		b.BIRTH_PLACE AS "patMaster.birthPlace",
+		b.NEXT_OF_KIN AS "patMaster.nextOfKin",
+		b.DATE_OF_BIRTH AS "patMaster.dateOfBirth",
+		b.NATION AS "patMaster.nation",
+		b.ID_NO AS "patMaster.idNo",
+		b.RELATIONSHIP AS "patMaster.relationship",
+		b.NEXT_OF_KIN_ADDR AS "patMaster.nextOfKinAddr",
+		b.NEXT_OF_KIN_PHONE AS "patMaster.nextOfKinPhone",
+		b.NEXT_OF_KIN_ADDR AS "patMaster.nextOfKinAddr",
+		b.PHONE_NUMBER_HOME AS "patMaster.phoneNumberHome"
+		 FROM CLINIC_MASTER a <include refid="clinicMasterJoins1"/>
+		WHERE
+		<if test="id!=null and id!=''">
+			 a.id = #{id}
+		</if>
+	</select>
 </mapper>

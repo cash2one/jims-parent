@@ -26,11 +26,26 @@
     </select>
 
     <select id="findList" resultType="AsepsisDetailDict">
-        SELECT
-        <include refid="asepsisDetailDictColumns"/>
-        FROM ASEPSIS_DETAIL_DICT a
+        select a.id,
+        a.asepsis_code,
+        a.item_code,
+        a.item_name,
+        a.item_spec,
+        a.amount,
+        a.units,
+        a.item_price,
+        a.storage,
+        a.sub_storage,
+        a.memos,
+        a.firm_id,
+        a.org_id,
+        o.label
+        from asepsis_detail_dict a,org_sys_dict o
         <where>
-            a.org_id =  #{orgId}
+            a.org_id =  #{orgId}  and o.value=a.units
+            <if test="asepsisCode !=null and asepsisCode!=''">
+                and a.ASEPSIS_CODE=#{asepsisCode}
+            </if>
         </where>
     </select>
 
@@ -74,8 +89,7 @@
 
     <update id="update">
         UPDATE ASEPSIS_DETAIL_DICT SET
-            ID = #{id}
-            ,ASEPSIS_CODE = #{asepsisCode}
+           ASEPSIS_CODE = #{asepsisCode}
             ,ITEM_CODE = #{itemCode}
             ,ITEM_NAME = #{itemName}
             ,ITEM_SPEC = #{itemSpec}

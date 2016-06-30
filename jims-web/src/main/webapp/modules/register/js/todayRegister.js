@@ -1,11 +1,20 @@
 
 $(function(){
+    getClinicForRegist();
+    /**
+     * 时间
+     */
+    $("#visitTimeDescId").combobox({
+        data: timeInterval,
+        valueField: 'time_interval_code',
+        textField: 'time_interval_name'
+    })
     /**
      * 科室下拉框
      */
     $('#deptNameId').combobox({
         data: clinicDeptCode,
-        valueField: 'id',
+        valueField: 'dept_code',
         textField: 'dept_name'
     })
     /**
@@ -17,6 +26,12 @@ $(function(){
         textField: 'dept_name'
     })
     $("#visitDeptId").combobox('select',clinicDeptCode[0].id);
+
+    $('#visitDeptIdt').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name'
+    })
     /**
      * 性别下拉框
      */
@@ -26,10 +41,21 @@ $(function(){
         textField: 'label'
     })
     $("#setId ").combobox('select',setData[0].value);
+    $('#setIdt').combobox({
+        data: setData,
+        valueField: 'value',
+        textField: 'label'
+    })
+
     /**
      * 费别下拉框
      */
     $('#chargeTypeId').combobox({
+        data: chargeType,
+        valueField: 'id',
+        textField: 'charge_type_name'
+    })
+    $('#chargeTypeIdt').combobox({
         data: chargeType,
         valueField: 'id',
         textField: 'charge_type_name'
@@ -52,6 +78,11 @@ $(function(){
         valueField: 'id',
         textField: 'identityName'
     })
+    $('#identityIdt').combobox({
+        data: identityDict,
+        valueField: 'id',
+        textField: 'identityName'
+    })
     $("#identityId ").combobox('select',identityDict[0].id);
 
     /**
@@ -62,9 +93,12 @@ $(function(){
         valueField: 'id',
         textField: 'unitName'
     })
+    $('#companyIdt').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
 
-
-    getClinicForRegist();
 
 })
 //获取挂号
@@ -86,7 +120,7 @@ function getClinicForRegist(){
             ' <input type="hidden" value="'+data[i].price+'" input_hidden="liClinicLabel'+i+'" >'+
             '</div>' +
             '<span style="padding-right:10px;">'+timeDescFormatter(data[i].timeDesc)+'</span>';
-            var registrationNum=0;currentNo
+            var registrationNum=0;
             var registrationLimits="";
             if(data[i].registrationNum!=null){
                 registrationNum=data[i].registrationNum;
@@ -128,6 +162,10 @@ function openDialog(id,name){
         $("#changeReceiptsId").val("");
         $("#clinicLabe").html(labelHtml);
     }
+}
+//退号
+function openDialogRetreat(id,name){
+    $("#"+id).dialog({title: name}).dialog("open");
 }
 function closeDialog(id){
     $("#"+id).dialog("close");
@@ -188,12 +226,16 @@ function saveClinic(){
 //根据条件查询退号信息
 function searchReturn(){
     var visitDate =$("#visitDate").datebox('getValue');
-    var visitNo=$("#visitNo").val();
-    if(visitNo==null || visitNo==''){
-        alert("请输入就诊序号进行查询");
+    var clinicNo=$("#clinicNoId").val();
+    if(visitDate==null || visitDate==''){
+        $.messager.alert("提示信息","查询时间不能为空");
         return;
     }
-    $.get(basePath+'/clinicReturned/getClinicMaster?visitDate='+visitDate+'&visitNo='+visitNo,function(data){
+    if(clinicNo==null || clinicNo==''){
+        $.messager.alert("提示信息","门诊号不能为空");
+        return;
+    }
+    $.get(basePath+'/clinicReturned/getClinicMaster?visitDate='+visitDate+'&clinicNo='+clinicNo,function(data){
         $("#regreteatInfo").form('load',data);
     });
 }
@@ -209,12 +251,12 @@ function clinicReturnInfo(){
         return;
     }
     $.messager.confirm("确认消息", "确认进行退号？", function () {
-        alert("请退还病人"+charge+"元");
         $.post(basePath+'/clinicReturned/returnedAcct?id='+clinicId,function(data){
             if(data.code=="1"){
-                $.messager.alert("提示信息","退号成功");
+                $.messager.alert("提示信息","退号成功，请退还病人"+charge+"元");
+                closeDialog('backNumberId')
             }else{
-                $.messager.alert("提示信息","退号失败","error");
+                $.messager.alert("提示信息",data.code,"error");
             }
 
         }),function(data){

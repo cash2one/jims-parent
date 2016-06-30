@@ -143,5 +143,7 @@
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
-	
+    <select id="getCost" resultType="com.jims.common.web.impl.BaseDto">
+        select a.id,a.clinic_label,sum(b.price) price from clinic_index a left join clinic_type_fee b on a.clinic_type=b.type_id where a.id=#{id} group by a.id,a.clinic_label
+     </select>
 </mapper>

@@ -23,14 +23,14 @@ public class ClinicReturnedAcctRest {
     /**
      * 根据就诊日期 和就诊序号 查询退号的基本信息
      * @param visitDate
-     * @param visitNo
+     * @param clinicNo
      * @return
      * @author zhaoning
      */
     @GET
     @Path("getClinicMaster")
-    public ClinicMaster getClinicMaster(@QueryParam("visitDate")String visitDate,@QueryParam("visitNo")String visitNo){
-        Integer no=Integer.parseInt(visitNo);
+    public ClinicMaster getClinicMaster(@QueryParam("visitDate")String visitDate,@QueryParam("clinicNo")String clinicNo){
+        Integer no=Integer.parseInt(clinicNo);
         return clinicReturnedAcctServiceApi.getClinicMaster(visitDate,no);
     }
 

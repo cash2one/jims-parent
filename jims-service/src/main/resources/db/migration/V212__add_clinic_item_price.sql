@@ -1,19 +1,22 @@
 create or replace view v_clinic_item_price as
 select a.storage,
-       a.sub_storage,
-       a.drug_spec,
+       a.sub_storage,--子药局
+       a.drug_spec,--药品规格
        a.drug_code,
-       a.units,
-       a.package_spec,
-       a.quantity,
+       a.units,--单位
+       a.quantity,--库存量
+       a.package_units,--包装单位
+       a.package_spec,--包装规格
        b.item_name,
        b.item_class,
-       b.input_code,
+       c.input_code,
        b.price,
        b.item_spec,
        d.supplier,
        d.supplier_id,
-      c.dose_units,
+       d.id as firm_id,
+      c.dose_units,--剂量单位
+      c.dose_per_unit,--最小用量
        b.subj_code,
        b.performed_by
   from drug_stock            a,

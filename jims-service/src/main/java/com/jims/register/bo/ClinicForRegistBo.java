@@ -12,7 +12,6 @@ import com.jims.common.utils.DateUtils;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.dao.ClinicForRegistDao;
 import com.jims.register.dao.ClinicIndexDao;
-import com.jims.register.dao.ClinicTypeSettingDao;
 import com.jims.register.dao.ClinicTypeFeeDao;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicIndex;
@@ -65,7 +64,11 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
             for(int i=0;i<clinicScheduleList.size();i++){
                 List<Integer> listWeek=new ArrayList<Integer>();
                 clinicSchedule=clinicScheduleList.get(i);
-                listWeek.add(Integer.parseInt(clinicSchedule.getDayOfWeek()));
+                int ayOfWeek=Integer.parseInt(clinicSchedule.getDayOfWeek());
+                if (ayOfWeek==7){
+                    ayOfWeek=0;
+                }
+                listWeek.add(ayOfWeek);
                 List<String> daysNeedBookList = DateWeekUtil.getDates(startTime, endTime, listWeek);//根据门诊日期时间段 以及出诊时间查询出门诊日期
                 String clinicDate="";
                 for(int j=0;j<daysNeedBookList.size();j++){
@@ -78,6 +81,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                     clinicForRegist.setRegistrationLimits(clinicSchedule.getRegistrationLimits());//限号数
                     clinicForRegist.setAppointmentLimits(clinicSchedule.getAppointmentLimits());//限约号数
                     clinicForRegist.setAppointmentNum(0);
+                    clinicForRegist.setRegistrationNum(0);
                     Integer currentNo=clinicForRegistDao.currentNoMax(clinicDate,clinicSchedule.getClinicLabel(),clinicSchedule.getTimeDesc());
                     if(currentNo!=null){
                         clinicForRegist.setCurrentNo(currentNo+1);  //当前号(根据，门诊日期，门诊号名称，出诊时间 查询出最大的当前号数+1)

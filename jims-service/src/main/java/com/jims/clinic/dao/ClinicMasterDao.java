@@ -54,11 +54,11 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
     /**
      * 根据 就诊日期，就诊序号 ，查询 有关退号的基本信息
      * @param visitDate
-     * @param visitNo
+     * @param clinicNo
      * @author zhaoning
      * @return
      */
-    public ClinicMaster getClinicMaster(@Param("visitDate")String visitDate,@Param("visitNo")Integer visitNo);
+    public ClinicMaster getClinicMaster(@Param("visitDate")String visitDate,@Param("clinicNo")Integer clinicNo);
 
     /**
      * 查询出最大的 visitNo
@@ -129,4 +129,6 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @return
      */
     public int updateMaster(@Param("acctNo")String acctNo,@Param("operator")String operator,@Param("registeringDate")String registeringDate);
+
+    public ClinicMaster getPatient(@Param("id")String id);
 }

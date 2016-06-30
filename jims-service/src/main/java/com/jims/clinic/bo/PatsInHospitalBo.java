@@ -338,4 +338,17 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
         /**2.如果出院病人存在，选中点击确认，取消出院**/
         return String.valueOf(num);
     }
+
+    /**
+     * @param patientId 传递参数
+     * @return PatsInHospital    返回类型
+    * @throws
+     * @Title: findByPatientId
+     * @Desription: (查询病人是否已入院)
+     * @author CTQ
+     * @date 2016/6/30
+     */
+    public PatsInHospital findByPatientId(String patientId){
+        return patsInHospitalDao.getPatsInfoByMaster(patientId);
+    }
 }
