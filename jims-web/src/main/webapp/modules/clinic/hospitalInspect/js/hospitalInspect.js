@@ -1,7 +1,7 @@
 
 
 function onloadMethod() {
-    var visitId= $("#patientId", window.parent.document).val();
+    var visitId= $("#clinicMasterId", window.parent.document).val();
     $("#visitId").val(visitId);
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({

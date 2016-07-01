@@ -34,7 +34,7 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
 
     public int saveHospitalInspect(ExamAppoints examAppoints) {
         int num = 0;
-        PatVisit patVisit = patVisitDao.getPatVisit(examAppoints.getVisitId());
+        PatVisit patVisit = patVisitDao.selectPatVisit(examAppoints.getVisitId());
         examAppoints.setCnsltState(0);
         examAppoints.preInsert();
         examAppoints.setChargeType(patVisit.getChargeType());
