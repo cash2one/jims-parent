@@ -2,15 +2,13 @@ package com.jims.patient;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.support.Parameter;
+import com.jims.common.data.StringData;
 import com.jims.patient.Dto.PatientListDto;
 import com.jims.patient.api.PatVisitServiceApi;
 import com.jims.patient.entity.PatMasterIndex;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +48,7 @@ public class PatientListRest {
     /**
      * 查询所有 需要新建病历的病人信息
      * @return
+     * @author zhaoning
      */
     @GET
     @Path("getPatMaster")
@@ -58,4 +57,88 @@ public class PatientListRest {
         List<PatMasterIndex> patMasterIndexes=patVisitServiceApi.getPatMaster(deptCode);
         return patMasterIndexes;
     }
+
+    /**
+     * 确认新建病历
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("confirmNewMr")
+    public StringData confirmNewMr(String patId){
+        StringData data = new StringData();
+        data.setCode(patVisitServiceApi.confirmNewMr(patId));
+        return data;
+    }
+
+    /**
+     * 移入病历 病人列表
+     * @param
+     * @return
+     * @author zhaoning
+     */
+    @GET
+    @Path("getPatMasterByIn")
+    public List<PatMasterIndex> getPatMasterByIn(){
+        String deptCode="140101";
+        List<PatMasterIndex> patMasterIndexes=patVisitServiceApi.getPatMasterByIn(deptCode);
+        return patMasterIndexes;
+    }
+
+    /**
+     * 确认移入病历
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("confirmMoveIn")
+    public StringData confirmMoveIn(String patId){
+     StringData data = new StringData();
+        data.setCode(patVisitServiceApi.confirmMoveIn(patId));
+        return data;
+    }
+
+    /**
+     * 移除病历
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("removeMr")
+    public StringData removeMr(@QueryParam("patId")String patId){
+        StringData data=new StringData();
+        data.setCode(patVisitServiceApi.removMr(patId));
+        return data;
+    }
+
+    /**
+     * 获取病人信息 -- 住院
+     * @param patientId
+     * @return
+     * @author zhaoning
+     */
+    @GET
+    @Path("getPatMasterIndex")
+    public PatMasterIndex getPatMasterIndex(@QueryParam("patientId")String patientId){
+        PatMasterIndex patMasterIndex=patVisitServiceApi.getPatMasterIndex(patientId);
+        return patMasterIndex;
+    }
+
+    /**
+     * 保存编辑的病人信息---住院
+     * @param patMasterIndex
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("savePatInfo")
+    public StringData savePatInfo(PatMasterIndex patMasterIndex){
+        StringData data=new StringData();
+        data.setCode(patVisitServiceApi.savePatInfo(patMasterIndex));
+        return data;
+    }
+
 }

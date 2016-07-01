@@ -86,4 +86,23 @@ public class AsepsisLendRecServiceImpl implements AsepsisLendRecApi{
         } catch(RuntimeException e) {}
         return "0";
     }
+
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @param prefix
+     * @return
+     */
+    public String getMaxDocumentNo(String orgId,String prefix){
+        return bo.getMaxDocumentNo(orgId,prefix);
+    }
+
+    /**
+     * 检索有库存的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisLendRec> findListWithStock(AsepsisLendRec entity){
+        return bo.findListWithStock(entity);
+    }
 }

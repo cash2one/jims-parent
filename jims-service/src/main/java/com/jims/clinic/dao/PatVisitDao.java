@@ -59,6 +59,26 @@ public interface PatVisitDao extends CrudDao<PatVisit> {
      */
     public List<PatMasterIndex> getPatMaster(@Param("deptCode")String deptCode);
 
-    public PatVisit getPatVisit(@Param("id")String id);
+    /**
+     * 移入病人列表
+     * @param deptCode
+     * @return
+     * @author zhaoning
+     */
+    public List<PatMasterIndex> getPatMasterByIn(@Param("deptCode")String deptCode);
+
+    /**
+     * 根据 病人主索引ID 查询 住院信息
+     * @param patientId
+     * @return
+     * @author zhaoning
+     */
+    public PatVisit getPatVisit(@Param("patientId")String patientId);
+
+    /**
+     * 病人信息编辑时 更新 住院信息--住院
+     * @param patVisit
+     */
+    public void updatePatVisit(PatVisit patVisit);
 
 }

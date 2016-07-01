@@ -54,7 +54,7 @@ public class LabItemClassDict extends DataEntity<LabItemClassDict> {
 		this.className = className;
 	}
 	
-	@Length(min=1, max=16, message="科室代码长度必须介于 1 和 16 之间")
+	@Length(min=0, max=100, message="科室代码长度必须介于 0 和 100 之间")
 	public String getDeptCode() {
 		return deptCode;
 	}

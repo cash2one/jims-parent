@@ -16,13 +16,16 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private Double itemNo;  // 序号
     private String fromDept;  // 送物科室
     private Date sendDate;  // 送物日期
+    private Date sendDateStart;  // 送物开始日期
+    private Date sendDateEnd;  // 送物结束日期
     private String itemCode;  // 代码
     private String itemName;  // 项目名称
     private String itemSpec;  // 规格
     private Double sendAmount;  // 送物数量
     private Double getAmount;  // 已领数量
+    private String getMan;  // 领物人
     private Date getDate;  // 领物日期
-    private String getFlag;  // 领物标记,0-新开申请,1-申请确认(未领取),2-申请确认已消毒， 3-部分领取, 4-全部取完
+    private String getFlag;  // 领物标记,1-申请确认(未领取),2-部分领取， 3-全部领取';
     private String units;  // 单位
     private String operator;  // 操作员
     private String sender;  // 送物人
@@ -34,13 +37,14 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private String reqOperator;  // 申请人
     private String orgId;  // 所属机构ID
 
-    private String stock;
+    private Integer stock;  // 领物数量
+    private String fromDeptName;
 
-    public String getStock() {
+    public Integer getStock() {
         return stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(Integer stock) {
         this.stock = stock;
     }
 
@@ -220,5 +224,35 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
         this.orgId = orgId;
     }
 
+    public Date getSendDateEnd() {
+        return sendDateEnd;
+    }
 
+    public void setSendDateEnd(Date sendDateEnd) {
+        this.sendDateEnd = sendDateEnd;
+    }
+
+    public Date getSendDateStart() {
+        return sendDateStart;
+    }
+
+    public void setSendDateStart(Date sendDateStart) {
+        this.sendDateStart = sendDateStart;
+    }
+
+    public String getFromDeptName() {
+        return fromDeptName;
+    }
+
+    public void setFromDeptName(String fromDeptName) {
+        this.fromDeptName = fromDeptName;
+    }
+
+    public String getGetMan() {
+        return getMan;
+    }
+
+    public void setGetMan(String getMan) {
+        this.getMan = getMan;
+    }
 }

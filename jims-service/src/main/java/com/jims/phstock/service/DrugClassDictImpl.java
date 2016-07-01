@@ -3,6 +3,7 @@ package com.jims.phstock.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.api.DrugClassDictApi;
+import com.jims.phstock.bo.DrugClassDictBo;
 import com.jims.phstock.dao.DrugClassDictDao;
 import com.jims.phstock.entity.DrugClassDict;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +16,18 @@ import java.util.List;
  */
 @Service(version = "1.0.0")
 
-public class DrugClassDictImpl extends CrudImplService<DrugClassDictDao, DrugClassDict> implements DrugClassDictApi{
+public class DrugClassDictImpl  implements DrugClassDictApi{
 
     @Autowired
-    private DrugClassDictDao drugClassDictDao;
+    private DrugClassDictBo drugClassDictBo;
 
 
     /***
-     *  根据诊疗机构ID获取药品类别
      * @return 药品类别集合
      * @author zq
      */
     public List<DrugClassDict> listDrugClassDict(){
-        return drugClassDictDao.listDrugClassDict();
+        return drugClassDictBo.listDrugClassDict();
     }
 
     /***
@@ -37,14 +37,11 @@ public class DrugClassDictImpl extends CrudImplService<DrugClassDictDao, DrugCla
      * @author zq
      */
     public List<DrugClassDict> listSubClassDict(String parentId) {
-        return drugClassDictDao.listSubClassDict(parentId );
+        return drugClassDictBo.listSubClassDict(parentId );
     }
 
-    @Override
     public String saveDrugClassDict(DrugClassDict drugClassDict) {
-        String intStr=super.save(drugClassDict);
-
-        return intStr;
+        return drugClassDictBo.saveDrugClassDict(drugClassDict);
     }
 
     @Override

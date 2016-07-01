@@ -273,7 +273,13 @@
 		<include refid="patVisitJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="getPatVisit" resultType="PatVisit">
+		SELECT
+		<include refid="patVisitColumns"/>
+		FROM pat_visit a
+
+		WHERE a.patient_id = #{patientId}
+	</select>
 	<select id="findList" resultType="PatVisit">
 		SELECT 
 			<include refid="patVisitColumns"/>
@@ -957,9 +963,14 @@
                b.ward_code as wardCode
           from pat_master_index a,
                pats_in_hospital b,
-               pat_visit        d
+		       bed_rec          c,
+               pat_visit        d,
+		       mr_on_line       e
          where a.id = b.patient_id
            and a.id = d.patient_id
+		   and b.ward_code(+) = c.ward_code
+		   and b.bed_no(+) = c.bed_no
+		   and e.status = '0'
 	       and (
 	           (b.dept_code = #{deptCode} and b.dept_code_lend is null)
 	              or (b.dept_code_lend = #{deptCode} and b.dept_code_lend is not null)
@@ -990,8 +1001,10 @@
 		d.identity as patIdentity,
 		0 as prepayment,
 		'出院' as ward_code
-		from pat_master_index a , pat_visit d
+		from pat_master_index a , pat_visit d,mr_on_line e
 		where a.id = d.patient_id
+		and a.id=e.patient_id
+		and e.status = '0'
 		and d.dept_discharge_from = #{deptDischargeFrom}
 		<if test="patName!=null and patName!='' ">
 			and  a.name=#{patName}
@@ -1048,19 +1061,73 @@
 					   C.BED_LABEL,
 					   B.NAME
 				  FROM PAT_MASTER_INDEX B, PATS_IN_HOSPITAL A, BED_REC C
-				 WHERE B.PATIENT_ID = A.PATIENT_ID
+				 WHERE B.id = A.PATIENT_ID
 				   and A.BED_NO = C.BED_NO
 				   and A.WARD_CODE = C.WARD_CODE
 				   and ((A.DEPT_CODE =#{deptCode} and A.DEPT_CODE_LEND is null) or
 						(A.DEPT_CODE_LEND = #{deptCode} and A.DEPT_CODE_LEND is not null))
 				  )
 	</select>
+	<select id="getPatMasterByIn" resultType="com.jims.patient.entity.PatMasterIndex">
+		SELECT "MR_ON_LINE"."PATIENT_ID" AS id,
+				 "PAT_MASTER_INDEX"."NAME" AS name,
+				 "PAT_MASTER_INDEX"."SEX" AS sex,
+				 "MR_ON_LINE"."STATUS" AS status,
+				 "MR_ON_LINE"."REQUEST_DOCTOR_ID" AS requestDoctorId,
+				 "MR_ON_LINE"."REQUEST_DATE_TIME" AS requestDateTime,
+				 "PAT_MASTER_INDEX"."NAME_PHONETIC" AS namePhonetic,
+				 "PAT_MASTER_INDEX"."DATE_OF_BIRTH" AS dateOfBirth,
+				 "PAT_VISIT"."CHARGE_TYPE" AS chargeType,
+					(select BED_label from bed_rec where ward_code=PATS_IN_HOSPITAL.ward_code and bed_no = PATS_IN_HOSPITAL.bed_no) bed_label ,
+				 "PATS_IN_HOSPITAL"."DEPT_CODE" AS deptCode
+			FROM "PAT_MASTER_INDEX",
+					"PATS_IN_HOSPITAL" ,
+				 "MR_ON_LINE",
+				 "PAT_VISIT"
+		   WHERE ( "MR_ON_LINE"."STATUS" = '*' ) And
+					("PATS_IN_HOSPITAL"."WARD_CODE" IS NULL OR "PATS_IN_HOSPITAL"."WARD_CODE" in ('161102','161101','161102','161102','161101','161101','161102','161102') ) and
+				 ("MR_ON_LINE"."PATIENT_ID"="PATS_IN_HOSPITAL"."PATIENT_ID") AND
+				 ( "MR_ON_LINE"."PATIENT_ID" = "PAT_MASTER_INDEX"."ID"(+) ) and
+				 ( "MR_ON_LINE"."PATIENT_ID" = "PAT_VISIT"."PATIENT_ID"(+))
 
-	<select id="getPatVisit" resultType="PatVisit">
-		select * from pat_visit
-		WHERE del_flag = '0'
-		<if test="id!=null and id!=''">
-			and id=#{id}
-		</if>
+		   union
+
+			  SELECT "MR_ON_LINE"."PATIENT_ID",
+						"PAT_MASTER_INDEX"."NAME",
+						"PAT_MASTER_INDEX"."SEX",
+						"MR_ON_LINE"."STATUS",
+						"MR_ON_LINE"."REQUEST_DOCTOR_ID",
+						"MR_ON_LINE"."REQUEST_DATE_TIME",
+						"PAT_MASTER_INDEX"."NAME_PHONETIC",
+						"PAT_MASTER_INDEX"."DATE_OF_BIRTH",
+						"PAT_VISIT"."CHARGE_TYPE",
+					(select BED_label from bed_rec where ward_code=PATS_IN_HOSPITAL.ward_code and bed_no = PATS_IN_HOSPITAL.bed_no) bed_label,
+					"PATS_IN_HOSPITAL"."DEPT_CODE"
+				 FROM "PAT_MASTER_INDEX",
+						"PATS_IN_HOSPITAL" ,
+						"MR_ON_LINE",
+						"PAT_VISIT"
+				WHERE ( "MR_ON_LINE"."STATUS" = '*' ) And
+						("PATS_IN_HOSPITAL"."LEND_INDICATOR" = 1 AND "PATS_IN_HOSPITAL"."DEPT_CODE_LEND" IN ('140101','140102','140103','140104')) AND
+						("MR_ON_LINE"."PATIENT_ID"="PATS_IN_HOSPITAL"."PATIENT_ID") AND
+						( "MR_ON_LINE"."PATIENT_ID" = "PAT_MASTER_INDEX"."ID"(+) ) and
+						( "MR_ON_LINE"."PATIENT_ID" = "PAT_VISIT"."PATIENT_ID"(+))
+
+
 	</select>
+    <update id="updatePatVisit">
+		UPDATE "PAT_VISIT"
+		   SET "PATIENT_AREA"          = #{patientArea},
+			   "PATIENT_AREA_ADDRESS"  = #{patientAreaAddress},
+			   "PAT_PHONE"             = #{patPhone},
+			   "PAT_ZIP"               = #{patZip},
+			   "PHONE_NUMBER_BUSINESS" = #{phoneNumberBusiness},
+			   "BUSINESS_ZIP_CODE"     = #{businessZipCode},
+			   "NEXT_OF_KIN"           = #{nextOfKin},
+			   "RELATIONSHIP"          = #{relationship},
+			   "NEXT_OF_KIN_ADDR"      = #{nextOfKinAddr},
+			   "NEXT_OF_KIN_PHONE"     = #{nextOfKinPhone}
+		 WHERE "ID" =#{id}
+
+	</update>
 </mapper>

@@ -4,7 +4,7 @@ var patId ='15006135';
 var visitId = '1';
 var orderNo =0 ;
 var orderSubNo = 1;
-var Oclass =[{ "value": "1", "label": "药品" }, { "value": "2", "label": "非药品" }];
+
 var clinicPrice =  [];
 
 $(function(){
@@ -55,11 +55,6 @@ $(function(){
                         var orderClass = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderClass'});
                         var value = $(orderClass.target).combobox('getValue');
                         var orderClass=value;
-                /*        var currentDate = new Date();
-                        var year = (currentDate.getFullYear() + "").substr(4 - RegExp.$1.length);
-                        var day = year+"-"+currentDate.getMonth()+1+"-"+currentDate.getDate();
-                        var startDateTime = $("#orderList").datagrid('getEditor',{index:rowNum,field:'startDateTime'});
-                        $(startDateTime.target).datebox('setValue',day);*/
                         var ed = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderText'});
                         $('#orderCostList').datagrid('loadData', { total: 0, rows: [] });
                         /*如果类别是药品医嘱内容是药品的内容，如果是非药品显示非药品的医嘱内容*/
@@ -79,20 +74,21 @@ $(function(){
             {field:'orderText',title:'医嘱内容',width:'10%',align:'center',editor:{
                 type:'combogrid',
                 options:{
-                    panelWidth: 450,
+                    panelWidth: 550,
                     idField:'item_name',
                     textField:'item_name',
                     columns:[
                         [
                             {field: 'drug_code', title: '药品代码', width: '10%', align: 'center'},
-                            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-                            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                            {field: 'item_name', title: '名称', width: '10%', align: 'center'},
+                            {field: 'drug_spec', title: '药品规格', width: '5%', align: 'center'},
+                            {field: 'item_spec', title: '项目规格', width: '5%', align: 'center'},
                             {field: 'supplier', title: '厂家', width: '20%', align: 'center'},
-                            {field: 'dose_per_unit', title: '单次用量', width: '5%', align: 'center'},
-                            {field: 'units', title: '用量单位', width: '5%', align: 'center'},
+                            {field: 'dose_per_unit', title: '单次用量', width: '10%', align: 'center'},
+                            {field: 'units', title: '用量单位', width: '10%', align: 'center'},
                             {field: 'item_code', title: '项目代码', width: '10%', align: 'center'},
                             {field: 'input_code', title: '拼音', width: '5%', align: 'center'},
-                                {field: 'expand1', title: '扩展1', width: '5%', align: 'center'},
+                            {field: 'expand1', title: '扩展1', width: '5%', align: 'center'},
                              {field: 'expand2', title: '扩展2', width: '5%', align: 'center'},
                              {field: 'expand5', title: '扩展5', width: '5%', align: 'center'},
                             {field: 'price', hidden:'true'},
@@ -117,13 +113,14 @@ $(function(){
 
                         }
                     },onClickRow: function (index, row) {
-                        var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
-                        $(dosage.target).textbox('setValue',row.dose_per_unit);
-                        var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
-                        $(dosageUnits.target).textbox('setValue',row.dose_units);
+
                         var orderClass = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderClass'});
                         var value = $(orderClass.target).combobox('getValue');
                         if(value=='1'){//药品
+                            var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
+                            $(dosage.target).textbox('setValue',row.dose_per_unit);
+                            var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                            $(dosageUnits.target).textbox('setValue',row.dose_units);
                             var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.drug_code);
                             $('#orderCostList').datagrid('insertRow', {
@@ -140,6 +137,10 @@ $(function(){
                                 }
                             });
                         }else if(value=='2'){//非药品
+                            var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
+                            $(dosage.target).textbox('setValue',1);
+                            var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                            $(dosageUnits.target).textbox('setValue',row.units);
                             var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.item_code);
                             $.ajax({
@@ -332,21 +333,23 @@ $(function(){
         }
         ],onClickRow: function (rowIndex, rowData) {
 
-            var row = $('#orderList').datagrid('getSelected');
-            var dataGrid=$('#orderList');
-            // var status = row.orderStatus;
-            if(!dataGrid.datagrid('validateRow', rowNum)){
-                return false//新开
-            }else{
-                if(rowNum!=rowIndex){
-                    if(rowNum>=0){
-                        dataGrid.datagrid('endEdit', rowNum);
+                var row = $('#orderList').datagrid('getSelected');
+                var dataGrid = $('#orderList');
+                // var status = row.orderStatus;
+                if (!dataGrid.datagrid('validateRow', rowNum)) {
+                    return false//新开
+                } else {
+                    if (rowNum != rowIndex) {
+                        if (rowNum >= 0) {
+                            dataGrid.datagrid('endEdit', rowNum);
+                        }
+                        rowNum = rowIndex;
+                        if(rowData.orderStatus=='5'||rowData.orderStatus=='') {
+                        dataGrid.datagrid('beginEdit', rowNum);
+                        }
                     }
-                    rowNum=rowIndex;
-                    dataGrid.datagrid('beginEdit', rowNum);
-                }
-            }
 
+            }
             $.ajax({
                 'type': 'GET',
                 'url':basePath+'/inOrders/getCostById',
@@ -362,28 +365,40 @@ $(function(){
         }, rowStyler:function(index,row){
             if (row.orderNo!=row.orderSubNo){
                 return 'background-color:#D4D4D4;';
+                if(row.orderStatus=='6'){//传输
+                    return 'color:#8A2BE2;';
+                }else if(row.orderStatus=='1'){//转抄
+                    return 'color:black;';
+                }else if(row.orderStatus=='2') {//执行
+                    return 'color:blue;';
+                }else if(row.orderStatus=='3') {//停止
+                    return 'color:yellow;';
+                }else if(row.orderStatus=='4') {//作废
+                    return 'color:red;';
+                }
+
             }else{
-                return 'background-color:#FCFCFC;';
+                if(row.orderStatus=='6'){//传输
+                    return 'background-color:#90EE90;color:#8A2BE2;';
+                }else if(row.orderStatus=='1'){//转抄
+                    return 'background-color:#A7CACB;color:black;';
+                }else if(row.orderStatus=='2') {//执行
+                    return 'background-color:#A7CACB;color:blue;';
+                }else if(row.orderStatus=='3') {//停止
+                    return 'background-color:#A7CACB;color:yellow;';
+                }else if(row.orderStatus=='4') {//作废
+                    return 'background-color:#A7CACB;color:red;';
+                }
             }
 
 
-            if(row.orderStatus=='6'){//传输
-                return 'background-color:#A7CACB;color:#F49C00;';
-            }else if(row.orderStatus=='1'){//转抄
-                return 'background-color:#A7CACB;color:black;';
-            }else if(row.orderStatus=='2') {//执行
-                return 'background-color:#A7CACB;color:blue;';
-            }else if(row.orderStatus=='3') {//停止
-                return 'background-color:#A7CACB;color:yellow;';
-            }else if(row.orderStatus=='4') {//作废
-                return 'background-color:#A7CACB;color:red;';
-            }
+
 
 
         }
     });
     $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true }).click(function () {
-        $('#orderList').datagrid("load");   //点击搜索
+        $('#orderList').datagrid({url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize() });
     });
 
 
@@ -555,7 +570,7 @@ function changeSubNo(row){
                         }
                         if(afterrow!=undefined){
                             if(afterrow.orderSubNo == nowrow.orderNo){
-                                $.messager.alert('提示',"此处方已经有子医嘱，不能设置子医嘱", "error");
+                                $.messager.alert('提示',"此医嘱已经有子医嘱，不能设置子医嘱", "error");
                                 return false;
                             }
                         }
@@ -587,7 +602,7 @@ function changeSubNo(row){
             $.messager.alert('提示',"长期和临时医嘱不能构成组合医嘱！", "error");
         }
     }else{
-        $.messager.alert('提示',"第一条处方不能设置子医嘱", "warning");
+        $.messager.alert('提示',"第一条不医嘱能设置子医嘱", "warning");
     }
 }
 

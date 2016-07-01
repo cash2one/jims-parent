@@ -10,5 +10,13 @@ import com.jims.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface PatHospitalNoticeDao extends CrudDao<PatHospitalNotice> {
+
+    /**
+     * 取消登记更新出院通知单
+     * @param patHospitalNotice
+     * @author CTQ
+     * @return
+     */
+    public int updateNotice(PatHospitalNotice patHospitalNotice);
 	
 }

@@ -54,4 +54,19 @@ public interface AsepsisLendRecApi {
     * @return 0 失败，1成功
     */
     public String delete(String ids) ;
+
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @param prefix
+     * @return
+     */
+    public String getMaxDocumentNo(String orgId,String prefix);
+
+    /**
+     * 检索有库存的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisLendRec> findListWithStock(AsepsisLendRec entity);
 }

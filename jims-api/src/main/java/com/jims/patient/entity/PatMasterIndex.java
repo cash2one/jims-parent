@@ -50,7 +50,7 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private Integer vipIndicator;		// 重要人物标志
 	private String operator;		// 操作员
 	private String serviceAgency;		// 医疗体系病人标志
-	private String businessZipCode;		// business_zip_code
+	private String businessZipCode;		// business_zip_code 单位地址邮编
 	private String photo;		// UUF,
 	private String patientClass;		// patient_class
 	private String degree;		// degree
@@ -74,6 +74,10 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private String addressNow;		// 现住址
 
 	private String age;//年龄
+	private String patientArea;
+	private String patientAreaAddress;
+	private String patPhone;
+	private String patZip;
 
 	private String diagnosis;//诊断
 	private String diagnosisNo;//诊断编码
@@ -107,6 +111,8 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 
     private String bedNo;//床号
     private String doctorInCharge;//经治医师
+	private String requestDoctorId;
+	private Date requestDateTime;
     private String patientCondition;
     private String deptCode;
     private String bedLabel;//床标号
@@ -162,12 +168,12 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	@JsonSerialize(using = CustomDateSerializer.class)
+
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	@JsonDeserialize(using = CustomDateDeSerializer.class)
+
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -806,4 +812,52 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
     public void setVisitDept(String visitDept) {
         this.visitDept = visitDept;
     }
+
+	public String getRequestDoctorId() {
+		return requestDoctorId;
+	}
+
+	public void setRequestDoctorId(String requestDoctorId) {
+		this.requestDoctorId = requestDoctorId;
+	}
+
+	public Date getRequestDateTime() {
+		return requestDateTime;
+	}
+
+	public void setRequestDateTime(Date requestDateTime) {
+		this.requestDateTime = requestDateTime;
+	}
+
+	public String getPatientArea() {
+		return patientArea;
+	}
+
+	public void setPatientArea(String patientArea) {
+		this.patientArea = patientArea;
+	}
+
+	public String getPatientAreaAddress() {
+		return patientAreaAddress;
+	}
+
+	public void setPatientAreaAddress(String patientAreaAddress) {
+		this.patientAreaAddress = patientAreaAddress;
+	}
+
+	public String getPatPhone() {
+		return patPhone;
+	}
+
+	public void setPatPhone(String patPhone) {
+		this.patPhone = patPhone;
+	}
+
+	public String getPatZip() {
+		return patZip;
+	}
+
+	public void setPatZip(String patZip) {
+		this.patZip = patZip;
+	}
 }

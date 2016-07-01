@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,13 +26,30 @@ public class AsepsisSendRecRest {
     /**
     * 检索
     * @param orgId
-    * @return
+     * @param sendDate,
+     * @param sendDateStart,
+     * @param sendDateEnd,
+     * @param fromDept,
+     * @param getFlag,
+     * @param sender
+    * @return List<AsepsisSendRec>
     */
     @GET
     @Path("findList")
-    public List<AsepsisSendRec> findList(@QueryParam("orgId")String orgId) {
+    public List<AsepsisSendRec> findList(@QueryParam("orgId")String orgId,
+                                         @QueryParam("sendDate")Date sendDate,
+                                         @QueryParam("sendDateStart")Date sendDateStart,
+                                         @QueryParam("sendDateEnd")Date sendDateEnd,
+                                         @QueryParam("fromDept")String fromDept,
+                                         @QueryParam("getFlag")String getFlag,
+                                         @QueryParam("sender")String sender) {
         AsepsisSendRec entity = new AsepsisSendRec();
         entity.setOrgId(orgId);
+        entity.setFromDept(fromDept);
+        entity.setSendDate(sendDate);
+        entity.setSendDateStart(sendDateStart);
+        entity.setSendDateEnd(sendDateEnd);
+        entity.setGetFlag(getFlag);
         return api.findList(entity);
     }
 
@@ -64,7 +82,44 @@ public class AsepsisSendRecRest {
     */
     @GET
     @Path("delete")
-    public String delete(String ids) {
+    public String delete(@QueryParam("ids")String ids) {
         return api.delete(ids);
+    }
+
+    /**
+     * 获取当天最大的编码后缀
+     * @param orgId
+     * @param prefix
+     * @return
+     */
+    @GET
+    @Path("getMaxSuffix")
+    public String getMaxSuffix(@QueryParam("orgId")String orgId,@QueryParam("prefix")String prefix){
+        String documentNo = api.getMaxDocumentNo(orgId);
+        if(documentNo != null && documentNo.trim().length() > prefix.length()){
+            return Double.valueOf(documentNo.substring(prefix.length())).toString();
+        }
+        return null;
+    }
+
+    /**
+     * 检索有库存、在保质期内的数据
+     * @param
+     * @return
+     */
+    @GET
+    @Path("findListWithStock")
+    public List<AsepsisSendRec> findListWithStock(@QueryParam("orgId")String orgId,
+                                                  @QueryParam("sendDateStart")Date sendDateStart,
+                                                  @QueryParam("sendDateEnd")Date sendDateEnd,
+                                                  @QueryParam("fromDept")String fromDept,
+                                                  @QueryParam("sender")String sender){
+        AsepsisSendRec entity = new AsepsisSendRec();
+        entity.setOrgId(orgId);
+        entity.setSendDateStart(sendDateStart);
+        entity.setSendDateEnd(sendDateEnd);
+        entity.setFromDept(fromDept);
+        entity.setSender(sender);
+        return api.findListWithStock(entity);
     }
 }

@@ -49,7 +49,7 @@ insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_
 values ('3f9c90d23d52440eb465c9924e38ac77', '护理工作', null, '1', 2, '2', null, null, null, '28-4月 -16 09.30.34.000000 上午', '0', '28-4月 -16 09.30.34.000000 上午', null, '0');
 
 insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
-values ('b194262cc2a049828e28b2685b8be350', '住院管理', '/modules/sys/menuDict.html', '1', 2, '1', null, null, null, '23-6月 -16 11.43.01.663000 上午', '0', '28-4月 -16 09.30.34.000000 上午', '3f9c90d23d52440eb465c9924e38ac77', '1');
+values ('b194262cc2a049828e28b2685b8be350', '住院管理', '/modules/nurse/nurseIndex.html', '1', 2, '1', null, null, null, '23-6月 -16 11.43.01.663000 上午', '0', '28-4月 -16 09.30.34.000000 上午', '3f9c90d23d52440eb465c9924e38ac77', '1');
 
 insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
 values ('79cb0ea6ab764b81a481add71053df02', '门诊管理', '/modules/sys/menuDict.html', '1', 1, '1', null, null, null, '23-6月 -16 11.43.01.663000 上午', '0', '28-4月 -16 09.30.34.000000 上午', '3f9c90d23d52440eb465c9924e38ac77', '1');

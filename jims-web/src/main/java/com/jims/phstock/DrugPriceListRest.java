@@ -154,4 +154,19 @@ public class DrugPriceListRest {
     public List<DrugNameDict> findDrugNameDictList(){
         return drugNameDictServiceApi.findList(new DrugNameDict());
     }
+
+    /**
+     * 停价处理
+     * @param id
+     * @return
+     * @author weishen
+     */
+    @POST
+    @Path("stop")
+    public String stopDate(String id){
+
+       return drugPriceListServiceApi.stopDate(id);
+    };
+
+
 }

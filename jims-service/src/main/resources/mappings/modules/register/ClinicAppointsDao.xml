@@ -29,20 +29,23 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.visit_indicator as "visitIndicator",
+		a.visit_dept as "visitDept"
 	</sql>
 	
 	<sql id="clinicAppointsJoins">
 	</sql>
     
-	<select id="get" resultType="ClinicAppoints">
-		SELECT 
-			<include refid="clinicAppointsColumns"/>
-		FROM clinic_appoints a
-		<include refid="clinicAppointsJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
+
+    <select id="get" resultType="ClinicAppoints">
+        SELECT
+        <include refid="clinicAppointsColumns"/>
+        FROM clinic_appoints a
+        <include refid="clinicAppointsJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
 	<select id="findList" resultType="ClinicAppoints">
 		SELECT
 		a.id AS "id",
@@ -72,24 +75,22 @@
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		b.clinic_dept AS "clinicDept",
-		b.doctor AS "doctor",
-		b.doctor_title AS doctorTitle,
-		c.clinic_type_name AS clinicType,
-		b.clinic_position AS clinicPosition
-		FROM clinic_appoints a,clinic_index b,clinic_type_setting c
+        a.visit_indicator as "visitIndicator",
+        a.visit_dept as "visitDept",
+        b.clinic_label as "clinicLabelName",
+        c.date_of_birth  as "dateOfBirth"
+		FROM clinic_appoints a left join clinic_index b on a.clinic_label=b.id left join pat_master_index c on a.patient_id=c.id
 		<where>
-			a.clinic_label=b.clinic_label(+)
-			AND
-			c.id=b.clinic_type
-			AND
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="name!=null and name!=''">
-				AND a.name=#{name}
+				AND a.name like '${name}'
 			</if>
 			<if test="cardNo!=null and cardNo!=''">
 				AND a.card_no=#{cardNo}
 			</if>
+            <if test="idNo!=null and idNo!=''">
+                AND a.id_no=#{idNo}
+            </if>
 			<if test="visitDateAppted!=null and visitDateAppted!=''">
 				AND a.visit_date_appted=#{visitDateAppted}
 			</if>
@@ -149,7 +150,9 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag
+			del_flag,
+			visit_indicator,
+			visit_dept
 		) VALUES (
 			#{id},
 			#{orgId},
@@ -177,7 +180,9 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{visitIndicator},
+			#{visitDept}
 		)
 	</insert>
 	
@@ -205,7 +210,9 @@
 			name_phonetic = #{namePhonetic},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			visit_indicator =#{visitIndicator},
+			visit_dept=#{visitDept}
 		WHERE id = #{id}
 	</update>
 	

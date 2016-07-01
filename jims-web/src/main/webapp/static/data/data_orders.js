@@ -1,6 +1,6 @@
 var ordersType =  [];
 var billingAttr = [];
-
+var Oclass =[{ "value": "1", "label": "药品" }, { "value": "2", "label": "非药品" }];
 
 
 
@@ -116,7 +116,7 @@ function billingAttrFormatter(value, rowData, rowIndex) {
 function clinicCompleting(q,id){
     var clinicNameData={};
     clinicNameData.orgId="1";
-    clinicNameData.dictType="V_CINIC_ITEM_NANE"
+    clinicNameData.dictType="V_CLINIC_NAME_PRICE"
     var inputParamVos=new Array();
     var InputParamVo1={};
     InputParamVo1.colName='rownum';

@@ -5,6 +5,7 @@ import com.jims.asepsis.entity.OrgSysDict;
 import com.jims.asepsis.api.OrgSysDictApi;
 import com.jims.asepsis.bo.OrgSysDictBo;
 import com.jims.common.persistence.Page;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -19,6 +20,49 @@ public class OrgSysDictServiceImpl implements OrgSysDictApi{
 
     @Autowired
     private OrgSysDictBo bo;
+
+    /**
+     * 异步加载页面左侧表格:机构字典表的类型和描述列表
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<OrgSysDict> leftList(String orgId){
+        return bo.leftList(orgId);
+    }
+
+    /**
+     * 异步加载页面右侧表格:机构字典表的键值列表
+     * @param type  类型
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<OrgSysDict> rightList(String type,String orgId){
+        return bo.rightList(type,orgId);
+    }
+
+    /**
+     * 保存多条增删改数据
+     * @param beanChangeVo 多条增删改数据的集合
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<OrgSysDict> beanChangeVo) {
+        return bo.merge(beanChangeVo);
+    }
+
+    /**
+     * 根据类型或描述查询某个组织机构的字典数据
+     * @param type 类型
+     * @param description 描述
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<OrgSysDict> search(String type, String description, String orgId) {
+        return bo.search(type,description,orgId);
+    }
 
     /**
     * 根据ID检索
@@ -90,8 +134,7 @@ public class OrgSysDictServiceImpl implements OrgSysDictApi{
     */
     public String delete(String ids) {
         try {
-            bo.delete(ids);
-            return "1";
+            return bo.delete(ids);
         } catch(RuntimeException e) {}
         return "0";
     }

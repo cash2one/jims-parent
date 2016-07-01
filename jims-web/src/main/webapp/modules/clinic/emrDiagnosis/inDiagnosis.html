@@ -8,6 +8,8 @@
     <script type="text/javascript" src="/static/js/formSubmit.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <script type="text/javascript" src="../emrDiagnosis/js/inDiagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis_type.js"></script>
 </head>
 <body>
 
@@ -17,20 +19,23 @@
 
     </thead>
 </table>
-<div id="dlg" class="easyui-dialog" style="width:60%;height:90%;"
+<div id="dlg" class="easyui-dialog" style="width:60%;height:90%;margin-top: 30px;"
      closed="true">
     <form id="fm" method="post">
         <div class="fitem">
             <label>诊断类型:</label>
-            <select   name="type" id="type"  class="easyui-combobox" style="width:200px;"></select>
+            <input type="hidden" name="type" id="typeId"  value="">
+            <input id="type"  class="easyui-textbox" style="width:45%;" >
         </div>
         <div class="fitem">
             <label>诊断描述:</label>
-            <input id="description" name="description" class="easyui-validatebox validatebox-text validatebox-textarea">
+            <textarea id="description" rows=5 name="description" class="textarea easyui-validatebox" style="height:70px;"></textarea>
+
         </div>
         <div class="fitem">
             <label>治疗结果:</label>
-            <input name="treatResult" id="treatResult" class="easyui-validatebox validatebox-text validatebox-textarea" >
+            <textarea id="treatResult" rows=5 name="treatResult" class="textarea easyui-validatebox"  style="height:70px;"></textarea>
+
         </div>
         <div class="fitem">
             <label>手术:</label>
@@ -42,17 +47,15 @@
         </div>
         <div class="fitem">
             <label>病理号:</label>
-            <input name="pathologyNo" id="pathologyNo" class="easyui-textbox">
+            <input type="text" name="pathologyNo" id="pathologyNoId" class="easyui-textbox">
         </div>
         <div class="fitem">
             <label>诊断名称:</label>
-            <select   name="diagnosisId" id="diagnosisId" class="easyui-combobox" style="width:200px;" >
-
-            </select>
+            <input type="text" class="easyui-combobox"  name="diagnosisId" id="diagnosisId"  style="width:200px;" >
+            <input  name="icdMingcheng" id="icdMingcheng" type="hidden" value="">
         </div>
 
         <input name="id" id="id" type="hidden">
-
         <input name="inOrOutFlag" id="inOrOutFlag" type="hidden" value="1">
         <input name="parentId" id="parentId" type="hidden">
 

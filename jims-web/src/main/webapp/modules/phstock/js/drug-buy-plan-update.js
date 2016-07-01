@@ -55,7 +55,7 @@ $(function () {
     });
     var base_url = '/service/drug-buy-plan/'
     var username = '采购员'
-        , orgId = '1'
+        , orgId = parent.config.org_Id
         , currentBuyId = '' // 当前采购单据号
         , currentStorage = parent.config.currentStorage
         , suppliers = []  // 供应商数据
@@ -135,8 +135,9 @@ $(function () {
             if ($('#buyPlanTable').datagrid('getRows')[index].id){
                 if(field == 'drugCode' || field == 'purchasePrice') return
             }
-            $('#buyPlanTable').datagrid('selectRow', index)
-                .datagrid('editCell', {index: index, field: field});
+            $('#buyPlanTable').datagrid('beginEdit', index);
+            //$('#buyPlanTable').datagrid('selectRow', index)
+            //    .datagrid('editCell', {index: index, field: field});
             if(field == 'stockSupplier'){
                 var editor = $('#buyPlanTable').datagrid('getEditor',{index: index, field: field});
                 $(editor.target).combobox('addBlurListener')
@@ -163,7 +164,7 @@ $(function () {
                     if (value == '采购金额合计') return '<div style="text-align:right">' + value + '：　　　</div>'
                     return value
                 }},
-                {field: 'drugName', title: '药名', width: 220, halign: "center",align:'left', editor: {
+                {field: 'drugName', title: '药名', width: 120, halign: "center",align:'left', editor: {
                     type: 'combogrid',
                     options: {
                         panelWidth: 463,
@@ -196,7 +197,22 @@ $(function () {
                         }
                     }
                 }},
-                {field: 'supplier', title: '厂家', width: 200, halign: "center",align:'left'},
+                {field: 'supplier', title: '生产厂家', width: 200, halign: "center",align:'left'},
+                {field: 'stockSupplier', title: '采购供应商', width: 200, align: "center", editor: {
+                    type: 'combobox',
+                    options: {
+                        valueField: 'id',
+                        textField: 'supplier',
+                        required: true,
+                        missingMessage: '采购供应商不能为空',
+                        data: suppliers
+                    }
+                },formatter:function(value){
+                    for(var i= 0,j=suppliers.length;i<j;i++){
+                        if(suppliers[i].id == value) return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
+                    }
+                    return ''
+                }},
                 {field: 'packSpec', title: '包装规格', width: 60, align: "center"},
                 {field: 'packUnit', title: '包装单位', width: 60, align: "center"},
                 {field: 'purchasePrice', title: '进货价', width: 60, align: "center",editor:{
@@ -241,22 +257,8 @@ $(function () {
                 {field: 'drugForm', title: '剂型', width: 80, align: "center"},
                 {field: 'stockNum', title: '库存参考数', width: 90, align: "center"},
                 {field: 'monthUsed', title: '月消耗量', width: 60, align: "center"},
-                {field: 'rmb', title: '当前零售价', width: 90, align: "center"},
-                {field: 'stockSupplier', title: '采购供应商', width: 200, align: "center", editor: {
-                    type: 'combobox',
-                    options: {
-                        valueField: 'id',
-                        textField: 'supplier',
-                        required: true,
-                        missingMessage: '采购供应商不能为空',
-                        data: suppliers
-                    }
-                },formatter:function(value){
-                    for(var i= 0,j=suppliers.length;i<j;i++){
-                        if(suppliers[i].id == value) return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
-                    }
-                    return ''
-                }}
+                {field: 'rmb', title: '当前零售价', width: 90, align: "center"}
+
             ]],
             onClickCell: onClickCell,
             onLoadSuccess: function (data) {
@@ -473,11 +475,12 @@ $(function () {
      * @param orgId
      * @param supplierClass
      */
-    var loadSupplier = function(orgId,supplierClass){
+    var loadSupplier = function(supplierClass){
         $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-type', {
-            orgId: orgId,
+            orgId: parent.config.org_Id,
             supplierClass: supplierClass
         }, function (res) {
+            console.log(res);
             suppliers = res
         }, 'GET', false)
     }
@@ -606,10 +609,9 @@ $(function () {
     }
 
     var init = function () {
-        loadSupplier(orgId,'供应商')
-
-        initBuyPlanTable()
-        initBtn()
+        loadSupplier('供应商');
+        initBuyPlanTable();
+        initBtn();
     }
 
     init()
