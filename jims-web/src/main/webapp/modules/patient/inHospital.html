@@ -8,20 +8,23 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/patient/js/inHospital.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_dict_set.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_page_doctor.js"></script>
 
-    <script type="text/javascript" src="/modules/patient/js/data_admission_situation.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_marriage_dict.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_identity_dict.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_nation.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_nationality.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_charge_type.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_patient_status.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_resource.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_relationship.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_method.js"></script>
-    <script type="text/javascript" src="/modules/patient/js/data_objective.js"></script>
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_dict_set.js"></script>
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
+    <script type="text/javascript" src="/static/data/data_admission_situation.js"></script>
+    <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
+  <!--  <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>-->
+    <script type="text/javascript" src="/static/data/data_nation.js"></script>
+    <script type="text/javascript" src="/static/data/data_profession.js"></script>
+    <script type="text/javascript" src="/static/data/data_nationality.js"></script>
+    <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_resource.js"></script>
+    <script type="text/javascript" src="/static/data/data_relationship.js"></script>
+    <script type="text/javascript" src="/static/data/data_method.js"></script>
+    <script type="text/javascript" src="/static/data/data_objective.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
     <style>
         .bot-medbtn
         {
@@ -151,9 +154,7 @@
                         <label>
                             职业：
                         </label>
-                        <select name="occupation" class="easyui-combobox"  style="width: 11%">
-                            <option value="1">个体经营者</option>
-                            <option value="2">工人</option>
+                        <select id="occupation" name="occupation" class="easyui-combobox"  style="width: 11%">
                             　　</select>
                         <label>
                             工作单位：
@@ -209,9 +210,7 @@
                         <label>
                             入院科室：
                         </label>
-                        <select name="deptAdmissionTo" class="easyui-combobox" style="width: 11%">
-                            <option value="1">产科组病房</option>
-                            <option value="2">耳鼻喉病房</option>
+                        <select id="deptAdmissionTo" name="deptAdmissionTo" class="easyui-combobox" style="width: 11%">
                         </select>
                     </div>
 
@@ -219,7 +218,7 @@
                         <label>
                             门诊诊断：
                         </label>
-                        <input name="diagnosis" class="easyui-textbox" style="width: 72%" />
+                        <input id="diagnosis" name="diagnosis" class="easyui-textbox" style="width: 72%" />
                     </div>
 
                     <div class="fitem fitem_pop">
@@ -249,8 +248,7 @@
                         <label>
                             接诊医生：
                         </label>
-                        <select id="consultingDoctor" name="consultingDoctor" class="easyui-combobox" style="width: 11%">
-                            　　</select>
+                        <input id="consultingDoctor" name="consultingDoctor" class="easyui-textbox" style="width: 72%" />
                         <label>
                             经办人：
                         </label>

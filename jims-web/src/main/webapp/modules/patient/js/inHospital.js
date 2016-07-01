@@ -64,13 +64,29 @@ $(function() {
         textField: 'label'
     });
     $("#nation ").combobox('select',nationDict[0].value);
+    //费别
+    $('#chargeType').combobox({
+        data: chargeType,
+        valueField: 'id',
+        textField: 'charge_type_name'
+    });
+    $("#chargeType ").combobox('select',chargeType[0].value);
     //身份
-    $('#identity').combobox({
+   /* $('#identity').combobox({
         data: identityDict,
         valueField: 'id',
         textField: 'identityName'
     });
-    $("#identity ").combobox('select',identityDict[0].id);
+    $("#identity ").combobox('select',identityDict[0].id);*/
+
+    //职业
+    $('#occupation').combobox({
+        data: professionDict,
+        valueField: 'value',
+        textField: 'label'
+    });
+    $("#occupation ").combobox('select',professionDict[0].value);
+
     //关系
     $('#relationship').combobox({
         data: relationshipDict,
@@ -105,10 +121,19 @@ $(function() {
         valueField: 'value',
         textField: 'label'
     });
-    $("#patAdmCondition ").combobox('select',identityDict[0].value);
+    $("#patAdmCondition ").combobox('select',admissionDict[0].value);
+
+
+    //入院科室
+    $('#deptAdmissionTo').combobox({
+        data: clinicDeptCode,
+        valueField: 'value',
+        textField: 'label'
+    });
+    $("#deptAdmissionTo ").combobox('select',clinicDeptCode[0].value);
 
     //诊断
-    $('#diagnosisName').combogrid({
+    $('#diagnosis').combogrid({
         width: '300',
         height: 'auto',
         data: icdAllData,
