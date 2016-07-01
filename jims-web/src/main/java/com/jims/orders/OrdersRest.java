@@ -180,7 +180,7 @@ public class OrdersRest {
      * @author pq
      * @return
      */
-    @Path("getCostById")
+    @Path("getCost")
     @GET
     public List<OrdersCosts> getOrdersCost(@QueryParam("visitId")String visitId){
         return ordersServiceApi.getOrdersCost(visitId);
