@@ -48,12 +48,12 @@ $(function () {
             message: '没有选中项'
         }
     });
-    $.extend($.fn.combobox.methods, {
-        addBlurListener: function(jq,param){
+    $.extend($.fn.combobox.methods, {   //为combobox组件扩展一个方法
+        addBlurListener: function(jq,param){    //jq:指的是jQuery对象。param:指传入方法的实际参数。
             jq.next().children(':text').blur(function(){
-                var v = jq.combobox('getValue')
+                var v = jq.combobox('getValue') //获取组件的值
                 if(v != undefined && v != ''){
-                    var rows = jq.combobox('getData')
+                    var rows = jq.combobox('getData')   //返回加载数据
                     if(rows.length > 0){
                         var s = jq.combobox('options').textField
                         for(var i= 0,j=rows.length;i<j;i++){
@@ -356,15 +356,15 @@ $(function () {
             width : 140,
             onSelect: function(o){
                 accountFlag = o['accountFlag']
-                $('#account').numberbox('setValue','0')
-                $('#surcharge').numberbox('setValue','0')
-                $('#paid').numberbox('setValue','0')
-                $('#remarks').textbox('setValue','')
-                $('#importDocument').textbox('setValue','')
-                $('#drug-import').datagrid('loadData',[])
-                $('#importChild').combobox('setValue','')
-                if(o['importClass'] == '采购入库'){
-                    $("#supplyChild").combobox({'disabled':true});
+                $('#account').numberbox('setValue','0')     //应付款
+                $('#surcharge').numberbox('setValue','0')   //附加费
+                $('#paid').numberbox('setValue','0')        //已付款
+                $('#remarks').textbox('setValue','')        //备注
+                $('#importDocument').textbox('setValue','') //入库单据号
+                $('#importChild').combobox('setValue','')   //供货子单位
+                $('#drug-import').datagrid('loadData', [])
+                if(o.importClass == '采购入库'){
+                    $("#supplyChild").combobox({'disabled':true});  //如果选择采购入库，则供货子单位不可编辑。
                     $.get('/service/drug-supplier-catalog/list',{orgId:currentOrgId},function(res){
                         $('#supply').combobox({
                             valueField : 'supplierCode',
@@ -379,13 +379,13 @@ $(function () {
                         disabled:false,
                         value:''
                     })
-                    $.get('/service/drug-storage-dept/list',{orgId:currentOrgId,storageType:(o['storageType'] == '全部'?'':o['storageType'])},function(res){
+                    $.get('/service/drug-storage-dept/list',{orgId:currentOrgId,storageType:(o.storageType == '全部'?'': o.storageType)},function(res){
                         $('#supply').combobox({
                             valueField : 'storageCode',
                             textField : 'storageName',
                             data : res,
                             onSelect : function(r){
-                                loadSubDept('supplyChild',currentOrgId,r['storageCode'])
+                                loadSubDept('supplyChild',currentOrgId, r.storageCode)
                             }
                         })
                         $('#supply').combobox('addBlurListener')
