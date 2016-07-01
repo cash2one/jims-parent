@@ -1,7 +1,7 @@
 //非药品
 var clinicData={};
 clinicData.orgId="1";
-clinicData.dictType="V_CLINIC_NAME_PRICE";
+clinicData.dictType="V_CLINIC_ITEM_PRICE";
 var clinicOrderData = [];
 $.ajax({
     'type': 'POST',

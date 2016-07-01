@@ -15,7 +15,6 @@
         ,a."GET_AMOUNT" as "getAmount"
         ,a."GET_DATE" as "getDate"
         ,a."GET_FLAG" as "getFlag"
-        ,a."GET_MAN" as "getMan"
         ,a."UNITS" as "units"
         ,a."OPERATOR" as "operator"
         ,a."SENDER" as "sender"
@@ -37,27 +36,15 @@
 
     <select id="findList" resultType="AsepsisSendRec">
         SELECT
-        <include refid="asepsisSendRecColumns"/>
-        FROM ASEPSIS_SEND_REC a
+        <include refid="asepsisSendRecColumns"/>,a.send_Amount-a.get_Amount as stock
+        FROM ASEPSIS_SEND_REC a,asepsis_stock s
         <where>
             a.org_id =  #{orgId}
             and s.org_id =  #{orgId}
-        </where>
-    </select>
-
-    <select id="findListWithStock" resultType="AsepsisSendRec">
-        SELECT
-        <include refid="asepsisSendRecColumns"/>,nvl(s.amount,0) stock,d.dept_name fromDeptName
-        FROM ASEPSIS_SEND_REC a,(select sum(s.amount) amount,s.document_no
-            from asepsis_stock s,asepsis_dict d
-              where s.item_code = d.asepsis_code
-              and s.org_id=#{orgId} and (s.anti_date+d.valid_days) >= sysdate group by s.document_no) s,
-        (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) d
-        <where>
-            a.org_id =  #{orgId}
-            and a.from_dept = d.dept_code
-            and a.document_no = s.document_no(+)
-            and (a.get_flag = '1' or a.get_flag = '2')
+            and a.document_no = s.document_no
+            <if test="sendDate != null and sendDate != ''">
+                and to_char(a.send_date,'yyyy-MM-dd') = to_char(#{sendDate},'yyyy-MM-dd')
+            </if>
             <if test="sendDateStart != null and sendDateStart != ''">
                 and a.send_date >= #{sendDateStart}
             </if>
@@ -70,7 +57,19 @@
             <if test="sender != null and sender != ''">
                 and a.sender = #{sender}
             </if>
-            order by a.from_dept,a.document_no
+            <if test="getFlag != null and getFlag != ''">
+                and a.get_flag = #{getFlag}
+            </if>
+
+            <if test="documentNo != null and documentNo != ''">
+                and a.document_No = #{documentNo}
+            </if>
+            <if test="itemCode != null and itemCode != ''">
+                and a.item_Code = #{itemCode}
+            </if>
+            <if test="itemNo != null and itemNo != ''">
+                and a.item_No = #{itemNo}
+            </if>
         </where>
     </select>
 
@@ -78,12 +77,6 @@
         SELECT
         <include refid="asepsisSendRecColumns"/>
         FROM ASEPSIS_SEND_REC a
-    </select>
-
-    <select id="getMaxDocumentNo" resultType="string">
-        select max(document_no)
-        from asepsis_send_rec t
-        where document_no like 'S'||to_char(sysdate,'yyMMdd')||'%' and org_id = #{1}
     </select>
 
     <insert id="insert">
@@ -110,7 +103,6 @@
             ,REQ_DATE
             ,REQ_OPERATOR
             ,ORG_ID
-            ,GET_MAN
         ) VALUES (
             #{id}
             ,#{documentNo}
@@ -134,7 +126,6 @@
             ,#{reqDate}
             ,#{reqOperator}
             ,#{orgId}
-            ,#{getMan}
         )
     </insert>
 
@@ -161,7 +152,6 @@
             ,REQ_DATE = #{reqDate}
             ,REQ_OPERATOR = #{reqOperator}
             ,ORG_ID = #{orgId}
-            ,GET_MAN = #{getMan}
         WHERE id = #{id}
     </update>
 

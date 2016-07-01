@@ -5,6 +5,7 @@ package com.jims.asepsis.service;
 
 import com.jims.asepsis.api.AsepsisAntiRecApi;
 import com.jims.asepsis.bo.AsepsisAntiRecBo;
+import com.jims.asepsis.bo.AsepsisStockBo;
 import com.jims.asepsis.dao.AsepsisAntiRecDao;
 import com.jims.asepsis.entity.AsepsisAntiRec;
 import com.jims.asepsis.vo.AsepsisDictVo;
@@ -43,5 +44,17 @@ public class AsepsisAntiRecImpl extends CrudImplService<AsepsisAntiRecDao, Aseps
         return asepsisAntiRecBo.saveAll(asepsisAntiRecVo);
     }
 
+    /**
+     * 保存（插入或更新）
+     * @param entity
+     * @return 0 失败，1成功
+     */
+    public String save(AsepsisAntiRec entity) {
+        try {
+            asepsisAntiRecBo.save(entity);
+            return "1";
+        } catch(RuntimeException e) {}
+        return "0";
+    }
 
 }
