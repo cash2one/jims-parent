@@ -1,6 +1,7 @@
 package com.jims.asepsis.api;
 
 import com.jims.asepsis.entity.AsepsisAntiRec;
+import com.jims.asepsis.entity.AsepsisStock;
 import com.jims.asepsis.entity.OrgSysDict;
 import com.jims.asepsis.vo.AsepsisDictVo;
 import com.jims.clinic.entity.ClinicItemNameDict;
@@ -36,4 +37,10 @@ public interface AsepsisAntiRecApi {
      * @version 2016/6/28
      */
     public int saveAll(AsepsisDictVo<AsepsisAntiRec> asepsisAntiRecVo);
+    /**
+     * 保存（插入或更新）
+     * @param entity
+     * @return 0 失败，1成功
+     */
+    public String save(AsepsisAntiRec entity) ;
 }

@@ -26,13 +26,30 @@ public class AsepsisSendRecRest {
     /**
     * 检索
     * @param orgId
-    * @return
+     * @param sendDate,
+     * @param sendDateStart,
+     * @param sendDateEnd,
+     * @param fromDept,
+     * @param getFlag,
+     * @param sender
+    * @return List<AsepsisSendRec>
     */
     @GET
     @Path("findList")
-    public List<AsepsisSendRec> findList(@QueryParam("orgId")String orgId) {
+    public List<AsepsisSendRec> findList(@QueryParam("orgId")String orgId,
+                                         @QueryParam("sendDate")Date sendDate,
+                                         @QueryParam("sendDateStart")Date sendDateStart,
+                                         @QueryParam("sendDateEnd")Date sendDateEnd,
+                                         @QueryParam("fromDept")String fromDept,
+                                         @QueryParam("getFlag")String getFlag,
+                                         @QueryParam("sender")String sender) {
         AsepsisSendRec entity = new AsepsisSendRec();
         entity.setOrgId(orgId);
+        entity.setFromDept(fromDept);
+        entity.setSendDate(sendDate);
+        entity.setSendDateStart(sendDateStart);
+        entity.setSendDateEnd(sendDateEnd);
+        entity.setGetFlag(getFlag);
         return api.findList(entity);
     }
 
@@ -70,14 +87,19 @@ public class AsepsisSendRecRest {
     }
 
     /**
-     * 获取当天最大的编码
+     * 获取当天最大的编码后缀
      * @param orgId
+     * @param prefix
      * @return
      */
     @GET
-    @Path("getMaxDocumentNo")
-    public String getMaxDocumentNo(@QueryParam("orgId")String orgId){
-        return api.getMaxDocumentNo(orgId);
+    @Path("getMaxSuffix")
+    public String getMaxSuffix(@QueryParam("orgId")String orgId,@QueryParam("prefix")String prefix){
+        String documentNo = api.getMaxDocumentNo(orgId);
+        if(documentNo != null && documentNo.trim().length() > prefix.length()){
+            return Double.valueOf(documentNo.substring(prefix.length())).toString();
+        }
+        return null;
     }
 
     /**

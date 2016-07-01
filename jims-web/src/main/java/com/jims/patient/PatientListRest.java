@@ -76,6 +76,7 @@ public class PatientListRest {
      * 移入病历 病人列表
      * @param
      * @return
+     * @author zhaoning
      */
     @GET
     @Path("getPatMasterByIn")
@@ -112,4 +113,32 @@ public class PatientListRest {
         data.setCode(patVisitServiceApi.removMr(patId));
         return data;
     }
+
+    /**
+     * 获取病人信息 -- 住院
+     * @param patientId
+     * @return
+     * @author zhaoning
+     */
+    @GET
+    @Path("getPatMasterIndex")
+    public PatMasterIndex getPatMasterIndex(@QueryParam("patientId")String patientId){
+        PatMasterIndex patMasterIndex=patVisitServiceApi.getPatMasterIndex(patientId);
+        return patMasterIndex;
+    }
+
+    /**
+     * 保存编辑的病人信息---住院
+     * @param patMasterIndex
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("savePatInfo")
+    public StringData savePatInfo(PatMasterIndex patMasterIndex){
+        StringData data=new StringData();
+        data.setCode(patVisitServiceApi.savePatInfo(patMasterIndex));
+        return data;
+    }
+
 }

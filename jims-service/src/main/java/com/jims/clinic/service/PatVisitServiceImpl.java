@@ -184,4 +184,46 @@ public class PatVisitServiceImpl extends CrudImplService<PatVisitDao,PatVisit> i
         }
         return code;
     }
+
+    /**
+     * 获取病人信息--住院
+     * @param patientId
+     * @return
+     * @author zhaoning
+     */
+    @Override
+    public PatMasterIndex getPatMasterIndex(String patientId) {
+        return patMasterIndexDao.getPatMasterIndex(patientId);
+    }
+
+    /**
+     * 保存编辑病人信息--住院
+     * @param patMasterIndex
+     * @return
+     * @author zhaoning
+     */
+    @Override
+    public String savePatInfo(PatMasterIndex patMasterIndex) {
+        String code="1";
+        //更新 patMasterIndex
+        patMasterIndexDao.updatePatINfoByInhos(patMasterIndex);
+        String patientId=patMasterIndex.getId();
+        //更新 patVisit
+        PatVisit patVisit= patVisitDao.getPatVisit(patientId);
+        if(patVisit!=null){
+            patVisit.setPatientArea(patMasterIndex.getPatientArea());
+            patVisit.setPatientAreaAddress(patMasterIndex.getPatientAreaAddress());
+            patVisit.setPatPhone(patMasterIndex.getPatPhone());
+            patVisit.setPatZip(patMasterIndex.getPatZip());
+            patVisit.setPhoneNumberBusiness(patMasterIndex.getPhoneNumberBusiness());
+            patVisit.setBusinessZipCode(patMasterIndex.getBusinessZipCode());
+            patVisit.setNextOfKin(patMasterIndex.getNextOfKin());
+            patVisit.setRelationship(patMasterIndex.getRelationship());
+            patVisit.setNextOfKinAddr(patMasterIndex.getNextOfKinAddr());
+            patVisit.setNextOfKinPhone(patMasterIndex.getNextOfKinPhone());
+            patVisitDao.updatePatVisit(patVisit);
+        }
+
+        return code;
+    }
 }

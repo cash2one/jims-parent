@@ -1,6 +1,7 @@
 package com.jims.asepsis.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.asepsis.api.AsepsisAntiRecApi;
 import com.jims.asepsis.entity.AsepsisStock;
 import com.jims.asepsis.api.AsepsisStockApi;
 import com.jims.asepsis.bo.AsepsisStockBo;
@@ -37,6 +38,14 @@ public class AsepsisStockServiceImpl implements AsepsisStockApi{
     */
     public List<AsepsisStock> findList(AsepsisStock entity) {
         return bo.findList(entity);
+    }
+    /**
+    * 检索(过期)
+    * @param entity
+    * @return
+    */
+    public List<AsepsisStock> findListOver(AsepsisStock entity) {
+        return bo.findListOver(entity);
     }
 
     /**

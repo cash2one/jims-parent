@@ -27,4 +27,10 @@ public interface AsepsisStockDao extends CrudDao<AsepsisStock> {
      * @return
      */
     public List<AsepsisStock> findListHasStock(AsepsisStock entity);
+    /**
+     * 检索过期的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisStock> findListOver(AsepsisStock entity);
 }
