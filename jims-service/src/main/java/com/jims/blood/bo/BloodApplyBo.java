@@ -7,7 +7,7 @@ import com.jims.blood.entity.BloodCapacity;
 import com.jims.clinic.bo.CostOrdersUtilsService;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.common.utils.IdGen;
-import com.jims.exam.dao.OrdersDao;
+import com.jims.orders.dao.OrdersDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

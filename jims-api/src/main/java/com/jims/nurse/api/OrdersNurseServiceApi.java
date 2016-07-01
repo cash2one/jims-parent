@@ -1,8 +1,6 @@
 package com.jims.nurse.api;
 
-import com.jims.common.web.impl.BaseDto;
-import com.jims.exam.entity.Orders;
-import org.springframework.core.annotation.Order;
+import com.jims.orders.entity.Orders;
 
 import java.util.List;
 

@@ -5,25 +5,11 @@ package com.jims.lab.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.bo.LabTestBo;
-import com.jims.clinic.dao.*;
-import com.jims.clinic.entity.OutpOrders;
-import com.jims.clinic.entity.OutpOrdersCosts;
-import com.jims.clinic.entity.OutpTreatRec;
-import com.jims.exam.dao.OrdersDao;
-import com.jims.exam.entity.Orders;
 import com.jims.lab.api.LabTestMasterServiceApi;
-import com.jims.lab.dao.LabTestItemsDao;
 import com.jims.lab.dao.LabTestMasterDao;
-import com.jims.lab.entity.LabTestItems;
 import com.jims.lab.entity.LabTestMaster;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 检验主记录Service

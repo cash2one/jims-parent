@@ -1,7 +1,6 @@
 
-package com.jims.exam.entity;
+package com.jims.orders.entity;
 
-import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 import com.jims.common.utils.CustomDateDeSerializer;

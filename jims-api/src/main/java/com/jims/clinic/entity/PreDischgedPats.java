@@ -3,7 +3,7 @@ package com.jims.clinic.entity;
 
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.CustomDateSerializer;
-import com.jims.exam.entity.Orders;
+import com.jims.orders.entity.Orders;
 import com.jims.nurse.entity.BedRec;
 import com.jims.patient.entity.PatMasterIndex;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
