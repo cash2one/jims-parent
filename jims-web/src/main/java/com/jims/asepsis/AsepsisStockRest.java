@@ -45,6 +45,21 @@ public class AsepsisStockRest {
     }
 
     /**
+     * 检索有库存的
+     * @param
+     * @return
+     */
+    @GET
+    @Path("findListHasStock")
+    public List<AsepsisStock> findListHasStock(@QueryParam("orgId")String orgId,
+                                               @QueryParam("fromDept")String fromDept){
+        AsepsisStock entity = new AsepsisStock();
+        entity.setOrgId(orgId);
+        entity.setFromDept(fromDept);
+        return api.findListHasStock(entity);
+    }
+
+    /**
     * 保存（插入或更新）
     * @param entity
     * @return 0 失败，1成功

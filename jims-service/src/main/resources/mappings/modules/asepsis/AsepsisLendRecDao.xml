@@ -65,10 +65,42 @@
         </where>
     </select>
 
+    <select id="findListWithStock" resultType="AsepsisLendRec">
+        SELECT
+        <include refid="asepsisLendRecColumns"/>,nvl(s.amount,0) stock,d.dept_name toDeptName
+        FROM ASEPSIS_LEND_REC a,(select sum(s.amount) amount,s.from_dept
+        from asepsis_stock s,asepsis_dict d
+        where s.item_code = d.asepsis_code
+        and s.org_id=#{orgId} and (s.anti_date+d.valid_days) >= sysdate and s.document_no like 'T%' group by s.from_dept) s,
+        (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) d
+        <where>
+            a.org_id =  #{orgId}
+            and a.to_dept = d.dept_code
+            and a.to_dept = s.from_dept(+)
+            and (a.lend_amount is null or a.lend_amount != a.return_amount)
+            <if test="lendDateStart != null and lendDateStart != ''">
+                and a.return_date >= #{lendDateStart}
+            </if>
+            <if test="lendDateEnd != null and lendDateEnd != ''">
+                and #{lendDateEnd} >= a.return_date
+            </if>
+            <if test="toDept != null and toDept != ''">
+                and a.to_dept = #{toDept}
+            </if>
+            order by a.to_dept
+        </where>
+    </select>
+
     <select id="findAllList" resultType="AsepsisLendRec">
         SELECT
         <include refid="asepsisLendRecColumns"/>
         FROM ASEPSIS_LEND_REC a
+    </select>
+
+    <select id="getMaxDocumentNo" resultType="string">
+        select max(document_no)
+        from asepsis_lend_rec t
+        where document_no like 'S'||to_char(sysdate,'yyMMdd')||'%' and org_id = #{1}
     </select>
 
     <insert id="insert">
@@ -98,7 +130,7 @@
             ,REQ_OPERATOR
             ,OPERATOR2
             ,ORG_ID
-            ,RETUR_NMAN
+            ,RETURN_MAN
         ) VALUES (
             #{id}
             ,#{documentNo}

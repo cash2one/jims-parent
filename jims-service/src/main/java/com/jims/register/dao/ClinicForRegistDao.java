@@ -47,10 +47,18 @@ public interface ClinicForRegistDao extends CrudDao<ClinicForRegist> {
     public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist);
 
     /**
-     * 根据id修改限号
+     * 挂号根据id修改限号
      * @author zhaoning
      */
     public void updateRegister(String id);
+
+    /**
+     * 预约号表修改
+     * @param id
+     */
+    public void updateAppoints(String id);
+
+
 
     /**
      * 退号时更新号表的信息
@@ -76,9 +84,25 @@ public interface ClinicForRegistDao extends CrudDao<ClinicForRegist> {
     public void updateRegByAppointReturn(@Param("id")String id);
 
     /**
+     * 预约调整号表（+）
+     * @param id
+     */
+    public void updateAppointReturn(@Param("id")String id);
+
+
+
+    /**
      * 获取号表
      * @param clinicForRegist
      */
     public ClinicForRegist getClinicForRegist(ClinicForRegist clinicForRegist);
+
+    /**
+     * 预约确认(+)
+     * @param id
+     */
+    public void updateAppointsConfirm(@Param("id")String id);
+
+
 
 }

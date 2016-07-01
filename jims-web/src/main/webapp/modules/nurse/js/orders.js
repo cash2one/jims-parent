@@ -60,7 +60,6 @@ $(function() {
             var row = $('#orderList').datagrid('getSelected');
             var dataGrid = $('#orderList');
             var row = $('#orderList').datagrid('getSelected');
-            var status = row.orderStatus;
             if (!dataGrid.datagrid('validateRow', rowNum)) {
                 return false//新开
             } else {

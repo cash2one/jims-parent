@@ -9,17 +9,13 @@ $(function() {
         idField: 'id',
         treeField: 'type',
         columns:[[      //每个列具体内容
-            {field:'type',title:'诊断类型',width:'10%',align:'center',editor:{
+            {field:'type',title:'诊断类型',width:'10%',align:'center',formatter:diagnosisTypeFormatter,editor:{
                 type:'combobox',
                 options:{
-                    data :administration,
+                    data :diagnosisType,
                     valueField:'value',
-                    textField:'text',
-                    required:true,
-                    onLoadSuccess: function () {
-                        var data = $(this).combobox('getData');
-                        $(this).combobox('select', data[0].text);
-                    }
+                    textField:'label',
+                    required:true
                 }
 
             }
@@ -144,15 +140,11 @@ function edit(){
     $('#dlg').dialog('open').dialog('center').dialog('setTitle', '修改诊断');
     $('#fm').form('clear');
     $('#type').combobox({
-        data :administration,
+        data :diagnosisType,
         editable:false,
         valueField:'value',
-        textField:'text',
-        method: 'GET',
-        onLoadSuccess: function () {
-            var data = $(this).combobox('getData');
-            $(this).combobox('select', node.type);
-        }
+        textField:'label',
+        formatter:diagnosisTypeFormatter
     });
     $("#description").textbox('setValue', node.description);
     $("#treatResult").textbox('setValue', node.treatResult);
@@ -241,10 +233,11 @@ function insert(){
         //    $("#parentId").val(node._parentId);
         $("#parentId").val("0");
         $('#type').combobox({
-            data :administration,
+            data :diagnosisType,
+            editable:false,
             valueField:'value',
-            textField:'text',
-            method: 'GET'
+            textField:'label',
+            formatter:diagnosisTypeFormatter
         });
         $('#diagnosisId').combobox({
 
@@ -281,10 +274,11 @@ function addNextLevel() {
         /*    $("#parentName").textbox('setValue', node.menuName);*/
         $("#parentId").val(node.id);
         $('#type').combobox({
-            data :administration,
+            data :diagnosisType,
+            editable:false,
             valueField:'value',
-            textField:'text',
-            method: 'GET'
+            textField:'label',
+            formatter:diagnosisTypeFormatter
 
 
         });

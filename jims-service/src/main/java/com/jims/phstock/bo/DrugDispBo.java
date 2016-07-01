@@ -1,15 +1,13 @@
 package com.jims.phstock.bo;
 
-import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.utils.DateUtils;
-import com.jims.phstock.api.DrugDispApi;
 import com.jims.phstock.dao.DrugDispDao;
+import com.jims.phstock.entity.DrugPriceList;
 import com.jims.phstock.vo.OrdersDispInfo;
 import com.jims.phstock.vo.PatDrugDisp;
 import com.jims.phstock.vo.PatientBaseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.awt.image.PixelConverter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,10 +25,8 @@ public class DrugDispBo {
 
     @Autowired
     private DrugDispDao drugDispDao;
-
     /**
      * 计算摆药
-     *
      * @param orgId           组织机构ID
      * @param deptCode        入院科室
      * @param wardDeptCode    入院护理单元
@@ -38,8 +34,9 @@ public class DrugDispBo {
      * @param bedNos          摆药床位
      * @param repeatIndicator 长临
      * @param dispDays        摆药天数
-     * @param dispStartTime
-     * @param dispStopTime    @return
+     * @param dispStartTime   摆药开始时间
+     * @param dispStopTime    摆药结束时间
+     * @return
      */
     public List<PatDrugDisp> calcPatDrugDisp(String orgId, String deptCode, String wardDeptCode,
                                              List<String> administations, List<String> bedNos,
@@ -58,7 +55,6 @@ public class DrugDispBo {
             return null;//必须进行整天摆药
         }
 
-
         //region 循环遍历每一个病人的
         for (PatientBaseVo baseVo : patsInHospitals) {
             String patientId = baseVo.getPatientId();
@@ -70,17 +66,33 @@ public class DrugDispBo {
             patDrugDisp.setOrdersDispInfos(ordersDispInfos);
 
             for (OrdersDispInfo ordersDispInfo : ordersDispInfos) {
-                calcAmount(ordersDispInfo, dispStartTime, dispStopTime, baseVo.getPreDischargeDate(), ordersDispInfo.getLastPerformDateTime(),
+                calcTimes(ordersDispInfo, dispStartTime, dispStopTime, baseVo.getPreDischargeDate(), ordersDispInfo.getLastPerformDateTime(),
                         ordersDispInfo.getStartDateTime(), ordersDispInfo.getStopDateTime());
+                calcAmount(ordersDispInfo);
+
             }
+            patDrugDisps.add(patDrugDisp);
 
         }
         //endregion
+        return patDrugDisps;
+    }
 
-        //第二步获取摆药开始时间、摆药结束时间
-        //第三步计算每一条医嘱摆药数量
-
-        return null;
+    /**
+     * 计算每一条摆药记录摆药数量
+     * @param ordersDispInfo
+     */
+    private void calcAmount(OrdersDispInfo ordersDispInfo) {
+        DrugPriceList drugPriceList = drugDispDao.findDrugPriceList(ordersDispInfo.getDrugCode(), ordersDispInfo.getDrugSpec(), ordersDispInfo.getOrgId()) ;
+        double dosage = ordersDispInfo.getDosage() ;
+        String dosageUnit = ordersDispInfo.getDosageUnits() ;
+        String minSpec = drugPriceList.getMinSpec() ;
+        double baseDosage = Double.parseDouble(minSpec.substring(0, minSpec.indexOf(dosageUnit))) ;
+        double times =ordersDispInfo.getTimes() ;
+        ordersDispInfo.setUnit(drugPriceList.getMinUnits());
+        //dosage/baseDosage *times ;
+        int amount = (int) Math.ceil(dosage/baseDosage * times);
+        ordersDispInfo.setAmount(amount);
     }
 
     /**
@@ -94,7 +106,7 @@ public class DrugDispBo {
      * @param startDateTime       医嘱开始时间（包含）
      * @param stopDateTime        医嘱结束时间（不包含）
      */
-    private void calcAmount(OrdersDispInfo ordersDispInfo, Date dispStartTime, Date dispStopTime, Date preDischargeDate, Date lastPerformDateTime, Date startDateTime, Date stopDateTime) {
+    private void calcTimes(OrdersDispInfo ordersDispInfo, Date dispStartTime, Date dispStopTime, Date preDischargeDate, Date lastPerformDateTime, Date startDateTime, Date stopDateTime) {
         String frequency = ordersDispInfo.getFrequency();//执行描述
         double freqInterval = ordersDispInfo.getFreqInterval();//执行频率间隔
         String freqIntervalUnit = ordersDispInfo.getFreqIntervalUnit();//执行频率间隔单位
@@ -109,19 +121,41 @@ public class DrugDispBo {
             //长期医嘱
             if ("周".equals(freqIntervalUnit)) {
                 //一周三次，一周一次等
-                calcDispAmountByWeek(ordersDispInfo,frequency, freqInterval, freqCounter, performSchedule,
+                calcLongDispAmountByWeek(ordersDispInfo, frequency, freqInterval, freqCounter, performSchedule,
                         startDateTime, stopDateTime, preDischargeDate, dispStartTime, dispStopTime, lastPerformDateTime);
 
             }
 
             if ("日".equals(freqIntervalUnit)) {
                 //一日三次，隔日一次等
-                calcDispAmountByDays(ordersDispInfo,frequency,freqInterval,freqCounter,performSchedule,startDateTime,stopDateTime,
-                        preDischargeDate,dispStartTime,dispStopTime,lastPerformDateTime) ;
+                calcLongDispAmountByDays(ordersDispInfo, frequency, freqInterval, freqCounter, performSchedule, startDateTime, stopDateTime,
+                        preDischargeDate, dispStartTime, dispStopTime, lastPerformDateTime) ;
             }
         }
 
+        if("0".equals(repeatIndicator)){
+            calcShortDispAmount(ordersDispInfo,startDateTime,stopDateTime,dispStartTime,dispStopTime,preDischargeDate);
+        }
 
+
+
+    }
+
+    /**
+     * 临时医嘱，如果在摆药区间内，则摆药一次
+     * @param ordersDispInfo
+     * @param startDateTime
+     * @param stopDateTime
+     * @param dispStartTime
+     * @param dispStopTime
+     * @param preDischargeDate
+     */
+    private void calcShortDispAmount(OrdersDispInfo ordersDispInfo, Date startDateTime, Date stopDateTime, Date dispStartTime, Date dispStopTime, Date preDischargeDate) {
+        //临时医嘱开始时间=结束时间，如果改时间在摆药区间则能够摆药一次
+        if(startDateTime.getTime()==stopDateTime.getTime()&&startDateTime.getTime()>=dispStartTime.getTime()&&startDateTime.getTime()<dispStopTime.getTime()&&startDateTime.getTime()<=preDischargeDate.getTime()){
+            ordersDispInfo.setTimes(1);
+            ordersDispInfo.setLastPerformDateTime(dispStopTime);
+        }
     }
 
     /**
@@ -138,13 +172,108 @@ public class DrugDispBo {
      * @param dispStopTime
      * @param lastPerformDateTime
      */
-    private void calcDispAmountByDays(OrdersDispInfo ordersDispInfo, String frequency, double freqInterval, double freqCounter, String performSchedule, Date startDateTime, Date stopDateTime, Date preDischargeDate, Date dispStartTime, Date dispStopTime, Date lastPerformDateTime) {
+    private void calcLongDispAmountByDays(OrdersDispInfo ordersDispInfo, String frequency, double freqInterval, double freqCounter, String performSchedule, Date startDateTime, Date stopDateTime, Date preDischargeDate, Date dispStartTime, Date dispStopTime, Date lastPerformDateTime) {
         Date beginDate = null ;
         Date endDate = null ;
         beginDate= getDispRoundBeginDate(startDateTime,dispStartTime,lastPerformDateTime) ;
         endDate = getDispRoundEndDate(stopDateTime,dispStopTime,preDischargeDate) ;
+        Calendar calendar = Calendar.getInstance();
+        List<Date> dates = new ArrayList<Date>() ;
 
-        
+
+        if(endDate.getTime()>beginDate.getTime()){
+            return  ;
+        }
+
+        //region 隔日一次
+        if(freqInterval>1&&performSchedule.indexOf(";")>0&&freqCounter==1){
+            String[] performDays = performSchedule.split(";") ;
+            Date date = new Date();
+            calendar.setTime(date);
+            calendar.set(Calendar.HOUR, 11) ;
+            calendar.set(Calendar.MINUTE,59) ;
+            date = calendar.getTime();
+            if("1".equals(performDays[0])){
+                //从今天开始
+
+                while(date.getTime()<endDate.getTime()&&date.getTime()>=beginDate.getTime()){
+                    dates.add(date) ;
+                    ordersDispInfo.setTimes(ordersDispInfo.getTimes() +1 );
+                    ordersDispInfo.setLastPerformDateTime(date);
+                    calendar.add(Calendar.DAY_OF_MONTH,(int)freqInterval);
+                    date = calendar.getTime() ;
+
+                }
+            }
+            if("2".equals(performDays[0])){
+                //从明天开始
+                calendar.add(Calendar.DAY_OF_MONTH,1);
+                date=calendar.getTime();
+                while(date.getTime()<endDate.getTime()&&date.getTime()>=beginDate.getTime()){
+                    dates.add(date) ;
+                    ordersDispInfo.setTimes(ordersDispInfo.getTimes() +1 );
+                    ordersDispInfo.setLastPerformDateTime(date);
+                    calendar.add(Calendar.DAY_OF_MONTH,1);
+                    date = calendar.getTime() ;
+                }
+            }
+            if(dates.size()>0){
+                ordersDispInfo.setPerformDates(dates);
+            }
+        }
+        //endregion
+
+        //region 一日Ｎ此
+        if(freqInterval==1 && performSchedule.indexOf("-")>0&&freqCounter>1){
+            String[] times = performSchedule.split("-") ;
+            List<Integer> hours =new ArrayList<Integer>();
+            for(String str:times){
+                hours.add(Integer.parseInt(str)) ;
+            }
+
+            while(beginDate.getTime()<endDate.getTime()){
+                calendar.setTime(beginDate);
+                int hour= calendar.get(Calendar.HOUR)+12 ;
+                if(hours.contains(hour)) {
+                    ordersDispInfo.setTimes(ordersDispInfo.getTimes()+1);
+                    ordersDispInfo.setLastPerformDateTime(beginDate);
+                    dates.add(beginDate) ;
+                }
+                calendar.add(Calendar.HOUR,1);
+                beginDate = calendar.getTime();
+            }
+
+        }
+        //endregion
+
+        //region 一日一次有具体时间点
+        if(freqCounter==1&&performSchedule.indexOf(";")<0&&freqInterval==1){
+            String times[] = performSchedule.split(";") ;
+            if(times.length>1){
+                int hour = Integer.parseInt(times[0]) ;
+                int minute = Integer.parseInt(times[1]) ;
+                Date date = new Date() ;
+                calendar.setTime(date);
+                calendar.set(Calendar.HOUR,hour-12) ;
+                calendar.set(Calendar.MINUTE,minute);
+                date = calendar.getTime() ;
+
+                while(date.getTime()>=beginDate.getTime()&&date.getTime()<endDate.getTime()){
+                    ordersDispInfo.setTimes(ordersDispInfo.getTimes() +1 );
+                    ordersDispInfo.setLastPerformDateTime(date);
+                    dates.add(date) ;
+                    calendar.add(Calendar.DAY_OF_MONTH,1);
+                    date =calendar.getTime();
+
+                }
+                if(dates.size()>0){
+                    ordersDispInfo.setPerformDates(dates);
+                }
+            }
+
+        }
+        //endregion
+
     }
 
     /**
@@ -162,7 +291,7 @@ public class DrugDispBo {
      * @param lastPerformDateTime
      * @return
      */
-    private double calcDispAmountByWeek(OrdersDispInfo ordersDispInfo, String frequency, double freqInterval, double freqCounter, String performSchedule, Date startDateTime, Date stopDateTime, Date preDischargeDate, Date dispStartTime, Date dispStopTime, Date lastPerformDateTime) {
+    private double calcLongDispAmountByWeek(OrdersDispInfo ordersDispInfo, String frequency, double freqInterval, double freqCounter, String performSchedule, Date startDateTime, Date stopDateTime, Date preDischargeDate, Date dispStartTime, Date dispStopTime, Date lastPerformDateTime) {
 
 
         Date beginDate = null;//摆药范围开始时间
@@ -180,7 +309,7 @@ public class DrugDispBo {
         }else{
             calendar.setTime(beginDate);
             calendar.set(Calendar.MINUTE,0);
-            calendar.set(Calendar.HOUR,0);
+            calendar.set(Calendar.HOUR,-12);
             calendar.set(Calendar.SECOND,0);
             beginDate = calendar.getTime();
         }
@@ -189,7 +318,7 @@ public class DrugDispBo {
         }else{
             calendar.setTime(endDate);
             calendar.set(Calendar.MINUTE,0);
-            calendar.set(Calendar.HOUR,0);
+            calendar.set(Calendar.HOUR,11);
             calendar.set(Calendar.SECOND,0);
             endDate = calendar.getTime();
         }
@@ -211,15 +340,15 @@ public class DrugDispBo {
                 days.add(Integer.parseInt(str));
             }
             calendar.setTime(beginDate);
-            for(int i=0;beginDate.getTime()<endDate.getTime();i++){
+            while(beginDate.getTime()<endDate.getTime()){
                 int day=calendar.get(Calendar.DAY_OF_WEEK)-1;
-                days.contains(day) ;
-                ordersDispInfo.setAmount(ordersDispInfo.getAmount()+1);
-                Date date= new Date() ;
-                date.setTime(beginDate.getTime());
-                dates.add(date) ;
+                if(days.contains(day)){
+                    ordersDispInfo.setTimes(ordersDispInfo.getTimes()+1);
+                    ordersDispInfo.setLastPerformDateTime(beginDate);
+                }
+                dates.add(beginDate) ;
                 calendar.add(Calendar.DAY_OF_MONTH,1);
-                i++ ;
+                beginDate =calendar.getTime();
             }
             ordersDispInfo.setLastPerformDateTime(endDate);
             ordersDispInfo.setPerformDates(dates);
