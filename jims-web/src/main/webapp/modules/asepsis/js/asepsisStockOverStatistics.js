@@ -42,12 +42,13 @@ $(function() {
         columns: [[      //每个列具体内容
             {field:'fromDept',title:'所属科室',width:'11%',align:'center'}
             ,{field:'documentNo',title:'物品单号',width:'10%',align:'center'}
-            //,{field:'itemNo',title:'序号',width:'50',align:'center'}
+            ,{field:'itemNo',title:'序号',width:'50',align:'center'}
             ,{field:'itemCode',title:'包代码',width:'10%',align:'center'}
             ,{field:'itemName',title:'包名称',width:'15%',align:'center'}
             ,{field:'itemSpec',title:'规格',width:'10%',align:'center'}
             ,{field:'units',title:'单位',width:'10%',align:'center'}
             ,{field:'amount',title:'数量',width:'10%',align:'center'}
+            ,{field:'validDays',title:'有效期',width:'10%',align:'center'}
             ,{field:'antiDate',title:'消毒日期',width:'10%',align:'center',formatter: function(value){
                 return parent.formatDatebox(value)
             }}
@@ -66,7 +67,6 @@ $(function() {
                 }
             });
         });
-
         $.get(basePath + '/orgSysDict/findUnits?orgId=' + orgId + '&type=PACKAGE_UNITS', function (data) {
             $.each(data,function(index,row){
                 $.each(listAll, function(i, r){
@@ -84,9 +84,9 @@ $(function() {
             var exchangeEnd = parent.parseToDate($('#exchangeEnd').datebox('getValue'));
             var fromDept = $("#fromDept").combobox('getValue');
             var itemCode = $("#itemName").combobox('getValue');
-            $("#list_data").datagrid({url:basePath+'/asepsisStock/findList',queryParams:{"orgId":orgId,"antiDateStart":exchangeStart,"antiDateEnd":exchangeEnd,"fromDept":fromDept,"itemCode":itemCode}});
+            $("#list_data").datagrid({url:basePath+'/asepsisStock/findListOver',queryParams:{"orgId":orgId,"antiDateStart":exchangeStart,"antiDateEnd":exchangeEnd,"fromDept":fromDept,"itemCode":itemCode}});
         }else{
-            $("#list_data").datagrid({url:basePath+'/asepsisStock/findList',queryParams:{"orgId":orgId}});
+            $("#list_data").datagrid({url:basePath+'/asepsisStock/findListOver',queryParams:{"orgId":orgId}});
         }
         setTimeout("loadAnotherData()",1000);
     }

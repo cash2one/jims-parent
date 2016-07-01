@@ -4,6 +4,7 @@
 package com.jims.asepsis.service;
 
 import com.jims.asepsis.api.AsepsisAntiRecApi;
+import com.jims.asepsis.bo.AsepsisAntiRecBo;
 import com.jims.asepsis.bo.AsepsisStockBo;
 import com.jims.asepsis.dao.AsepsisAntiRecDao;
 import com.jims.asepsis.entity.AsepsisAntiRec;
@@ -25,7 +26,6 @@ public class AsepsisAntiRecImpl extends CrudImplService<AsepsisAntiRecDao, Aseps
 
     @Autowired
     private AsepsisAntiRecBo asepsisAntiRecBo;
-    private AsepsisStockBo o;
 
     /**
      * 获取某状态下的消毒包(无菌物品包)

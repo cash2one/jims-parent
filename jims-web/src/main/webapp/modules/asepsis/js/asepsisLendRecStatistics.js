@@ -81,6 +81,17 @@ $(function() {
                 }
             });
         });
+
+        $.get(basePath + '/orgSysDict/findUnits?orgId=' + orgId + '&type=PACKAGE_UNITS', function (data) {
+            $.each(data,function(index,row){
+                $.each(listAll, function(i, r){
+                    if(row.value == r.units){
+                        r.units = row.label;
+                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
+                    }
+                });
+            });
+        });
         $.each(b,function(index,row){     //empNo,name
             $.each(listAll, function(i, r){
                 if(row.empNo == r.operator){

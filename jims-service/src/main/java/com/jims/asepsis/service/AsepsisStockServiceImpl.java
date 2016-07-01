@@ -39,6 +39,14 @@ public class AsepsisStockServiceImpl implements AsepsisStockApi{
     public List<AsepsisStock> findList(AsepsisStock entity) {
         return bo.findList(entity);
     }
+    /**
+    * 检索(过期)
+    * @param entity
+    * @return
+    */
+    public List<AsepsisStock> findListOver(AsepsisStock entity) {
+        return bo.findListOver(entity);
+    }
 
     /**
     * 分页检索
