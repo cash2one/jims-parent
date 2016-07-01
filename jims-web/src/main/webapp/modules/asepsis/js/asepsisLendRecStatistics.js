@@ -96,12 +96,11 @@ $(function() {
             $.each(listAll, function(i, r){
                 if(row.empNo == r.operator){
                     r.operator = row.name;
-                    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 }
                 if(row.empNo == r.lender){
                     r.lender = row.name;
-                    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 }
+                $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
             });
         });
     }

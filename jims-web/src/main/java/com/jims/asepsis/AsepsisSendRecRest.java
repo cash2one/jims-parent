@@ -122,4 +122,30 @@ public class AsepsisSendRecRest {
         entity.setSender(sender);
         return api.findListWithStock(entity);
     }
+    /**
+     * 统计科室消毒费
+     * @param
+     * @return
+     */
+    @GET
+    @Path("findListFee")
+    public List<AsepsisSendRec> findListFee(@QueryParam("orgId")String orgId,
+                                                  @QueryParam("sendDateStart")Date sendDateStart,
+                                                  @QueryParam("sendDateEnd")Date sendDateEnd,
+                                                  @QueryParam("fromDept")String fromDept,
+                                                  @QueryParam("itemCode")String itemCode,
+                                                  @QueryParam("itemName")String itemName,
+                                                  @QueryParam("documentNo")String documentNo,
+                                                  @QueryParam("flag")String flag){
+        AsepsisSendRec entity = new AsepsisSendRec();
+        entity.setOrgId(orgId);
+        entity.setSendDateStart(sendDateStart);
+        entity.setSendDateEnd(sendDateEnd);
+        entity.setFromDept(fromDept);
+        entity.setItemCode(itemCode);
+        entity.setItemName(itemName);
+        entity.setDocumentNo(documentNo);
+        entity.setFlag(flag);
+        return api.findListFee(entity);
+    }
 }

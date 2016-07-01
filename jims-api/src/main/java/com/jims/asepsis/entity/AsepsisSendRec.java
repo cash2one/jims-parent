@@ -39,6 +39,7 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
 
     private Integer stock;  // 领物数量
     private String fromDeptName;
+    private String flag;//标识，在统计科室消毒费的时候用到（非数据库数据）
 
     public Integer getStock() {
         return stock;
@@ -254,5 +255,13 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
 
     public void setGetMan(String getMan) {
         this.getMan = getMan;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }

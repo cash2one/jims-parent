@@ -68,4 +68,10 @@ public interface AsepsisSendRecApi {
      * @return
      */
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity);
+    /**
+     * 科室消毒费统计
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFee(AsepsisSendRec entity);
 }
