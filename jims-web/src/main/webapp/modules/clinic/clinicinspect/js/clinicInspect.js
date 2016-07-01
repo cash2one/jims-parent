@@ -1,66 +1,5 @@
-
-var rowNum=-1;
-var examSubClass = [] // 检查项目
-var reqDept = []//开单科室
-var performedBy = []//执行科室
-var priceItmeData={};
-priceItmeData.orgId="";
-priceItmeData.dictType="V_INPUT_REGISTRATION_LIST"
-
-
-/**
- * 检查项目翻译
- * @param value
- * @param rowData
- * @param rowIndex
- */
-function examSubClassFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < examSubClass.length; i++) {
-        if (examSubClass[i].value == value) {
-            return examSubClass[i].text;
-        }
-    }
-}
-/**
- * 开单科室翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function reqDeptFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < reqDept.length; i++) {
-        if (reqDept[i].value == value) {
-            return reqDept[i].text;
-        }
-    }
-}
-/**
- * 执行科室翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function performedByFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < performedBy.length; i++) {
-        if (performedBy[i].value == value) {
-            return performedBy[i].text;
-        }
-    }
-}
-
 function onloadMethod() {
-
+    var clinicId = $("#clinicMasterId", window.parent.document).val();
     $.ajax({
         type: "GET",
         url: basePath + '/clinicInspect/getDescription',
@@ -77,9 +16,11 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            var clinicId = $("#clinicMasterId", window.parent.document).val();
             $("#clinicId").val(clinicId);
-            $("#reqDept").val(data.deptDict.deptName);
+            $("#performedBy").val(data.deptDict.id);
+            $("#reqDept").val(function(value,rowData,rowIndex){
+                return performedBFormatter(data.deptDict.id,'','');
+            });
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
@@ -144,7 +85,7 @@ function onloadMethod() {
         method: 'get',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/clinicInspect/list',
+        url: basePath + '/clinicInspect/list?clinicId='+clinicId,
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -152,9 +93,9 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center',formatter:examSubClassFormatter },
-            {field: 'reqDept', title: '开单科室', width: '25%', align: 'center',formatter:reqDeptFormatter},
-            {field: 'performedBy', title: '执行科室', width: '25%', align: 'center',formatter:performedByFormatter},
+            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center'},
+            {field: 'reqDept', title: '开单科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'performedBy', title: '执行科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'flag', title: '状态', width: '23%', align: 'center'},
             {
                 field: 'id',
@@ -162,9 +103,9 @@ function onloadMethod() {
                 width: '38%',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    //var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
-                    //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
-                    var html = '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
+                    var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
+                    //var html= '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
+                      '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     return html;
                 }
             }
@@ -288,6 +229,9 @@ function look(id) {
         'data': id = id,
         'dataType': 'json',
         'success': function (data) {
+            $("#reqDept").val(function(value,rowData,rowIndex){
+                return performedBFormatter(data.performedBy,'','');
+            });
             $('#clinicInspectForm').form('load', data);
         }
     });

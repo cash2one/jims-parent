@@ -1055,4 +1055,12 @@
 						(A.DEPT_CODE_LEND = #{deptCode} and A.DEPT_CODE_LEND is not null))
 				  )
 	</select>
+
+	<select id="getPatVisit" resultType="PatVisit">
+		select * from pat_visit
+		WHERE del_flag = '0'
+		<if test="id!=null and id!=''">
+			and id=#{id}
+		</if>
+	</select>
 </mapper>

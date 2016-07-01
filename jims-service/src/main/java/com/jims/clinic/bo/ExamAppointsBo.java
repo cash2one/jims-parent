@@ -8,8 +8,10 @@ import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.exam.dao.OrdersDao;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamItems;
+import com.jims.exam.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,7 +91,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
     }
 
     /**
-     * 保存检查申请记录
+     * 保存门诊检查申请记录
      * @param examAppoints
      * @return
      */
@@ -112,18 +114,6 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             examItems.setVisitId(examAppoints.getVisitId());
             examItems.preInsert();
             examItemsDao.saveExamItems(examItems);
-            OutpTreatRec outpTreatRec=new OutpTreatRec();
-            outpTreatRec.preInsert();
-            outpTreatRec.setItemClass("D");
-            outpTreatRec.setClinicId(examItems.getClinicId());
-            outpTreatRec.setItemName(examItems.getExamItem());
-            outpTreatRec.setItemCode(examItems.getExamItemCode());
-            outpTreatRec.setPerformedBy(examAppoints.getPerformedBy());
-            outpTreatRec.setCosts(examItems.getCosts());
-            outpTreatRec.setCharges(examItems.getCosts());
-            outpTreatRec.setAppointNo(examItems.getExamNo());
-            outpTreatRec.setRcptNo(examItems.getRcptNo());
-            outpTreatRecDao.saveTreatRec(outpTreatRec);
             clinicItemDictList.add(clinicItemDict);
         }
 
@@ -131,5 +121,4 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;
     }
-
 }

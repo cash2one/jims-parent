@@ -120,8 +120,6 @@
 	<insert id="insert">
 		INSERT INTO outp_treat_rec(
 			id,
-			clinic_id,
-			org_id,
 			visit_date,
 			visit_no,
 			serial_no,
@@ -146,17 +144,9 @@
 			bill_visit_no,
 			bill_visit_date,
 			operator_trturn,
-			date_trturn,
-			create_date,
-			create_by,
-			update_date,
-			update_by,
-			remarks,
-			del_flag
+			date_trturn
 		) VALUES (
 			#{id},
-			#{clinicId},
-			#{orgId},
 			#{visitDate},
 			#{visitNo},
 			#{serialNo},
@@ -181,13 +171,7 @@
 			#{billVisitNo},
 			#{billVisitDate},
 			#{operatorTrturn},
-			#{dateTrturn},
-			#{createDate},
-			#{createBy.id},
-			#{updateDate},
-			#{updateBy.id},
-			#{remarks},
-			#{delFlag}
+			#{dateTrturn}
 		)
 	</insert>
 	

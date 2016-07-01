@@ -34,8 +34,10 @@ public class ClinicInspectRest {
 
     @Path("list")
     @GET
-    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response){
-        Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),new ExamAppoints());
+    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,String ClinicId){
+        ExamAppoints examAppoints= new ExamAppoints();
+        examAppoints.setClinicId("1");
+        Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),examAppoints);
         PageData<ExamAppoints> pageData=new PageData<ExamAppoints>();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
@@ -59,11 +61,25 @@ public class ClinicInspectRest {
         return examAppoints;
     }
 
+    /***
+     * 门诊检查申请保存
+     * @param examAppoints
+     * @return
+     */
     @POST
     @Path("saveExamAppoints")
     public StringData saveExamAppoints(ExamAppoints examAppoints){
         StringData stringData=new StringData();
         int num= examAppointsServiceApi.batchSave(examAppoints);
+        stringData.setCode(num+"");
+        return stringData;
+    }
+
+    @POST
+    @Path("saveHospitalInspect")
+    public StringData saveHospitalInspect(ExamAppoints examAppoints){
+        StringData stringData=new StringData();
+        int num = examAppointsServiceApi.saveHospitalInspect(examAppoints);
         stringData.setCode(num+"");
         return stringData;
     }

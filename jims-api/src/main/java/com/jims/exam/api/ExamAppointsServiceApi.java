@@ -63,10 +63,17 @@ public interface ExamAppointsServiceApi {
      */
     public Integer getMaxExamNo();
     /**
-     * 检查申请保存
+     * 门诊检查申请保存
      * @param
      * @return
      */
     public int batchSave(ExamAppoints examAppoints);
+
+    /**
+     * 住院检查申请保存
+     * @param examAppoints
+     * @return
+     */
+    public int saveHospitalInspect(ExamAppoints examAppoints);
 }
 

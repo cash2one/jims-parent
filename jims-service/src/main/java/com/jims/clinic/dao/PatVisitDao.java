@@ -59,4 +59,6 @@ public interface PatVisitDao extends CrudDao<PatVisit> {
      */
     public List<PatMasterIndex> getPatMaster(@Param("deptCode")String deptCode);
 
+    public PatVisit getPatVisit(@Param("id")String id);
+
 }
