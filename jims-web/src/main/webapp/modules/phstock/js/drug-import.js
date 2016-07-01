@@ -111,7 +111,6 @@ $(function () {
      */
     var loadSubDept = function(id,orgId,storageCode){
         $.get('/service/drug-storage-dept/findSubList',{orgId : orgId,storageCode : storageCode},function(res){
-            alert(res);
             $('#' + id).combobox('loadData',res)
         })
     }
@@ -580,7 +579,15 @@ $(function () {
                 title: "进价",
                 field: "purchasePrice",
                 width: '70px',
-                align: 'center'
+                align: 'center', editor: {
+                    type: 'numberbox',
+                    options: {
+                        required: true,
+                        missingMessage: '进价不能为空',
+                        min: 1,
+                        precision: 4
+                    }
+                }
             }, {
                 title: "批价",
                 field: "tradePrice",
@@ -732,16 +739,16 @@ $(function () {
                 return
             }
             importTableRow.drugCode = drugPrice.drugCode;
-            importTableRow.drugSpec = drugPrice.drugSpec;
-            importTableRow.units = drugPrice.units;
+            importTableRow.drugSpec = drugPrice.drugSpec;   //规格
+            importTableRow.units = drugPrice.units;     //单位
             importTableRow.packageSpec = drugPrice.drugSpec;
             importTableRow.packageUnits = drugPrice.units;
-            importTableRow.firmId = drugPrice.firmId;
-            importTableRow.supplier = drugPrice.supplier;
+            importTableRow.firmId = drugPrice.firmId;   //厂家标识
+            importTableRow.supplier = drugPrice.supplier;   //厂商
 
-            importTableRow.retailPrice = drugPrice.retailPrice;
-            importTableRow.tradePrice = drugPrice.tradePrice;
-            importTableRow.purchasePrice = drugPrice.retailPrice;
+            importTableRow.retailPrice = drugPrice.retailPrice; //市场零售价
+            importTableRow.tradePrice = drugPrice.tradePrice;   //市场批发价
+            importTableRow.purchasePrice = drugPrice.tradePrice;    //进价=批发价
 
             $('#drug-import').datagrid('endEdit', $('#drug-import').datagrid('getRowIndex', importTableRow))
             _tempFlag = true
