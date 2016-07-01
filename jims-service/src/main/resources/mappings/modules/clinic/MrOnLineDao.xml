@@ -29,7 +29,12 @@
 		<include refid="mrOnLineJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="getMrOnLByPatId" resultType="MrOnLine">
+		SELECT
+		<include refid="mrOnLineColumns"/>
+		FROM mr_on_line a
+		where a.patient_id=#{patientId}
+	</select>
 	<select id="findList" resultType="MrOnLine">
 		SELECT 
 			<include refid="mrOnLineColumns"/>
@@ -120,5 +125,8 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<update id="updateMrOnLByMoveIn">
+		update mr_on_line SET status =#{status} ,
+		request_doctor_id =#{requestDoctorId} WHERE id=#{id}
+	</update>
 </mapper>

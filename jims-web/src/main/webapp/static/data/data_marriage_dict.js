@@ -1,6 +1,4 @@
 var marriageDict = [];
-
-
 /**
  * 婚姻状况
  */

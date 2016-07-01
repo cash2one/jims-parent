@@ -8,6 +8,7 @@ create table PAT_MASTER_INDEX
   ID                    VARCHAR2(64 CHAR) not null,
   ORG_ID                 VARCHAR2(64 CHAR),
    PATIENT_ID VARCHAR2(64),
+   AGE VARCHAR2(10),
   INP_NO                VARCHAR2(10 CHAR),
   NAME                  VARCHAR2(20 CHAR),
   NAME_PHONETIC         VARCHAR2(16 CHAR),
@@ -69,6 +70,8 @@ comment on table PAT_MASTER_INDEX
 -- Add comments to the columns
 comment on column PAT_MASTER_INDEX.ID
   is '病人标识号';
+comment on column PAT_MASTER_INDEX.AGE
+  is '年龄';
 comment on column PAT_MASTER_INDEX.ORG_ID
   is '医院ID';
 comment on column PAT_MASTER_INDEX.INP_NO

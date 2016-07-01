@@ -115,7 +115,7 @@ function onloadMethod(){
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
-        ]]
+        ]],toolbar:'#searchDiv'
     });
     //设置分页控件
     var p1 = $('#list_data').datagrid('getPager');

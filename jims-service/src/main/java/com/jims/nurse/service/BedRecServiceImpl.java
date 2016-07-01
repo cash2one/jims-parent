@@ -92,8 +92,8 @@ public class BedRecServiceImpl implements BedRecServiceApi {
    * @author pq
    * @return
    */
-  public String packBed(List<BedRec> bedRec){
-    return  bedRecBo.packBed(bedRec);
+  public String packBed(List<BedRec> bedRec,String patId){
+    return  bedRecBo.packBed(bedRec,patId);
   }
 
   public List<BedRec> findList(BedRec bedRec){
@@ -110,11 +110,11 @@ public class BedRecServiceImpl implements BedRecServiceApi {
   public String changeBed(BedRec bedRec){
     int num = 0;
     PatsInHospital patsInHospital = new PatsInHospital();
-    patsInHospital.setBedNo(bedRec.getOldBedNo());
+    patsInHospital.setBedNo(bedRec.getNewBedNo());
     patsInHospital.setPatientId(bedRec.getPatientId());
      bedRecBo.updateBedNo(patsInHospital);//修改床位
-     bedRecBo.updateBedStatus("0",bedRec.getOldBedNo(),0,bedRec.getWardCode());//以前的s
-    num = bedRecBo.updateBedStatus("1",0, bedRec.getNewBedNo(),bedRec.getWardCode());
+     bedRecBo.updateBedStatus("0",bedRec.getOldBedNo(),0,bedRec.getWardCode(),"");//以前的s
+    num = bedRecBo.updateBedStatus("1",0, bedRec.getNewBedNo(),bedRec.getWardCode(),bedRec.getPatientId());
     return num+"";
   }
 
@@ -150,5 +150,14 @@ public class BedRecServiceImpl implements BedRecServiceApi {
    */
   public List<BaseDto> findBedPrice(String itemClass){
     return bedRecBo.findBedPrice(itemClass);
+  }
+
+  /**
+   * 解除包床
+   * @param bedRecList
+   * @return
+   */
+  public String accountsConfirm(List<BedRec> bedRecList){
+    return bedRecBo.accountsConfirm(bedRecList);
   }
 }

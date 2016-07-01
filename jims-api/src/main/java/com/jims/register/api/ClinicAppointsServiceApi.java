@@ -45,10 +45,10 @@ public interface ClinicAppointsServiceApi {
 
     /**
      * 预约确认保存
-     * @param patMasterIndex
+     * @param id
      * @return
      */
-    public String saveAppointReg(PatMasterIndex patMasterIndex);
+    public String saveAppointReg(String id);
 
     /**
      * 删除预约信息

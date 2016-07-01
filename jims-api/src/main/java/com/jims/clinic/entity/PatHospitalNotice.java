@@ -1,6 +1,8 @@
 package com.jims.clinic.entity;
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.Date;
@@ -14,7 +16,7 @@ public class PatHospitalNotice extends DataEntity<PatHospitalNotice> {
 	
 	private static final long serialVersionUID = 1L;
 	private String masterId;		//就诊记录ID
-	private String orgId;		// 病人ID
+	private String orgId;		// 机构ID
 	private String patientId;		// 病人ID
 	private String name;		// 姓名
 	private String sex;		// 性别
@@ -103,6 +105,7 @@ public class PatHospitalNotice extends DataEntity<PatHospitalNotice> {
 		return dateOfBirth;
 	}
 
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -247,6 +250,7 @@ public class PatHospitalNotice extends DataEntity<PatHospitalNotice> {
 		return admissionDateTime;
 	}
 
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setAdmissionDateTime(Date admissionDateTime) {
 		this.admissionDateTime = admissionDateTime;
 	}
@@ -364,6 +368,7 @@ public class PatHospitalNotice extends DataEntity<PatHospitalNotice> {
 		return enterDate;
 	}
 
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setEnterDate(Date enterDate) {
 		this.enterDate = enterDate;
 	}
@@ -373,6 +378,7 @@ public class PatHospitalNotice extends DataEntity<PatHospitalNotice> {
 		return onsetDate;
 	}
 
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setOnsetDate(Date onsetDate) {
 		this.onsetDate = onsetDate;
 	}
