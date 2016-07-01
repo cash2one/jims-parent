@@ -127,12 +127,13 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
      * @author pq
      * @return
      */
-    public int updateBedStatus(String bedStatus,Integer oldBedNo,Integer newBedNo,String wardCode){
+    public int updateBedStatus(String bedStatus,Integer oldBedNo,Integer newBedNo,String wardCode,String patientId){
         BedRec bedRec= new BedRec();
         bedRec.setBedStatus(bedStatus);
         bedRec.setOldBedNo(oldBedNo);
         bedRec.setNewBedNo(newBedNo);
         bedRec.setWardCode(wardCode);
+        bedRec.setPatientId(patientId);
       return  dao.updateBedStatus(bedRec);
     }
 

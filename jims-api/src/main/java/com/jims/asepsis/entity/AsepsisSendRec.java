@@ -16,6 +16,8 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private Double itemNo;  // 序号
     private String fromDept;  // 送物科室
     private Date sendDate;  // 送物日期
+    private Date sendDateStart;  // 送物开始日期
+    private Date sendDateEnd;  // 送物结束日期
     private String itemCode;  // 代码
     private String itemName;  // 项目名称
     private String itemSpec;  // 规格

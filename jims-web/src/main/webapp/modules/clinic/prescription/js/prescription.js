@@ -355,11 +355,18 @@ function subLoadData(row){
 //西药/草药单选按钮事件
 function funItem(obj){
     itemClass=obj.value;
+    if(itemClass=='B'){
+        $("#medicineId").show();
+        $(".layout-split-south .datagrid").hide();
+    }else{
+        $("#medicineId").hide();
+        $(".layout-split-south .datagrid").show();
+    }
+
     $("#itemClass").val(obj.value);
     changeRadio(obj.value);
     var selRow = $('#leftList').datagrid('getChecked');
     subItem(itemClass,selRow[0]);
-
 }
 //西药/草药单选按钮事件-更新行
 function subItem(itemClass,selRow){

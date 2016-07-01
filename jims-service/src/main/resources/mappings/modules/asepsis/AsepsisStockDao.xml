@@ -57,6 +57,12 @@
             <if test="itemName != null and itemName != ''">
                 and a.item_name = #{itemName}
             </if>
+            <if test="antiDateStart != null and antiDateStart != ''">
+                and a.anti_date >= #{antiDateStart}
+            </if>
+            <if test="antiDateEnd != null and antiDateEnd != ''">
+                and #{antiDateEnd} >= a.anti_date
+            </if>
             and a.FROM_DEPT = b.dept_code and o.value=a.units
             <if test="documentNo != null and documentNo != ''">
                 and a.document_no = #{documentNo}

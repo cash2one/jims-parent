@@ -113,14 +113,18 @@ $(function() {
         rownumbers: true,//行号
         columns: [[      //每个列具体内容
             {field: 'documnetNo', title: '业务单据'},
-            {field: 'belongDept', title: '所属科室', width: '12%', align: 'center'},
+            {field: 'belongDept', hidden:true},
+            {field: 'belongDeptDes', title: '所属科室', width: '8%', align: 'center'},
             //{field: 'belongDeptDes', title: '所属科室', width: '10%', align: 'center'},
             {field: 'asepsisCode', title: '代码', width: '8%', align: 'center'},
             {field: 'asepsisName', title: '名称', width: '12%', align: 'center'},
             {field: 'asepsisSpec', title: '规格', width: '3%', align: 'center'},
             {field: 'amount', title: '数量', width: '3%', align: 'center'},
-            {field: 'units', title: '单位', width: '3%', align: 'center'},
-            //{field: 'impDate', title: '送物时间', width: '10%', align: 'center'},
+            {field: 'units', hidden:true},
+            {field: 'unitsDes', title: '单位', width: '3%', align: 'center'},
+            {field: 'impDate', title: '送物时间', width: '10%', align: 'center',formatter: function(value){
+                return parent.formatDatebox(value)
+            }},
             {field: 'sterOperator', hidden:true},
             {field: 'sterOperatorDes', title: '清洗人', width: '8%', align: 'center'},
             {field: 'cleanWays', hidden:true},
@@ -201,9 +205,20 @@ $(function() {
         $.each(a,function(index,row){
             $.each(listAll, function(i, r){
                 if(row.deptCode == r.belongDept){
-                    r.belongDept = row.deptName;
+                    r.belongDeptDes = row.deptName;
                     $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 }
+            });
+        });
+
+        $.get(basePath + "/orgSysDict/findList",{orgId:orgId}, function (data) {
+            $.each(data,function(index,row){
+                $.each(listAll, function(i, r){
+                    if(row.type=="PACKAGE_UNITS"&&row.value == r.units){
+                        r.unitsDes = row.label;
+                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
+                    }
+                });
             });
         });
     }
@@ -212,9 +227,9 @@ $(function() {
             var belongDept=$("#belongDept").combobox('getValue');
             var asepsisName=$("#asepsisName").combobox('getValue');
             $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"0","orgId":orgId,"belongDept":belongDept,"asepsisName":asepsisName}});
-            return;
+        }else{
+            $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"0","orgId":orgId}});
         }
-        $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"0","orgId":orgId}});
         setTimeout("loadAnotherData()",500);
     }
     loadListData();
@@ -227,7 +242,9 @@ $(function() {
             $("#list_data").datagrid("endEdit", editIndex);
         }
         var updateData = $('#list_data').datagrid('getChecked');
-
+        $.each(updateData, function(i, r){
+            r.asepsisState = "1";
+        });
         if(updateData.length<=0){
             alert('请选择需要修改的数据');
             return ;
@@ -259,8 +276,9 @@ $(function() {
             $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisDictVo), function (data) {
                 if (data.data == "success") {
                     $.messager.alert("系统提示", "保存成功", "info");
-                    $("#list_data").datagrid('reload');
-                    $("#list_data").datagrid("clearSelections");
+                    //$("#list_data").datagrid('reload');
+                    //$("#list_data").datagrid("clearSelections");
+                    loadListData();
                 }
             }, function (data) {
                 $.messager.alert('提示', "保存失败", "error");

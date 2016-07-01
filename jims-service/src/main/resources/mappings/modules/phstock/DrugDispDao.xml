@@ -40,6 +40,39 @@
        a.order_status as orderStatus
     </sql>
 
+
+    <sql id="drugPriceListColumns">
+        a.id AS "id",
+        a.drug_code AS "drugCode",
+        a.drug_spec AS "drugSpec",
+        a.firm_id AS "firmId",
+        a.units AS "units",
+        a.trade_price AS "tradePrice",
+        a.retail_price AS "retailPrice",
+        a.amount_per_package AS "amountPerPackage",
+        a.min_spec AS "minSpec",
+        a.min_units AS "minUnits",
+        a.start_date AS "startDate",
+        a.stop_date AS "stopDate",
+        a.memos AS "memos",
+        a.class_on_inp_rcpt AS "classOnInpRcpt",
+        a.class_on_outp_rcpt AS "classOnOutpRcpt",
+        a.class_on_reckoning AS "classOnReckoning",
+        a.subj_code AS "subjCode",
+        a.class_on_mr AS "classOnMr",
+        a.hlimit_price AS "hlimitPrice",
+        a.price_class AS "priceClass",
+        a.pass_no AS "passNo",
+        a.gmp AS "gmp",
+        a.org_id AS "orgId",
+        a.create_date AS "createDate",
+        a.create_by AS "createBy.id",
+        a.update_date AS "updateDate",
+        a.update_by AS "updateBy.id",
+        a.remarks AS "remarks",
+        a.del_flag AS "delFlag"
+    </sql>
+
     <select id="findPatsInHospital" resultType="PatientBaseVo">
         select
         <include refid="patientBaseVo"/>
@@ -67,7 +100,7 @@
     <select id="findOrdersDispInfos" resultType="OrdersDispInfo">
         SELECT
         <include refid="orderDispInfoSql"/>
-        FROM  orders a, orders_costs b
+        FROM orders a, orders_costs b
         WHERE a.patient_id = b.patient_id
         and a.visit_id = b.visit_id
         and a.id = b.order_id
@@ -80,6 +113,17 @@
         and (a.drug_billing_attr is null or a.drug_billing_attr=0)
         and (a.order_class='A')
 
+    </select>
+
+    <select id="findDrugPriceList" resultType="DrugPriceList">
+        SELECT
+        <include refid="drugPriceListColumns"/>
+        FROM DRUG_PRICE_LIST A, DRUG_SUPPLIER_CATALOG B
+        WHERE A.DRUG_CODE = #{drugCode}
+        AND A.FIRM_ID = B.ID
+        AND A.DRUG_SPEC = A.DRUG_SPEC || B.SUPPLIER_ID
+        AND A.DRUG_SPEC = #{drugSpec}
+        AND A.ORG_ID = #{orgId}
     </select>
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.jims.asepsis.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.asepsis.api.AsepsisAntiRecApi;
 import com.jims.asepsis.entity.AsepsisStock;
 import com.jims.asepsis.api.AsepsisStockApi;
 import com.jims.asepsis.bo.AsepsisStockBo;

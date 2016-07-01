@@ -2,6 +2,7 @@ package com.jims.phstock.dao;
 
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.phstock.entity.DrugPriceList;
 import com.jims.phstock.vo.OrdersDispInfo;
 import com.jims.phstock.vo.PatientBaseVo;
 import org.apache.ibatis.annotations.Param;
@@ -34,4 +35,13 @@ public interface DrugDispDao {
      * @return
      */
     public List<OrdersDispInfo> findOrdersDispInfos(String patientId, int visitId, String orgIdTemp);
+
+    /**
+     * 根据医嘱内容查询概要的价格记录
+     * @param drugCode
+     * @param drugSpec
+     * @param orgId
+     * @return
+     */
+    public DrugPriceList findDrugPriceList(String drugCode, String drugSpec, String orgId);
 }
