@@ -19,6 +19,30 @@
         WHERE a.id = #{id}
     </select>
 
+    <select id="leftList" resultType="OrgSysDict">
+        SELECT DISTINCT (a.type),a.description
+        FROM ORG_SYS_DICT a
+        WHERE a.org_id = #{orgId}
+    </select>
+
+    <select id="rightList" resultType="OrgSysDict">
+        SELECT
+        <include refid="orgSysDictColumns"/>
+        FROM ORG_SYS_DICT a
+        WHERE a.type = #{0} AND a.org_id = #{1}
+    </select>
+
+    <select id="search" resultType="OrgSysDict">
+        SELECT
+        t.type AS "type",t.description AS "description"
+        FROM ORG_SYS_DICT t
+        WHERE 1=1
+            AND t.type LIKE CONCAT(CONCAT('%', #{0}), '%')
+            or t.description LIKE CONCAT(CONCAT('%', #{1}), '%')
+            AND t.org_id = #{2}
+        GROUP BY t.type,t.description
+    </select>
+
     <select id="findList" resultType="OrgSysDict">
         SELECT
         <include refid="orgSysDictColumns"/>

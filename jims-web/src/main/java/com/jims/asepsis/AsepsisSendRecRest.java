@@ -82,7 +82,39 @@ public class AsepsisSendRecRest {
     */
     @GET
     @Path("delete")
-    public String delete(String ids) {
+    public String delete(@QueryParam("ids")String ids) {
         return api.delete(ids);
+    }
+
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @return
+     */
+    @GET
+    @Path("getMaxDocumentNo")
+    public String getMaxDocumentNo(@QueryParam("orgId")String orgId){
+        return api.getMaxDocumentNo(orgId);
+    }
+
+    /**
+     * 检索有库存、在保质期内的数据
+     * @param
+     * @return
+     */
+    @GET
+    @Path("findListWithStock")
+    public List<AsepsisSendRec> findListWithStock(@QueryParam("orgId")String orgId,
+                                                  @QueryParam("sendDateStart")Date sendDateStart,
+                                                  @QueryParam("sendDateEnd")Date sendDateEnd,
+                                                  @QueryParam("fromDept")String fromDept,
+                                                  @QueryParam("sender")String sender){
+        AsepsisSendRec entity = new AsepsisSendRec();
+        entity.setOrgId(orgId);
+        entity.setSendDateStart(sendDateStart);
+        entity.setSendDateEnd(sendDateEnd);
+        entity.setFromDept(fromDept);
+        entity.setSender(sender);
+        return api.findListWithStock(entity);
     }
 }

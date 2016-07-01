@@ -30,7 +30,6 @@ public class DictRest {
 
     /**
      * 异步加载页面左侧表格:字典表的类型和描述列表
-     *
      * @param request  请求
      * @param response 响应
      * @return 字典表type和description两个字段的list集合
@@ -39,13 +38,11 @@ public class DictRest {
     @GET
     @Path("type-description-list")
     public List<Dict> leftList(@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        List<Dict> list = dictService.leftList();
-        return list;
+        return dictService.leftList();
     }
 
     /**
      * 异步加载页面右侧表格:字典表的键值列表
-     *
      * @param type 字典表类型
      * @return 字典表List集合
      * @author fengyuguang
@@ -58,7 +55,6 @@ public class DictRest {
 
     /**
      * 保存多条增删改数据
-     *
      * @param beanChangeVo 多条增删改数据的集合
      * @return 响应数据
      * @author fengyuguang
@@ -79,8 +75,7 @@ public class DictRest {
 
     /**
      * 根据类型或描述模糊查询
-     *
-     * @param type        类型
+     * @param type 类型
      * @param description 描述
      * @return 类型描述列表
      * @author fengyuguang

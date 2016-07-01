@@ -71,7 +71,7 @@ public interface BedRecServiceApi {
      * @author pq
      * @return
      */
-    public String packBed(List<BedRec> bedRec);
+    public String packBed(List<BedRec> bedRec,String patId);
 
 
     /**
@@ -113,4 +113,13 @@ public interface BedRecServiceApi {
      * @return
      */
      public List<BaseDto> findBedPrice(String itemClass);
+
+
+    /**
+     * 解除包床
+     * @param bedRec
+     * @author pq
+     * @return
+     */
+    public String accountsConfirm(List<BedRec> bedRec);
 }

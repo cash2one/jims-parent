@@ -24,12 +24,22 @@ public class AsepsisDetailDict extends DataEntity<AsepsisDetailDict> {
     private String firmId;  // 厂家
     private String orgId;  // 所属机构ID
 
+    private String label;   //包单位
+
     public AsepsisDetailDict() {
         super();
     }
 
     public AsepsisDetailDict(String id) {
         super(id);
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public  String getAsepsisCode() {

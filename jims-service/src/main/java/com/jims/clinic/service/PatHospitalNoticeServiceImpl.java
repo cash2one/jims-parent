@@ -64,6 +64,8 @@ public class PatHospitalNoticeServiceImpl implements PatHospitalNoticeServiceApi
      */
     @Override
     public String save(PatHospitalNotice patHospitalNotice) {
-        return patHospitalNoticeBo.save(patHospitalNotice);
+        int num;
+        num = patHospitalNoticeBo.savePatHospitalNotice(patHospitalNotice);
+        return  num+"";
     }
 }

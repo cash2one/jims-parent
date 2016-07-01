@@ -71,8 +71,45 @@ public class PatientListRest {
         data.setCode(patVisitServiceApi.confirmNewMr(patId));
         return data;
     }
-    public List<PatMasterIndex> getPatMasterByIn(String patId){
-        List<PatMasterIndex> patMasterIndexes=null;
+
+    /**
+     * 移入病历 病人列表
+     * @param
+     * @return
+     */
+    @GET
+    @Path("getPatMasterByIn")
+    public List<PatMasterIndex> getPatMasterByIn(){
+        String deptCode="140101";
+        List<PatMasterIndex> patMasterIndexes=patVisitServiceApi.getPatMasterByIn(deptCode);
         return patMasterIndexes;
+    }
+
+    /**
+     * 确认移入病历
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("confirmMoveIn")
+    public StringData confirmMoveIn(String patId){
+     StringData data = new StringData();
+        data.setCode(patVisitServiceApi.confirmMoveIn(patId));
+        return data;
+    }
+
+    /**
+     * 移除病历
+     * @param patId
+     * @return
+     * @author zhaoning
+     */
+    @POST
+    @Path("removeMr")
+    public StringData removeMr(@QueryParam("patId")String patId){
+        StringData data=new StringData();
+        data.setCode(patVisitServiceApi.removMr(patId));
+        return data;
     }
 }
