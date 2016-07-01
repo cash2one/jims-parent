@@ -2,6 +2,7 @@ package com.jims.phstock.bo;
 
 import com.jims.common.utils.DateUtils;
 import com.jims.phstock.dao.DrugDispDao;
+import com.jims.phstock.entity.DrugPriceList;
 import com.jims.phstock.vo.OrdersDispInfo;
 import com.jims.phstock.vo.PatDrugDisp;
 import com.jims.phstock.vo.PatientBaseVo;
@@ -33,8 +34,9 @@ public class DrugDispBo {
      * @param bedNos          摆药床位
      * @param repeatIndicator 长临
      * @param dispDays        摆药天数
-     * @param dispStartTime
-     * @param dispStopTime    @return
+     * @param dispStartTime   摆药开始时间
+     * @param dispStopTime    摆药结束时间
+     * @return
      */
     public List<PatDrugDisp> calcPatDrugDisp(String orgId, String deptCode, String wardDeptCode,
                                              List<String> administations, List<String> bedNos,
@@ -73,10 +75,6 @@ public class DrugDispBo {
 
         }
         //endregion
-
-        //第二步获取摆药开始时间、摆药结束时间
-        //第三步计算每一条医嘱摆药数量
-
         return patDrugDisps;
     }
 
@@ -85,7 +83,16 @@ public class DrugDispBo {
      * @param ordersDispInfo
      */
     private void calcAmount(OrdersDispInfo ordersDispInfo) {
-        
+        DrugPriceList drugPriceList = drugDispDao.findDrugPriceList(ordersDispInfo.getDrugCode(), ordersDispInfo.getDrugSpec(), ordersDispInfo.getOrgId()) ;
+        double dosage = ordersDispInfo.getDosage() ;
+        String dosageUnit = ordersDispInfo.getDosageUnits() ;
+        String minSpec = drugPriceList.getMinSpec() ;
+        double baseDosage = Double.parseDouble(minSpec.substring(0, minSpec.indexOf(dosageUnit))) ;
+        double times =ordersDispInfo.getTimes() ;
+        ordersDispInfo.setUnit(drugPriceList.getMinUnits());
+        //dosage/baseDosage *times ;
+        int amount = (int) Math.ceil(dosage/baseDosage * times);
+        ordersDispInfo.setAmount(amount);
     }
 
     /**

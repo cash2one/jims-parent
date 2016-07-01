@@ -1,37 +1,37 @@
-var objectiveDict = [];
-
+/**
+ * 住院诊断类型字典
+ */
+var diagnosisType = [];
 
 /**
- * 住院目的
+ * 途径
  */
 
 $.ajax({
     'type': 'GET',
     'url':basePath+'/dict/findListByType',
-    data: 'type=OBJECTIVE_DICT',
+    data: 'type=DIAGNOSIS_TYPE',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
     'success': function(data){
-        objectiveDict=data;
+        diagnosisType=data;
     }
 });
-
 /**
- * 住院目的翻译
+ * 途径翻译
  * @param value
  * @param rowData
  * @param rowIndex
  * @returns {string|string|string}
  */
-function objectiveFormatter(value, rowData, rowIndex) {
+function diagnosisTypeFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-
-    for (var i = 0; i < objectiveDict.length; i++) {
-        if (objectiveDict[i].value == value) {
-            return objectiveDict[i].label;
+    for (var i = 0; i < diagnosisType.length; i++) {
+        if (diagnosisType[i].value == value) {
+            return diagnosisType[i].label;
         }
     }
 }
