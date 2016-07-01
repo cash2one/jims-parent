@@ -58,12 +58,14 @@ public class AsepsisLendRecRest {
     public List<AsepsisLendRec> findListWithStock(@QueryParam("orgId")String orgId,
                                                   @QueryParam("lendDateStart")Date lendDateStart,
                                                   @QueryParam("lendDateEnd")Date lendDateEnd,
+                                                  @QueryParam("returnFlag")String returnFlag,
                                                   @QueryParam("toDept")String toDept){
         AsepsisLendRec entity = new AsepsisLendRec();
         entity.setOrgId(orgId);
         entity.setLendDateStart(lendDateStart);
         entity.setLendDateEnd(lendDateEnd);
         entity.setToDept(toDept);
+        entity.setReturnFlag(returnFlag);
         return api.findListWithStock(entity);
     }
 

@@ -3,6 +3,7 @@ $(function () {
     var currentOrgId = '1';
     var currentUsername = '测试员';
     var currentSelectIndex = undefined;
+    var supplyRoomCode = '161303';  // 供应室编码
 
     $('#exchangeStart').datebox({
         height:'25',
@@ -51,6 +52,7 @@ $(function () {
         ]],
         onSelect: function(){
             $('#dept').combo('panel').attr('selectedIndex', $('#dept').combogrid('grid').datagrid('getRowIndex', $('#dept').combogrid('grid').datagrid('getSelected')))
+            loadData()
         }
     })
     $('#dept').combo('panel').panel({
@@ -411,7 +413,6 @@ $(function () {
                     data: {orgId:currentOrgId,prefix:prefix},
                     contentType: 'application/json',
                     success: function(res){
-                        alert(res)
                         if(res){
                             suffix = + res + 1;
                         } else {
@@ -521,8 +522,8 @@ $(function () {
         var row = $('#dept').combogrid('grid').datagrid('getSelected')
         var params = {
             orgId: currentOrgId,
-            lendDateStart: $('#exchangeStart').datebox('getValue'),
-            lendDateEnd: $('#exchangeEnd').datebox('getValue')+' 23:59:59',
+            lendDateStart: parent.parseToDate($('#exchangeStart').datebox('getValue')+' 00:00:00'),
+            lendDateEnd: parent.parseToDate($('#exchangeEnd').datebox('getValue')+' 23:59:59'),
             toDept: row ? row.deptCode : '',
             returnFlag: '1,2'
         }
@@ -564,6 +565,7 @@ $(function () {
                         }
                     }
                     row.returnDate = new Date()
+                    row.belongDept = supplyRoomCode
                     delete row.sendAmount;
                     saveRows.push(row);
                 }

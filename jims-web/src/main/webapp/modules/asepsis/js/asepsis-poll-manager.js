@@ -241,8 +241,8 @@ $(function () {
                 return row.stock
             }}
             ,{field:'getDate',title:'领物日期',width:'80',align:'center',formatter:function(value,row){
-                row.getDate = parent.formatDatebox(new Date())
-                return row.getDate
+                row.getDate = new Date()
+                return parent.formatDatebox(row.getDate)
             }}
             ,{field:'sendDate',title:'送物日期',width:'80',align:'center',formatter:function(value){
                 return parent.formatDatebox(value)
@@ -563,8 +563,8 @@ $(function () {
         if(index == 1){
             var params = {
                 orgId: currentOrgId,
-                sendDateStart: $('#exchangeStart').datebox('getValue'),
-                sendDateEnd: $('#exchangeEnd').datebox('getValue')+' 23:59:59',
+                sendDateStart: parent.parseToDate($('#exchangeStart').datebox('getValue')+' 00:00:00'),
+                sendDateEnd: parent.parseToDate($('#exchangeEnd').datebox('getValue')+' 23:59:59'),
                 fromDept: $('#dept').combogrid('getValue')
             }
             $.get(parent.basePath + '/asepsisSendRec/findListWithStock',params,function(res){
@@ -573,9 +573,10 @@ $(function () {
         } else if(index == 2){
             var params = {
                 orgId: currentOrgId,
-                lendDateStart: $('#exchangeStart').datebox('getValue'),
-                lendDateEnd: $('#exchangeEnd').datebox('getValue')+' 23:59:59',
-                toDept: $('#dept').combogrid('getValue')
+                lendDateStart: parent.parseToDate($('#exchangeStart').datebox('getValue')+' 00:00:00'),
+                lendDateEnd: parent.parseToDate($('#exchangeEnd').datebox('getValue')+' 23:59:59'),
+                toDept: $('#dept').combogrid('getValue'),
+                returnFlag: '4'
             }
             $.get(parent.basePath + '/asepsisLendRec/findListWithStock',params,function(res){
                 $('#tradeManager').datagrid('loadData',res)

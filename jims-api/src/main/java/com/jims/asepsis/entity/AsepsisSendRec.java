@@ -38,8 +38,6 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private String orgId;  // 所属机构ID
 
     private Integer stock;  // 领物数量
-    private Date sendDateStart;
-    private Date sendDateEnd;
     private String fromDeptName;
 
     public Integer getStock() {

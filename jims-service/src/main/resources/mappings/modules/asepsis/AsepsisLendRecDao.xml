@@ -88,6 +88,9 @@
             <if test="toDept != null and toDept != ''">
                 and a.to_dept = #{toDept}
             </if>
+            <if test="returnFlag != null and returnFlag != ''">
+                and instr(','||#{returnFlag}||',',','||a.return_flag||',')>0
+            </if>
             order by a.to_dept
         </where>
     </select>

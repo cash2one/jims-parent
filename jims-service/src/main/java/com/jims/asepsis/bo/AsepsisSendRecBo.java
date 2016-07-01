@@ -1,6 +1,8 @@
 package com.jims.asepsis.bo;
 
+import com.jims.asepsis.dao.AsepsisAntiRecDao;
 import com.jims.asepsis.dao.AsepsisStockDao;
+import com.jims.asepsis.entity.AsepsisAntiRec;
 import com.jims.asepsis.entity.AsepsisSendRec;
 import com.jims.asepsis.dao.AsepsisSendRecDao;
 import com.jims.asepsis.entity.AsepsisStock;
@@ -22,6 +24,8 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
 
     @Autowired
     private AsepsisStockDao stockDao;
+    @Autowired
+    private AsepsisAntiRecDao antiDao;
     /**
     * 批量保存（插入或更新）
     * @param list
@@ -29,8 +33,8 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
     public void save(List<AsepsisSendRec> list) {
         if(list != null && list.size() > 0) {
             for(AsepsisSendRec entity : list) {
-                Integer stock = entity.getStock() == null ? 0 : Integer.parseInt(entity.getStock());
-                if(stock > 0){
+                if(!entity.getIsNewRecord()){
+                    Integer stock = entity.getStock() == null ? 0 : entity.getStock();
                     AsepsisStock stockParam = new AsepsisStock();
                     stockParam.setFromDept(entity.getFromDept());
                     stockParam.setDocumentNo(entity.getDocumentNo());
@@ -52,6 +56,21 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
                             stockDao.delete(asepsisStock.getId());
                         }
                     }
+                } else {
+                    AsepsisAntiRec anti = new AsepsisAntiRec();
+                    anti.setImpDate(entity.getSendDate());
+                    anti.preInsert();
+                    anti.setDocumnetNo(entity.getDocumentNo());
+                    anti.setAsepsisCode(entity.getItemCode());
+                    anti.setAsepsisName(entity.getItemName());
+                    anti.setAsepsisSpec(entity.getItemSpec());
+                    anti.setUnits(entity.getUnits());
+                    anti.setBelongDept(entity.getFromDept());
+                    anti.setAsepsisState("0");
+                    anti.setAmount(entity.getSendAmount().intValue());
+                    anti.setOrgId(entity.getOrgId());
+                    anti.setItemNo(1);
+                    antiDao.insert(anti);
                 }
                 save(entity);
             }
