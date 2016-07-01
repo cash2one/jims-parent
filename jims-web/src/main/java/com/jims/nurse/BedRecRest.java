@@ -75,7 +75,9 @@ public class BedRecRest {
      */
     @Path("getAllBed")
     @POST
-    public List<BaseDto> getAllBed(BedRec bedRec){
+    public List<BaseDto> getAllBed(@QueryParam("wardCode")String wardCode){
+        BedRec bedRec = new BedRec();
+        bedRec.setWardCode(wardCode);
         return  bedRecServiceApi.getAllBed(bedRec);
     }
 
@@ -133,9 +135,10 @@ public class BedRecRest {
      */
     @Path("packBed")
     @POST
-    public StringData packBed(List<BedRec> bedRec){
+    public StringData packBed(List<BedRec> bedRec,@QueryParam("patId")String patId){
         StringData stringData = new StringData();
-        String num=bedRecServiceApi.packBed(bedRec);
+
+        String num=bedRecServiceApi.packBed(bedRec,patId);
         stringData.setCode(num);
         if(num !=null && !"0".equals(num)){
             stringData.setData("success");
@@ -200,5 +203,39 @@ public class BedRecRest {
     @POST
     public List<BaseDto> getInPats(BedRec bedRec){
         return  bedRecServiceApi.getAllBed(bedRec);
+    }
+
+
+    /**
+     * 查询床位相关费用
+     * @author pq
+     * @param itemClass
+     * @return
+     */
+    @Path("findBedPrice")
+    @GET
+    public List<BaseDto> findBedPrice(@QueryParam("itemClass")String itemClass){
+        return bedRecServiceApi.findBedPrice(itemClass);
+    }
+
+
+    /**
+     * 解除包床
+     * @author pq
+     * @param bedRecList
+     * @return
+     */
+    @Path("accountsConfirm")
+    @POST
+    public StringData accountsConfirm(List<BedRec> bedRecList){
+        StringData stringData = new StringData();
+        String num = bedRecServiceApi.accountsConfirm(bedRecList);
+        stringData.setCode(num);
+        if(num !=null && !"0".equals(num)){
+            stringData.setData("success");
+        }else{
+            stringData.setData("error");
+        }
+        return stringData;
     }
 }

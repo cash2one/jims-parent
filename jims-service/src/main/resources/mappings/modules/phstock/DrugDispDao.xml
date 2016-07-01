@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugDispDao">
+
+    <sql id="patientBaseVo">
+      a.patient_id as patientId,
+       b.visit_id as visitId,
+       b.dept_code as deptCode,
+       b.ward_code as wardCode,
+       a.name,
+       a.id_no as idNo,
+       d.discharge_date_expcted as preDischargeDate,
+       a.org_id as orgId
+	</sql>
+
+    <sql id="orderDispInfoSql">
+        a.org_id as orgId,
+       a.patient_id as patientId,
+       a.visit_id as visitId,
+       a.order_no as orderNo,
+       a.order_sub_no as orderSubNo,
+       b.item_code as drugCode,
+       b.item_spec as drugSpec,
+       b.units as drugUnit,
+       '' firmId,
+       a.last_perform_date_time lastPerformDateTime,
+       a.dosage,
+       a.dosage_units as dosageUnits,
+       a.administration,
+       a.start_date_time as startDateTime,
+       a.stop_date_time as stopDateTime,
+       a.repeat_indicator as repeatIndicator,
+       a.order_text as orderText,
+       a.frequency,
+       a.freq_counter as freqCounter,
+       a.freq_interval as freqInterval,
+       a.freq_interval_unit as freqIntervalUnit,
+       a.freq_detail as freqDetail,
+       a.perform_schedule as performSchedule,
+       a.order_status as orderStatus
+    </sql>
+
+
+    <sql id="drugPriceListColumns">
+        a.id AS "id",
+        a.drug_code AS "drugCode",
+        a.drug_spec AS "drugSpec",
+        a.firm_id AS "firmId",
+        a.units AS "units",
+        a.trade_price AS "tradePrice",
+        a.retail_price AS "retailPrice",
+        a.amount_per_package AS "amountPerPackage",
+        a.min_spec AS "minSpec",
+        a.min_units AS "minUnits",
+        a.start_date AS "startDate",
+        a.stop_date AS "stopDate",
+        a.memos AS "memos",
+        a.class_on_inp_rcpt AS "classOnInpRcpt",
+        a.class_on_outp_rcpt AS "classOnOutpRcpt",
+        a.class_on_reckoning AS "classOnReckoning",
+        a.subj_code AS "subjCode",
+        a.class_on_mr AS "classOnMr",
+        a.hlimit_price AS "hlimitPrice",
+        a.price_class AS "priceClass",
+        a.pass_no AS "passNo",
+        a.gmp AS "gmp",
+        a.org_id AS "orgId",
+        a.create_date AS "createDate",
+        a.create_by AS "createBy.id",
+        a.update_date AS "updateDate",
+        a.update_by AS "updateBy.id",
+        a.remarks AS "remarks",
+        a.del_flag AS "delFlag"
+    </sql>
+
+    <select id="findPatsInHospital" resultType="PatientBaseVo">
+        select
+        <include refid="patientBaseVo"/>
+        from pat_master_index a,
+        pats_in_hospital b,
+        bed_rec c,
+        pre_dischged_pats d,
+        dept_dict e
+        where a.patient_id = b.patient_id
+        and b.ward_code = c.ward_code
+        and a.patient_id = d.patient_id(+)
+        and a.org_id = b.org_id
+        and a.org_id = e.org_id
+        and c.dept_id = e.id
+        and a.org_id = d.org_id(+)
+        and c.bed_no in
+        <foreach collection="bedNos" open="(" separator="," close=")" item="item" index="index">
+            #{item}
+        </foreach>
+        and b.ward_code=#{wardDeptCode}
+        and a.org_id = #{orgId}
+        and (a.SETTLED_INDICATOR is null or a.settled_indicator =0)
+    </select>
+
+    <select id="findOrdersDispInfos" resultType="OrdersDispInfo">
+        SELECT
+        <include refid="orderDispInfoSql"/>
+        FROM orders a, orders_costs b
+        WHERE a.patient_id = b.patient_id
+        and a.visit_id = b.visit_id
+        and a.id = b.order_id
+        and a.order_code = b.item_code
+        and a.patient_id = #{patientId}
+        and a.visit_id = #{visitId}
+        and a.org_id = #{orgId}
+        and (a.order_status='3' or a.order_status='2')
+        and ((a.repeat_indicator=0 and a.last_perform_date_time is null) or a.repeat_indicator=1 )
+        and (a.drug_billing_attr is null or a.drug_billing_attr=0)
+        and (a.order_class='A')
+
+    </select>
+
+    <select id="findDrugPriceList" resultType="DrugPriceList">
+        SELECT
+        <include refid="drugPriceListColumns"/>
+        FROM DRUG_PRICE_LIST A, DRUG_SUPPLIER_CATALOG B
+        WHERE A.DRUG_CODE = #{drugCode}
+        AND A.FIRM_ID = B.ID
+        AND A.DRUG_SPEC = A.DRUG_SPEC || B.SUPPLIER_ID
+        AND A.DRUG_SPEC = #{drugSpec}
+        AND A.ORG_ID = #{orgId}
+    </select>
+
+</mapper>

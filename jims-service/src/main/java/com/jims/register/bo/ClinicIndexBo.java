@@ -5,6 +5,7 @@ package com.jims.register.bo;
 
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.dao.ClinicIndexDao;
 import com.jims.register.entity.ClinicIndex;
@@ -38,4 +39,8 @@ public class ClinicIndexBo extends CrudImplService<ClinicIndexDao, ClinicIndex> 
         }
         return String.valueOf(num);
     }
+    public BaseDto getCost(String id) {
+        return dao.getCost(id);
+    }
+
 }

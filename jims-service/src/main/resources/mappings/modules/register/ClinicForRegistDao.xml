@@ -33,7 +33,23 @@
 		<include refid="clinicForRegistJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+    <select id="getClinicForRegist" resultType="ClinicForRegist">
+        SELECT
+        <include refid="clinicForRegistColumns"/>
+        FROM clinic_for_regist a
+        <include refid="clinicForRegistJoins"/>
+        WHERE a.del_flag='0'
+        <if test="clinicLabel!=null and clinicLabel!='' ">
+                and a.clinic_label =#{clinicLabel}
+        </if>
+        <if test="timeDesc!=null and timeDesc!='' ">
+            and a.time_desc =#{timeDesc}
+        </if>
+        <if test="clinicDate!=null and clinicDate!='' ">
+            and a.clinic_date =#{clinicDate}
+        </if>
+    </select>
+
 	<select id="findList" resultType="ClinicForRegist">
 		SELECT 
 			<include refid="clinicForRegistColumns"/>
@@ -67,6 +83,7 @@
          "CLINIC_FOR_REGIST"."TIME_DESC" AS timeDesc,
          "CLINIC_FOR_REGIST"."REGISTRATION_LIMITS" AS registrationLimits,
          "CLINIC_FOR_REGIST"."APPOINTMENT_LIMITS" AS appointmentLimits,
+        "CLINIC_FOR_REGIST"."APPOINTMENT_NUM" AS appointmentNum,
          "CLINIC_FOR_REGIST"."REGIST_PRICE" AS registPrice,
         "CLINIC_FOR_REGIST".REGISTRATION_NUM as registrationNum,
          "CLINIC_INDEX"."CLINIC_DEPT" AS clinicDept,
@@ -163,6 +180,11 @@
 	<update id="updateRegister" >
 		update clinic_for_regist set current_no =current_no + 1 , registration_num =registration_num + 1 where id=#{id}
 	</update>
+
+    <update id="updateAppointsConfirm" >
+        update clinic_for_regist set  registration_num =registration_num + 1 where id=#{id}
+    </update>
+
 	<update id="delete">
 		update clinic_for_regist  SET del_flag='1'
 		WHERE id = #{id}
@@ -186,8 +208,17 @@
 		update clinic_for_regist set  appointment_num =0 + 1,current_no =current_no + 1
 		 where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date=to_date( #{clinicDate} , 'yyyy-mm-dd' )
 	</select>
+
+
+    <update id="updateAppoints" >
+        update clinic_for_regist set current_no =current_no + 1 , appointment_num =appointment_num + 1 where id=#{id}
+    </update>
     <select id="updateRegByAppointReturn">
 		update clinic_for_regist set current_no =current_no - 1 , appointment_num =appointment_num - 1
-		where clinic_label =#{clinicLabel} and time_desc =#{timeDesc} and clinic_date=to_date( #{clinicDate} , 'yyyy-mm-dd' )
+		where id=#{id}
 	</select>
+    <select id="updateAppointReturn">
+        update clinic_for_regist set current_no =current_no + 1 , appointment_num =appointment_num +1
+        where id=#{id}
+    </select>
 </mapper>

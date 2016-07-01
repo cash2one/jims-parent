@@ -31,12 +31,36 @@
     </select>
 
     <select id="findList" resultType="AsepsisDict">
-        SELECT
-        <include refid="asepsisDictColumns"/>
-        FROM ASEPSIS_DICT a
-        <where>
-            a.org_id =  #{orgId}
-        </where>
+        select a.id,
+        a.asepsis_code,
+        a.item_class,
+        a.asepsis_name,
+        a.asepsis_spec,
+        a.units,
+        a.anti_price,
+        a.noback_price,
+        a.noback_price,
+        a.belong_dept,
+        a.memos,
+        a.input_code,
+        a.valid_days,
+        a.clean_price,
+        a.pack_price,
+        a.asep_price,
+        a.item_rollback_flag,
+        a.flag,
+        a.org_id,
+        b.dept_name,
+        o.label
+        from asepsis_dict a, dept_dict b,org_sys_dict o
+        where a.org_id =#{orgId}
+        and a.belong_dept = b.dept_code and o.value=a.units
+        <if test="belongDept !=null and belongDept !=''">
+            and a.belong_dept=#{belongDept}
+        </if>
+        <if test="asepsisName !=null and asepsisName !=''">
+            and a.asepsis_name=#{asepsisName}
+        </if>
     </select>
 
     <select id="findListHasStock" resultType="AsepsisDict">
@@ -45,13 +69,34 @@
         FROM ASEPSIS_DICT a, ASEPSIS_STOCK s
         <where>
             a.asepsis_code = s.item_code and flag = '1'
+            and s.from_dept = a.belong_dept
             <if test="belongDept != null and belongDept != ''">
                 and a.belong_dept = #{belongDept}
             </if>
             <if test="orgId != null and orgId != ''">
                 and a.org_id = #{orgId}
             </if>
+            and (s.anti_date+a.valid_days) >= sysdate
             and s.amount > 0
+        </where>
+    </select>
+
+    <select id="findPageByDept" resultType="AsepsisDict">
+        SELECT
+        <include refid="asepsisDictColumns"/>
+        FROM ASEPSIS_DICT a
+        <where>
+
+            a.org_id = #{orgId}
+            <if test="belongDept!=null and  belongDept!=''">
+                and a.BELONG_DEPT=#{belongDept}
+            </if>
+
+            <if test="asepsisName!=null and  asepsisName!=''">
+                and a.ASEPSIS_NAME=#{asepsisName}
+            </if>
+
+
         </where>
     </select>
 
@@ -104,9 +149,8 @@
     </insert>
 
     <update id="update">
-        UPDATE INTO ASEPSIS_DICT SET
-            ID = #{id}
-            ,ITEM_CLASS = #{itemClass}
+        UPDATE  ASEPSIS_DICT SET
+            ITEM_CLASS = #{itemClass}
             ,ASEPSIS_CODE = #{asepsisCode}
             ,ASEPSIS_NAME = #{asepsisName}
             ,ASEPSIS_SPEC = #{asepsisSpec}

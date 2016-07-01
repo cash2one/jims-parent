@@ -6,6 +6,7 @@
 		a.id AS "id",
         a.org_id AS "ORG_ID",
 		a.inp_no AS "inpNo",
+		a.age AS "age",
 		a.name AS "name",
 		a.name_phonetic AS "namePhonetic",
 		a.sex AS "sex",
@@ -118,6 +119,7 @@
 			id,
 			inp_no,
 			name,
+			age,
 			name_phonetic,
 			sex,
 			date_of_birth,
@@ -173,6 +175,7 @@
 			#{id},
 			#{inpNo},
 			#{name},
+			#{age},
 			#{namePhonetic},
 			#{sex},
 			#{dateOfBirth},
@@ -226,11 +229,26 @@
 			#{delFlag}
 		)
 	</insert>
-	
+	<update id="updatePatInfo">
+		update pat_master_index SET
+		    name = #{name},
+            sex = #{sex},
+            age=#{age},
+			date_of_birth = #{dateOfBirth},
+			identity = #{identity},
+			charge_type = #{chargeType},
+	        phone_number_home = #{phoneNumberHome},
+	        unit_in_contract = #{unitInContract},
+	        mailing_address = #{mailingAddress},
+	        address_now = #{addressNow},
+	        id_no = #{idNo}
+	        WHERE id=#{id}
+	</update>
 	<update id="update">
 		UPDATE pat_master_index SET
 			inp_no = #{inpNo},
 			name = #{name},
+			age=#{age},
 			name_phonetic = #{namePhonetic},
 			sex = #{sex},
 			date_of_birth = #{dateOfBirth},
@@ -297,6 +315,7 @@
 			</if>
 		</where>
 	</update>
+
 	<select id="findWaitFrom" resultType="com.jims.clinic.vo.ComeDeptVo">
 		  SELECT pmi.NAME as 'name',
          pmi.PATIENT_ID as 'patientId',

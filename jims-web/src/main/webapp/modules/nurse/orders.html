@@ -7,13 +7,16 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="../nurse/js/orders.js"></script>
+    <script type="text/javascript" src="/static/data/data_orders.js"></script>
+    <script type="text/javascript" src="/static/data/data_orders_administration.js"></script>
+    <script type="text/javascript" src="/static/data/data_orders_freq.js"></script>
 </head>
 <body class="easyui-layout" >
 
 <div class="search-standard clearfix">
 
         <ul class="clearfix">
-            <form id="baseInfo">
+         <!--   <form id="baseInfo">
             <li>床标号:<input name="bed_no1" class="validatebox-text" readonly/></li>
             <li>姓名:<input name="name" class="validatebox-text" readonly/></li>
             <li>性别:<input name="sex" class="validatebox-text" readonly/></li>
@@ -23,18 +26,18 @@
             <li>费别:<input name="charge_type" class="validatebox-text" readonly/></li>
             <li>诊断:<input name="diagnosis" class="validatebox-text" readonly/></li>
             <li>经治医生:<input name="doctor_in_charge" class="validatebox-text" readonly/></li>
-            </form>
+            </form>-->
             <form name="searchform" method="post" id ="searchform">
             <li>
                长期/临时:
-                <input type="radio" name="repeatIndicator"  checked="checked" value="1" />全部
+                <input type="radio" name="repeatIndicator"  checked="checked" value="" />全部
                 <input type="radio" name="repeatIndicator" value="2"  />长期
                 <input type="radio" name="repeatIndicator" value="3"  />临时
                 <input type="radio" name="repeatIndicator" value="4"  />当日医嘱
             </li>
             <li>
                 医嘱状态:
-                <input type="radio" name="orderStatus"  checked="checked" value="1" />全部 &nbsp;&nbsp;
+                <input type="radio" name="orderStatus"  checked="checked" value="" />全部 &nbsp;&nbsp;
                 <input type="radio" name="orderStatus" value="2"  />新开
                 <input type="radio" name="orderStatus" value="3"  />执行
                 <input type="radio" name="orderStatus" value="4"  />已停

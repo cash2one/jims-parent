@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.asepsis.entity.AsepsisDict;
 import com.jims.asepsis.api.AsepsisDictApi;
 import com.jims.asepsis.bo.AsepsisDictBo;
+import com.jims.asepsis.vo.AsepsisDictVo;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,6 +37,15 @@ public class AsepsisDictServiceImpl implements AsepsisDictApi{
     */
     public List<AsepsisDict> findList(AsepsisDict entity) {
         return bo.findList(entity);
+    }
+
+    /**
+     * 根据科室和orgId 查询科室下的包
+     * @param entity
+     * @return
+     */
+    public List<AsepsisDict> findPageByDept(AsepsisDict entity){
+        return bo.findPageByDept(entity);
     }
 
     /**
@@ -72,6 +82,18 @@ public class AsepsisDictServiceImpl implements AsepsisDictApi{
             return "1";
         } catch(RuntimeException e) {}
         return "0";
+    }
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisDictVo
+     * @return
+     * @author yangruidong
+     */
+    @Override
+    public List<AsepsisDict> saveAll(AsepsisDictVo<AsepsisDict> asepsisDictVo) {
+        return bo.saveAll(asepsisDictVo);
     }
 
     /**

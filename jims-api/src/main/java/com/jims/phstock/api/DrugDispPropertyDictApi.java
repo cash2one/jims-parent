@@ -2,6 +2,7 @@ package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugDispPropertyDict;
+import com.jims.sys.vo.BeanChangeVo;
 
 import java.util.List;
 
@@ -10,6 +11,14 @@ import java.util.List;
  * Created by heren on 2016/5/10.
  */
 public interface DrugDispPropertyDictApi {
+
+    /**
+     * 保存增删改
+     * @param beanChangeVo
+     * @return
+     * @author fengyuguang
+     */
+    public String merge(BeanChangeVo<DrugDispPropertyDict> beanChangeVo);
 
     /**
      * 获取摆药类别

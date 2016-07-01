@@ -3,28 +3,29 @@
 <mapper namespace="com.jims.asepsis.dao.AsepsisSendRecDao">
 
     <sql id="asepsisSendRecColumns">
-        "ID" as "id"
-        ,"DOCUMENT_NO" as "documentNo"
-        ,"ITEM_NO" as "itemNo"
-        ,"FROM_DEPT" as "fromDept"
-        ,"SEND_DATE" as "sendDate"
-        ,"ITEM_CODE" as "itemCode"
-        ,"ITEM_NAME" as "itemName"
-        ,"ITEM_SPEC" as "itemSpec"
-        ,"SEND_AMOUNT" as "sendAmount"
-        ,"GET_AMOUNT" as "getAmount"
-        ,"GET_DATE" as "getDate"
-        ,"GET_FLAG" as "getFlag"
-        ,"UNITS" as "units"
-        ,"OPERATOR" as "operator"
-        ,"SENDER" as "sender"
-        ,"MEMOS" as "memos"
-        ,"ANTI_FEE" as "antiFee"
-        ,"ANTI_FEE_SUM" as "antiFeeSum"
-        ,"NOBACK_FEE" as "nobackFee"
-        ,"REQ_DATE" as "reqDate"
-        ,"REQ_OPERATOR" as "reqOperator"
-        ,"ORG_ID" as "orgId"
+        a."ID" as "id"
+        ,a."DOCUMENT_NO" as "documentNo"
+        ,a."ITEM_NO" as "itemNo"
+        ,a."FROM_DEPT" as "fromDept"
+        ,a."SEND_DATE" as "sendDate"
+        ,a."ITEM_CODE" as "itemCode"
+        ,a."ITEM_NAME" as "itemName"
+        ,a."ITEM_SPEC" as "itemSpec"
+        ,a."SEND_AMOUNT" as "sendAmount"
+        ,a."GET_AMOUNT" as "getAmount"
+        ,a."GET_DATE" as "getDate"
+        ,a."GET_FLAG" as "getFlag"
+        ,a."GET_MAN" as "getMan"
+        ,a."UNITS" as "units"
+        ,a."OPERATOR" as "operator"
+        ,a."SENDER" as "sender"
+        ,a."MEMOS" as "memos"
+        ,a."ANTI_FEE" as "antiFee"
+        ,a."ANTI_FEE_SUM" as "antiFeeSum"
+        ,a."NOBACK_FEE" as "nobackFee"
+        ,a."REQ_DATE" as "reqDate"
+        ,a."REQ_OPERATOR" as "reqOperator"
+        ,a."ORG_ID" as "orgId"
     </sql>
 
     <select id="get" resultType="AsepsisSendRec">
@@ -40,6 +41,36 @@
         FROM ASEPSIS_SEND_REC a
         <where>
             a.org_id =  #{orgId}
+            and s.org_id =  #{orgId}
+        </where>
+    </select>
+
+    <select id="findListWithStock" resultType="AsepsisSendRec">
+        SELECT
+        <include refid="asepsisSendRecColumns"/>,nvl(s.amount,0) stock,d.dept_name fromDeptName
+        FROM ASEPSIS_SEND_REC a,(select sum(s.amount) amount,s.document_no
+            from asepsis_stock s,asepsis_dict d
+              where s.item_code = d.asepsis_code
+              and s.org_id=#{orgId} and (s.anti_date+d.valid_days) >= sysdate group by s.document_no) s,
+        (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) d
+        <where>
+            a.org_id =  #{orgId}
+            and a.from_dept = d.dept_code
+            and a.document_no = s.document_no(+)
+            and (a.get_flag = '1' or a.get_flag = '2')
+            <if test="sendDateStart != null and sendDateStart != ''">
+                and a.send_date >= #{sendDateStart}
+            </if>
+            <if test="sendDateEnd != null and sendDateEnd != ''">
+                and #{sendDateEnd} >= a.send_date
+            </if>
+            <if test="fromDept != null and fromDept != ''">
+                and a.from_dept = #{fromDept}
+            </if>
+            <if test="sender != null and sender != ''">
+                and a.sender = #{sender}
+            </if>
+            order by a.from_dept,a.document_no
         </where>
     </select>
 
@@ -47,6 +78,12 @@
         SELECT
         <include refid="asepsisSendRecColumns"/>
         FROM ASEPSIS_SEND_REC a
+    </select>
+
+    <select id="getMaxDocumentNo" resultType="string">
+        select max(document_no)
+        from asepsis_send_rec t
+        where document_no like 'S'||to_char(sysdate,'yyMMdd')||'%' and org_id = #{1}
     </select>
 
     <insert id="insert">
@@ -73,6 +110,7 @@
             ,REQ_DATE
             ,REQ_OPERATOR
             ,ORG_ID
+            ,GET_MAN
         ) VALUES (
             #{id}
             ,#{documentNo}
@@ -96,13 +134,13 @@
             ,#{reqDate}
             ,#{reqOperator}
             ,#{orgId}
+            ,#{getMan}
         )
     </insert>
 
     <update id="update">
-        UPDATE INTO ASEPSIS_SEND_REC SET
-            ID = #{id}
-            ,DOCUMENT_NO = #{documentNo}
+        UPDATE ASEPSIS_SEND_REC SET
+            DOCUMENT_NO = #{documentNo}
             ,ITEM_NO = #{itemNo}
             ,FROM_DEPT = #{fromDept}
             ,SEND_DATE = #{sendDate}
@@ -123,6 +161,7 @@
             ,REQ_DATE = #{reqDate}
             ,REQ_OPERATOR = #{reqOperator}
             ,ORG_ID = #{orgId}
+            ,GET_MAN = #{getMan}
         WHERE id = #{id}
     </update>
 

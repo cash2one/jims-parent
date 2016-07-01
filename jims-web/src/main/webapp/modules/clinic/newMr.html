@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html class="panel-fit">
+<head>
+	<meta charset="UTF-8">
+	<title>云his工作平台--新建病历</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../clinic/js/newMr.js"></script>
+</head>
+<body class="easyui-layout" onload="onloadMethod()">
+
+<table id="list_data" width="100%"   cellspacing="0" cellpadding="0">
+
+</table>
+
+<div style="text-align:right;">
+    <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'" href="#" onclick="confirmMr()">确认</a>&nbsp;
+    <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'" href="javascript:history.go(-1);">取消</a>&nbsp;
+</div>
+</body>
+</html>

@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com.jims.emr">EMR</a> All rights reserved.
- */
+
 package com.jims.clinic.service;
 
 
@@ -46,7 +44,6 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 		if(emrDiagnosis.size()>0){
 			for(int i=0;i<emrDiagnosis.size();i++){
 				EmrDiagnosis diagnosis=emrDiagnosis.get(i);
-				diagnosis.setParentId("0");
 				diagnosis.setInOrOutFlag("0");//门诊
 				save(diagnosis);
 			}

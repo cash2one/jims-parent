@@ -23,7 +23,8 @@ public class AsepsisLendRec extends DataEntity<AsepsisLendRec> {
     private String units;  // 单位
     private Double returnAmount;  // 已还数量
     private Date returnDate;  // 还物日期
-    private String returnFlag;  // 返还标志:0-申请,1-申请确认(未还),2-部分还,3-全部还完,4-包对换(送),5-包对换(取)
+    private String returnMan;  // 还物人
+    private String returnFlag;  // 返还标志:1-未还，2-部分还，3-全部还,4-包对换
     private String operator;  // 操作员(同时用于记录对换(回收)的操作员)
     private String lender;  // 借物人
     private String memos;  // 备注
@@ -36,6 +37,11 @@ public class AsepsisLendRec extends DataEntity<AsepsisLendRec> {
     private String reqOperator;  // 申请人
     private String operator2;  // 用于记录对换(发放)的操作员
     private String orgId;  // 所属机构ID
+
+    private Date lendDateStart;
+    private Date lendDateEnd;
+    private Integer stock;
+    private String toDeptName;
 
     public AsepsisLendRec() {
         super();
@@ -237,5 +243,43 @@ public class AsepsisLendRec extends DataEntity<AsepsisLendRec> {
         this.orgId = orgId;
     }
 
+    public Date getLendDateStart() {
+        return lendDateStart;
+    }
 
+    public void setLendDateStart(Date lendDateStart) {
+        this.lendDateStart = lendDateStart;
+    }
+
+    public Date getLendDateEnd() {
+        return lendDateEnd;
+    }
+
+    public void setLendDateEnd(Date lendDateEnd) {
+        this.lendDateEnd = lendDateEnd;
+    }
+
+    public String getReturnMan() {
+        return returnMan;
+    }
+
+    public void setReturnMan(String returnMan) {
+        this.returnMan = returnMan;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public String getToDeptName() {
+        return toDeptName;
+    }
+
+    public void setToDeptName(String toDeptName) {
+        this.toDeptName = toDeptName;
+    }
 }

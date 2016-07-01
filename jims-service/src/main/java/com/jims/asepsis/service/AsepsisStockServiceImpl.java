@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.asepsis.entity.AsepsisStock;
 import com.jims.asepsis.api.AsepsisStockApi;
 import com.jims.asepsis.bo.AsepsisStockBo;
+import com.jims.asepsis.vo.AsepsisStockVo;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -74,6 +75,18 @@ public class AsepsisStockServiceImpl implements AsepsisStockApi{
         return "0";
     }
 
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisStockVo
+     * @return
+     * @author yangruidong
+     */
+    @Override
+    public List<AsepsisStock> saveAll(AsepsisStockVo<AsepsisStock> asepsisStockVo) {
+        return bo.saveAll(asepsisStockVo);
+    }
     /**
     * 删除数据
     * @param ids,多个id以逗号（,）隔开
@@ -85,5 +98,14 @@ public class AsepsisStockServiceImpl implements AsepsisStockApi{
             return "1";
         } catch(RuntimeException e) {}
         return "0";
+    }
+
+    /**
+     * 检索有库存的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisStock> findListHasStock(AsepsisStock entity){
+        return bo.findListHasStock(entity);
     }
 }

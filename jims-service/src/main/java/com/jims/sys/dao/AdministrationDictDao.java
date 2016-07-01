@@ -5,6 +5,7 @@ package com.jims.sys.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.sys.entity.AdministrationDict;
 import com.jims.sys.entity.Dict;
 import org.apache.ibatis.annotations.Param;
@@ -31,6 +32,25 @@ public interface AdministrationDictDao extends CrudDao<AdministrationDict> {
     public List<AdministrationDict> listAdministrationByInpOrOutpFlag(@Param("inpOutpFlag") String inpOutpFlag) ;
 
     public List<AdministrationDict> findAllList();
+
+    /**
+     * 选择用药途径，根据用药途径信息获取途径费用信息
+     * @param itemName
+     * @param orgId
+     * @author CTQ
+     * @return
+     */
+    public BaseDto findByParams(@Param("itemName")String itemName,/*@Param("itemClass")String itemClass,*/@Param("orgId")String orgId);
+    /**
+     * @param        orgId     传递参数
+     * @return java.util.List<com.jims.sys.entity.AdministrationDict>    返回类型
+     * @throws
+     * @Title: mzViewList
+     * @Description: (查询门诊用药途径)
+     * @author CTQ
+     * @date 2016/6/28
+     */
+    public List<AdministrationDict> mzViewList( @Param("orgId")String orgId);
 
 	
 }

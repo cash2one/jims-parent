@@ -40,8 +40,8 @@ public class Orders extends DataEntity<Orders> {
 	private Date startDateTime;		// 起始日期及时间
 	private Date stopDateTime;		// 停止日期及时间
 	private String frequency;		// 执行频率描述
-	private Integer freqCounter;		// 频率次数
-	private Integer freqInterval;		// 频率间隔
+	private String freqCounter;		// 频率次数
+	private String freqInterval;		// 频率间隔
 	private String freqIntervalUnit;		// 频率间隔单位
 	private String freqDetail;		// 执行时间详细描述
 	private String performSchedule;		// 护士执行时间
@@ -282,23 +282,23 @@ public class Orders extends DataEntity<Orders> {
 	public void setFrequency(String frequency) {
 		this.frequency = frequency;
 	}
-	
-	public Integer getFreqCounter() {
+
+	public String getFreqCounter() {
 		return freqCounter;
 	}
 
-	public void setFreqCounter(Integer freqCounter) {
+	public void setFreqCounter(String freqCounter) {
 		this.freqCounter = freqCounter;
 	}
-	
-	public Integer getFreqInterval() {
+
+	public String getFreqInterval() {
 		return freqInterval;
 	}
 
-	public void setFreqInterval(Integer freqInterval) {
+	public void setFreqInterval(String freqInterval) {
 		this.freqInterval = freqInterval;
 	}
-	
+
 	@Length(min=0, max=4, message="频率间隔单位长度必须介于 0 和 4 之间")
 	public String getFreqIntervalUnit() {
 		return freqIntervalUnit;

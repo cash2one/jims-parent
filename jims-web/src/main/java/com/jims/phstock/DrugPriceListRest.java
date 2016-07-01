@@ -107,14 +107,14 @@ public class DrugPriceListRest {
      * 根据药品代码查询当前组织结构的药品价格
      * 不同规格、不同厂商，不同单位，不同价格，不同零售价
      * @param classCode
-     * @param orgId
+
      * @return
      * @author txb
      */
     @GET
     @Path("listDrugNameDictByClassCode")
-    public List<DrugNameDict> listDrugNameDictByClassCode(@QueryParam("classCode")String classCode,@QueryParam("orgId")String orgId){
-        return drugPriceListServiceApi.listDrugNameDictByClassCode(orgId,classCode);
+    public List<DrugNameDict> listDrugNameDictByClassCode(@QueryParam("classCode")String classCode){
+        return drugPriceListServiceApi.listDrugNameDictByClassCode(classCode);
     } ;
     /**
      * 通过药品代码查询药品列表
@@ -154,4 +154,19 @@ public class DrugPriceListRest {
     public List<DrugNameDict> findDrugNameDictList(){
         return drugNameDictServiceApi.findList(new DrugNameDict());
     }
+
+    /**
+     * 停价处理
+     * @param id
+     * @return
+     * @author weishen
+     */
+    @POST
+    @Path("stop")
+    public String stopDate(String id){
+
+       return drugPriceListServiceApi.stopDate(id);
+    };
+
+
 }

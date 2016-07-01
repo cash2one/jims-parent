@@ -5,11 +5,21 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.DoctDrugPrescMasterServiceApi;
 import com.jims.clinic.dao.DoctDrugPrescDetailDao;
 import com.jims.clinic.dao.DoctDrugPrescMasterDao;
+import com.jims.clinic.dao.OrdersCostsDao;
 import com.jims.clinic.entity.DoctDrugPrescDetail;
 import com.jims.clinic.entity.DoctDrugPrescMaster;
+import com.jims.clinic.entity.OrdersCosts;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.exam.dao.OrdersDao;
 import com.jims.exam.entity.Orders;
+import com.jims.sys.dao.AdministrationDictDao;
+import com.jims.sys.dao.PerformDefaultScheduleDao;
+import com.jims.sys.dao.PerformFreqDictDao;
+import com.jims.sys.entity.AdministrationDict;
+import com.jims.sys.entity.PerformDefaultSchedule;
+import com.jims.sys.entity.PerformFreqDict;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -29,6 +39,15 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
     DoctDrugPrescDetailDao doctDrugPrescDetailDao;
     @Autowired
     OrdersDao ordersDao;
+    @Autowired
+    OrdersCostsDao ordersCostsDao;
+    @Autowired
+    PerformFreqDictDao performFreqDictDao;
+    @Autowired
+    PerformDefaultScheduleDao performDefaultScheduleDao;
+    @Autowired
+    AdministrationDictDao administrationDictDao;
+
     /**
      * 根据参数查询列表
      * @param doctDrugPrescMaster
@@ -66,60 +85,87 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
                         ddpd.setPrescMasterId(doctDrugPrescMaster.getId());
                         ddpd.setPrescDate(doctDrugPrescMaster.getPrescDate());
                         ddpd.setItemNo(1);
-                        ddpd.setOrderNo(1);
-                        ddpd.setOrderSubNo(1);
                         ddpd.preInsert();
                         doctDrugPrescDetailDao.insert(ddpd);
-                        //判断是否勾选生成长期或者临时医嘱，如果已勾选，则生成医嘱信息
-                        if(!"".equals(doctDrugPrescMaster.getLongTerm())){
+                        //判断是否勾选生成长期或者临时医嘱，如果已勾选，则生成医嘱信息----默认生成长期医嘱
+                       /* if(!"".equals(doctDrugPrescMaster.getLongTerm())){
+*/
                             Orders orders = new Orders();
-                            orders.setStartDateTime(doctDrugPrescMaster.getPrescDate());
+                            orders.setStartDateTime(new Date());
                             orders.setOrderText(ddpd.getDrugName());
                             orders.setDosage(ddpd.getDosage());
                             orders.setDosageUnits(ddpd.getDosageUnits());
                             orders.setAdministration(ddpd.getAdministration());
                             orders.setFrequency(ddpd.getFrequency());
-                           /* orders.setFreqCounter(1);
-                            orders.setFreqInterval();
-                            orders.setFreqIntervalUnit();
-                            orders.setDoctor();*/
-//                            orders.setNurse();
                             orders.setOrderClass("A");//药疗
                             orders.setRepeatIndicator(String.valueOf(doctDrugPrescMaster.getLongTerm()));//长期/临时医嘱
-//                            orders.setStopDateTime();
                             orders.setOrderCode(ddpd.getDrugCode());//药品代码
-                            orders.setOrderStatus("1");//医嘱状态-新开
+                            orders.setOrderStatus("1");//医嘱状态-传输状态
                             orders.setEnterDateTime(new Date());// 开医嘱录入日期及时间
                             orders.setFreqDetail(ddpd.getFreqDetail());
                             orders.setPatientId(doctDrugPrescMaster.getPatientId());
                             orders.setVisitId(doctDrugPrescMaster.getVisitId());
                             orders.setOrgId(doctDrugPrescMaster.getOrgId());
                             orders.setClinicId(doctDrugPrescMaster.getId());
-                            orders.setOrderNo(1);
-                            orders.setOrderSubNo(1);
-                            //orders.setPerformSchedule();//护士执行时间
-                            orders.setBillingAttr(0);//0-正常计价 1-自带药 2-需手工计价 3-不计价
-                            /*orders.setLastAcctingDateTime();
-                            orders.setPerformResult();
-                            orders.setLastPerformDateTime();*/
-                            orders.setOrderingDept(doctDrugPrescMaster.getOrderedBy());//科室
+                            orders.setOrderNo(ddpd.getOrderNo());
+                            orders.setOrderSubNo(ddpd.getOrderSubNo());
+                            if(doctDrugPrescMaster.getLongTerm()!=0){
+                                //根据频次id查询频次信息
+                                PerformFreqDict performFreqDict = performFreqDictDao.get(ddpd.getFrequency());
+                                 orders.setFreqCounter(performFreqDict.getFreqCounter());
+                                orders.setFreqInterval(performFreqDict.getFreqInterval());
+                                orders.setFreqIntervalUnit(performFreqDict.getFreqIntervalUnits());
+                                orders.setFreqDetail(performFreqDict.getFreqDesc());
+
+                                //根据频次和途径id 获取执行时间
+                                PerformDefaultSchedule pds = new PerformDefaultSchedule();
+                                pds.setAdministration(ddpd.getAdministration());
+                                pds.setFreqDesc(ddpd.getFrequency());
+                                pds = performDefaultScheduleDao.findByParams(pds);
+                                orders.setPerformSchedule(pds.getDefaultSchedule());//护士执行时间
+                            }else{
+                                orders.setPerformSchedule(DateFormatUtils.format(new Date(),"HH:ss"));//护士执行时间
+                            }
+                            orders.setDoctor("");
+                            orders.setBillingAttr(3);//0-正常计价 1-自带药 2-需手工计价 3-不计价4-不摆药
+                            orders.setOrderingDept("");//科室-当前科室
                             orders.setDrugBillingAttr(0);//药品计价属性：0正常1自带药
-                            //orders.setDoctorUser();;//医生代码
-                            /*orders.setStopNurse();
-                            orders.setVerifyDataTime();
-                            orders.setOrderPrintIndicator();
-                            orders.setProcessionDateTime();
-                            orders.setProcessionNurse();
-                            orders.setStopProcessionDateTime();
-                            orders.setStopProcessionNurse();*/
                             orders.setCurrentPrescNo(doctDrugPrescMaster.getPrescNo());
-                            /*orders.setCancelDateTime();
-                            orders.setCancelDoctor();
+                            //orders.setDoctorUser();;//医生代码
+                            /*orders.setOrderPrintIndicator();
                             orders.setDegree();*/
                             orders.preInsert();
                             ordersDao.insert(orders);
+                            /*INSERT INTO "ORDERS_COSTS"
+                            ("ITEM_NAME","AMOUNT", "UNITS", "ITEM_CODE","ITEM_NO","ORDER_SUB_NO", "ORDER_NO",  "VISIT_ID",   "PATIENT_ID","COSTS","ITEM_SPEC", "BACKBILL_RULE")
+                            VALUES ('静脉输液',  '1.0000',  '组',   '12040000600',   'E',  '1',  '1', '53',  '1',  '15002959', '6.00', '/',    NULL)*/
+                            /**根据参数查询途径收费项**/
+                        if(ddpd.getAdministration()!=null&&!"".equals(ddpd.getAdministration())){
+                            AdministrationDict administrationDict = administrationDictDao.get(ddpd.getAdministration());
+                            if(administrationDict!=null){
+                                BaseDto baseDto = administrationDictDao.findByParams(administrationDict.getAdministrationName(),orders.getOrgId());
+                                if(baseDto!=null){
+                                    OrdersCosts ordersCosts = new OrdersCosts();
+                                    ordersCosts.setItemName(baseDto.get("item_name").toString());
+                                    ordersCosts.setAmount(Double.valueOf(baseDto.get("amount").toString()));
+                                    ordersCosts.setUnits(baseDto.get("units").toString());
+                                    ordersCosts.setItemCode(baseDto.get("item_code").toString());
+                                    ordersCosts.setItemNo(Integer.valueOf(baseDto.get("item_no").toString()));
+                                    ordersCosts.setOrderNo(orders.getOrderNo());
+                                    ordersCosts.setOrderSubNo(orders.getOrderSubNo());
+                                    ordersCosts.setPatientId(orders.getPatientId());
+                                    ordersCosts.setVisitId(orders.getVisitId());
+                                    ordersCosts.setCosts(Double.valueOf(baseDto.get("cost").toString()));
+                                    ordersCosts.setItemSpec(baseDto.get("item_spec").toString());
+                                    ordersCosts.setBackbillRule(baseDto.get("backbill_rule").toString());
+                                    ordersCosts.preInsert();
+                                    ordersCostsDao.insert(ordersCosts);
+                                }
+                            }
                         }
+
                     }
+
                 }
             }
         } catch (Exception e) {
@@ -138,7 +184,12 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
     public String deletePresc(String id) {
         int num = 0;
         try {
+            Orders orders = new Orders();
             doctDrugPrescDetailDao.removeByMasterId(id);
+            orders.setStopDoctor("");
+            orders.setOrderStatus("8");
+            orders.setClinicId(id);
+            ordersDao.updateOrders(orders);
             num = dao.delete(id);
         } catch (Exception e) {
             e.printStackTrace();

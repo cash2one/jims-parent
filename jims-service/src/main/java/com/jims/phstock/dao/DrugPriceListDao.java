@@ -10,6 +10,7 @@ import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,13 +49,20 @@ public interface DrugPriceListDao extends CrudDao<DrugPriceList> {
 
     /**
      * 根据当前组织结构，和当前类别获取所有的药品名称字典。
-     * @param orgId  组织机构id
      * @param classCode 类别代码
      * @return
      * @author txb
      *
      */
-    public List<DrugNameDict> listDrugNameDictByClassCode(String orgId,String classCode) ;
+    public List<DrugNameDict> listDrugNameDictByClassCode(String classCode) ;
+
+    /**
+     *停价处理
+     * @param id
+     * @return
+     * @author weishen
+     */
+    public int stopDate(String id,Date date) ;
 
     /**
      * 调价确认 查询价表数据

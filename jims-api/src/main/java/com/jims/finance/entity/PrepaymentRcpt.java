@@ -20,7 +20,7 @@ public class PrepaymentRcpt extends DataEntity<PrepaymentRcpt> {
 	private String patientId;		// 病人标识
 	private String rcptNo;		// 预交金收据号
 	private Double amount;		// 金额
-	private String payWay;		// 支付方式
+		private String payWay;		// 支付方式
 	private String bank;		// 开户银行
 	private String checkNo;		// 支票号
 	private String transactType;		// 操作类型
@@ -40,6 +40,9 @@ public class PrepaymentRcpt extends DataEntity<PrepaymentRcpt> {
 	private String serialNo;		// serial_no
 	private String settledPreNo;		// settled_pre_no
 	private Double settleBalance;		// settle_balance
+
+	private String startDate;
+	private String endDate;
 	
 	public PrepaymentRcpt() {
 		super();
@@ -256,4 +259,19 @@ public class PrepaymentRcpt extends DataEntity<PrepaymentRcpt> {
 		this.settleBalance = settleBalance;
 	}
 
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 }

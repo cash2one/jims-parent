@@ -1,6 +1,7 @@
 package com.jims.asepsis.api;
 
 import com.jims.asepsis.entity.AsepsisStock;
+import com.jims.asepsis.vo.AsepsisStockVo;
 import com.jims.common.persistence.Page;
 
 import java.util.List;
@@ -49,9 +50,24 @@ public interface AsepsisStockApi {
     public String save(List<AsepsisStock> list);
 
     /**
+     * 保存  增删改
+     * @param asepsisStockVo
+     * @return
+     *  @author  yangruidong
+     */
+    public List<AsepsisStock> saveAll(AsepsisStockVo<AsepsisStock> asepsisStockVo);
+
+    /**
     * 删除数据
     * @param ids,多个id以逗号（,）隔开
     * @return 0 失败，1成功
     */
     public String delete(String ids) ;
+
+    /**
+     * 检索有库存的
+     * @param entity
+     * @return
+     */
+    public List<AsepsisStock> findListHasStock(AsepsisStock entity);
 }

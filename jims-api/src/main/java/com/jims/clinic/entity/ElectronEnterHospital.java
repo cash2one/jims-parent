@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package com.jims.clinic.entity;
 
 import com.jims.common.utils.CustomDateDeSerializer;
@@ -12,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 病历文书--入院记录Entity
@@ -46,6 +45,7 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 	private String xiaojieyufenxi;		// 小结与分析
 	private Date caijiriqi;		// 病史采集日期
 	private String isdepend;		// 病史陈述者是否可靠
+	private List<EmrDiagnosis> diagnosisList;
 	
 	public ElectronEnterHospital() {
 		super();
@@ -274,5 +274,12 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 	public void setIsdepend(String isdepend) {
 		this.isdepend = isdepend;
 	}
-	
+
+	public List<EmrDiagnosis> getDiagnosisList() {
+		return diagnosisList;
+	}
+
+	public void setDiagnosisList(List<EmrDiagnosis> diagnosisList) {
+		this.diagnosisList = diagnosisList;
+	}
 }

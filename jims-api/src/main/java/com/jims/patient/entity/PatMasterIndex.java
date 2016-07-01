@@ -103,6 +103,17 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
     private String visitIndicator; //诊别
 	private List<ClinicForRegist> clinicForRegistList;
 	private List<ClinicAppoints> clinicAppointses;
+  //扩展
+
+    private String bedNo;//床号
+    private String doctorInCharge;//经治医师
+	private String requestDoctorId;
+	private Date requestDateTime;
+    private String patientCondition;
+    private String deptCode;
+    private String bedLabel;//床标号
+    private  String visitDept; //就诊科室
+
 
 	public PatMasterIndex() {
 		super();
@@ -153,9 +164,12 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
+
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -742,4 +756,72 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
     public void setVisitIndicator(String visitIndicator) {
         this.visitIndicator = visitIndicator;
     }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getBedNo() {
+        return bedNo;
+    }
+
+    public void setBedNo(String bedNo) {
+        this.bedNo = bedNo;
+    }
+
+    public String getDoctorInCharge() {
+        return doctorInCharge;
+    }
+
+    public void setDoctorInCharge(String doctorInCharge) {
+        this.doctorInCharge = doctorInCharge;
+    }
+
+    public String getPatientCondition() {
+        return patientCondition;
+    }
+
+    public void setPatientCondition(String patientCondition) {
+        this.patientCondition = patientCondition;
+    }
+
+    public String getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
+    }
+
+    public String getBedLabel() {
+        return bedLabel;
+    }
+
+    public void setBedLabel(String bedLabel) {
+        this.bedLabel = bedLabel;
+    }
+
+    public String getVisitDept() {
+        return visitDept;
+    }
+
+    public void setVisitDept(String visitDept) {
+        this.visitDept = visitDept;
+    }
+
+	public String getRequestDoctorId() {
+		return requestDoctorId;
+	}
+
+	public void setRequestDoctorId(String requestDoctorId) {
+		this.requestDoctorId = requestDoctorId;
+	}
+
+	public Date getRequestDateTime() {
+		return requestDateTime;
+	}
+
+	public void setRequestDateTime(Date requestDateTime) {
+		this.requestDateTime = requestDateTime;
+	}
 }

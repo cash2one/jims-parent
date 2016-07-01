@@ -1,4 +1,17 @@
 function onloadMethod(status){
+    /**
+     * 病历状态 下拉框
+     */
+    $('#mrStatus').combobox({
+        data: mrStatus,
+        valueField: 'id',
+        textField: 'label'
+    })
+    $('#doctorRole').combobox({
+        data: doctorRole,
+        valueField: 'id',
+        textField: 'label'
+    })
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -19,6 +32,7 @@ function onloadMethod(status){
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
             /*{field:'id',title:'病人ID号',width:'10%',align:'center'},*/
+            {field:'patientId',title:'病人住院号',width:'10%',align:'center'},
             {field:'inpNo',title:'病人住院号',width:'10%',align:'center'},
             {field:'bedNo',title:'床号',width:'10%',align:'center'},
             {field:'name',title:'病人姓名',width:'10%',align:'center'},
@@ -43,19 +57,28 @@ function onloadMethod(status){
             text: '新建病历',
             iconCls: 'icon-add',
             handler: function() {
-
+               window.location.href="/modules/clinic/newMr.html";
+              /*document.getElementsByTagName("iframe").src = "/modules/clinic/newMr.html";*/
             }
         }, '-', {
             text: '移入病历',
             iconCls: 'icon-large-smartart',
             handler: function() {
+                $.get(basePath+'/patList/getPatMasterByIn',function(data){
+                    if(data.length<=0){
+                        $.messager.alert("提示消息","没有可移入的病人");
+                    }else{
+                        window.location.href="/modules/clinic/moveIn.html";
+                    }
+                   // window.location.href="/modules/clinic/moveIn.html";
+                });
 
             }
         }, '-',{
             text: '移除病历',
             iconCls: 'icon-remove',
             handler: function(){
-
+                removeMr();
             }
         }, '-',{
             text: '刷新病人列表',
@@ -101,7 +124,10 @@ function onloadMethod(status){
  */
 function searchPatList(){
      var patName=$("#patName").val();
-     $("#list_data").datagrid('reload',{"patName":patName});
+     var startTime=$("#startTime").datebox('getValue');
+     var endTime=$("#endTime").datebox('getValue');
+     var status=$('#wrap input[name="status"]:checked ').val();
+     $("#list_data").datagrid({queryParams:{"status":status,"patName":patName,"startTime":startTime,"endTime":endTime}});
 }
 /**
  * 切换病了列表
@@ -143,4 +169,21 @@ function loadPatientListView(status){
         }
     });
 }
-
+/**
+ * 移除病历
+ */
+function removeMr(){
+    var selectRows = $('#list_data').datagrid("getSelected");
+    if(selectRows==null ){
+        alert("未选中病人");
+        return false;
+    }
+    var patientId=  selectRows.patientId;//病人主索引ID
+    alert(patientId);
+    $.post(basePath+'/patList/removeMr?patId='+patientId,function(data){
+        if(data.code='1'){
+            $.messager.alert("提示消息","移除成功");
+            window.location.href="/modules/clinic/patientList.html";
+        }
+    });
+}

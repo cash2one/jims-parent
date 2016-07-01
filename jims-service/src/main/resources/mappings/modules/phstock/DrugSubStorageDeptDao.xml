@@ -34,6 +34,13 @@
 		FROM drug_sub_storage_dept a
 		WHERE a.id = #{id}
 	</select>
+
+    <select id="getListByStorageCode" resultType="DrugSubStorageDept">
+        SELECT
+        <include refid="drugSubStorageDeptColumns"/>
+        FROM drug_sub_storage_dept a
+        WHERE a.del_flag = '0' AND a.org_id = #{0} AND a.storage_code = #{1}
+    </select>
 	
 	<select id="findList" resultType="DrugSubStorageDept">
 		SELECT 
@@ -60,8 +67,8 @@
 
 	<insert id="insert">
 		INSERT INTO drug_sub_storage_dept(
-                id,
-                storage_code,
+              id,
+              storage_code,
               sub_storage,
               import_no_prefix,
               import_no_ava,
@@ -80,10 +87,10 @@
 			#{id},
 			#{storageCode},
 			#{subStorage},
-			#{importNoAva},
 			#{importNoPrefix},
-			#{exportNoAva},
+			#{importNoAva},
 			#{exportNoPrefix},
+			#{exportNoAva},
 			#{subStorageCode},
 			#{inputCode},
 			#{orgId},
