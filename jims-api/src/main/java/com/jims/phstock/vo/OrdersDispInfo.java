@@ -18,7 +18,7 @@ public class OrdersDispInfo implements Serializable {
     private String drugSpec;//药品规格
     private String drugUnit;//药品单位
     private String firmId;//供应商ID
-    private double amount;//摆药数量
+    private int amount;//摆药数量
     private String dispTime;//历次摆药的时间以“;"隔开
     private String orgId;
     private Date lastPerformDateTime;//最后一次执行时间
@@ -36,14 +36,16 @@ public class OrdersDispInfo implements Serializable {
     private String freqDetail;//执行时间详细描述
     private String performSchedule;//执行时间详细描述
     private String orderStatus;//医嘱状态
+    private double times ;//摆药次数
     private List<Date> performDates;//具体执行时间
+    private String unit ;//摆药单位
 
 
     public OrdersDispInfo() {
 
     }
 
-    public OrdersDispInfo(String patientId, int visitId, int orderNo, int orderSubNo, String drugCode, String drugSpec, String drugUnit, String firmId, double amount, String dispTime, String orgId, Date lastPerformDateTime, double dosage, String dosageUnits, String administration, Date startDateTime, Date stopDateTime, String repeatIndicator, String orderText, String frequency, double freqCounter, double freqInterval, String freqIntervalUnit, String freqDetail, String performSchedule, String orderStatus, List<Date> performDates) {
+    public OrdersDispInfo(String patientId, int visitId, int orderNo, int orderSubNo, String drugCode, String drugSpec, String drugUnit, String firmId, int amount, String dispTime, String orgId, Date lastPerformDateTime, double dosage, String dosageUnits, String administration, Date startDateTime, Date stopDateTime, String repeatIndicator, String orderText, String frequency, double freqCounter, double freqInterval, String freqIntervalUnit, String freqDetail, String performSchedule, String orderStatus, double times, List<Date> performDates, String unit) {
         this.patientId = patientId;
         this.visitId = visitId;
         this.orderNo = orderNo;
@@ -70,7 +72,9 @@ public class OrdersDispInfo implements Serializable {
         this.freqDetail = freqDetail;
         this.performSchedule = performSchedule;
         this.orderStatus = orderStatus;
+        this.times = times;
         this.performDates = performDates;
+        this.unit = unit;
     }
 
     public double getDosage() {
@@ -249,11 +253,11 @@ public class OrdersDispInfo implements Serializable {
         this.firmId = firmId;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
@@ -287,5 +291,21 @@ public class OrdersDispInfo implements Serializable {
 
     public void setPerformDates(List<Date> performDates) {
         this.performDates = performDates;
+    }
+
+    public double getTimes() {
+        return times;
+    }
+
+    public void setTimes(double times) {
+        this.times = times;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

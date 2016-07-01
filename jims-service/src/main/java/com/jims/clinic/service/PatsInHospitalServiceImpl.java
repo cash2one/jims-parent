@@ -3,6 +3,7 @@ package com.jims.clinic.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.PatsInHospitalServiceApi;
 import com.jims.clinic.bo.PatsInHospitalBo;
+import com.jims.clinic.entity.PatsInHospital;
 import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.web.impl.BaseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class PatsInHospitalServiceImpl implements PatsInHospitalServiceApi {
     @Override
     public String turnOutDept(ComeDeptVo comeDeptVo) {
         return patsInHospitalBo.turnOutDept(comeDeptVo);
+    }
+
+    @Override
+    public PatsInHospital findByPatientId(String patientId) {
+        return patsInHospitalBo.findByPatientId(patientId);
     }
 }

@@ -32,6 +32,7 @@ function onloadMethod(status){
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
             /*{field:'id',title:'病人ID号',width:'10%',align:'center'},*/
+            {field:'patientId',title:'病人住院号',width:'10%',align:'center'},
             {field:'inpNo',title:'病人住院号',width:'10%',align:'center'},
             {field:'bedNo',title:'床号',width:'10%',align:'center'},
             {field:'name',title:'病人姓名',width:'10%',align:'center'},
@@ -63,13 +64,21 @@ function onloadMethod(status){
             text: '移入病历',
             iconCls: 'icon-large-smartart',
             handler: function() {
+                $.get(basePath+'/patList/getPatMasterByIn',function(data){
+                    if(data.length<=0){
+                        $.messager.alert("提示消息","没有可移入的病人");
+                    }else{
+                        window.location.href="/modules/clinic/moveIn.html";
+                    }
+                   // window.location.href="/modules/clinic/moveIn.html";
+                });
 
             }
         }, '-',{
             text: '移除病历',
             iconCls: 'icon-remove',
             handler: function(){
-
+                removeMr();
             }
         }, '-',{
             text: '刷新病人列表',
@@ -160,4 +169,21 @@ function loadPatientListView(status){
         }
     });
 }
-
+/**
+ * 移除病历
+ */
+function removeMr(){
+    var selectRows = $('#list_data').datagrid("getSelected");
+    if(selectRows==null ){
+        alert("未选中病人");
+        return false;
+    }
+    var patientId=  selectRows.patientId;//病人主索引ID
+    alert(patientId);
+    $.post(basePath+'/patList/removeMr?patId='+patientId,function(data){
+        if(data.code='1'){
+            $.messager.alert("提示消息","移除成功");
+            window.location.href="/modules/clinic/patientList.html";
+        }
+    });
+}

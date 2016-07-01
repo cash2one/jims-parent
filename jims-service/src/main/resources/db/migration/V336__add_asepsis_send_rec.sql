@@ -12,6 +12,7 @@ create table ASEPSIS_SEND_REC
   send_amount  NUMBER(6,2),
   get_amount   NUMBER(6,2),
   get_date     DATE,
+  get_man      VARCHAR2(20),
   get_flag     VARCHAR2(2),
   units        VARCHAR2(8),
   operator     VARCHAR2(20),
@@ -48,6 +49,8 @@ comment on column ASEPSIS_SEND_REC.get_amount
   is '已领数量';
 comment on column ASEPSIS_SEND_REC.get_date
   is '领物日期';
+  comment on column ASEPSIS_SEND_REC.get_man
+  is '领物人';
 comment on column ASEPSIS_SEND_REC.get_flag
   is '领物标记,1-申请确认(未领取),2-部分领取， 3-全部领取';
 comment on column ASEPSIS_SEND_REC.units

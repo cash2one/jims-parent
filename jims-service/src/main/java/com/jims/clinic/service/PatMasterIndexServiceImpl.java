@@ -5,10 +5,9 @@ package com.jims.clinic.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.dao.EmrDiagnosisDao;
-import com.jims.clinic.dao.PatVisitDao;
-import com.jims.clinic.dao.PatsInHospitalDao;
+import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.EmrDiagnosis;
+import com.jims.clinic.entity.PatHospitalNotice;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.utils.StringUtils;
@@ -19,7 +18,6 @@ import com.jims.finance.entity.PatsInTransferring;
 import com.jims.finance.entity.PrepaymentRcpt;
 import com.jims.patient.api.PatMasterIndexServiceApi;
 import com.jims.patient.entity.PatMasterIndex;
-import com.jims.clinic.dao.PatMasterIndexDao;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.patient.entity.PatVisit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +46,8 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
     PatVisitDao patVisitDao;
     @Autowired
     PrepaymentRcptDao prepaymentRcptDao;
+    @Autowired
+    PatHospitalNoticeDao patHospitalNoticeDao;
     /**
      * 查询入院患者信息
      * @param patMasterIndex
@@ -111,33 +111,48 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
     public String deleteMasterIndex(String ids) {
         int num = 0;
         if(ids!=null&&!"".equals(ids)&&!ids.contains(",")){
+            cancel(ids);
+        }else if(ids.contains(",")){
+            String[] strs = ids.split(",");
+            for(String str : strs){
+                cancel(str);
+            }
+        }
 
-            PatMasterIndex patMasterIndex = dao.get(ids);
+        return String.valueOf(num);
+    }
+    public int cancel(String id){
+        int num = 0;
+        try {
+            PatMasterIndex patMasterIndex = dao.get(id);
             /**删除在院病人记录**/
             //DELETE From pats_in_hospital where pats_in_hospital.patient_id ='02000030'
-            patsInHospitalDao.deleteByPatientId(ids);
+            num = patsInHospitalDao.deleteByPatientId(id);
             /**删除诊断记录**/
             EmrDiagnosis emrDiagnosis = new EmrDiagnosis();
-            emrDiagnosis.setParentId(ids);
+            emrDiagnosis.setParentId(id);
             emrDiagnosis.setType("2");
             emrDiagnosis.setItemNo(1);
             emrDiagnosis.setDiagnosisDate(patMasterIndex.getCreateDate());
             emrDiagnosisDao.delDiagnosis(emrDiagnosis);
             /**删除转科病人记录**/
-            patsInTransferringDao.deleteByPatientId(ids);
+            patsInTransferringDao.deleteByPatientId(id);
             /**删除病人住院记录**/
             PatVisit patVisit = new PatVisit();
-            patVisit.setPatientId(ids);
+            patVisit.setPatientId(id);
             patVisit.setAdmissionDateTime(patMasterIndex.getCreateDate());
             patVisitDao.delVisit(patVisit);
             /**更新病人主索引信息**/
-            num = dao.updateInpno(ids);
+            dao.updateInpno(id);
             /**更新住院通知单**/
             //update pat_hospital_notice set visit_id =null where pat_hospital_notice.patient_id ='02000030' and notice_id =NULL
-
+            PatHospitalNotice patHospitalNotice = new PatHospitalNotice();
+            patHospitalNotice.setPatientId(id);
+            patHospitalNoticeDao.updateNotice(patHospitalNotice);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        return String.valueOf(num);
+        return num;
     }
     /**
      * 护理-查询待入科室床位病人列表

@@ -44,8 +44,8 @@ public class ClinicAppointsServiceImpl  implements ClinicAppointsServiceApi {
     }
 
     @Override
-    public String saveAppointReg(PatMasterIndex patMasterIndex) {
-        return clinicAppointsBo.saveAppointReg(patMasterIndex);
+    public String saveAppointReg(String id) {
+        return clinicAppointsBo.saveAppointReg(id);
     }
 
     @Override

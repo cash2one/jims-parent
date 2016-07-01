@@ -49,4 +49,6 @@ public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
      * @author zhaoning
      */
     public PatsInHospital getPatsInfoByMaster(@Param("patId")String patId);
+
+
 }
