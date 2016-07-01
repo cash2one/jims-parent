@@ -63,7 +63,28 @@ public class AsepsisStockRest {
         entity.setFromDept(fromDept);
         return api.findListHasStock(entity);
     }
-
+    /**
+     * 检索
+     * @param orgId
+     * @return
+     */
+    @GET
+    @Path("findListOver")
+    public List<AsepsisStock> findListOver(@QueryParam("orgId")String orgId,
+                                       @QueryParam("fromDept")String fromDept,
+                                       @QueryParam("antiDateStart")Date antiDateStart,
+                                       @QueryParam("antiDateEnd")Date antiDateEnd,
+                                       @QueryParam("itemCode")String itemCode,
+                                       @QueryParam("itemName")String itemName) {
+        AsepsisStock entity = new AsepsisStock();
+        entity.setOrgId(orgId);
+        entity.setFromDept(fromDept);
+        entity.setItemCode(itemCode);
+        entity.setItemName(itemName);
+        entity.setAntiDateStart(antiDateStart);
+        entity.setAntiDateEnd(antiDateEnd);
+        return api.findListOver(entity);
+    }
     /**
     * 保存（插入或更新）
     * @param entity
