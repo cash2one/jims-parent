@@ -193,4 +193,15 @@ public class DrugPriceListService implements DrugPriceListServiceApi {
         return "0";
     }
 
+    /**
+     * 停价处理
+     * @param id
+     * @return
+     * @author weishen
+     */
+    @Override
+    public String stopDate(String id) {
+        return bo.stopDate(id);
+    }
+
 }

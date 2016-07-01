@@ -38,8 +38,9 @@
     </sql>
 
     <select id="listDrugNameDictByClassCode" resultType="com.jims.phstock.entity.DrugNameDict">
-        select distinct a.drug_code ,a.drug_name from drug_name_dict a
+        select  a.drug_code ,a.drug_name from drug_name_dict a
         where a.drug_code like #{0} || '%'
+
     </select>
 
     <select id="listDrugNameDict" resultType="com.jims.phstock.entity.DrugNameDict">
@@ -49,11 +50,14 @@
     </select>
     <select id="listDrugPriceList" resultType="DrugPriceList">
 		SELECT
-			*
+        <include refid="drugPriceListColumns"/>
 		FROM drug_price_list a
 		WHERE a.org_id = #{1}
 		and a.drug_code = #{0}
-	</select>
+		 and a.del_flag ='0'
+        and sysdate>=a.start_date
+        and(a.stop_date is null or (a.stop_date is not null and a.stop_date>sysdate))
+    </select>
     <select id="get" resultType="DrugPriceList">
         SELECT
         <include refid="drugPriceListColumns"/>
@@ -148,7 +152,7 @@
 			min_spec,
 			min_units,
 			start_date,
-			stop_date,
+            stop_date,
 			memos,
 			class_on_inp_rcpt,
 			class_on_outp_rcpt,
@@ -244,5 +248,11 @@
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
+
+    <update id="stopDate">
+        UPDATE drug_price_list SET
+        stop_date = #{1}
+        WHERE  id=#{0}
+    </update>
 
 </mapper>
