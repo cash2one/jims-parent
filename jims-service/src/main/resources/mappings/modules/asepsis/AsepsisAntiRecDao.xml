@@ -166,20 +166,18 @@
             , amount = ${amountAnti}
         </if>
         WHERE id=${id} and documnet_no = #{documnetNo}
-        <choose>
-            <when test="asepsisState !=null and asepsisState == '1'">
+            <if test="asepsisState !=null and asepsisState == '1'">
                 and asepsis_state =  '0'
-            </when>
-            <when test="asepsisState !=null and asepsisState == '2'">
+            </if>
+            <if test="asepsisState !=null and asepsisState == '2'">
                 and asepsis_state =  '1'
-            </when>
-            <when test="asepsisState !=null and asepsisState == '3'">
+            </if>
+            <if test="asepsisState !=null and asepsisState == '3'">
                 and asepsis_state =  '2'
-            </when>
-        </choose>
-        <if test="amount != null and amount != ''">
-            and amount = ${amount}
-        </if>
+            </if>
+            <if test="amount != null and amount != ''">
+                and amount = ${amount}
+            </if>
     </update>
 
     <insert id="insert">

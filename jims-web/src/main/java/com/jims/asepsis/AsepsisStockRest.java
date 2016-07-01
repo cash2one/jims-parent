@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +35,8 @@ public class AsepsisStockRest {
     @Path("findList")
     public List<AsepsisStock> findList(@QueryParam("orgId")String orgId,
                                        @QueryParam("fromDept")String fromDept,
+                                       @QueryParam("antiDateStart")Date antiDateStart,
+                                       @QueryParam("antiDateEnd")Date antiDateEnd,
                                        @QueryParam("itemCode")String itemCode,
                                        @QueryParam("itemName")String itemName) {
         AsepsisStock entity = new AsepsisStock();
@@ -41,6 +44,8 @@ public class AsepsisStockRest {
         entity.setFromDept(fromDept);
         entity.setItemCode(itemCode);
         entity.setItemName(itemName);
+        entity.setAntiDateStart(antiDateStart);
+        entity.setAntiDateEnd(antiDateEnd);
         return api.findList(entity);
     }
 

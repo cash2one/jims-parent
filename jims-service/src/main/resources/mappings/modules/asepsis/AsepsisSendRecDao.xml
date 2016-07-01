@@ -60,6 +60,16 @@
             <if test="getFlag != null and getFlag != ''">
                 and a.get_flag = #{getFlag}
             </if>
+
+            <if test="documentNo != null and documentNo != ''">
+                and a.document_No = #{documentNo}
+            </if>
+            <if test="itemCode != null and itemCode != ''">
+                and a.item_Code = #{itemCode}
+            </if>
+            <if test="itemNo != null and itemNo != ''">
+                and a.item_No = #{itemNo}
+            </if>
         </where>
     </select>
 

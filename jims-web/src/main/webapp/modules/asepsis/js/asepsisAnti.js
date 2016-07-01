@@ -130,7 +130,8 @@ $(function() {
         rownumbers: true,//行号
         //onClickCell: onClickCell,
         columns: [[      //每个列具体内容
-            {field: 'belongDept', title: '所属科室', width: '8%', align: 'center'},
+            {field: 'belongDept', hidden:true},
+            {field: 'belongDeptDes', title: '所属科室', width: '8%', align: 'center'},
             {field: 'asepsisCode', title: '代码', width: '7%', align: 'center'},
             {field: 'asepsisName', title: '名称', width: '15%', align: 'center'},
             {field: 'asepsisSpec', title: '规格', width: '4%', align: 'center'},
@@ -141,7 +142,8 @@ $(function() {
                     precision : 0
                 }}
             },
-            {field: 'units', title: '单位', width: '4%', align: 'center'},
+            {field: 'units', hidden:true},
+            {field: 'unitsDes', title: '单位', width: '3%', align: 'center'},
             {field:'antiOperator',hidden:true},
             {field:'antiOperatorDes',title:'消毒人',width:'5%',align:'center'},
             {field:'antiWays',hidden:true},
@@ -165,7 +167,13 @@ $(function() {
             {field: 'antiDate', hidden:true}
         ]],
         frozenColumns:[[//列将保持不动，而其他列横向滚动。
-            {field:'id',checkbox:true}
+            {field:'id',checkbox:true,formatter:function(value,row,index){
+                if (value.tagId){
+                    return value.tagId;
+                } else {
+                    return value;
+                }
+            }}
         ]],
         onDblClickRow: function (rowIndex, rowData) {//双击事件
             onClickCell0(rowIndex,'amountAnti');
@@ -212,7 +220,7 @@ $(function() {
         $.each(a,function(index,row){
             $.each(listAll, function(i, r){
                 if(row.deptCode == r.belongDept){
-                    r.belongDept = row.deptName;
+                    r.belongDeptDes = row.deptName;
                     $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 }
             });
@@ -226,6 +234,10 @@ $(function() {
                     }
                     if(row.type=="DBFF"&&row.value == r.packWays){
                         r.packWaysDes = row.label;
+                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
+                    }
+                    if(row.type=="PACKAGE_UNITS"&&row.value == r.units){
+                        r.unitsDes = row.label;
                         $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                     }
                 });
@@ -272,7 +284,9 @@ $(function() {
             $("#list_data").datagrid("endEdit", editIndex);
         }
         var updateData = $('#list_data').datagrid('getChecked');
-
+        $.each(updateData, function(i, r){
+            r.asepsisState = "3";
+        });
         if(updateData.length<=0){
             alert('请选择需要修改的数据');
             return ;
@@ -304,8 +318,9 @@ $(function() {
             $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisDictVo), function (data) {
                 if (data.data == "success") {
                     $.messager.alert("系统提示", "保存成功", "info");
-                    $("#list_data").datagrid('reload');
-                    $("#list_data").datagrid("clearSelections");
+                    //$("#list_data").datagrid('reload');
+                    //$("#list_data").datagrid("clearSelections");
+                    loadListData();
                 }
             }, function (data) {
                 $.messager.alert('提示', "保存失败", "error");
