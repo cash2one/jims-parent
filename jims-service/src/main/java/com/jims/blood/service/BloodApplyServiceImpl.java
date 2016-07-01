@@ -11,16 +11,9 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.blood.api.BloodApplyServiceApi;
 import com.jims.blood.bo.BloodApplyBo;
 import com.jims.blood.dao.BloodApplylDao;
-import com.jims.blood.dao.BloodCapacityDao;
 import com.jims.blood.entity.BloodApply;
-import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.exam.dao.OrdersDao;
-import com.jims.exam.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
-import java.util.List;
 
 /**
  * 用血申请Service
