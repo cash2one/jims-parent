@@ -201,7 +201,10 @@ $(function () {
             //,{field:'reqOperator',title:'申请人',width:'100',align:'center'}
             //,{field:'orgId',title:'所属机构ID',width:'100',align:'center'}
         ]],
-        onClickCell:onClickCell
+        onClickCell:onClickCell,
+        onBeforeSelect: function(index){
+            return $('#lendManager').datagrid('validateRow', currentSelectIndex)
+        }
     });
 
     $('#pollManager').datagrid({
@@ -226,9 +229,6 @@ $(function () {
             ,{field:'stock',title:'可领数量',width:'80',align:'center',editor:{
                 type : 'numberbox',
                 options:{
-                    required:true,
-                    missingMessage:'数量不能为空',
-                    min : 1,
                     precision : 0
                 }
             },formatter:function(value,row){
@@ -286,9 +286,6 @@ $(function () {
             ,{field:'getAmount',title:'领取数量',width:'80',align:'center',editor:{
                 type : 'numberbox',
                 options:{
-                    required:true,
-                    missingMessage:'数量不能为空',
-                    min : 1,
                     precision : 0
                 }
             },formatter:function(value,row){
@@ -497,6 +494,7 @@ $(function () {
             $.messager.alert("提示","请先选择借物科室")
             return false
         }
+        if(!$('#lendManager').datagrid('validateRow', currentSelectIndex)) return
         var prefix = parent.formatDatebox(new Date()).replace(/-/g,'').substr(2);
         var suffix = '';
         var rows = $('#lendManager').datagrid('getRows')
@@ -534,6 +532,7 @@ $(function () {
             belongDept: supplyRoomCode
         }
         $('#lendManager').datagrid('appendRow',row)
+        onClickCell(rows.length-1 ,'itemName')
     })
     $('#delBtn').click(function(){
         if(currentSelectIndex == undefined){
@@ -552,7 +551,21 @@ $(function () {
         save()
     })
     $('#closeBtn').click(function(){
-
+        alert()
+    })
+    $('#clearBtn').click(function(){
+        $('#exchangeStart').datebox('setValue',parent.formatDatebox(new Date()))
+        $('#exchangeEnd').datebox('setValue',parent.formatDatebox(new Date()))
+        $('#staff').combobox('setValue','')
+        $('#dept').combogrid('setValue','')
+        var tabIndex = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
+        if(tabIndex == 0){
+            $('#lendManager').datagrid('loadData',[])
+        } else if(tabIndex == 1) {
+            $('#pollManager').datagrid('loadData',[])
+        } else if(tabIndex == 2) {
+            $('#tradeManager').datagrid('loadData',[])
+        }
     })
     $('#queryBtn').click(function(){
         query();
@@ -589,7 +602,8 @@ $(function () {
         var saveRows = [];
         var url = '';
         if(index == 0){
-            saveRows = $('#lendManager').datagrid('getChanges','inserted');
+            if(!endEditing('lendManager')) return
+            saveRows = $('#lendManager').datagrid('getRows');
             url = parent.basePath + '/asepsisLendRec/saveList'
         } else if(index == 1){
             if(tabIndex == undefined) {
@@ -604,7 +618,8 @@ $(function () {
             }
             var rows = $('#pollManager').datagrid('getRows');
             $(':checkbox[name="pb"]').each(function(index){
-                if($(this).prop('checked')){
+                $('#pollManager').datagrid('endEdit', index)
+                if($(this).prop('checked') && rows[index].stock){
                     var row = rows[index];
                     row.getAmount = isNaN(row.getAmount) ? row.stock : +row.getAmount + +row.stock;
                     if(row.getAmount == row.sendAmount){
@@ -636,7 +651,8 @@ $(function () {
             }
             var rows = $('#tradeManager').datagrid('getRows');
             $(':checkbox[name="cb"]').each(function(index){
-                if($(this).prop('checked')){
+                $('#tradeManager').datagrid('endEdit', index)
+                if($(this).prop('checked') && rows[index].getAmount){
                     var row = rows[index];
                     row.lendAmount = isNaN(row.lendAmount) ? row.getAmount : +row.lendAmount + +row.getAmount;
                     if(row.lender == undefined) row.lender = $('#staff').combobox('getValue');
@@ -666,7 +682,7 @@ $(function () {
         }
         if(tabIndex != undefined) {
             //$.messager.defaults={ok:"是",cancel:"否",width:'250'};
-            $.messager.confirm("操作", "您是否要保存" + title +"？", function (data) {
+            $.messager.confirm("操作", "您是否要保存" + title +"数据？", function (data) {
                 if (data) {
                     parent.$.postJSON(url, JSON.stringify(saveRows), function (res) {
                         if (res == '1') {

@@ -120,7 +120,7 @@ $(function () {
                     break;
             }
         },
-        onUnSelect: function(title,index){
+        onUnselect: function(title,index){
             save(title,index)
         }
     })
@@ -130,6 +130,17 @@ $(function () {
      */
     var endEditing = function(id){
         if (currentSelectIndex == undefined){return true}
+        var editor = $('#'+id).datagrid('getEditor',{index:currentSelectIndex,field:'itemName'})
+        if(editor && $(editor.target).combogrid('getValue')){
+            var rows = $(editor.target).combogrid('grid').datagrid('getRows');
+            if(rows.length > 0){
+                if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
+                    $(editor.target).combogrid('grid').datagrid('selectRow',0)
+                }
+            } else {
+                $(editor.target).combogrid('setValue','')
+            }
+        }
         if ($('#'+id).datagrid('validateRow', currentSelectIndex)){
             $('#'+id).datagrid('endEdit', currentSelectIndex);
             return true;
@@ -178,7 +189,7 @@ $(function () {
         idField :'id',
         columns:[[      //每个列具体内容
             {field:'id',title:'还物',width:'40',align:'center',formatter:function(value,row){
-                return '<input id=' + value +' type="checkbox"  name="pb" ' + (row.stock == 0 ? 'disabled="disabled"' : '')  + '>'
+                return '<input id=' + value +' type="checkbox"  name="pb" ' + (row.sendAmount == 0 ? 'disabled="disabled"' : '')  + '>'
             }}
             ,{field:'toDeptName',title:'借物科室',width:'100',align:'center'}
             ,{field:'documentNo',title:'单据号',width:'80',align:'center'}
@@ -188,18 +199,17 @@ $(function () {
             ,{field:'itemSpec',title:'规格',width:'50',align:'center'}
             ,{field:'units',title:'单位',width:'50',align:'center'}
             ,{field:'lendAmount',title:'数量',width:'50',align:'center'}
-            ,{field:'returnAmount',title:'已还数量',width:'50',align:'center',formatter:function(value){
+            ,{field:'returnAmount',title:'已还数量',width:'60',align:'center',formatter:function(value){
                 return value ? value : 0;
             }}
-            ,{field:'sendAmount',title:'还物数量',width:'50',align:'center',editor:{
+            ,{field:'sendAmount',title:'还物数量',width:'60',align:'center',editor:{
                 type : 'numberbox',
                 options:{
                     precision : 0
                 }
             },formatter: function(value,row ){
                 var max = (isNaN(row.lendAmount) ? 0 : +row.lendAmount) - (isNaN(row.returnAmount) ? 0 : +row.returnAmount)
-                var v = isNaN(value) ? 0 : value
-                row.sendAmount = max > v ? v : max
+                row.sendAmount = (isNaN(value) || value > max )? max : value
                 return row.sendAmount
             }}
             ,{field:'lendDate',title:'借出日期',width:'80',align:'center',formatter: function(value){
@@ -256,7 +266,7 @@ $(function () {
                         {field:'asepsisCode',title:'包代码',width:100,align : "center"},
                         {field:'asepsisName',title:'包名称',width:160,halign : "center",align : "left" },
                         {field:'inputCode',title:'拼音码',width:70,align : "center"}
-                    ]],onClickRow:function(index,row){
+                    ]],onSelect:function(index,row){
                         var flag;
                         var rows = $('#poshManager').datagrid('getRows')
                         for(var i= 0,j = rows.length;i < j;i++){
@@ -277,6 +287,7 @@ $(function () {
                         send.units = row.units;
                         send.antiFee = row.antiPrice;
                         send.nobackFee = row.nobackPrice;
+                        //结束语句报错，没发现原先，不影响结果
                         $('#poshManager').datagrid('endEdit',currentSelectIndex)
                     }
                 }
@@ -303,7 +314,10 @@ $(function () {
             ,{field:'sender',title:'送物人',width:'70',align:'center'}
             ,{field:'memos',title:'备注',width:'70',align:'center',editor:'textbox'}
         ]],
-        onClickCell:onClickCell
+        onClickCell:onClickCell,
+        onBeforeSelect: function(index){
+            return $('#poshManager').datagrid('validateRow', currentSelectIndex)
+        }
     });
 
     $('#tradeManager').datagrid({
@@ -384,7 +398,10 @@ $(function () {
             ,{field:'memos',title:'说明',width:'70',align:'center',editor:'textbox'}
             ,{field:'documentNo',title:'单据号',width:'80',align:'center'}
         ]],
-        onClickCell:onClickCell
+        onClickCell:onClickCell,
+        onBeforeSelect: function(index){
+            return $('#tradeManager').datagrid('validateRow', currentSelectIndex)
+        }
     });
 
     $('#addBtn').click(function(){
@@ -398,7 +415,7 @@ $(function () {
                 $.messager.alert("提示","请先选择送物科室")
                 return false
             }
-
+            if(!$('#poshManager').datagrid('validateRow', currentSelectIndex)) return
             var prefix = 'S'+parent.formatDatebox(new Date()).replace(/-/g,'').substr(2);
             var suffix;
             var rows = $('#poshManager').datagrid('getRows');
@@ -435,6 +452,7 @@ $(function () {
                 sendAmount:'1'
             }
             $('#poshManager').datagrid('appendRow',row)
+            onClickCell(rows.length-1 ,'itemName')
         } else if(index == 2){
             if(!$('#staff').textbox('getValue')){
                 $.messager.alert("提示","请先选择对换人")
@@ -444,7 +462,7 @@ $(function () {
                 $.messager.alert("提示","请先选择对换科室")
                 return false
             }
-
+            if(!$('#tradeManager').datagrid('validateRow', currentSelectIndex)) return
             var prefix = 'T'+parent.formatDatebox(new Date()).replace(/-/g,'').substr(2);
             var suffix;
             var rows = $('#tradeManager').datagrid('getRows');
@@ -482,6 +500,7 @@ $(function () {
                 returnFlag:'4'
             }
             $('#tradeManager').datagrid('appendRow',row)
+            onClickCell(rows.length-1 ,'itemName')
         }
 
     })
@@ -512,7 +531,18 @@ $(function () {
 
     })
     $('#clearBtn').click(function(){
-
+        $('#exchangeStart').datebox('setValue',parent.formatDatebox(new Date()))
+        $('#exchangeEnd').datebox('setValue',parent.formatDatebox(new Date()))
+        $('#staff').combobox('setValue','')
+        $('#dept').combogrid('setValue','')
+        var tabIndex = $('#tabs').tabs('getTabIndex',$('#tabs').tabs('getSelected'));
+        if(tabIndex == 0){
+            $('#sendManager').datagrid('loadData',[])
+        } else if(tabIndex == 1) {
+            $('#poshManager').datagrid('loadData',[])
+        } else if(tabIndex == 2) {
+            $('#tradeManager').datagrid('loadData',[])
+        }
     })
     $('#queryBtn').click(function(){
         loadData()
@@ -549,7 +579,8 @@ $(function () {
             }
             var rows = $('#sendManager').datagrid('getRows');
             $(':checkbox[name="pb"]').each(function(index){
-                if($(this).prop('checked')){
+                $('#sendManager').datagrid('endEdit', index)
+                if($(this).prop('checked') && rows[index].sendAmount){
                     var row = rows[index];
                     row.stock = row.sendAmount;
                     row.returnAmount = isNaN(row.returnAmount) ? row.sendAmount : +row.returnAmount + +row.sendAmount;
@@ -572,9 +603,11 @@ $(function () {
             })
             url = parent.basePath + '/asepsisLendRec/saveList';
         } else if(index == 1){
+            if(!endEditing('poshManager')) return
             saveRows = $('#poshManager').datagrid('getRows');
             url = parent.basePath + '/asepsisSendRec/saveList';
         } else if(index == 2){
+            if(!endEditing('tradeManager')) return
             saveRows = $('#tradeManager').datagrid('getRows');
             url = parent.basePath + '/asepsisLendRec/saveList';
         }
@@ -585,7 +618,7 @@ $(function () {
             return true;
         }
         if(tabIndex != undefined) {
-            $.messager.confirm("操作", "您是否要保存" + title +"？", function (data) {
+            $.messager.confirm("操作", "您是否要保存" + title +"数据？", function (data) {
                 if (data) {
                     parent.$.postJSON(url, JSON.stringify(saveRows), function (res) {
                         if (res == '1') {
