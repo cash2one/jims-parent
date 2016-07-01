@@ -105,6 +105,7 @@ $(function(){
     var onClickCell = function(index, field){
         if (endEditing()){
             if(index == $('#buyPlanTable').datagrid('getRows').length - 1) return
+            $('#buyPlanTable').datagrid('beginEdit', index);
             $('#buyPlanTable').datagrid('selectRow', index)
                 .datagrid('editCell', {index:index,field:field});
             planSelectIndex = index;
