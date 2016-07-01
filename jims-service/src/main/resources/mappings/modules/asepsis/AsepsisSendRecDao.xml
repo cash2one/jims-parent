@@ -25,6 +25,7 @@
         ,a."REQ_DATE" as "reqDate"
         ,a."REQ_OPERATOR" as "reqOperator"
         ,a."ORG_ID" as "orgId"
+        ,a."GET_MAN" as "getMan"
     </sql>
 
     <select id="get" resultType="AsepsisSendRec">
@@ -73,10 +74,45 @@
         </where>
     </select>
 
+    <select id="findListWithStock" resultType="AsepsisSendRec">
+        SELECT
+        <include refid="asepsisSendRecColumns"/>,nvl(s.amount,0) stock,d.dept_name fromDeptName
+        FROM ASEPSIS_SEND_REC a,(select sum(s.amount) amount,s.document_no
+        from asepsis_stock s,asepsis_dict d
+        where s.item_code = d.asepsis_code
+        and s.org_id=#{orgId} and (s.anti_date+d.valid_days) >= sysdate group by s.document_no) s,
+        (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) d
+        <where>
+            a.org_id =  #{orgId}
+            and a.from_dept = d.dept_code
+            and a.document_no = s.document_no(+)
+            and (a.get_flag = '1' or a.get_flag = '2')
+            <if test="sendDateStart != null and sendDateStart != ''">
+                and a.send_date >= #{sendDateStart}
+            </if>
+            <if test="sendDateEnd != null and sendDateEnd != ''">
+                and #{sendDateEnd} >= a.send_date
+            </if>
+            <if test="fromDept != null and fromDept != ''">
+                and a.from_dept = #{fromDept}
+            </if>
+            <if test="sender != null and sender != ''">
+                and a.sender = #{sender}
+            </if>
+            order by a.from_dept,a.document_no
+        </where>
+    </select>
+
     <select id="findAllList" resultType="AsepsisSendRec">
         SELECT
         <include refid="asepsisSendRecColumns"/>
         FROM ASEPSIS_SEND_REC a
+    </select>
+
+    <select id="getMaxDocumentNo" resultType="string">
+        select max(document_no)
+        from asepsis_send_rec t
+        where document_no like 'S'||to_char(sysdate,'yyMMdd')||'%' and org_id = #{1}
     </select>
 
     <insert id="insert">
@@ -103,6 +139,7 @@
             ,REQ_DATE
             ,REQ_OPERATOR
             ,ORG_ID
+            ,GET_MAN
         ) VALUES (
             #{id}
             ,#{documentNo}
@@ -126,6 +163,7 @@
             ,#{reqDate}
             ,#{reqOperator}
             ,#{orgId}
+            ,#{getMan}
         )
     </insert>
 
@@ -152,6 +190,7 @@
             ,REQ_DATE = #{reqDate}
             ,REQ_OPERATOR = #{reqOperator}
             ,ORG_ID = #{orgId}
+            ,GET_MAN = #{getMan}
         WHERE id = #{id}
     </update>
 

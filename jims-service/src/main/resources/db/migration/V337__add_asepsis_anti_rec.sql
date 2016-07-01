@@ -35,7 +35,7 @@ comment on table ASEPSIS_ANTI_REC
   is '无菌用品消毒表';
 -- Add comments to the columns 
 comment on column ASEPSIS_ANTI_REC.documnet_no
-  is '业务单据号';
+  is '业务单据号(S开头为送物单据，T开头为对换单据，数字开头为供应室消毒批号)';
 comment on column ASEPSIS_ANTI_REC.asepsis_code
   is '代码';
 comment on column ASEPSIS_ANTI_REC.asepsis_name

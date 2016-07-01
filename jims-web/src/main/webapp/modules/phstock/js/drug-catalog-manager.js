@@ -166,7 +166,7 @@ $(function () {
             //drugNameCode = drugNameCode +
             stopEdit();
             $('#clear').click();
-
+            drugForms=rowData.label;
             $('#drugNameDict').datagrid('appendRow', {
                 drugCode: drugNameCode, drugName: '',stdIndicator:'0'
             });
@@ -243,6 +243,9 @@ $(function () {
 
         }
     });
+
+    var drugForms='';
+
     //定义页面下方drugDict列表
     $("#drugDict").datagrid({
         title:'药品剂型剂量',
@@ -533,7 +536,13 @@ $(function () {
         if (drugCatalogBeanVo) {
             $.postJSON(basePath + "/drug-catalog/save", JSON.stringify(drugCatalogBeanVo), function (data) {
                 if("1" == data) {
-                    $.messager.alert("系统提示", "保存成功", "info");
+                    //$.messager.alert("系统提示", "保存成功", "info");
+                    $.messager.confirm('系统提示, 保存成功','是否定义价格？',function(r){
+                        if(r){
+                            var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
+                            parent.addTab('定义价格',https);
+                        }
+                    })
                 } else {
                     $.messager.alert('提示', "保存失败，请确认是否唯一", "error");
                 }
@@ -619,7 +628,7 @@ $(function () {
             name = stdIndicatorRow.drugName;
 
             $('#drugDict').datagrid('appendRow', {
-                drugCode: code, drugName: name, drugSpec: '', units: '', drugForm: '', toxiProperty: '',otc: '0', dosePerUnit: '',
+                drugCode: code, drugName: name, drugSpec: '', units: '', drugForm:drugForms, toxiProperty: '',otc: '0', dosePerUnit: '',
                 doseUnits: '',limitClass:'',preciousFlag:'',  drugIndicator: '1'
             });
 
@@ -647,6 +656,11 @@ $(function () {
             })
         }
     });
+
+    $("#listPrice").on('click',function(){
+        var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
+        parent.addTab('定义价格',https);
+    })
 
 
 

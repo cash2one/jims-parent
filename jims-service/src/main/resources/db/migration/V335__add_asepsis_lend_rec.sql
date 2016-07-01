@@ -13,10 +13,10 @@ create table ASEPSIS_LEND_REC
   units           VARCHAR2(8),
   return_amount   NUMBER(6,2),
   return_date     DATE,
-  return_man     VARCHAR2(20),
+  return_man     VARCHAR2(200),
   return_flag     VARCHAR2(2),
   operator        VARCHAR2(20),
-  lender          VARCHAR2(20),
+  lender          VARCHAR2(200),
   memos           VARCHAR2(50),
   anti_fee        NUMBER(6,2),
   anti_fee_sum    NUMBER(6,2),
@@ -39,7 +39,7 @@ comment on column ASEPSIS_LEND_REC.item_no
 comment on column ASEPSIS_LEND_REC.to_dept
   is '借物科室';
 comment on column ASEPSIS_LEND_REC.lend_date
-  is '借物日期';
+  is '借物日期（对换取物日期）';
 comment on column ASEPSIS_LEND_REC.item_code
   is '项目代码';
 comment on column ASEPSIS_LEND_REC.item_name
@@ -47,21 +47,21 @@ comment on column ASEPSIS_LEND_REC.item_name
 comment on column ASEPSIS_LEND_REC.item_spec
   is '规格';
 comment on column ASEPSIS_LEND_REC.lend_amount
-  is '借物数量';
+  is '借物数量（对换取物数量）';
 comment on column ASEPSIS_LEND_REC.units
   is '单位';
 comment on column ASEPSIS_LEND_REC.return_amount
-  is '已还数量';
+  is '已还数量（对换送物数量）';
 comment on column ASEPSIS_LEND_REC.return_date
-  is '还物日期';
+  is '还物日期（对换送物日期）';
 comment on column ASEPSIS_LEND_REC.return_flag
   is '返还标志:1-未还，2-部分还，3-全部还,4-包对换';
 comment on column ASEPSIS_LEND_REC.operator
   is '操作员(同时用于记录对换(回收)的操作员)';
   comment on column ASEPSIS_LEND_REC.return_man
-  is '还物人';
+  is '还物人（对换送物人）';
 comment on column ASEPSIS_LEND_REC.lender
-  is '借物人';
+  is '借物人(对换取物人)';
 comment on column ASEPSIS_LEND_REC.memos
   is '备注';
 comment on column ASEPSIS_LEND_REC.anti_fee
