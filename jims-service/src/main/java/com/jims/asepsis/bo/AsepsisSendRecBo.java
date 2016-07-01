@@ -29,7 +29,7 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
     public void save(List<AsepsisSendRec> list) {
         if(list != null && list.size() > 0) {
             for(AsepsisSendRec entity : list) {
-                Integer stock = entity.getStock() == null ? 0 : entity.getStock();
+                Integer stock = entity.getStock() == null ? 0 : Integer.parseInt(entity.getStock());
                 if(stock > 0){
                     AsepsisStock stockParam = new AsepsisStock();
                     stockParam.setFromDept(entity.getFromDept());

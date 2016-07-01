@@ -1,37 +1,37 @@
-var objectiveDict = [];
+var professionDict = [];
 
 
 /**
- * 住院目的
+ * 职业
  */
 
 $.ajax({
     'type': 'GET',
     'url':basePath+'/dict/findListByType',
-    data: 'type=OBJECTIVE_DICT',
+    data: 'type=PROFESSION_DICT',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
     'success': function(data){
-        objectiveDict=data;
+        professionDict=data;
     }
 });
 
 /**
- * 住院目的翻译
+ * 职业翻译
  * @param value
  * @param rowData
  * @param rowIndex
  * @returns {string|string|string}
  */
-function objectiveFormatter(value, rowData, rowIndex) {
+function professionFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
 
-    for (var i = 0; i < objectiveDict.length; i++) {
-        if (objectiveDict[i].value == value) {
-            return objectiveDict[i].label;
+    for (var i = 0; i < professionDict.length; i++) {
+        if (professionDict[i].value == value) {
+            return professionDict[i].label;
         }
     }
 }
