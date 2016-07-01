@@ -136,8 +136,9 @@ $(function () {
             if ($('#buyPlanTable').datagrid('getRows')[index].id){
                 if(field == 'drugCode' || field == 'purchasePrice') return
             }
-            $('#buyPlanTable').datagrid('selectRow', index)
-                .datagrid('editCell', {index: index, field: field});
+            $('#buyPlanTable').datagrid('beginEdit', index);
+            //$('#buyPlanTable').datagrid('selectRow', index)
+            //    .datagrid('editCell', {index: index, field: field});
             if(field == 'checkSupplier'){
                 var editor = $('#buyPlanTable').datagrid('getEditor',{index: index, field: field});
                 $(editor.target).combobox('addBlurListener')
@@ -620,7 +621,7 @@ $(function () {
     }
 
     var init = function () {
-        loadSupplier('批发商')
+        loadSupplier('供应商')
 
         initBuyPlanTable()
         initBtn()

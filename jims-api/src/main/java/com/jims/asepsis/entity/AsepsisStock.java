@@ -21,6 +21,8 @@ public class AsepsisStock extends DataEntity<AsepsisStock> {
     private String units;  // 单位
     private String memos;  // 备注
     private Date antiDate;  // 消毒日期
+    private Date antiDateStart;  // 消毒日期
+    private Date antiDateEnd;  // 消毒日期
     private String operator;  // 操作员
     private Date alterDate;  // 修改日期
     private String antiBatchNo;  // 消毒批号
@@ -168,5 +170,19 @@ public class AsepsisStock extends DataEntity<AsepsisStock> {
         this.orgId = orgId;
     }
 
+    public Date getAntiDateEnd() {
+        return antiDateEnd;
+    }
 
+    public Date getAntiDateStart() {
+        return antiDateStart;
+    }
+
+    public void setAntiDateEnd(Date antiDateEnd) {
+        this.antiDateEnd = antiDateEnd;
+    }
+
+    public void setAntiDateStart(Date antiDateStart) {
+        this.antiDateStart = antiDateStart;
+    }
 }

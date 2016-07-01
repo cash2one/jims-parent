@@ -51,7 +51,9 @@
         <include refid="drugSupplierCatalogColumns"/>
         FROM drug_supplier_catalog a
         <where>
-            a.org_id = #{0} and a.supplier_class = #{1} and del_flag = '0'
+            a.org_id = #{0}
+            and (#{1}='供应商' or(#{1}!='供应商' and a.supplier_class = #{1}))
+            and del_flag = '0'
         </where>
     </select>
 

@@ -17,9 +17,10 @@ public interface AsepsisLendRecDao extends CrudDao<AsepsisLendRec> {
     /**
      * 获取当天最大的编码
      * @param orgId
+     * @param prefix
      * @return
      */
-    public String getMaxDocumentNo(String orgId);
+    public String getMaxDocumentNo(String orgId,String prefix);
 
     /**
      * 检索有库存的

@@ -60,13 +60,14 @@ public class AsepsisLendRecBo extends CrudImplService<AsepsisLendRecDao, Asepsis
                             }
                         }
                     } else {
+                        entity.setBelongDept(entity.getToDept());
                         saveAntiData(entity);
                     }
                 } else {
                     if(entity.getIsNewRecord()){
                         Integer stock = entity.getLendAmount() == null ? 0 : entity.getLendAmount().intValue();
                         AsepsisStock stockParam = new AsepsisStock();
-                        stockParam.setFromDept("161303");
+                        stockParam.setFromDept(entity.getBelongDept());
                         stockParam.setDocumentNo(entity.getExpDocumentNo());
                         stockParam.setOrgId(entity.getOrgId());
                         List<AsepsisStock> stocks = stockDao.findListNoJoin(stockParam);
@@ -118,10 +119,11 @@ public class AsepsisLendRecBo extends CrudImplService<AsepsisLendRecDao, Asepsis
     /**
      * 获取当天最大的编码
      * @param orgId
+     * @param prefix
      * @return
      */
-    public String getMaxDocumentNo(String orgId){
-        return dao.getMaxDocumentNo(orgId);
+    public String getMaxDocumentNo(String orgId,String prefix){
+        return dao.getMaxDocumentNo(orgId,prefix);
     }
 
     /**
@@ -142,9 +144,9 @@ public class AsepsisLendRecBo extends CrudImplService<AsepsisLendRecDao, Asepsis
         anti.setAsepsisName(entity.getItemName());
         anti.setAsepsisSpec(entity.getItemSpec());
         anti.setUnits(entity.getUnits());
-        anti.setBelongDept(entity.getToDept());
+        anti.setBelongDept(entity.getBelongDept());
         anti.setAsepsisState("0");
-        anti.setAmount(entity.getLendAmount().intValue());
+        anti.setAmount(entity.getStock());
         anti.setOrgId(entity.getOrgId());
         anti.setItemNo(1);
         antiDao.insert(anti);

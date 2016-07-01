@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -228,4 +229,17 @@ public class DrugPriceListBo extends CrudImplService<DrugPriceListDao, DrugPrice
             }
         }
     }
+
+
+    /**
+     * 停价处理
+     * @param id
+     * @return
+     * @author weishen
+     */
+    public String stopDate (String id){
+        Date date = new Date();
+        return dao.stopDate(id,date) + "";
+    }
 }
+

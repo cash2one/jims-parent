@@ -58,6 +58,12 @@
             <if test="itemName != null and itemName != ''">
                 and a.item_name = #{itemName}
             </if>
+            <if test="antiDateStart != null and antiDateStart != ''">
+                and a.anti_date >= #{antiDateStart}
+            </if>
+            <if test="antiDateEnd != null and antiDateEnd != ''">
+                and #{antiDateEnd} >= a.anti_date
+            </if>
             and a.FROM_DEPT = b.dept_code and o.value=a.units
             <if test="documentNo != null and documentNo != ''">
                 and a.document_no = #{documentNo}
@@ -98,6 +104,48 @@
             </if>
             <if test="itemCode != null and itemCode != ''">
                 and a.item_code = #{itemCode}
+            </if>
+        </where>
+        order by a.document_no, a.anti_date
+    </select>
+
+    <select id="findListOver" resultType="AsepsisStock">
+        SELECT
+        a.ID,
+        a.DOCUMENT_NO,
+        a.from_dept,
+        a.ITEM_CODE,
+        a.ITEM_NAME,
+        a.ITEM_SPEC,
+        a.AMOUNT,
+        a.UNITS,
+        a.MEMOS,
+        a.ANTI_DATE,
+        a.OPERATOR,
+        a.ALTER_DATE,
+        a.ANTI_BATCH_NO,
+        a.ITEM_NO,
+        a.org_id
+        FROM ASEPSIS_STOCK a,asepsis_dict b
+        <where> a.org_id =  #{orgId} and b.asepsis_code = a.item_code and b.belong_dept = a.from_dept and a.org_id = b.org_id
+            and to_char(a.sysdate,'yyyy-MM-dd') > to_char(a.anti_date,'yyyy-MM-dd') + b.valid_days
+            <if test="fromDept != null and fromDept != ''">
+                and a.FROM_DEPT = #{fromDept}
+            </if>
+            <if test="itemCode != null and itemCode != ''">
+                and a.item_code = #{itemCode}
+            </if>
+            <if test="itemName != null and itemName != ''">
+                and a.item_name = #{itemName}
+            </if>
+            <if test="antiDateStart != null and antiDateStart != ''">
+                and a.anti_date >= #{antiDateStart}
+            </if>
+            <if test="antiDateEnd != null and antiDateEnd != ''">
+                and #{antiDateEnd} >= a.anti_date
+            </if>
+            <if test="documentNo != null and documentNo != ''">
+                and a.document_no = #{documentNo}
             </if>
         </where>
         order by a.document_no, a.anti_date
