@@ -102,13 +102,18 @@ public class AsepsisLendRecRest {
     }
 
     /**
-     * 获取当天最大的编码
+     * 获取当天最大的编码后缀
      * @param orgId
+     * @param prefix
      * @return
      */
     @GET
-    @Path("getMaxDocumentNo")
-    public String getMaxDocumentNo(@QueryParam("orgId")String orgId){
-        return api.getMaxDocumentNo(orgId);
+    @Path("getMaxSuffix")
+    public String getMaxSuffix(@QueryParam("orgId")String orgId,@QueryParam("prefix")String prefix){
+        String documentNo = api.getMaxDocumentNo(orgId,prefix);
+        if(documentNo != null && documentNo.trim().length() > prefix.length()){
+            return Double.valueOf(documentNo.substring(prefix.length())).toString();
+        }
+        return null;
     }
 }

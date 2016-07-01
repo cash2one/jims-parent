@@ -21,7 +21,7 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private String itemSpec;  // 规格
     private Double sendAmount;  // 送物数量
     private Double getAmount;  // 已领数量
-    private Double getMan;  // 领物人
+    private String getMan;  // 领物人
     private Date getDate;  // 领物日期
     private String getFlag;  // 领物标记,1-申请确认(未领取),2-部分领取， 3-全部领取';
     private String units;  // 单位
@@ -248,11 +248,11 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
         this.fromDeptName = fromDeptName;
     }
 
-    public Double getGetMan() {
+    public String getGetMan() {
         return getMan;
     }
 
-    public void setGetMan(Double getMan) {
+    public void setGetMan(String getMan) {
         this.getMan = getMan;
     }
 }

@@ -3,32 +3,32 @@
 <mapper namespace="com.jims.asepsis.dao.AsepsisLendRecDao">
 
     <sql id="asepsisLendRecColumns">
-        "ID" as "id"
-        ,"DOCUMENT_NO" as "documentNo"
-        ,"ITEM_NO" as "itemNo"
-        ,"TO_DEPT" as "toDept"
-        ,"LEND_DATE" as "lendDate"
-        ,"ITEM_CODE" as "itemCode"
-        ,"ITEM_NAME" as "itemName"
-        ,"ITEM_SPEC" as "itemSpec"
-        ,"LEND_AMOUNT" as "lendAmount"
-        ,"UNITS" as "units"
-        ,"RETURN_AMOUNT" as "returnAmount"
-        ,"RETURN_DATE" as "returnDate"
-        ,"RETURN_MAN" as "returnMan"
-        ,"RETURN_FLAG" as "returnFlag"
-        ,"OPERATOR" as "operator"
-        ,"LENDER" as "lender"
-        ,"MEMOS" as "memos"
-        ,"ANTI_FEE" as "antiFee"
-        ,"ANTI_FEE_SUM" as "antiFeeSum"
-        ,"ANTI_DATE" as "antiDate"
-        ,"EXP_DOCUMENT_NO" as "expDocumentNo"
-        ,"NOBACK_FEE" as "nobackFee"
-        ,"REQ_DATE" as "reqDate"
-        ,"REQ_OPERATOR" as "reqOperator"
-        ,"OPERATOR2" as "operator2"
-        ,"ORG_ID" as "orgId"
+        a."ID" as "id"
+        ,a."DOCUMENT_NO" as "documentNo"
+        ,a."ITEM_NO" as "itemNo"
+        ,a."TO_DEPT" as "toDept"
+        ,a."LEND_DATE" as "lendDate"
+        ,a."ITEM_CODE" as "itemCode"
+        ,a."ITEM_NAME" as "itemName"
+        ,a."ITEM_SPEC" as "itemSpec"
+        ,a."LEND_AMOUNT" as "lendAmount"
+        ,a."UNITS" as "units"
+        ,a."RETURN_AMOUNT" as "returnAmount"
+        ,a."RETURN_DATE" as "returnDate"
+        ,a."RETURN_MAN" as "returnMan"
+        ,a."RETURN_FLAG" as "returnFlag"
+        ,a."OPERATOR" as "operator"
+        ,a."LENDER" as "lender"
+        ,a."MEMOS" as "memos"
+        ,a."ANTI_FEE" as "antiFee"
+        ,a."ANTI_FEE_SUM" as "antiFeeSum"
+        ,a."ANTI_DATE" as "antiDate"
+        ,a."EXP_DOCUMENT_NO" as "expDocumentNo"
+        ,a."NOBACK_FEE" as "nobackFee"
+        ,a."REQ_DATE" as "reqDate"
+        ,a."REQ_OPERATOR" as "reqOperator"
+        ,a."OPERATOR2" as "operator2"
+        ,a."ORG_ID" as "orgId"
     </sql>
 
     <select id="get" resultType="AsepsisLendRec">
@@ -40,10 +40,11 @@
 
     <select id="findList" resultType="AsepsisLendRec">
         SELECT
-        <include refid="asepsisLendRecColumns"/>
-        FROM ASEPSIS_LEND_REC a
+        <include refid="asepsisLendRecColumns"/>,d.dept_name toDeptName
+        FROM ASEPSIS_LEND_REC a,(select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) d
         <where>
             a.org_id =  #{orgId}
+            and a.TO_DEPT = d.dept_code
             <if test="lendDate != null and lendDate != ''">
                 and to_char(a.lend_date,'yyyy-MM-dd') = to_char(#{lendDate},'yyyy-MM-dd')
             </if>
@@ -60,7 +61,7 @@
                 and a.lender = #{lender}
             </if>
             <if test="returnFlag != null and returnFlag != ''">
-                and a.return_flag = #{returnFlag}
+                and instr(','||#{returnFlag}||',',','||a.return_flag||',')>0
             </if>
         </where>
     </select>
@@ -100,7 +101,7 @@
     <select id="getMaxDocumentNo" resultType="string">
         select max(document_no)
         from asepsis_lend_rec t
-        where document_no like 'S'||to_char(sysdate,'yyMMdd')||'%' and org_id = #{1}
+        where document_no like #{1} || '%' and org_id = #{0}
     </select>
 
     <insert id="insert">

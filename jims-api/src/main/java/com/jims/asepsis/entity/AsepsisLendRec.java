@@ -15,18 +15,18 @@ public class AsepsisLendRec extends DataEntity<AsepsisLendRec> {
     private String documentNo;  // 单据号
     private Double itemNo;  // 序号
     private String toDept;  // 借物科室
-    private Date lendDate;  // 借物日期
+    private Date lendDate;  // 借物日期（对换取物日期）
     private String itemCode;  // 项目代码
     private String itemName;  // 项目名称
     private String itemSpec;  // 规格
-    private Double lendAmount;  // 借物数量
+    private Double lendAmount;  // 借物数量（对换取物数量）
     private String units;  // 单位
-    private Double returnAmount;  // 已还数量
-    private Date returnDate;  // 还物日期
-    private String returnMan;  // 还物人
+    private Double returnAmount;  // 已还数量（对换送物数量）
+    private Date returnDate;  // 还物日期（对换送物日期）
+    private String returnMan;  // 还物人（对换送物人）
     private String returnFlag;  // 返还标志:1-未还，2-部分还，3-全部还,4-包对换
     private String operator;  // 操作员(同时用于记录对换(回收)的操作员)
-    private String lender;  // 借物人
+    private String lender;  // 借物人(对换取物人)
     private String memos;  // 备注
     private Double antiFee;  // 消毒费
     private Double antiFeeSum;  // 消毒费合计
@@ -42,6 +42,7 @@ public class AsepsisLendRec extends DataEntity<AsepsisLendRec> {
     private Date lendDateEnd;
     private Integer stock;
     private String toDeptName;
+    private String belongDept; // 包所属科室
 
     public AsepsisLendRec() {
         super();
@@ -281,5 +282,13 @@ public class AsepsisLendRec extends DataEntity<AsepsisLendRec> {
 
     public void setToDeptName(String toDeptName) {
         this.toDeptName = toDeptName;
+    }
+
+    public String getBelongDept() {
+        return belongDept;
+    }
+
+    public void setBelongDept(String belongDept) {
+        this.belongDept = belongDept;
     }
 }
