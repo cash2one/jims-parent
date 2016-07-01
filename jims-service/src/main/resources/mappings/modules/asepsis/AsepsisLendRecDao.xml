@@ -40,10 +40,36 @@
 
     <select id="findList" resultType="AsepsisLendRec">
         SELECT
-        <include refid="asepsisLendRecColumns"/>
-        FROM ASEPSIS_LEND_REC a
+        a.id,
+        a.document_no ,
+        a.item_no
+        ,a.to_dept
+        ,a.lend_date
+        ,a.item_code
+        ,a.item_name
+        ,a.item_spec
+        ,a.lend_amount
+        ,a.units
+        ,a.return_amount
+        ,a.return_date
+        ,a.return_man
+        ,a.return_flag
+        ,a.operator
+        ,a.lender
+        ,a.memos
+        ,a.anti_fee
+        ,a.anti_fee_sum
+        ,a.anti_date
+        ,a.exp_document_no
+        ,a.noback_fee
+        ,a.req_date
+        ,a.req_operator
+        ,a.operator2
+        ,a.org_id ,
+        b.dept_name as toDeptName
+        FROM ASEPSIS_LEND_REC a , (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b
         <where>
-            a.org_id =  #{orgId}
+            a.org_id = #{orgId} and b.dept_code=a.to_dept
             <if test="lendDate != null and lendDate != ''">
                 and to_char(a.lend_date,'yyyy-MM-dd') = to_char(#{lendDate},'yyyy-MM-dd')
             </if>
@@ -62,6 +88,12 @@
             <if test="returnFlag != null and returnFlag != ''">
                 and a.return_flag = #{returnFlag}
             </if>
+            <if test="itemName != null and itemName != ''">
+                and a.item_name = #{itemName}
+            </if>
+            <if test="documentNo != null and documentNo != ''">
+                and a.document_no = #{documentNo}
+            </if>
         </where>
     </select>
 
@@ -71,10 +103,11 @@
         FROM ASEPSIS_LEND_REC a,(select sum(s.amount) amount,s.from_dept
         from asepsis_stock s,asepsis_dict d
         where s.item_code = d.asepsis_code
-        and s.org_id=#{orgId} and (s.anti_date+d.valid_days) >= sysdate and s.document_no like 'T%' group by s.from_dept) s,
+        and s.org_id=#{orgId} and (s.anti_date+d.valid_days) >= sysdate and s.document_no like 'T%' group by
+        s.from_dept) s,
         (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) d
         <where>
-            a.org_id =  #{orgId}
+            a.org_id = #{orgId}
             and a.to_dept = d.dept_code
             and a.to_dept = s.from_dept(+)
             and (a.lend_amount is null or a.lend_amount != a.return_amount)

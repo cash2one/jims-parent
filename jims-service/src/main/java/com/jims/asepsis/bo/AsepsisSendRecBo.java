@@ -4,11 +4,13 @@ import com.jims.asepsis.dao.AsepsisStockDao;
 import com.jims.asepsis.entity.AsepsisSendRec;
 import com.jims.asepsis.dao.AsepsisSendRecDao;
 import com.jims.asepsis.entity.AsepsisStock;
+import com.jims.asepsis.vo.AsepsisVo;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,6 +58,24 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
                 save(entity);
             }
         }
+    }
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisVo
+     * @return
+     * @author yangruidong
+     */
+    public List<AsepsisSendRec> saveAll(AsepsisVo<AsepsisSendRec> asepsisVo) {
+        List<AsepsisSendRec> newUpdateDict = new ArrayList<AsepsisSendRec>();
+        List<AsepsisSendRec> updated = asepsisVo.getUpdated();
+        //更新
+        for (AsepsisSendRec asepsisSendRec : updated) {
+            asepsisSendRec.preUpdate();
+            int num = dao.update(asepsisSendRec);
+        }
+        return newUpdateDict;
     }
 
     /**

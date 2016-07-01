@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.asepsis.entity.AsepsisSendRec;
 import com.jims.asepsis.api.AsepsisSendRecApi;
 import com.jims.asepsis.bo.AsepsisSendRecBo;
+import com.jims.asepsis.vo.AsepsisVo;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -72,6 +73,18 @@ public class AsepsisSendRecServiceImpl implements AsepsisSendRecApi{
             return "1";
         } catch(RuntimeException e) {}
         return "0";
+    }
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisVo
+     * @return
+     * @author yangruidong
+     */
+    @Override
+    public List<AsepsisSendRec> saveAll(AsepsisVo<AsepsisSendRec> asepsisVo) {
+        return bo.saveAll(asepsisVo);
     }
 
     /**

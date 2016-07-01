@@ -3,10 +3,13 @@ package com.jims.asepsis;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.asepsis.entity.AsepsisLendRec;
 import com.jims.asepsis.api.AsepsisLendRecApi;
+import com.jims.asepsis.vo.AsepsisVo;
+import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +39,9 @@ public class AsepsisLendRecRest {
                                          @QueryParam("lendDateEnd")Date lendDateEnd,
                                          @QueryParam("toDept")String toDept,
                                          @QueryParam("returnFlag")String returnFlag,
-                                         @QueryParam("lender")String lender) {
+                                         @QueryParam("lender")String lender,
+                                         @QueryParam("itemName")String itemName,
+                                         @QueryParam("documentNo")String documentNo) {
         AsepsisLendRec entity = new AsepsisLendRec();
         entity.setOrgId(orgId);
         entity.setLendDate(lendDate);
@@ -45,6 +50,8 @@ public class AsepsisLendRecRest {
         entity.setToDept(toDept);
         entity.setLender(lender);
         entity.setReturnFlag(returnFlag);
+        entity.setDocumentNo(documentNo);
+        entity.setItemName(itemName);
         return api.findList(entity);
     }
 
@@ -90,6 +97,25 @@ public class AsepsisLendRecRest {
         return api.save(list);
     }
 
+
+
+    /*
+    * 保存  增删改
+    *
+    * @param asepsisDictVo
+    * @return
+    * @author yangruidong
+     */
+    @Path("saveAll")
+    @POST
+    public StringData saveAll(AsepsisVo<AsepsisLendRec> asepsisVo) {
+        List<AsepsisLendRec> newUpdateDict = new ArrayList<AsepsisLendRec>();
+        newUpdateDict = api.saveAll(asepsisVo);
+        StringData stringData = new StringData();
+        stringData.setData("success");
+        return stringData;
+
+    }
     /**
     * 删除数据
     * @param ids,多个id以逗号（,）隔开

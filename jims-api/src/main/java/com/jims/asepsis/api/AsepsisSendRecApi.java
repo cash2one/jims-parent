@@ -1,6 +1,7 @@
 package com.jims.asepsis.api;
 
 import com.jims.asepsis.entity.AsepsisSendRec;
+import com.jims.asepsis.vo.AsepsisVo;
 import com.jims.common.persistence.Page;
 
 import java.util.List;
@@ -47,6 +48,14 @@ public interface AsepsisSendRecApi {
     * @return 0 失败，1成功
     */
     public String save(List<AsepsisSendRec> list);
+
+    /**
+     * 保存  增删改
+     * @param asepsisVo
+     * @return
+     *  @author  yangruidong
+     */
+    public List<AsepsisSendRec> saveAll(AsepsisVo<AsepsisSendRec> asepsisVo);
 
     /**
     * 删除数据

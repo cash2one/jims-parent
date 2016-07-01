@@ -37,11 +37,19 @@
 
     <select id="findList" resultType="AsepsisSendRec">
         SELECT
-        <include refid="asepsisSendRecColumns"/>
-        FROM ASEPSIS_SEND_REC a
+        <include refid="asepsisSendRecColumns"/>,dept_name as fromDeptName
+        FROM ASEPSIS_SEND_REC a , (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b
         <where>
-            a.org_id =  #{orgId}
-            and s.org_id =  #{orgId}
+            a.org_id =  #{orgId}   and b.dept_code=a.from_dept
+            <if test="sendDateStart != null and sendDateStart != ''">
+                and a.send_date >= #{sendDateStart}
+            </if>
+            <if test="sendDateEnd != null and sendDateEnd != ''">
+                and #{sendDateEnd} >= a.send_date
+            </if>
+            <if test="itemName != null and itemName != ''">
+                and a.item_name = #{itemName}
+            </if>
         </where>
     </select>
 
