@@ -241,6 +241,13 @@
                 or upper(d.input_code) like upper(#{q})||'%')
             </if>
             and a.quantity > 0
+            AND EXISTS
+            (SELECT 1 FROM drug_price_list t
+            WHERE d.drug_code = t.drug_code
+            AND t.del_flag = #{delFlag}
+            AND t.org_id = #{orgId}
+            and sysdate>=t.start_date
+            and(t.stop_date is null or (t.stop_date is not null and t.stop_date>sysdate)))
         </where>
         ORDER BY a.drug_code DESC
     </select>
