@@ -7,117 +7,109 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/js/formSubmit.js"></script>
-    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <!--<link rel="stylesheet" type="text/css" href="/static/css/index.css">-->
+    <script type="text/javascript" src="../patient/js/patient.js"></script>
     <script type="text/javascript" src="/static/data/data_dict_set.js"></script>
     <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>
-
+    <script type="text/javascript" src="/static/data/data_nation.js"></script>
+    <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_relationship.js"></script>
+    <script type="text/javascript" src="/static/data/data_dict_charge_type.js"></script>
 </head>
 
 <body>
 
 <div class="inp-form" style="width: 95%">
     <form id="xinxiForm" method="post">
+        <input type="hidden" name="id">
  <!--       <input type="hidden" name="patientId">
         <input type="hidden" name="visitId">
         <input type="hidden" name="hospId">-->
         <table cellpadding="0" cellspacing="0" width="100%" class="apply-tab">
             <tr>
                 <td colspan="3">
-                    健康卡号 <input name="healthyCardNo" style="width: 100px;" class="easyui-validatebox" data-options="required:'true',validType:'intOrFloat'">
-                    &nbsp; 住 院 号 <input name="inpNo" style="width: 199px;" class="easyui-validatebox" data-options="required:'true',validType:'intOrFloat'">
-                    &nbsp;&nbsp;住院次数 <input name="name" class="easyui-validatebox validatebox-text-xs" required="true">
-                    &nbsp;&nbsp;姓&nbsp;&nbsp;名 <input name="name" class="easyui-validatebox validatebox-text-xs" required="true">
+                    健康卡号   <input name="healthyCardNo" style="width: 100px;" class="easyui-validatebox">
+                    &nbsp; 住 院 号  <input name="inpNo" style="width: 199px;" class="easyui-validatebox">
+                   &nbsp;&nbsp;姓&nbsp;&nbsp;名 <input name="name" class="easyui-validatebox validatebox-text-xs" required="true">
+                   <!-- &nbsp;&nbsp;&nbsp; 姓&nbsp;&nbsp;名 <input name="name" class="easyui-validatebox validatebox-text-xs" required="true">-->
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                      病人ID号 <input  name="name" style="width: 100px;" class="validatebox-text" required="true">
-                      &nbsp; 出生日期 <input name="dateOfBirth"
-                                class="easyui-datebox datebox-f combo-f textbox-f validatebox-text-s">
-                    &nbsp;&nbsp;性&nbsp;&nbsp;别 <input  name="sex" class="validatebox-text " required="true" id="setId">
-                    &nbsp;&nbsp;&nbsp; 身份证号 <input  name="name" style="width: 200px;" class="validatebox-text" required="true">
+                    性&nbsp;&nbsp;别  <input name="sex" class="easyui-validatebox validatebox-text" style="width:100px;" id="setId">
+                    &nbsp; 出生日期  <input  name="dateOfBirth" style="width: 199px;" class="easyui-datebox datebox-f combo-f textbox-f validatebox-text-s" required="true">
+                    &nbsp;&nbsp;身份证号  <input  name="idNo" class="easyui-validatebox validatebox-text  " required="true"  style="width:200px;">
+                    <!--&nbsp;&nbsp;&nbsp; 身份证号 <input  name="name" style="width: 200px;" class="easyui-validatebox validatebox-text" required="true">-->
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    民&nbsp;&nbsp;族 <select class="validatebox-text validatebox-text-s" name="nation" style="width:100px;">
-                    <option>请选择</option>
-                    <option>汉</option>
-                </select>
-                    &nbsp; 职&nbsp;&nbsp;业 <select class="validatebox-text validatebox-text-s" name="occupation">
-                    <option>请选择</option>
-                    <option>医生</option>
-                </select>
-                    &nbsp;&nbsp;身&nbsp;&nbsp;份：<input name="identity" class="validatebox-text validatebox-text-xs" >
+                    国&nbsp;&nbsp;籍  <input name="citizenship" class="easyui-validatebox validatebox-text" id="citizenship" style="width: 100px;">
+                    &nbsp; 民&nbsp;&nbsp;族  <input  name="nation" class="easyui-validatebox validatebox-text " required="true" id="nation" style="width: 200px;">
+                    &nbsp;&nbsp;  职&nbsp;&nbsp;业  <input  name="occupation" class="easyui-validatebox validatebox-text " required="true" id="occupation" style="width: 100px;">
+                    &nbsp;&nbsp;&nbsp;身&nbsp;&nbsp;份  <input name="identity" class="easyui-validatebox validatebox-text validatebox-text-xs" id="identity" style="width: 200px;">
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    出 生 地：<input name="birthPlace" class="validatebox-text" style="width:200px;">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    籍贯：<select class="validatebox-text validatebox-text-s" name="identity">
-                    <option>请选择</option>
-                    <option>陕西</option>
-                </select>
-                    &nbsp;&nbsp;费&nbsp;&nbsp;别：<input name="serviceSystemIndicator" class="validatebox-text validatebox-text-xs"
-                                          data-options="validType:'intOrFloat'">
-                    婚姻状况：<input name="maritalStatus" class="validatebox-text validatebox-text-xs" >
+                    出 生 地  <input name="birthPlace" class="easyui-validatebox validatebox-text" style="width:300px;">
+                    &nbsp;&nbsp;
+                     籍&nbsp;&nbsp;贯  <input name="nativePlace" class="easyui-validatebox validatebox-text"  style="width: 100px;">
+                    &nbsp;&nbsp;  费&nbsp;&nbsp;别： <input  name="chargeType" class="easyui-validatebox validatebox-text " required="true" id="chargeTypeId" style="width: 100px;">
+                    &nbsp;&nbsp;&nbsp;婚姻状况： <input name="maritalStatus" class="easyui-validatebox validatebox-text validatebox-text-xs" id="maritalStatus">
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                    现 住 址：<input name="addressNow" class="validatebox-text" >
+                <td colspan="3">
+                    现 住 址  <input name="patientArea" class="easyui-validatebox validatebox-text" style="width:400px;">
+                    &nbsp;
+                    &nbsp;&nbsp;电&nbsp;&nbsp;话： <input name="patPhone" class="easyui-validatebox validatebox-text "  data-options="validType:'phone'" style="width:200px;">
+                    邮&nbsp;&nbsp;编： <input name="patZip" style="width: 100px;" class="easyui-validatebox validatebox-text" >
                 </td>
-                <td>
-                    <!--电话：<input name="nextOfKinPhone" class="validatebox-text "  data-options="validType:'phone'" >-->
-                    邮&nbsp;&nbsp;编：<input name="zipCode" style="width: 20%;" class="validatebox-text" >
-                </td>
+                    <!---->
+
             </tr>
-            <!-- <tr>
+             <tr>
                  <td colspan="3">
-                     现住详细地址<input  name="addressNow" class="validatebox-text" required="true">
+                     现住详细地址  <input  name="patientAreaAddress" class="easyui-validatebox validatebox-text" required="true" style="width:800px;">
                  </td>
-             </tr>-->
+             </tr>
             <tr>
                 <td colspan="3">
-                    户口地址：<input name="mailingAddressCode" class="validatebox-text">
+                    户口地址  <input name="mailingAddressCode" class="easyui-validatebox validatebox-text">&nbsp;&nbsp;
+                    邮&nbsp;&nbsp;编  <input  name="zipCode" style="width: 100px;" class="easyui-validatebox validatebox-text" required="true">
                 </td>
-                <!-- <td>
-                     邮编<input  name="addressNow" style="width: 25%;" class="validatebox-text" required="true">
-                 </td>-->
+
             </tr>
-            <!-- <tr>
+             <tr>
                  <td colspan="3">
-                   户口详细地址<input  name="addressNow" class="validatebox-text" required="true">
+                   户口详细地址  <input  name="mailingAddress" class="easyui-validatebox validatebox-text" required="true" style="width: 800px;">
                  </td>
-             </tr>-->
+             </tr>
             <tr>
-                <td colspan="2">
-                    工作单位及地址：<input name="insuranceType" class="validatebox-text" >
-                </td>
-                <td>
-                    电&nbsp;&nbsp;话：<input name="phoneNumberBusiness" class="validatebox-text " >
-                    <!-- 邮编 <input  name="addressNow" style="width: 20%;" class="validatebox-text" required="true">-->
+                <td colspan="3">
+                    工作单位及地址  <input  value="无" class="easyui-validatebox validatebox-text" style="width:400px;">
+                    电&nbsp;&nbsp;话  <input name="phoneNumberBusiness" class="easyui-validatebox validatebox-text " style="width:200px;">
+                    邮&nbsp;&nbsp;编  <input  name="businessZipCode"  class="easyui-validatebox validatebox-text" required="true" style="width:100px;">
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    联系人名：<input name="nextOfKin" class="validatebox-text validatebox-text-xs" >
-                    关&nbsp;&nbsp;系：<input name="relationship" class="validatebox-text validatebox-text-xs" >
-                    电&nbsp;&nbsp;话： <input name="nextOfKinPhone" style="width: 25%;" class="easyui-validatebox" data-options="validType:'phone'" >
+                    联系人名  <input name="nextOfKin" class="easyui-validatebox validatebox-text validatebox-text-xs" >&nbsp;&nbsp;
+                    关&nbsp;&nbsp;系  <input name="relationship" class="easyui-validatebox validatebox-text validatebox-text-xs" id="relationship">&nbsp;&nbsp;
+                    电&nbsp;&nbsp;话  <input name="nextOfKinPhone" style="width: 25%;" class="easyui-validatebox" data-options="validType:'phone'" >
 
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    联系人地址：<input name="nextOfKinAddr" class="validatebox-text" >
+                    联系人地址  <input name="nextOfKinAddr" class="easyui-validatebox validatebox-text" style="width:800px;">
                 </td>
             </tr>
         </table>
     </form>
     <div class="col-xs-12 text-center">
-        <input type="button" value="保存" class="eeasyui-linkbutton l-btn " id="savePat" data-options="iconCls:'icon-save'" style="width:90px">
+        <input type="button" value="保存" class="eeasyui-linkbutton l-btn " id="savePat" data-options="iconCls:'icon-save'" style="width:90px" onclick="savePatInfo();">
     </div>
-
 </div>
 </body>

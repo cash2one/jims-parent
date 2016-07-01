@@ -273,7 +273,13 @@
 		<include refid="patVisitJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="getPatVisit" resultType="PatVisit">
+		SELECT
+		<include refid="patVisitColumns"/>
+		FROM pat_visit a
+
+		WHERE a.patient_id = #{patientId}
+	</select>
 	<select id="findList" resultType="PatVisit">
 		SELECT 
 			<include refid="patVisitColumns"/>
@@ -1109,4 +1115,19 @@
 
 
 	</select>
+    <update id="updatePatVisit">
+		UPDATE "PAT_VISIT"
+		   SET "PATIENT_AREA"          = #{patientArea},
+			   "PATIENT_AREA_ADDRESS"  = #{patientAreaAddress},
+			   "PAT_PHONE"             = #{patPhone},
+			   "PAT_ZIP"               = #{patZip},
+			   "PHONE_NUMBER_BUSINESS" = #{phoneNumberBusiness},
+			   "BUSINESS_ZIP_CODE"     = #{businessZipCode},
+			   "NEXT_OF_KIN"           = #{nextOfKin},
+			   "RELATIONSHIP"          = #{relationship},
+			   "NEXT_OF_KIN_ADDR"      = #{nextOfKinAddr},
+			   "NEXT_OF_KIN_PHONE"     = #{nextOfKinPhone}
+		 WHERE "ID" =#{id}
+
+	</update>
 </mapper>

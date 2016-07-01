@@ -38,10 +38,26 @@ public interface PatMasterIndexDao extends CrudDao<PatMasterIndex> {
     public List<ComeDeptVo> findWaitFrom();
 
     /**
-     * 病人信息编辑时 更新 主索引信息
+     * 病人信息编辑时 更新 主索引信息---门诊
      * @param patMasterIndex
      * @author zhaoning
      */
     public void updatePatInfo(PatMasterIndex patMasterIndex);
+
+    /**
+     * 获取病人信息---住院
+     * @param patientId
+     * @return
+     * @author zhaoning
+     */
+    public PatMasterIndex getPatMasterIndex(@Param("patientId")String patientId);
+
+    /**
+     * 病人信息编辑时 更新 主索引信息---住院
+     * @param patMasterIndex
+     * @author zhaoning
+     */
+    public void updatePatINfoByInhos(PatMasterIndex patMasterIndex);
+
 	
 }
