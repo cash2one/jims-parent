@@ -124,11 +124,10 @@
         a.ALTER_DATE,
         a.ANTI_BATCH_NO,
         a.ITEM_NO,
-        a.org_id,
-        b.dept_name as fromDeptName,
-        o.label
-        FROM ASEPSIS_STOCK a,DEPT_DICT b,ORG_SYS_DICT o
-        <where> a.org_id =  #{orgId}
+        a.org_id
+        FROM ASEPSIS_STOCK a,asepsis_dict b
+        <where> a.org_id =  #{orgId} and b.asepsis_code = a.item_code and b.belong_dept = a.from_dept and a.org_id = b.org_id
+            and to_char(a.sysdate,'yyyy-MM-dd') > to_char(a.anti_date,'yyyy-MM-dd') + b.valid_days
             <if test="fromDept != null and fromDept != ''">
                 and a.FROM_DEPT = #{fromDept}
             </if>
@@ -144,7 +143,6 @@
             <if test="antiDateEnd != null and antiDateEnd != ''">
                 and #{antiDateEnd} >= a.anti_date
             </if>
-            and a.FROM_DEPT = b.dept_code and o.value=a.units
             <if test="documentNo != null and documentNo != ''">
                 and a.document_no = #{documentNo}
             </if>
