@@ -90,10 +90,11 @@ public class AsepsisLendRecServiceImpl implements AsepsisLendRecApi{
     /**
      * 获取当天最大的编码
      * @param orgId
+     * @param prefix
      * @return
      */
-    public String getMaxDocumentNo(String orgId){
-        return bo.getMaxDocumentNo(orgId);
+    public String getMaxDocumentNo(String orgId,String prefix){
+        return bo.getMaxDocumentNo(orgId,prefix);
     }
 
     /**

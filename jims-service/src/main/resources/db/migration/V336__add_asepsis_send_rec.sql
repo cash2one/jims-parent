@@ -12,7 +12,7 @@ create table ASEPSIS_SEND_REC
   send_amount  NUMBER(6,2),
   get_amount   NUMBER(6,2),
   get_date     DATE,
-  get_man      VARCHAR2(20),
+  get_man      VARCHAR2(200),
   get_flag     VARCHAR2(2),
   units        VARCHAR2(8),
   operator     VARCHAR2(20),
