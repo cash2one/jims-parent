@@ -4,7 +4,7 @@
 var diagnosisType = [];
 
 /**
- * 途径
+ * 诊断类型
  */
 
 $.ajax({
@@ -18,8 +18,12 @@ $.ajax({
         diagnosisType=data;
     }
 });
+
+
+
+
 /**
- * 途径翻译
+ * 诊断类型
  * @param value
  * @param rowData
  * @param rowIndex
@@ -35,3 +39,5 @@ function diagnosisTypeFormatter(value, rowData, rowIndex) {
         }
     }
 }
+
+
