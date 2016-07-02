@@ -1,12 +1,10 @@
 package com.jims.nurse.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.exam.entity.Orders;
-import com.jims.nurse.api.BedRecServiceApi;
+import com.jims.orders.entity.Orders;
 import com.jims.nurse.api.OrdersNurseServiceApi;
 import com.jims.nurse.bo.OrdersNurseBo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 
 import java.util.List;
 

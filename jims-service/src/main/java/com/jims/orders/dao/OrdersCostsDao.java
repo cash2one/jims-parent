@@ -1,7 +1,7 @@
-package com.jims.clinic.dao;
+package com.jims.orders.dao;
 
 
-import com.jims.clinic.entity.OrdersCosts;
+import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;
@@ -21,4 +21,9 @@ public interface OrdersCostsDao extends CrudDao<OrdersCosts> {
      * @return
      */
    public List<OrdersCosts> getByOrderId(@Param("ordersId")String ordersId);
+
+
+
+
+
 }

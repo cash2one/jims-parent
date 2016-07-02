@@ -74,6 +74,7 @@
         </where>
     </select>
 
+
     <select id="findListWithStock" resultType="AsepsisSendRec">
         SELECT
         <include refid="asepsisSendRecColumns"/>,nvl(s.amount,0) stock,d.dept_name fromDeptName
@@ -198,4 +199,169 @@
         DELETE FROM ASEPSIS_SEND_REC
         WHERE id = #{id}
     </delete>
+
+
+
+
+    <select id="findListFee" resultType="AsepsisSendRec">
+        select from_dept,document_no,item_code,item_name,item_Spec,units,send_date, sum(send_amount) send_amount,sum(anti_fee) anti_fee,sum(anti_fee_sum) anti_fee_sum,sum(noback_fee) noback_fee
+        from(
+        select b.to_dept from_dept,
+        b.document_no,
+        b.item_code ,
+        b.item_name ,
+        b.item_Spec ,
+        b.lend_amount send_amount  ,
+        b.units,
+        b.anti_fee,
+        b.lend_date send_date,
+        b.anti_fee_sum,
+        b.noback_fee
+        from asepsis_lend_rec b
+        where b.org_id =  #{orgId}
+        <if test="sendDateStart != null and sendDateStart != ''">
+            and b.lend_date >= #{sendDateStart}
+        </if>
+        <if test="sendDateEnd != null and sendDateEnd != ''">
+            and #{sendDateEnd} >= b.lend_date
+        </if>
+        <if test="fromDept != null and fromDept != ''">
+            and b.to_dept = #{fromDept}
+        </if>
+        <if test="documentNo != null and documentNo != ''">
+            and b.document_No = #{documentNo}
+        </if>
+        <if test="itemCode != null and itemCode != ''">
+            and b.item_Code = #{itemCode}
+        </if>
+        <if test="itemNo != null and itemNo != ''">
+            and b.item_No = #{itemNo}
+        </if>
+        and b.return_flag > 0
+        union all
+        select  a.from_dept,
+        a.document_no,
+        a.item_code ,
+        a.item_name ,
+        a.item_Spec ,
+        a.send_amount  ,
+        a.units,
+        a.anti_fee,
+        a.send_date,
+        a.anti_fee_sum,
+        a.noback_fee
+        from asepsis_send_rec  a
+        where a.org_id =  #{orgId}
+        <if test="sendDateStart != null and sendDateStart != ''">
+            and a.send_date >= #{sendDateStart}
+        </if>
+        <if test="sendDateEnd != null and sendDateEnd != ''">
+            and #{sendDateEnd} >= a.send_date
+        </if>
+        <if test="fromDept != null and fromDept != ''">
+            and a.from_dept = #{fromDept}
+        </if>
+        <if test="documentNo != null and documentNo != ''">
+            and a.document_No = #{documentNo}
+        </if>
+        <if test="itemCode != null and itemCode != ''">
+            and a.item_Code = #{itemCode}
+        </if>
+        <if test="itemNo != null and itemNo != ''">
+            and a.item_No = #{itemNo}
+        </if>
+        and a.get_flag > 0
+        )group by from_dept,document_no,item_code,item_name,item_Spec,units,send_date
+
+    </select>
+
+    <select id="findListFeeSum" resultType="AsepsisSendRec">
+        select from_dept,send_date as flag,sum(anti_fee_sum) anti_fee_sum,sum(noback_fee) noback_fee from(
+                select a.to_dept from_dept, to_char(a.lend_date,'yyyy-mm-dd') send_date, sum(a.anti_fee_sum) anti_fee_sum, sum(a.noback_fee) noback_fee
+                from asepsis_lend_rec a
+                where a.org_id =  #{orgId} and a.return_flag >= 1
+                    <if test="sendDateStart != null and sendDateStart != ''"> and a.send_date >= #{sendDateStart} </if>
+                    <if test="sendDateEnd != null and sendDateEnd != ''"> and #{sendDateEnd} >= a.send_date </if>
+                    <if test="fromDept != null and fromDept != ''"> and a.from_dept = #{fromDept} </if>
+                    <if test="documentNo != null and documentNo != ''"> and a.document_No = #{documentNo} </if>
+                    <if test="itemCode != null and itemCode != ''"> and a.item_Code = #{itemCode} </if>
+                    <if test="itemNo != null and itemNo != ''"> and a.item_No = #{itemNo} </if>
+                group by a.to_dept, a.lend_date
+            union all
+                select  b.from_dept, to_char(b.send_date,'yyyy-mm-dd') send_date, sum(b.anti_fee_sum) anti_fee_sum, sum(b.noback_fee) noback_fee
+                from asepsis_send_rec b
+                where b.org_id =  #{orgId} and b.get_flag >= 1
+                    <if test="sendDateStart != null and sendDateStart != ''"> and b.lend_date >= #{sendDateStart} </if>
+                    <if test="sendDateEnd != null and sendDateEnd != ''"> and #{sendDateEnd} >= b.lend_date </if>
+                    <if test="fromDept != null and fromDept != ''"> and b.to_dept = #{fromDept} </if>
+                    <if test="documentNo != null and documentNo != ''"> and b.document_No = #{documentNo} </if>
+                    <if test="itemCode != null and itemCode != ''"> and b.item_Code = #{itemCode} </if>
+                    <if test="itemNo != null and itemNo != ''"> and b.item_No = #{itemNo} </if>
+                group by b.from_dept, b.send_date
+        )group by from_dept,send_date
+
+    </select>
+
+    <select id="findListFeeAcross" resultType="AsepsisSendRec">
+        select from_dept,substr(send_date,9,2)||'日'  as flag,sum(anti_fee_sum) anti_fee_sum,sum(noback_fee) noback_fee from(
+            select from_dept,send_date,sum(anti_fee_sum) anti_fee_sum,sum(noback_fee) noback_fee from(
+                select a.to_dept from_dept,to_char(a.lend_date,'yyyy-mm-dd') send_date,sum(a.anti_fee_sum) anti_fee_sum,sum(a.noback_fee) noback_fee
+                from asepsis_lend_rec a
+                where  a.org_id =  #{orgId} and  a.return_flag >= 1
+                    <if test="sendDateStart != null and sendDateStart != ''"> and a.send_date >= #{sendDateStart} </if>
+                    <if test="sendDateEnd != null and sendDateEnd != ''"> and #{sendDateEnd} >= a.send_date </if>
+                    <if test="fromDept != null and fromDept != ''"> and a.from_dept = #{fromDept} </if>
+                    <if test="documentNo != null and documentNo != ''"> and a.document_No = #{documentNo} </if>
+                    <if test="itemCode != null and itemCode != ''"> and a.item_Code = #{itemCode} </if>
+                    <if test="itemNo != null and itemNo != ''"> and a.item_No = #{itemNo} </if>
+                group by a.to_dept,  a.lend_date
+            union all
+                select  b.from_dept,to_char(b.send_date,'yyyy-mm-dd') send_date,sum(b.anti_fee_sum) anti_fee_sum,sum(b.noback_fee) noback_fee
+                from asepsis_send_rec b
+                where  b.org_id =  #{orgId} and  b.get_flag >= 1
+                    <if test="sendDateStart != null and sendDateStart != ''"> and b.lend_date >= #{sendDateStart} </if>
+                    <if test="sendDateEnd != null and sendDateEnd != ''"> and #{sendDateEnd} >= b.lend_date </if>
+                    <if test="fromDept != null and fromDept != ''"> and b.to_dept = #{fromDept} </if>
+                    <if test="documentNo != null and documentNo != ''"> and b.document_No = #{documentNo} </if>
+                    <if test="itemCode != null and itemCode != ''"> and b.item_Code = #{itemCode} </if>
+                    <if test="itemNo != null and itemNo != ''"> and b.item_No = #{itemNo} </if>
+                group by b.from_dept,   b.send_date
+            ) group by from_dept,send_date
+        )group by from_dept,send_date
+
+    </select>
+
+    <select id="findListFeeYear" resultType="AsepsisSendRec">
+        select from_dept,substr(send_date,6,2)||'月'  as flag,sum(anti_fee_sum) anti_fee_sum,sum(noback_fee) noback_fee from(
+            select from_dept,send_date,sum(anti_fee_sum) anti_fee_sum,sum(noback_fee) noback_fee from(
+                    select a.to_dept from_dept, to_char(a.lend_date,'yyyy-mm') send_date, sum(a.anti_fee_sum) anti_fee_sum,sum(a.noback_fee) noback_fee
+                    from asepsis_lend_rec a
+                    where  a.org_id =  #{orgId} and  a.return_flag >= 1
+                        <if test="sendDateStart != null and sendDateStart != ''"> and a.send_date >= #{sendDateStart} </if>
+                        <if test="sendDateEnd != null and sendDateEnd != ''"> and #{sendDateEnd} >= a.send_date </if>
+                        <if test="fromDept != null and fromDept != ''"> and a.from_dept = #{fromDept} </if>
+                        <if test="documentNo != null and documentNo != ''"> and a.document_No = #{documentNo} </if>
+                        <if test="itemCode != null and itemCode != ''"> and a.item_Code = #{itemCode} </if>
+                        <if test="itemNo != null and itemNo != ''"> and a.item_No = #{itemNo} </if>
+                    group by a.to_dept,a.lend_date
+                union all
+                    select b.from_dept, to_char(b.send_date,'yyyy-mm') send_date, sum(b.anti_fee_sum) anti_fee_sum,sum(b.noback_fee) noback_fee
+                    from asepsis_send_rec b
+                    where  b.org_id =  #{orgId} and  b.get_flag >= 1
+                        <if test="sendDateStart != null and sendDateStart != ''"> and b.lend_date >= #{sendDateStart} </if>
+                        <if test="sendDateEnd != null and sendDateEnd != ''"> and #{sendDateEnd} >= b.lend_date </if>
+                        <if test="fromDept != null and fromDept != ''"> and b.to_dept = #{fromDept} </if>
+                        <if test="documentNo != null and documentNo != ''"> and b.document_No = #{documentNo} </if>
+                        <if test="itemCode != null and itemCode != ''"> and b.item_Code = #{itemCode} </if>
+                        <if test="itemNo != null and itemNo != ''"> and b.item_No = #{itemNo} </if>
+                    group by b.from_dept, b.send_date
+            ) group by from_dept,send_date
+        )group by from_dept,send_date
+    </select>
+
+
+
+
+
+
 </mapper>

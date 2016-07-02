@@ -128,9 +128,12 @@ $(function() {
         singleSelect: false,//是否单选
         pagination: true,//分页控件
         rownumbers: true,//行号
-        //onClickCell: onClickCell,
+        onClickCell: onClickCell0,
         columns: [[      //每个列具体内容
             {field: 'belongDept', hidden:true},
+            {field: 'id', title: '灭菌', width: '40',align:'center',formatter:function(value){
+                return '<input type="checkbox" name="mj" />'
+            }},
             {field: 'belongDeptDes', title: '所属科室', width: '8%', align: 'center'},
             {field: 'asepsisCode', title: '代码', width: '7%', align: 'center'},
             {field: 'asepsisName', title: '名称', width: '15%', align: 'center'},
@@ -166,18 +169,15 @@ $(function() {
             {field: 'asepsisState', hidden:true},
             {field: 'antiDate', hidden:true}
         ]],
-        frozenColumns:[[//列将保持不动，而其他列横向滚动。
-            {field:'id',checkbox:true,formatter:function(value,row,index){
-                if (value.tagId){
-                    return value.tagId;
-                } else {
-                    return value;
-                }
-            }}
-        ]],
-        onDblClickRow: function (rowIndex, rowData) {//双击事件
-            onClickCell0(rowIndex,'amountAnti');
-        },
+        //frozenColumns:[[//列将保持不动，而其他列横向滚动。
+        //    {field:'id',checkbox:true,formatter:function(value,row,index){
+        //        if (value.tagId){
+        //            return value.tagId;
+        //        } else {
+        //            return value;
+        //        }
+        //    }}
+        //]],
         onClickRow: function (index, row) {
             row.antiOperator = $("#antiOperator").combobox("getValue");
             row.antiWays = $("#antiWays").combobox("getValue");
@@ -189,8 +189,8 @@ $(function() {
             row.boilerTimes = $("#boilerTimes").combobox("getValue");
             row.asepsisState = "3";
             row.antiDate = new Date();
-            $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row));
-            onClickCell0(rowIndex,'amountAnti');
+            //$('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",row));
+            //onClickCell0(index,'amountAnti');
         },
         onRowContextMenu: function (e, rowIndex, rowData) { //右键时触发事件
             e.preventDefault(); //阻止浏览器捕获右键事件
@@ -199,6 +199,7 @@ $(function() {
         }
         //option:{onClickCell: onClickCell}
     });
+
     $('#antiDate').datebox({
         //width: 140,
         editable: false,
@@ -230,16 +231,14 @@ $(function() {
                 $.each(listAll, function(i, r){
                     if(row.type=="QXFF"&&row.value == r.cleanWays){
                         r.cleanWaysDes = row.label;
-                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                     }
                     if(row.type=="DBFF"&&row.value == r.packWays){
                         r.packWaysDes = row.label;
-                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                     }
                     if(row.type=="PACKAGE_UNITS"&&row.value == r.units){
                         r.unitsDes = row.label;
-                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                     }
+                    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 });
             });
         });
@@ -247,18 +246,19 @@ $(function() {
             $.each(listAll, function(i, r){
                 if(row.empNo == r.checker){
                     r.checkerDes = row.name;
-                    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 }
                 if(row.empNo == r.sterOperator){
                     r.sterOperatorDes = row.name;
-                    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 }
                 if(row.empNo == r.packOperator){
                     r.packOperatorDes = row.name;
-                    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 }
+                $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
             });
         });
+        //$.each(listAll, function(i, r){
+        //    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
+        //});
     }
     var loadListData = function (flag) {
         if(flag=="1"){
@@ -267,7 +267,13 @@ $(function() {
             $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"2","orgId":orgId,"belongDept":belongDept,"asepsisName":asepsisName}});
             return;
         }
-        $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"2","orgId":orgId}});
+        //$("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"2","orgId":orgId}});
+        $.get(basePath+'/asepsisAntiRec/list',{"state":"2","orgId":orgId},function(res){
+            $("#list_data").datagrid('loadData',res)
+            //$(':radio[name="mj"]:eq(0)').click(function(){
+            //    alert()
+            //})
+        })
         setTimeout("loadAnotherData()",1000);
     }
     loadListData();
@@ -345,6 +351,7 @@ $(function() {
         }
     }
     function onClickCell0(index, field){
+        //$('#list_data').datagrid('beginEdit', index)
         if (endEditing0()){
             $('#list_data').datagrid('selectRow', index) .datagrid('editCell', {index:index,field:field});
             editIndex2 = index;

@@ -94,4 +94,21 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity){
         return dao.findListWithStock(entity);
     }
+    /**
+     * 科室消毒费统计
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFee(AsepsisSendRec entity){
+        if(entity.getFlag().equals("0")){
+            return dao.findListFee(entity);
+        }else if(entity.getFlag().equals("1")){
+            return dao.findListFeeSum(entity);
+        }else if(entity.getFlag().equals("2")){
+            return dao.findListFeeAcross(entity);
+        }else if(entity.getFlag().equals("3")){
+            return dao.findListFeeYear(entity);
+        }
+        return null;
+    }
 }
