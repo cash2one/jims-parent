@@ -268,6 +268,20 @@ $(function () {
                 _rows[_index].itemNo = _index + 1
                 $('#drug-import').datagrid('refreshRow', _index)
             }
+            //更新合计与应付款数据,更新零价总额
+            var newRows = $("#drug-import").datagrid('getRows');
+            var purchasePriceCount = 0; //进价金额
+            var retailPriceCount = 0;   //零价总额
+            for(var i=0;i<newRows.length;i++){
+                if(newRows[i].itemNo != '合计'){
+                    purchasePriceCount += parseFloat(newRows[i].purchasePriceCount);
+                    retailPriceCount += parseFloat(newRows[i].retailPriceCount);
+                }
+            }
+            newRows[newRows.length-1].purchasePriceCount = purchasePriceCount;
+            newRows[newRows.length-1].retailPriceCount = retailPriceCount;
+            $('#account').numberbox('setValue', purchasePriceCount);
+            $("#drug-import").datagrid('refreshRow',newRows.length-1);
         } else {
             $.messager.alert('警告','请选择要删除的药品！','warning')
             return
