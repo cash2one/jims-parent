@@ -5,6 +5,7 @@ package com.jims.orders.bo;
 
 import com.jims.clinic.dao.ExamAppointsDao;
 import com.jims.clinic.dao.ExamItemsDao;
+import com.jims.common.persistence.Page;
 import com.jims.orders.dao.OrdersCostsDao;
 import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.service.impl.CrudImplService;
@@ -345,6 +346,10 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
     public List<OrdersCosts> getOrdersCost(String visitId) {
         OrdersCosts ordersCosts=new OrdersCosts();
         ordersCosts.setVisitId(visitId);
-        return ordersCostsDao.findList(ordersCosts);
+        Page<OrdersCosts> page=new Page<OrdersCosts>();
+        page.setOrderBy("order_no");
+        ordersCosts.setPage(page);
+        List<OrdersCosts> ordersList=ordersCostsDao.findList(ordersCosts);
+        return ordersList;
     }
 }
