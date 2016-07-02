@@ -162,7 +162,7 @@ public class AsepsisSendRecRest {
         entity.setSendDateEnd(sendDateEnd);
         entity.setItemName(itemName);
         entity.setDocumentNo(documentNo);
-        return api.findListWithStock(entity);
+        return api.findListNoStock(entity);
     }
     /**
      * 统计科室消毒费
