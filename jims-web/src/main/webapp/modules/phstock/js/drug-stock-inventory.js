@@ -388,15 +388,12 @@ $(function(){
         stopEdit();
         var rows = $("#inventoryList").datagrid("getRows");
         var drugInventoryCheckVos=[];
-        //for(var i=0;i<rows.length-1;i++){
-        //    if(rows[i].orgId==parent.config.org_Id){
-        //        j=drugInventoryCheckVos.length;
-        //        drugInventoryCheckVos[j]=rows[i];
-        //    }
-        //}
-        drugInventoryCheckVos[0]=rows[0];
-        console.log(rows);
-        console.log(drugInventoryCheckVos)
+        for(var i=0;i<rows.length-1;i++){
+            if(rows[i].orgId==parent.config.org_Id){
+                j=drugInventoryCheckVos.length;
+                drugInventoryCheckVos[j]=rows[i];
+            }
+        }
         for(var i=0;i<drugInventoryCheckVos.length;i++){
             delete drugInventoryCheckVos[i].quantityNum;
         }
@@ -420,8 +417,14 @@ $(function(){
     //终存
     $("#saveBtn").on("click", function () {
         stopEdit();
-        var drugInventoryCheckVos = $("#inventoryList").datagrid("getRows");
-        drugInventoryCheckVos = drugInventoryCheckVos.splice(drugInventoryCheckVos.length - 1,1);
+        var rows = $("#inventoryList").datagrid("getRows");
+        var drugInventoryCheckVos=[];
+        for(var i=0;i<rows.length-1;i++){
+            if(rows[i].orgId==parent.config.org_Id){
+                j=drugInventoryCheckVos.length;
+                drugInventoryCheckVos[j]=rows[i];
+            }
+        }
         for(var i=0;i<drugInventoryCheckVos.length;i++){
             delete drugInventoryCheckVos[i].quantityNum;
         }

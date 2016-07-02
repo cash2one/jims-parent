@@ -72,6 +72,7 @@
         SELECT
         <include refid="drugCodingRuleColumns"/>
         FROM drug_coding_rule a WHERE a.class_name = #{className}
+        and a.del_flag='0'
     </select>
 
 	<insert id="insert">
