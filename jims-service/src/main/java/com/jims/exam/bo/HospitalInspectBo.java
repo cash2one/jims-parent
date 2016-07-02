@@ -26,7 +26,7 @@ import java.util.List;
 @Transactional(readOnly = false)
 public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppoints> {
     @Autowired
-    private ExamAppointsDao examAppointsDao;
+    private ExamAppointsDao examAppointsDao ;
     @Autowired
     private ExamItemsDao examItemsDao;
     @Autowired
