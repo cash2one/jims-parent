@@ -81,4 +81,6 @@ public interface PatVisitDao extends CrudDao<PatVisit> {
      */
     public void updatePatVisit(PatVisit patVisit);
 
+    public PatVisit selectPatVisit(@Param("id")String id);
+
 }

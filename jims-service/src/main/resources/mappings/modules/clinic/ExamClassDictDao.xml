@@ -24,7 +24,8 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		b.dept_name AS "deptDict.deptName"
+		b.dept_name AS "deptDict.deptName",
+		b.id AS "deptDict.id"
 	</sql>
 
     <sql id="examClassDictJoins">

@@ -490,7 +490,7 @@
 	<update id="deleteOrders">
 		UPDATE orders SET
 			del_flag = '1'
-		WHERE clinic_id=#{clinicId}
+		WHERE visit_id=#{visitId}
 
 	</update>
 

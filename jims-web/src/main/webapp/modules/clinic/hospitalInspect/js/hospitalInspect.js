@@ -1,59 +1,18 @@
-//var examSubClass = [{"value": "1", "text": "CT"}, {"value": "2", "text": "彩超"}, {"value": "3", "text": "心电"}] // 检查项目
-//var reqDept = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//开单科室
-//var performedBy = [{"value": "1", "text": "CT组"}, {"value": "2", "text": "彩超组"}, {"value": "3", "text": "心电组"}]//执行科室
-var rowNum=-1;
-var examSubClass = [] // 检查项目
-var reqDept = []//开单科室
-var performedBy = []//执行科室
-var priceItmeData={};
-priceItmeData.orgId="";
-priceItmeData.dictType="V_INPUT_REGISTRATION_LIST"
-
-/**
- * 检查项目翻译
- * @param value
- * @param rowData
- * @param rowIndex
- */
-function examSubClassFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < examSubClass.length; i++) {
-        if (examSubClass[i].value == value) {
-            return examSubClass[i].text;
-        }
-    }
-}
-/**
- * 执行科室翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function performedByFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < performedBy.length; i++) {
-        if (performedBy[i].value == value) {
-            return performedBy[i].text;
-        }
-    }
-}
-
-
-function onloadMethod() {
+function onloadMethods() {
+    var patientId=$("#patientId",parent.document).val();
+    var visitId=1;
+    $("#visitId").val(visitId);
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
-        valueField: 'examClassName',
+        valueField: 'id',
         textField: 'examClassName',
         onSelect: function (data) {
-            var visitId= parent.document.getElementById("clinicMasterId").value;
-            $("#visitId").val(visitId);
-           // $("#reqDept").val(data.deptDict.deptName);
+
+            $("#performedBy").val(data.deptDict.id);
+           $("#reqDept").val(function(value,rowData,rowIndex){
+               return performedBFormatter(data.deptDict.id,'','');
+           });
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
@@ -119,7 +78,7 @@ function onloadMethod() {
         method: 'get',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/clinicInspect/list',
+        url: basePath + '/clinicInspect/listHos?visitId='+visitId,
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -127,10 +86,10 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'examNo', title: '检查单号', width: '20%', align: 'center'},
-            {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center',formatter:examSubClassFormatter },
-            {field: 'reqDept', title: '开单科室', width: '20%', align: 'center',formatter:reqDeptFormatter},
-            {field: 'performedBy', title: '检查科室', width: '20%', align: 'center',formatter:performedByFormatter},
+            //{field: 'examNo', title: '检查单号', width: '20%', align: 'center'},
+            {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center'},
+            {field: 'reqDept', title: '开单科室', width: '20%', align: 'center',formatter:clinicDeptCodeFormatter},
+            {field: 'performedBy', title: '检查科室', width: '20%', align: 'center',formatter:clinicDeptCodeFormatter},
             {field: 'flag', title: '状态', width: '20%', align: 'center'},
             {
                 field: 'id',
@@ -263,7 +222,10 @@ function look(id) {
         'data': id = id,
         'dataType': 'json',
         'success': function (data) {
-            $('#orderForm').form('load', data);
+            $("#reqDept").val(function(value,rowData,rowIndex){
+                return performedBFormatter(data.performedBy,'','');
+            });
+            $('#hospitalInspectForm').form('load', data);
         }
     });
 }
@@ -281,16 +243,16 @@ function get(id) {
         'dataType': 'json',
         'success': function (data) {
             $("#modify").val("2");
-            $('#orderForm').form('load', data);
+            $('#hospitalInspectForm').form('load', data);
         }
     });
 }
 //保存
 function saveClinicInspect() {
-    if(!$("#orderForm").form("validate")){
+    if(!$("#hospitalInspectForm").form("validate")){
         return false;
     }
-    var formJson = fromJson('orderForm');
+    var formJson = fromJson('hospitalInspectForm');
     formJson = formJson.substring(0, formJson.length - 1);
     var divJson = "";
     $('#target .submitName').each(function (index, element) {
@@ -302,7 +264,7 @@ function saveClinicInspect() {
     var save=$("#modify").val();
     var url="";
     if(save=="1"){
-        url=basePath + "/orders/saveOrders";
+        url=basePath + "/clinicInspect/saveHospitalInspect";
     }else{
         url=basePath + "/orders/update";
     }
@@ -310,7 +272,7 @@ function saveClinicInspect() {
         if (data.code == "1") {
             $.messager.alert("提示信息", "保存成功");
             $('#list_data').datagrid('load');
-            $("#orderForm").form('clear');
+            $("#hospitalInspectForm").form('clear');
             $("#target").empty();
             $("#descriptionId").empty();
         } else {

@@ -34,7 +34,7 @@ public class Main {
         server.setHandler(root);
         try {
             //migrationDb();
-            server.start();
+//            server.start();
             server.join();
         }catch (Exception e){
             e.printStackTrace();

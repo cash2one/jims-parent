@@ -4,8 +4,9 @@
 package com.jims.lab.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.bo.LabTestBo;
+import com.jims.lab.bo.ClinicLabTestBo;
 import com.jims.lab.api.LabTestMasterServiceApi;
+import com.jims.lab.bo.HosLabTestBo;
 import com.jims.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestMaster;
 import com.jims.common.service.impl.CrudImplService;
@@ -21,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao, LabTestMaster> implements LabTestMasterServiceApi {
 
     @Autowired
-    private LabTestBo labTestBo;
+    private ClinicLabTestBo clinicLabTestBo;
+    @Autowired
+    private HosLabTestBo hosLabTestBo;
 
 
     /**
@@ -35,7 +38,7 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
     //@Override
 
     public String saveAll(LabTestMaster labTestMaster){
-      return   labTestBo.saveAll(labTestMaster);
+      return   clinicLabTestBo.saveAll(labTestMaster);
     }
 
     /**
@@ -43,15 +46,19 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
      * @param ids
      */
     public void delAll(String ids){
-        labTestBo.delete(ids);
+        clinicLabTestBo.delete(ids);
     }
 
     public String creatTestNo(){
-        return labTestBo.creatTestNo();
+        return clinicLabTestBo.creatTestNo();
     }
 
-
+    /**
+     * 住院检验保存
+     * @param labTestMaster
+     * @return
+     */
     public String saveAllIn(LabTestMaster labTestMaster){
-        return labTestBo.saveAllIn(labTestMaster);
+        return hosLabTestBo.saveAllIn(labTestMaster);
     }
 }

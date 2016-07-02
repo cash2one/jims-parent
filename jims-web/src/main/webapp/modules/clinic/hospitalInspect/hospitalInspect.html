@@ -7,8 +7,10 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="../hospitalInspect/js/hospitalInspect.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_lab_dept.js"></script>
 </head>
-<body class="easyui-layout" onload="onloadMethod()">
+<body class="easyui-layout" onload="onloadMethods()">
 <div class="easyui-layout" style="width:100%;height:100%;">
 
     <div data-options="region:'east',split:true" style="width:41%;">
@@ -18,7 +20,7 @@
     </div>
 
     <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
-        <form id="orderForm" method="post">
+        <form id="hospitalInspectForm" method="post">
             <div class="fitem fitem_pop">
                 <div class="fitem">
                     <label>
@@ -26,8 +28,8 @@
                     </label>
                     <input name="examClass" id="examClassNameId" style="width: 145px;">
                     <input name="examSubClass" id="examSubclassNameId" style="width: 145px;">
-                    &nbsp;
-                    <input title="" placeholder="发往科室" name="reqDept" id="reqDept"
+                    <input type="hidden" id="performedBy" name="performedBy" value="">
+                    <input title="" placeholder="发往科室"  id="reqDept"
                            class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;"
                            readonly="true">
                 </div>
