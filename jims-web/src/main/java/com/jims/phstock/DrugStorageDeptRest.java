@@ -24,10 +24,10 @@ public class DrugStorageDeptRest {
     private DrugStorageDeptServiceApi drugStorageDeptService;
 
     /**
-     * 获取药品库存单位字典列表
-     * @param orgId 某个医院的唯一orgId
+     * 获取药品库存单位集合
+     * @param orgId 组织机构ID
      * @param storageType 单位性质
-     * @return 字典列表的集合
+     * @return 库存单位list集合
      * @author fyg
      */
     @GET
