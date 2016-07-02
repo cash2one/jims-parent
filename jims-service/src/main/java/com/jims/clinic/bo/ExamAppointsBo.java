@@ -6,12 +6,10 @@ package com.jims.clinic.bo;
 import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicMaster;
-import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.exam.dao.OrdersDao;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamItems;
-import com.jims.exam.entity.Orders;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

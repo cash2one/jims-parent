@@ -4,10 +4,12 @@ import com.jims.clinic.dao.ExamAppointsDao;
 import com.jims.clinic.dao.ExamItemsDao;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.exam.dao.OrdersDao;
+
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamItems;
-import com.jims.exam.entity.Orders;
+
+import com.jims.orders.dao.OrdersDao;
+import com.jims.orders.entity.Orders;
 import com.jims.patient.entity.PatVisit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +55,7 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
             orders.preInsert();
             orders.setPatientId(examAppoints.getPatientId());
             orders.setVisitId(examAppoints.getVisitId());
-            orders.setAppNo(examItems.getId());
+            orders.setAppNo(examAppoints.getId());
             Integer orderNo = ordersDao.getOrderNo(examAppoints.getPatientId(),examAppoints.getVisitId(),"");
             if(orderNo !=null){
                 orders.setOrderNo(orderNo+1);

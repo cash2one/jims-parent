@@ -3,9 +3,7 @@ package com.jims.clinic.clinicinspect;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.EmrDiagnosisServiceApi;
 import com.jims.clinic.entity.EmrDiagnosis;
-import com.jims.exam.api.ExamAppointsServiceApi;;
-import com.jims.clinic.api.OutpOrdersCostsServiceApi;
-import com.jims.clinic.api.OutpTreatRecServiceApi;
+import com.jims.exam.api.ExamAppointsServiceApi;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
@@ -32,17 +30,31 @@ public class ClinicInspectRest {
     private EmrDiagnosisServiceApi emrDiagnosisServiceApi;
 
 
-    @Path("list")
+    @Path("listHos")
     @GET
-    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,String ClinicId){
+    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,String visitId){
         ExamAppoints examAppoints= new ExamAppoints();
-        examAppoints.setClinicId("1");
+        examAppoints.setVisitId(visitId);
         Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),examAppoints);
         PageData<ExamAppoints> pageData=new PageData<ExamAppoints>();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
         return pageData;
     }
+
+    @Path("list")
+    @GET
+    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,String clinicId){
+        ExamAppoints examAppoints= new ExamAppoints();
+        examAppoints.setClinicId(clinicId);
+        Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),examAppoints);
+        PageData<ExamAppoints> pageData=new PageData<ExamAppoints>();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
+    }
+
+
     @Path("getDescription")
     @GET
     public EmrDiagnosis getDescription(@QueryParam("clinicIds") String clinicIds){

@@ -1133,7 +1133,7 @@
 	<select id="selectPatVisit" resultType="PatVisit">
 		SELECT  *from PAT_VISIT WHERE
 		<if test="id!=null and id!=''">
-			and id=#{id}
+			id=#{id}
 		</if>
 	</select>
 </mapper>

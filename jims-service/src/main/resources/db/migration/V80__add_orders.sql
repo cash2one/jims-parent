@@ -49,7 +49,7 @@ create table ORDERS
    CANCEL_DATE_TIME     TIMESTAMP,
    CANCEL_DOCTOR        VARCHAR2(20),
    DEGREE               NUMBER(2),
-   APP_NO               VARCHAR2(20),
+   APP_NO               VARCHAR2(64),
    CONTINUE_ORDER_NO    VARCHAR2(20),
    CONVERSION_DATE_TIME TIMESTAMP,
    IS_ADJUST            NUMBER(1),
