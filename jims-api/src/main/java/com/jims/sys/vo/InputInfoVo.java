@@ -10,15 +10,17 @@ import java.util.List;
 public class InputInfoVo implements Serializable {
     private String orgId ;//组织机构
     private String dictType ;//表或者视图名称
+    private String itemClass;//如果是药品，用于区分中西药
 
     private List<InputParamVo> inputParamVos = new ArrayList<InputParamVo>() ;
 
     public InputInfoVo() {
     }
 
-    public InputInfoVo(String orgId, String dictType, List<InputParamVo> inputParamVos) {
+    public InputInfoVo(String orgId, String dictType, String itemClass,List<InputParamVo> inputParamVos) {
         this.orgId = orgId;
         this.dictType = dictType;
+        this.itemClass = itemClass;
         this.inputParamVos = inputParamVos;
     }
 
@@ -44,5 +46,13 @@ public class InputInfoVo implements Serializable {
 
     public void setInputParamVos(List<InputParamVo> inputParamVos) {
         this.inputParamVos = inputParamVos;
+    }
+
+    public String getItemClass() {
+        return itemClass;
+    }
+
+    public void setItemClass(String itemClass) {
+        this.itemClass = itemClass;
     }
 }

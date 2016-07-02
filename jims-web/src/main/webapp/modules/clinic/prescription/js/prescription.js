@@ -74,7 +74,7 @@ $(function(){
                 options: {
                     panelWidth: 500,
                     required: true,
-                    data:drugData,
+                    data:westernDrugData,
                     idField:'item_name',
                     textField:'item_name',
                     columns:[
@@ -366,10 +366,14 @@ function funItem(obj){
     $("#itemClass").val(obj.value);
     changeRadio(obj.value);
     var selRow = $('#leftList').datagrid('getChecked');
-    subItem(itemClass,selRow[0]);
+    if(selRow[0]!=undefined){
+        subItem(itemClass,selRow[0]);
+    }
+
 }
 //西药/草药单选按钮事件-更新行
 function subItem(itemClass,selRow){
+
     if(itemClass=='A'){
         $('#leftList').datagrid('updateRow',{
             index: 0,
@@ -396,31 +400,44 @@ function subItem(itemClass,selRow){
 }
 //点击新方
 function addPre(){
-    $("#list_data").datagrid('loadData', { total: 0, rows: [] });
-    orderNo=0;
+    itemClass = $("#itemClass").val();
+    if(itemClass=='A'){
+        $("#list_data").datagrid('loadData', { total: 0, rows: [] });
+        orderNo=0;
+        newpresc();
+        $("#list_data").datagrid();
+    }else{
+        newpresc();
+        $("#medicineId").show();
+        $(".layout-split-south .datagrid").hide();
+    }
+
+}
+//新方
+function newpresc(){
     disableForm('prescForm',false);
     //获取处方列表所有行，并取出所有行中处方号prescNo的最大值，加1后作为新处方的处方号
-     var rows = $('#leftList').datagrid('getRows');
-     if(rows.length>0){
-         for(var i=0;i<rows.length;i++){
-             if(rows[i].chargeIndicator=='新开'){
-                 $.messager.alert("提示消息", "已有新开处方，请先保存或者弃方后再试!");
-                 return;
-             }
-             for(var j=0;j<rows.length;j++){
-                 if(rows[i].prescNo>rows[j].prescNo){
+    var rows = $('#leftList').datagrid('getRows');
+    if(rows.length>0){
+        for(var i=0;i<rows.length;i++){
+            if(rows[i].chargeIndicator=='新开'){
+                $.messager.alert("提示消息", "已有新开处方，请先保存或者弃方后再试!");
+                return;
+            }
+            for(var j=0;j<rows.length;j++){
+                if(rows[i].prescNo>rows[j].prescNo){
                     prescNo= rows[i].prescNo+1;
                     break;
-                 }else{
+                }else{
                     prescNo = rows[j].prescNo+1;
                     break;
-                 }
-             }
-         }
-     }else{
+                }
+            }
+        }
+    }else{
         prescNo=1;
-     }
-/*    var index= $('#list_data').datagrid('getRowIndex',nowrow);*/
+    }
+    /*    var index= $('#list_data').datagrid('getRowIndex',nowrow);*/
     $.ajax({
         'type': 'POST',
         'url': basePath+'/outppresc/getClinicMaster',
@@ -441,11 +458,10 @@ function addPre(){
                     itemClass:itemClass,
                     chargeIndicator:chargeIndicator
 
-            }).datagrid('getRows').length-1;
+                }).datagrid('getRows').length-1;
             $('#leftList').datagrid('selectRow',idx);
         }
     })
-    $("#list_data").datagrid();
 }
 //保存处方及药品信息
 function savePre(){
