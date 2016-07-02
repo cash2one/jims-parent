@@ -2,7 +2,6 @@ package com.jims.clinic.PreDischgedPats;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.PreDischgedPatsServiceApi;
-import com.jims.clinic.entity.PatHospitalNotice;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.clinic.entity.PreDischgedPats;
 import com.jims.clinic.vo.PreDischgedPatsVo;
@@ -10,7 +9,6 @@ import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.common.utils.StringUtils;
-import com.jims.exam.entity.Orders;
 import com.jims.sys.api.DeptDictApi;
 import com.jims.sys.entity.DeptDict;
 import org.springframework.stereotype.Component;

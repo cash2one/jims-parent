@@ -3,7 +3,7 @@ package com.jims.clinic.clinicinspect;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.exam.api.ExamAppointsServiceApi;
-import com.jims.exam.api.OrdersServiceApi;
+import com.jims.orders.api.OrdersServiceApi;
 import com.jims.exam.entity.ExamAppoints;
 import org.springframework.stereotype.Component;
 

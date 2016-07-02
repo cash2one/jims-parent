@@ -126,4 +126,12 @@ public class AsepsisSendRecServiceImpl implements AsepsisSendRecApi{
     public List<AsepsisSendRec> findListNoStock(AsepsisSendRec entity){
         return bo.findListNoStock(entity);
     }
+    /**
+     * 科室消毒费统计
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFee(AsepsisSendRec entity){
+        return bo.findListFee(entity);
+    }
 }

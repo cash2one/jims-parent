@@ -1,9 +1,9 @@
-package com.jims.exam.api;
+package com.jims.orders.api;
 
-import com.jims.clinic.entity.OrdersCosts;
+import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.exam.entity.ExamAppoints;
-import com.jims.exam.entity.Orders;
+import com.jims.orders.entity.Orders;
 
 import java.util.List;
 
@@ -131,4 +131,13 @@ public interface OrdersServiceApi {
      * @return
      */
     public List<BaseDto> getClinicPrice(String itemCode);
+
+
+    /**
+     * 获取住院人的医嘱价格
+     * @param visitId
+     * @return
+     */
+    public  List<OrdersCosts> getOrdersCost(String visitId);
+
 }

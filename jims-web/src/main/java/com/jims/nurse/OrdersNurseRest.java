@@ -2,7 +2,7 @@ package com.jims.nurse;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
-import com.jims.exam.entity.Orders;
+import com.jims.orders.entity.Orders;
 import com.jims.nurse.api.OrdersNurseServiceApi;
 import org.springframework.stereotype.Component;
 
