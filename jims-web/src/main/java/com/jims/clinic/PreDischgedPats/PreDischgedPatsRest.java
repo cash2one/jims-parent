@@ -46,7 +46,7 @@ public class PreDischgedPatsRest {
         preDischgedPats.setPatsInHospital(patsInHospital);
         Page<PreDischgedPats> page = preDischgedPatsServiceApi.findPage(new Page<PreDischgedPats>(request,response),preDischgedPats);
         PageData pageData=new PageData();
-        pageData.setRows(page.getList());
+        pageData.setRows(preDischgedPatsServiceApi.findPreList("15006135",wardCode));
         pageData.setTotal(page.getCount());
         return pageData;
     }
