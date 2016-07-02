@@ -37,14 +37,10 @@
 
     <select id="findList" resultType="AsepsisSendRec">
         SELECT
-        <include refid="asepsisSendRecColumns"/>,a.send_Amount-a.get_Amount as stock
-        FROM ASEPSIS_SEND_REC a,asepsis_stock s
-        <include refid="asepsisSendRecColumns"/>,dept_name as fromDeptName
-        FROM ASEPSIS_SEND_REC a , (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b
+        <include refid="asepsisSendRecColumns"/>,a.send_Amount-a.get_Amount as stock,dept_name as fromDeptName
+        FROM ASEPSIS_SEND_REC a,asepsis_stock s ,(select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b
         <where>
-            a.org_id =  #{orgId}
-            and s.org_id =  #{orgId}
-            and a.document_no = s.document_no
+            a.org_id =  #{orgId} and s.org_id =  #{orgId} and a.document_no = s.document_no and b.dept_code=a.from_dept
             <if test="sendDate != null and sendDate != ''">
                 and to_char(a.send_date,'yyyy-MM-dd') = to_char(#{sendDate},'yyyy-MM-dd')
             </if>
@@ -73,12 +69,27 @@
             <if test="itemNo != null and itemNo != ''">
                 and a.item_No = #{itemNo}
             </if>
-            a.org_id =  #{orgId}   and b.dept_code=a.from_dept
+            <if test="itemName != null and itemName != ''">
+                and a.item_name = #{itemName}
+            </if>
+        </where>
+    </select>
+
+    <select id="findListNoStock" resultType="AsepsisSendRec">
+        SELECT
+        <include refid="asepsisSendRecColumns"/>,,dept_name as fromDeptName
+        FROM ASEPSIS_SEND_REC a ,(select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b
+        <where>
+            a.org_id =  #{orgId} and a.document_no = s.document_no and b.dept_code=a.from_dept
             <if test="sendDateStart != null and sendDateStart != ''">
                 and a.send_date >= #{sendDateStart}
             </if>
             <if test="sendDateEnd != null and sendDateEnd != ''">
                 and #{sendDateEnd} >= a.send_date
+            </if>
+
+            <if test="documentNo != null and documentNo != ''">
+                and a.document_No = #{documentNo}
             </if>
             <if test="itemName != null and itemName != ''">
                 and a.item_name = #{itemName}

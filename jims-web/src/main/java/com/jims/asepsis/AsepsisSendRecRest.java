@@ -45,8 +45,8 @@ public class AsepsisSendRecRest {
                                          @QueryParam("sendDateEnd")Date sendDateEnd,
                                          @QueryParam("fromDept")String fromDept,
                                          @QueryParam("getFlag")String getFlag,
-                                         @QueryParam("sender")String sender ,
-                                         @QueryParam("itemName")String itemName) {
+                                         @QueryParam("sender")String sender
+                                         ) {
         AsepsisSendRec entity = new AsepsisSendRec();
         entity.setOrgId(orgId);
         entity.setFromDept(fromDept);
@@ -54,7 +54,7 @@ public class AsepsisSendRecRest {
         entity.setSendDateStart(sendDateStart);
         entity.setSendDateEnd(sendDateEnd);
         entity.setGetFlag(getFlag);
-        entity.setItemName(itemName);
+
         return api.findList(entity);
     }
 
@@ -143,6 +143,27 @@ public class AsepsisSendRecRest {
         entity.setSendDateEnd(sendDateEnd);
         entity.setFromDept(fromDept);
         entity.setSender(sender);
+        return api.findListWithStock(entity);
+    }
+
+    /**
+     * 检索有库存、在保质期内的数据
+     * @param
+     * @return
+     */
+    @GET
+    @Path("findListNoStock")
+    public List<AsepsisSendRec> findListNoStock(@QueryParam("orgId")String orgId,
+                                                  @QueryParam("sendDateStart")Date sendDateStart,
+                                                  @QueryParam("sendDateEnd")Date sendDateEnd,
+                                                  @QueryParam("itemName")String itemName,
+                                                  @QueryParam("documentNo")String documentNo){
+        AsepsisSendRec entity = new AsepsisSendRec();
+        entity.setOrgId(orgId);
+        entity.setSendDateStart(sendDateStart);
+        entity.setSendDateEnd(sendDateEnd);
+        entity.setItemName(itemName);
+        entity.setDocumentNo(documentNo);
         return api.findListWithStock(entity);
     }
 }

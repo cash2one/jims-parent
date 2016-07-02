@@ -117,4 +117,13 @@ public class AsepsisSendRecServiceImpl implements AsepsisSendRecApi{
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity){
         return bo.findListWithStock(entity);
     }
+
+    /**
+     * 检索没有库存、在保质期内的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListNoStock(AsepsisSendRec entity){
+        return bo.findListNoStock(entity);
+    }
 }

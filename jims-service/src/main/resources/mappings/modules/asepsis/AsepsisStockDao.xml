@@ -48,7 +48,7 @@
         o.label
         FROM ASEPSIS_STOCK a,(select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b,
         (select value,label from org_sys_dict where org_id = #{orgId} and type = 'PACKAGE_UNITS') o
-        <where> a.org_id =  #{orgId}
+        <where> a.org_id =  #{orgId} and a.FROM_DEPT = b.dept_code and o.value=a.units
             <if test="fromDept != null and fromDept != ''">
                 and a.FROM_DEPT = #{fromDept}
             </if>

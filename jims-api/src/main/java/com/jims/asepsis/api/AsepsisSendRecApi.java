@@ -77,4 +77,11 @@ public interface AsepsisSendRecApi {
      * @return
      */
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity);
+
+    /**
+     * 检索有库存、在保质期内的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListNoStock(AsepsisSendRec entity);
 }

@@ -114,4 +114,13 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity){
         return dao.findListWithStock(entity);
     }
+
+    /**
+     * 检索没有库存、在保质期内的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListNoStock(AsepsisSendRec entity){
+        return dao.findListNoStock(entity);
+    }
 }
