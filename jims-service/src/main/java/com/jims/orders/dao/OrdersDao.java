@@ -159,5 +159,10 @@ public interface OrdersDao extends CrudDao<Orders> {
      */
     public int updateOrders(Orders orders);
 
-
+    /**
+     * 删除医嘱
+     * @param visitId
+     * @return
+     */
+    public String delOrders(@Param("visitId")String visitId);
 }

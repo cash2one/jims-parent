@@ -85,7 +85,8 @@ function onloadMethod() {
         method: 'get',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/clinicInspect/list?clinicId='+clinicId,
+        url: basePath + '/clinicInspect/list',
+        queryParams:{'clinicId' : clinicId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选

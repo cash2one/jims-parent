@@ -660,4 +660,9 @@
 				and clinic_id=#{clinicId}
 		</where>
 	</update>
+
+	<update id="delOrders">
+		UPDATE orders SET order_status ='8',billing_attr='3',drug_billing_attr='3',del_flag='1'
+		WHERE visit_id=#{visitId}
+	</update>
 </mapper>

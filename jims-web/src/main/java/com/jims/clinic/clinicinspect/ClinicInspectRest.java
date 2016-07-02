@@ -29,10 +29,16 @@ public class ClinicInspectRest {
     @Reference(version = "1.0.0")
     private EmrDiagnosisServiceApi emrDiagnosisServiceApi;
 
-
+    /**
+     * 查看住院检查列表
+     * @param request
+     * @param response
+     * @param visitId
+     * @return
+     */
     @Path("listHos")
     @GET
-    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,String visitId){
+    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("visitId")String visitId){
         ExamAppoints examAppoints= new ExamAppoints();
         examAppoints.setVisitId(visitId);
         Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),examAppoints);
@@ -42,9 +48,16 @@ public class ClinicInspectRest {
         return pageData;
     }
 
+    /**
+     * 查看门诊检查列表
+     * @param request
+     * @param response
+     * @param clinicId
+     * @return
+     */
     @Path("list")
     @GET
-    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,String clinicId){
+    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicId")String clinicId){
         ExamAppoints examAppoints= new ExamAppoints();
         examAppoints.setClinicId(clinicId);
         Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),examAppoints);
@@ -104,6 +117,17 @@ public class ClinicInspectRest {
             stringData.setCode(num+"");
             stringData.setData("success");
             return stringData;
+
+    }
+
+    @Path("delHos")
+    @POST
+    public StringData delHos(String id) {
+        StringData stringData = new StringData();
+        String num = examAppointsServiceApi.delectHosExamAppionts(id);
+        stringData.setCode(num+"");
+        stringData.setData("success");
+        return stringData;
 
     }
 }

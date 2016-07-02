@@ -53,10 +53,27 @@ public class ExamAppointsServiceImpl  implements ExamAppointsServiceApi {
         return examAppointsBo.getExamAppionts(patientId);
     }
 
+    /**
+     * 门诊删除
+     * @param id
+     * @return
+     */
     @Override
     public String deleteExamAppionts(String id) {
         return examAppointsBo.deleteExamAppionts(id);
     }
+
+    /**
+     * 住院删除
+     * @param id
+     * @return
+     */
+    @Override
+    public String delectHosExamAppionts(String id) {
+        String nun =hospitalInspectBo.delectHosExamAppionts(id);
+        return nun;
+    }
+
 
     @Override
     public Integer getMaxExamNo() {

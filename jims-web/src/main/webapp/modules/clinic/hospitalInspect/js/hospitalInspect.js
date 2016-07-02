@@ -78,7 +78,8 @@ function onloadMethods() {
         method: 'get',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/clinicInspect/listHos?visitId='+visitId,
+        url: basePath + '/clinicInspect/listHos',
+        queryParams:{'visitId' : visitId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -188,7 +189,7 @@ function deleteRow(id) {
 function del(id) {
     $.ajax({
         'type': 'POST',
-        'url': basePath + '/orders/del',
+        'url': basePath + '/clinicInspect/delHos',
         'contentType': 'application/json',
         'data': id = id,
         'dataType': 'json',

@@ -50,12 +50,19 @@ public interface ExamAppointsServiceApi {
 
 
     /**
-     * 删除预约记录
+     * 删除门诊预约记录
      * @param id
      * @return
      */
 
     public String deleteExamAppionts( String id);
+
+    /**
+     * 删除住院记录
+     * @param id
+     * @return
+     */
+    public String delectHosExamAppionts(String id);
 
     /**
      * 获得最大的申请序号

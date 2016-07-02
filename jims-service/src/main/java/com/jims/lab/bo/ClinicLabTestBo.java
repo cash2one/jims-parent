@@ -31,7 +31,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao,LabTestMas
     private LabTestMasterDao labTestMasterDao;
 
     /***
-     * 问诊检验保存
+     * 门诊检验保存
      * @param labTestMaster
      * @return
      */
