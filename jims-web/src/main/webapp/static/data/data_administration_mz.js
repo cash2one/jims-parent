@@ -1,14 +1,15 @@
-
 var administrationmzDict = [];
-
+var administrationmzDictData={};
+administrationmzDictData.orgId="";
+administrationmzDictData.dictType="V_ADMINISTRATION_DICT";
 /**
  * 途径
  */
 
 $.ajax({
-    'type': 'GET',
-    'url':basePath+'/AdministrationDict/mzViewList',
-    data: 'orgId=1',
+    'type': 'POST',
+    'url':basePath+'/input-setting/listParam' ,
+    data: JSON.stringify(administrationmzDictData),
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
@@ -29,7 +30,7 @@ function administrationFormatter(value, rowData, rowIndex) {
     }
     for (var i = 0; i < administrationmzDict.length; i++) {
         if (administrationmzDict[i].id == value) {
-            return administrationmzDict[i].administrationName;
+            return administrationmzDict[i].administration_name;
         }
     }
 }

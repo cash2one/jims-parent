@@ -1,8 +1,8 @@
 package com.jims.lab.bo;
 
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.exam.dao.OrdersDao;
-import com.jims.exam.entity.Orders;
+import com.jims.orders.dao.OrdersDao;
+import com.jims.orders.entity.Orders;
 import com.jims.lab.dao.LabTestItemsDao;
 import com.jims.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestItems;

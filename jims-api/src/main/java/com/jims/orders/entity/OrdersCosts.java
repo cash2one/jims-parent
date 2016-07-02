@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.entity;
+package com.jims.orders.entity;
 
 
 import com.jims.common.persistence.DataEntity;

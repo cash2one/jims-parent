@@ -1,14 +1,13 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.exam.dao;
+package com.jims.orders.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.common.web.impl.BaseDto;
-import com.jims.exam.entity.Orders;
+import com.jims.orders.entity.Orders;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.core.annotation.Order;
 
 import java.util.Date;
 import java.util.List;
@@ -159,5 +158,6 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @return
      */
     public int updateOrders(Orders orders);
+
 
 }

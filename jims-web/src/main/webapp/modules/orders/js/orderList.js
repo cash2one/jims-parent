@@ -8,6 +8,18 @@ var orderSubNo = 1;
 var clinicPrice =  [];
 
 $(function(){
+    $.ajax({
+        'type': 'GET',
+        'url':basePath+'/inOrders/getCostById',
+        'contentType': 'application/json',
+        'data':'visitId=15006135',
+        'dataType': 'json',
+        'async': false,
+        'success': function(data){
+            alert(data.length);
+        }
+    });
+
     $('#orderList').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -123,10 +135,17 @@ $(function(){
                             $(dosageUnits.target).textbox('setValue',row.dose_units);
                             var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.drug_code);
+
+                            var rows=$('#orderCostList').datagrid('getRows');
+                            for(var i=0;i<rows.length;i++){
+                                if(rows[i].itemCode==row.drug_code){
+                                    $('#orderCostList').datagrid('deleteRow', i);
+                                }
+                            }
                             $('#orderCostList').datagrid('insertRow', {
-                                index:0,	// index start with 0
+                                index:1,	// index start with 0
                                 row: {
-                                    itemClass:  row.item_class,
+                                    itemClass:  '药品',
                                     itemName:row.item_name,
                                     itemSpec:row.drug_spec,
                                     amount:row.dose_per_unit,
@@ -143,33 +162,46 @@ $(function(){
                             $(dosageUnits.target).textbox('setValue',row.units);
                             var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.item_code);
-                            $.ajax({
-                                'type': 'GET',
-                                'url':basePath+'/inOrders/getClinicPrice',
-                                data: 'itemCode='+row.item_code,
-                                'contentType': 'application/json',
-                                'dataType': 'json',
-                                'async': false,
-                                'success': function(data){
-                                    clinicPrice=data;
-                                    for(var i=0;i<clinicPrice.length;i++){
-                                        $('#orderCostList').datagrid('insertRow', {
-                                            index:0,	// index start with 0
-                                            row: {
-                                                itemClass:  clinicPrice[i].item_class,
-                                                itemName:clinicPrice[i].item_name,
-                                                itemSpec:clinicPrice[i].item_spec,
-                                                amount:1,
-                                                units:clinicPrice[i].units,
-                                                costs:clinicPrice[i].price,
-                                                itemCode:clinicPrice[i].item_code,
-                                                itemNo:clinicPrice[i].charge_item_no
-                                            }
-                                        });
-                                    }
-
+                            $('#orderCostList').datagrid('insertRow', {
+                                index:0,	// index start with 0
+                                row: {
+                                    itemClass:  row.item_class,
+                                    itemName:row.item_name,
+                                    itemSpec:row.item_spec,
+                                    amount:1,
+                                    units:row.units,
+                                    costs:row.price,
+                                    itemCode:row.item_code,
+                                    itemNo:row.charge_item_no
                                 }
-                            })
+                            });
+                            //$.ajax({
+                            //    'type': 'GET',
+                            //    'url':basePath+'/inOrders/getClinicPrice',
+                            //    data: 'itemCode='+row.item_code,
+                            //    'contentType': 'application/json',
+                            //    'dataType': 'json',
+                            //    'async': false,
+                            //    'success': function(data){
+                            //        clinicPrice=data;
+                            //        for(var i=0;i<clinicPrice.length;i++){
+                            //            $('#orderCostList').datagrid('insertRow', {
+                            //                index:0,	// index start with 0
+                            //                row: {
+                            //                    itemClass:  clinicPrice[i].item_class,
+                            //                    itemName:clinicPrice[i].item_name,
+                            //                    itemSpec:clinicPrice[i].item_spec,
+                            //                    amount:1,
+                            //                    units:clinicPrice[i].units,
+                            //                    costs:clinicPrice[i].price,
+                            //                    itemCode:clinicPrice[i].item_code,
+                            //                    itemNo:clinicPrice[i].charge_item_no
+                            //                }
+                            //            });
+                            //        }
+                            //
+                            //    }
+                            //})
 
                         }
 
@@ -191,9 +223,30 @@ $(function(){
             {field:'administration',title:'途径',width:'5%',align:'center',formatter:administrationFormatter,editor:{
                 type:'combobox',
                 options:{
-                    data :administrationDict,
+                    data :administrationmzDict,
                     valueField:'id',
-                    textField:'administrationName'
+                    textField:'administration_name',
+                    onSelect: function (row) {
+                        var rows=$('#orderCostList').datagrid('getRows');
+                        for(var i=0;i<rows.length;i++){
+                            if(rows[i].itemClass=='非药品'){
+                                $('#orderCostList').datagrid('deleteRow', i);
+                            }
+                        }
+                        $('#orderCostList').datagrid('insertRow', {
+                            index:1,	// index start with 0
+                            row: {
+                                itemClass: '非药品',
+                                itemName:row.administration_name,
+                                itemSpec:row.item_spec,
+                                amount:1,
+                                units:row.units,
+                                costs:row.price,
+                                itemCode:row.item_code,
+                                itemNo:row.charge_item_no
+                            }
+                        });
+                    }
                 }
             }},
             {field:'frequency',title:'频次',width:'5%',align:'center',formatter:performFreqFormatter,editor:{
@@ -333,6 +386,18 @@ $(function(){
         }
         ],onClickRow: function (rowIndex, rowData) {
 
+            //$.ajax({
+            //    'type': 'GET',
+            //    'url':basePath+'/price-list/list-by-clinic-code',
+            //    'contentType': 'application/json',
+            //    'data':{"orgId":"","clinicItemCode":""+rowData.orderCode+""},
+            //    'dataType': 'json',
+            //    'async': false,
+            //    'success': function(data){
+            //        $('#orderCostList').datagrid('loadData', data);
+            //    }
+            //});
+            $('#orderCostList').datagrid('loadData', data);
                 var row = $('#orderList').datagrid('getSelected');
                 var dataGrid = $('#orderList');
                 // var status = row.orderStatus;
@@ -350,17 +415,7 @@ $(function(){
                     }
 
             }
-            $.ajax({
-                'type': 'GET',
-                'url':basePath+'/inOrders/getCostById',
-                'contentType': 'application/json',
-                'data':'ordersId='+row.id,
-                'dataType': 'json',
-                'async': false,
-                'success': function(data){
-                    $('#orderCostList').datagrid('loadData', data);
-                }
-            });
+
 
         }, rowStyler:function(index,row){
             if (row.orderNo!=row.orderSubNo){
