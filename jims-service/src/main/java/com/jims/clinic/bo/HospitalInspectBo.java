@@ -1,7 +1,7 @@
-package com.jims.exam.bo;
+package com.jims.clinic.bo;
 
-import com.jims.clinic.dao.ExamAppointsDao;
-import com.jims.clinic.dao.ExamItemsDao;
+import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
+import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.common.service.impl.CrudImplService;
 
@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/1.
+ * 住院检查申请BO
  */
 @Service
 @Transactional(readOnly = false)
@@ -78,7 +79,7 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
     }
 
     public String newDate(){
-        SimpleDateFormat dateFormater = new SimpleDateFormat("MM-dd");
+        SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
         Date date=new Date();
         String newDate = dateFormater.format(date);
         return newDate;

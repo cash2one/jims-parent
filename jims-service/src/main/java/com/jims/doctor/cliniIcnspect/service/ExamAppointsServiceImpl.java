@@ -1,13 +1,13 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.service;
+package com.jims.doctor.cliniIcnspect.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.bo.ExamAppointsBo;
+import com.jims.doctor.cliniIcnspect.bo.ExamAppointsBo;
 import com.jims.common.persistence.Page;
 import com.jims.exam.api.ExamAppointsServiceApi;
-import com.jims.exam.bo.HospitalInspectBo;
+import com.jims.clinic.bo.HospitalInspectBo;
 import com.jims.exam.entity.ExamAppoints;
 import org.springframework.beans.factory.annotation.Autowired;
 

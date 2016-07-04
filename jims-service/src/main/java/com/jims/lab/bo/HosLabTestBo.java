@@ -17,10 +17,11 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/1.
+ * 住院检验申请BO
  */
 @Service
 @Transactional(readOnly = false)
-public class HosLabTestBo extends CrudImplService<LabTestMasterDao,LabTestMaster> {
+public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaster> {
 
     @Autowired
     private LabTestItemsDao labTestItemsDao;
@@ -32,106 +33,131 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao,LabTestMaster
     /**
      * 住院保存
      * 整个主表、字表list
+     *
      * @param主表LabTestMaster
      * @param子表List
      * @author xueyx
      * @version 2016/5/06
      */
 
-    public String saveAllIn(LabTestMaster labTestMaster){
+    public String saveAllIn(LabTestMaster labTestMaster) {
+        int num;
         //本次住院标识对门诊病人为空
         //patientId病人标识号页面有公共值
         //labTestMaster.setPatientId("");
+        labTestMaster.preInsert();
         //todo(userid)申请医生
         labTestMaster.setOrderingProvider("");
         //todo(clinicId)申请科室
         labTestMaster.setOrderingDept("");
         //结果状态
         labTestMaster.setResultStatus("0");
-        labTestMaster.setDelFlag("0");
         //申请序号
         labTestMaster.setTestNo(creatTestNo());
-        labTestMaster.setBillingIndicator(0);
-        labTestMaster.setPrintIndicator(0);
-        labTestMasterDao.insert(labTestMaster);
+        labTestMaster.setBillingIndicator(0);//计价标志
+        labTestMaster.setPrintIndicator(0);///打印标志
+        num = labTestMasterDao.insert(labTestMaster);
         List<LabTestItems> list = labTestMaster.getList();
-        if(list.size()>0){
-            for (int i= 0; i < list.size()-1;i++){
-                LabTestItems labTestItems=list.get(i);
+        for (int i = 0; i < list.size(); i++) {
+            LabTestItems labTestItems = list.get(i);
                 /*检验项目*/
-                labTestItems.setDelFlag("0");
-                labTestItems.setItemNo(i+1);
-                labTestItems.setTestNo(labTestMaster.getTestNo());
-                labTestItems.preInsert();
-                labTestItemsDao.insert(labTestItems);
-                //Orders
-                Orders orders = new  Orders();
-                orders.setPatientId(labTestMaster.getPatientId());
-                orders.setVisitId(labTestMaster.getVisitId().toString());
-                orders.setOrderNo(ordersDao.creeatOrderNo(orders));
-                Integer orderNo = ordersDao.getOrderNo(labTestMaster.getPatientId(),labTestMaster.getVisitId(),"");
-                if(orderNo !=null){
-                    orders.setOrderNo(orderNo+1);
-                    orders.setOrderSubNo(orderNo+1);
-                }else {
-                    orders.setOrderNo(1);
-                    orders.setOrderSubNo(1);
-                }
-                orders.setStartDateTime(labTestMaster.getRequestedDateTime());
-                orders.setRepeatIndicator("0");
-                orders.setOrderClass("C");
-                orders.setOrderText(labTestItems.getItemName());
-                orders.setOrderCode(labTestItems.getItemCode());
-                orders.setOrderStatus("6");
-                orders.setOrderingDept(labTestMaster.getOrderingDept());
-                orders.setDoctor(labTestMaster.getOrderingProvider());
-                //todo(userid)申请医生 ?
-//                orders.setDoctorUser(Long.valueOf(1));
-                //doctor_user:11=['000LJS']
-                orders.setEnterDateTime(labTestMaster.getRequestedDateTime());
-                //billing_attr:13=[3]
-                //drug_billing_attr:14=[3]
-                orders.setAppNo(labTestMaster.getTestNo());
-                orders.setFreqDetail("");
-                orders.preInsert();
-                ordersDao.insert(orders);
+            labTestItems.setItemNo(i + 1);
+            labTestItems.setTestNo(labTestMaster.getTestNo());
+            labTestItems.preInsert();
+            labTestItems.setLabMaster(labTestMaster.getId());
+            labTestItemsDao.insert(labTestItems);
+            //Orders
+            Orders orders = new Orders();
+            orders.setPatientId(labTestMaster.getPatientId());
+            orders.setVisitId(labTestMaster.getVisitId().toString());
+            Integer orderNo = ordersDao.getOrderNo(labTestMaster.getPatientId(), labTestMaster.getVisitId(), "");
+            if (orderNo != null) {
+                orders.setOrderNo(orderNo + 1);
+                orders.setOrderSubNo(orderNo + 1);
+            } else {
+                orders.setOrderNo(1);
+                orders.setOrderSubNo(1);
             }
+            orders.setStartDateTime(labTestMaster.getRequestedDateTime());
+            orders.setOrderClass("C");
+            orders.setOrderText(labTestItems.getItemName());
+            orders.setOrderCode(labTestItems.getItemCode());
+            orders.setRepeatIndicator("0"); // 临时医嘱标志
+            orders.setOrderStatus("6");
+            orders.setFreqDetail("1");
+            orders.setPerformSchedule(newDate());
+            orders.setOrderingDept(labTestMaster.getOrderingDept());
+            orders.setDoctor(labTestMaster.getOrderingProvider());
+            //todo(userid)申请医生 ?
+//                orders.setDoctorUser(Long.valueOf(1));
+            //doctor_user:11=['000LJS']
+            orders.setEnterDateTime(labTestMaster.getRequestedDateTime());
+            //billing_attr:13=[3]
+            //drug_billing_attr:14=[3]
+            orders.setAppNo(labTestMaster.getTestNo());
+            orders.preInsert();
+            ordersDao.insert(orders);
         }
-        return "";
+        return num + "";
     }
+
+    public String delectHosLabTestMaster(String ids) {
+        int num = 0;
+        try {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++) {
+                LabTestMaster labTestMaster = labTestMasterDao.get(id[j]);
+                num = labTestMasterDao.deleteLabTestMaster(id[j]);
+                labTestItemsDao.deleteItmes(id[j]);
+                String visitId = labTestMaster.getVisitId();
+                ordersDao.delOrders(visitId);
+            }
+        } catch (Exception e) {
+            return num + "";
+        }
+        return num + "";
+
+    }
+
+
     /**
      * 生成申请序号
+     *
      * @param主表 当前日期
      * @author xueyx
      * @version 2016/5/09
      */
-    public String creatTestNo(){
-        String no =dao.creatTestNo();
-        Date dt=new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
-        String d1 =format.format(dt);
-        String result="";
-        if(no!=null){
-            if(d1.equals(no.substring(0,6))){
-                int temp = Integer.valueOf(no.substring(6));
-                temp=temp+1;
-                result = String.format("%4d", temp).replace(" ", "0");
-                if(result.length()>4){
-                    result = d1.concat("0000");
-                }else{
-                    result=d1.concat(result);
-                }
-            }else{
-                result=d1.concat("0001");
-            }
-            return result;
+    public String creatTestNo() {
+        String no = dao.creatTestNo();
+        Date dt = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyMMddS");
+        String d1 = format.format(dt);
+        String result = "";
+        if (no == null) {
+            return "000000";
+        }else {
+            return d1;
         }
-        return "000000";
+//            if (d1.equals(no.substring(0, 6))) {
+//                int temp = Integer.valueOf(no.substring(6));
+//                temp = temp + 1;
+//                result = String.format("%4d", temp).replace(" ", "0");
+//                if (result.length() > 4) {
+//                    result = d1.concat("0000");
+//                } else {
+//                    result = d1.concat(result);
+//                }
+//            } else {
+//                result = d1.concat("0001");
+//            }
+//            return result;
+//        }
+//        return d1;
     }
 
-    public String newDate(){
-        SimpleDateFormat dateFormater = new SimpleDateFormat("MM-dd");
-        Date date=new Date();
+    public String newDate() {
+        SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
         String newDate = dateFormater.format(date);
         return newDate;
     }

@@ -1,11 +1,11 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.service;
+package com.jims.doctor.cliniIcnspect.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.exam.api.ExamItemsServiceApi;
-import com.jims.clinic.dao.ExamItemsDao;
+import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.exam.entity.ExamItems;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;

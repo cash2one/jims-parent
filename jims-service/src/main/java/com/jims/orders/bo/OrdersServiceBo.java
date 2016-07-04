@@ -3,8 +3,8 @@
  */
 package com.jims.orders.bo;
 
-import com.jims.clinic.dao.ExamAppointsDao;
-import com.jims.clinic.dao.ExamItemsDao;
+import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
+import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.common.persistence.Page;
 import com.jims.orders.dao.OrdersCostsDao;
 import com.jims.orders.entity.OrdersCosts;
