@@ -1,10 +1,10 @@
-package com.jims.lab.bo;
+package com.jims.doctor.lab.bo;
 
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.orders.dao.OrdersDao;
 import com.jims.orders.entity.Orders;
-import com.jims.lab.dao.LabTestItemsDao;
-import com.jims.lab.dao.LabTestMasterDao;
+import com.jims.doctor.lab.dao.LabTestItemsDao;
+import com.jims.doctor.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestItems;
 import com.jims.lab.entity.LabTestMaster;
 import org.springframework.beans.factory.annotation.Autowired;

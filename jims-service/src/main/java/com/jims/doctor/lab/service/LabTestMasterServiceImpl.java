@@ -1,13 +1,13 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.lab.service;
+package com.jims.doctor.lab.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.lab.bo.ClinicLabTestBo;
+import com.jims.doctor.lab.bo.ClinicLabTestBo;
 import com.jims.lab.api.LabTestMasterServiceApi;
-import com.jims.lab.bo.HosLabTestBo;
-import com.jims.lab.dao.LabTestMasterDao;
+import com.jims.doctor.lab.bo.HosLabTestBo;
+import com.jims.doctor.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestMaster;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
