@@ -147,7 +147,7 @@ function onloadMethod() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/bloodApply/list',
-        QueryParams:{'clinicId':clinicId},
+        QueryParams:{clinicId:clinicId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -219,12 +219,10 @@ function onloadMethod() {
                 return clinicDeptCodeFormatter(data.visitDept,'','');
             });
             $("#patName").val(data.name);
-            if(data.sex == '1'){
-                $("#patSex").val("女");
-            }
-            if(data.sex == '2'){
-                $("#patSex").val("男");
-            }
+                $("#patSex").val(function(value,rowData,rowIndex){
+                    return sexFormatter(data.sex);
+                });
+
             $("#birthday").val(data.name);
             $("#patSource").val(data.patMaster.mailingAddress);
             $("#birthday").val( new Date(data.patMaster.dateOfBirth));

@@ -83,8 +83,8 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
             orders.setOrderText(labTestItems.getItemName());
             orders.setOrderCode(labTestItems.getItemCode());
             orders.setRepeatIndicator("0"); // 临时医嘱标志
-            orders.setOrderStatus("6");
-            orders.setFreqDetail("1");
+            orders.setOrderStatus("6");//医嘱状态
+            orders.setFreqDetail("1");//执行时间详细描述
             orders.setPerformSchedule(newDate());
             orders.setOrderingDept(labTestMaster.getOrderingDept());
             orders.setDoctor(labTestMaster.getOrderingProvider());

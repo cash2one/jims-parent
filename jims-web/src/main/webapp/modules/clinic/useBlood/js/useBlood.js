@@ -143,6 +143,9 @@ $(function () {
 
 //用血申请记录列表
 function onloadMethod() {
+    alert("1")
+    var patientId=$("#patientId", parent.document).val();
+    alert(patientId)
     var visitId=1;
     $("#visitId").val(visitId);
     $('#list_data').datagrid({
@@ -211,6 +214,15 @@ function onloadMethod() {
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+
+    $("#preBloodType").combobox({
+        data:bloodType,
+        valueField:'value',
+        textField:'label',
+        onSelect:function(n){
+            $("#preBloodTypeId").val(n.value);
+        }
+    })
 }
 /**
  * 保存
@@ -225,7 +237,7 @@ function saveUseBloodApply() {
     var submitJson = formJson + ",\"bloodCapacityList\":" + tableJson + "}";
     $("#inpNo").attr("value", "123");
     if (rows.length > 0) {
-        $.postJSON(basePath + "/bloodApply/save", submitJson, function (data) {
+        $.postJSON(basePath + "/bloodApply/saveHos", submitJson, function (data) {
             if (data.code == "1") {
                 $.messager.alert("提示信息", "保存成功");
                 $('#list_data').datagrid('load');
