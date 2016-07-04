@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.clinic.dao.ExamAppointsDao">
+<mapper namespace="com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao">
 
 	<!--<resultMap id="examAppointsMap" type="com.jims.exam.entity.ExamAppoints">-->
 		<!--<result property="id" column="id"></result>-->
@@ -70,7 +70,7 @@
 		<!--<result property="remarks" column="remarks"></result>-->
 		<!--<result property="delFlag" column="del_flag"></result>-->
 		<!--<association property="examItem" column="appointsId"-->
-					 <!--select="com.jims.clinic.dao.ExamItemsDao.get"></association>-->
+					 <!--select="ExamItemsDao.get"></association>-->
 		<!--<association property="outpOrdersCostses" column="visitNo"-->
 					 <!--select="com.jims.clinic.dao.OutpTreatRecDao.get"></association>-->
 
