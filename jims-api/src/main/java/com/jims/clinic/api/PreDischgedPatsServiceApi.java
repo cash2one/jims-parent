@@ -70,5 +70,5 @@ public interface PreDischgedPatsServiceApi {
      * @author pq
      * @return
      */
-    public List<PreDischgedPatsVo> findPreList(String patientId,String wardCode);
+    public Page<PreDischgedPatsVo> findPreList(Page<PreDischgedPatsVo> page,String patientId,String wardCode);
 }

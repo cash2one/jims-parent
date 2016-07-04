@@ -39,14 +39,9 @@ public class PreDischgedPatsRest {
     @Path("list")
     @GET
     public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("wardCode") String wardCode){
-        PreDischgedPats preDischgedPats=new PreDischgedPats();
-        PatsInHospital patsInHospital=new PatsInHospital();
-        patsInHospital.setWardCode(wardCode);
-        preDischgedPats.setPatientId("15006135");
-        preDischgedPats.setPatsInHospital(patsInHospital);
-        Page<PreDischgedPats> page = preDischgedPatsServiceApi.findPage(new Page<PreDischgedPats>(request,response),preDischgedPats);
+        Page<PreDischgedPatsVo> page = preDischgedPatsServiceApi.findPreList(new Page<PreDischgedPatsVo>(request, response),"15006135",wardCode);
         PageData pageData=new PageData();
-        pageData.setRows(preDischgedPatsServiceApi.findPreList("15006135",wardCode));
+        pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
         return pageData;
     }

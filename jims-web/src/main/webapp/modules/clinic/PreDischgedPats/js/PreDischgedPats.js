@@ -17,7 +17,6 @@ function onloadMethod() {
         border: true,
         method: 'post',
         collapsible: false,//是否可折叠的
-        //fit: true,//自动大小
         url: basePath + '/preDischgedPats/findPreDischList?wardCode=' + wardCode,
         remoteSort: false,
         idField: 'id',
@@ -116,28 +115,26 @@ function onloadMethod() {
         fit: true,//自动大小
         url: basePath + '/preDischgedPats/list?wardCode=' + strValue,
         remoteSort: false,
-        idField: 'fldId',
+        idField: 'patientId',
         singleSelect: false,//是否单选
         pagination: true,//分页控件
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'bedNo', title: '床标号', width: '30%', align: 'center'},
+            {field: 'bedLabel', title: '床标号', width: '30%', align: 'center'},
             {
-                field: 'patMasterIndex',
+                field: 'name',
                 title: '姓名',
                 width: '30%',
-                align: 'center',
-                formatter: function (value, row, index) {
-                    return value.name;
-                }
+                align: 'center'
+
             },
             {field:'sex',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'patientId',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'admissionDateTime',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'diagnosis',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'deptCode',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {
+            {field:'deptCode',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}}
+        /*    {
                 field: 'patsInHospital',
                 title: '操作',
                 width: '40%',
@@ -149,7 +146,7 @@ function onloadMethod() {
 
                     return html;
                 }
-            },
+            },*/
         ]],onClickRow:function(row){
 
         },

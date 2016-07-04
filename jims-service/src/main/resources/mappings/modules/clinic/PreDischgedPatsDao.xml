@@ -42,9 +42,15 @@
 		where (a.BED_NO = b.BED_NO
 		and  a.WARD_CODE = b.WARD_CODE)
 		and  (a.PATIENT_ID = c.ID )
-		and  a.WARD_CODE =#{patsInHospital.wardCode}
-		and a.PATIENT_ID not in (select PATIENT_ID from pre_dischged_pats where patient_id=#{patientId})
+		<if test="wardCode!=null and wardCode!=''">
+			and  a.WARD_CODE =#{wardCode}
+		</if>
+        <if test="patientId!=null and patientId !=''">
+			and a.PATIENT_ID not in (select PATIENT_ID from pre_dischged_pats where patient_id=#{patientId})
+		</if>
+
 	</select>
+
 	<select id="findPreDischList" resultType="PreDischgedPatsVo">
         SELECT  PRE_DISCHGED_PATS.DISCHARGE_DATE_EXPCTED AS "dischargeDateExpcted",
            PAT_MASTER_INDEX.NAME AS "name",

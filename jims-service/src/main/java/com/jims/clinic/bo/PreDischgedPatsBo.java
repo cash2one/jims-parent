@@ -3,6 +3,7 @@ package com.jims.clinic.bo;
 import com.jims.clinic.dao.PreDischgedPatsDao;
 import com.jims.clinic.entity.PreDischgedPats;
 import com.jims.clinic.vo.PreDischgedPatsVo;
+import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.orders.dao.OrdersDao;
 import com.jims.orders.entity.Orders;
@@ -105,8 +106,13 @@ public class PreDischgedPatsBo extends CrudImplService<PreDischgedPatsDao, PreDi
      * @author pq
      * @return
      */
-    public List<PreDischgedPatsVo> findPreList(String patientId,String wardCode){
-        return preDischgedPatsDao.findPreList(patientId,wardCode);
+    public Page<PreDischgedPatsVo> findPreList(Page<PreDischgedPatsVo> page,String patientId,String wardCode){
+        PreDischgedPatsVo preDischgedPatsVo = new PreDischgedPatsVo();
+        preDischgedPatsVo.setPatientId(patientId);
+        preDischgedPatsVo.setWardCode(wardCode);
+        preDischgedPatsVo.setPage(page);
+        page.setList(preDischgedPatsDao.findPreList(patientId,wardCode));
+        return page;
     }
     /**
      * 删除出院通知单和医嘱
