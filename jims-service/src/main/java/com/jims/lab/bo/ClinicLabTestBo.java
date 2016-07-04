@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/21.
+ * 门诊检验申请BO
  */
 @Service
 @Transactional(readOnly = false)
@@ -54,7 +55,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
             List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
             List<LabTestItems> labTestItemsList = labTestMaster.getList();
             if (labTestItemsList.size() > 0) {
-                for (int i = 0; i < labTestItemsList.size() - 1; i++) {
+                for (int i = 0; i < labTestItemsList.size() ; i++) {
                     ClinicItemDict clinicItemDict = new ClinicItemDict();
                     LabTestItems labTestItems = labTestItemsList.get(i);
                     clinicItemDict.setItemCode(labTestItems.getItemCode());
@@ -85,25 +86,29 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
     public String creatTestNo() {
         String no = dao.creatTestNo();
         Date dt = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
+        SimpleDateFormat format = new SimpleDateFormat("yyMMddS");
         String d1 = format.format(dt);
         String result = "";
-        if (no != null) {
-            if (d1.equals(no.substring(0, 6))) {
-                int temp = Integer.valueOf(no.substring(6));
-                temp = temp + 1;
-                result = String.format("%4d", temp).replace(" ", "0");
-                if (result.length() > 4) {
-                    result = d1.concat("0000");
-                } else {
-                    result = d1.concat(result);
-                }
-            } else {
-                result = d1.concat("0001");
-            }
-            return result;
+        if (no == null) {
+            return "000000";
+        }else {
+            return d1;
         }
-        return "000000";
+//            if (d1.equals(no.substring(0, 6))) {
+//                int temp = Integer.valueOf(no.substring(6));
+//                temp = temp + 1;
+//                result = String.format("%4d", temp).replace(" ", "0");
+//                if (result.length() > 4) {
+//                    result = d1.concat("0000");
+//                } else {
+//                    result = d1.concat(result);
+//                }
+//            } else {
+//                result = d1.concat("0001");
+//            }
+//            return result;
+//        }
+//        return d1;
     }
 
 //    /**

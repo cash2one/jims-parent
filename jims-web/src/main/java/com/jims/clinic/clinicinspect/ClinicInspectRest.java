@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 
 /**
  * Created by Administrator on 2016/4/25.
+ * 检查申请（门诊、住院）
  */
 
 @Component

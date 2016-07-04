@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/1.
- * 住院检验
+ * 住院检验申请BO
  */
 @Service
 @Transactional(readOnly = false)
@@ -106,9 +106,9 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++) {
-                labTestItemsDao.deleteItmes(id[j]);
                 LabTestMaster labTestMaster = labTestMasterDao.get(id[j]);
                 num = labTestMasterDao.deleteLabTestMaster(id[j]);
+                labTestItemsDao.deleteItmes(id[j]);
                 String visitId = labTestMaster.getVisitId();
                 ordersDao.delOrders(visitId);
             }
@@ -130,25 +130,29 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
     public String creatTestNo() {
         String no = dao.creatTestNo();
         Date dt = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
+        SimpleDateFormat format = new SimpleDateFormat("yyMMddS");
         String d1 = format.format(dt);
         String result = "";
-        if (no != null) {
-            if (d1.equals(no.substring(0, 6))) {
-                int temp = Integer.valueOf(no.substring(6));
-                temp = temp + 1;
-                result = String.format("%4d", temp).replace(" ", "0");
-                if (result.length() > 4) {
-                    result = d1.concat("0000");
-                } else {
-                    result = d1.concat(result);
-                }
-            } else {
-                result = d1.concat("0001");
-            }
-            return result;
+        if (no == null) {
+            return "000000";
+        }else {
+            return d1;
         }
-        return d1;
+//            if (d1.equals(no.substring(0, 6))) {
+//                int temp = Integer.valueOf(no.substring(6));
+//                temp = temp + 1;
+//                result = String.format("%4d", temp).replace(" ", "0");
+//                if (result.length() > 4) {
+//                    result = d1.concat("0000");
+//                } else {
+//                    result = d1.concat(result);
+//                }
+//            } else {
+//                result = d1.concat("0001");
+//            }
+//            return result;
+//        }
+//        return d1;
     }
 
     public String newDate() {

@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/23.
- * 门诊手术申请
+ * 门诊手术申请BO
  */
 @Service
 @Transactional(readOnly = false)

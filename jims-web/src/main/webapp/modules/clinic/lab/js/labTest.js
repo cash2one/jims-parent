@@ -63,15 +63,15 @@ function onloadMethod(){
                 }
             })
 
-            //return  '<table><tr>' +
-            //    '<td style="border:0">' +
-            //    '<p>检验项目: </p>' +
-            //    '</td>' +
-            //    '</tr><tr>' +
-            //    '<td style="border:0">' +
-            //    '<p> ' +item[0].itemName + '</p>' +
-            //    '</td>' +
-            //    '</tr></table>';
+            return  '<table><tr>' +
+                '<td style="border:0">' +
+                '<p>检验项目: </p>' +
+                '</td>' +
+                '</tr><tr>' +
+                '<td style="border:0">' +
+                '<p> ' +item[0].itemName + '</p>' +
+                '</td>' +
+                '</tr></table>';
         },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
@@ -86,12 +86,18 @@ function onloadMethod(){
     });
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
+    $(p).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    });
     $('#items').datagrid({
         singleSelect: true,
         fit: true,
         nowrap: false,
         method:'post',
         url: basePath + '/labtest/list',
+        queryParams:{'clinicId' : clinicId},
         columns:[[
             {field:'itemName',title:'项目名称',width:'40%',align:'center'},
             {field:'itemCode',title:'项目代码',width:'35%',align:'center'},
@@ -295,7 +301,7 @@ function doSelect() {
         )
         var row={};
         //row.price=all;//增
-        rows.push(row);
+        //rows.push(row);
         var selectJson={'total':selectRows.size(),'rows':rows};
         $('#items').datagrid('loadData',selectJson);
     }

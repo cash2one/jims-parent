@@ -38,7 +38,8 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
     //@Override
 
     public String saveAll(LabTestMaster labTestMaster){
-      return   clinicLabTestBo.saveAll(labTestMaster);
+       String num =  clinicLabTestBo.saveAll(labTestMaster);
+        return num;
     }
 
     /**

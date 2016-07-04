@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 检查预约记录BO层
+ * 门诊检查预约记录BO层
  *
  * @author zhangyao
  * @version 2016-04-25

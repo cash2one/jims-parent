@@ -130,15 +130,15 @@ public class LabTestRest {
     @Path("save")
     @POST
     public StringData save(LabTestMaster labTestMaster){
-        StringData data=new StringData();
         String mun="";
+        StringData data=new StringData();
         mun = labTestMasterServiceApi.saveAll(labTestMaster);
         data.setData("success");
         data.setCode(mun);
         return data;
     }
     /**
-     ** 门诊保存或编辑
+     ** 住院保存或编辑
      * @param -LabTestMaster
      * @return
      */

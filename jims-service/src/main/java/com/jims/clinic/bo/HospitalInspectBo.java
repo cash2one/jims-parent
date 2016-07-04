@@ -1,4 +1,4 @@
-package com.jims.exam.bo;
+package com.jims.clinic.bo;
 
 import com.jims.clinic.dao.ExamAppointsDao;
 import com.jims.clinic.dao.ExamItemsDao;
@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/1.
+ * 住院检查申请BO
  */
 @Service
 @Transactional(readOnly = false)
