@@ -40,7 +40,7 @@
         a.firm_id,
         a.org_id,
         o.label
-        from asepsis_detail_dict a,org_sys_dict o
+        from asepsis_detail_dict a,(select value,label from org_sys_dict where org_id = #{orgId} and type = 'PACKAGE_UNITS') o
         <where>
             a.org_id =  #{orgId}  and o.value=a.units
             <if test="asepsisCode !=null and asepsisCode!=''">

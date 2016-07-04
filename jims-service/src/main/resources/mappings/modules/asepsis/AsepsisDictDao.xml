@@ -52,7 +52,8 @@
         a.org_id,
         b.dept_name,
         o.label
-        from asepsis_dict a, dept_dict b,org_sys_dict o
+        from asepsis_dict a, (select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b,
+        (select value,label from org_sys_dict where org_id = #{orgId} and type = 'PACKAGE_UNITS') o
         where a.org_id =#{orgId}
         and a.belong_dept = b.dept_code and o.value=a.units
         <if test="belongDept !=null and belongDept !=''">

@@ -50,7 +50,7 @@ public interface ExamAppointsServiceApi {
 
 
     /**
-     * 删除预约记录
+     * 删除门诊预约记录
      * @param id
      * @return
      */
@@ -58,15 +58,29 @@ public interface ExamAppointsServiceApi {
     public String deleteExamAppionts( String id);
 
     /**
+     * 删除住院记录
+     * @param id
+     * @return
+     */
+    public String delectHosExamAppionts(String id);
+
+    /**
      * 获得最大的申请序号
      * @return
      */
     public Integer getMaxExamNo();
     /**
-     * 检查申请保存
+     * 门诊检查申请保存
      * @param
      * @return
      */
     public int batchSave(ExamAppoints examAppoints);
+
+    /**
+     * 住院检查申请保存
+     * @param examAppoints
+     * @return
+     */
+    public int saveHospitalInspect(ExamAppoints examAppoints);
 }
 

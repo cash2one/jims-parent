@@ -137,7 +137,8 @@ $(function () {
             formatter: function (value, row, index) {
                 var _value = ((isNaN(row.cleanPrice) ? 0 : +row.cleanPrice)
                 + (isNaN(row.packPrice) ? 0 : +row.packPrice) +
-                (isNaN(row.asepPrice) ? 0 : +row.asepPrice) + (isNaN(row.nobackPrice) ? 0 : +row.nobackPrice)).toFixed(1)
+                (isNaN(row.asepPrice) ? 0 : +row.asepPrice) + (isNaN(row.nobackPrice) ? 0 : +row.nobackPrice)).toFixed(1) ;
+                row.antiPrice= _value;
                 return _value
             }
         }, {
@@ -222,6 +223,7 @@ $(function () {
                 var name=row.asepsisName ;
                 if(row.asepsisName!=undefined){
                     var inputCode = makePy(row.asepsisName)[0];
+                    row.inputCode=inputCode;
                     return inputCode;
                 }
             }
@@ -356,7 +358,7 @@ $(function () {
 
 
 
-        $("#asepsis-dict").datagrid('appendRow', {asepsisCode:asepsisCode,'belongDept': currentSelectDeptData.deptCode});
+        $("#asepsis-dict").datagrid('appendRow', {flag:1,asepsisCode:asepsisCode,'belongDept': currentSelectDeptData.deptCode});
         var rows = $("#asepsis-dict").datagrid('getRows');
         onClickCell(rows.length - 1, 'asepsis-dict');
     });
@@ -389,6 +391,7 @@ $(function () {
         asepsisDictVo.updated = updateData;
 
         asepsisDictVo.orgId = orgId;
+
 
         if (asepsisDictVo) {
             $.postJSON(basePath + "/asepsisDict/saveAll", JSON.stringify(asepsisDictVo), function (data) {

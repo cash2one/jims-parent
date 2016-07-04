@@ -87,6 +87,12 @@
             <if test="packageSpec != null and packageSpec != ''">
                 and a.package_spec = #{packageSpec}
             </if>
+            <if test="subStorage != null and subStorage != ''">
+                and a.sub_storage = #{subStorage}
+            </if>
+            <if test="firmId != null and firmId != ''">
+                and a.firm_id = #{firmId}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
