@@ -16,53 +16,43 @@ $(function() {
     $('#administration').combobox({
         data: administrationmzDict,
         valueField: 'id',
-        textField: 'administrationName'
+        textField: 'administrationName',
+        required:true
     });
     //$("#administration").combobox('select',administrationmzDict[0].value);
     //频次
     $('#frequency').combobox({
         data: performFreqDict,
         valueField: 'id',
-        textField: 'freqDesc'
+        textField: 'freqDesc',
+        required:true
     });
     //$("#frequency").combobox('select',performFreqDict[0].value);
 
 
-
-   /* function herbalList(){
-        var itemClass = $("#itemClass").val();
-        var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
-        if(selRow!=null&&selRow!=''&&selRow!='undefined') {
-            prescNo = selRow[0].prescNo;
-            var liHtml = "";
-            *//**
-             * 中药列表
-             *//*
-            $.postJSON(basePath+'/outppresc/sublist', "{\"prescNo\":\"" +  row.prescNo + "\",\"clinicId\":\"" + clinicId + "\"}", function (data) {
-
-                for (var i = 0; i < data.length; i++) {
-                    liHtml += '<li onclick="centerActive(this)" input_id="liHerbalLabel' + i + '">' +
-                    '<span style="padding-right:10px;"><input  type="text" style="width: 150px" value="'+data[i].drugName+'"/></span>' +
-                    ' <a href="#" class="color-red"><input type="text" style="width: 50px" value="'+data[i].drugName+'"/></a> ' +
-                    '<span class="color-blue" style="padding-left:10px;">'+data[i].dosageUnits+'</span></li>';
-                }
-                $("#herbal_ul").html(liHtml);
-
-            }, function () {
-                $.messager.alert("提示信息", "网络连接失败");
-            });
-        }
-    }*/
 
     $("#addBtn").on("click",function(){
         rowNumZ++;
         /**药品**/
         var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
         if(selRow!=null&&selRow!=''&&selRow!='undefined') {
-            var html = '<li onclick="centerActive(this,\'medicineHide'+rowNumZ+'\')" id="medicine'+rowNumZ+'" inputhide="medicineHide'+rowNumZ+'">' +
+            var html = '<li onclick="centerActive(this,\'herbalHide'+rowNumZ+'\')" id="herbal'+rowNumZ+'" inputhide="herbalHide'+rowNumZ+'">' +
                 '<span style="padding-right:10px;"><input  type="text" id="drugName'+rowNumZ+'" class="easyui-combogrid" style="width: 100px;" value=""/></span>' +
-                '<a href="#" class="color-red"><input id="drugName" name="drugName" type="text" style="width: 100px" value=""/></a>' +
-            ' <span class="color-blue" style="padding-left:10px;">g</span><input type="hidden" value="123" namehide="name" inputhide="medicineHide'+rowNumZ+'" /> <input type="hidden" value="456" namehide="id" inputhide="medicineHide'+rowNumZ+'" /></li>';
+                '<a href="#" class="color-red"><input  type="text" id="drugName'+rowNumZ+'" class="easyui-textbox" style="width: 100px" value=""/></a>' +
+                '<input type="text" value="0.0" style="width: 50px" class="easyui-numberbox" id="amount'+rowNumZ+'" namehide="amount" inputhide="herbalHide'+rowNumZ+'"/>' +
+                '<input type="hidden" id="drugCode'+rowNumZ+'" namehide="drugCode" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="drugSpec'+rowNumZ+'" namehide="drugSpec" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="firmId'+rowNumZ+'" namehide="firmId" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="dosage'+rowNumZ+'" namehide="dosage" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="dosageUnits'+rowNumZ+'" namehide="dosageUnits" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="itemClass'+rowNumZ+'" namehide="itemClass" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="units'+rowNumZ+'" namehide="units" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="subjCode'+rowNumZ+'" namehide="subjCode" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="performedBy'+rowNumZ+'" namehide="performedBy" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="orderNo'+rowNumZ+'" namehide="orderNo" inputhide="herbalHide'+rowNumZ+'" value="3"/> ' +
+                '<input type="hidden" id="subOrderNo'+rowNumZ+'" namehide="subOrderNo" inputhide="herbalHide'+rowNumZ+'" value="3"/> ' +
+
+                '<input type="hidden" id="charges'+rowNumZ+'" namehide="charges" inputhide="herbalHide'+rowNumZ+'" /> ';
             $("#herbal_ul").append(html);
             $('#drugName'+rowNumZ).combogrid({
                 width: '300',
@@ -83,12 +73,25 @@ $(function() {
                     {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
                     {field: 'subj_code', title: '',hidden:true},
                     {field: 'performed_by', title: '',hidden:true},
-                    {field: 'price', title: '',hidden:true}
+                    {field: 'price', title: '',hidden:true},
+                    {field: 'firm_id', title: '',hidden:true}
                 ]], keyHandler: {
                     query: function (q) {
                         comboGridCompleting(q, 'drugName'+rowNumZ);
                         $('#drugName'+rowNumZ).combogrid("grid").datagrid("loadData", comboGridComplete);
                     }
+                },onClickRow: function (index, row) {
+                    $("#drugName"+rowNumZ).val(row.item_name);
+                    $("#drugCode"+rowNumZ).val(row.drug_code);
+                    $("#drugSpec"+rowNumZ).val(row.drug_spec);
+                    $("#firmId"+rowNumZ).val(row.firm_id);
+                    $("#dosage"+rowNumZ).val(row.dose_per_unit);
+                    $("#dosageUnits"+rowNumZ).val(row.dose_units);
+                    $("#itemClass"+rowNumZ).val(row.item_class);
+                    $("#units"+rowNumZ).val(row.dose_units);
+                    $("#subjCode"+rowNumZ).val(row.subj_code);
+                    $("#performedBy"+rowNumZ).val(row.performed_by);
+                    $("#charges"+rowNumZ).val(row.price);
                 }
             })
 
@@ -103,20 +106,8 @@ $(function() {
     })
 
     $("#saveBtn").on("click",function(){
-        var drugJson="list:[";
-        $("#herbal_ul li").each(function(){
-            var liHidden=$(this).attr("inputhide");
-            drugJson+="{";
-            $("input[inputhide='"+liHidden+"']").each(function(){
-                drugJson+='"'+$(this).attr("namehide")+'":"'+$(this).val()+'",';
-            });
 
-            drugJson = drugJson.substring(0, drugJson.length - 1);
-            drugJson+="},";
-        });
-        drugJson = drugJson.substring(0, drugJson.length - 1);
-        drugJson+="]";
-        alert(drugJson);
+        alert(submitJson);
     })
 });
 
