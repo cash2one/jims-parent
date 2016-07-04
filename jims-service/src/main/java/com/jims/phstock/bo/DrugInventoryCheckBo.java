@@ -71,8 +71,16 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
             DrugInventoryCheck drugInventoryCheck = new DrugInventoryCheck();
             drugInventoryCheck =  generateInventoryByVo(drugInventoryCheck,drugInventoryCheckVo);
             drugInventoryCheck.setRecStatus(0);//暂存状态
-            drugInventoryCheck.preInsert();
-            drugInventoryCheckDao.insert(drugInventoryCheck);
+            String id=drugInventoryCheckVo.getId();
+            if(id==null ||""==id){
+                drugInventoryCheck.preInsert();
+                drugInventoryCheckDao.insert(drugInventoryCheck);
+            }else{
+                drugInventoryCheck.preUpdate();
+                drugInventoryCheckDao.update(drugInventoryCheck);
+            }
+
+
         }
     }
     /**

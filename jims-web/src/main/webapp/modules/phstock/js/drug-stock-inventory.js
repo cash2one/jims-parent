@@ -336,51 +336,63 @@ $(function(){
     //提取
     $("#extractBtn").on("click", function () {
         stopEdit();
+        var subStor=$("#storage").combobox("getValue");
+        if(subStor=='' ||subStor==null){
+            $.messager.alert("提示","请选择子库房",'info');
+        }else{
+            var url = basePath + "/drug-inventory-check/extractInventory?storage=" + parent.config.currentStorage
+                + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue").substr(0,10) + "&subStorage="
+                + $("#storage").combobox("getValue");
+            $.get(url, function (data) {
+                if(data.length != 0){
+                    $("#inventoryList").datagrid("reload",url);
+                }else{
+                    $.messager.alert("提示","没有该时间盘点记录",'info');
+                    $("#inventoryList").datagrid("loadData",[]);
+                }
+            });
+        }
         //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + 150520
         //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
         //    + $("#storage").combobox("getValue");
-        var url = basePath + "/drug-inventory-check/extractInventory?storage=" + parent.config.currentStorage
-            + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue").substr(0,10) + "&subStorage="
-            + $("#storage").combobox("getValue");
-        $.get(url, function (data) {
-            if(data.length != 0){
-                $("#inventoryList").datagrid("reload",url);
-            }else{
-                $.messager.alert("提示","没有该时间盘点记录",'info');
-            }
-        });
     });
     //生成
     $("#generateBtn").on("click", function () {
         stopEdit();
-        var drugInventoryCheckVos = $("#inventoryList").datagrid("getRows");
-
-        //判断是否有改时间盘点记录
-        var data;
-        //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + 150520
-        //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
-        //    + $("#storage").combobox("getValue");
-        var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
-            + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue").substr(0,10) + "&subStorage="
-            + $("#storage").combobox("getValue");
-        $.get(url, function (data) {
-            data =data;
-        });
-        if(drugInventoryCheckVos.length > 1){
-            $.messager.alert("提示","盘点数据已经存在不能生成","error");
-        }else if(data){
-            $.messager.alert("提示","盘点数据已经存在,请选择提取","error");
+        var subStor=$("#storage").combobox("getValue");
+        if(subStor=='' ||subStor==null) {
+            $.messager.alert("提示", "请选择子库房", 'info');
         }else{
-            var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
-                + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue") + "&subStorage="
-                + $("#storage").combobox("getValue");
-            //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + parent.config.currentStorage
-            //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue") + "&subStorage="
+            var drugInventoryCheckVos = $("#inventoryList").datagrid("getRows");
+
+            //判断是否有改时间盘点记录
+            var data;
+            //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + 150520
+            //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
             //    + $("#storage").combobox("getValue");
+            var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
+                + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue").substr(0,10) + "&subStorage="
+                + $("#storage").combobox("getValue");
+            $.get(url, function (data) {
+                data =data;
+            });
+            if(drugInventoryCheckVos.length > 1){
+                $.messager.alert("提示","盘点数据已经存在不能生成","error");
+            }else if(data){
+                $.messager.alert("提示","盘点数据已经存在,请选择提取","error");
+            }else{
+                var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
+                    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue") + "&subStorage="
+                    + $("#storage").combobox("getValue");
+                //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + parent.config.currentStorage
+                //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue") + "&subStorage="
+                //    + $("#storage").combobox("getValue");
 
-            $("#inventoryList").datagrid("reload", url);
+                $("#inventoryList").datagrid("reload", url);
 
+            }
         }
+
 
     });
     //暂存
