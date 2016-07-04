@@ -34,6 +34,7 @@
 		FROM drug_name_dict a
 		WHERE a.input_code  like UPPER(#{inputCode}) || '%'
 		and a.del_flag = '0'
+
 	</select>
     <select id="listDrugNameDictByDrugCode" resultType="DrugNameDict">
 		SELECT
@@ -99,7 +100,7 @@
 			#{drugCode},
 			#{drugName},
 			#{stdIndicator},
-			#{inputCode},
+			UPPER (#{inputCode}),
 			#{inputCodeWb},
 			#{chemicalName},
 			#{createDate},
