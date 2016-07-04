@@ -5,10 +5,12 @@ var prescDate;
 var bindingPrescTitle;
 var prescSource;
 var dispensary =  [{ "value": "1", "text": "西药局" }, { "value": "2", "text": "中药局" }];
-
+var comboGridComplete = [];
+var itemClass ;
 //页面加载
 $(function(){
     var patientId = '1';
+    itemClass = $("#itemClass").val();
     $('#leftList').datagrid({
         singleSelect: true,
         fit: true,
@@ -60,7 +62,7 @@ $(function(){
                 options: {
                     panelWidth: 500,
                     required: true,
-                    data:drugData,
+                    data:comboGridComplete,
                     idField: 'item_name',
                     textField: 'item_name',
                     columns: [[
@@ -84,7 +86,7 @@ $(function(){
                     ]],keyHandler: {
                         query: function(q) {
                             var ed = $('#centerList').datagrid('getEditor', {index:rowNum,field:'drugName'});
-                            comboGridCompleting(q,'drugName');
+                            comboGridCompletings(q,'drugName',itemClass);
                             $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
                         }
                     },onClickRow: function (index, row) {
@@ -241,7 +243,51 @@ $(function(){
             }
         }
     })
+
+
 });
+//药品自动补全
+function comboGridCompletings(q,id,itemClass){
+    var drugNameData={};
+    drugNameData.orgId="1";
+    if(drugNameData.itemClass=='B'){
+        drugNameData.itemClass="B";
+    }else{
+        drugNameData.itemClass="A";
+    }
+
+    drugNameData.dictType="v_clinic_item_price"
+    if(id!=null&&id!=''){
+        var inputParamVos=new Array();
+        var InputParamVo1={};
+        InputParamVo1.colName='rownum';
+        InputParamVo1.colValue='20';
+        InputParamVo1.operateMethod='<';
+        inputParamVos.push(InputParamVo1);
+        if(q!='' && q!=null){
+            var InputParamVo={};
+            InputParamVo.colName='input_code';
+            InputParamVo.colValue=q;
+            InputParamVo.operateMethod='like';
+            inputParamVos.push(InputParamVo);
+        }else{
+            $("#"+id).combogrid('setValue','');
+        }
+        drugNameData.inputParamVos=inputParamVos;
+    }
+
+    $.ajax({
+        'type': 'POST',
+        'url':basePath+'/input-setting/listParam' ,
+        data: JSON.stringify(drugNameData),
+        'contentType': 'application/json',
+        'dataType': 'json',
+        'async': false,
+        'success': function(data){
+            comboGridComplete = data;
+        }
+    });
+}
 function loadSubData(row){
     if(row!=undefined&&row!='undifined') {
         $("#prepayment").val(row.prepayment);
@@ -394,14 +440,18 @@ function funItem(obj){
             if(obj.value==1){
                 //部分信息西药不需要显示
                 //$('.vdbox input').removeAttribute("value")
+                $("#itemClass").val("A");
+                itemClass = "A";
                 $('.vdbox').hide();
             }else{
                 $('.vdbox').show();
+                itemClass = "B";
             }
         }else{
             $(this).prop("checked",false);
         }
     });
+    this.comboGridCompletings('','',itemClass);
 }
 
 

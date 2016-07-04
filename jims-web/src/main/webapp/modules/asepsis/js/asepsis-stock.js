@@ -7,10 +7,7 @@
 
 $("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/easyui/css/icon.css"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
-$("<script>").attr({
-    type: "application/javascript",
-    src: "/static/easyui/locale/easyui-lang-zh_CN.js"
-}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"}).appendTo("head");
@@ -39,22 +36,22 @@ $(function () {
         }, {
             title: "序号",
             field: "itemNo",
-            width: '5%',
+            width: '50',
             align: 'center'
         }, {
             title: "单据号",
             field: "documentNo",
-            width: '5%',
+            width: '120',
             align: 'center'
         }, {
             title: "所属科室",
             field: "fromDeptName",
-            width: '7%',
+            width: '100',
             align: 'center'
         }, {
             title: "代码",
             field: "itemCode",
-            width: '10%',
+            width: '100',
             align: 'center',
             editor: {
                 type: 'combogrid',
@@ -91,18 +88,18 @@ $(function () {
         }, {
             title: "名称",
             field: "itemName",
-            width: '5%',
+            width: '100',
             align: 'center'
         }, {
             title: "规格",
             field: "itemSpec",
-            width: '5%',
+            width: '50',
             align: 'left'
 
         }, {
             title: "数量",
             field: "amount",
-            width: '7%',
+            width: '50',
             align: 'center',
             editor: {
                 type: 'textbox',
@@ -114,31 +111,31 @@ $(function () {
         }, {
             title: "单位",
             field: "label",
-            width: '7%',
+            width: '50',
             align: 'center'
         }, {
             title: "消毒灭菌日期",
             field: "antiDate",
-            width: '10%',
+            width: '100',
             align: 'center',
             formatter: function (value, row, index) {
-                var _value1 = getNowFormatDate1();
-                return _value1
+                row.antiDate=value;
+                return formatDatebox(value);
             }
         }, {
             title: "操作员",
             field: "operator",
-            width: '7%',
+            width: '80',
             align: 'center'
         }, {
             title: "修改时间",
             field: "alterDate",
-            width: '7%',
+            width: '80',
             align: 'center'
         }, {
             title: "备注",
             field: "memos",
-            width: '7%',
+            width: '80',
             align: 'center'
 
         }
@@ -271,32 +268,7 @@ $(function () {
         }
     });
 
-    //格式化时间 年月之间带“-”
-    function getNowFormatDate1() {
-        var day = new Date();
-        var Year = 0;
-        var Month = 0;
-        var Day = 0;
-        var CurrentDate = "";
-        //初始化时间
-        Year = day.getFullYear();
-        Month = day.getMonth() + 1;
-        Day = day.getDate();
-        CurrentDate += Year + "-";
-        if (Month >= 10) {
-            CurrentDate += Month + "-";
-        }
-        else {
-            CurrentDate += "0" + Month + "-"
-        }
-        if (Day >= 10) {
-            CurrentDate += Day;
-        }
-        else {
-            CurrentDate += "0" + Day;
-        }
-        return CurrentDate;
-    }
+
 
     //格式化时间 年月之间不带“-”
     function getNowFormatDate() {
@@ -339,6 +311,7 @@ $(function () {
         //序号
         var itemNo = documentNo.toString().charAt(documentNo.length - 1);
         $("#asepsis-stock").datagrid('appendRow', {
+            antiDate:new Date(),
             itemNo: itemNo,
             documentNo: documentNo,
             'operator': user
