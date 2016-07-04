@@ -4,7 +4,6 @@ create table ORDERS
    ID                   VARCHAR2(64)         not null,
    PATIENT_ID           VARCHAR2(64),
    ORG_ID               VARCHAR2(64),
-   CLINIC_ID            VARCHAR2(64),
    VISIT_ID             VARCHAR2(64),
    ORDER_NO             NUMBER(4)            not null,
    ORDER_SUB_NO         NUMBER(2)            not null,
@@ -88,9 +87,6 @@ comment on column ORDERS.PATIENT_ID is
 
 comment on column ORDERS.ORG_ID is
 '机构ID';
-
-comment on column ORDERS.CLINIC_ID is
-'处方检查检验等ID';
 
 comment on column ORDERS.VISIT_ID is
 '住院标识';
