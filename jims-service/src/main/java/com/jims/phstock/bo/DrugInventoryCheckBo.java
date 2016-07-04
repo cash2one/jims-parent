@@ -82,19 +82,20 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
      * @author txb
      */
     public void saveInventory(List<DrugInventoryCheckVo> drugInventoryCheckVos) {
-        int i = 0; //判断是否是暂存后保存标志
+        String i = "0"; //判断是否是暂存后保存标志
         int j = 0; //判断是终存标志
+
         for (DrugInventoryCheckVo drugInventoryCheckVo : drugInventoryCheckVos) {
 
             DrugInventoryCheck drugInventoryCheck = new DrugInventoryCheck();
             drugInventoryCheck = generateInventoryByVo(drugInventoryCheck, drugInventoryCheckVo);
-            i=drugInventoryCheck.getRecStatus();//终存状态
-            if(i==0){
+            i=drugInventoryCheckVo.getRecStatus();//终存状态
+            if(i.equals("0")){
                 j=0;
                 drugInventoryCheck.setRecStatus(1);
                 drugInventoryCheck.preUpdate();
                 drugInventoryCheckDao.update(drugInventoryCheck);
-            }else if(i==1){
+            }else if(i.equals("1")){
                 j=1;
             }else{
                 j=0;

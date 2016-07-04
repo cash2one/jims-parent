@@ -339,7 +339,7 @@ $(function(){
         //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + 150520
         //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
         //    + $("#storage").combobox("getValue");
-        var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
+        var url = basePath + "/drug-inventory-check/extractInventory?storage=" + parent.config.currentStorage
             + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue").substr(0,10) + "&subStorage="
             + $("#storage").combobox("getValue");
         $.get(url, function (data) {
@@ -433,6 +433,7 @@ $(function(){
         }else if(drugInventoryCheckVos.length == 0 ){
             $.messager.alert("提示","盘点无数据不能保存","error");
         }else{
+            console.log(drugInventoryCheckVos);
             $.messager.confirm("提示","盘点数据一但终存就不能修改了，是否最终保存？", function (data) {
                 if(data){
                     $.postJSON(basePath + "/drug-inventory-check/saveInventory",JSON.stringify(drugInventoryCheckVos), function (data) {
