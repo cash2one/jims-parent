@@ -71,13 +71,13 @@
 		<include refid="labTestMasterJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="name != null and name != ''">
+			<if test="visitId != null and visitId != ''">
 			AND a.visit_id = #{visitId}
 			</if>
-			<if test="name != null and name != ''">
+			<if test="clinicId != null and clinicId != ''">
 			AND a.clinic_id = #{clinicId}
 			</if>
-			<if test="name != null and name != ''">
+			<if test="orgId != null and orgId != ''">
 			AND a.org_id = #{orgId}
 			</if>
 			<if test="name != null and name != ''">
@@ -274,4 +274,9 @@
 	<select id="creatTestNo" resultType="String">
 		select max(test_no) from lab_test_master
 	</select>
+
+	<update id="deleteLabTestMaster">
+		UPDATE lab_test_master SET
+		del_flag = '1' WHERE id = #{id}
+	</update>
 </mapper>

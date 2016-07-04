@@ -1,4 +1,4 @@
-package com.jims.doctor.cliniIcnspect.cliniIcnspect;
+package com.jims.clinic.clinicinspect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.EmrDiagnosisServiceApi;
@@ -17,7 +17,7 @@ import javax.ws.rs.core.Context;
 
 /**
  * Created by Administrator on 2016/4/25.
- * 检查rest
+ * 检查申请（门诊、住院）
  */
 
 @Component
@@ -101,6 +101,11 @@ public class ClinicInspectRest {
         return stringData;
     }
 
+    /**
+     * 住院保存
+     * @param examAppoints
+     * @return
+     */
     @POST
     @Path("saveHospitalInspect")
     public StringData saveHospitalInspect(ExamAppoints examAppoints){

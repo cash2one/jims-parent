@@ -49,15 +49,6 @@ public interface OrdersDao extends CrudDao<Orders> {
     public String findMaxOrderNo(Orders orders);
 
     /**
-     * 构建最新OrderNo
-     * @parampatient_id
-     * @paramvisit_Id
-     * @author xueyx
-     * @version 2016/5/12
-     */
-    public int creeatOrderNo(Orders orders);
-
-    /**
      * 查找病人的医嘱列表
      * @param orders
      * @return

@@ -23,6 +23,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/26.
+ * 检查项目，子项目，类别查询
  */
 @Component
 @Produces("application/json")

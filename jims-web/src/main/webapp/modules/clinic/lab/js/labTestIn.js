@@ -1,8 +1,9 @@
 
 function onloadMethod() {
+    var clinicId=$("#clinicMasterId",window.parent.document).val();
+    var visitId = 1;
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
-    var visitId = 1;
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -13,7 +14,8 @@ function onloadMethod() {
         method: 'get',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/labtest/list?visitId=' + visitId,
+        url: basePath + '/labtest/listHos',
+        queryParams:{'visitId' : visitId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -21,33 +23,51 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'requestedDateTime', title: '申请日期', width: '30%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center', formatter: performedBFormatter},
-            {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
+            {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter:formatDateBoxFull},
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'resultStatus', title: '状态', width: '15%', align: 'center',formatter:function(data){
+                if(data == '1'){
+                    return '未检验';
+                }else{
+                    return '以检验';
+                }
+            }},
             {
                 field: 'id',
                 title: '操作',
-                width: '23%',
+                width: '25%',
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';
-                    html = html + '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                    html = html + '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
+                    html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
+                    html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
                     return html;
                 }
             }
         ]],
         view: detailview,
-        detailFormatter: function (rowIndex, rowData) {
-            return '<table><tr>' +
-                '<td style="border:0">' +
-                '<p>检验项目: </p>' +
-                '</td>' +
-                '</tr><tr>' +
-                '<td style="border:0">' +
-                '<p> ' + itemName + '</p>' +
-                '</td>' +
-                '</tr></table>';
+        detailFormatter: function(rowIndex, rowData) {
+            var item = [];
+            $.ajax({
+                type: "POST",
+                url: basePath + "/labtest/getItem",
+                contentType: 'application/json',
+                data: testNo = rowData.testNo,
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    item = data;
+                }
+            })
+            //return  '<table><tr>' +
+            //    '<td style="border:0">' +
+            //    '<p>检验项目: </p>' +
+            //    '</td>' +
+            //    '</tr><tr>' +
+            //    '<td style="border:0">' +
+            //    '<p> ' +item[0].itemName + '</p>' +
+            //    '</td>' +
+            //    '</tr></table>';
         },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
@@ -62,12 +82,18 @@ function onloadMethod() {
     });
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
+    $(p).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    });
     $('#items').datagrid({
         singleSelect: true,
         fit: true,
         nowrap: false,
         method: 'post',
-        url: basePath + '/labtest/list',
+        url: basePath + '/labtest/listHos',
+        queryParams:{'visitId' : visitId},
         columns: [[
             {field: 'itemName', title: '项目名称', width: '40%', align: 'center'},
             {field: 'itemCode', title: '项目代码', width: '40%', align: 'center'},
@@ -97,7 +123,7 @@ function add() {
     clearForm();
     $("#saveBut").show();
     var visitId=$("#clinicMasterId",window.parent.document).val();
-    $("#visitId").val(visitId);
+    $("#visitId").val("1");
     var newDate=new Date();
     $('#requestedDateTime').datetimebox('setValue',newDate);
     var visitId = 1;
@@ -173,7 +199,7 @@ function save() {
     formJson = formJson.substring(0, formJson.length - 1);
     var tableJson = JSON.stringify(rows);
     var submitJson = formJson + ",\"list\":" + tableJson + "}";
-    $.postJSON(basePath + '/labtest/save', submitJson, function (data) {
+    $.postJSON(basePath + '/labtest/saveHos', submitJson, function (data) {
         if (data.data == 'success') {
             $.messager.alert("提示消息", data.code + "条记录，保存成功");
             $('#list_data').datagrid('load');
@@ -195,6 +221,9 @@ function look() {
     $("#treeGrid").dialog("open");
 }
 function SendProduct() {
+    var item={};
+    item.orgId="";
+    item.dictType="lab_item_view";
     var expand3 = $("#performedBy").val();
     var expand2 = $("#labItemClass").val();
     var expand1 = $("#specimen").val();
@@ -220,15 +249,16 @@ function SendProduct() {
             else{
                 divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
             }
-
+                //alert(data[i].expand1);
                 $("#specimen").val(data[i].expand1);
             }
             divstr = divstr +"</table>";
             divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
             $("#SendProduct").html(divstr);
+            $("#SendProduct").dialog("open");
+
         }
     });
-    $("#SendProduct").dialog("open");
 }
 
 $("#SendProduct").dialog({
@@ -255,13 +285,13 @@ function doSelect() {
                 row.itemCode = $(this).val();//增
                 var temp = $(this).next().next(":hidden").val();
                 all += parseFloat(temp);
-                row.price = temp;//增
+               // row.price = temp;//增
                 rows.push(row);
             }
         )
         var row = {};
         row.price = all;//增
-        rows.push(row);
+      //  rows.push(row);
         var selectJson = {'total': selectRows.size(), 'rows': rows};
         $('#items').datagrid('loadData', selectJson);
     }
@@ -298,7 +328,7 @@ function deleteRow(id) {
 function del(id) {
     $.ajax({
         'type': 'POST',
-        'url': basePath + '/labtest/del',
+        'url': basePath + '/labtest/delHos',
         'contentType': 'application/json',
         'data': id = id,
         'dataType': 'json',
