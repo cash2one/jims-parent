@@ -45,6 +45,7 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 	private String xiaojieyufenxi;		// 小结与分析
 	private Date caijiriqi;		// 病史采集日期
 	private String isdepend;		// 病史陈述者是否可靠
+    private String inOrOutFlag;//是否住院
 	private List<EmrDiagnosis> diagnosisList;
 	
 	public ElectronEnterHospital() {
@@ -265,8 +266,17 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 	public void setCaijiriqi(Date caijiriqi) {
 		this.caijiriqi = caijiriqi;
 	}
-	
+
+	public String getInOrOutFlag() {
+		return inOrOutFlag;
+	}
+
+	public void setInOrOutFlag(String inOrOutFlag) {
+		this.inOrOutFlag = inOrOutFlag;
+	}
+
 	@Length(min=0, max=50, message="病史陈述者是否可靠长度必须介于 0 和 50 之间")
+
 	public String getIsdepend() {
 		return isdepend;
 	}
