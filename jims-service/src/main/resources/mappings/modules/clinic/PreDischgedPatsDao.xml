@@ -8,7 +8,9 @@
 		a.discharge_date_expcted AS "dischargeDateExpcted",
 		a.create_date_time AS "createDateTime",
 		a.order_no AS "orderNo",
+		a.visit_id AS "visitId",
 		a.discharge_disposition_name AS "dischargeDispositionName",
+        a.HOSPITAL_ID AS "hospitalId",
 		a.create_by AS "createBy.id",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
@@ -29,7 +31,7 @@
 	
 	<select id="findPreList" resultType="PreDischgedPatsVo">
 		select  distinct
-		c.PATIENT_ID AS "patientId",
+		c.ID AS "patientId",
 		c.INP_NO AS "inpNo",
 		a.BED_NO AS "bedNo",
 		b.BED_LABEL AS "bedLabel" ,
@@ -37,11 +39,13 @@
 		c.sex AS  "sex",
 		a.ADMISSION_DATE_TIME AS  "admissionDateTime",
 		a.DIAGNOSIS AS  "diagnosis",
-		a.DEPT_CODE AS "deptCode"
-		from pats_in_hospital a ,bed_rec b ,pat_master_index c
+		a.DEPT_CODE AS "deptCode",
+		a.visit_id AS "visitId"
+		from pats_in_hospital a ,bed_rec b ,pat_master_index c,PAT_VISIT d
 		where (a.BED_NO = b.BED_NO
 		and  a.WARD_CODE = b.WARD_CODE)
 		and  (a.PATIENT_ID = c.ID )
+		and a.visit_id = d.id
 		<if test="wardCode!=null and wardCode!=''">
 			and  a.WARD_CODE =#{wardCode}
 		</if>
@@ -121,7 +125,7 @@
 			#{visitId},
 			#{dischargeDateExpcted},
 			#{createDateTime},
-			#{orders.orderNo},
+			#{orderNo},
 			#{dischargeDispositionName},
 			#{createBy.id},
 			#{updateBy.id},
@@ -139,7 +143,7 @@
 			org_id = #{orgId},
 			visit_id = #{visitId},
 			discharge_date_expcted = #{dischargeDateExpcted},
-			order_no=#{orders.orderNo},
+			order_no=#{orderNo},
 			create_date_time = #{createDateTime},
 			discharge_disposition_name = #{dischargeDispositionName},
 			update_by = #{updateBy.id},

@@ -79,12 +79,18 @@ public class PreDischgedPatsRest {
     @POST
     public StringData save(List<PreDischgedPatsVo> list) {
         StringData data = new StringData();
+        String strData ="";
         String num = data.getCode();
         if (list != null) {
-            num = preDischgedPatsServiceApi.save(list);
+            num = preDischgedPatsServiceApi.savePreDischPat(list);
+            if(num!=""&& !"0".equals(num)){
+                strData = "success";
+            }else{
+                strData = "error";
+            }
         }
         data.setCode(num);
-        data.setData("success");
+        data.setData(strData);
         return data;
     }
     /**
@@ -92,15 +98,12 @@ public class PreDischgedPatsRest {
      */
     @Path("savePatsVo")
     @POST
-    public StringData savePatsVo(@QueryParam("paitentId") String paitentId,@QueryParam("hospitalId") String hospitalId) {
+    public StringData savePatsVo(@QueryParam("paitentId") String paitentId) {
         StringData data = new StringData();
         String num = data.getCode();
         PreDischgedPats preDischgedPats=new PreDischgedPats();
-        preDischgedPats.setHospitalId(hospitalId);
         preDischgedPats.setPatientId(paitentId);
-        if (preDischgedPats != null) {
             num = preDischgedPatsServiceApi.savePats(preDischgedPats);
-        }
         data.setCode(num);
         data.setData("success");
         return data;

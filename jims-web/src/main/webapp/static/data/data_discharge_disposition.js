@@ -3,6 +3,12 @@
  * 出院方式字典
  */
 var discharge = [];
+var predischarge = [];//出院通知单
+var preData={};
+preData.orgId="";
+preData.dictType="PRE_DISCHARGE_DICT";
+var dis = [];
+
 
 $.ajax({
     'type': 'GET',
@@ -18,7 +24,7 @@ $.ajax({
 
 
 /**
- * 性别翻译
+ * 出院方式翻译
  * @param value
  * @param rowData
  * @param rowIndex
@@ -34,4 +40,65 @@ function dischargeFormatter(value, rowData, rowIndex) {
             return discharge[i].label;
         }
     }
+}
+
+//出院通知单
+$.ajax({
+    'type': 'POST',
+    'url':basePath+'/input-setting/listParam' ,
+    data: JSON.stringify(preData),
+    'contentType': 'application/json',
+    'dataType': 'json',
+    'async': false,
+    'success': function(data){
+        predischarge = data;
+    }
+});
+
+
+/**
+ * 出院通知单翻译
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function perFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < predischarge.length; i++) {
+        if (predischarge[i].discharge_code == value) {
+            return predischarge[i].discharge_name;
+        }
+    }
+}
+
+
+function getDis(id){
+    var drugNameData={};
+    drugNameData.orgId="";
+    drugNameData.dictType="PRE_DISCHARGE_DICT"
+    var inputParamVos=new Array();
+    if(id!='' && id!=null){
+        var InputParamVo={};
+        InputParamVo.colName='DISCHARGE_CODE';
+        InputParamVo.colValue=id;
+        InputParamVo.operateMethod='=';
+        inputParamVos.push(InputParamVo);
+    }
+    drugNameData.inputParamVos=inputParamVos;
+    $.ajax({
+        'type': 'POST',
+        'url':basePath+'/input-setting/listParam' ,
+        data: JSON.stringify(drugNameData),
+        'contentType': 'application/json',
+        'dataType': 'json',
+        'async': false,
+        'success': function(data){
+            dis = data;
+
+        }
+    });
 }

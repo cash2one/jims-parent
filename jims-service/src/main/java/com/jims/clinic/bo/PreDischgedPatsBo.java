@@ -5,12 +5,14 @@ import com.jims.clinic.entity.PreDischgedPats;
 import com.jims.clinic.vo.PreDischgedPatsVo;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.StringUtils;
 import com.jims.orders.dao.OrdersDao;
 import com.jims.orders.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,60 +36,64 @@ public class PreDischgedPatsBo extends CrudImplService<PreDischgedPatsDao, PreDi
      */
     @Transactional(readOnly = false)
     public String savePreDischPat(List<PreDischgedPatsVo> list) {
-        String strState = "";
+        int num = 0;
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
-                PreDischgedPatsVo preDischgedPatsVo = list.get(i);
+                PreDischgedPatsVo preDischgedPatsVo = new PreDischgedPatsVo();
+                preDischgedPatsVo = list.get(i);
                 Orders orders = new Orders();
-                orders.setOrderSubNo(i + 1);
-                if (ordersDao.getOrderNo(preDischgedPatsVo.getPatientId(), preDischgedPatsVo.getVisitId(), preDischgedPatsVo.getId()) != null) {
-                    orders.setOrderNo(ordersDao.getOrderNo(preDischgedPatsVo.getPatientId(), preDischgedPatsVo.getVisitId(), preDischgedPatsVo.getId()) + 1);
-                } else {
-                    orders.setOrderNo(1);
-                }
+                Integer orderNo = ordersDao.getMaxOrderNo(preDischgedPatsVo.getPatientId(),"1");
+               if(orderNo==null){
+                   orders.setOrderNo(1);
+                   orders.setOrderSubNo(1);
+               }else{
+                   orders.setOrderNo(orderNo+1);
+                   orders.setOrderSubNo(orderNo+1);
+               }
                 orders.setPatientId(preDischgedPatsVo.getPatientId());
                 orders.setVisitId(preDischgedPatsVo.getVisitId());
-                orders.setOrderNo(orders.getOrderNo());
-                orders.setStartDateTime(preDischgedPatsVo.getAdmissionDateTime());
-                orders.setRepeatIndicator("1");
+
+                orders.setStartDateTime(preDischgedPatsVo.getDischargeDateExpcted());
+                orders.setRepeatIndicator("0");//临时医嘱
                 orders.setOrderClass("Z");
-                orders.setOrderStatus("0");
+                orders.setOrderStatus("6");
+                orders.setOrderText(preDischgedPatsVo.getOrderText());
+                orders.setOrderCode(preDischgedPatsVo.getOrderCode());
                 orders.setOrderingDept(preDischgedPatsVo.getDeptCode());
-                orders.setDoctor(preDischgedPatsVo.getDoctor());
+                orders.setDoctor("当前登录者");
                 orders.setDoctorUser(Long.parseLong("2"));
-                orders.setEnterDateTime(preDischgedPatsVo.getAdmissionDateTime());
-                orders.setBillingAttr(Integer.parseInt("2"));
-                orders.setDrugBillingAttr(Integer.parseInt("2"));
+                preDischgedPatsVo.getDischargeDispositionName();
+                orders.setEnterDateTime(new Date());
+                orders.setBillingAttr(3);
+                orders.setDrugBillingAttr(3);
                 orders.setAppNo("");
                 orders.setFreqDetail("");
                 orders.setOrderingDept(preDischgedPatsVo.getDeptCode());
                 if (orders.getIsNewRecord()) {
                     orders.preInsert();
                     ordersDao.insert(orders);
-                } else {
-                    orders.preUpdate();
-                    ordersDao.update(orders);
                 }
                 //保存出院通知单
                 PreDischgedPats preDischgedPats = new PreDischgedPats();
                 preDischgedPats.setPatientId(preDischgedPatsVo.getPatientId());
-                preDischgedPats.setHospitalId(preDischgedPatsVo.getHospitalId());
-                preDischgedPats.setOrdersId(orders.getId());
                 preDischgedPats.setOrgId("1");
-                preDischgedPats.setVisitId("2");
-                preDischgedPats.setOrders(orders);
+                preDischgedPats.setHospitalId("1");
+                preDischgedPats.setVisitId("1");
+                preDischgedPats.setOrdersId(orders.getId());
                 preDischgedPats.setDischargeDispositionName(preDischgedPatsVo.getDischargeDispositionName());
-                strState = super.save(preDischgedPats);
+                preDischgedPats.setDischargeDateExpcted(preDischgedPatsVo.getDischargeDateExpcted());
+                preDischgedPats.setCreateDateTime(new Date());
+                preDischgedPats.setOrderNo( String.valueOf(orders.getOrderNo()));
                 if (preDischgedPats.getIsNewRecord()) {
                     preDischgedPats.preInsert();
-                    preDischgedPatsDao.insert(preDischgedPats);
+                    num = preDischgedPatsDao.insert(preDischgedPats);
                 } else {
                     preDischgedPats.preUpdate();
                     preDischgedPatsDao.update(preDischgedPats);
                 }
             }
         }
-        return strState;
+        return num+"";
     }
 
     /**
