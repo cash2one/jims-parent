@@ -17,28 +17,23 @@ $(function() {
                     textField:'label',
                     required:true
                 }
-
             }
             },
             {field:'description',title:'诊断描述',width:'20%',align:'center',editor:'text'},
             {field:'treatResult',title:'治疗结果',width:'20%',align:'center',editor:'text'},
-            {field:'operTreatIndicator',title:'手术',width:'5%',align:'center',editor:'text'},
+            {field:'operTreatIndicator',title:'手术',width:'5%',align:'center',editor:'text'
+                ,formatter:function(value, rowData, rowIndex){
+                  if(value=='1'){
+                       return '是';
+                  }else{
+                      return '否';
+                  }
+            }
+            },
             {field:'diagnosisDate',title:'诊断日期',width:'15%',align:'center',formatter:formatDateBoxFull},
             {field:'pathologyNo',title:'病理号',width:'10%',align:'center',editor:'text'},
-            {field:'diagnosisId',title:'诊断名称',width:'20%',align:'center',editor:{
-                type:'combobox',
-                options:{
-                    required:true,
-                    url: basePath+'/dataicd/autoComplete',
-                    valueField: 'code',
-                    textField: 'keywordShuoming',
-                    method: 'GET'
-
-                }
-            }}
-
+            {field:'diagnosisId',title:'诊断名称',width:'20%',align:'center',formatter:icdFormatter}
         ]],
-
         toolbar:
             [
                 {
@@ -67,6 +62,13 @@ $(function() {
                     iconCls: 'icon-del',
                     handler:function(){
                         del();
+                    }
+                },
+                {
+                    text: '刷新',
+                    iconCls: 'icon-reload',
+                    handler:function(){
+                        refash();
                     }
                 }
             ]
@@ -114,9 +116,6 @@ function loadMenu() {
        // $("#tg").treegrid("selectRow", 1);
         return false;
     });
-    //menuPromise.done(function () {
-    //
-    //});
 
 }
 
@@ -132,39 +131,52 @@ function formatProgress(value){
 }
 var editingId;
 function edit(){
+
     var node = $("#tg").treegrid('getSelected');
     if (node == null) {
         $.messager.alert("系统提示", "请选中要修改的诊断");
         return;
     }
     $('#dlg').dialog('open').dialog('center').dialog('setTitle', '修改诊断');
+
     $('#fm').form('clear');
-    $('#type').combobox({
-        data :diagnosisType,
-        editable:false,
-        valueField:'value',
-        textField:'label',
-        formatter:diagnosisTypeFormatter
-    });
-    $("#description").textbox('setValue', node.description);
-    $("#treatResult").textbox('setValue', node.treatResult);
+    $("#description").val(node.description);
+    $("#treatResult").val(node.treatResult);
     $("#diagnosisDate").datebox("setValue",node.diagnosisDate);
-    $("#operTreatIndicator").textbox('setValue', node.operTreatIndicator);
-    $("#pathologyNo").textbox('setValue', node.pathologyNo);
+    if(node.operTreatIndicator=='1'){
+        $("#operTreatIndicator").attr("checked", true) ;
+    }else{
+        $("#operTreatIndicator").attr("checked", false) ;
+    }
+    $('#diagnosisId').combogrid({
+        panelWidth: 200,
+        data:icdAllData,
+        idField:'code',
+        textField:'zhongwen_mingcheng',
+        columns:[
+            [
+                {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
+                {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
+                {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
+            ]
+        ],onClickRow: function (index, row) {
+            $("#icdMingcheng").val(row.zhongwen_mingcheng);
+        },
+        keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
+                comboGridCompleting(q,'diagnosisId');
+                $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+            }
+        }
+    })
+    $("#pathologyNoId").val(node.pathologyNo);
     $("#id").val(node.id);
     $("#parentId").val(node._parentId);
     $("#inOrOutFlag").val("1");
-    $('#diagnosisId').combobox({
-        url: basePath+'/dataicd/autoComplete',
-        editable:false,
-        valueField: 'code',
-        textField: 'keywordShuoming',
-        method: 'GET',
-        onLoadSuccess: function () {
-            var data = $(this).combobox('getData');
-            $(this).combobox('select', node.diagnosisId);
-        }
-    });
 }
 
 
@@ -174,12 +186,12 @@ function save(){
     if ($("#fm").form('validate')) {
         var d = {};
         d.id = $("#id").val();
-        d.type =$('#type').combobox('getValue');
+        d.type =$('#typeId').val();
         d.description = $("#description").val();
         d.treatResult =  $("#treatResult").val();
         d.diagnosisDate = $("#diagnosisDate").datebox('getValue');
         d.operTreatIndicator =  $("#operTreatIndicator").val();
-        d.pathologyNo = $("#pathologyNo").val();
+        d.pathologyNo = $("#pathologyNoId").val();
         d.diagnosisId =$('#diagnosisId').combobox('getValue');
         d.parentId = $("#parentId").val();
         d.inOrOutFlag = $("#inOrOutFlag").val();
@@ -218,38 +230,53 @@ function cancel(){
     }
 }
 
-function cancel(){
-    if (editingId != undefined){
-        $('#tg').treegrid('cancelEdit', editingId);
-        editingId = undefined;
-    }
+function refash(){
+    $('#tg').treegrid('reload');
 }
 
-
 function insert(){
-
+    var top = $("#tg").offset().top - 30;
+    var left = $("#tg").offset().left;
     $("#dlg").dialog({title: '添加诊断'}).dialog("open").dialog('center');
-        $('#fm').form('clear');
-        //    $("#parentId").val(node._parentId);
+    $('#fm').form('clear');
         $("#parentId").val("0");
+        $("#parentId").val("0");
+
         $('#type').combobox({
             data :diagnosisType,
-            editable:false,
             valueField:'value',
             textField:'label',
-            formatter:diagnosisTypeFormatter
+            onSelect: function (n, o) {
+                $("#typeId").val(n.value);
+            }
         });
-        $('#diagnosisId').combobox({
+    $('#diagnosisId').combogrid({
+        panelWidth: 200,
+        data:icdAllData,
+        idField:'code',
+        textField:'zhongwen_mingcheng',
+        columns:[
+            [
+                {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
+                {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
+                {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
+            ]
+        ],onClickRow: function (index, row) {
+            $("#icdMingcheng").val(row.zhongwen_mingcheng);
+        },
+        keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
+                comboGridCompleting(q,'diagnosisId');
+                $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+            }
+        }
+    })
 
-            required:true,
-            url: basePath+'/dataicd/autoComplete',
-            valueField: 'code',
-            textField: 'keywordShuoming',
-            method: 'GET'
-        });
 
-        //  $("#position").textbox('setValue', node.position);
-  //  }
 }
 
 /**
@@ -271,27 +298,41 @@ function addNextLevel() {
 
         $('#dlg').dialog('open').dialog('setTitle', '添加子诊断').dialog('center');
         $('#fm').form('clear');
-        /*    $("#parentName").textbox('setValue', node.menuName);*/
         $("#parentId").val(node.id);
         $('#type').combobox({
             data :diagnosisType,
-            editable:false,
             valueField:'value',
             textField:'label',
-            formatter:diagnosisTypeFormatter
-
-
+            onSelect: function (n, o) {
+                $("#typeId").val(n.value);
+            }
         });
-        $('#diagnosisId').combobox({
+        $('#diagnosisId').combogrid({
+            panelWidth: 200,
+            data:icdAllData,
+            idField:'code',
+            textField:'zhongwen_mingcheng',
+            columns:[
+                [
+                    {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
+                    {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
+                    {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
+                ]
+            ],onClickRow: function (index, row) {
+                $("#icdMingcheng").val(row.zhongwen_mingcheng);
+            },
+            keyHandler: {
+                up: function() {},
+                down: function() {},
+                enter: function() {},
+                query: function(q) {
+                    var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
+                    comboGridCompleting(q,'diagnosisId');
+                    $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                }
+            }
+        })
 
-            required:true,
-            url: basePath+'/dataicd/autoComplete',
-            valueField: 'code',
-            textField: 'keywordShuoming',
-            method: 'GET'
-        });
-
-        $("#type").attr({"disabled":true});
     }
 }
 
@@ -312,7 +353,7 @@ function del() {
                 'success': function(data){
                     if(data.code=='1'){
                         $.messager.alert("提示消息",data.code+"条记录删除成功！");
-                        $('#tg').treegrid('reload');
+                        $("#tg").treegrid('remove', row.id);
 
                     }else{
                         $.messager.alert('提示',"删除失败", "error");

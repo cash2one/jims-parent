@@ -5,6 +5,7 @@ var priceItme = [{"value": "11020000100", "text": "普通门诊诊查费"}, {
     "text": "急诊诊查费"
 }, {"value": "10005", "text": "鉴定费"},
     {"value": "11020000400", "text": "门急诊留观诊查费"}, {"value": "11020000201", "text": "副主任医师诊查费"}];
+var  strValue   = "160101" ;
 function onloadMethod() {
     var wardCode = $("#wardCode").val();
     $('#list_data').datagrid({
@@ -92,10 +93,17 @@ function onloadMethod() {
             }
         }
     });
-    loadPreList(wardCode);
-}
-//加载右边患着信息
-function loadPreList(strValue) {
+
+
+
+
+
+
+
+
+
+
+
     $('#list_doctor').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -124,6 +132,11 @@ function loadPreList(strValue) {
                     return value.name;
                 }
             },
+            {field:'sex',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'patientId',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'admissionDateTime',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'diagnosis',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'deptCode',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {
                 field: 'patsInHospital',
                 title: '操作',
@@ -137,14 +150,28 @@ function loadPreList(strValue) {
                     return html;
                 }
             },
-        ]],
+        ]],onClickRow:function(row){
+
+        },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]]
     });
     //设置分页控件
     var p = $('#list_doctor').datagrid('getPager');
+
 }
+
+//加载右边患着信息
+$("#wardCode").combobox({
+    onChange: function (n, o) {
+        strValue   = $("#wardCode").combobox("getValue");
+
+    }
+});
+
+
+
 
 //保存医嘱和通知数据
 function save() {
@@ -223,6 +250,5 @@ function deleteItem() {
         }
     })
 }
-
 
 

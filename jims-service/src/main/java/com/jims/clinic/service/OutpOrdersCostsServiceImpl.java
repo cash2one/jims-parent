@@ -30,15 +30,15 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
     private OutpOrdersCostsDao outpOrdersCostsDao;
 
     /**
-     * 根据就诊ID和主记录信息查询明细信息
+     * 根据就诊ID和医嘱号信息查询明细信息
      *
-     * @param masterId
+     * @param orderNo
      * @param clinicId
      * @return
      */
     @Override
-    public List<OutpOrdersCosts> getOutpCosts(String masterId, String clinicId) {
-        return outpOrdersCostsDao.getOutpCosts(masterId, clinicId);
+    public List<OutpOrdersCosts> getOutpCosts(String orderNo, String clinicId) {
+        return outpOrdersCostsDao.getOutpCosts(orderNo, clinicId);
     }
 
     public OutpOrdersCosts get(String id) {

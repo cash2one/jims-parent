@@ -30,7 +30,15 @@ create table OUTP_TREAT_REC
   BILL_VISIT_NO    NUMBER(5),
   BILL_VISIT_DATE  TIMESTAMP,
   OPERATOR_TRTURN  VARCHAR2(20),
-  DATE_TRTURN      TIMESTAMP
+  DATE_TRTURN      TIMESTAMP,
+  CREATE_DATE         TIMESTAMP (6),
+  CREATE_BY            VARCHAR2(64 CHAR),
+  UPDATE_DATE          TIMESTAMP (6),
+  UPDATE_BY            VARCHAR2(64 CHAR),
+  REMARKS              VARCHAR2(255 CHAR),
+  DEL_FLAG             NUMBER (1),
+  ORG_ID                VARCHAR2(64 CHAR),
+  CLINIC_ID             VARCHAR2(64 CHAR)
 );
 
 -- Add comments to the table 

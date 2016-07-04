@@ -8,7 +8,7 @@ create table PATS_IN_HOSPITAL
   ID                     VARCHAR2(64 CHAR) not null,
   ORG_ID                  VARCHAR2(64 CHAR),
   PATIENT_ID VARCHAR2(64),
-  VISIT_ID               NUMBER(2),
+  VISIT_ID               VARCHAR2(64),
   WARD_CODE              VARCHAR2(10 CHAR),
   DEPT_CODE              VARCHAR2(10 CHAR),
   BED_NO                 NUMBER(8),

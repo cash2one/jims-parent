@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.exam.dao.OrdersDao">
+<mapper namespace="com.jims.orders.dao.OrdersDao">
     
 	<sql id="ordersColumns">
 		a.id AS "id",
@@ -490,7 +490,7 @@
 	<update id="deleteOrders">
 		UPDATE orders SET
 			del_flag = '1'
-		WHERE clinic_id=#{clinicId}
+		WHERE visit_id=#{visitId}
 
 	</update>
 
@@ -659,5 +659,10 @@
 			del_flag='0'
 				and clinic_id=#{clinicId}
 		</where>
+	</update>
+
+	<update id="delOrders">
+		UPDATE orders SET order_status ='8',billing_attr='3',drug_billing_attr='3',del_flag='1'
+		WHERE visit_id=#{visitId}
 	</update>
 </mapper>

@@ -3,9 +3,7 @@ package com.jims.clinic.clinicinspect;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.EmrDiagnosisServiceApi;
 import com.jims.clinic.entity.EmrDiagnosis;
-import com.jims.exam.api.ExamAppointsServiceApi;;
-import com.jims.clinic.api.OutpOrdersCostsServiceApi;
-import com.jims.clinic.api.OutpTreatRecServiceApi;
+import com.jims.exam.api.ExamAppointsServiceApi;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
@@ -31,16 +29,45 @@ public class ClinicInspectRest {
     @Reference(version = "1.0.0")
     private EmrDiagnosisServiceApi emrDiagnosisServiceApi;
 
-
-    @Path("list")
+    /**
+     * 查看住院检查列表
+     * @param request
+     * @param response
+     * @param visitId
+     * @return
+     */
+    @Path("listHos")
     @GET
-    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response){
-        Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),new ExamAppoints());
+    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("visitId")String visitId){
+        ExamAppoints examAppoints= new ExamAppoints();
+        examAppoints.setVisitId(visitId);
+        Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),examAppoints);
         PageData<ExamAppoints> pageData=new PageData<ExamAppoints>();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
         return pageData;
     }
+
+    /**
+     * 查看门诊检查列表
+     * @param request
+     * @param response
+     * @param clinicId
+     * @return
+     */
+    @Path("list")
+    @GET
+    public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicId")String clinicId){
+        ExamAppoints examAppoints= new ExamAppoints();
+        examAppoints.setClinicId(clinicId);
+        Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),examAppoints);
+        PageData<ExamAppoints> pageData=new PageData<ExamAppoints>();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
+    }
+
+
     @Path("getDescription")
     @GET
     public EmrDiagnosis getDescription(@QueryParam("clinicIds") String clinicIds){
@@ -59,11 +86,25 @@ public class ClinicInspectRest {
         return examAppoints;
     }
 
+    /***
+     * 门诊检查申请保存
+     * @param examAppoints
+     * @return
+     */
     @POST
     @Path("saveExamAppoints")
     public StringData saveExamAppoints(ExamAppoints examAppoints){
         StringData stringData=new StringData();
         int num= examAppointsServiceApi.batchSave(examAppoints);
+        stringData.setCode(num+"");
+        return stringData;
+    }
+
+    @POST
+    @Path("saveHospitalInspect")
+    public StringData saveHospitalInspect(ExamAppoints examAppoints){
+        StringData stringData=new StringData();
+        int num = examAppointsServiceApi.saveHospitalInspect(examAppoints);
         stringData.setCode(num+"");
         return stringData;
     }
@@ -76,6 +117,17 @@ public class ClinicInspectRest {
             stringData.setCode(num+"");
             stringData.setData("success");
             return stringData;
+
+    }
+
+    @Path("delHos")
+    @POST
+    public StringData delHos(String id) {
+        StringData stringData = new StringData();
+        String num = examAppointsServiceApi.delectHosExamAppionts(id);
+        stringData.setCode(num+"");
+        stringData.setData("success");
+        return stringData;
 
     }
 }

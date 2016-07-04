@@ -6,11 +6,13 @@ import com.jims.asepsis.entity.AsepsisAntiRec;
 import com.jims.asepsis.entity.AsepsisLendRec;
 import com.jims.asepsis.dao.AsepsisLendRecDao;
 import com.jims.asepsis.entity.AsepsisStock;
+import com.jims.asepsis.vo.AsepsisVo;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,13 +60,14 @@ public class AsepsisLendRecBo extends CrudImplService<AsepsisLendRecDao, Asepsis
                             }
                         }
                     } else {
+                        entity.setBelongDept(entity.getToDept());
                         saveAntiData(entity);
                     }
                 } else {
                     if(entity.getIsNewRecord()){
                         Integer stock = entity.getLendAmount() == null ? 0 : entity.getLendAmount().intValue();
                         AsepsisStock stockParam = new AsepsisStock();
-                        stockParam.setFromDept("161303");
+                        stockParam.setFromDept(entity.getBelongDept());
                         stockParam.setDocumentNo(entity.getExpDocumentNo());
                         stockParam.setOrgId(entity.getOrgId());
                         List<AsepsisStock> stocks = stockDao.findListNoJoin(stockParam);
@@ -94,13 +97,33 @@ public class AsepsisLendRecBo extends CrudImplService<AsepsisLendRecDao, Asepsis
         }
     }
 
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisVo
+     * @return
+     * @author yangruidong
+     */
+    public List<AsepsisLendRec> saveAll(AsepsisVo<AsepsisLendRec> asepsisVo) {
+        List<AsepsisLendRec> newUpdateDict = new ArrayList<AsepsisLendRec>();
+        List<AsepsisLendRec> updated = asepsisVo.getUpdated();
+        //更新
+        for (AsepsisLendRec asepsisLendRec : updated) {
+            asepsisLendRec.preUpdate();
+            int num = dao.update(asepsisLendRec);
+        }
+        return newUpdateDict;
+    }
+
     /**
      * 获取当天最大的编码
      * @param orgId
+     * @param prefix
      * @return
      */
-    public String getMaxDocumentNo(String orgId){
-        return dao.getMaxDocumentNo(orgId);
+    public String getMaxDocumentNo(String orgId,String prefix){
+        return dao.getMaxDocumentNo(orgId,prefix);
     }
 
     /**
@@ -121,9 +144,9 @@ public class AsepsisLendRecBo extends CrudImplService<AsepsisLendRecDao, Asepsis
         anti.setAsepsisName(entity.getItemName());
         anti.setAsepsisSpec(entity.getItemSpec());
         anti.setUnits(entity.getUnits());
-        anti.setBelongDept(entity.getToDept());
+        anti.setBelongDept(entity.getBelongDept());
         anti.setAsepsisState("0");
-        anti.setAmount(entity.getLendAmount().intValue());
+        anti.setAmount(entity.getStock());
         anti.setOrgId(entity.getOrgId());
         anti.setItemNo(1);
         antiDao.insert(anti);

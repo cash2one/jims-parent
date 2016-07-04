@@ -1,14 +1,18 @@
 package com.jims.asepsis.bo;
 
+import com.jims.asepsis.dao.AsepsisAntiRecDao;
 import com.jims.asepsis.dao.AsepsisStockDao;
+import com.jims.asepsis.entity.AsepsisAntiRec;
 import com.jims.asepsis.entity.AsepsisSendRec;
 import com.jims.asepsis.dao.AsepsisSendRecDao;
 import com.jims.asepsis.entity.AsepsisStock;
+import com.jims.asepsis.vo.AsepsisVo;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +26,8 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
 
     @Autowired
     private AsepsisStockDao stockDao;
+    @Autowired
+    private AsepsisAntiRecDao antiDao;
     /**
     * 批量保存（插入或更新）
     * @param list
@@ -29,8 +35,8 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
     public void save(List<AsepsisSendRec> list) {
         if(list != null && list.size() > 0) {
             for(AsepsisSendRec entity : list) {
-                Integer stock = entity.getStock() == null ? 0 : Integer.parseInt(entity.getStock());
-                if(stock > 0){
+                if(!entity.getIsNewRecord()){
+                    Integer stock = entity.getStock() == null ? 0 : entity.getStock();
                     AsepsisStock stockParam = new AsepsisStock();
                     stockParam.setFromDept(entity.getFromDept());
                     stockParam.setDocumentNo(entity.getDocumentNo());
@@ -52,10 +58,43 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
                             stockDao.delete(asepsisStock.getId());
                         }
                     }
+                } else {
+                    AsepsisAntiRec anti = new AsepsisAntiRec();
+                    anti.setImpDate(entity.getSendDate());
+                    anti.preInsert();
+                    anti.setDocumnetNo(entity.getDocumentNo());
+                    anti.setAsepsisCode(entity.getItemCode());
+                    anti.setAsepsisName(entity.getItemName());
+                    anti.setAsepsisSpec(entity.getItemSpec());
+                    anti.setUnits(entity.getUnits());
+                    anti.setBelongDept(entity.getFromDept());
+                    anti.setAsepsisState("0");
+                    anti.setAmount(entity.getSendAmount().intValue());
+                    anti.setOrgId(entity.getOrgId());
+                    anti.setItemNo(1);
+                    antiDao.insert(anti);
                 }
                 save(entity);
             }
         }
+    }
+
+    /**
+     * 保存  增删改
+     *
+     * @param asepsisVo
+     * @return
+     * @author yangruidong
+     */
+    public List<AsepsisSendRec> saveAll(AsepsisVo<AsepsisSendRec> asepsisVo) {
+        List<AsepsisSendRec> newUpdateDict = new ArrayList<AsepsisSendRec>();
+        List<AsepsisSendRec> updated = asepsisVo.getUpdated();
+        //更新
+        for (AsepsisSendRec asepsisSendRec : updated) {
+            asepsisSendRec.preUpdate();
+            int num = dao.update(asepsisSendRec);
+        }
+        return newUpdateDict;
     }
 
     /**
@@ -74,5 +113,31 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
      */
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity){
         return dao.findListWithStock(entity);
+    }
+
+    /**
+     * 检索没有库存、在保质期内的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListNoStock(AsepsisSendRec entity){
+        return dao.findListNoStock(entity);
+    }
+    /**
+     * 科室消毒费统计
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFee(AsepsisSendRec entity){
+        if(entity.getFlag().equals("0")){
+            return dao.findListFee(entity);
+        }else if(entity.getFlag().equals("1")){
+            return dao.findListFeeSum(entity);
+        }else if(entity.getFlag().equals("2")){
+            return dao.findListFeeAcross(entity);
+        }else if(entity.getFlag().equals("3")){
+            return dao.findListFeeYear(entity);
+        }
+        return null;
     }
 }

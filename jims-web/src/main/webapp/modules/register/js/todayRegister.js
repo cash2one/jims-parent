@@ -14,7 +14,7 @@ $(function(){
      */
     $('#deptNameId').combobox({
         data: clinicDeptCode,
-        valueField: 'dept_code',
+        valueField: 'id',
         textField: 'dept_name'
     })
     /**
@@ -25,8 +25,9 @@ $(function(){
         valueField: 'id',
         textField: 'dept_name'
     })
-    $("#visitDeptId").combobox('select',clinicDeptCode[0].id);
-
+    if(clinicDeptCode.length>0){
+        $("#visitDeptId").combobox('select',clinicDeptCode[0].id);
+    }
     $('#visitDeptIdt').combobox({
         data: clinicDeptCode,
         valueField: 'id',
@@ -40,7 +41,9 @@ $(function(){
         valueField: 'value',
         textField: 'label'
     })
-    $("#setId ").combobox('select',setData[0].value);
+    if(setData.length>0) {
+        $("#setId ").combobox('select', setData[0].value);
+    }
     $('#setIdt').combobox({
         data: setData,
         valueField: 'value',
@@ -60,7 +63,10 @@ $(function(){
         valueField: 'id',
         textField: 'charge_type_name'
     })
-    $("#chargeTypeId ").combobox('select',chargeType[0].id);
+
+    if(chargeType.length>0) {
+        $("#chargeTypeId ").combobox('select',chargeType[0].id);
+    }
     /**
      * 诊别下拉框
      */
@@ -69,7 +75,10 @@ $(function(){
         valueField: 'value',
         textField: 'label'
     })
-    $("#clinicTypeId ").combobox('select',chargeTypeDict[0].value);
+    if(chargeTypeDict.length>0) {
+        $("#clinicTypeId ").combobox('select',chargeTypeDict[0].value);
+    }
+
     /**
      * 身份下拉框
      */
@@ -83,8 +92,9 @@ $(function(){
         valueField: 'id',
         textField: 'identityName'
     })
-    $("#identityId ").combobox('select',identityDict[0].id);
-
+    if(identityDict.length>0) {
+        $("#identityId ").combobox('select',identityDict[0].id);
+    }
     /**
      * 合同单位下拉框
      */

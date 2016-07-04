@@ -14,6 +14,7 @@ $(function(){
     var storage = [{storageType: '全部'}, {storageType: '药库'}, {storageType: '药局'}];
 
     $("#importDict").on("click", function () {
+        $("#drugdict").datagrid('loadData',[]);
         $("#drugdict").datagrid({
             title: "药品入库类型字典",
             url: basePath + '/drug-import/findAll',
@@ -111,6 +112,7 @@ $(function(){
     });
 
     $("#exportDict").on("click", function () {
+        $("#drugdict").datagrid('loadData',[]);
         $("#drugdict").datagrid({
             title: "药品出库类型字典",
             url: basePath + '/drug-export/findAll',
@@ -208,8 +210,8 @@ $(function(){
             }
         });
     });
-
     $("#codingrule").on("click", function () {
+        $("#drugdict").datagrid('loadData',[]);
         $("#drugdict").datagrid({
             title: "药品编码描述字典",
             url: basePath + '/drug-code/findAll',
@@ -265,6 +267,7 @@ $(function(){
         });
     });
     $("#dispproperty").on("click", function () {
+        $("#drugdict").datagrid('loadData',[]);
         $("#drugdict").datagrid({
             title: "摆药类别字典",
             url: basePath + '/drug-disp/findAll',

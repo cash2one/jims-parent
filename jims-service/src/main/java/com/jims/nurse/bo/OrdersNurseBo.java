@@ -1,11 +1,8 @@
 package com.jims.nurse.bo;
 
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.exam.dao.OrdersDao;
-import com.jims.exam.entity.Orders;
-import com.jims.nurse.dao.BedRecDao;
-import com.jims.nurse.entity.BedRec;
-import org.springframework.core.annotation.Order;
+import com.jims.orders.dao.OrdersDao;
+import com.jims.orders.entity.Orders;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

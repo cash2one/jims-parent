@@ -159,12 +159,12 @@ $(function() {
                 $.each(listAll, function(i, r){
                     if(row.type=="QXFF"&&row.value == r.cleanWays){
                         r.cleanWaysDes = row.label;
-                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
+                        //$('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                     }
                     if(row.type=="PACKAGE_UNITS"&&row.value == r.units){
                         r.unitsDes = row.label;
-                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                     }
+                    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 });
             });
         });

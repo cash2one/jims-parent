@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.asepsis.entity.AsepsisSendRec;
 import com.jims.asepsis.api.AsepsisSendRecApi;
 import com.jims.asepsis.bo.AsepsisSendRecBo;
+import com.jims.asepsis.vo.AsepsisVo;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -75,6 +76,18 @@ public class AsepsisSendRecServiceImpl implements AsepsisSendRecApi{
     }
 
     /**
+     * 保存  增删改
+     *
+     * @param asepsisVo
+     * @return
+     * @author yangruidong
+     */
+    @Override
+    public List<AsepsisSendRec> saveAll(AsepsisVo<AsepsisSendRec> asepsisVo) {
+        return bo.saveAll(asepsisVo);
+    }
+
+    /**
     * 删除数据
     * @param ids,多个id以逗号（,）隔开
     * @return 0 失败，1成功
@@ -103,5 +116,22 @@ public class AsepsisSendRecServiceImpl implements AsepsisSendRecApi{
      */
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity){
         return bo.findListWithStock(entity);
+    }
+
+    /**
+     * 检索没有库存、在保质期内的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListNoStock(AsepsisSendRec entity){
+        return bo.findListNoStock(entity);
+    }
+    /**
+     * 科室消毒费统计
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFee(AsepsisSendRec entity){
+        return bo.findListFee(entity);
     }
 }
