@@ -102,12 +102,10 @@ function onloadMethod() {
                         getDis(chargeNameValue);
                     if(dis!=null){
                         for (var i = 0; i < dis.length; i++) {
-                            alert(dis[i].orders_text);
                                         $(orderText.target).textbox('setValue',dis[i].orders_text);
                                         $(orderCode.target).textbox('setValue',dis[i].orders_code);
                                     }
                     }else{
-                        alert(1111111111111);
                                     $(orderText.target).textbox('setValue','');
                                     $(orderCode.target).textbox('setValue','');
                            }
@@ -211,7 +209,6 @@ $("#wardCode").combobox({
 function save() {
     var rows = $('#list_data').datagrid('getChanges');
     var tableJson = JSON.stringify(rows);
-    alert(tableJson);
     $.postJSON(basePath + '/preDischgedPats/save', tableJson, function (data) {
         if (data.data == 'success') {
             $.messager.alert("提示消息", data.code + "条记录，保存成功");
