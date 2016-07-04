@@ -9,13 +9,13 @@ import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.clinic.dao.OutpOrdersCostsDao;
 import com.jims.clinic.dao.OutpOrdersDao;
 import com.jims.clinic.dao.OutpPrescDao;
-import com.jims.clinic.entity.ClinicMaster;
-import com.jims.clinic.entity.OutpOrders;
-import com.jims.clinic.entity.OutpOrdersCosts;
-import com.jims.clinic.entity.OutpPresc;
+import com.jims.clinic.entity.*;
+import com.jims.common.persistence.BaseDao;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.IdGen;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.web.impl.BaseDto;
+import com.jims.sys.dao.AdministrationDictDao;
 import com.jims.sys.dao.PriceListDao;
 import com.jims.sys.entity.OrgStaff;
 import com.jims.sys.vo.PriceListVo;
@@ -43,6 +43,8 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     private ClinicMasterDao clinicMasterDao;
     @Autowired
     private PriceListDao priceListDao;
+    @Autowired
+    private AdministrationDictDao administrationDictDao;
 
     /**
      * @param         outpPresc    传递参数
@@ -96,6 +98,43 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                            num = String.valueOf(dao.insert(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }
+                       if(op.getSubOrderNo().equals(op.getOrderNo())){
+                            if(op.getAdministration()!=null&&!"".equals(op.getAdministration())){
+                                BaseDto baseDto = administrationDictDao.findByParams(op.getAdministration(),op.getOrgId());
+                                if(baseDto!=null&&baseDto.get("price").toString()!=null&&!"".equals(baseDto.get("price").toString())){
+                                    OrgStaff orgStaff=new OrgStaff();
+                                    OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
+                                    outpOrdersCosts.setMasterId(outpPresc.getId());
+                                    outpOrdersCosts.setClinicId(clinicMaster.getId());
+                                    outpOrdersCosts.setOrgId(clinicMaster.getOrgId());
+                                    outpOrdersCosts.setOrderClass(outpPresc.getItemClass());//诊疗项目类别
+                                    outpOrdersCosts.setPatientId(clinicMaster.getPatientId());
+                                    outpOrdersCosts.setSerialNo(outpPresc.getSerialNo());
+                                    outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
+                                    outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
+                                    outpOrdersCosts.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + clinicMaster.getVisitNo());
+                                    outpOrdersCosts.setOrderNo(outpPresc.getOrderNo());
+                                    outpOrdersCosts.setOrderSubNo(outpPresc.getSubOrderNo());
+                                    outpOrdersCosts.setItemNo(outpPresc.getItemNo());
+                                    outpOrdersCosts.setItemClass(baseDto.get("charge_item_class").toString());//收费项目类别
+                                    outpOrdersCosts.setItemName(baseDto.get("item_name").toString());
+                                    outpOrdersCosts.setItemCode(baseDto.get("item_code").toString());
+                                    outpOrdersCosts.setItemSpec(baseDto.get("item_spec").toString());
+                                    outpOrdersCosts.setUnits(baseDto.get("units").toString());
+                                    outpOrdersCosts.setRepetition(outpPresc.getRepetition());
+                                    outpOrdersCosts.setAmount(outpPresc.getAmount());
+                                    outpOrdersCosts.setOrderedByDept(""); // 当前医师坐诊科室
+                                    outpOrdersCosts.setOrderedByDoctor("");
+                                    outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
+                                    outpOrdersCosts.setCosts(outpPresc.getCosts()*outpPresc.getAmount());
+                                    outpOrdersCosts.setCharges(outpPresc.getCharges()*outpPresc.getAmount());
+                                    outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
+                                    outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
+                                    outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
+                                    ordersCostsesList.add(outpOrdersCosts);
+                                }
+                            }
+                       }
                    }
                }
                 //保存门诊医嘱信息
@@ -110,6 +149,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                 oo.preInsert();
                 outpOrdersDao.insert(oo);
                 //保存门诊处方药品价目表信息
+
                 saveOutpOrdersCosts(ordersCostsesList);
             }
         }catch (Exception e){
