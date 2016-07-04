@@ -6,6 +6,62 @@ var priceItme = [{"value": "11020000100", "text": "普通门诊诊查费"}, {
 }, {"value": "10005", "text": "鉴定费"},
     {"value": "11020000400", "text": "门急诊留观诊查费"}, {"value": "11020000201", "text": "副主任医师诊查费"}];
 var  strValue   = "160101" ;
+
+$(function(){
+    $('#list_doctor').datagrid({
+        iconCls: 'icon-edit',//图标
+        width: 'auto',
+        height: 'auto',
+        nowrap: false,
+        striped: true,
+        border: true,
+        method: 'get',
+        collapsible: false,//是否可折叠的
+        fit: true,//自动大小
+        url: basePath + '/preDischgedPats/list?wardCode=' + strValue,
+        remoteSort: false,
+        idField: 'patientId',
+        singleSelect: false,//是否单选
+        pagination: true,//分页控件
+        pageSize: 15,
+        pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
+        columns: [[      //每个列具体内容
+            {field: 'bedNo', title: '床标号', width: '50%', align: 'center'},
+            {
+                field: 'name',
+                title: '姓名',
+                width: '50%',
+                align: 'center'
+
+            },
+            {field:'sex',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'patientId',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'admissionDateTime',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'diagnosis',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'bedNo',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'deptCode',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}}
+        ]],onClickRow:function(index,row){
+            alert(row.name);
+            $('#list_data').datagrid('insertRow', {
+                index:1,	// index start with 0
+                row: {
+                    bedNo: row.bedNo,
+                    name:row.name,
+                    sex:row.sex,
+                    patientId:row.patientId,
+                    diagnosis:row.diagnosis,
+                    admissionDateTime:row.admissionDateTime,
+                    deptName:row.deptCode
+                }
+            });
+        },
+        frozenColumns: [[
+            {field: 'ck', checkbox: true}
+        ]]
+    });
+
+});
+
 function onloadMethod() {
     var wardCode = $("#wardCode").val();
     $('#list_data').datagrid({
@@ -22,31 +78,34 @@ function onloadMethod() {
         idField: 'id',
         singleSelect: true,//是否单选
         columns: [[      //每个列具体内容
-
-            {field: 'hospitalId', align: 'center', hidden: 'true', editor: 'hidden'},
-            {field: 'bedNo', title: '床标号', width: '20%', align: 'center', editor: 'text'},
+            {field: 'bedNo', title: '床号', width: '20%', align: 'center', editor: 'text'},
             {
                 field: 'dischargeDateExpcted',
                 title: '预计出院时间',
                 width: '20%',
                 align: 'center',
-                editor: 'text',
+                editor:{type: 'datebox',options:{editable:true,disable:false}},
                 formatter: formatDateBoxFull
             },
-            {field: 'name', title: '姓名', width: '20%', align: 'center', editor: 'text'},
-            {field: 'sex', title: '性别', width: '20%', align: 'center', editor: 'text'},
-            {field: 'dischargeDispositionName', title: '出院方式', width: '20%', align: 'center', editor: 'text'},
+            {field: 'name', title: '姓名', width: '20%', align: 'center'},
+            {field: 'sex', title: '性别', width: '20%', align: 'center'},
+            {field: 'dischargeDispositionName', title: '出院方式', width: '20%', align: 'center', editor:
+            {type:'combobox',
+                options: {
+                    data: discharge,
+                    valueField: 'value',
+                    textField: 'label'
+                }}},
             {field: 'patientId', title: '病人ID', width: '20%', align: 'center', hidden: 'true', editor: 'text'},
-            {field: 'diagnosis', title: '诊断', width: '20%', align: 'center', editor: 'text'},
+            {field: 'diagnosis', title: '诊断', width: '20%', align: 'center'},
             {
                 field: 'admissionDateTime',
                 title: '入院日期',
                 width: '20%',
                 align: 'center',
-                editor: 'text',
                 formatter: formatDateBoxFull
             },
-            {field: 'deptName', title: '所在科室', width: '20%', align: 'center', editor: 'text'},
+            {field: 'deptName', title: '所在科室', width: '20%', align: 'center', editor: 'text'}
         ]],
         frozenColumns: [[
             {field: 'ck', checkbox: true}
@@ -103,57 +162,7 @@ function onloadMethod() {
 
 
 
-    $('#list_doctor').datagrid({
-        iconCls: 'icon-edit',//图标
-        width: 'auto',
-        height: 'auto',
-        nowrap: false,
-        striped: true,
-        border: true,
-        method: 'get',
-        collapsible: false,//是否可折叠的
-        fit: true,//自动大小
-        url: basePath + '/preDischgedPats/list?wardCode=' + strValue,
-        remoteSort: false,
-        idField: 'patientId',
-        singleSelect: false,//是否单选
-        pagination: true,//分页控件
-        pageSize: 15,
-        pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
-        columns: [[      //每个列具体内容
-            {field: 'bedLabel', title: '床标号', width: '30%', align: 'center'},
-            {
-                field: 'name',
-                title: '姓名',
-                width: '30%',
-                align: 'center'
 
-            },
-            {field:'sex',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'patientId',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'admissionDateTime',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'diagnosis',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'deptCode',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}}
-        /*    {
-                field: 'patsInHospital',
-                title: '操作',
-                width: '40%',
-                align: 'center',
-                formatter: function (value, row, index) {
-                    var state = "1";
-                    var html =
-                        '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="saveHos(\'' + value.patientId + '\',\'' + value.id + '\')"><img src="/static/images/index/icon3.png" width="16"/>出院</button>';
-
-                    return html;
-                }
-            },*/
-        ]],onClickRow:function(row){
-
-        },
-        frozenColumns: [[
-            {field: 'ck', checkbox: true}
-        ]]
-    });
     //设置分页控件
     var p = $('#list_doctor').datagrid('getPager');
 

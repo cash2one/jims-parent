@@ -26,15 +26,18 @@ public class PreDischgedPatsBo extends CrudImplService<PreDischgedPatsDao, PreDi
     private OrdersDao ordersDao;
     @Autowired
     private PreDischgedPatsDao preDischgedPatsDao;
+
+    /**
+     * 保存出院通知单
+     * @param list
+     * @return
+     */
     @Transactional(readOnly = false)
     public String savePreDischPat(List<PreDischgedPatsVo> list) {
         String strState = "";
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 PreDischgedPatsVo preDischgedPatsVo = list.get(i);
-                //保存之前先删除原有的通知单和医嘱
-                preDischgedPatsDao.delAll(preDischgedPatsVo.getHospitalId());
-                preDischgedPatsDao.delete(preDischgedPatsVo.getHospitalId());
                 Orders orders = new Orders();
                 orders.setOrderSubNo(i + 1);
                 if (ordersDao.getOrderNo(preDischgedPatsVo.getPatientId(), preDischgedPatsVo.getVisitId(), preDischgedPatsVo.getId()) != null) {
