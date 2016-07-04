@@ -1,7 +1,7 @@
 package com.jims.exam.bo;
 
-import com.jims.clinic.dao.ExamAppointsDao;
-import com.jims.clinic.dao.ExamItemsDao;
+import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
+import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.common.service.impl.CrudImplService;
 

@@ -1,12 +1,15 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.bo;
+package com.jims.doctor.cliniIcnspect.bo;
 
+import com.jims.clinic.bo.CostOrdersUtilsService;
 import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
+import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamItems;
 
