@@ -82,12 +82,14 @@ $(function() {
         pagination: true,//分页控件
         rownumbers: true,//行号
         columns: [[      //每个列具体内容
-            {field: 'belongDept', title: '所属科室', width: '9%', align: 'center' },
+            {field: 'belongDept', hidden:true},
+            {field: 'belongDeptDes', title: '所属科室', width: '8%', align: 'center'},
             {field: 'asepsisCode', title: '代码', width: '7%', align: 'center'},
             {field: 'asepsisName', title: '名称', width: '15%', align: 'center'},
             {field: 'asepsisSpec', title: '规格', width: '4%', align: 'center'},
             {field: 'amount', title: '数量', width: '4%', align: 'center'},
-            {field: 'units', title: '单位', width: '4%', align: 'center'},
+            {field: 'units', hidden:true},
+            {field: 'unitsDes', title: '单位', width: '3%', align: 'center'},
             //{field: 'impDate', title: '送物时间', width: '15%', align: 'center'},
             {field: 'packOperator', hidden:true},
             {field: 'packOperatorDes', title: '打包者', width: '5%', align: 'center'},
@@ -147,7 +149,7 @@ $(function() {
         $.each(a,function(index,row){
             $.each(listAll, function(i, r){
                 if(row.deptCode == r.belongDept){
-                    r.belongDept = row.deptName;
+                    r.belongDeptDes = row.deptName;
                     $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 }
             });
@@ -157,8 +159,12 @@ $(function() {
                 $.each(listAll, function(i, r){
                     if(row.type=="QXFF"&&row.value == r.cleanWays){
                         r.cleanWaysDes = row.label;
-                        $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
+                        //$('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                     }
+                    if(row.type=="PACKAGE_UNITS"&&row.value == r.units){
+                        r.unitsDes = row.label;
+                    }
+                    $('#list_data').datagrid("refreshRow",$('#list_data').datagrid("getRowIndex",r))
                 });
             });
         });
@@ -183,7 +189,7 @@ $(function() {
             return;
         }
         $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"1","orgId":orgId}});
-        setTimeout("loadAnotherData()",1000);
+        setTimeout("loadAnotherData()",500);
     }
     loadListData();
     $("#searchBtn").on("click",function(){
@@ -195,7 +201,9 @@ $(function() {
             $("#list_data").datagrid("endEdit", editIndex);
         }
         var updateData = $('#list_data').datagrid('getChecked');
-
+        $.each(updateData, function(i, r){
+            r.asepsisState = "2";
+        });
         if(updateData.length<=0){
             alert('请选择需要修改的数据');
             return ;
@@ -219,8 +227,9 @@ $(function() {
             $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisDictVo), function (data) {
                 if (data.data == "success") {
                     $.messager.alert("系统提示", "保存成功", "info");
-                    $("#list_data").datagrid('reload');
-                    $("#list_data").datagrid("clearSelections");
+                    //$("#list_data").datagrid('reload');
+                    //$("#list_data").datagrid("clearSelections");
+                    loadListData();
                 }
             }, function (data) {
                 $.messager.alert('提示', "保存失败", "error");

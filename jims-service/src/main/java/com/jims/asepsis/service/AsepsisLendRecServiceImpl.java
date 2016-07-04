@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.asepsis.entity.AsepsisLendRec;
 import com.jims.asepsis.api.AsepsisLendRecApi;
 import com.jims.asepsis.bo.AsepsisLendRecBo;
+import com.jims.asepsis.vo.AsepsisVo;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -88,12 +89,25 @@ public class AsepsisLendRecServiceImpl implements AsepsisLendRecApi{
     }
 
     /**
+     * 保存  增删改
+     *
+     * @param asepsisVo
+     * @return
+     * @author yangruidong
+     */
+    @Override
+    public List<AsepsisLendRec> saveAll(AsepsisVo<AsepsisLendRec> asepsisVo) {
+        return bo.saveAll(asepsisVo);
+    }
+
+    /**
      * 获取当天最大的编码
      * @param orgId
+     * @param prefix
      * @return
      */
-    public String getMaxDocumentNo(String orgId){
-        return bo.getMaxDocumentNo(orgId);
+    public String getMaxDocumentNo(String orgId,String prefix){
+        return bo.getMaxDocumentNo(orgId,prefix);
     }
 
     /**

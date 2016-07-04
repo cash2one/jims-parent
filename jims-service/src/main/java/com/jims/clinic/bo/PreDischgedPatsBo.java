@@ -4,8 +4,8 @@ import com.jims.clinic.dao.PreDischgedPatsDao;
 import com.jims.clinic.entity.PreDischgedPats;
 import com.jims.clinic.vo.PreDischgedPatsVo;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.exam.dao.OrdersDao;
-import com.jims.exam.entity.Orders;
+import com.jims.orders.dao.OrdersDao;
+import com.jims.orders.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,6 +97,17 @@ public class PreDischgedPatsBo extends CrudImplService<PreDischgedPatsDao, PreDi
         return preDischgedPatsDao.findPreDischList(wardCode);
     }
 
+
+    /**
+     * 查询科室下所有的在院病人信息
+     * @param patientId
+     * @param wardCode
+     * @author pq
+     * @return
+     */
+    public List<PreDischgedPatsVo> findPreList(String patientId,String wardCode){
+        return preDischgedPatsDao.findPreList(patientId,wardCode);
+    }
     /**
      * 删除出院通知单和医嘱
      *

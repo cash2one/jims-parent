@@ -11,6 +11,7 @@ function onloadMethod() {
             $("#sex").val(function(value,rowData,rowIndex){
                 return sexFormatter(data.sex,'','');
             });
+            $("#sexId").val(data.sex);
             $("#age").val(data.age);
             $("#patientId").val(data.patientId);
             $("#masterId").val(data.id);
@@ -19,6 +20,7 @@ function onloadMethod() {
             $("#nation").val(function(value,rowData,rowIndex){
                 return nationFormatter(data.patMaster.nation);
             });//名族
+            $("#nationId").val(data.patMaster.nation);
             $("#birthPlace").val(data.patMaster.mailingAddress);//出生地
             $("#serviceAgencyPhone").val(data.patMaster.phoneNumberHome);//本人联系方式
             $("#relationship").val(data.patMaster.relationship);//联系人关系

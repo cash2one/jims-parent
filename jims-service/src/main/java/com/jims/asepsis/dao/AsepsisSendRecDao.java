@@ -27,4 +27,35 @@ public interface AsepsisSendRecDao extends CrudDao<AsepsisSendRec> {
      * @return
      */
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity);
+
+    /**
+     * 检索没有库存、在保质期内的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListNoStock(AsepsisSendRec entity);
+    /**
+     * 科室消毒费统计：明细
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFee(AsepsisSendRec entity);
+    /**
+     * 科室消毒费统计：汇总
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFeeSum(AsepsisSendRec entity);
+    /**
+     * 科室消毒费统计：交叉(日期，科室)
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFeeAcross(AsepsisSendRec entity);
+    /**
+     * 科室消毒费统计：年报表
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListFeeYear(AsepsisSendRec entity);
 }

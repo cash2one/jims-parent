@@ -16,12 +16,14 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private Double itemNo;  // 序号
     private String fromDept;  // 送物科室
     private Date sendDate;  // 送物日期
+    private Date sendDateStart;  // 送物开始日期
+    private Date sendDateEnd;  // 送物结束日期
     private String itemCode;  // 代码
     private String itemName;  // 项目名称
     private String itemSpec;  // 规格
     private Double sendAmount;  // 送物数量
     private Double getAmount;  // 已领数量
-    private Double getMan;  // 领物人
+    private String getMan;  // 领物人
     private Date getDate;  // 领物日期
     private String getFlag;  // 领物标记,1-申请确认(未领取),2-部分领取， 3-全部领取';
     private String units;  // 单位
@@ -36,9 +38,8 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
     private String orgId;  // 所属机构ID
 
     private Integer stock;  // 领物数量
-    private Date sendDateStart;
-    private Date sendDateEnd;
     private String fromDeptName;
+    private String flag;//标识，在统计科室消毒费的时候用到（非数据库数据）
 
     public Integer getStock() {
         return stock;
@@ -248,11 +249,19 @@ public class AsepsisSendRec extends DataEntity<AsepsisSendRec> {
         this.fromDeptName = fromDeptName;
     }
 
-    public Double getGetMan() {
+    public String getGetMan() {
         return getMan;
     }
 
-    public void setGetMan(Double getMan) {
+    public void setGetMan(String getMan) {
         this.getMan = getMan;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }

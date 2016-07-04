@@ -3,7 +3,11 @@ package com.jims.asepsis;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.asepsis.api.AsepsisAntiRecApi;
+import com.jims.asepsis.api.AsepsisSendRecApi;
+import com.jims.asepsis.api.AsepsisStockApi;
 import com.jims.asepsis.entity.AsepsisAntiRec;
+import com.jims.asepsis.entity.AsepsisSendRec;
+import com.jims.asepsis.entity.AsepsisStock;
 import com.jims.asepsis.vo.AsepsisDictVo;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
@@ -24,7 +28,11 @@ import java.util.*;
 public class AsepsisAntiRecRest {
 
     @Reference(version = "1.0.0")
-    AsepsisAntiRecApi asepsisAntiRecApi;//消毒包API
+    private AsepsisAntiRecApi asepsisAntiRecApi;//消毒包API
+    @Reference(version = "1.0.0")
+    private AsepsisStockApi asepsisStockApi;//无菌物品库存表API
+    @Reference(version = "1.0.0")
+    private AsepsisSendRecApi asepsisSendRecApi;//送物领物表API
 
 
     /**
@@ -47,9 +55,6 @@ public class AsepsisAntiRecRest {
             aar.setBelongDept((belongDept!=null&&!belongDept.equals(""))?belongDept:"");
             aar.setAsepsisName((asepsisName != null && !asepsisName.equals("")) ? asepsisName : "");
             list = asepsisAntiRecApi.getAsepsisAntiRecByState(aar);
-            for(int i = 0;i<list.size();i++){
-                System.out.println("ceshi:id="+list.get(i).getId()+","+list.get(i).getDocumnetNo());
-            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -70,7 +75,8 @@ public class AsepsisAntiRecRest {
         //更新
         for (AsepsisAntiRec asepsisAntiRec : updated) {
             asepsisAntiRec.preUpdate();
-            num +=  asepsisAntiRecApi.saveClean(asepsisAntiRec);
+            System.out.println(asepsisAntiRec.getId()+":"+asepsisAntiRec.getAsepsisState());
+            num +=  asepsisAntiRecApi.saveClean(asepsisAntiRec);//消毒包处理均需要用到修改asepsis_Anti_Rec表
         }
         StringData stringData = new StringData();
         String code = num + "";

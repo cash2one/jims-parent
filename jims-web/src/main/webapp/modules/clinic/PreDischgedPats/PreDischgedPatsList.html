@@ -6,31 +6,33 @@
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
-    <script type="text/javascript" src="/modules/clinic/PreDischgedPats/js/preDischgedPats.js"></script>
+    <script type="text/javascript" src="/modules/clinic/PreDischgedPats/js/PreDischgedPats.js"></script>
 </head>
 <body class="easyui-layout" onload="onloadMethod()">
 <div class="easyui-layout" style="width:100%;height:100%;">
 
-    <div data-options="region:'east',split:true" style="width:41%;">
+    <div data-options="region:'east',split:true" style="width:64%;">
+        <div class="inp-tab-left" style="width:99% ">
+            <table id="list_data" cellspacing="0" cellpadding="0">
+
+            </table>
+        </div>
+
+    </div>
+    <div data-options="region:'center',iconCls:'icon-ok'">
         <div style=" margin:10px 0px 10px 0px;">
             科室：
-            <select id="wardCode" onchange="onloadMethod()" style="width: 30%;">
-                <option value="0">--请选择科室--</option>
+            <select id="wardCode"  class="easyui-combobox" style="width: 30%;">
                 <option value="160101">十一病区</option>
             </select>
         </div>
         <table id="list_doctor" class="easyui-datagrid" style="width:100%;height:90%">
         </table>
 
-    </div>
-    <div data-options="region:'center',iconCls:'icon-ok'">
+
         <form id="preDischgedPatsForm" method="post">
         </form>
-        <div class="inp-tab-left" style="width:99% ">
-            <table id="list_data" cellspacing="0" cellpadding="0">
 
-            </table>
-    </div>
 </div>
 </div>
 </body>

@@ -273,7 +273,13 @@
 		<include refid="patVisitJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="getPatVisit" resultType="PatVisit">
+		SELECT
+		<include refid="patVisitColumns"/>
+		FROM pat_visit a
+
+		WHERE a.patient_id = #{patientId}
+	</select>
 	<select id="findList" resultType="PatVisit">
 		SELECT 
 			<include refid="patVisitColumns"/>
@@ -957,9 +963,14 @@
                b.ward_code as wardCode
           from pat_master_index a,
                pats_in_hospital b,
-               pat_visit        d
+		       bed_rec          c,
+               pat_visit        d,
+		       mr_on_line       e
          where a.id = b.patient_id
            and a.id = d.patient_id
+		   and b.ward_code(+) = c.ward_code
+		   and b.bed_no(+) = c.bed_no
+		   and e.status = '0'
 	       and (
 	           (b.dept_code = #{deptCode} and b.dept_code_lend is null)
 	              or (b.dept_code_lend = #{deptCode} and b.dept_code_lend is not null)
@@ -990,8 +1001,10 @@
 		d.identity as patIdentity,
 		0 as prepayment,
 		'出院' as ward_code
-		from pat_master_index a , pat_visit d
+		from pat_master_index a , pat_visit d,mr_on_line e
 		where a.id = d.patient_id
+		and a.id=e.patient_id
+		and e.status = '0'
 		and d.dept_discharge_from = #{deptDischargeFrom}
 		<if test="patName!=null and patName!='' ">
 			and  a.name=#{patName}
@@ -1101,5 +1114,26 @@
 						( "MR_ON_LINE"."PATIENT_ID" = "PAT_VISIT"."PATIENT_ID"(+))
 
 
+	</select>
+    <update id="updatePatVisit">
+		UPDATE "PAT_VISIT"
+		   SET "PATIENT_AREA"          = #{patientArea},
+			   "PATIENT_AREA_ADDRESS"  = #{patientAreaAddress},
+			   "PAT_PHONE"             = #{patPhone},
+			   "PAT_ZIP"               = #{patZip},
+			   "PHONE_NUMBER_BUSINESS" = #{phoneNumberBusiness},
+			   "BUSINESS_ZIP_CODE"     = #{businessZipCode},
+			   "NEXT_OF_KIN"           = #{nextOfKin},
+			   "RELATIONSHIP"          = #{relationship},
+			   "NEXT_OF_KIN_ADDR"      = #{nextOfKinAddr},
+			   "NEXT_OF_KIN_PHONE"     = #{nextOfKinPhone}
+		 WHERE "ID" =#{id}
+
+	</update>
+	<select id="selectPatVisit" resultType="PatVisit">
+		SELECT  *from PAT_VISIT WHERE
+		<if test="id!=null and id!=''">
+			id=#{id}
+		</if>
 	</select>
 </mapper>

@@ -23,10 +23,14 @@
 <div id="datagridRightTb" style="padding:10px 10px; padding-top: 5px; " >
     <a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">添加</a>
     <a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+    <a href="#" id="stopBtn" class="easyui-linkbutton" iconCls="icon-edit">停价</a>
     <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">保存</a>
     <a href="#" id="addPriceBtn" class="easyui-linkbutton" iconCls="icon-save">生成基本价格</a>
 </div>
-
+<div id="drugSpecDialog" class="easyui-dialog" style="width: 600px;height: 300px">
+    <div id="drugSpecList">
+    </div>
+</div>
 <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/static/js/head.js"></script>
 <script type="text/javascript" src="../phstock/js/drug-price-marger.js"></script>

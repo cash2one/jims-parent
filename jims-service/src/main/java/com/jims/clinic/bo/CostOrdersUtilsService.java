@@ -55,7 +55,7 @@ public class CostOrdersUtilsService {
      * @param itemDictList 诊疗项目list
      * @return
      */
-    public void save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId) {
+    public String save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId) {
         ClinicMaster clinicMaster=clinicMasterDao.get(clinicId);
         OrgStaff orgStaff=new OrgStaff();
        // SysUser user=new SysUser();
@@ -93,6 +93,9 @@ public class CostOrdersUtilsService {
             outpTreatRec.setChargeIndicator(0);
             Double price=0.00;
             List<PriceListVo>  listPriceListVo=priceListDao.listByClinicItemCodeAndOrgId(orgId,clinicItemDict.getItemCode());
+            if(listPriceListVo.size()>0){
+                return "项目没有价格，请相关部门设置价格";
+            }
             for (int j = 0; j < listPriceListVo.size(); j++) {
                 PriceListVo priceListVo=listPriceListVo.get(j);
                 OutpOrdersCosts outpOrdersCosts=new OutpOrdersCosts();
@@ -127,5 +130,6 @@ public class CostOrdersUtilsService {
             outpTreatRec.preInsert();
             outpTreatRecDao.saveTreatRec(outpTreatRec);
         }
+        return "success";
     }
 }

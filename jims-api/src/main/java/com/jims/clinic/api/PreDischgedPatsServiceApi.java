@@ -3,6 +3,8 @@ package com.jims.clinic.api;
 import com.jims.clinic.entity.PreDischgedPats;
 import com.jims.clinic.vo.PreDischgedPatsVo;
 import com.jims.common.persistence.Page;
+import com.jims.common.web.impl.BaseDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -59,4 +61,14 @@ public interface PreDischgedPatsServiceApi {
      * @return
      */
     public String delPats(String hospitalId);
+
+
+    /**
+     * 查询科室下所有的在院病人信息
+     * @param patientId
+     * @param wardCode
+     * @author pq
+     * @return
+     */
+    public List<PreDischgedPatsVo> findPreList(String patientId,String wardCode);
 }

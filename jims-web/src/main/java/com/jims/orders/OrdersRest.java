@@ -1,17 +1,14 @@
-package com.jims.clinic;
+package com.jims.orders;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.entity.OrdersCosts;
+import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.data.StringData;
 import com.jims.common.web.impl.BaseDto;
-import com.jims.exam.api.OrdersServiceApi;
-import com.jims.exam.entity.Orders;
+import com.jims.orders.api.OrdersServiceApi;
+import com.jims.orders.entity.Orders;
 
-import com.sun.jersey.api.core.HttpContext;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 
 
@@ -175,5 +172,17 @@ public class OrdersRest {
     @GET
     public List<OrdersCosts> getCostById(@QueryParam("ordersId")String ordersId){
       return ordersServiceApi.getById(ordersId);
+    }
+
+
+    /**
+     *
+     * @author pq
+     * @return
+     */
+    @Path("getCost")
+    @GET
+    public List<OrdersCosts> getOrdersCost(@QueryParam("visitId")String visitId){
+        return ordersServiceApi.getOrdersCost(visitId);
     }
 }

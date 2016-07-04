@@ -1,35 +1,35 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.exam.service;
+package com.jims.orders.bo;
+
+import com.jims.clinic.dao.ExamAppointsDao;
+import com.jims.clinic.dao.ExamItemsDao;
+import com.jims.common.persistence.Page;
+import com.jims.orders.dao.OrdersCostsDao;
+import com.jims.orders.entity.OrdersCosts;
+import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.web.impl.BaseDto;
+import com.jims.exam.entity.ExamAppoints;
+import com.jims.exam.entity.ExamItems;
+import com.jims.orders.dao.OrdersDao;
+import com.jims.orders.entity.Orders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.dao.ExamAppointsDao;
-import com.jims.clinic.dao.ExamItemsDao;
-import com.jims.clinic.dao.OrdersCostsDao;
-import com.jims.clinic.entity.OrdersCosts;
-import com.jims.common.service.impl.CrudImplService;
-import com.jims.common.web.impl.BaseDto;
-import com.jims.exam.api.OrdersServiceApi;
-import com.jims.exam.dao.OrdersDao;
-import com.jims.exam.entity.ExamAppoints;
-import com.jims.exam.entity.ExamItems;
-import com.jims.exam.entity.Orders;
-import org.springframework.beans.factory.annotation.Autowired;
-
-
 
 /**
- * 住院医嘱Service
- * @author zhangpeng
- * @version 2016-05-09
+ * 住院医嘱Bo
+ * @author zhangyao
+ * @version 2016-07-01
  */
-@Service(version = "1.0.0")
-
-public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implements OrdersServiceApi{
+@Service
+@Transactional(readOnly = false)
+public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
 
     @Autowired
     private ExamAppointsDao examAppointsDao;
@@ -41,7 +41,6 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
     private OrdersCostsDao ordersCostsDao;
 
 
-    @Override
     public String saveOrders(ExamAppoints examAppoints) {
         int num=0;
         examAppoints.setCnsltState(1);
@@ -92,7 +91,6 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
         return num+"";
     }
 
-    @Override
     public String deleteOrders(String ids) {
         int num =0;
         try {
@@ -337,5 +335,21 @@ public class OrdersServiceImpl extends CrudImplService<OrdersDao, Orders> implem
      */
     public  List<BaseDto>  getClinicPrice(String itemCode){
      return ordersDao.getClinicPrice(itemCode);
+    }
+
+
+    /**
+     * 跟住住院人标识获取医嘱费用
+     * @param visitId
+     * @return
+     */
+    public List<OrdersCosts> getOrdersCost(String visitId) {
+        OrdersCosts ordersCosts=new OrdersCosts();
+        ordersCosts.setVisitId(visitId);
+        Page<OrdersCosts> page=new Page<OrdersCosts>();
+        page.setOrderBy("order_no");
+        ordersCosts.setPage(page);
+        List<OrdersCosts> ordersList=ordersCostsDao.findList(ordersCosts);
+        return ordersList;
     }
 }

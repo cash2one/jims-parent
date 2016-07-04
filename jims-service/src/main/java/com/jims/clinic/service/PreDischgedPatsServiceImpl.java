@@ -90,4 +90,16 @@ public class PreDischgedPatsServiceImpl implements PreDischgedPatsServiceApi{
     public String delPats(String hospitalId){
         return preDischgedPatsBo.delPats(hospitalId);
     }
+
+
+    /**
+     * 查询科室下所有的在院病人信息
+     * @param patientId
+     * @param wardCode
+     * @author pq
+     * @return
+     */
+    public List<PreDischgedPatsVo> findPreList(String patientId,String wardCode){
+        return preDischgedPatsBo.findPreList(patientId,wardCode);
+    }
 }

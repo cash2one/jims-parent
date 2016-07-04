@@ -148,4 +148,14 @@ public interface DrugPriceListServiceApi {
     public String saveModifyConfirm(DrugCatalogChangeVo<DrugPriceModify> drugPriceModifyVo);
 
 
+    /**
+     * 停价处理
+     * @param id
+     * @return
+     * @author weishen
+     */
+
+    public String stopDate(String id);
+
+
 }
