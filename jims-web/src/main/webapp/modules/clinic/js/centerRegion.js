@@ -179,6 +179,8 @@ function userMenu(clinicMasterId,aBtn){
             $("#nameId").html(data.name);
             $("#ageId").html(data.age);
             $("#sexId").html(data.sex);
+            $("#clinicNo").html(data.clinicNo);
+            $("#visitDate").html(data.visitDate);
             $("#clinicMasterId").val(data.id);
         },
         'error': function(){
