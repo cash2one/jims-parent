@@ -8,7 +8,7 @@ import com.jims.asepsis.api.AsepsisStockApi;
 import com.jims.asepsis.entity.AsepsisAntiRec;
 import com.jims.asepsis.entity.AsepsisSendRec;
 import com.jims.asepsis.entity.AsepsisStock;
-import com.jims.asepsis.vo.AsepsisDictVo;
+import com.jims.asepsis.vo.AsepsisAntiRecVo;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
@@ -29,10 +29,6 @@ public class AsepsisAntiRecRest {
 
     @Reference(version = "1.0.0")
     private AsepsisAntiRecApi asepsisAntiRecApi;//消毒包API
-    @Reference(version = "1.0.0")
-    private AsepsisStockApi asepsisStockApi;//无菌物品库存表API
-    @Reference(version = "1.0.0")
-    private AsepsisSendRecApi asepsisSendRecApi;//送物领物表API
 
 
     /**
@@ -62,21 +58,27 @@ public class AsepsisAntiRecRest {
     }
     /**
      * 无菌物品处理（清洗）
-     //     * @param asepsisAntiRecsList
      * @param asepsisAntiRecVo
      * @author lhl
      * @return
      */
     @Path("saveClean")
     @POST
-    public StringData saveClean(AsepsisDictVo<AsepsisAntiRec> asepsisAntiRecVo){
+    public StringData saveClean(AsepsisAntiRecVo<AsepsisAntiRec> asepsisAntiRecVo){
         List<AsepsisAntiRec> updated = asepsisAntiRecVo.getUpdated();
         int num = 0;
+        String antiBatchNo = "";//消毒批号，在消毒(灭菌)时生成，同一批消毒的消毒批号相同
         //更新
         for (AsepsisAntiRec asepsisAntiRec : updated) {
             asepsisAntiRec.preUpdate();
-            System.out.println(asepsisAntiRec.getId()+":"+asepsisAntiRec.getAsepsisState());
-            num +=  asepsisAntiRecApi.saveClean(asepsisAntiRec);//消毒包处理均需要用到修改asepsis_Anti_Rec表
+            //消毒包处理均需要用到修改asepsis_Anti_Rec表,在bo层处理具体的过程：
+            //当是清洗或打包时，只需要修改asepsis_Anti_Rec表，当是灭菌时，需要在根据灭菌数量判断是否需要在asepsis_Anti_Rec表再添加一条数据
+            if(asepsisAntiRec.getAmountAnti()!=null&&!asepsisAntiRec.getAmountAnti().equals("0")&&!asepsisAntiRec.getAmountAnti().equals("0.0")&&!asepsisAntiRec.getAmountAnti().equals("0.00")
+                    &&asepsisAntiRec.getAntiOperator()!=null&&!asepsisAntiRec.getAntiOperator().equals("")&&asepsisAntiRec.getAntiWays()!=null&&!asepsisAntiRec.getAntiWays().equals("")) {
+                if(antiBatchNo.equals(""))antiBatchNo = asepsisAntiRec.getAsepsisCode().substring(0, 1) + (System.currentTimeMillis() + "").substring(0, 10);
+                asepsisAntiRec.setAntiBatchNo(antiBatchNo);
+            }
+            num +=  asepsisAntiRecApi.saveClean(asepsisAntiRec);
         }
         StringData stringData = new StringData();
         String code = num + "";

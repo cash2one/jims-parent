@@ -265,15 +265,12 @@ $(function() {
             var belongDept=$("#belongDept").combobox('getValue');
             var asepsisName=$("#asepsisName").combobox('getValue');
             $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"2","orgId":orgId,"belongDept":belongDept,"asepsisName":asepsisName}});
-            return;
-        }
+        }else{
         //$("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"2","orgId":orgId}});
-        $.get(basePath+'/asepsisAntiRec/list',{"state":"2","orgId":orgId},function(res){
-            $("#list_data").datagrid('loadData',res)
-            //$(':radio[name="mj"]:eq(0)').click(function(){
-            //    alert()
-            //})
-        })
+            $.get(basePath+'/asepsisAntiRec/list',{"state":"2","orgId":orgId},function(res){
+                $("#list_data").datagrid('loadData',res)
+            })
+        }
         setTimeout("loadAnotherData()",1000);
     }
     loadListData();
@@ -317,11 +314,11 @@ $(function() {
             alert('请选择灭菌锅次');
             return ;
         }
-        var asepsisDictVo = {};
-        asepsisDictVo.updated = updateData;
-        asepsisDictVo.orgId = orgId;
-        if (asepsisDictVo) {
-            $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisDictVo), function (data) {
+        var asepsisAntiRecVo = {};
+        asepsisAntiRecVo.updated = updateData;
+        asepsisAntiRecVo.orgId = orgId;
+        if (asepsisAntiRecVo) {
+            $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisAntiRecVo), function (data) {
                 if (data.data == "success") {
                     $.messager.alert("系统提示", "保存成功", "info");
                     //$("#list_data").datagrid('reload');
