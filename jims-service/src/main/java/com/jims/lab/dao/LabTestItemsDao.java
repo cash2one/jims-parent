@@ -18,4 +18,11 @@ import java.util.List;
 @MyBatisDao
 public interface LabTestItemsDao extends CrudDao<LabTestItems> {
 	public List<LabTestItems> getItemName(@Param("testNo")String testNo);
+
+	/***
+	 * 删除住院检验记录
+	 * @param labMaster
+	 * @return
+	 */
+	public String deleteItmes(@Param("labMaster")String labMaster);
 }

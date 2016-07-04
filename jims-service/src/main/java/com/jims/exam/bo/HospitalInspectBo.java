@@ -78,7 +78,7 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
     }
 
     public String newDate(){
-        SimpleDateFormat dateFormater = new SimpleDateFormat("MM-dd");
+        SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
         Date date=new Date();
         String newDate = dateFormater.format(date);
         return newDate;

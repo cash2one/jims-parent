@@ -1,5 +1,6 @@
 
 function onloadMethod(){
+    var clinicId=$("#clinicMasterId",window.parent.document).val();
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
     $('#list_data').datagrid({
@@ -13,6 +14,7 @@ function onloadMethod(){
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/labtest/list',
+        queryParams:{'clinicId' : clinicId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -61,15 +63,15 @@ function onloadMethod(){
                 }
             })
 
-            return  '<table><tr>' +
-                '<td style="border:0">' +
-                '<p>检验项目: </p>' +
-                '</td>' +
-                '</tr><tr>' +
-                '<td style="border:0">' +
-                '<p> ' +item[0].itemName + '</p>' +
-                '</td>' +
-                '</tr></table>';
+            //return  '<table><tr>' +
+            //    '<td style="border:0">' +
+            //    '<p>检验项目: </p>' +
+            //    '</td>' +
+            //    '</tr><tr>' +
+            //    '<td style="border:0">' +
+            //    '<p> ' +item[0].itemName + '</p>' +
+            //    '</td>' +
+            //    '</tr></table>';
         },
         frozenColumns: [[
             {field: 'ck', checkbox: true}

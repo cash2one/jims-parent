@@ -12,6 +12,7 @@
 		a.test_by AS "testBy",
 		a.rcpt_no AS "rcptNo",
 		a.explanation AS "explanation",
+		a.lab_master AS "labMaster",
 		a.del_flag AS "delFlag",
 		a.remarks AS "remarks",
 		a.update_by AS "updateBy.id",
@@ -78,6 +79,7 @@
 			test_by,
 			rcpt_no,
 			explanation,
+			lab_master,
 			del_flag,
 			remarks,
 			update_by,
@@ -94,6 +96,7 @@
 			#{testBy},
 			#{rcptNo},
 			#{explanation},
+			#{labMaster},
 			#{delFlag},
 			#{remarks},
 			#{updateBy.id},
@@ -113,6 +116,7 @@
 			test_by = #{testBy},
 			rcpt_no = #{rcptNo},
 			explanation = #{explanation},
+			lab_master = #{labMaster},
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
@@ -131,4 +135,8 @@
 			 and test_no=#{testNo}
 		</if>
 	</select>
+	<update id="deleteItmes">
+		UPDATE lab_test_items SET del_flag = '1'
+		WHERE LAB_MASTER = #{labMaster}
+	</update>
 </mapper>

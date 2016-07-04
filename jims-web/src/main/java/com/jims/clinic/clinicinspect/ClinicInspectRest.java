@@ -100,6 +100,11 @@ public class ClinicInspectRest {
         return stringData;
     }
 
+    /**
+     * 住院保存
+     * @param examAppoints
+     * @return
+     */
     @POST
     @Path("saveHospitalInspect")
     public StringData saveHospitalInspect(ExamAppoints examAppoints){

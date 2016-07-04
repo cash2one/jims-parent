@@ -22,7 +22,7 @@
 
     <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
         <form id="form" method="post">
-            <input type="hidden" name="visitId" value="">
+            <input type="hidden" name="visitId"  id="visitId" value="">
             <input type="hidden" name="id" id="id" value="">
             <div class="fitem fitem_pop">
                 <div class="fitem">
@@ -33,15 +33,16 @@
                 </div>
                 <div class="fitem">
                     <label>
-                        检验科室：
-                    </label>
-                    <input placeholder="科室"  name="performedBy" id="performedBy"   style="width: 145px;">
-                </div>
-                <div class="fitem">
-                    <label>
                         类别：
                     </label>
                     <input name="labItemClass"  id="labItemClass" style="width: 145px;" >
+                </div>
+                <div class="fitem">
+                    <label>
+                        检验科室：
+                    </label>
+                    <input type="hidden" name="performedBy" value="" id="performedByCode"  >
+                    <input placeholder="科室"   id="performedBy"   style="width: 145px;">
                 </div>
                 <div class="fitem">
                     <label>
@@ -65,7 +66,7 @@
                     <label>
                         申请时间：
                     </label>
-                    <input style="display: none;" name="requestedDateTime" class="easyui-datetimebox">
+                    <input id="requestedDateTime" style="display: none;width: 30%;" name="requestedDateTime" class="easyui-datetimebox">
                 </div>
                 <table id="items"   cellspacing="0" cellpadding="0">
 
@@ -74,7 +75,7 @@
                 </div>
                 <div class="fitem">
                     <div id="SendProduct" class="easyui-window"  title="检验项目"  style="width:1000px;height:400px;" closed="true">
-
+                        aasdasdsa
                     </div>
                 </div>
             </div>

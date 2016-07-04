@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/28.
+ * 门诊用血
  */
 @Service
 @Transactional(readOnly = false)

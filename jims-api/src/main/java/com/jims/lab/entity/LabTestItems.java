@@ -24,12 +24,21 @@ public class LabTestItems extends DataEntity<LabTestItems> {
 	private String explanation;		// 退费说明
 	private Double price;		// 退费说明
 	private String parentId;
+	private String labMaster; //主表id
 	public LabTestItems() {
 		super();
 	}
 
 	public LabTestItems(String id){
 		super(id);
+	}
+
+	public String getLabMaster() {
+		return labMaster;
+	}
+
+	public void setLabMaster(String labMaster) {
+		this.labMaster = labMaster;
 	}
 
 	@Length(min=0, max=20, message="test_no长度必须介于 0 和 20 之间")

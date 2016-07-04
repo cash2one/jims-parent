@@ -43,11 +43,11 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @version 2016/5/09
      */
     public String creatTestNo();
+
     /**
-     * 删除申请
-     * @param主表id
-     * @author xueyx
-     * @version 2016/5/09
+     * 删除记录
+     * @param id
+     * @return
      */
-    public String delAll(String ids);
+    public int deleteLabTestMaster(String id);
 }

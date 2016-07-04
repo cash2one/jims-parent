@@ -61,4 +61,14 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
     public String saveAllIn(LabTestMaster labTestMaster){
         return hosLabTestBo.saveAllIn(labTestMaster);
     }
+
+    /**
+     * 住院删除
+     * @param ids
+     * @return
+     */
+    public String deleteLabTestMaster(String ids){
+        String  num= hosLabTestBo.delectHosLabTestMaster(ids);
+        return num;
+    }
 }

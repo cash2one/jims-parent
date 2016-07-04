@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = false)
-public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao,LabTestMaster> {
+public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaster> {
 
     @Autowired
     private LabTestItemsDao labTestItemsDao;
@@ -30,15 +30,16 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao,LabTestMas
     @Autowired
     private LabTestMasterDao labTestMasterDao;
 
-    /***
+    /**
      * 门诊检验保存
+     *
      * @param labTestMaster
      * @return
      */
-    public String saveAll(LabTestMaster labTestMaster){
-        int  num;
-        if(true){//labTestMaster!=null && labTestMaster.getId()!=null
-            String a ="";
+    public String saveAll(LabTestMaster labTestMaster) {
+        int num;
+        if (true) {//labTestMaster!=null && labTestMaster.getId()!=null
+            String a = "";
             //patientId病人标识号页面有公共值
             //labTestMaster.setPatientId("");
             labTestMaster.preInsert();
@@ -50,56 +51,67 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao,LabTestMas
             labTestMaster.setTestNo(creatTestNo());
             labTestMaster.setBillingIndicator(0);
             labTestMaster.setPrintIndicator(0);
-            List<ClinicItemDict> clinicItemDictList=new ArrayList<ClinicItemDict>();
+            List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
             List<LabTestItems> labTestItemsList = labTestMaster.getList();
-            if(labTestItemsList.size()>0){
-                for (int i= 0; i < labTestItemsList.size()-1;i++){
-                    ClinicItemDict clinicItemDict=new ClinicItemDict();
-                    LabTestItems labTestItems=labTestItemsList.get(i);
+            if (labTestItemsList.size() > 0) {
+                for (int i = 0; i < labTestItemsList.size() - 1; i++) {
+                    ClinicItemDict clinicItemDict = new ClinicItemDict();
+                    LabTestItems labTestItems = labTestItemsList.get(i);
                     clinicItemDict.setItemCode(labTestItems.getItemCode());
                     clinicItemDict.setOrgId(labTestMaster.getOrgId());
                     labTestItems.setDelFlag("0");
-                    labTestItems.setItemNo(i+1);
+                    labTestItems.setItemNo(i + 1);
+                    labTestItems.setLabMaster(labTestMaster.getId());
                     labTestItems.setTestNo(labTestMaster.getTestNo());
                     labTestItems.preInsert();
                     labTestItemsDao.insert(labTestItems);
                     clinicItemDictList.add(clinicItemDict);
                 }
-                costOrdersUtilsService.save(labTestMaster.getClinicId(),clinicItemDictList,labTestMaster.getId());
+                costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId());
                 num = labTestMasterDao.insert(labTestMaster);
-                return  num+"";
+                return num + "";
             }
         }
         return "0";
     }
+
     /**
      * 生成申请序号
+     *
      * @param主表 当前日期
      * @author xueyx
      * @version 2016/5/09
      */
-    public String creatTestNo(){
-        String no =dao.creatTestNo();
-        Date dt=new Date();
+    public String creatTestNo() {
+        String no = dao.creatTestNo();
+        Date dt = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
-        String d1 =format.format(dt);
-        String result="";
-        if(no!=null){
-            if(d1.equals(no.substring(0,6))){
+        String d1 = format.format(dt);
+        String result = "";
+        if (no != null) {
+            if (d1.equals(no.substring(0, 6))) {
                 int temp = Integer.valueOf(no.substring(6));
-                temp=temp+1;
+                temp = temp + 1;
                 result = String.format("%4d", temp).replace(" ", "0");
-                if(result.length()>4){
+                if (result.length() > 4) {
                     result = d1.concat("0000");
-                }else{
-                    result=d1.concat(result);
+                } else {
+                    result = d1.concat(result);
                 }
-            }else{
-                result=d1.concat("0001");
+            } else {
+                result = d1.concat("0001");
             }
             return result;
         }
         return "000000";
     }
 
+//    /**
+//     * 删除门诊记录
+//     *
+//     * @return
+//     */
+//    public String delete() {
+//
+//    }
 }

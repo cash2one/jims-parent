@@ -15,10 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,30 +38,38 @@ public class LabTestRest {
     private LabTestItemsServiceApi labTestItemsServiceApi;
 
     /**
-     * 异步加载信息表格
+     * 门诊检验列表
      * @param request
      * @param response
      * @return
      */
     @Path("list")
     @GET
-    public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-        Page<LabTestMaster> page = labTestMasterServiceApi.findPage(new Page<LabTestMaster>(request,response), new LabTestMaster());
+    public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("clinicId")String clinicId){
+        LabTestMaster labTestMaster = new LabTestMaster();
+        labTestMaster.setClinicId(clinicId);
+        Page<LabTestMaster> page = labTestMasterServiceApi.findPage(new Page<LabTestMaster>(request,response), labTestMaster);
         PageData pageData=new PageData();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
         return pageData;
-       /* Page<LabTestMaster> page = new Page<LabTestMaster>();
+    }
+    /**
+     * 住院检验列表
+     * @param request
+     * @param response
+     * @return
+     */
+    @Path("listHos")
+    @GET
+    public PageData listHos(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("visitId")String visitId){
+        LabTestMaster labTestMaster = new LabTestMaster();
+        labTestMaster.setVisitId(visitId);
+        Page<LabTestMaster> page = labTestMasterServiceApi.findPage(new Page<LabTestMaster>(request,response), labTestMaster);
         PageData pageData=new PageData();
-        List<LabTestMaster> list = new ArrayList<LabTestMaster>();
-        LabTestMaster one = new LabTestMaster();
-        one.setRequestedDateTime(new Date());
-        one.setOrderingDept("1111");
-        one.setMemo("1111-1,1111-2,1111-3,1111-4");
-        list.add(one);
-        pageData.setRows(list);
-        pageData.setTotal(Long.valueOf(1));
-        return pageData;*/
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
     }
 
     /**
@@ -117,7 +122,7 @@ public class LabTestRest {
     }
 
     /**
-     ** 保存或编辑
+     ** 门诊保存或编辑
      * @param -LabTestMaster
      * @return
      */
@@ -127,14 +132,22 @@ public class LabTestRest {
     public StringData save(LabTestMaster labTestMaster){
         StringData data=new StringData();
         String mun="";
-        if(labTestMaster!=null){
-            if(labTestMaster.getVisitId()!=null)
-            {
-               labTestMasterServiceApi.saveAllIn(labTestMaster);
-            }else{
-                mun = labTestMasterServiceApi.saveAll(labTestMaster);
-            }
-        }
+        mun = labTestMasterServiceApi.saveAll(labTestMaster);
+        data.setData("success");
+        data.setCode(mun);
+        return data;
+    }
+    /**
+     ** 门诊保存或编辑
+     * @param -LabTestMaster
+     * @return
+     */
+    @Path("saveHos")
+    @POST
+    public StringData saveHos(LabTestMaster labTestMaster){
+        StringData data=new StringData();
+        String mun="";
+        mun = labTestMasterServiceApi.saveAllIn(labTestMaster);
         data.setData("success");
         data.setCode(mun);
         return data;
@@ -153,7 +166,7 @@ public class LabTestRest {
         return diagnosises;
     }
     /**
-     *
+     *门诊记录删除
      * @param ids
      * @return
      */
@@ -164,6 +177,20 @@ public class LabTestRest {
         labTestMaster.setId(ids);
         labTestMasterServiceApi.delAll(ids);
         StringData stringData=new StringData();
+        stringData.setData("success");
+        return stringData;
+    }
+
+    /**
+     * 住院记录删除
+     * @param ids
+     * @return
+     */
+    @Path("delHos")
+    @POST
+    public StringData deleteLabTestMaster(String ids){
+        StringData stringData=new StringData();
+        labTestMasterServiceApi.deleteLabTestMaster(ids);
         stringData.setData("success");
         return stringData;
     }
