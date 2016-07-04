@@ -26,6 +26,8 @@ insert into INPUT_SETTING_DETAIL (data_col, data_title, flag_show, show_sort, fl
 values ('LABEL', '包单位', '1', 7, 'Y', '0', 10, 'f0a3fc8d57254f7cb1a25d10513fb922', '00', null, null, null, to_date('30-06-2016 14:07:11', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('30-06-2016 14:07:11', 'dd-mm-yyyy hh24:mi:ss'), 'a665f81fef784967be30515fb7fc8b9e');
 insert into INPUT_SETTING_DETAIL (data_col, data_title, flag_show, show_sort, flag_isname, result_sort, show_width, input_setting_master_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date, id)
 values ('EXP_SPEC', '包规格', '1', 8, 'Y', '0', 10, 'f0a3fc8d57254f7cb1a25d10513fb922', '00', null, null, null, to_date('30-06-2016 14:07:11', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('30-06-2016 14:07:11', 'dd-mm-yyyy hh24:mi:ss'), '1c8f4f0aafe645fe812596c767200396');
+insert into INPUT_SETTING_DETAIL (data_col, data_title, flag_show, show_sort, flag_isname, result_sort, show_width, input_setting_master_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date, id)
+values ('ID', '厂家ID', '1', 0, 'Y', '0', 10, 'f0a3fc8d57254f7cb1a25d10513fb922', '00', null, null, null, to_date('04-07-2016 09:35:27', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('04-07-2016 09:35:27', 'dd-mm-yyyy hh24:mi:ss'), '343788d703524e21906e26129d6d7e84');
 
 
 
