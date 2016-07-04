@@ -1,4 +1,4 @@
-package com.jims.clinic.clinicinspect;
+package com.jims.doctor.cliniIcnspect.cliniIcnspect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.EmrDiagnosisServiceApi;
@@ -23,6 +23,7 @@ import javax.ws.rs.core.Context;
 @Component
 @Produces("application/json")
 @Path("clinicInspect")
+
 public class ClinicInspectRest {
 
     @Reference(version = "1.0.0")
