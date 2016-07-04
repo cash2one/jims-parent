@@ -57,10 +57,12 @@ public class AsepsisStockRest {
     @GET
     @Path("findListHasStock")
     public List<AsepsisStock> findListHasStock(@QueryParam("orgId")String orgId,
-                                               @QueryParam("fromDept")String fromDept){
+                                               @QueryParam("fromDept")String fromDept,
+                                               @QueryParam("itemCode")String itemCode){
         AsepsisStock entity = new AsepsisStock();
         entity.setOrgId(orgId);
         entity.setFromDept(fromDept);
+        entity.setItemCode(itemCode);
         return api.findListHasStock(entity);
     }
     /**
