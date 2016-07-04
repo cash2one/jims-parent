@@ -1,4 +1,4 @@
-var rowNum=-1;
+var rowNumZ=0;
 var orderNo=0;
 var prescNo;
 var itemClass;
@@ -18,43 +18,16 @@ $(function() {
         valueField: 'id',
         textField: 'administrationName'
     });
-    $("#administration").combobox('select',administrationmzDict[0].value);
+    //$("#administration").combobox('select',administrationmzDict[0].value);
     //频次
     $('#frequency').combobox({
         data: performFreqDict,
         valueField: 'id',
         textField: 'freqDesc'
     });
-    $("#frequency").combobox('select',performFreqDict[0].value);
+    //$("#frequency").combobox('select',performFreqDict[0].value);
 
-    /**药品**/
-    $('#drugName').combogrid({
-        width: '300',
-        height: 'auto',
-        data: herbalDrugData,
-        idField:'item_name',
-        textField:'item_name',
-        mode: 'remote',
-        columns: [[
-            {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
-            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
-            {field: 'quanity', title: '库存', width: '15%', align: 'center'},
-            {field: 'units', title: '包装单位', width: '15%', align: 'center'},
-            {field: 'item_class', title: '库房', width: '15%', align: 'center'},
-            {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
-            {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
-            {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
-            {field: 'subj_code', title: '',hidden:true},
-            {field: 'performed_by', title: '',hidden:true},
-            {field: 'price', title: '',hidden:true}
-        ]], keyHandler: {
-            query: function (q) {
-                comboGridCompleting(q, 'drugName');
-                $('#drugName').combogrid("grid").datagrid("loadData", comboGridComplete);
-            }
-        }
-    })
+
 
    /* function herbalList(){
         var itemClass = $("#itemClass").val();
@@ -82,15 +55,43 @@ $(function() {
     }*/
 
     $("#addBtn").on("click",function(){
-        rowNum++;
+        rowNumZ++;
+        /**药品**/
         var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
         if(selRow!=null&&selRow!=''&&selRow!='undefined') {
-            var html = '<li onclick="centerActive(this)">' +
-                '<span style="padding-right:10px;"><input  type="text" style="width: 100px;" value=""/></span>' +
+            var html = '<li onclick="centerActive(this,\'medicineHide'+rowNumZ+'\')" id="medicine'+rowNumZ+'" inputhide="medicineHide'+rowNumZ+'">' +
+                '<span style="padding-right:10px;"><input  type="text" id="drugName'+rowNumZ+'" class="easyui-combogrid" style="width: 100px;" value=""/></span>' +
                 '<a href="#" class="color-red"><input id="drugName" name="drugName" type="text" style="width: 100px" value=""/></a>' +
-                ' <span class="color-blue" style="padding-left:10px;">g</span> </li>';
-            //html.appendTo($("#herbal_ul"));
+            ' <span class="color-blue" style="padding-left:10px;">g</span><input type="hidden" value="123" namehide="name" inputhide="medicineHide'+rowNumZ+'" /> <input type="hidden" value="456" namehide="id" inputhide="medicineHide'+rowNumZ+'" /></li>';
             $("#herbal_ul").append(html);
+            $('#drugName'+rowNumZ).combogrid({
+                width: '300',
+                height: 'auto',
+                data: herbalDrugData,
+                idField:'item_name',
+                textField:'item_name',
+                mode: 'remote',
+                columns: [[
+                    {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
+                    {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                    {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                    {field: 'quanity', title: '库存', width: '15%', align: 'center'},
+                    {field: 'units', title: '包装单位', width: '15%', align: 'center'},
+                    {field: 'item_class', title: '库房', width: '15%', align: 'center'},
+                    {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
+                    {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
+                    {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
+                    {field: 'subj_code', title: '',hidden:true},
+                    {field: 'performed_by', title: '',hidden:true},
+                    {field: 'price', title: '',hidden:true}
+                ]], keyHandler: {
+                    query: function (q) {
+                        comboGridCompleting(q, 'drugName'+rowNumZ);
+                        $('#drugName'+rowNumZ).combogrid("grid").datagrid("loadData", comboGridComplete);
+                    }
+                }
+            })
+
         }else{
             $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
             return false;
@@ -98,7 +99,24 @@ $(function() {
     });
 
     $("#delBtn").on("click",function(){
+        $("#herbal_ul .active").remove();
+    })
 
+    $("#saveBtn").on("click",function(){
+        var drugJson="list:[";
+        $("#herbal_ul li").each(function(){
+            var liHidden=$(this).attr("inputhide");
+            drugJson+="{";
+            $("input[inputhide='"+liHidden+"']").each(function(){
+                drugJson+='"'+$(this).attr("namehide")+'":"'+$(this).val()+'",';
+            });
+
+            drugJson = drugJson.substring(0, drugJson.length - 1);
+            drugJson+="},";
+        });
+        drugJson = drugJson.substring(0, drugJson.length - 1);
+        drugJson+="]";
+        alert(drugJson);
     })
 });
 
