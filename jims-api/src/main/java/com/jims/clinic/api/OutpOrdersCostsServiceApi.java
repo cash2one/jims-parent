@@ -15,12 +15,12 @@ import java.util.List;
 public interface OutpOrdersCostsServiceApi {
 
     /**
-     * 根据病人就诊ID和主记录ID查询明细信息
-     * @param masterId
+     * 根据病人就诊ID和医嘱号查询明细信息
+     * @param orderNo
      * @param clinicId
      * @return
      */
-     public List<OutpOrdersCosts> getOutpCosts(String masterId ,String clinicId);
+     public List<OutpOrdersCosts> getOutpCosts(String orderNo ,String clinicId);
 
     public OutpOrdersCosts get(String id);
 

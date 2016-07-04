@@ -27,18 +27,21 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="PreDischgedPats">
+	<select id="findPreList" resultType="PreDischgedPatsVo">
 		select  distinct
-		c.PATIENT_ID AS "patsInHospital.patientId",
-		a.id AS "patsInHospital.id",
-		c.INP_NO AS "patMasterIndex.inpNo",
+		c.PATIENT_ID AS "patientId",
+		c.INP_NO AS "inpNo",
 		a.BED_NO AS "bedNo",
-		b.BED_LABEL AS "bedRec.bedLabel" ,
-		c.NAME AS "patMasterIndex.name"
+		b.BED_LABEL AS "bedLabel" ,
+		c.NAME AS "name",
+		c.sex AS  "sex",
+		a.ADMISSION_DATE_TIME AS  "admissionDateTime",
+		a.DIAGNOSIS AS  "diagnosis",
+		a.DEPT_CODE AS "deptCode"
 		from pats_in_hospital a ,bed_rec b ,pat_master_index c
 		where (a.BED_NO = b.BED_NO
 		and  a.WARD_CODE = b.WARD_CODE)
-		and  (a.PATIENT_ID = c.PATIENT_ID )
+		and  (a.PATIENT_ID = c.ID )
 		and  a.WARD_CODE =#{patsInHospital.wardCode}
 		and a.PATIENT_ID not in (select PATIENT_ID from pre_dischged_pats where patient_id=#{patientId})
 	</select>
@@ -63,7 +66,7 @@
            PATS_IN_HOSPITAL ,
            BED_REC,
 		   DEPT_DICT
-        WHERE ( PAT_MASTER_INDEX.PATIENT_ID = PRE_DISCHGED_PATS.PATIENT_ID ) and    ( PRE_DISCHGED_PATS.PATIENT_ID = PATS_IN_HOSPITAL.PATIENT_ID ) and
+        WHERE ( PAT_MASTER_INDEX.ID = PRE_DISCHGED_PATS.PATIENT_ID ) and    ( PRE_DISCHGED_PATS.PATIENT_ID = PATS_IN_HOSPITAL.PATIENT_ID ) and
                  ( PATS_IN_HOSPITAL.WARD_CODE = BED_REC.WARD_CODE ) and          ( PATS_IN_HOSPITAL.BED_NO = BED_REC.BED_NO ) and
                       ( ( PATS_IN_HOSPITAL.WARD_CODE =#{wardCode} ) )  AND (PATS_IN_HOSPITAL.DEPT_CODE = DEPT_DICT.DEPT_CODE)
 	</select>

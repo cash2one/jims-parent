@@ -21,10 +21,10 @@ import java.util.List;
 public interface OrdersDao extends CrudDao<Orders> {
     /**
      *
-     * @param clinicId
+     * @param visitId
      * @return
      */
-    public String deleteOrders(String clinicId);
+    public String deleteOrders(String visitId);
 
     /**
      * 获取医嘱最大序号
@@ -159,5 +159,10 @@ public interface OrdersDao extends CrudDao<Orders> {
      */
     public int updateOrders(Orders orders);
 
-
+    /**
+     * 删除医嘱
+     * @param visitId
+     * @return
+     */
+    public String delOrders(@Param("visitId")String visitId);
 }

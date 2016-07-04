@@ -22,13 +22,13 @@ import java.util.List;
 public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
 
     /**
-     * 根据就诊ID和主记录ID查询明细信息
+     * 根据就诊ID和医嘱号查询明细信息
      *
      * @param clinicId
-     * @param masterId
+     * @param orderNo
      * @return
      */
-    public List<OutpOrdersCosts> getOutpCosts(@Param("masterId")String masterId,@Param("clinicId")String clinicId);
+    public List<OutpOrdersCosts> getOutpCosts(@Param("orderNo")String orderNo,@Param("clinicId")String clinicId);
 
     /**
      * 保存门诊医师收费明细

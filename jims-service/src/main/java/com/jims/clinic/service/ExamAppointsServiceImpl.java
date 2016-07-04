@@ -7,6 +7,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.bo.ExamAppointsBo;
 import com.jims.common.persistence.Page;
 import com.jims.exam.api.ExamAppointsServiceApi;
+import com.jims.exam.bo.HospitalInspectBo;
 import com.jims.exam.entity.ExamAppoints;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,6 +25,8 @@ public class ExamAppointsServiceImpl  implements ExamAppointsServiceApi {
 
     @Autowired
     private ExamAppointsBo examAppointsBo;
+    @Autowired
+    private HospitalInspectBo hospitalInspectBo;
 
     @Override
     public Page<ExamAppoints> findPage(Page<ExamAppoints> page, ExamAppoints examAppoints) {
@@ -50,10 +53,27 @@ public class ExamAppointsServiceImpl  implements ExamAppointsServiceApi {
         return examAppointsBo.getExamAppionts(patientId);
     }
 
+    /**
+     * 门诊删除
+     * @param id
+     * @return
+     */
     @Override
     public String deleteExamAppionts(String id) {
         return examAppointsBo.deleteExamAppionts(id);
     }
+
+    /**
+     * 住院删除
+     * @param id
+     * @return
+     */
+    @Override
+    public String delectHosExamAppionts(String id) {
+        String nun =hospitalInspectBo.delectHosExamAppionts(id);
+        return nun;
+    }
+
 
     @Override
     public Integer getMaxExamNo() {
@@ -63,5 +83,16 @@ public class ExamAppointsServiceImpl  implements ExamAppointsServiceApi {
     @Override
     public int batchSave(ExamAppoints examAppoints) {
         return examAppointsBo.batchSave(examAppoints);
+    }
+
+    /**
+     * 住院检查申请保存
+     * @param examAppoints
+     * @return
+     */
+    @Override
+    public int saveHospitalInspect(ExamAppoints examAppoints) {
+        int num =hospitalInspectBo.saveHospitalInspect(examAppoints);
+        return num;
     }
 }

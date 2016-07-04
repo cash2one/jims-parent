@@ -97,6 +97,17 @@ public class PreDischgedPatsBo extends CrudImplService<PreDischgedPatsDao, PreDi
         return preDischgedPatsDao.findPreDischList(wardCode);
     }
 
+
+    /**
+     * 查询科室下所有的在院病人信息
+     * @param patientId
+     * @param wardCode
+     * @author pq
+     * @return
+     */
+    public List<PreDischgedPatsVo> findPreList(String patientId,String wardCode){
+        return preDischgedPatsDao.findPreList(patientId,wardCode);
+    }
     /**
      * 删除出院通知单和医嘱
      *

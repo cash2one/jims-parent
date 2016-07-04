@@ -1,6 +1,7 @@
 package com.jims.asepsis.api;
 
 import com.jims.asepsis.entity.AsepsisSendRec;
+import com.jims.asepsis.vo.AsepsisVo;
 import com.jims.common.persistence.Page;
 
 import java.util.List;
@@ -49,6 +50,14 @@ public interface AsepsisSendRecApi {
     public String save(List<AsepsisSendRec> list);
 
     /**
+     * 保存  增删改
+     * @param asepsisVo
+     * @return
+     *  @author  yangruidong
+     */
+    public List<AsepsisSendRec> saveAll(AsepsisVo<AsepsisSendRec> asepsisVo);
+
+    /**
     * 删除数据
     * @param ids,多个id以逗号（,）隔开
     * @return 0 失败，1成功
@@ -68,6 +77,13 @@ public interface AsepsisSendRecApi {
      * @return
      */
     public List<AsepsisSendRec> findListWithStock(AsepsisSendRec entity);
+
+    /**
+     * 检索有库存、在保质期内的数据
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListNoStock(AsepsisSendRec entity);
     /**
      * 科室消毒费统计
      * @param entity

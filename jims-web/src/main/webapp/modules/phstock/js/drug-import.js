@@ -48,12 +48,12 @@ $(function () {
             message: '没有选中项'
         }
     });
-    $.extend($.fn.combobox.methods, {
-        addBlurListener: function(jq,param){
+    $.extend($.fn.combobox.methods, {   //为combobox组件扩展一个方法
+        addBlurListener: function(jq,param){    //jq:指的是jQuery对象。param:指传入方法的实际参数。
             jq.next().children(':text').blur(function(){
-                var v = jq.combobox('getValue')
+                var v = jq.combobox('getValue') //获取组件的值
                 if(v != undefined && v != ''){
-                    var rows = jq.combobox('getData')
+                    var rows = jq.combobox('getData')   //返回加载数据
                     if(rows.length > 0){
                         var s = jq.combobox('options').textField
                         for(var i= 0,j=rows.length;i<j;i++){
@@ -111,7 +111,6 @@ $(function () {
      */
     var loadSubDept = function(id,orgId,storageCode){
         $.get('/service/drug-storage-dept/findSubList',{orgId : orgId,storageCode : storageCode},function(res){
-            alert(res);
             $('#' + id).combobox('loadData',res)
         })
     }
@@ -269,6 +268,20 @@ $(function () {
                 _rows[_index].itemNo = _index + 1
                 $('#drug-import').datagrid('refreshRow', _index)
             }
+            //更新合计与应付款数据,更新零价总额
+            var newRows = $("#drug-import").datagrid('getRows');
+            var purchasePriceCount = 0; //进价金额
+            var retailPriceCount = 0;   //零价总额
+            for(var i=0;i<newRows.length;i++){
+                if(newRows[i].itemNo != '合计'){
+                    purchasePriceCount += parseFloat(newRows[i].purchasePriceCount);
+                    retailPriceCount += parseFloat(newRows[i].retailPriceCount);
+                }
+            }
+            newRows[newRows.length-1].purchasePriceCount = purchasePriceCount;
+            newRows[newRows.length-1].retailPriceCount = retailPriceCount;
+            $('#account').numberbox('setValue', purchasePriceCount);
+            $("#drug-import").datagrid('refreshRow',newRows.length-1);
         } else {
             $.messager.alert('警告','请选择要删除的药品！','warning')
             return
@@ -357,15 +370,15 @@ $(function () {
             width : 140,
             onSelect: function(o){
                 accountFlag = o['accountFlag']
-                $('#account').numberbox('setValue','0')
-                $('#surcharge').numberbox('setValue','0')
-                $('#paid').numberbox('setValue','0')
-                $('#remarks').textbox('setValue','')
-                $('#importDocument').textbox('setValue','')
-                $('#drug-import').datagrid('loadData',[])
-                $('#importChild').combobox('setValue','')
-                if(o['importClass'] == '采购入库'){
-                    $("#supplyChild").combobox({'disabled':true});
+                $('#account').numberbox('setValue','0')     //应付款
+                $('#surcharge').numberbox('setValue','0')   //附加费
+                $('#paid').numberbox('setValue','0')        //已付款
+                $('#remarks').textbox('setValue','')        //备注
+                $('#importDocument').textbox('setValue','') //入库单据号
+                $('#importChild').combobox('setValue','')   //供货子单位
+                $('#drug-import').datagrid('loadData', [])
+                if(o.importClass == '采购入库'){
+                    $("#supplyChild").combobox({'disabled':true});  //如果选择采购入库，则供货子单位不可编辑。
                     $.get('/service/drug-supplier-catalog/list',{orgId:currentOrgId},function(res){
                         $('#supply').combobox({
                             valueField : 'supplierCode',
@@ -380,13 +393,13 @@ $(function () {
                         disabled:false,
                         value:''
                     })
-                    $.get('/service/drug-storage-dept/list',{orgId:currentOrgId,storageType:(o['storageType'] == '全部'?'':o['storageType'])},function(res){
+                    $.get('/service/drug-storage-dept/list',{orgId:currentOrgId,storageType:(o.storageType == '全部'?'': o.storageType)},function(res){
                         $('#supply').combobox({
                             valueField : 'storageCode',
                             textField : 'storageName',
                             data : res,
                             onSelect : function(r){
-                                loadSubDept('supplyChild',currentOrgId,r['storageCode'])
+                                loadSubDept('supplyChild',currentOrgId, r.storageCode)
                             }
                         })
                         $('#supply').combobox('addBlurListener')
@@ -580,7 +593,15 @@ $(function () {
                 title: "进价",
                 field: "purchasePrice",
                 width: '70px',
-                align: 'center'
+                align: 'center', editor: {
+                    type: 'numberbox',
+                    options: {
+                        required: true,
+                        missingMessage: '进价不能为空',
+                        min: 1,
+                        precision: 4
+                    }
+                }
             }, {
                 title: "批价",
                 field: "tradePrice",
@@ -732,16 +753,16 @@ $(function () {
                 return
             }
             importTableRow.drugCode = drugPrice.drugCode;
-            importTableRow.drugSpec = drugPrice.drugSpec;
-            importTableRow.units = drugPrice.units;
+            importTableRow.drugSpec = drugPrice.drugSpec;   //规格
+            importTableRow.units = drugPrice.units;     //单位
             importTableRow.packageSpec = drugPrice.drugSpec;
             importTableRow.packageUnits = drugPrice.units;
-            importTableRow.firmId = drugPrice.firmId;
-            importTableRow.supplier = drugPrice.supplier;
+            importTableRow.firmId = drugPrice.firmId;   //厂家标识
+            importTableRow.supplier = drugPrice.supplier;   //厂商
 
-            importTableRow.retailPrice = drugPrice.retailPrice;
-            importTableRow.tradePrice = drugPrice.tradePrice;
-            importTableRow.purchasePrice = drugPrice.retailPrice;
+            importTableRow.retailPrice = drugPrice.retailPrice; //市场零售价
+            importTableRow.tradePrice = drugPrice.tradePrice;   //市场批发价
+            importTableRow.purchasePrice = drugPrice.tradePrice;    //进价=批发价
 
             $('#drug-import').datagrid('endEdit', $('#drug-import').datagrid('getRowIndex', importTableRow))
             _tempFlag = true

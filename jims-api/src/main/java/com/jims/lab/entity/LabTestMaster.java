@@ -24,7 +24,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	private String testNo;		// 申请序号
 	private Integer priorityIndicator;		// 优先标志
 	private String patientId;		// 病人标识号
-	private Integer visitId;		// 本次住院标识
+	private String visitId;		// 本次住院标识
 	private String workingId;		// 工作单号
 	private Date executeDate;		// 执行日期
 	private String name;		// 姓名
@@ -110,15 +110,15 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	public void setPatientId(String patientId) {
 		this.patientId = patientId;
 	}
-	
-	public Integer getVisitId() {
+
+	public String getVisitId() {
 		return visitId;
 	}
 
-	public void setVisitId(Integer visitId) {
+	public void setVisitId(String visitId) {
 		this.visitId = visitId;
 	}
-	
+
 	@Length(min=0, max=12, message="工作单号长度必须介于 0 和 12 之间")
 	public String getWorkingId() {
 		return workingId;

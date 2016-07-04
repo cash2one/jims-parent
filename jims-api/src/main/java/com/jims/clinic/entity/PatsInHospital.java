@@ -20,7 +20,7 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 	
 	private static final long serialVersionUID = 1L;
 	private String hosid;		// 医院ID
-	private Integer visitId;		// 病人本次住院标识
+	private String visitId;		// 病人本次住院标识
 	private String wardCode;		// 所在病房代码
 	private String deptCode;		// 所在科室代码
 	private Integer bedNo;		// 床号
@@ -72,13 +72,7 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 		this.hosid = hosid;
 	}
 	
-	public Integer getVisitId() {
-		return visitId;
-	}
 
-	public void setVisitId(Integer visitId) {
-		this.visitId = visitId;
-	}
 	
 	@Length(min=0, max=20, message="所在病房代码长度必须介于 0 和 20 之间")
 	public String getWardCode() {
@@ -346,5 +340,13 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 
 	public void setBirthDay(Date birthDay) {
 		this.birthDay = birthDay;
+	}
+
+	public String getVisitId() {
+		return visitId;
+	}
+
+	public void setVisitId(String visitId) {
+		this.visitId = visitId;
 	}
 }

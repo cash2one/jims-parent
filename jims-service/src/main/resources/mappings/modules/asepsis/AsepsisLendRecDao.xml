@@ -40,8 +40,8 @@
 
     <select id="findList" resultType="AsepsisLendRec">
         SELECT
-        <include refid="asepsisLendRecColumns"/>,d.dept_name toDeptName
-        FROM ASEPSIS_LEND_REC a,(select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) d
+        <include refid="asepsisLendRecColumns"/>  ,b.dept_name as toDeptName
+        FROM ASEPSIS_LEND_REC a  ,(select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b,
         <where>
             a.org_id =  #{orgId}
             and a.TO_DEPT = d.dept_code
@@ -62,6 +62,12 @@
             </if>
             <if test="returnFlag != null and returnFlag != ''">
                 and instr(','||#{returnFlag}||',',','||a.return_flag||',')>0
+            </if>
+            <if test="itemName != null and itemName != ''">
+                and a.item_name = #{itemName}
+            </if>
+            <if test="documentNo != null and documentNo != ''">
+                and a.document_no = #{documentNo}
             </if>
         </where>
     </select>

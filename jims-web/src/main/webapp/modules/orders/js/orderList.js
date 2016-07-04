@@ -4,19 +4,33 @@ var patId ='15006135';
 var visitId = '1';
 var orderNo =0 ;
 var orderSubNo = 1;
-
+var orderCostsArray={};
 var clinicPrice =  [];
 
 $(function(){
     $.ajax({
         'type': 'GET',
-        'url':basePath+'/inOrders/getCostById',
+        'url':basePath+'/inOrders/getCost',
         'contentType': 'application/json',
         'data':'visitId=15006135',
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            alert(data.length);
+            var orderNo=0;
+            var orderNoOld=0;
+            for(var i=0;i<data.length;i++){
+                var list=[];
+                orderNo=data[i].orderNo;
+                if(orderNo!=orderNoOld){
+                    list.push(data[i]);
+                    orderNoOld=orderNo;
+                    orderCostsArray[orderNoOld]=list;
+                }else{
+                    list=orderCostsArray[orderNoOld];
+                    list.push(data[i]);
+                    orderCostsArray[orderNoOld]=list;
+                }
+            }
         }
     });
 
@@ -328,13 +342,15 @@ $(function(){
             text: '新增',
             iconCls: 'icon-add',
             handler: function() {
-
-                $("#orderList").datagrid('endEdit', editRow);
-
+                $("#orderList").datagrid('endEdit', rowNum);
+                if(!$("#orderList").datagrid('validateRow', rowNum)){
+                    $.messager.alert('提示',"请填写完本行数据后，再添加下一条医嘱", "error");
+                    return false
+                }
+                $('#orderCostList').datagrid('loadData', { total: 0, rows: [] });
                 if(rowNum>=0){
                     rowNum++;
                 }
-
                 orderNo++;
                 var idx = $("#orderList").datagrid('appendRow', {
                         orderNo:orderNo,
@@ -384,29 +400,20 @@ $(function(){
                 save();
             }
         }
-        ],onClickRow: function (rowIndex, rowData) {
-
-            //$.ajax({
-            //    'type': 'GET',
-            //    'url':basePath+'/price-list/list-by-clinic-code',
-            //    'contentType': 'application/json',
-            //    'data':{"orgId":"","clinicItemCode":""+rowData.orderCode+""},
-            //    'dataType': 'json',
-            //    'async': false,
-            //    'success': function(data){
-            //        $('#orderCostList').datagrid('loadData', data);
-            //    }
-            //});
-            $('#orderCostList').datagrid('loadData', data);
+        ],onAfterEdit:function(rowIndex, rowData){
+            var rows=$('#orderCostList').datagrid("getRows");
+            orderCostsArray[rowData.orderNo]=rows;
+        },
+        onClickRow: function (rowIndex, rowData) {
                 var row = $('#orderList').datagrid('getSelected');
                 var dataGrid = $('#orderList');
-                // var status = row.orderStatus;
                 if (!dataGrid.datagrid('validateRow', rowNum)) {
                     return false//新开
                 } else {
                     if (rowNum != rowIndex) {
                         if (rowNum >= 0) {
                             dataGrid.datagrid('endEdit', rowNum);
+                            $('#orderCostList').datagrid('loadData', orderCostsArray[rowData.orderNo]);
                         }
                         rowNum = rowIndex;
                         if(rowData.orderStatus=='5'||rowData.orderStatus=='') {

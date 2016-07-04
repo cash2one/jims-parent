@@ -1,5 +1,5 @@
 
-$(function () {
+function onloadMethod() {
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
     var visitId = 1;
@@ -22,7 +22,7 @@ $(function () {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '30%', align: 'center', formatter: formatDateBoxFull},
-            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center', formatter: performedBFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center'},
             {
                 field: 'id',
@@ -45,7 +45,7 @@ $(function () {
                 '</td>' +
                 '</tr><tr>' +
                 '<td style="border:0">' +
-                '<p> ' +itemName + '</p>' +
+                '<p> ' + itemName + '</p>' +
                 '</td>' +
                 '</tr></table>';
         },
@@ -87,15 +87,19 @@ $(function () {
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center', formatter: performedBFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });
 
-});
+}
 function add() {
     clearForm();
     $("#saveBut").show();
+    var visitId=$("#clinicMasterId",window.parent.document).val();
+    $("#visitId").val(visitId);
+    var newDate=new Date();
+    $('#requestedDateTime').datetimebox('setValue',newDate);
     var visitId = 1;
     $.ajax({
         //添加
