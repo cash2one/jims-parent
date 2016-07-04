@@ -8,6 +8,7 @@ import com.jims.phstock.api.DrugPriceListServiceApi;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
+import com.jims.phstock.entity.DrugStock;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.stereotype.Component;
 
@@ -167,6 +168,18 @@ public class DrugPriceListRest {
 
        return drugPriceListServiceApi.stopDate(id);
     };
+
+    /**
+     * 根据价格表的ID检索全院库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    @POST
+    @Path("find-by-price-list-id")
+    public List<DrugStock> findByPriceListId( String priceListId){
+        return drugPriceListServiceApi.findListByPriceListId(priceListId);
+    }
 
 
 }

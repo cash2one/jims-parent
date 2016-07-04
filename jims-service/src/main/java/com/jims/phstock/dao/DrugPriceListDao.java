@@ -8,6 +8,7 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
+import com.jims.phstock.entity.DrugStock;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -75,4 +76,6 @@ public interface DrugPriceListDao extends CrudDao<DrugPriceList> {
      * @author txb
      */
     public  List<DrugPriceList> selectPriceList(String drugCode,String drugSpec,String firmId ,String units,String orgId);
+
+    public List<DrugStock> findListByPriceListId(String priceListId);
 }

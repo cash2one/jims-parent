@@ -1,10 +1,7 @@
 package com.jims.phstock.api;
 
 import com.jims.common.persistence.Page;
-import com.jims.phstock.entity.DrugDict;
-import com.jims.phstock.entity.DrugNameDict;
-import com.jims.phstock.entity.DrugPriceList;
-import com.jims.phstock.entity.DrugPriceModify;
+import com.jims.phstock.entity.*;
 import com.jims.phstock.vo.DrugCatalogBeanVo;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 
@@ -156,6 +153,14 @@ public interface DrugPriceListServiceApi {
      */
 
     public String stopDate(String id);
+
+    /**
+     * 根据价格表的ID检索全院库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    public List<DrugStock> findListByPriceListId(String priceListId);
 
 
 }

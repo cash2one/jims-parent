@@ -43,6 +43,13 @@
 
     </select>
 
+    <select id="findListByPriceListId" resultType="com.jims.phstock.entity.DrugStock">
+        select
+        sum(quantity)as quantity
+        from drug_Stock
+        where price_list_id=#{priceListId}
+    </select>
+
     <select id="listDrugNameDict" resultType="com.jims.phstock.entity.DrugNameDict">
         select distinct a.drug_code ,a.drug_name from drug_name_dict a ,drug_price_list b
         where a.drug_code = b.drug_code

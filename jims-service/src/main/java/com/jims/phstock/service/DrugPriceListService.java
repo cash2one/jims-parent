@@ -6,10 +6,7 @@ import com.jims.common.persistence.Page;
 import com.jims.phstock.api.DrugPriceListServiceApi;
 import com.jims.phstock.bo.DrugPriceListBo;
 import com.jims.phstock.dao.DrugPriceModifyDao;
-import com.jims.phstock.entity.DrugDict;
-import com.jims.phstock.entity.DrugNameDict;
-import com.jims.phstock.entity.DrugPriceList;
-import com.jims.phstock.entity.DrugPriceModify;
+import com.jims.phstock.entity.*;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -202,6 +199,11 @@ public class DrugPriceListService implements DrugPriceListServiceApi {
     @Override
     public String stopDate(String id) {
         return bo.stopDate(id);
+    }
+
+    @Override
+    public List<DrugStock> findListByPriceListId(String priceListId) {
+        return bo.findListByPriceListId(priceListId);
     }
 
 }
