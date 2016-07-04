@@ -1131,7 +1131,7 @@
 
 	</update>
 	<select id="selectPatVisit" resultType="PatVisit">
-		SELECT  *from PAT_VISIT WHERE
+		SELECT  * from PAT_VISIT WHERE
 		<if test="id!=null and id!=''">
 			id=#{id}
 		</if>

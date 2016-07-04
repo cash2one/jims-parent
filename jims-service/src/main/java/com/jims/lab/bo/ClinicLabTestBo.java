@@ -46,7 +46,6 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao,LabTestMas
             labTestMaster.setOrderingDept("");
             //结果状态
             labTestMaster.setResultStatus("1");
-            labTestMaster.setDelFlag("0");
             //申请序号
             labTestMaster.setTestNo(creatTestNo());
             labTestMaster.setBillingIndicator(0);

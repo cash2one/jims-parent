@@ -89,8 +89,8 @@ function onloadMethods() {
         columns: [[      //每个列具体内容
             //{field: 'examNo', title: '检查单号', width: '20%', align: 'center'},
             {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center'},
-            {field: 'reqDept', title: '开单科室', width: '20%', align: 'center',formatter:clinicDeptCodeFormatter},
-            {field: 'performedBy', title: '检查科室', width: '20%', align: 'center',formatter:clinicDeptCodeFormatter},
+            //{field: 'reqDept', title: '开单科室', width: '20%', align: 'center',formatter:performedBFormatter},
+            {field: 'performedBy', title: '检查科室', width: '20%', align: 'center',formatter:performedBFormatter},
             {field: 'flag', title: '状态', width: '20%', align: 'center'},
             {
                 field: 'id',
