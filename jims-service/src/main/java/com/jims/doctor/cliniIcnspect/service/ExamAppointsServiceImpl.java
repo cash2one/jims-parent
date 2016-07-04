@@ -7,7 +7,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.doctor.cliniIcnspect.bo.ExamAppointsBo;
 import com.jims.common.persistence.Page;
 import com.jims.exam.api.ExamAppointsServiceApi;
-import com.jims.clinic.bo.HospitalInspectBo;
+import com.jims.doctor.cliniIcnspect.bo.HospitalInspectBo;
 import com.jims.exam.entity.ExamAppoints;
 import org.springframework.beans.factory.annotation.Autowired;
 

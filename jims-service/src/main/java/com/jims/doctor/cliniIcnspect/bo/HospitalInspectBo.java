@@ -1,4 +1,4 @@
-package com.jims.clinic.bo;
+package com.jims.doctor.cliniIcnspect.bo;
 
 import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
