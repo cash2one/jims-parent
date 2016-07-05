@@ -120,14 +120,14 @@ $(function(){
                         var charges = $("#list_data").datagrid('getEditor',{index:rowNum,field:'charges'});
                         $(charges.target).textbox('setValue',row.price);
                         $("#prescDialog").dialog('open');
-                       var index =  $("#prescriptionDatagrid").datagrid('appendRow', {
+                        var index =  $("#prescriptionDatagrid").datagrid('appendRow', {
                                 itemClass: row.item_class,
                                 itemName: row.item_name,
                                 itemSpec: row.drug_spec,
                                 amount:row.amount,
                                 units:row.units,
                                 charges:row.price
-                        }).datagrid('getRows').length-1;
+                            }).datagrid('getRows').length-1;
                     }
                 }
             }},
@@ -193,8 +193,8 @@ $(function(){
                 formatter: function (value, row, index) {
                     if(orderNo < value){ orderNo = value;}
 
-                return value;
-            }},
+                    return value;
+                }},
             {field:'subOrderNo',title:'子处方',hidden:'true'},
             {field:'serialNo',title:'流水号',hidden:'true'},
             {field:'subjCode',title:'会计科目',hidden:'true',editor:{type:'textbox',options:{editable:false}}},
@@ -218,11 +218,11 @@ $(function(){
                 var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
                 if(selRow!=null&&selRow!=''&&selRow!='undefined'){
                     orderNo++;
-                   var idx = $("#list_data").datagrid('appendRow', {
+                    var idx = $("#list_data").datagrid('appendRow', {
                             prescNo:selRow[0].prescNo,
                             orderNo:orderNo,
                             subOrderNo:orderNo
-                    }).datagrid('getRows').length-1;
+                        }).datagrid('getRows').length-1;
                     rowNum=idx;
                     $('#list_data').datagrid('beginEdit', idx);
                 }else{
@@ -288,8 +288,8 @@ $(function(){
                 singleSelect: true,
                 fit: true,
                 fitColumns: true,
-              /*  url: basePath+'/outppresc/jijia',
-                method: 'GET',*/
+                /*  url: basePath+'/outppresc/jijia',
+                 method: 'GET',*/
                 columns: [[{
                     title: '类别',
                     field: 'itemClass',
@@ -351,8 +351,8 @@ function subLoadData(row){
             changeRadio('B');
 
             /*$.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
-                $("#list_data").datagrid("loadData", data);
-            });*/
+             $("#list_data").datagrid("loadData", data);
+             });*/
             $("#medicineId").show();
             $(".layout-split-south .datagrid").hide();
             herbalList();
@@ -366,14 +366,14 @@ function herbalList(){
     if(selRow!=null&&selRow!=''&&selRow!='undefined') {
         prescNo = selRow[0].prescNo;
         var liHtml = "";
-
+        $("#herbal_ul").append("");
         $.postJSON(basePath+'/outppresc/subherballist', "{\"clinicId\":\""+clinicId+"\",\"prescNo\":\""+selRow[0].prescNo+"\"}", function (data) {
             for (var i = 0; i < data.length; i++) {
                 liHtml+='<li style="position:relative;" onclick="centerActive(this,\'herbalHide'+i+'\')" id="herbal'+i+'" inputhide="herbalHide'+i+'">' +
                 '<div><input  type="text" id="freqDetail'+i+'" class="easyui-textbox" style="width: 200px;" value="'+data[i].freqDetail+'"/></div>' +
                 '<input  type="text" id="drugName'+i+'" class="easyui-combogrid" style="width: 150px" value="'+data[i].drugName+'"/>' +
                 '<input type="text" value="'+data[i].amount+'" style="width: 50px" class="easyui-numberbox" id="amount'+i+'" namehide="amount" inputhide="herbalHide'+i+'" />' +
-                '<a class="ul_li_a" href="#" >X</a>' +
+                '<a class="ul_li_a" href="#"  onclick="delherbal(\''+data[i].id+'\')">X</a>' +
                 '<input type="hidden" id="drugCode'+i+'" namehide="drugCode" inputhide="herbalHide'+i+'" value="'+data[i].drugCode+'"/> ' +
                 '<input type="hidden" id="drugSpec'+i+'" namehide="drugSpec" inputhide="herbalHide'+i+'" value="'+data[i].drugSpec+'"/> ' +
                 '<input type="hidden" id="firmId'+i+'" namehide="firmId" inputhide="herbalHide'+i+'" value="'+data[i].firmId+'"/> ' +
@@ -392,7 +392,7 @@ function herbalList(){
 
                 $("#herbal_ul").append(liHtml);
                 /*$('#freqDetail'+i).textbox("setValue",'');
-                $('#amount'+i).numberbox("setValue",'');*/
+                 $('#amount'+i).numberbox("setValue",'');*/
                 $('#drugName'+i).combogrid({
                     width: 'auto',
                     height: 'auto',
@@ -700,21 +700,21 @@ function changeSubPresc(row){
     var afterrow;
     var nowrow = row[0];
     var index= $('#list_data').datagrid('getRowIndex',nowrow);
-     if(index>0) {
-         var dataGrid=$('#list_data');
-         if(!dataGrid.datagrid('validateRow', index)){
-             $.messager.alert('提示',"数据填写不完整，请填写完整后再添加子处方", "error");
-             return false
-         }
-         $('#list_data').datagrid('endEdit', index);
-         $('#list_data').datagrid('beginEdit', index);
-         //获取下一行
-         afterrow=rows[index+1];
-         //判断本身是否是子处方
-         if(afterrow!=undefined){
-             //判断是否是子医嘱
-             if(nowrow.orderNo!=nowrow.subOrderNo){
-                 //判断是否有子医嘱
+    if(index>0) {
+        var dataGrid=$('#list_data');
+        if(!dataGrid.datagrid('validateRow', index)){
+            $.messager.alert('提示',"数据填写不完整，请填写完整后再添加子处方", "error");
+            return false
+        }
+        $('#list_data').datagrid('endEdit', index);
+        $('#list_data').datagrid('beginEdit', index);
+        //获取下一行
+        afterrow=rows[index+1];
+        //判断本身是否是子处方
+        if(afterrow!=undefined){
+            //判断是否是子医嘱
+            if(nowrow.orderNo!=nowrow.subOrderNo){
+                //判断是否有子医嘱
                 if(afterrow.subOrderNo == nowrow.subOrderNo){
                     return false;
                 }else{
@@ -725,38 +725,62 @@ function changeSubPresc(row){
                     $('#list_data').datagrid('beginEdit', index);
                     return false;
                 }
-             }
-         }else{
-             if(nowrow.orderNo!=nowrow.subOrderNo){
-                 nowrow.subOrderNo = nowrow.orderNo;
-                 rowNum=index;
-                 $('#list_data').datagrid('endEdit', index);
-                 $('#list_data').datagrid('beginEdit', index);
-                 return false;
-             }
-         }
-         if(afterrow!=undefined){
-             if(afterrow.subOrderNo == nowrow.orderNo){
-                 $.messager.alert('提示',"此处方已经有子处方，不能设置子处方", "error");
-                    return false;
-             }
-         }
-         //1.判断该条医嘱是否有子处方，如果有，则不允许把当前处方变成其他处方的子处方
+            }
+        }else{
+            if(nowrow.orderNo!=nowrow.subOrderNo){
+                nowrow.subOrderNo = nowrow.orderNo;
+                rowNum=index;
+                $('#list_data').datagrid('endEdit', index);
+                $('#list_data').datagrid('beginEdit', index);
+                return false;
+            }
+        }
+        if(afterrow!=undefined){
+            if(afterrow.subOrderNo == nowrow.orderNo){
+                $.messager.alert('提示',"此处方已经有子处方，不能设置子处方", "error");
+                return false;
+            }
+        }
+        //1.判断该条医嘱是否有子处方，如果有，则不允许把当前处方变成其他处方的子处方
         prerow = rows[index-1];
-         if(nowrow.administration!=prerow.administration){
-             $.messager.alert('提示',"子处方与处方途径不一致，不能设置为子处方", "error");
-             return false;
-         }
-         if(nowrow.frequency!=prerow.frequency){
-             $.messager.alert('提示',"子处方与处方频次不一致，不能设置为子处方", "error");
-             return false;
-         }
-         nowrow.subOrderNo = prerow.subOrderNo;
-         $('#list_data').datagrid('endEdit', index);
-         $('#list_data').datagrid('beginEdit', index);
+        if(nowrow.administration!=prerow.administration){
+            $.messager.alert('提示',"子处方与处方途径不一致，不能设置为子处方", "error");
+            return false;
+        }
+        if(nowrow.frequency!=prerow.frequency){
+            $.messager.alert('提示',"子处方与处方频次不一致，不能设置为子处方", "error");
+            return false;
+        }
+        nowrow.subOrderNo = prerow.subOrderNo;
+        $('#list_data').datagrid('endEdit', index);
+        $('#list_data').datagrid('beginEdit', index);
     }else{
         $.messager.alert('提示',"第一条处方不能设置子医嘱", "warning");
     }
+}
+
+//删除中药
+function delherbal(id){
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        $.ajax({
+            'type': 'POST',
+            'url': basePath + '/outppresc/delete',
+            'contentType': 'application/json',
+            'data': ids = id,
+            'dataType': 'json',
+            'success': function (data) {
+                if (data.data == 'success') {
+                    $.messager.alert("提示消息", data.code + "条记录删除成功！");
+                    $('#leftList').datagrid('load');
+                } else {
+                    $.messager.alert('提示', "删除失败", "error");
+                }
+            },
+            'error': function (data) {
+                $.messager.alert('提示', "删除失败", "error");
+            }
+        });
+    });
 }
 
 
