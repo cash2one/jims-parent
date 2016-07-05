@@ -298,5 +298,8 @@
 		<if test="clinicId!=null">
 			 clinic_id=#{clinicId}
 		</if>
+		<if test="visitId!=null">
+			visit_id=#{visitId}
+		</if>
 	</select>
 </mapper>
