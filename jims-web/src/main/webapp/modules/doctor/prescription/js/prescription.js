@@ -350,9 +350,6 @@ function subLoadData(row){
         }else{
             changeRadio('B');
 
-            /*$.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
-             $("#list_data").datagrid("loadData", data);
-             });*/
             $("#medicineId").show();
             $(".layout-split-south .datagrid").hide();
             herbalList();
@@ -365,14 +362,17 @@ function herbalList(){
     var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
     if(selRow!=null&&selRow!=''&&selRow!='undefined') {
         prescNo = selRow[0].prescNo;
+
         var liHtml = "";
-        $("#herbal_ul").append("");
+        $("#herbal_ul").html("");
         $.postJSON(basePath+'/outppresc/subherballist', "{\"clinicId\":\""+clinicId+"\",\"prescNo\":\""+selRow[0].prescNo+"\"}", function (data) {
+            rowNumZ = data.length;
             for (var i = 0; i < data.length; i++) {
-                liHtml+='<li style="position:relative;" onclick="centerActive(this,\'herbalHide'+i+'\')" id="herbal'+i+'" inputhide="herbalHide'+i+'">' +
+                liHtml+='<li style="position:relative;" onclick="centerActive(this,\'herbalHide'+i+'\')" id="herbal'+i+'"  inputhide="herbalHide'+i+'">' +
                 '<div><input  type="text" id="freqDetail'+i+'" class="easyui-textbox" style="width: 200px;" value="'+data[i].freqDetail+'"/></div>' +
-                '<input  type="text" id="drugName'+i+'" class="easyui-combogrid" style="width: 150px" value="'+data[i].drugName+'"/>' +
-                '<input type="text" value="'+data[i].amount+'" style="width: 50px" class="easyui-numberbox" id="amount'+i+'" namehide="amount" inputhide="herbalHide'+i+'" />' +
+                '<input  type="text" id="drugName'+i+'" class="easyui-textbox" onclick="openOombogrid(this,\''+i+'\')" style="width: 150px" value="'+data[i].drugName+'"/>' +
+                '<input type="text" value="'+data[i].amount+'" style="width: 50px" class="easyui-textbox" id="amount'+i+'" namehide="amount" inputhide="herbalHide'+i+'" />' +
+                '<span id="span'+i+'" class="color-blue" style="padding-left:10px;">'+data[i].units+'</span>' +
                 '<a class="ul_li_a" href="#"  onclick="delherbal(\''+data[i].id+'\')">X</a>' +
                 '<input type="hidden" id="drugCode'+i+'" namehide="drugCode" inputhide="herbalHide'+i+'" value="'+data[i].drugCode+'"/> ' +
                 '<input type="hidden" id="drugSpec'+i+'" namehide="drugSpec" inputhide="herbalHide'+i+'" value="'+data[i].drugSpec+'"/> ' +
@@ -389,50 +389,9 @@ function herbalList(){
                 '<input type="hidden" id="id'+i+'" namehide="id" inputhide="herbalHide'+i+'" value="'+data[i].id+'"/> ' +
                 '<input type="hidden" id="charges'+i+'" namehide="charges" inputhide="herbalHide'+i+'" value="'+data[i].charges+'"/> '+
                 '<input type="hidden" id="serialNo'+i+'" namehide="serialNo" inputhide="herbalHide'+i+'"  value="'+data[i].serialNo+'"/> ';
-
                 $("#herbal_ul").append(liHtml);
                 /*$('#freqDetail'+i).textbox("setValue",'');
                  $('#amount'+i).numberbox("setValue",'');*/
-                $('#drugName'+i).combogrid({
-                    width: 'auto',
-                    height: 'auto',
-                    data: herbalDrugData,
-                    idField:'item_name',
-                    textField:'item_name',
-                    mode: 'remote',
-                    columns: [[
-                        {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
-                        {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-                        {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
-                        {field: 'quanity', title: '库存', width: '15%', align: 'center'},
-                        {field: 'units', title: '包装单位', width: '15%', align: 'center'},
-                        {field: 'item_class', title: '库房', width: '15%', align: 'center'},
-                        {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
-                        {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
-                        {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
-                        {field: 'subj_code', title: '',hidden:true},
-                        {field: 'performed_by', title: '',hidden:true},
-                        {field: 'price', title: '',hidden:true},
-                        {field: 'firm_id', title: '',hidden:true}
-                    ]], keyHandler: {
-                        query: function (q) {
-                            comboGridCompleting(q, 'drugName'+i);
-                            $('#drugName'+i).combogrid("grid").datagrid("loadData", comboGridComplete);
-                        }
-                    },onClickRow: function (index, row) {
-                        $("#drugName"+i).val(row.item_name);
-                        $("#drugCode"+i).val(row.drug_code);
-                        $("#drugSpec"+i).val(row.drug_spec);
-                        $("#firmId"+i).val(row.firm_id);
-                        $("#dosage"+i).val(row.dose_per_unit);
-                        $("#dosageUnits"+i).val(row.dose_units);
-                        $("#itemClass"+i).val(row.item_class);
-                        $("#units"+i).val(row.dose_units);
-                        $("#subjCode"+i).val(row.subj_code);
-                        $("#performedBy"+i).val(row.performed_by);
-                        $("#charges"+i).val(row.price);
-                    }
-                });
                 liHtml='';
             }
 
@@ -577,7 +536,7 @@ function savePre(){
         drugJson+="]";
 
         var submitJsons=formJson+","+drugJson+"}";
-        alert(submitJsons)
+       /* alert(submitJsons)*/
         $.postJSON(basePath+'/outppresc/save',submitJsons,function(data){
             if(data.data=='success'){
                 $.messager.alert("提示消息",data.code+"条处方，保存成功");
