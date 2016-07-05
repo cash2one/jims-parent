@@ -6,10 +6,7 @@ import com.jims.common.persistence.Page;
 import com.jims.phstock.api.DrugPriceListServiceApi;
 import com.jims.phstock.bo.DrugPriceListBo;
 import com.jims.phstock.dao.DrugPriceModifyDao;
-import com.jims.phstock.entity.DrugDict;
-import com.jims.phstock.entity.DrugNameDict;
-import com.jims.phstock.entity.DrugPriceList;
-import com.jims.phstock.entity.DrugPriceModify;
+import com.jims.phstock.entity.*;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -204,4 +201,24 @@ public class DrugPriceListService implements DrugPriceListServiceApi {
         return bo.stopDate(id);
     }
 
+    /**
+     * 根据价格表的ID检索全院库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    @Override
+    public List<DrugStock> findListByPriceListId(String priceListId) {
+        return bo.findListByPriceListId(priceListId);
+    }
+
+    /**
+     * 根据价格表的ID,subStorage,storage检索库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    public List<DrugStock> findBySubQuantity( String priceListId,String storage,String subStorage){
+        return bo.findBySubQuantity(priceListId,storage,subStorage);
+    }
 }
