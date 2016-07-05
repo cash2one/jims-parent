@@ -84,6 +84,7 @@ $(function() {
         columns: [[      //每个列具体内容
             {field: 'belongDept', hidden:true},
             {field: 'belongDeptDes', title: '所属科室', width: '8%', align: 'center'},
+            {field: 'documentNo', title: '单据号', width: '7%', align: 'center'},
             {field: 'asepsisCode', title: '代码', width: '7%', align: 'center'},
             {field: 'asepsisName', title: '名称', width: '15%', align: 'center'},
             {field: 'asepsisSpec', title: '规格', width: '4%', align: 'center'},
@@ -142,7 +143,7 @@ $(function() {
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
-    var loadAnotherData = function(){
+    loadAnotherData = function(){
         var a = $("#belongDept").combobox("getData");
         var b = $("#checker").combobox("getData");
         var listAll = $('#list_data').datagrid('getRows');

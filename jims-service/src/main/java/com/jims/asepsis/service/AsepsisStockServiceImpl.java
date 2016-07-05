@@ -117,4 +117,12 @@ public class AsepsisStockServiceImpl implements AsepsisStockApi{
     public List<AsepsisStock> findListHasStock(AsepsisStock entity){
         return bo.findListHasStock(entity);
     }
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @return
+     */
+    public String getNextDocumentNo(String orgId){
+        return bo.getNextDocumentNo(orgId);
+    }
 }

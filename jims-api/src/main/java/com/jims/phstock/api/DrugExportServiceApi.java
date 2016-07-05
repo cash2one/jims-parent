@@ -1,6 +1,9 @@
 package com.jims.phstock.api;
 
+import com.jims.phstock.entity.DrugExportDetail;
 import com.jims.phstock.entity.DrugExportMaster;
+
+import java.util.List;
 
 /**
  * 药品出库接口
@@ -16,4 +19,27 @@ public interface DrugExportServiceApi {
      * @return 0 失败，1成功
      */
     public String saveMasterAndDetail(DrugExportMaster master);
+
+    /**
+     * 检索出库数据
+     * @param master
+     * @return
+     */
+    public List<DrugExportMaster> findMasterList(DrugExportMaster master);
+
+    /**
+     * 检索出库数据
+     * @param detail
+     * @return
+     */
+    public List<DrugExportDetail> findDetailList(DrugExportDetail detail);
+
+    /**
+     * 检索出库数据(包含库存)
+     * @param detail
+     * @param storage 库存管理单位
+     * @param subStorage 存放库房
+     * @return
+     */
+    public List<DrugExportDetail> findDetailListWithStock(DrugExportDetail detail,String storage,String subStorage);
 }

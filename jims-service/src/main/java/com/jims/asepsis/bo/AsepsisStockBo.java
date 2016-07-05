@@ -83,5 +83,13 @@ public class AsepsisStockBo extends CrudImplService<AsepsisStockDao, AsepsisStoc
     public List<AsepsisStock> findListOver(AsepsisStock entity){
         return dao.findListOver(entity);
     }
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @return
+     */
+    public String getNextDocumentNo(String orgId){
+        return dao.getNextDocumentNo(orgId);
+    }
 
 }

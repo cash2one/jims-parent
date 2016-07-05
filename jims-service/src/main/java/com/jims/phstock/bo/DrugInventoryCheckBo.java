@@ -90,27 +90,26 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
      * @author txb
      */
     public void saveInventory(List<DrugInventoryCheckVo> drugInventoryCheckVos) {
-        String i = "0"; //判断是否是暂存后保存标志
         int j = 0; //判断是终存标志
 
         for (DrugInventoryCheckVo drugInventoryCheckVo : drugInventoryCheckVos) {
 
             DrugInventoryCheck drugInventoryCheck = new DrugInventoryCheck();
             drugInventoryCheck = generateInventoryByVo(drugInventoryCheck, drugInventoryCheckVo);
-            i=drugInventoryCheckVo.getRecStatus();//终存状态
-            if(i.equals("0")){
-                j=0;
-                drugInventoryCheck.setRecStatus(1);
-                drugInventoryCheck.preUpdate();
-                drugInventoryCheckDao.update(drugInventoryCheck);
-            }else if(i.equals("1")){
-                j=1;
-            }else{
+            if(drugInventoryCheck.getRecStatus()==null){  //终存状态
                 j=0;
                 drugInventoryCheck.setRecStatus(1);
                 drugInventoryCheck.preInsert();
                 drugInventoryCheckDao.insert(drugInventoryCheck);
+            }else if(drugInventoryCheck.getRecStatus()==0){
+                j=0;
+                drugInventoryCheck.setRecStatus(1);
+                drugInventoryCheck.preUpdate();
+                drugInventoryCheckDao.update(drugInventoryCheck);
+            }else if (drugInventoryCheck.getRecStatus()==1){
+                j=1;
             }
+
 //            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //            String checkYearMonth = simpleDateFormat.format(drugInventoryCheck.getCheckYearMonth());
 //
@@ -190,7 +189,7 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
                     drugExportMaster.setAccountPayed(drugInventoryCheck.getRetailPrice() * num);
                     drugExportMaster.setAdditionalFee(0.00);
                     drugExportMaster.setExportClass("盘点出库");
-                    drugExportMaster.setAccountIndicator(0);
+                    drugExportMaster.setAccountIndicator(1);
                     drugExportMaster.setOperator(UserUtils.getUser().getName());
                     drugExportMaster.setReceiver(drugStock.getStorage());
 
@@ -252,7 +251,7 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
                     drugImportMaster.setAccountPayed(drugInventoryCheck.getRetailPrice() * num);
                     drugImportMaster.setAdditionalFee(0.00);
                     drugImportMaster.setImportClass("盘点入库");
-                    drugImportMaster.setAccountIndicator(0);
+                    drugImportMaster.setAccountIndicator(1);
                     drugImportMaster.setOperator(UserUtils.getUser().getName());
 
                     //调用函数数据准备

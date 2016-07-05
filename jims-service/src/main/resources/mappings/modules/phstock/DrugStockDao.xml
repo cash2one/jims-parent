@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.phstock.dao.DrugStockDao">
-    
-	<sql id="drugStockColumns">
+
+    <sql id="drugStockColumns">
 		a.id AS "id",
 		a.storage AS "storage",
 		a.drug_code AS "drugCode",
@@ -33,11 +33,12 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.price_list_id AS "priceListId"
 	</sql>
 
-	<sql id="drugStockJoins">
-	</sql>
+    <sql id="drugStockJoins">
+    </sql>
     <select id="findByUnique" resultType="DrugStock">
         SELECT
         <include refid="drugStockColumns"/>
@@ -52,23 +53,23 @@
         AND a.sub_storage = #{6}
         and a.org_id = #{7}
     </select>
-	<select id="get" resultType="DrugStock">
-		SELECT 
-			<include refid="drugStockColumns"/>
-		FROM drug_stock a
-		<include refid="drugStockJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="DrugStock">
-		SELECT 
-			<include refid="drugStockColumns"/>
-		FROM drug_stock a
-		<include refid="drugStockJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+    <select id="get" resultType="DrugStock">
+        SELECT
+        <include refid="drugStockColumns"/>
+        FROM drug_stock a
+        <include refid="drugStockJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="DrugStock">
+        SELECT
+        <include refid="drugStockColumns"/>
+        FROM drug_stock a
+        <include refid="drugStockJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
             <if test="storage != null and storage != ''">
-                  and a.storage = #{storage}
+                and a.storage = #{storage}
             </if>
             <if test="drugCode != null and drugCode != ''">
                 and a.drug_code = #{drugCode}
@@ -79,8 +80,8 @@
             <if test="units != null and units != ''">
                 and a.units = #{units}
             </if><if test="batchNo != null and batchNo != ''">
-                and a.batch_no = #{batchNo}
-            </if>
+            and a.batch_no = #{batchNo}
+        </if>
             <if test="orgId != null and orgId != ''">
                 and a.org_id = #{orgId}
             </if>
@@ -93,36 +94,36 @@
             <if test="firmId != null and firmId != ''">
                 and a.firm_id = #{firmId}
             </if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="DrugStock">
-		SELECT 
-			<include refid="drugStockColumns"/>
-		FROM drug_stock a
-		<include refid="drugStockJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-				ORDER BY a.update_date DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="DrugStock">
+        SELECT
+        <include refid="drugStockColumns"/>
+        FROM drug_stock a
+        <include refid="drugStockJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO drug_stock(
 			id,
 			storage,
@@ -154,7 +155,8 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag
+			del_flag,
+			price_list_id
 		) VALUES (
 			#{id},
 			#{storage},
@@ -186,11 +188,12 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{priceListId}
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE drug_stock SET 	
 			storage = #{storage},
 			drug_code = #{drugCode},
@@ -218,11 +221,12 @@
 			org_id = #{orgId},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			price_list_id = #{priceListId}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
+
+    <update id="delete">
 		UPDATE drug_stock SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
@@ -257,5 +261,5 @@
         </where>
         ORDER BY a.drug_code DESC
     </select>
-	
+
 </mapper>
