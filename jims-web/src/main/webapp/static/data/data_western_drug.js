@@ -3,7 +3,7 @@ var westernDrugData = [];
 var westernDrug={};
 westernDrug.orgId="1";
 westernDrug.itemClass="A";
-westernDrug.dictType="v_clinic_item_price";
+westernDrug.dictType="v_drug_info_mz";
 
 
 
@@ -29,7 +29,7 @@ function comboGridCompleting(q,id){
     var drugNameData={};
     drugNameData.orgId="1";
     drugNameData.itemClass="A";
-    drugNameData.dictType="v_clinic_item_price"
+    drugNameData.dictType="v_drug_info_mz"
     var inputParamVos=new Array();
     var InputParamVo1={};
     InputParamVo1.colName='rownum';

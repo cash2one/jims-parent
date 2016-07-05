@@ -17,7 +17,7 @@ $(function() {
         valueField: 'id',
         textField: 'identityName'
     })
-    $("#identityId ").combobox('select',identityDict[0].id);
+    //$("#identityId ").combobox('select',identityDict[0].id);
   /**
      * 费别下拉框
      */
@@ -26,8 +26,9 @@ $(function() {
         valueField: 'id',
         textField: 'charge_type_name'
     })
-    $("#chargeTypeId ").combobox('select',chargeType[0].id);
+   // $("#chargeTypeId ").combobox('select',chargeType[0].id);
     var clinicId=$("#clinicMasterId",parent.document).val();
+    alert(clinicId);
     $.ajax({
         'type': 'get',
         'url':basePath + '/clinicMaster/getPatInfo',

@@ -5,6 +5,7 @@ import com.jims.common.persistence.Page;
 
 /**
  * Created by qinlongxin on 2016/4/28.
+ * 用血
  */
 public interface BloodApplyServiceApi {
 //    /**
@@ -27,11 +28,18 @@ public interface BloodApplyServiceApi {
      */
     public Page<BloodApply> findPage(Page<BloodApply> page, BloodApply bloodApply);
     /**
-     * 保存或编辑
+     * 保存或编辑(门诊)
      * @author qinlongxin
      * @version 2016/4/20
      */
     public String saveBloodApply(BloodApply bloodApply);
+
+    /**
+     * 保存或编辑(住院)
+     * @author qinlongxin
+     * @version 2016/4/20
+     */
+    public String saveHosBloodApply(BloodApply bloodApply);
     /**
      * 删除
      * @author qinlongxin

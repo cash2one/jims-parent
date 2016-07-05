@@ -465,10 +465,10 @@ $(function () {
             title: "当前结存",
             field: "currentStock",
             width: 70,
-            align: 'center',
-            formatter: function(value,row){
-                return (isNaN(value) ? 0 : value) - (isNaN(row.quantity) ? 0 : + row.quantity)
-            }
+            align: 'center'
+            //formatter: function(value,row){
+            //    return (isNaN(value) ? 0 : value) - (isNaN(row.quantity) ? 0 : + row.quantity)
+            //}
         }, {
             title: "零售价",
             field: "retailPrice",
@@ -535,7 +535,7 @@ $(function () {
                 });
                 $.get('/service/drug-supplier-catalog/list',{orgId:currentOrgId},function(res){
                     $('#storageDept').combobox({
-                        valueField : 'supplierCode',
+                        valueField : 'id',
                         textField : 'supplier',
                         data : res
                     })

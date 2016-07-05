@@ -107,7 +107,7 @@ $(function () {
                     priceList[i]=data[i];
                     priceList[i].edic=1;
                 }
-
+                console.log(priceList);
                 $("#datagridRight").datagrid("loadData",priceList);
             })  ;
 
@@ -583,14 +583,27 @@ $(function () {
 
     $("#stopBtn").on('click', function () {
         var row = $("#datagridRight").datagrid('getSelected');
+        console.log(row);
         $.messager.confirm('Confirm','是否确定停价该药品？',function(r){
-             if (r){
-                 $.postJSON(basePath + "/drug-price/stop",row.id, function (data) {
-                     $.messager.alert("系统提示", "停价成功", "info");
-                     $('#datagridRight').datagrid('loadData', { total: 0, rows: [] });
-                 });
-                      }
-              });
+            if (r){
+                $.postJSON(basePath + "/drug-price/find-by-price-list-id",row.id,function(data){
+                    if(data[0].quantity>0){
+                        $.messager.alert("系统提示", "全院库存量不为0，不允许停价", "error");
+                    }else{
+                        $.postJSON(basePath + "/drug-price/stop",row.id, function (data) {
+                            $.messager.alert("系统提示", "停价成功", "info");
+                            $('#datagridRight').datagrid('loadData', { total: 0, rows: [] });
+                        });
+                    }
+                })
+                //判断全院库存量
+
+                //$.postJSON(basePath + "/drug-price/stop",row.id, function (data) {
+                //    $.messager.alert("系统提示", "停价成功", "info");
+                //    $('#datagridRight').datagrid('loadData', { total: 0, rows: [] });
+                //});
+            }
+        });
     });
 
     /**

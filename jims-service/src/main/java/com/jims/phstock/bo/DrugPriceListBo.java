@@ -3,10 +3,7 @@ package com.jims.phstock.bo;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.dao.DrugPriceListDao;
 import com.jims.phstock.dao.DrugPriceModifyDao;
-import com.jims.phstock.entity.DrugDict;
-import com.jims.phstock.entity.DrugNameDict;
-import com.jims.phstock.entity.DrugPriceList;
-import com.jims.phstock.entity.DrugPriceModify;
+import com.jims.phstock.entity.*;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -240,6 +237,26 @@ public class DrugPriceListBo extends CrudImplService<DrugPriceListDao, DrugPrice
     public String stopDate (String id){
         Date date = new Date();
         return dao.stopDate(id,date) + "";
+    }
+
+    /**
+     * 根据价格表的ID检索全院库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    public List<DrugStock> findListByPriceListId (String priceListId) {
+        return dao.findListByPriceListId(priceListId);
+    }
+
+    /**
+     * 根据价格表的ID,subStorage,storage检索库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    public List<DrugStock> findBySubQuantity( String priceListId,String storage,String subStorage){
+        return dao.findBySubQuantity(priceListId,storage,subStorage);
     }
 }
 

@@ -67,7 +67,7 @@ public class PreDischgedPatsServiceImpl implements PreDischgedPatsServiceApi{
      * @return
      */
     @Override
-    public String save(List<PreDischgedPatsVo> list){
+    public String savePreDischPat(List<PreDischgedPatsVo> list){
         return preDischgedPatsBo.savePreDischPat(list);
     }
     /**
@@ -99,7 +99,7 @@ public class PreDischgedPatsServiceImpl implements PreDischgedPatsServiceApi{
      * @author pq
      * @return
      */
-    public List<PreDischgedPatsVo> findPreList(String patientId,String wardCode){
-        return preDischgedPatsBo.findPreList(patientId,wardCode);
+    public Page<PreDischgedPatsVo> findPreList(Page<PreDischgedPatsVo> page,String patientId,String wardCode){
+        return preDischgedPatsBo.findPreList(page,patientId,wardCode);
     }
 }

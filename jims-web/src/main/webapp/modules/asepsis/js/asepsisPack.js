@@ -84,6 +84,7 @@ $(function() {
         columns: [[      //每个列具体内容
             {field: 'belongDept', hidden:true},
             {field: 'belongDeptDes', title: '所属科室', width: '8%', align: 'center'},
+            {field: 'documentNo', title: '单据号', width: '7%', align: 'center'},
             {field: 'asepsisCode', title: '代码', width: '7%', align: 'center'},
             {field: 'asepsisName', title: '名称', width: '15%', align: 'center'},
             {field: 'asepsisSpec', title: '规格', width: '4%', align: 'center'},
@@ -186,10 +187,10 @@ $(function() {
             var belongDept=$("#belongDept").combobox('getValue');
             var asepsisName=$("#asepsisName").combobox('getValue');
             $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"1","orgId":orgId,"belongDept":belongDept,"asepsisName":asepsisName}});
-            return;
+        }else{
+            $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"1","orgId":orgId}});
         }
-        $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"1","orgId":orgId}});
-        setTimeout("loadAnotherData()",500);
+        setTimeout("loadAnotherData()",1000);
     }
     loadListData();
     $("#searchBtn").on("click",function(){
@@ -220,11 +221,11 @@ $(function() {
             alert('请选择打包方式');
             return ;
         }
-        var asepsisDictVo = {};
-        asepsisDictVo.updated = updateData;
-        asepsisDictVo.orgId = orgId;
-        if (asepsisDictVo) {
-            $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisDictVo), function (data) {
+        var asepsisAntiRecVo = {};
+        asepsisAntiRecVo.updated = updateData;
+        asepsisAntiRecVo.orgId = orgId;
+        if (asepsisAntiRecVo) {
+            $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisAntiRecVo), function (data) {
                 if (data.data == "success") {
                     $.messager.alert("系统提示", "保存成功", "info");
                     //$("#list_data").datagrid('reload');

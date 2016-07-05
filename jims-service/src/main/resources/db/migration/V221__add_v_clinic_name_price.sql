@@ -3,7 +3,7 @@
 /* CREATE_BY :  pq                                             */
 /*=============================================================*/
 
-CREATE OR REPLACE VIEW V_CLINIC_ITEM_PRICE AS
+CREATE OR REPLACE VIEW V_CLINIC_NAME_PRICE AS
 select c.item_class,c.item_code,c.item_name,c.item_spec,
        c.units,c.price,c.prefer_price,c.performed_by,c.subj_code,a.INPUT_CODE,
        b.charge_item_no

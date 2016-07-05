@@ -1,5 +1,6 @@
 $(function(){
     var patientId=$("#patientId",parent.document).val();
+    alert(patientId);
     /**
      * 性别下拉框
      */

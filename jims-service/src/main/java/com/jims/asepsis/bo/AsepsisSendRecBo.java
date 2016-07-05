@@ -28,6 +28,13 @@ public class AsepsisSendRecBo extends CrudImplService<AsepsisSendRecDao, Asepsis
     private AsepsisStockDao stockDao;
     @Autowired
     private AsepsisAntiRecDao antiDao;
+
+
+    public List<AsepsisSendRec> findListNoId(AsepsisSendRec entity){
+        return dao.findListNoId(entity);
+    }
+
+
     /**
     * 批量保存（插入或更新）
     * @param list

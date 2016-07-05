@@ -31,6 +31,17 @@ public class PreDischgedPatsVo extends DataEntity<PreDischgedPatsVo> {
     private List<PreDischgedPatsVo> list=new ArrayList<PreDischgedPatsVo>();
     private String orgId;//机构id
     private String hospitalId;//住院表id
+    private String orderText;
+    private String orderCode ;
+
+    public String getOrderText() {
+        return orderText;
+    }
+
+    public void setOrderText(String orderText) {
+        this.orderText = orderText;
+    }
+
     public PreDischgedPatsVo() {
 
     }
@@ -178,6 +189,14 @@ public class PreDischgedPatsVo extends DataEntity<PreDischgedPatsVo> {
 
     public String getHospitalId() {
         return hospitalId;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 
     public void setHospitalId(String hospitalId) {

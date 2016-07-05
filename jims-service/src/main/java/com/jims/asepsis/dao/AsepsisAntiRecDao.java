@@ -36,12 +36,12 @@ public interface AsepsisAntiRecDao extends CrudDao<AsepsisAntiRec> {
     public List<AsepsisAntiRec> getAsepsisAntiRecByState(AsepsisAntiRec aar);
 
     /**
-     * 保存清洗功能相关数据
-     * @param asepsisAntiRecs
-     * @author pq
-     * @return
+     * 无菌物品消毒包管理(清洗，打包，灭菌)(修改)
+     * @param asepsisAntiRec
+     * @return int
+     * @author louhuili
      */
-    public  int saveClean(AsepsisAntiRec asepsisAntiRecs);
+    public  int saveClean(AsepsisAntiRec asepsisAntiRec);
 
 
 

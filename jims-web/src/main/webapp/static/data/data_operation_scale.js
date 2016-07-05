@@ -31,7 +31,7 @@ $.ajax({
  * @param RowIndex
  * @returns {*}
  */
-function operationScaleNameFormatter(value, rowData, RowIndex) {
+function operationScaleFormatter(value, rowData, RowIndex) {
     if (value == 0) {
         return;
     }
