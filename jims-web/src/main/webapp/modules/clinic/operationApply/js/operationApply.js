@@ -181,7 +181,7 @@ function savePperationApply() {
     var tableJson = JSON.stringify(rows);
     var submitJson = formJson + ",\"scheduledOperationNameList\":" + tableJson + "}";
 
-    $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
+    $.postJSON(basePath + '/operatioinOrder/saveIn', submitJson, function (data) {
         if (data == "1") {
             $.messager.alert("提示消息", data + "条记录，保存成功");
             $('#operationName').datagrid('load');

@@ -1,7 +1,6 @@
 $(function(){
     var patientId=$("#patientId",parent.document).val();
     $("#patientId").val(patientId);
-    alert( $("#patientId").val());
     var name=$("#name",parent.document).val();
     $("#nameId").html(name);
     var sex=$("#sex",parent.document).val();

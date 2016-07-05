@@ -44,8 +44,8 @@ function unitsFormatter(value,rowData,rowIndex){
 }
 $(function () {
 
-    //获取住院id
-    //var visitId= parent.document.getElementById("clinicMasterId").value;
+    var patientId=$("#patientId",parent.document).val();
+    $("#patientId").val(patientId);
     var visitId=1;
     $("#visitId").val(visitId);
     $('#list_doctor').datagrid({

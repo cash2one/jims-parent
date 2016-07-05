@@ -13,14 +13,18 @@
     <script type="text/javascript" src="/static/data/data_operation_scale.js"></script>
     <script type="text/javascript" src="/static/data/data_anaesthesia_name.js"></script>
     <script type="text/javascript" src="/static/data/data_operation_quarantine.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_transfusion_dict.js"></script>
 </head>
 <body  onload="onloadMethod()">
 <div class="reg-plan-wrap">
     <form id="operation" method="post">
     <div class="margin10-bot " style="border: 1px;">
-        科室：<select id="deptCode" class="easyui-combobox" />
-                    <option value="140102">精神一科房</option>
-               </select>
+        科室：<input id="deptCode"  style="width: 145px;">
+        <input type="hidden" id="deptCodeId" value="">
+        <!--<select id="deptCode" class="easyui-combobox" />&ndash;&gt;-->
+                    <!--<option value="140102">精神一科房</option>-->
+               <!--</select>-->
     </div>
 
     <div style="border: 1px;width:200px;height:500px;position: absolute;" >
@@ -28,14 +32,14 @@
     </div>
 
     <div class="reg-plan-main" style="border: 1px;">
-            <div class="margin10-bot">
-                床号：<input type="text" class="validatebox-text validatebox-text-xs" name="bedNo" id="bedNo" readonly/>
-                病人ID：<input type="text" class="validatebox-text validatebox-text-xs" name="patientId"  id="patientId" readonly/>
-                住院号：<input type="text" class="validatebox-text validatebox-text-xs" name="visitId" id="visitId" readonly/>
-                姓名：<input type="text" class="validatebox-text validatebox-text-xs"  id="name" readonly/>
-                性别：<input type="text" class="validatebox-text validatebox-text-xs" id="sex" readonly/>
-                年龄：<input type="text" class="validatebox-text validatebox-text-xs"  id="" readonly/>
-            </div>
+            <!--<div class="margin10-bot">-->
+                <!--床号：<input type="text" class="validatebox-text validatebox-text-xs" name="bedNo" id="bedNo" readonly/>-->
+                <!--病人ID：<input type="text" class="validatebox-text validatebox-text-xs" name="patientId"  id="patientId" readonly/>-->
+                <!--住院号：<input type="text" class="validatebox-text validatebox-text-xs" name="visitId" id="visitId" readonly/>-->
+                <!--姓名：<input type="text" class="validatebox-text validatebox-text-xs"  id="name" readonly/>-->
+                <!--性别：<input type="text" class="validatebox-text validatebox-text-xs" id="sex" readonly/>-->
+                <!--年龄：<input type="text" class="validatebox-text validatebox-text-xs"  id="" readonly/>-->
+            <!--</div>-->
             <div>
 
                 <div class="margin10-bot" style="height:200px; overflow:auto; background:#fafafa; padding:10px; border:1px solid #eee;">
@@ -49,27 +53,24 @@
                         <td>术前诊断：</td>
                         <td colspan="5"><input  id="diagnosis" class="easyui-validatebox validatebox-text validatebox-invalid" readonly ></td>
                         <td>病情：</td>
-                        <td><select name="patientCondition" class="easyui-combobox" style="width:40%;height: 30px">
-                            <option value="1">危重</option>
-                            <option value="2">病重</option>
-                        </select></td>
+                        <td>
+                        <input type="hidden" name="patientCondition" id="patientConditionId" value="">
+                        <input id="patientCondition"style="width:40%;">
+                        </td>
                     </tr>
                     <tr>
                         <td>手术日期时间：</td>
                         <td colspan="2"><input  name="scheduledDateTime" class="easyui-datetimebox" ></td>
                         <td>手术室：</td>
                         <td colspan="2">
-                            <select name="operatingRoom" class="easyui-combobox"style="width:40%;height: 30px" >
-                            <option value="1">手术室组</option>
-                             </select>
+                            <input type="hidden" name="operatingRoom" id="operatingRoomCode" value="">
+                            <input  id="operatingRoom" style="width: 145px;">
                         </td>
 
                         <td>手术间：</td>
                         <td>
-                            <select name="operatingRoomNo" class="easyui-combobox" style="width:40%;height: 30px">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            </select>
+                            <input type="hidden" name="operatingRoomNo" id="operatingRoomNoCode" value="">
+                            <input  id="operatingRoomNo" style="width: 145px;">
                         </td>
                     </tr>
                     <tr>
@@ -81,28 +82,25 @@
                         </select>
                         </td>
                         <td>隔离标志：</td>
-                        <td><select name="isolationIndicator" class="easyui-combobox" style="width:40%;height: 30px">
-                            <option value="1">正常</option>
-                            <option value="2">隔离</option>
-                            <option value="3">放射</option>
-                        </select></td>
+                        <td>
+                        <input type="hidden" name="isolationIndicator" id="isolationIndicatorId" value="">
+                        <input id="isolationIndicator"style="width:40%;">
+                        </td>
                         <td>手术等级：</td>
                         <td>
-                            <select name="operationScale" class="easyui-combobox" style="width:40%;height: 30px">
-                               <option value="1">一级手术</option>
-                                <option value="2">二级手术</option>
-                                <option value="3"> 三级手术</option>
-                                <option value="4">四级手术</option>
-                            </select>
+                            <!--<select name="operationScale" class="easyui-combobox" style="width:40%;height: 30px">-->
+                               <!--<option value="1">一级手术</option>-->
+                                <!--<option value="2">二级手术</option>-->
+                                <!--<option value="3"> 三级手术</option>-->
+                                <!--<option value="4">四级手术</option>-->
+                            <!--</select>-->
+                            <input type="hidden" name="operationScale" id="operationScaleId" value="">
+                            <input id="operationScale"style="width:80%;">
                         </td>
                         <td>手术科室：</td>
                         <td>
-                            <select name="operatingDept" class="easyui-combobox" style="width:40%;height: 30px">
-                                <option value="1">精神一科病房</option>
-                                <option value="2">精神二科病房</option>
-                                <option value="3">精神三科病房</option>
-                                <option value="4">精神四科病房</option>
-                            </select>
+                            <input type="hidden" name="operatingDept" id="operatingDeptId" value="">
+                            <input id="operatingDept"style="width:60%;">
                         </td>
                     </tr>
                     <tr>
@@ -149,10 +147,8 @@
                         </td>
                         <td>输/供血方式：</td>
                         <td colspan="5">
-                            <select name="provideWay" class="easyui-combobox" style="width:40%;height: 30px">
-                            <option value="1">血库供血</option>
-                            <option value="2">自体供血</option>
-                            　　</select>
+                            <input type="hidden" name="provideWay" id="provideWayId" value="">
+                            <input id="provideWay" style="width: 40%;">
                         </td>
 
                     </tr>
@@ -166,10 +162,8 @@
                         </td>
                         <td>麻醉方法：</td>
                         <td  colspan="3">
-                            <select name="anesthesiaMethod" class="easyui-combobox" style="width:40%;height: 30px">
-                                <option value="1">基础</option>
-                                <option value="2">体外</option>
-                                　　</select>
+                            <input type="hidden" name="anesthesiaMethod" id="anesthesiaMethodId" value="">
+                            <input id="anesthesiaMethod" style="width: 40%;">
                         </td>
                         <td>申请时间：</td>
                         <td>
@@ -190,6 +184,7 @@
             </div>
 
         <input name="id" type="hidden">
+        <input type="hidden" id="visitId" name="visitId" value="">
         <input type="hidden" name="inOrOut" value="1">
     </div>
 </form>
