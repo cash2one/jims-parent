@@ -7,7 +7,7 @@ var chargeIndicator='新开';
 //页面加载
 $(function() {
     itemClass = $("#itemClass").val();
-    clinicId = $("#clinicMasterId", parent.document).val();
+    clinicId = parent.clinicMaster.id;
     $("#clinicId").val(clinicId);
 
 
@@ -29,17 +29,17 @@ $(function() {
     });
     //$("#frequency").combobox('select',performFreqDict[0].value);
 
-
-
     $("#addBtn").on("click",function(){
         rowNumZ++;
         /**药品**/
         var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
         if(selRow!=null&&selRow!=''&&selRow!='undefined') {
-            var html = '<li onclick="centerActive(this,\'herbalHide'+rowNumZ+'\')" id="herbal'+rowNumZ+'" inputhide="herbalHide'+rowNumZ+'">' +
-                '<span style="padding-right:10px;"><input  type="text" id="drugName'+rowNumZ+'" class="easyui-combogrid" style="width: 100px;" value=""/></span>' +
-                '<a href="#" class="color-red"><input  type="text" id="drugName'+rowNumZ+'" class="easyui-textbox" style="width: 100px" value=""/></a>' +
-                '<input type="text" value="0.0" style="width: 50px" class="easyui-numberbox" id="amount'+rowNumZ+'" namehide="amount" inputhide="herbalHide'+rowNumZ+'"/>' +
+            var html='';
+            html += '<li  style="position:relative;" onclick="centerActive(this,\'herbalHide'+rowNumZ+'\')" id="herbal'+rowNumZ+'" inputhide="herbalHide'+rowNumZ+'">' +
+                '<div><input  type="text" id="freqDetail'+rowNumZ+'" namehide="freqDetail" inputhide="herbalHide'+rowNumZ+'"  class="easyui-textbox" style="width: 200px;"/></div>' +
+                '<input  type="text" id="drugName'+rowNumZ+'" namehide="drugName" class="easyui-combogrid" inputhide="herbalHide'+rowNumZ+'" style="width: 150px"/>' +
+                '<input type="text" value="0" style="width: 50px" class="easyui-numberbox" id="amount'+rowNumZ+'" namehide="amount" inputhide="herbalHide'+rowNumZ+'"/>' +
+                '<a class="ul_li_a" href="#" onclick="delActive(this)" >X</a>' +
                 '<input type="hidden" id="drugCode'+rowNumZ+'" namehide="drugCode" inputhide="herbalHide'+rowNumZ+'" /> ' +
                 '<input type="hidden" id="drugSpec'+rowNumZ+'" namehide="drugSpec" inputhide="herbalHide'+rowNumZ+'" /> ' +
                 '<input type="hidden" id="firmId'+rowNumZ+'" namehide="firmId" inputhide="herbalHide'+rowNumZ+'" /> ' +
@@ -49,13 +49,16 @@ $(function() {
                 '<input type="hidden" id="units'+rowNumZ+'" namehide="units" inputhide="herbalHide'+rowNumZ+'" /> ' +
                 '<input type="hidden" id="subjCode'+rowNumZ+'" namehide="subjCode" inputhide="herbalHide'+rowNumZ+'" /> ' +
                 '<input type="hidden" id="performedBy'+rowNumZ+'" namehide="performedBy" inputhide="herbalHide'+rowNumZ+'" /> ' +
-                '<input type="hidden" id="orderNo'+rowNumZ+'" namehide="orderNo" inputhide="herbalHide'+rowNumZ+'" value="3"/> ' +
-                '<input type="hidden" id="subOrderNo'+rowNumZ+'" namehide="subOrderNo" inputhide="herbalHide'+rowNumZ+'" value="3"/> ' +
-
-                '<input type="hidden" id="charges'+rowNumZ+'" namehide="charges" inputhide="herbalHide'+rowNumZ+'" /> ';
+                '<input type="hidden" id="orderNo'+rowNumZ+'" namehide="orderNo" inputhide="herbalHide'+rowNumZ+'" value="'+rowNumZ+'"/> ' +
+                '<input type="hidden" id="subOrderNo'+rowNumZ+'" namehide="subOrderNo" inputhide="herbalHide'+rowNumZ+'" value="'+rowNumZ+'"/> ' +
+                '<input type="hidden" id="charges'+rowNumZ+'" namehide="charges" inputhide="herbalHide'+rowNumZ+'" /> '+
+                '<input type="hidden" id="serialNo'+rowNumZ+'" namehide="serialNo" inputhide="herbalHide'+rowNumZ+'" /> ';
             $("#herbal_ul").append(html);
+            html='';
+          /*  $('#freqDetail'+rowNumZ).textbox("setValue",'');
+            $('#amount'+rowNumZ).numberbox("setValue",'');*/
             $('#drugName'+rowNumZ).combogrid({
-                width: '300',
+                width: 'auto',
                 height: 'auto',
                 data: herbalDrugData,
                 idField:'item_name',
@@ -93,7 +96,7 @@ $(function() {
                     $("#performedBy"+rowNumZ).val(row.performed_by);
                     $("#charges"+rowNumZ).val(row.price);
                 }
-            })
+            });
 
         }else{
             $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
@@ -101,15 +104,11 @@ $(function() {
         }
     });
 
-    $("#delBtn").on("click",function(){
-        $("#herbal_ul .active").remove();
-    })
-
-    $("#saveBtn").on("click",function(){
-
-        alert(submitJson);
-    })
 });
+
+function delActive(obj){
+    $("#herbal_ul .active").remove();
+}
 
 function centerActive(li){
     var classLi=$(li).attr("class");
