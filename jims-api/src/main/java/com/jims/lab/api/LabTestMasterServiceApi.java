@@ -13,7 +13,7 @@ import com.jims.lab.entity.LabTestMaster;
 public interface LabTestMasterServiceApi {
 
     /**
-     * 保存或编辑
+     * 门诊保存或编辑
      * 整个主表、字表list
      * @param主表LabTestMaster
      * @param子表List
@@ -27,8 +27,6 @@ public interface LabTestMasterServiceApi {
      * 整个主表、字表list
      * @param主表LabTestMaster
      * @param子表List
-     * @author xueyx
-     * @version 2016/5/06
      */
 
     public String saveAllIn(LabTestMaster labTestMaster);
@@ -58,4 +56,11 @@ public interface LabTestMasterServiceApi {
      * @version 2016/5/13
      */
     public Page<LabTestMaster> findPage(Page<LabTestMaster> page, LabTestMaster labTestMaster);
+
+    /**
+     * 住院删除
+     * @param ids
+     * @return
+     */
+    public String deleteLabTestMaster(String ids);
 }

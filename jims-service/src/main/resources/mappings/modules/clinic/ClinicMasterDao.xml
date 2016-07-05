@@ -62,6 +62,65 @@
 		a.del_flag AS "delFlag",
 		b.clinic_label  as "clinicLabelName"
 	</sql>
+	<sql id="clinicMasterColumns1">
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.patient_id AS "patientId",
+		a.visit_date AS "visitDate",
+		a.patient_id AS "patientId",
+		a.visit_no AS "visitNo",
+		a.clinic_label AS "clinicLabel",
+		a.visit_time_desc AS "visitTimeDesc",
+		a.serial_no AS "serialNo",
+		a.name AS "name",
+		a.name_phonetic AS "namePhonetic",
+		a.sex AS "sex",
+		a.age AS "age",
+		a.identity AS "identity",
+		a.charge_type AS "chargeType",
+		a.insurance_type AS "insuranceType",
+		a.insurance_no AS "insuranceNo",
+		a.unit_in_contract AS "unitInContract",
+		a.clinic_type AS "clinicType",
+		a.first_visit_indicator AS "firstVisitIndicator",
+		a.visit_dept AS "visitDept",
+		a.visit_special_clinic AS "visitSpecialClinic",
+		a.doctor AS "doctor",
+		a.mr_provide_indicator AS "mrProvideIndicator",
+		a.registration_status AS "registrationStatus",
+		a.registering_date AS "registeringDate",
+		a.symptom AS "symptom",
+		a.regist_fee AS "registFee",
+		a.clinic_fee AS "clinicFee",
+		a.other_fee AS "otherFee",
+		a.clinic_charge AS "clinicCharge",
+		a.operator AS "operator",
+		a.returned_date AS "returnedDate",
+		a.returned_operator AS "returnedOperator",
+		a.mode_code AS "modeCode",
+		a.card_name AS "cardName",
+		a.card_no AS "cardNo",
+		a.acct_date_time AS "acctDateTime",
+		a.acct_no AS "acctNo",
+		a.pay_way AS "payWay",
+		a.mr_provided_indicator AS "mrProvidedIndicator",
+		a.invoice_no AS "invoiceNo",
+		a.clinic_no AS "clinicNo",
+		a.mr_no AS "mrNo",
+		a.isprn AS "isprn",
+		a.pat_type AS "patType",
+		a.valid_date AS "validDate",
+		a.auto_flag AS "autoFlag",
+		a.print_operator AS "printOperator",
+		a.pe_visit_id AS "peVisitId",
+		a.mailing_address AS "mailingAddress",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
 	
 	<sql id="clinicMasterJoins">
         LEFT  join CLINIC_INDEX b on a.clinic_label=b.id
@@ -102,6 +161,7 @@
 		<include refid="clinicMasterJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>

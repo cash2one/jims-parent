@@ -15,7 +15,7 @@ $.ajax({
     }
 })
 
-function operationFormatter(value,rowData,rowIndex){
+function operationNameFormatter(value,rowData,rowIndex){
     if(value == 0){
         return ;
     }

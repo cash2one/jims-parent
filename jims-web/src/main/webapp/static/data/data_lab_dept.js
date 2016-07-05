@@ -22,7 +22,7 @@ function performedBFormatter(value,rowData,rowIndex){
         return;
     }
      for(var i=0;i<performedBy.length;i++){
-            if(performedBy[i].id == value){
+            if(performedBy[i].deptCode == value){
                 return performedBy[i].deptName;
             }
       }

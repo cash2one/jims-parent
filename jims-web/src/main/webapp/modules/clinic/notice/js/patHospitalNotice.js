@@ -44,7 +44,7 @@ function onloadMethod() {
     })
 
     $("#maritalStatus").combobox({
-        data:marriage,
+        data:marriageDict,
         valueField:'value',
         textField:'label',
         onSelect:function(data){

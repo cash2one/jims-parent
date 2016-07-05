@@ -45,7 +45,8 @@ function unitsFormatter(value,rowData,rowIndex){
 $(function () {
 
     //获取住院id
-    var visitId= parent.document.getElementById("clinicMasterId").value;
+    //var visitId= parent.document.getElementById("clinicMasterId").value;
+    var visitId=1;
     $("#visitId").val(visitId);
     $('#list_doctor').datagrid({
         singleSelect: true,
@@ -142,6 +143,11 @@ $(function () {
 
 //用血申请记录列表
 function onloadMethod() {
+    alert("1")
+    var patientId=$("#patientId", parent.document).val();
+    alert(patientId)
+    var visitId=1;
+    $("#visitId").val(visitId);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -152,7 +158,8 @@ function onloadMethod() {
         method: 'get',
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url: basePath + '/bloodApply/list',
+        url: basePath + '/bloodApply/listHos',
+        QueryParams:{'visitId':visitId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -160,15 +167,13 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:function(value, rowData, rowIndex){
-                return clinicDeptCodeFormatter(rowData.deptCode,'','');
-            }},
-            {field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
+            {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:clinicDeptCodeFormatter},
+            //{field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
             {field: 'bloodInuse', title: '血源', width: '18%', align: 'center'},
             {field: 'bloodDiagnose', title: '诊断', width: '18%', align: 'center'},
             {field: 'preBloodType', title: '血型', width: '18%', align: 'center'},
             {field: 'bloodInuse', title: '方式', width: '18%', align: 'center'},
-            {field: 'bloodSum', title: '用血量', width: '18%', align: 'center'},
+            //{field: 'bloodSum', title: '用血量', width: '18%', align: 'center'},
             {field: 'applyDate', title: '申请时间', width: '30%', align: 'center', formatter: formatDateBoxFull},
             {
                 field: 'id', title: '操作', width: '40%', align: 'center', formatter: function (value, row, index) {
@@ -204,6 +209,20 @@ function onloadMethod() {
     });
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
+    $(p).pagination({
+        beforePageText: '第',//页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+    });
+
+    $("#preBloodType").combobox({
+        data:bloodType,
+        valueField:'value',
+        textField:'label',
+        onSelect:function(n){
+            $("#preBloodTypeId").val(n.value);
+        }
+    })
 }
 /**
  * 保存
@@ -218,7 +237,7 @@ function saveUseBloodApply() {
     var submitJson = formJson + ",\"bloodCapacityList\":" + tableJson + "}";
     $("#inpNo").attr("value", "123");
     if (rows.length > 0) {
-        $.postJSON(basePath + "/bloodApply/save", submitJson, function (data) {
+        $.postJSON(basePath + "/bloodApply/saveHos", submitJson, function (data) {
             if (data.code == "1") {
                 $.messager.alert("提示信息", "保存成功");
                 $('#list_data').datagrid('load');
