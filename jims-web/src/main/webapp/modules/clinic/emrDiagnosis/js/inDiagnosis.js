@@ -235,8 +235,7 @@ function refash(){
 }
 
 function insert(){
-    var top = $("#tg").offset().top - 30;
-    var left = $("#tg").offset().left;
+
     $("#dlg").dialog({title: '添加诊断'}).dialog("open").dialog('center');
     $('#fm').form('clear');
         $("#parentId").val("0");

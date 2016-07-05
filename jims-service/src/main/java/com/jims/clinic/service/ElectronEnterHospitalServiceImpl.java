@@ -43,7 +43,6 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 					for(int i=0;i<emrDiagnosisList.size();i++){
 						EmrDiagnosis diagnosis=emrDiagnosisList.get(i);
 						diagnosis.setDiagnosisParent(electronEnterHospital.getId());
-						diagnosis.setInOrOutFlag("0");//门诊
 						diagnosis.setParentId("0");
 						try{
 							if (diagnosis.getIsNewRecord()){
@@ -67,9 +66,15 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 		return num+"";
 	}
 
+	/**
+	 * 查询病历文书
+	 * @param electronEnterHospital
+	 * @author pq
+	 * @return
+	 */
 	@Override
-	public ElectronEnterHospital getElectronEnteHos(String patVisitId) {
-		return electronEnterHospitalDao.getElectronEnteHos(patVisitId);
+	public ElectronEnterHospital getElectronEnteHos(ElectronEnterHospital electronEnterHospital) {
+		return electronEnterHospitalDao.getElectronEnteHos(electronEnterHospital);
 	}
 
 
