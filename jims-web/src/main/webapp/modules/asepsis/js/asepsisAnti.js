@@ -315,26 +315,6 @@ $(function() {
         if (currentSelectIndex || currentSelectIndex == 0) {
             $("#list_data").datagrid("endEdit", currentSelectIndex);
         }
-        saveRows = [];
-        var rows = $('#list_data').datagrid('getRows');
-        $(':checkbox[name="pb"]').each(function(index){
-            $('#list_data').datagrid('endEdit', index)
-            if($(this).prop('checked') && rows[index].amountAnti){
-                var row = rows[index];
-                row.asepsisState = "3";
-                row.antiOperator = $("#operator").combobox('getValue');
-                row.checker = $("#checker").combobox('getValue');
-                row.antiWays = $("#antiWays").combobox('getValue');
-                row.boilerNo = $("#boilerNo").combobox('getValue');
-                row.boilerTimes = $("#boilerTimes").combobox('getValue');
-                saveRows.push(row);
-            }
-        })
-        if(saveRows.length<=0){
-            clickRow();
-            alert('请选择需要修改的数据');
-            return ;
-        }
         if($("#operator").combobox('getValue').length==0){
             alert('请选择操作者');
             return ;
@@ -355,6 +335,27 @@ $(function() {
             alert('请选择灭菌锅次');
             return ;
         }
+        saveRows = [];
+        var rows = $('#list_data').datagrid('getRows');
+        $(':checkbox[name="pb"]').each(function(index){
+            $('#list_data').datagrid('endEdit', index)
+            if($(this).prop('checked') && rows[index].amountAnti){
+                var row = rows[index];
+                row.asepsisState = "3";
+                row.antiOperator = $("#operator").combobox('getValue');
+                row.checker = $("#checker").combobox('getValue');
+                row.antiWays = $("#antiWays").combobox('getValue');
+                row.boilerNo = $("#boilerNo").combobox('getValue');
+                row.boilerTimes = $("#boilerTimes").combobox('getValue');
+                saveRows.push(row);
+            }
+        })
+        if(saveRows.length<=0){
+            clickRow();
+            alert('请选择需要修改的数据');
+            return ;
+        }
+
         var asepsisAntiRecVo = {};
         asepsisAntiRecVo.updated = saveRows;
         asepsisAntiRecVo.orgId = orgId;
