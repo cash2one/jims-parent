@@ -30,10 +30,10 @@ public class EmrDiagnosisRest {
 
     @Path("findListOfOut")
     @GET
-    public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("diagnosisParent")String diagnosisParent){
+    public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("clinicId")String clinicId){
        EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
         emrDiagnosis.setInOrOutFlag("0");//门诊
-        emrDiagnosis.setDiagnosisParent(diagnosisParent);
+        emrDiagnosis.setClinicId(clinicId);
         List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
     }

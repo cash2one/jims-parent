@@ -16,6 +16,7 @@ import java.util.Date;
 public class PatientListDto extends DataEntity<PatientListDto> {
     private String patientId;//病人ID
     private String inpNo;//病人住院号
+    private Integer visitId;
     private String bedNo;//住院床号
     private String patType;	   //住院状态
     private String deptCode;  //所在科室
@@ -202,5 +203,13 @@ public class PatientListDto extends DataEntity<PatientListDto> {
 
     public void setPrepayments(Double prepayments) {
         this.prepayments = prepayments;
+    }
+
+    public Integer getVisitId() {
+        return visitId;
+    }
+
+    public void setVisitId(Integer visitId) {
+        this.visitId = visitId;
     }
 }

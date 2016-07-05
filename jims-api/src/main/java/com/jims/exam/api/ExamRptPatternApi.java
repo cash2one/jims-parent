@@ -44,7 +44,7 @@ public interface ExamRptPatternApi {
      * @param examSubClass
      * @return
      */
-    public List getExamRptPattern(String examSubClass);
+    public List getExamRptPattern(String examSubClass,String orgId);
 
     public List<ExamRptPattern> findAll();
     /**

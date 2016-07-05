@@ -40,20 +40,24 @@ public class EnterHospitalRest {
       num = electronEnterHospitalApi.saveEnter(electronEnterHospital);
     }
     data.setCode(num);
-    data.setData("success");
+    if(!"".equals(num)&&!"0".equals(num)){
+      data.setData("success");
+    }else{
+      data.setData("error");
+    }
     return data;
 
   }
 
   /**
    * 查询
-   * @param patId
+   * @param electronEnterHospital
    * @return
    */
   @Path("get")
   @POST
-  public ElectronEnterHospital getElectronEnteHos(String patId){
-    return electronEnterHospitalApi.getElectronEnteHos(patId);
+  public ElectronEnterHospital getElectronEnteHos(ElectronEnterHospital electronEnterHospital){
+    return electronEnterHospitalApi.getElectronEnteHos(electronEnterHospital);
   }
 
 }

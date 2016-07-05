@@ -4,7 +4,6 @@
     
 	<sql id="electronLeaveHospitalColumns">
 		a.id AS "id",
-		a.zhuyuanxinxi_id AS "zhuyuanxinxiId",
 		a.patient_id AS "patientId",
 		a.chuyuanshijian AS "chuyuanshijian",
 		a.chuyaunzhenduan AS "chuyaunzhenduan",
@@ -17,7 +16,8 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		a.ruyuanbingqing AS "ruyuanbingqing"
+		a.ruyuanbingqing AS "ruyuanbingqing",
+		a.visit_id AS "visitId"
 	</sql>
 	
 	<sql id="electronLeaveHospitalJoins">
@@ -70,7 +70,6 @@
 	<insert id="insert">
 		INSERT INTO electron_leave_hospital(
 			id,
-			zhuyuanxinxi_id,
 			patient_id,
 			chuyuanshijian,
 			chuyaunzhenduan,
@@ -83,10 +82,10 @@
 			update_date,
 			remarks,
 			del_flag,
-			ruyuanbingqing
+			ruyuanbingqing,
+			visit_id
 		) VALUES (
 			#{id},
-			#{zhuyuanxinxiId},
 			#{patientId},
 			#{chuyuanshijian},
 			#{chuyaunzhenduan},
@@ -99,13 +98,14 @@
 			#{updateDate},
 			#{remarks},
 			#{delFlag},
-			#{ruyuanbingqing}
+			#{ruyuanbingqing},
+			#{visitId}
 		)
 	</insert>
 	
 	<update id="update">
 		UPDATE electron_leave_hospital SET 	
-			zhuyuanxinxi_id = #{zhuyuanxinxiId},
+			visit_id = #{visitId},
 			patient_id = #{patientId},
 			chuyuanshijian = #{chuyuanshijian},
 			chuyaunzhenduan = #{chuyaunzhenduan},
@@ -124,11 +124,17 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
 	<select id="getLeaveHosByVisit" resultType="ElectronLeaveHospital">
 		SELECT
 		<include refid="electronLeaveHospitalColumns"/>
 		FROM electron_leave_hospital a
-		<include refid="electronLeaveHospitalJoins"/>
-		WHERE a.zhuyuanxinxi_id = #{patVisitId}
+		where 1=1
+		<if test="patientId !=null and patientId !=''">
+			and  a.patient_id = #{patientId}
+		</if>
+		<if test="visitId !=null and visitId !=''">
+            and a.visit_id = #{visitId}
+		</if>
 	</select>
 </mapper>

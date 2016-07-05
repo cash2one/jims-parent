@@ -1,6 +1,7 @@
 
 function onloadMethod() {
-    var clinicId=$("#clinicMasterId",window.parent.document).val();
+    var patientId=$("#patientId",parent.document).val();
+    $("#patientId").val(patientId);
     var visitId = 1;
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
@@ -122,7 +123,8 @@ function onloadMethod() {
 function add() {
     clearForm();
     $("#saveBut").show();
-    var visitId=$("#clinicMasterId",window.parent.document).val();
+    var patientId=$("#patientId",parent.document).val();
+    $("#patientId").val(patientId);
     $("#visitId").val("1");
     var newDate=new Date();
     $('#requestedDateTime').datetimebox('setValue',newDate);

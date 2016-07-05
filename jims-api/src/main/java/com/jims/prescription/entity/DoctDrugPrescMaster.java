@@ -1,4 +1,4 @@
-package com.jims.clinic.entity;
+package com.jims.prescription.entity;
 
 
 import com.jims.common.persistence.DataEntity;

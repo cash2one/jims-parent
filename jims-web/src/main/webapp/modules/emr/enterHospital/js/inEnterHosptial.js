@@ -1,18 +1,20 @@
 //保存
 
 function save(){
-    var patientId=$("#patientId",parent.document).val();
+    var patientId = parent.patVisit.patientId;
+    var visitId = parent.patVisit.visitId;
     $("#patientId").val(patientId);
+    $("#visitId").val(visitId);
     formSubmitInput("enterForm");
     var formJson = fromJson('enterForm');
     $.postJSON(basePath+"/enter/save", formJson, function (data) {
-        if(data.code=="1"){
+        if(data.data=="success"){
            $.messager.alert("提示信息","保存成功");
             $.ajax({
                 'type': 'post',
                 'url': basePath+'/enter/get',
                 'contentType': 'application/json',
-                'data': patId=patientId,
+                'data': JSON.stringify({"patientId": patientId,"visitId":visitId}),
                 'dataType': 'json',
                 'success': function(data){
                     $('#enterForm').form('load',data);
@@ -30,12 +32,13 @@ function save(){
 }
 //查询
 $(function(){
-    var patientId=$("#patientId",parent.document).val();
+    var patientId =parent.patVisit.patientId;
+    var visitId = parent.patVisit.visitId;
     $.ajax({
                'type': 'POST',
                'url': basePath+'/enter/get',
                'contentType': 'application/json',
-               'data': patId=patientId,
+               'data': JSON.stringify({"patientId": patientId,"visitId":visitId}),
                'dataType': 'json',
                'success': function(data){
                    $('#enterForm').form('load',data);

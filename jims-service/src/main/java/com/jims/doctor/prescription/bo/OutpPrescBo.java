@@ -1,39 +1,37 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.service;
+package com.jims.doctor.prescription.bo;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.OutpPrescServiceApi;
 import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.clinic.dao.OutpOrdersCostsDao;
 import com.jims.clinic.dao.OutpOrdersDao;
-import com.jims.clinic.dao.OutpPrescDao;
-import com.jims.clinic.entity.*;
-import com.jims.common.persistence.BaseDao;
+import com.jims.clinic.entity.ClinicMaster;
+import com.jims.clinic.entity.OutpOrders;
+import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.prescription.entity.OutpPresc;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.IdGen;
-import com.jims.common.utils.StringUtils;
 import com.jims.common.web.impl.BaseDto;
+import com.jims.doctor.prescription.dao.OutpPrescDao;
 import com.jims.sys.dao.AdministrationDictDao;
-import com.jims.sys.dao.PriceListDao;
 import com.jims.sys.entity.OrgStaff;
-import com.jims.sys.vo.PriceListVo;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 处方医嘱明细记录Service
- * @author zhaoning
- * @version 2016-04-20
+ * 处方医嘱明细记录Bo
+ * @author zhangyao
+ * @version 2016-07-5
  */
-@Service(version = "1.0.0")
-
-public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPresc> implements OutpPrescServiceApi{
+@Service
+@Transactional(readOnly = false)
+public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
 
     @Autowired
     private OutpOrdersDao outpOrdersDao;
@@ -41,8 +39,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     private OutpOrdersCostsDao outpOrdersCostsDao;
     @Autowired
     private ClinicMasterDao clinicMasterDao;
-    @Autowired
-    private PriceListDao priceListDao;
     @Autowired
     private AdministrationDictDao administrationDictDao;
 
@@ -55,7 +51,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * @author CTQ
      * @date 2016/5/9
      */
-    @Override
     public String save(OutpPresc outpPresc){
         String num = "";
         try {
@@ -75,8 +70,26 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                        op.setClinicId(clinicMaster.getId());
                        op.setItemClass(outpPresc.getItemClass());
                        op.setPrescAttr(outpPresc.getPrescAttr());
-                       op.setCosts(op.getCharges()/op.getAmount());
+                       if(op.getItemClass()!=null&&"B".equals(op.getItemClass())){//中药
+                           if(op.getAmount()!=null&&!"".equals(op.getAmount())&&op.getAmount()!=0){//中药数量>0
+                               if(op.getRepetition()!=null&&!"".equals(op.getRepetition())&&op.getRepetition()!=0){//剂数>0
+                                   op.setCosts(op.getCharges()*op.getAmount()*op.getRepetition());//中药单价*中药数量*中药剂数为总额
+                               }else{
+                                   op.setCosts(op.getCharges()*op.getAmount());
+                               }
+                           }else{
+                               op.setCosts(op.getCharges());
+                           }
+                       }else{//西药
+                           if(op.getAmount()!=null&&!"".equals(op.getAmount())&&op.getAmount()!=0){
+                               op.setCosts(op.getCharges()*op.getAmount());
+                           }else {
+                               op.setCosts(op.getCharges());
+                           }
+                       }
+                       op.setCharges(op.getCosts());
                        op.setItemNo(1);
+                       op.setSerialNo(serialNo);
                        if(op.getId()!=null && !op.getId().equals("")){
                            num = String.valueOf(dao.update(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
@@ -92,13 +105,13 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                                    op.setPrescNo(prescno!=null?prescno:1);
                                }
                            }
-                           op.setSerialNo(serialNo);
+
                            op.setProvidedIndicator(0);//自备标记
                            op.preInsert();
                            num = String.valueOf(dao.insert(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }
-                       if(op.getSubOrderNo().equals(op.getOrderNo())){
+                       if(op.getSubOrderNo().equals(op.getOrderNo())){//主医嘱，由于子处方用药途径与主处方用药途径只收一次途径项目费用
                             if(op.getAdministration()!=null&&!"".equals(op.getAdministration())){
                                 BaseDto baseDto = administrationDictDao.findByParams(op.getAdministration(),op.getOrgId());
                                 if(baseDto!=null&&baseDto.get("price").toString()!=null&&!"".equals(baseDto.get("price").toString())){
@@ -109,7 +122,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                                     outpOrdersCosts.setOrgId(clinicMaster.getOrgId());
                                     outpOrdersCosts.setOrderClass(outpPresc.getItemClass());//诊疗项目类别
                                     outpOrdersCosts.setPatientId(clinicMaster.getPatientId());
-                                    outpOrdersCosts.setSerialNo(outpPresc.getSerialNo());
+                                    outpOrdersCosts.setSerialNo(op.getSerialNo());
                                     outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
                                     outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
                                     outpOrdersCosts.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + clinicMaster.getVisitNo());
@@ -149,7 +162,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                 oo.preInsert();
                 outpOrdersDao.insert(oo);
                 //保存门诊处方药品价目表信息
-
                 saveOutpOrdersCosts(ordersCostsesList);
             }
         }catch (Exception e){
@@ -164,7 +176,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * updateBy CTQ
      * @return
      */
-    @Override
     public List<OutpPresc> getOutpPresc(String orgId,String clinicId) {
         return dao.getOutpPresc(orgId,clinicId);
     }
@@ -243,7 +254,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * @author CTQ
      * @date 2016/5/9
      */
-    @Override
     public String deletePresc(String ids){
         int num = 0;
         if(ids!=null && !ids.equals("")){
@@ -276,7 +286,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * @author CTQ
      * @date 2016/5/10
      */
-    @Override
     public List<OutpPresc> findListByParams(OutpPresc outpPresc){
         return dao.findListByParams(outpPresc);
     }

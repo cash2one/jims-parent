@@ -15,7 +15,7 @@ public interface ElectronEnterHospitalServiceApi {
      * @param patVisitId
      * @return
      */
-    public ElectronEnterHospital getElectronEnteHos(String patVisitId);
+    public ElectronEnterHospital getElectronEnteHos(ElectronEnterHospital electronEnterHospital);
 
     /**
      * 保存/修改  病历文书--入院记录

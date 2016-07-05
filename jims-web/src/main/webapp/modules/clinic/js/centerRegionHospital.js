@@ -1,4 +1,4 @@
-
+var patVisitIndex={};
 $(function(){
     addTabs('1','病人列表','/modules/clinic/patientListTable.html');
     //添加Tabs

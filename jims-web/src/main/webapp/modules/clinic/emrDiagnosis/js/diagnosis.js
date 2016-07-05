@@ -2,13 +2,12 @@ var administration = [{ "value": "1", "text": "中医" }, { "value": "2", "text"
 var editRow1 = undefined;
 var rowNum1=-1;
 $(function(){
-    var clinicId=$("#clinicMasterId",parent.document).val();
-    var parentId = $("#diagnosisParent").val();
+    var clinId=parent.clinicMaster.id;
     $('#zhenduan').datagrid({
         singleSelect: true,
         fit: true,
         method:'GET',
-        url:basePath+'/diagnosis/findListOfOut?diagnosisParent='+parentId,
+        url:basePath+'/diagnosis/findListOfOut?clinicId='+clinId,
         idField:'id',
         columns:[[      //每个列具体内容
              {field:'type',title:'诊断类型',width:'10%',align:'center',formatter:typeFormatter,editor:{
@@ -72,8 +71,7 @@ $(function(){
                     $("#zhenduan").datagrid("insertRow", {
                         index: 0, // index start with 0
                         row: {
-                            clinicId:clinicId
-
+                           clinicId:clinId
                         }
                     });
 
@@ -129,7 +127,6 @@ $(function(){
 });
 
 function saveDiagnosis(){
-
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){

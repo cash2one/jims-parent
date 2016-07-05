@@ -21,8 +21,8 @@ public class ExamSubClassDictBo extends CrudImplService<ExamSubclassDictDao,Exam
     @Autowired
     private ExamSubclassDictDao examSubclassDictDao;
 
-    public List getEx(String examClassName) {
-        return examSubclassDictDao.getEx(examClassName);
+    public List getEx(String examClassName,String orgId) {
+        return examSubclassDictDao.getEx(examClassName,orgId);
     }
 
     /**

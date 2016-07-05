@@ -7,6 +7,7 @@ package com.jims.clinic.dao;
 import com.jims.exam.entity.ExamRptPattern;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @MyBatisDao
 public interface ExamRptPatternDao extends CrudDao<ExamRptPattern> {
-	public List getExamRptPattern(String examSubClass);
+	public List getExamRptPattern(@Param("examSubClass")String examSubClass,@Param("orgId")String orgId);
     /**
      * 获取检查项目通过类别
      * @param orgId 机构id

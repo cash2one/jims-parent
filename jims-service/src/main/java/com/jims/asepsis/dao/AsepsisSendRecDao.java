@@ -15,6 +15,12 @@ import java.util.List;
 public interface AsepsisSendRecDao extends CrudDao<AsepsisSendRec> {
 
     /**
+     * 根据单据号，所属科室，代码等查询相应的送物领物表
+     * @param entity
+     * @return
+     */
+    public List<AsepsisSendRec> findListNoId(AsepsisSendRec entity);
+    /**
      * 获取当天最大的编码
      * @param orgId
      * @return
