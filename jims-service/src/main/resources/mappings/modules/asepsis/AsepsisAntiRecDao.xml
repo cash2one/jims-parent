@@ -55,7 +55,7 @@
             a.memos,
             a.asepsis_State,
             a.amount,
-            0 as amountAnti,
+            a.amount as amountAnti,
             a.anti_Batch_No,
             a.imp_Date,
             a.boiler_No,
