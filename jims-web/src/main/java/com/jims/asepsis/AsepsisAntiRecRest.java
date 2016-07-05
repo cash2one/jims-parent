@@ -34,7 +34,7 @@ public class AsepsisAntiRecRest {
     /**
      * 查询对应状态下的消毒包
      * @param state 消毒包状态：0-未清洗；1-清洗未打包；2-打包未消毒；3-消毒加库存；null-未作任何处理
-     * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
+     * @return java.util.List<com.jims.prescription.entity.OutpPresc>    返回类型
      * @Title: list
      * @Description: (根据消毒包状态获取某状态下的消毒包)
      * @author LHL
@@ -112,7 +112,7 @@ public class AsepsisAntiRecRest {
 
 
 //    /**
-//     * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
+//     * @return java.util.List<com.jims.prescription.entity.OutpPresc>    返回类型
 //     * @throws
 //     * @Title: list
 //     * @Description: (查询患者处方用药列表数据)

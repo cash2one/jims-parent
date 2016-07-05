@@ -1,7 +1,6 @@
 package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.DoctDrugPrescMasterServiceApi;
 import com.jims.clinic.api.DrugPrescTempServiceApi;
 import com.jims.clinic.dao.DrugPrescDetailDao;
 import com.jims.clinic.dao.DrugPrescDetailTempDao;

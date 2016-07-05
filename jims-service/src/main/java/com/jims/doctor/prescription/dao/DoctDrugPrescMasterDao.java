@@ -1,10 +1,9 @@
-package com.jims.clinic.dao;
+package com.jims.doctor.prescription.dao;
 
 
-import com.jims.clinic.entity.DoctDrugPrescMaster;
+import com.jims.prescription.entity.DoctDrugPrescMaster;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
-import com.sun.org.apache.xml.internal.serialize.LineSeparator;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.jims.clinic.api;
 
-import com.jims.clinic.entity.DoctDrugPrescDetail;
 import com.jims.clinic.entity.DrugPrescDetailTemp;
 import com.jims.clinic.entity.DrugPrescMasterTemp;
 

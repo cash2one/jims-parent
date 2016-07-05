@@ -1,39 +1,37 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.clinic.service;
+package com.jims.doctor.prescription.bo;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.OutpPrescServiceApi;
 import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.clinic.dao.OutpOrdersCostsDao;
 import com.jims.clinic.dao.OutpOrdersDao;
-import com.jims.clinic.dao.OutpPrescDao;
-import com.jims.clinic.entity.*;
-import com.jims.common.persistence.BaseDao;
+import com.jims.clinic.entity.ClinicMaster;
+import com.jims.clinic.entity.OutpOrders;
+import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.prescription.entity.OutpPresc;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.IdGen;
-import com.jims.common.utils.StringUtils;
 import com.jims.common.web.impl.BaseDto;
+import com.jims.doctor.prescription.dao.OutpPrescDao;
 import com.jims.sys.dao.AdministrationDictDao;
-import com.jims.sys.dao.PriceListDao;
 import com.jims.sys.entity.OrgStaff;
-import com.jims.sys.vo.PriceListVo;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 处方医嘱明细记录Service
- * @author zhaoning
- * @version 2016-04-20
+ * 处方医嘱明细记录Bo
+ * @author zhangyao
+ * @version 2016-07-5
  */
-@Service(version = "1.0.0")
-
-public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPresc> implements OutpPrescServiceApi{
+@Service
+@Transactional(readOnly = false)
+public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
 
     @Autowired
     private OutpOrdersDao outpOrdersDao;
@@ -41,8 +39,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
     private OutpOrdersCostsDao outpOrdersCostsDao;
     @Autowired
     private ClinicMasterDao clinicMasterDao;
-    @Autowired
-    private PriceListDao priceListDao;
     @Autowired
     private AdministrationDictDao administrationDictDao;
 
@@ -55,7 +51,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * @author CTQ
      * @date 2016/5/9
      */
-    @Override
     public String save(OutpPresc outpPresc){
         String num = "";
         try {
@@ -164,7 +159,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * updateBy CTQ
      * @return
      */
-    @Override
     public List<OutpPresc> getOutpPresc(String orgId,String clinicId) {
         return dao.getOutpPresc(orgId,clinicId);
     }
@@ -243,7 +237,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * @author CTQ
      * @date 2016/5/9
      */
-    @Override
     public String deletePresc(String ids){
         int num = 0;
         if(ids!=null && !ids.equals("")){
@@ -276,7 +269,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
      * @author CTQ
      * @date 2016/5/10
      */
-    @Override
     public List<OutpPresc> findListByParams(OutpPresc outpPresc){
         return dao.findListByParams(outpPresc);
     }
