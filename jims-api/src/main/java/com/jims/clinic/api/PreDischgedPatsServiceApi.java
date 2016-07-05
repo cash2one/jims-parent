@@ -39,7 +39,7 @@ public interface PreDischgedPatsServiceApi {
      *  @author qinlongxin
      * @return
      */
-    public String save(List<PreDischgedPatsVo> list);
+    public String savePreDischPat(List<PreDischgedPatsVo> list);
     /**
      * 查询待出院的患者的信息集合
      * @param wardCode
@@ -70,5 +70,5 @@ public interface PreDischgedPatsServiceApi {
      * @author pq
      * @return
      */
-    public List<PreDischgedPatsVo> findPreList(String patientId,String wardCode);
+    public Page<PreDischgedPatsVo> findPreList(Page<PreDischgedPatsVo> page,String patientId,String wardCode);
 }

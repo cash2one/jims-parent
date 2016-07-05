@@ -8,7 +8,7 @@ import com.jims.asepsis.bo.AsepsisAntiRecBo;
 import com.jims.asepsis.bo.AsepsisStockBo;
 import com.jims.asepsis.dao.AsepsisAntiRecDao;
 import com.jims.asepsis.entity.AsepsisAntiRec;
-import com.jims.asepsis.vo.AsepsisDictVo;
+import com.jims.asepsis.vo.AsepsisAntiRecVo;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -37,10 +37,23 @@ public class AsepsisAntiRecImpl extends CrudImplService<AsepsisAntiRecDao, Aseps
         return asepsisAntiRecBo.getAsepsisAntiRecByState(aar);
     }
 
+    /**
+     * 无菌物品消毒包管理(清洗，打包，灭菌)(修改)
+     * @param asepsisAntiRec
+     * @return int
+     * @author louhuili
+     */
     public int saveClean(AsepsisAntiRec asepsisAntiRec){
         return asepsisAntiRecBo.saveClean(asepsisAntiRec);
     }
-    public int saveAll(AsepsisDictVo<AsepsisAntiRec> asepsisAntiRecVo){
+
+    /**
+     * 无菌物品消毒包管理(清洗，打包，灭菌)(新增，修改，删除)
+     * @param asepsisAntiRecVo
+     * @return int
+     * @author louhuili
+     */
+    public int saveAll(AsepsisAntiRecVo<AsepsisAntiRec> asepsisAntiRecVo){
         return asepsisAntiRecBo.saveAll(asepsisAntiRecVo);
     }
 

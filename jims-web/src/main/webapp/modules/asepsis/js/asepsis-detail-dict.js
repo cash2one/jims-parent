@@ -74,7 +74,8 @@ $(function () {
                 'success': function (data) {
                     for (var i = 0; i < data.length; i++) {
                         staffFrom.push({
-                            itemCode: data[i].exp_code, itemName: data[i].exp_name, supplier: data[i].supplier
+                            itemCode: data[i].exp_code, itemName: data[i].exp_name, supplier: data[i].supplier ,
+                            id: data[i].id
                             , expSpec: data[i].exp_spec
                             , units: data[i].units
                             , label: data[i].label
@@ -204,6 +205,7 @@ $(function () {
                         {field: 'label', title: '单位', width: 100, align: 'center'},
                         {field: 'inputcode', title: '拼音码', width: 100, align: 'center'},
                         {field: 'tradePrice', title: '批发价', width: 100, align: 'center'},
+                        {field: 'id', title: '厂家ID', width: 100, align: 'center'},
                         {field: 'retailPricce', title: '零售价', width: 100, align: 'center'}
                     ]],
                     onSelect: function (index, data) {
@@ -214,6 +216,7 @@ $(function () {
                         row.units = data.units;
                         row.label = data.label;
                         row.itemPrice = data.tradePrice;
+                        row.firmId=data.id;
                         $('#asepsis-detail-dict').datagrid('endEdit', editIndex1);
                     }
                 }

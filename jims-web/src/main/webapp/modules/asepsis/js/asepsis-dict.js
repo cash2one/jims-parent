@@ -39,6 +39,8 @@ $(function () {
 
     });
 
+    var itemRollbackFlagData=[{id:'1',text:'回收'},{id:'0',text:'不回收'}]
+
 
     $("#asepsis-dict").datagrid({
         fit: true,
@@ -56,9 +58,33 @@ $(function () {
             field: "id",
             hidden: true
         }, {
+            title: "回收标志",
+            field: "itemRollbackFlag",
+            width: '100',
+            align: 'center',
+            editor: {
+                type: 'combobox',
+                options: {
+                    required:true,
+                    missingMessage:'回收标志不能为空' ,
+                    valueField: 'id',
+                    textField: 'text',
+                    data:itemRollbackFlagData
+                }
+            }  ,
+            formatter:function(value){
+                if(value=='1')
+                {
+                    return "回收";
+                }else if(value=='0'){
+                    return "不回收";
+                }
+                return "";
+            }
+        }, {
             title: "类别",
             field: "itemClass",
-            width: '5%',
+            width: '50',
             align: 'center',
             editor: {
                 type:'textbox',
@@ -70,12 +96,12 @@ $(function () {
         }, {
             title: "代码",
             field: "asepsisCode",
-            width: '5%',
+            width: '80',
             align: 'center'
         }, {
             title: "包名称",
             field: "asepsisName",
-            width: '10%',
+            width: '100',
             align: 'center',
             editor: {
                 type:'textbox',
@@ -87,7 +113,7 @@ $(function () {
         }, {
             title: "包规格",
             field: "asepsisSpec",
-            width: '5%',
+            width: '50',
             align: 'center',
             editor: {
                 type:'textbox',
@@ -99,7 +125,7 @@ $(function () {
         }, {
             title: "单位",
             field: "units",
-            width: '5%',
+            width: '50',
             align: 'left',
             editor: {
                 type: 'combobox',
@@ -120,7 +146,7 @@ $(function () {
         }, {
             title: "有效期(天)",
             field: "validDays",
-            width: '7%',
+            width: '50',
             align: 'center',
             editor: {
                 type:'textbox',
@@ -132,7 +158,7 @@ $(function () {
         }, {
             title: "消毒总费",
             field: "antiPrice",
-            width: '7%',
+            width: '80',
             align: 'center',
             formatter: function (value, row, index) {
                 var _value = ((isNaN(row.cleanPrice) ? 0 : +row.cleanPrice)
@@ -144,7 +170,7 @@ $(function () {
         }, {
             title: "清洗费用",
             field: "cleanPrice",
-            width: '7%',
+            width: '80',
             align: 'center',
             editor: {
                 type:'textbox',
@@ -160,7 +186,7 @@ $(function () {
         }, {
             title: "打包费用",
             field: "packPrice",
-            width: '7%',
+            width: '80',
             align: 'center',
             editor: {
                 type:'textbox',
@@ -176,7 +202,7 @@ $(function () {
         }, {
             title: "灭菌费用",
             field: "asepPrice",
-            width: '7%',
+            width: '80',
             align: 'center',
             editor: {
                 type:'textbox',
@@ -192,7 +218,7 @@ $(function () {
         }, {
             title: "辅料费",
             field: "nobackPrice",
-            width: '7%',
+            width: '80',
             align: 'center',
             editor: {
                 type:'textbox',
@@ -208,7 +234,7 @@ $(function () {
         }, {
             title: "所属科室",
             field: "belongDept",
-            width: '7%',
+            width: '80',
             align: 'center'
             , formatter: function (value, row) {
                 return currentSelectDeptData ? currentSelectDeptData.deptName : '';
@@ -217,7 +243,7 @@ $(function () {
         }, {
             title: "拼音码",
             field: "inputCode",
-            width: '7%',
+            width: '80',
             align: 'center',
             formatter: function (value, row, index) {
                 var name=row.asepsisName ;
@@ -230,7 +256,7 @@ $(function () {
         }, {
             title: "统计类型",
             field: "memos",
-            width: '7%',
+            width: '80',
             align: 'center',
             editor: 'textbox'
         }

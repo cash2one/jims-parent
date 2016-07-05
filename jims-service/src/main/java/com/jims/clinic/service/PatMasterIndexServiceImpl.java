@@ -79,22 +79,24 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
             patMasterIndex.preInsert();
             num = dao.insert(patMasterIndex);
         }
-        /**2.保存在院病人记录**/
-        copytoInHospital(patMasterIndex, patsInHospital);
-        patsInHospital.preInsert();
-        patsInHospitalDao.insert(patsInHospital);
-        /**3.保存诊断信息**/
-        copytoDiagnosis(patMasterIndex, emrDiagnosis);
-        emrDiagnosis.preInsert();
-        emrDiagnosisDao.insert(emrDiagnosis);
-        /**4.保存转科病人记录**/
-        copytoInTrans(patMasterIndex, patsInTransferring);
-        patsInTransferring.preInsert();
-        patsInTransferringDao.insert(patsInTransferring);
-        /**5.保存病人住院记录信息**/
+        /**2.保存病人住院记录信息**/
         copytoVisit(patMasterIndex, patVisit);
         patVisit.preInsert();
         patVisitDao.insert(patVisit);
+        /**3.保存在院病人记录**/
+        patsInHospital.setVisitId(patsInHospital.getId());
+        copytoInHospital(patMasterIndex, patsInHospital);
+        patsInHospital.preInsert();
+        patsInHospitalDao.insert(patsInHospital);
+        /**4.保存诊断信息**/
+        copytoDiagnosis(patMasterIndex, emrDiagnosis);
+        emrDiagnosis.preInsert();
+        emrDiagnosisDao.insert(emrDiagnosis);
+        /**5.保存转科病人记录**/
+        copytoInTrans(patMasterIndex, patsInTransferring);
+        patsInTransferring.preInsert();
+        patsInTransferringDao.insert(patsInTransferring);
+
         /**6.保存预交金记录信息**/
         prepaymentRcpt.preInsert();
 //      prepaymentRcptDao.insert(prepaymentRcpt);
@@ -172,7 +174,6 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
      */
     private void copytoInHospital(PatMasterIndex patMasterIndex,PatsInHospital patsInHospital){
         patsInHospital.setPatientId(patMasterIndex.getId());
-        patsInHospital.setVisitId(1);
         patsInHospital.setWardCode(null);
         patsInHospital.setDeptCode(null);
         patsInHospital.setAdmissionDateTime(new Date());
