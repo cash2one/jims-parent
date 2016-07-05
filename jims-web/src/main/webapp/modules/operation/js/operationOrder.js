@@ -2,6 +2,7 @@ var editRow = undefined;
 var rowNum = -1;
 function onloadMethod() {
     var deptCode = $("#deptCode").val();
+    alert($("#patientId", parent.document).val());
     //病人列表
     $('#patient').datagrid({
         singleSelect: true,
