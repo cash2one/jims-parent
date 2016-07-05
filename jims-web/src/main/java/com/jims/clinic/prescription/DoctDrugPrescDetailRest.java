@@ -2,9 +2,8 @@ package com.jims.clinic.prescription;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
-import com.jims.clinic.api.DoctDrugPrescDetailServiceApi;
-import com.jims.clinic.entity.DoctDrugPrescDetail;
-import com.jims.clinic.entity.DoctDrugPrescMaster;
+import com.jims.prescription.api.DoctDrugPrescDetailServiceApi;
+import com.jims.prescription.entity.DoctDrugPrescDetail;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +30,7 @@ public class DoctDrugPrescDetailRest {
 
     /**
      * @param     prescMasterId        传递参数
-     * @return java.util.List<com.jims.clinic.entity.DoctDrugPrescDetail>    返回类型
+     * @return java.util.List<com.jims.prescription.entity.DoctDrugPrescDetail>    返回类型
      * @throws
      * @Title: list
      * @Description: (根据处方ID查询记录明细)

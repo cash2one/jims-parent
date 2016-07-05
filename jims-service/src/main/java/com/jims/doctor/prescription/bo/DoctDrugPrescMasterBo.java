@@ -1,18 +1,16 @@
-package com.jims.clinic.service;
+package com.jims.doctor.prescription.bo;
 
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.DoctDrugPrescMasterServiceApi;
-import com.jims.clinic.dao.DoctDrugPrescDetailDao;
-import com.jims.clinic.dao.DoctDrugPrescMasterDao;
-import com.jims.orders.dao.OrdersCostsDao;
-import com.jims.clinic.entity.DoctDrugPrescDetail;
-import com.jims.clinic.entity.DoctDrugPrescMaster;
-import com.jims.orders.entity.OrdersCosts;
+import com.jims.prescription.entity.DoctDrugPrescDetail;
+import com.jims.prescription.entity.DoctDrugPrescMaster;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.web.impl.BaseDto;
+import com.jims.doctor.prescription.dao.DoctDrugPrescDetailDao;
+import com.jims.doctor.prescription.dao.DoctDrugPrescMasterDao;
+import com.jims.orders.dao.OrdersCostsDao;
 import com.jims.orders.dao.OrdersDao;
 import com.jims.orders.entity.Orders;
+import com.jims.orders.entity.OrdersCosts;
 import com.jims.sys.dao.AdministrationDictDao;
 import com.jims.sys.dao.PerformDefaultScheduleDao;
 import com.jims.sys.dao.PerformFreqDictDao;
@@ -21,32 +19,34 @@ import com.jims.sys.entity.PerformDefaultSchedule;
 import com.jims.sys.entity.PerformFreqDict;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 
 /**
- * 待发药住院处方主记录Service
+ * 待发药住院处方主记录Bo
  * @author CTQ
- * @version 2016-05-16
+ * @version 2016-07-5
  */
-@Service(version = "1.0.0")
 
-public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPrescMasterDao, DoctDrugPrescMaster> implements DoctDrugPrescMasterServiceApi {
+@Service
+@Transactional(readOnly = false)
+public class DoctDrugPrescMasterBo extends CrudImplService<DoctDrugPrescMasterDao, DoctDrugPrescMaster> {
     @Autowired
-    DoctDrugPrescDetailDao doctDrugPrescDetailDao;
+    private DoctDrugPrescDetailDao doctDrugPrescDetailDao;
     @Autowired
-    OrdersDao ordersDao;
+    private OrdersDao ordersDao;
     @Autowired
-    OrdersCostsDao ordersCostsDao;
+    private OrdersCostsDao ordersCostsDao;
     @Autowired
-    PerformFreqDictDao performFreqDictDao;
+    private PerformFreqDictDao performFreqDictDao;
     @Autowired
-    PerformDefaultScheduleDao performDefaultScheduleDao;
+    private PerformDefaultScheduleDao performDefaultScheduleDao;
     @Autowired
-    AdministrationDictDao administrationDictDao;
+    private AdministrationDictDao administrationDictDao;
 
     /**
      * 根据参数查询列表
@@ -55,7 +55,6 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
      * @date 2016年5月16日15:50:38
      * @return
      */
-    @Override
     public List<DoctDrugPrescMaster> findListByParams(DoctDrugPrescMaster doctDrugPrescMaster) {
         return dao.findListByParams(doctDrugPrescMaster);
     }
@@ -67,7 +66,6 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
      * @date 2016年5月16日16:19:11
      * @return
      */
-    @Override
     public String savePresc(DoctDrugPrescMaster doctDrugPrescMaster) {
         int num = 0;
         try {
@@ -180,7 +178,6 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
      * @date 2016年5月16日16:19:11
      * @return
      */
-    @Override
     public String deletePresc(String id) {
         int num = 0;
         try {
@@ -203,7 +200,6 @@ public class DoctDrugPrescMasterServiceImpl extends CrudImplService<DoctDrugPres
      * @date 2016年5月17日14:25:04
      * @return
      */
-    @Override
     public Integer searchPrescNo(String visitId) {
         return dao.searchPrescNo(visitId);
     }

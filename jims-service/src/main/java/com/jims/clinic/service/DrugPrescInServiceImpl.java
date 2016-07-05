@@ -2,14 +2,16 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.DrugPrescInServiceApi;
-import com.jims.clinic.dao.DoctDrugPrescDetailDao;
-import com.jims.clinic.dao.DoctDrugPrescMasterDao;
+import com.jims.doctor.prescription.dao.DoctDrugPrescDetailDao;
+import com.jims.doctor.prescription.dao.DoctDrugPrescMasterDao;
 import com.jims.clinic.dao.DrugPrescDetailDao;
 import com.jims.clinic.dao.DrugPrescMasterDao;
 import com.jims.clinic.entity.*;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.drugPresc.dao.InpBillDetailDao;
 import com.jims.drugPresc.entity.InpBillDetail;
+import com.jims.prescription.entity.DoctDrugPrescDetail;
+import com.jims.prescription.entity.DoctDrugPrescMaster;
 import org.springframework.beans.factory.annotation.Autowired;
 
 

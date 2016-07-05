@@ -2,18 +2,15 @@ package com.jims.clinic;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
-import com.jims.clinic.api.DoctDrugPrescDetailServiceApi;
-import com.jims.clinic.api.DoctDrugPrescMasterServiceApi;
+import com.jims.prescription.api.DoctDrugPrescDetailServiceApi;
+import com.jims.prescription.api.DoctDrugPrescMasterServiceApi;
 import com.jims.clinic.api.DrugPrescInServiceApi;
-import com.jims.clinic.entity.DoctDrugPrescDetail;
-import com.jims.clinic.entity.DoctDrugPrescMaster;
+import com.jims.prescription.entity.DoctDrugPrescDetail;
+import com.jims.prescription.entity.DoctDrugPrescMaster;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**

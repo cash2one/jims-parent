@@ -4,10 +4,10 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.clinic.api.ClinicMasterServiceApi;
 import com.jims.clinic.api.OutpOrdersCostsServiceApi;
-import com.jims.clinic.api.OutpPrescServiceApi;
+import com.jims.prescription.api.OutpPrescServiceApi;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpOrdersCosts;
-import com.jims.clinic.entity.OutpPresc;
+import com.jims.prescription.entity.OutpPresc;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class OutpPrescRest {
 
     /**
      * @param       orgId   clinicId   传递参数
-     * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
+     * @return java.util.List<com.jims.prescription.entity.OutpPresc>    返回类型
      * @throws
      * @Title: list
      * @Description: (根据病人ID查询处方主记录)
@@ -55,7 +55,7 @@ public class OutpPrescRest {
     }
 
     /**
-     * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
+     * @return java.util.List<com.jims.prescription.entity.OutpPresc>    返回类型
      * @throws
      * @Title: list
      * @Description: (查询患者处方用药列表数据)

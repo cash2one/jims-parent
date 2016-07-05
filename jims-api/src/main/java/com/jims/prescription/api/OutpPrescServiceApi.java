@@ -1,6 +1,6 @@
-package com.jims.clinic.api;
+package com.jims.prescription.api;
 
-import com.jims.clinic.entity.OutpPresc;
+import com.jims.prescription.entity.OutpPresc;
 
 import java.util.List;
 

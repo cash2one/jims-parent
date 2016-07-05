@@ -1,6 +1,6 @@
-package com.jims.clinic.dao;
+package com.jims.doctor.prescription.dao;
 
-import com.jims.clinic.entity.DoctDrugPrescDetail;
+import com.jims.prescription.entity.DoctDrugPrescDetail;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;

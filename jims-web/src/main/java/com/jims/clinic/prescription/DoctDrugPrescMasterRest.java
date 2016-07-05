@@ -2,9 +2,8 @@ package com.jims.clinic.prescription;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
-import com.jims.clinic.api.DoctDrugPrescMasterServiceApi;
-import com.jims.clinic.entity.DoctDrugPrescMaster;
-import com.jims.clinic.entity.OutpPresc;
+import com.jims.prescription.api.DoctDrugPrescMasterServiceApi;
+import com.jims.prescription.entity.DoctDrugPrescMaster;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +29,7 @@ public class DoctDrugPrescMasterRest {
 
     /**
      * @param        patientId     传递参数
-     * @return java.util.List<com.jims.clinic.entity.DoctDrugPrescMaster>    返回类型
+     * @return java.util.List<com.jims.prescription.entity.DoctDrugPrescMaster>    返回类型
      * @throws
      * @Title: list
      * @Description: (查询处方下达左侧处方列表)
@@ -95,7 +94,7 @@ public class DoctDrugPrescMasterRest {
         return stringData;
     }
     /**
-     * @return com.jims.clinic.entity.DoctDrugPrescMaster    返回类型
+     * @return com.jims.prescription.entity.DoctDrugPrescMaster    返回类型
      * @throws
      * @Title: getPrescMaster
      * @Description: (处理新方处方号和处方日期)
