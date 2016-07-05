@@ -84,6 +84,7 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
                 // 记账
                 if(master.getAccountIndicator() != null && 1 == master.getAccountIndicator()){
                     stock.setQuantity(quantity);
+                    stock.setDocumentNo(detail.getDocumentNo());
                     if(stock.getId() != null) {
                         stock.preUpdate();
                         stockDao.update(stock);

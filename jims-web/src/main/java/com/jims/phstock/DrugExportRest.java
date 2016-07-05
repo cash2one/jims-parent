@@ -2,12 +2,12 @@ package com.jims.phstock;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.phstock.api.DrugExportServiceApi;
+import com.jims.phstock.entity.DrugExportDetail;
 import com.jims.phstock.entity.DrugExportMaster;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.util.List;
 
 /**
  * 药品出库Rest
@@ -33,5 +33,61 @@ public class DrugExportRest {
     @Path("save")
     public String save(DrugExportMaster master){
         return api.saveMasterAndDetail(master);
+    }
+
+    /**
+     * 检索出库数据
+     * @param orgId 机构ID
+     * @param receiver 收货方
+     * @param subReceiver 收货子单位
+     * @param subStorage 存放库房
+     * @return
+     */
+    @GET
+    @Path("findMasterList")
+    public List<DrugExportMaster> findMasterList(@QueryParam("orgId")String orgId,
+                                                 @QueryParam("receiver")String receiver,
+                                                 @QueryParam("subReceiver")String subReceiver,
+                                                 @QueryParam("subStorage")String subStorage){
+        DrugExportMaster master = new DrugExportMaster();
+        master.setOrgId(orgId);
+        master.setReceiver(receiver);
+        master.setSubReceiver(subReceiver);
+        master.setSubStorage(subStorage);
+        return api.findMasterList(master);
+    }
+
+    /**
+     * 检索出库明细
+     * @param orgId
+     * @param documentNo
+     * @return
+     */
+    @GET
+    @Path("findDetailList")
+    public List<DrugExportDetail> findDetailList(@QueryParam("orgId")String orgId,
+                                                 @QueryParam("documentNo")String documentNo){
+        DrugExportDetail detail = new DrugExportDetail();
+        detail.setOrgId(orgId);
+        detail.setDocumentNo(documentNo);
+        return api.findDetailList(detail);
+    }
+
+    /**
+     * 检索出库明细(包含库存)
+     * @param orgId
+     * @param documentNo
+     * @return
+     */
+    @GET
+    @Path("findDetailListWithStock")
+    public List<DrugExportDetail> findDetailListWithStock(@QueryParam("orgId")String orgId,
+                                                 @QueryParam("documentNo")String documentNo,
+                                                 @QueryParam("storage")String storage,
+                                                 @QueryParam("subStorage")String subStorage){
+        DrugExportDetail detail = new DrugExportDetail();
+        detail.setOrgId(orgId);
+        detail.setDocumentNo(documentNo);
+        return api.findDetailListWithStock(detail,storage,subStorage);
     }
 }

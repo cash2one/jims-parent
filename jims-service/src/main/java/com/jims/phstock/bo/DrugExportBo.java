@@ -64,4 +64,45 @@ public class DrugExportBo extends CrudImplService<DrugExportDetailDao, DrugExpor
             }
         }
     }
+
+    /**
+     * 检索出库数据
+     * @param master
+     * @return
+     */
+    public List<DrugExportMaster> findMasterList(DrugExportMaster master){
+        return masterDao.findList(master);
+    }
+
+    /**
+     * 检索出库数据(包含库存)
+     * @param detail
+     * @param storage 库存管理单位
+     * @param subStorage 存放库房
+     * @return
+     */
+    public List<DrugExportDetail> findDetailListWithStock(DrugExportDetail detail,String storage,String subStorage){
+        List<DrugExportDetail> details = dao.findList(detail);
+        for(int i=0;i<details.size();i++){
+            detail = details.get(i);
+            DrugStock stock = new DrugStock();
+            stock.setStorage(storage);
+            stock.setDrugCode(detail.getDrugCode());
+            stock.setDrugSpec(detail.getDrugSpec());
+            stock.setUnits(detail.getUnits());
+            stock.setFirmId(detail.getFirmId());
+            stock.setBatchNo(detail.getBatchNo());
+            stock.setSubStorage(subStorage);//存放库房
+            stock.setOrgId(detail.getOrgId());
+            stock.setPackageSpec(detail.getPackageSpec());
+            List<DrugStock> stocks = stockDao.findList(stock);
+            if (stocks != null && stocks.size() > 0) {
+                double quantity = stocks.get(0).getQuantity();
+                detail.setStock(quantity);
+            } else {
+                detail.setStock(0.0);
+            }
+        }
+        return details;
+    }
 }
