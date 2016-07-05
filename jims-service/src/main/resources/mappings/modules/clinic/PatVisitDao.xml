@@ -989,7 +989,7 @@
 	</select>
 	<select id="getPatientListOutHos" resultType="com.jims.patient.Dto.PatientListDto">
 		select
-        d.ID  AS id,
+        d.id as id,
 		d.patient_id as patientId,
         d.VISIT_ID as visitId,
 		'出院' as bedNo,
