@@ -948,7 +948,9 @@
 	</update>
 	<select id="getPatientListInHos" resultType="com.jims.patient.Dto.PatientListDto">
 		select
-               b.patient_id as patientId,
+                d.id  AS id,
+                d.patient_id as patientId,
+                d.VISIT_ID as visitId,
                a.inp_no as inpNo,
                a.name as name,
                a.sex as sex,
@@ -987,7 +989,9 @@
 	</select>
 	<select id="getPatientListOutHos" resultType="com.jims.patient.Dto.PatientListDto">
 		select
+        d.ID  AS id,
 		d.patient_id as patientId,
+        d.VISIT_ID as visitId,
 		'出院' as bedNo,
 		a.inp_no as inpNo,
 		a.name as name,
