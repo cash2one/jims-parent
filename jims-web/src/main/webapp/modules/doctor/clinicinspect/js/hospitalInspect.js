@@ -1,5 +1,6 @@
 function onloadMethods() {
     var patientId=$("#patientId",parent.document).val();
+    $("#patientId").val(patientId);
     var visitId=1;
     $("#visitId").val(visitId);
     //下拉框选择控件，下拉框的内容是动态查询数据库信息

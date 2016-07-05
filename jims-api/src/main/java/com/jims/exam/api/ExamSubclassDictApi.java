@@ -44,7 +44,7 @@ public interface ExamSubclassDictApi {
      * 联动查询，获取主类别
      * @return
      */
-    public List getEx(String examClassName);
+    public List getEx(String examClassName,String orgId);
 
 
     /**
