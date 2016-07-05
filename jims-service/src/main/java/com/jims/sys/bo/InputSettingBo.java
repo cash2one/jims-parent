@@ -192,10 +192,11 @@ public class InputSettingBo extends CrudImplService<InputSettingMasterDao, Input
 
         String param = sb.toString();
         List<InputParamVo> list = inputInfoVo.getInputParamVos();
-        for(int i=0;i<list.size();i++){
-            if(StringUtils.equalsIgnoreCase(list.get(i).getOperateMethod(), "like"))
-            {
-                list.get(i).setColValue("%"+list.get(i).getColValue()+"%");
+        if(list!=null) {
+            for (int i = 0; i < list.size(); i++) {
+                if (StringUtils.equalsIgnoreCase(list.get(i).getOperateMethod(), "like")) {
+                    list.get(i).setColValue("%" + list.get(i).getColValue() + "%");
+                }
             }
         }
         List<BaseDto> baseDtos = inputSettingDetailDao.listInputDataByParam(param, dictType, list);
