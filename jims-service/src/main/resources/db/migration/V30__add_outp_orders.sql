@@ -11,7 +11,7 @@ create table OUTP_ORDERS
    VISIT_DATE           TIMESTAMP,
    VISIT_NO             NUMBER(5),
    SERIAL_NO            VARCHAR2(64),
-   ORDERED_BY           VARCHAR2(8),
+   ORDERED_BY           VARCHAR2(64),
    DOCTOR               VARCHAR2(20),
    ORDER_DATE           TIMESTAMP,
    CLINIC_NO            VARCHAR2(15),

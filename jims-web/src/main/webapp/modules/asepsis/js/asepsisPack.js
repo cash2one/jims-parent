@@ -142,7 +142,7 @@ $(function() {
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
-    loadAnotherData = function(){
+    var loadAnotherData = function(){
         var a = $("#belongDept").combobox("getData");
         var b = $("#checker").combobox("getData");
         var listAll = $('#list_data').datagrid('getRows');
@@ -186,10 +186,10 @@ $(function() {
             var belongDept=$("#belongDept").combobox('getValue');
             var asepsisName=$("#asepsisName").combobox('getValue');
             $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"1","orgId":orgId,"belongDept":belongDept,"asepsisName":asepsisName}});
-            return;
+        }else{
+            $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"1","orgId":orgId}});
         }
-        $("#list_data").datagrid({url:basePath+'/asepsisAntiRec/list',queryParams:{"state":"1","orgId":orgId}});
-        setTimeout("loadAnotherData()",500);
+        setTimeout("loadAnotherData()",1000);
     }
     loadListData();
     $("#searchBtn").on("click",function(){
@@ -220,11 +220,11 @@ $(function() {
             alert('请选择打包方式');
             return ;
         }
-        var asepsisDictVo = {};
-        asepsisDictVo.updated = updateData;
-        asepsisDictVo.orgId = orgId;
-        if (asepsisDictVo) {
-            $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisDictVo), function (data) {
+        var asepsisAntiRecVo = {};
+        asepsisAntiRecVo.updated = updateData;
+        asepsisAntiRecVo.orgId = orgId;
+        if (asepsisAntiRecVo) {
+            $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisAntiRecVo), function (data) {
                 if (data.data == "success") {
                     $.messager.alert("系统提示", "保存成功", "info");
                     //$("#list_data").datagrid('reload');

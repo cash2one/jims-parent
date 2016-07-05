@@ -61,14 +61,14 @@ public class PatMasterIndex extends DataEntity<PatMasterIndex> {
 	private String idType;		// id_type
 	private String vipNo;		// vip_no
 	private String eName;		// e_name
-	private String occupation;		// occupation
+	private String occupation;		// 职业
 	private String nextOfId;		// next_of_id
 	private String nextOfBath;		// next_of_bath
 	private String nextOfSex;		// next_of_sex
 	private String insurNhNo;		// insur_nh_no
 	private String insuranceNo;		// insurance_no
 	private String alergyDrugs;		// alergy_drugs
-	private String nativePlace;		// native_place
+	private String nativePlace;		// 籍贯
 	private String mailingAddressCode;		// 户口地址行政区划
 	private String healthyCardNo;		// healthy_card_no
 	private String addressNow;		// 现住址

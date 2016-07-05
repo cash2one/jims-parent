@@ -5,7 +5,7 @@ import com.jims.asepsis.dao.AsepsisStockDao;
 import com.jims.asepsis.entity.AsepsisAntiRec;
 import com.jims.asepsis.entity.AsepsisSendRec;
 import com.jims.asepsis.entity.AsepsisStock;
-import com.jims.asepsis.vo.AsepsisDictVo;
+import com.jims.asepsis.vo.AsepsisAntiRecVo;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,26 +40,24 @@ public class AsepsisAntiRecBo extends CrudImplService<AsepsisAntiRecDao, Asepsis
         return asepsisAntiRecDao.getAsepsisAntiRecByState(aar);
     }
     /**
-     * 修改无菌物品的当前状态(清洗，打包，灭菌)
-     *
+     * 无菌物品消毒包管理(清洗，打包，灭菌)(修改)
      * @param asepsisAntiRec
      * @return int
      * @author louhuili
      */
     public int saveClean(AsepsisAntiRec asepsisAntiRec){
-
         int num = 0;
-
-        /**
-         *  当且仅当是灭菌时才会需要下面的功能：
-         * 1、若灭菌数量小于总数量，需要在上面的基础上，再在asepsis_Anti_Rec 表中添加一条数据
-         * 2、在asepsis_stock 表中添加一条记录
-         * 3、修改asepsis_send_rec 表
-         */
         if(asepsisAntiRec.getAmountAnti()!=null&&!asepsisAntiRec.getAmountAnti().equals("0")&&!asepsisAntiRec.getAmountAnti().equals("0.0")&&!asepsisAntiRec.getAmountAnti().equals("0.00")
                 &&asepsisAntiRec.getAntiOperator()!=null&&!asepsisAntiRec.getAntiOperator().equals("")&&asepsisAntiRec.getAntiWays()!=null&&!asepsisAntiRec.getAntiWays().equals("")){
-            asepsisAntiRec.setAntiBatchNo(asepsisAntiRec.getAsepsisCode().substring(0, 1) + (System.currentTimeMillis() + "").substring(0, 10));
+//            asepsisAntiRec.setAntiBatchNo(asepsisAntiRec.getAsepsisCode().substring(0, 1) + (System.currentTimeMillis() + "").substring(0, 10));
             num = asepsisAntiRecDao.saveClean(asepsisAntiRec);
+
+            /**
+             *  当且仅当是灭菌时才会需要下面的功能：
+             * 1、若灭菌数量小于总数量，需要在上面的基础上，再在asepsis_Anti_Rec 表中添加一条数据
+             * 2、在asepsis_stock 表中添加一条记录
+             * 3、修改asepsis_send_rec 表
+             */
             if(asepsisAntiRec.getAmount()-asepsisAntiRec.getAmountAnti()>0){
                 asepsisAntiRec.setIsNewRecord(true);
                 asepsisAntiRec.setAsepsisState("2");
@@ -108,13 +106,12 @@ public class AsepsisAntiRecBo extends CrudImplService<AsepsisAntiRecDao, Asepsis
         return num;
     };
     /**
-     * 修改无菌物品的当前状态(清洗，打包，灭菌)
-     *
+     * 无菌物品消毒包管理(清洗，打包，灭菌)(新增，修改，删除)
      * @param asepsisAntiRecVo
      * @return int
      * @author louhuili
      */
-    public int saveAll(AsepsisDictVo<AsepsisAntiRec> asepsisAntiRecVo){
+    public int saveAll(AsepsisAntiRecVo<AsepsisAntiRec> asepsisAntiRecVo){
         List<AsepsisAntiRec> newUpdateDict = new ArrayList<AsepsisAntiRec>();
         List<AsepsisAntiRec> inserted = asepsisAntiRecVo.getInserted();
         List<AsepsisAntiRec> updated = asepsisAntiRecVo.getUpdated();
