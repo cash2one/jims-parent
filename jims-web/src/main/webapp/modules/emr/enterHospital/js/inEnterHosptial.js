@@ -32,9 +32,8 @@ function save(){
 }
 //查询
 $(function(){
-    var patientId = parent.patVisit.patientId;
+    var patientId =parent.patVisit.patientId;
     var visitId = parent.patVisit.visitId;
-    alert("patientId="+patientId+"visitId="+visitId);
     $.ajax({
                'type': 'POST',
                'url': basePath+'/enter/get',
