@@ -78,6 +78,22 @@ public class OutpPrescRest {
         return list;
     }
 
+
+    @Path("subherballist")
+    @POST
+    public List<OutpPresc> subherballist(OutpPresc outpPresc){
+/*        OutpPresc op = new OutpPresc();
+        op.setPrescNo(prescNo);
+//        op.setOrgId(orgId);
+        op.setClinicId(clinicId);*/
+        List<OutpPresc> list = Lists.newArrayList();
+        try {
+            list = outpPrescServiceApi.findListByParams(outpPresc);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
+    }
     /**
      * @param          outpPresc   传递参数
      * @return com.jims.common.data.StringData    返回类型

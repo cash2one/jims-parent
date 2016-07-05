@@ -41,7 +41,6 @@ function itemFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-
     for (var i = 0; i < ordersType.length; i++) {
         if (ordersType[i].value == value) {
             return ordersType[i].label;
@@ -57,12 +56,13 @@ function orderClassFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-
-    for (var i = 0; i < Oclass.length; i++) {
-        if (Oclass[i].value == value) {
-            return Oclass[i].label;
-        }
+    if(value=='A'||value =='B'){
+        return "药品";
+    }else{
+        return "非药品";
     }
+
+
 }
 
 

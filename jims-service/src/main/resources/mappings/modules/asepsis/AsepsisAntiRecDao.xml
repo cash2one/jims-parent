@@ -38,35 +38,35 @@
 
     <select id="getAsepsisAntiRecByState" resultType="AsepsisAntiRec">
         SELECT
-        a.id,
-        a.documnet_No,
-        a.asepsis_Code,
-        a.asepsis_Name,
-        a.asepsis_Spec,
-        a.units,
-        a.belong_Dept,
-        a.anti_Date,
-        a.anti_Operator,
-        a.anti_Ways,
-        a.ster_Operator,
-        a.ster_Date,
-        a.pack_Operator,
-        a.pack_Date,
-        a.memos,
-        a.asepsis_State,
-        a.amount,
-        a.amount as amountAnti,
-        a.anti_Batch_No,
-        a.imp_Date,
-        a.boiler_No,
-        a.boiler_Times,
-        a.checker,
-        a.item_No,
-        a.pack_Ways,
-        a.clean_Ways,
-        a.clean_No,
-        a.clean_Times,
-        a.org_Id
+            a.id,
+            a.documnet_No,
+            a.asepsis_Code,
+            a.asepsis_Name,
+            a.asepsis_Spec,
+            a.units,
+            a.belong_Dept,
+            a.anti_Date,
+            a.anti_Operator,
+            a.anti_Ways,
+            a.ster_Operator,
+            a.ster_Date,
+            a.pack_Operator,
+            a.pack_Date,
+            a.memos,
+            a.asepsis_State,
+            a.amount,
+            a.amount as amountAnti,
+            a.anti_Batch_No,
+            a.imp_Date,
+            a.boiler_No,
+            a.boiler_Times,
+            a.checker,
+            a.item_No,
+            a.pack_Ways,
+            a.clean_Ways,
+            a.clean_No,
+            a.clean_Times,
+            a.org_Id
         FROM asepsis_anti_rec a
         <include refid="AsepsisAntiRecJoins"/>
         <where>
@@ -83,33 +83,6 @@
         </where>
     </select>
     <!--         (#{state} is null or (#{state} is not null and a.asepsis_state=#{state}))-->
-
-
-
-
-
-
-
-
-
-    <select id="get" resultType="AsepsisAntiRec">
-        SELECT
-        <include refid="AsepsisAntiRecColumns"/>
-        FROM asepsis_anti_rec a
-        <include refid="AsepsisAntiRecJoins"/>
-        WHERE a.id = #{id}
-    </select>
-
-    <select id="findList" resultType="AsepsisAntiRec">
-        SELECT
-        <include refid="AsepsisAntiRecColumns"/>
-        FROM asepsis_anti_rec a
-        <include refid="AsepsisAntiRecJoins"/>
-        <where>
-            a.ORG_ID = #{orgId}
-        </where>
-    </select>
-
 
     <update id="saveClean">
         UPDATE asepsis_anti_rec
@@ -165,86 +138,146 @@
         <if test="amountAnti != null and amountAnti != '' and amountAnti != '0.00' and amountAnti != '0'">
             , amount = ${amountAnti}
         </if>
-        WHERE id=${id} and documnet_no = #{documnetNo}
-            <if test="asepsisState !=null and asepsisState == '1'">
-                and asepsis_state =  '0'
-            </if>
-            <if test="asepsisState !=null and asepsisState == '2'">
-                and asepsis_state =  '1'
-            </if>
-            <if test="asepsisState !=null and asepsisState == '3'">
-                and asepsis_state =  '2'
-            </if>
-            <if test="amount != null and amount != ''">
-                and amount = ${amount}
-            </if>
+        WHERE id=${id} and documnet_no = #{documnetNo} and org_id=#{orgId}
+        <if test="asepsisState !=null and asepsisState == '1'">
+            and asepsis_state =  '0'
+        </if>
+        <if test="asepsisState !=null and asepsisState == '2'">
+            and asepsis_state =  '1'
+        </if>
+        <if test="asepsisState !=null and asepsisState == '3'">
+            and asepsis_state =  '2'
+        </if>
+        <if test="amount != null and amount != ''">
+            and amount = ${amount}
+        </if>
     </update>
+
+
+
+
+
+
+
+
+    <select id="get" resultType="AsepsisAntiRec">
+        SELECT
+        <include refid="AsepsisAntiRecColumns"/>
+        FROM asepsis_anti_rec a
+        <include refid="AsepsisAntiRecJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="AsepsisAntiRec">
+        SELECT
+        <include refid="AsepsisAntiRecColumns"/>
+        FROM asepsis_anti_rec a
+        <include refid="AsepsisAntiRecJoins"/>
+        <where>
+            a.ORG_ID = #{orgId}
+        </where>
+    </select>
 
     <insert id="insert">
         INSERT INTO asepsis_anti_rec(
-        id,
-        documnet_No,
-        asepsis_Code,
-        asepsis_Name,
-        asepsis_Spec,
-        units,
-        belong_Dept,
-        anti_Date,
-        anti_Operator,
-        anti_Ways,
-        ster_Operator,
-        ster_Date,
-        pack_Operator,
-        pack_Date,
-        memos,
-        asepsis_State,
-        amount,
-        anti_Batch_No,
-        imp_Date,
-        boiler_No,
-        boiler_Times,
-        checker,
-        item_No,
-        pack_Ways,
-        clean_Ways,
-        clean_No,
-        clean_Times,
-        org_Id
+            id,
+            documnet_No,
+            asepsis_Code,
+            asepsis_Name,
+            asepsis_Spec,
+            units,
+            belong_Dept,
+            anti_Date,
+            anti_Operator,
+            anti_Ways,
+            ster_Operator,
+            ster_Date,
+            pack_Operator,
+            pack_Date,
+            memos,
+            asepsis_State,
+            amount,
+            anti_Batch_No,
+            imp_Date,
+            boiler_No,
+            boiler_Times,
+            checker,
+            item_No,
+            pack_Ways,
+            clean_Ways,
+            clean_No,
+            clean_Times,
+            org_Id
         ) VALUES (
-        #{id},
-        #{documnetNo},
-        #{asepsisCode},
-        #{asepsisName},
-        #{asepsisSpec},
-        #{units},
-        #{belongDept},
-        #{antiDate},
-        #{antiOperator},
-        #{antiWays},
-        #{sterOperator},
-        #{sterDate},
-        #{packOperator},
-        #{packDate},
-        #{memos},
-        #{asepsisState},
-        #{amount},
-        #{antiBatchNo},
-        #{impDate},
-        #{boilerNo},
-        #{boilerTimes},
-        #{checker},
-        #{itemNo},
-        #{packWays},
-        #{cleanWays},
-        #{cleanNo},
-        #{cleanTimes},
-        #{orgId}
+            #{id},
+            #{documnetNo},
+            #{asepsisCode},
+            #{asepsisName},
+            #{asepsisSpec},
+            #{units},
+            #{belongDept},
+            #{antiDate},
+            #{antiOperator},
+            #{antiWays},
+            #{sterOperator},
+            #{sterDate},
+            #{packOperator},
+            #{packDate},
+            #{memos},
+            #{asepsisState},
+            #{amount},
+            #{antiBatchNo},
+            #{impDate},
+            #{boilerNo},
+            #{boilerTimes},
+            #{checker},
+            #{itemNo},
+            #{packWays},
+            #{cleanWays},
+            #{cleanNo},
+            #{cleanTimes},
+            #{orgId}
         )
     </insert>
+
+    <update id="update">
+        UPDATE asepsis_anti_rec
+        SET
+            <if test="asepsisState != null and asepsisState !=''"> , asepsis_state = #{asepsisState}</if>
+            <if test="documnetNo != null and documnetNo !=''"> , documnet_No = #{documnetNo}</if>
+            <if test="asepsisCode != null and asepsisCode !=''"> , asepsis_Code = #{asepsisCode}</if>
+            <if test="asepsisName != null and asepsisName !=''"> , asepsis_Name = #{asepsisName}</if>
+            <if test="asepsisSpec != null and asepsisSpec !=''"> , asepsis_Spec = #{asepsisSpec}</if>
+            <if test="units != null and units !=''"> , units = #{units}</if>
+            <if test="belongDept != null and belongDept !=''"> , belong_Dept = #{belongDept}</if>
+            <if test="impDate != null and impDate !=''"> , imp_Date = #{impDate}</if>
+            <if test="itemNo != null and itemNo !=''"> , item_No = #{itemNo}</if>
+            <if test="memos != null and memos !=''"> , memos = #{memos}</if>
+            <if test="sterOperator != null and sterOperator !=''"> , ster_operator = #{sterOperator}</if>
+            <if test="checker != null and checker !=''"> , checker = #{checker} </if>
+            <if test="cleanWays != null and cleanWays !=''"> , clean_ways = #{cleanWays} </if>
+            <if test="cleanNo != null and cleanNo !=''"> , clean_no = #{cleanNo} </if>
+            <if test="cleanTimes != null and cleanTimes !=''"> , clean_times = #{cleanTimes} </if>
+            <if test="sterDate != null and sterDate !=''"> , STER_DATE = #{sterDate} </if>
+            <if test="packOperator != null and packOperator !=''"> , pack_operator = #{packOperator} </if>
+            <if test="packWays != null and packWays !=''"> , pack_ways = #{packWays} </if>
+            <if test="packDate != null and packDate !=''"> , pack_DATE = #{packDate} </if>
+            <if test="antiOperator != null and antiOperator !=''"> , anti_operator = #{antiOperator} </if>
+            <if test="antiWays != null and antiWays !=''"> , anti_ways = #{antiWays} </if>
+            <if test="boilerNo != null and boilerNo !=''"> , boiler_no = #{boilerNo} </if>
+            <if test="boilerTimes != null and boilerTimes !=''"> , boiler_times = #{boilerTimes} </if>
+            <if test="antiDate != null and antiDate !=''">  , anti_DATE = #{antiDate} </if>`
+            <if test="antiBatchNo != null and antiBatchNo !=''">  , anti_Batch_No = #{antiBatchNo} </if>
+            <if test="amount != null and amount != '' and amount != '0.00' and amount != '0'">  , amount = ${amount} </if>
+            <if test="amountAnti != null and amountAnti != '' and amountAnti != '0.00' and amountAnti != '0'">  , amount = ${amountAnti} </if>
+        WHERE id = ${id}
+            <if test="documnetNo != null and documnetNo != ''"> and documnet_no = ${documnetNo} </if>
+            <if test="orgId != null and orgId != ''"> and org_id = ${orgId} </if>
+            <if test="amount != null and amount != ''"> and amount = ${amount} </if>
+    </update>
+
     <update id="delete">
-        UPDATE asepsis_anti_rec SET
-        del_flag = #{DEL_FLAG_DELETE}
-        WHERE id = #{id}
+        UPDATE asepsis_anti_rec SET documnet_no = ${documnetNo} WHERE id = #{id}
     </update>
 
 </mapper>

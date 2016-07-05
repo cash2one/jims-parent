@@ -20,10 +20,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.List;
 
@@ -73,7 +70,7 @@ public class BloodApplyRest {
     }
 
     /**
-     * 异步加载表格
+     * 门诊用血申请保存
      *
      * @param request
      * @param response
@@ -81,8 +78,10 @@ public class BloodApplyRest {
      */
     @Path("list")
     @GET
-    public PageData list(@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        Page<BloodApply> page = bloodApplyServiceApi.findPage(new Page<BloodApply>(request, response), new BloodApply());
+    public PageData list(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicId")String clinicId) {
+        BloodApply bloodApply = new BloodApply();
+        bloodApply.setClinicId(clinicId);
+        Page<BloodApply> page = bloodApplyServiceApi.findPage(new Page<BloodApply>(request, response),bloodApply);
         PageData pageData = new PageData();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());
@@ -90,7 +89,26 @@ public class BloodApplyRest {
     }
 
     /**
-     * 保存用血申请记录
+     * 住院用血申请
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @Path("listHos")
+    @GET
+    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("visitId")String visitId) {
+        BloodApply bloodApply = new BloodApply();
+        bloodApply.setVisitId(visitId);
+        Page<BloodApply> page = bloodApplyServiceApi.findPage(new Page<BloodApply>(request, response),bloodApply);
+        PageData pageData = new PageData();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
+    }
+
+    /**
+     * 门诊用血申请保存
      */
     @Path("save")
     @POST
@@ -104,9 +122,24 @@ public class BloodApplyRest {
         data.setData("success");
         return data;
     }
+    /**
+     * 住院用血申请保存
+     */
+    @Path("saveHos")
+    @POST
+    public StringData saveHos(BloodApply bloodApply) {
+        StringData data = new StringData();
+        String num = data.getCode();
+        if (bloodApply != null) {
+            num = bloodApplyServiceApi.saveHosBloodApply(bloodApply);
+        }
+        data.setCode(num);
+        data.setData("success");
+        return data;
+    }
 
     /**
-     * 保存用血申请记录
+     * 门诊用血申请记录删除
      */
     @Path("del")
     @POST

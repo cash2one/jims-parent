@@ -340,17 +340,102 @@ function subLoadData(row){
         }
         if(row.itemClass=='A'){
             changeRadio('A');
+            $("#medicineId").hide();
+            $(".layout-split-south .datagrid").show();
             $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
                 $("#list_data").datagrid("loadData", data);
             });
         }else{
             changeRadio('B');
-            $.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
+
+            /*$.get(basePath+'/outppresc/sublist?prescNo=' + row.prescNo+"&clinicId="+clinicId, function (data) {
                 $("#list_data").datagrid("loadData", data);
-            });
+            });*/
+            $("#medicineId").show();
+            $(".layout-split-south .datagrid").hide();
+            herbalList();
         }
     }
 
+}
+//中药列表
+function herbalList(){
+    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
+    if(selRow!=null&&selRow!=''&&selRow!='undefined') {
+        prescNo = selRow[0].prescNo;
+        var liHtml = "";
+
+        $.postJSON(basePath+'/outppresc/subherballist', "{\"clinicId\":\""+clinicId+"\",\"prescNo\":\""+selRow[0].prescNo+"\"}", function (data) {
+            for (var i = 0; i < data.length; i++) {
+               /* liHtml += '<li onclick="centerActive(this)" input_id="liHerbalLabel' + i + '">' +
+                '<span style="padding-right:10px;"><input  type="text" style="width: 150px" value="'+data[i].drugName+'"/></span>' +
+                ' <a href="#" class="color-red"><input type="text" style="width: 50px" value="'+data[i].drugName+'"/></a> ' +
+                '<span class="color-blue" style="padding-left:10px;">'+data[i].dosageUnits+'</span></li>';*/
+                
+                liHtml+='<li onclick="centerActive(this,\'herbalHide'+rowNum+'\')" id="herbal'+rowNum+'" inputhide="herbalHide'+rowNum+'">' +
+                '<span style="padding-right:10px;"><input  type="text" id="drugName'+rowNum+'" class="easyui-combogrid" style="width: 100px;" value="'+data[i].drugName+'"/></span>' +
+                '<a href="#" class="color-red"><input  type="text" id="drugName'+rowNum+'" class="easyui-textbox" style="width: 100px" value="'+data[i].drugName+'"/></a>' +
+                '<input type="text" value="'+data[i].amount+'" style="width: 50px" class="easyui-numberbox" id="amount'+rowNum+'" namehide="amount" inputhide="herbalHide'+rowNum+'" />' +
+                '<input type="hidden" id="drugCode'+rowNum+'" namehide="drugCode" inputhide="herbalHide'+rowNum+'" value="'+data[i].drugCode+'"/> ' +
+                '<input type="hidden" id="drugSpec'+rowNum+'" namehide="drugSpec" inputhide="herbalHide'+rowNum+'" value="'+data[i].drugSpec+'"/> ' +
+                '<input type="hidden" id="firmId'+rowNum+'" namehide="firmId" inputhide="herbalHide'+rowNum+'" value="'+data[i].firmId+'"/> ' +
+                '<input type="hidden" id="dosage'+rowNum+'" namehide="dosage" inputhide="herbalHide'+rowNum+'" value="'+data[i].dosage+'"/> ' +
+                '<input type="hidden" id="dosageUnits'+rowNum+'" namehide="dosageUnits" inputhide="herbalHide'+rowNum+'" value="'+data[i].dosageUnits+'"/> ' +
+                '<input type="hidden" id="itemClass'+rowNum+'" namehide="itemClass" inputhide="herbalHide'+rowNum+'" value="'+data[i].itemClass+'"/> ' +
+                '<input type="hidden" id="units'+rowNum+'" namehide="units" inputhide="herbalHide'+rowNum+'" value="'+data[i].units+'"/> ' +
+                '<input type="hidden" id="subjCode'+rowNum+'" namehide="subjCode" inputhide="herbalHide'+rowNum+'" value="'+data[i].subjCode+'"/> ' +
+                '<input type="hidden" id="performedBy'+rowNum+'" namehide="performedBy" inputhide="herbalHide'+rowNum+'" value="'+data[i].performedBy+'"/> ' +
+                '<input type="hidden" id="orderNo'+rowNumZ+'" namehide="orderNo" inputhide="herbalHide'+rowNumZ+'" value="'+data[i].orderNo+'"/> ' +
+                '<input type="hidden" id="subOrderNo'+rowNumZ+'" namehide="subOrderNo" inputhide="herbalHide'+rowNumZ+'" /> ' +
+                '<input type="hidden" id="id'+rowNumZ+'" namehide="subOrderNo" inputhide="herbalHide'+rowNumZ+'" value="'+data[i].id+'"/> ' +
+                '<input type="hidden" id="charges'+rowNum+'" namehide="charges" inputhide="herbalHide'+rowNum+'" value="'+data[i].charges+'"/> ';
+            }
+            $("#herbal_ul").html(liHtml);
+            $('#drugName'+rowNum).combogrid({
+                width: '300',
+                height: 'auto',
+                data: herbalDrugData,
+                idField:'item_name',
+                textField:'item_name',
+                mode: 'remote',
+                columns: [[
+                    {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
+                    {field: 'item_name', title: '名称', width: '15%', align: 'center'},
+                    {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
+                    {field: 'quanity', title: '库存', width: '15%', align: 'center'},
+                    {field: 'units', title: '包装单位', width: '15%', align: 'center'},
+                    {field: 'item_class', title: '库房', width: '15%', align: 'center'},
+                    {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
+                    {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
+                    {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
+                    {field: 'subj_code', title: '',hidden:true},
+                    {field: 'performed_by', title: '',hidden:true},
+                    {field: 'price', title: '',hidden:true},
+                    {field: 'firm_id', title: '',hidden:true}
+                ]], keyHandler: {
+                    query: function (q) {
+                        comboGridCompleting(q, 'drugName'+rowNum);
+                        $('#drugName'+rowNum).combogrid("grid").datagrid("loadData", comboGridComplete);
+                    }
+                },onClickRow: function (index, row) {
+                    $("#drugName"+rowNum).val(row.item_name);
+                    $("#drugCode"+rowNum).val(row.drug_code);
+                    $("#drugSpec"+rowNum).val(row.drug_spec);
+                    $("#firmId"+rowNum).val(row.firm_id);
+                    $("#dosage"+rowNum).val(row.dose_per_unit);
+                    $("#dosageUnits"+rowNum).val(row.dose_units);
+                    $("#itemClass"+rowNum).val(row.item_class);
+                    $("#units"+rowNum).val(row.dose_units);
+                    $("#subjCode"+rowNum).val(row.subj_code);
+                    $("#performedBy"+rowNum).val(row.performed_by);
+                    $("#charges"+rowNum).val(row.price);
+                }
+            })
+
+        }, function () {
+            $.messager.alert("提示信息", "网络连接失败");
+        });
+    }
 }
 //西药/草药单选按钮事件
 function funItem(obj){
@@ -373,10 +458,10 @@ function funItem(obj){
 }
 //西药/草药单选按钮事件-更新行
 function subItem(itemClass,selRow){
-
+    var idx = $('#leftList').datagrid('getRowIndex',selRow);
     if(itemClass=='A'){
         $('#leftList').datagrid('updateRow',{
-            index: 0,
+            index:idx,
             row: {
                 visitDate: selRow.visitDate,
                 visitNo: selRow.visitNo,
@@ -387,7 +472,7 @@ function subItem(itemClass,selRow){
         });
     }else if(itemClass=='B'){
         $('#leftList').datagrid('updateRow',{
-            index: 0,
+            index:idx,
             row: {
                 visitDate: selRow.visitDate,
                 visitNo: selRow.visitNo,
@@ -465,30 +550,70 @@ function newpresc(){
 }
 //保存处方及药品信息
 function savePre(){
-    var dataGrid=$('#list_data');
-    if(!dataGrid.datagrid('validateRow', rowNum)){
-        $.messager.alert('提示',"请填写完本行数据后，再保存", "error");
-        return false
-    }
-    $("#list_data").datagrid('endEdit', rowNum);
-    var  rows=$('#list_data').datagrid('getRows');
-    var formJson=fromJson('prescForm');
-    formJson = formJson.substring(0, formJson.length - 1);
-    var tableJson=JSON.stringify(rows);
-    var submitJson=formJson+",\"list\":"+tableJson+"}";
-    $.postJSON(basePath+'/outppresc/save',submitJson,function(data){
-        if(data.data=='success'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#list_data').datagrid('load');
-            $('#list_data').datagrid('clearChecked');
-        }else{
+    if(itemClass=='B'){
+        var administration = $('#administration').combobox('getValue');
+        var frequency = $('#frequency').combobox('getValue');
+        var repetition = $("#repetition").val();
+        var formJson=fromJson('prescForm');
+        formJson = formJson.substring(0, formJson.length - 1);
+        var drugJson="\"list\":[";
+
+        $("#herbal_ul li").each(function(){
+            var liHidden=$(this).attr("inputhide");
+            drugJson+="{";
+            $("input[inputhide='"+liHidden+"']").each(function(){
+                drugJson+='"'+$(this).attr("namehide")+'":"'+$(this).val()+'",';
+            });
+
+            drugJson = drugJson.substring(0, drugJson.length - 1);
+            drugJson+=",\"administration\":\""+administration+"\",\"frequency\":\""+frequency+"\",\"repetition\":\""+repetition+"\"";
+            drugJson+="},";
+        });
+        drugJson = drugJson.substring(0, drugJson.length - 1);
+        drugJson+="]";
+
+        var submitJsons=formJson+","+drugJson+"}";
+        alert(submitJsons)
+        $.postJSON(basePath+'/outppresc/save',submitJsons,function(data){
+            if(data.data=='success'){
+                $.messager.alert("提示消息",data.code+"条记录，保存成功");
+                $('#list_data').datagrid('load');
+                $('#list_data').datagrid('clearChecked');
+            }else{
+                $.messager.alert('提示',"保存失败", "error");
+                $('#list_data').datagrid('load');
+                $('#list_data').datagrid('clearChecked');
+            }
+        },function(data){
             $.messager.alert('提示',"保存失败", "error");
-            $('#list_data').datagrid('load');
-            $('#list_data').datagrid('clearChecked');
+        })
+    }else{
+        var dataGrid=$('#list_data');
+        if(!dataGrid.datagrid('validateRow', rowNum)){
+            $.messager.alert('提示',"请填写完本行数据后，再保存", "error");
+            return false
         }
-    },function(data){
-        $.messager.alert('提示',"保存失败", "error");
-    })
+        $("#list_data").datagrid('endEdit', rowNum);
+        var  rows=$('#list_data').datagrid('getRows');
+        var formJson=fromJson('prescForm');
+        formJson = formJson.substring(0, formJson.length - 1);
+        var tableJson=JSON.stringify(rows);
+        var submitJson=formJson+",\"list\":"+tableJson+"}";
+        $.postJSON(basePath+'/outppresc/save',submitJson,function(data){
+            if(data.data=='success'){
+                $.messager.alert("提示消息",data.code+"条记录，保存成功");
+                $('#list_data').datagrid('load');
+                $('#list_data').datagrid('clearChecked');
+            }else{
+                $.messager.alert('提示',"保存失败", "error");
+                $('#list_data').datagrid('load');
+                $('#list_data').datagrid('clearChecked');
+            }
+        },function(data){
+            $.messager.alert('提示',"保存失败", "error");
+        })
+    }
+
 }
 //弃方即刷新页面
 function giveUpPre(){

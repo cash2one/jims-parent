@@ -20,25 +20,32 @@ public class PreDischgedPats extends DataEntity<PreDischgedPats> {
 
     private static final long serialVersionUID = 1L;
     private String patientId;        // 病人标识号
-    private String hospitalId;        // 在院病人记录主键
-    private String ordersId;        // 医嘱表主键
+    private String orderNo;        // 医嘱表主键
     private Date dischargeDateExpcted;        // 预计出院日期
     private Date createDateTime;        // 做出预计的时间
-    private Orders orders;        // 医嘱序号
     private String dischargeDispositionName;        // 出院方式
-    private PatsInHospital patsInHospital; //在院病人记录
-    private BedRec bedRec; //床位记录
-    private PatMasterIndex patMasterIndex;//病人主索引
-    private String bedNo;//床号
+    private String hospitalId;
     private String orgId;//机构id
-    private String visitId;//住院标识
-
+    private String ordersId;
+    private String visitId;
     public PreDischgedPats() {
         super();
     }
 
     public PreDischgedPats(String id) {
         super(id);
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public String getHospitalId() {
+        return hospitalId;
+    }
+
+    public void setHospitalId(String hospitalId) {
+        this.hospitalId = hospitalId;
     }
 
     public String getPatientId() {
@@ -52,6 +59,14 @@ public class PreDischgedPats extends DataEntity<PreDischgedPats> {
     @JsonSerialize(using = CustomDateSerializer.class)
     public Date getDischargeDateExpcted() {
         return dischargeDateExpcted;
+    }
+
+    public String getVisitId() {
+        return visitId;
+    }
+
+    public void setVisitId(String visitId) {
+        this.visitId = visitId;
     }
 
     public void setDischargeDateExpcted(Date dischargeDateExpcted) {
@@ -75,52 +90,6 @@ public class PreDischgedPats extends DataEntity<PreDischgedPats> {
         this.dischargeDispositionName = dischargeDispositionName;
     }
 
-    public Orders getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Orders orders) {
-        this.orders = orders;
-    }
-
-    public PatsInHospital getPatsInHospital() {
-        return patsInHospital;
-    }
-
-    public void setPatsInHospital(PatsInHospital patsInHospital) {
-        this.patsInHospital = patsInHospital;
-    }
-
-    public BedRec getBedRec() {
-        return bedRec;
-    }
-
-    public void setBedRec(BedRec bedRec) {
-        this.bedRec = bedRec;
-    }
-    public PatMasterIndex getPatMasterIndex() {
-        return patMasterIndex;
-    }
-
-    public void setPatMasterIndex(PatMasterIndex patMasterIndex) {
-        this.patMasterIndex = patMasterIndex;
-    }
-
-    public String getBedNo() {
-        return bedNo;
-    }
-
-    public void setBedNo(String bedNo) {
-        this.bedNo = bedNo;
-    }
-    public String getVisitId() {
-        return visitId;
-    }
-
-    public void setVisitId(String visitId) {
-        this.visitId = visitId;
-    }
-
     public String getOrgId() {
         return orgId;
     }
@@ -137,13 +106,14 @@ public class PreDischgedPats extends DataEntity<PreDischgedPats> {
         this.ordersId = ordersId;
     }
 
-    public String getHospitalId() {
-        return hospitalId;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setHospitalId(String hospitalId) {
-        this.hospitalId = hospitalId;
+    public void setOrdersNo(String ordersId) {
+        this.orderNo = ordersId;
     }
+
 
 
 }

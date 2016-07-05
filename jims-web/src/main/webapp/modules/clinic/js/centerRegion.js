@@ -1,9 +1,8 @@
-
+var clinicMaster={};
 $(function(){
     patientList('0','');
-    /**
-     * 科室下拉框
-     */
+    ///**
+    // * 科室下拉框
     $('#deptNameId').combobox({
         data: clinicDeptCode,
         valueField: 'id',
@@ -150,12 +149,7 @@ function patientList(status,dept){
             liHtml+='<li><a href="#" onclick="userMenu(\''+data[i].id+'\',this)">' +
             '<span class="cus-lbor"></span>' +
             '<span class="cus-name">'+data[i].name+'</span>' ;
-            var sex="";
-                if(data[i].sex=='1'){
-                    sex="女";
-                }else if(data[i].sex=='2'){
-                    sex="男";
-                }
+            var sex=itemFormatter(data[i].sex, '', '');
             liHtml=liHtml+'&nbsp;'+sex+'&nbsp; '+data[i].age+'</a></li>';
         }
         $('ul.cus-list').html(liHtml);
@@ -176,9 +170,12 @@ function userMenu(clinicMasterId,aBtn){
         'data': {id:clinicMasterId},
         'dataType': 'json',
         'success': function(data){
+            clinicMaster=data;
             $("#nameId").html(data.name);
             $("#ageId").html(data.age);
-            $("#sexId").html(data.sex);
+            $("#sexId").html(itemFormatter(data.sex, '', ''));
+            $("#clinicNo").html(data.clinicNo);
+            $("#visitDate").html(formatDatebox(data.visitDate));
             $("#clinicMasterId").val(data.id);
         },
         'error': function(){
@@ -189,13 +186,13 @@ function userMenu(clinicMasterId,aBtn){
     html+='<li><a class="active" onclick="addTabs(\'3\',\'病人信息\',\'/modules/clinic/patientInfo.html\',this)"><span>病人信息</span></a></li>';
     html+='<li><a  onclick="addTabs(\'2\',\'病历文书\',\'/modules/clinic/enterHospital/enterHosptial.html\',this)"><span>病历文书</span></a></li>';
     //html+='<li><a   onclick="addTabs(\'9\',\'诊断\',\'/modules/clinic/emrDiagnosis/diagnosis.html\',this)"><span>诊断</span></a></li>';
-    html+='<li><a onclick="addTabs(\'4\',\'检查申请\',\'/modules/clinic/clinicinspect/clinicInspect.html\',this)"><span>检查申请</span></a></li>';
-    html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/clinic/lab/labTest.html\',this)"><span>检验申请</span></a></li>';
+    html+='<li><a onclick="addTabs(\'4\',\'检查申请\',\'/modules/doctor/clinicInspect/clinicInspect.html\',this)"><span>检查申请</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/doctor/lab/labTest.html\',this)"><span>检验申请</span></a></li>';
     html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/clinic/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
     html+='<li><a onclick="addTabs(\'10\',\'用血申请\',\'/modules/clinic/docUseBlood/docUseBloodList.html\',this)" ><span>用血申请</span></a></li>';
    // html+='<li><a   onclick="addTabs(\'10\',\'手术预约\',\'/modules/operation/operationOrder.html\',this)"><span>手术预约</span></a></li>';
    // html+='<li><a   onclick="addTabs(\'10\',\'住院诊断\',\'/modules/clinic/emrDiagnosis/inDiagnosis.html\',this)"><span>住院诊断</span></a></li>';
-    html+='<li><a   onclick="addTabs(\'13\',\'手术申请\',\'/modules/clinic/operationApply/operationApplyList.html\',this)"><span>手术申请</span></a></li>';
+    html+='<li><a   onclick="addTabs(\'13\',\'手术申请\',\'/modules/clinic/docOperationApply/docOperationApplyList.html\',this)"><span>手术申请</span></a></li>';
     html+='<li><a   onclick="addTabs(\'14\',\'发药查询\',\'/modules/clinic/outDispensing/queryConfirmDrug.html\',this)"><span>发药查询</span></a></li>';
     html+='<li><a   onclick="addTabs(\'14\',\'住院通知单\',\'/modules/clinic/notice/patHospitalNoticeList.html\',this)"><span>住院通知单</span></a></li>';
     $("#userMenuId").html(html);

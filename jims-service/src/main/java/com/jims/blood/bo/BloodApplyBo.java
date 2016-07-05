@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/28.
+ * 门诊用血申请BO
  */
 @Service
 @Transactional(readOnly = false)
@@ -72,6 +73,9 @@ public class BloodApplyBo {
 
         }else {
             bloodApply.preUpdate();
+            bloodApply.setApplyNum(IdGen.uuid());
+//            BloodApply bloodApply1 = bloodApplylDao.get(bloodApply.getId());
+//            bloodApply.setApplyNum(bloodApply1.getApplyNum());
             strState = bloodApplylDao.update(bloodApply);
             bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
             List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();

@@ -269,11 +269,11 @@ $(function() {
             alert('请选择清洗机次');
             return ;
         }
-        var asepsisDictVo = {};
-        asepsisDictVo.updated = updateData;
-        asepsisDictVo.orgId = orgId;
-        if (asepsisDictVo) {
-            $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisDictVo), function (data) {
+        var asepsisAntiRecVo = {};
+        asepsisAntiRecVo.updated = updateData;
+        asepsisAntiRecVo.orgId = orgId;
+        if (asepsisAntiRecVo) {
+            $.postJSON(basePath + "/asepsisAntiRec/saveClean", JSON.stringify(asepsisAntiRecVo), function (data) {
                 if (data.data == "success") {
                     $.messager.alert("系统提示", "保存成功", "info");
                     //$("#list_data").datagrid('reload');

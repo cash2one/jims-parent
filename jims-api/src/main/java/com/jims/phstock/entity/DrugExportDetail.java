@@ -37,7 +37,9 @@ public class DrugExportDetail extends DataEntity<DrugExportDetail> {
 	private String orgId;		// 所属结构
 
     private String drugStockId;   // 药品库存Id
-
+    private String firmName;
+    private String drugName;
+    private Double stock;
     public String getDrugStockId() {
         return drugStockId;
     }
@@ -261,4 +263,27 @@ public class DrugExportDetail extends DataEntity<DrugExportDetail> {
 		this.orgId = orgId;
 	}
 
+    public String getFirmName() {
+        return firmName;
+    }
+
+    public void setFirmName(String firmName) {
+        this.firmName = firmName;
+    }
+
+    public String getDrugName() {
+        return drugName;
+    }
+
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
+
+    public Double getStock() {
+        return stock;
+    }
+
+    public void setStock(Double stock) {
+        this.stock = stock;
+    }
 }

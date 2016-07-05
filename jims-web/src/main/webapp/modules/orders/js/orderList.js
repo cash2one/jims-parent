@@ -5,7 +5,6 @@ var visitId = '1';
 var orderNo =0 ;
 var orderSubNo = 1;
 var orderCostsArray={};
-var clinicPrice =  [];
 
 $(function(){
     $.ajax({
@@ -64,7 +63,6 @@ $(function(){
                         if(repeatIndicator=='0'){//临时医嘱
                             var d = new Date();
                             $('#frequency').combobox('disable');
-                            alert(d.getHours()+":"+ d.getMinutes());
                             $(performSchedule.target).textbox('setValue',d.getHours()+":"+ d.getMinutes());
 
                         }
@@ -142,6 +140,7 @@ $(function(){
 
                         var orderClass = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderClass'});
                         var value = $(orderClass.target).combobox('getValue');
+
                         if(value=='1'){//药品
                             var dosage = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosage'});
                             $(dosage.target).textbox('setValue',row.dose_per_unit);
@@ -149,7 +148,7 @@ $(function(){
                             $(dosageUnits.target).textbox('setValue',row.dose_units);
                             var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.drug_code);
-
+                            $(orderClass.target).combobox('setValue',row.item_class);
                             var rows=$('#orderCostList').datagrid('getRows');
                             for(var i=0;i<rows.length;i++){
                                 if(rows[i].itemCode==row.drug_code){
@@ -176,6 +175,7 @@ $(function(){
                             $(dosageUnits.target).textbox('setValue',row.units);
                             var orderCode = $("#orderList").datagrid('getEditor',{index:rowNum,field:'orderCode'});
                             $(orderCode.target).textbox('setValue',row.item_code);
+                            $(orderClass.target).combobox('setValue',row.item_class);
                             $('#orderCostList').datagrid('insertRow', {
                                 index:0,	// index start with 0
                                 row: {
@@ -418,6 +418,8 @@ $(function(){
                         rowNum = rowIndex;
                         if(rowData.orderStatus=='5'||rowData.orderStatus=='') {
                         dataGrid.datagrid('beginEdit', rowNum);
+                        }else{
+                            dataGrid.datagrid('endEdit', rowNum);
                         }
                     }
 
@@ -522,7 +524,7 @@ function deleteOrders(){
         $.messager.alert("提示消息", "请选中要删的数据!");
         return;
     }
-    if(row.orderStatus=='5'){//新开医嘱
+    if(row.orderStatus=='5'||row.orderStatus==''||row.orderStatus==null){//新开医嘱
         //提醒用户是否是真的删除数据
         $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
             if (r) {
@@ -531,7 +533,7 @@ function deleteOrders(){
                     strIds += selectRows[i].id + ",";
                 }
                 strIds = strIds.substr(0, strIds.length - 1);
-                if(strIds=='undefined'|| strIds==''){
+                if(row.id=='undefined'|| row.id==''|| row.id==null){
                     var index1= $('#orderList').datagrid('getRowIndex', $("#orderList").datagrid('getSelected'));
                     $('#orderList').datagrid('deleteRow',index1);
                 }else {
