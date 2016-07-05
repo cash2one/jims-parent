@@ -1,29 +1,32 @@
 $(function () {
-    var zhuyuanxinxiId = $("#zhuyuanxinxiId").val();
-    if(zhuyuanxinxiId!=null&&zhuyuanxinxiId!=""){
+    var patientId = parent.patVisit.patientId;
+    var visitId = parent.patVisit.visitId;
+    $("#patientId").val(patientId);
+    $("#visitId").val(visitId);
+
         $.ajax({
             'type': 'post',
             'url': basePath+'/electronleavehospital/get',
             'contentType': 'application/json',
-            'data': id=zhuyuanxinxiId,
+            'data':JSON.stringify({"patientId": patientId,"visitId":visitId}),
             'dataType': 'json',
             'success': function(data){
                 $('#form').form('load',data);
                 getDiv("form");
             }
         });
-    }
+
     $("#saveBtn").on("click",function(){
         formSubmitInput("form");
         $.postForm(basePath+"/electronleavehospital/save","form",function(data){
-            if(data.code=="1"){
-                $.messager.alert("��ʾ��Ϣ","����ɹ�");
+            if(data.data=="success"){
+                $.messager.alert("保存成功");
             }else{
-                $.messager.alert("��ʾ��Ϣ","����ʧ��","error");
+                $.messager.alert("保存失败","error");
             }
 
         }),function(data){
-            $.messager.alert("��ʾ��Ϣ","����ʧ��","error");
+            $.messager.alert("提示信息","保存失败","error");
         }
     });
 
