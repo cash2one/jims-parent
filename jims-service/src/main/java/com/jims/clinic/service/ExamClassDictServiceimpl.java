@@ -27,8 +27,8 @@ public class ExamClassDictServiceimpl extends CrudImplService<ExamClassDictDao, 
 	@Autowired
 	private ExamClassDictDao examClassDictDao;
 	@Override
-	public List<ExamClassDict> getEx() {
-		 List<ExamClassDict> examClassDicts=examClassDictDao.getEx();
+	public List<ExamClassDict> getEx(String orgId) {
+		 List<ExamClassDict> examClassDicts=examClassDictDao.getEx(orgId);
         return examClassDicts;
 	}
 

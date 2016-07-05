@@ -53,8 +53,8 @@ public class ExamSubclassDictServiceImpl implements ExamSubclassDictApi{
     }
 
     @Override
-    public List getEx(String examClassName) {
-        return bo.getEx(examClassName);
+    public List getEx(String examClassName,String orgId) {
+        return bo.getEx(examClassName,orgId);
     }
 
     /**
