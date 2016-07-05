@@ -35,22 +35,22 @@ public class ExamClassDictRest {
 
 
     @Path("getEx")
-    @POST
+    @GET
     public List getEx(@QueryParam("orgId")String orgId) {
         List<ExamClassDict> list=examClassDictApi.getEx(orgId);
         return list;
     }
 
     @Path("getExamSubclass")
-    @POST
-    public List getExamSubclass(String examClassName,@QueryParam("orgId")String orgId){
+    @GET
+    public List getExamSubclass(@QueryParam("examClassName")String examClassName,@QueryParam("orgId")String orgId){
        List<ExamSubclassDict> examSubclassDictList=examSubclassDictApi.getEx(examClassName,orgId);
        return examSubclassDictList;
     }
 
     @Path("getExamRptPattern")
-    @POST
-    public List getExamRptPattern(String examSubClass,@QueryParam("orgId")String orgId){
+    @GET
+    public List getExamRptPattern(@QueryParam("examSubClass")String examSubClass,@QueryParam("orgId")String orgId){
         List<ExamRptPattern> examRptPatternList=examRptPatternApi.getExamRptPattern(examSubClass,orgId);
         return examRptPatternList;
     }

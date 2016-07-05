@@ -116,13 +116,14 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 	}
 
 	/**
-	 * 根据clinicId 查询临床诊断
+	 * 根据clinicId 或 visitIds查询临床诊断
 	 * @param clinicId
+	 * @param visitId
 	 * @return
 	 */
 	@Override
-	public EmrDiagnosis getDescription(String clinicId) {
-		return emrDiagnosisDao.getDescription(clinicId);
+	public EmrDiagnosis getDescription(String clinicId,String visitId) {
+		return emrDiagnosisDao.getDescription(clinicId,visitId);
 	}
 
 
