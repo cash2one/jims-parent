@@ -3,6 +3,7 @@ package com.jims.asepsis.bo;
 import com.jims.asepsis.dao.AsepsisAntiRecDao;
 import com.jims.asepsis.dao.AsepsisStockDao;
 import com.jims.asepsis.entity.AsepsisAntiRec;
+import com.jims.asepsis.entity.AsepsisLendRec;
 import com.jims.asepsis.entity.AsepsisSendRec;
 import com.jims.asepsis.entity.AsepsisStock;
 import com.jims.asepsis.vo.AsepsisAntiRecVo;
@@ -30,6 +31,8 @@ public class AsepsisAntiRecBo extends CrudImplService<AsepsisAntiRecDao, Asepsis
     private AsepsisStockBo asepsisStockBo;
     @Autowired
     private AsepsisSendRecBo asepsisSendRecBo;
+    @Autowired
+    private AsepsisLendRecBo asepsisLendRecBo;
 
     /**
      * 查询某状态下的消毒包（无菌物品的信息）集合
@@ -72,7 +75,9 @@ public class AsepsisAntiRecBo extends CrudImplService<AsepsisAntiRecDao, Asepsis
 //insert into ASEPSIS_STOCK ( DOCUMENT_NO , FROM_DEPT , ITEM_CODE , ITEM_NAME , ITEM_SPEC , AMOUNT , UNITS , ANTI_DATE , OPERATOR , ANTI_BATCH_NO , item_no ) values
 //                  ( '1606301607' , '1506' , 'PCF0000012' , '拆线包（赔偿）' , '标准' , '1.00' , '套' , '2016-06-30 15:35:02' , '000XHH' , '1606301607' , 909115393 )
             AsepsisStock asepsisStock = new AsepsisStock();
-            asepsisStock.setDocumentNo(asepsisAntiRec.getAntiBatchNo());//供应室灭菌之后加库存时该单号为消毒批号，其他科室送物时该单号为送物单号
+
+            //供应室的物品灭菌之后加库存时该单号为消毒批号，其他科室的灭菌后加库存时该单号为送物单号
+            asepsisStock.setDocumentNo((asepsisAntiRec.getDocumnetNo().startsWith("S")||asepsisAntiRec.getDocumnetNo().startsWith("T"))?asepsisAntiRec.getDocumnetNo():asepsisAntiRec.getAntiBatchNo());
             asepsisStock.setFromDept(asepsisAntiRec.getBelongDept());
             asepsisStock.setItemCode(asepsisAntiRec.getAsepsisCode());
             asepsisStock.setItemName(asepsisAntiRec.getAsepsisName());
@@ -88,17 +93,36 @@ public class AsepsisAntiRecBo extends CrudImplService<AsepsisAntiRecDao, Asepsis
             asepsisStockBo.save(asepsisStock);
 //update ASEPSIS_SEND_REC set GET_FLAG ='2' where document_no ='' and from_dept ='1506' and item_code ='PCF0000012'
             //if(当前所属科室belongDept是供应室，就不需要修改下面所有的语句了，因为送物领物是指的所属科室为其他科室){}
-            AsepsisSendRec asepsisSendRec = new AsepsisSendRec();
-            asepsisSendRec.setDocumentNo(asepsisAntiRec.getDocumnetNo());
-            asepsisSendRec.setFromDept(asepsisAntiRec.getBelongDept());
-            asepsisSendRec.setItemCode(asepsisAntiRec.getAsepsisCode());
-            asepsisSendRec.setItemNo((double) asepsisAntiRec.getItemNo());
-            asepsisSendRec.setOrgId(asepsisAntiRec.getOrgId());
-            List<AsepsisSendRec> las = asepsisSendRecBo.findList(asepsisSendRec);
-            if(las!=null&&las.size()>0){
-                asepsisSendRec = las.get(0);
-                asepsisSendRec.setGetFlag("2");
-                asepsisSendRecBo.save(asepsisSendRec);
+            if (asepsisAntiRec.getDocumnetNo().startsWith("S")){
+                AsepsisSendRec asepsisSendRec = new AsepsisSendRec();
+                asepsisSendRec.setDocumentNo(asepsisAntiRec.getDocumnetNo());
+                asepsisSendRec.setFromDept(asepsisAntiRec.getBelongDept());
+                asepsisSendRec.setItemCode(asepsisAntiRec.getAsepsisCode());
+                asepsisSendRec.setOrgId(asepsisAntiRec.getOrgId());
+                List<AsepsisSendRec> las = asepsisSendRecBo.findListNoId(asepsisSendRec);
+                if(las!=null&&las.size()>0){
+                    for(int i = 0;i<las.size();i++){
+                        asepsisSendRec = las.get(i);
+                        asepsisSendRec.setGetFlag("2");//送物领物
+                        asepsisSendRecBo.save(asepsisSendRec);
+                    }
+
+                }
+            }else if (asepsisAntiRec.getDocumnetNo().startsWith("T")){
+                AsepsisLendRec asepsisLendRec = new AsepsisLendRec();
+                asepsisLendRec.setDocumentNo(asepsisAntiRec.getDocumnetNo());
+                asepsisLendRec.setToDept(asepsisAntiRec.getBelongDept());
+                asepsisLendRec.setItemCode(asepsisAntiRec.getAsepsisCode());
+                asepsisLendRec.setOrgId(asepsisAntiRec.getOrgId());
+                List<AsepsisLendRec> las = asepsisLendRecBo.findList(asepsisLendRec);
+                if(las!=null&&las.size()>0){
+                    for(int i = 0;i<las.size();i++){
+                        asepsisLendRec = las.get(i);
+                        asepsisLendRec.setReturnFlag("4");//包对换
+                        asepsisLendRecBo.save(asepsisLendRec);
+                    }
+
+                }
             }
         }else{
             num = asepsisAntiRecDao.saveClean(asepsisAntiRec);

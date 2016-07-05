@@ -75,8 +75,26 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                        op.setClinicId(clinicMaster.getId());
                        op.setItemClass(outpPresc.getItemClass());
                        op.setPrescAttr(outpPresc.getPrescAttr());
-                       op.setCosts(op.getCharges()/op.getAmount());
+                       if(op.getItemClass()!=null&&"B".equals(op.getItemClass())){//中药
+                           if(op.getAmount()!=null&&!"".equals(op.getAmount())&&op.getAmount()!=0){//中药数量>0
+                               if(op.getRepetition()!=null&&!"".equals(op.getRepetition())&&op.getRepetition()!=0){//剂数>0
+                                   op.setCosts(op.getCharges()*op.getAmount()*op.getRepetition());//中药单价*中药数量*中药剂数为总额
+                               }else{
+                                   op.setCosts(op.getCharges()*op.getAmount());
+                               }
+                           }else{
+                               op.setCosts(op.getCharges());
+                           }
+                       }else{//西药
+                           if(op.getAmount()!=null&&!"".equals(op.getAmount())&&op.getAmount()!=0){
+                               op.setCosts(op.getCharges()*op.getAmount());
+                           }else {
+                               op.setCosts(op.getCharges());
+                           }
+                       }
+                       op.setCharges(op.getCosts());
                        op.setItemNo(1);
+                       op.setSerialNo(serialNo);
                        if(op.getId()!=null && !op.getId().equals("")){
                            num = String.valueOf(dao.update(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
@@ -92,13 +110,13 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                                    op.setPrescNo(prescno!=null?prescno:1);
                                }
                            }
-                           op.setSerialNo(serialNo);
+
                            op.setProvidedIndicator(0);//自备标记
                            op.preInsert();
                            num = String.valueOf(dao.insert(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }
-                       if(op.getSubOrderNo().equals(op.getOrderNo())){
+                       if(op.getSubOrderNo().equals(op.getOrderNo())){//主医嘱，由于子处方用药途径与主处方用药途径只收一次途径项目费用
                             if(op.getAdministration()!=null&&!"".equals(op.getAdministration())){
                                 BaseDto baseDto = administrationDictDao.findByParams(op.getAdministration(),op.getOrgId());
                                 if(baseDto!=null&&baseDto.get("price").toString()!=null&&!"".equals(baseDto.get("price").toString())){
@@ -109,7 +127,7 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                                     outpOrdersCosts.setOrgId(clinicMaster.getOrgId());
                                     outpOrdersCosts.setOrderClass(outpPresc.getItemClass());//诊疗项目类别
                                     outpOrdersCosts.setPatientId(clinicMaster.getPatientId());
-                                    outpOrdersCosts.setSerialNo(outpPresc.getSerialNo());
+                                    outpOrdersCosts.setSerialNo(op.getSerialNo());
                                     outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
                                     outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
                                     outpOrdersCosts.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + clinicMaster.getVisitNo());
@@ -149,7 +167,6 @@ public class OutpPrescServiceImpl extends CrudImplService<OutpPrescDao, OutpPres
                 oo.preInsert();
                 outpOrdersDao.insert(oo);
                 //保存门诊处方药品价目表信息
-
                 saveOutpOrdersCosts(ordersCostsesList);
             }
         }catch (Exception e){

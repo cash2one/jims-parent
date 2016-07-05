@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -29,6 +30,7 @@ public class AsepsisAntiRecRest {
 
     @Reference(version = "1.0.0")
     private AsepsisAntiRecApi asepsisAntiRecApi;//消毒包API
+    private AsepsisStockApi asepsisStockApi;//消毒包API
 
 
     /**
@@ -75,7 +77,12 @@ public class AsepsisAntiRecRest {
             //当是清洗或打包时，只需要修改asepsis_Anti_Rec表，当是灭菌时，需要在根据灭菌数量判断是否需要在asepsis_Anti_Rec表再添加一条数据
             if(asepsisAntiRec.getAmountAnti()!=null&&!asepsisAntiRec.getAmountAnti().equals("0")&&!asepsisAntiRec.getAmountAnti().equals("0.0")&&!asepsisAntiRec.getAmountAnti().equals("0.00")
                     &&asepsisAntiRec.getAntiOperator()!=null&&!asepsisAntiRec.getAntiOperator().equals("")&&asepsisAntiRec.getAntiWays()!=null&&!asepsisAntiRec.getAntiWays().equals("")) {
-                if(antiBatchNo.equals(""))antiBatchNo = asepsisAntiRec.getAsepsisCode().substring(0, 1) + (System.currentTimeMillis() + "").substring(0, 10);
+                if(antiBatchNo.equals("")){
+                    antiBatchNo = asepsisStockApi.getNextDocumentNo(asepsisAntiRec.getOrgId());
+                    if(antiBatchNo==null||antiBatchNo.equals("")){
+                        antiBatchNo = (new SimpleDateFormat("yyMMdd")).format(new Date())+"0001";
+                    }
+                }
                 asepsisAntiRec.setAntiBatchNo(antiBatchNo);
             }
             num +=  asepsisAntiRecApi.saveClean(asepsisAntiRec);

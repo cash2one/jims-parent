@@ -1,9 +1,10 @@
+var clinicId = parent.clinicMaster.id;
 function onloadMethod() {
-    var clinicId = $("#clinicMasterId", window.parent.document).val();
+    $("#clinicId").val(clinicId);
     $.ajax({
         type: "GET",
         url: basePath + '/clinicInspect/getDescription',
-        data: {"clinicIds": $("#clinicMasterId", window.parent.document).val()},
+        data: {"clinicIds": clinicId},
         success: function (data) {
             $("#clinDiag").val(data.description);
         }
@@ -16,11 +17,8 @@ function onloadMethod() {
         valueField: 'examClassName',
         textField: 'examClassName',
         onSelect: function (data) {
-            $("#clinicId").val(clinicId);
             $("#performedBy").val(data.deptDict.id);
-            $("#reqDept").val(function(value,rowData,rowIndex){
-                return performedBFormatter(data.deptDict.id,'','');
-            });
+            $("#reqDept").val(clinicDeptCodeFormatter(data.deptDict.id, '', ''));
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
@@ -96,7 +94,7 @@ function onloadMethod() {
         columns: [[      //每个列具体内容
             {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center'},
             //{field: 'reqDept', title: '开单科室', width: '25%', align: 'center',formatter:performedBFormatter},
-            {field: 'performedBy', title: '执行科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'performedBy', title: '执行科室', width: '25%', align: 'center',formatter:clinicDeptCodeFormatter},
             {field: 'flag', title: '状态', width: '23%', align: 'center'},
             {
                 field: 'id',

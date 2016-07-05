@@ -33,4 +33,10 @@ public interface AsepsisStockDao extends CrudDao<AsepsisStock> {
      * @return
      */
     public List<AsepsisStock> findListOver(AsepsisStock entity);
+    /**
+     * 获取当天最大的编码
+     * @param orgId
+     * @return
+     */
+    public String getNextDocumentNo(String orgId);
 }
