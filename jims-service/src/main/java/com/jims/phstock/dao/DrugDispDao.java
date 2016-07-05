@@ -22,10 +22,10 @@ public interface DrugDispDao {
      * @param bedNos       床位
      * @return
      */
-    public List<PatientBaseVo> findPatsInHospital(@Param("wardDeptCode")String wardDeptCode,
-                                                   @Param("deptCode")String deptCode,
-                                                   @Param("orgId")String orgId,
-                                                   @Param("bedNos")List<String> bedNos);
+    public List<PatientBaseVo> findPatsInHospital(@Param("wardDeptCode") String wardDeptCode,
+                                                  @Param("deptCode") String deptCode,
+                                                  @Param("orgId") String orgId,
+                                                  @Param("bedNos") List<String> bedNos);
 
     /**
      * 查询某一个病人的摆药医嘱

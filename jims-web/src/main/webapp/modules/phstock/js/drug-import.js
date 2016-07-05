@@ -303,7 +303,9 @@ $(function () {
                 delete _rows[i].retailPriceCount
                 delete _rows[i].drugName
                 delete _rows[i].supplier
+                delete _rows[i].currentStock
             }
+
             var _record = {
                 documentNo : $('#importDocument').textbox('getValue')
                 ,storage : currentStorage
@@ -322,6 +324,8 @@ $(function () {
                 ,detailList : _rows.slice(0,_rows.length - 1)
                 ,subStorageDeptId : currentSubStorageDeptId
             }
+            console.log(_record);
+            _record.detailList
             parent.$.postJSON('/service/drug-in/save',JSON.stringify(_record),function(res){
                 if(res == '1'){
                     $.messager.alert('保存',(accountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
@@ -381,7 +385,7 @@ $(function () {
                     $("#supplyChild").combobox({'disabled':true});  //如果选择采购入库，则供货子单位不可编辑。
                     $.get('/service/drug-supplier-catalog/list',{orgId:currentOrgId},function(res){
                         $('#supply').combobox({
-                            valueField : 'supplierCode',
+                            valueField : 'id',
                             textField : 'supplier',
                             data : res
                         })
@@ -704,6 +708,10 @@ $(function () {
                 halign: 'center',
                 align: 'left',
                 editor : 'textbox'
+            },{
+                title: "价格主键",
+                field: "priceListId",
+                hidden:true
             }
             ]],
             onClickCell: onClickCell,
@@ -722,6 +730,7 @@ $(function () {
             orgId: drugDict.orgId,
             drugCode: drugDict.drugCode
         }, function (res) {
+            console.log(res);
             showWindow(res, drugDict)
         }, 'GET', true)
     }
@@ -746,26 +755,41 @@ $(function () {
                 , packSpec: drugPrice.drugSpec
                 , packUnit: drugPrice.units
                 , firmId: drugPrice.firmId
+                , priceListId:drugPrice.id
             }
             if (chargeDrugExisted(drugParam)) {
                 $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
                 rollBack(_oldDrugName)
                 return
             }
-            importTableRow.drugCode = drugPrice.drugCode;
-            importTableRow.drugSpec = drugPrice.drugSpec;   //规格
-            importTableRow.units = drugPrice.units;     //单位
-            importTableRow.packageSpec = drugPrice.drugSpec;
-            importTableRow.packageUnits = drugPrice.units;
-            importTableRow.firmId = drugPrice.firmId;   //厂家标识
-            importTableRow.supplier = drugPrice.supplier;   //厂商
 
-            importTableRow.retailPrice = drugPrice.retailPrice; //市场零售价
-            importTableRow.tradePrice = drugPrice.tradePrice;   //市场批发价
-            importTableRow.purchasePrice = drugPrice.tradePrice;    //进价=批发价
+            var subStorage = $('#importChild').combobox('getValue')
+            var storage=currentStorage;
+            var priceListId=drugPrice.id;
+            console.log(subStorage+storage+priceListId);
+            $.get("/service/drug-price/find-by-sub-quantity?priceListId="+priceListId+"&storage="+storage+"&subStorage="+subStorage, function (node){
+                console.log(node);
+                if(node.length>0){
+                    importTableRow.currentStock=node[0].quantity;
+                }else{
+                    importTableRow.currentStock=0;
+                }
+                importTableRow.drugCode = drugPrice.drugCode;
+                importTableRow.drugSpec = drugPrice.drugSpec;   //规格
+                importTableRow.units = drugPrice.units;     //单位
+                importTableRow.packageSpec = drugPrice.drugSpec;
+                importTableRow.packageUnits = drugPrice.units;
+                importTableRow.firmId = drugPrice.firmId;   //厂家标识
+                importTableRow.supplier = drugPrice.supplier;   //厂商
+                importTableRow.priceListId=drugPrice.id;
+                importTableRow.retailPrice = drugPrice.retailPrice; //市场零售价
+                importTableRow.tradePrice = drugPrice.tradePrice;   //市场批发价
+                importTableRow.purchasePrice = drugPrice.tradePrice;    //进价=批发价
+                console.log(drugPrice);
+                $('#drug-import').datagrid('endEdit', $('#drug-import').datagrid('getRowIndex', importTableRow))
+                _tempFlag = true
+            })
 
-            $('#drug-import').datagrid('endEdit', $('#drug-import').datagrid('getRowIndex', importTableRow))
-            _tempFlag = true
         }
 
         if (drugPrices.length == 1) {

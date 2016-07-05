@@ -65,6 +65,7 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
         if(details != null && details.size() > 0){
             for (DrugImportDetail detail : details) {
                 DrugStock stock = new DrugStock();
+                stock.setPriceListId(detail.getPriceListId());
                 stock.setStorage(master.getStorage());
                 stock.setDrugCode(detail.getDrugCode());
                 stock.setDrugSpec(detail.getDrugSpec());

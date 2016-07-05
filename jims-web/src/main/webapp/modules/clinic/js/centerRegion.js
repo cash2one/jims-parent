@@ -1,19 +1,18 @@
-
+var clinicMaster={};
 $(function(){
-    //patientList('0','');
+    patientList('0','');
     ///**
     // * 科室下拉框
-    // */
-    //$('#deptNameId').combobox({
-    //    data: clinicDeptCode,
-    //    valueField: 'id',
-    //    textField: 'dept_name',
-    //    onChange: function () {
-    //        var status=$('#wrap input[name="rad05"]:checked ').val();
-    //        var dept=$('#deptNameId').combobox('getValue');
-    //        patientList(status,dept);
-    //    }
-    //})
+    $('#deptNameId').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name',
+        onChange: function () {
+            var status=$('#wrap input[name="rad05"]:checked ').val();
+            var dept=$('#deptNameId').combobox('getValue');
+            patientList(status,dept);
+        }
+    })
     //添加Tabs
     $(".tabs-header").bind('contextmenu',function(e){
         e.preventDefault();
@@ -150,12 +149,7 @@ function patientList(status,dept){
             liHtml+='<li><a href="#" onclick="userMenu(\''+data[i].id+'\',this)">' +
             '<span class="cus-lbor"></span>' +
             '<span class="cus-name">'+data[i].name+'</span>' ;
-            var sex="";
-                if(data[i].sex=='1'){
-                    sex="女";
-                }else if(data[i].sex=='2'){
-                    sex="男";
-                }
+            var sex=itemFormatter(data[i].sex, '', '');
             liHtml=liHtml+'&nbsp;'+sex+'&nbsp; '+data[i].age+'</a></li>';
         }
         $('ul.cus-list').html(liHtml);
@@ -176,11 +170,12 @@ function userMenu(clinicMasterId,aBtn){
         'data': {id:clinicMasterId},
         'dataType': 'json',
         'success': function(data){
+            clinicMaster=data;
             $("#nameId").html(data.name);
             $("#ageId").html(data.age);
-            $("#sexId").html(data.sex);
+            $("#sexId").html(itemFormatter(data.sex, '', ''));
             $("#clinicNo").html(data.clinicNo);
-            $("#visitDate").html(data.visitDate);
+            $("#visitDate").html(formatDatebox(data.visitDate));
             $("#clinicMasterId").val(data.id);
         },
         'error': function(){
