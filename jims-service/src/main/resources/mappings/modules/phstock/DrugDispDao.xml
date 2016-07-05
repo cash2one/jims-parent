@@ -84,6 +84,7 @@
         where a.patient_id = b.patient_id
         and b.ward_code = c.ward_code
         and a.patient_id = d.patient_id(+)
+        and a.visit_id = d.visit_id(+)
         and a.org_id = b.org_id
         and a.org_id = e.org_id
         and c.dept_id = e.id
@@ -95,6 +96,7 @@
         and b.ward_code=#{wardDeptCode}
         and a.org_id = #{orgId}
         and (a.SETTLED_INDICATOR is null or a.settled_indicator =0)
+
     </select>
 
     <select id="findOrdersDispInfos" resultType="OrdersDispInfo">
