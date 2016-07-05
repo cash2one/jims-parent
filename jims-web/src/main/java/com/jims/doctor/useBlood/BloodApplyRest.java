@@ -1,4 +1,4 @@
-package com.jims.clinic.useBlood;
+package com.jims.doctor.useBlood;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;

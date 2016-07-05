@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>用血申请</title>
+    <title>住院-用血申请</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
-    <script type="text/javascript" src="/modules/clinic/useBlood/js/useBlood.js"></script>
+    <script type="text/javascript" src="/modules/doctor/useBlood/js/docUseBlood.js"></script>
     <script type="text/javascript" src="/static/data/data_user_blood.js"></script>
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
     <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
@@ -26,7 +26,6 @@
 
             </div>
             <input type="hidden" name="id">
-            <input type="hidden" name="patientId" id="patientId" value="">
             <div class="fitem fitem_pop">
                 <label>
                     姓名：
@@ -39,15 +38,15 @@
                 <input name="patSex" id="patSex" class="easyui-validatebox validatebox-text validatebox-invalid" readOnly="true"
                        style="width:25%;"/>
                 <!--<label>-->
-                <!--单号：-->
+                    <!--单号：-->
                 <!--</label>-->
                 <!--<input name="applyNum" id="applyNum" required="true" class="easyui-validatebox validatebox-text validatebox-invalid"-->
-                <!--style="width:30%;"/>-->
+                       <!--style="width:30%;"/>-->
                 <!--<label>-->
-                <!--血库收到日期：-->
+                    <!--血库收到日期：-->
                 <!--</label>-->
                 <!--<input name="gatherDate" class="easyui-datetimebox"-->
-                <!--style="width:30%;"/>-->
+                       <!--style="width:30%;"/>-->
             </div>
 
             <div class="fitem fitem_pop">
@@ -57,10 +56,10 @@
                 <input style="width:25%;" id="feeType" name="feeType" class="easyui-validatebox validatebox-text validatebox-invalid"
                        readOnly="true" >
                 <!--<label>-->
-                <!--病人号：-->
+                    <!--病人号：-->
                 <!--</label>-->
                 <!--<input id="patientId" name="patientId" style="width:30%;" class="easyui-validatebox validatebox-text validatebox-invalid"-->
-                <!-->
+                        <!-->
                 <label>
                     属地：
                 </label>
@@ -79,11 +78,11 @@
                 <input style="width:25%;"  id="inpNo" name="inpNo" class="easyui-validatebox validatebox-text validatebox-invalid" readOnly="true" >
             </div>
             <!--<div class="fitem fitem_pop">-->
-            <!--<label>-->
-            <!--出生日期：-->
-            <!--</label>-->
-            <!--<input id="birthday" name="birthday"-->
-            <!--style="width:30%;"/>-->
+                <!--<label>-->
+                    <!--出生日期：-->
+                <!--</label>-->
+                <!--<input id="birthday" name="birthday"-->
+                       <!--style="width:30%;"/>-->
             <!--</div>-->
             <div class="fitem fitem_pop">
                 <label>
@@ -209,7 +208,7 @@
                        style="width:25%;"/>
             </div>
 
-            <input type="hidden"  id="visitId" name="visitId" value="">
+            <input type="hidden"  id="clinicId" name="clinicId" value="">
         </form>
         <div class="inp-tab-left" style="width:99% ">
             <table id="list_doctor" class="easyui-datagrid" style="width:100%;height:90%">

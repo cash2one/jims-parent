@@ -8,14 +8,10 @@ import com.jims.clinic.api.DocOperationApplyServiceApi;
 
 import com.jims.clinic.dao.DocOperationApplyDao;
 import com.jims.clinic.dao.DocOperationGradeDao;
-import com.jims.clinic.entity.DocBloodApply;
 import com.jims.clinic.entity.DocOperationApply;
 import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
-import java.util.List;
 
 /**
  * 门诊手术信息申请表Service

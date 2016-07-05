@@ -1,53 +1,64 @@
-package com.jims.blood.bo;
+package com.jims.doctor.useBlood.bo;
 
-import com.jims.blood.dao.BloodApplylDao;
-import com.jims.blood.dao.BloodCapacityDao;
+import com.jims.doctor.useBlood.dao.BloodApplylDao;
+import com.jims.doctor.useBlood.dao.BloodCapacityDao;
 import com.jims.blood.entity.BloodApply;
 import com.jims.blood.entity.BloodCapacity;
+import com.jims.clinic.bo.CostOrdersUtilsService;
+import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.common.utils.IdGen;
 import com.jims.orders.dao.OrdersDao;
-import com.jims.orders.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/7/4.
- * 住院用血申请BO
+ * Created by Administrator on 2016/6/28.
+ * 门诊用血申请BO
  */
 @Service
 @Transactional(readOnly = false)
-public class BloodApplyHosBo {
+public class BloodApplyBo {
     @Autowired
     private BloodApplylDao bloodApplylDao;
     @Autowired
     private BloodCapacityDao bloodCapacityDao;
     @Autowired
     private OrdersDao ordersDao;
+    @Autowired
+    private CostOrdersUtilsService costOrdersUtilsService;
 
-    public String saveHosBloodApply(BloodApply bloodApply) {
-        int strState = 0;
+    /**
+     * 保存用血申请和用血量申请
+     *
+     * @param bloodApply
+     * @return
+     */
+    public String saveBloodApply(BloodApply bloodApply) {
+        int strState=0;
         if (bloodApply.getIsNewRecord()) {
             bloodApply.preInsert();
             bloodApply.setApplyNum(IdGen.uuid());
             strState = bloodApplylDao.insert(bloodApply);
+//            bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
+            List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
             List<BloodCapacity> bloodCapacityList = bloodApply.getBloodCapacityList();
             for (int i = 0; i < bloodApply.getBloodCapacityList().size(); i++) {
                 BloodCapacity bloodCapacity = bloodCapacityList.get(i);
+                ClinicItemDict clinicItemDict = new ClinicItemDict();
                 bloodCapacity.setApplyNum(bloodApply.getApplyNum());
-                if (bloodCapacity.getIsNewRecord()) {
+                clinicItemDict.setInputCode(bloodCapacity.getApplyNum());
+                if(bloodCapacity.getIsNewRecord()){
                     bloodCapacity.preInsert();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
-                } else {
+                }else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
@@ -55,54 +66,33 @@ public class BloodApplyHosBo {
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
                 }
-                Orders orders = new Orders();
-                orders.setPatientId(bloodApply.getPatientId());
-                orders.setVisitId(bloodApply.getVisitId());
-                Integer orderNo = ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId(), "");
-                if (orderNo != null) {
-                    orders.setOrderNo(orderNo + 1);
-                    orders.setOrderSubNo(orderNo + 1);
-                } else {
-                    orders.setOrderNo(1);
-                    orders.setOrderSubNo(1);
-                }
-                orders.setStartDateTime(bloodApply.getApplyDate());
-                orders.setOrderClass("C");
-                orders.setOrderText(bloodCapacity.getBloodType());
-                orders.setOrderCode(bloodCapacity.getBloodType());
-                orders.setRepeatIndicator("0"); // 临时医嘱标志
-                orders.setOrderStatus("6");//医嘱状态
-                orders.setFreqDetail("1");//执行时间详细描述
-                orders.setPerformSchedule(newDate());
-                orders.setOrderingDept(bloodApply.getDeptCode());
-                orders.setDoctor(bloodApply.getDoctor());
-                //todo(userid)申请医生 ?
-//                orders.setDoctorUser(Long.valueOf(1));
-                //doctor_user:11=['000LJS']
-                orders.setEnterDateTime(bloodApply.getApplyDate());
-                //billing_attr:13=[3]
-                //drug_billing_attr:14=[3]
-                orders.setAppNo(bloodApply.getId());
-                orders.preInsert();
-                ordersDao.insert(orders);
-            }
 
-        } else {
+                clinicItemDictList.add(clinicItemDict);
+            }
+            costOrdersUtilsService.save(bloodApply.getClinicId(), clinicItemDictList, bloodApply.getId());
+
+        }else {
             bloodApply.preUpdate();
+            bloodApply.setApplyNum(IdGen.uuid());
+//            BloodApply bloodApply1 = bloodApplylDao.get(bloodApply.getId());
+//            bloodApply.setApplyNum(bloodApply1.getApplyNum());
             strState = bloodApplylDao.update(bloodApply);
             bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
+            List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
             List<BloodCapacity> bloodCapacityList = bloodApply.getBloodCapacityList();
             for (int i = 0; i < bloodApply.getBloodCapacityList().size(); i++) {
                 BloodCapacity bloodCapacity = bloodCapacityList.get(i);
+                ClinicItemDict clinicItemDict = new ClinicItemDict();
                 bloodCapacity.setApplyNum(bloodApply.getApplyNum());
-                if (bloodCapacity.getIsNewRecord()) {
+                clinicItemDict.setInputCode(bloodCapacity.getApplyNum());
+                if(bloodCapacity.getIsNewRecord()){
                     bloodCapacity.preInsert();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
-                } else {
+                }else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
@@ -110,15 +100,15 @@ public class BloodApplyHosBo {
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
                 }
+                clinicItemDictList.add(clinicItemDict);
             }
+            costOrdersUtilsService.save(bloodApply.getClinicId(), clinicItemDictList, bloodApply.getId());
         }
-        return strState + "";
+        return strState+"";
     }
-
-    public String newDate() {
-        SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
-        Date date = new Date();
-        String newDate = dateFormater.format(date);
-        return newDate;
-    }
+//    public String getMatchSubNum(String applyNum){
+//
+//        String applyNu=bloodCapacityDao.getMatchSubNum(applyNum);
+//        return applyNu;
+//    }
 }

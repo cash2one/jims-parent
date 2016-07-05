@@ -1,11 +1,11 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.blood.service;
+package com.jims.doctor.useBlood.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.blood.api.BloodComponentServiceApi;
-import com.jims.blood.dao.BloodComponentDao;
+import com.jims.doctor.useBlood.dao.BloodComponentDao;
 import com.jims.blood.entity.BloodComponent;
 import com.jims.common.service.impl.CrudImplService;
 

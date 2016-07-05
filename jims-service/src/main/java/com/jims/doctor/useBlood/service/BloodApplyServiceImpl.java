@@ -5,13 +5,13 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.jims.blood.service;
+package com.jims.doctor.useBlood.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.blood.api.BloodApplyServiceApi;
-import com.jims.blood.bo.BloodApplyBo;
-import com.jims.blood.bo.BloodApplyHosBo;
-import com.jims.blood.dao.BloodApplylDao;
+import com.jims.doctor.useBlood.bo.BloodApplyBo;
+import com.jims.doctor.useBlood.bo.BloodApplyHosBo;
+import com.jims.doctor.useBlood.dao.BloodApplylDao;
 import com.jims.blood.entity.BloodApply;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;

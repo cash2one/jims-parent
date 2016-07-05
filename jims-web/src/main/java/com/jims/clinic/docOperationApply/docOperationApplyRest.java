@@ -1,10 +1,8 @@
 package com.jims.clinic.docOperationApply;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.DocBloodCapacityServiceApi;
 import com.jims.clinic.api.DocOperationApplyServiceApi;
 import com.jims.clinic.api.DocOperationGradeServiceApi;
-import com.jims.clinic.entity.DocBloodApply;
 import com.jims.clinic.entity.DocOperationApply;
 import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.data.PageData;
