@@ -17,68 +17,15 @@ $(function () {
         formSubmitInput("form");
         $.postForm(basePath+"/electronleavehospital/save","form",function(data){
             if(data.code=="1"){
-                $.messager.alert("ÌáÊ¾ĞÅÏ¢","±£´æ³É¹¦");
+                $.messager.alert("ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢","ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
             }else{
-                $.messager.alert("ÌáÊ¾ĞÅÏ¢","±£´æÊ§°Ü","error");
+                $.messager.alert("ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢","ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½","error");
             }
 
         }),function(data){
-            $.messager.alert("ÌáÊ¾ĞÅÏ¢","±£´æÊ§°Ü","error");
+            $.messager.alert("ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢","ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½","error");
         }
     });
 
-    /**
-     * É¾³ıÄ³Ò»¸ö²Ëµ¥
-     */
-    /*$("#removeBtn").on('click', function () {
-        var row = $("#tt").datagrid('getSelected');
-        if (row == null) {
-            $.messager.alert("ÏµÍ³ÌáÊ¾", "ÇëÑ¡ÔñÒªÉ¾³ıµÄ²Ëµ¥");
-            return;
-        }
-
-
-
-        var children = $("#tt").treegrid('getChildren', row.id);
-        if (children.length > 0) {
-            $.messager.alert("ÏµÍ³ÌáÊ¾", "ÇëÏÈÉ¾³ı×Ó²Ëµ¥");
-            return;
-        } else {
-            if(!row.id){
-                $.messager.alert("ÏµÍ³ÌáÊ¾","¶ÔÓÚĞÂÌí¼ÓµÄ²Ëµ¥ÇëÏÈË¢ĞÂÔÚ½øĞĞÉ¾³ı",'error') ;
-                return
-            }
-            $.messager.confirm("ÏµÍ³ÌáÊ¾", "È·ÈÏÉ¾³ı:¡¾" + row.menuName + "¡¿µÄ²Ëµ¥Âğ?", function (r) {
-                if (r) {
-                    $.post('/api/menu/del/' + row.id, function (data) {
-                        $.messager.alert("ÏµÍ³ÌáÊ¾", "É¾³ı³É¹¦");
-                        $("#tt").treegrid('remove', row.id);
-                    });
-                }
-            })
-
-        }
-    })*/
-
-    /**
-     * ĞŞ¸ÄÒ»¸ö²Ëµ¥
-     */
-    /*$("#updateBtn").on('click', function () {
-
-        var node = $("#tt").treegrid('getSelected');
-        if (node == null) {
-            $.messager.alert("ÏµÍ³ÌáÊ¾", "ÇëÑ¡ÖĞÒªĞŞ¸ÄµÄ²Ëµ¥");
-            return;
-        }
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'ĞŞ¸Ä²Ëµ¥');
-        //$('#fm').form('clear');
-        $("#menuName").textbox('setValue', node.menuName);
-        $("#href").textbox('setValue', node.href);
-        $("#parentName").textbox('setValue', node.menuName);
-        $("#parentId").textbox('setValue', node._parentId);
-        $("#position").textbox('setValue', node.position);
-        $("#id").val(node.id);
-
-    });*/
 
 })
