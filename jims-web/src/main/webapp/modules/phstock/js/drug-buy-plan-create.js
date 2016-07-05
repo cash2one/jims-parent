@@ -521,7 +521,10 @@ $(function(){
         var handleData = [[]] // handleData[0] 添加的数据,handleData[1] 删除的数据
         var _allData = $('#buyPlanTable').datagrid('getRows')
         for (var i = 0,len=_allData.length - 1; i < len; i++) {
-            if(!validateRow(_allData[i])) return
+            if(!validateRow(_allData[i])){
+                $.messager.alert('警告','请将表单填写完整！','error')
+                return
+            }
         }
         if(flag == '1') {
             var _updates = $('#buyPlanTable').datagrid('getChanges', 'updated')

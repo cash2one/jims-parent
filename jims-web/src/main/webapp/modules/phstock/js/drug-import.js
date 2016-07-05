@@ -77,6 +77,11 @@ $(function () {
     var drugDicts = [] // 检索的药品字典数据
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
+    var specUnits = [];//规格单位字典
+    $.get("/service/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
     // 药品类别
     var drugIndicators = [
         {value: '1', label: '西药'},
@@ -553,7 +558,17 @@ $(function () {
                 title: "单位",
                 field: "units",
                 width: '60px',
-                align: 'center'
+                align: 'center',
+                formatter:function(value,row,index){
+                    var unitsName = value;
+                    console.log(specUnits);
+                    $.each(specUnits, function (index,item) {
+                        if(item.value == value){
+                            unitsName =  item.label;
+                        }
+                    });
+                    return unitsName;
+                }
             }, {
                 title: "批号",
                 field: "batchNo",
@@ -822,7 +837,17 @@ $(function () {
             columns: [[
                 {field: 'id', title: '编号', hidden: true},
                 {field: 'drugSpec', title: '规格', width: 60, align: "center"},
-                {field: 'units', title: '单位', width: 60, align: "center"},
+                {field: 'units', title: '单位', width: 60, align: "center",
+                    formatter:function(value,row,index){
+                        var unitsName = value;
+                        $.each(specUnits, function (index,item) {
+                            if(item.value == value){
+                                unitsName =  item.label;
+                            }
+                        });
+                        return unitsName;
+                    }
+                },
                 {field: 'supplier', title: '厂家', width: 200, halign: "center",align: "left"},
                 {field: 'tradePrice', title: '批发价', width: 60, align: "center"},
                 {field: 'retailPrice', title: '零售价', width: 60, align: "center"}

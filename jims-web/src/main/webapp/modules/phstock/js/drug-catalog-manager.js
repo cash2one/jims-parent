@@ -294,25 +294,25 @@ $(function () {
             title: '剂型',
             field: 'drugForm',
             width: "10%",
-            editor: {
-                type: 'combobox',
-                options: {
-                    panelHeight: '150',
-                    valueField: 'value',
-                    textField: 'label',
-                    method: 'get',
-                    url: basePath  + "/dict/findListByType?type=DRUG_FORM_DICT"
-                }
-            },
-            formatter:function(value,row,index){
-                var label;
-                $.each(drugFormDict, function (index,item) {
-                    if (item.value == value){
-                        label =   item.label;
-                    }
-                });
-                return label;
-            }
+            editor: {type: 'text', options: {required: true}}
+            //    type: 'combobox',
+            //    options: {
+            //        panelHeight: '150',
+            //        valueField: 'value',
+            //        textField: 'label',
+            //        method: 'get',
+            //        url: basePath  + "/dict/findListByType?type=DRUG_FORM_DICT"
+            //    }
+            //},
+            //formatter:function(value,row,index){
+            //    var label;
+            //    $.each(drugFormDict, function (index,item) {
+            //        if (item.value == value){
+            //            label =   item.label;
+            //        }
+            //    });
+            //    return label;
+            //}
         }, {
             title: '毒理属性',
             field: 'toxiProperty',
