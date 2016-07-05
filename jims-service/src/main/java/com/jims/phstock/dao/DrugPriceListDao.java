@@ -77,5 +77,21 @@ public interface DrugPriceListDao extends CrudDao<DrugPriceList> {
      */
     public  List<DrugPriceList> selectPriceList(String drugCode,String drugSpec,String firmId ,String units,String orgId);
 
+
+    /**
+     * 根据价格表的ID检索全院库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
     public List<DrugStock> findListByPriceListId(String priceListId);
+
+
+    /**
+     * 根据价格表的ID,subStorage,storage检索库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    public List<DrugStock> findBySubQuantity( String priceListId,String storage,String subStorage);
 }

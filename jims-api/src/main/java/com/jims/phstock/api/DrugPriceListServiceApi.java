@@ -163,4 +163,11 @@ public interface DrugPriceListServiceApi {
     public List<DrugStock> findListByPriceListId(String priceListId);
 
 
+    /**
+     * 根据价格表的ID,subStorage,storage检索库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    public List<DrugStock> findBySubQuantity(String priceListId,String storage,String subStorage);
 }

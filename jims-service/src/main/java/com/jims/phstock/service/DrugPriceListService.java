@@ -201,9 +201,24 @@ public class DrugPriceListService implements DrugPriceListServiceApi {
         return bo.stopDate(id);
     }
 
+    /**
+     * 根据价格表的ID检索全院库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
     @Override
     public List<DrugStock> findListByPriceListId(String priceListId) {
         return bo.findListByPriceListId(priceListId);
     }
 
+    /**
+     * 根据价格表的ID,subStorage,storage检索库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    public List<DrugStock> findBySubQuantity( String priceListId,String storage,String subStorage){
+        return bo.findBySubQuantity(priceListId,storage,subStorage);
+    }
 }

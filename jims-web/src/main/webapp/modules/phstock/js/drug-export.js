@@ -535,7 +535,7 @@ $(function () {
                 });
                 $.get('/service/drug-supplier-catalog/list',{orgId:currentOrgId},function(res){
                     $('#storageDept').combobox({
-                        valueField : 'supplierCode',
+                        valueField : 'id',
                         textField : 'supplier',
                         data : res
                     })

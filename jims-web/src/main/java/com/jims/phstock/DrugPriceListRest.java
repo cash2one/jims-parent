@@ -181,5 +181,18 @@ public class DrugPriceListRest {
         return drugPriceListServiceApi.findListByPriceListId(priceListId);
     }
 
+    /**
+     * 根据价格表的ID,subStorage,storage检索库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    @GET
+    @Path("find-by-sub-quantity")
+    public List<DrugStock> findBySubQuantity(@QueryParam("priceListId")String priceListId,@QueryParam("storage") String storage,@QueryParam("subStorage") String subStorage){
+        List<DrugStock>list=drugPriceListServiceApi.findBySubQuantity(priceListId,storage,subStorage);
+        return list;
+    }
+
 
 }

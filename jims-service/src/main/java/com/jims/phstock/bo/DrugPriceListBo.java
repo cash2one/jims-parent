@@ -249,5 +249,14 @@ public class DrugPriceListBo extends CrudImplService<DrugPriceListDao, DrugPrice
         return dao.findListByPriceListId(priceListId);
     }
 
+    /**
+     * 根据价格表的ID,subStorage,storage检索库存量
+     * @param priceListId
+     * @return
+     * @author zq
+     */
+    public List<DrugStock> findBySubQuantity( String priceListId,String storage,String subStorage){
+        return dao.findBySubQuantity(priceListId,storage,subStorage);
+    }
 }
 
