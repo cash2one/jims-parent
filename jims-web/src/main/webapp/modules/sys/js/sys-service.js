@@ -21,12 +21,10 @@ $(function () {
         title: '基础服务维护',
         fit: true,
         fitColumns: true,
-        //striped: true,
         singleSelect: true,
         toolbar: '#tb',
         method: 'GET',
         rownumbers: true,
-        //  url: basePath + "/AdministrationDict/listAll",
 
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
@@ -87,7 +85,7 @@ $(function () {
         }, {
             title: "服务图片",
             field: "serviceImage",
-            width: '11%',
+            width: '66%',
             align: 'center',
             formatter: function (value,index,row) {
                 return "<img src='"+value+"' style='width:50px;height:50px;'/>"

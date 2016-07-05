@@ -4,8 +4,11 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.phstock.api.DrugExportServiceApi;
 
 import com.jims.phstock.bo.DrugExportBo;
+import com.jims.phstock.entity.DrugExportDetail;
 import com.jims.phstock.entity.DrugExportMaster;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 
 /**
@@ -35,5 +38,34 @@ public class DrugExportService implements DrugExportServiceApi{
         } catch (Exception e) {
         }
         return result;
+    }
+
+    /**
+     * 检索出库数据
+     * @param master
+     * @return
+     */
+    public List<DrugExportMaster> findMasterList(DrugExportMaster master){
+        return bo.findMasterList(master);
+    }
+
+    /**
+     * 检索出库数据
+     * @param detail
+     * @return
+     */
+    public List<DrugExportDetail> findDetailList(DrugExportDetail detail){
+        return bo.findList(detail);
+    }
+
+    /**
+     * 检索出库数据(包含库存)
+     * @param detail
+     * @param storage 库存管理单位
+     * @param subStorage 存放库房
+     * @return
+     */
+    public List<DrugExportDetail> findDetailListWithStock(DrugExportDetail detail,String storage,String subStorage){
+        return bo.findDetailListWithStock(detail,storage,subStorage);
     }
 }
