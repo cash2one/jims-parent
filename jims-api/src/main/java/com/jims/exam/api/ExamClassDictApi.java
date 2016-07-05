@@ -42,7 +42,7 @@ public interface ExamClassDictApi {
      * 获得所有部门和所属部门科室
      * @return
      */
-    public List<ExamClassDict> getEx();
+    public List<ExamClassDict> getEx(String orgId);
     /**
      * 查询全部数据
      * @return

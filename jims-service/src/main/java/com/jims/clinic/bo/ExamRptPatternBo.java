@@ -21,8 +21,8 @@ public class ExamRptPatternBo extends CrudImplService<ExamRptPatternDao, ExamRpt
     @Autowired
     private ExamRptPatternDao examRptPatternDao;
 
-    public List getExamRptPattern(String examSubClass) {
-        return examRptPatternDao.getExamRptPattern(examSubClass);
+    public List getExamRptPattern(String examSubClass,String orgId) {
+        return examRptPatternDao.getExamRptPattern(examSubClass,orgId);
     }
     /**
      *

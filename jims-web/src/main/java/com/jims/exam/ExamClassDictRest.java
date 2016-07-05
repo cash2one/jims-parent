@@ -13,10 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,22 +36,22 @@ public class ExamClassDictRest {
 
     @Path("getEx")
     @POST
-    public List getEx() {
-        List<ExamClassDict> list=examClassDictApi.getEx();
+    public List getEx(@QueryParam("orgId")String orgId) {
+        List<ExamClassDict> list=examClassDictApi.getEx(orgId);
         return list;
     }
 
     @Path("getExamSubclass")
     @POST
-    public List getExamSubclass(String examClassName){
-       List<ExamSubclassDict> examSubclassDictList=examSubclassDictApi.getEx(examClassName);
+    public List getExamSubclass(String examClassName,@QueryParam("orgId")String orgId){
+       List<ExamSubclassDict> examSubclassDictList=examSubclassDictApi.getEx(examClassName,orgId);
        return examSubclassDictList;
     }
 
     @Path("getExamRptPattern")
     @POST
-    public List getExamRptPattern(String examSubClass){
-        List<ExamRptPattern> examRptPatternList=examRptPatternApi.getExamRptPattern(examSubClass);
+    public List getExamRptPattern(String examSubClass,@QueryParam("orgId")String orgId){
+        List<ExamRptPattern> examRptPatternList=examRptPatternApi.getExamRptPattern(examSubClass,orgId);
         return examRptPatternList;
     }
 
