@@ -1,9 +1,9 @@
-package com.jims.operation.bo;
+package com.jims.doctor.operation.bo;
 
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
-import com.jims.operation.dao.OperationScheduleDao;
-import com.jims.operation.dao.ScheduledOperationNameDao;
+import com.jims.doctor.operation.dao.OperationScheduleDao;
+import com.jims.doctor.operation.dao.ScheduledOperationNameDao;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.operation.entity.ScheduledOperationName;
 import org.springframework.beans.factory.annotation.Autowired;

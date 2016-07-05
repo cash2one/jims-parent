@@ -1,20 +1,17 @@
-package com.jims.operation.service;
+package com.jims.doctor.operation.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.operation.api.OperatioinOrderServiceApi;
-import com.jims.operation.bo.OperationBo;
-import com.jims.operation.bo.OperationHosBo;
-import com.jims.operation.dao.OperationScheduleDao;
-import com.jims.operation.dao.ScheduledOperationNameDao;
+import com.jims.doctor.operation.bo.OperationBo;
+import com.jims.doctor.operation.bo.OperationHosBo;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.operation.entity.ScheduledOperationName;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

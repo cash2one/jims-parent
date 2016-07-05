@@ -1,4 +1,4 @@
-package com.jims.operation;
+package com.jims.doctor.operation;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.entity.PatsInHospital;
@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 住院-手术预约
+ * 手术预约（申请）
  *
  * @author PangQian
  * @date2016/5/12 0012
