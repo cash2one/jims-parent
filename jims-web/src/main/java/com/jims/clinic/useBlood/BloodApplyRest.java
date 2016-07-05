@@ -108,7 +108,7 @@ public class BloodApplyRest {
     }
 
     /**
-     * 保存用血申请记录
+     * 门诊用血申请保存
      */
     @Path("save")
     @POST
@@ -122,9 +122,24 @@ public class BloodApplyRest {
         data.setData("success");
         return data;
     }
+    /**
+     * 住院用血申请保存
+     */
+    @Path("saveHos")
+    @POST
+    public StringData saveHos(BloodApply bloodApply) {
+        StringData data = new StringData();
+        String num = data.getCode();
+        if (bloodApply != null) {
+            num = bloodApplyServiceApi.saveHosBloodApply(bloodApply);
+        }
+        data.setCode(num);
+        data.setData("success");
+        return data;
+    }
 
     /**
-     * 保存用血申请记录
+     * 门诊用血申请记录删除
      */
     @Path("del")
     @POST

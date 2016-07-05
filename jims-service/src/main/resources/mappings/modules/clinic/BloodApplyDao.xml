@@ -66,9 +66,14 @@
 		SELECT 
 			<include refid="bloodApplyColumns"/>
 		FROM blood_apply a
-		<include refid="bloodApplyJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="clinicId!=null and clinicId!=''">
+				and clinic_id = #{clinicId}
+			</if>
+			<if test="visitId!=null and visitId!=''">
+				and visitId = #{visitId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

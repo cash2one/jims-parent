@@ -10,6 +10,7 @@ package com.jims.blood.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.blood.api.BloodApplyServiceApi;
 import com.jims.blood.bo.BloodApplyBo;
+import com.jims.blood.bo.BloodApplyHosBo;
 import com.jims.blood.dao.BloodApplylDao;
 import com.jims.blood.entity.BloodApply;
 import com.jims.common.service.impl.CrudImplService;
@@ -27,6 +28,8 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
 
     @Autowired
     private BloodApplyBo bloodApplyBo;
+    @Autowired
+    private BloodApplyHosBo bloodApplyHosBo;
 
     /**
      * 保存用血申请和用血量申请
@@ -37,6 +40,18 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
 
     public String saveBloodApply(BloodApply bloodApply) {
         return bloodApplyBo.saveBloodApply(bloodApply);
+    }
+
+    /**
+     * 住院用血申请保存
+     * @param bloodApply
+     * @return
+     */
+    @Override
+    public String saveHosBloodApply(BloodApply bloodApply) {
+        String num = bloodApplyHosBo.saveHosBloodApply(bloodApply);
+        return num;
+
     }
 
 //    @Override

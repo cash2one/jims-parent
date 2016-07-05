@@ -1,107 +1,74 @@
 var editRow = undefined;
-var serialNo = '';
-var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
 
-var rowNum=-1;
-var mazuifangfa = [];
-var shoushuDoctor = []
-var priceItmeData = {}
-priceItmeData.orgId = "";
-priceItmeData.dictType = "V_INPUT_REGISTRATION_LIST"
 
-/**
- *
- */
-$.ajax({
-    'type': 'POST',
-    'url': basePath + '/input-setting/listParam',
-    data: JSON.stringify(priceItmeData),
-    'contentType': 'application/json',
-    'dataType': 'json',
-    'async': false,
-    'success': function (data) {
-        priceItme = data;
-    }
-});
-/**
- * 麻醉方法翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {*}
- */
-function mazuifangfaFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < mazuifangfa.length; i++) {
-        if (mazuifangfa[i].value == value) {
-            return mazuifangfa[i].text;
-        }
-    }
-}
-
-/**
- * 麻醉医生翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {*}
- */
-function shoushuDoctorFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < shoushuDoctor.length; i++) {
-        if (shoushuDoctor[i].value == value) {
-            return shoushuDoctor[i].text;
-        }
-    }
-}
+var rowNum = -1;
 function onloadMethod() {
-    $('#list_data').datagrid({
-        iconCls: 'icon-edit',//图标
-        width: 'auto',
-        height: 'auto',
-        nowrap: false,
-        striped: true,
-        border: true,
-        method: 'get',
-        collapsible: false,//是否可折叠的
-        fit: true,//自动大小
-        url: basePath + '/docOperationApply/list',
-        remoteSort: false,
-        idField: 'fldId',
-        singleSelect: false,//是否单选
-        pagination: true,//分页控件
-        pageSize: 15,
-        pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
+    var cId = $("#clinicMasterId", parent.document).val();
+    $("#clinicId").val(cId);
+
+    $.ajax({
+        method: "POST",
+        url: basePath + "/operatioinOrder/getScheduleOut",
+        contentType: "application/json",
+        data: clinicId = cId,
+        dataType: 'json',
+        success: function (data) {
+            $('#operation').form('load', data);
+        }
+    });
+    $('#operationName').datagrid({
+        rownumbers: true,
+        singleSelect: true,
+        fit: true,
+        method: 'POST',
+        url: basePath + '/operatioinOrder/getOperationName?clinicId=' + cId,
+        idField: 'id',
         columns: [[      //每个列具体内容
-            {field: 'mazuifangfa', title: '麻醉方法', width: '18%', align: 'center',formatter:mazuifangfaFormatter},
-            {field: 'shoushuDoctor', title: '手术医师', width: '18%', align: 'center',formatter:shoushuDoctorFormatter},
-            {field: 'yuyueDate', title: '预约时间', width: '30%', align: 'center', formatter: formatDateBoxFull},
             {
-                field: 'id', title: '操作', width: '40%', align: 'center', formatter: function (value, row, index) {
-                var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getOperation(\'' + row.id + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
-                    '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getOperation(\'' + row.id + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
-                    '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                return html;
+                field: 'operation', title: '拟实施手术名称', width: '48%', align: 'center', formatter: operationNameFormatter
+                , editor: {
+                type: 'combogrid',
+                options: {
+                    panelWidth: 500,
+                    data: operation,
+                    idField: 'operation_code',
+                    textField: 'operation_name',
+                    //url: '/modules/operation/js/clinic_data.json',
+                    columns: [[
+                        {field: 'operation_code', title: '项目代码', width: '20%', align: 'center'},
+                        {field: 'operation_name', title: '项目名称', width: '20%', align: 'center'},
+                        {field: 'input_code', title: '拼音输入码', width: '20%', align: 'center', editor: 'text'},
+                        //{field: 'input_code', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
+                    ]],
+                    fitColumns: true
+                }
             }
-            }
-        ]],
-        frozenColumns: [[
-            {field: 'ck', checkbox: true}
+            },
+            {field: 'schedule', title: '等级', width: '50%', align: 'center',formatter:function(value,rowData,rowIndex){
+                if(rowData.schedule == undefined){
+                    return '';
+                }else{
+                    if(operationScale == undefined){
+                        return '';
+                    }else{
+                        return operationScaleFormatter(rowData.schedule.operationScale,'','');
+                    }
+                }
+
+            }}
         ]],
         toolbar: [{
-            text: '修改',
-            iconCls: 'icon-edit',
+            text: '添加',
+            iconCls: 'icon-add',
             handler: function () {
-                var selectRows = $('#list_data').datagrid("getSelections");
-                if (selectRows.length < 1) {
-                    $.messager.alert("提示消息", "请选中需要修改的数据");
-                    return;
+                if (rowNum >= 0) {
+                    rowNum++;
                 }
-                get(selectRows[0].id);
+                $("#operationName").datagrid("insertRow", {
+                    index: 0, // index start with 0
+                    row: {
+                    }
+                });
             }
         }, '-', {
             text: '删除',
@@ -109,148 +76,175 @@ function onloadMethod() {
             handler: function () {
                 doDelete();
             }
-        }]
+        }, {
+            text: '保存',
+            iconCls: 'icon-save',
+            handler: function () {
+                $("#operationName").datagrid('endEdit', rowNum);
+                if (rowNum != undefined) {
+                    $("#operationName").datagrid("endEdit", rowNum);
+                }
+                savePperationApply();
+            }
+        }
+        ],
+        // onAfterEdit: function (rowIndex, rowData, changes) {
+        //    editRow = undefined;
+        //}, onDblClickRow: function (rowIndex, rowData) {
+        //    if (editRow != undefined) {
+        //        $("#operationName").datagrid('endEdit', editRow);
+        //    }
+        //    if (editRow == undefined) {
+        //        $("#operationName").datagrid('beginEdit', rowIndex);
+        //        editRow = rowIndex;
+        //    }
+        //},
+        onClickRow: function (rowIndex, rowData) {
+            var dataGrid = $('#operationName');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
+            }
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
+
+            }
+        }
     });
-    //设置分页控件
-    var p = $('#list_data').datagrid('getPager');
+
+
+    //手术室下拉框
+    $('#operatingRoom').combobox({
+        data: operatingRoom,
+        valueField: 'deptCode',
+        textField: 'deptName',
+        onSelect: function (n, o) {
+            $("#operatingRoomCode").val(n.deptCode);
+            comboboxLoad(n.deptCode, 'operatingRoomNo', 'operatingRoomNoCode');
+        }
+    });
+
+    /**
+     * 麻醉方式
+     */
+    $("#anesthesiaMethod").combobox({
+        data: anaesthesiaName,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#anesthesiaMethodId").val(n.value);
+        }
+    });
+
+    /**
+     * 手术等级
+     */
+    $("#operationScale").combobox({
+        data: operationScaleName,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#operationScaleId").val(n.value);
+        }
+    });
+    /**
+     * 手术病情
+     */
+    $("#patientCondition").combobox({
+        data:patientCondition,
+        valueField:'id',
+        textField:'label',
+        onSelect:function(n,o){
+            $("#patientConditionId").val(n.value);
+        }
+    })
+    /**
+     * 隔离
+     */
+    $("#isolationIndicator").combobox({
+        data:isolationIndicator,
+        valueField:'id',
+        textField:'label',
+        onSelect:function(n,o){
+            $("#isolationIndicatorId").val(n.value);
+        }
+    })
 }
+
+//function formatSchedule(value){
+//    return  return value.operationScale;
+//}
+
 /**
- * 保存
+ * 保存申请记录
  * @param id
  */
-function saveUseBloodApply() {
-    $("#list_doctor").datagrid('endEdit', editRow);
-    var rows = $('#list_doctor').datagrid('getRows');
-    var formJson = fromJson('docOperationForm');
+function savePperationApply() {
+    var rows = $('#operationName').datagrid('getRows');
+    var formJson = fromJson('operation');
     formJson = formJson.substring(0, formJson.length - 1);
     var tableJson = JSON.stringify(rows);
-    var submitJson = formJson + ",\"bloodCapacityList\":" + tableJson + "}";
-    $("#inpNo").attr("value", "123");
-    $("#applyNum").attr("value", "123");
-    $("#matchSubNum").attr("value", "1");
-    $.postJSON(basePath + "/docOperationApply/save", submitJson, function (data) {
-        if (data.code == "1") {
-            $.messager.alert("提示信息", "保存成功");
-            $('#list_data').datagrid('load');
-            $('#list_data').datagrid('clearChecked');
-            $("#docOperationForm").form("clear");
-        } else {
-            $.messager.alert("提示信息", "保存失败", "error");
-        }
+    var submitJson = formJson + ",\"scheduledOperationNameList\":" + tableJson + "}";
 
-    }), function (data) {
-        $.messager.alert("提示信息", "保存失败", "error");
-    }
+    $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
+        if (data == "1") {
+            $.messager.alert("提示消息", data + "条记录，保存成功");
+            $('#operationName').datagrid('load');
+            $('#operationName').datagrid('clearChecked');
+        } else {
+            $.messager.alert('提示', "保存失败", "error");
+            $('#operationName').datagrid('load');
+            $('#operationName').datagrid('clearChecked');
+        }
+    }, function (data) {
+        $.messager.alert('提示', "保存失败", "error");
+    })
 }
-//批量删除
+
+//删除
 function doDelete() {
-    //把你选中的 数据查询出来。
-    var selectRows = $('#list_data').datagrid("getSelections");
+    var selectRows = $('#operationName').datagrid("getSelections");
     if (selectRows.length < 1) {
         $.messager.alert("提示消息", "请选中要删的数据!");
         return;
     }
-    //真删除数据
     //提醒用户是否是真的删除数据
     $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
         if (r) {
-            //真删除了  1,3,4
             var strIds = "";
             for (var i = 0; i < selectRows.length; i++) {
                 strIds += selectRows[i].id + ",";
             }
             strIds = strIds.substr(0, strIds.length - 1);
-            del(strIds);
-        }
-    })
-}
-//列删除
-function deleteRow(id) {
-    //真删除数据
-    //提醒用户是否是真的删除数据
-    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
-        if (r) {
-            del(id);
-        }
-    })
-}
-
-/**
- * 删除方法
- * @param id
- */
-function del(id) {
-    $.ajax({
-        'type': 'POST',
-        'url': basePath + '/docOperationApply/del',
-        'contentType': 'application/json',
-        'data': id = id,
-        'dataType': 'json',
-        'success': function (data) {
-            if (data.data == 'success') {
-                if (data.code > 0) {
-                    $.messager.alert("提示消息", data.code + "条记录，已经删除");
-                    $('#list_data').datagrid('load');
-                    $('#list_data').datagrid('clearChecked');
-                } else {
-                    $.messager.alert('提示', "删除失败", "error");
-                }
+            if (strIds == 'undefined' || strIds == '') {
+                var index1 = $('#operationName').datagrid('getRowIndex', $("#operationName").datagrid('getSelected'))
+                $('#operationName').datagrid('deleteRow', index1);
             } else {
-                $.messager.alert('提示', "删除失败", "error");
+
+                //真删除数据
+                $.ajax({
+                    'type': 'POST',
+                    'url': basePath + '/operatioinOrder/delete',
+                    'contentType': 'application/json',
+                    'data': id = strIds,
+                    'dataType': 'json',
+                    'success': function (data) {
+                        if (data == 1) {
+                            $.messager.alert("提示消息", data + "条记录删除成功！");
+                            $('#operationName').datagrid('load');
+                            $('#operationName').datagrid('clearChecked');
+                        } else {
+                            $.messager.alert('提示', "删除失败", "error");
+                        }
+                    },
+                    'error': function (data) {
+                        $.messager.alert('提示', "删除失败", "error");
+                    }
+                });
             }
-        },
-        'error': function (data) {
-            $.messager.alert('提示', "删除失败", "error");
-        }
-    });
-}
-/**
- * 显示修改
- * @param data
- */
-function getBloodApply(id, state) {
-    if (state == "1") {
-        $("#saveUseBlood").hide();
-    }
-    else {
-        $("#saveUseBlood").show();
-    }
-    $.ajax({
-        'type': 'post',
-        'url': basePath + '/bloodApply/getBloodApply',
-        'contentType': 'application/json',
-        'data': id = id,
-        'dataType': 'json',
-        'success': function (data) {
-            $('#docOperationForm').form('load', data);
-            var applyNum = $("#applyNum").val();
-            $('#list_doctor').datagrid({
-                url: basePath + "/docOperationApply/getBloodCapacityList",
-                queryParams: {'applyNum': applyNum},
-                method: "post"
-            });
         }
     })
 }
-/**
- * 删除动态行
- * @param data
- */
-function inDoDelete() {
-    var rows = $('#list_doctor').datagrid("getSelections");
-    if (rows.length < 1) {
-        $.messager.alert("提示消息", "请选中要删的数据!");
-        return;
-    }
-    var copyRows = [];
-    for (var j = 0; j < rows.length; j++) {
-        copyRows.push(rows[j]);
-    }
-    for (var i = 0; i < copyRows.length; i++) {
-        if (typeof(copyRows[i].id) != "undefined") {
-        }
-        var index = $('#list_doctor').datagrid('getRowIndex', copyRows[i]);
-        $('#list_doctor').datagrid('deleteRow', index);
-    }
-}
-
