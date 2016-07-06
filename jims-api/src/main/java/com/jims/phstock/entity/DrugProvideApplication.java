@@ -34,6 +34,10 @@ public class DrugProvideApplication extends DataEntity<DrugProvideApplication> {
     private String drugName;   //名称
     private String supplierId;   //厂家
     private String label;     //包单位
+    private Double tradePrice;		// 市场批发价
+    private Double retailPrice;		// 市场零售价
+    private Double stock;
+    private String drugStockId;
 
     public String getSupplierId() {
         return supplierId;
@@ -203,5 +207,35 @@ public class DrugProvideApplication extends DataEntity<DrugProvideApplication> {
         this.applicantStorageSub = applicantStorageSub;
     }
 
+    public Double getTradePrice() {
+        return tradePrice;
+    }
 
+    public void setTradePrice(Double tradePrice) {
+        this.tradePrice = tradePrice;
+    }
+
+    public Double getRetailPrice() {
+        return retailPrice;
+    }
+
+    public void setRetailPrice(Double retailPrice) {
+        this.retailPrice = retailPrice;
+    }
+
+    public Double getStock() {
+        return stock;
+    }
+
+    public void setStock(Double stock) {
+        this.stock = stock;
+    }
+
+    public String getDrugStockId() {
+        return drugStockId;
+    }
+
+    public void setDrugStockId(String drugStockId) {
+        this.drugStockId = drugStockId;
+    }
 }
