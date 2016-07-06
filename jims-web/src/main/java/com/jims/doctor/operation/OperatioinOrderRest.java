@@ -36,7 +36,8 @@ public class OperatioinOrderRest {
     @GET
     public List<PatsInHospital> getOperatioin(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("deptCode") String deptCode){
        // deptCode="140102";
-       return operatioinOrderServiceApi.getOperationin(deptCode);
+               List<PatsInHospital> patsInHospitalList = operatioinOrderServiceApi.getOperationin(deptCode);
+        return patsInHospitalList;
     }
 
     /**

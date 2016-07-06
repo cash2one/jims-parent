@@ -1,7 +1,7 @@
 var editRow = undefined;
 var rowNum=-1;
-var patId ='15006135';
-var visitId = '1';
+var patId = parent.patVisit.patientId;
+var visitId = parent.patVisit.visitId;
 var orderNo =0 ;
 var orderSubNo = 1;
 var orderCostsArray={};
@@ -314,7 +314,7 @@ $(function(){
                         }
 
                     }}}},
-            {field:'performSchedule',title:'执行时间',width:'5%',align:'center',formatter:formatDateBoxFull,editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'performSchedule',title:'执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'performResult',title:'阴阳',width:'5%',align:'center'},
             {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',editor:{type: 'datebox'}},
             {field:'freqDetail',title:'医生说明',width:'10%',align:'center',editor:'text'},
@@ -447,7 +447,7 @@ $(function(){
                 }else if(row.orderStatus=='1'){//转抄
                     return 'background-color:#A7CACB;color:black;';
                 }else if(row.orderStatus=='2') {//执行
-                    return 'background-color:#A7CACB;color:blue;';
+                    return 'background-color:#EED5D2;color:blue;';
                 }else if(row.orderStatus=='3') {//停止
                     return 'background-color:#A7CACB;color:yellow;';
                 }else if(row.orderStatus=='4') {//作废
