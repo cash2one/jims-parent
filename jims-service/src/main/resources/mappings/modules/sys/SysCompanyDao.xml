@@ -102,7 +102,7 @@
     </update>
 
     <select id="findListByName" resultType="SysCompany">
-        SELECT id, org_name FROM  sys_company
+        SELECT id, org_name FROM  sys_company  where owner=#{persionId} and apply_status='2'
     </select>
 
     <select id="findListByApplyStatus" resultType="SysCompany">

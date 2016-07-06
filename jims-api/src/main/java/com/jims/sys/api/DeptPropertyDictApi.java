@@ -28,6 +28,12 @@ public interface DeptPropertyDictApi {
      */
     public Page<OrgDeptPropertyDict> findPage(Page<OrgDeptPropertyDict> page, OrgDeptPropertyDict orgDeptPropertyDict);
 
+    /**
+     * 查询科室属性信息
+     * @param orgDeptPropertyDict
+     * @return
+     */
+    public List<OrgDeptPropertyDict> findList(OrgDeptPropertyDict orgDeptPropertyDict) ;
 
     /**
      * 保存修改方法
