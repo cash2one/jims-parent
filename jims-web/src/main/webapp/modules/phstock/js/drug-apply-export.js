@@ -12,7 +12,7 @@ config.orgId
         maxStock: {
             validator: function(value){
                 var row = $('#dg').datagrid('getSelected')
-                if(+value > +row.currentStock) {
+                if(+value > +row.stock) {
                     return false
                 }
                 return true
@@ -71,9 +71,7 @@ config.orgId
         }
     });
 
-    /**
-     * 合并合计单元格
-     */
+    //合并合计单元格
     var mergeLastCells = function () {
         var _index = $('#dg').datagrid('getRows').length - 1
         $('#dg').datagrid('mergeCells', {index: _index, field: 'drugCode', rowspan: null, colspan: 10})
@@ -86,7 +84,7 @@ config.orgId
         var editor = $('#dg').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
         if(editor){
             var rows = $(editor.target).combogrid('grid').datagrid('getRows');
-            if(rows.length > 0){
+            if(rows.length > 0 && $(editor.target).combogrid('getValue')){
                 if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
                     $(editor.target).combogrid('grid').datagrid('selectRow',0)
                 }
@@ -103,9 +101,11 @@ config.orgId
     }
     var onClickCell = function (index, field) {
         if (endEditing()) {
-            if (index == $('#dg').datagrid('getRows').length - 1) {
+            var rows = $('#dg').datagrid('getRows')
+            if (index == rows.length - 1) {
                 return
             }
+            if(rows[index].id && field == 'drugName') return
             $('#dg').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
             currentSelectIndex = index;
@@ -114,6 +114,142 @@ config.orgId
                 $(editor.target).combogrid('grid').datagrid('loadData',drugDicts)
             }
         }
+    }
+
+    /**
+     * 判断是否已存在此药品的规格
+     * @param o {drugCode,packSpec,packUnit}
+     */
+    var chargeDrugExisted = function (o) {
+        var rows = $('#dg').datagrid('getRows')
+        for (var i = 0, j = rows.length - 1; i < j; i++) {
+            if (i != currentSelectIndex && rows[i].drugCode == o['drugCode']
+                && rows[i].firmId == o['firmId'] && rows[i].drugSpec == o['drugSpec']
+                && rows[i].units == o['units']) {
+                return true
+            }
+        }
+        return false
+    }
+    /**
+     * 药品返回到选择前的值
+     * @param oldV 选择前的值
+     */
+    var rollBack = function (oldV) {
+        var editor = $('#dg').datagrid('getEditor', {index: currentSelectIndex, field: 'drugName'})
+        $(editor.target).combogrid('setValue', oldV)
+        $('#dg').datagrid('endEdit', currentSelectIndex)
+    }
+    /**
+     * 加载同一药品的不同规格、厂商等
+     * @param drugDict
+     */
+    var loadDrugStockData = function (drugDict) {
+        var chargeType = [{colName:'storage',colValue:drugDict['storage'],operateMethod:"="},
+            {colName:'drug_code',colValue:drugDict['drugCode'],operateMethod:"="}]
+        var param = {dictType:'v_drug_stock',orgId:drugDict['orgId'],inputParamVos:chargeType}
+
+        parent.$.postJSON('/service/input-setting/listParam',
+            JSON.stringify(param) ,function(res){
+                showWindow(res, drugDict)
+            })
+    }
+    /**
+     * 展现药品库存数据，当库存参数内只有一条数据时不显示，直接赋值。当一条也没有时清空药品名称。
+     * @param drugStocks 药品库存数据
+     * @param drugDict 药品名称
+     */
+    var showWindow = function (drugStocks, drugDict) {
+        var exportRow = $('#dg').datagrid('getSelected')
+        var _oldDrugName = exportRow.drugName
+        if (!drugStocks || drugStocks.length == 0) {
+            rollBack(_oldDrugName)
+            return
+        }
+        var _tempFlag = false   // 当window关闭时是否赋值
+
+        var initData = function (drugStock) {
+            var drugParam = {
+                drugCode: drugStock['drug_code'],
+                firmId: drugStock['firm_id'],
+                drugSpec: drugStock['drug_spec'],
+                units: drugStock['units']
+            }
+            if (chargeDrugExisted(drugParam)) {
+                $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
+                rollBack(_oldDrugName)
+                return
+            }
+            exportRow.drugCode = drugStock['drug_code']
+            exportRow.drugSpec = drugStock['drug_spec']
+            exportRow.units = drugStock['units']
+            exportRow.batchNo = drugStock['batch_no']
+            exportRow.expireDate = drugStock['expire_date']
+            exportRow.firmId = drugStock['firm_id']
+            exportRow.supplier = drugStock['supplier']
+            exportRow.retailPrice = drugStock['retail_price']
+            exportRow.tradePrice = drugStock['trade_price']
+            exportRow.price = drugStock['retail_price']
+            exportRow.packageSpec = drugStock['package_spec']
+            exportRow.packageUnits = drugStock['package_units']
+            exportRow.subPackage1 = drugStock['sub_package_1']
+            exportRow.subPackageUnits1 = drugStock['sub_package_units_1']
+            exportRow.subPackageSpec1 = drugStock['sub_package_spec_1']
+            exportRow.subPackage2 = drugStock['sub_package_2']
+            exportRow.subPackageUnits2 = drugStock['sub_package_units_2']
+            exportRow.subPackageSpec2 = drugStock['sub_package_spec_2']
+            exportRow.purchasePrice = drugStock['purchase_price']
+            exportRow.stock = drugStock['quantity']
+            exportRow.drugStockId = drugStock['id']
+            exportRow.quantity=0
+            $('#dg').datagrid('endEdit', currentSelectIndex)
+            _tempFlag = true
+        }
+        if (drugStocks.length == 1) {
+            initData(drugStocks[0])
+            return
+        }
+
+        $('#drugStockWindow').window({
+            title: '选择药品规格和单位',
+            width: '653',
+            height: '450',
+            collapsible: false,
+            minimizable: false,
+            maximizable: false,
+            modal: true,
+            resizable: false,
+            onClose: function () {
+                if (!_tempFlag) {
+                    rollBack(_oldDrugName)
+                }
+            }
+        })
+        $("#drugStockTable").datagrid({
+            fit: true,
+            border: 0,
+            fitColumns: true, //列自适应宽度
+            singleSelect: true,
+            remoteSort: false,
+            idField: 'id',
+            data:drugStocks,
+            columns: [[
+                {field: 'id', title: '编号', hidden: true},
+                {field: 'drug_spec', title: '规格', width: 60, align: "center"},
+                {field: 'supplier', title: '厂家', width: 200, halign: "center",align:'left'},
+                {field: 'quantity', title: '库存量', width: 60, align: "center"},
+                {field: 'purchase_price', title: '进货价', width: 60, align: "center"},
+                {field: 'trade_price', title: '批发价', width: 60, align: "center"},
+                {field: 'retail_price', title: '零售价', width: 60, align: "center"},
+                {field: 'batch_no', title: '批号', width: 60, align: "center"},
+                {field: 'expire_date', title: '有效期', width: 90, align: "center"}
+
+            ]],
+            onDblClickRow: function (index, row) {
+                initData(row, drugDict)
+                $('#drugStockWindow').window('close')
+            }
+        })
     }
 
     // 出库类别
@@ -203,10 +339,6 @@ config.orgId
         rownumbers: true,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
-            title: "id",
-            field: "id",
-            hidden: true
-        }, {
             title: "代码",
             field: "drugCode",
             width: 100,
@@ -245,7 +377,7 @@ config.orgId
                         {field: 'inputCode', title: '输入码', width: 70, align: "center"}
                     ]],
                     onSelect: function (index, row) {
-                        //loadDrugStockData(row)
+                        loadDrugStockData(row)
                     }
                 }
             }
@@ -267,15 +399,17 @@ config.orgId
             editor: {
                 type: 'numberbox', options: {
                     required: true,
-                    min : 1,
-                    validType : ['maxStock']
+                    min : 0
                 }
             }
         }, {
             title: "单价",
             field: "price",
             width: 70,
-            align: 'center'
+            align: 'center',
+            formatter:function(value,row){
+                return row.retailPrice
+            }
         }, {
             title: "批发价",
             field: "tradePrice",
@@ -283,7 +417,7 @@ config.orgId
             align: 'center'
         }, {
             title: "当前结存",
-            field: "currentStock",
+            field: "stock",
             width: 70,
             align: 'center'
             //formatter: function(value,row){
@@ -303,7 +437,7 @@ config.orgId
                 if(row.drugCode == '出库金额合计') return value
                 var outPrice = (isNaN(row.outPrice) ? 0 : +row.outPrice)
                 var _value = ((isNaN(row.quantity) ? 0 : +row.quantity)
-                * (isNaN(row.price) ? 0 : +row.price)).toFixed(2)
+                * (isNaN(row.retailPrice) ? 0 : +row.retailPrice)).toFixed(2)
 
                 row.outPrice = _value
 
@@ -327,9 +461,14 @@ config.orgId
             field: "expireDate",
             width: 100,
             align: 'center',
+            editor : {
+                type: 'datebox',
+                options: {
+                    editable: false
+                }
+            },
             formatter: function(value){
-                if(value && value.length > 9) return value.substr(0,10)
-                return value
+                return parent.formatDatebox(value);
             }
         }
         ]],
@@ -354,22 +493,32 @@ config.orgId
         fit: true,
         border: 0,
         //fitColumns: true, //列自适应宽度
-        singleSelect: true,
+        singleSelect: false,
         remoteSort: false,
         idField: 'id',
         footer:'#fb',
         columns: [[
-            {field: 'subStorage', title: '发放子库房', width: 150, halign: "center",align: "left"},
+            {field: 'subStorage', title: '发放子库房', width: 150, halign: "center",align: "left",formatter:function(){
+                return $('#stockSubDept').combobox('getText')
+            }},
             //{field: 'itemNo', title: '序号', width: 120, halign: "center",align: "left"},
             {field: 'drugName', title: '药品', width: 150, halign: "center",align: "left"},
             {field: 'drugSpec', title: '规格', width: 100, align: "center"},
-            {field: 'packageUnits', title: '单位', width: 70, align: "center"},
-            {field: 'quantity', title: '数量', width: 70, align: "center"},
-            {field: 'enterDateTime', title: '申请日期', width: 100, align: "center"},
+            {field: 'label', title: '单位', width: 70, align: "center"},
+            {field: 'noProvideQuantity', title: '数量', width: 70, align: "center",formatter: function (value,row) {
+                return row.flag == 0 ? row.quantity : value;
+            }},
+            {field: 'enterDateTime', title: '申请日期', width: 100, align: "center",formatter: function (value) {
+                return parent.formatDatebox(value);
+            }},
             {field: 'documentNo', title: '申请单号', width: 100, align: "center"},
             {field: 'batchNo', title: '批号', width: 100, align: "center"},
-            {field: 'applicantStorage', title: '请领库房', width: 150, align: "center"},
-            {field: 'applicantStorageSub', title: '请领子库房', width: 150, align: "center"}
+            {field: 'applicantStorage', title: '请领库房', width: 150, align: "center",formatter: function(){
+                return $('#storageDept').combobox('getText');
+            }},
+            {field: 'applicantStorageSub', title: '请领子库房', width: 150, align: "center",formatter: function(){
+                return $('#subStorageDept').combobox('getText');
+            }}
         ]],
         onDblClickRow: function (index, row) {
             $.get(parent.basePath + '/drug-out/findDetailListWithStock',
@@ -378,6 +527,46 @@ config.orgId
                 })
             $('#importWindow').window('close')
         }
+    })
+    $('#allBtn').click(function(){
+        $("#requestTable").datagrid('selectAll');
+    })
+    $('#noBtn').click(function(){
+        $("#requestTable").datagrid('unselectAll');
+    })
+    $('#okBtn').click(function(){
+        var selectRows = $("#requestTable").datagrid('getSelections');
+        for(var i=0;i<selectRows.length;i++){
+            var select = selectRows[i];
+            var row = {
+                id: select.id,
+                documentNo: $('#documentNo').textbox('getValue'),
+                drugCode: select.drugCode,
+                drugSpec: select.drugSpec,
+                units: select.label,
+                batchNo: select.batchNo,
+                //expireDate: new Date(),
+                firmId: select.firmId,
+                importDocumentNo: '',
+                purchasePrice: select.retailPrice,
+                retailPrice: select.retailPrice,
+                packageSpec: select.packageSpec,
+                quantity: select.flag == 0 ? select.quantity : select.noProvideQuantity,
+                packageUnits: select.label,
+                tradePrice: select.tradePrice,
+                inventory: '',
+                orgId: currentOrgId,
+                supplier: select.supplierId,
+                drugName: select.drugName,
+                stock: select.stock,
+                drugStockId: select.drugStockId
+            }
+            addRow( row)
+        }
+        $("#requestWindow").window('close');
+    })
+    $('#cancleBtn').click(function(){
+        $("#requestWindow").window('close');
     })
 
     $('#newBtn').on('click',function(){
@@ -397,44 +586,82 @@ config.orgId
             return
         }
         if(!endEditing()) return
-        var len = $('#dg').datagrid('getRows').length
-        if (len == 0) {
-            var countRecord = {
-                drugCode: '出库金额合计',
-                outPrice:'0'
-            }
-            $('#dg').datagrid('appendRow', countRecord)
-            mergeLastCells()
-        } else {
-            len--
-        }
-        currentSelectIndex = len ;
+
         var record = {
             documentNo: $('#documentNo').textbox('getValue'),
             orgId: currentOrgId,
             batchNo: ''
         }
-
-        $("#dg").datagrid('insertRow',{index:currentSelectIndex,row: record});
-        $("#dg").datagrid('selectRow', currentSelectIndex);
+        addRow(record)
     })
     $("#delBtn").on('click', function () {
         if (currentSelectIndex != undefined) {
             if(currentSelectIndex == $('#dg').datagrid('getRows').length - 1) return
             $("#dg").datagrid('deleteRow', currentSelectIndex);
+            if($("#dg").datagrid('getRows').length == 1){
+                $("#dg").datagrid('deleteRow', 0);
+            }
             currentSelectIndex = undefined
         } else {
             $.messager.alert('系统提示', "请选择要删除的行", 'info');
         }
     })
     $("#saveBtn").on('click',function(){
-        save()
+        if (!endEditing()) return false;
+        var rows = $('#dg').datagrid('getRows')
+        var details = []
+        if(rows.length > 0){
+            if(!currentSubStorageDeptId) return
+            for(var i=0;i<rows.length - 1 ;i++){
+                if(!rows[i].quantity){
+                    continue;
+                }
+                if(+rows[i].quantity > +rows[i].stock){
+                    $.messager.alert('警告','出库数量大于当前结余，请修改！','warning')
+                    $('#dg').datagrid('selectRow',i)
+                    return false;
+                }
+                rows[i].itemNo = i + 1
+                delete rows[i].price
+                delete rows[i].outPrice
+                delete rows[i].supplier
+                delete rows[i].drugName
+                details.push(rows[i]);
+            }
+            var record = {
+                documentNo : $('#documentNo').textbox('getValue')
+                ,storage : currentStorage
+                ,exportDate : $('#calendar').datebox('getValue')
+                ,receiver : $('#storageDept').combobox('getValue')
+                ,accountReceivable : $('#accountReceivable').numberbox('getValue')
+                ,accountPayed : $('#accountPayed').numberbox('getValue')
+                ,additionalFee : $('#additionalFee').numberbox('getValue')
+                ,exportClass : $('#statisticClass').combobox('getValue')
+                ,subStorage : $('#stockSubDept').combobox('getValue')
+                ,accountIndicator : currentAccountFlag ? currentAccountFlag : 0
+                ,memos : $('#memos').textbox('getValue')
+                ,operator : currentUsername
+                ,subReceiver : $('#subStorageDept').combobox('getValue')
+                ,orgId : currentOrgId
+                ,detailList : details
+                ,subStorageDeptId : currentSubStorageDeptId
+            }
+            parent.$.postJSON('/service/drug-out/saveAndUpdateRequest',JSON.stringify(record),function(res){
+                if(res == '1'){
+                    $.messager.alert('保存',(currentAccountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
+                        window.location.reload()
+                    })
+                } else {
+                    $.messager.alert('保存','保存失败！','error')
+                }
+            })
+        }
+        else {
+            $.messager.alert('保存','没有要保存的数据！','info')
+        }
     })
     $('#printBtn').on('click',function(){
-        save('print')
-    })
-    $('#closeBtn').on('click',function(){
-        parent.location.href = parent.getRootPath() + '/modules/index.html'
+
     })
 
     var query = function(){
@@ -444,13 +671,33 @@ config.orgId
             $("#requestTable").datagrid('loadData',[])
             $('#requestWindow').window('open')
         } else {
-            $.get(parent.basePath + '/drugProvideApplication/findList',
+            $.get(parent.basePath + '/drugProvideApplication/findListWithPrice',
                 {orgId:currentOrgId,applicantStorage:applicantStorage,
-                    applicantStorageSub:applicantStorageSub,flag:'0,1'},function(res){
+                    applicantStorageSub:applicantStorageSub,flag:'0,1',storage:currentStorage,
+                    subStorage:$('#stockSubDept').combobox('getValue')},function(res){
                     $("#requestTable").datagrid('loadData',res)
                     $("#requestTable").datagrid('unselectAll')
                     $('#requestWindow').window('open')
                 })
+        }
+    }
+    // 添加一行
+    var addRow = function(row){
+        if(row){
+            var len = $('#dg').datagrid('getRows').length
+            if (len == 0) {
+                var countRecord = {
+                    drugCode: '出库金额合计',
+                    outPrice:'0'
+                }
+                $('#dg').datagrid('appendRow', countRecord)
+                mergeLastCells()
+            } else {
+                len--
+            }
+            currentSelectIndex = len ;
+            $("#dg").datagrid('insertRow',{index:currentSelectIndex,row: row});
+            $("#dg").datagrid('selectRow', currentSelectIndex);
         }
     }
 })

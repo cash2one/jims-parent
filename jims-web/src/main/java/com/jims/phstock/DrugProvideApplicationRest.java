@@ -50,6 +50,29 @@ public class DrugProvideApplicationRest {
     }
 
     /**
+     * 检索(含有价格)
+     * @param orgId
+     * @return
+     */
+    @GET
+    @Path("findListWithPrice")
+    public List<DrugProvideApplication> findListWithPrice(@QueryParam("orgId") String orgId,
+                                                 @QueryParam("applicantStorage") String applicantStorage,
+                                                 @QueryParam("applicantStorageSub") String applicantStorageSub,
+                                                 @QueryParam("documentNo") String documentNo,
+                                                 @QueryParam("flag") String flag,
+                                                 @QueryParam("storage")String storage,
+                                                 @QueryParam("subStorage")String subStorage) {
+        DrugProvideApplication entity = new DrugProvideApplication();
+        entity.setOrgId(orgId);
+        entity.setApplicantStorage(applicantStorage);
+        entity.setApplicantStorageSub(applicantStorageSub);
+        entity.setDocumentNo(documentNo);
+        entity.setFlag(flag);
+        return api.findListWithPrice(entity,storage,subStorage);
+    }
+
+    /**
      * 查询去除重复的申请号
      *
      * @param orgId

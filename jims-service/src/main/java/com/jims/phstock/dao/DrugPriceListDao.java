@@ -94,4 +94,11 @@ public interface DrugPriceListDao extends CrudDao<DrugPriceList> {
      * @author zq
      */
     public List<DrugStock> findBySubQuantity( String priceListId,String storage,String subStorage);
+
+    /**
+     * 检索（没有其他关联表）
+     * @param entity
+     * @return
+     */
+    public List<DrugPriceList> findListNoJoin(DrugPriceList entity);
 }
