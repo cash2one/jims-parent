@@ -110,6 +110,34 @@
         </choose>
     </select>
 
+    <select id="findListNoJoin" resultType="DrugPriceList">
+        SELECT
+        <include refid="drugPriceListColumns"/>
+        FROM drug_price_list a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="orgId != null and orgId != ''">
+                AND a.org_id=#{orgId}
+            </if>
+            <if test="drugCode != null and drugCode != ''">
+                AND a.drug_code=#{drugCode}
+            </if>
+            <if test="drugSpec != null and drugSpec != ''">
+                AND a.drug_spec=#{drugSpec}
+            </if>
+            <if test="firmId != null and firmId != ''">
+                AND a.firm_id=#{firmId}
+            </if>
+            <if test="units != null and units != ''">
+                AND a.units=#{units}
+            </if>
+            <if test="stopDate != null">
+                AND a.start_date &lt;= #{stopDate}
+                AND (a.stop_date IS NULL OR a.stop_date &gt;= #{stopDate})
+            </if>
+        </where>
+    </select>
+
     <select id="findDrugDict" resultType="com.jims.phstock.entity.DrugDict">
         SELECT
             DISTINCT

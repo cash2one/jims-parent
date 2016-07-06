@@ -2,8 +2,9 @@ var editRow = undefined;
 var rowNum = -1;
 var visitIds = parent.patVisit.visitId;
 var patientIds = parent.patVisit.patientId;
+var deptCode;
 function onloadMethod() {
-    var deptCode ;
+
     $("#visitId").val(visitIds);
     $("#patientId").val(patientIds);
     /**
@@ -16,8 +17,7 @@ function onloadMethod() {
         onSelect:function(n,o){
             $("#deptCodeId").val(n.id);
             deptCode=n.id;
-        }
-    });
+
     //病人列表
     $('#patient').datagrid({
         singleSelect: true,
@@ -52,9 +52,9 @@ function onloadMethod() {
 
             $.ajax({
                 method: "POST",
-                url: basePath + "/operatioinOrder/getScheduleOut",
+                url: basePath + "/operatioinOrder/getScheduleOutHos",
                 contentType: "application/json",
-                data: clinicId = cId,
+                data: visitId = visitIds,
                 dataType: 'json',
                 success: function (data) {
                     $('#operation').form('load', data);
@@ -160,7 +160,8 @@ function onloadMethod() {
             });
         }
     });
-
+        }
+    });
     //手术室下拉框
     $('#operatingRoom').combobox({
         data: operatingRoom,

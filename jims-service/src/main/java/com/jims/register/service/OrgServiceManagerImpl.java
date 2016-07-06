@@ -99,7 +99,7 @@ public class OrgServiceManagerImpl implements OrgServiceManagerApi {
         return bo.findSelfServiceVsMenu(selfServiceId,isTree);
     }
 
-    public List<MenuDictVo> findSelfServiceMenu(String selfServiceId, String roleServiceId) {
-        return bo.findSelfServiceMenu(selfServiceId, roleServiceId);
+    public List<OrgSelfServiceVsMenu> findSelfServiceMenu(String serviceId, String roleId,boolean isTree) {
+        return bo.findSelfServiceMenu(serviceId, roleId, isTree);
     }
 }

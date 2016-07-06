@@ -23,6 +23,7 @@
     <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
         <form id="form" method="post">
             <input type="hidden" name="clinicId"  id="clinicId" value="">
+            <input type="hidden" name="patientId"  id="patientId" value="">
             <input type="hidden" name="id" id="id" value="">
             <div class="fitem fitem_pop">
                 <div class="fitem">
@@ -81,7 +82,7 @@ aasdasdsa
             </div>
         </form>
         <div id="dlg-buttons" class="btn-save">
-            <a href="javascript:void(0)" id="saveBut"  class="easy-nbtn easy-nbtn-info easy-nbtn-padd"  onclick="save();" style="width: 90px">保存</a>
+            <a href="javascript:void(0)" id="saveBut"  class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();" style="width: 90px">保存</a>
         </div>
     </div>
 </div>

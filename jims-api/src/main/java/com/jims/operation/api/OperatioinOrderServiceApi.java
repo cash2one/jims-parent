@@ -1,6 +1,7 @@
 package com.jims.operation.api;
 
 import com.jims.clinic.entity.PatsInHospital;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.operation.entity.ScheduledOperationName;
 
@@ -64,5 +65,22 @@ public interface OperatioinOrderServiceApi {
      * @return
      */
      public  int deleteOperationName(String id);
+
+    /**
+     * 查询门诊手术确认的列表
+     * @param scheduledDateTime
+     * @param operatingRoom
+     * @author pq
+     * @return
+     */
+    public List<BaseDto> findOperation(String scheduledDateTime,String operatingRoom);
+
+    /**
+     * 确认门诊手术
+     * @param id
+     * @author pq
+     * @return
+     */
+    public String confrimOperation(List<OperationSchedule> operationScheduleList);
 
 }
