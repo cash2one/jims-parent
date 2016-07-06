@@ -134,7 +134,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                     roleVsService.setRoleId(role.getId());
                     roleVsService.setServiceId(orgSelfServiceList.getId());
                     roleVsService.setMenuId(menu.getId());
-                    roleVsService.setMenuOperate(null);
+                    roleVsService.setMenuOperate("1");
                     roleVsServiceDao.insert(roleVsService);
                 }
             }
