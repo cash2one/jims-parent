@@ -743,4 +743,146 @@ $(function () {
 
     loadDict();
 
+//    服务参数设置
+
+    var paramEditIndex = undefined ;
+
+    $("#serviceParamDialog").dialog({
+        modal:true,
+        width:800,
+        height:600,
+        title:'参数设置',
+        closed:true,
+        onBeforeOpen:function(){
+            var row = $("#serviceDg").datagrid('getSelected') ;
+            var serviceId = row.id ;
+
+            var options = $("#serviceParamDg").datagrid('options') ;
+            options.url= basePath+"/service-param/list?serviceId="+serviceId ;
+            $("#serviceParamDg").datagrid('reload') ;
+        }
+    })
+
+    //定义参数表格
+    $("#serviceParamDg").datagrid({
+        fit:true,
+        fitColumn:true,
+        method:'GET',
+        columns:[[{
+            title:'id',
+            field:'id',
+            hidden:true
+        },{
+            title:'serviceId',
+            field:'serviceId',
+            hidden:true
+        },{
+            title:'参数名称',
+            field:'paramName',
+            width:'20%',
+            editor:{type:'text',options:{}}
+        },{
+            title:'值域',
+            field:'valueRange',
+            width:'75%',
+            editor:{type:'text',options:{}}
+        }]],
+        onDblClickRow:function(index,row){
+            if(paramEditIndex==0||paramEditIndex){
+                $("#serviceParamDg").datagrid('endEdit',paramEditIndex) ;
+                paramEditIndex = index ;
+            }else{
+                paramEditIndex = index ;
+            }
+            $("#serviceParamDg").datagrid('beginEdit',paramEditIndex) ;
+        }
+    }) ;
+
+    //添加参数按钮
+    $("#addServiceParamBtn").on('click',function(){
+        var row = $("#serviceDg").datagrid('getSelected') ;
+        if(paramEditIndex==undefined){
+            var test = $("#serviceParamDg").datagrid('appendRow',{serviceId:row.id}) ;
+            var rows = $("#serviceParamDg").datagrid('getRows') ;
+            var temIndex = $("#serviceParamDg").datagrid('getRowIndex',rows[rows.length-1]) ;
+            paramEditIndex = temIndex ;
+            $("#serviceParamDg").datagrid('beginEdit',paramEditIndex) ;
+        }else{
+            $("#serviceParamDg").datagrid('endEdit',paramEditIndex) ;
+            $("#serviceParamDg").datagrid("appendRow",{serviceId:row.id})
+            var rows = $("#serviceParamDg").datagrid('getRows') ;
+            var temIndex = $("#serviceParamDg").datagrid('getRowIndex',rows[rows.length-1]) ;
+            paramEditIndex = temIndex ;
+            $("#serviceParamDg").datagrid('beginEdit',paramEditIndex) ;
+        }
+    }) ;
+
+    //删除按钮
+    $("#delServiceParamBtn").on('click',function(){
+
+        if(paramEditIndex==0||paramEditIndex){
+            $("#serviceParamDg").datagrid('endEdit',paramEditIndex) ;
+            paramEditIndex = undefined ;
+        }
+
+        var rows = $("#serviceParamDg").datagrid('getSelections') ;
+        for(var i = 0 ;i<rows.length;i++){
+            var tempIndex = $("#serviceParamDg").datagrid('getRowIndex',rows[i]) ;
+            $("#serviceParamDg").datagrid('deleteRow',tempIndex) ;
+        }
+
+    })
+
+    //保存按钮
+    $("#submitServiceParamBtn").on('click',function(){
+
+
+        var beanChangeVo = {} ;
+        beanChangeVo.inserted=[] ;
+        beanChangeVo.deleted=[] ;
+        beanChangeVo.updated=[] ;
+
+        if(paramEditIndex==0||paramEditIndex){
+            $("#serviceParamDg").datagrid('endEdit',paramEditIndex) ;
+            paramEditIndex=undefined ;
+        }
+
+        var inserted = $("#serviceParamDg").datagrid('getChanges','inserted') ;
+        console.log(inserted) ;
+        for(var i = 0 ;i<inserted.length;i++){
+            if(inserted[i].paramName){
+                beanChangeVo.inserted.push(inserted[i]) ;
+            }
+        }
+
+        var deleted = $("#serviceParamDg").datagrid('getChanges','deleted') ;
+        console.log(deleted) ;
+        for(var i = 0 ;i<deleted.length;i++){
+            if(deleted[i].id){
+                beanChangeVo.deleted.push(deleted[i]) ;
+            }
+        }
+
+        var updated = $("#serviceParamDg").datagrid('getChanges','updated') ;
+        for(var i = 0 ;i<updated.length;i++){
+            if(updated[i].paramName){
+                beanChangeVo.updated.push(updated[i]) ;
+            }
+        }
+        $.postJSON(basePath+"/service-param/merge",JSON.stringify(beanChangeVo),function(data){
+            $("#serviceParamDg").datagrid('reload') ;
+            $.messager.alert("系统提示","操作成功",'info') ;
+        })
+    }) ;
+    //参数设置按钮
+    $("#paramBtn").on('click',function(){
+
+        var row = $("#serviceDg").datagrid('getSelected') ;
+
+        if(row.serviceClass=='1'){
+            $.messager.alert("系统提示","个人服务，不许允许定制参数")
+            return ;
+        }
+        $("#serviceParamDialog").dialog("open") ;
+    }) ;
 });
