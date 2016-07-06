@@ -84,7 +84,7 @@ $(function () {
                 var supplierName = value;
                 $.each(drugSupplierDict, function (index,item) {
                     if(item.id == value){
-                        supplierName =  item.supplierId;
+                        supplierName =  item.supplier;
                     }
                 });
                 return supplierName;
@@ -213,7 +213,7 @@ $(function () {
                 var supplierName = value;
                 $.each(drugSupplierDict, function (index,item) {
                     if(item.id == value){
-                        supplierName =  item.supplierId;
+                        supplierName =  item.supplier;
                     }
                 });
                 return supplierName;

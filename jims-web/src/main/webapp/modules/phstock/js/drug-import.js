@@ -82,6 +82,12 @@ $(function () {
         specUnits = data;
     });
 
+    var drugToxi = [];//毒理属性字典
+    $.get( "/service/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT", function (data) {
+        drugToxi = data;
+    });
+
+
     // 药品类别
     var drugIndicators = [
         {value: '1', label: '西药'},
@@ -537,7 +543,16 @@ $(function () {
                                 align: "left"
                             },
                             {field: 'inputCode', title: '输入码', width: 70, align: "center"},
-                            {field: 'toxiProperty', title: '毒理分类', width: 70, align: "center"},
+                            {field: 'toxiProperty', title: '毒理分类', width: 70, align: "center",
+                                formatter:function(value,row,index){
+                                    var label=value;
+                                    $.each(drugToxi, function (index,item) {
+                                        if (item.value == value){
+                                            label =   item.label;
+                                        }
+                                    });
+                                    return label;
+                                }},
                             {field: 'drugIndicator', title: '药品类别', width: 60, align: "center",
                                 formatter: function (value) {
                                     return format(drugIndicators, value)
