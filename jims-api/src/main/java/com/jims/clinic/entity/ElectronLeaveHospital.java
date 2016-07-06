@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package com.jims.clinic.entity;
 
 import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.utils.CustomDateSerializer; import org.codehaus.jackson.map.annotate.JsonDeserialize; import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -18,7 +16,7 @@ import java.util.Date;
 public class ElectronLeaveHospital extends DataEntity<ElectronLeaveHospital> {
 	
 	private static final long serialVersionUID = 1L;
-	private String zhuyuanxinxiId;		// 住院信息外键
+	private Integer visitId;
 	private String patientId;		// 病人信息外键
 	private Date chuyuanshijian;		// 出院时间
 	private String chuyaunzhenduan;		// 出院诊断
@@ -35,15 +33,15 @@ public class ElectronLeaveHospital extends DataEntity<ElectronLeaveHospital> {
 		super(id);
 	}
 
-	@Length(min=1, max=64, message="住院信息外键长度必须介于 1 和 64 之间")
-	public String getZhuyuanxinxiId() {
-		return zhuyuanxinxiId;
+
+	public Integer getVisitId() {
+		return visitId;
 	}
 
-	public void setZhuyuanxinxiId(String zhuyuanxinxiId) {
-		this.zhuyuanxinxiId = zhuyuanxinxiId;
+	public void setVisitId(Integer visitId) {
+		this.visitId = visitId;
 	}
-	
+
 	@Length(min=1, max=64, message="病人信息外键长度必须介于 1 和 64 之间")
 	public String getPatientId() {
 		return patientId;

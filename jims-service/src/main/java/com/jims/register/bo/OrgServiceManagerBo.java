@@ -106,7 +106,7 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
                     menu.preUpdate();
                     selfServiceVsMenuDao.update(menu);
                 }
-                saveSelfServiceVsMenu(menu.getChildren(),selfServiceID,menu.getId());
+                saveSelfServiceVsMenu(menu.getChildren(),selfServiceID,menu.getMenuId());
             }
         }
     }
@@ -161,7 +161,11 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         selfServiceVsMenu.setSelfServiceId(selfServiceId);
         List<OrgSelfServiceVsMenu> menus = selfServiceVsMenuDao.findList(selfServiceVsMenu);
         if(isTree && menus != null && menus.size() > 1){
-            return TreeUtils.handleTreeList(menus);
+            Map<String,String> keyMap = new HashMap<String, String>();
+            keyMap.put("id","menuId");
+            keyMap.put("pid","pid");
+            keyMap.put("children","children");
+            return TreeUtils.handleTreeList(menus,keyMap);
         }
         return menus;
     }

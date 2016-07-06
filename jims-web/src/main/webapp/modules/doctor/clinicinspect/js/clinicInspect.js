@@ -1,9 +1,12 @@
+var clinicId = parent.clinicMaster.id;
+var patientId = parent.clinicMaster.patientId;
 function onloadMethod() {
-    var clinicId = $("#clinicMasterId", window.parent.document).val();
+    $("#patientId").val(patientId);
+    $("#clinicId").val(clinicId);
     $.ajax({
         type: "GET",
         url: basePath + '/clinicInspect/getDescription',
-        data: {"clinicIds": $("#clinicMasterId", window.parent.document).val()},
+        data: {"clinicIds": clinicId},
         success: function (data) {
             $("#clinDiag").val(data.description);
         }
@@ -13,23 +16,26 @@ function onloadMethod() {
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
-        valueField: 'examClassName',
+        method:"GET",
+        queryParams: { "orgId": 1 },
+        dataType: "json",
+        valueField: 'id',
         textField: 'examClassName',
         onSelect: function (data) {
-            $("#clinicId").val(clinicId);
-            $("#performedBy").val(data.deptDict.id);
-            $("#reqDept").val(function(value,rowData,rowIndex){
-                return performedBFormatter(data.deptDict.id,'','');
-            });
+            var examClassName=data.examClassName;
+            $("#performedBy").val(data.performBy);
+            $("#reqDept").val(clinicDeptCodeFormatter(data.performBy, '', ''));
+
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
+
             //清空子项目div
             $("#target").empty();
             $("#descriptionId").empty();
             $.ajax({
-                type: "POST",
                 url: basePath + '/examClassDict/getExamSubclass',
-                data: examClassName = data.examClassName,
+                method:"GET",
+                data: {"examClassName" :examClassName ,"orgId": 1},
                 dataType: "json",
                 success: function (data) {
                     $("#examSubclassNameId").combobox('loadData', data);
@@ -43,9 +49,9 @@ function onloadMethod() {
         textField: 'examSubclassName',
         onSelect: function (data) {
             $.ajax({
-                type: "POST",
                 url: basePath + '/examClassDict/getExamRptPattern',
-                data: description = data.examSubclassName,
+                method:"GET",
+                data: {"examSubClass" : data.examSubclassName,"orgId": 1},
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
@@ -96,7 +102,7 @@ function onloadMethod() {
         columns: [[      //每个列具体内容
             {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center'},
             //{field: 'reqDept', title: '开单科室', width: '25%', align: 'center',formatter:performedBFormatter},
-            {field: 'performedBy', title: '执行科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'performedBy', title: '执行科室', width: '25%', align: 'center',formatter:clinicDeptCodeFormatter},
             {field: 'flag', title: '状态', width: '23%', align: 'center'},
             {
                 field: 'id',
@@ -105,8 +111,8 @@ function onloadMethod() {
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
-                    //var html= '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
-                      '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
+                            //var html= '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
+                        '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     return html;
                 }
             }

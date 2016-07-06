@@ -1,6 +1,5 @@
 package com.jims.operation.api;
 
-import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.operation.entity.ScheduledOperationName;

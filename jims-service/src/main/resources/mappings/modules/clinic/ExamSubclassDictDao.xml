@@ -125,6 +125,7 @@
         FROM exam_subclass_dict a
         <include refid="examSubclassDictJoins"/>
         WHERE a.exam_class_name = #{examClassName}
+        AND org_id = #{orgId}
     </select>
 
 </mapper>

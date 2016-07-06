@@ -41,10 +41,10 @@
     <select id="findList" resultType="AsepsisLendRec">
         SELECT
         <include refid="asepsisLendRecColumns"/>  ,b.dept_name as toDeptName
-        FROM ASEPSIS_LEND_REC a  ,(select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b,
+        FROM ASEPSIS_LEND_REC a  ,(select distinct dept_code,dept_name from dept_dict where org_id = #{orgId}) b
         <where>
             a.org_id =  #{orgId}
-            and a.TO_DEPT = d.dept_code
+            and a.TO_DEPT = b.dept_code
             <if test="lendDate != null and lendDate != ''">
                 and to_char(a.lend_date,'yyyy-MM-dd') = to_char(#{lendDate},'yyyy-MM-dd')
             </if>

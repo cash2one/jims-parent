@@ -23,9 +23,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
-		b.dept_name AS "deptDict.deptName",
-		b.id AS "deptDict.id"
+		a.del_flag AS "delFlag"
 	</sql>
 
     <sql id="examClassDictJoins">
@@ -150,7 +148,7 @@
 		SELECT
         <include refid="examClassDictColumns"/>
         FROM exam_class_dict a
-        <include refid="examClassDictJoins"/>
+        WHERE a.org_id = #{orgId}
 	</select>
 
 </mapper>

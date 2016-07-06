@@ -1,18 +1,28 @@
+var visitIds = parent.patVisit.visitId;
+var patientId = parent.patVisit.patientId;
 function onloadMethods() {
-    var patientId=$("#patientId",parent.document).val();
+    $.ajax({
+        type: "GET",
+        url: basePath + '/clinicInspect/getDescription',
+        data: {"visitIds": visitIds},
+        success: function (data) {
+            $("#clinDiag").val(data.description);
+        }
+    })
+    $("#visitId").val(visitIds);
+    $("#patientId").val(patientId);
     var visitId=1;
     $("#visitId").val(visitId);
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
+        method:"GET",
+        queryParams: { "orgId": 1 },
         valueField: 'id',
         textField: 'examClassName',
         onSelect: function (data) {
-
-            $("#performedBy").val(data.deptDict.id);
-           $("#reqDept").val(function(value,rowData,rowIndex){
-               return performedBFormatter(data.deptDict.id,'','');
-           });
+            $("#performedBy").val(data.performBy);
+            $("#reqDept").val(clinicDeptCodeFormatter(data.performBy, '', ''));
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
             //清空子项目div
@@ -22,7 +32,8 @@ function onloadMethods() {
             $.ajax({
                 type: "POST",
                 url: basePath + '/examClassDict/getExamSubclass',
-                data: examClassName = data.examClassName,
+                method:"GET",
+                data: {"examClassName" :examClassName ,"orgId": 1},
                 dataType: "json",
                 success: function (data) {
                     $("#examSubclassNameId").combobox('loadData', data);
@@ -38,7 +49,8 @@ function onloadMethods() {
             $.ajax({
                 type: "POST",
                 url: basePath + '/examClassDict/getExamRptPattern',
-                data: description = data.examSubclassName,
+                method:"GET",
+                data: {"examSubClass" : data.examSubclassName,"orgId": 1},
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
@@ -79,7 +91,7 @@ function onloadMethods() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/clinicInspect/listHos',
-        queryParams:{'visitId' : visitId},
+        queryParams:{'visitId' : visitIds},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -99,7 +111,7 @@ function onloadMethods() {
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
-                        //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
+                            //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
                         '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     return html;
                 }

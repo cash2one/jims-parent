@@ -53,8 +53,8 @@ public class ExamRptPatternServiceIpml implements ExamRptPatternApi{
     }
 
     @Override
-    public List getExamRptPattern(String examSubClass) {
-      return bo.getExamRptPattern(examSubClass);
+    public List getExamRptPattern(String examSubClass,String orgId) {
+      return bo.getExamRptPattern(examSubClass,orgId);
     }
     /**
      *

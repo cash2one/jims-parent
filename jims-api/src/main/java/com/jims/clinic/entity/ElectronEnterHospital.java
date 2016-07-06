@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 	private static final long serialVersionUID = 1L;
-	private String zhuyuanId;		// 住院信息表外键
+	private String clinicId;
 	private String patientId;		// 病人信息表外键
 	private String zhusu;		// 主诉
 	private String xianbingshi;		// 现病史
@@ -47,6 +47,7 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 	private String isdepend;		// 病史陈述者是否可靠
     private String inOrOutFlag;//是否住院
 	private List<EmrDiagnosis> diagnosisList;
+	private Integer visitId;
 	
 	public ElectronEnterHospital() {
 		super();
@@ -54,15 +55,6 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 
 	public ElectronEnterHospital(String id){
 		super(id);
-	}
-
-	@Length(min=1, max=64, message="住院信息表外键长度必须介于 1 和 64 之间")
-	public String getZhuyuanId() {
-		return zhuyuanId;
-	}
-
-	public void setZhuyuanId(String zhuyuanId) {
-		this.zhuyuanId = zhuyuanId;
 	}
 	
 	@Length(min=1, max=64, message="病人信息表外键长度必须介于 1 和 64 之间")
@@ -76,6 +68,14 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 	
 	public String getZhusu() {
 		return zhusu;
+	}
+
+	public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
 	}
 
 	public void setZhusu(String zhusu) {
@@ -291,5 +291,13 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 
 	public void setDiagnosisList(List<EmrDiagnosis> diagnosisList) {
 		this.diagnosisList = diagnosisList;
+	}
+
+	public Integer getVisitId() {
+		return visitId;
+	}
+
+	public void setVisitId(Integer visitId) {
+		this.visitId = visitId;
 	}
 }
