@@ -78,6 +78,7 @@ public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
             examMaster.setCharges(examAppoints.getCharges());
             examMaster.setChargeType(examAppoints.getChargeType());
             examMaster.setIdentity(examAppoints.getIdentity());
+            examMaster.setResultStatus("1");
             if (examMaster.getIsNewRecord()){
                 examMaster.preInsert();
                 num=dao.insert(examMaster);

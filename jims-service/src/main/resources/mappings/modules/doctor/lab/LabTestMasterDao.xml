@@ -287,6 +287,6 @@
 	</update>
 	<update id="updateLabMaster">
 		UPDATE lab_test_master SET
-		status = '1' WHERE id = #{id}
+		result_status = '1' WHERE id = #{id}
 	</update>
 </mapper>

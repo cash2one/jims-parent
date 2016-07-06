@@ -20,7 +20,7 @@ function onloadMethod(){
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'status',title:'确认状态',width:'5%',align:'center',formatter:function(value, rowData, rowIndex){
+            {field:'resultStatus',title:'确认状态',width:'5%',align:'center',formatter:function(value, rowData, rowIndex){
                 if (value == null || value=='') {
                     return "未确认";
                 }
