@@ -1,6 +1,6 @@
 
 $(function(){
-    //patientList('0','');
+    patientList('0','');
     ///**
     // * 科室下拉框
     // */
