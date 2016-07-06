@@ -18,8 +18,8 @@ public interface ElectronEnterHospitalDao extends CrudDao<ElectronEnterHospital>
 
     /**
      * 根据病人住院ID查询入院记录
-     * @param patVisitId
+     * @param electronEnterHospital
      * @return
      */
-    public ElectronEnterHospital getElectronEnteHos(@Param("patVisitId")String patVisitId);
+    public ElectronEnterHospital getElectronEnteHos(ElectronEnterHospital electronEnterHospital);
 }

@@ -92,11 +92,17 @@
      <!--   <include refid="deathDiagnosisJoins"/>-->
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="diagnosisParent!=null and diagnosisParent!=''">
-				AND a.diagnosis_parent=#{diagnosisParent}
+			<if test="clinicId!=null and clinicId!=''">
+				AND a.clinic_id=#{clinicId}
 			</if>
-			<if test="inOrOutFlag !=null and inOrOutFlag !=null">
-                AND a.INOROUT_FLAG = #{inOrOutFlag}
+			<if test="inOrOutFlag !=null and inOrOutFlag !=''">
+				AND a.INOROUT_FLAG = #{inOrOutFlag}
+			</if>
+			<if test="patientId !=null and patientId !=''">
+				AND a.patient_id = #{patientId}
+			</if>
+			<if test="visitId !=null and visitId !=''">
+				AND a.visit_id = #{visitId}
 			</if>
 
 		</where>
@@ -169,7 +175,7 @@
 			del_flag,
 			description,
 			basis,
-
+            clinic_id,
 			patient_id,
             TREAT_DAYS,
             TREAT_RESULT,
@@ -179,7 +185,8 @@
             INOROUT_FLAG,
             diagnosis_date,
             diagnosis_parent,
-            parent_ids
+            parent_ids,
+            visit_id
 
 
 		) VALUES (
@@ -196,6 +203,7 @@
 			#{delFlag},
 			#{description},
 			#{basis},
+			#{clinicId},
 			#{patientId},
             #{treatDays},
             #{treatResult},
@@ -205,7 +213,8 @@
             #{inOrOutFlag},
             #{diagnosisDate},
             #{diagnosisParent},
-			#{parentIds}
+			#{parentIds},
+			#{visitId}
 
 		)
 	</insert>
@@ -296,6 +305,9 @@
 		SELECT *from emr_diagnosis WHERE
 		<if test="clinicId!=null">
 			 clinic_id=#{clinicId}
+		</if>
+		<if test="visitId!=null">
+			visit_id=#{visitId}
 		</if>
 	</select>
 </mapper>

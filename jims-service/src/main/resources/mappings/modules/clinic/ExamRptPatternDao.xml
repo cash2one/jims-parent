@@ -132,5 +132,6 @@
         FROM exam_rpt_pattern a
         <include refid="examRptPatternJoins"/>
         WHERE a.exam_sub_class = #{examSubClass}
+        AND org_id = #{orgId}
     </select>
 </mapper>

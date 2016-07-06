@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.doctor.operation.dao.ScheduledOperationNameDao">
+    
+	<sql id="scheduledOperationNameColumns">
+		a.id AS "id",
+		a.schedule_id AS "scheduleId",
+		a.operation_no AS "operationNo",
+		a.operation AS "operation",
+		a.operation_scale AS "operationScale",
+		a.operation_code AS "operationCode",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+
+	</sql>
+	<sql id="scheduledOperationNameJoins">
+	</sql>
+	<sql id="scheduledOperationNameJoins1">
+		LEFT JOIN operation_schedule b ON b.ID = a.schedule_id
+	</sql>
+    
+	<select id="get" resultType="ScheduledOperationName">
+		SELECT 
+			<include refid="scheduledOperationNameColumns"/>
+		FROM scheduled_operation_name a
+		<include refid="scheduledOperationNameJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getOperationName" resultType="ScheduledOperationName">
+		SELECT
+		b.operation_scale AS "schedule.operationScale",<include refid="scheduledOperationNameColumns"/>
+		FROM scheduled_operation_name a
+			<include refid="scheduledOperationNameJoins1"/>
+		<where>
+			a.del_flag = '0'
+			<if test="scheduleId !=null and scheduleId !=''">
+              and   a.schedule_id = #{scheduleId}
+			</if>
+
+		</where>
+				ORDER BY a.update_date DESC
+
+	</select>
+
+
+
+	<select id="findAllList" resultType="ScheduledOperationName">
+		SELECT 
+			<include refid="scheduledOperationNameColumns"/>
+		FROM scheduled_operation_name a
+		<include refid="scheduledOperationNameJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO scheduled_operation_name(
+			id,
+			schedule_id,
+			operation_no,
+			operation,
+			operation_scale,
+			operation_code,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+
+		) VALUES (
+			#{id},
+			#{scheduleId},
+			#{operationNo},
+			#{operation},
+			#{operationScale},
+			#{operationCode},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE scheduled_operation_name SET
+			operation = #{operation},
+			operation_scale = #{operationScale},
+			operation_code = #{operationCode},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE scheduled_operation_name SET 
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

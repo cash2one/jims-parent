@@ -78,7 +78,7 @@
                 AND a.belong_dept = #{belongDept}
             </if>
             <if test="asepsisName != null and asepsisName != ''">
-                AND a.asepsis_name = #{asepsisName}
+                AND (a.asepsis_name = #{asepsisName} or a.asepsis_code = #{asepsisName})
             </if>
         </where>
     </select>
@@ -136,9 +136,10 @@
             , anti_DATE = #{antiDate}
         </if>
         <if test="amountAnti != null and amountAnti != '' and amountAnti != '0.00' and amountAnti != '0'">
-            , amount = ${amountAnti}
+            , amount = #{amountAnti}
         </if>
-        WHERE id=${id} and documnet_no = #{documnetNo} and org_id=#{orgId}
+        WHERE id = #{id} and documnet_no = #{documnetNo} and org_id=#{orgId}
+        <!--
         <if test="asepsisState !=null and asepsisState == '1'">
             and asepsis_state =  '0'
         </if>
@@ -149,8 +150,8 @@
             and asepsis_state =  '2'
         </if>
         <if test="amount != null and amount != ''">
-            and amount = ${amount}
-        </if>
+            and amount = #{amount}
+        </if>-->
     </update>
 
 
@@ -268,16 +269,16 @@
             <if test="boilerTimes != null and boilerTimes !=''"> , boiler_times = #{boilerTimes} </if>
             <if test="antiDate != null and antiDate !=''">  , anti_DATE = #{antiDate} </if>`
             <if test="antiBatchNo != null and antiBatchNo !=''">  , anti_Batch_No = #{antiBatchNo} </if>
-            <if test="amount != null and amount != '' and amount != '0.00' and amount != '0'">  , amount = ${amount} </if>
-            <if test="amountAnti != null and amountAnti != '' and amountAnti != '0.00' and amountAnti != '0'">  , amount = ${amountAnti} </if>
-        WHERE id = ${id}
-            <if test="documnetNo != null and documnetNo != ''"> and documnet_no = ${documnetNo} </if>
-            <if test="orgId != null and orgId != ''"> and org_id = ${orgId} </if>
-            <if test="amount != null and amount != ''"> and amount = ${amount} </if>
+            <if test="amount != null and amount != '' and amount != '0.00' and amount != '0'">  , amount = #{amount} </if>
+            <if test="amountAnti != null and amountAnti != '' and amountAnti != '0.00' and amountAnti != '0'">  , amount = #{amountAnti} </if>
+        WHERE id = #{id}
+            <if test="documnetNo != null and documnetNo != ''"> and documnet_no = #{documnetNo} </if>
+            <if test="orgId != null and orgId != ''"> and org_id = #{orgId} </if>
+            <if test="amount != null and amount != ''"> and amount = #{amount} </if>
     </update>
 
     <update id="delete">
-        UPDATE asepsis_anti_rec SET documnet_no = ${documnetNo} WHERE id = #{id}
+        UPDATE asepsis_anti_rec SET documnet_no = #{documnetNo} WHERE id = #{id}
     </update>
 
 </mapper>

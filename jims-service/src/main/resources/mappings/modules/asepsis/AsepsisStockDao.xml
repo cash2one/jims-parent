@@ -109,6 +109,12 @@
         order by a.document_no, a.anti_date
     </select>
 
+    <select id="getNextDocumentNo" resultType="string">
+        select max(document_no)+1
+        from asepsis_stock t
+        where document_no like to_char(sysdate,'yyMMdd')||'%' and org_id = #{1}
+    </select>
+
     <select id="findListOver" resultType="AsepsisStock">
         SELECT
         a.ID,

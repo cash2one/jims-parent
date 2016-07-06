@@ -46,7 +46,12 @@ public class ElectronLeaveHospitalRest {
             num= electronLeaveHopitalServiceApi.save(electronLeaveHospital);
         }
         data.setCode(num);
-        data.setData("success");
+        if(!"".equals(num)&&!"0".equals(num)){
+            data.setData("success");
+        }else{
+            data.setData("error");
+        }
+
         return data;
     }
 
@@ -58,8 +63,8 @@ public class ElectronLeaveHospitalRest {
      */
     @Path("get")
     @POST
-    public ElectronLeaveHospital get(String patVisitId){
-        ElectronLeaveHospital entity=electronLeaveHopitalServiceApi.getLeaveByVisit(patVisitId);
+    public ElectronLeaveHospital get(ElectronLeaveHospital electronLeaveHospital){
+        ElectronLeaveHospital entity=electronLeaveHopitalServiceApi.getLeaveByVisit(electronLeaveHospital);
         return entity;
     }
 }

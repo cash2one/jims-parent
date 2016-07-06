@@ -1,6 +1,6 @@
 package com.jims.clinic.bo;
 
-import com.jims.clinic.dao.DoctDrugPrescMasterDao;
+import com.jims.doctor.prescription.dao.DoctDrugPrescMasterDao;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.dao.PreDischgedPatsDao;

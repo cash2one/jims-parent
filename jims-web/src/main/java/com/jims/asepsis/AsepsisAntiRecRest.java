@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -29,12 +30,13 @@ public class AsepsisAntiRecRest {
 
     @Reference(version = "1.0.0")
     private AsepsisAntiRecApi asepsisAntiRecApi;//消毒包API
+    private AsepsisStockApi asepsisStockApi;//消毒包API
 
 
     /**
      * 查询对应状态下的消毒包
      * @param state 消毒包状态：0-未清洗；1-清洗未打包；2-打包未消毒；3-消毒加库存；null-未作任何处理
-     * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
+     * @return java.util.List<com.jims.prescription.entity.OutpPresc>    返回类型
      * @Title: list
      * @Description: (根据消毒包状态获取某状态下的消毒包)
      * @author LHL
@@ -75,7 +77,12 @@ public class AsepsisAntiRecRest {
             //当是清洗或打包时，只需要修改asepsis_Anti_Rec表，当是灭菌时，需要在根据灭菌数量判断是否需要在asepsis_Anti_Rec表再添加一条数据
             if(asepsisAntiRec.getAmountAnti()!=null&&!asepsisAntiRec.getAmountAnti().equals("0")&&!asepsisAntiRec.getAmountAnti().equals("0.0")&&!asepsisAntiRec.getAmountAnti().equals("0.00")
                     &&asepsisAntiRec.getAntiOperator()!=null&&!asepsisAntiRec.getAntiOperator().equals("")&&asepsisAntiRec.getAntiWays()!=null&&!asepsisAntiRec.getAntiWays().equals("")) {
-                if(antiBatchNo.equals(""))antiBatchNo = asepsisAntiRec.getAsepsisCode().substring(0, 1) + (System.currentTimeMillis() + "").substring(0, 10);
+                if(antiBatchNo.equals("")){
+                    antiBatchNo = asepsisStockApi.getNextDocumentNo(asepsisAntiRec.getOrgId());
+                    if(antiBatchNo==null||antiBatchNo.equals("")){
+                        antiBatchNo = (new SimpleDateFormat("yyMMdd")).format(new Date())+"0001";
+                    }
+                }
                 asepsisAntiRec.setAntiBatchNo(antiBatchNo);
             }
             num +=  asepsisAntiRecApi.saveClean(asepsisAntiRec);
@@ -112,7 +119,7 @@ public class AsepsisAntiRecRest {
 
 
 //    /**
-//     * @return java.util.List<com.jims.clinic.entity.OutpPresc>    返回类型
+//     * @return java.util.List<com.jims.prescription.entity.OutpPresc>    返回类型
 //     * @throws
 //     * @Title: list
 //     * @Description: (查询患者处方用药列表数据)

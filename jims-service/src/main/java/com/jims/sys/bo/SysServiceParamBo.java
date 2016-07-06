@@ -5,6 +5,7 @@ import com.jims.sys.dao.SysServiceDao;
 import com.jims.sys.dao.SysServiceParamDao;
 import com.jims.sys.entity.SysService;
 import com.jims.sys.entity.SysServiceParam;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,7 @@ public class SysServiceParamBo {
         int i=0 ;
         for(SysServiceParam param :sysServiceParams){
             if("".equals(param.getId())||null==param.getId()){
+                param.preInsert();
                i+=sysServiceParamDao.insert(param) ;
             }else{
                 i+=sysServiceParamDao.update(param) ;
@@ -55,6 +57,26 @@ public class SysServiceParamBo {
         return i ;
     }
 
+    public int mergeSysServiceParam(BeanChangeVo<SysServiceParam> sysServiceParamBeanChangeVo){
+        List<SysServiceParam> inserted = sysServiceParamBeanChangeVo.getInserted() ;
+        List<SysServiceParam> updated = sysServiceParamBeanChangeVo.getUpdated() ;
+        List<SysServiceParam> deleted = sysServiceParamBeanChangeVo.getDeleted() ;
+
+        int i= 0 ;
+        for(SysServiceParam param:inserted){
+            param.preInsert();
+            i+=sysServiceParamDao.insert(param) ;
+        }
+
+        for(SysServiceParam param:updated){
+            i+=  sysServiceParamDao.update(param) ;
+        }
+
+        for(SysServiceParam param:deleted){
+            i+=sysServiceParamDao.delete(param.getId());
+        }
+        return i ;
+    }
 
     /**
      * 删除服务参数

@@ -5,8 +5,8 @@
 /*==============================================================*/
 create table ELECTRON_LEAVE_HOSPITAL  (
    ID                   VARCHAR2(64)                    not null,
-   ZHUYUANXINXI_ID      VARCHAR2(64)                    not null,
    PATIENT_ID           VARCHAR2(64)                    not null,
+   VISIT_ID             NUMBER(2)                       not null,
    CHUYUANSHIJIAN       TIMESTAMP,
    CHUYAUNZHENDUAN      CLOB,
    ZHENLIAOJIEGUO       CLOB,
@@ -19,7 +19,7 @@ create table ELECTRON_LEAVE_HOSPITAL  (
    REMARKS              VARCHAR2(255 CHAR),
    DEL_FLAG             CHAR(1)                        default '0',
    RUYUANBINGQING       CLOB,
-   constraint "PK_electron_leave_hospital" primary key (PATIENT_ID, ZHUYUANXINXI_ID)
+   constraint "PK_electron_leave_hospital" primary key (ID)
 );
 
 comment on table ELECTRON_LEAVE_HOSPITAL is
@@ -28,11 +28,11 @@ comment on table ELECTRON_LEAVE_HOSPITAL is
 comment on column ELECTRON_LEAVE_HOSPITAL.ID is
 '出院小结';
 
-comment on column ELECTRON_LEAVE_HOSPITAL.ZHUYUANXINXI_ID is
-'住院信息外键';
-
 comment on column ELECTRON_LEAVE_HOSPITAL.PATIENT_ID is
 '病人信息外键';
+
+comment on column ELECTRON_LEAVE_HOSPITAL.VISIT_ID is
+'住院次数';
 
 comment on column ELECTRON_LEAVE_HOSPITAL.CHUYUANSHIJIAN is
 '出院时间';

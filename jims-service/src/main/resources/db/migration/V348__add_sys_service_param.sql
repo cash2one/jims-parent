@@ -7,7 +7,8 @@ create table SYS_SERVICE_PARAM
   PARAM_VALUE VARCHAR2(100),
   SERVICE_ID  VARCHAR2(100),
   VALUE_RANGE VARCHAR2(2000),
-  PARM_DESP   VARCHAR2(1000)
+  PARAM_DESP   VARCHAR2(1000),
+  SERVICE_TYPE VARCHAR2(10)
 );
 -- Add comments to the table
 comment on table SYS_SERVICE_PARAM
@@ -23,7 +24,7 @@ comment on column SYS_SERVICE_PARAM.SERVICE_ID
   is '服务ID';
 comment on column SYS_SERVICE_PARAM.VALUE_RANGE
   is '值域';
-comment on column SYS_SERVICE_PARAM.PARM_DESP
+comment on column SYS_SERVICE_PARAM.PARAM_DESP
   is '参数描述';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table SYS_SERVICE_PARAM

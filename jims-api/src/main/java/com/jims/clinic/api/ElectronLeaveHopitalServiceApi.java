@@ -16,7 +16,7 @@ public interface ElectronLeaveHopitalServiceApi {
      * @param patVisitId
      * @return
      */
-    public ElectronLeaveHospital getLeaveByVisit(String patVisitId);
+    public ElectronLeaveHospital getLeaveByVisit(ElectronLeaveHospital electronLeaveHospital);
 
     /**
      * 新增\修改 出院记录信息

@@ -1,84 +1,56 @@
 $(function () {
-    var zhuyuanxinxiId = $("#zhuyuanxinxiId").val();
-    if(zhuyuanxinxiId!=null&&zhuyuanxinxiId!=""){
+    var inpCount;
+    var patientId = parent.patVisit.patientId;
+    var visitId = parent.patVisit.visitId;
+    $("#patientId").val(patientId);
+    $("#visitId").val(visitId);
+    $('#ruyuanshijian').datebox('setValue', parent.patVisit.admissionDateTime);
         $.ajax({
             'type': 'post',
             'url': basePath+'/electronleavehospital/get',
             'contentType': 'application/json',
-            'data': id=zhuyuanxinxiId,
+            'data':JSON.stringify({"patientId": patientId,"visitId":visitId}),
             'dataType': 'json',
             'success': function(data){
+              /*  if(data.chuyuanshijian!=null){
+                    inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),parseToDate(data.chuyuanshijian));
+                }else{
+                    inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),new Date());
+                }
+                alert(parent.patVisit.admissionDateTime+"------"+data.chuyuanshijian);*/
                 $('#form').form('load',data);
+               /* $("#inpCount").val(inpCount);*/
                 getDiv("form");
             }
         });
-    }
-    $("#saveBtn").on("click",function(){
-        formSubmitInput("form");
-        $.postForm(basePath+"/electronleavehospital/save","form",function(data){
-            if(data.code=="1"){
-                $.messager.alert("ÌáÊ¾ĞÅÏ¢","±£´æ³É¹¦");
-            }else{
-                $.messager.alert("ÌáÊ¾ĞÅÏ¢","±£´æÊ§°Ü","error");
-            }
-
-        }),function(data){
-            $.messager.alert("ÌáÊ¾ĞÅÏ¢","±£´æÊ§°Ü","error");
-        }
-    });
-
-    /**
-     * É¾³ıÄ³Ò»¸ö²Ëµ¥
-     */
-    /*$("#removeBtn").on('click', function () {
-        var row = $("#tt").datagrid('getSelected');
-        if (row == null) {
-            $.messager.alert("ÏµÍ³ÌáÊ¾", "ÇëÑ¡ÔñÒªÉ¾³ıµÄ²Ëµ¥");
-            return;
-        }
 
 
 
-        var children = $("#tt").treegrid('getChildren', row.id);
-        if (children.length > 0) {
-            $.messager.alert("ÏµÍ³ÌáÊ¾", "ÇëÏÈÉ¾³ı×Ó²Ëµ¥");
-            return;
-        } else {
-            if(!row.id){
-                $.messager.alert("ÏµÍ³ÌáÊ¾","¶ÔÓÚĞÂÌí¼ÓµÄ²Ëµ¥ÇëÏÈË¢ĞÂÔÚ½øĞĞÉ¾³ı",'error') ;
-                return
-            }
-            $.messager.confirm("ÏµÍ³ÌáÊ¾", "È·ÈÏÉ¾³ı:¡¾" + row.menuName + "¡¿µÄ²Ëµ¥Âğ?", function (r) {
-                if (r) {
-                    $.post('/api/menu/del/' + row.id, function (data) {
-                        $.messager.alert("ÏµÍ³ÌáÊ¾", "É¾³ı³É¹¦");
-                        $("#tt").treegrid('remove', row.id);
-                    });
-                }
-            })
-
-        }
-    })*/
-
-    /**
-     * ĞŞ¸ÄÒ»¸ö²Ëµ¥
-     */
-    /*$("#updateBtn").on('click', function () {
-
-        var node = $("#tt").treegrid('getSelected');
-        if (node == null) {
-            $.messager.alert("ÏµÍ³ÌáÊ¾", "ÇëÑ¡ÖĞÒªĞŞ¸ÄµÄ²Ëµ¥");
-            return;
-        }
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'ĞŞ¸Ä²Ëµ¥');
-        //$('#fm').form('clear');
-        $("#menuName").textbox('setValue', node.menuName);
-        $("#href").textbox('setValue', node.href);
-        $("#parentName").textbox('setValue', node.menuName);
-        $("#parentId").textbox('setValue', node._parentId);
-        $("#position").textbox('setValue', node.position);
-        $("#id").val(node.id);
-
-    });*/
 
 })
+
+function save(){
+    formSubmitInput("form");
+    $.postForm(basePath+"/electronleavehospital/save","form",function(data){
+        if(data.data=="success"){
+            $.messager.alert("æç¤ºä¿¡æ¯","ä¿å­˜æˆåŠŸ");
+        }else{
+            $.messager.alert("ä¿å­˜å¤±è´¥","error");
+        }
+
+    }),function(data){
+        $.messager.alert("æç¤ºä¿¡æ¯","ä¿å­˜å¤±è´¥","error");
+    }
+}
+
+var getOffDays = function(startDate, endDate) {
+
+    //å¾—åˆ°æ—¶é—´æˆ³ç›¸å‡ å¾—åˆ°ä»¥æ¯«ç§’ä¸ºå•ä½çš„å·®
+
+    var mmSec = (endDate.getTime() - startDate.getTime());
+
+    //å•ä½è½¬æ¢ä¸ºå¤©å¹¶è¿”å›
+
+    return (mmSec / 3600000 / 24);
+
+};

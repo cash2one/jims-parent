@@ -35,31 +35,35 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 	public String saveEnter(ElectronEnterHospital electronEnterHospital){
        int num = 0;
 
-			if (electronEnterHospital!=null){
-				save(electronEnterHospital);
+			if (electronEnterHospital!=null) {
+			String	str = save(electronEnterHospital);
+				num =Integer.parseInt(str==null?"0":str);
 
-				List<EmrDiagnosis> emrDiagnosisList=electronEnterHospital.getDiagnosisList();
-				if(emrDiagnosisList.size()>0){
-					for(int i=0;i<emrDiagnosisList.size();i++){
-						EmrDiagnosis diagnosis=emrDiagnosisList.get(i);
+				List<EmrDiagnosis> emrDiagnosisList = electronEnterHospital.getDiagnosisList();
+				if (emrDiagnosisList!=null) {
+
+
+				if (emrDiagnosisList.size() > 0) {
+					for (int i = 0; i < emrDiagnosisList.size(); i++) {
+						EmrDiagnosis diagnosis = emrDiagnosisList.get(i);
 						diagnosis.setDiagnosisParent(electronEnterHospital.getId());
-						diagnosis.setInOrOutFlag("0");//门诊
 						diagnosis.setParentId("0");
-						try{
-							if (diagnosis.getIsNewRecord()){
+						try {
+							if (diagnosis.getIsNewRecord()) {
 								diagnosis.preInsert();
-								num=emrDiagnosisDao.insert(diagnosis);
-							}else{
+								num = emrDiagnosisDao.insert(diagnosis);
+							} else {
 								diagnosis.preUpdate();
-								num=emrDiagnosisDao.update(diagnosis);
+								num = emrDiagnosisDao.update(diagnosis);
 							}
-						}catch(Exception e){
-							return num+"";
+						} catch (Exception e) {
+							return num + "";
 						}
-						return num+"";
+						return num + "";
 					}
-					return num+"";
+					return num + "";
 				}
+			}
 			}
 
 
@@ -67,9 +71,15 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 		return num+"";
 	}
 
+	/**
+	 * 查询病历文书
+	 * @param electronEnterHospital
+	 * @author pq
+	 * @return
+	 */
 	@Override
-	public ElectronEnterHospital getElectronEnteHos(String patVisitId) {
-		return electronEnterHospitalDao.getElectronEnteHos(patVisitId);
+	public ElectronEnterHospital getElectronEnteHos(ElectronEnterHospital electronEnterHospital) {
+		return electronEnterHospitalDao.getElectronEnteHos(electronEnterHospital);
 	}
 
 

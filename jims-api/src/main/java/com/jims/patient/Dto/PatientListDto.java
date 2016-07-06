@@ -1,8 +1,10 @@
 package com.jims.patient.Dto;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
 import com.jims.common.utils.DateUtils;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.text.ParseException;
@@ -16,6 +18,7 @@ import java.util.Date;
 public class PatientListDto extends DataEntity<PatientListDto> {
     private String patientId;//病人ID
     private String inpNo;//病人住院号
+    private Integer visitId;
     private String bedNo;//住院床号
     private String patType;	   //住院状态
     private String deptCode;  //所在科室
@@ -25,7 +28,7 @@ public class PatientListDto extends DataEntity<PatientListDto> {
     private String chargeType;		//费别
     private String inpCount;//病人住院天数
     private String tubeBedDoctor;//管床医生
-    private String admissionDateTime;	//入院时间
+    private Date admissionDateTime;	//入院时间
     private String superiorDoctor;//上级医师
     private String attendingDoctor;//主治医师
     private Date dataOfbith;//出生日期
@@ -123,12 +126,12 @@ public class PatientListDto extends DataEntity<PatientListDto> {
     public void setTubeBedDoctor(String tubeBedDoctor) {
         this.tubeBedDoctor = tubeBedDoctor;
     }
-
-    public String getAdmissionDateTime() {
+    @JsonSerialize(using = CustomDateSerializer.class)
+    public Date getAdmissionDateTime() {
         return admissionDateTime;
     }
-
-    public void setAdmissionDateTime(String admissionDateTime) {
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
+    public void setAdmissionDateTime(Date admissionDateTime) {
         this.admissionDateTime = admissionDateTime;
     }
 
@@ -202,5 +205,13 @@ public class PatientListDto extends DataEntity<PatientListDto> {
 
     public void setPrepayments(Double prepayments) {
         this.prepayments = prepayments;
+    }
+
+    public Integer getVisitId() {
+        return visitId;
+    }
+
+    public void setVisitId(Integer visitId) {
+        this.visitId = visitId;
     }
 }

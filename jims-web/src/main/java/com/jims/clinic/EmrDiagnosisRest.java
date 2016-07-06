@@ -30,18 +30,20 @@ public class EmrDiagnosisRest {
 
     @Path("findListOfOut")
     @GET
-    public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("diagnosisParent")String diagnosisParent){
+    public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("clinicId")String clinicId){
        EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
         emrDiagnosis.setInOrOutFlag("0");//门诊
-        emrDiagnosis.setDiagnosisParent(diagnosisParent);
+        emrDiagnosis.setClinicId(clinicId);
         List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
     }
     @Path("findListOfIn")
     @GET
-    public  List<EmrDiagnosis> listIn(@Context HttpServletRequest request,@Context HttpServletResponse response){
+    public  List<EmrDiagnosis> listIn(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId){
         EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
         emrDiagnosis.setInOrOutFlag("1");//住院
+        emrDiagnosis.setPatientId(patientId);
+        emrDiagnosis.setVisitId(visitId);
         List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
     }

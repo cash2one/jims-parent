@@ -81,20 +81,7 @@ function onloadMethod(status){
                 }
             }],
             onDblClickRow: function (rowIndex, rowData) {
-                var patID=rowData.patientId;
-                var name=rowData.name;
-                var age=rowData.age;
-                var sex=rowData.sex;
-                var inpNo=rowData.inpNo;
-                var bedNo=rowData.bedNo;
-                var deptCode=rowData.wardCode;
-                $("#patientId",parent.document).val(patID);
-                $("#name",parent.document).val(name);
-                $("#sex",parent.document).val(sex);
-                $("#age",parent.document).val(age);
-                $("#inpNo",parent.document).val(inpNo);
-                $("#bedNo",parent.document).val(bedNo);
-                $("#deptCode",parent.document).val(deptCode);
+                parent.patVisitIndex=rowData;
                 parent.addTabs(rowData.name,rowData.name,'/modules/clinic/patientHospital.html');
             },onRowContextMenu: function(e, rowIndex, rowData) { //右键时触发事件
                 e.preventDefault(); //阻止浏览器捕获右键事件

@@ -8,7 +8,6 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/doctor/clinicInspect/js/clinicInspect.js"></script>
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
-    <script type="text/javascript" src="/static/data/data_lab_dept.js"></script>
 </head>
 <body  class="easyui-layout" onload="onloadMethod()">
 <div class="easyui-layout" style="width:100%;height:100%;">
@@ -22,6 +21,8 @@
     <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
         <form id="clinicInspectForm" method="post">
             <input type="hidden" id="id" name="id" value="">
+            <input type="hidden" id="clinicId" name="clinicId" value="">
+            <input type="hidden" id="patientId" name="patientId" value="">
             <div class="fitem fitem_pop">
                 <div class="fitem">
                     <label>
@@ -30,8 +31,8 @@
                     <input  name="examClass" id="examClassNameId" style="width: 145px;" >
                     <input name="examSubClass" id="examSubclassNameId" style="width: 145px;">
                     &nbsp;
-                    <input type="hidden" id="performedBy" name="performedBy" value="">
                     <input title="" id="reqDept" readonly= "true " placeholder="发往科室"  class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;">
+                    <input type="hidden" id="performedBy" name="performedBy" value="">
                 </div>
                     <div class="fitem">
                         <label>
@@ -62,7 +63,7 @@
                     <label>
                         临床诊断：
                     </label>
-                    <input title="" id="clinDiag" name="clinDiag" class="easyui-validatebox validatebox-text validatebox-invalid" >
+                    <input title="" readonly= "true " id="clinDiag" name="clinDiag" class="easyui-validatebox validatebox-text validatebox-invalid" >
                 </div>
                 <div class="fitem">
                     <label>
@@ -83,7 +84,6 @@
                     <input title="" name="notice" class="easyui-validatebox validatebox-text validatebox-invalid">
                 </div>
             </div>
-            <input type="hidden"  id="clinicId" name="clinicId" value="">
         </form>
         <div id="dlg-buttons" class="btn-save">
             <button class="easyui-linkbutton" data-options="iconCls:'icon-save'"  onclick="saveClinicInspect();"  >保存</button>

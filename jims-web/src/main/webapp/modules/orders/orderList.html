@@ -12,8 +12,42 @@
     <script type="text/javascript" src="/static/data/data_orders_drug.js"></script>
     <script type="text/javascript" src="/static/data/data_orders_freq.js"></script>
     <script type="text/javascript" src="/static/data/data_administration_mz.js"></script>
+    <style>
+        .colorblock-info
+        {
+            position:absolute;
+            top:10px;
+            right:5px;
+            z-index: 20;
+        }
+        .colorblock-info ul li
+        {
+            display:inline-block;
+            padding-right:5px;
+        }
+        .colorblock-info ul li span
+        {
+            width:10px;
+            height:10px;
+            display:inline-block;
+            margin-right:5px;
+        }
+        .colorblock-info ul li span.color1
+        {
+            background: #A7CACB;
+        }
+        .colorblock-info ul li span.color2
+        {
+            background: #90EE90;
+        }
+        .colorblock-info ul li span.color3
+        {
+            background: #EED5D2;
+        }
+    </style>
 </head>
 <body class="easyui-layout" >
+
 <div data-options="region:'north'" style="height:80px">
 <div class="search-standard search-new clearfix">
     <form name="searchform" method="post" id ="searchform">
@@ -36,20 +70,29 @@
 
 </div>
 </div>
-<div data-options="region:'center'" style="height:500px;">
+
+<div data-options="region:'center'" style="height:500px; positon:relative;">
 
 <table id="orderList" width="100%"   cellspacing="0" cellpadding="0"  style="padding-bottom: 0px;" >
 
+    <div class="colorblock-info">
+        <ul>
+
+            <li><span class="color2"></span>传输</li>
+            <li><span class="color1"></span>转抄</li>
+            <li><span class="color3"></span>执行</li>
+        </ul>
+    </div>
+
 </table>
     </div>
+
 <div data-options="region:'south'" style="height:100px;">
 <table id="orderCostList" width="100%"   cellspacing="0" cellpadding="0" >
 
 </table>
 
 </div>
-<div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
-    注意：蓝色 - 下达医嘱    黑色 - 新开医嘱   红色 - 作废医嘱  黄色 - 停止医嘱
-</div>
+
 </body>
 </html>

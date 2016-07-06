@@ -15,23 +15,23 @@
     <div class="container width_90">
         <div class="inp-form" style="width: 95%">
             <div class="fitem">
-                <input id="id" type="hidden" name="id" value="392ad575b186472193fd44a3ebd89d8e">
-                <input id="zhuyuanxinxiId" type="hidden" name="zhuyuanxinxiId" value="03e681f7-ba5e-11e5-bb7f-0894ef010b21">
-                <input id="patientId" type="hidden" name="patientId" value="06b45a7a-b286-11e5-b259-0894ef010b20">
+                <input id="id" type="hidden" name="id">
+                <input id="patientId" type="hidden" name="patientId" >
+                <input id="visitId" type="hidden" name="visitId" >
                 <label>
                     入院日期：
                 </label>
-                <input style="display: none;" class="easyui-datebox datebox-f combo-f textbox-f">
+                <input  id="ruyuanshijian" class="easyui-datebox" readonly style="width: 150px;">
                 <label>
                     出院日期：
                 </label>
-                <input id="chuyuanshijian" name="chuyuanshijian" style="display: none;" class="easyui-datebox datebox-f combo-f textbox-f"/>
+                <input id="chuyuanshijian" name="chuyuanshijian"  class="easyui-datebox"  style="width: 150px;"/>
             </div>
             <div class="fitem">
                 <label>
                     住院天数：
                 </label>
-
+              <input id="inpCount"  class="easyui-textbox" readonly  style="width: 50px;">
             </div>
         </div>
         <div class="clearfix goh-sign" style="clear:both">
@@ -59,29 +59,6 @@
                        class="sub_title_em"
                        style="width: 1110px;">
             </div>
-            <!--<div class="detail-wrapp">
-                <div class="sub_title_em">诊断</div>
-                <div  class="pborder">
-                    <table cellpadding="0" cellspacing="0" width="100%" border="1" style="border-collapse:collapse;" borderColor="#ccc">
-                        <thead>
-                        <tr>
-                            <th>编号</th>
-                            <th>名称</th>
-                            <th>开单科室</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>123</td>
-                            <td>血常规</td>
-                            <td>检查检验科</td>
-                            <td>查看</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>-->
             <div class="detail-wrapp">
                 <div class="sub_title_em">出院医嘱</div>
                 <div class="pborder position-re" submit_id="chuyuanyizhu"
@@ -94,9 +71,11 @@
 
     </div>
 </div>
-<div class="form-btn">
-    <button id="saveBtn"  class="save-btn">保&nbsp;存</button>
-</div>
-    </form>
+</form>
+    <div id="dlg-buttons" class="btn-save" style="right: 10px;">
+        <a href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();"  style="width: 70px;">保存</a>
+
+    </div>
+
 </body>
 </html>                                                                                                                                                                                                                                                                                                                  

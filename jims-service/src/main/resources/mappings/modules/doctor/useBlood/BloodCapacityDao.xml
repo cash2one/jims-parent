@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.doctor.useBlood.dao.BloodCapacityDao">
+    
+	<sql id="bloodCapacityColumns">
+		a.apply_num AS "applyNum",
+		a.match_sub_num AS "matchSubNum",
+		a.fast_slow AS "fastSlow",
+		a.trans_date AS "transDate",
+		a.trans_capacity AS "transCapacity",
+		a.blood_type AS "bloodType",
+		a.operator AS "operator",
+		a.unit AS "unit",
+		a.id AS "id",
+		a.org_id AS "orgId",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate",
+		a.visit_id AS "visitId",
+		a.clinic_id AS "clinicId",
+		a.patient_id AS "patientId"
+	</sql>
+	
+	<sql id="bloodCapacityJoins">
+	</sql>
+    
+	<select id="get" resultType="BloodCapacity">
+		SELECT 
+			<include refid="bloodCapacityColumns"/>
+		FROM blood_capacity a
+		<include refid="bloodCapacityJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BloodCapacity">
+		SELECT 
+			<include refid="bloodCapacityColumns"/>
+		FROM blood_capacity a
+		<include refid="bloodCapacityJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getBloodCapacityList" resultType="BloodCapacity">
+		SELECT
+		<include refid="bloodCapacityColumns"/>
+		FROM blood_capacity a
+		<include refid="bloodCapacityJoins"/>
+		WHERE a.apply_num = #{applyNum} AND
+		a.del_flag ='0'
+	</select>
+	<select id="findAllList" resultType="BloodCapacity">
+		SELECT
+		<include refid="bloodCapacityColumns"/>
+		FROM blood_capacity a
+		<include refid="bloodCapacityJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	<insert id="insert">
+		INSERT INTO blood_capacity(
+			apply_num,
+			match_sub_num,
+			fast_slow,
+			trans_date,
+			trans_capacity,
+			blood_type,
+			operator,
+			unit,
+			id,
+			org_id,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date,
+			visit_id,
+			clinic_id,
+			patient_id
+		) VALUES (
+			#{applyNum},
+			#{matchSubNum},
+			#{fastSlow},
+			#{transDate},
+			#{transCapacity},
+			#{bloodType},
+			#{operator},
+			#{unit},
+			#{id},
+			#{orgId},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate},
+			#{visitId},
+			#{clinicId},
+			#{patientId}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE blood_capacity SET 	
+			apply_num = #{applyNum},
+			match_sub_num = #{matchSubNum},
+			fast_slow = #{fastSlow},
+			trans_date = #{transDate},
+			trans_capacity = #{transCapacity},
+			blood_type = #{bloodType},
+			operator = #{operator},
+			unit = #{unit},
+			org_id = #{orgId},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE blood_capacity SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<update id="delBloodCapacity">
+		DELETE FROM blood_capacity
+		WHERE apply_num = #{applyNum}
+	</update>
+
+	<select id="getMatchSubNum" resultType="java.lang.String">
+		SELECT match_sub_num FROM blood_capacity
+		<if test="applyNum!=null and applyNum!=''">
+			and apply_num = #{applyNum}
+		</if>
+	</select>
+</mapper>

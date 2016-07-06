@@ -12,6 +12,6 @@
        b.trade_price,
        b.retail_price,
        d.supplier,
-       d.firm_id,
+       d.id,
 	     o.label
   from exp_dict a, exp_price_list b, drug_supplier_catalog d ,org_sys_dict o where a.exp_code=b.exp_code and d.id=b.FIRM_ID and o.value=a.units
