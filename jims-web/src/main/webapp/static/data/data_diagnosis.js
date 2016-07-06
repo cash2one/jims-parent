@@ -1,15 +1,21 @@
 //icd10
-var comboGridComplete = [];
+var icdComplete = [];
 var icdData={};
 icdData.orgId="";
 icdData.dictType="emr_data_icd10";
 
 var icdAllData = [];
 
-function icdAuto(q,id){
+function comboGridCompleting(q,id){
     var drugNameData={};
     drugNameData.orgId="1";
     drugNameData.dictType="emr_data_icd10";
+    var inputParamVos=new Array();
+    var InputParamVo1={};
+    InputParamVo1.colName='rownum';
+    InputParamVo1.colValue='20';
+    InputParamVo1.operateMethod='<';
+    inputParamVos.push(InputParamVo1);
     if(q!='' && q!=null){
         var InputParamVo={};
         InputParamVo.colName='PINYIN_INDEX';
@@ -28,7 +34,7 @@ function icdAuto(q,id){
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            comboGridComplete = data;
+            icdComplete = data;
 
         }
     });

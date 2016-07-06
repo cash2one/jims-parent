@@ -1,5 +1,5 @@
+var administration = [{ "value": "1", "text": "初步诊断" }, { "value": "2", "text": "鉴别诊断" }, { "value": "4", "text": "入院诊断" }];
 $(function() {
-
     $('#tg').treegrid({
         rownumbers: true,
         animate: true,
@@ -77,11 +77,9 @@ $(function() {
 });
 loadMenu();
 function loadMenu() {
-    var pId = parent.patVisit.patientId;
-    var vId = parent.patVisit.visitId;
     var menus = [];//菜单列表
     var menuTreeData = [];//菜单树的列表
-    var menuPromise = $.get(basePath + '/diagnosis/findListOfIn?patientId='+pId+'&visitId='+vId, function (data) {
+    var menuPromise = $.get(basePath + '/diagnosis/findListOfIn', function (data) {
         $.each(data, function (index, item) {
             var d = {};
             d.id = item.id;
@@ -174,8 +172,9 @@ function edit(){
             down: function() {},
             enter: function() {},
             query: function(q) {
-                icdAuto(q,'diagnosisId');
-
+                var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
+                icdComplete(q,'diagnosisId');
+                $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
             }
         }
     })
@@ -282,8 +281,9 @@ function insert(){
             down: function() {},
             enter: function() {},
             query: function(q) {
-                icdAuto(q,'diagnosisId');
-
+                var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
+                icdComplete(q,'diagnosisId');
+                $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
             }
         }
     })
@@ -334,8 +334,9 @@ function addNextLevel() {
                 down: function() {},
                 enter: function() {},
                 query: function(q) {
-                    icdAuto(q,'diagnosisId');
-
+                    var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
+                    icdComplete(q,'diagnosisId');
+                    $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
                 }
             }
         })
