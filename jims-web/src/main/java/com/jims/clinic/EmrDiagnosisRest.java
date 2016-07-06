@@ -32,7 +32,6 @@ public class EmrDiagnosisRest {
     @GET
     public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("clinicId")String clinicId){
        EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
-        emrDiagnosis.setInOrOutFlag("0");//门诊
         emrDiagnosis.setClinicId(clinicId);
         List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
@@ -41,7 +40,6 @@ public class EmrDiagnosisRest {
     @GET
     public  List<EmrDiagnosis> listIn(@Context HttpServletRequest request,@Context HttpServletResponse response){
         EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
-        emrDiagnosis.setInOrOutFlag("1");//住院
         List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
     }
