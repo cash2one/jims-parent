@@ -1,5 +1,6 @@
-var administration = [{ "value": "1", "text": "初步诊断" }, { "value": "2", "text": "鉴别诊断" }, { "value": "4", "text": "入院诊断" }];
 $(function() {
+    var patientId = parent.patVisit.patientId;
+    var visitId = parent.patVisit.visitId;
     $('#tg').treegrid({
         rownumbers: true,
         animate: true,
@@ -33,6 +34,7 @@ $(function() {
             {field:'diagnosisDate',title:'诊断日期',width:'15%',align:'center',formatter:formatDateBoxFull},
             {field:'pathologyNo',title:'病理号',width:'10%',align:'center',editor:'text'},
             {field:'diagnosisId',title:'诊断名称',width:'20%',align:'center',formatter:icdFormatter}
+
         ]],
         toolbar:
             [
@@ -78,7 +80,7 @@ loadMenu();
 function loadMenu() {
     var menus = [];//菜单列表
     var menuTreeData = [];//菜单树的列表
-    var menuPromise = $.get(basePath + '/diagnosis/findListOfIn', function (data) {
+    var menuPromise = $.get(basePath + '/diagnosis/findListOfIn?patientId='+patientId+'&visitId='+visitId, function (data) {
         $.each(data, function (index, item) {
             var d = {};
             d.id = item.id;
@@ -140,6 +142,10 @@ function edit(){
     $('#dlg').dialog('open').dialog('center').dialog('setTitle', '修改诊断');
 
     $('#fm').form('clear');
+    $('#typeId').val(node.type);
+    var typeName = diagnosisTypeFormatter(node.type,'','');
+    $('#type').textbox('setValue',typeName);
+    $("#type").attr("readonly", true) ;
     $("#description").val(node.description);
     $("#treatResult").val(node.treatResult);
     $("#diagnosisDate").datebox("setValue",node.diagnosisDate);
@@ -173,7 +179,7 @@ function edit(){
             }
         }
     })
-    $("#pathologyNoId").val(node.pathologyNo);
+    $('#pathologyNoId').textbox('setValue',node.pathologyNo);
     $("#id").val(node.id);
     $("#parentId").val(node._parentId);
     $("#inOrOutFlag").val("1");
@@ -183,6 +189,10 @@ function edit(){
 //保存
 
 function save(){
+    var patientId = parent.patVisit.patientId;
+    var visitId = parent.patVisit.visitId;
+    $("#patientId").val(patientId);
+    $("#visitId").val(visitId);
     if ($("#fm").form('validate')) {
         var d = {};
         d.id = $("#id").val();
@@ -194,6 +204,8 @@ function save(){
         d.pathologyNo = $("#pathologyNoId").val();
         d.diagnosisId =$('#diagnosisId').combobox('getValue');
         d.parentId = $("#parentId").val();
+        d.patientId =patientId;
+        d.visitId = visitId;
         d.inOrOutFlag = $("#inOrOutFlag").val();
         if($("#parentId").val()==null||$("#parentId").val()=='undefined'||$("#parentId").val()==''){
             d.parentId='0';
@@ -201,6 +213,7 @@ function save(){
         $.postJSON(basePath+"/diagnosis/saveIn",  JSON.stringify(d), function (data) {
           if(data.code>0){
               $.messager.alert('提示',"保存成功");
+
               $('#dlg').dialog('close');
               if(d.id==''|| d.id==null){
                   $("#tg").treegrid('append',{
@@ -213,6 +226,7 @@ function save(){
                       row:d
                   })
               }
+              $('#tg').treegrid('reload');
           }else{
               $.messager.alert('提示',"保存失败", "error");
           }
@@ -297,15 +311,11 @@ function addNextLevel() {
 
         $('#dlg').dialog('open').dialog('setTitle', '添加子诊断').dialog('center');
         $('#fm').form('clear');
+        $('#typeId').val(node.type);
+        var typeName = diagnosisTypeFormatter(node.type,'','');
+        $('#type').textbox('setValue',typeName);
         $("#parentId").val(node.id);
-        $('#type').combobox({
-            data :diagnosisType,
-            valueField:'value',
-            textField:'label',
-            onSelect: function (n, o) {
-                $("#typeId").val(n.value);
-            }
-        });
+
         $('#diagnosisId').combogrid({
             panelWidth: 200,
             data:icdAllData,

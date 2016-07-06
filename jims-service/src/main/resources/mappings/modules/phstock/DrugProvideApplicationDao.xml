@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugProvideApplicationDao">
+
+    <sql id="drugProvideApplicationColumns">
+        A."APPLICANT_STORAGE"     as "applicantStorage",
+       A."PROVIDE_STORAGE"       as "provideStorage",
+       A."ITEM_NO"               as "itemNo",
+       A."DRUG_CODE"             as "drugCode",
+       A."DRUG_SPEC"             as "drugSpec",
+       A."PACKAGE_SPEC"          as "packageSpec",
+       A."QUANTITY"              as "quantity",
+       A."PACKAGE_UNITS"         as "packageUnits",
+       A."ENTER_DATE_TIME"       as "enterDateTime",
+       A."FIRM_ID"               as "firmId",
+       A."BATCH_NO"              as "batchNo",
+       A."DOCUMENT_NO"           as "documentNo",
+       A."NO_PROVIDE_QUANTITY"   as "noProvideQuantity",
+       A."FLAG"                  as "flag",
+       A."SUB_STORAGE"           as "subStorage",
+       A."APPLICANT_STORAGE_SUB" as "applicantStorageSub",
+       A."ID"                  as "id",
+       A."ORG_ID"              as "orgId"
+    </sql>
+
+    <select id="get" resultType="DrugProvideApplication">
+        SELECT
+        <include refid="drugProvideApplicationColumns"/>
+        FROM DRUG_PROVIDE_APPLICATION a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="DrugProvideApplication">
+        SELECT
+        <include refid="drugProvideApplicationColumns"/>,o.label,  b."SUPPLIER_ID"  as "supplierId" ,c.drug_name as "drugName"
+        FROM DRUG_PROVIDE_APPLICATION a ,(select value,label from sys_dict where  type = 'spec_unit') o ,
+        (select DISTINCT id,supplier_id,supplier from drug_supplier_catalog where org_id = #{orgId}) b,
+        (select DISTINCT drug_name,drug_code from drug_dict ) c
+        <where>
+            a.org_id =  #{orgId}  and o.VALUE = a.package_units and b.id=a.firm_id and   c.drug_code=a.drug_code
+            <if test="applicantStorage!=null and applicantStorage!=''">
+               AND  applicant_storage =#{applicantStorage}
+            </if>
+            <if test="applicantStorageSub!=null and applicantStorageSub!=''">
+                AND  applicant_storage_sub =#{applicantStorageSub}
+            </if>
+            <if test="documentNo!=null and documentNo!=''">
+                AND  document_no =#{documentNo}
+            </if>
+            <if test="flag!=null and flag!=''">
+                AND instr(','||#{flag}||',' , ','||a.flag||',') > 0
+            </if>
+        </where>
+    </select>
+
+    <select id="findDocumentByDistinct" resultType="DrugProvideApplication">
+        SELECT
+        DISTINCT a.document_no
+        FROM   DRUG_PROVIDE_APPLICATION a
+        <where>
+            a.org_id =  #{orgId}
+            <if test="applicantStorage!=null and applicantStorage!=''">
+                AND  applicant_storage =#{applicantStorage}
+            </if>
+            <if test="applicantStorageSub!=null and applicantStorageSub!=''">
+                AND  applicant_storage_sub =#{applicantStorageSub}
+            </if>
+            <if test="flag!=null and flag!=''">
+                AND  flag =#{flag}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="findAllList" resultType="DrugProvideApplication">
+        SELECT
+        <include refid="drugProvideApplicationColumns"/>
+        FROM DRUG_PROVIDE_APPLICATION a
+    </select>
+
+    <insert id="insert">
+        INSERT INTO DRUG_PROVIDE_APPLICATION(
+            APPLICANT_STORAGE
+            ,PROVIDE_STORAGE
+            ,ITEM_NO
+            ,DRUG_CODE
+            ,DRUG_SPEC
+            ,PACKAGE_SPEC
+            ,QUANTITY
+            ,PACKAGE_UNITS
+            ,ENTER_DATE_TIME
+            ,FIRM_ID
+            ,BATCH_NO
+            ,DOCUMENT_NO
+            ,NO_PROVIDE_QUANTITY
+            ,FLAG
+            ,SUB_STORAGE
+            ,APPLICANT_STORAGE_SUB
+            ,ID
+            ,ORG_ID
+        ) VALUES (
+            #{applicantStorage}
+            ,#{provideStorage}
+            ,#{itemNo}
+            ,#{drugCode}
+            ,#{drugSpec}
+            ,#{packageSpec}
+            ,#{quantity}
+            ,#{packageUnits}
+            ,#{enterDateTime}
+            ,#{firmId}
+            ,#{batchNo}
+            ,#{documentNo}
+            ,#{noProvideQuantity}
+            ,#{flag}
+            ,#{subStorage}
+            ,#{applicantStorageSub}
+            ,#{id}
+            ,#{orgId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE  DRUG_PROVIDE_APPLICATION SET
+            APPLICANT_STORAGE = #{applicantStorage}
+            ,PROVIDE_STORAGE = #{provideStorage}
+            ,ITEM_NO = #{itemNo}
+            ,DRUG_CODE = #{drugCode}
+            ,DRUG_SPEC = #{drugSpec}
+            ,PACKAGE_SPEC = #{packageSpec}
+            ,QUANTITY = #{quantity}
+            ,PACKAGE_UNITS = #{packageUnits}
+            ,ENTER_DATE_TIME = #{enterDateTime}
+            ,FIRM_ID = #{firmId}
+            ,BATCH_NO = #{batchNo}
+            ,DOCUMENT_NO = #{documentNo}
+            ,NO_PROVIDE_QUANTITY = #{noProvideQuantity}
+            ,FLAG = #{flag}
+            ,SUB_STORAGE = #{subStorage}
+            ,APPLICANT_STORAGE_SUB = #{applicantStorageSub}
+            ,ID = #{id}
+            ,ORG_ID=#{orgId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM DRUG_PROVIDE_APPLICATION
+        WHERE id = #{id}
+    </delete>
+</mapper>

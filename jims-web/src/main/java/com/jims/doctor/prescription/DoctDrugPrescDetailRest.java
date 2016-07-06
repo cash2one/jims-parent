@@ -1,4 +1,4 @@
-package com.jims.clinic.prescription;
+package com.jims.doctor.prescription;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
