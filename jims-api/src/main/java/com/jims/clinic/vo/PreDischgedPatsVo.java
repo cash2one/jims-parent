@@ -1,9 +1,7 @@
 package com.jims.clinic.vo;
 
-import com.jims.clinic.entity.DocOperationGrade;
 import com.jims.common.persistence.DataEntity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

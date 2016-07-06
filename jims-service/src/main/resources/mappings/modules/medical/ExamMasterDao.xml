@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.medical.exam.dao.ExamMasterDao">
+    
+	<sql id="examMasterColumns">
+		a.id AS "id",
+		a.exam_no AS "examNo",
+		a.local_id_class AS "localIdClass",
+		a.patient_local_id AS "patientLocalId",
+		a.patient_id AS "patientId",
+		a.visit_id AS "visitId",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.date_of_birth AS "dateOfBirth",
+		a.exam_class AS "examClass",
+		a.exam_sub_class AS "examSubClass",
+		a.spm_recved_date AS "spmRecvedDate",
+		a.clin_symp AS "clinSymp",
+		a.phys_sign AS "physSign",
+		a.relevant_lab_test AS "relevantLabTest",
+		a.relevant_diag AS "relevantDiag",
+		a.clin_diag AS "clinDiag",
+		a.exam_mode AS "examMode",
+		a.exam_group AS "examGroup",
+		a.device AS "device",
+		a.performed_by AS "performedBy",
+		a.patient_source AS "patientSource",
+		a.facility AS "facility",
+		a.req_date_time AS "reqDateTime",
+		a.req_dept AS "reqDept",
+		a.req_physician AS "reqPhysician",
+		a.req_memo AS "reqMemo",
+		a.scheduled_date_time AS "scheduledDateTime",
+		a.notice AS "notice",
+		a.exam_date_time AS "examDateTime",
+		a.report_date_time AS "reportDateTime",
+		a.technician AS "technician",
+		a.reporter AS "reporter",
+		a.result_status AS "resultStatus",
+		a.costs AS "costs",
+		a.charges AS "charges",
+		a.charge_indicator AS "chargeIndicator",
+		a.charge_type AS "chargeType",
+		a.identity AS "identity",
+		a.rptstatus AS "rptstatus",
+		a.print_status AS "printStatus",
+		a.exam_subdept AS "examSubdept",
+		a.confirm_doct AS "confirmDoct",
+		a.study_uid AS "studyUid",
+		a.photo_status AS "photoStatus",
+		a.confirm_date_time AS "confirmDateTime",
+		a.hp_value AS "hpValue",
+		a.diag_hostname AS "diagHostname",
+		a.report_lock_status AS "reportLockStatus",
+		a.queue_no AS "queueNo",
+		a.equipment_no AS "equipmentNo",
+		a.time_interval AS "timeInterval",
+		a.visit_no AS "visitNo",
+		a.register AS "register",
+		a.ren_indicator AS "renIndicator",
+		a.ren_exam_no AS "renExamNo",
+		a.cnslt_no AS "cnsltNo",
+		a.exam_reason AS "examReason",
+		a.priority_indicator AS "priorityIndicator",
+		a.special_indicator AS "specialIndicator",
+		a.share_exam_no AS "shareExamNo",
+		a.pause_indicator AS "pauseIndicator",
+		a.birth_place AS "birthPlace",
+		a.phone_number AS "phoneNumber",
+		a.zip_code AS "zipCode",
+		a.mailing_address AS "mailingAddress",
+		a.name_phonetic AS "namePhonetic",
+		a.doctor_user AS "doctorUser",
+		a.rep_indicator AS "repIndicator",
+		a.pacs_flag AS "pacsFlag",
+		a.pacs_paths AS "pacsPaths",
+		a.rcpt_no AS "rcptNo",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="examMasterJoins">
+	</sql>
+    
+	<select id="get" resultType="ExamMaster">
+		SELECT 
+			<include refid="examMasterColumns"/>
+		FROM exam_master a
+		<include refid="examMasterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ExamMaster">
+		SELECT 
+			<include refid="examMasterColumns"/>
+		FROM exam_master a
+		<include refid="examMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ExamMaster">
+		SELECT 
+			<include refid="examMasterColumns"/>
+		FROM exam_master a
+		<include refid="examMasterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO exam_master(
+			id,
+			exam_no,
+			local_id_class,
+			patient_local_id,
+			patient_id,
+			visit_id,
+			name,
+			sex,
+			date_of_birth,
+			exam_class,
+			exam_sub_class,
+			spm_recved_date,
+			clin_symp,
+			phys_sign,
+			relevant_lab_test,
+			relevant_diag,
+			clin_diag,
+			exam_mode,
+			exam_group,
+			device,
+			performed_by,
+			patient_source,
+			facility,
+			req_date_time,
+			req_dept,
+			req_physician,
+			req_memo,
+			scheduled_date_time,
+			notice,
+			exam_date_time,
+			report_date_time,
+			technician,
+			reporter,
+			result_status,
+			costs,
+			charges,
+			charge_indicator,
+			charge_type,
+			identity,
+			rptstatus,
+			print_status,
+			exam_subdept,
+			confirm_doct,
+			study_uid,
+			photo_status,
+			confirm_date_time,
+			hp_value,
+			diag_hostname,
+			report_lock_status,
+			queue_no,
+			equipment_no,
+			time_interval,
+			visit_no,
+			register,
+			ren_indicator,
+			ren_exam_no,
+			cnslt_no,
+			exam_reason,
+			priority_indicator,
+			special_indicator,
+			share_exam_no,
+			pause_indicator,
+			birth_place,
+			phone_number,
+			zip_code,
+			mailing_address,
+			name_phonetic,
+			doctor_user,
+			rep_indicator,
+			pacs_flag,
+			pacs_paths,
+			rcpt_no,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{id},
+			#{examNo},
+			#{localIdClass},
+			#{patientLocalId},
+			#{patientId},
+			#{visitId},
+			#{name},
+			#{sex},
+			#{dateOfBirth},
+			#{examClass},
+			#{examSubClass},
+			#{spmRecvedDate},
+			#{clinSymp},
+			#{physSign},
+			#{relevantLabTest},
+			#{relevantDiag},
+			#{clinDiag},
+			#{examMode},
+			#{examGroup},
+			#{device},
+			#{performedBy},
+			#{patientSource},
+			#{facility},
+			#{reqDateTime},
+			#{reqDept},
+			#{reqPhysician},
+			#{reqMemo},
+			#{scheduledDateTime},
+			#{notice},
+			#{examDateTime},
+			#{reportDateTime},
+			#{technician},
+			#{reporter},
+			#{resultStatus},
+			#{costs},
+			#{charges},
+			#{chargeIndicator},
+			#{chargeType},
+			#{identity},
+			#{rptstatus},
+			#{printStatus},
+			#{examSubdept},
+			#{confirmDoct},
+			#{studyUid},
+			#{photoStatus},
+			#{confirmDateTime},
+			#{hpValue},
+			#{diagHostname},
+			#{reportLockStatus},
+			#{queueNo},
+			#{equipmentNo},
+			#{timeInterval},
+			#{visitNo},
+			#{register},
+			#{renIndicator},
+			#{renExamNo},
+			#{cnsltNo},
+			#{examReason},
+			#{priorityIndicator},
+			#{specialIndicator},
+			#{shareExamNo},
+			#{pauseIndicator},
+			#{birthPlace},
+			#{phoneNumber},
+			#{zipCode},
+			#{mailingAddress},
+			#{namePhonetic},
+			#{doctorUser},
+			#{repIndicator},
+			#{pacsFlag},
+			#{pacsPaths},
+			#{rcptNo},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE exam_master SET 	
+			exam_no = #{examNo},
+			local_id_class = #{localIdClass},
+			patient_local_id = #{patientLocalId},
+			patient_id = #{patientId},
+			visit_id = #{visitId},
+			name = #{name},
+			sex = #{sex},
+			date_of_birth = #{dateOfBirth},
+			exam_class = #{examClass},
+			exam_sub_class = #{examSubClass},
+			spm_recved_date = #{spmRecvedDate},
+			clin_symp = #{clinSymp},
+			phys_sign = #{physSign},
+			relevant_lab_test = #{relevantLabTest},
+			relevant_diag = #{relevantDiag},
+			clin_diag = #{clinDiag},
+			exam_mode = #{examMode},
+			exam_group = #{examGroup},
+			device = #{device},
+			performed_by = #{performedBy},
+			patient_source = #{patientSource},
+			facility = #{facility},
+			req_date_time = #{reqDateTime},
+			req_dept = #{reqDept},
+			req_physician = #{reqPhysician},
+			req_memo = #{reqMemo},
+			scheduled_date_time = #{scheduledDateTime},
+			notice = #{notice},
+			exam_date_time = #{examDateTime},
+			report_date_time = #{reportDateTime},
+			technician = #{technician},
+			reporter = #{reporter},
+			result_status = #{resultStatus},
+			costs = #{costs},
+			charges = #{charges},
+			charge_indicator = #{chargeIndicator},
+			charge_type = #{chargeType},
+			identity = #{identity},
+			rptstatus = #{rptstatus},
+			print_status = #{printStatus},
+			exam_subdept = #{examSubdept},
+			confirm_doct = #{confirmDoct},
+			study_uid = #{studyUid},
+			photo_status = #{photoStatus},
+			confirm_date_time = #{confirmDateTime},
+			hp_value = #{hpValue},
+			diag_hostname = #{diagHostname},
+			report_lock_status = #{reportLockStatus},
+			queue_no = #{queueNo},
+			equipment_no = #{equipmentNo},
+			time_interval = #{timeInterval},
+			visit_no = #{visitNo},
+			register = #{register},
+			ren_indicator = #{renIndicator},
+			ren_exam_no = #{renExamNo},
+			cnslt_no = #{cnsltNo},
+			exam_reason = #{examReason},
+			priority_indicator = #{priorityIndicator},
+			special_indicator = #{specialIndicator},
+			share_exam_no = #{shareExamNo},
+			pause_indicator = #{pauseIndicator},
+			birth_place = #{birthPlace},
+			phone_number = #{phoneNumber},
+			zip_code = #{zipCode},
+			mailing_address = #{mailingAddress},
+			name_phonetic = #{namePhonetic},
+			doctor_user = #{doctorUser},
+			rep_indicator = #{repIndicator},
+			pacs_flag = #{pacsFlag},
+			pacs_paths = #{pacsPaths},
+			rcpt_no = #{rcptNo},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE exam_master SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<select id="getExamAppointses" resultType="com.jims.exam.entity.ExamAppoints">
+		SELECT
+		"EXAM_APPOINTS"."ID" AS id,
+		"EXAM_APPOINTS"."EXAM_NO" AS examNo,
+		"EXAM_APPOINTS"."NAME" AS name,
+		"EXAM_APPOINTS"."SEX" AS sex,
+		"EXAM_APPOINTS"."EXAM_SUB_CLASS" AS examSubClass,
+		"EXAM_APPOINTS"."EXAM_MODE" AS examMode,
+		"EXAM_APPOINTS"."REQ_DATE_TIME" AS reqDateTime,
+		"EXAM_APPOINTS"."REQ_DEPT" AS reqDept,
+		"EXAM_APPOINTS"."REQ_PHYSICIAN" AS reqPhysician,
+		"EXAM_APPOINTS"."SCHEDULED_DATE" AS scheduledDate,
+		"EXAM_APPOINTS"."COSTS" AS costs,
+		"EXAM_MASTER"."RESULT_STATUS" AS resultStatus,
+
+		"EXAM_APPOINTS"."PATIENT_ID" AS patientId,
+		"EXAM_APPOINTS"."NAME_PHONETIC" AS namePhonetic,
+		"EXAM_APPOINTS"."DATE_OF_BIRTH" AS dateOfBirth,
+		"EXAM_APPOINTS"."BIRTH_PLACE" AS birthPlace,
+		"EXAM_APPOINTS"."IDENTITY" AS identity,
+		"EXAM_APPOINTS"."CHARGE_TYPE" As chargeType,
+		"EXAM_APPOINTS"."MAILING_ADDRESS" AS mailingAddress,
+		"EXAM_APPOINTS"."ZIP_CODE" AS zipCode,
+		"EXAM_APPOINTS"."PHONE_NUMBER" AS phoneNumber,
+		"EXAM_APPOINTS"."EXAM_CLASS" AS examClass,
+		"EXAM_APPOINTS"."CLIN_SYMP" As clinSymp,
+		"EXAM_APPOINTS"."PHYS_SIGN" AS physSign,
+		"EXAM_APPOINTS"."RELEVANT_LAB_TEST" AS relevantLabTest,
+		"EXAM_APPOINTS"."RELEVANT_DIAG" AS relevantDiag,
+		"EXAM_APPOINTS"."CLIN_DIAG" AS clinDiag,
+		"EXAM_APPOINTS"."EXAM_GROUP" AS examGroup,
+		"EXAM_APPOINTS"."PERFORMED_BY" AS performedBy,
+		"EXAM_APPOINTS"."PATIENT_SOURCE" AS patientSource,
+		"EXAM_APPOINTS"."FACILITY" AS facility,
+		"EXAM_APPOINTS"."REQ_MEMO" AS reqMemo,
+		"EXAM_APPOINTS"."NOTICE" AS notice,
+		"EXAM_APPOINTS"."CHARGES" AS charges,
+		"EXAM_MASTER"."DEVICE" AS device,
+		'0',
+		"EXAM_APPOINTS"."VISIT_ID" AS visitId,
+		"EXAM_APPOINTS"."LOCAL_ID_CLASS" AS localIdClass,
+		"EXAM_APPOINTS"."PATIENT_LOCAL_ID" AS patientLocalId
+		FROM "EXAM_APPOINTS", "EXAM_MASTER"
+		WHERE  (exam_appoints.exam_no = exam_master.exam_no(+))
+		and ("EXAM_APPOINTS"."BILLING_INDICATOR" = 1)
+		AND (EXAM_appoints.EXAM_CLASS like '%' and
+		EXAM_appoints.performed_by =#{performedBy})
+		ORDER BY EXAM_APPOINTS.PATIENT_ID
+
+	</select>
+</mapper>
