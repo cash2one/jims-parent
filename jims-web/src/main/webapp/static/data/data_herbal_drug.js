@@ -1,13 +1,9 @@
 var herbalDrugData = [];
-
 var herbalDrug={};
 herbalDrug.orgId="1";
 herbalDrug.itemClass="B";
 herbalDrug.dictType="v_drug_info_mz";
-
-
-
-var comboGridComplete = [];
+herbalDrug.inputParamVos=inputParamVos;
 /**
  * 中药药品
  */
@@ -25,7 +21,7 @@ $.ajax({
 
 
 //药品自动补全
-function comboGridCompleting(q,id){
+function comboGridCompletingHerbalDrug(q,id){
     var drugNameData={};
     drugNameData.orgId="1";
     drugNameData.itemClass="B";
@@ -43,7 +39,9 @@ function comboGridCompleting(q,id){
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
     }else{
-        $("#"+id).combogrid('setValue','');
+        if(id!='' && id!=null){
+            $("#"+id).combogrid('setValue','');
+        }
     }
     drugNameData.inputParamVos=inputParamVos;
     $.ajax({
@@ -54,7 +52,7 @@ function comboGridCompleting(q,id){
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            comboGridComplete = data;
+            herbalDrugData = data;
 
         }
     });
