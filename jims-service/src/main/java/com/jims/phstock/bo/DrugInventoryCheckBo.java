@@ -115,7 +115,7 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
 //
 //            List<DrugInventoryCheckVo> list = null;
 //            if (i == 0) {
-//                list = dao.extractInventory(drugInventoryCheck.getStorage(), drugInventoryCheck.getOrgId(), checkYearMonth.substring(0, 10), drugInventoryCheck.getSubStorage());
+//                list = bo.extractInventory(drugInventoryCheck.getStorage(), drugInventoryCheck.getOrgId(), checkYearMonth.substring(0, 10), drugInventoryCheck.getSubStorage());
 //                if (list.size() != 0) {
 //                    i = 1;
 //                }
@@ -123,10 +123,10 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
 //
 //            if (i == 1) {
 //                drugInventoryCheck.preUpdate();
-//                dao.update(drugInventoryCheck);
+//                bo.update(drugInventoryCheck);
 //            } else {
 //                drugInventoryCheck.preInsert();
-//                dao.insert(drugInventoryCheck);
+//                bo.insert(drugInventoryCheck);
 //            }
             //盈亏入出库
             if(j==0){

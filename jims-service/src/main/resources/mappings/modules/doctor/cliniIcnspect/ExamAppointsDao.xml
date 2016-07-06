@@ -72,7 +72,7 @@
 		<!--<association property="examItem" column="appointsId"-->
 					 <!--select="ExamItemsDao.get"></association>-->
 		<!--<association property="outpOrdersCostses" column="visitNo"-->
-					 <!--select="com.jims.clinic.dao.OutpTreatRecDao.get"></association>-->
+					 <!--select="com.jims.clinic.bo.OutpTreatRecDao.get"></association>-->
 
 	<!--</resultMap>-->
     
