@@ -36,6 +36,19 @@ public class DrugExportRest {
     }
 
     /**
+     * 保存药品出库主表、关联的明细表，并且更新药品请求表
+     * 以及更新库房子单位出库流水号
+     * 如果记账标志为1，则记账到药品库房
+     * @param master 药品主表数据，内含有明细表List序列
+     * @return 0 失败，1成功
+     */
+    @POST
+    @Path("saveAndUpdateRequest")
+    public String saveAndUpdateRequest(DrugExportMaster master){
+        return api.saveMasterAndDetail(master,true);
+    }
+
+    /**
      * 检索出库数据
      * @param orgId 机构ID
      * @param receiver 收货方
