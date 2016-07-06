@@ -46,7 +46,7 @@ $(function(){
                 query: function(q) {
                     var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
                         comboGridCompleting(q,'diagnosisId');
-                        $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                        $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
                 }
             }
             }}},

@@ -1,5 +1,5 @@
 //icd10
-var comboGridComplete = [];
+var icdComplete = [];
 var icdData={};
 icdData.orgId="";
 icdData.dictType="emr_data_icd10";
@@ -9,7 +9,7 @@ var icdAllData = [];
 function comboGridCompleting(q,id){
     var drugNameData={};
     drugNameData.orgId="1";
-    drugNameData.dictType="emr_data_icd10"
+    drugNameData.dictType="emr_data_icd10";
     var inputParamVos=new Array();
     var InputParamVo1={};
     InputParamVo1.colName='rownum';
@@ -34,7 +34,7 @@ function comboGridCompleting(q,id){
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            comboGridComplete = data;
+            icdComplete = data;
 
         }
     });

@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.operation.api.OperatioinOrderServiceApi;
 import com.jims.doctor.operation.bo.OperationBo;
 import com.jims.doctor.operation.bo.OperationHosBo;
@@ -97,5 +98,33 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      */
     public int deleteOperationName(String id){
       return  operationBo.deleteOperationName(id);
+    }
+
+
+    /**
+     * 查询门诊手术确认的列表
+     * @param scheduledDateTime
+     * @author pq
+     * @return
+     */
+    public List<BaseDto> findOperation(String scheduledDateTime,String operatingRoom){
+       return  operationBo.findOperation(scheduledDateTime,operatingRoom);
+    }
+
+    /**
+     * 确认门诊手术
+     * @param operationScheduleList
+     * @author pq
+     * @return
+     */
+    public String confrimOperation(List<OperationSchedule> operationScheduleList){
+        String num = "";
+        if(operationScheduleList!=null){
+            for(int i=0;i<operationScheduleList.size();i++){
+              num=  operationBo.confrimOperation(operationScheduleList.get(i));
+            }
+
+        }
+      return num;
     }
 }
