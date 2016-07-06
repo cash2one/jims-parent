@@ -3,6 +3,7 @@ package com.jims.sys.bo;
 import com.jims.sys.dao.OrgServiceParamDao;
 import com.jims.sys.dao.SysServiceDao;
 import com.jims.sys.dao.SysServiceParamDao;
+import com.jims.sys.entity.OrgServiceParam;
 import com.jims.sys.entity.SysService;
 import com.jims.sys.entity.SysServiceParam;
 import com.jims.sys.vo.BeanChangeVo;
@@ -92,5 +93,27 @@ public class SysServiceParamBo {
     }
 
 
+    /**
+     * 更新数据
+     * @param orgServiceParam
+     */
+    public int insert(OrgServiceParam orgServiceParam) {
+        return orgServiceParamDao.insert(orgServiceParam) ;
+    }
 
+    /**
+     * 更新OrgserviceParam
+     * @param orgServiceParam
+     * @return
+     */
+    public int meregeOrgServiceParam(OrgServiceParam orgServiceParam) {
+        int i = 0 ;
+        if(orgServiceParam.getId()==null){
+            orgServiceParam.preInsert();
+            i+=this.insert(orgServiceParam);
+        }else{
+            i+=orgServiceParamDao.update(orgServiceParam) ;
+        }
+        return i ;
+    }
 }
