@@ -1,4 +1,5 @@
-
+var clinicIds = parent.clinicMaster.id;
+var patientIds = parent.patVisit.patientId;
 /**
  * 设置动态行
  * @param id
@@ -42,9 +43,9 @@ function unitsFormatter(value,rowData,rowIndex){
         }
     }
 }
-$(function () {
 
-
+//用血申请记录列表
+function onloadMethod() {
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,
@@ -129,10 +130,6 @@ $(function () {
             }
         }
     });
-});
-
-//用血申请记录列表
-function onloadMethod() {
     //获取门诊id
     var clinicId = $("#clinicMasterId", parent.document).val();
     $("#clinicId").val(clinicId);

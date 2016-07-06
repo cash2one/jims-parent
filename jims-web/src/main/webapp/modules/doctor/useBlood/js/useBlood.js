@@ -1,4 +1,5 @@
-
+var visitIds = parent.patVisit.visitId;
+var patientIds = parent.patVisit.patientId;
 /**
  * 设置动态行
  * @param id
@@ -42,8 +43,9 @@ function unitsFormatter(value,rowData,rowIndex){
         }
     }
 }
-$(function () {
 
+//用血申请记录列表
+function onloadMethod() {
     var patientId=$("#patientId",parent.document).val();
     $("#patientId").val(patientId);
     var visitId=1;
@@ -139,15 +141,9 @@ $(function () {
             }
         }
     });
-});
 
-//用血申请记录列表
-function onloadMethod() {
-    alert("1")
-    var patientId=$("#patientId", parent.document).val();
-    alert(patientId)
-    var visitId=1;
-    $("#visitId").val(visitId);
+    $("#visitId").val(visitIds);
+    $("#patientId").val(patientIds);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -159,7 +155,7 @@ function onloadMethod() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/bloodApply/listHos',
-        QueryParams:{'visitId':visitId},
+        QueryParams:{'visitId':visitIds},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选

@@ -39,7 +39,7 @@ public class OperationHosBo {
                 int sId=Integer.parseInt(scheduleId)+1;
                 operationSchedule.setScheduleId(sId);
                 operationSchedule.preInsert();
-                operationSchedule.setEnteredBy("0");
+                operationSchedule.setAckIndicator(0);
                 operationScheduleDao.insert(operationSchedule);
                 if (operationSchedule.getScheduledOperationNameList() != null) {
                     List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
@@ -91,7 +91,7 @@ public class OperationHosBo {
 
             } else {
                 operationSchedule.preUpdate();
-                operationSchedule.setEnteredBy("0");
+                operationSchedule.setAckIndicator(0);
                 operationScheduleDao.update(operationSchedule);
                 if (operationSchedule.getScheduledOperationNameList() != null) {
                     List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();

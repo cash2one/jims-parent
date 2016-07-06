@@ -1,16 +1,16 @@
 var editRow = undefined;
-
-
+var clinicId = parent.clinicMaster.id;
+var patientId = parent.patVisit.patientId;
 var rowNum = -1;
 function onloadMethod() {
-    var cId = $("#clinicMasterId", parent.document).val();
-    $("#clinicId").val(cId);
-
+    alert(clinicId)
+    $("#clinicId").val(clinicId);
+    $("#patientId").val(patientId);
     $.ajax({
         method: "POST",
         url: basePath + "/operatioinOrder/getScheduleOut",
         contentType: "application/json",
-        data: clinicId = cId,
+        data: clinicId = clinicId,
         dataType: 'json',
         success: function (data) {
             $('#operation').form('load', data);

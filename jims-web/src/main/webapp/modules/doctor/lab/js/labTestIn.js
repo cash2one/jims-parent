@@ -1,8 +1,6 @@
-
+var visitId = parent.patVisit.visitId;
+var patientId = parent.patVisit.patientId;
 function onloadMethod() {
-    var patientId=$("#patientId",parent.document).val();
-    $("#patientId").val(patientId);
-    var visitId = 1;
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
     $('#list_data').datagrid({
@@ -123,9 +121,8 @@ function onloadMethod() {
 function add() {
     clearForm();
     $("#saveBut").show();
-    var patientId=$("#patientId",parent.document).val();
+    $("#visitId").val(visitId);
     $("#patientId").val(patientId);
-    $("#visitId").val("1");
     var newDate=new Date();
     $('#requestedDateTime').datetimebox('setValue',newDate);
     var visitId = 1;
