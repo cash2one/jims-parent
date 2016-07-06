@@ -1,25 +1,30 @@
+//var clinicId = parent.clinicMaster.id;
+var patientId = parent.clinicMaster.patientId;
 function onloadMethod() {
-    var clinicId=$("#clinicMasterId",parent.document).val();
+    //$("#name").val(parent.clinicMaster.name);
+    //$("#sex").val(sexFormatter(parent.clinicMaster.sex,'',''));
+    //$("#age").val(parent.clinicMaster.age);
+    //$("#patientId").val(patientId);
+    //    $("#masterId").val(parent.clinicMaster.id);
+    //$("#visitDate").val(parent.clinicMaster.visitDate);//入院时间
+    //$("#visitDept").val(clinicDeptCodeFormatter(parent.clinicMaster.visitDept,'',''));//入院科室
+    //$("#chargeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));//费别
     $.ajax({
-        'type': 'POST',
+        'type': 'GET',
         'url':basePath + '/bloodApply/getPatient',
         'contentType': 'application/json',
-        'data': id = clinicId,
+        'data': {id : 1},
         'dataType': 'json',
         'success': function(data){
             $("#name").val(data.name);
-            $("#sex").val(function(value,rowData,rowIndex){
-                return sexFormatter(data.sex,'','');
-            });
+            $("#sex").val(sexFormatter(data.sex,'',''));
             $("#sexId").val(data.sex);
             $("#age").val(data.age);
             $("#patientId").val(data.patientId);
             $("#masterId").val(data.id);
             $("#dateOfBirth").val(data.patMaster.dateOfBirth);//出生日期
             $("#idNo").val(data.patMaster.idNo);//身份证
-            $("#nation").val(function(value,rowData,rowIndex){
-                return nationFormatter(data.patMaster.nation);
-            });//名族
+            $("#nation").val(nationFormatter(data.patMaster.nation));//名族
             $("#nationId").val(data.patMaster.nation);
             $("#birthPlace").val(data.patMaster.mailingAddress);//出生地
             $("#serviceAgencyPhone").val(data.patMaster.phoneNumberHome);//本人联系方式
@@ -28,16 +33,10 @@ function onloadMethod() {
             $("#nextOfIdNo").val(data.patMaster.nextOfIdNo);//联系人身份证
             $("#nextOfKinAddr").val(data.patMaster.nextOfKinAddr);//联系人地址
             $("#nextOfKinPhone").val(data.patMaster.nextOfKinPhone);//联系人电话
-            $("#nextOfNation").val(function(value,rowData,rowIndex) {
-                return nationFormatter(data.patMaster.nextOfNation);
-            });//联系人名族
+            $("#nextOfNation").val(nationFormatter(data.patMaster.nextOfNation));//联系人名族
             $("#visitDate").val(data.visitDate);//入院时间
-            $("#visitDept").val(function(value,rowData,rowIndex){
-                return clinicDeptCodeFormatter(data.visitDept,'','');
-            });//入院科室
-            $("#chargeType").val(function(value,rowData,rowIndex){
-                return itemFormatter(data.chargeType,'','');
-            });//费别
+            $("#visitDept").val(clinicDeptCodeFormatter(data.visitDept,'',''));//入院科室
+            $("#chargeType").val(itemFormatter(data.chargeType,'',''));//费别
             $("#enterDate").datetimebox("setValue",new Date);
 
         }

@@ -1,5 +1,6 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
+var rowNum = -1;
 /**
  * 设置动态行
  * @param id
@@ -101,9 +102,13 @@ function onloadMethod() {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
-                $("#list_doctor").datagrid('insertRow', {
-                    index: 0,
-                    row: {}
+                if (rowNum >= 0) {
+                    rowNum++;
+                }
+                $("#list_doctor").datagrid("insertRow", {
+                    index: 0, // index start with 0
+                    row: {
+                    }
                 });
             }
         }, {
@@ -113,26 +118,23 @@ function onloadMethod() {
                 inDoDelete();
             }
         },
-            {
-                text: '双击进行编辑'
-            },
         ],
 
-        onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        }, onDblClickRow: function (rowIndex, rowData) {
-            $("#list_doctor").datagrid('beginEdit', rowIndex);
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+        //onAfterEdit: function (rowIndex, rowData, changes) {
+        //    editRow = undefined;
+        //},
+        onClickRow: function (rowIndex, rowData) {
+            var dataGrid = $('#list_doctor');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
             }
-            if (editRow == undefined) {
-                $("#list_doctor").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        }, onClickRow: function (rowIndex, rowData) {
-            //tooltips选中行，列表信息
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
+
             }
         }
     });
