@@ -326,9 +326,9 @@
 				   and ((TO_CHAR("os"."SCHEDULED_DATE_TIME", 'YYYY-MM-DD') =
 				  #{scheduledDateTime})
 			   </if>
-		        <if test="operatingRoom!=null and operatingRoom !=''">
+		      <!--  <if test="operatingRoom!=null and operatingRoom !=''">
 					AND  ("os"."OPERATING_ROOM" in (#{operatingRoom})))
-		         </if>
+		         </if>-->
 		 ORDER BY "os"."SCHEDULED_DATE_TIME" ASC,
 				  "os"."OPERATING_ROOM_NO"   ASC,
 				  "os"."SEQUENCE"            ASC
