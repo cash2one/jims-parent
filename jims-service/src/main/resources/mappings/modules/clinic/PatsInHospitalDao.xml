@@ -234,4 +234,102 @@
 		update pats_in_hospital SET doctor_in_charge =#{doctorInCharge} WHERE id=#{id}
 	</update>
 
+	<select id="searchInfoByParams" resultType="com.jims.common.web.impl.BaseDto">
+	SELECT pmi.NAME,
+       pmi.SEX,
+       pv.DEPT_DISCHARGE_FROM,
+       pv.DISCHARGE_DATE_TIME,
+       pv.DISCHARGE_DISPOSITION,
+       pih.BED_NO,
+       pih.ADMISSION_DATE_TIME,
+       months_between(sysdate, pmi.date_of_birth),
+       pih.PATIENT_ID,
+       pih.VISIT_ID,
+       pih.DEPT_CODE,
+       dd.DEPT_NAME,
+       pmi.INP_NO,
+       pih.PREPAYMENTS,
+       pih.TOTAL_CHARGES,
+       pv.DDT_ROOM_NO,
+       pih.DEPT_CODE_LEND,
+       pih.LEND_INDICATOR,
+       pv.CHARGE_TYPE,
+       br.BED_LABEL,
+       pih.DOCTOR_IN_CHARGE
+  FROM PAT_MASTER_INDEX pmi,
+       PAT_VISIT pv,
+       PATS_IN_HOSPITAL pih,
+       DEPT_DICT dd,
+       BED_REC br
+	 <where>
+		 (pih.DEPT_CODE = dd.ID)
+		 and (pmi.PATIENT_ID = pv.PATIENT_ID)
+		 and (pv.PATIENT_ID = pih.PATIENT_ID)
+		 and (pv.VISIT_ID = pih.VISIT_ID)
+		 and (pih.WARD_CODE = br.WARD_CODE)
+		 and (br.BED_NO = pih.BED_NO)
+		 <if test="wardCode!=null and wardCode!=''">
+			 and ((pih.WARD_CODE = #{wardCode})
+		 </if>
+		 <if test="bedNo!=null">
+			 and(pih.BED_NO = #{bedNo}))
+		 </if>
+		</where>
+	</select>
+
+	<select id="searchTurnOutInfoByParams" resultType="com.jims.common.web.impl.BaseDto">
+		SELECT br.BED_NO,
+         pmi.NAME,
+         pmi.SEX,
+         pih.PATIENT_ID,
+         pih.ADM_WARD_DATE_TIME,
+         pih.VISIT_ID,
+         pih.PATIENT_CONDITION,
+         dd.DEPT_NAME,
+         pih.DEPT_CODE_LEND,
+         pih.LEND_INDICATOR,
+         br.BED_LABEL
+    FROM BED_REC br,
+         PATS_IN_HOSPITAL pih,
+         PAT_MASTER_INDEX pmi,
+         DEPT_DICT dd,
+         ORDERS_GROUP_REC ogr
+		<where> ( pih.PATIENT_ID = pmi.PATIENT_ID )
+			and ( br.WARD_CODE = pih.WARD_CODE )
+			and ( br.BED_NO = pih.BED_NO )
+			and ( pmi.PATIENT_ID = ogr.PATIENT_ID(+) )
+			and ( pih.DEPT_CODE = dd.id(+) )
+			<if test="wardCode!=null and wardCode!=''">
+				and ((pih.WARD_CODE = #{wardCode})
+			</if>
+			<if test="bedNo!=null">
+				and(pih.BED_NO = #{bedNo}))
+			</if>
+		</where>
+	</select>
+
+	<select id="waitTurnOutList" resultType="com.jims.common.web.impl.BaseDto">
+		  SELECT PMI.INP_NO,
+          PMI.NAME,
+          PMI.SEX,
+         PMI.ID_NO,
+          DDA.DEPT_NAME_FROM,
+          DDB.DEPT_NAME_TO,
+          PIT.PATIENT_ID,
+          PIT.TRANSFER_DATE_TIME,
+          PIT.DEPT_TRANSFERED_FROM,
+          '               ' AS SUPER_DOCTOR_ID,
+          '                ' AS PARENT_DOCTOR_ID
+     FROM PAT_MASTER_INDEX PMI,
+          PATS_IN_TRANSFERRING PIT,
+          DEPT_DICT            DDA,
+          DEPT_DICT            DDB
+    WHERE (PMI.ID =
+          PIT.PATIENT_ID)
+      AND (PIT.DEPT_TRANSFERED_FROM =
+          DDA.DEPT_CODE)
+      AND (PIT.DEPT_TRANSFERED_TO =
+          DDB.DEPT_CODE)
+	</select>
+
 </mapper>
