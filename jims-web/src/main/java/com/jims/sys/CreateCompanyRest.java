@@ -104,11 +104,11 @@ public class CreateCompanyRest {
      *
      * @return
      */
-    @POST
+    @GET
     @Path("select")
-    public List<SysCompany> findAllByName() {
+    public List<SysCompany> findAllByName(@QueryParam("persionId") String persionId) {
 
-        List<SysCompany> list = sysCompanyApi.findListByName();
+        List<SysCompany> list = sysCompanyApi.findListByName(persionId);
 
         return list;
     }

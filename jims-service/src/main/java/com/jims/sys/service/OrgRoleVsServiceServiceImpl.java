@@ -39,6 +39,16 @@ public class OrgRoleVsServiceServiceImpl implements OrgRoleVsServiceApi {
         return orgRoleVsServiceService.OrgRoleVsServiceSave(orgRoleVsService);
     }
 
+    /**
+     * 保存角色新添加的自定义服务
+     * @param orgRoleVsServices
+     * @return
+     * @author fengyuguang
+     */
+    public String saveService(List<OrgRoleVsService> orgRoleVsServices){
+        return orgRoleVsServiceService.saveService(orgRoleVsServices);
+    }
+
     public String delete(OrgRoleVsService orgRoleVsService){
         return orgRoleVsServiceService.delete(orgRoleVsService);
     }

@@ -27,34 +27,32 @@ $(function() {
         textField: 'freqDesc',
         required:true
     });
+    //自动补全药品
+    $("#drugNameId").keyup(function(event){
+        var q=$("#drugNameId").val();
+        comboGridCompletingHerbalDrug(q,'');
+        $('#drugNameTableId').datagrid("loadData", herbalDrugData);
+    });
     //$("#frequency").combobox('select',performFreqDict[0].value);
-    $('#drugNameId').combogrid({
-        width: '350',
+    $('#drugNameTableId').datagrid({
+        width: 'auto',
         height: 'auto',
         data: herbalDrugData,
-        idField:'item_name',
-        textField:'item_name',
-        mode: 'remote',
         columns: [[
-            {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
-            {field: 'item_name', title: '名称', width: '15%', align: 'center'},
-            {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
-            {field: 'quanity', title: '库存', width: '15%', align: 'center'},
-            {field: 'units', title: '包装单位', width: '15%', align: 'center'},
-            {field: 'item_class', title: '库房', width: '15%', align: 'center'},
-            {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
-            {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
-            {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
+            {field: 'item_name', title: '名称', width: '30%', align: 'center'},
+            {field: 'drug_spec', title: '规格', width: '10%', align: 'center'},
+            {field: 'quanity', title: '库存', width: '10%', align: 'center'},
+            {field: 'units', title: '包装单位', width: '8%', align: 'center'},
+            {field: 'item_class', title: '库房', width: '8%', align: 'center'},
+            {field: 'supplier', title: '厂家', width: '20%', align: 'center'},
+            {field: 'dose_per_unit', title: '单次用量', width: '8%', align: 'center'},
+            {field: 'dose_units', title: '用量单位', width: '8%', align: 'center'},
             {field: 'subj_code', title: '',hidden:true},
             {field: 'performed_by', title: '',hidden:true},
             {field: 'price', title: '',hidden:true},
-            {field: 'firm_id', title: '',hidden:true}
-        ]], keyHandler: {
-            query: function (q) {
-                comboGridCompleting(q, 'drugName'+rowNumZ);
-                $('#drugName'+rowNumZ).combogrid("grid").datagrid("loadData", comboGridComplete);
-            }
-        },onClickRow: function (index, row) {
+            {field: 'firm_id', title: '',hidden:true},
+            {field: 'drug_code',hidden:true}
+        ]],onClickRow: function (index, row) {
             var i=$("#numHideId").val();
             $("#drugName"+i).val(row.item_name);
             $("#drugCode"+i).val(row.drug_code);
@@ -68,6 +66,7 @@ $(function() {
             $("#subjCode"+i).val(row.subj_code);
             $("#performedBy"+i).val(row.performed_by);
             $("#charges"+i).val(row.price);
+            $("#drugNameDialog").dialog('close');
         }
     });
     $("#addBtn").on("click",function(){

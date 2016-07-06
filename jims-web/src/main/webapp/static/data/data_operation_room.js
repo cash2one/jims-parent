@@ -64,11 +64,16 @@ function comboboxLoad(q, id,operatingRoomNoId) {
         operationRoomNoData.orgId = "";
         operationRoomNoData.dictType = "OPERATING_ROOM";
         var InputParamVo = {};
+        var InputParamVo2 = {};
         var inputParamVos=[];
         InputParamVo.colName = 'DEPT_ID';
         InputParamVo.colValue = q;
         InputParamVo.operateMethod = '=';
+        InputParamVo2.colName = 'status';
+        InputParamVo2.colValue = '0';
+        InputParamVo2.operateMethod = '=';
         inputParamVos.push(InputParamVo);
+        inputParamVos.push(InputParamVo2);
         operationRoomNoData.inputParamVos = inputParamVos;
         $.ajax({
             'type': 'POST',

@@ -14,29 +14,20 @@ $(function () {
     //var currentOrgId = '1';
     var currentPersonId = persion_id;
     var company = {};
+    alert(currentPersonId)
     //查询父机构
-    jQuery.ajax({
-        'type': 'post',
-        'url': "/service/sys-company/select",
-        'contentType': 'application/json',
-        'dataType': 'json',
-        'success': function (data) {
-            if (data.length > 0) {
-                for (var i = 0; i <= data.length; i++) {
-                    var orgName = data[i].orgName;
-                    $("#parentId").append("<option value='" + data[i].id + "'>" + orgName + "</option>");
-                }
-            }
-            if(data.length==1)
-            {
-                var orgName = data.orgName;
-                $("#parentId").append("<option value='" + data.id + "'>" + orgName + "</option>");
-            }
 
-
-        },
-        'error': function (data) {
-            alert("系统提示", "保存失败");
+    $.get("/service/sys-company/select", {persionId:currentPersonId}, function (data) {
+        if (data.length > 0) {
+            for (var i = 0; i <= data.length; i++) {
+                var orgName = data[i].orgName;
+                $("#parentId").append("<option value='" + data[i].id + "'>" + orgName + "</option>");
+            }
+        }
+        if(data.length==1)
+        {
+            var orgName = data.orgName;
+            $("#parentId").append("<option value='" + data.id + "'>" + orgName + "</option>");
         }
     });
 
@@ -158,7 +149,7 @@ $(function () {
             $("#res-linkPhoneNum").text("*请输入有效的手机号");
             return false;
         }
-        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
         if (!myreg.test(phone)) {
             $("#res-linkPhoneNum").text('*请输入有效的手机号码');
             return false;

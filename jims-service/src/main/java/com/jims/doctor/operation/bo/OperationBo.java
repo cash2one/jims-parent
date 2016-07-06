@@ -45,6 +45,7 @@ public class OperationBo {
                 String scheduleId = getScheduleId(operationSchedule.getPatientId(), operationSchedule.getVisitId());
                 int sId=Integer.parseInt(scheduleId)+1;
                 operationSchedule.setScheduleId(sId);
+                operationSchedule.setAckIndicator(0);
                 operationSchedule.preInsert();
 //                operationScheduleDao.insert(operationSchedule);
                 if (operationSchedule.getScheduledOperationNameList() != null) {
@@ -77,6 +78,7 @@ public class OperationBo {
 //                int sId=Integer.parseInt(scheduleId)+1;
 //                operationSchedule.setScheduleId(sId);
 //                operationScheduleDao.update(operationSchedule);
+                operationSchedule.setAckIndicator(0);
                 if (operationSchedule.getScheduledOperationNameList() != null) {
                     List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
                     for (int i = 0; i < scheduledOperationNameList.size(); i++) {

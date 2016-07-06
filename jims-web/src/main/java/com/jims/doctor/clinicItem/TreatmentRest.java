@@ -1,10 +1,8 @@
-package com.jims.clinic;
+package com.jims.doctor.clinicItem;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.OutpOrdersCostsServiceApi;
 import com.jims.clinic.api.OutpTreatRecServiceApi;
-import com.jims.clinic.api.TreatmentServiceApi;
-import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.doctor.clinicItem.api.TreatmentServiceApi;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
