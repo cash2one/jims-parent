@@ -94,8 +94,9 @@
         *
         FROM ORG_DEPT_PROPERTY_DICT
         <where>
+            org_id=#{orgId}
             <if test="propertyType!=null and propertyType!='' ">
-                property_type =#{propertyType}
+                and property_type =#{propertyType}
             </if>
             <if test="propertyName!= null and propertyName!= '' ">
                 AND property_name = #{propertyName}
