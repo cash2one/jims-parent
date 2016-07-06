@@ -1,19 +1,23 @@
 var editRow = undefined;
 var rowNum = -1;
+var visitIds = parent.patVisit.visitId;
+var patientIds = parent.patVisit.patientId;
 function onloadMethod() {
     var deptCode ;
-    //alert(deptCode)
-    //alert($("#patientId", parent.document).val());
-
+    $("#visitId").val(visitIds);
+    $("#patientId").val(patientIds);
+    /**
+     * 病人科室
+     */
     $("#deptCode").combobox({
         data:clinicDeptCode,
-        valueField:'value',
+        valueField:'id',
         textField:'dept_name',
         onSelect:function(n,o){
-            alert(n),
-            deptCode=   $("#deptCodeId").val(data.value);
+            $("#deptCodeId").val(n.id);
+            deptCode=n.id;
         }
-    })
+    });
     //病人列表
     $('#patient').datagrid({
         singleSelect: true,
