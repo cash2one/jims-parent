@@ -39,9 +39,11 @@ public class EmrDiagnosisRest {
     }
     @Path("findListOfIn")
     @GET
-    public  List<EmrDiagnosis> listIn(@Context HttpServletRequest request,@Context HttpServletResponse response){
+    public  List<EmrDiagnosis> listIn(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId){
         EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
         emrDiagnosis.setInOrOutFlag("1");//住院
+        emrDiagnosis.setPatientId(patientId);
+        emrDiagnosis.setVisitId(visitId);
         List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
     }

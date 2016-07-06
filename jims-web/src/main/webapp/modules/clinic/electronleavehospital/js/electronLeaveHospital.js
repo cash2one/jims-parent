@@ -12,15 +12,14 @@ $(function () {
             'data':JSON.stringify({"patientId": patientId,"visitId":visitId}),
             'dataType': 'json',
             'success': function(data){
-               /* var zhuDate = parseInt(parent.patVisit.admissionDateTime,10);
-                if(data.chuyuanshijian!=null){
-
-                    inpCount =getOffDays(parseToDate(zhuDate),data.chuyuanshijian);
+              /*  if(data.chuyuanshijian!=null){
+                    inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),parseToDate(data.chuyuanshijian));
                 }else{
-                    inpCount =getOffDays(parseToDate(zhuDate),new Date());
-                }*/
+                    inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),new Date());
+                }
+                alert(parent.patVisit.admissionDateTime+"------"+data.chuyuanshijian);*/
                 $('#form').form('load',data);
-            /*    $("#inpCount").val(inpCount);*/
+               /* $("#inpCount").val(inpCount);*/
                 getDiv("form");
             }
         });
