@@ -47,6 +47,9 @@
             <if test="documentNo!=null and documentNo!=''">
                 AND  document_no =#{documentNo}
             </if>
+            <if test="flag!=null and flag!=''">
+                AND instr(','||#{flag}||',' , ','||a.flag||',') > 0
+            </if>
         </where>
     </select>
 
