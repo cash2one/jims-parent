@@ -1,5 +1,6 @@
 var visitId = parent.patVisit.visitId;
 var patientId = parent.patVisit.patientId;
+var rowNum = -1;
 /**
  * 设置动态行
  * @param id
@@ -105,9 +106,13 @@ function onloadMethod() {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
-                $("#list_doctor").datagrid('insertRow', {
-                    index: 0,
-                    row: {}
+                if (rowNum >= 0) {
+                    rowNum++;
+                }
+                $("#list_doctor").datagrid("insertRow", {
+                    index: 0, // index start with 0
+                    row: {
+                    }
                 });
             }
         }, {
@@ -122,31 +127,28 @@ function onloadMethod() {
             },
         ],
 
-        onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        }, onDblClickRow: function (rowIndex, rowData) {
-            $("#list_doctor").datagrid('beginEdit', rowIndex);
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+        onClickRow: function (rowIndex, rowData) {
+            var dataGrid = $('#list_doctor');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
             }
-            if (editRow == undefined) {
-                $("#list_doctor").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        }, onClickRow: function (rowIndex, rowData) {
-            //tooltips选中行，列表信息
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
+
             }
         }
     });
 
     $("#visitId").val(visitId);
     $("#patientId").val(patientId);
-    $("#patName").val(parent.clinicMaster.name);
-    $("#patSex").val(parent.clinicMaster.sex);
-    //$("#feeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));
-    //$("#feeTypeId").val(parent.clinicMaster.chargeType);
+    $("#patName").val(parent.patVisitIndex.name);
+    $("#patSex").val(parent.patVisitIndex.sex);
+    $("#feeType").val(itemFormatter(parent.patVisitIndex.chargeType,'',''));
+    $("#feeTypeId").val(parent.patVisitIndex.chargeType);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',

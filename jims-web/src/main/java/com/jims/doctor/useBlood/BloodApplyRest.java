@@ -178,8 +178,8 @@ public class BloodApplyRest {
     }
 
     @Path("getPatient")
-    @POST
-    public ClinicMaster getPatient(String id){
+    @GET
+    public ClinicMaster getPatient(@QueryParam("id")String id){
         ClinicMaster clinicMaster=clinicMasterServiceApi.getPatient(id);
         return clinicMaster;
     }
