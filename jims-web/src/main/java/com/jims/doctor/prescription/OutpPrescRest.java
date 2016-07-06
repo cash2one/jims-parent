@@ -1,15 +1,16 @@
-package com.jims.clinic.prescription;
+package com.jims.doctor.prescription;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.clinic.api.ClinicMasterServiceApi;
 import com.jims.clinic.api.OutpOrdersCostsServiceApi;
-import com.jims.prescription.api.OutpPrescServiceApi;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpOrdersCosts;
-import com.jims.prescription.entity.OutpPresc;
 import com.jims.common.data.StringData;
+import com.jims.prescription.api.OutpPrescServiceApi;
+import com.jims.prescription.entity.OutpPresc;
 import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;

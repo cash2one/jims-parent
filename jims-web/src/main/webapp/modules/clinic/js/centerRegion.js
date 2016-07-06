@@ -188,12 +188,11 @@ function userMenu(clinicMasterId,aBtn){
     //html+='<li><a   onclick="addTabs(\'9\',\'诊断\',\'/modules/clinic/emrDiagnosis/diagnosis.html\',this)"><span>诊断</span></a></li>';
     html+='<li><a onclick="addTabs(\'4\',\'检查申请\',\'/modules/doctor/clinicInspect/clinicInspect.html\',this)"><span>检查申请</span></a></li>';
     html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/doctor/lab/labTest.html\',this)"><span>检验申请</span></a></li>';
-    html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/clinic/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
-    html+='<li><a onclick="addTabs(\'10\',\'用血申请\',\'/modules/clinic/docUseBlood/docUseBloodList.html\',this)" ><span>用血申请</span></a></li>';
+    html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/doctor/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
+    html+='<li><a onclick="addTabs(\'10\',\'用血申请\',\'/modules/doctor/useBlood/useBloodList.html\',this)" ><span>用血申请</span></a></li>';
    // html+='<li><a   onclick="addTabs(\'10\',\'手术预约\',\'/modules/operation/operationOrder.html\',this)"><span>手术预约</span></a></li>';
    // html+='<li><a   onclick="addTabs(\'10\',\'住院诊断\',\'/modules/clinic/emrDiagnosis/inDiagnosis.html\',this)"><span>住院诊断</span></a></li>';
     html+='<li><a   onclick="addTabs(\'13\',\'手术申请\',\'/modules/doctor/operation/docOperationApplyList.html\',this)"><span>手术申请</span></a></li>';
-    html+='<li><a   onclick="addTabs(\'14\',\'发药查询\',\'/modules/clinic/outDispensing/queryConfirmDrug.html\',this)"><span>发药查询</span></a></li>';
     html+='<li><a   onclick="addTabs(\'14\',\'住院通知单\',\'/modules/clinic/notice/patHospitalNoticeList.html\',this)"><span>住院通知单</span></a></li>';
     $("#userMenuId").html(html);
     $("#userMenuId li:first a").click();
