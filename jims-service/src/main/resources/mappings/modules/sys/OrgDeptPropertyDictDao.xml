@@ -62,8 +62,7 @@
     </update>
 
     <update id="delete">
-        UPDATE org_dept_property_dict SET
-        del_flag = #{DEL_FLAG_DELETE}
+        delete from org_dept_property_dict
         WHERE id = #{id}
     </update>
 
