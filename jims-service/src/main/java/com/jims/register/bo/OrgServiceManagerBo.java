@@ -170,24 +170,18 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         return menus;
     }
 
-    public List<MenuDictVo> findSelfServiceMenu(String selfServiceId, String roleServiceId) {
+    public List<OrgSelfServiceVsMenu> findSelfServiceMenu(String serviceId, String roleId,boolean isTree) {
 
-        List<OrgSelfServiceVsMenu> orgSelfServiceVsMenus = selfServiceVsMenuDao.findSelfServiceId(selfServiceId, roleServiceId);
-        List<MenuDictVo> menuDictVos = new ArrayList<MenuDictVo>();
-        for (int j = 0; j < orgSelfServiceVsMenus.size(); j++) {
-            OrgSelfServiceVsMenu orgSelfServiceVsMenu = orgSelfServiceVsMenus.get(j);
-            MenuDict menuDict =  menuDictDao.get(orgSelfServiceVsMenu.getMenuId());
-            MenuDictVo menuDictVo = new MenuDictVo();
-            menuDictVo.setId(orgSelfServiceVsMenu.getId());
-            menuDictVo.setPid(orgSelfServiceVsMenu.getPid());
-            menuDictVo.setMenuName(menuDict.getMenuName());
-            if (orgSelfServiceVsMenu.getMenuOperate() == null) {
-                menuDictVo.setMenuOperate("2");
-            } else {
-                menuDictVo.setMenuOperate(orgSelfServiceVsMenu.getMenuOperate());
-            }
-            menuDictVos.add(menuDictVo);
+        List<OrgSelfServiceVsMenu> orgSelfServiceVsMenus = selfServiceVsMenuDao.findSelfServiceId(serviceId, roleId);
+        if(isTree && orgSelfServiceVsMenus != null && orgSelfServiceVsMenus.size() > 1){
+        Map<String,String> keyMap = new HashMap<String, String>();
+        keyMap.put("id","menuId");
+        keyMap.put("pid","pid");
+        keyMap.put("children","children");
+
+        return TreeUtils.handleTreeList(orgSelfServiceVsMenus,keyMap);
         }
-        return menuDictVos;
+        return orgSelfServiceVsMenus;
     }
+
 }

@@ -11,7 +11,7 @@ create table OPERATION_SCHEDULE
   CLINIC_ID              VARCHAR2(64),
   ORG_ID                 VARCHAR2(64),
   SCHEDULE_ID            NUMBER(2) not null,
-  DEPT_STAYED            VARCHAR2(8 CHAR),
+  DEPT_STAYED            VARCHAR2(64 CHAR),
   BED_NO                 NUMBER(3),
   SCHEDULED_DATE_TIME    TIMESTAMP(6),
   OPERATING_ROOM         VARCHAR2(8 CHAR),

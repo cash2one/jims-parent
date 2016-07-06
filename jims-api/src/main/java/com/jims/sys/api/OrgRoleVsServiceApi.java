@@ -42,6 +42,14 @@ public interface OrgRoleVsServiceApi {
     public String OrgRoleVsServiceSave(List<OrgRoleVsService> orgRoleVsService);
 
     /**
+     * 保存角色新添加的自定义服务
+     * @param orgRoleVsServices
+     * @return
+     * @author fengyuguang
+     */
+    public String saveService(List<OrgRoleVsService> orgRoleVsServices);
+
+    /**
      * 删除角色权限
      * @param orgRoleVsService
      * @return

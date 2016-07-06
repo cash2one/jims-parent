@@ -31,25 +31,61 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
     private RoleServiceMenuDao roleServiceMenuDao;
     @Autowired
     private OrgSelfServiceListDao orgSelfServiceListDao;
+    @Autowired
+    private OrgSelfServiceVsMenuDao orgSelfServiceVsMenuDao;
 
     public List<OrgRoleVsService> findAll() {
         return dao.findAll();
     }
 
     public String OrgRoleVsServiceSave(List<OrgRoleVsService> orgRoleVsService) {
+        int result = 0;
+        for (int i = 0, j = (orgRoleVsService != null ? orgRoleVsService.size() : 0); i < j; i++) {
+            OrgRoleVsService roleVsService = orgRoleVsService.get(i);
+            if(roleVsService.getServiceId() != null && roleVsService.getRoleId() != null && roleVsService.getMenuId() != null){
+                OrgRoleVsService roleVsService1 = dao.find(roleVsService.getServiceId(), roleVsService.getRoleId(), roleVsService.getMenuId());
+                if (roleVsService1 == null) {
+                    if (null != roleVsService.getMenuOperate() || roleVsService.getMenuOperate() == "0" || roleVsService.getMenuOperate() == "1") {
+                        roleVsService.preInsert();
+                        result = dao.insert(roleVsService);
+                        result++;
+                    }
+                } else {
+                    roleVsService.setId(roleVsService1.getId());
+                    result = dao.update(roleVsService);
+                    result++;
+                }
+            }
+        }
+
+        return result + "";
+    }
+
+    /**
+     * 保存角色新添加的自定义服务
+     * @param orgRoleVsServices
+     * @return
+     * @author fengyuguang
+     */
+    public String saveService(List<OrgRoleVsService> orgRoleVsServices){
         String result = "0";
         try {
-            for (int i = 0, j = (orgRoleVsService != null ? orgRoleVsService.size() : 0); i < j; i++) {
-                OrgRoleVsService orgRoleVsService1 = orgRoleVsService.get(i);
-                String serviceId = orgRoleVsService1.getServiceId();
-                String[] id = serviceId.split(",");
+            for (int i = 0, j = (orgRoleVsServices != null ? orgRoleVsServices.size() : 0); i < j; i++) {
+                OrgRoleVsService orgRoleVsService = orgRoleVsServices.get(i);
+                String serviceIds = orgRoleVsService.getServiceId();
+                String[] id = serviceIds.split(",");
                 for (int k = 0; k < id.length; k++) {
-                    OrgRoleVsService roleVsService = dao.findRoleIdAndServiceId(orgRoleVsService1.getRoleId(), id[k]);
-                    if (roleVsService == null) {
-                        OrgRoleVsService orgRoleVsService2 = new OrgRoleVsService();
-                        orgRoleVsService2.setRoleId(orgRoleVsService1.getRoleId());
-                        orgRoleVsService2.setServiceId(id[k]);
-                        save(orgRoleVsService2);
+                    List<OrgRoleVsService> lists = dao.findRoleIdAndServiceId(orgRoleVsService.getRoleId(), id[k]);//查看该角色是否已经有了该服务
+                    if (lists.size() == 0) {    //该角色没有此服务
+                        List<OrgSelfServiceVsMenu> menus = orgSelfServiceVsMenuDao.findServiceId(id[k]);    //查询该自定义服务的菜单
+                        for (OrgSelfServiceVsMenu menu : menus) {
+                            OrgRoleVsService orgRoleVsService1 = new OrgRoleVsService();
+                            orgRoleVsService1.preInsert();
+                            orgRoleVsService1.setRoleId(orgRoleVsService.getRoleId());
+                            orgRoleVsService1.setServiceId(id[k]);
+                            orgRoleVsService1.setMenuId(menu.getMenuId());
+                            dao.insert(orgRoleVsService1);
+                        }
                     } else {
                         return "1";
                     }

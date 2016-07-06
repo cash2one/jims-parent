@@ -68,9 +68,9 @@ public interface OrgServiceManagerApi {
     /**
      * 检索机构自定义服务菜单
      *
-     * @param selfServiceId
+     * @param serviceId
      * @return
      */
-    public List<MenuDictVo> findSelfServiceMenu(String selfServiceId, String roleServiceId);
+    public List<OrgSelfServiceVsMenu> findSelfServiceMenu(String serviceId, String roleId,boolean isTree);
 
 }

@@ -1,10 +1,10 @@
-package com.jims.clinic.prescription;
+package com.jims.doctor.prescription;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
+import com.jims.common.data.StringData;
 import com.jims.prescription.api.DoctDrugPrescMasterServiceApi;
 import com.jims.prescription.entity.DoctDrugPrescMaster;
-import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
