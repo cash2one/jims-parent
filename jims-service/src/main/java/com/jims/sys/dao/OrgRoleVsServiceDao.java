@@ -14,9 +14,11 @@ import java.util.List;
  */
 @MyBatisDao
 public interface OrgRoleVsServiceDao extends CrudDao<OrgRoleVsService> {
+    public OrgRoleVsService find(String serviceId,String roleId,String menuId);
+
     public List<OrgRoleVsService> findAll();
 
     public List<OrgRoleVsService> findRoleId(String roleId);
 
-    public OrgRoleVsService findRoleIdAndServiceId(String roleId, String serviceId);
+    public List<OrgRoleVsService> findRoleIdAndServiceId(String roleId, String serviceId);
 }

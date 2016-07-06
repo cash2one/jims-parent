@@ -101,8 +101,9 @@ public class OrgServiceManagerRest {
 
     @GET
     @Path("find-menu")
-    public List<MenuDictVo> findSelfServiceVsMenu(@QueryParam("selfServiceId") String selfServiceId, @QueryParam("roleServiceId") String roleServiceId) {
-        List<MenuDictVo> menuDictVos = api.findSelfServiceMenu(selfServiceId, roleServiceId);
+    public List<OrgSelfServiceVsMenu> findSelfServiceVsMenu(@QueryParam("serviceId") String serviceId, @QueryParam("roleId") String
+            roleId,@QueryParam("isTree") boolean isTree) {
+        List<OrgSelfServiceVsMenu> menuDictVos = api.findSelfServiceMenu(serviceId, roleId,isTree);
         return menuDictVos;
     }
 }
