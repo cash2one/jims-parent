@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
  * @author zhaoning
  * @version 2016-04-20
  */
-@Service
-
+@com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 public class ElectronLeaveHospitalServiceImpl extends CrudImplService<ElectronLeaveHospitalDao, ElectronLeaveHospital> implements ElectronLeaveHopitalServiceApi {
 
 	@Autowired

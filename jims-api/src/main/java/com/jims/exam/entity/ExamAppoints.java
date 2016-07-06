@@ -65,7 +65,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private Integer billingIndicator;		// billing_indicator
 	private Integer cnsltState;		// cnslt_state
 	private Integer queueNo;		// queue_no
-	private String device;		// device
+	private String device;		// device使用仪器
 	private String timeInterval;		// time_interval
 	private String equipmentNo;		// equipment_no
 	private Integer visitNo;		// visit_no
@@ -82,6 +82,7 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private Integer printStatus;		// print_status
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
+	private String resultStatus;//检查结果
 	//扩展
 	private List<ExamItems> examItemsList;
 
@@ -639,4 +640,11 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 		this.rcptNo = rcptNo;
 	}
 
+	public String getResultStatus() {
+		return resultStatus;
+	}
+
+	public void setResultStatus(String resultStatus) {
+		this.resultStatus = resultStatus;
+	}
 }

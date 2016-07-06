@@ -38,7 +38,7 @@ $.ajax({
  * @returns {string|string|string}
  */
 function itemFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
+    if (value ==null) {
         return;
     }
     for (var i = 0; i < ordersType.length; i++) {
