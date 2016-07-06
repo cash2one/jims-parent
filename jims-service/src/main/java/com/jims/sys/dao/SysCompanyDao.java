@@ -30,7 +30,7 @@ public interface SysCompanyDao extends CrudDao<SysCompany> {
      * 查询父机构
      * @return
      */
-    public List<SysCompany> findListByName();
+    public List<SysCompany> findListByName(String persionId);
 
     /**
      * 查询组织机构名称是否存在

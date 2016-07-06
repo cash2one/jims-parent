@@ -4,7 +4,7 @@
 $(function () {
     var currentSelectId = null;
     var orgId=config.org_Id;
-    var storage = [{label: '可预览', value: '0'}, {label: '可编辑', value: '1'}, {label: '不可预览', value: '2'}];
+    var storage = [{label: '可预览', value: '0'}, {label: '可编辑', value: '1'}, {label: '不可预览', value: "2"}];
     $("#roleId").datagrid({
         url: basePath + '/org-role/findAllListByOrgId?orgId='+orgId,
         method: 'get',
@@ -35,6 +35,7 @@ $(function () {
                                 panelHeight: '150',
                                 valueField: 'id',
                                 textField: 'serviceName',
+                                editable: false,
                                 data: styleArr
                             }
                         },
@@ -49,7 +50,7 @@ $(function () {
                             }
                             if (!value && styleArr && styleArr.length > 0) {
                                 row.serviceName = styleArr[0].id;
-                               return styleArr[0].serviceName;
+                                return styleArr[0].serviceName;
                             }
                         }
                     }
@@ -64,7 +65,8 @@ $(function () {
                     text: '保存',
                     iconCls: 'icon-save',
                     handler: function () {
-                        doSave('/roleVs/save');
+                        doSave('/roleVs/saveService');
+                        //saveMenu();
                     }
                 }, '-', {
                     text: '删除',
@@ -116,7 +118,7 @@ $(function () {
                         return '可预览';
                     } else if (value == 1) {
                         return '可编辑';
-                    } else if (value == 2) {
+                    } else {
                         return '不可预览';
                     }
                 }
@@ -146,38 +148,26 @@ $(function () {
         var menuTreeData = [];//菜单树的列表
         var node = $('#serviceId').datagrid('getSelected');
         var row = $('#roleId').datagrid('getSelected');
-        var menuPromise = $.get(basePath + "/org-service/find-menu?selfServiceId=" + node.serviceId+"&roleServiceId="+ row.id, function (data) {
-            $.each(data, function (index, item) {
-                var menu = {};
-                menu.id = item.id;
-                menu.menuName = item.menuName;
-                menu.pid = item.pid;
-                menu.menuOperate = item.menuOperate;
-                menu.children = [];
-                menus.push(menu);
-            });
-            for (var i = 0; i < menus.length; i++) {
-                //判断儿子节点
-                for (var j = 0; j < menus.length; j++) {
-                    if (menus[i].id == menus[j].pid) {
-                        menus[i].children.push(menus[j]);
-                    }
-                }
+        /*if(serviceId && serviceId != null){
+            node.serviceId = serviceId;
+        }*/
 
-                //判断是不是根节点  start
-                if (menus[i].children.length > 0 && !menus[i].pid) {
-                    menuTreeData.push(menus[i]);
-                }
-
-                if (!menus[i].pid && menus[i].children.length <= 0) {
-                    menuTreeData.push(menus[i]);
+        var menuPromise = $.get(basePath + "/org-service/find-menu",{serviceId:node.serviceId,roleId:row.id,isTree:true}, function (data) {
+            var list=[];
+            for(var i=0;i<data.length;i++){
+                list[i]=data[i];
+                if(list[i].menuOperate==null){
+                    list[i].menuOperate='2';
                 }
             }
+            $("#tt").treegrid('loadData', list);
+            //list = [];
         });
-        menuPromise.done(function () {
-            $("#tt").treegrid('loadData', menuTreeData);
-        })
+        //serviceId = null;
+        //menus = [];
+        //menuTreeData = [];
     }
+
 
     //datagrid的单元格编辑
     $.extend($.fn.datagrid.methods, {
@@ -305,23 +295,27 @@ $(function () {
     }
 
     function saveMenu() {
-        if(currentSelectId)
+
+        if (currentSelectId)
             $('#tt').treegrid("endEdit", currentSelectId);
         var node = $('#serviceId').datagrid('getSelected');
+        var row = $('#roleId').datagrid('getSelected');
         var roots = $('#tt').treegrid('getRoots');
         var saveData = []
 
-        var handleData = function(datas){
+        var handleData = function (datas) {
             var ds = []
-            if(datas && datas.length > 0){
-                for(var i=0;i<datas.length;i++){
+            if (datas && datas.length > 0) {
+                for (var i = 0; i < datas.length; i++) {
                     var data = datas[i]
-                    if(!data.children || data.children.length == 0){
+                    if (!data.children || data.children.length == 0) {
                         if (data.menuOperate && data.menuOperate != '2') {
                             var d = {
-                                menuId: datas[i].id,
+                                menuId: datas[i].menuId,
                                 menuOperate: datas[i].menuOperate,
-                                roleServiceId: node.id
+                                id: node.id,
+                                roleId: row.id,
+                                serviceId: node.serviceId
                             }
                             ds.push(d)
                         }
@@ -330,8 +324,11 @@ $(function () {
                         if (childs.length > 0) {
                             ds = ds.concat(childs)
                             ds.push({
-                                menuId: datas[i].id,
-                                roleServiceId: node.id
+                                menuId: datas[i].menuId,
+                                menuOperate: null,
+                                id: node.id,
+                                roleId: row.id,
+                                serviceId: node.serviceId
                             })
                         }
                     }
@@ -340,11 +337,11 @@ $(function () {
             return ds
         }
         saveData = handleData(roots)
-        saveData.unshift({roleServiceId: node.id})
-        $.postJSON(basePath + '/service-menu/save', JSON.stringify(saveData), function (res) {
-                if (res == 0) {
+        saveData.unshift({id: node.id})
+        $.postJSON(basePath + '/roleVs/save', JSON.stringify(saveData), function (res) {
+                if (parseInt(res) > 0) {
                     $.messager.alert("提示消息", "保存成功", "success");
-                    $('#tt').treegrid('load');
+                    $('#tt').treegrid('reload');
                 } else {
                     $.messager.alert('提示消息', "保存失败", "error");
                 }

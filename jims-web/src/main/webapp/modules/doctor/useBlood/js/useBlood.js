@@ -1,4 +1,5 @@
-
+var visitId = parent.patVisit.visitId;
+var patientId = parent.patVisit.patientId;
 /**
  * 设置动态行
  * @param id
@@ -8,6 +9,9 @@ var editRow = undefined;
 var serialNo = '';
 var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"}, {"value": "3", "text": "备血"}];
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
+var bloodInuses = [{"value": "1", "text": "血库"}, {"value": "2", "text": "自体"}, {"value": "3", "text": "互助"}];
+var patSource = [{"value": "1", "text": "市区"}, {"value": "2", "text": "郊县"}, {"value": "3", "text": "外省市"},
+    {"value": "2", "text": "港澳台"}, {"value": "3", "text": "外国人"}];
 /**
  * 用血方式翻译
  * @param value
@@ -42,12 +46,9 @@ function unitsFormatter(value,rowData,rowIndex){
         }
     }
 }
-$(function () {
 
-    var patientId=$("#patientId",parent.document).val();
-    $("#patientId").val(patientId);
-    var visitId=1;
-    $("#visitId").val(visitId);
+//用血申请记录列表
+function onloadMethod() {
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,
@@ -139,15 +140,13 @@ $(function () {
             }
         }
     });
-});
 
-//用血申请记录列表
-function onloadMethod() {
-    alert("1")
-    var patientId=$("#patientId", parent.document).val();
-    alert(patientId)
-    var visitId=1;
     $("#visitId").val(visitId);
+    $("#patientId").val(patientId);
+    $("#patName").val(parent.clinicMaster.name);
+    $("#patSex").val(parent.clinicMaster.sex);
+    //$("#feeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));
+    //$("#feeTypeId").val(parent.clinicMaster.chargeType);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -169,10 +168,10 @@ function onloadMethod() {
         columns: [[      //每个列具体内容
             {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:clinicDeptCodeFormatter},
             //{field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
-            {field: 'bloodInuse', title: '血源', width: '18%', align: 'center'},
+            {field: 'bloodInuse', title: '血源', width: '18%', align: 'center',formatter:bloodInusesFormatter},
             {field: 'bloodDiagnose', title: '诊断', width: '18%', align: 'center'},
             {field: 'preBloodType', title: '血型', width: '18%', align: 'center'},
-            {field: 'bloodInuse', title: '方式', width: '18%', align: 'center'},
+            //{field: 'bloodInuse', title: '方式', width: '18%', align: 'center'},
             //{field: 'bloodSum', title: '用血量', width: '18%', align: 'center'},
             {field: 'applyDate', title: '申请时间', width: '30%', align: 'center', formatter: formatDateBoxFull},
             {
@@ -223,6 +222,63 @@ function onloadMethod() {
             $("#preBloodTypeId").val(n.value);
         }
     })
+    /**
+     * 属地
+     */
+    $("#patSource").combobox({
+        data: patSource,
+        valueField: 'value',
+        textField: 'text',
+        onSelect: function (data) {
+            $("#patSourceId").val(data.value);
+        }
+    })
+    /**
+     * 属地翻译
+     * @param value
+     * @param rowData
+     * @param rowIndex
+     * @returns {string|string|string|string|string}
+     */
+    function patSourceFormatter(value,rowData,rowIndex){
+        if(value == 0){
+            return;
+        }
+        for(var i =0;i<patSource.length;i++){
+            if(patSource[i].value == value){
+                return patSource[i].text;
+            }
+        }
+    }
+    /**
+     * bloodInuse
+     * 血源
+     */
+    $("#bloodInuse").combobox({
+        data: bloodInuses,
+        valueField: 'value',
+        textField: 'text',
+        onSelect: function (data) {
+            $("#bloodInuseId").val(data.value);
+        }
+    })
+    /**
+     * 血源翻译
+     * @param value
+     * @param rowData
+     * @param rowIndex
+     * @returns {string|string|string}
+     */
+    function bloodInusesFormatter(value,rowData,rowIndex){
+        if(value == 0){
+            return;
+        }
+        for(var i=0;i<bloodInuses.length;i++){
+            if(bloodInuses[i].value == value){
+                return bloodInuses[i].text;
+            }
+        }
+    }
 }
 /**
  * 保存

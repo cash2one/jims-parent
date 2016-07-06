@@ -51,8 +51,8 @@ public class OperationSchedule extends DataEntity<OperationSchedule> {
 	private String firstSupplyNurse;		// 第一供应护士
 	private String secondSupplyNurse;		// 第二供应护士
 	private String notesOnOperation;		// 备注
-	private String enteredBy;		// 申请日期及时间
-	private Date reqDateTime;		// 手术室确认标志
+	private Date reqDateTime;		// 申请日期及时间
+	private String enteredBy;		// 手术室确认标志
 	private Integer ackIndicator;		// 录入者
 	private String doctorUser;		// doctor_user
 	private Integer emergencyIndicator;		// emergency_indicator

@@ -1,8 +1,6 @@
-package com.jims.clinic.service;
+package com.jims.doctor.clinicItem.bo;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.OutpTreatRecServiceApi;
-import com.jims.clinic.api.TreatmentServiceApi;
 import com.jims.clinic.dao.OutpOrdersCostsDao;
 import com.jims.clinic.dao.OutpOrdersDao;
 import com.jims.clinic.dao.OutpTreatRecDao;
@@ -10,9 +8,9 @@ import com.jims.clinic.entity.OutpOrders;
 import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.doctor.clinicItem.api.TreatmentServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,9 +20,9 @@ import java.util.List;
  * @author PangQian
  * @date2016/5/11 0011
  */
-@Service(version = "1.0.0")
-
-public class TreatmentServiceImpl  extends CrudImplService<OutpTreatRecDao, OutpTreatRec> implements TreatmentServiceApi {
+@org.springframework.stereotype.Service
+@Transactional(readOnly = false)
+public class TreatmentBo extends CrudImplService<OutpTreatRecDao, OutpTreatRec>  {
     @Autowired
     private OutpOrdersCostsDao outpOrdersCostsDao;
     @Autowired

@@ -28,6 +28,18 @@ public class OrgRoleVsServiceRest {
        return orgRoleVsServiceApi.OrgRoleVsServiceSave(orgRoleVsServices);
     }
 
+    /**
+     * 保存角色新添加的服务
+     * @param orgRoleVsServices
+     * @return
+     * @author fengyuguang
+     */
+    @Path("saveService")
+    @POST
+    public String saveService(List<OrgRoleVsService> orgRoleVsServices) {
+        return orgRoleVsServiceApi.saveService(orgRoleVsServices);
+    }
+
     @Path("find")
     @GET
     public List<RoleServiceMenu> find(@QueryParam("id") String id){
@@ -38,7 +50,8 @@ public class OrgRoleVsServiceRest {
     @Path("findrole")
     @GET
     public List<OrgRoleVsService> findRole(@QueryParam("roleId") String roleId) {
-        return orgRoleVsServiceApi.findRole(roleId);
+        List<OrgRoleVsService> lists = orgRoleVsServiceApi.findRole(roleId);
+        return lists;
     }
 
     @Path("delete")

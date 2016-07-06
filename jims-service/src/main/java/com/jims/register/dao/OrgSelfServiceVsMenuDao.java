@@ -21,7 +21,7 @@ public interface OrgSelfServiceVsMenuDao extends CrudDao<OrgSelfServiceVsMenu> {
      */
     public int deleteByServiceId(String selfServiceId);
 
-    public List<OrgSelfServiceVsMenu> findSelfServiceId(String selfServiceId, String roleServiceId);
+    public List<OrgSelfServiceVsMenu> findSelfServiceId(String serviceId, String roleId);
 
     public List<OrgSelfServiceVsMenu> findServiceId(String selfServiceId);
 }

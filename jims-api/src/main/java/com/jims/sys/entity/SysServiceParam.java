@@ -9,25 +9,22 @@ import com.jims.common.persistence.DataEntity;
  */
 public class SysServiceParam extends DataEntity<SysServiceParam>{
 
+    private static final long serialVersionUID = 1L;
     private String paramName ;//参数名称
     private String paramValue ;//参数值
     private String serviceId;//所属服务
     private String valueRange ;//值域
     private String paramDesp ;//参数描述
-    private String paramType ;//参数类型
+    private String serviceType;//参数类型
 
-    public SysServiceParam(String paramName, String paramValue, String serviceId, String valueRange, String paramDesp, String paramType) {
-        this.paramName = paramName;
-        this.paramValue = paramValue;
-        this.serviceId = serviceId;
-        this.valueRange = valueRange;
-        this.paramDesp = paramDesp;
-        this.paramType = paramType;
+
+    public SysServiceParam() {
+        super();
     }
 
-
-
-
+    public SysServiceParam(String id) {
+        super(id);
+    }
 
     public String getParamName() {
         return paramName;
@@ -69,11 +66,11 @@ public class SysServiceParam extends DataEntity<SysServiceParam>{
         this.paramDesp = paramDesp;
     }
 
-    public String getParamType() {
-        return paramType;
+    public String getServiceType() {
+        return serviceType;
     }
 
-    public void setParamType(String paramType) {
-        this.paramType = paramType;
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
     }
 }
