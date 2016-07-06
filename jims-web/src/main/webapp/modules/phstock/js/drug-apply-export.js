@@ -5,31 +5,8 @@ config.orgId
         ,currentStorage = config.currentStorage  // 当前登录人所属管理单位
         ,currentUsername = '录入者'   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账
-        ,drugDicts = []  // 检索的药品字典数据
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
-    $.extend($.fn.validatebox.defaults.rules, {
-        maxStock: {
-            validator: function(value){
-                var row = $('#dg').datagrid('getSelected')
-                if(+value > +row.stock) {
-                    return false
-                }
-                return true
-            },
-            message: '数量不能大于库存量！'
-        },
-        hasSelected: {
-            validator: function(value){
-                var editor = $('#dg').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
-                if(editor && !$(editor.target).combogrid('grid').datagrid('getSelected')){
-                    return false
-                }
-                return true
-            },
-            message: '没有选中项'
-        }
-    });
     $.extend($.fn.datagrid.methods, {
         editCell: function(jq,param){
             return jq.each(function(){
@@ -48,26 +25,6 @@ config.orgId
                     col.editor = col.editor1;
                 }
             });
-        }
-    });
-    $.extend($.fn.combobox.methods, {
-        addBlurListener: function(jq,param){
-            jq.next().children(':text').blur(function(){
-                var v = jq.combobox('getValue')
-                if(v != undefined && v != ''){
-                    var rows = jq.combobox('getData')
-                    if(rows.length > 0){
-                        var s = jq.combobox('options').textField
-                        for(var i= 0,j=rows.length;i<j;i++){
-                            if(rows[i][s] && rows[i][s].toUpperCase().indexOf(v.toUpperCase()) > -1){
-                                jq.combobox('select',rows[i][jq.combobox('options').valueField])
-                                return
-                            }
-                        }
-                    }
-                    jq.combobox('setValue','')
-                }
-            })
         }
     });
 
@@ -101,6 +58,7 @@ config.orgId
     }
     var onClickCell = function (index, field) {
         if (endEditing()) {
+            currentSelectIndex = index;
             var rows = $('#dg').datagrid('getRows')
             if (index == rows.length - 1) {
                 return
@@ -108,10 +66,11 @@ config.orgId
             if(rows[index].id && field == 'drugName') return
             $('#dg').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
-            currentSelectIndex = index;
             if(field == 'drugName'){
                 var editor = $('#dg').datagrid('getEditor',{index:index,field:field})
-                $(editor.target).combogrid('grid').datagrid('loadData',drugDicts)
+                $(editor.target).combogrid('grid').datagrid({
+                    url:'/service/drug-stock/findListHasStock?limit=50&orgId='+currentOrgId+'&supplyIndicator=1&storage='+currentStorage+'&subStorage='+$('#stockSubDept').combobox('getValue')
+                })
             }
         }
     }
@@ -259,7 +218,6 @@ config.orgId
         textField: 'exportClass',
         editable: false,
         method: 'GET',
-        value: '发放出库',
         onSelect: function(record){
             currentAccountFlag = record['accountFlag']
             $("#dg").datagrid('loadData',[])
@@ -268,6 +226,9 @@ config.orgId
             $('#documentNo').textbox('clear')
             $('#storageDept').combobox('clear')
             $('#storageDept').combobox('reload',parent.basePath+'/drug-storage-dept/list?orgId='+currentOrgId+'&storageType='+(record['storageType'] == '全部'?'':record['storageType']))
+        },
+        onLoadSuccess: function(){
+            $('#statisticClass').combobox('select', '发放出库');
         }
     })
     //日期
@@ -368,7 +329,7 @@ config.orgId
                     required: true,
                     missingMessage: '药名不能为空',
                     fitColumns: true,
-                    url:'/service/drug-stock/findListHasStock?limit=50&orgId='+currentOrgId+'&supplyIndicator=1',
+
                     method:'get',
                     mode:'remote',
                     columns: [[
@@ -610,43 +571,46 @@ config.orgId
         if (!endEditing()) return false;
         var rows = $('#dg').datagrid('getRows')
         var details = []
-        if(rows.length > 0){
-            if(!currentSubStorageDeptId) return
-            for(var i=0;i<rows.length - 1 ;i++){
-                if(!rows[i].quantity){
-                    continue;
-                }
-                if(+rows[i].quantity > +rows[i].stock){
-                    $.messager.alert('警告','出库数量大于当前结余，请修改！','warning')
-                    $('#dg').datagrid('selectRow',i)
-                    return false;
-                }
-                rows[i].itemNo = i + 1
-                delete rows[i].price
-                delete rows[i].outPrice
-                delete rows[i].supplier
-                delete rows[i].drugName
-                details.push(rows[i]);
+        if(!currentSubStorageDeptId) return
+        for(var i=0;i<rows.length - 1 ;i++){
+            if(!rows[i].quantity){
+                continue;
             }
-            var record = {
-                documentNo : $('#documentNo').textbox('getValue')
-                ,storage : currentStorage
-                ,exportDate : $('#calendar').datebox('getValue')
-                ,receiver : $('#storageDept').combobox('getValue')
-                ,accountReceivable : $('#accountReceivable').numberbox('getValue')
-                ,accountPayed : $('#accountPayed').numberbox('getValue')
-                ,additionalFee : $('#additionalFee').numberbox('getValue')
-                ,exportClass : $('#statisticClass').combobox('getValue')
-                ,subStorage : $('#stockSubDept').combobox('getValue')
-                ,accountIndicator : currentAccountFlag ? currentAccountFlag : 0
-                ,memos : $('#memos').textbox('getValue')
-                ,operator : currentUsername
-                ,subReceiver : $('#subStorageDept').combobox('getValue')
-                ,orgId : currentOrgId
-                ,detailList : details
-                ,subStorageDeptId : currentSubStorageDeptId
+            if(+rows[i].quantity > +rows[i].stock){
+                $.messager.alert('警告','出库数量大于当前结余，请修改！','warning')
+                $('#dg').datagrid('selectRow',i)
+                return false;
             }
-            parent.$.postJSON('/service/drug-out/saveAndUpdateRequest',JSON.stringify(record),function(res){
+            rows[i].itemNo = i + 1
+            delete rows[i].price
+            delete rows[i].outPrice
+            delete rows[i].supplier
+            delete rows[i].drugName
+            details.push(rows[i]);
+        }
+        if(details.length == 0){
+            $.messager.alert('保存','没有要保存的数据！','info')
+            return false;
+        }
+        var record = {
+            documentNo : $('#documentNo').textbox('getValue')
+            ,storage : currentStorage
+            ,exportDate : $('#calendar').datebox('getValue')
+            ,receiver : $('#storageDept').combobox('getValue')
+            ,accountReceivable : $('#accountReceivable').numberbox('getValue')
+            ,accountPayed : $('#accountPayed').numberbox('getValue')
+            ,additionalFee : $('#additionalFee').numberbox('getValue')
+            ,exportClass : $('#statisticClass').combobox('getValue')
+            ,subStorage : $('#stockSubDept').combobox('getValue')
+            ,accountIndicator : currentAccountFlag ? currentAccountFlag : 0
+            ,memos : $('#memos').textbox('getValue')
+            ,operator : currentUsername
+            ,subReceiver : $('#subStorageDept').combobox('getValue')
+            ,orgId : currentOrgId
+            ,detailList : details
+            ,subStorageDeptId : currentSubStorageDeptId
+        }
+        parent.$.postJSON('/service/drug-out/saveAndUpdateRequest',JSON.stringify(record),function(res){
                 if(res == '1'){
                     $.messager.alert('保存',(currentAccountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
                         window.location.reload()
@@ -655,10 +619,6 @@ config.orgId
                     $.messager.alert('保存','保存失败！','error')
                 }
             })
-        }
-        else {
-            $.messager.alert('保存','没有要保存的数据！','info')
-        }
     })
     $('#printBtn').on('click',function(){
 
