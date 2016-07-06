@@ -38,12 +38,14 @@ public class DrugProvideApplicationRest {
     public List<DrugProvideApplication> findList(@QueryParam("orgId") String orgId,
                                                  @QueryParam("applicantStorage") String applicantStorage,
                                                  @QueryParam("applicantStorageSub") String applicantStorageSub,
-                                                 @QueryParam("documentNo") String documentNo) {
+                                                 @QueryParam("documentNo") String documentNo,
+                                                 @QueryParam("flag") String flag) {
         DrugProvideApplication entity = new DrugProvideApplication();
         entity.setOrgId(orgId);
         entity.setApplicantStorage(applicantStorage);
         entity.setApplicantStorageSub(applicantStorageSub);
         entity.setDocumentNo(documentNo);
+        entity.setFlag(flag);
         return api.findList(entity);
     }
 
