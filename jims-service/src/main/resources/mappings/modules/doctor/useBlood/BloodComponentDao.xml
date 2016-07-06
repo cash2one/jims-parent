@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.doctor.useBlood.dao.BloodComponentDao">
+    
+	<sql id="bloodComponentColumns">
+		a.blood_type AS "bloodType",
+		a.blood_type_name AS "bloodTypeName",
+		a.blood_match AS "bloodMatch",
+		a.useful_life AS "usefulLife",
+		a.temperature AS "temperature",
+		a.unit AS "unit",
+		a.stop_date AS "stopDate",
+		a.sort_num AS "sortNum",
+		a.id AS "id",
+		a.remarks AS "remarks",
+		a.update_by AS "updateBy.id",
+		a.create_by AS "createBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="bloodComponentJoins">
+	</sql>
+    
+	<select id="get" resultType="BloodComponent">
+		SELECT 
+			<include refid="bloodComponentColumns"/>
+		FROM blood_component a
+		<include refid="bloodComponentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="BloodComponent">
+		SELECT 
+			<include refid="bloodComponentColumns"/>
+		FROM blood_component a
+		<include refid="bloodComponentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="BloodComponent">
+		SELECT 
+			<include refid="bloodComponentColumns"/>
+		FROM blood_component a
+		<include refid="bloodComponentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO blood_component(
+			blood_type,
+			blood_type_name,
+			blood_match,
+			useful_life,
+			temperature,
+			unit,
+			stop_date,
+			sort_num,
+			id,
+			remarks,
+			update_by,
+			create_by,
+			update_date,
+			del_flag,
+			create_date
+		) VALUES (
+			#{bloodType},
+			#{bloodTypeName},
+			#{bloodMatch},
+			#{usefulLife},
+			#{temperature},
+			#{unit},
+			#{stopDate},
+			#{sortNum},
+			#{id},
+			#{remarks},
+			#{updateBy.id},
+			#{createBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE blood_component SET 	
+			blood_type = #{bloodType},
+			blood_type_name = #{bloodTypeName},
+			blood_match = #{bloodMatch},
+			useful_life = #{usefulLife},
+			temperature = #{temperature},
+			unit = #{unit},
+			stop_date = #{stopDate},
+			sort_num = #{sortNum},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE blood_component SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<select id="getBloodComponent" resultType="BloodComponent">
+		SELECT
+		<include refid="bloodComponentColumns"/>
+		FROM blood_component a
+		<include refid="bloodComponentJoins"/>
+		<where>
+			a.del_flag = '0'
+		</where>
+	</select>
+
+	
+</mapper>

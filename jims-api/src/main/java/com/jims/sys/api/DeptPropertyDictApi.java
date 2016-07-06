@@ -4,6 +4,7 @@ import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.OrgDeptPropertyDict;
 import com.jims.sys.entity.SysCompany;
+import com.jims.sys.vo.OrgDeptPropertyDictVo;
 
 import java.util.List;
 
@@ -34,6 +35,15 @@ public interface DeptPropertyDictApi {
      * @param
      */
     public StringData add(OrgDeptPropertyDict orgDeptPropertyDict);
+
+
+    /**
+     * 保存  增删改
+     * @param orgDeptPropertyDictVo
+     * @return
+     *  @author  yangruidong
+     */
+    public List<OrgDeptPropertyDict> saveAll(OrgDeptPropertyDictVo<OrgDeptPropertyDict> orgDeptPropertyDictVo);
 
     /**
      * 删除方法

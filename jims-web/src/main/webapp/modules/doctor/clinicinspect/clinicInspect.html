@@ -22,6 +22,7 @@
         <form id="clinicInspectForm" method="post">
             <input type="hidden" id="id" name="id" value="">
             <input type="hidden" id="clinicId" name="clinicId" value="">
+            <input type="hidden" id="patientId" name="patientId" value="">
             <div class="fitem fitem_pop">
                 <div class="fitem">
                     <label>
@@ -62,7 +63,7 @@
                     <label>
                         临床诊断：
                     </label>
-                    <input title="" id="clinDiag" name="clinDiag" class="easyui-validatebox validatebox-text validatebox-invalid" >
+                    <input title="" readonly= "true " id="clinDiag" name="clinDiag" class="easyui-validatebox validatebox-text validatebox-invalid" >
                 </div>
                 <div class="fitem">
                     <label>

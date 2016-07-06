@@ -10,11 +10,13 @@ import com.jims.sys.dao.DeptDictDao;
 import com.jims.sys.dao.OrgDeptPropertyDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.OrgDeptPropertyDict;
+import com.jims.sys.vo.OrgDeptPropertyDictVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,6 +80,87 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
         }
         return null;
     }
+
+
+
+    /**
+     * 保存  增删改
+     *
+     * @param orgDeptPropertyDictVo
+     * @return
+     * @author yangruidong
+     */
+    public List<OrgDeptPropertyDict> saveAll(OrgDeptPropertyDictVo<OrgDeptPropertyDict> orgDeptPropertyDictVo) {
+        List<OrgDeptPropertyDict> newUpdateDict = new ArrayList<OrgDeptPropertyDict>();
+        List<OrgDeptPropertyDict> inserted = orgDeptPropertyDictVo.getInserted();
+        List<OrgDeptPropertyDict> updated = orgDeptPropertyDictVo.getUpdated();
+        List<OrgDeptPropertyDict> deleted = orgDeptPropertyDictVo.getDeleted();
+        //插入
+        for (OrgDeptPropertyDict orgDeptPropertyDict : inserted) {
+
+            List<OrgDeptPropertyDict> list = orgDeptPropertyDictDao.findName(orgDeptPropertyDict.getPropertyType(), orgDeptPropertyDict.getOrgId());
+            //给插入的科室属性进行排序
+            OrgDeptPropertyDict sort = orgDeptPropertyDictDao.findSort(orgDeptPropertyDict.getOrgId());
+            if (list.size() > 0) {
+                orgDeptPropertyDict.setSort(null);
+            } else {
+                if (sort.getSort() == null) {
+                    orgDeptPropertyDict.setSort(0L);
+                } else {
+                    orgDeptPropertyDict.setSort(sort.getSort() + 1);
+                }
+
+            }
+
+            if (list.size() == 0) {
+                orgDeptPropertyDict.preInsert();
+                int num = orgDeptPropertyDictDao.insert(orgDeptPropertyDict);
+            } else {
+                boolean insert = true;
+                for (int i = 0; i < list.size(); i++) {
+                    if (StringUtils.equalsIgnoreCase(orgDeptPropertyDict.getPropertyValue(), list.get(i).getPropertyValue())) {
+                        insert = false;
+                        break;
+                    }
+                }
+                if (insert) {
+                    orgDeptPropertyDict.preInsert();
+                    int num = orgDeptPropertyDictDao.insert(orgDeptPropertyDict);
+                }
+                if (insert==false) {
+                    OrgDeptPropertyDict orgDeptPropertyDict1=new OrgDeptPropertyDict();
+                    orgDeptPropertyDict1.setPropertyName("true");
+                    newUpdateDict.add(1,orgDeptPropertyDict1);
+                }
+            }
+
+        }
+        //更新
+        for (OrgDeptPropertyDict orgDeptPropertyDict : updated) {
+            orgDeptPropertyDict.preUpdate();
+            int num = dao.update(orgDeptPropertyDict);
+        }
+
+        //删除
+        List<String> ids = new ArrayList<String>();
+
+        for (OrgDeptPropertyDict drugProvideApplication : deleted) {
+            ids.add(drugProvideApplication.getId());
+        }
+        for (String id : ids) {
+            dao.delete(id);
+        }
+
+        return newUpdateDict;
+    }
+
+
+
+
+
+
+
+
 
     /**
      * 根据属性类型查询属性名称

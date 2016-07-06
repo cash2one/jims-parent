@@ -1,5 +1,7 @@
 var clinicId = parent.clinicMaster.id;
+var patientId = parent.clinicMaster.patientId;
 function onloadMethod() {
+    $("#patientId").val(patientId);
     $("#clinicId").val(clinicId);
     $.ajax({
         type: "GET",
@@ -14,20 +16,26 @@ function onloadMethod() {
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
-        valueField: 'examClassName',
+        method:"GET",
+        queryParams: { "orgId": 1 },
+        dataType: "json",
+        valueField: 'id',
         textField: 'examClassName',
         onSelect: function (data) {
-            $("#performedBy").val(data.deptDict.id);
-            $("#reqDept").val(clinicDeptCodeFormatter(data.deptDict.id, '', ''));
+            var examClassName=data.examClassName;
+            $("#performedBy").val(data.performBy);
+            $("#reqDept").val(clinicDeptCodeFormatter(data.performBy, '', ''));
+
             //清空二级联动
             $("#examSubclassNameId").combobox("clear");
+
             //清空子项目div
             $("#target").empty();
             $("#descriptionId").empty();
             $.ajax({
-                type: "POST",
                 url: basePath + '/examClassDict/getExamSubclass',
-                data: examClassName = data.examClassName,
+                method:"GET",
+                data: {"examClassName" :examClassName ,"orgId": 1},
                 dataType: "json",
                 success: function (data) {
                     $("#examSubclassNameId").combobox('loadData', data);
@@ -41,9 +49,9 @@ function onloadMethod() {
         textField: 'examSubclassName',
         onSelect: function (data) {
             $.ajax({
-                type: "POST",
                 url: basePath + '/examClassDict/getExamRptPattern',
-                data: description = data.examSubclassName,
+                method:"GET",
+                data: {"examSubClass" : data.examSubclassName,"orgId": 1},
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
@@ -103,8 +111,8 @@ function onloadMethod() {
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
-                    //var html= '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
-                      '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
+                            //var html= '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
+                        '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     return html;
                 }
             }

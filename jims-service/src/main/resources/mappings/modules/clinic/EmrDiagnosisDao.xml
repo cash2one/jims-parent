@@ -179,7 +179,8 @@
             INOROUT_FLAG,
             diagnosis_date,
             diagnosis_parent,
-            parent_ids
+            parent_ids,
+            visit_id
 
 
 		) VALUES (
@@ -206,7 +207,8 @@
             #{inOrOutFlag},
             #{diagnosisDate},
             #{diagnosisParent},
-			#{parentIds}
+			#{parentIds},
+			#{visitId}
 
 		)
 	</insert>
@@ -297,6 +299,9 @@
 		SELECT *from emr_diagnosis WHERE
 		<if test="clinicId!=null">
 			 clinic_id=#{clinicId}
+		</if>
+		<if test="visitId!=null">
+			visit_id=#{visitId}
 		</if>
 	</select>
 </mapper>

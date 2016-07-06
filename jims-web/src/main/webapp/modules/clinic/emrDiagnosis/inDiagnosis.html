@@ -24,7 +24,7 @@
         <div class="fitem">
             <label>诊断类型:</label>
             <input type="hidden" name="type" id="typeId"  value="">
-            <input id="type"  class="easyui-textbox" style="width:45%;" >
+            <input id="type"  class="easyui-textbox" style="width:45%;"  value="" >
         </div>
         <div class="fitem">
             <label>诊断描述:</label>
@@ -46,18 +46,19 @@
         </div>
         <div class="fitem">
             <label>病理号:</label>
-            <input type="text" name="pathologyNo" id="pathologyNoId" class="easyui-textbox">
+            <input  name="pathologyNo" id="pathologyNoId" class="easyui-textbox">
         </div>
         <div class="fitem">
             <label>诊断名称:</label>
-            <input type="text" class="easyui-combobox"  name="diagnosisId" id="diagnosisId"  style="width:200px;" >
+            <input  class="easyui-combobox"  name="diagnosisId" id="diagnosisId"  style="width:200px;" >
             <input  name="icdMingcheng" id="icdMingcheng" type="hidden" value="">
         </div>
 
         <input name="id" id="id" type="hidden">
         <input name="inOrOutFlag" id="inOrOutFlag" type="hidden" value="1">
         <input name="parentId" id="parentId" type="hidden">
-
+        <input name="visitId" id="visitId" type="hidden">
+        <input name="patientId" id="patientId" type="hidden">
 
     </form>
     <div id="dlg-buttons" class="text-center">
