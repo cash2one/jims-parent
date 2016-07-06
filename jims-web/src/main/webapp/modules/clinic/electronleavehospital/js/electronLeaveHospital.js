@@ -12,14 +12,15 @@ $(function () {
             'data':JSON.stringify({"patientId": patientId,"visitId":visitId}),
             'dataType': 'json',
             'success': function(data){
-              /*  if(data.chuyuanshijian!=null){
+                if(data.chuyuanshijian!=null){
                     inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),parseToDate(data.chuyuanshijian));
                 }else{
                     inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),new Date());
                 }
+               /* alert(inpCount);
                 alert(parent.patVisit.admissionDateTime+"------"+data.chuyuanshijian);*/
                 $('#form').form('load',data);
-               /* $("#inpCount").val(inpCount);*/
+               $("#inpCount").val(inpCount);
                 getDiv("form");
             }
         });

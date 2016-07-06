@@ -272,5 +272,74 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+
+	<select id="findOperation" resultType="BaseDto">
+		SELECT
+		       "os"."ID",
+			   "os"."PATIENT_ID",
+			   "pmi"."INP_NO",
+			   "pmi"."NAME",
+			   "pmi"."SEX",
+		       "pmi".age,
+			   "os"."DEPT_STAYED",
+			   "os"."DIAG_BEFORE_OPERATION",
+			   "os"."ISOLATION_INDICATOR",
+			   "son"."OPERATION",
+			   "os"."SURGEON",
+			   "os"."FIRST_ASSISTANT",
+			   "os"."SECOND_ASSISTANT",
+			   "os"."THIRD_ASSISTANT",
+			   "os"."FOURTH_ASSISTANT",
+			   "os"."ANESTHESIA_METHOD",
+			   "os"."ANESTHESIA_DOCTOR",
+			   "os"."ANESTHESIA_ASSISTANT",
+			   "os"."BLOOD_TRAN_DOCTOR",
+			   "os"."FIRST_OPERATION_NURSE",
+			   "os"."SECOND_OPERATION_NURSE",
+			   "os"."FIRST_SUPPLY_NURSE",
+			   "os"."SECOND_SUPPLY_NURSE",
+			   "os"."SCHEDULED_DATE_TIME",
+			   "os"."SEQUENCE",
+			   "os"."OPERATING_ROOM_NO",
+			   "os"."BED_NO",
+			   "os"."VISIT_ID",
+			   "os"."SCHEDULE_ID",
+			   "os"."ACK_INDICATOR",
+			   "os"."OPERATING_ROOM",
+			   "os"."NOTES_ON_OPERATION",
+			   "os"."OPERATING_DEPT",
+			   "os"."EMERGENCY_INDICATOR",
+			   "son".clinic_id,
+		       "os".doctor_user
+		  FROM PAT_MASTER_INDEX  "pmi", OPERATION_SCHEDULE  "os", SCHEDULED_OPERATION_NAME  "son"
+		 WHERE "os".del_flag = '0'
+		       and  "son".del_flag = '0'
+		       and  ("pmi".ID(+) = "os".patient_id)
+		/*and ("os"."PATIENT_ID" =
+			   "son"."PATIENT_ID")
+		   and ("os"."VISIT_ID" =
+			   "son"."VISIT_ID")*/
+		   and ("os"."ID" =
+			   "son"."SCHEDULE_ID")
+			   <if test="scheduledDateTime!=null and scheduledDateTime !=''">
+				   and ((TO_CHAR("os"."SCHEDULED_DATE_TIME", 'YYYY-MM-DD') =
+				  #{scheduledDateTime})
+			   </if>
+		        <if test="operatingRoom!=null and operatingRoom !=''">
+					AND  ("os"."OPERATING_ROOM" in (#{operatingRoom})))
+		         </if>
+		 ORDER BY "os"."SCHEDULED_DATE_TIME" ASC,
+				  "os"."OPERATING_ROOM_NO"   ASC,
+				  "os"."SEQUENCE"            ASC
+
+	</select>
+
+
+	<update id="confrimOperation">
+       update operation_schedule set ack_indicator = 1
+       <if test="id !=null and id !=''">
+		   where id = #{id}
+		</if>
+	</update>
 </mapper>

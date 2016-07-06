@@ -6,8 +6,11 @@ package com.jims.doctor.operation.dao;
 
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.operation.entity.OperationSchedule;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 手术安排DAO接口
@@ -31,5 +34,21 @@ public interface OperationScheduleDao extends CrudDao<OperationSchedule> {
      * @return
      */
     public OperationSchedule getSchedule(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param("clinicId")String clinicId);
-	
+
+
+    /**
+     * 查询门诊手术确认的列表
+     * @param operationSchedule
+     * @author pq
+     * @return
+     */
+    public List<BaseDto> findOperation(@Param(value = "scheduledDateTime")String scheduledDateTime,@Param(value = "operatingRoom")String operatingRoom);
+
+    /**
+     * 确认门诊手术
+     * @param id
+     * @author pq
+     * @return
+     */
+    public int confrimOperation(OperationSchedule operationSchedule);
 }

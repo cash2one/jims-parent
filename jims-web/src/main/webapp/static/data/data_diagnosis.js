@@ -6,16 +6,10 @@ icdData.dictType="emr_data_icd10";
 
 var icdAllData = [];
 
-function comboGridCompleting(q,id){
+function icdAuto(q,id){
     var drugNameData={};
     drugNameData.orgId="1";
-    drugNameData.dictType="emr_data_icd10"
-    var inputParamVos=new Array();
-    var InputParamVo1={};
-    InputParamVo1.colName='rownum';
-    InputParamVo1.colValue='20';
-    InputParamVo1.operateMethod='<';
-    inputParamVos.push(InputParamVo1);
+    drugNameData.dictType="emr_data_icd10";
     if(q!='' && q!=null){
         var InputParamVo={};
         InputParamVo.colName='PINYIN_INDEX';
