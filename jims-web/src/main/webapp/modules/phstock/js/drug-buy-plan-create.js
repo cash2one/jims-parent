@@ -57,6 +57,22 @@ $(function(){
         $('#buyPlanTable').datagrid('mergeCells',{index:_index,field:'count',rowspan:null,colspan:7})
     }
 
+    var specUnits = [];//规格单位字典
+    $.get( basePath + "/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
+    var drugToxi = [];//毒理属性字典
+    $.get( basePath  + "/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT", function (data) {
+        drugToxi = data;
+    });
+
+    var drugFormDict = [];//剂型字典
+    $.get( basePath  + "/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
+        drugFormDict = data;
+    })
+
+
     /**
      * 格式化数据
      * @param arr 数组格式类似 [{value:'1',label:'测试'}...]
@@ -84,7 +100,7 @@ $(function(){
             var rows = $(editor.target).combogrid('grid').datagrid('getRows');
             if(rows.length > 0){
                 if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
-                    $(editor.target).combogrid('grid').datagrid('selectRow',0)
+                    //$(editor.target).combogrid('grid').datagrid('selectRow',0)
                 }
             } else {
                 $(editor.target).combogrid('setValue','')
@@ -122,18 +138,18 @@ $(function(){
             toolbar: '#tbn',
             columns: [[
                 {field: 'id', title: '编号',hidden:true},
-                { field: 'buyNo', title: '采购序号', width: 60,align : "center",formatter:function(value){
-                    if(value == '合计') return '<div style="text-align:right">'+value+'：　　　</div>'
+                { field: 'buyNo', title: '采购序号', width: 70,align : "center",formatter:function(value){
+                    if(value == '合计') return '<div style="text-align:right">'+value+':</div>'
                     return value
                 }},
-                { field: 'drugName', title: '药名', width: 220,halign : "center",align : "left",editor:{
+                { field: 'drugName', title: '药名', width: 230,halign : "center",align : "left",editor:{
                     type:'combogrid',
                     options:{
-                        panelWidth:463,
+                        panelWidth:460,
                         idField:'drugName',
                         textField:'drugName',
-                        required:true,
-                        missingMessage:'药名不能为空',
+                        //required:true,
+                        //missingMessage:'药名不能为空',
                         fitColumns: true,
                         url : '/service/drug-price/findDrugDictWithFilter?limit=50&orgId='+orgId,
                         method:'get',
@@ -142,7 +158,16 @@ $(function(){
                             {field:'drugCode',title:'药品代码',width:100,align : "center"},
                             {field:'drugName',title:'药品名称',width:160,halign : "center",align : "left" },
                             {field:'inputCode',title:'输入码',width:70,align : "center"},
-                            {field:'toxiProperty',title:'毒理分类',width:70,align : "center"},
+                            {field:'toxiProperty',title:'毒理分类',width:70,align : "center",
+                                formatter:function(value,row,index){
+                                    var label=value;
+                                    $.each(drugToxi, function (index,item) {
+                                        if (item.value == value){
+                                            label =   item.label;
+                                        }
+                                    });
+                                    return label;
+                                }},
                             {field:'drugIndicator',title:'药品类别',width:60,align : "center",
                             formatter:function(value){
                                 return format(drugIndicators,value)
@@ -154,13 +179,22 @@ $(function(){
                     }
                 }},
                 { field: 'packSpec', title: '包装规格', width: 60,align : "center" },
-                { field: 'packUnit', title: '包装单位', width: 60,align : "center" },
+                { field: 'packUnit', title: '包装单位', width: 60,align : "center",
+                    formatter:function(value,row,index){
+                        var unitsName = value;
+                        $.each(specUnits, function (index,item) {
+                            if(item.value == value){
+                                unitsName =  item.label;
+                            }
+                        });
+                        return unitsName;
+                    }},
                 { field: 'supplier', title: '厂家', width: 200,halign : "center" ,align : "left"},
                 { field: 'wantNumber', title: '计划数量', width: 60,align : "center",editor:{
                     type : 'numberbox',
                     options:{
-                        required:true,
-                        missingMessage:'计划数量不能为空',
+                        //required:true,
+                        //missingMessage:'计划数量不能为空',
                         min : 1,
                         precision : 0
                     }
@@ -168,8 +202,8 @@ $(function(){
                 { field: 'purchasePrice', title: '进货价', width: 60,align : "center" ,editor:{
                     type : 'numberbox',
                     options:{
-                        required:true,
-                        missingMessage:'进货价不能为空',
+                        //required:true,
+                        //missingMessage:'进货价不能为空',
                         min : 1.0,
                         precision : 1
                     }
@@ -189,8 +223,26 @@ $(function(){
                     }
                     return _value
                 }},
-                { field: 'drugForm', title: '剂型', width: 80,align : "center" },
-                { field: 'toxiProperty', title: '毒理', width: 150,align : "center" },
+                { field: 'drugForm', title: '剂型', width: 80,align : "center",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(drugFormDict, function (index,item) {
+                            if (item.value == value){
+                                label =   item.label;
+                            }
+                        });
+                        return label;
+                    }},
+                { field: 'toxiProperty', title: '毒理', width: 150,align : "center",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(drugToxi, function (index,item) {
+                            if (item.value == value){
+                                label =   item.label;
+                            }
+                        });
+                        return label;
+                    }},
                 { field: 'storer', title: '仓管员', width: 70,align : "center" },
                 { field: 'stockNum', title: '库存参考数', width: 90,align : "center" },
                 { field: 'monthUsed', title: '月消耗量', width: 60,align : "center" },
@@ -360,7 +412,8 @@ $(function(){
             _buyPlanTableRow.drugIndicator = drugDict.drugIndicator
             _buyPlanTableRow.inputCode = drugDict.inputCode
 
-            $('#buyPlanTable').datagrid('endEdit',planSelectIndex)
+            $('#buyPlanTable').datagrid('endEdit',planSelectIndex);
+            $('#buyPlanTable').datagrid('beginEdit',planSelectIndex);
             _tempFlag = true
         }
         var _tempFlag = false
@@ -394,7 +447,16 @@ $(function(){
             columns: [[
                 {field: 'id', title: '编号', hidden: true},
                 {field: 'drugSpec', title: '规格', width: 60, align: "center"},
-                {field: 'units', title: '单位', width: 60, align: "center"},
+                {field: 'units', title: '单位', width: 60, align: "center",
+                    formatter:function(value,row,index){
+                        var unitsName = value;
+                        $.each(specUnits, function (index,item) {
+                            if(item.value == value){
+                                unitsName =  item.label;
+                            }
+                        });
+                        return unitsName;
+                    }},
                 {field: 'firmId', title: '厂家主键',hidden:true},
                 {field: 'supplier', title: '厂家', width: 200, align: "center"},
                 {field: 'tradePrice', title: '批发价', width: 60, align: "center"},
@@ -443,11 +505,11 @@ $(function(){
             onClickCell(_index,'drugName')
             return false
         }
-        if(isNaN(row.wantNumber)){
+        if(row.wantNumber==''){
             onClickCell(_index,'wantNumber')
             return false
         }
-        if(isNaN(row.purchasePrice)){
+        if(row.purchasePrice==''){
             onClickCell(_index,'purchasePrice')
             return false
         }
@@ -536,7 +598,10 @@ $(function(){
                 return false
             }
             for (var i = 0,len=_allData.length - 1; i < len; i++) {
-                if(!validateRow(_allData[i])) return
+                if (!validateRow(_allData[i])){
+                    $.messager.alert('提示', '请将表格填写完整', 'error');
+                    return
+                }
                 var _row = _allData[i]
                 if(!_row.id || _row.hiddenUpdateFlag == 1 || isExisted(_row.id)){
                     delete _row.hiddenUpdateFlag
@@ -547,7 +612,10 @@ $(function(){
         }
         else{
             for(var i=0;i<_allData.length - 1;i++){
-                if(!validateRow(_allData[i])) return
+                if (!validateRow(_allData[i])){
+                    $.messager.alert('提示', '请将表格填写完整', 'error');
+                    return
+                }
                 _allData[i].flag = flag
                 handleData[0].push(_allData[i])
                 delete _allData[i].hiddenUpdateFlag
@@ -567,11 +635,11 @@ $(function(){
         parent.$.postJSON(base_url + 'saveBatch',JSON.stringify(handleData),function(res){
             if(res == '1'){
                 $.messager.alert('保存','保存成功','info',function(){
-                    window.location.reload()
+                    $('#buyPlanTable').datagrid('loadData',[]);
                 })
             } else {
                 $.messager.alert('保存','保存失败','error',function(){
-                    window.location.reload()
+                    $('#buyPlanTable').datagrid('loadData',[]);
                 })
             }
         })

@@ -133,7 +133,7 @@ $(function () {
             var rows = $(editor.target).combogrid('grid').datagrid('getRows');
             if(rows.length > 0){
                 if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
-                    $(editor.target).combogrid('grid').datagrid('selectRow',0)
+                    //$(editor.target).combogrid('grid').datagrid('selectRow',0)
                 }
             } else {
                 $(editor.target).combogrid('setValue','')
