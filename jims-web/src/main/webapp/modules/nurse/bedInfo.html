@@ -10,6 +10,8 @@
     <script type="text/javascript" src="../nurse/js/bedInfo.js"></script>
     <script type="text/javascript" src="/modules/clinic/js/centerRegion.js"></script>
     <script type="text/javascript" src="../nurse/js/orders.js"></script>
+    <script type="text/javascript" src="../nurse/js/patientOperate.js"></script>
+    <script type="text/javascript" src="/static/data/data_discharge_disposition.js"></script>
 </head>
 <body class="easyui-layout">
 <div class="bednum-main" id="content">
@@ -24,15 +26,15 @@
         <span>病人流转</span>
         <div >
             <div><a href="/modules/patient/inHospital.html">新入</a></div>
-            <div><a href="/modules/nurse/orders.html">出院</a></div>
-            <div><a href="/modules/nurse/orders.html">转入</a></div>
-            <div><a href="/modules/nurse/orders.html">转出</a></div>
+            <div><a onclick="leaveHosp()">出院</a></div>
+            <div><a href="/modules/patient/inHospital.html">转入</a></div>
+            <div><a onclick="turnOutHosp()">转出</a></div>
            <div>
                <span>取消</span>
                <div>
                <div><a href="/modules/nurse/orders.html">取消出院</a></div>
                <div><a href="/modules/nurse/orders.html">取消入科</a></div>
-               <div><a href="/modules/nurse/orders.html">取消转出</a></div>
+               <div><a onclick="cancelTurnOut()">取消转出</a></div>
                    </div>
            </div>
         </div>
@@ -41,7 +43,137 @@
 </div>
 
 
+<div id="leaveHosp" class="easyui-dialog" title="出院处理"  closed="true" buttons="#dlg-buttons" style="width: 30%;height: 80%">
+    <form id="leaveHospForm" method="post" novalidate  KeyPreview="true">
+        <div class="fitem" >
+            <label style=" width: 80px;">床号:</label>
+            <input id="bed_no" name="bed_no" class="easyui-textbox"  >
+
+            <label style=" width: 80px;">床标号:</label>
+            <input id="bed_label" name="bed_label" class="easyui-textbox" disabled>
+        </div>
+        <div class="fitem" >
+            <label style=" width: 80px;">姓名</label>
+            <input name="name" id="name" class="easyui-textbox" disabled>
+
+            <label style=" width: 80px;">性别</label>
+            <input name="sex" id="sex" class="easyui-textbox" disabled>
+        </div>
+      <!--  <div class="fitem" >
+            <label style=" width: 80px;">年龄</label>
+            <input name="icon" id="icon" class="easyui-textbox" >
+        </div>-->
+        <div class="fitem" >
+            <label style=" width: 80px;">预交金</label>
+            <input name="prepayments" id="prepayments" class="easyui-textbox" disabled>
+
+            <label style=" width: 80px;">累计费用</label>
+            <input name="total_charges" id="total_charges" class="easyui-textbox" disabled>
+        </div>
+
+        <div class="fitem" >
+            <label style=" width: 80px;">入院日期</label>
+            <input name="admission_date_time" id="admission_date_time" class="easyui-textbox" disabled>
+
+            <label style=" width: 80px;">出院科室</label>
+            <input name="dept_name" id="dept_name" class="easyui-textbox" disabled>
+        </div>
+        <div class="fitem" >
+            <label style=" width: 80px;">出院时间</label>
+            <input name="current_date" id="current_date" class="easyui-textbox" >
+
+            <label style=" width: 80px;">出院方式</label>
+            <input name="discharge_disposition" id="discharge_disposition" class="easyui-textbox">
+        </div>
+
+            <input name="patient_id" id="patient_id" type="hidden" >
+            <input name="visit_id" id="visit_id" type="hidden" >
+            <input name="dept_code" id="dept_code" type="hidden" >
+
+    </form>
+</div>
+<div id="dlg-buttons" class="text-center">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="leaveHospSure()" style="width:90px">确定</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#leaveHosp').dialog('close')" style="width:90px">取消</a>
+</div>
 
 
+<div id="turnOutDept" class="easyui-dialog" title="转出-转科处理"  closed="true" buttons="#turnOutDept-buttons" style="width: 30%;height: 80%">
+    <form id="turnOutDeptForm" method="post" novalidate  KeyPreview="true">
+        <div class="fitem" >
+            <label style=" width: 80px;">床号:</label>
+            <input id="obed_no" name="bed_no" class="easyui-textbox"  >
+
+            <label style=" width: 80px;">床标号:</label>
+            <input id="obed_label" name="bed_label" class="easyui-textbox" disabled>
+        </div>
+        <div class="fitem" >
+            <label style=" width: 80px;">姓名</label>
+            <input name="name" id="oname" class="easyui-textbox" disabled>
+
+            <label style=" width: 80px;">性别</label>
+            <input name="sex" id="osex" class="easyui-textbox" disabled>
+        </div>
+
+
+        <div class="fitem" >
+            <label style=" width: 80px;">入科日期</label>
+            <input name="adm_ward_date_time" id="adm_ward_date_time" class="easyui-textbox" disabled>
+
+            <label style=" width: 80px;">科室</label>
+            <input name="dept_name" id="odept_name" class="easyui-textbox" disabled>
+        </div>
+
+        <div class="fitem" >
+            <label style=" width: 80px;">转至护理单元</label>
+            <input name="hl_unit" id="hl_unit" class="easyui-textbox" >
+            <input name="hl_unit_dept" id="hl_unit_dept" class="easyui-textbox" >
+        </div>
+
+        <div class="fitem" >
+            <label style=" width: 80px;">转出时间</label>
+            <input name="turnOutDate" id="turnOutDate" class="easyui-textbox" >
+        </div>
+
+        <input name="patient_id" id="opatient_id" type="hidden" >
+        <input name="visit_id" id="ovisit_id" type="hidden" >
+        <input name="dept_code" id="odept_code" type="hidden" >
+
+    </form>
+</div>
+<div id="turnOutDept-buttons" class="text-center">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="turnOutDeptSure()" style="width:90px">确定</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#turnOutDept').dialog('close')" style="width:90px">取消</a>
+</div>
+<div id="cancelTurnOut" class="easyui-dialog" title="取消转科处理"  closed="true" buttons="#cancelTurnOut-buttons" style="width: 30%;height: 80%">
+    <form id="cancelTurnOutForm" method="post" novalidate  KeyPreview="true">
+        <div class="fitem" >
+            <label style=" width: 80px;">身份证号:</label>
+            <input id="idNo" name="id_no" class="easyui-textbox"  >
+        </div>
+        <div class="fitem" >
+            <label style=" width: 80px;">姓名</label>
+            <input name="name" id="cname" class="easyui-textbox" disabled>
+
+            <label style=" width: 80px;">性别</label>
+            <input name="sex" id="csex" class="easyui-textbox" disabled>
+        </div>
+        <div class="fitem" >
+            <label style=" width: 80px;">上级医生</label>
+            <input name="super_doctor_id" id="super_doctor_id" class="easyui-textbox" disabled>
+
+            <label style=" width: 80px;">主任医生</label>
+            <input name="parent_doctor_id" id="parent_doctor_id" class="easyui-textbox" disabled>
+        </div>
+
+        <input name="patient_id" id="cpatient_id" type="hidden" >
+        <input name="visit_id" id="cvisit_id" type="hidden" >
+    </form>
+    <table id="cancelTurnOutTable"></table>
+</div>
+<div id="cancelTurnOut-buttons" class="text-center">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="cancelTurnOutSure()" style="width:90px">确定</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#cancelTurnOut').dialog('close')" style="width:90px">取消</a>
+</div>
 </body>
 </html>
