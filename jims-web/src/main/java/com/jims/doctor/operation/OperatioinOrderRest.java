@@ -35,7 +35,7 @@ public class OperatioinOrderRest {
     @Path("findPat")
     @GET
     public List<PatsInHospital> getOperatioin(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("deptCode") String deptCode){
-       // deptCode="140102";
+//       deptCode="140101";
                List<PatsInHospital> patsInHospitalList = operatioinOrderServiceApi.getOperationin(deptCode);
         return patsInHospitalList;
     }
@@ -83,6 +83,18 @@ public class OperatioinOrderRest {
     @POST
     public OperationSchedule getScheduleOut(String clinicId){
         return operatioinOrderServiceApi.getSchedule("","",clinicId);
+    }
+
+    /**
+     * 通过visitId拿到手术安排
+     * @param visitId
+     * @return
+     */
+    @Path("getScheduleOutHos")
+    @POST
+    public OperationSchedule getScheduleOutHos(String visitId){
+        OperationSchedule operationSchedule=  operatioinOrderServiceApi.getSchedule("", visitId, "");
+        return operationSchedule;
     }
 
 
