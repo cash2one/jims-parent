@@ -1,6 +1,5 @@
-package com.jims.clinic.api;
+package com.jims.doctor.clinicItem.api;
 
-import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.clinic.entity.OutpTreatRec;
 
 import java.util.List;
