@@ -3,6 +3,7 @@ package com.jims.doctor.operation.bo;
 import com.jims.clinic.bo.CostOrdersUtilsService;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.ClinicItemDict;
+import com.jims.common.web.impl.BaseDto;
 import com.jims.doctor.operation.dao.OperationScheduleDao;
 import com.jims.doctor.operation.dao.ScheduledOperationNameDao;
 import com.jims.operation.entity.OperationSchedule;
@@ -155,5 +156,27 @@ public class OperationBo {
      */
     public int deleteOperationName(String id){
         return   scheduledOperationNameDao.delete(id);
+    }
+
+
+    /**
+     * 查询门诊手术确认的列表
+     * @param operationSchedule
+     * @author pq
+     * @return
+     */
+    public List<BaseDto> findOperation(String scheduledDateTime,String operatingRoom){
+        return operationScheduleDao.findOperation(scheduledDateTime,operatingRoom);
+    }
+
+    /**
+     * 确认门诊手术
+     * @param id
+     * @author pq
+     * @return
+     */
+    public String confrimOperation(OperationSchedule operationSchedule){
+        int num =operationScheduleDao.confrimOperation(operationSchedule);
+        return num+"";
     }
 }
