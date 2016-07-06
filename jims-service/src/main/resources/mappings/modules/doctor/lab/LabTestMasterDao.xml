@@ -63,7 +63,13 @@
 		<include refid="labTestMasterJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="getLabMaster" resultType="LabTestMaster">
+		SELECT
+		<include refid="labTestMasterColumns"/>
+		FROM lab_test_master a
+
+		WHERE a.performed_by = #{performedBy}
+	</select>
 	<select id="findList" resultType="LabTestMaster">
 		SELECT 
 			<include refid="labTestMasterColumns"/>
@@ -278,5 +284,9 @@
 	<update id="deleteLabTestMaster">
 		UPDATE lab_test_master SET
 		del_flag = '1' WHERE id = #{id}
+	</update>
+	<update id="updateLabMaster">
+		UPDATE lab_test_master SET
+		status = '1' WHERE id = #{id}
 	</update>
 </mapper>
