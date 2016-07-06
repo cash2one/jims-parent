@@ -40,6 +40,7 @@ public class OperationHosBo {
                 operationSchedule.setScheduleId(sId);
                 operationSchedule.preInsert();
                 operationSchedule.setAckIndicator(0);
+                operationSchedule.setDoctorUser("当前医生");
                 operationScheduleDao.insert(operationSchedule);
                 if (operationSchedule.getScheduledOperationNameList() != null) {
                     List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
@@ -75,7 +76,7 @@ public class OperationHosBo {
                         orders.setFreqDetail("1");//执行时间详细描述
                         orders.setPerformSchedule(newDate());
                         orders.setOrderingDept(operationSchedule.getDeptStayed());
-                        orders.setDoctor("当前登录人");
+                        orders.setDoctor(operationSchedule.getDoctorUser());
                         //todo(userid)申请医生 ?
 //                orders.setDoctorUser(Long.valueOf(1));
                         //doctor_user:11=['000LJS']
@@ -92,6 +93,7 @@ public class OperationHosBo {
             } else {
                 operationSchedule.preUpdate();
                 operationSchedule.setAckIndicator(0);
+                operationSchedule.setDoctorUser("当前医生");
                 operationScheduleDao.update(operationSchedule);
                 if (operationSchedule.getScheduledOperationNameList() != null) {
                     List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
@@ -130,7 +132,7 @@ public class OperationHosBo {
                         orders.setFreqDetail("1");//执行时间详细描述
                         orders.setPerformSchedule(newDate());
                         orders.setOrderingDept(operationSchedule.getDeptStayed());
-                        orders.setDoctor("当前登录人");
+                        orders.setDoctor(operationSchedule.getDoctorUser());
                         //todo(userid)申请医生 ?
 //                orders.setDoctorUser(Long.valueOf(1));
                         //doctor_user:11=['000LJS']
