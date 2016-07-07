@@ -11,16 +11,16 @@ function onloadMethod(){
         collapsible:false,//是否可折叠的
         //fit: true,//自动大小
         method:'GET',
-        url:basePath+'/examConfirm/getExamAppoints',
+       url:basePath+'/labConfirm/getLabMaster',
         //sortName: 'code',
         //sortOrder: 'desc',
         remoteSort:false,
-        idField:'fldId',
+        idField:'id',
         singleSelect:false,//是否单选
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'regPrnFlag',title:'确认状态',width:'5%',align:'center',formatter:function(value, rowData, rowIndex){
+            {field:'resultStatus',title:'确认状态',width:'5%',align:'center',formatter:function(value, rowData, rowIndex){
                 if (value == null || value=='') {
                     return "未确认";
                 }
@@ -28,24 +28,24 @@ function onloadMethod(){
                     return "已确认";
                 }
             }},
-            {field:'examSubClass',title:'检查子类',width:'15%',align:'center'},
-            {field:'reqDept',title:'申请科室',width:'10%',align:'center'},
-            /* {field:'clinicDept',title:'病人ID',width:'15%',align:'center'},*/
-            {field:'name',title:'姓名',width:'13%',align:'center'},
-            {field:'sex',title:'性别',width:'10%',align:'center'},
-            {field:'clinicType',title:'检查项目',width:'15%',align:'center'},
-            {field:'reqDateTime',title:'申请时间',width:'15%',align:'center'},
-            {field:'scheduledDate',title:'预约时间',width:'15%',align:'center'},
-            /*  {field:'serialNo',title:'放射科号',width:'5%',align:'center',editor: 'text'},*//*字段未确定*/
-            {field:'examGroup',title:'检查组',width:'5%',align:'center'},
-            {field:'patientSource',title:'来源',width:'5%',align:'center'},
-            {field:'costs',title:'检查费用',width:'5%',align:'center'},
-            {field:'charges',title:'应收费用',width:'5%',align:'center'},
-            {field:'reqMemo',title:'备注',width:'10%',align:'center',editor: 'text'},
-            {field:'examNo',title:'申请序号',width:'10%',align:'center'},
-            {field:'examMode',title:'检查方式',width:'5%',align:'center'},
-            {field:'reqPhysician',title:'申请医生',width:'10%',align:'center'},
-            {field:'clinDiag',title:'临床诊断（印象）',width:'20%',align:'center'},
+            {field:'testNo',title:'申请序号',width:'15%',align:'center'},
+            {field:'name',title:'姓名',width:'10%',align:'center'},
+            {field:'sex',title:'性别',width:'13%',align:'center'},
+            {field:'executeDate',title:'执行日期',width:'10%',align:'center'},
+            {field:'costs',title:'费用',width:'10%',align:'center'},
+            {field:'charges',title:'应收费用',width:'20%',align:'center'},
+            {field:'testCause',title:'检验目的',width:'15%',align:'center'},
+            {field:'relevantClinicDiag',title:'临床诊断',width:'15%',align:'center'},
+            {field:'specimen',title:'标本',width:'15%',align:'center'},
+            {field:'notesForSpcm',title:'标本说明',width:'10%',align:'center'},
+            {field:'spcmReceivedDateTime',title:'标本采样日期',width:'15%',align:'center'},
+            {field:'spcmSampleDateTime',title:'标本收到日期',width:'15%',align:'center'},
+            {field:'requestedDateTime',title:'申请日期',width:'10%',align:'center'},
+            {field:'orderingDept',title:'申请科室',width:'10%',align:'center'},
+            {field:'orderingProvider',title:'申请医生',width:'10%',align:'center'},
+            {field:'performedBy',title:'执行科室',width:'10%',align:'center'},
+            {field:'resultStatus',title:'结果状态',width:'5%',align:'center'},
+
         ]],
         frozenColumns:[[
             {field:'ck',checkbox:true}
@@ -54,7 +54,7 @@ function onloadMethod(){
             text: '确认',
             iconCls: 'icon-save',
             handler: function() {
-                confirmExam();
+                confirmLab();
             }
         }
         ], onClickRow: function (rowIndex, rowData) {
@@ -86,14 +86,14 @@ function onloadMethod(){
  * 确认
  * @returns {boolean}
  */
-function confirmExam(){
+function confirmLab(){
    var selectRow=  $('#list_data').datagrid('getSelected');
     var tableJson=JSON.stringify(selectRow);
    if(selectRow==null){
        $.messager.alert("提示消息","请选中要确认的检查");
        return false;
    }
-    $.postJSON(basePath+'/examConfirm/confirmExam',tableJson,function(data){
+    $.postJSON(basePath+'/labConfirm/confirmLab',tableJson,function(data){
         if(data.code=='1'){
             $.messager.alert("提示消息","确认成功");
             $('#list_data').datagrid('load');

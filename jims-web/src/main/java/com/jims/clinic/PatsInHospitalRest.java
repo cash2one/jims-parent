@@ -6,6 +6,7 @@ import com.jims.clinic.api.PatsInHospitalServiceApi;
 import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.data.StringData;
 import com.jims.common.web.impl.BaseDto;
+import com.jims.nurse.entity.BedRec;
 import com.jims.patient.api.PatMasterIndexServiceApi;
 import org.springframework.stereotype.Component;
 
@@ -94,6 +95,70 @@ public class PatsInHospitalRest {
         }
         return stringData;
     }
+    /**
+     * @param         bedRec    传递参数
+     * @return BaseDto    返回类型
+     * @throws
+     * @Title: searchInfoByParams
+     * @Description: (根据床位号，病区查询病人信息--病人流转-出院)
+     * @author CTQ
+     * @date 2016/7/6
+     */
+    @Path("searchInfoByParams")
+    @POST
+    public BaseDto searchInfoByParams(BedRec bedRec){
+        BaseDto baseDto = patsInHospitalServiceApi.searchInfoByParams(bedRec.getBedNo(),bedRec.getWardCode());
+        return baseDto;
+    }
+    /**
+     * @param         bedRec    传递参数
+     * @return BaseDto    返回类型
+     * @throws
+     * @Title: searchTurnOutInfoByParams
+     * @Description: (根据床位号，病区查询病人信息--病人流转-转出)
+     * @author CTQ
+     * @date 2016/7/6
+     */
+    @Path("searchTurnOutInfoByParams")
+    @POST
+    public BaseDto searchTurnOutInfoByParams(BedRec bedRec){
+        BaseDto baseDto = patsInHospitalServiceApi.searchTurnOutInfoByParams(bedRec.getBedNo(), bedRec.getWardCode());
+        return baseDto;
+    }
 
+    /**
+     * 出院
+     * @param request
+     * @param comeDeptVo
+     * @return
+     */
+    @Path("leaveHosp")
+    @POST
+    public StringData leaveHosp(HttpServletRequest request,ComeDeptVo comeDeptVo){
+        StringData stringData=new StringData();
+        try {
+            String data = patsInHospitalServiceApi.turnOutDept(comeDeptVo);
+            stringData.setCode(data);
+            stringData.setData(data.compareTo("0") > 0 ? "success":"error");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return stringData;
+    }
+    /**
+     * @return com.jims.common.web.impl.BaseDto    返回类型
+     * @throws
+     * @Title: waitTurnOutList
+     * @Description: (待转科病人列表)
+     * @author CTQ
+     * @date 2016/7/6
+     */
+    @Path("waitTurnOutList")
+    @GET
+    public List<BaseDto> waitTurnOutList(){
+
+        List<BaseDto> baseDto = patsInHospitalServiceApi.waitTurnOutList();
+        return baseDto;
+    }
 
 }

@@ -7,6 +7,7 @@ package com.jims.clinic.dao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import com.jims.common.web.impl.BaseDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -49,6 +50,26 @@ public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
      * @author zhaoning
      */
     public PatsInHospital getPatsInfoByMaster(@Param("patId")String patId);
-
-
+    /**
+     * 出院-根据床位和病区查询病人信息
+     * @param bedNo
+     * @param wardCode
+     * @author CTQ
+     * @return
+     */
+    public BaseDto searchInfoByParams(@Param("bedNo")Integer bedNo, @Param("wardCode")String wardCode);
+    /**
+     * 转出-根据床位和病区查询病人信息
+     * @param bedNo
+     * @param wardCode
+     * @author CTQ
+     * @return
+     */
+    public BaseDto searchTurnOutInfoByParams(@Param("bedNo")Integer bedNo, @Param("wardCode")String wardCode);
+    /**
+     * 取消转出-待专科病人列表
+     * @author CTQ
+     * @return
+     */
+    public List<BaseDto> waitTurnOutList();
 }

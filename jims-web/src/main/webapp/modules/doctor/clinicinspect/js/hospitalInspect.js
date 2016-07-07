@@ -1,4 +1,4 @@
-var visitIds = parent.patVisit.visitId;
+var visitId = parent.patVisit.visitId;
 var patientId = parent.patVisit.patientId;
 function onloadMethods() {
     $.ajax({
@@ -9,9 +9,7 @@ function onloadMethods() {
             $("#clinDiag").val(data.description);
         }
     })
-    $("#visitId").val(visitIds);
     $("#patientId").val(patientId);
-    var visitId=1;
     $("#visitId").val(visitId);
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
@@ -91,7 +89,7 @@ function onloadMethods() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/clinicInspect/listHos',
-        queryParams:{'visitId' : visitIds},
+        queryParams:{'visitId' : visitId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选

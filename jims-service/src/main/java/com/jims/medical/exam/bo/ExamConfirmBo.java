@@ -1,6 +1,7 @@
 package com.jims.medical.exam.bo;
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamMaster;
 import com.jims.medical.exam.dao.ExamMasterDao;
@@ -20,7 +21,8 @@ import java.util.List;
 public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
     @Autowired
     private ExamMasterDao examMasterDao;
-
+    @Autowired
+    private ExamAppointsDao examAppointsDao;
     /**
      * 检查确认列表
      * @param performedBy 执行科室
@@ -38,9 +40,16 @@ public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
      * @author zhaoning
      */
     public String confrimExam(ExamAppoints examAppoints){
+
         ExamMaster examMaster = new ExamMaster();
         int num=0;
-        if(examAppoints!=null && examAppoints.getId()!=null){
+        Integer regPrnFlag=examAppoints.getRegPrnFlag();
+        if(regPrnFlag!=null && regPrnFlag==1){//已经确认
+          num=2;
+        }else if(examAppoints!=null && examAppoints.getId()!=null){
+            //更新 examAppoints
+            examAppointsDao.updateAppoints(examAppoints.getId());
+
             examMaster.setExamNo(examAppoints.getExamNo());
             examMaster.setLocalIdClass(examAppoints.getLocalIdClass());
             examMaster.setPatientId(examAppoints.getPatientId());
@@ -69,6 +78,7 @@ public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
             examMaster.setCharges(examAppoints.getCharges());
             examMaster.setChargeType(examAppoints.getChargeType());
             examMaster.setIdentity(examAppoints.getIdentity());
+            examMaster.setResultStatus("1");
             if (examMaster.getIsNewRecord()){
                 examMaster.preInsert();
                 num=dao.insert(examMaster);
@@ -77,7 +87,6 @@ public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
                 num=dao.update(examMaster);
             }
         }
-
         return num+"";
     }
 }

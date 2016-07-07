@@ -1,5 +1,6 @@
 package com.jims.clinic.bo;
 
+import com.jims.common.web.impl.BaseDto;
 import com.jims.doctor.prescription.dao.DoctDrugPrescMasterDao;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.clinic.dao.PatsInHospitalDao;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 病人在院记录
@@ -349,5 +351,39 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
      */
     public PatsInHospital findByPatientId(String patientId){
         return patsInHospitalDao.getPatsInfoByMaster(patientId);
+    }
+    /**
+     * @param       bedNo,  wardCode    传递参数
+     * @return BaseDto    返回类型
+     * @throws
+     * @Title: searchInfoByParams
+     * @Description: (根据床位号，病区查询病人信息--病人流转-出院)
+     * @author CTQ
+     * @date 2016/7/6
+     */
+    public BaseDto searchInfoByParams(Integer bedNo, String wardCode) {
+        return patsInHospitalDao.searchInfoByParams(bedNo,wardCode);
+    }
+
+    /**
+     * @param       bedNo,  wardCode    传递参数
+     * @return BaseDto    返回类型
+     * @throws
+     * @Title: searchTurnOutInfoByParams
+     * @Description: (根据床位号，病区查询病人信息--病人流转-转出)
+     * @author CTQ
+     * @date 2016/7/6
+     */
+    public BaseDto searchTurnOutInfoByParams(Integer bedNo, String wardCode) {
+        return patsInHospitalDao.searchTurnOutInfoByParams(bedNo, wardCode);
+    }
+
+    /**
+     * 取消转出-待专科病人列表
+     * @author CTQ
+     * @return
+     */
+    public List<BaseDto> waitTurnOutList() {
+        return patsInHospitalDao.waitTurnOutList();
     }
 }
