@@ -1,5 +1,5 @@
 
-package com.jims.clinic.entity;
+package com.jims.enterHospital.entity;
 
 import com.jims.common.utils.CustomDateSerializer;
 import com.jims.diagnosis.entity.EmrDiagnosis;
