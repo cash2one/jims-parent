@@ -477,6 +477,11 @@ $(function () {
             $("#res-email").css("color", "red");
             return false;
         }
+        if ($("#email").val().length > 50) {
+            $("#res-email").css("color", "red");
+            $("#res-email").text("*邮箱长度不合法,请重新填写");
+            return false;
+        }
         jQuery.ajax({
             'type': 'POST',
             'url': "/service/register/getEmail",
@@ -518,7 +523,7 @@ $(function () {
             $("#res-phone").css("color", "red");
             return false;
         }
-        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
         if (!myreg.test(phone)) {
             $("#res-phone").text('*请输入有效的手机号码');
             $("#res-phone").css("color", "red");

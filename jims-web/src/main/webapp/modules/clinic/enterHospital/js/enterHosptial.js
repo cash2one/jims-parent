@@ -7,7 +7,9 @@ function save(){
     }
     var rows = $('#zhenduan').datagrid('getRows');
     var clinId=parent.clinicMaster.id;
+    var pId = parent.clinicMaster.patientId;
     $("#clinicId").val(clinId);
+    $("#patientId").val(pId);
     formSubmitInput("enterForm");
     var formJson = fromJson('enterForm');
     formJson = formJson.substring(0, formJson.length - 1);
@@ -23,7 +25,7 @@ function save(){
                 'data': JSON.stringify({"clinicId": clinId}),
                 'dataType': 'json',
                 'success': function(data){
-                    $("#diagnosisParent").val(data.id);
+                  /*  $("#diagnosisParent").val(data.id);*/
                     $('#enterForm').form('load',data);
                     getDiv('enterForm');
 

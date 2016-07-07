@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html class="panel-fit"><head>
+    <meta charset="UTF-8">
+    <title>检验确认</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="../medical/js/confirmLab.js"></script>
+</head>
+
+<body onload="onloadMethod()">
+<div class="search-standard clearfix">
+    <ul class="clearfix" id="wrap">
+        <li>预约时间:
+            <input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="startTime"/> 至  <input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="endTime"/></li>
+        <li>申请科室:<input class="easyui-combobox" id="doctorRole"></li>
+        <li>检验号:<input class="validatebox-text"></li>
+        <li>病人ID：<input type="text" class="validatebox-text" id="patientId"/></li>
+        <li>姓名:<input type="text" class="validatebox-text" id="patName"/></li>
+        <li><button class="easy-nbtn easy-nbtn-info" onclick="search();">查询</button></li>
+    </ul>
+</div>
+<table id="list_data"   cellspacing="0" cellpadding="0">
+
+
+
+</table>
+</body>
+</html>

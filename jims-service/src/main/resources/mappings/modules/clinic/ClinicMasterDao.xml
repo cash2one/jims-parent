@@ -615,7 +615,7 @@
 	</update>
 
 	<select id="getPatient" resultType="ClinicMaster">
-		SELECT <include refid="clinicMasterColumns"/>,
+		SELECT <include refid="clinicMasterColumns1"/>,
 		b.DATE_OF_BIRTH AS "patMaster.dateOfBirth",
 		b. MAILING_ADDRESS AS "patMaster.mailingAddress",
 		b.NATION AS "patMaster.nation",
