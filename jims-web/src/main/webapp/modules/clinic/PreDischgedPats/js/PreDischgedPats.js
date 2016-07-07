@@ -1,5 +1,4 @@
 var rowNum = -1;
-
 var  strValue   = "160101" ;
 $(function(){
     $('#list_doctor').datagrid({
@@ -26,14 +25,14 @@ $(function(){
                 align: 'center'
 
             },
-            {field:'sex',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'patientId',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'admissionDateTime',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'diagnosis',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'bedNo',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'deptCode',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'deptCode',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'visitId',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}}
+            {field:'sex',hidden:'true'},
+            {field:'patientId',hidden:'true'},
+            {field:'admissionDateTime',hidden:'true'},
+            {field:'diagnosis',hidden:'true'},
+            {field:'bedNo',hidden:'true'},
+            {field:'deptCode',hidden:'true'},
+            {field:'deptCode',hidden:'true'},
+            {field:'visitId',hidden:'true'}
         ]],onClickRow:function(index,row){
             $('#list_data').datagrid('insertRow', {
                 index:1,	// index start with 0
@@ -55,6 +54,19 @@ $(function(){
     });
 
 });
+
+    //设置分页控件
+   /*
+        var p = $('#list_doctor').datagrid('getPager');
+        $(p).pagination({
+            pageSize: 10,//每页显示的记录条数，默认为10
+            pageList: [5,10,15],//可以设置每页记录条数的列表
+            beforePageText: '第',//页数文本框前显示的汉字
+            afterPageText: '页    共 {pages} 页',
+            displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
+        });
+    */
+
 
 function onloadMethod() {
     var wardCode = $("#wardCode").val();
@@ -175,7 +187,6 @@ function onloadMethod() {
 
         }
     });
-
 
 
 

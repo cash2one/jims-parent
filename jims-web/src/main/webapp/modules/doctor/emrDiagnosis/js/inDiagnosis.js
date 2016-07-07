@@ -32,7 +32,7 @@ $(function() {
             },
             {field:'diagnosisDate',title:'诊断日期',width:'15%',align:'center',formatter:formatDateBoxFull},
             {field:'pathologyNo',title:'病理号',width:'10%',align:'center',editor:'text'},
-            {field:'diagnosisId',title:'诊断名称',width:'20%',align:'center',formatter:icdFormatter}
+            {field:'icdName',title:'诊断名称',width:'20%',align:'center'}
 
         ]],
         toolbar:
@@ -91,6 +91,8 @@ function loadMenu() {
             d.diagnosisDate = formatDatebox(item.diagnosisDate);
             d.operTreatIndicator = item.operTreatIndicator;
             d.pathologyNo = item.pathologyNo;
+            d.icdName = item.icdName;
+
            // d.diagnosisId = item.diagnosisId;
             d.parentId = item.parentId;
             d.children = [];
@@ -166,17 +168,18 @@ function edit(){
                 {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
                 {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
             ]
-        ],onClickRow: function (index, row) {
-            $("#icdMingcheng").val(row.zhongwen_mingcheng);
+        ],onClickRow:function(rowIndex,rowData) {
+            $("#icdName").val(rowData.zhongwen_mingcheng);
         },
         keyHandler: {
             up: function() {},
             down: function() {},
             enter: function() {},
             query: function(q) {
-                var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                icdComplete(q,'diagnosisId');
-                $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
+                icdCompleting(q,'diagnosisId');
+                $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
+                $('#diagnosisId').combogrid("setText",q);
+
             }
         }
     })
@@ -203,7 +206,8 @@ function save(){
         d.diagnosisDate = $("#diagnosisDate").datebox('getValue');
         d.operTreatIndicator =  $("#operTreatIndicator").val();
         d.pathologyNo = $("#pathologyNoId").val();
-        d.diagnosisId =$('#diagnosisId').combobox('getValue');
+        d.diagnosisId =$('#diagnosisId').combogrid("getValue");
+        d.icdName = $("#icdName").val();
         d.parentId = $("#parentId").val();
         d.patientId =patientId;
         d.visitId = visitId;
@@ -274,17 +278,16 @@ function insert(){
                 {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
                 {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
             ]
-        ],onClickRow: function (index, row) {
-            $("#icdMingcheng").val(row.zhongwen_mingcheng);
-        },
-        keyHandler: {
+        ],onClickRow:function(rowIndex,rowData) {
+            $("#icdName").val(rowData.zhongwen_mingcheng);
+        },keyHandler: {
             up: function() {},
             down: function() {},
             enter: function() {},
             query: function(q) {
-                var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                icdComplete(q,'diagnosisId');
-                $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
+                icdCompleting(q,'diagnosisId');
+                $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
+                $('#diagnosisId').combogrid("setText",q);
             }
         }
     })
@@ -327,17 +330,16 @@ function addNextLevel() {
                     {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
                     {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
                 ]
-            ],onClickRow: function (index, row) {
-                $("#icdMingcheng").val(row.zhongwen_mingcheng);
-            },
-            keyHandler: {
+            ],onClickRow:function(rowIndex,rowData) {
+            $("#icdName").val(rowData.zhongwen_mingcheng);
+            },keyHandler: {
                 up: function() {},
                 down: function() {},
                 enter: function() {},
                 query: function(q) {
-                    var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                    icdComplete(q,'diagnosisId');
-                    $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
+                    icdCompleting(q,'diagnosisId');
+                    $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
+                    $('#diagnosisId').combogrid("setText",q);
                 }
             }
         })
