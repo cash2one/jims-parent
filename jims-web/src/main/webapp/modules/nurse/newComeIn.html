@@ -7,6 +7,13 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/nurse/js/newComeIn.js"></script>
+    <script type="text/javascript" src="/static/data/data_sex_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
+    <script type="text/javascript" src="/static/data/data_operation_patientCondition.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_nurse_class.js"></script>
     <style>
         .bot-medbtn
         {
@@ -29,7 +36,7 @@
                 床号：
             </label>
             <input name="bedNo" class="easyui-textbox">
-            <input name="bedRecId" type="hidden" class="easyui-textbox">
+
             <label>
                 床标号：
             </label>
@@ -57,7 +64,7 @@
             <label>
                 费别：
             </label>
-            <input name="chargeType" class="easyui-textbox" >
+            <input name="chargeType" id="chargeType" class="easyui-textbox" >
 
         </div>
         <div class="fitem fitem_pop">
@@ -87,66 +94,51 @@
             <label>
                 入住科室：
             </label>
-            <input name="deptStayed" class="easyui-textbox" >
-            <select name="nursingClass" class="easyui-combobox" >
-                <option value="1">耳鼻喉病房</option>
-                <option value="2">妇科组病房</option>
-                <option value="3">骨病科病房</option>
-            </select>
+            <input name="deptStayed" id="deptStayed" class="easyui-textbox" >
+
             <label>
                 医生：
             </label>
-            <select name="doctorUser" class="easyui-combobox" >
-                <option value="1">王金兰</option>
-            </select>
+            <input name="doctorUser" id="doctorUser" class="easyui-textbox" >
+
         </div>
         <div class="fitem fitem_pop">
             <label>
                 护理等级：
             </label>
-            <select name="nursingClass" class="easyui-combobox" >
-                <option value="1">特级护理</option>
-                <option value="2">一级护理</option>
-                <option value="3">二级护理</option>
-                <option value="4">三级护理</option>
-                <option value="5">病重护理</option>
-            </select>
+            <input name="nursingClass" id="nursingClass" class="easyui-textbox" >
+
             <label>
                 病情：
             </label>
-            <select name="patientCondition" class="easyui-combobox" >
-                <option value="1">危</option>
-                <option value="2">重</option>
-                <option value="3">一般</option>
-            </select>
+            <input name="patientCondition" id="patientCondition" class="easyui-textbox" >
+
             <label>
                 上级医生：
             </label>
-                <select name="superDoctorId" class="easyui-combobox" >
-                <option value="1">王金兰</option>
-            </select>
+            <input name="superDoctorId" id="superDoctorId" class="easyui-textbox" />
+
         </div>
         <div class="fitem fitem_pop">
             <label>
                 入院身高：
             </label>
-            <input name="bodyHeight" class="easyui-textbox" >
+            <input name="bodyHeight" class="easyui-numberbox" >
             <label>
                 入院体重：
             </label>
-            <input name="bodyWeight" class="easyui-textbox" />
+            <input name="bodyWeight" class="easyui-numberbox" />
             <label>
                 主任医生：
             </label>
-            <select name="parentDoctorId" class="easyui-combobox" >
-                <option value="1">王金兰</option>
-            </select>
+            <input name="parentDoctorId" id="parentDoctorId" class="easyui-textbox" />
+
         </div>
         <div class="fitem fitem_pop">
             <label>
                 诊断：
             </label>
-            <input name="diagnosis" class="easyui-textbox" >
+            <input name="diagnosis" id="diagnosis" class="easyui-textbox" >
             <label>
                 发病日期：
             </label>
@@ -154,6 +146,7 @@
 
 
         </div>
+        <input name="bedRecId" type="hidden" class="easyui-textbox">
         </form>
     </div>
 <div data-options="region:'center'" >
