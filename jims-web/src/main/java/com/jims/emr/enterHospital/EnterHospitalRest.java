@@ -2,19 +2,15 @@ package com.jims.emr.enterHospital;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 
-import com.jims.clinic.api.ElectronEnterHospitalServiceApi;
-import com.jims.clinic.entity.ElectronEnterHospital;
+import com.jims.enterHospital.api.ElectronEnterHospitalServiceApi;
+import com.jims.enterHospital.entity.ElectronEnterHospital;
 import com.jims.common.data.StringData;
-import com.jims.sys.entity.Dict;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 /**
  * 入院记录
