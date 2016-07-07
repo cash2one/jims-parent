@@ -72,7 +72,6 @@ $(function () {
         ,currentStorage = parent.config.currentStorage  // 当前登录人所属管理单位
         ,currentUsername = '录入者'   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账
-        ,drugDicts = []  // 检索的药品字典数据
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
     /**
@@ -181,7 +180,8 @@ $(function () {
             exportRow.supplier = drugStock['supplier']
             exportRow.retailPrice = drugStock['retail_price']
             exportRow.tradePrice = drugStock['trade_price']
-            exportRow.price = drugStock['retail_price']
+            exportRow.price = $('#statisticClass').combobox('getValue') == '退药出库' ?
+                drugStock['trade_price'] : drugStock['retail_price'];
             exportRow.packageSpec = drugStock['package_spec']
             exportRow.packageUnits = drugStock['package_units']
             exportRow.subPackage1 = drugStock['sub_package_1']
@@ -254,7 +254,7 @@ $(function () {
         var editor = $('#dg').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
         if(editor){
             var rows = $(editor.target).combogrid('grid').datagrid('getRows');
-            if(rows.length > 0){
+            if(rows.length > 0 && $(editor.target).combogrid('getValue')){
                 if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
                     $(editor.target).combogrid('grid').datagrid('selectRow',0)
                 }
@@ -277,15 +277,18 @@ $(function () {
      */
     var onClickCell = function (index, field) {
         if (endEditing()) {
-            if (index == $('#dg').datagrid('getRows').length - 1) {
+            currentSelectIndex = index;
+            if (index == $('#dg').datagrid('getRows').length - 1 ||
+                (field == 'price' && $('#statisticClass').combobox('getValue') != '退药出库')) {
                 return
             }
             $('#dg').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
-            currentSelectIndex = index;
             if(field == 'drugName'){
-                var editor = $('#dg').datagrid('getEditor',{index:index,field:field})
-                $(editor.target).combogrid('grid').datagrid('loadData',drugDicts)
+                var editor = $('#dg').datagrid('getEditor',{index:index,field:field});
+                $(editor.target).combogrid('grid').datagrid({
+                    url:'/service/drug-stock/findListHasStock?limit=50&orgId='+currentOrgId+'&supplyIndicator=1&storage='+currentStorage+'&subStorage='+$('#stockSubDept').combobox('getValue')
+                })
             }
         }
     }
@@ -300,9 +303,7 @@ $(function () {
     }
 
     var save = function (mod) {
-        if (currentSelectIndex != undefined) {
-            $("#dg").datagrid("endEdit", currentSelectIndex);
-        }
+        if (!endEditing()) return false;
         var rows = $('#dg').datagrid('getRows')
         if(rows.length > 0){
             for(var i=0;i<rows.length - 1 ;i++){
@@ -313,6 +314,7 @@ $(function () {
             if(!currentSubStorageDeptId) return
             for(var i=0;i<rows.length - 1 ;i++){
                 rows[i].itemNo = i + 1
+                rows[i].purchasePrice = rows[i].price
                 delete rows[i].price
                 delete rows[i].outPrice
                 delete rows[i].supplier
@@ -416,7 +418,6 @@ $(function () {
                     required: true,
                     missingMessage: '药名不能为空',
                     fitColumns: true,
-                    url:'/service/drug-stock/findListHasStock?limit=50&orgId='+currentOrgId+'&supplyIndicator=1',
                     method:'get',
                     mode:'remote',
                     columns: [[
@@ -455,7 +456,14 @@ $(function () {
             title: "单价",
             field: "price",
             width: 70,
-            align: 'center'
+            align: 'center',
+            editor: {
+                type: 'numberbox', options: {
+                    required: true,
+                    min : 0,
+                    precision:2
+                }
+            }
         }, {
             title: "批发价",
             field: "tradePrice",
@@ -630,6 +638,9 @@ $(function () {
         if (currentSelectIndex != undefined) {
             if(currentSelectIndex == $('#dg').datagrid('getRows').length - 1) return
             $("#dg").datagrid('deleteRow', currentSelectIndex);
+            if($("#dg").datagrid('getRows').length == 1){
+                $("#dg").datagrid('deleteRow', 0);
+            }
             currentSelectIndex = undefined
         } else {
             $.messager.alert('系统提示', "请选择要删除的行", 'info');
