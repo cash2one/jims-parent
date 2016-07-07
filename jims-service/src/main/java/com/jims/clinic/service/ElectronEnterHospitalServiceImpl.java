@@ -2,7 +2,9 @@
 package com.jims.clinic.service;
 
 import com.jims.clinic.api.ElectronEnterHospitalServiceApi;
+import com.jims.clinic.bo.ElectronEnterHospitalBo;
 import com.jims.clinic.dao.ElectronEnterHospitalDao;
+import com.jims.doctor.diagnosis.bo.EmrDiagnosisBo;
 import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
 import com.jims.clinic.entity.ElectronEnterHospital;
 import com.jims.diagnosis.entity.EmrDiagnosis;
@@ -19,11 +21,11 @@ import java.util.List;
  */
 @com.alibaba.dubbo.config.annotation.Service(version = "1.0.0")
 
-public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronEnterHospitalDao,ElectronEnterHospital> implements ElectronEnterHospitalServiceApi {
+public  class ElectronEnterHospitalServiceImpl  implements ElectronEnterHospitalServiceApi {
     @Autowired
-	private ElectronEnterHospitalDao electronEnterHospitalDao;
+	private ElectronEnterHospitalBo electronEnterHospitalBo;
 	@Autowired
-	private EmrDiagnosisDao emrDiagnosisDao;
+	private EmrDiagnosisBo emrDiagnosisBo;
 
 	/**
 	 * 保存病历文书
@@ -32,42 +34,9 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 	 * @return
 	 */
 	public String saveEnter(ElectronEnterHospital electronEnterHospital){
-       int num = 0;
-
-			if (electronEnterHospital!=null) {
-			String	str = save(electronEnterHospital);
-				num =Integer.parseInt(str==null?"0":str);
-
-				List<EmrDiagnosis> emrDiagnosisList = electronEnterHospital.getDiagnosisList();
-				if (emrDiagnosisList!=null) {
-
-
-				if (emrDiagnosisList.size() > 0) {
-					for (int i = 0; i < emrDiagnosisList.size(); i++) {
-						EmrDiagnosis diagnosis = emrDiagnosisList.get(i);
-						diagnosis.setDiagnosisParent(electronEnterHospital.getId());
-						diagnosis.setParentId("0");
-						try {
-							if (diagnosis.getIsNewRecord()) {
-								diagnosis.preInsert();
-								num = emrDiagnosisDao.insert(diagnosis);
-							} else {
-								diagnosis.preUpdate();
-								num = emrDiagnosisDao.update(diagnosis);
-							}
-						} catch (Exception e) {
-							return num + "";
-						}
-						return num + "";
-					}
-					return num + "";
-				}
-			}
-			}
-
-
-
-		return num+"";
+       String num = "";
+		num = electronEnterHospitalBo.saveEnter(electronEnterHospital);
+		return num;
 	}
 
 	/**
@@ -78,7 +47,7 @@ public  class ElectronEnterHospitalServiceImpl extends CrudImplService<ElectronE
 	 */
 	@Override
 	public ElectronEnterHospital getElectronEnteHos(ElectronEnterHospital electronEnterHospital) {
-		return electronEnterHospitalDao.getElectronEnteHos(electronEnterHospital);
+		return electronEnterHospitalBo.getElectronEnteHos(electronEnterHospital);
 	}
 
 
