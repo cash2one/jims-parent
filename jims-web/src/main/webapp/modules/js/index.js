@@ -52,10 +52,8 @@ $(function () {
         if(sysService) {
             $("#menu").append("<li><a id='" + sysService.id + "'>" + sysService.serviceName + "</a></li>");
             $("#" + sysService.id).on('click', function () {
-
                 var iframe = '<iframe width="100%" id="centerIframe" height="99.6%" frameborder="no"  border="0"  ' +
                     'scrolling="yes" src="/modules/sys/template.html?serviceId=' + sysService.id + '?staffId=' + staffId + '"></iframe>'
-
                 $("#iframe").html('');
                 $("#iframe").append(iframe);
             });

@@ -1,3 +1,5 @@
+var rowNum=-1;
+
 var editRow = undefined;
 var visitDate='2015-06-09';
 var visitNo='410';
@@ -26,14 +28,29 @@ $(function(){
                     required:true
                 }
             }},
+
             {field:'doctorId',title:'参与医生',width:'20%',align:'center',editor:{
-                type:'combobox',
+                type:'combogrid',
                 options:{
                     data :doctorName,
                     valueField:'id',
                     textField:'name',
-                    required:true
+                    required:true,
+                    columns:[[
+                        {field:'name',title:'医生姓名',width:70},
+                        {field:'dept_name',title:'科室',width:120},
+                        {field:'title',title:'职称',width:70}
+                    ]],
+                    onClickRow: function (index, data) {
+                        var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
+                        var columns = $('#list_data').datagrid("options").columns;
+                        rows[rowNum][columns[0][4].field]=data.title;
+                        $('#list_data').datagrid('endEdit', rowNum);
+                        $('#list_data').datagrid('beginEdit', rowNum);
+                    }
                 }
+            //}},
+            //    }
             }},
             {field:'inHuizhenyijian',title:'意见',width:'60%',align:'center'}
         ]],

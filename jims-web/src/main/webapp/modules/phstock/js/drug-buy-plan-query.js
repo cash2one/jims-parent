@@ -27,6 +27,28 @@ $(function () {
         $('#buyPlanTable').datagrid('mergeCells', {index: _index, field: 'checkSupplier', rowspan: null, colspan: 6})
     }
 
+
+    var specUnits = [];//规格单位字典
+    $.get("/service/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
+    var drugToxi = [];//毒理属性字典
+    $.get( "/service/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT", function (data) {
+        drugToxi = data;
+    });
+
+    var drugFormDict = [];//剂型字典
+    $.get("/service/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
+        drugFormDict = data;
+    })
+
+    var storageList = [];//库房字典
+    $.get('/service/dept-dict/findListWithFilter?orgId=' + orgId, function (data) {
+        storageList = data;
+    })
+
+
     /**
      * 初始化药品购买计划表
      */
@@ -57,8 +79,27 @@ $(function () {
                     return value;
                 }},
                 {field: 'packSpec', title: '包装规格', width: 60, align: "center"},
-                {field: 'packUnit', title: '包装单位', width: 60, align: "center"},
-                {field: 'drugForm', title: '剂型', width: 80, align: "center"},
+                {field: 'packUnit', title: '包装单位', width: 60, align: "center",
+                    formatter:function(value,row,index){
+                        var unitsName = value;
+                        $.each(specUnits, function (index,item) {
+                            if(item.value == value){
+                                unitsName =  item.label;
+                            }
+                        });
+                        return unitsName;
+                    }},
+                {field: 'drugForm', title: '剂型', width: 80, align: "center",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(drugFormDict, function (index,item) {
+                            if (item.value == value){
+                                label =   item.label;
+                            }
+                        });
+                        return label;
+                    }
+                },
                 {field: 'wantNumber', title: '计划数量', width: 60, align: "center"},
                 {field: 'count', title: '计划金额', width: 60, align: "center", formatter: function (value, row, index) {
                     if(row.id == -1) return value
@@ -71,31 +112,57 @@ $(function () {
                     if(row.id == -1) return value
                     return ((isNaN(row.stockNumber) ? 0 : +row.stockNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
                 }},
-                {field: 'stockSupplier', title: '采购供应商', width: 200, align: "center",formatter:function(value){
-                    for(var i= 0,j=suppliers.length;i<j;i++){
-                        if(suppliers[i].id == value) {
-                            return '<div style="text-align: left">'+suppliers[i].supplier+'</div>'
-                        }
+                {field: 'stockSupplier', title: '采购供应商', width: 200, align: "center",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(suppliers, function (index,item) {
+                            if (item.id == value){
+                                label =   item.supplier;
+                            }
+                        });
+                        return label;
                     }
-                    return ''
-                }},
+                },
                 {field: 'buyer', title: '采购员', width: 70, align: "center"},
                 {field: 'checkNumber', title: '审核数量', width: 60, align: "center"},
                 {field: 'checkMoney', title: '审核金额', width: 60, align: "center",formatter:function(value,row,index){
                     if(row.id == -1) return value
                     return ((isNaN(row.checkNumber) ? 0 : +row.checkNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
                 }},
-                {field: 'checkSupplier', title: '审核供应商', width: 200, halign: "center",align: "left", formatter:function(value){
-                    for(var i= 0,j=suppliers.length;i<j;i++){
-                        if(suppliers[i].id == value) {
-                            return suppliers[i].supplier
-                        }
+                {field: 'checkSupplier', title: '审核供应商', width: 200, halign: "center",align: "left",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(suppliers, function (index,item) {
+                            if (item.id == value){
+                                label =   item.supplier;
+                            }
+                        });
+                        return label;
                     }
-                    return ''
-                }},
+                },
                 {field: 'checker', title: '审核人', width: 70, align: "center"},
-                {field: 'storage', title: '库房', width: 70, align: "center"},
-                {field: 'supplier', title: '厂商', width: 200, halign: "center", align: "left"},
+                {field: 'storage', title: '库房', width: 70, align: "center",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(storageList, function (index,item) {
+                            if (item.deptCode == value){
+                                label =   item.deptName;
+                            }
+                        });
+                        return label;
+                    }
+                },
+                {field: 'supplier', title: '厂商', width: 200, halign: "center", align: "left",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(suppliers, function (index,item) {
+                            if (item.id == value){
+                                label =   item.supplier;
+                            }
+                        });
+                        return label;
+                    }
+                },
                 {field: 'stockNum', title: '库存参考数', width: 90, align: "center"},
                 {field: 'outStockNum', title: '出库参考数', width: 90, align: "center"}
             ]]
@@ -296,6 +363,7 @@ $(function () {
             supplierClass: supplierClass
         }, function (res) {
             suppliers = res
+            console.log(suppliers);
         }, 'GET', false)
     }
 

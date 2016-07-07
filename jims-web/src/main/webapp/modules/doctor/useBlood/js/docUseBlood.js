@@ -1,13 +1,11 @@
-var clinicId = parent.clinicMaster.id;
-var patientId = parent.clinicMaster.patientId;
+//var clinicId = parent.clinicMaster.id;
+//var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
 /**
  * 设置动态行
  * @param id
  */
 
-var editRow = undefined;
-var serialNo = '';
 var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"}, {"value": "3", "text": "备血"}];
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
 var bloodInuses = [{"value": "1", "text": "血库"}, {"value": "2", "text": "自体"}, {"value": "3", "text": "互助"}];
@@ -21,7 +19,6 @@ var patSource = [{"value": "1", "text": "市区"}, {"value": "2", "text": "郊�
  * @returns {string|string|string}
  */
 function fastSloFormatter(value, rowData, rowIndex) {
-    alert(1)
     if (value == 0) {
         return;
     }
@@ -120,9 +117,6 @@ function onloadMethod() {
         },
         ],
 
-        //onAfterEdit: function (rowIndex, rowData, changes) {
-        //    editRow = undefined;
-        //},
         onClickRow: function (rowIndex, rowData) {
             var dataGrid = $('#list_doctor');
             if (!dataGrid.datagrid('validateRow', rowNum)) {
@@ -139,12 +133,12 @@ function onloadMethod() {
         }
     });
     //获取门诊id
-    $("#clinicId").val(clinicId);
-    $("#patientId").val(patientId);
-    $("#patName").val(parent.clinicMaster.name);
-    $("#patSex").val(parent.clinicMaster.sex);
-    $("#feeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));
-    $("#feeTypeId").val(parent.clinicMaster.chargeType);
+    //$("#clinicId").val(clinicId);
+    //$("#patientId").val(patientId);
+    //$("#patName").val(parent.clinicMaster.name);
+    //$("#patSex").val(parent.clinicMaster.sex);
+    //$("#feeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));
+    //$("#feeTypeId").val(parent.clinicMaster.chargeType);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -310,7 +304,7 @@ function onloadMethod() {
  * @param id
  */
 function saveUseBloodApply() {
-    $("#list_doctor").datagrid('endEdit', editRow);
+    $("#list_doctor").datagrid("endEdit", rowNum);
     var rows = $('#list_doctor').datagrid('getRows');
     var formJson = fromJson('useBloodForm');
     formJson = formJson.substring(0, formJson.length - 1);

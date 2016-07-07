@@ -1,13 +1,10 @@
-var visitId = parent.patVisit.visitId;
-var patientId = parent.patVisit.patientId;
+//var visitId = parent.patVisit.visitId;
+//var patientId = parent.patVisit.patientId;
 var rowNum = -1;
 /**
  * 设置动态行
  * @param id
  */
-
-var editRow = undefined;
-var serialNo = '';
 var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"}, {"value": "3", "text": "备血"}];
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
 var bloodInuses = [{"value": "1", "text": "血库"}, {"value": "2", "text": "自体"}, {"value": "3", "text": "互助"}];
@@ -99,9 +96,10 @@ function onloadMethod() {
             }
             },
         ]],
-        frozenColumns: [[
-            {field: 'ck', checkbox: true}
-        ]],
+        fitColumns: true,
+        //frozenColumns: [[
+        //    {field: 'ck', checkbox: true}
+        //]],
         toolbar: [{
             text: '添加',
             iconCls: 'icon-add',
@@ -122,9 +120,6 @@ function onloadMethod() {
                 inDoDelete();
             }
         },
-            {
-                text: '双击进行编辑'
-            },
         ],
 
         onClickRow: function (rowIndex, rowData) {
@@ -143,12 +138,12 @@ function onloadMethod() {
         }
     });
 
-    $("#visitId").val(visitId);
-    $("#patientId").val(patientId);
-    $("#patName").val(parent.patVisitIndex.name);
-    $("#patSex").val(parent.patVisitIndex.sex);
-    $("#feeType").val(itemFormatter(parent.patVisitIndex.chargeType,'',''));
-    $("#feeTypeId").val(parent.patVisitIndex.chargeType);
+    //$("#visitId").val(visitId);
+    //$("#patientId").val(patientId);
+    //$("#patName").val(parent.patVisitIndex.name);
+    //$("#patSex").val(parent.patVisitIndex.sex);
+    //$("#feeType").val(itemFormatter(parent.patVisitIndex.chargeType,'',''));
+    //$("#feeTypeId").val(parent.patVisitIndex.chargeType);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -287,17 +282,17 @@ function onloadMethod() {
  * @param id
  */
 function saveUseBloodApply() {
-    $("#list_doctor").datagrid('endEdit', editRow);
+    $("#list_doctor").datagrid("endEdit", rowNum);
     var rows = $('#list_doctor').datagrid('getRows');
     var formJson = fromJson('useBloodForm');
     formJson = formJson.substring(0, formJson.length - 1);
     var tableJson = JSON.stringify(rows);
     var submitJson = formJson + ",\"bloodCapacityList\":" + tableJson + "}";
-    $("#inpNo").attr("value", "123");
+    //$("#inpNo").attr("value", "123");
     if (rows.length > 0) {
         $.postJSON(basePath + "/bloodApply/saveHos", submitJson, function (data) {
-            if (data.code == "1") {
-                $.messager.alert("提示信息", "保存成功");
+            if (data == "1") {
+                $.messager.alert("提示信息", data +"条记录，保存成功");
                 $('#list_data').datagrid('load');
                 $('#list_data').datagrid('clearChecked');
                 $("#useBloodForm").form("clear");

@@ -1,6 +1,6 @@
-var editRow = undefined;
-var clinicId = parent.clinicMaster.id;
-var patientId = parent.patVisit.patientId;
+//var clinicId = parent.clinicMaster.id;
+//var patientId = parent.patVisit.patientId;
+var clinicId = 1;
 var rowNum = -1;
 function onloadMethod() {
     alert(clinicId)
@@ -21,7 +21,8 @@ function onloadMethod() {
         singleSelect: true,
         fit: true,
         method: 'POST',
-        url: basePath + '/operatioinOrder/getOperationName?clinicId=' + cId,
+        url: basePath + '/operatioinOrder/getOperationName',
+        queryParams:{'clinicId': clinicId},
         idField: 'id',
         columns: [[      //每个列具体内容
             {
