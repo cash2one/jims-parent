@@ -24,4 +24,12 @@ public interface BloodApplylDao  extends CrudDao<BloodApply> {
 //     */
 //    public BloodApply getPatientInformation(String patientId);
 
+
+    /**
+     * 手术确认
+     * @author pq
+     * @param bloodApply
+     * @return
+     */
+    public  int confirmBlood(BloodApply bloodApply);
 }

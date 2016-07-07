@@ -7,6 +7,11 @@ $(function () {
         }
     };
 
+    var specUnits = [];//规格单位字典
+    $.get( basePath + "/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
     var drugNameDictList = [];//药品名称列表
     var drugSupplierDict  = [];//药品生产商列表
     var selectedPriceListRow;
@@ -60,7 +65,16 @@ $(function () {
             title: "单位",
             field: "units",
             width: '6%',
-            align: 'center'
+            align: 'center',
+            formatter:function(value,row,index){
+                var unitsName = value;
+                $.each(specUnits, function (index,item) {
+                    if(item.value == value){
+                        unitsName =  item.label;
+                    }
+                });
+                return unitsName;
+            }
         }, {
             title: "厂家",
             field: "firmId",
@@ -70,7 +84,7 @@ $(function () {
                 var supplierName = value;
                 $.each(drugSupplierDict, function (index,item) {
                     if(item.id == value){
-                        supplierName =  item.supplierId;
+                        supplierName =  item.supplier;
                     }
                 });
                 return supplierName;
@@ -180,7 +194,16 @@ $(function () {
             title: "单位",
             field: "units",
             width: '6%',
-            align: 'center'
+            align: 'center',
+            formatter:function(value,row,index){
+                var unitsName = value;
+                $.each(specUnits, function (index,item) {
+                    if(item.value == value){
+                        unitsName =  item.label;
+                    }
+                });
+                return unitsName;
+            }
         }, {
             title: "厂家",
             field: "firmId",
@@ -190,7 +213,7 @@ $(function () {
                 var supplierName = value;
                 $.each(drugSupplierDict, function (index,item) {
                     if(item.id == value){
-                        supplierName =  item.supplierId;
+                        supplierName =  item.supplier;
                     }
                 });
                 return supplierName;
@@ -219,7 +242,16 @@ $(function () {
             title: "最小单位",
             field: "minUnits",
             width: '6%',
-            align: 'center'
+            align: 'center',
+            formatter:function(value,row,index){
+                var unitsName = value;
+                $.each(specUnits, function (index,item) {
+                    if(item.value == value){
+                        unitsName =  item.label;
+                    }
+                });
+                return unitsName;
+            }
         }, {
             title: "起用日期",
             field: "startDate",
@@ -327,7 +359,7 @@ $(function () {
         drugPriceModifyVo.inserted = insertData;
         drugPriceModifyVo.deleted = deleteDate;
         drugPriceModifyVo.updated = updateDate;
-
+        console.log(JSON.stringify(drugPriceModifyVo));
         if (drugPriceModifyVo) {
             $.postJSON(basePath + "/drug-price-modify/save", JSON.stringify(drugPriceModifyVo), function (data) {
                 $.messager.alert("系统提示", "保存成功", "info");
