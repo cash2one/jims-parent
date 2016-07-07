@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/nurse/js/cancelComeIn.js"></script>
+    <script type="text/javascript" src="/static/data/data_sex_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
+    <script type="text/javascript" src="/static/data/data_operation_patientCondition.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_nurse_class.js"></script>
+    <style>
+        .bot-medbtn
+        {
+            float:right;
+            padding:15px 10px 0 0;
+        }
+        .bot-medbtn a
+        {
+            display:inline-block;
+            padding:10px;
+
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north'"  style="height: 90%;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" >
+            <table id="centerList">
+            </table>
+        </div>
+        <div data-options="region:'east'" style="width: 20%">
+            <form id="eastForm" method="post">
+                <div class="fitem fitem_pop">
+                    <label>
+                        姓名：
+                    </label>
+                    <input name="name" class="easyui-textbox">
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        性别：
+                    </label>
+                    <input name="sex" class="easyui-textbox">
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        病人ID：
+                    </label>
+                    <input name="patient_id" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        科室：
+                    </label>
+                    <input name="dept_code" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        入院日期：
+                    </label>
+                    <input name="admission_date_time" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        诊断：
+                    </label>
+                    <input name="diagnosis" class="easyui-textbox" >
+
+                </div>
+                </form>
+        </div>
+    </div>
+</div>
+
+<div data-options="region:'south'" style="height: 10%;">
+    <div class="bot-medbtn">
+        <a href="#" onclick="cancelSureFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确定</a>
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">取消</a>
+    </div>
+</div>
+</body>
+</html>

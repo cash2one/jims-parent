@@ -38,7 +38,7 @@ $(function() {
 
     //性别
     $('#sex').combobox({
-        data: setData,
+        data: sexData,
         valueField: 'value',
         textField: 'label'
     });

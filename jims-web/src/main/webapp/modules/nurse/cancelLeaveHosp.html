@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/nurse/js/cancelLeaveHosp.js"></script>
+    <script type="text/javascript" src="/static/data/data_sex_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
+    <script type="text/javascript" src="/static/data/data_operation_patientCondition.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_nurse_class.js"></script>
+    <style>
+        .bot-medbtn
+        {
+            float:right;
+            padding:15px 10px 0 0;
+        }
+        .bot-medbtn a
+        {
+            display:inline-block;
+            padding:10px;
+
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'north'"  style="height: 90%;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'west'" style="width: 20%" >
+            <form id="westForm" method="post">
+                <div class="fitem fitem_pop">
+                    <label>
+                        病人ID：
+                    </label>
+                    <input name="patient_id" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        住院号：
+                    </label>
+                    <input name="inp_no" class="easyui-textbox" >
+                </div>
+
+                <div class="fitem fitem_pop">
+                    <label>
+                        姓名：
+                    </label>
+                    <input name="name" class="easyui-textbox">
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        性别：
+                    </label>
+                    <input name="sex" class="easyui-textbox">
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        入院日期：
+                    </label>
+                    <input name="admission_date_time" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        出院日期：
+                    </label>
+                    <input name="discharge_date_time" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        出院科室：
+                    </label>
+                    <input name="dept_discharge_from" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        新入住科室：
+                    </label>
+                    <input name="dept_code" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        经治医生：
+                    </label>
+                    <input name="doctor_in_charge" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        上级医生：
+                    </label>
+                    <input name="supper_doctor" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        主任医生：
+                    </label>
+                    <input name="main_doctor" class="easyui-textbox" >
+                </div>
+                <div class="fitem fitem_pop">
+                    <label>
+                        计费截止时间：
+                    </label>
+                    <input name="stop_date" class="easyui-textbox" >
+
+                </div>
+            </form>
+        </div>
+        <div data-options="region:'center'" >
+            <div id="searchDiv">
+                <form name="searchform" method="post" action="" id ="searchform">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td class="text-right">护理单元：</td>
+                            <td><input type="text" class="easyui-textbox" id="nurseUnit"/></td>
+                            <td class="text-right">出院时间：</td>
+                            <td><input type="text" class="easyui-datebox" id="startDate"/></td>
+                            <td class="text-right">至：</td>
+                            <td><input type="text" class="easyui-datebox" id="stopDate"/></td>
+                            <td >
+                                <button class="easy-nbtn easy-nbtn-info" onclick="searchByCondition();" style="float: right">查询</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <table id="centerList">
+            </table>
+        </div>
+    </div>
+</div>
+
+<div data-options="region:'south'" style="height: 10%;">
+    <div class="bot-medbtn">
+        <a href="#" onclick="cancelLeaveSureFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确定</a>
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">取消</a>
+    </div>
+</div>
+</body>
+</html>

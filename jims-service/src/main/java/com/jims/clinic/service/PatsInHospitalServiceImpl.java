@@ -68,4 +68,43 @@ public class PatsInHospitalServiceImpl implements PatsInHospitalServiceApi {
     public List<BaseDto> waitTurnOutList() {
         return patsInHospitalBo.waitTurnOutList();
     }
+
+    /**
+     * 取消入科病人列表
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public List<BaseDto> cacelPatientlist(String wardCode) {
+        return patsInHospitalBo.cacelPatientlist(wardCode);
+    }
+    /**
+     * 确认取消入科
+     * @param comeDeptVo
+     * @return
+     */
+    @Override
+    public String cancelComeDept(ComeDeptVo comeDeptVo) {
+        return patsInHospitalBo.cancelComeDept(comeDeptVo);
+    }
+
+    /**
+     * 确认取消离院
+     * @param comeDeptVo
+     * @return
+     */
+    @Override
+    public String cancelLeaveHosp(ComeDeptVo comeDeptVo) {
+        return patsInHospitalBo.cancelLeaveHosp(comeDeptVo);
+    }
+
+    /**
+     * 可被取消离院的病人列表
+     * @param comeDeptVo
+     * @return
+     */
+    @Override
+    public List<BaseDto> cancelLeavePatientlist(ComeDeptVo comeDeptVo) {
+        return patsInHospitalBo.cancelLeavePatientlist(comeDeptVo);
+    }
 }
