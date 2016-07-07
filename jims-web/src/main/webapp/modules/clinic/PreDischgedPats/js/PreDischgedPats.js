@@ -1,25 +1,22 @@
 var rowNum = -1;
 
 var  strValue   = "160101" ;
-
 $(function(){
     $('#list_doctor').datagrid({
-        iconCls: 'icon-edit',//图标
+        iconCls:'icon-edit',//图标
         width: 'auto',
-        height: 'auto',
+        height: '86%',
         nowrap: false,
         striped: true,
         border: true,
-        method: 'get',
-        collapsible: false,//是否可折叠的
-        fit: true,//自动大小
+        collapsible:false,//是否可折叠的
+        method:'GET',
         url: basePath + '/preDischgedPats/list?wardCode=' + strValue,
-        remoteSort: false,
-        idField: 'patientId',
-        singleSelect: false,//是否单选
-        pagination: true,//分页控件
-        pageSize: 15,
-        pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
+        remoteSort:false,
+        idField:'id',
+        singleSelect:false,//是否单选
+        pagination:true,//分页控件
+        rownumbers:true,//行号
         columns: [[      //每个列具体内容
             {field: 'bedNo', title: '床标号', width: '50%', align: 'center'},
             {
@@ -62,18 +59,19 @@ $(function(){
 function onloadMethod() {
     var wardCode = $("#wardCode").val();
     $('#list_data').datagrid({
-        iconCls: 'icon-edit',//图标
+        iconCls:'icon-edit',//图标
         width: 'auto',
-        height: 'auto',
+        height: '86%',
         nowrap: false,
         striped: true,
         border: true,
-        method: 'post',
-        collapsible: false,//是否可折叠的
+        collapsible:false,//是否可折叠的
+        method:'GET',
         url: basePath + '/preDischgedPats/findPreDischList?wardCode=' + wardCode,
-        remoteSort: false,
-        idField: 'id',
-        singleSelect: true,//是否单选
+        remoteSort:false,
+        idField:'id',
+        singleSelect:false,//是否单选
+        rownumbers:true,//行号
         columns: [[      //每个列具体内容
             {field: 'bedNo', title: '床号', width: '5%', align: 'center', editor: 'text'},
             {
