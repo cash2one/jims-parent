@@ -1,6 +1,9 @@
 $("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/easyui/css/icon.css"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
-$("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
+$("<script>").attr({
+    type: "application/javascript",
+    src: "/static/easyui/locale/easyui-lang-zh_CN.js"
+}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"}).appendTo("head");
@@ -9,18 +12,18 @@ $(function () {
 
         //校验数据是否合法
         $.extend($.fn.validatebox.defaults.rules, {
-            IsExisted :{
-                validator : function(value,param){
+            IsExisted: {
+                validator: function (value, param) {
                     var rows = $('#dg').datagrid('getRows')
-                    var select_index = $('#dg').datagrid('getRowIndex',$('#dg').datagrid('getSelected'))
-                    for(var index = rows.length - 1;index > -1;index--) {
-                        if(index != select_index && rows[index][param[0]] == value){
+                    var select_index = $('#dg').datagrid('getRowIndex', $('#dg').datagrid('getSelected'))
+                    for (var index = rows.length - 1; index > -1; index--) {
+                        if (index != select_index && rows[index][param[0]] == value) {
                             return false
                         }
                     }
                     return true
                 },
-                message : '内容已存在'
+                message: '内容已存在'
             }
         });
 
@@ -57,7 +60,7 @@ $(function () {
 
             }, {
                 title: '科室属性',
-                field: 'deptPropertity',
+                field: 'deptPropertityName',
                 width: '200'
 
             }
@@ -78,6 +81,7 @@ $(function () {
                     obj.deptCode = item.deptCode;
                     obj.inputCode = item.inputCode;
                     obj.deptPropertity = item.deptPropertity;
+                    obj.deptPropertityName = item.deptPropertityName;
                     obj.parentId = item.parentId;
                     obj.children = [];
 
@@ -323,7 +327,6 @@ $(function () {
                     alert("加载json 文件出错！");
                 },
                 success: function (data1) {
-                    console.log(data1);
                     var data2 = eval(data1);
                     deptPropertitys = data2;
                     for (var i = 0; i < data2.length; i++) {
@@ -338,27 +341,18 @@ $(function () {
                             valueField: 'propertyValue',
                             textField: 'propertyName'
                         });
-                        /*  var deptArray = [];
 
-                         deptPropertity=' + deptPropertity+'&orgId='+orgId
-                         console.log(propertyIds);
-
-
-                         var deptPro = node.deptPropertity;
-                         var dept = [];
-                         dept = deptPro.split(" ");
-                         console.log(dept);
-
-                         $("#" + propertyId).combobox({
-                         onLoadSuccess: function () {
-                         for (var item = 0; item < dept.length; item++) {
-                         // var propertyIds = "propertyName" + item;
-                         $("#" + propertyId).combobox("setValue", dept[item]);
-
-                         }
-                         }
-                         });*/
                         $("#deptPropertity").append("</div>")
+                    }
+
+
+                    //修改科室属性时，给回显的属性赋值
+                    var deptPro = node.deptPropertity;
+                    var dept = [];
+                    dept = deptPro.split(";");
+                    for (var item = 0; item < dept.length; item++) {
+                        var propertyIds = "propertyName" + item;
+                        $("#" + propertyIds).combobox("setValue", dept[item]);
                     }
                 }
             });
@@ -461,7 +455,7 @@ $(function () {
                         type: 'textbox',
                         options: {
                             required: true,
-                            validType : 'IsExisted["propertyName"]',
+                            validType: 'IsExisted["propertyName"]',
                             missingMessage: '属性名称不能为空'
                         }
                     }
@@ -472,7 +466,7 @@ $(function () {
                         type: 'textbox',
                         options: {
                             required: true,
-                            validType : 'IsExisted["propertyValue"]',
+                            validType: 'IsExisted["propertyValue"]',
                             missingMessage: '属性值不能为空'
                         }
                     }

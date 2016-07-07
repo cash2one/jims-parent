@@ -22,6 +22,7 @@ public class DeptDict extends DataEntity<DeptDict> {
     private String inputCode;   //拼音码
 
     private String q; // 模糊检索参数
+    private String deptPropertityName;		// 科室属性
 
     public String getQ() {
         return q;
@@ -90,5 +91,12 @@ public class DeptDict extends DataEntity<DeptDict> {
 	public void setDeptPropertity(String deptPropertity) {
 		this.deptPropertity = deptPropertity;
 	}
-	
+
+    public String getDeptPropertityName() {
+        return deptPropertityName;
+    }
+
+    public void setDeptPropertityName(String deptPropertityName) {
+        this.deptPropertityName = deptPropertityName;
+    }
 }
