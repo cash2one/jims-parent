@@ -38,31 +38,31 @@ window.addTab = function (title, href) {
 $(document).ready(function () {
     var menuDatas = [];
 
-    $.get(basePath + '/orgStaff/find-list-by-serviceId?serviceId=' + serviceId + '&staffId=' + staffId, function (menus) {
-        for (var i = 0; i < menus.length; i++) {
-             menus[i].children = [];
-         }
-         for (var i = 0; i < menus.length; i++) {
-             for (var j = 0; j < menus.length; j++) {
-                 if (menus[j].pid == menus[i].id) {
-                     menus[i].children.push(menus[j])
-                 }
-             }
-             if (menus[i].pid == "" || menus[i].pid == undefined || menus[i].pid == null) {
-                 menuDatas.push(menus[i]);
-             }
-         }
-         var data = {
-             title: '嵌入子模板',
-             list: menuDatas
-         };
-         var html = template('master_menu', data);
-
-         document.getElementById('content').innerHTML = html;
-         $("#menuTree").tree();
-
-         $(".vertical-nav").verticalnav({speed: 400, align: "left"});
-     });
+    //$.get(basePath + '/orgStaff/find-list-by-serviceId?serviceId=' + serviceId + '&staffId=' + staffId, function (menus) {
+    //    for (var i = 0; i < menus.length; i++) {
+    //         menus[i].children = [];
+    //     }
+    //     for (var i = 0; i < menus.length; i++) {
+    //         for (var j = 0; j < menus.length; j++) {
+    //             if (menus[j].pid == menus[i].id) {
+    //                 menus[i].children.push(menus[j])
+    //             }
+    //         }
+    //         if (menus[i].pid == "" || menus[i].pid == undefined || menus[i].pid == null) {
+    //             menuDatas.push(menus[i]);
+    //         }
+    //     }
+    //     var data = {
+    //         title: '嵌入子模板',
+    //         list: menuDatas
+    //     };
+    //     var html = template('master_menu', data);
+    //
+    //     document.getElementById('content').innerHTML = html;
+    //     $("#menuTree").tree();
+    //
+    //     $(".vertical-nav").verticalnav({speed: 400, align: "left"});
+    // });
 
 
 

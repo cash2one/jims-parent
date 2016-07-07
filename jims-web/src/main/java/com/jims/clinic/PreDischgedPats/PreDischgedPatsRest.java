@@ -66,7 +66,7 @@ public class PreDischgedPatsRest {
      * @return
      */
     @Path("findPreDischList")
-    @POST
+    @GET
     public List<PreDischgedPatsVo> findPreDischList(@QueryParam("wardCode") String wardCode) {
         List<PreDischgedPatsVo> list = preDischgedPatsServiceApi.findPreDischList(wardCode);
         return list;
