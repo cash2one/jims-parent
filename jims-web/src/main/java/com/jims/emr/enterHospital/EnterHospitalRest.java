@@ -1,4 +1,4 @@
-package com.jims.clinic;
+package com.jims.emr.enterHospital;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 
@@ -17,7 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 /**
- * 出院记录
+ * 入院记录
  */
 @Component
 @Produces("application/json")

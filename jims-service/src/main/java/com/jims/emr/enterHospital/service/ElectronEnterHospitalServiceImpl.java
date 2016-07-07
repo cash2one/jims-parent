@@ -1,8 +1,8 @@
 
-package com.jims.clinic.service;
+package com.jims.emr.enterHospital.service;
 
 import com.jims.clinic.api.ElectronEnterHospitalServiceApi;
-import com.jims.clinic.dao.ElectronEnterHospitalDao;
+import com.jims.emr.enterHospital.dao.ElectronEnterHospitalDao;
 import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
 import com.jims.clinic.entity.ElectronEnterHospital;
 import com.jims.diagnosis.entity.EmrDiagnosis;
