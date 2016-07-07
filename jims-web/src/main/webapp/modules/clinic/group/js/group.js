@@ -1,151 +1,194 @@
 var rowNum=-1;
-
+var patientId =parent.patVisit.patientId;
+var zhuyuanId = parent.patVisit.visitId;
 var editRow = undefined;
 var visitDate='2015-06-09';
 var visitNo='410';
 var prescNo ='';
 var serialNo='';
-var administration = [{ "value": "1", "text": "科室1" }, { "value": "2", "text": "科室2" }, { "value": "3", "text": "科室3" }, { "value": "4", "text": "科室4" }, { "value": "5", "text": "科室5" }];
-var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医生" }, { "value": "3", "text": "医生" }, { "value": "4", "text": "医生" }, { "value": "5", "text": "医生" }];
 var doctorid ="5";
-$(function(){
+function onloadMethod() {
+    $("#patientId").val("06b45a7a-b286-11e5-b259-0894ef010b20");
+    /**
+     * 会诊类型
+     */
+    $("#grouptype").combobox({
+        data: groupType,
+        valueField: 'value',
+        textField: 'label',
+        onSelect: function (data) {
+            $("#groupTypeId").val(data.value);
+        }
+    })
+
     changeYiJian("4");
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,
         nowrap: false,
-        method:'post',
-        url:basePath+'/group/doctorlist',
-        columns:[[
-            {field:'id',title:'id',hidden:true,align:'center'},
+        method: 'post',
+        url: basePath + '/group/doctorlist',
+        columns: [[
+            {field: 'id', title: 'id', hidden: true, align: 'center'},
             //每个列具体内容
-            {field:'officeId',title:'科室',width:'20%',align:'center',editor:{
-                type:'combobox',
-                options:{
-                    data :clinicDeptCode,
-                    valueField:'id',
-                    textField:'dept_name',
-                    required:true
-                }
-            }},
-
-            {field:'doctorId',title:'参与医生',width:'20%',align:'center',editor:{
-                type:'combogrid',
-                options:{
-                    data :doctorName,
-                    valueField:'id',
-                    textField:'name',
-                    required:true,
-                    columns:[[
-                        {field:'name',title:'医生姓名',width:70},
-                        {field:'dept_name',title:'科室',width:120},
-                        {field:'title',title:'职称',width:70}
-                    ]],
-                    onClickRow: function (index, data) {
-                        var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
-                        var columns = $('#list_data').datagrid("options").columns;
-                        rows[rowNum][columns[0][4].field]=data.title;
-                        $('#list_data').datagrid('endEdit', rowNum);
-                        $('#list_data').datagrid('beginEdit', rowNum);
+            {
+                field: 'officeId',
+                title: '科室',
+                width: '20%',
+                align: 'center',
+                formatter: clinicDeptCodeFormatter,
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        data: clinicDeptCode,
+                        valueField: 'id',
+                        textField: 'dept_name',
+                        required: true
                     }
                 }
-            //}},
-            //    }
-            }},
-            {field:'inHuizhenyijian',title:'意见',width:'60%',align:'center'}
+            },
+
+            {
+                field: 'doctorId',
+                title: '参与医生',
+                width: '20%',
+                align: 'center',
+                formatter: doctorNameFormatter,
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        data: doctorName,
+                        valueField: 'id',
+                        textField: 'name',
+                        required: true
+                        //columns:[[
+                        //    {field:'name',title:'医生姓名',width:70},
+                        //    {field:'dept_name',title:'科室',width:120},
+                        //    {field:'title',title:'职称',width:70}
+                        //]]
+                        //onClickRow: function (index, data) {
+                        //    var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
+                        //    var columns = $('#list_data').datagrid("options").columns;
+                        //    rows[rowNum][columns[0][4].field]=data.title;
+                        //    $('#list_data').datagrid('endEdit', rowNum);
+                        //    $('#list_data').datagrid('beginEdit', rowNum);
+                        //}
+                    }
+                    //}},
+                    //    }
+                }
+            },
+            {field: 'inHuizhenyijian', title: '意见', width: '60%', align: 'center'}
         ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
+        frozenColumns: [[
+            {field: 'ck', checkbox: true}
         ]],
         toolbar: [{
             text: '添加',
             iconCls: 'icon-add',
-            handler: function() {
+            handler: function () {
                 changeYiJian(0);
                 $("#list_doctor").datagrid('insertRow', {
-                    index:0,
-                    row:{}
+                    index: 0,
+                    row: {}
                 });
             }
-        }, '-',{
+        }, '-', {
             text: '删除',
             iconCls: 'icon-remove',
-            handler: function(){
+            handler: function () {
                 inDoDelete();
             }
-        }],onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        },onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+        }],
+        onClickRow: function (rowIndex, rowData) {
+            var dataGrid = $('#list_doctor');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
             }
-            if (editRow == undefined) {
-                $("#list_doctor").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        },onClickRow:function(rowIndex,rowData){
-            //tooltips选中行，药品价目列表信息
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
             }
         }
+        //onAfterEdit: function (rowIndex, rowData, changes) {
+        //    editRow = undefined;
+        //},onDblClickRow:function (rowIndex, rowData) {
+        //    if (editRow != undefined) {
+        //        $("#list_doctor").datagrid('endEdit', editRow);
+        //    }
+        //    if (editRow == undefined) {
+        //        $("#list_doctor").datagrid('beginEdit', rowIndex);
+        //        editRow = rowIndex;
+        //    }
+        //},onClickRow:function(rowIndex,rowData){
+        //    //tooltips选中行，药品价目列表信息
+        //    if (editRow != undefined) {
+        //        $("#list_doctor").datagrid('endEdit', editRow);
+        //    }
+        //}
     });
     //$('#list_doctor').datagrid('hideColumn','officeId');
 
     $('#list_data').datagrid({
-        iconCls:'icon-edit',//图标
+        iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
         nowrap: false,
         striped: true,
         border: true,
-        method:'get',
-        collapsible:false,//是否可折叠的
+        method: 'get',
+        collapsible: false,//是否可折叠的
         fit: true,//自动大小
-        url:basePath+'/group/list',
-        remoteSort:false,
-        idField:'fldId',
-        singleSelect:false,//是否单选
-        pagination:true,//分页控件
-        pageSize:15,
-        pageList: [10,15,30,50],//可以设置每页记录条数的列表
-        rownumbers:true,//行号
-        columns:[[      //每个列具体内容
-            {field:'shenqingshijian',title:'会诊时间',width:'35%',align:'center',formatter:formatDateBoxFull},
-            {field:'id',title:'操作',width:'60%',align:'center',formatter:function(value, row, index){
-                var html='<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\''+value+'\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>';
-                if(row.ideaFlag!="1"){
-                    if(doctorid==row.doctorId) {
+        url: basePath + '/group/list',
+        QueryParams: {patientId: patientId},
+        remoteSort: false,
+        idField: 'fldId',
+        singleSelect: false,//是否单选
+        pagination: true,//分页控件
+        pageSize: 15,
+        pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
+        rownumbers: true,//行号
+        columns: [[      //每个列具体内容
+            {field: 'shenqingshijian', title: '会诊时间', width: '35%', align: 'center', formatter: formatDateBoxFull},
+            {
+                field: 'id', title: '操作', width: '60%', align: 'center', formatter: function (value, row, index) {
+                var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>';
+                if (row.ideaFlag != "1") {
+                    if (doctorid == row.doctorId) {
                         html = html + '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + value + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>';
                         html = html + '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     }
                 }
-                if(row.fabuflag!="1"){
-                    html=html+'<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="fabuRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>发布</button>';
-                }else{
-                    if(doctorid==row.doctorId){
-                        html=html+'<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="ideaRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>意见1</button>';
-                    }else{
-                        html=html+'<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="ideaOtherRow(\''+value+'\')"><img src="/static/images/index/icon3.png" width="16"/>意见2</button>';
+                if (row.fabuflag != "1") {
+                    html = html + '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="fabuRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>发布</button>';
+                } else {
+                    if (doctorid == row.doctorId) {
+                        html = html + '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="ideaRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>意见1</button>';
+                    } else {
+                        html = html + '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="ideaOtherRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>意见2</button>';
                     }
                 }
                 return html;
-            }}
+            }
+            }
         ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
+        frozenColumns: [[
+            {field: 'ck', checkbox: true}
         ]],
         toolbar: [{
             text: '添加',
             iconCls: 'icon-add',
-            handler: function() {
+            handler: function () {
                 clearForm();
                 changeYiJian("0");
             }
         }, '-', {
             text: '修改',
             iconCls: 'icon-edit',
-            handler: function() {
+            handler: function () {
                 changeYiJian("0");
                 var selectRows = $('#list_data').datagrid("getSelections");
                 if (selectRows.length < 1) {
@@ -154,15 +197,15 @@ $(function(){
                 }
                 get(selectRows[0].id);
             }
-        }, '-',{
+        }, '-', {
             text: '删除',
             iconCls: 'icon-remove',
-            handler: function(){
+            handler: function () {
                 doDelete();
             }
         }]
     });
-});
+};
 //设置分页控件
 var p = $('#list_data').datagrid('getPager');
 $(p).pagination({

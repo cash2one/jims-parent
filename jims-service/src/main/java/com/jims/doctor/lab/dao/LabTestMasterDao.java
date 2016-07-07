@@ -52,7 +52,7 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @param id
      * @return
      */
-    public int deleteLabTestMaster(String id);
+    public int deleteLabTestMaster(@Param("id")String id);
 
     /**
      * 根据，当前登录人所在执行科室，查询 检验记录

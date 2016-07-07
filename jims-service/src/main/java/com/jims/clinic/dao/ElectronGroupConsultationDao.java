@@ -36,5 +36,5 @@ public interface ElectronGroupConsultationDao extends CrudDao<ElectronGroupConsu
      * @author xueyx
      * @version 2016-04-26
      */
-    public void saveMainOnly(ElectronGroupConsultation electronGroupConsultation);
+    public Integer saveMainOnly(ElectronGroupConsultation electronGroupConsultation);
 }

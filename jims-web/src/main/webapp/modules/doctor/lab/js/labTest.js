@@ -1,4 +1,4 @@
-var clinicId = parent.clinicMaster.id;
+var clinicId = parent.clinicMaster.clinicId;
 var patientId = parent.clinicMaster.patientId;
 function onloadMethod(){
     $("#treeGrid").dialog("close");
