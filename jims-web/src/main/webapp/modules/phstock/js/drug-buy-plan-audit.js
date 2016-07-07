@@ -82,6 +82,22 @@ $(function () {
         $('#buyPlanTable').datagrid('mergeCells', {index: _index, field: 'checkMoney', rowspan: null, colspan: 8})
     }
 
+    var specUnits = [];//规格单位字典
+    $.get("/service/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
+    var drugToxi = [];//毒理属性字典
+    $.get( "/service/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT", function (data) {
+        drugToxi = data;
+    });
+
+    var drugFormDict = [];//剂型字典
+    $.get("/service/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
+        drugFormDict = data;
+    })
+
+
     /**
      * 格式化数据
      * @param arr 数组格式类似 [{value:'1',label:'测试'}...]
@@ -111,7 +127,7 @@ $(function () {
             var rows = $(editor.target).combogrid('grid').datagrid('getRows');
             if(rows.length > 0){
                 if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
-                    $(editor.target).combogrid('grid').datagrid('selectRow',0)
+                    //$(editor.target).combogrid('grid').datagrid('selectRow',0)
                 }
             } else {
                 $(editor.target).combogrid('setValue','')
@@ -171,8 +187,8 @@ $(function () {
                         panelWidth: 463,
                         idField: 'drugName',
                         textField: 'drugName',
-                        required: true,
-                        missingMessage: '药名不能为空',
+                        //required: true,
+                        //missingMessage: '药名不能为空',
                         fitColumns: true,
                         url : '/service/drug-price/findDrugDictWithFilter?limit=50&orgId='+orgId,
                         method:'get',
@@ -186,7 +202,16 @@ $(function () {
                                 align: "left"
                             },
                             {field: 'inputCode', title: '输入码', width: 70, align: "center"},
-                            {field: 'toxiProperty', title: '毒理分类', width: 70, align: "center"},
+                            {field: 'toxiProperty', title: '毒理分类', width: 70, align: "center",
+                                formatter:function(value,row,index){
+                                    var label=value;
+                                    $.each(drugToxi, function (index,item) {
+                                        if (item.value == value){
+                                            label =   item.label;
+                                        }
+                                    });
+                                    return label;
+                                }},
                             {field: 'drugIndicator', title: '药品类别', width: 60, align: "center",
                                 formatter: function (value) {
                                     return format(drugIndicators, value)
@@ -203,8 +228,8 @@ $(function () {
                     options: {
                         valueField: 'id',
                         textField: 'supplier',
-                        required: true,
-                        missingMessage: '审核供应商不能为空',
+                        //required: true,
+                        //missingMessage: '审核供应商不能为空',
                         data: suppliers
                     }
                 },formatter:function(value){
@@ -219,8 +244,8 @@ $(function () {
                 {field: 'checkNumber', title: '审核数量', width: 60, align: "center",editor:{
                     type : 'numberbox',
                     options:{
-                        required:true,
-                        missingMessage:'审核数量不能为空',
+                        //required:true,
+                        //missingMessage:'审核数量不能为空',
                         min : 1,
                         precision : 0
                     }
@@ -236,8 +261,8 @@ $(function () {
                 {field: 'purchasePrice', title: '进货价', width: 60, align: "center",editor:{
                     type : 'numberbox',
                     options:{
-                        required:true,
-                        missingMessage:'进货价不能为空',
+                        //required:true,
+                        //missingMessage:'进货价不能为空',
                         min : 1.0,
                         precision : 1
                     }}},
@@ -268,9 +293,27 @@ $(function () {
                     return _value
                 }},
                 {field: 'stockNumber', title: '采购数量', width: 60, align: "center"},
-                {field: 'packUnit', title: '包装单位', width: 60, align: "center"},
+                {field: 'packUnit', title: '包装单位', width: 60, align: "center",
+                    formatter:function(value,row,index){
+                        var unitsName = value;
+                        $.each(specUnits, function (index,item) {
+                            if(item.value == value){
+                                unitsName =  item.label;
+                            }
+                        });
+                        return unitsName;
+                    }},
                 {field: 'wantNumber', title: '计划数量', width: 60, align: "center"},
-                {field: 'drugForm', title: '剂型', width: 80, align: "center"}
+                {field: 'drugForm', title: '剂型', width: 80, align: "center",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(drugFormDict, function (index,item) {
+                            if (item.value == value){
+                                label =   item.label;
+                            }
+                        });
+                        return label;
+                    }}
             ]],
             onClickCell: onClickCell,
             onLoadSuccess: function (data) {
@@ -402,7 +445,8 @@ $(function () {
             _buyPlanTableRow.drugIndicator = drugDict.drugIndicator
             _buyPlanTableRow.inputCode = drugDict.inputCode
 
-            $('#buyPlanTable').datagrid('endEdit', planSelectIndex)
+            $('#buyPlanTable').datagrid('endEdit', planSelectIndex);
+            $('#buyPlanTable').datagrid('beginEdit', planSelectIndex);
             _tempFlag = true
         }
         var _tempFlag = false
@@ -436,7 +480,16 @@ $(function () {
             columns: [[
                 {field: 'id', title: '编号', hidden: true},
                 {field: 'drugSpec', title: '规格', width: 60, align: "center"},
-                {field: 'units', title: '单位', width: 60, align: "center"},
+                {field: 'units', title: '单位', width: 60, align: "center",
+                    formatter:function(value,row,index){
+                        var unitsName = value;
+                        $.each(specUnits, function (index,item) {
+                            if(item.value == value){
+                                unitsName =  item.label;
+                            }
+                        });
+                        return unitsName;
+                    }},
                 {field: 'firmId', title: '厂家主键', hidden: true},
                 {field: 'supplier', title: '厂家', width: 200, align: "center"},
                 {field: 'tradePrice', title: '批发价', width: 60, align: "center"},
@@ -510,11 +563,11 @@ $(function () {
             onClickCell(_index, 'checkSupplier')
             return false
         }
-        if (!row.checkNumber) {
+        if (row.checkNumber=='') {
             onClickCell(_index, 'checkNumber')
             return false
         }
-        if (isNaN(row.purchasePrice)) {
+        if (row.purchasePrice=='') {
             onClickCell(_index, 'purchasePrice')
             return false
         }
@@ -595,7 +648,10 @@ $(function () {
         var handleData = [[]] // handleData[0] 保存的数据,handleData[1] 删除的数据
         var _allData = $('#buyPlanTable').datagrid('getRows')
         for (var i = 0; i < _allData.length - 1; i++) {
-            if (!validateRow(_allData[i])) return
+            if (!validateRow(_allData[i])){
+                $.messager.alert('提示', '请将表格填写完整', 'error');
+                return
+            }
             delete _allData[i].checkMoney
             delete _allData[i].stockMoney
             delete _allData[i].count

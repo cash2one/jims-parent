@@ -71,16 +71,12 @@ public abstract class CrudImplService<D extends CrudDao<T>, T extends DataEntity
 
 	public String save(T entity) {
         int i=0;
-        try{
-            if (entity.getIsNewRecord()){
-                entity.preInsert();
-                i=dao.insert(entity);
-            }else{
-                entity.preUpdate();
-                i=dao.update(entity);
-            }
-        }catch(Exception e){
-            return i+"";
+        if (entity.getIsNewRecord()){
+            entity.preInsert();
+            i=dao.insert(entity);
+        }else{
+            entity.preUpdate();
+            i=dao.update(entity);
         }
         return i+"";
 	}

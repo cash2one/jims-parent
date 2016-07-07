@@ -7,6 +7,23 @@ $(function () {
 
     var planSelectIndex = 0;   // 购买计划表当前选择行索引
 
+
+    var specUnits = [];//规格单位字典
+    $.get("/service/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
+    var drugToxi = [];//毒理属性字典
+    $.get( "/service/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT", function (data) {
+        drugToxi = data;
+    });
+
+    var drugFormDict = [];//剂型字典
+    $.get("/service/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
+        drugFormDict = data;
+    })
+
+
     /**
      * 合并合计单元格
      */
@@ -80,9 +97,27 @@ $(function () {
                     return ((isNaN(row.wantNumber) ? 0 : +row.wantNumber) * (isNaN(row.purchasePrice) ? 0 : +row.purchasePrice)).toFixed(1)
                 }},
                 {field: 'stockNumber', title: '采购数量', width: 60, align: "center"},
-                {field: 'packUnit', title: '包装单位', width: 60, align: "center"},
+                {field: 'packUnit', title: '包装单位', width: 60, align: "center",
+                    formatter:function(value,row,index){
+                        var unitsName = value;
+                        $.each(specUnits, function (index,item) {
+                            if(item.value == value){
+                                unitsName =  item.label;
+                            }
+                        });
+                        return unitsName;
+                    }},
                 {field: 'wantNumber', title: '计划数量', width: 60, align: "center"},
-                {field: 'drugForm', title: '剂型', width: 80, align: "center"}
+                {field: 'drugForm', title: '剂型', width: 80, align: "center",
+                    formatter:function(value,row,index){
+                        var label=value;
+                        $.each(drugFormDict, function (index,item) {
+                            if (item.value == value){
+                                label =   item.label;
+                            }
+                        });
+                        return label;
+                    }}
             ]],
             onLoadSuccess: function (data) {
                 var rows = $(this).datagrid('getRows')
