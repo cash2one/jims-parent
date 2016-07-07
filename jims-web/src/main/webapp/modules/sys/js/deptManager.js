@@ -1,19 +1,34 @@
 $("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/easyui/css/icon.css"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
-$("<script>").attr({
-    type: "application/javascript",
-    src: "/static/easyui/locale/easyui-lang-zh_CN.js"
-}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"}).appendTo("head");
 var basePath = "/service";
 $(function () {
+
+        //校验数据是否合法
+        $.extend($.fn.validatebox.defaults.rules, {
+            IsExisted :{
+                validator : function(value,param){
+                    var rows = $('#dg').datagrid('getRows')
+                    var select_index = $('#dg').datagrid('getRowIndex',$('#dg').datagrid('getSelected'))
+                    for(var index = rows.length - 1;index > -1;index--) {
+                        if(index != select_index && rows[index][param[0]] == value){
+                            return false
+                        }
+                    }
+                    return true
+                },
+                message : '内容已存在'
+            }
+        });
+
+
         var property = [];
         var orgId = config.org_Id;
         //设置列
         $("#tt").treegrid({
-            //fit: true,
             fit: true,
 
             idField: "id",
@@ -239,8 +254,8 @@ $(function () {
          */
         $("#savePropertyBtn").on('click', function () {
 
-            if (editIndex || editIndex == 0) {
-                $("#dg").datagrid("endEdit", editIndex);
+            if (!endEditing1()) {
+                return
             }
 
             var insertData = $("#dg").datagrid("getChanges", "inserted");
@@ -259,11 +274,6 @@ $(function () {
                         $.messager.alert("系统提示", "保存成功", "info");
                         $("#dg").datagrid('reload');
                         $("#dlg_property").dialog('close');
-                    }
-                    if(data.data=="fail")
-                    {
-                        $.messager.alert("系统提示", "保存失败,值不能重复", "info");
-                        return;
                     }
                 }, function (data) {
                     $.messager.alert('提示', "保存失败", "error");
@@ -423,24 +433,17 @@ $(function () {
             });
 
         });
-        //  var orgId =parent.config.org_id;
-        // var orgId=1
         $('#dg').datagrid({
-
-            iconCls: 'icon-edit',//图标
-            nowrap: false,
+            fit: true,
+            fitColumns: true,
             striped: true,
-            border: true,
+            singleSelect: true,
             method: 'get',
-            url: '/service/dept-property/list?orgId=' + orgId,
-            collapsible: false,//是否可折叠的
-            remoteSort: false,
+            url: '/service/dept-property/listProperty?orgId=' + orgId,
             idField: 'id',
             singleSelect: false,//是否单选
-            pagination: true,//分页控件
-            pageSize: 15,
-            pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
             rownumbers: true,//行号
+            fitColumns: true,
             columns: [[
                 {
                     field: 'propertyType', title: '属性类型', width: 235, align: 'center',
@@ -458,6 +461,7 @@ $(function () {
                         type: 'textbox',
                         options: {
                             required: true,
+                            validType : 'IsExisted["propertyName"]',
                             missingMessage: '属性名称不能为空'
                         }
                     }
@@ -468,6 +472,7 @@ $(function () {
                         type: 'textbox',
                         options: {
                             required: true,
+                            validType : 'IsExisted["propertyValue"]',
                             missingMessage: '属性值不能为空'
                         }
                     }

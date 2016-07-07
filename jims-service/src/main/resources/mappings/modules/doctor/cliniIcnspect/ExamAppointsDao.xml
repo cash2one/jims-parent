@@ -586,4 +586,9 @@
 			del_flag = '1'
 		WHERE a.id = #{id}
 	</update>
+	<update id="updateAppoints">
+		UPDATE exam_appoints a SET
+			reg_prn_flag = 1
+		WHERE a.id = #{appointsId}
+	</update>
 </mapper>

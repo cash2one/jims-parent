@@ -1,8 +1,6 @@
-
+var visitId = parent.patVisit.visitId;
+var patientId = parent.patVisit.patientId;
 function onloadMethod() {
-    var patientId=$("#patientId",parent.document).val();
-    $("#patientId").val(patientId);
-    var visitId = 1;
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
     $('#list_data').datagrid({
@@ -123,9 +121,8 @@ function onloadMethod() {
 function add() {
     clearForm();
     $("#saveBut").show();
-    var patientId=$("#patientId",parent.document).val();
+    $("#visitId").val(visitId);
     $("#patientId").val(patientId);
-    $("#visitId").val("1");
     var newDate=new Date();
     $('#requestedDateTime').datetimebox('setValue',newDate);
     var visitId = 1;
@@ -153,8 +150,10 @@ function add() {
         valueField: 'dept_name',
         textField: 'class_name',
         onChange: function (n, o) {
+            $("#specimen").val("");
             SendProduct();
             $("#performedBy").val(n);
+            $("#performedByCode").val(n.dept_code);
         }
     })
 }
@@ -240,16 +239,16 @@ function SendProduct() {
             var divstr ="<table>";
             for(var i=0; i<data.length; i++)
             {   if(i==0){
-                divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
             }
             else if(i%3==0){
-                divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
             }
             else if(i%3==2){
-                divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td></tr>";
+                divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td></tr>";
             }
             else{
-                divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
             }
                 //alert(data[i].expand1);
                 $("#specimen").val(data[i].expand1);
@@ -285,8 +284,10 @@ function doSelect() {
                 var row = {};
                 row.itemName = $(this).next().html();
                 row.itemCode = $(this).val();//增
-                var temp = $(this).next().next(":hidden").val();
-                all += parseFloat(temp);
+                var a =$(this).next().next(":hidden").val();
+                $("#specimen").val(a);
+                //var temp = $(this).next().next(":hidden").val();
+                //all += parseFloat(temp);
                // row.price = temp;//增
                 rows.push(row);
             }

@@ -420,6 +420,7 @@
 		"EXAM_APPOINTS"."NOTICE" AS notice,
 		"EXAM_APPOINTS"."CHARGES" AS charges,
 		"EXAM_MASTER"."DEVICE" AS device,
+		"EXAM_APPOINTS"."REG_PRN_FLAG" AS regPrnFlag,
 		'0',
 		"EXAM_APPOINTS"."VISIT_ID" AS visitId,
 		"EXAM_APPOINTS"."LOCAL_ID_CLASS" AS localIdClass,

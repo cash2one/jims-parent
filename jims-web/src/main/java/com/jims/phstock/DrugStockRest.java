@@ -23,12 +23,16 @@ public class DrugStockRest {
     @GET
     public List<DrugStock> findListHasStock(@QueryParam("orgId")String orgId,
                                    @QueryParam("supplyIndicator")Integer supplyIndicator,
+                                   @QueryParam("storage")String storage,
+                                   @QueryParam("subStorage")String subStorage,
                                    @QueryParam("start")Integer start,
                                    @QueryParam("limit")Integer limit,
                                    @QueryParam("q")String q) {
         DrugStock drugStock = new DrugStock();
         drugStock.setOrgId(orgId);
         drugStock.setSupplyIndicator(supplyIndicator);
+        drugStock.setStorage(storage);
+        drugStock.setSubStorage(subStorage);
         drugStock.setQ(q);
         List<DrugStock> list = drugStockServiceApi.findListHasStock(drugStock);
         start = start == null || start < 0 ? 0 : start;

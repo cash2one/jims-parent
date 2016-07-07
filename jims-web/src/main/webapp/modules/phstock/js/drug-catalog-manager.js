@@ -167,6 +167,8 @@ $(function () {
             stopEdit();
             $('#clear').click();
             drugForms=rowData.label;
+            drugFormValue=rowData.value;
+            console.log(rowData.value)
             $('#drugNameDict').datagrid('appendRow', {
                 drugCode: drugNameCode, drugName: '',stdIndicator:'0'
             });
@@ -245,6 +247,7 @@ $(function () {
     });
 
     var drugForms='';
+    var drugFormValue='';
 
     //定义页面下方drugDict列表
     $("#drugDict").datagrid({
@@ -294,25 +297,26 @@ $(function () {
             title: '剂型',
             field: 'drugForm',
             width: "10%",
-            editor: {type: 'text', options: {required: true}}
-            //    type: 'combobox',
-            //    options: {
-            //        panelHeight: '150',
-            //        valueField: 'value',
-            //        textField: 'label',
-            //        method: 'get',
-            //        url: basePath  + "/dict/findListByType?type=DRUG_FORM_DICT"
-            //    }
-            //},
-            //formatter:function(value,row,index){
-            //    var label;
-            //    $.each(drugFormDict, function (index,item) {
-            //        if (item.value == value){
-            //            label =   item.label;
-            //        }
-            //    });
-            //    return label;
-            //}
+            editor: {
+                type: 'combobox',
+                options: {
+                    panelHeight: '150',
+                    valueField: 'value',
+                    textField: 'label',
+                    method: 'get',
+                    url: basePath  + "/dict/findListByType?type=DRUG_FORM_DICT"
+                }
+            },
+            formatter:function(value,row,index){
+                var label;
+                $.each(drugFormDict, function (index,item) {
+                   // console.log(item)
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
+                return label;
+            }
         }, {
             title: '毒理属性',
             field: 'toxiProperty',
@@ -454,6 +458,7 @@ $(function () {
             formatter:function(value,row,index){
                 var label;
                 $.each(drugTypeDict, function (index,item) {
+                    console.log(item)
                     if (item.value == value){
                         label =   item.label;
                     }
@@ -527,7 +532,7 @@ $(function () {
         drugDictChangeVo.inserted = insertData;
         drugDictChangeVo.updated = updateData;
         drugDictChangeVo.deleted = deleteData;
-
+        console.log(drugDictChangeVo)
         var drugCatalogBeanVo = {};
         drugCatalogBeanVo.drugDictDrugCatalogBeanVo = drugDictChangeVo;
         drugCatalogBeanVo.drugNameDictDrugCatalogBeanVo = drugNameDictChangeVo;
@@ -628,7 +633,7 @@ $(function () {
             name = stdIndicatorRow.drugName;
 
             $('#drugDict').datagrid('appendRow', {
-                drugCode: code, drugName: name, drugSpec: '', units: '', drugForm:drugForms, toxiProperty: '',otc: '0', dosePerUnit: '',
+                drugCode: code, drugName: name, drugSpec: '', units: '', drugForm:drugFormValue, toxiProperty: '',otc: '0', dosePerUnit: '',
                 doseUnits: '',limitClass:'',preciousFlag:'',  drugIndicator: '1'
             });
 

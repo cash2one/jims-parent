@@ -1,5 +1,5 @@
 $(function () {
-    var inpCount;
+    var inpCount=0;
     var patientId = parent.patVisit.patientId;
     var visitId = parent.patVisit.visitId;
     $("#patientId").val(patientId);
@@ -12,14 +12,15 @@ $(function () {
             'data':JSON.stringify({"patientId": patientId,"visitId":visitId}),
             'dataType': 'json',
             'success': function(data){
-              /*  if(data.chuyuanshijian!=null){
+                if(data.chuyuanshijian!=null){
                     inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),parseToDate(data.chuyuanshijian));
                 }else{
                     inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),new Date());
                 }
+               /* alert(inpCount);
                 alert(parent.patVisit.admissionDateTime+"------"+data.chuyuanshijian);*/
                 $('#form').form('load',data);
-               /* $("#inpCount").val(inpCount);*/
+                $("#inpCount").textbox('setValue',inpCount)
                 getDiv("form");
             }
         });
@@ -51,6 +52,6 @@ var getOffDays = function(startDate, endDate) {
 
     //单位转换为天并返回
 
-    return (mmSec / 3600000 / 24);
+    return Math.round(mmSec / 3600000 / 24);
 
 };

@@ -55,6 +55,19 @@ public class DeptPropertyDictRest {
     }
 
     /**
+     * 查询科室属性信息
+     *
+     * @return
+     */
+    @GET
+    @Path("listProperty")
+    public List<OrgDeptPropertyDict> list(@QueryParam("orgId") String orgId) {
+        OrgDeptPropertyDict orgDeptPropertyDict = new OrgDeptPropertyDict();
+        orgDeptPropertyDict.setOrgId(orgId);
+        return deptPropertyDictApi.findList(orgDeptPropertyDict);
+    }
+
+    /**
      * 根据条件查询科室属性信息
      *
      * @param
@@ -100,17 +113,18 @@ public class DeptPropertyDictRest {
         OrgDeptPropertyDict orgDeptPropertyDict = deptPropertyDictApi.get(id);
         return orgDeptPropertyDict;
     }
-
-    /**
+/*
+    *//**
      * 查询父机构
      *
      * @return
-     */
+     *//*
     @GET
     @Path("select")
     public List<SysCompany> findAllByName() {
         return sysCompanyApi.findListByName();
-    }
+    }*/
+
 
     /**
      * 查询属性名称
@@ -144,7 +158,7 @@ public class DeptPropertyDictRest {
 
     /**
      * 保存  增删改
-     *
+     *                            c
      * @param orgDeptPropertyDictVo
      * @return
      * @author yangruidong
@@ -155,11 +169,7 @@ public class DeptPropertyDictRest {
         List<OrgDeptPropertyDict> newUpdateDict = new ArrayList<OrgDeptPropertyDict>();
         newUpdateDict = deptPropertyDictApi.saveAll(orgDeptPropertyDictVo);
         StringData stringData = new StringData();
-        if (newUpdateDict != null) {
-            stringData.setData("fail");
-        } else {
-            stringData.setData("success");
-        }
+        stringData.setData("success");
         return stringData;
 
     }

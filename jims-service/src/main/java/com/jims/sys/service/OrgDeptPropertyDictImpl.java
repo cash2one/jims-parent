@@ -52,6 +52,15 @@ public class OrgDeptPropertyDictImpl implements DeptPropertyDictApi {
     }
 
     /**
+     * 查询科室属性信息
+     * @param orgDeptPropertyDict
+     * @return
+     */
+    public List<OrgDeptPropertyDict> findList(OrgDeptPropertyDict orgDeptPropertyDict) {
+        return deptPropertyDictBo.findList(orgDeptPropertyDict);
+    }
+
+    /**
      * 保存  增删改
      *
      * @param orgDeptPropertyDictVo

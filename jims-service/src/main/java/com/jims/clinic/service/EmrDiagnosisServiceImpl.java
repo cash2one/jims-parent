@@ -68,16 +68,9 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 				if(diagnosis.getChildren()!=null){
 					for(int j=0;j<diagnosis.getChildren().size();j++){
 
-						i1=	save(diagnosis.getChildren().get(j));
-					}
+						i1=	save(diagnosis.getChildren().get(j));}
 
 				}
-
-
-
-
-
-
 			}
 		}
 		return i1;

@@ -20,6 +20,14 @@ function onloadMethod(){
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
+            {field:'regPrnFlag',title:'确认状态',width:'5%',align:'center',formatter:function(value, rowData, rowIndex){
+                if (value == null || value=='') {
+                    return "未确认";
+                }
+                if(value=='1'){
+                    return "已确认";
+                }
+            }},
             {field:'examSubClass',title:'检查子类',width:'15%',align:'center'},
             {field:'reqDept',title:'申请科室',width:'10%',align:'center'},
             /* {field:'clinicDept',title:'病人ID',width:'15%',align:'center'},*/
@@ -28,7 +36,6 @@ function onloadMethod(){
             {field:'clinicType',title:'检查项目',width:'15%',align:'center'},
             {field:'reqDateTime',title:'申请时间',width:'15%',align:'center'},
             {field:'scheduledDate',title:'预约时间',width:'15%',align:'center'},
-            {field:'resultStatus',title:'已做',width:'5%',align:'center'},
             /*  {field:'serialNo',title:'放射科号',width:'5%',align:'center',editor: 'text'},*//*字段未确定*/
             {field:'examGroup',title:'检查组',width:'5%',align:'center'},
             {field:'patientSource',title:'来源',width:'5%',align:'center'},
@@ -91,7 +98,12 @@ function confirmExam(){
             $.messager.alert("提示消息","确认成功");
             $('#list_data').datagrid('load');
             $('#list_data').datagrid('clearChecked');
-        }else{
+        }else if(data.code=='2'){
+            $.messager.alert("提示消息","该检查已经确认");
+            $('#list_data').datagrid('load');
+            $('#list_data').datagrid('clearChecked');
+        }
+        else{
             $.messager.alert('提示',"确认失败", "error");
         }
     },function(data){

@@ -6,6 +6,9 @@ package com.jims.doctor.lab.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.lab.entity.LabTestMaster;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -50,4 +53,19 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @return
      */
     public int deleteLabTestMaster(String id);
+
+    /**
+     * 根据，当前登录人所在执行科室，查询 检验记录
+     * @param performedBy
+     * @return
+     * @author zhaoning
+     */
+    public List<LabTestMaster> getLabMaster(@Param("performedBy")String performedBy );
+
+    /**
+     * 检验确认 更新 检验主记录 状态，更改为：1 （已确认）
+     * @param id
+     * @return
+     */
+    public int updateLabMaster(@Param("id")String id);
 }

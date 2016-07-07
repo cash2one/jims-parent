@@ -1,47 +1,38 @@
 //icd10
-var comboGridComplete = [];
 var icdData={};
-icdData.orgId="";
 icdData.dictType="emr_data_icd10";
-
 var icdAllData = [];
 
-function comboGridCompleting(q,id){
-    var drugNameData={};
-    drugNameData.orgId="1";
-    drugNameData.dictType="emr_data_icd10"
+function icdCompleting(q,id){
     var inputParamVos=new Array();
-    var InputParamVo1={};
-    InputParamVo1.colName='rownum';
-    InputParamVo1.colValue='20';
-    InputParamVo1.operateMethod='<';
     inputParamVos.push(InputParamVo1);
     if(q!='' && q!=null){
         var InputParamVo={};
-        InputParamVo.colName='PINYIN_INDEX';
+        InputParamVo.colName='KEYWORD_SHUOMING';
         InputParamVo.colValue=q;
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
+        icdData.inputParamVos=inputParamVos;
+
     }else{
         $("#"+id).combogrid('setValue','');
     }
-    drugNameData.inputParamVos=inputParamVos;
     $.ajax({
         'type': 'POST',
         'url':basePath+'/input-setting/listParam' ,
-        data: JSON.stringify(drugNameData),
+        data: JSON.stringify(icdData),
         'contentType': 'application/json',
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            comboGridComplete = data;
+            icdAllData = data;
 
         }
     });
 }
 
 
-$.ajax({
+/*$.ajax({
     'type': 'POST',
     'url':basePath+'/input-setting/listParam' ,
     data: JSON.stringify(icdData),
@@ -51,7 +42,7 @@ $.ajax({
     'success': function(data){
         icdAllData = data;
     }
-});
+});*/
 
 
 
@@ -63,14 +54,39 @@ $.ajax({
  * @returns {string|string|string}
  */
 function icdFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
+    if (value == 0 ||value == null) {
         return;
     }
-
+   var  icdName = '';
     for (var i = 0; i < icdAllData.length; i++) {
         if (icdAllData[i].code == value) {
-            return icdAllData[i].zhongwen_mingcheng;
+            icdName = icdAllData[i].zhongwen_mingcheng;
         }
+    }
+    if(icdName==''){
+        var inputParamVos=new Array();
+        var InputParamVo={};
+        InputParamVo.colName='KEYWORD_SHUOMING';
+        InputParamVo.colValue=value;
+        InputParamVo.operateMethod='like';
+        inputParamVos.push(InputParamVo);
+        icdData.inputParamVos=inputParamVos;
+
+        $.ajax({
+            'type': 'POST',
+            'url':basePath+'/input-setting/listParam' ,
+            data: JSON.stringify(icdData),
+            'contentType': 'application/json',
+            'dataType': 'json',
+            'async': false,
+            'success': function(data){
+                icdAllData.push(data[0]);
+               icdName = data[0].zhongwen_mingcheng;
+              return icdName;
+            }
+        });
+    }else{
+        return icdName;
     }
 }
 

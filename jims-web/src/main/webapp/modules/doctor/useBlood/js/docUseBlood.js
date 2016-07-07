@@ -1,13 +1,16 @@
-
+//var clinicId = parent.clinicMaster.id;
+//var patientId = parent.clinicMaster.patientId;
+var rowNum = -1;
 /**
  * 设置动态行
  * @param id
  */
 
-var editRow = undefined;
-var serialNo = '';
 var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"}, {"value": "3", "text": "备血"}];
 var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
+var bloodInuses = [{"value": "1", "text": "血库"}, {"value": "2", "text": "自体"}, {"value": "3", "text": "互助"}];
+var patSource = [{"value": "1", "text": "市区"}, {"value": "2", "text": "郊县"}, {"value": "3", "text": "外省市"},
+    {"value": "2", "text": "港澳台"}, {"value": "3", "text": "外国人"}];
 /**
  * 用血方式翻译
  * @param value
@@ -15,12 +18,12 @@ var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"},
  * @param rowIndex
  * @returns {string|string|string}
  */
-function fastSloFormatter(value,rowData,rowIndex){
-    if(value == 0){
-        return ;
+function fastSloFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
     }
-    for(var i=0;i<fastSlo.length;i++){
-        if(fastSlo[i].value == value){
+    for (var i = 0; i < fastSlo.length; i++) {
+        if (fastSlo[i].value == value) {
             return fastSlo[i].text;
         }
     }
@@ -32,19 +35,19 @@ function fastSloFormatter(value,rowData,rowIndex){
  * @param rowIndex
  * @returns {string|string|string}
  */
-function unitsFormatter(value,rowData,rowIndex){
-    if(value == 0){
-        return ;
+function unitsFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
     }
-    for(var i=0;i<units.length;i++){
-        if(fastSlo[i].value == value){
+    for (var i = 0; i < units.length; i++) {
+        if (fastSlo[i].value == value) {
             return units[i].text;
         }
     }
 }
-$(function () {
 
-
+//用血申请记录列表
+function onloadMethod() {
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,
@@ -52,7 +55,8 @@ $(function () {
         method: 'post',
         columns: [[
             {field: 'id', title: 'id', hidden: true, align: 'center'},
-            {field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: {
+            {
+                field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: fastSlo,
@@ -60,12 +64,13 @@ $(function () {
                     textField: 'text',
                     required: true
                 }
-            },formatter:fastSloFormatter
+            }, formatter: fastSloFormatter
             },
             //每个列具体内容
             {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'text'},
             {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: 'text'},
-            {field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
+            {
+                field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: units,
@@ -73,18 +78,18 @@ $(function () {
                     textField: 'text',
                     required: true
                 }
-            },formatter:unitsFormatter
+            }, formatter: unitsFormatter
             },
             {
-                field: 'bloodType', title: '血液要求', width: '20%', align: 'center',editor: {
+                field: 'bloodType', title: '血液要求', width: '20%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
-                    data:bloodTypeName,
+                    data: bloodTypeName,
                     valueField: 'blood_type',
                     textField: 'blood_type_name',
                     required: true
                 }
-            },formatter:bloodTypeNameFormatter
+            }, formatter: bloodTypeNameFormatter
             },
         ]],
         frozenColumns: [[
@@ -94,9 +99,13 @@ $(function () {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
-                $("#list_doctor").datagrid('insertRow', {
-                    index: 0,
-                    row: {}
+                if (rowNum >= 0) {
+                    rowNum++;
+                }
+                $("#list_doctor").datagrid("insertRow", {
+                    index: 0, // index start with 0
+                    row: {
+                    }
                 });
             }
         }, {
@@ -106,36 +115,30 @@ $(function () {
                 inDoDelete();
             }
         },
-            {
-                text: '双击进行编辑'
-            },
         ],
 
-        onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        }, onDblClickRow: function (rowIndex, rowData) {
-            $("#list_doctor").datagrid('beginEdit', rowIndex);
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+        onClickRow: function (rowIndex, rowData) {
+            var dataGrid = $('#list_doctor');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
             }
-            if (editRow == undefined) {
-                $("#list_doctor").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        }, onClickRow: function (rowIndex, rowData) {
-            //tooltips选中行，列表信息
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
+
             }
         }
     });
-});
-
-//用血申请记录列表
-function onloadMethod() {
     //获取门诊id
-    var clinicId = $("#clinicMasterId", parent.document).val();
-    $("#clinicId").val(clinicId);
+    //$("#clinicId").val(clinicId);
+    //$("#patientId").val(patientId);
+    //$("#patName").val(parent.clinicMaster.name);
+    //$("#patSex").val(parent.clinicMaster.sex);
+    //$("#feeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));
+    //$("#feeTypeId").val(parent.clinicMaster.chargeType);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -147,7 +150,7 @@ function onloadMethod() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/bloodApply/list',
-        QueryParams:{clinicId:clinicId},
+        QueryParams: {clinicId: clinicId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -155,13 +158,13 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'deptCode', title: '科室', width: '18%', align: 'center',formatter:clinicDeptCodeFormatter},
-            //{field: 'applyNum', title: '申请单号', width: '18%', align: 'center'},
-            {field: 'bloodInuse', title: '血源', width: '18%', align: 'center'},
+            {field: 'deptCode', title: '科室', width: '18%', align: 'center', formatter: clinicDeptCodeFormatter},
+            {field: 'bloodInuse', title: '血源', width: '18%', align: 'center',formatter:bloodInusesFormatter},
             {field: 'bloodDiagnose', title: '诊断', width: '18%', align: 'center'},
             {field: 'preBloodType', title: '血型', width: '18%', align: 'center'},
-            {field: 'bloodInuse', title: '方式', width: '18%', align: 'center'},
-            //{field: 'bloodSum', title: '用血量', width: '18%', align: 'center'},
+            //{field: 'bloodInuse', title: '方式', width: '18%', align: 'center',formatter:function(value,rowData,rowIndex){
+            //    return "1231231231"
+            //}},
             {field: 'applyDate', title: '申请时间', width: '30%', align: 'center', formatter: formatDateBoxFull},
             {
                 field: 'id', title: '操作', width: '40%', align: 'center', formatter: function (value, row, index) {
@@ -170,7 +173,7 @@ function onloadMethod() {
                     '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getBloodApply(\'' + row.id + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                 return html;
-            }
+                }
             }
         ]],
         frozenColumns: [[
@@ -203,39 +206,96 @@ function onloadMethod() {
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
 
-    $.ajax({
-        'type':"POST",
-        'url':  basePath + "/bloodApply/getPatient",
-        data:id=clinicId,
-        dataType:"json",
-        contentType: "application/json",
-        success:function(data){
-            $("#patientId").val(data.patientId);
-            $("#inpNo").val(data.visitNo);
-            $("#feeType").val(function(value,rowData,rowIndex){
-                return itemFormatter(data.chargeType,'','');
-            });
-            $("#deptCode").val(function(value,rowData,rowIndex){
-                return clinicDeptCodeFormatter(data.visitDept,'','');
-            });
-            $("#patName").val(data.name);
-                $("#patSex").val(function(value,rowData,rowIndex){
-                    return sexFormatter(data.sex);
-                });
-
-            $("#birthday").val(data.name);
-            $("#patSource").val(data.patMaster.mailingAddress);
-            $("#birthday").val( new Date(data.patMaster.dateOfBirth));
-        }
-    })
+    //$.ajax({
+    //    'type': "POST",
+    //    'url': basePath + "/bloodApply/getPatient",
+    //    data: id = clinicId,
+    //    dataType: "json",
+    //    contentType: "application/json",
+    //    success: function (data) {
+    //        $("#patientId").val(data.patientId);
+    //        $("#inpNo").val(data.visitNo);
+    //        $("#feeType").val(function (value, rowData, rowIndex) {
+    //            return itemFormatter(data.chargeType, '', '');
+    //        });
+    //        $("#deptCode").val(function (value, rowData, rowIndex) {
+    //            return clinicDeptCodeFormatter(data.visitDept, '', '');
+    //        });
+    //        $("#patName").val(data.name);
+    //        $("#patSex").val(function (value, rowData, rowIndex) {
+    //            return sexFormatter(data.sex);
+    //        });
+    //
+    //        $("#birthday").val(data.name);
+    //        $("#patSource").val(data.patMaster.mailingAddress);
+    //        $("#birthday").val(new Date(data.patMaster.dateOfBirth));
+    //    }
+    //})
     $("#preBloodType").combobox({
-        data:bloodType,
-        valueField:'value',
-        textField:'label',
-        onSelect:function(n){
+        data: bloodType,
+        valueField: 'value',
+        textField: 'label',
+        onSelect: function (n) {
             $("#preBloodTypeId").val(n.value);
         }
     })
+    /**
+     * 属地
+     */
+    $("#patSource").combobox({
+        data: patSource,
+        valueField: 'value',
+        textField: 'text',
+        onSelect: function (data) {
+            $("#patSourceId").val(data.value);
+        }
+    })
+    /**
+     * 属地翻译
+     * @param value
+     * @param rowData
+     * @param rowIndex
+     * @returns {string|string|string|string|string}
+     */
+    function patSourceFormatter(value,rowData,rowIndex){
+        if(value == 0){
+            return;
+        }
+        for(var i =0;i<patSource.length;i++){
+            if(patSource[i].value == value){
+                return patSource[i].text;
+            }
+        }
+    }
+    /**
+     * bloodInuse
+     * 血源
+     */
+    $("#bloodInuse").combobox({
+        data: bloodInuses,
+        valueField: 'value',
+        textField: 'text',
+        onSelect: function (data) {
+            $("#bloodInuseId").val(data.value);
+        }
+    })
+    /**
+     * 血源翻译
+     * @param value
+     * @param rowData
+     * @param rowIndex
+     * @returns {string|string|string}
+     */
+    function bloodInusesFormatter(value,rowData,rowIndex){
+        if(value == 0){
+            return;
+        }
+        for(var i=0;i<bloodInuses.length;i++){
+            if(bloodInuses[i].value == value){
+                return bloodInuses[i].text;
+            }
+        }
+    }
 }
 
 
@@ -244,7 +304,7 @@ function onloadMethod() {
  * @param id
  */
 function saveUseBloodApply() {
-    $("#list_doctor").datagrid('endEdit', editRow);
+    $("#list_doctor").datagrid("endEdit", rowNum);
     var rows = $('#list_doctor').datagrid('getRows');
     var formJson = fromJson('useBloodForm');
     formJson = formJson.substring(0, formJson.length - 1);

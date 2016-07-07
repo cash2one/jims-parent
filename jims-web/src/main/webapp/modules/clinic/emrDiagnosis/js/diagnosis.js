@@ -25,7 +25,6 @@ $(function(){
                 type:'combogrid',
                 options:{
                     panelWidth: 200,
-                    data:icdAllData,
                     idField:'code',
                     textField:'zhongwen_mingcheng',
                     columns:[
@@ -37,7 +36,6 @@ $(function(){
                     ],onClickRow: function (index, row) {
                         var icdMingcheng = $("#zhenduan").datagrid('getEditor', {index: rowNum1, field: 'icdMingcheng'});
                         $(icdMingcheng.target).textbox('setValue', row.zhongwen_mingcheng);
-
                     },
               keyHandler: {
                 up: function() {},
@@ -45,8 +43,9 @@ $(function(){
                 enter: function() {},
                 query: function(q) {
                     var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                        comboGridCompleting(q,'diagnosisId');
-                        $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                        icdCompleting(q,'diagnosisId');
+                        $(ed.target).combogrid("grid").datagrid("loadData", icdAllData);
+                       $(ed.target).combogrid("setText",q);
                 }
             }
             }}},
@@ -58,7 +57,10 @@ $(function(){
             }},
             {field:'clinicId',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
             {field:'icdMingcheng',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
-            {field:'itemNo',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'}
+            {field:'itemNo',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
+            {field:'inOrOutFlag',hidden:'true',formatter:function(){
+                return "0";
+            }}
         ]],
         toolbar: [{
             text: '添加',
@@ -89,7 +91,6 @@ $(function(){
                 if (rowNum1 != -1) {
                     $("#zhenduan").datagrid("endEdit", rowNum1);
                 }
-
                 saveDiagnosis();
             }
           }

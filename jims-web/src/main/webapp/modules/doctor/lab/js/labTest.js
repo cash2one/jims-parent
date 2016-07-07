@@ -1,6 +1,6 @@
-
+var clinicId = parent.clinicMaster.id;
+var patientId = parent.clinicMaster.patientId;
 function onloadMethod(){
-    var clinicId=$("#clinicMasterId",window.parent.document).val();
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
     $('#list_data').datagrid({
@@ -129,8 +129,8 @@ function onloadMethod(){
 function add(){
     clearForm();
     $("#saveBut").show();
-    var clinicId=$("#clinicMasterId",window.parent.document).val();
     $("#clinicId").val(clinicId);
+    $("#patientId").val(patientId);
     var newDate=new Date();
     $('#requestedDateTime').datetimebox('setValue',newDate);
     $.ajax({
@@ -156,7 +156,7 @@ function add(){
             valueField: 'id',
             textField: 'class_name',
             onSelect: function (n, o) {
-               // alert(n.dept_code);
+                $("#specimen").val("");
                 SendProduct();
                 $("#performedBy").val(n.dept_name);
                $("#performedByCode").val(n.dept_code);
@@ -230,7 +230,7 @@ function look() {
 //弹出选择项目窗口
 function SendProduct() {
     var item={};
-    item.orgId="";
+    //item.orgId="";
     item.dictType="lab_item_view";
     var expand3 = $("#performedBy").val();
     var expand2 = $("#labItemClass").val();
@@ -246,19 +246,18 @@ function SendProduct() {
             var divstr ="<table>";
                     for(var i=0; i<data.length; i++)
                     {   if(i==0){
-                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
                         }
                         else if(i%3==0){
-                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
                         }
                         else if(i%3==2){
-                            divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td></tr>";
+                            divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td></tr>";
                         }
                         else{
-                             divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='price' value='"+data[i].price+"'/></div></td>";
+                             divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
                         }
                         //alert(data[i].expand1);
-                    $("#specimen").val(data[i].expand1);
                     }
                     divstr = divstr +"</table>";
                     divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
@@ -293,8 +292,10 @@ function doSelect() {
                 var row={};
                 row.itemName=$(this).next().html();
                 row.itemCode=$(this).val();//增
-                var temp = $(this).next().next(":hidden").val();
-                all += parseFloat(temp);
+                var a =$(this).next().next(":hidden").val();
+                $("#specimen").val(a);
+                //var temp = $(this).next().next(":hidden").val();
+                //all += parseFloat(temp);
                 //row.price=temp;//增
                 rows.push(row);
             }

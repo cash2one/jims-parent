@@ -1,6 +1,5 @@
+
 $(function() {
-    var patientId = parent.patVisit.patientId;
-    var visitId = parent.patVisit.visitId;
     $('#tg').treegrid({
         rownumbers: true,
         animate: true,
@@ -78,6 +77,8 @@ $(function() {
 });
 loadMenu();
 function loadMenu() {
+    var patientId = parent.patVisit.patientId;
+    var visitId = parent.patVisit.visitId;
     var menus = [];//菜单列表
     var menuTreeData = [];//菜单树的列表
     var menuPromise = $.get(basePath + '/diagnosis/findListOfIn?patientId='+patientId+'&visitId='+visitId, function (data) {
@@ -174,8 +175,8 @@ function edit(){
             enter: function() {},
             query: function(q) {
                 var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                comboGridCompleting(q,'diagnosisId');
-                $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                icdComplete(q,'diagnosisId');
+                $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
             }
         }
     })
@@ -253,7 +254,6 @@ function insert(){
     $("#dlg").dialog({title: '添加诊断'}).dialog("open").dialog('center');
     $('#fm').form('clear');
         $("#parentId").val("0");
-        $("#parentId").val("0");
 
         $('#type').combobox({
             data :diagnosisType,
@@ -283,8 +283,8 @@ function insert(){
             enter: function() {},
             query: function(q) {
                 var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                comboGridCompleting(q,'diagnosisId');
-                $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                icdComplete(q,'diagnosisId');
+                $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
             }
         }
     })
@@ -336,8 +336,8 @@ function addNextLevel() {
                 enter: function() {},
                 query: function(q) {
                     var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                    comboGridCompleting(q,'diagnosisId');
-                    $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                    icdComplete(q,'diagnosisId');
+                    $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
                 }
             }
         })

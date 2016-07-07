@@ -64,7 +64,7 @@ $(function() {
     var onClickCell = function (index, field){
         if (endEditing()){
             var row = $('#orgSelfService').datagrid('getRows')[index];
-            if(row.serviceName != '系统管理') {
+            if(row.serviceName != '系统管理' || field != 'serviceName') {
                 $('#orgSelfService').datagrid('selectRow', index)
                     .datagrid('editCell', {index: index, field: field});
             }

@@ -3,7 +3,9 @@ package com.jims.sys.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.sys.api.ServiceParamApi;
 import com.jims.sys.bo.SysServiceParamBo;
+import com.jims.sys.dao.SysServiceParamDao;
 import com.jims.sys.entity.SysServiceParam;
+import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -43,5 +45,17 @@ public class ServiceParamImpl implements ServiceParamApi {
      */
     public int deleteSysServiceParam(List<SysServiceParam> sysServiceParams) {
         return sysServiceParamBo.delSysServiceParam(sysServiceParams);
+    }
+
+    /**
+     * 一次性修改服务数据
+     * @param sysServiceParamBeanChangeVo
+     * @return
+     */
+    public int mergeSysServiceParam(BeanChangeVo<SysServiceParam> sysServiceParamBeanChangeVo) {
+
+
+        return sysServiceParamBo.mergeSysServiceParam(sysServiceParamBeanChangeVo) ;
+
     }
 }
