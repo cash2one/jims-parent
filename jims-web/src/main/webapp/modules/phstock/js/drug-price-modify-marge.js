@@ -69,7 +69,7 @@ $(function () {
             formatter:function(value,row,index){
                 var supplierName = value;
                 $.each(drugSupplierDict, function (index,item) {
-                    if(item.supplierCode == value){
+                    if(item.id == value){
                         supplierName =  item.supplierId;
                     }
                 });
@@ -189,7 +189,7 @@ $(function () {
             formatter:function(value,row,index){
                 var supplierName = value;
                 $.each(drugSupplierDict, function (index,item) {
-                    if(item.supplierCode == value){
+                    if(item.id == value){
                         supplierName =  item.supplierId;
                     }
                 });
@@ -328,8 +328,6 @@ $(function () {
         drugPriceModifyVo.deleted = deleteDate;
         drugPriceModifyVo.updated = updateDate;
 
-        console.log(drugPriceModifyVo);
-        console.log(JSON.stringify(drugPriceModifyVo));
         if (drugPriceModifyVo) {
             $.postJSON(basePath + "/drug-price-modify/save", JSON.stringify(drugPriceModifyVo), function (data) {
                 $.messager.alert("系统提示", "保存成功", "info");

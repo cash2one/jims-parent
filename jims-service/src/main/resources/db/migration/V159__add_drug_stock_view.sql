@@ -48,7 +48,9 @@ select
   and d.del_flag = '0'
   and p.del_flag = '0'
   and d.supply_indicator = '1'
-  and d.quantity > 0;
+  and d.quantity > 0
+  and sysdate>=p.start_date and (sysdate<p.stop_date or p.stop_date is null);
+
 
 
 
