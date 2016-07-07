@@ -45,11 +45,11 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
             if(roleVsService.getServiceId() != null && roleVsService.getRoleId() != null && roleVsService.getMenuId() != null){
                 OrgRoleVsService roleVsService1 = dao.find(roleVsService.getServiceId(), roleVsService.getRoleId(), roleVsService.getMenuId());
                 if (roleVsService1 == null) {
-                    if (null != roleVsService.getMenuOperate() || roleVsService.getMenuOperate() == "0" || roleVsService.getMenuOperate() == "1") {
+                    //if (null != roleVsService.getMenuOperate() || roleVsService.getMenuOperate() == "0" || roleVsService.getMenuOperate() == "1") {
                         roleVsService.preInsert();
                         result = dao.insert(roleVsService);
                         result++;
-                    }
+                    //}
                 } else {
                     roleVsService.setId(roleVsService1.getId());
                     result = dao.update(roleVsService);

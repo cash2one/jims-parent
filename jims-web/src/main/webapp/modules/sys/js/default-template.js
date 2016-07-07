@@ -44,7 +44,7 @@ $(document).ready(function () {
          }
          for (var i = 0; i < menus.length; i++) {
              for (var j = 0; j < menus.length; j++) {
-                 if (menus[j].pid == menus[i].id) {
+                 if (menus[j].pid == menus[i].menuId) {
                      menus[i].children.push(menus[j])
                  }
              }
