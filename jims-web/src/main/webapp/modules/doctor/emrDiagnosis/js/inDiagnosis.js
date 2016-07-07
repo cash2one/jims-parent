@@ -74,8 +74,9 @@ $(function() {
                 }
             ]
     });
+    loadMenu();
 });
-loadMenu();
+
 function loadMenu() {
     var patientId = parent.patVisit.patientId;
     var visitId = parent.patVisit.visitId;
