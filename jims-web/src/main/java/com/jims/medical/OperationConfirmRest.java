@@ -7,10 +7,7 @@ import com.jims.operation.api.OperatioinOrderServiceApi;
 import com.jims.operation.entity.OperationSchedule;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -41,11 +38,11 @@ public class OperationConfirmRest {
 
     /**
      * 确认手术安排列表
-     * @param id
+     * @param operationScheduleList
      * @author pq
      * @return
      */
-    @GET
+    @POST
     @Path("confirm")
     public StringData confirmOperation(List<OperationSchedule> operationScheduleList){
         StringData stringData = new StringData();

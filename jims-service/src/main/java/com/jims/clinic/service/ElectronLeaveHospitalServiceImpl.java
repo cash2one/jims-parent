@@ -5,11 +5,8 @@ package com.jims.clinic.service;
 
 import com.jims.clinic.api.ElectronLeaveHopitalServiceApi;
 import com.jims.clinic.bo.ElectronLeaveHospitalBo;
-import com.jims.clinic.dao.ElectronLeaveHospitalDao;
 import com.jims.clinic.entity.ElectronLeaveHospital;
-import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * 出院记录Service
