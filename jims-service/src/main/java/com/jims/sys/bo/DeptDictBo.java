@@ -60,14 +60,14 @@ public class DeptDictBo extends CrudImplService<DeptDictDao, DeptDict> {
                         //拿科室属性值和科室的类型去数据库中查询科室属性名称
                         OrgDeptPropertyDict listName = orgDeptPropertyDictDao.findNameByTypeAndValue(listProperty.get(y).getPropertyType(), str[y],orgId);
                         if (listName == null) {
-                            sb.append("");
+                            sb.append(" ");
                         } else {
-
                             sb.append(listName.getPropertyName() + " ");
                         }
+                     //   sb.append(listName.getPropertyName() + ",") ;
                     }
                 }
-                list.get(i).setDeptPropertity(sb.toString());
+                list.get(i).setDeptPropertityName(sb.toString());
             }
         }
         return list;

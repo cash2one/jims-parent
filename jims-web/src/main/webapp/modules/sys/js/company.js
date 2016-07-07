@@ -274,7 +274,7 @@ $(function () {
             'success': function (data) {
                 if (data == "1") {
                     //$.messager.alert("系统提示", "保存成功");
-                    alert("系统提示", "保存成功");
+                    alert("保存成功");
                     //解决传到另一个htnl中的乱码问题
                     window.location.href = "/modules/sys/default.html?persion_id=" + currentPersonId;
 

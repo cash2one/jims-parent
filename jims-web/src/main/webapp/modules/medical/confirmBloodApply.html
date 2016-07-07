@@ -10,7 +10,36 @@
     <script type="text/javascript" src="/static/data/data_sex_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
     <script type="text/javascript" src="/static/data/data_blood_type_dict.js"></script>
+    <style>
+        .colorblock-info
+        {
+            position:absolute;
+            top:10px;
+            right:5px;
+            z-index: 20;
+        }
+        .colorblock-info ul li
+        {
+            display:inline-block;
+            padding-right:5px;
+        }
+        .colorblock-info ul li span
+        {
+            width:10px;
+            height:10px;
+            display:inline-block;
+            margin-right:5px;
+        }
+        .colorblock-info ul li span.color1
+        {
+            background: red;
+        }
+        .colorblock-info ul li span.color2
+        {
+            background: blue;
+        }
 
+    </style>
 
 </head>
 <body class="easyui-layout" >
@@ -22,7 +51,13 @@
 </div>
 
 <table id="confirmBlood" width="100%"   cellspacing="0" cellpadding="0">
+    <div class="colorblock-info">
+        <ul>
 
+            <li><span class="color2"></span>已经申请</li>
+            <li><span class="color1"></span>未申请</li>
+        </ul>
+    </div>
 </table>
 
 </body>

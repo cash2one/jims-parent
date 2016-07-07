@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>住院-诊断</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/js/formSubmit.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
-    <script type="text/javascript" src="../emrDiagnosis/js/inDiagnosis.js"></script>
+    <script type="text/javascript" src="/modules/doctor/emrDiagnosis/js/inDiagnosis.js"></script>
     <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
     <script type="text/javascript" src="/static/data/data_diagnosis_type.js"></script>
 </head>
@@ -50,8 +51,8 @@
         </div>
         <div class="fitem">
             <label>诊断名称:</label>
-            <input  class="easyui-combobox"  name="diagnosisId" id="diagnosisId"  style="width:200px;" >
-            <input  name="icdMingcheng" id="icdMingcheng" type="hidden" value="">
+            <input  name="diagnosisId" id="diagnosisId"   style="width:200px;">
+            <input  name="icdName" id="icdName" type="hidden" value="">
         </div>
 
         <input name="id" id="id" type="hidden">

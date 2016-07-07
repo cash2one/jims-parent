@@ -1,11 +1,11 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com.jims.emr">EMR</a> All rights reserved.
  */
-package com.jims.clinic.dao;
+package com.jims.doctor.diagnosis.dao;
 
 
 
-import com.jims.clinic.entity.EmrDiagnosis;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import org.apache.ibatis.annotations.Param;

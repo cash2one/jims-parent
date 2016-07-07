@@ -184,7 +184,7 @@ function userMenu(clinicMasterId,aBtn){
     })
     var html='';
     html+='<li><a class="active" onclick="addTabs(\'3\',\'病人信息\',\'/modules/clinic/patientInfo.html\',this)"><span>病人信息</span></a></li>';
-    html+='<li><a  onclick="addTabs(\'2\',\'病历文书\',\'/modules/clinic/enterHospital/enterHosptial.html\',this)"><span>病历文书</span></a></li>';
+    html+='<li><a  onclick="addTabs(\'2\',\'病历文书\',\'/modules/emr/enterHospital/enterHosptial.html\',this)"><span>病历文书</span></a></li>';
     html+='<li><a onclick="addTabs(\'4\',\'检查申请\',\'/modules/doctor/clinicInspect/clinicInspect.html\',this)"><span>检查申请</span></a></li>';
     html+='<li><a  onclick="addTabs(\'6\',\'检验申请\',\'/modules/doctor/lab/labTest.html\',this)"><span>检验申请</span></a></li>';
     html+='<li><a onclick="addTabs(\'7\',\'处方\',\'/modules/doctor/prescription/prescriptionList.html\',this)"><span>处方</span></a></li>';
