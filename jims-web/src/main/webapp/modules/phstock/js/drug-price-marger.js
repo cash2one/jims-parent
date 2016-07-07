@@ -343,6 +343,14 @@ $(function () {
             width: '6%',
             editor: {
                 type: 'textbox'
+            },formatter:function(value,row,index){
+                var label = value;
+                $.each(specUnit, function (index,item) {
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
+                return label;
             }
         }, {
             title: '住院收据分类',
@@ -509,7 +517,16 @@ $(function () {
                 title: '单位',
                 field: 'units',
                 align: 'center',
-                width: '25%'
+                width: '25%',
+                formatter:function(value,row,index){
+                    var label = value;
+                    $.each(specUnit, function (index,item) {
+                        if (item.value == value){
+                            label =   item.label;
+                        }
+                    });
+                return label;
+            }
             }
             ]
         ],

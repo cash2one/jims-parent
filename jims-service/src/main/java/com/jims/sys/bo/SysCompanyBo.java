@@ -41,13 +41,16 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
     @Autowired
     private OrgSelfServiceVsMenuDao orgSelfServiceVsMenuDao;    //自定义服务与菜单对照
     @Autowired
-    OrgRoleDao orgRoleDao;      //角色
+    private OrgRoleDao orgRoleDao;      //角色
     @Autowired
-    StaffVsRoleDao staffVsRoleDao;      //员工对应角色
+    private StaffVsRoleDao staffVsRoleDao;      //员工对应角色
     @Autowired
-    OrgRoleVsServiceDao roleVsServiceDao;   //角色对应服务
+    private OrgRoleVsServiceDao roleVsServiceDao;   //角色对应服务
     @Autowired
-    OrgStaffDao orgStaffDao;
+    private OrgStaffDao orgStaffDao;
+
+    @Autowired
+    private SysServiceParamBo sysServiceParamBo ;
 
     /**
      * 保存注册信息以及选择的服务
@@ -125,6 +128,18 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
             orgSelfServiceList.setServiceName(service.getServiceName());
             orgSelfServiceListDao.insert(orgSelfServiceList);   //添加自定义服务
             String roleVsServiceId = null;
+
+            List<SysServiceParam> sysServiceParams = sysServiceParamBo.findSysServiceParamByServiceId(service.getId()) ;//添加自定义服务参数
+            int i = 0 ;
+            for(SysServiceParam param:sysServiceParams){
+                OrgServiceParam orgServiceParam = new OrgServiceParam() ;
+                orgServiceParam.setOrgId(orgId);
+                orgServiceParam.setParamName(param.getParamName());
+                orgServiceParam.setValueRange(param.getValueRange());
+                orgServiceParam.setServiceId(orgSelfServiceList.getId());
+                i+=sysServiceParamBo.meregeOrgServiceParam(orgServiceParam) ;
+            }
+
             if ("0".equals(service.getServiceType()) && "3".equals(service.getServiceClass())) {
                 List<MenuDict> menus = service.getMenus();//服务对应菜单集合
                 //角色对应服务

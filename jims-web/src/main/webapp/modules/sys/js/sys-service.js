@@ -750,7 +750,7 @@ $(function () {
     $("#serviceParamDialog").dialog({
         modal:true,
         width:800,
-        height:600,
+        height:400,
         title:'参数设置',
         closed:true,
         onBeforeOpen:function(){
