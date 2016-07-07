@@ -1,11 +1,9 @@
 package com.jims.clinic;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.EmrDiagnosisServiceApi;
-import com.jims.clinic.entity.EmrDiagnosis;
-import com.jims.common.data.PageData;
+import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.data.StringData;
-import com.jims.common.persistence.Page;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;

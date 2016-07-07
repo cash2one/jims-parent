@@ -3,12 +3,11 @@ package com.jims.clinic.service;
 
 import com.jims.clinic.api.ElectronEnterHospitalServiceApi;
 import com.jims.clinic.dao.ElectronEnterHospitalDao;
-import com.jims.clinic.dao.EmrDiagnosisDao;
+import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
 import com.jims.clinic.entity.ElectronEnterHospital;
-import com.jims.clinic.entity.EmrDiagnosis;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

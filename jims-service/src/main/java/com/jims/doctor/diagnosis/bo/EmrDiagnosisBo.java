@@ -1,50 +1,36 @@
 
-package com.jims.clinic.service;
+package com.jims.doctor.diagnosis.bo;
 
 
-
-
-
-import com.alibaba.dubbo.common.json.JSONArray;
-import com.alibaba.dubbo.common.json.JSONObject;
-import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.EmrDiagnosisServiceApi;
-import com.jims.clinic.dao.EmrDiagnosisDao;
-import com.jims.clinic.entity.EmrDiagnosis;
-import com.jims.common.persistence.Page;
-import com.jims.common.service.CrudService;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.common.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-
-
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 诊断Service
+ * 诊断Bo
  * @author zhangyao
  * @version 2015-12-27
  */
-@Service(version = "1.0.0")
+@Service
+@Transactional(readOnly = false)
+public class EmrDiagnosisBo extends CrudImplService<EmrDiagnosisDao, EmrDiagnosis>{
 
-public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, EmrDiagnosis> implements EmrDiagnosisServiceApi{
-	@Autowired
-	private EmrDiagnosisDao emrDiagnosisDao;
 
 	/**
 	 * 保存门诊诊断
 	 * @param emrDiagnosis
 	 * @return
 	 */
-	//@Override
 	public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis){
 		String num = "";
 		if(emrDiagnosis.size()>0){
 			for(int i=0;i<emrDiagnosis.size();i++){
 				EmrDiagnosis diagnosis=emrDiagnosis.get(i);
+                diagnosis.setParentId("0");
 				diagnosis.setInOrOutFlag("0");//门诊
 				num =	save(diagnosis);
 			}
@@ -86,17 +72,17 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 	 */
 
 	public  List<EmrDiagnosis> findAllListByParent(String parentId){
-		return emrDiagnosisDao.findAllListByParent(parentId);
+		return findAllListByParent(parentId);
 
 	}
 
 
 	public List<EmrDiagnosis> findAllListByType(String parentId,String type){
-		return emrDiagnosisDao.findAllListByType(parentId, type);
+		return findAllListByType(parentId, type);
 	}
 
 	public List<EmrDiagnosis> findListChildren(String id){
-		return emrDiagnosisDao.findListChildren(id);
+		return findListChildren(id);
 	}
 	/**
 	 * 查询病人诊断数据数据
@@ -115,9 +101,8 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 	 * @param visitId
 	 * @return
 	 */
-	@Override
 	public EmrDiagnosis getDescription(String clinicId,String visitId) {
-		return emrDiagnosisDao.getDescription(clinicId,visitId);
+		return getDescription(clinicId, visitId);
 	}
 
 

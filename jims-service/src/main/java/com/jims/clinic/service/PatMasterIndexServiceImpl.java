@@ -6,12 +6,11 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.*;
-import com.jims.clinic.entity.EmrDiagnosis;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.clinic.entity.PatHospitalNotice;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.clinic.vo.ComeDeptVo;
-import com.jims.common.utils.StringUtils;
-import com.jims.common.web.impl.BaseDto;
+import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
 import com.jims.finance.dao.PatsInTransferringDao;
 import com.jims.finance.dao.PrepaymentRcptDao;
 import com.jims.finance.entity.PatsInTransferring;

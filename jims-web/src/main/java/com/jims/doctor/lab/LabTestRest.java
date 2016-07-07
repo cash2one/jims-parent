@@ -1,9 +1,8 @@
 package com.jims.doctor.lab;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.EmrDiagnosisServiceApi;
-import com.jims.clinic.entity.ClinicItemNameDict;
-import com.jims.clinic.entity.EmrDiagnosis;
+import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.data.StringData;
 import com.jims.lab.api.LabTestItemsServiceApi;
 import com.jims.lab.api.LabTestMasterServiceApi;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
