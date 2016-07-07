@@ -181,7 +181,7 @@ function edit(){
                 icdCompleting(q,'diagnosisId');
                 $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
                 $('#diagnosisId').combogrid("setText",q);
-
+                $("#icdName").val(q);
             }
         }
     })
@@ -290,6 +290,7 @@ function insert(){
                 icdCompleting(q,'diagnosisId');
                 $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
                 $('#diagnosisId').combogrid("setText",q);
+                $("#icdName").val(q);
             }
         }
     })
@@ -319,6 +320,7 @@ function addNextLevel() {
         $('#typeId').val(node.type);
         var typeName = diagnosisTypeFormatter(node.type,'','');
         $('#type').textbox('setValue',typeName);
+        $("#type").attr("readonly", true) ;
         $("#parentId").val(node.id);
 
         $('#diagnosisId').combogrid({
@@ -342,6 +344,7 @@ function addNextLevel() {
                     icdCompleting(q,'diagnosisId');
                     $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
                     $('#diagnosisId').combogrid("setText",q);
+                    $("#icdName").val(q);
                 }
             }
         })

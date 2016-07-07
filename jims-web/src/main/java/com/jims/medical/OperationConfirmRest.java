@@ -38,13 +38,15 @@ public class OperationConfirmRest {
 
     /**
      * 确认手术安排列表
-     * @param operationScheduleList
+     * @param id
      * @author pq
      * @return
      */
     @POST
     @Path("confirm")
-    public StringData confirmOperation(OperationSchedule operationSchedule){
+    public StringData confirmOperation(String id){
+        OperationSchedule operationSchedule = new OperationSchedule();
+        operationSchedule.setId(id);
         StringData stringData = new StringData();
         String code = operatioinOrderServiceApi.confrimOperation(operationSchedule);
         stringData.setCode(code);
