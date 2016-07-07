@@ -44,9 +44,9 @@ public class OperationConfirmRest {
      */
     @POST
     @Path("confirm")
-    public StringData confirmOperation(List<OperationSchedule> operationScheduleList){
+    public StringData confirmOperation(OperationSchedule operationSchedule){
         StringData stringData = new StringData();
-        String code = operatioinOrderServiceApi.confrimOperation(operationScheduleList);
+        String code = operatioinOrderServiceApi.confrimOperation(operationSchedule);
         stringData.setCode(code);
         if(!"".equals(code)&&!"0".equals(code)){
             stringData.setData("success");

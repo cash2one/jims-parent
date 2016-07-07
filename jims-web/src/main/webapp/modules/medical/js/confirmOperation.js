@@ -42,9 +42,7 @@ $(function(){
             {field:'remarks',title:'备注',width:'10%',align:'center'},
             {field:'ackIndicator',hidden:"true"}
         ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
-        ]],
+
         toolbar: [{
 
             text: '确认',
@@ -75,19 +73,28 @@ $(p).pagination({
     displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 });*/
 //手术安排确认
-function confirmOperation(){
-   var rows = $('#confirmOperation').datagrid("getSelections");
-    var tableJson=JSON.stringify(rows);
-    $.postJSON(basePath+'/operationConfirm/confirm',tableJson,function(data){
-        if(data.data=='success'){
-            $.messager.alert("提示消息","确认成功");
-            $('#confirmOperation').datagrid('load');
-        }else{
-            $.messager.alert('提示',"确认失败", "error");
+function confirmOperation() {
+    var rows = $('#confirmOperation').datagrid("getSelected");
+
+    $.ajax({
+        'type': 'POST',
+        'url': basePath + '/operationConfirm/confirm',
+        'contentType': 'application/json',
+        'data': id = rows.id,
+        'dataType': 'json',
+        'success': function (data) {
+            if (data.data == 'success') {
+                $.messager.alert("提示消息", "确认成功");
+                $('#confirmOperation').datagrid('load');
+            } else {
+                $.messager.alert('提示', "确认失败", "error");
+            }
+        },
+
+        'error': function (data) {
+            $.messager.alert('提示', "确认失败", "error");
         }
-    },function(data){
-        $.messager.alert('提示',"确认失败", "error");
-    })
+    });
 }
 
 
