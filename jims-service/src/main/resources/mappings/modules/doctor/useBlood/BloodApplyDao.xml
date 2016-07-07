@@ -250,4 +250,11 @@
 		WHERE id = #{id}
 	</update>
 
+
+	<update id="confirmBlood">
+          UPDATE blood_apply SET
+           apply_status = '1' ,
+           gather_date = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+           where id = #{id}
+	</update>
 </mapper>

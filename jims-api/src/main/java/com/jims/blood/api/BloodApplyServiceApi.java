@@ -1,7 +1,10 @@
 package com.jims.blood.api;
 
 import com.jims.blood.entity.BloodApply;
+import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+
+import java.util.List;
 
 /**
  * Created by qinlongxin on 2016/4/28.
@@ -46,6 +49,15 @@ public interface BloodApplyServiceApi {
      * @version 2016/4/20
      */
     public String delete(String ids);
+
+    /**
+     * 确认用血
+     * @param bloodApplies
+     * @author pq
+     * @return
+     */
+    public String confirmBlood(List<BloodApply> bloodApplies);
+
 
 //    public String getMatchSubNum(String applyNum);
 }
