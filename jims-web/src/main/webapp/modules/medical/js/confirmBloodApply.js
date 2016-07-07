@@ -39,6 +39,15 @@ $(function(){
         frozenColumns:[[
             {field:'ck',checkbox:true}
         ]],
+        toolbar: [{
+
+                text: '确认',
+                iconCls: 'icon-add',
+                handler: function(){
+                    confirmBlood();
+                }
+            }
+        ],
         rowStyler:function(index,row) {
             if (row.applyStatus!=null ) {
                 if (row.applyStatus == '0'|| row.applyStatus == 0) {//未确认
@@ -52,7 +61,7 @@ $(function(){
 });
 
 //手术安排确认
-function confirmOperation(){
+function confirmBlood(){
     var rows = $('#confirmBlood').datagrid("getSelections");
     var tableJson=JSON.stringify(rows);
     $.postJSON(basePath+'/bloodConfirm/confirmBlood',tableJson,function(data){

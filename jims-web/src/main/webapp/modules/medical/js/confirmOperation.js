@@ -45,6 +45,15 @@ $(function(){
         frozenColumns:[[
             {field:'ck',checkbox:true}
         ]],
+        toolbar: [{
+
+            text: '确认',
+            iconCls: 'icon-add',
+            handler: function(){
+                confirmOperation();
+            }
+        }
+        ],
          rowStyler:function(index,row) {
              if (row.ackIndicator!=null ) {
                  if (row.ackIndicator == '0'|| row.ackIndicator == 0) {//未确认
