@@ -151,6 +151,7 @@ function edit(){
     $("#type").attr("readonly", true) ;
     $("#description").val(node.description);
     $("#treatResult").val(node.treatResult);
+    $('#diagnosisId').val(node.icdName);
     $("#diagnosisDate").datebox("setValue",node.diagnosisDate);
     if(node.operTreatIndicator=='1'){
         $("#operTreatIndicator").attr("checked", true) ;
