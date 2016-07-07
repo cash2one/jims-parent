@@ -1,4 +1,4 @@
-var administration = [{ "value": "1", "text": "初步诊断" }, { "value": "2", "text": "鉴别诊断" }, { "value": "4", "text": "入院诊断" }];
+
 $(function() {
     $('#tg').treegrid({
         rownumbers: true,
@@ -77,9 +77,11 @@ $(function() {
 });
 loadMenu();
 function loadMenu() {
+    var patientId = parent.patVisit.patientId;
+    var visitId = parent.patVisit.visitId;
     var menus = [];//菜单列表
     var menuTreeData = [];//菜单树的列表
-    var menuPromise = $.get(basePath + '/diagnosis/findListOfIn', function (data) {
+    var menuPromise = $.get(basePath + '/diagnosis/findListOfIn?patientId='+patientId+'&visitId='+visitId, function (data) {
         $.each(data, function (index, item) {
             var d = {};
             d.id = item.id;
@@ -251,7 +253,6 @@ function insert(){
 
     $("#dlg").dialog({title: '添加诊断'}).dialog("open").dialog('center');
     $('#fm').form('clear');
-        $("#parentId").val("0");
         $("#parentId").val("0");
 
         $('#type').combobox({
