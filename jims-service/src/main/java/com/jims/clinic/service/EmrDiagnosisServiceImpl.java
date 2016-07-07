@@ -41,13 +41,14 @@ public class EmrDiagnosisServiceImpl extends CrudImplService<EmrDiagnosisDao, Em
 	 */
 	//@Override
 	public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis){
+		String num = "";
 		if(emrDiagnosis.size()>0){
 			for(int i=0;i<emrDiagnosis.size();i++){
 				EmrDiagnosis diagnosis=emrDiagnosis.get(i);
 				diagnosis.setInOrOutFlag("0");//门诊
-				save(diagnosis);
+				num =	save(diagnosis);
 			}
-			return "1";
+			return num;
 		}
 		return null;
 	}

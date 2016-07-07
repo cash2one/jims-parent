@@ -2,7 +2,6 @@
  * 门诊手术确认
  * Created by pq on 2016/7/6 0006.
  */
-
 $(function(){
     $('#confirmOperation').datagrid({
         iconCls:'icon-edit',//图标
@@ -13,7 +12,7 @@ $(function(){
         border: true,
         collapsible:false,//是否可折叠的
         method:'GET',
-        url:basePath+'/operationConfirm/findOperation',
+        url:basePath+'/operationConfirm/findOperation?scheduledDateTime='+$("#scheduledDateTime").datebox('getValue'),
         remoteSort:false,
         idField:'id',
         singleSelect:false,//是否单选
@@ -73,3 +72,9 @@ function confirmOperation(){
         $.messager.alert('提示',"确认失败", "error");
     })
 }
+
+
+    function search(){
+        $('#confirmOperation').datagrid({url:basePath+'/operationConfirm/findOperation?scheduledDateTime='+$("#scheduledDateTime").datebox('getValue') });
+    }
+
