@@ -1,8 +1,6 @@
-package com.jims.clinic.api;
+package com.jims.diagnosis.api;
 
-import com.jims.clinic.entity.EmrDiagnosis;
-import com.jims.common.persistence.Page;
-import org.apache.ibatis.annotations.Param;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 
 import java.util.List;
 

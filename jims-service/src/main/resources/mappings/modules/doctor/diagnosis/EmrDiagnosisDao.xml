@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.clinic.dao.EmrDiagnosisDao">
+<mapper namespace="com.jims.doctor.diagnosis.dao.EmrDiagnosisDao">
     <resultMap id="BasicColums" type="EmrDiagnosis">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
@@ -8,6 +8,7 @@
         <result column="type" property="type" jdbcType="VARCHAR" />
 		<result column="diagnosisId" property="diagnosisId" jdbcType="VARCHAR" />
         <result column="description" property="description" />
+        <result column="icdName" property="icd_name"></result>
         <result column="basis" property="basis" />
 		<result column="itemNo" property="itemNo"></result>
         <result column="diagnosis_type" ></result>
@@ -36,7 +37,7 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.clinic_id AS "clinicId",
-
+        a.icd_name as "icdName",
 		a.del_flag AS "delFlag",
         a.patient_id AS "patientId",
         a.TREAT_DAYS AS "treatDays",
@@ -47,13 +48,10 @@
         a.INOROUT_FLAG AS "inOrOutFlag",
         a.diagnosis_date AS "diagnosisDate",
         a.diagnosis_parent AS "diagnosisParent"
-
-
-		/*"diagnosis_type" as "diagnosis_type"*/
 	</sql>
 
 	<sql id="deathDiagnosisJoins">
-          ,(SELECT @rownum:=0) b
+
 	</sql>
     
 	<select id="get" resultMap="BasicColums">
@@ -71,8 +69,6 @@
         <include refid="deathDiagnosisJoins"/>
         <where>
             a.del_flag ='0'
-
-                <!--and parent_ids=#{id}-->
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -89,7 +85,6 @@
 		SELECT 
 			<include refid="DiagnosisColumns"/>
 		FROM emr_diagnosis a
-     <!--   <include refid="deathDiagnosisJoins"/>-->
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="clinicId!=null and clinicId!=''">
@@ -186,9 +181,8 @@
             diagnosis_date,
             diagnosis_parent,
             parent_ids,
-            visit_id
-
-
+            visit_id,
+            icd_name
 		) VALUES (
 			#{id},
 			#{parentId},
@@ -214,8 +208,8 @@
             #{diagnosisDate},
             #{diagnosisParent},
 			#{parentIds},
-			#{visitId}
-
+			#{visitId},
+            #{icdName}
 		)
 	</insert>
 	
@@ -234,8 +228,8 @@
 			pathology_no = #{pathologyNo},
 			diagnosis_doc = #{diagnosisDoc},
 			type = #{type},
-			diagnosis_parent = #{diagnosisParent}
-
+			diagnosis_parent = #{diagnosisParent},
+            icd_name=#{icdName}
 		WHERE id = #{id}
 	</update>
 	
