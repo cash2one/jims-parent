@@ -127,6 +127,22 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
         return orgRoleVsServices;
     }
 
+    /**
+     * 删除角色的自定义服务
+     * @param serviceId
+     * @param roleId
+     * @return
+     * @author fengyuguang
+     */
+    public String delete(String serviceId,String roleId){
+        List<OrgRoleVsService> lists = dao.findRoleIdAndServiceId(roleId, serviceId);
+        for (OrgRoleVsService list : lists) {
+            String delete = super.delete(list.getId());
+            System.out.println(delete);
+        }
+        return "1";
+    }
+
     @Override
     public String delete(String id){
         String result = "";
