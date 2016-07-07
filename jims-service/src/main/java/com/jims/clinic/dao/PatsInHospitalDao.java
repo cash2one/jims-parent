@@ -5,6 +5,7 @@ package com.jims.clinic.dao;
 
 
 import com.jims.clinic.entity.PatsInHospital;
+import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.common.web.impl.BaseDto;
@@ -72,4 +73,17 @@ public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
      * @return
      */
     public List<BaseDto> waitTurnOutList();
+
+    /**
+     * 取消入科病人列表
+     * @author CTQ
+     * @return
+     */
+    public List<BaseDto> cacelPatientlist(@Param("wardCode")String wardCode);
+    /**
+     * 可被取消离院的病人列表
+     * @param vo
+     * @return
+     */
+    public List<BaseDto> cancelLeavePatientlist(ComeDeptVo vo);
 }

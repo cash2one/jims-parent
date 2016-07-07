@@ -53,4 +53,31 @@ public interface PatsInHospitalServiceApi {
      * @return
      */
     public List<BaseDto> waitTurnOutList();
+    /**
+     * 取消入科病人列表
+     * @author CTQ
+     * @return
+     */
+    public List<BaseDto> cacelPatientlist(String wardCode);
+
+    /**
+     * 确认取消入科
+     * @param comeDeptVo
+     * @return
+     */
+    public String cancelComeDept(ComeDeptVo comeDeptVo);
+    /**
+     * 可被取消离院的病人列表
+     * @param comeDeptVo
+     * @return
+     */
+    public List<BaseDto> cancelLeavePatientlist(ComeDeptVo comeDeptVo);
+    /**
+     * 确认取消离院
+     * @param comeDeptVo
+     * @return
+     */
+    public String cancelLeaveHosp(ComeDeptVo comeDeptVo);
+
+
 }
