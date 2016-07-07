@@ -5,10 +5,20 @@ var visitDate='2015-06-09';
 var visitNo='410';
 var prescNo ='';
 var serialNo='';
-var administration = [{ "value": "1", "text": "科室1" }, { "value": "2", "text": "科室2" }, { "value": "3", "text": "科室3" }, { "value": "4", "text": "科室4" }, { "value": "5", "text": "科室5" }];
-var doctors = [{ "value": "1", "text": "医生1" }, { "value": "2", "text": "医生" }, { "value": "3", "text": "医生" }, { "value": "4", "text": "医生" }, { "value": "5", "text": "医生" }];
 var doctorid ="5";
 $(function(){
+    /**
+     * 会诊类型
+     */
+    $("#grouptype").combobox({
+        data:groupType,
+        valueField:'value',
+        textField:'label',
+        onSelect:function(data){
+            $("#groupTypeId").val(data.value);
+        }
+    })
+
     changeYiJian("4");
     $('#list_doctor').datagrid({
         singleSelect: true,
@@ -19,7 +29,7 @@ $(function(){
         columns:[[
             {field:'id',title:'id',hidden:true,align:'center'},
             //每个列具体内容
-            {field:'officeId',title:'科室',width:'20%',align:'center',editor:{
+            {field:'officeId',title:'科室',width:'20%',align:'center',formatter:clinicDeptCodeFormatter,editor:{
                 type:'combobox',
                 options:{
                     data :clinicDeptCode,
@@ -29,25 +39,25 @@ $(function(){
                 }
             }},
 
-            {field:'doctorId',title:'参与医生',width:'20%',align:'center',editor:{
-                type:'combogrid',
+            {field:'doctorId',title:'参与医生',width:'20%',align:'center',formatter:doctorNameFormatter,editor:{
+                type:'combobox',
                 options:{
                     data :doctorName,
                     valueField:'id',
                     textField:'name',
-                    required:true,
-                    columns:[[
-                        {field:'name',title:'医生姓名',width:70},
-                        {field:'dept_name',title:'科室',width:120},
-                        {field:'title',title:'职称',width:70}
-                    ]],
-                    onClickRow: function (index, data) {
-                        var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
-                        var columns = $('#list_data').datagrid("options").columns;
-                        rows[rowNum][columns[0][4].field]=data.title;
-                        $('#list_data').datagrid('endEdit', rowNum);
-                        $('#list_data').datagrid('beginEdit', rowNum);
-                    }
+                    required:true
+                    //columns:[[
+                    //    {field:'name',title:'医生姓名',width:70},
+                    //    {field:'dept_name',title:'科室',width:120},
+                    //    {field:'title',title:'职称',width:70}
+                    //]]
+                    //onClickRow: function (index, data) {
+                    //    var rows = $('#list_data').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
+                    //    var columns = $('#list_data').datagrid("options").columns;
+                    //    rows[rowNum][columns[0][4].field]=data.title;
+                    //    $('#list_data').datagrid('endEdit', rowNum);
+                    //    $('#list_data').datagrid('beginEdit', rowNum);
+                    //}
                 }
             //}},
             //    }
@@ -73,22 +83,36 @@ $(function(){
             handler: function(){
                 inDoDelete();
             }
-        }],onAfterEdit: function (rowIndex, rowData, changes) {
-            editRow = undefined;
-        },onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+        }],
+        onClickRow:function(rowIndex,rowData){
+            var dataGrid = $('#list_doctor');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false
             }
-            if (editRow == undefined) {
-                $("#list_doctor").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
-        },onClickRow:function(rowIndex,rowData){
-            //tooltips选中行，药品价目列表信息
-            if (editRow != undefined) {
-                $("#list_doctor").datagrid('endEdit', editRow);
+            if (rowNum != rowIndex) {
+                if (rowNum >= 0) {
+                    dataGrid.datagrid('endEdit', rowNum);
+                }
+                rowNum = rowIndex;
+                dataGrid.datagrid('beginEdit', rowIndex);
             }
         }
+        //onAfterEdit: function (rowIndex, rowData, changes) {
+        //    editRow = undefined;
+        //},onDblClickRow:function (rowIndex, rowData) {
+        //    if (editRow != undefined) {
+        //        $("#list_doctor").datagrid('endEdit', editRow);
+        //    }
+        //    if (editRow == undefined) {
+        //        $("#list_doctor").datagrid('beginEdit', rowIndex);
+        //        editRow = rowIndex;
+        //    }
+        //},onClickRow:function(rowIndex,rowData){
+        //    //tooltips选中行，药品价目列表信息
+        //    if (editRow != undefined) {
+        //        $("#list_doctor").datagrid('endEdit', editRow);
+        //    }
+        //}
     });
     //$('#list_doctor').datagrid('hideColumn','officeId');
 

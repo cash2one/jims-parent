@@ -1,5 +1,7 @@
 //var clinicId = parent.clinicMaster.id;
 //var patientId = parent.clinicMaster.patientId;
+var clinicId = parent.clinicMaster.id;
+var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
 /**
  * 设置动态行
@@ -67,7 +69,7 @@ function onloadMethod() {
             }, formatter: fastSloFormatter
             },
             //每个列具体内容
-            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'text'},
+            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'datetimebox'},
             {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: 'text'},
             {
                 field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
@@ -133,12 +135,13 @@ function onloadMethod() {
         }
     });
     //获取门诊id
-    //$("#clinicId").val(clinicId);
-    //$("#patientId").val(patientId);
-    //$("#patName").val(parent.clinicMaster.name);
-    //$("#patSex").val(parent.clinicMaster.sex);
-    //$("#feeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));
-    //$("#feeTypeId").val(parent.clinicMaster.chargeType);
+    alert(clinicId)
+    $("#clinicId").val(clinicId);
+    $("#patientId").val(patientId);
+    $("#patName").val(parent.clinicMaster.name);
+    $("#patSex").val(parent.clinicMaster.sex);
+    $("#feeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));
+    $("#feeTypeId").val(parent.clinicMaster.chargeType);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -410,7 +413,7 @@ function getBloodApply(id, state) {
         'dataType': 'json',
         'success': function (data) {
             $('#useBloodForm').form('load', data);
-            var applyNum = $("#applyNum").val();
+            var applyNum = data.applyNum;
             $('#list_doctor').datagrid({
                 url: basePath + "/bloodApply/getBloodCapacityList",
                 queryParams: {'applyNum': applyNum},

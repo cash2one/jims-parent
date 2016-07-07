@@ -1,6 +1,8 @@
 //var visitId = parent.patVisit.visitId;
 //var patientId = parent.patVisit.patientId;
 var rowNum = -1;
+var visitId = parent.patVisit.visitId;
+var patientId = parent.patVisit.patientId;
 /**
  * 设置动态行
  * @param id
@@ -68,7 +70,7 @@ function onloadMethod() {
             }
             },
             //每个列具体内容
-            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'text'},
+            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'datetimebox'},
             {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: 'text'},
             {field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
                 type: 'combobox',
@@ -389,7 +391,7 @@ function getBloodApply(id, state) {
         'dataType': 'json',
         'success': function (data) {
             $('#useBloodForm').form('load', data);
-            var applyNum = $("#applyNum").val();
+            var applyNum = data.applyNum;
             $('#list_doctor').datagrid({
                 url: basePath + "/bloodApply/getBloodCapacityList",
                 queryParams: {'applyNum': applyNum},
