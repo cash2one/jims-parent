@@ -1,6 +1,6 @@
 //var clinicId = parent.clinicMaster.id;
 //var patientId = parent.clinicMaster.patientId;
-var clinicId = parent.clinicMaster.clinicId;
+var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
 /**

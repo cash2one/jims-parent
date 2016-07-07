@@ -1,4 +1,4 @@
-var clinicId = parent.clinicMaster.clinicId;
+var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 function onloadMethod(){
     $("#treeGrid").dialog("close");
@@ -131,8 +131,6 @@ function add(){
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
-    var newDate=new Date();
-    $('#requestedDateTime').datetimebox('setValue',newDate);
     $.ajax({
         //添加
         url: basePath+"/labtest/zhenduan",

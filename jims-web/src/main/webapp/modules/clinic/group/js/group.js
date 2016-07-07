@@ -1,7 +1,6 @@
 var rowNum=-1;
 var patientId =parent.patVisit.patientId;
 var zhuyuanId = parent.patVisit.visitId;
-var editRow = undefined;
 var visitDate='2015-06-09';
 var visitNo='410';
 var prescNo ='';
@@ -78,7 +77,7 @@ function onloadMethod() {
                     //    }
                 }
             },
-            {field: 'inHuizhenyijian', title: '意见', width: '60%', align: 'center'}
+            {field: 'inHuizhenyijian', title: '意见', width: '60%', align: 'center',editor :'text'}
         ]],
         frozenColumns: [[
             {field: 'ck', checkbox: true}
@@ -87,6 +86,9 @@ function onloadMethod() {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
+                if (rowNum >= 0) {
+                    rowNum++;
+                }
                 changeYiJian(0);
                 $("#list_doctor").datagrid('insertRow', {
                     index: 0,
@@ -155,7 +157,7 @@ function onloadMethod() {
             {field: 'shenqingshijian', title: '会诊时间', width: '35%', align: 'center', formatter: formatDateBoxFull},
             {
                 field: 'id', title: '操作', width: '60%', align: 'center', formatter: function (value, row, index) {
-                var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>';
+                var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="get(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>';
                 if (row.ideaFlag != "1") {
                     if (doctorid == row.doctorId) {
                         html = html + '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + value + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>';
@@ -220,7 +222,7 @@ function save(){
     $("#doctorId").val("5");
     $("#zhuyuanId").val("03e681f7-ba5e-11e5-bb7f-0894ef010b21");
     $("#patientId").val("06b45a7a-b286-11e5-b259-0894ef010b20");
-    $("#list_doctor").datagrid('endEdit', editRow);
+    $("#list_doctor").datagrid("endEdit", rowNum);
     var  rows=$('#list_doctor').datagrid('getRows');
     var formJson=fromJson('form');
     formJson = formJson.substring(0, formJson.length - 1);
@@ -346,7 +348,41 @@ function get(id) {
             $('#list_doctor').datagrid({ url:basePath+"/group/doctorlist",queryParams:{'a.huizhen_id':id},method:"post"});
         }
     });
-
+}
+function look(id){
+    alert(id);
+    $.ajax({
+        'type': 'post',
+        'url': basePath+'/group/get',
+        'data': {id :id},
+        'contentType': 'application/json',
+        'dataType': 'json',
+        'success': function(data){
+            $('#form').form('load',data);
+            getDiv("form");
+            var id= $("#id").val();
+            $('#list_doctor').datagrid({ url:basePath+"/group/alldoctorlist",queryParams:{'a.huizhen_id':id},method:"post"});
+            changeYiJian("4");
+        }
+    });
+    /**
+     * 发布医生查看
+     */
+}function look(id){
+    $.ajax({
+        'type': 'post',
+        'url': basePath+'/group/get',
+        'data': {id :id},
+        'contentType': 'application/json',
+        'dataType': 'json',
+        'success': function(data){
+            $('#form').form('load',data);
+            getDiv("form");
+            var id= $("#id").val();
+            $('#list_doctor').datagrid({ url:basePath+"/group/alldoctorlist",queryParams:{'a.huizhen_id':id},method:"post"});
+            changeYiJian("4");
+        }
+    });
 }
 //发布会诊者发表意见
 function ideaRow(id) {
@@ -364,7 +400,6 @@ function ideaRow(id) {
             changeYiJian("1");
         }
     });
-
 }
 //参与会诊者发表意见
 function ideaOtherRow(id) {
@@ -384,22 +419,7 @@ function ideaOtherRow(id) {
         }
     });
 }
-function look(id){
-    $.ajax({
-        'type': 'post',
-        'data': id=id,
-        'url': basePath+'/group/get',
-        'contentType': 'application/json',
-        'dataType': 'json',
-        'success': function(data){
-            $('#form').form('load',data);
-            getDiv("form");
-            var id= $("#id").val();
-            $('#list_doctor').datagrid({ url:basePath+"/group/alldoctorlist",queryParams:{'a.huizhen_id':id},method:"post"});
-            changeYiJian("4");
-        }
-    });
-}
+
 /**
  * 删除方法
  * @param id
