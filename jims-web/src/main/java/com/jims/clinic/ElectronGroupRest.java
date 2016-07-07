@@ -16,10 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.Date;
@@ -100,8 +97,10 @@ public class ElectronGroupRest {
      */
     @Path("list")
     @GET
-    public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response){
-        Page<ElectronGroupConsultation> page = electronGroupConsultationApi.findPage(new Page<ElectronGroupConsultation>(request,response), new ElectronGroupConsultation());
+    public PageData list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("patientId")String patientId){
+        ElectronGroupConsultation electronGroupConsultation =  new ElectronGroupConsultation();
+        electronGroupConsultation.setPatientId(patientId);
+        Page<ElectronGroupConsultation> page = electronGroupConsultationApi.findPage(new Page<ElectronGroupConsultation>(request,response),electronGroupConsultation);
         PageData pageData=new PageData();
         pageData.setRows(page.getList());
         pageData.setTotal(page.getCount());

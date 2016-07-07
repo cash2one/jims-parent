@@ -101,7 +101,7 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
         return num + "";
     }
 
-    public String delectHosLabTestMaster(String ids) {
+    public String deleteLabTestMasterHos(String ids) {
         int num = 0;
         try {
             String[] id = ids.split(",");

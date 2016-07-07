@@ -175,7 +175,7 @@ public class LabTestRest {
     public StringData del(String ids){
         LabTestMaster labTestMaster = new LabTestMaster();
         labTestMaster.setId(ids);
-        labTestMasterServiceApi.delAll(ids);
+        labTestMasterServiceApi.deleteLabTestMaster(ids);
         StringData stringData=new StringData();
         stringData.setData("success");
         return stringData;
@@ -190,7 +190,7 @@ public class LabTestRest {
     @POST
     public StringData deleteLabTestMaster(String ids){
         StringData stringData=new StringData();
-        labTestMasterServiceApi.deleteLabTestMaster(ids);
+        labTestMasterServiceApi.deleteLabTestMasterHos(ids);
         stringData.setData("success");
         return stringData;
     }

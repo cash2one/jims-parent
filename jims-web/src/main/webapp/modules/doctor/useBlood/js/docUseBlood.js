@@ -1,52 +1,12 @@
 //var clinicId = parent.clinicMaster.id;
 //var patientId = parent.clinicMaster.patientId;
-var clinicId = parent.clinicMaster.id;
+var clinicId = parent.clinicMaster.clinicId;
 var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
 /**
  * 设置动态行
  * @param id
  */
-
-var fastSlo = [{"value": "1", "text": "急诊"}, {"value": "2", "text": "计划"}, {"value": "3", "text": "备血"}];
-var units = [{"value": "1", "text": "毫升"}, {"value": "2", "text": "单位"}, {"value": "3", "text": "人/份"}];
-var bloodInuses = [{"value": "1", "text": "血库"}, {"value": "2", "text": "自体"}, {"value": "3", "text": "互助"}];
-var patSource = [{"value": "1", "text": "市区"}, {"value": "2", "text": "郊县"}, {"value": "3", "text": "外省市"},
-    {"value": "2", "text": "港澳台"}, {"value": "3", "text": "外国人"}];
-/**
- * 用血方式翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function fastSloFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < fastSlo.length; i++) {
-        if (fastSlo[i].value == value) {
-            return fastSlo[i].text;
-        }
-    }
-}
-/**
- * 血量翻译
- * @param value
- * @param rowData
- * @param rowIndex
- * @returns {string|string|string}
- */
-function unitsFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
-        return;
-    }
-    for (var i = 0; i < units.length; i++) {
-        if (fastSlo[i].value == value) {
-            return units[i].text;
-        }
-    }
-}
 
 //用血申请记录列表
 function onloadMethod() {
@@ -253,23 +213,7 @@ function onloadMethod() {
             $("#patSourceId").val(data.value);
         }
     })
-    /**
-     * 属地翻译
-     * @param value
-     * @param rowData
-     * @param rowIndex
-     * @returns {string|string|string|string|string}
-     */
-    function patSourceFormatter(value,rowData,rowIndex){
-        if(value == 0){
-            return;
-        }
-        for(var i =0;i<patSource.length;i++){
-            if(patSource[i].value == value){
-                return patSource[i].text;
-            }
-        }
-    }
+
     /**
      * bloodInuse
      * 血源
@@ -282,23 +226,7 @@ function onloadMethod() {
             $("#bloodInuseId").val(data.value);
         }
     })
-    /**
-     * 血源翻译
-     * @param value
-     * @param rowData
-     * @param rowIndex
-     * @returns {string|string|string}
-     */
-    function bloodInusesFormatter(value,rowData,rowIndex){
-        if(value == 0){
-            return;
-        }
-        for(var i=0;i<bloodInuses.length;i++){
-            if(bloodInuses[i].value == value){
-                return bloodInuses[i].text;
-            }
-        }
-    }
+
 }
 
 

@@ -1,6 +1,8 @@
 package com.jims.doctor.lab.bo;
 
 import com.jims.clinic.bo.CostOrdersUtilsService;
+import com.jims.clinic.dao.OutpOrdersCostsDao;
+import com.jims.clinic.dao.OutpTreatRecDao;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.doctor.lab.dao.LabTestItemsDao;
@@ -30,7 +32,10 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
     private CostOrdersUtilsService costOrdersUtilsService;
     @Autowired
     private LabTestMasterDao labTestMasterDao;
-
+    @Autowired
+    private OutpTreatRecDao outpTreatRecDao;
+    @Autowired
+    private OutpOrdersCostsDao outpOrdersCostsDao;
     /**
      * 门诊检验保存
      *
@@ -111,12 +116,29 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
 //        return d1;
     }
 
-//    /**
-//     * 删除门诊记录
-//     *
-//     * @return
-//     */
-//    public String delete() {
-//
-//    }
+    /**
+     * 删除门诊记录
+     *
+     * @return
+     */
+    public String deleteLabTestMaster(String ids) {
+        int num =0;
+        try {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++){
+                labTestItemsDao.deleteItmes(id[j]);
+                LabTestMaster labTestMaster=labTestMasterDao.get(id[j]);
+                String clinicId=labTestMaster.getClinicId();
+//                ExamItems examItems=examItemsDao.getItemList(id[j]);
+                outpTreatRecDao.deleteTreat(clinicId);
+                outpOrdersCostsDao.deleteOutpOrders(clinicId);
+                num = labTestMasterDao.deleteLabTestMaster(id[j]);
+
+            }
+        }catch(Exception e){
+            return num+"";
+        }
+        return num+"";
+
+    }
 }

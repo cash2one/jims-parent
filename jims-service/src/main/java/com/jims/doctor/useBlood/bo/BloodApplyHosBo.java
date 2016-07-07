@@ -66,7 +66,7 @@ public class BloodApplyHosBo {
                     orders.setOrderSubNo(1);
                 }
                 orders.setStartDateTime(bloodApply.getApplyDate());
-                orders.setOrderClass("C");
+//                orders.setOrderClass("C");
                 orders.setOrderText(bloodCapacity.getBloodType());
                 orders.setOrderCode(bloodCapacity.getBloodType());
                 orders.setRepeatIndicator("0"); // 临时医嘱标志
