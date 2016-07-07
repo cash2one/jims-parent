@@ -1,13 +1,12 @@
 //保存
-
+var clinId=parent.clinicMaster.id;
+var pId = parent.clinicMaster.patientId;
 function save(){
     $("#zhenduan").datagrid('endEdit', rowNum1);
     if (rowNum1 != -1) {
         $("#zhenduan").datagrid("endEdit", rowNum1);
     }
     var rows = $('#zhenduan').datagrid('getRows');
-    var clinId=parent.clinicMaster.id;
-    var pId = parent.clinicMaster.patientId;
     $("#clinicId").val(clinId);
     $("#patientId").val(pId);
     formSubmitInput("enterForm");

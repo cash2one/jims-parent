@@ -1,14 +1,12 @@
 
 package com.jims.clinic.entity;
 
-import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.List;
 
