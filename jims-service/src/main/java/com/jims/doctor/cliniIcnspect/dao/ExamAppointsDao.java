@@ -6,6 +6,7 @@ package com.jims.doctor.cliniIcnspect.dao;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -47,4 +48,11 @@ public interface ExamAppointsDao extends CrudDao<ExamAppoints> {
      * @return
      */
     public Integer getMaxExamNo();
+
+    /**
+     * 检查确认时，更新，检查预约
+     * @param appointsId
+     * @author zhaoning
+     */
+    public void updateAppoints(@Param("appointsId")String appointsId);
 }
