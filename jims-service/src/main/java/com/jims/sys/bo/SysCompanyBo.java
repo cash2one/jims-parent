@@ -189,7 +189,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 orgSelfServiceVsMenu.setDelFlag("0");
                 orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
 
-                saveMenus(menu.getChildren(), orgSelfServiceVsMenu.getId(), serviceId, endDate, roleServiceId);
+                saveMenus(menu.getChildren(), orgSelfServiceVsMenu.getMenuId(), serviceId, endDate, roleServiceId);
             }
         }
     }
