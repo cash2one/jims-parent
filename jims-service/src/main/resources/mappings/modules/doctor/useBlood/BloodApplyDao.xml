@@ -46,7 +46,8 @@
 		a.create_date AS "createDate",
 		a.visit_id AS "visitId",
 		a.clinic_id AS "clinicId",
-		a.patient_id AS "patientId"
+		a.patient_id AS "patientId",
+		a.apply_status AS "applyStatus"
 
 	</sql>
 	
@@ -148,7 +149,8 @@
 			create_date,
 			visit_id,
 			clinic_id,
-			patient_id
+			patient_id,
+			apply_status
 		) VALUES (
 			#{applyNum},
 			#{inpNo},
@@ -193,7 +195,8 @@
 			#{createDate},
 			#{visitId},
 			#{clinicId},
-			#{patientId}
+			#{patientId},
+			#{applyStatus}
 		)
 	</insert>
 	
@@ -236,7 +239,8 @@
 			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			patient_id=#{patientId}
+			patient_id=#{patientId},
+			apply_status=#{applyStatus}
 		WHERE id = #{id}
 	</update>
 	
