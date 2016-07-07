@@ -256,11 +256,11 @@ function refash(){
 }
 
 function insert(){
-
+    var diagnosisDate=formatDatebox(new Date());
     $("#dlg").dialog({title: '添加诊断'}).dialog("open").dialog('center');
     $('#fm').form('clear');
         $("#parentId").val("0");
-
+    $("#diagnosisDate").datebox('setValue',diagnosisDate);
         $('#type').combobox({
             data :diagnosisType,
             valueField:'value',
