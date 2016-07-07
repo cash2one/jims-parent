@@ -25,6 +25,13 @@ public class OrgServiceParam extends DataEntity<OrgServiceParam> {
         this.orgId = orgId;
     }
 
+    public OrgServiceParam(String id) {
+        super(id);
+    }
+
+    public OrgServiceParam() {
+    }
+
     public String getParamName() {
         return paramName;
     }
