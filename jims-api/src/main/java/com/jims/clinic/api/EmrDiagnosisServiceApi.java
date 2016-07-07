@@ -72,9 +72,10 @@ public interface EmrDiagnosisServiceApi {
     public List<EmrDiagnosis> findAllDiagnosisForOne(EmrDiagnosis emrDiagnosis);
 
     /**
-     * 根据clinicId 查询临床诊断
+     * 根据clinicId 或 visitIds查询临床诊断
      * @param clinicId
+     * @param visitIds
      * @return
      */
-    public EmrDiagnosis getDescription(String clinicId);
+    public EmrDiagnosis getDescription(String clinicId,String visitIds);
 }

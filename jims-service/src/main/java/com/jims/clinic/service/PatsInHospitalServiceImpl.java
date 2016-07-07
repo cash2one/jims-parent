@@ -8,6 +8,8 @@ import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.web.impl.BaseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * 病人在院记录
  * @author CTQ
@@ -30,5 +32,40 @@ public class PatsInHospitalServiceImpl implements PatsInHospitalServiceApi {
     @Override
     public PatsInHospital findByPatientId(String patientId) {
         return patsInHospitalBo.findByPatientId(patientId);
+    }
+
+
+    /**
+     * 出院-根据床位和病区查询病人信息
+     * @param bedNo
+     * @param wardCode
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public BaseDto searchInfoByParams(Integer bedNo, String wardCode) {
+        return patsInHospitalBo.searchInfoByParams(bedNo,wardCode);
+    }
+
+    /**
+     * 转出-根据床位和病区查询病人信息
+     * @param bedNo
+     * @param wardCode
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public BaseDto searchTurnOutInfoByParams(Integer bedNo, String wardCode) {
+        return patsInHospitalBo.searchTurnOutInfoByParams(bedNo,wardCode);
+    }
+
+    /**
+     * 取消转出-待专科病人列表
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public List<BaseDto> waitTurnOutList() {
+        return patsInHospitalBo.waitTurnOutList();
     }
 }

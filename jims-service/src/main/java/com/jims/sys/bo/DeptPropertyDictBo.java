@@ -10,16 +10,17 @@ import com.jims.sys.dao.DeptDictDao;
 import com.jims.sys.dao.OrgDeptPropertyDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.OrgDeptPropertyDict;
+import com.jims.sys.vo.OrgDeptPropertyDictVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author   yangruidong
+ * @author yangruidong
  * @version 2016-06-16
  */
 @Service
@@ -28,7 +29,7 @@ import java.util.List;
 public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, OrgDeptPropertyDict> {
 
     @Autowired
-    private DeptDictDao  deptDictDao;
+    private DeptDictDao deptDictDao;
 
     @Autowired
     private OrgDeptPropertyDictDao orgDeptPropertyDictDao;
@@ -70,7 +71,7 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
                     return stringData;
                 }
             }
-            if (insert==false) {
+            if (insert == false) {
                 StringData stringData = new StringData();
                 stringData.setData("fail");
                 return stringData;
@@ -79,27 +80,70 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
         return null;
     }
 
+
+    /**
+     * 保存  增删改
+     *
+     * @param orgDeptPropertyDictVo
+     * @return
+     * @author yangruidong
+     */
+    public List<OrgDeptPropertyDict> saveAll(OrgDeptPropertyDictVo<OrgDeptPropertyDict> orgDeptPropertyDictVo) {
+        List<OrgDeptPropertyDict> newUpdateDict = new ArrayList<OrgDeptPropertyDict>();
+        List<OrgDeptPropertyDict> inserted = orgDeptPropertyDictVo.getInserted();
+        List<OrgDeptPropertyDict> updated = orgDeptPropertyDictVo.getUpdated();
+        //插入
+        for (OrgDeptPropertyDict orgDeptPropertyDict : inserted) {
+
+            List<OrgDeptPropertyDict> list = orgDeptPropertyDictDao.findName(orgDeptPropertyDict.getPropertyType(), orgDeptPropertyDict.getOrgId());
+            //给插入的科室属性进行排序
+            OrgDeptPropertyDict sort = orgDeptPropertyDictDao.findSort(orgDeptPropertyDict.getOrgId());
+            if (list.size() > 0) {
+                orgDeptPropertyDict.setSort(null);
+            } else {
+                if (sort.getSort() == null) {
+                    orgDeptPropertyDict.setSort(0L);
+                } else {
+                    orgDeptPropertyDict.setSort(sort.getSort() + 1);
+                }
+
+            }
+            orgDeptPropertyDict.preInsert();
+            int num = orgDeptPropertyDictDao.insert(orgDeptPropertyDict);
+        }
+        //更新
+        for (OrgDeptPropertyDict orgDeptPropertyDict : updated) {
+            orgDeptPropertyDict.preUpdate();
+            int num = orgDeptPropertyDictDao.update(orgDeptPropertyDict);
+        }
+        return newUpdateDict;
+    }
+
+
     /**
      * 根据属性类型查询属性名称
+     *
      * @param
      * @return
      */
-    public List<OrgDeptPropertyDict> findNameByType(String propertyType,String orgId) {
-        return dao.findNameByType(propertyType,orgId);
+    public List<OrgDeptPropertyDict> findNameByType(String propertyType, String orgId) {
+        return dao.findNameByType(propertyType, orgId);
     }
 
     /**
      * 根据属性类型和属性值查询属性名称
+     *
      * @param propertyType
      * @param propertyValue
      * @return
      */
-    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue,String orgId) {
-        return dao.findNameByTypeAndValue(propertyType,propertyValue,orgId);
+    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue, String orgId) {
+        return dao.findNameByTypeAndValue(propertyType, propertyValue, orgId);
     }
 
     /**
-     *  查询所有的属性类型
+     * 查询所有的属性类型
+     *
      * @return
      */
     public List<OrgDeptPropertyDict> findProperty(String orgId) {
@@ -108,6 +152,7 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
 
     /**
      * 根据条件查询所有的属性信息
+     *
      * @param orgDeptPropertyDict
      * @return
      */
@@ -118,15 +163,17 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
 
     /**
      * 查询属性的名称
+     *
      * @param propertyType
      * @return
      */
-    public List<OrgDeptPropertyDict> findName(String propertyType,String orgId) {
-        return dao.findName(propertyType,orgId);
+    public List<OrgDeptPropertyDict> findName(String propertyType, String orgId) {
+        return dao.findName(propertyType, orgId);
     }
 
     /**
      * 查询最大的排序值
+     *
      * @return
      */
     public OrgDeptPropertyDict findSort(String orgId) {

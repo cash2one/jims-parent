@@ -61,17 +61,15 @@
 		sv.create_date AS "createDate",
         md.menu_name,
         md.href
-        FROM staff_vs_role svr,org_role_vs_service orvs,role_service_menu rsm,
+        FROM staff_vs_role svr,org_role_vs_service orvs,
         org_self_service_vs_menu sv,menu_dict md
         WHERE orvs.service_id = #{0}
         AND svr.staff_id = #{1}
         AND orvs.role_id = svr.role_id
-        AND orvs.id = rsm.role_service_id
-        AND sv.id = rsm.menu_id
+        AND sv.menu_id = orvs.menu_id
         AND sv.menu_id = md.id
         AND svr.del_flag = '0'
         AND orvs.del_flag = '0'
-        AND rsm.del_flag = '0'
         AND sv.del_flag = '0'
         AND md.del_flag = '0'
         ORDER BY sv.menu_sort

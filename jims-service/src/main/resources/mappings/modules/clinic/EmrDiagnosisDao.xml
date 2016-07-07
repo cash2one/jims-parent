@@ -95,8 +95,14 @@
 			<if test="clinicId!=null and clinicId!=''">
 				AND a.clinic_id=#{clinicId}
 			</if>
-			<if test="inOrOutFlag !=null and inOrOutFlag !=null">
-                AND a.INOROUT_FLAG = #{inOrOutFlag}
+			<if test="inOrOutFlag !=null and inOrOutFlag !=''">
+				AND a.INOROUT_FLAG = #{inOrOutFlag}
+			</if>
+			<if test="patientId !=null and patientId !=''">
+				AND a.patient_id = #{patientId}
+			</if>
+			<if test="visitId !=null and visitId !=''">
+				AND a.visit_id = #{visitId}
 			</if>
 
 		</where>
@@ -299,6 +305,9 @@
 		SELECT *from emr_diagnosis WHERE
 		<if test="clinicId!=null">
 			 clinic_id=#{clinicId}
+		</if>
+		<if test="visitId!=null">
+			visit_id=#{visitId}
 		</if>
 	</select>
 </mapper>

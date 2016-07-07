@@ -1,6 +1,7 @@
 package com.jims.sys.api;
 
 import com.jims.sys.entity.SysServiceParam;
+import com.jims.sys.vo.BeanChangeVo;
 
 import java.util.List;
 
@@ -29,5 +30,10 @@ public interface ServiceParamApi {
      */
     public int deleteSysServiceParam(List<SysServiceParam> sysServiceParams);
 
-
+    /***
+     * 一次性修改相关数据
+     * @param sysServiceParamBeanChangeVo
+     * @return
+     */
+    public int mergeSysServiceParam(BeanChangeVo<SysServiceParam> sysServiceParamBeanChangeVo) ;
 }

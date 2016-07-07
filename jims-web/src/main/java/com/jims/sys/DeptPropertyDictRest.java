@@ -9,6 +9,7 @@ import com.jims.common.utils.StringUtils;
 import com.jims.sys.api.DeptPropertyDictApi;
 import com.jims.sys.api.SysCompanyApi;
 import com.jims.sys.entity.*;
+import com.jims.sys.vo.OrgDeptPropertyDictVo;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,16 +54,36 @@ public class DeptPropertyDictRest {
         return pageData;
     }
 
+    /**
+     * 查询科室属性信息
+     *
+     * @return
+     */
+    @GET
+    @Path("listProperty")
+    public List<OrgDeptPropertyDict> list(@QueryParam("orgId") String orgId) {
+        OrgDeptPropertyDict orgDeptPropertyDict = new OrgDeptPropertyDict();
+        orgDeptPropertyDict.setOrgId(orgId);
+        return deptPropertyDictApi.findList(orgDeptPropertyDict);
+    }
 
     /**
      * 根据条件查询科室属性信息
      *
-     * @param orgDeptPropertyDict
+     * @param
      * @return
      */
-    @POST
+    @GET
     @Path("findByCondition")
-    public List<OrgDeptPropertyDict> findByCondition(OrgDeptPropertyDict orgDeptPropertyDict) {
+    public List<OrgDeptPropertyDict> findByCondition(@QueryParam("propertyType") String propertyType,
+                                                     @QueryParam("propertyName") String propertyName,
+                                                     @QueryParam("propertyValue") String propertyValue,
+                                                     @QueryParam("orgId") String orgId) {
+        OrgDeptPropertyDict orgDeptPropertyDict = new OrgDeptPropertyDict();
+        orgDeptPropertyDict.setPropertyName(propertyName);
+        orgDeptPropertyDict.setPropertyValue(propertyValue);
+        orgDeptPropertyDict.setOrgId(orgId);
+        orgDeptPropertyDict.setPropertyType(propertyType);
         List<OrgDeptPropertyDict> list = deptPropertyDictApi.findByCondition(orgDeptPropertyDict);
         return list;
     }
@@ -91,17 +113,18 @@ public class DeptPropertyDictRest {
         OrgDeptPropertyDict orgDeptPropertyDict = deptPropertyDictApi.get(id);
         return orgDeptPropertyDict;
     }
-
-    /**
+/*
+    *//**
      * 查询父机构
      *
      * @return
-     */
+     *//*
     @GET
     @Path("select")
     public List<SysCompany> findAllByName() {
         return sysCompanyApi.findListByName();
-    }
+    }*/
+
 
     /**
      * 查询属性名称
@@ -128,8 +151,27 @@ public class DeptPropertyDictRest {
     @Consumes({MediaType.APPLICATION_JSON})
     public StringData save(OrgDeptPropertyDict orgDeptPropertyDict) {
 
-       StringData stringData= deptPropertyDictApi.add(orgDeptPropertyDict);
+        StringData stringData = deptPropertyDictApi.add(orgDeptPropertyDict);
         return stringData;
+    }
+
+
+    /**
+     * 保存  增删改
+     *                            c
+     * @param orgDeptPropertyDictVo
+     * @return
+     * @author yangruidong
+     */
+    @Path("saveAll")
+    @POST
+    public StringData saveAll(OrgDeptPropertyDictVo<OrgDeptPropertyDict> orgDeptPropertyDictVo) {
+        List<OrgDeptPropertyDict> newUpdateDict = new ArrayList<OrgDeptPropertyDict>();
+        newUpdateDict = deptPropertyDictApi.saveAll(orgDeptPropertyDictVo);
+        StringData stringData = new StringData();
+        stringData.setData("success");
+        return stringData;
+
     }
 
     /**

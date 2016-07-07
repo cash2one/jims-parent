@@ -40,6 +40,17 @@ public class DrugProvideApplicationServiceImpl implements DrugProvideApplication
     }
 
     /**
+     * 检索(含有价格)
+     * @param entity
+     * @param storage 库存管理单位
+     * @param subStorage 存放库房
+     * @return
+     */
+    public List<DrugProvideApplication> findListWithPrice(DrugProvideApplication entity,String storage,String subStorage){
+        return bo.findListWithPrice(entity,storage,subStorage);
+    }
+
+    /**
     * 分页检索
     * @param page 分页对象
     * @param entity

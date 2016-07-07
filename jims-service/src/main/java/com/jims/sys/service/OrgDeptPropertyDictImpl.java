@@ -14,6 +14,7 @@ import com.jims.sys.dao.OrgDeptPropertyDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.Dict;
 import com.jims.sys.entity.OrgDeptPropertyDict;
+import com.jims.sys.vo.OrgDeptPropertyDictVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -48,6 +49,27 @@ public class OrgDeptPropertyDictImpl implements DeptPropertyDictApi {
         orgDeptPropertyDict.preInsert();
         StringData stringData = deptPropertyDictBo.add(orgDeptPropertyDict);
         return stringData;
+    }
+
+    /**
+     * 查询科室属性信息
+     * @param orgDeptPropertyDict
+     * @return
+     */
+    public List<OrgDeptPropertyDict> findList(OrgDeptPropertyDict orgDeptPropertyDict) {
+        return deptPropertyDictBo.findList(orgDeptPropertyDict);
+    }
+
+    /**
+     * 保存  增删改
+     *
+     * @param orgDeptPropertyDictVo
+     * @return
+     * @author yangruidong
+     */
+    @Override
+    public List<OrgDeptPropertyDict> saveAll(OrgDeptPropertyDictVo<OrgDeptPropertyDict> orgDeptPropertyDictVo) {
+        return deptPropertyDictBo.saveAll(orgDeptPropertyDictVo);
     }
 
     @Override

@@ -1,6 +1,6 @@
-
+var clinicId = parent.clinicMaster.id;
+var patientId = parent.clinicMaster.patientId;
 function onloadMethod(){
-    var clinicId=$("#clinicMasterId",window.parent.document).val();
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
     $('#list_data').datagrid({
@@ -129,8 +129,8 @@ function onloadMethod(){
 function add(){
     clearForm();
     $("#saveBut").show();
-    var clinicId=$("#clinicMasterId",window.parent.document).val();
     $("#clinicId").val(clinicId);
+    $("#patientId").val(patientId);
     var newDate=new Date();
     $('#requestedDateTime').datetimebox('setValue',newDate);
     $.ajax({
@@ -230,7 +230,7 @@ function look() {
 //弹出选择项目窗口
 function SendProduct() {
     var item={};
-    item.orgId="";
+    //item.orgId="";
     item.dictType="lab_item_view";
     var expand3 = $("#performedBy").val();
     var expand2 = $("#labItemClass").val();

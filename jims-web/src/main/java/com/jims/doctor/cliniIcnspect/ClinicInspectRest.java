@@ -72,8 +72,8 @@ public class ClinicInspectRest {
 
     @Path("getDescription")
     @GET
-    public EmrDiagnosis getDescription(@QueryParam("clinicIds") String clinicIds){
-       EmrDiagnosis emrDiagnosis= emrDiagnosisServiceApi.getDescription(clinicIds);
+    public EmrDiagnosis getDescription(@QueryParam("clinicIds") String clinicIds,@QueryParam("visitIds") String visitIds){
+       EmrDiagnosis emrDiagnosis= emrDiagnosisServiceApi.getDescription(clinicIds,visitIds);
        return emrDiagnosis;
     }
     /**

@@ -20,18 +20,18 @@ $(function(){
             {field:'officeId',title:'科室',width:'20%',align:'center',editor:{
                 type:'combobox',
                 options:{
-                    data :administration,
-                    valueField:'value',
-                    textField:'text',
+                    data :clinicDeptCode,
+                    valueField:'id',
+                    textField:'dept_name',
                     required:true
                 }
             }},
             {field:'doctorId',title:'参与医生',width:'20%',align:'center',editor:{
                 type:'combobox',
                 options:{
-                    data :doctors,
-                    valueField:'value',
-                    textField:'text',
+                    data :doctorName,
+                    valueField:'id',
+                    textField:'name',
                     required:true
                 }
             }},

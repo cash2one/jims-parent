@@ -45,8 +45,8 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
      * @return
      */
     @Override
-    public List<SysCompany> findListByName() {
-        return dao.findListByName();
+    public List<SysCompany> findListByName(String persionId) {
+        return dao.findListByName(persionId);
     }
 
     /**

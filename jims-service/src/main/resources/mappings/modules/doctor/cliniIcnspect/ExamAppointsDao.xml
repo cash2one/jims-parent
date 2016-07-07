@@ -72,7 +72,7 @@
 		<!--<association property="examItem" column="appointsId"-->
 					 <!--select="ExamItemsDao.get"></association>-->
 		<!--<association property="outpOrdersCostses" column="visitNo"-->
-					 <!--select="com.jims.clinic.dao.OutpTreatRecDao.get"></association>-->
+					 <!--select="com.jims.clinic.bo.OutpTreatRecDao.get"></association>-->
 
 	<!--</resultMap>-->
     
@@ -585,5 +585,10 @@
 		UPDATE exam_appoints a SET
 			del_flag = '1'
 		WHERE a.id = #{id}
+	</update>
+	<update id="updateAppoints">
+		UPDATE exam_appoints a SET
+			reg_prn_flag = 1
+		WHERE a.id = #{appointsId}
 	</update>
 </mapper>
