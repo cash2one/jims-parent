@@ -8,115 +8,117 @@
 delete FROM  role_service_menu where ROLE_SERVICE_ID ='27e59e2443d04de0b3ac55be5ae9377d';
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('ed1797b9c2ce4f05ad5a635cb9ce7291', '27e59e2443d04de0b3ac55be5ae9377d', '11c458a32d9c49cbbd93f263dc75ff1e', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('fb9b1a7e2ac5469c87473a2758c4472a', '27e59e2443d04de0b3ac55be5ae9377d', 'a349277303244d5abd0b8bd54f9c4ee0', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('c568fbad8a554d6997a291f1ad8ba653', '27e59e2443d04de0b3ac55be5ae9377d', 'b7cae946177f4dd8ba53b602a1fd97d5', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('e8238da793114080a8a28c96d9508286', '27e59e2443d04de0b3ac55be5ae9377d', '231d11267f01481d8ef9130661905a09', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('9de7472c11dc4bf290a3e011e6e83cb9', '27e59e2443d04de0b3ac55be5ae9377d', 'e7b2d777e6f64f2ab852c47e448f473b', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('c428eb00798e4359936d2dbe5ecb933b', '27e59e2443d04de0b3ac55be5ae9377d', '5be203c2c4a6482db9a4c5ba7fc2aa5c', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('a2c2ea31c7034023bae55e49ff112f85', '27e59e2443d04de0b3ac55be5ae9377d', '22b00bf8f59148b0bafd3f794c102f7d', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('f36f0c2f1d3a49358db7a757fc5c4edc', '27e59e2443d04de0b3ac55be5ae9377d', '1f5e9117eb464089a6b89249591bd693', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('242eed92bb3d4557b9559efb129b6796', '27e59e2443d04de0b3ac55be5ae9377d', 'd42d250b10da41eabf15c3ebb006b58c', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('412a065ae3614a1fbe3a2a3224121efe', '27e59e2443d04de0b3ac55be5ae9377d', 'c2775c3a76514d6798cf784de91b93f3', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('1c60618ee0ed403485c85c57f614f2c1', '27e59e2443d04de0b3ac55be5ae9377d', 'e4d34075a819406b82ee1ad7d9e4fdff', null, null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('e9e39ee014974118aea5641e8387a1c7', '27e59e2443d04de0b3ac55be5ae9377d', '709cf6bc0ed7489a8b1fbba51e29f54d', null, null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('c563c6e341f74193b447751f729fc2af', '27e59e2443d04de0b3ac55be5ae9377d', '8c86665988f74caa91f556597175d0d9', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('8490f62ae2bc48cd93cb6a3293ffcb67', '27e59e2443d04de0b3ac55be5ae9377d', 'a0d282bcc8e042538b4a1dd212a25b67', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('bce6978afbcd40f0b64f8da34354d46b', '27e59e2443d04de0b3ac55be5ae9377d', 'f67b491dfd434f4d86e0ad6e508781f7', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('3782061ff03d4200a723330650b154bf', '27e59e2443d04de0b3ac55be5ae9377d', '93e188fe1cee4521947a065f717ec17f', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('8534af3b82f949f984854d2836d84453', '27e59e2443d04de0b3ac55be5ae9377d', '687536aaad084cd68f6c27dd247a295f', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('8183c3ac66f44af4bcf2f111d5aeb05a', '27e59e2443d04de0b3ac55be5ae9377d', '3e3f9cfaf529468da886a6487cfc521e', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('a8d112aac5e94f669beb8e847be71929', '27e59e2443d04de0b3ac55be5ae9377d', 'b505b48af4584b4794d83e2f0a63befd', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('5467cf80871d4d2488eff4f7609e5043', '27e59e2443d04de0b3ac55be5ae9377d', '18ad5451ddaa44dfba1577b82080d189', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('4aa482a3916f4f8384ed84ca7ce1f8db', '27e59e2443d04de0b3ac55be5ae9377d', 'dabf5b745702434b8016787224c86aa3', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('38b524f7a2d6440eae598536414e7172', '27e59e2443d04de0b3ac55be5ae9377d', '169ae7b94d6f4815ae424013e29e7c2b', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('13d0844f5c044c29b9285ccd70fe5622', '27e59e2443d04de0b3ac55be5ae9377d', 'b54fe9fb82a649da9b4ad71d1bcd647a', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('003e29eb735944809c98b240413ffdcb', '27e59e2443d04de0b3ac55be5ae9377d', '003f5f85e6514da1ae717af62ca80e05', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('4a7d8f91a03d4200b94b29aac839db3e', '27e59e2443d04de0b3ac55be5ae9377d', '200298997ee94906b9144125ed7debf3', null, null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('0a8513738c71456d8aa4544c86209116', '27e59e2443d04de0b3ac55be5ae9377d', '02cce37340b14eda996b0f1536d6d3fd', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('ffa4c954931f4fdf805f4493bd7865d8', '27e59e2443d04de0b3ac55be5ae9377d', 'c0615fbdc9b7470eac6ff98a9eadcf82', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('db3cdb1961bf409e86b0c50d13a34161', '27e59e2443d04de0b3ac55be5ae9377d', '9a64a5dff96e4d6a981dec3cf328166a', null, null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('5e4e6291e05e44e69a118db13417fc25', '27e59e2443d04de0b3ac55be5ae9377d', '65bfe9c38683423aa47c62cdb8a32e05', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('660090757e4f4c58bc50b3a5848a701c', '27e59e2443d04de0b3ac55be5ae9377d', 'b9cfc9bd44d14cd6af02d4d5b86567d1', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('83cc36eae0754786bcbbe32b3f526c5f', '27e59e2443d04de0b3ac55be5ae9377d', '5a13e179407e41abb123240a49e3df3e', null, null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('bbabba941be340a08223d26681c6ce05', '27e59e2443d04de0b3ac55be5ae9377d', 'ac6a38910bba455189a9cd12ad2db6ce', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('1dbd7fcaca7c4722b5ddd235bbfe7fb8', '27e59e2443d04de0b3ac55be5ae9377d', 'b85602214b5d453fb8770a2a8fb05bb5', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('c44e3b4bd7d44d5f801b8bc6c337fc65', '27e59e2443d04de0b3ac55be5ae9377d', 'b3f289fd391f474780d89c5784e28e7e', null, null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('ba6b3ab1d8d04f7eab36c05ab2dda8c2', '27e59e2443d04de0b3ac55be5ae9377d', '431a562aec2d4ea3aedd103b66b5a98b', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('0c8a3141f4a2467593fb19879404b861', '27e59e2443d04de0b3ac55be5ae9377d', 'dc5ee025a94b4af5a1501e552811d843', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('b5a158776f7a4afa8e36159c4d9df03c', '27e59e2443d04de0b3ac55be5ae9377d', '161ee41343a6418cbf410e81d7c7925d', null, null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('ebe936baf17745bf8ab188285e0e227d', '27e59e2443d04de0b3ac55be5ae9377d', '199cbc7d43374c6cb926bd0d79383457', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('17bec8ebc7e04a8fac7369d3121f728e', '27e59e2443d04de0b3ac55be5ae9377d', '52f481152c924e78abe2659926c31c74', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('7eeec507881944de8b48f633edc1dd23', '27e59e2443d04de0b3ac55be5ae9377d', '796582347962481fab384fab2307aee1', null, null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('b118322f19234fb1b665d26ce3bcb9df', '27e59e2443d04de0b3ac55be5ae9377d', 'ffa0d029df384ab496ed7580316d8bf3', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('94cd3b36f96045878aaa0b1bfa6bc293', '27e59e2443d04de0b3ac55be5ae9377d', 'ffb13bb553c94a1fbad4b22aa7fa4ee4', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('7375a656c54d4ffdb34ff93966aa1da8', '27e59e2443d04de0b3ac55be5ae9377d', '54becd631a254945933db108444a7546', null, null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('939743225a784518bff5e50ea2e7cfa4', '27e59e2443d04de0b3ac55be5ae9377d', 'e7804684eb2e4b68a00d68314221e408', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('99aa06be8dbe4fd3a96acd17a37a2282', '27e59e2443d04de0b3ac55be5ae9377d', 'c21c033c58ed4947824d059a1e63de8a', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('affeac9f28254533bbeda41745867879', '27e59e2443d04de0b3ac55be5ae9377d', '549064090b7e4c8ba8b24ae848e86fb6', null, null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('691d7ece8f5f4141b0a3c40e7e5edd64', '27e59e2443d04de0b3ac55be5ae9377d', 'de796de110594d4983cc995f6a33734d', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('ee60897d9bb645b9b1ab8f6827f48e7d', '27e59e2443d04de0b3ac55be5ae9377d', '7e874ec0b55840ed9a3e38e25c70a086', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('1b4d8929073c40c799d1323eed7e33d2', '27e59e2443d04de0b3ac55be5ae9377d', '5f147f17db8244a988555fc39f45fff5', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('9b2c2ac4379a4bf38b3b764b98af0631', '27e59e2443d04de0b3ac55be5ae9377d', '250812779bde44f6a60dadcfdc3224b3', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('876853a638bb4dad8cedec0952279ef5', '27e59e2443d04de0b3ac55be5ae9377d', '85d0984e2dd34c7bbbe931dd1b64be53', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('31d563fc5f6e4298acc75e10af589374', '27e59e2443d04de0b3ac55be5ae9377d', 'f711fec5ac9d46dcbd1f5a7ba0e8ebcd', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('aff88e99f52746169008473e170aecc4', '27e59e2443d04de0b3ac55be5ae9377d', '8069ea0217254bf1ae8f3bef05644f35', null, null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('f5ffdaff4acf4025a671553bb2e31621', '27e59e2443d04de0b3ac55be5ae9377d', 'b4e481b5154a427db576ccff18e7dd5d', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('0560a9aed32b42898f478ff362ffea36', '27e59e2443d04de0b3ac55be5ae9377d', 'c1a64a102e5b44c09fb9eb2725137a19', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('c7c29a0842814afcbc8ab579959fa6ba', '27e59e2443d04de0b3ac55be5ae9377d', 'fbac48103b6747acbf04d3f0c8bfe58b', null, null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('87ca8beb81064ada83836b11156e0fce', '27e59e2443d04de0b3ac55be5ae9377d', '95e4b53ba5914a93b60cf92529d4b895', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('d0a5fb57787f4befaa76a133e4536739', '27e59e2443d04de0b3ac55be5ae9377d', 'fffa1859b73e4b25b2858bdc09376a81', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('f08b28d41e774da0a1e321078661664a', '27e59e2443d04de0b3ac55be5ae9377d', 'fa4b688c110942c58313cc789c54fe3e', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('859711f0473443e3818df508434e7383', '27e59e2443d04de0b3ac55be5ae9377d', 'c90630ba5208401e9999db796904b270', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('60e9397f309c47ac9d573fecad24b068', '27e59e2443d04de0b3ac55be5ae9377d', '73f93485b3cc403095ef7d0bdb3804aa', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('a5d6b251cd964a7c8d777aeb558f414d', '27e59e2443d04de0b3ac55be5ae9377d', '2111857f76874f7d8a7ec274990cca65', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('049579e0f084451a929029b801e651e6', '27e59e2443d04de0b3ac55be5ae9377d', '17a13037412648a79bb0b230e2873450', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('1f03b8e61b4348ddb28b227b88add3cb', '27e59e2443d04de0b3ac55be5ae9377d', 'e8279de85fab49cfaab3e6c28d687815', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('a9312384c6c84112b7a28e0533d78141', '27e59e2443d04de0b3ac55be5ae9377d', '8cc3f40075664c22b451ff25232f9947', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('ad30f56eda95475cadae1e15d3adf918', '27e59e2443d04de0b3ac55be5ae9377d', '418a23be7dce44159379d50d28d78133', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('e8fa87b082c742c2ac1d6025989ffd65', '27e59e2443d04de0b3ac55be5ae9377d', '08b186edba80460b8688a1fbe5277d99', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('14f4d79237744f548d305b9bc9a56181', '27e59e2443d04de0b3ac55be5ae9377d', '518a2aeebcce4ba9a151ed60ff3fc9ae', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('32bbff3e20564f039fb135a730634cb4', '27e59e2443d04de0b3ac55be5ae9377d', '36b5ee563c7d4d1a95cda91cbd3ebeda', '1', null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('bc69fa8bc6f74145b913d91709b62712', '27e59e2443d04de0b3ac55be5ae9377d', '6a0d4d397ff04dd9a9edc9b123bd2865', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('470ed0224b294de39e49b24a4b475c06', '27e59e2443d04de0b3ac55be5ae9377d', 'e388f5aec5854b68ad64379f16177b38', null, null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('366d622db9e145e2affb37d240ff2be4', '27e59e2443d04de0b3ac55be5ae9377d', 'cdf91466fa354e6b9b8e1a69db5bb86f', '1', null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values ('c78f65283afb49bf87507fb0add9bda6', '27e59e2443d04de0b3ac55be5ae9377d', '0c38bab51a664d8d82b6c21900c968a9', null, null, null, null, to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('24-06-2016 11:26:28', 'dd-mm-yyyy hh24:mi:ss'));
+values ('bc86b6f0afcc444c8fc4bb9035b9a93e', '27e59e2443d04de0b3ac55be5ae9377d', '43051c1c022c43a5a9ca696338d9682e', null, null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
+insert into role_service_menu (ID, ROLE_SERVICE_ID, MENU_ID, MENU_OPERATE, CREATE_BY, REMARK, UPDATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
+values ('fe15eb55fe584564921a1d97b9116e7b', '27e59e2443d04de0b3ac55be5ae9377d', '70520339b00247d6bc3dc7cf9abefdd1', null, null, null, null, to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('05-07-2016 13:32:09', 'dd-mm-yyyy hh24:mi:ss'));
 
 

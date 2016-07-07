@@ -1,18 +1,15 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com.jims.emr">EMR</a> All rights reserved.
  */
-package com.jims.clinic.entity;
+package com.jims.diagnosis.entity;
 
 
 
 import com.jims.common.persistence.DataEntity;
-import com.jims.sys.entity.Dict;
-
 
 
 import java.io.Serializable;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,19 +18,19 @@ import java.util.List;
  * @author pq
  * @version 2015-04-26
  * */
-public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializable{
+public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 
-	private String parentId;		// 父级id
+    private String parentId;        // 父级id
 
-	private String diagnosisId;		// 诊断id
+    private String diagnosisId;        // 诊断id
     private String type; //诊断类型 1：初步诊断
     private String parentIds; // 诊断父级
-	private Integer itemNo;		// 诊断序号
+    private Integer itemNo;        // 诊断序号
     private List<EmrDiagnosis> children;
-    private String icdMingcheng  ;  //icd10中文名称
+    private String icdName;  //icd10中文名称
 
     private String description;   //诊断描述
     private String basis; // 诊断依据
@@ -69,9 +66,9 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
     }
 
     public EmrDiagnosis() {
-		super();
-        isno=false;
-	}
+        super();
+        isno = false;
+    }
 
     public String getBasis() {
         return basis;
@@ -81,10 +78,9 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
         this.basis = basis;
     }
 
-    public EmrDiagnosis(String id){
-		super(id);
-	}
-
+    public EmrDiagnosis(String id) {
+        super(id);
+    }
 
 
     public String getDescription() {
@@ -137,15 +133,12 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
         this.itemNo = itemNo;
     }
 
-
-
-
-    public String getIcdMingcheng() {
-        return icdMingcheng;
+    public String getIcdName() {
+        return icdName;
     }
 
-    public void setIcdMingcheng(String icdMingcheng) {
-        this.icdMingcheng = icdMingcheng;
+    public void setIcdName(String icdName) {
+        this.icdName = icdName;
     }
 
     public boolean isIsno() {
@@ -155,9 +148,6 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
     public void setIsno(boolean isno) {
         this.isno = isno;
     }
-
-
-
 
     public String getPatientId() {
         return patientId;
@@ -231,15 +221,6 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
         this.state = state;
     }
 
-/*    public String get_parentId() {
-        return parentId;
-    }
-
-    public void set_parentId(String _parentId) {
-        this.parentId = _parentId;
-    }*/
-
-
     public List<EmrDiagnosis> getChildren() {
         return children;
     }
@@ -247,7 +228,6 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
     public void setChildren(List<EmrDiagnosis> children) {
         this.children = children;
     }
-
 
     public String getDiagnosisParent() {
         return diagnosisParent;
