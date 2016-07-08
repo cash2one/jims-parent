@@ -50,6 +50,15 @@ public interface OrgRoleVsServiceApi {
     public String saveService(List<OrgRoleVsService> orgRoleVsServices);
 
     /**
+     * 删除角色的自定义服务
+     * @param serviceId
+     * @param roleId
+     * @return
+     * @author fengyuguang
+     */
+    public String delete(String serviceId, String roleId);
+
+    /**
      * 删除角色权限
      * @param orgRoleVsService
      * @return
