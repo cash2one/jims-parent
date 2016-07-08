@@ -406,7 +406,7 @@ $(function () {
                     $("#supplyChild").combobox({'disabled':true});  //如果选择采购入库，则供货子单位不可编辑。
                         $('#supply').combobox({
                             valueField : 'id',
-                            textField : 'supplierId',
+                            textField : 'supplier',
                             url: '/service/drug-supplier-catalog/findListWithFilter?orgId='+currentOrgId,
                             method:'get',
                             mode:'remote',
