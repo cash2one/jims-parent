@@ -110,4 +110,9 @@ $(function () {
             $("#menu").append("<li><a href=\"#\" onclick=\'addMenu(\""+data[i].id+"\",\""+staffId+"\")\'>" + data[i].serviceName + "</a></li>");
         }
     });
+
+    //退出
+    $("#exit").on("click", function () {
+        location.href = "/modules/sys/login.html";
+    });
 });

@@ -105,6 +105,7 @@ $(function () {
                     type: 'combobox', options: {
                         valueField: 'value',
                         textField: 'label',
+                        editable: false,
                         data: storage
                     }
                 },
