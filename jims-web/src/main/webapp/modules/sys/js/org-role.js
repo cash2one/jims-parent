@@ -11,7 +11,6 @@ $(function () {
         }
     }
     $("#dg").datagrid({
-        title: '角色信息维护',
         fit: true,
         toolbar: '#tb',
         singleSelect: true,
