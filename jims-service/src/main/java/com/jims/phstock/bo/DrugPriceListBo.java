@@ -212,8 +212,8 @@ public class DrugPriceListBo extends CrudImplService<DrugPriceListDao, DrugPrice
                 newDrugPriceList.setPassNo(drugPriceList.getPassNo());
 
                 //调价价表修改数据
-                newDrugPriceList.setTradePrice(drugPriceModify.getOriginalTradePrice());
-                newDrugPriceList.setRetailPrice(drugPriceModify.getOriginalTradePrice());
+                newDrugPriceList.setTradePrice(drugPriceModify.getCurrentTradePrice());
+                newDrugPriceList.setRetailPrice(drugPriceModify.getCurrentRetailPrice());
                 newDrugPriceList.setStartDate(drugPriceModify.getActualEfficientDate());
 
                 newDrugPriceList.preInsert();
