@@ -52,7 +52,7 @@ $(function () {
     });
 
     //通过药品的代码查询药品毒理的相关信息
-    $("#seaBtn").on('click', function () {
+ /*   $("#seaBtn").on('click', function () {
         var drugCode = $("#drugName").combogrid('getValue');
         $.get(basePath + "/drug-info/findDrugInfoByDrugCode?drugCode=" + drugCode, function (data) {
             $("#drugCode").textbox('setValue', data.drugCode);
@@ -73,7 +73,7 @@ $(function () {
             $("#attention").textbox('setValue', data.attention);
             $("#taboo").textbox('setValue', data.contraindication);
         });
-    });
+    });*/
     //点击添加按钮时，清空文本框
     $("#addBtn").on('click', function () {
         clearInput();
