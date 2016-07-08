@@ -104,7 +104,7 @@ public class DoctDrugPrescMasterBo extends CrudImplService<DoctDrugPrescMasterDa
                             orders.setPatientId(doctDrugPrescMaster.getPatientId());
                             orders.setVisitId(doctDrugPrescMaster.getVisitId());
                             orders.setOrgId(doctDrugPrescMaster.getOrgId());
-                            orders.setClinicId(doctDrugPrescMaster.getId());
+                            orders.setCurrentPrescNo(doctDrugPrescMaster.getId());
                             orders.setOrderNo(ddpd.getOrderNo());
                             orders.setOrderSubNo(ddpd.getOrderSubNo());
                             if(doctDrugPrescMaster.getLongTerm()!=0){
@@ -128,7 +128,7 @@ public class DoctDrugPrescMasterBo extends CrudImplService<DoctDrugPrescMasterDa
                             orders.setBillingAttr(3);//0-正常计价 1-自带药 2-需手工计价 3-不计价4-不摆药
                             orders.setOrderingDept("");//科室-当前科室
                             orders.setDrugBillingAttr(0);//药品计价属性：0正常1自带药
-                            orders.setCurrentPrescNo(doctDrugPrescMaster.getPrescNo());
+                            orders.setCurrentPrescNo(doctDrugPrescMaster.getId());
                             //orders.setDoctorUser();;//医生代码
                             /*orders.setOrderPrintIndicator();
                             orders.setDegree();*/
@@ -185,7 +185,7 @@ public class DoctDrugPrescMasterBo extends CrudImplService<DoctDrugPrescMasterDa
             doctDrugPrescDetailDao.removeByMasterId(id);
             orders.setStopDoctor("");
             orders.setOrderStatus("8");
-            orders.setClinicId(id);
+            orders.setCurrentPrescNo(id);
             ordersDao.updateOrders(orders);
             num = dao.delete(id);
         } catch (Exception e) {

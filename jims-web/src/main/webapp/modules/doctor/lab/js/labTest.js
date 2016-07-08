@@ -131,8 +131,6 @@ function add(){
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
-    var newDate=new Date();
-    $('#requestedDateTime').datetimebox('setValue',newDate);
     $.ajax({
         //添加
         url: basePath+"/labtest/zhenduan",

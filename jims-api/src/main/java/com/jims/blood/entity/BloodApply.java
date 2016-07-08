@@ -57,6 +57,7 @@ public class BloodApply extends DataEntity<BloodApply> {
 	private String orgId;		// 所属结构
 	private String clinicId; //门诊id
 	private List<BloodCapacity> bloodCapacityList;
+	private String  applyStatus; //用血申请的状态
 	public BloodApply() {
 		super();
 	}
@@ -397,5 +398,12 @@ public class BloodApply extends DataEntity<BloodApply> {
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
-	
+
+	public String getApplyStatus() {
+		return applyStatus;
+	}
+
+	public void setApplyStatus(String applyStatus) {
+		this.applyStatus = applyStatus;
+	}
 }

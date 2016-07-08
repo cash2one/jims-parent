@@ -6,10 +6,6 @@
 
 $(function () {
 
-
-    //窗体加载时禁用form表单
-
-
     var orgId =config.org_Id;
     var deptId;
     var deptName;
@@ -186,6 +182,7 @@ $(function () {
         var node = $("#staff").treegrid("getSelected");
         if (node) {
             $("#addStaff").window('open');
+            $("#role").combobox('clear');
             $("#selectCardNo").val("");
         } else {
             $.messager.alert("系统提示", "请先选择科室信息");
@@ -195,7 +192,7 @@ $(function () {
     });
     //取消添加人员维护
     $("#cancelBtn").on('click', function () {
-        $("#staffForm").form('reset');
+       $("#staffForm").form('reset');
         $("#addStaff").window('close');
     });
 
@@ -225,7 +222,6 @@ $(function () {
                             $("#staffId").val(data.id);
                         }
                         var staffId=$("#staffId").val();
-                      //  alert(staffId)
                         var role = [];
                         $.get("/service/orgStaff/findRole?staffId="+staffId, function (data) {
                             if (data != null) {
@@ -236,8 +232,6 @@ $(function () {
                             }
                         });
                     });
-
-
 
 
                     $.get("/service/orgStaff/findPasswordByPersionId?persionId=" + data.id, function (data) {

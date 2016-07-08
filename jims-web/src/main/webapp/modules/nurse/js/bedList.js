@@ -25,6 +25,29 @@ $(function(){
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'bedNo', title: '床号', width: '10%', align: 'center',editor:'text', required: true
+                ,keyHandler: {
+                up: function() {},
+                down: function() {},
+                enter: function() {},
+                query: function(q) {
+                    $.ajax({
+                        method:"POST",
+                        contentType: "application/json", //必须有
+                        dataType: 'json',
+                        data: JSON.stringify({"wardCode":wardCode,"bedNo":q}),
+                        url: basePath + '/bedRec/judgeBedNo',
+                        success: function (data) {
+                            if(data){
+                                $.messager.alert('提示',"该床位号已经存在，不能重复", "error");
+                                return "";
+                            }else{
+                                return row.bedNo;
+                            }
+                        }
+                    })
+
+                }
+            }
                 /*     ,formatter:function(value, row, index){
            var editors = $('#bedRec').datagrid('getEditors', index);
                 console.info(editors[1]);

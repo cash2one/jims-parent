@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/static/js/formSubmit.js"></script>
+    <script type="text/javascript" src="js/electronLeaveHospital.js"></script>
+</head>
+<body>
+<form id="form" method="post">
+<div>
+    <div class="container width_90">
+        <div class="inp-form" style="width: 95%">
+            <div class="fitem">
+                <input id="id" type="hidden" name="id">
+                <input id="patientId" type="hidden" name="patientId" >
+                <input id="visitId" type="hidden" name="visitId" >
+                <label>
+                    入院日期：
+                </label>
+                <input  id="ruyuanshijian" class="easyui-datebox" readonly style="width: 150px;">
+                <label>
+                    出院日期：
+                </label>
+                <input id="chuyuanshijian" name="chuyuanshijian"  class="easyui-datebox"  style="width: 150px;"/>
+            </div>
+            <div class="fitem">
+                <label>
+                    住院天数：
+                </label>
+              <input id="inpCount"  class="easyui-textbox" readonly  style="width: 50px;">
+            </div>
+        </div>
+        <div class="clearfix goh-sign" style="clear:both">
+            <div class="detail-wrapp">
+                <div class="sub_title_em">入院病情</div>
+                <div class="pborder position-re" submit_id="ruyuanbingqing"
+                     contenteditable="true"></div>
+                <input type="hidden" id="ruyuanbingqing" name="ruyuanbingqing"
+                       class="sub_title_em"
+                       style="width: 1110px;">
+            </div>
+            <div class="detail-wrapp">
+                <div class="sub_title_em">诊疗经过</div>
+                <div class="pborder position-re" submit_id="zhenliaojieguo"
+                     contenteditable="true"></div>
+                <input type="hidden" id="zhenliaojieguo" name="zhenliaojieguo"
+                       class="sub_title_em"
+                       style="width: 1110px;">
+            </div>
+            <div class="detail-wrapp">
+                <div class="sub_title_em">出院情况</div>
+                <div class="pborder position-re" submit_id="chuyuanqingkuang"
+                     contenteditable="true"></div>
+                <input type="hidden" id="chuyuanqingkuang" name="chuyuanqingkuang"
+                       class="sub_title_em"
+                       style="width: 1110px;">
+            </div>
+            <div class="detail-wrapp">
+                <div class="sub_title_em">出院医嘱</div>
+                <div class="pborder position-re" submit_id="chuyuanyizhu"
+                     contenteditable="true"></div>
+                <input type="hidden" id="chuyuanyizhu" name="chuyuanyizhu"
+                       class="sub_title_em"
+                       style="width: 1110px;">
+            </div>
+        </div>
+
+    </div>
+</div>
+</form>
+    <div id="dlg-buttons" class="btn-save" style="right: 10px;">
+        <a href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();"  style="width: 70px;">保存</a>
+
+    </div>
+
+</body>
+</html>                                                                                                                                                                                                                                                                                                                  

@@ -66,7 +66,7 @@ public class BloodApplyHosBo {
                     orders.setOrderSubNo(1);
                 }
                 orders.setStartDateTime(bloodApply.getApplyDate());
-                orders.setOrderClass("C");
+//                orders.setOrderClass("C");
                 orders.setOrderText(bloodCapacity.getBloodType());
                 orders.setOrderCode(bloodCapacity.getBloodType());
                 orders.setRepeatIndicator("0"); // 临时医嘱标志
@@ -119,5 +119,22 @@ public class BloodApplyHosBo {
         Date date = new Date();
         String newDate = dateFormater.format(date);
         return newDate;
+    }
+
+
+    /**
+     * 手术确认
+     * @author pq
+     * @param bloodApplies
+     * @return
+     */
+    public String confirmBlood(List<BloodApply> bloodApplies){
+        int num1 = 0;
+        if(bloodApplies!=null){
+            for(int i=0;i<bloodApplies.size();i++){
+                num1 = bloodApplylDao.confirmBlood(bloodApplies.get(i));
+            }
+        }
+        return num1+"";
     }
 }

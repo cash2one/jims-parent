@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>住院-诊断</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/static/js/formSubmit.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <script type="text/javascript" src="/modules/doctor/emrDiagnosis/js/inDiagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis_type.js"></script>
+</head>
+<body>
+
+
+<table id="tg" class="easyui-treegrid"  style="width:100%;height:40%;">
+    <thead>
+
+    </thead>
+</table>
+<div id="dlg" class="easyui-dialog" style="width:60%; height:400px;"  closed="true">
+    <form id="fm" method="post">
+        <div class="fitem">
+            <label>诊断类型:</label>
+            <input type="hidden" name="type" id="typeId"  value="">
+            <input id="type"  class="easyui-textbox" style="width:45%;"  value="" >
+        </div>
+        <div class="fitem">
+            <label>诊断描述:</label>
+            <textarea id="description" rows=5 name="description" class="textarea easyui-validatebox" style="height:70px;"></textarea>
+
+        </div>
+        <div class="fitem">
+            <label>治疗结果:</label>
+            <textarea id="treatResult" rows=5 name="treatResult" class="textarea easyui-validatebox"  style="height:70px;"></textarea>
+
+        </div>
+        <div class="fitem">
+            <label>手术:</label>
+            <input name="operTreatIndicator" id="operTreatIndicator" type="checkbox"  value="1">
+        </div>
+        <div class="fitem">
+            <label>诊断日期:</label>
+            <input name="diagnosisDate" id="diagnosisDate" class="easyui-datebox">
+        </div>
+        <div class="fitem">
+            <label>病理号:</label>
+            <input  name="pathologyNo" id="pathologyNoId" class="easyui-textbox">
+        </div>
+        <div class="fitem">
+            <label>诊断名称:</label>
+            <input  name="diagnosisId" id="diagnosisId"   style="width:200px;">
+            <input  name="icdName" id="icdName" type="hidden" value="">
+        </div>
+
+        <input name="id" id="id" type="hidden">
+        <input name="inOrOutFlag" id="inOrOutFlag" type="hidden" value="1">
+        <input name="parentId" id="parentId" type="hidden">
+        <input name="visitId" id="visitId" type="hidden">
+        <input name="patientId" id="patientId" type="hidden">
+
+    </form>
+    <div id="dlg-buttons" class="text-center">
+        <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">关闭</a>
+    </div>
+</div>
+
+
+<!--<div id="tb">
+    <a href="#" id="addSameLevelBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="insert();">添加同级诊断</a>
+    <a href="#" id="addNextLevelBtn" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="addNextLevel();">添加下级诊断</a>
+    <a href="#" id="removeBtn" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="del();">删除</a>
+    <a href="#" id="updateBtn" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:true" onclick="edit();">修改</a>
+</div>-->
+
+
+
+</body>
+</html>

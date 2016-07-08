@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.doctor.diagnosis.dao.EmrDiagnosisDao">
+    <resultMap id="BasicColums" type="EmrDiagnosis">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
+        <result column="parentIds" property="parentIds" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="diagnosisId" property="diagnosisId" jdbcType="VARCHAR" />
+        <result column="description" property="description" />
+        <result column="icdName" property="icd_name"></result>
+        <result column="basis" property="basis" />
+		<result column="itemNo" property="itemNo"></result>
+        <result column="diagnosis_type" ></result>
+		<result column="create_by" property="createBy.id" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate"  />
+		<result column="update_by" property="updateBy.id" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate"  />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="clinic_id" property="clinicId" jdbcType="VARCHAR" />
+        <association property="dict" column="{value=type,type=diagnosis_type}" select="com.jims.emr.modules.sys.dao.DictDao.getDictLabel"></association>
+        <association property="emrDiagnosisList" column="{id=id}" select="findListChildren"></association>
+	</resultMap>
+	<sql id="DiagnosisColumns">
+		a.id AS "id",
+		a.parent_id AS "parentId",
+		a.parent_ids as "parentIds",
+		a.type as "type",
+		a.description as "description",
+		a.basis as "basis",
+		a.diagnosis_id AS "diagnosisId",
+		a.ITEM_NO AS "itemNo",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.clinic_id AS "clinicId",
+        a.icd_name as "icdName",
+		a.del_flag AS "delFlag",
+        a.patient_id AS "patientId",
+        a.TREAT_DAYS AS "treatDays",
+        a.TREAT_RESULT AS "treatResult",
+        a.OPER_TREAT_INDICATOR AS "operTreatIndicator",
+        a.PATHOLOGY_NO AS "pathologyNo",
+        a.DIAGNOSIS_DOC AS "diagnosisDoc",
+        a.INOROUT_FLAG AS "inOrOutFlag",
+        a.diagnosis_date AS "diagnosisDate",
+        a.diagnosis_parent AS "diagnosisParent"
+	</sql>
+
+	<sql id="deathDiagnosisJoins">
+
+	</sql>
+    
+	<select id="get" resultMap="BasicColums">
+		SELECT 
+			<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		<include refid="deathDiagnosisJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+    <select id="findListChildren" resultMap="BasicColums">
+        SELECT
+        <include refid="DiagnosisColumns"/>
+        FROM emr_diagnosis a
+        <include refid="deathDiagnosisJoins"/>
+        <where>
+            a.del_flag ='0'
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY  a.create_date ASC,a.item_no ASC
+            </otherwise>
+        </choose>
+
+    </select>
+	
+	<select id="findList"  resultType="EmrDiagnosis">
+		SELECT 
+			<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="clinicId!=null and clinicId!=''">
+				AND a.clinic_id=#{clinicId}
+			</if>
+			<if test="inOrOutFlag !=null and inOrOutFlag !=''">
+				AND a.INOROUT_FLAG = #{inOrOutFlag}
+			</if>
+			<if test="patientId !=null and patientId !=''">
+				AND a.patient_id = #{patientId}
+			</if>
+			<if test="visitId !=null and visitId !=''">
+				AND a.visit_id = #{visitId}
+			</if>
+
+		</where>
+
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY  a.type  ASC,a.create_date ASC,a.item_no ASC
+			</otherwise>
+		</choose>
+
+	</select>
+	
+	<select id="findAllList" resultType="EmrDiagnosis">
+		SELECT 
+			<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		<include refid="deathDiagnosisJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllDiagnosisForOne" resultType="EmrDiagnosis">
+		SELECT
+		d.LABEL || ':' ||
+		(CASE
+		WHEN i.ZHONGWEN_MINGCHENG is null
+		THEN a.diagnosis_id
+		ELSE i.ZHONGWEN_MINGCHENG
+		END
+		) AS icdAndTypeNmae,
+		<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		left join sys_dict d on d.type='diagnosis_type' and d.value=a.type
+		left join emr_data_icd10 i on a.diagnosis_id = i.code
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.INOROUT_FLAG = #{inOrOutFlag}
+			<if test='clinicId!=null'>
+			and a.clinic_id = #{clinicId}
+			</if>
+			<if test='visitId!=null'>
+			and a.visit_id = #{visitId}
+			</if>
+		</where>
+	</select>
+	<insert id="insert">
+		INSERT INTO emr_diagnosis(
+			id,
+			parent_id,
+			diagnosis_id,
+			item_no,
+			type,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			description,
+			basis,
+            clinic_id,
+			patient_id,
+            TREAT_DAYS,
+            TREAT_RESULT,
+            OPER_TREAT_INDICATOR,
+            PATHOLOGY_NO,
+            DIAGNOSIS_DOC,
+            INOROUT_FLAG,
+            diagnosis_date,
+            diagnosis_parent,
+            parent_ids,
+            visit_id,
+            icd_name
+		) VALUES (
+			#{id},
+			#{parentId},
+			#{diagnosisId},
+			#{itemNo},
+			#{type},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{description},
+			#{basis},
+			#{clinicId},
+			#{patientId},
+            #{treatDays},
+            #{treatResult},
+            #{operTreatIndicator},
+            #{pathologyNo},
+            #{diagnosisDoc},
+            #{inOrOutFlag},
+            #{diagnosisDate},
+            #{diagnosisParent},
+			#{parentIds},
+			#{visitId},
+            #{icdName}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE emr_diagnosis SET
+			diagnosis_id = #{diagnosisId},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			basis=#{basis},
+			TREAT_RESULT = #{treatResult},
+			OPER_TREAT_INDICATOR = #{operTreatIndicator},
+			INOROUT_FLAG = #{inOrOutFlag},
+			diagnosis_date = #{diagnosisDate},
+			description = #{description},
+			treat_days = #{treatDays},
+			pathology_no = #{pathologyNo},
+			diagnosis_doc = #{diagnosisDoc},
+			type = #{type},
+			diagnosis_parent = #{diagnosisParent},
+            icd_name=#{icdName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE emr_diagnosis SET 
+			del_flag = '1'
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="findAllListByParent" resultMap="BasicColums">
+		SELECT
+		<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		LEFT JOIN electron_death24_hospital2 b ON a.parent_id=b.id
+		LEFT JOIN patient_basic_info c ON b.patient_id=c.id
+		<include refid="deathDiagnosisJoins"/>
+		<where>
+			a.del_flag = '0'
+          AND  a.parent_id=#{parent}
+		</where>
+
+				ORDER BY a.item_no ASC
+
+	</select>
+<select id="findAllDiagby" resultMap="BasicColums">
+	SELECT
+	<include refid="DiagnosisColumns"/>
+	FROM emr_diagnosis a
+	<include refid="deathDiagnosisJoins"/>
+	<where>
+		a.del_flag = '0'
+		AND  a.parent_id=#{parent} GROUP  BY a.type
+	</where>
+</select>
+  <select id="findAllListByType" resultMap="BasicColums">
+	  SELECT
+	  <include refid="DiagnosisColumns"/>
+	  FROM emr_diagnosis a
+	  <include refid="deathDiagnosisJoins"/>
+	  <where>
+		  a.del_flag = '0' AND  a.parent_ids='0'
+		  AND  a.parent_id=#{parent} AND a.type=#{type}
+	  </where>
+	  ORDER BY a.create_date ASC,a.item_no ASC
+  </select>
+
+	<update id="delDiagnosis">
+		update emr_diagnosis set del_flag='1'
+		<where>
+			 del_flag='0'
+			<if test="patientId!=null and patientId!=''">
+				and patient_id=#{patientId}
+			</if>
+			<if test="type!=null and type!=''">
+				and type=#{type}
+			</if>
+			<if test="itemNo!=null">
+				and item_no=#{itemNo}
+			</if>
+			<if test="diagnosisDate!=null">
+				and to_char(diagnosis_date,'yyyy-MM-dd')=to_char(#{diagnosisDate},'yyyy-MM-dd')
+			</if>
+		</where>
+	</update>
+	<select id="getDescription" resultType="EmrDiagnosis">
+		SELECT *from emr_diagnosis WHERE
+		<if test="clinicId!=null">
+			 clinic_id=#{clinicId}
+		</if>
+		<if test="visitId!=null">
+			visit_id=#{visitId}
+		</if>
+	</select>
+</mapper>

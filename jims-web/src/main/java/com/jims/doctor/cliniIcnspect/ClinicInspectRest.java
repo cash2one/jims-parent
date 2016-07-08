@@ -1,8 +1,8 @@
 package com.jims.doctor.cliniIcnspect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.EmrDiagnosisServiceApi;
-import com.jims.clinic.entity.EmrDiagnosis;
+import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.exam.api.ExamAppointsServiceApi;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;

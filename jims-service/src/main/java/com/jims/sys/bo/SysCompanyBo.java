@@ -154,8 +154,20 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 }
             }
 
-            saveMenus(TreeUtils.handleTreeList(service.getMenus()), null,
-                    orgSelfServiceList.getId(), service.getServiceEndDate(), roleVsServiceId);
+            //saveMenus(TreeUtils.handleTreeList(service.getMenus()), null,
+            //        orgSelfServiceList.getId(), service.getServiceEndDate(), roleVsServiceId);
+            List<MenuDict> menuDicts = service.getMenus() ;
+            for(MenuDict menuDict :menuDicts){
+                OrgSelfServiceVsMenu orgSelfServiceVsMenu = new OrgSelfServiceVsMenu();
+                orgSelfServiceVsMenu.preInsert();
+                orgSelfServiceVsMenu.setMenuId(menuDict.getId());
+                orgSelfServiceVsMenu.setPid(menuDict.getPid());
+                orgSelfServiceVsMenu.setHref(menuDict.getHref());
+                //orgSelfServiceVsMenu.setMenuSort(Integer.parseInt(menuDict.getSort().toString()));
+                orgSelfServiceVsMenu.setSelfServiceId(orgSelfServiceList.getId());
+                orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);
+            }
+
         }
 
 
@@ -189,7 +201,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 orgSelfServiceVsMenu.setDelFlag("0");
                 orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);   //添加自定义服务于菜单对照数据
 
-                saveMenus(menu.getChildren(), orgSelfServiceVsMenu.getId(), serviceId, endDate, roleServiceId);
+                saveMenus(menu.getChildren(), orgSelfServiceVsMenu.getMenuId(), serviceId, endDate, roleServiceId);
             }
         }
     }

@@ -8,6 +8,7 @@ create table EMR_DIAGNOSIS  (
    PARENT_ID             VARCHAR2(64)                    not null,
    PARENT_IDS            VARCHAR2(500),
    TYPE                   CHAR(1),
+   ICD_NAME              VARCHAR2(500),
    DIAGNOSIS_ID          VARCHAR2(500),
    ITEM_NO               INTEGER,
    CREATE_BY            VARCHAR2(64),
@@ -29,6 +30,9 @@ comment on column EMR_DIAGNOSIS.PARENT_ID is
 
 comment on column EMR_DIAGNOSIS.PARENT_IDS is
 '主表id集合';
+
+comment on column EMR_DIAGNOSIS.ICD_NAME is
+'idc10名称';
 
 comment on column EMR_DIAGNOSIS.TYPE is
 '诊断类型';

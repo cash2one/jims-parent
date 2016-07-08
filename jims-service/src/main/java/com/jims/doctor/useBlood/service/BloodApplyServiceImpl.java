@@ -9,12 +9,15 @@ package com.jims.doctor.useBlood.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.blood.api.BloodApplyServiceApi;
+import com.jims.common.data.StringData;
 import com.jims.doctor.useBlood.bo.BloodApplyBo;
 import com.jims.doctor.useBlood.bo.BloodApplyHosBo;
 import com.jims.doctor.useBlood.dao.BloodApplylDao;
 import com.jims.blood.entity.BloodApply;
 import com.jims.common.service.impl.CrudImplService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * 用血申请Service
@@ -52,6 +55,19 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
         String num = bloodApplyHosBo.saveHosBloodApply(bloodApply);
         return num;
 
+    }
+
+
+    /**
+     * 确认用血
+     * @param bloodApplies
+     * @author pq
+     * @return
+     */
+    public String confirmBlood(List<BloodApply> bloodApplies){
+        String num = "";
+              num = bloodApplyHosBo.confirmBlood(bloodApplies);
+        return  num;
     }
 
 //    @Override

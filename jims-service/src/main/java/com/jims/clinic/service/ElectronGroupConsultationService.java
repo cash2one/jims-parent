@@ -5,6 +5,7 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.ElectronGroupConsultationApi;
+import com.jims.clinic.bo.ElectronGroupConsultationBo;
 import com.jims.clinic.dao.ElectronGroupConsultationDao;
 import com.jims.clinic.dao.ElectronGroupConsultationInDao;
 import com.jims.clinic.entity.ElectronGroupConsultation;
@@ -27,11 +28,7 @@ import java.util.List;
 public class ElectronGroupConsultationService extends CrudImplService<ElectronGroupConsultationDao, ElectronGroupConsultation> implements ElectronGroupConsultationApi {
 
 	@Autowired
-	private ElectronGroupConsultationInDao electronGroupConsultationInDao;
-
-	@Autowired
-	private
-	ElectronGroupConsultationDao electronGroupConsultationDao;
+	private ElectronGroupConsultationBo electronGroupConsultationBo;
 
 	/**
 	 * 保存会诊信息
@@ -39,34 +36,10 @@ public class ElectronGroupConsultationService extends CrudImplService<ElectronGr
 	 * @author zhaoning
 	 * @version 2016-04-23
 	 */
-	//@Override
-
-	public void saveGroupConsulation(ElectronGroupConsultation electronGroupConsultation) {
-		//electronGroupConsultationDao.saveGroupConsulation(electronGroupConsultation);//保存会诊主记录
-		/*if(StringUtils.isBlank(electronGroupConsultation.getId())){
-			electronGroupConsultation.setFabuflag("0");
-			electronGroupConsultation.setIdeaFlag("0");
-			electronGroupConsultation.preInsert();
-			electronGroupConsultationDao.insert(electronGroupConsultation);
-		}else{
-			electronGroupConsultationDao.update(electronGroupConsultation);
-		}*/
-		electronGroupConsultation.setFabuflag("0");
-		electronGroupConsultation.setIdeaFlag("0");
-		save(electronGroupConsultation);
-		if(electronGroupConsultation!=null && electronGroupConsultation.getId()!=null){
-			electronGroupConsultationInDao.delByMain(electronGroupConsultation);
-			List<ElectronGroupConsultationIn> list = electronGroupConsultation.getElectronGroupConsultationInList();
-			if(list.size()>0){
-				for (int i=0;i<list.size();i++){
-					ElectronGroupConsultationIn electronGroupConsultationIn=list.get(i);
-					electronGroupConsultationIn.setDelFlag("0");
-					electronGroupConsultationIn.preInsert();
-					electronGroupConsultationIn.setHuizhenId(electronGroupConsultation.getId());
-					electronGroupConsultationInDao.insert(electronGroupConsultationIn);
-				}
-			}
-		}
+	@Override
+	public String saveGroupConsulation(ElectronGroupConsultation electronGroupConsultation) {
+		String num = electronGroupConsultationBo.saveGroupConsulation(electronGroupConsultation);
+		return num;
 	}
 
 	/**异步参与医生信息列表
@@ -76,7 +49,7 @@ public class ElectronGroupConsultationService extends CrudImplService<ElectronGr
 	 * @version 2016/4/22
 	 */
 	public void fabu(ElectronGroupConsultation electronGroupConsultation){
-		dao.fabu(electronGroupConsultation);
+		electronGroupConsultationBo.fabu(electronGroupConsultation);
 	}
 
 	/**
@@ -86,8 +59,9 @@ public class ElectronGroupConsultationService extends CrudImplService<ElectronGr
 	 * @author xueyx
 	 * @version 2016-04-26
 	 */
-	public void saveMainOnly(ElectronGroupConsultation electronGroupConsultation){
-		electronGroupConsultationDao.saveMainOnly(electronGroupConsultation);
+	public String saveMainOnly(ElectronGroupConsultation electronGroupConsultation){
+		String num = electronGroupConsultationBo.saveMainOnly(electronGroupConsultation);
+		return num;
 	}
 	/**
 	 * 保存或编辑会诊主表方法

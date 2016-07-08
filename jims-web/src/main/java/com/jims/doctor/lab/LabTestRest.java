@@ -1,9 +1,8 @@
 package com.jims.doctor.lab;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.EmrDiagnosisServiceApi;
-import com.jims.clinic.entity.ClinicItemNameDict;
-import com.jims.clinic.entity.EmrDiagnosis;
+import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.data.StringData;
 import com.jims.lab.api.LabTestItemsServiceApi;
 import com.jims.lab.api.LabTestMasterServiceApi;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -175,7 +173,7 @@ public class LabTestRest {
     public StringData del(String ids){
         LabTestMaster labTestMaster = new LabTestMaster();
         labTestMaster.setId(ids);
-        labTestMasterServiceApi.delAll(ids);
+        labTestMasterServiceApi.deleteLabTestMaster(ids);
         StringData stringData=new StringData();
         stringData.setData("success");
         return stringData;
@@ -190,7 +188,7 @@ public class LabTestRest {
     @POST
     public StringData deleteLabTestMaster(String ids){
         StringData stringData=new StringData();
-        labTestMasterServiceApi.deleteLabTestMaster(ids);
+        labTestMasterServiceApi.deleteLabTestMasterHos(ids);
         stringData.setData("success");
         return stringData;
     }
