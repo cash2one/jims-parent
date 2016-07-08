@@ -53,7 +53,17 @@ public class DrugSupplierCatalogServiceImpl implements DrugSupplierCatalogApi {
      */
     @Override
     public List<DrugSupplierCatalog> findList(String orgId) {
-        return drugSupplierCatalogBo.findList(orgId);
+        return drugSupplierCatalogBo.findList(orgId,null);
+    }
+
+    /**
+     * 查询全部
+     * @param q 拼音码、厂商名
+     * @return
+     */
+    @Override
+    public List<DrugSupplierCatalog> findList(String orgId, String q) {
+        return drugSupplierCatalogBo.findList(orgId,q);
     }
 
     /**

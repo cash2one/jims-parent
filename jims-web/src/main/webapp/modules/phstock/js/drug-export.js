@@ -8,12 +8,12 @@ $(function () {
         maxStock: {
             validator: function(value){
                 var row = $('#dg').datagrid('getSelected')
-                if(+value > +row.currentStock) {
+                if(isNaN(value) || +value < 1 || +value > +row.currentStock) {
                     return false
                 }
                 return true
             },
-            message: '数量不能大于库存量！'
+            message: '数量必须在1和当前结存之间！'
         },
         hasSelected: {
             validator: function(value){
@@ -193,7 +193,11 @@ $(function () {
             exportRow.purchasePrice = drugStock['purchase_price']
             exportRow.currentStock = drugStock['quantity']
             exportRow.drugStockId = drugStock['id']
-            $('#dg').datagrid('endEdit', currentSelectIndex)
+            if(!isNaN(exportRow.quantity) && +exportRow.quantity > +exportRow.currentStock){
+                onClickCell(currentSelectIndex,'quantity')
+            } else {
+                $('#dg').datagrid('endEdit', currentSelectIndex)
+            }
             _tempFlag = true
         }
         if (drugStocks.length == 1) {
@@ -448,7 +452,7 @@ $(function () {
             editor: {
                 type: 'numberbox', options: {
                     required: true,
-                    min : 1,
+                    min : 0,
                     validType : ['maxStock']
                 }
             }
@@ -541,31 +545,38 @@ $(function () {
                     disabled:true,
                     value: '*'
                 });
-                $.get('/service/drug-supplier-catalog/list',{orgId:currentOrgId},function(res){
-                    $('#storageDept').combobox({
-                        valueField : 'id',
-                        textField : 'supplier',
-                        data : res
-                    })
-                    $('#storageDept').combobox('addBlurListener')
+                $('#storageDept').combobox({
+                    valueField : 'id',
+                    textField : 'supplierId',
+                    url: '/service/drug-supplier-catalog/findListWithFilter?orgId='+currentOrgId,
+                    method:'get',
+                    mode:'remote',
+                    onSelect: function(){
+                        $("#dg").datagrid('loadData',[])
+                    }
                 })
+                $('#storageDept').combobox('addBlurListener')
             } else {
                 $("#subStorageDept").combobox('loadData',[])
                 $("#subStorageDept").combobox({
                     disabled: false,
-                    value: ''
+                    value: '',
+                    onSelect: function(){
+                        $("#dg").datagrid('loadData',[])
+                    }
                 })
-                $.get('/service/drug-storage-dept/list',{orgId:currentOrgId,storageType:(record['storageType'] == '全部'?'':record['storageType'])},function(res){
-                    $('#storageDept').combobox({
-                        valueField : 'storageCode',
-                        textField : 'storageName',
-                        data : res,
-                        onSelect : function(r){
-                            loadSubDept('subStorageDept',currentOrgId,r['storageCode'])
-                        }
-                    })
-                    $('#storageDept').combobox('addBlurListener')
+                $('#storageDept').combobox({
+                    valueField : 'storageCode',
+                    textField : 'storageName',
+                    url: '/service/drug-storage-dept/list?orgId='+currentOrgId+'&storageType=' + (record['storageType'] == '全部'?'':record['storageType']),
+                    method:'get',
+                    mode:'remote',
+                    onSelect : function(r){
+                        $("#dg").datagrid('loadData',[])
+                        loadSubDept('subStorageDept',currentOrgId,r['storageCode'])
+                    }
                 })
+                $('#storageDept').combobox('addBlurListener')
             }
 
         }
@@ -597,7 +608,19 @@ $(function () {
     })
 
     $('#newBtn').on('click',function(){
-        $('#dg').datagrid('loadData',[])
+        $('#dg').datagrid('loadData',[]);
+        $('#statisticClass').combobox('clear')
+        $('#calendar').datebox('setValue',parent.formatDatebox(new Date()))
+        $('#storageDept').combobox('clear')
+        $('#storageDept').combobox('loadData',[])
+        $('#stockSubDept').combobox('clear')
+        $('#subStorageDept').combobox('clear')
+        $('#subStorageDept').combobox('loadData',[])
+        $('#accountReceivable').numberbox('setValue',0)
+        $('#accountPayed').numberbox('setValue',0)
+        $('#additionalFee').numberbox('setValue',0)
+        $('#memos').textbox('clear')
+        $('#documentNo').textbox('clear')
     })
     $("#addBtn").on('click', function () {
         if(!$('#statisticClass').combobox('getValue')){
