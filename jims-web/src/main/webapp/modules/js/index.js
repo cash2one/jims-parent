@@ -83,6 +83,7 @@ $(function () {
 
         var makeTree=function(menus){
             //测试
+            console.log(menus)
             var menuDatas = [];
             for (var i = 0; i < menus.length; i++) {
                 menus[i].children = [];
@@ -90,7 +91,7 @@ $(function () {
 
             for (var i = 0; i < menus.length; i++) {
                 for (var j = 0; j < menus.length; j++) {
-                    if (menus[j].pid == menus[i].id) {
+                    if (menus[j].pid == menus[i].menuId) {
                         menus[i].children.push(menus[j])
                     }
                 }
@@ -102,6 +103,8 @@ $(function () {
                 title: '嵌入子模板',
                 list: menuDatas
             };
+
+            console.log(menuDatas)
 
             var html = template("his-index", data);
             $("#west").append(html);
