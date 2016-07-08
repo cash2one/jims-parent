@@ -1,7 +1,6 @@
 
 $(function () {
     $("#search").datagrid({
-        title: '药品价格查询',
         fit: true,
         fitColumns: true,
         striped: true,
