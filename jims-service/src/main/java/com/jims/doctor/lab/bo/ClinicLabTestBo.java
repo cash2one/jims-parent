@@ -57,6 +57,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
             labTestMaster.setTestNo(creatTestNo());
             labTestMaster.setBillingIndicator(0);
             labTestMaster.setPrintIndicator(0);
+            labTestMaster.setRequestedDateTime(new Date());
             List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
             List<LabTestItems> labTestItemsList = labTestMaster.getList();
             if (labTestItemsList.size() > 0) {

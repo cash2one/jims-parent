@@ -1,8 +1,9 @@
-var clinicId = parent.clinicMaster.clinicId;
+var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
 function onloadMethod() {
     $("#clinicId").val(clinicId);
+    alert(clinicId);
     $("#patientId").val(patientId);
     $.ajax({
         method: "POST",
