@@ -227,12 +227,12 @@ public class OrgStaffRest {
         //去掉重复的菜单
         List<OrgSelfServiceVsMenu> lists = new ArrayList<OrgSelfServiceVsMenu>();
         Map<String, OrgSelfServiceVsMenu> map = new HashMap<String, OrgSelfServiceVsMenu>();
-        for(int i = 0; i < menus.size(); i++){
+        for(int i = 0, j = (menus != null ? menus.size() : 0); i < j; i++){
             map.put(menus.get(i).getMenuId(),menus.get(i));
         }
         //排序
         Set<String> sets = map.keySet();
-        for(int i = 0; i < menus.size(); i++){
+        for (int i = 0, j = (menus != null ? menus.size() : 0); i < j; i++) {
             for (String key : map.keySet()) {
                 if(key == menus.get(i).getMenuId()){
                     lists.add(map.get(key));
