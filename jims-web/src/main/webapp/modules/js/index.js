@@ -37,6 +37,56 @@ window.addTab = function (title, href) {
     }
 }
 
+
+
+/**
+ * 生成菜单
+ * @param menus
+ */
+var makeTree=function(menus){
+    //测试
+    $("#west").empty();
+    var menuDatas = [];
+    for (var i = 0; i < menus.length; i++) {
+        menus[i].children = [];
+    }
+
+    for (var i = 0; i < menus.length; i++) {
+        for (var j = 0; j < menus.length; j++) {
+            if (menus[j].pid == menus[i].menuId) {
+                menus[i].children.push(menus[j])
+            }
+        }
+        if (menus[i].pid == "" || menus[i].pid == undefined || menus[i].pid == null) {
+            menuDatas.push(menus[i]);
+        }
+    }
+    var data = {
+        title: '嵌入子模板',
+        list: menuDatas
+    };
+
+    console.log(menuDatas)
+
+    var html = template("his-index", data);
+    $("#west").append(html);
+    $("#content").layout({
+        fit: true
+    });
+
+    $("#aa").accordion({
+        fit: true
+    });
+    $(".easyui-tree").tree();
+}
+
+var addMenu =function(serviceId,staffId){
+    $.get(basePath + "/orgStaff/find-list-by-serviceId?serviceId=" +serviceId  + "&staffId=" + staffId, function (data) {
+        console.log(data);
+        makeTree(data)
+    })
+}
+
 var config = {};
 
 config.org_Id = id;
@@ -57,70 +107,7 @@ $(function () {
     //根据机构ID和人员ID查询该员工在该机构的所有服务
     $.get(basePath + '/org-service/find-selfServiceList-by-orgId-personId?personId=' + personId + '&orgId=' + orgId, function (data) {
         for (var i = 0; i < data.length; i++) {
-            if (data[i].serviceName != '系统管理') {
-                $("#menu").append("<li><a id='" + data[i].id + "'>" + data[i].serviceName + "</a></li>");
-                $("#" + data[i].id).on('click', function () {
-                    alert("yes")
-                    $.get(basePath + "/orgStaff/find-list-by-serviceId?serviceId=" + serviceId + "&staffId=" + staffId, function (data) {
-                        console.log(data)
-                    })
-                });
-            }
-            if (data[i].serviceName == '系统管理') {
-                sysService = {}
-                sysService.id = data[i].id;
-                sysService.serviceName = data[i].serviceName;
-            }
-        }
-        if (sysService) {
-            $("#menu").append("<li><a id='" + sysService.id + "'>" + sysService.serviceName + "</a></li>");
-            $("#" + sysService.id).on('click', function () {
-                $.get(basePath + "/orgStaff/find-list-by-serviceId?serviceId=" + sysService.id + "&staffId=" + staffId, function (data) {
-                    makeTree(data)
-                })
-            });
-        }
-
-        var makeTree=function(menus){
-            //测试
-            console.log(menus)
-            var menuDatas = [];
-            for (var i = 0; i < menus.length; i++) {
-                menus[i].children = [];
-            }
-
-            for (var i = 0; i < menus.length; i++) {
-                for (var j = 0; j < menus.length; j++) {
-                    if (menus[j].pid == menus[i].menuId) {
-                        menus[i].children.push(menus[j])
-                    }
-                }
-                if (menus[i].pid == "" || menus[i].pid == undefined || menus[i].pid == null) {
-                    menuDatas.push(menus[i]);
-                }
-            }
-            var data = {
-                title: '嵌入子模板',
-                list: menuDatas
-            };
-
-            console.log(menuDatas)
-
-            var html = template("his-index", data);
-            $("#west").append(html);
-            $("#content").layout({
-                fit: true
-            });
-
-            $("#aa").accordion({
-                fit: true
-            });
-            $(".easyui-tree").tree();
+            $("#menu").append("<li><a href=\"#\" onclick=\'addMenu(\""+data[i].id+"\",\""+staffId+"\")\'>" + data[i].serviceName + "</a></li>");
         }
     });
-
-
-
-
-
 });
