@@ -36,8 +36,8 @@ $(function(){
         ,orgId = parent.config.org_Id
         ,currentBuyId = '' // 当前采购单据号
         ,currentStorage = parent.config.currentStorage
-        ,drugDicts = []  // 检索的药品字典数据
-    console.log(orgId);
+        ,drugDicts = []// 检索的药品字典数据
+        ,basePath=parent.basePath;
     // 购买计划表当前选择行索引
     var planSelectIndex = 0;
     // 药品类别
@@ -72,6 +72,10 @@ $(function(){
         drugFormDict = data;
     })
 
+    var drugNameDictList=[]; //药品名称
+    $.get(basePath + "/drug-price/findDrugNameDictList", function (data) {
+        drugNameDictList = data;
+    });
 
     /**
      * 格式化数据
@@ -118,15 +122,20 @@ $(function(){
      * @param index
      * @param field
      */
+        var buyPlanRow=[];
     var onClickCell = function(index, field){
         if (endEditing()){
             if(index == $('#buyPlanTable').datagrid('getRows').length - 1) return
             $('#buyPlanTable').datagrid('beginEdit', index);
+            buyPlanRow=$("#buyPlanTable").datagrid("getData").rows[index];
+            console.log(buyPlanRow);
             $('#buyPlanTable').datagrid('selectRow', index)
                 .datagrid('editCell', {index:index,field:field});
             planSelectIndex = index;
         }
     }
+
+    //var buyPlanRow=$("#buyPlanTable").datagrid("getSelected");
 
     //初始化药品购买计划表
     $("#buyPlanTable").datagrid({
@@ -142,12 +151,12 @@ $(function(){
                     if(value == '合计') return '<div style="text-align:right">'+value+':</div>'
                     return value
                 }},
-                { field: 'drugName', title: '药名', width: 230,halign : "center",align : "left",editor:{
+                { field: 'drugCode', title: '药品编码', width: 130,halign : "center",align : "left",editor:{
                     type:'combogrid',
                     options:{
                         panelWidth:460,
-                        idField:'drugName',
-                        textField:'drugName',
+                        idField:'drugCode',
+                        textField:'drugCode',
                         //required:true,
                         //missingMessage:'药名不能为空',
                         fitColumns: true,
@@ -177,7 +186,23 @@ $(function(){
                             loadDrugPriceData(row)
                         }
                     }
-                }},
+                },
+                    formatter:function(value,row,index){
+                    var a=false;
+                        //console.log(buyPlanRow);
+                    console.log(row);
+                    $.each(drugNameDictList, function (index,item) {
+                        if(item.drugCode == value && item.drugName==row.drugName){
+                            a=true;
+                        }
+                    });
+                    if(a==false){
+                        row.drugCode='';
+                    }
+                        return row.drugCode;
+                }
+                },
+                { field: 'drugName', title: '药品名称', width: 180,align : "center" },
                 { field: 'packSpec', title: '包装规格', width: 60,align : "center" },
                 { field: 'packUnit', title: '包装单位', width: 60,align : "center",
                     formatter:function(value,row,index){
@@ -223,7 +248,7 @@ $(function(){
                     }
                     return _value
                 }},
-                { field: 'drugForm', title: '剂型', width: 80,align : "center",
+                { field: 'drugForm', title: '剂型', width: 70,align : "center",
                     formatter:function(value,row,index){
                         var label=value;
                         $.each(drugFormDict, function (index,item) {
@@ -233,7 +258,7 @@ $(function(){
                         });
                         return label;
                     }},
-                { field: 'toxiProperty', title: '毒理', width: 150,align : "center",
+                { field: 'toxiProperty', title: '毒理', width: 70,align : "center",
                     formatter:function(value,row,index){
                         var label=value;
                         $.each(drugToxi, function (index,item) {
@@ -349,6 +374,7 @@ $(function(){
         },'GET',false)
     }
 
+
     /**
      * 判断是否已存在此药品的规格
      * @param o
@@ -387,8 +413,9 @@ $(function(){
         var _oldDrugCode = _buyPlanTableRow.drugCode
 
         var initData = function(drugPrice,drugDict){
-            var _o = {drugCode:drugPrice.drugCode
-                ,packSpec:drugPrice.drugSpec
+            var _o = {
+                //drugCode:drugPrice.drugCode,
+                packSpec:drugPrice.drugSpec
                 ,firmId:drugPrice.firmId
                 ,packUnit:drugPrice.units}
             if(chargeDrugExisted(_o)){
@@ -397,7 +424,7 @@ $(function(){
                 return
             }
             _buyPlanTableRow.drugName = drugDict.drugName
-            _buyPlanTableRow.drugCode = drugDict.drugCode
+            //_buyPlanTableRow.drugCode = drugDict.drugCode
             _buyPlanTableRow.drugSpec = drugPrice.drugSpec
             _buyPlanTableRow.units = drugPrice.units
             _buyPlanTableRow.packSpec = drugPrice.drugSpec
@@ -501,8 +528,8 @@ $(function(){
      */
     var validateRow = function(row){
         var _index = $('#buyPlanTable').datagrid('getRowIndex',row)
-        if(!row.drugName){
-            onClickCell(_index,'drugName')
+        if(!row.drugCode){
+            onClickCell(_index,'drugCode')
             return false
         }
         if(row.wantNumber==''){
@@ -636,6 +663,8 @@ $(function(){
             if(res == '1'){
                 $.messager.alert('保存','保存成功','info',function(){
                     $('#buyPlanTable').datagrid('loadData',[]);
+                    currentBuyId = '';
+                    initBtn();
                 })
             } else {
                 $.messager.alert('保存','保存失败','error',function(){
