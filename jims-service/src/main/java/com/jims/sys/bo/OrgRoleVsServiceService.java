@@ -45,13 +45,16 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
             if(roleVsService.getServiceId() != null && roleVsService.getRoleId() != null && roleVsService.getMenuId() != null){
                 OrgRoleVsService roleVsService1 = dao.find(roleVsService.getServiceId(), roleVsService.getRoleId(), roleVsService.getMenuId());
                 if (roleVsService1 == null) {
-                    if (null != roleVsService.getMenuOperate() || roleVsService.getMenuOperate() == "0" || roleVsService.getMenuOperate() == "1") {
+                    //if (null != roleVsService.getMenuOperate() || roleVsService.getMenuOperate() == "0" || roleVsService.getMenuOperate() == "1") {
                         roleVsService.preInsert();
                         result = dao.insert(roleVsService);
                         result++;
-                    }
+                    //}
                 } else {
                     roleVsService.setId(roleVsService1.getId());
+                    if(roleVsService.getMenuOperate() == null){
+                        roleVsService.setMenuOperate("1");
+                    }
                     result = dao.update(roleVsService);
                     result++;
                 }
@@ -125,6 +128,22 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
             orgRoleVsService.setServiceName(orgSelfServiceList.getServiceName());
         }
         return orgRoleVsServices;
+    }
+
+    /**
+     * 删除角色的自定义服务
+     * @param serviceId
+     * @param roleId
+     * @return
+     * @author fengyuguang
+     */
+    public String delete(String serviceId,String roleId){
+        List<OrgRoleVsService> lists = dao.findRoleIdAndServiceId(roleId, serviceId);
+        for (OrgRoleVsService list : lists) {
+            String delete = super.delete(list.getId());
+            System.out.println(delete);
+        }
+        return "1";
     }
 
     @Override

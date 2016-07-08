@@ -109,7 +109,7 @@ $(function () {
             }
             $('#drugNameDict').datagrid('loadData', { total: 0, rows: [] });
             $('#drugSubClass').combobox('clear');
-            console.log(rowData);
+
             var url = basePath + "/drug-class-dict/list-parent?parentId=" + rowData.classCode;
             $('#drugSubClass').combobox('reload', url);
         }
@@ -160,15 +160,13 @@ $(function () {
             //drugNameCode = drugNameCode + $("#drugSubClass").combobox('getValue') + rowData.value;
             $.ajaxAsync(basePath + "/drug-catalog/getDrugCodeByRule?secondType="+$("#drugSubClass").combobox('getValue')+"&drugForm="+rowData.value,function(data){
                 drugNameCode = data.code;
-                console.log(data.code);
-                console.log(rowData.value);
             });
             //drugNameCode = drugNameCode +
             stopEdit();
             $('#clear').click();
             drugForms=rowData.label;
             drugFormValue=rowData.value;
-            console.log(rowData.value)
+
             $('#drugNameDict').datagrid('appendRow', {
                 drugCode: drugNameCode, drugName: '',stdIndicator:'0'
             });
@@ -236,7 +234,6 @@ $(function () {
                 }else{
                     row[field] = 0;
                 }
-                console.log(row[field]);
 
             }
         },
@@ -310,7 +307,6 @@ $(function () {
             formatter:function(value,row,index){
                 var label;
                 $.each(drugFormDict, function (index,item) {
-                   // console.log(item)
                     if (item.value == value){
                         label =   item.label;
                     }
@@ -458,7 +454,6 @@ $(function () {
             formatter:function(value,row,index){
                 var label;
                 $.each(drugTypeDict, function (index,item) {
-                    console.log(item)
                     if (item.value == value){
                         label =   item.label;
                     }
@@ -532,20 +527,18 @@ $(function () {
         drugDictChangeVo.inserted = insertData;
         drugDictChangeVo.updated = updateData;
         drugDictChangeVo.deleted = deleteData;
-        console.log(drugDictChangeVo)
+
         var drugCatalogBeanVo = {};
         drugCatalogBeanVo.drugDictDrugCatalogBeanVo = drugDictChangeVo;
         drugCatalogBeanVo.drugNameDictDrugCatalogBeanVo = drugNameDictChangeVo;
-        console.log(drugCatalogBeanVo);
 
         if (drugCatalogBeanVo) {
             $.postJSON(basePath + "/drug-catalog/save", JSON.stringify(drugCatalogBeanVo), function (data) {
                 if("1" == data) {
-                    //$.messager.alert("系统提示", "保存成功", "info");
-                    $.messager.confirm('系统提示, 保存成功','是否定义价格？',function(r){
+                    $.messager.confirm('系统提示, 保存成功','是否进行价格维护？',function(r){
                         if(r){
                             var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
-                            parent.addTab('定义价格',https);
+                            parent.addTab('药品价格维护',https);
                         }
                     })
                 } else {
@@ -664,7 +657,7 @@ $(function () {
 
     $("#listPrice").on('click',function(){
         var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
-        parent.addTab('定义价格',https);
+        parent.addTab('药品价格维护',https);
     })
 
 

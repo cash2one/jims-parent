@@ -64,12 +64,23 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
     }
 
     /**
-     * 住院删除
+     * 门诊删除
      * @param ids
      * @return
      */
     public String deleteLabTestMaster(String ids){
-        String  num= hosLabTestBo.delectHosLabTestMaster(ids);
+        String  num= clinicLabTestBo.deleteLabTestMaster(ids);
+        return num;
+    }
+
+    /**
+     * 住院删除
+     * @param ids
+     * @return
+     */
+    @Override
+    public String deleteLabTestMasterHos(String ids) {
+       String num = hosLabTestBo.deleteLabTestMasterHos(ids);
         return num;
     }
 }

@@ -66,13 +66,12 @@ $(function () {
                     iconCls: 'icon-save',
                     handler: function () {
                         doSave('/roleVs/saveService');
-                        //saveMenu();
                     }
                 }, '-', {
                     text: '删除',
                     iconCls: 'icon-remove',
                     handler: function () {
-                        doDelete('/roleVs/delete');
+                        doDelete();
                     }
                 }],
                 onSelect: function (index, data) {
@@ -148,9 +147,6 @@ $(function () {
         var menuTreeData = [];//菜单树的列表
         var node = $('#serviceId').datagrid('getSelected');
         var row = $('#roleId').datagrid('getSelected');
-        /*if(serviceId && serviceId != null){
-            node.serviceId = serviceId;
-        }*/
 
         var menuPromise = $.get(basePath + "/org-service/find-menu",{serviceId:node.serviceId,roleId:row.id,isTree:true}, function (data) {
             var list=[];
@@ -161,11 +157,7 @@ $(function () {
                 }
             }
             $("#tt").treegrid('loadData', list);
-            //list = [];
         });
-        //serviceId = null;
-        //menus = [];
-        //menuTreeData = [];
     }
 
 
@@ -246,10 +238,11 @@ $(function () {
         )
     }
 
-    //批量删除
-    function doDelete(path) {
+    //删除
+    function doDelete() {
         //把你选中的 数据查询出来。
-        var selectRows = $('#serviceId').datagrid("getSelections");
+        var selectRows = $('#serviceId').datagrid("getSelected");
+        var roleRow = $('#roleId').datagrid('getSelected');
         if (selectRows.length < 1) {
             $.messager.alert("提示消息", "请选中要删的数据!");
             return;
@@ -259,39 +252,21 @@ $(function () {
         //提醒用户是否是真的删除数据
         $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
             if (r) {
-                var strIds = "";
-                for (var i = 0; i < selectRows.length; i++) {
-                    strIds += selectRows[i].id;
-                }
-                del(strIds, path);
+                var orgRoleVsService = [];
+                orgRoleVsService.push({'serviceId': selectRows.serviceId, 'roleId': roleRow.id});
+                $.postJSON(basePath + '/roleVs/delete',JSON.stringify(orgRoleVsService), function (res) {
+                    console.log(res);
+                    if (res.data == "success") {
+                        $.messager.alert("提示消息", "删除成功", "success");
+                        $('#serviceId').datagrid('reload');
+                        $("#serviceId").datagrid('clearSelections');
+                        $("#tt").treegrid('loadData',[]);
+                    } else {
+                        $.messager.alert('提示消息', "删除失败", "error");
+                    }
+                });
             }
         })
-    }
-
-    /**
-     * 删除方法
-     * @param id
-     */
-    function del(id, path) {
-        $.ajax({
-            'type': 'POST',
-            'url': basePath + path,
-            'contentType': 'application/json',
-            'data': id = id,
-            'dataType': 'json',
-            'success': function (data) {
-                if (data.data == 'success') {
-                    $.messager.alert("提示消息", data.code + "条记录，已经删除");
-                    $('#serviceId').datagrid('load');
-                    $("#tt").treegrid("loadData", []);
-                } else {
-                    $.messager.alert('提示', "删除失败", "error");
-                }
-            },
-            'error': function (data) {
-                $.messager.alert('提示', "删除失败", "error");
-            }
-        });
     }
 
     function saveMenu() {
@@ -338,6 +313,7 @@ $(function () {
         }
         saveData = handleData(roots)
         saveData.unshift({id: node.id})
+        console.log(saveData);
         $.postJSON(basePath + '/roleVs/save', JSON.stringify(saveData), function (res) {
                 if (parseInt(res) > 0) {
                     $.messager.alert("提示消息", "保存成功", "success");

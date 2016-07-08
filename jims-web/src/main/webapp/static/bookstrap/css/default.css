@@ -1,8 +1,8 @@
 .def-menu
 {
-	
+
 }
-.def-menu > ul 
+.def-menu > ul
 {
 	margin:0px;
 	padding:0px;
@@ -11,9 +11,9 @@
 .def-menu > ul > li
 {
 	float:left;
-	line-height:48px;	
+	line-height:48px;
 	border-right:1px solid #526e88;
-	
+
 }
 .def-menu > ul > li:first-child
 {
@@ -42,7 +42,7 @@
 	border:none;
 }
 .def-menu > ul > li > ul > li
-{	
+{
 	line-height:20px;
 }
 /**个人首页右侧*/
@@ -125,7 +125,7 @@ span.num-sign
 }
 .history-info
 {
-	
+
 }
 .history-info h3,.focus-news h3,.modal-service-list h3
 {
@@ -155,7 +155,7 @@ span.num-sign
 	float:left;
 	margin:10px;
 	position:relative;
-	
+
 }
 .ser-type ul li.active img
 {
@@ -179,20 +179,20 @@ span.num-sign
 
 }
 .ser-type ul li img
- {
-     position:absolute;
-     top:0;
-     left:0;
-    width:180px;
-    height:180px;
+{
+	position:absolute;
+	top:0;
+	left:0;
+	width:180px;
+	height:180px;
 
- }
+}
 .ser-type ul li div
 {
-    position:absolute;
-    top:0px;
-    left:0px;
-    display:none;
+	position:absolute;
+	top:0px;
+	left:0px;
+	display:none;
 }
 .ser-type ul li a.ser-close
 {
@@ -207,7 +207,7 @@ span.num-sign
 	text-align:center;
 	color:#fff;
 	border-radius:50% 0 50% 50% ;
-}	
+}
 .ser-type ul li:last-child button.ser-plus
 {
 	color:#e6e6e6;
@@ -228,7 +228,7 @@ span.num-sign
 }
 .focus-news ul li
 {
-	display:inline-block;	
+	display:inline-block;
 	line-height:23px;
 }
 @media screen and (max-width:1023px) and (min-width:748px)
@@ -236,24 +236,24 @@ span.num-sign
 	.focus-news ul li
 	{
 		width:32.5%;
-	}	
+	}
 }
 @media screen and (min-width:1024px)
 {
 	.focus-news ul li
 	{
 		width:32.5%;
-	}	
+	}
 }
 @media screen and (max-width:747px)
 {
 	.focus-news ul li
 	{
 		width:100%;
-	}	
+	}
 	.navbar
 	{
-		margin-bottom:0px !important;	
+		margin-bottom:0px !important;
 	}
 }
 .focus-news ul li a
@@ -280,13 +280,13 @@ span.num-sign
 
 .bank
 {
-	background:url(../images/service/bank_pic.gif); 
-	cursor:pointer; 
-	width:145px; 
-	height:45px; 
-	display:inline-block; 
-	text-indent:-999em; 
-	overflow:hidden; 
+	background:url(../images/service/bank_pic.gif);
+	cursor:pointer;
+	width:145px;
+	height:45px;
+	display:inline-block;
+	text-indent:-999em;
+	overflow:hidden;
 	vertical-align:middle;
 	border:1px solid #ccc;
 }
@@ -320,7 +320,7 @@ footer
 	bottom:0;
 	right:0;
 	z-index:2;
-	background:rgba(255,104,88,0.8);	
+	background:rgba(255,104,88,0.8);
 	padding:5px 10px;
 	text-align:center;
 	color:#fff;
@@ -335,13 +335,13 @@ footer
 	padding:20px;
 }
 .gfm-line .gfm-item {
-    margin: 15px 0px;
-    vertical-align: middle;
+	margin: 15px 0px;
+	vertical-align: middle;
 }
 .gfm-line .gfm-item .gfm-left, .gfm-line .gfm-item .gfm-right, .gfm-line .gfm-item .text-value, .gfm-line .gfm-item label {
-    float: left;
-    line-height: 30px;
-    height: 30px;
+	float: left;
+	line-height: 30px;
+	height: 30px;
 }
 .gfm-line .gfm-item label
 {
@@ -353,138 +353,138 @@ footer
 }
 
 .gfm-line .gfm-left {
-    margin-right: 10px;
-    width: 95px;
-    text-align: right;
-    vertical-align: middle;
+	margin-right: 10px;
+	width: 95px;
+	text-align: right;
+	vertical-align: middle;
 }
 .gfm-line .short {
-    width: 50px;
+	width: 50px;
 }
 .gfm-input {
-    border: 1px solid #CCC;
-    font-size: 12px;
-    font-weight: 400;
-    background: #FFF none repeat scroll 0% 0%;  
-    padding: 5px;
-    width: 240px;
-    color: #333;
-    box-shadow: none;
+	border: 1px solid #CCC;
+	font-size: 12px;
+	font-weight: 400;
+	background: #FFF none repeat scroll 0% 0%;
+	padding: 5px;
+	width: 240px;
+	color: #333;
+	box-shadow: none;
 }
 
 .gfm-select {
-    border: 1px solid #CCC;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 28px;
-    padding: 5px;
-    height: 30px;
+	border: 1px solid #CCC;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 28px;
+	padding: 5px;
+	height: 30px;
 }
 .height-80 {
-    height: 80px !important;
+	height: 80px !important;
 }
 .gfm-textarea {
-    border: 1px solid #CCC;
-    font-size: 14px;
-    padding: 5px;
-    overflow: auto;
-    color: #333;
+	border: 1px solid #CCC;
+	font-size: 14px;
+	padding: 5px;
+	overflow: auto;
+	color: #333;
 }
 .g-left {
-    float: left;
+	float: left;
 }
 .g-right {
-    float: right;
+	float: right;
 }
 .gfm-line .gfm-item::after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0px;
-    visibility: hidden;
-    overflow: hidden;
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0px;
+	visibility: hidden;
+	overflow: hidden;
 }
 .cert-line {
-    position: relative;
-    margin-bottom: 5px;
+	position: relative;
+	margin-bottom: 5px;
 }
 .upload-line .new-upload {
-    position: relative;
+	position: relative;
 }
 .gbt-gray {
-    background: #E7E7E7 none repeat scroll 0% 0%;
-    color: #333;
+	background: #E7E7E7 none repeat scroll 0% 0%;
+	color: #333;
 }
 .gbs {
-    padding: 0px 10px;
-    text-align: center;
-    display: inline-block;
-    height: 22px;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 22px;
-    border-radius: 3px;
-    transition: all 0.3s ease-out 0s;
+	padding: 0px 10px;
+	text-align: center;
+	display: inline-block;
+	height: 22px;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 22px;
+	border-radius: 3px;
+	transition: all 0.3s ease-out 0s;
 }
 .g-txt-gray-lighter {
-    color: #888;
+	color: #888;
 }
 .cert-line .cert-preview {
-    position: relative;
-    left: 5px;
+	position: relative;
+	left: 5px;
 }
 .g-clear::after {
-    clear: both;
-    content: ".";
-    display: block;
-    height: 0px;
-    visibility: hidden;
-    overflow: hidden;
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0px;
+	visibility: hidden;
+	overflow: hidden;
 }
 
 .gfm-line textarea {
-    width: 450px;
-    height: 70px;
+	width: 450px;
+	height: 70px;
 }
 .gfm-line .action {
-    margin: 0px 0px 0px -5px;
+	margin: 0px 0px 0px -5px;
 }
 .ask-tw {
-    padding-left: 48px;
-    padding-right: 38px;
-    text-decoration: none;
-    font-size: 17px;
-    margin-right: 25px;
+	padding-left: 48px;
+	padding-right: 38px;
+	text-decoration: none;
+	font-size: 17px;
+	margin-right: 25px;
 }
 .gbt-green2 {
-    background: #73B52D none repeat scroll 0% 0%;
-    color: #FFF;
+	background: #73B52D none repeat scroll 0% 0%;
+	color: #FFF;
 }
 .gbn {
-    padding: 0px 16px;
-    text-align: center;
-    display: inline-block;
-    height: 32px;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 32px;
-    border-radius: 3px;
-    transition: all 0.3s ease-out 0s;
+	padding: 0px 16px;
+	text-align: center;
+	display: inline-block;
+	height: 32px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 32px;
+	border-radius: 3px;
+	transition: all 0.3s ease-out 0s;
 }
 
 p.gfm-p {
-    padding-top: 8px;
-    margin-left: 27px;
-    text-align: center;
-    margin-top: 5px;
-    font-size: 13px;
+	padding-top: 8px;
+	margin-left: 27px;
+	text-align: center;
+	margin-top: 5px;
+	font-size: 13px;
 }
 .gfm-asktile
 {
-	font-size:30px; 
-	color:#7FC760; 
-	text-align:center; 
-	border-bottom:1px dashed #ccc; 
+	font-size:30px;
+	color:#7FC760;
+	text-align:center;
+	border-bottom:1px dashed #ccc;
 	padding:15px 0;
 }
 ul.gfm-imglist
@@ -518,7 +518,7 @@ span.dotted-sign
 {
 	width:10px;
 	height:10px;
-	border-radius:50%;	
+	border-radius:50%;
 	display:block;
 	float:right;
 	margin:3px 0 0 5px;
@@ -549,7 +549,7 @@ ul.askhis-list li a.ask-tile
 	color:#333;
 	height:35px;
 	display:block;
-	
+
 }
 .askl-set
 {
@@ -581,7 +581,7 @@ ul.askhis-list li a.ask-tile
 .Judge
 {
 	background:#5ec6d3;
-	
+
 }
 .Complaint
 {
@@ -594,7 +594,7 @@ ul.askhis-list li a.ask-tile
 	color:#fff;
 	font-size:12px;
 	padding:0 5px;
-	
+
 }
 .gray-bg
 {
@@ -645,7 +645,7 @@ textarea.textarea-mess
 	width:88%;
 	height:100px;
 	display:inline-block;
-	
+
 }
 ul.cus_medical_pic li
 {
@@ -657,7 +657,7 @@ ul.cus_medical_pic li img
 {
 	width:70px;
 	height:70px;
-	
+
 
 }
 .border-ddd
@@ -666,8 +666,8 @@ ul.cus_medical_pic li img
 	border:1px solid #ddd;
 }
 .hzjg-main {
-    padding: 10px;
-    border-top: 1px dashed #CCC;
+	padding: 10px;
+	border-top: 1px dashed #CCC;
 }
 /***/
 .mess-ask-detail
@@ -678,14 +678,14 @@ ul.cus_medical_pic li img
 .askhis-detail
 {
 	margin-top:10px;
-	
+
 }
 /**问诊记录查看结束**/
 /**免费问诊页面结束**/
 /**健康状况选择**/
 .health-status
 {
-	
+
 	margin:0 auto;
 }
 .hs-sign-one
@@ -742,14 +742,14 @@ ul.cus_medical_pic li img
 .hs-type1
 {
 	position:relative;
-	
+
 }
 .hs-type1 img
 {
 	position:absolute;
 	top:0;
 	right:-12px;
-	
+
 }
 .hs-type2
 {
@@ -809,30 +809,30 @@ ul.mymes-sys li
 }
 
 
-	
-#toggle-view h3 
+
+#toggle-view h3
 {
-		margin:0;
-		font-size:12px;
-		color:#337ab7;
-		line-height:22px;
+	margin:0;
+	font-size:12px;
+	color:#337ab7;
+	line-height:22px;
 }
 #toggle-view h3.already-read
 {
 	color:#ccc;
 }
-#toggle-view span 
+#toggle-view span
 {
-		position:absolute;
-		right:5px; top:0;
-		color:#ccc;
-		font-size:13px;
+	position:absolute;
+	right:5px; top:0;
+	color:#ccc;
+	font-size:13px;
 }
-	
+
 #toggle-view p {
-		margin:5px 0;
-		display:none;
-	}	
+	margin:5px 0;
+	display:none;
+}
 /***/
 /**手机端导航**/
 .navbar-toggle
@@ -844,15 +844,15 @@ ul.mymes-sys li
 	background:#fff;
 }
 .navbar-default .navbar-nav > li.active {
-    background: #57B3DF;
-    border-radius: 5px;
+	background: #57B3DF;
+	border-radius: 5px;
 }
 .navbar-default .navbar-nav > li.active > a {
-    color: #fff;
+	color: #fff;
 }
 .nav-3 .nav-mob li
 {
-	
+
 }
 .nav-3 .nav-mob li a
 {
@@ -866,3 +866,155 @@ ul.mymes-sys li
 	color:#000;
 }
 /***/
+
+
+
+/** @auto: 娄会丽从新样式中摘抄
+ ** @date：20160706
+ */
+/**机构注册**/
+.office-stepsign
+{
+	margin:10px 0 0 0 ;
+}
+.office-stepsign ul li
+{
+	float:left;
+	line-height:30px;
+	color:#fff;
+	box-shadow:-1px 0px 1px rgba(0,0,0,0.3) inset;
+}
+.office-stepsign ul li.done
+{
+	background-color: #97cb28;
+	background-image: -moz-linear-gradient(top,#97cb28,#698f18);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#97cb28),to(#698f18));
+	background-image: -webkit-linear-gradient(top,#97cb28,#698f18);
+	background-image: -o-linear-gradient(top,#97cb28,#698f18);
+	background-image: linear-gradient(to bottom,#97cb28,#698f18);
+	background-repeat: repeat-x;
+	border:none;
+	padding:0 10px;
+	border-radius:0 0 0 0;
+
+}
+.office-stepsign ul li.go-on
+{
+	background-color: #ffba00;
+	background-image: -moz-linear-gradient(top,#ffba00,#ffa200);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#ffba00),to(#ffa200));
+	background-image: -webkit-linear-gradient(top,#ffba00,#ffa200);
+	background-image: -o-linear-gradient(top,#ffba00,#ffa200);
+	background-image: linear-gradient(to bottom,#ffba00,#ffa200);
+	background-repeat: repeat-x;
+	border:none;
+	padding:0 10px;
+	border-radius:0 0 0 0;
+}
+.office-stepsign ul li.default
+{
+	background-color: #ccc;
+	background-image: -moz-linear-gradient(top,#ccc,#aaa);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#ccc),to(#aaa));
+	background-image: -webkit-linear-gradient(top,#ccc,#aaa);
+	background-image: -o-linear-gradient(top,#ccc,#aaa);
+	background-image: linear-gradient(to bottom,#ccc,#aaa);
+	background-repeat: repeat-x;
+	border:none;
+	padding:0 10px;
+	border-radius:0 0 0 0;
+}
+.office-stepsign ul li.active
+{
+	color:#7FC760;
+}
+.choice-services
+{
+	position:relative;
+}
+.choice-services ul li
+{
+	display:inline-block;
+	width:24%;
+	margin-right:5px;
+	position:relative;
+	border:1px dashed #ccc;
+	background:#fff;
+}
+.choice-services ul li:hover
+{
+	background:#f8f8f8;
+}
+.choice-services ul li:nth-child(4n)
+{
+	margin-right:0px;
+}
+.choice-services ul li h3
+{
+	font-size:20px;
+	padding:10px 0 10px 10px;
+	border-radius:5px;
+
+}
+
+.curr-btn
+{
+	position:absolute;
+	top:0;
+	right:0px;
+
+}
+.curr-btn button
+{
+	background:#ec971f;
+	border-radius:0 0 0 50%;
+	border:none;
+	width:40px;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	color:#fff;
+}
+.curr-btn-save button
+{
+	background:#7FC760;
+	border-radius:0 0 0 50%;
+	border:none;
+	width:40px;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	color:#fff;
+}
+.choice-services-ok
+{
+	padding:10px;
+	margin:10px 0;
+	background:#f8f8f8;
+}
+.choice-services-ok h3
+{
+	font-size:20px;
+	margin-bottom:10px;
+}
+.btn-positon
+{
+	position:absolute;
+	top:5px;
+	right:5px;
+}
+.alrcur-service ul
+{
+	list-style-type:decimal;
+}
+.regsuc-remind
+{
+	background:#f8f8f8 url(../images/icon-hand.png) no-repeat 10px center;
+	background-size:50px;
+	border:1px solid #eee;
+	font-size:15px;
+	padding:10px 0px 10px 70px;
+	margin-top:20px;
+
+}
+/*****/

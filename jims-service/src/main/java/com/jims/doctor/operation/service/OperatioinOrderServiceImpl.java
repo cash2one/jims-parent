@@ -113,18 +113,15 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
 
     /**
      * 确认门诊手术
-     * @param operationScheduleList
+     * @param operationSchedule
      * @author pq
      * @return
      */
-    public String confrimOperation(List<OperationSchedule> operationScheduleList){
+    public String confrimOperation(OperationSchedule operationSchedule){
         String num = "";
-        if(operationScheduleList!=null){
-            for(int i=0;i<operationScheduleList.size();i++){
-              num=  operationBo.confrimOperation(operationScheduleList.get(i));
-            }
 
-        }
+              num=  operationBo.confrimOperation(operationSchedule);
+
       return num;
     }
 }

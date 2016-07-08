@@ -50,7 +50,7 @@
                     出生日期：
                 </label>
                 <input name="dateOfBirth"  id="dateOfBirth" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       readOnly="true"   style="width:30%;"/>
+                       readOnly="true" style="width:30%;"/>
 
                 <label>
                     年龄：
@@ -102,8 +102,7 @@
                 <label>
                     儿童：
                 </label>
-                <input name="children" type="radio"
-                       />
+                <input name="children" type="checkbox" value="1" />
             </div>
             <div class="fitem fitem_pop">
                 <label>
@@ -122,13 +121,13 @@
                     现住址：
                 </label>
                 <input name="insuranceAera" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                       class="easyui-datetimebox"   style="width:30%;"/>
 
                 <label>
                     入院日期：
                 </label>
                 <input name="admissionDateTime" id="visitDate" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       readOnly="true"   style="width:25%;"/>
+                       style="width:25%;"/>
             </div>
             <div class="fitem fitem_pop">
                 <label>
@@ -269,7 +268,7 @@
 
         </form>
         <div id="dlg-buttons" class="btn-save">
-            <a href="javascript:void(0)" id="savePatHospitalNotice" class="easy-nbtn easy-nbtn-info easy-nbtn-padd"
+            <a href="javascript:void(0)" id="savePatHospitalNotice" class="easyui-linkbutton"  data-options="iconCls:'icon-save'"
                onclick="savePatHospitalNotice();"
                style="width: 90px">保存</a>
         </div>

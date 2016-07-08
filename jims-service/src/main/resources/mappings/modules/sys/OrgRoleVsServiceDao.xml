@@ -137,9 +137,8 @@
 	</update>
 
     <update id="delete">
-		UPDATE org_role_vs_service SET 
-			del_flag = 1
-		WHERE id = #{id}
+		DELETE FROM org_role_vs_service a
+		WHERE a.id = #{id}
 	</update>
 
 </mapper>

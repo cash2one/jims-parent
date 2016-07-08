@@ -54,13 +54,21 @@ public class OrgRoleVsServiceRest {
         return lists;
     }
 
+    /**
+     * 删除角色自定义服务
+     * @param orgRoleVsServices
+     * @return
+     * @author fengyuguang
+     */
     @Path("delete")
     @POST
-    public StringData delete(String id){
-        String code = orgRoleVsServiceApi.delete(id);
+    public StringData delete(List<OrgRoleVsService> orgRoleVsServices){
+        for (OrgRoleVsService orgRoleVsService : orgRoleVsServices) {
+            orgRoleVsServiceApi.delete(orgRoleVsService.getServiceId(), orgRoleVsService.getRoleId());
+        }
         StringData stringData = new StringData();
         stringData.setData("success");
-        stringData.setCode(code);
+        stringData.setCode("1");
         return  stringData;
     }
 }

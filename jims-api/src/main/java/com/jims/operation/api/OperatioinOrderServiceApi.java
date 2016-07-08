@@ -81,6 +81,6 @@ public interface OperatioinOrderServiceApi {
      * @author pq
      * @return
      */
-    public String confrimOperation(List<OperationSchedule> operationScheduleList);
+    public String confrimOperation(OperationSchedule operationSchedule);
 
 }

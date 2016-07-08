@@ -35,9 +35,9 @@ function isolationIndicatorFormatter(value, rowData, RowIndex) {
     if (value == 0) {
         return;
     }
-    for (var i = 0; i < quarantine.length; i++) {
-        if (quarantine[i].id == value) {
-            return quarantine[i].label;
+    for (var i = 0; i < isolationIndicator.length; i++) {
+        if (isolationIndicator[i].id == value) {
+            return isolationIndicator[i].label;
         }
     }
 }

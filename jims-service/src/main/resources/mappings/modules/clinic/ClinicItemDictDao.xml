@@ -86,9 +86,9 @@
         <include refid="clinicItemDictColumns"/>
         FROM clinic_item_dict a
         <where>
-            a.del_flag = #{DEL_FLAG_NORMAL}
+
             <if test="itemCode != null and itemCode != ''">
-                AND a.item_code = #{itemCode}
+                 a.item_code = #{itemCode}
             </if>
             <if test="itemName != null and itemName != ''">
                 AND a.item_name = #{itemName}
