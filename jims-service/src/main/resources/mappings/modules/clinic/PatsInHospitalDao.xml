@@ -331,5 +331,99 @@
       AND (PIT.DEPT_TRANSFERED_TO =
           DDB.DEPT_CODE)
 	</select>
+	<select id="cacelPatientlist" resultType="com.jims.common.web.impl.BaseDto">
+		  SELECT br.BED_NO,
+         pmi.NAME,
+         pmi.SEX,
+         pmi.DATE_OF_BIRTH,
+         pmi.CHARGE_TYPE,
+         pmi.MAILING_ADDRESS,
+         pmi.NEXT_OF_KIN,
+         pih.PATIENT_ID,
+         pmi.INP_NO,
+         pih.ADMISSION_DATE_TIME,
+         pih.PREPAYMENTS,
+         pih.DOCTOR_IN_CHARGE,
+         pih.PATIENT_CONDITION,
+         pih.NURSING_CLASS,
+         pih.DIAGNOSIS,
+         br.DEPT_CODE,
+         pih.ADM_WARD_DATE_TIME,
+         pmi.UNIT_IN_CONTRACT,
+         br.BED_CLASS,
+         pmi.IDENTITY,
+         pih.TOTAL_CHARGES,
+         pih.TOTAL_COSTS,
+         pmi.PHONE_NUMBER_HOME,
+         br.BED_LABEL,
+         pih.VISIT_ID
+    FROM BED_REC br, PATS_IN_HOSPITAL pih, PAT_MASTER_INDEX pmi
+    <where>
+		(br.WARD_CODE = pih.WARD_CODE)
+		AND (br.BED_NO = pih.BED_NO)
+		AND (pih.PATIENT_ID = pmi.ID(+))
+		<if test="wardCode!=null and wardCode!=''">
+			AND ((br.WARD_CODE = #{wardCode}))
+		</if>
+	</where>
+
+	</select>
+	<select id="cancelLeavePatientlist" resultType="com.jims.common.web.impl.BaseDto">
+		SELECT DISTINCT pmi.INP_NO,
+		pmi.NAME,
+		pmi.SEX,
+		pmi.DATE_OF_BIRTH, --出生年月日
+		pv.ADMISSION_DATE_TIME, --入院时间
+		--o.OPERATING_DATE,
+		pv.DISCHARGE_DATE_TIME, --出院日期
+		pv.DEPT_DISCHARGE_FROM, --出院科室
+		--o.OPERATION_DESC, --手术名称
+		--o.ANAESTHESIA_METHOD,
+		--o.OPERATOR,   --手术医师
+		--o.HEAL,   --切口等级
+		pv.DISCHARGE_DISPOSITION, --出院方式
+		pv.DOCTOR_IN_CHARGE, --经治医师
+		d.DIAGNOSIS_TYPE, --诊断类型
+		d.DIAGNOSIS_DESC, --诊断描述
+		pv.PATIENT_ID,
+		pv.VISIT_ID,
+		pv.TOTAL_COSTS, --
+		pv.TOTAL_PAYMENTS, --
+		' ',
+		'   ',
+		pmi.IDENTITY, --身份
+		pv.NEXT_OF_KIN_PHONE, --联系人电话
+		pv.NEXT_OF_KIN_ADDR, --联系人地址
+		pv.NEXT_OF_KIN_ZIPCODE, --联系人邮编
+		ogr.ORDER_DOCTOR --经治医生
+		FROM PAT_MASTER_INDEX pmi,
+		PAT_VISIT        pv,
+		DIAGNOSIS        d,
+		Operation        o,
+		ORDERS_GROUP_REC ogr,
+		ADT_LOG          al
+		<where>
+			(pmi.PATIENT_ID = pv.PATIENT_ID)
+			and (pv.PATIENT_ID = al.PATIENT_ID)
+			and (pv.VISIT_ID = al.VISIT_ID)
+			and (pv.PATIENT_ID = ogr.PATIENT_ID(+))
+			AND (pv.VISIT_ID = ogr.VISIT_ID(+))
+			AND (pv.PATIENT_ID = d.PATIENT_ID(+))
+			AND (pv.VISIT_ID = d.VISIT_ID(+))
+			--AND (pv.PATIENT_ID = o.PATIENT_ID(+))
+			--AND (pv.VISIT_ID = o.VISIT_ID(+))
+			AND ((al.ACTION = 'F') or (al.ACTION = 'H'))
+			<if test="wardCode!=null and wardCode!=''">
+				AND (al.WARD_CODE = #{wardCode})
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				AND to_char(pv.DISCHARGE_DATE_TIME,'yyyy-MM-dd') >= #{startDate}
+			</if>
+			<if test="stopDate!=null and stopDate!=''">
+				AND to_char(pv.DISCHARGE_DATE_TIME,'yyyy-MM-dd') &lt;= #{stopDate}
+			</if>
+		</where>
+
+	</select>
 
 </mapper>

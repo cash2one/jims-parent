@@ -34,14 +34,13 @@ $(function () {
                     $('#addServiceModel ul li').each(function () {
                         $(this).click(function () {
                             var id=this.id.substring(8)
-
                             $.get('/service/sys-sompany/get-sysCompany-by-id?id=' + id, function (data) {
-                                   if(data.applyStatus=="2")
-                                   {
-                                       window.location.href="/modules/index.html?id=" + id+"?persion_id="+persion_id;
-                                   }else{
-                                      alert("正在审核中，请耐心等待！！") ;
-                                   }
+                                if(data.applyStatus=="2")
+                                {
+                                    window.location.href="/modules/index.html?id=" + id+"?persion_id="+persion_id;
+                                }else{
+                                    window.location.href="/modules/sys/company.html?flag=1&persion_id="+persion_id;
+                                }
                             });
 
 

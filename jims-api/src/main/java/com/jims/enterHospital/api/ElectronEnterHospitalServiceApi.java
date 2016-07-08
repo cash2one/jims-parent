@@ -1,6 +1,6 @@
-package com.jims.clinic.api;
+package com.jims.enterHospital.api;
 
-import com.jims.clinic.entity.ElectronEnterHospital;
+import com.jims.enterHospital.entity.ElectronEnterHospital;
 
 /**
  * Created by Administrator on 2016/4/20.

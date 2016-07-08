@@ -58,9 +58,16 @@ public interface LabTestMasterServiceApi {
     public Page<LabTestMaster> findPage(Page<LabTestMaster> page, LabTestMaster labTestMaster);
 
     /**
-     * 住院删除
+     * 门诊删除
      * @param ids
      * @return
      */
     public String deleteLabTestMaster(String ids);
+
+    /**
+     * 住院删除
+     * @param ids
+     * @return
+     */
+    public String deleteLabTestMasterHos(String ids);
 }

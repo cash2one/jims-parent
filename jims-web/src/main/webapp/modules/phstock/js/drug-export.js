@@ -642,6 +642,17 @@ $(function () {
                 $("#dg").datagrid('deleteRow', 0);
             }
             currentSelectIndex = undefined
+            //更新出库金额合计与应收款数据
+            var newRows = $("#dg").datagrid('getRows');
+            var outPrice = 0;
+            for(var i=0;i<newRows.length;i++){
+                if(newRows[i].drugCode != '出库金额合计'){
+                    outPrice += parseFloat(newRows[i].outPrice);
+                }
+            }
+            newRows[newRows.length-1].outPrice = outPrice;
+            $("#accountReceivable").numberbox('setValue', newRows[newRows.length - 1].outPrice);
+            $("#dg").datagrid('refreshRow',newRows.length-1);
         } else {
             $.messager.alert('系统提示', "请选择要删除的行", 'info');
         }

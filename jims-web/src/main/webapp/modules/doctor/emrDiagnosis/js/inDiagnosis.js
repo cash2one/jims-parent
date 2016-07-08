@@ -32,7 +32,7 @@ $(function() {
             },
             {field:'diagnosisDate',title:'诊断日期',width:'15%',align:'center',formatter:formatDateBoxFull},
             {field:'pathologyNo',title:'病理号',width:'10%',align:'center',editor:'text'},
-            {field:'diagnosisId',title:'诊断名称',width:'20%',align:'center',formatter:icdFormatter}
+            {field:'icdName',title:'诊断名称',width:'20%',align:'center'}
 
         ]],
         toolbar:
@@ -74,8 +74,9 @@ $(function() {
                 }
             ]
     });
+    loadMenu();
 });
-loadMenu();
+
 function loadMenu() {
     var patientId = parent.patVisit.patientId;
     var visitId = parent.patVisit.visitId;
@@ -91,6 +92,8 @@ function loadMenu() {
             d.diagnosisDate = formatDatebox(item.diagnosisDate);
             d.operTreatIndicator = item.operTreatIndicator;
             d.pathologyNo = item.pathologyNo;
+            d.icdName = item.icdName;
+
            // d.diagnosisId = item.diagnosisId;
             d.parentId = item.parentId;
             d.children = [];
@@ -149,6 +152,7 @@ function edit(){
     $("#type").attr("readonly", true) ;
     $("#description").val(node.description);
     $("#treatResult").val(node.treatResult);
+    $('#diagnosisId').val(node.icdName);
     $("#diagnosisDate").datebox("setValue",node.diagnosisDate);
     if(node.operTreatIndicator=='1'){
         $("#operTreatIndicator").attr("checked", true) ;
@@ -166,17 +170,18 @@ function edit(){
                 {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
                 {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
             ]
-        ],onClickRow: function (index, row) {
-            $("#icdMingcheng").val(row.zhongwen_mingcheng);
+        ],onClickRow:function(rowIndex,rowData) {
+            $("#icdName").val(rowData.zhongwen_mingcheng);
         },
         keyHandler: {
             up: function() {},
             down: function() {},
             enter: function() {},
             query: function(q) {
-                var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                icdComplete(q,'diagnosisId');
-                $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
+                icdCompleting(q,'diagnosisId');
+                $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
+                $('#diagnosisId').combogrid("setText",q);
+                $("#icdName").val(q);
             }
         }
     })
@@ -203,7 +208,8 @@ function save(){
         d.diagnosisDate = $("#diagnosisDate").datebox('getValue');
         d.operTreatIndicator =  $("#operTreatIndicator").val();
         d.pathologyNo = $("#pathologyNoId").val();
-        d.diagnosisId =$('#diagnosisId').combobox('getValue');
+        d.diagnosisId =$('#diagnosisId').combogrid("getValue");
+        d.icdName = $("#icdName").val();
         d.parentId = $("#parentId").val();
         d.patientId =patientId;
         d.visitId = visitId;
@@ -250,11 +256,11 @@ function refash(){
 }
 
 function insert(){
-
+    var diagnosisDate=formatDatebox(new Date());
     $("#dlg").dialog({title: '添加诊断'}).dialog("open").dialog('center');
     $('#fm').form('clear');
         $("#parentId").val("0");
-
+    $("#diagnosisDate").datebox('setValue',diagnosisDate);
         $('#type').combobox({
             data :diagnosisType,
             valueField:'value',
@@ -274,17 +280,17 @@ function insert(){
                 {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
                 {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
             ]
-        ],onClickRow: function (index, row) {
-            $("#icdMingcheng").val(row.zhongwen_mingcheng);
-        },
-        keyHandler: {
+        ],onClickRow:function(rowIndex,rowData) {
+            $("#icdName").val(rowData.zhongwen_mingcheng);
+        },keyHandler: {
             up: function() {},
             down: function() {},
             enter: function() {},
             query: function(q) {
-                var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                icdComplete(q,'diagnosisId');
-                $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
+                icdCompleting(q,'diagnosisId');
+                $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
+                $('#diagnosisId').combogrid("setText",q);
+                $("#icdName").val(q);
             }
         }
     })
@@ -314,6 +320,7 @@ function addNextLevel() {
         $('#typeId').val(node.type);
         var typeName = diagnosisTypeFormatter(node.type,'','');
         $('#type').textbox('setValue',typeName);
+        $("#type").attr("readonly", true) ;
         $("#parentId").val(node.id);
 
         $('#diagnosisId').combogrid({
@@ -327,17 +334,17 @@ function addNextLevel() {
                     {field: 'code', title: 'ICD-10编码', width: '10%', align: 'center'},
                     {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'center'},
                 ]
-            ],onClickRow: function (index, row) {
-                $("#icdMingcheng").val(row.zhongwen_mingcheng);
-            },
-            keyHandler: {
+            ],onClickRow:function(rowIndex,rowData) {
+            $("#icdName").val(rowData.zhongwen_mingcheng);
+            },keyHandler: {
                 up: function() {},
                 down: function() {},
                 enter: function() {},
                 query: function(q) {
-                    var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
-                    icdComplete(q,'diagnosisId');
-                    $(ed.target).combogrid("grid").datagrid("loadData", icdComplete);
+                    icdCompleting(q,'diagnosisId');
+                    $('#diagnosisId').combogrid('grid').datagrid("loadData", icdAllData);
+                    $('#diagnosisId').combogrid("setText",q);
+                    $("#icdName").val(q);
                 }
             }
         })

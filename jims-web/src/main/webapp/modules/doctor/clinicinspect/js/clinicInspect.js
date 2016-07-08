@@ -1,5 +1,6 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
+var description = [];
 function onloadMethod() {
     $("#patientId").val(patientId);
     $("#clinicId").val(clinicId);
@@ -8,7 +9,9 @@ function onloadMethod() {
         url: basePath + '/clinicInspect/getDescription',
         data: {"clinicIds": clinicId},
         success: function (data) {
+            description = data;
             $("#clinDiag").val(data.description);
+
         }
     })
 
@@ -103,7 +106,14 @@ function onloadMethod() {
             {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center'},
             //{field: 'reqDept', title: '开单科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'performedBy', title: '执行科室', width: '25%', align: 'center',formatter:clinicDeptCodeFormatter},
-            {field: 'flag', title: '状态', width: '23%', align: 'center'},
+            {field: 'regPrnFlag', title: '状态', width: '23%', align: 'center',formatter:function(value,rowData,rowIndex){
+                if(rowData.regPrnFlag == 0){
+                    return "未确认";
+                }
+                if(rowData.regPrnFlag == 1){
+                    return "已确认";
+                }
+            }},
             {
                 field: 'id',
                 title: '操作',
@@ -268,38 +278,43 @@ function get(id) {
 }
 //保存
 function saveClinicInspect() {
-    if (!$("#clinicInspectForm").form("validate")) {
-        return false;
-    }
-    var formJson = fromJson('clinicInspectForm');
-    formJson = formJson.substring(0, formJson.length - 1);
-    var divJson = "";
-    $('#target .submitName').each(function (index, element) {
-        divJson += $(this).html();
-    })
-    divJson = divJson.substring(0, divJson.length - 1);
-    var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
+    if(description == null){
+        alert("病人没有诊断消息，不能开检查单");
+    }else {
+        if (!$("#clinicInspectForm").form("validate")) {
+            return false;
+        }
+        var formJson = fromJson('clinicInspectForm');
+        formJson = formJson.substring(0, formJson.length - 1);
+        var divJson = "";
+        $('#target .submitName').each(function (index, element) {
+            divJson += $(this).html();
+        })
+        divJson = divJson.substring(0, divJson.length - 1);
+        var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
 
-    var save = $("#modify").val();
-    var url = "";
-    if (save == "1") {
-        url = basePath + "/clinicInspect/saveExamAppoints";
-    } else {
-        url = basePath + "/clinicInspect/update";
-    }
-    $.postJSON(url, submitJson, function (data) {
-        if (data.code == "1") {
-            $.messager.alert("提示信息", "保存成功");
-            $('#list_data').datagrid('load');
-            $("#clinicInspectForm").form('clear');
-            $("#target").empty();
-            $("#descriptionId").empty();
+        var save = $("#modify").val();
+        var url = "";
+        if (save == "1") {
+            url = basePath + "/clinicInspect/saveExamAppoints";
         } else {
+            url = basePath + "/clinicInspect/update";
+        }
+        $.postJSON(url, submitJson, function (data) {
+            if (data.code == "1") {
+                $.messager.alert("提示信息", "保存成功");
+                $('#list_data').datagrid('load');
+                $("#clinicInspectForm").form('clear');
+                $("#target").empty();
+                $("#descriptionId").empty();
+            } else {
+                $.messager.alert("提示信息", "保存失败", "error");
+            }
+
+        }), function (data) {
             $.messager.alert("提示信息", "保存失败", "error");
         }
-
-    }), function (data) {
-        $.messager.alert("提示信息", "保存失败", "error");
     }
+
 }
 

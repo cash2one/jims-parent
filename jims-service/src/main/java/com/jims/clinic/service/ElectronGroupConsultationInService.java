@@ -5,6 +5,7 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.api.ElectronGroupConsultationIntoApi;
+import com.jims.clinic.bo.ElectronGroupConsultationInBo;
 import com.jims.clinic.dao.ElectronGroupConsultationDao;
 import com.jims.clinic.dao.ElectronGroupConsultationInDao;
 import com.jims.clinic.entity.ElectronGroupConsultation;
@@ -25,6 +26,8 @@ import java.util.List;
 public class ElectronGroupConsultationInService extends CrudImplService<ElectronGroupConsultationInDao, ElectronGroupConsultationIn> implements ElectronGroupConsultationIntoApi {
     @Autowired
     private ElectronGroupConsultationDao electronGroupConsultationDao;
+    @Autowired
+    private ElectronGroupConsultationInBo electronGroupConsultationInBo;
     /**
      * 根据会诊主表id查询参与会诊表信息
      * @author xueyx
@@ -35,7 +38,8 @@ public class ElectronGroupConsultationInService extends CrudImplService<Electron
      */
     //@Override
     public ElectronGroupConsultationIn getByMain(ElectronGroupConsultation electronGroupConsultation) {
-        return dao.getByMain(electronGroupConsultation.getId());
+        ElectronGroupConsultationIn electronGroupConsultationIn = electronGroupConsultationInBo.getByMain(electronGroupConsultation);
+        return electronGroupConsultationIn;
     };
 
     /**异步参与医生信息列表
@@ -46,7 +50,8 @@ public class ElectronGroupConsultationInService extends CrudImplService<Electron
      */
     //@Override
     public List<ElectronGroupConsultationIn> getListByMain(ElectronGroupConsultation electronGroupConsultation){
-        return dao.getListByMain(electronGroupConsultation);
+        List<ElectronGroupConsultationIn> electronGroupConsultationInList = electronGroupConsultationInBo.getListByMain(electronGroupConsultation);
+        return electronGroupConsultationInList;
     };
 
     /**异步参与医生信息列表
@@ -57,7 +62,7 @@ public class ElectronGroupConsultationInService extends CrudImplService<Electron
      */
     //@Override
     public List<ElectronGroupConsultationIn> getBrotherList(ElectronGroupConsultationIn electronGroupConsultationIn){
-        return dao.getBrotherList(electronGroupConsultationIn);
+        return electronGroupConsultationInBo.getBrotherList(electronGroupConsultationIn);
     }
 
     /**
@@ -67,7 +72,7 @@ public class ElectronGroupConsultationInService extends CrudImplService<Electron
      * @return 需要返回主表
      */
     public ElectronGroupConsultationIn getByMainIdAndDoctorId(ElectronGroupConsultationIn electronGroupConsultationIn){
-        return dao.getByMainIdAndDoctorId(electronGroupConsultationIn);
+        return electronGroupConsultationInBo.getByMainIdAndDoctorId(electronGroupConsultationIn);
     }
 
     /**
@@ -78,14 +83,7 @@ public class ElectronGroupConsultationInService extends CrudImplService<Electron
      * @version 2016-04-26
      */
     public void saveOtherIdea(ElectronGroupConsultationIn electronGroupConsultationIn){
-        dao.saveOtherIdea(electronGroupConsultationIn);
-        electronGroupConsultationIn = get(electronGroupConsultationIn.getId());
-           if(electronGroupConsultationIn!=null) {
-               ElectronGroupConsultation electronGroupConsultation =electronGroupConsultationDao.
-               get(electronGroupConsultationIn.getHuizhenId());
-               electronGroupConsultation.setIdeaFlag("1");
-               electronGroupConsultationDao.update(electronGroupConsultation);
-           }
+       electronGroupConsultationInBo.saveOtherIdea(electronGroupConsultationIn);
     }
 
     /**
@@ -95,6 +93,6 @@ public class ElectronGroupConsultationInService extends CrudImplService<Electron
      * @version 2016-04-26
      */
     public void delByMain(ElectronGroupConsultation electronGroupConsultation){
-        dao.delByMain(electronGroupConsultation);
+        electronGroupConsultationInBo.delByMain(electronGroupConsultation);
     }
 }
