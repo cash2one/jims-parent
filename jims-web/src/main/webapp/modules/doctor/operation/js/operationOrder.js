@@ -1,10 +1,8 @@
-var editRow = undefined;
 var rowNum = -1;
 var visitIds = parent.patVisit.visitId;
 var patientIds = parent.patVisit.patientId;
 var deptCode;
 function onloadMethod() {
-
     $("#visitId").val(visitIds);
     $("#patientId").val(patientIds);
     /**
@@ -130,19 +128,7 @@ function onloadMethod() {
                         }
                         savePperationApply();
                     }
-                }
-                ],
-                //onAfterEdit: function (rowIndex, rowData, changes) {
-                //    editRow = undefined;
-                //}, onDblClickRow: function (rowIndex, rowData) {
-                //    if (editRow != undefined) {
-                //        $("#operationName").datagrid('endEdit', editRow);
-                //    }
-                //    if (editRow == undefined) {
-                //        $("#operationName").datagrid('beginEdit', rowIndex);
-                //        editRow = rowIndex;
-                //    }
-                //},
+                }],
                 onClickRow: function (rowIndex, rowData) {
                     var dataGrid = $('#operationName');
                     if (!dataGrid.datagrid('validateRow', rowNum)) {

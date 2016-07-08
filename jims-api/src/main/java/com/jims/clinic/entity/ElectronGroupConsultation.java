@@ -90,7 +90,7 @@ public class ElectronGroupConsultation extends DataEntity<ElectronGroupConsultat
 	public Date getShenqingshijian() {
 		return shenqingshijian;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setShenqingshijian(Date shenqingshijian) {
 		this.shenqingshijian = shenqingshijian;
 	}

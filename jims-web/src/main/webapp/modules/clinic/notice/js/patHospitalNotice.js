@@ -1,14 +1,14 @@
-//var clinicId = parent.clinicMaster.id;
+var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 function onloadMethod() {
-    //$("#name").val(parent.clinicMaster.name);
-    //$("#sex").val(sexFormatter(parent.clinicMaster.sex,'',''));
-    //$("#age").val(parent.clinicMaster.age);
-    //$("#patientId").val(patientId);
-    //    $("#masterId").val(parent.clinicMaster.id);
+    $("#name").val(parent.clinicMaster.name);
+    $("#sex").val(sexFormatter(parent.clinicMaster.sex,'',''));
+    $("#age").val(parent.clinicMaster.age);
+    $("#patientId").val(patientId);
+        $("#masterId").val(parent.clinicMaster.id);
     //$("#visitDate").val(parent.clinicMaster.visitDate);//入院时间
     //$("#visitDept").val(clinicDeptCodeFormatter(parent.clinicMaster.visitDept,'',''));//入院科室
-    //$("#chargeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));//费别
+    $("#chargeType").val(itemFormatter(parent.clinicMaster.chargeType,'',''));//费别
     $.ajax({
         'type': 'GET',
         'url':basePath + '/bloodApply/getPatient',
@@ -16,13 +16,15 @@ function onloadMethod() {
         'data': {id : 1},
         'dataType': 'json',
         'success': function(data){
-            $("#name").val(data.name);
-            $("#sex").val(sexFormatter(data.sex,'',''));
-            $("#sexId").val(data.sex);
-            $("#age").val(data.age);
-            $("#patientId").val(data.patientId);
+            //$("#name").val(data.name);
+            //$("#sex").val(sexFormatter(data.sex,'',''));
+            //$("#sexId").val(data.sex);
+            //$("#age").val(data.age);
+            //$("#patientId").val(data.patientId);
             $("#masterId").val(data.id);
-            $("#dateOfBirth").val(data.patMaster.dateOfBirth);//出生日期
+            var date = data.patMaster.dateOfBirth;
+            var year=date.substr(0,10);
+            $("#dateOfBirth").val(year);//出生日期
             $("#idNo").val(data.patMaster.idNo);//身份证
             $("#nation").val(nationFormatter(data.patMaster.nation));//名族
             $("#nationId").val(data.patMaster.nation);
@@ -34,7 +36,7 @@ function onloadMethod() {
             $("#nextOfKinAddr").val(data.patMaster.nextOfKinAddr);//联系人地址
             $("#nextOfKinPhone").val(data.patMaster.nextOfKinPhone);//联系人电话
             $("#nextOfNation").val(nationFormatter(data.patMaster.nextOfNation));//联系人名族
-            $("#visitDate").val(data.visitDate);//入院时间
+            //$("#visitDate").val(data.visitDate);//入院时间
             $("#visitDept").val(clinicDeptCodeFormatter(data.visitDept,'',''));//入院科室
             $("#chargeType").val(itemFormatter(data.chargeType,'',''));//费别
             $("#enterDate").datetimebox("setValue",new Date);
