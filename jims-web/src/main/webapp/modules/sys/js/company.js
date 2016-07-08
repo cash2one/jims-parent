@@ -345,6 +345,7 @@ $(function () {
             $('#nextBut2').attr("class","done");
             $('#nextBut3').attr("class","go-on");
             if($('#parentId').val().trim()!=""){$('#parentId0').html($("#parentId").find("option:selected").text());}
+            else{$('#parentId0').html(" 无上级机构 ");}
             if($('#orgName').val().trim()!=""){$('#orgName0').html($('#orgName').val().trim());}
             if($('#orgCode').val().trim()!=""){$('#orgCode0').html($('#orgCode').val().trim());}
             if($('#address').val().trim()!=""){$('#address0').html($('#address').val().trim());}
@@ -414,6 +415,7 @@ $(function () {
             }
             $('#nextBut2').attr("class","done");
             if($('#parentId').val().trim()!=""){$('#parentId0').html($("#parentId").find("option:selected").text());}
+            else{$('#parentId0').html(" 无上级机构 ");}
             if($('#orgName').val().trim()!=""){$('#orgName0').html($('#orgName').val().trim());}
             if($('#orgCode').val().trim()!=""){$('#orgCode0').html($('#orgCode').val().trim());}
             if($('#address').val().trim()!=""){$('#address0').html($('#address').val().trim());}
