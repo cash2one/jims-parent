@@ -22,7 +22,7 @@ $(function () {
 
     $("#dg").datagrid({
         fit: true,
-        footer: '#tb',
+        toolbar: '#tb',
         singleSelect: true,
         rownumbers: true,
         method: 'get',
