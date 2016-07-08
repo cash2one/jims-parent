@@ -193,7 +193,9 @@ $(function () {
         $("#serviceClass").combobox("setValue",row.serviceClass);
         //service.serviceImage = $("#serviceImage").filebox("setValue",row.serviceImage);
 //        $("#serviceDescription").val(row.serviceDescription);//version 1.1
-        ue.setContent(row.serviceDescription);
+        if(row.serviceDescription!=null){
+            ue.setContent(row.serviceDescription);
+        }
         $("#serviceDialog").dialog("open");
 
     });
@@ -747,6 +749,7 @@ $(function () {
         $("#serviceClass").combobox("setValue","");
         $("#serviceImage").val("");
         $("#serviceDescription").val("");
+        ue.setContent("");
     };
 
     loadDict();
