@@ -5,22 +5,27 @@ $(function () {
         var pos_start = str.indexOf(name) + name.length + 1;
         var pos_end = str.indexOf("&", pos_start);
         if (pos_end == -1) {
-            var persion_id = str.substring(11);
-
-
-
+            var persion_id = '';
+            if(str.indexOf("persionId=")>=0){
+                persion_id = str.substring(str.indexOf("persionId=")+10);
+            }else if(str.indexOf("persion_id=")>=0){
+                persion_id = str.substring(str.indexOf("persion_id=")+11);
+            }
         }
     }
 
 
     var persionServiceList={};
 
+    $("#default").on('click', function () {
+        window.location.href = "/modules/sys/default.html?persionId="+persion_id;
+    });
     $('#saveService').click(function(){
-        var datas = $('#addServiceModel .active')
-       /* if(datas.length == 0){
+        var datas = $('#addServiceModel .curr-btn-save')
+       if(datas.length == 0){
             alert('至少定制一项服务！')
             return false
-        }*/
+        }
         var total = 0
         var saveData = []
         /**
@@ -58,7 +63,7 @@ $(function () {
         }
 
 
-        alert('支付界面，金额'+total+'元！！')
+        //alert('支付界面，金额'+total+'元！！')
 
         persionServiceList.serviceList = saveData
 
@@ -71,7 +76,7 @@ $(function () {
             'success': function (data) {
                 if (data == "1") {
                     alert("保存成功！！");
-                    window.location.href="/modules/sys/default.html? persionId="+persion_id;
+                    window.location.href="/modules/sys/default.html?persion_id="+persion_id;
                 } else {
                     alert("保存失败！！");
                 }
@@ -86,23 +91,13 @@ $(function () {
      */
     var dataArr
     $.get('/service/sys-service/findServiceWithPrice',{serviceClass:'1',serviceType:'1'},function(res){
-
         dataArr = res
-
-
         var liArr = $('#addServiceModel ul li')
         if(liArr.length < 1) {
             for (var i = 0; i < dataArr.length; i++) {
                 var li = '<li id="service_' + dataArr[i].id + '">';
-                li += '<a href="#"><span class="service-name">' + dataArr[i].serviceName + '</span></a>'
-
-                if(dataArr[i].serviceImage==null)
-                {
-                    li += '<img src="/static/bookstrap/images/service/normal.jpg"/>'
-                }  else{
-                    li += '<img src="'+dataArr[i].serviceImage+'"/>'
-                }
-                li += '<div style="width:100%;height:100%;background-color: #eee;z-index: 99">'
+                li += '<div class="service-set">'
+                li += '<h3>' + dataArr[i].serviceName + '</h3>'
                 li += '<table width="100%">'
                 li += '<tr style="height: 35px">'
                 li += '<td width="60"><span class="text-success">　类别：</span></td>'
@@ -132,25 +127,14 @@ $(function () {
                 }
                 li += '　元</td>'
                 li += '</tr>'
-                li += '<tr style="height: 30px">'
-                li += '<td colspan="4" align="center" >'
-                li += '<button class="btn btn-default btn-xs made-btn">定制<button>'
-                li += '<button class="btn btn-default btn-xs cancel-btn">取消<button>'
-                li += '</td></tr>'
-                li += '</table></div></li>'
+                li += '</table></div>';
+                li += '<div class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
+                li += '</li>'
                 $('#addServiceModel ul').append(li);
             }
             $('#addServiceModel ul li').each(function(){
                 var liObj = $(this)
-
-                $(this).mouseover(function(){
-                    $(this).children('div').css('top',$(this).children('img').css('border-width'))
-                    $(this).children('div').css('left',$(this).children('img').css('border-width'))
-                    $(this).children('div').slideDown('normal')
-                })
-                $(this).mouseleave (function(){
-                    $(this).children('div').slideUp('normal')
-                })
+                $(this).children('div').slideDown('normal')
 
                 $('div tr:eq(0) td:eq(1) span',this).click(function(){
                     if($(liObj).attr('class') == 'active') return
@@ -169,17 +153,16 @@ $(function () {
                     validNum(this,liObj)
                 })
 
-                $('.made-btn',this).click(function(){
-                    $(liObj).attr('class', 'active')
-                    $(liObj).children('div').css('top', $(liObj).children('img').css('border-width'))
-                    $(liObj).children('div').css('left', $(liObj).children('img').css('border-width'))
-                    $('.service-num',liObj).attr('disabled',true)
-                })
-                $('.cancel-btn',this).click(function(){
-                    $(liObj).removeAttr('class')
-                    $(liObj).children('div').css('top', $(liObj).children('img').css('border-width'))
-                    $(liObj).children('div').css('left', $(liObj).children('img').css('border-width'))
-                    $('.service-num',liObj).attr('disabled',false)
+                $('.curr-btn',this).click(function(){
+                    if($('.service-num',liObj).attr('disabled')){
+                        $(".curr-btn",liObj).html("<button>确定</button>");
+                        $('.service-num',liObj).attr('disabled',false)
+                        $(liObj).attr('class', 'curr-btn');
+                    }else{
+                        $(".curr-btn",liObj).html("<button>取消</button>");
+                        $('.service-num',liObj).attr('disabled',true)
+                        $(liObj).attr('class', 'curr-btn-save');
+                    }
                 })
             })
             var validNum = function(o,li){
