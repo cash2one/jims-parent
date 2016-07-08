@@ -1,10 +1,9 @@
-//var clinicId = parent.clinicMaster.id;
-//var patientId = parent.patVisit.patientId;
-var clinicId = 1;
+var clinicId = parent.clinicMaster.id;
+var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
 function onloadMethod() {
-    alert(clinicId)
     $("#clinicId").val(clinicId);
+    alert(clinicId);
     $("#patientId").val(patientId);
     $.ajax({
         method: "POST",
@@ -22,7 +21,7 @@ function onloadMethod() {
         fit: true,
         method: 'POST',
         url: basePath + '/operatioinOrder/getOperationName',
-        queryParams:{'clinicId': clinicId},
+        queryParams: {'clinicId': clinicId},
         idField: 'id',
         columns: [[      //每个列具体内容
             {
@@ -45,18 +44,23 @@ function onloadMethod() {
                 }
             }
             },
-            {field: 'schedule', title: '等级', width: '50%', align: 'center',formatter:function(value,rowData,rowIndex){
-                if(rowData.schedule == undefined){
-                    return '';
-                }else{
-                    if(operationScale == undefined){
+            {
+                field: 'schedule',
+                title: '等级',
+                width: '50%',
+                align: 'center',
+                formatter: function (value, rowData, rowIndex) {
+                    if (rowData.schedule == undefined) {
                         return '';
-                    }else{
-                        return operationScaleFormatter(rowData.schedule.operationScale,'','');
+                    } else {
+                        if (operationScale == undefined) {
+                            return '';
+                        } else {
+                            return operationScaleFormatter(rowData.schedule.operationScale, '', '');
+                        }
                     }
                 }
-
-            }}
+            }
         ]],
         toolbar: [{
             text: '添加',
@@ -67,8 +71,7 @@ function onloadMethod() {
                 }
                 $("#operationName").datagrid("insertRow", {
                     index: 0, // index start with 0
-                    row: {
-                    }
+                    row: {}
                 });
             }
         }, '-', {
@@ -87,19 +90,7 @@ function onloadMethod() {
                 }
                 savePperationApply();
             }
-        }
-        ],
-        // onAfterEdit: function (rowIndex, rowData, changes) {
-        //    editRow = undefined;
-        //}, onDblClickRow: function (rowIndex, rowData) {
-        //    if (editRow != undefined) {
-        //        $("#operationName").datagrid('endEdit', editRow);
-        //    }
-        //    if (editRow == undefined) {
-        //        $("#operationName").datagrid('beginEdit', rowIndex);
-        //        editRow = rowIndex;
-        //    }
-        //},
+        }],
         onClickRow: function (rowIndex, rowData) {
             var dataGrid = $('#operationName');
             if (!dataGrid.datagrid('validateRow', rowNum)) {
@@ -155,10 +146,10 @@ function onloadMethod() {
      * 手术病情
      */
     $("#patientCondition").combobox({
-        data:patientCondition,
-        valueField:'id',
-        textField:'label',
-        onSelect:function(n,o){
+        data: patientCondition,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
             $("#patientConditionId").val(n.value);
         }
     })
@@ -166,18 +157,14 @@ function onloadMethod() {
      * 隔离
      */
     $("#isolationIndicator").combobox({
-        data:isolationIndicator,
-        valueField:'id',
-        textField:'label',
-        onSelect:function(n,o){
+        data: isolationIndicator,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
             $("#isolationIndicatorId").val(n.value);
         }
     })
 }
-
-//function formatSchedule(value){
-//    return  return value.operationScale;
-//}
 
 /**
  * 保存申请记录

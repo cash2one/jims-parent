@@ -56,6 +56,7 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
         labTestMaster.setTestNo(creatTestNo());
         labTestMaster.setBillingIndicator(0);//计价标志
         labTestMaster.setPrintIndicator(0);///打印标志
+        labTestMaster.setRequestedDateTime(new Date());
         num = labTestMasterDao.insert(labTestMaster);
         List<LabTestItems> list = labTestMaster.getList();
         for (int i = 0; i < list.size(); i++) {
@@ -101,7 +102,7 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
         return num + "";
     }
 
-    public String delectHosLabTestMaster(String ids) {
+    public String deleteLabTestMasterHos(String ids) {
         int num = 0;
         try {
             String[] id = ids.split(",");

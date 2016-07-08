@@ -386,4 +386,22 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
     public List<BaseDto> waitTurnOutList() {
         return patsInHospitalDao.waitTurnOutList();
     }
+
+    /**
+     * 取消入科病人列表
+     * @author CTQ
+     * @return
+     */
+    public List<BaseDto> cacelPatientlist(String wardCode) {
+        return patsInHospitalDao.cacelPatientlist(wardCode);
+    }
+
+    /**
+     * 可被取消离院的病人列表
+     * @param vo
+     * @return
+     */
+    public List<BaseDto>  cancelLeavePatientlist(ComeDeptVo vo){
+        return patsInHospitalDao.cancelLeavePatientlist(vo);
+    }
 }
