@@ -32,6 +32,11 @@
 		FROM drug_supplier_catalog a
 		<where>
             a.org_id = #{orgId} and del_flag = '0'
+            <if test="q != null and q != ''">
+                and (upper(a.input_code) like upper(#{q}) || '%'
+                 or a.supplier like #{q} || '%'
+                or a.supplier_id like #{q} || '%')
+            </if>
         </where>
 	</select>
 

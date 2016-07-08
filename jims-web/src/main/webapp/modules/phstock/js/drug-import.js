@@ -37,6 +37,16 @@ $(function () {
         }
     });
     $.extend($.fn.validatebox.defaults.rules, {
+        maxStock: {
+            validator: function(value){
+                var row = $('#drug-import').datagrid('getSelected')
+                if(isNaN(value) || +value < 1 || +value > +row.currentStock) {
+                    return false
+                }
+                return true
+            },
+            message: '数量必须在1和当前结存之间！'
+        },
         hasSelected: {
             validator: function(value){
                 var editor = $('#drug-import').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
@@ -394,31 +404,38 @@ $(function () {
                 $('#drug-import').datagrid('loadData', [])
                 if(o.importClass == '采购入库'){
                     $("#supplyChild").combobox({'disabled':true});  //如果选择采购入库，则供货子单位不可编辑。
-                    $.get('/service/drug-supplier-catalog/list',{orgId:currentOrgId},function(res){
                         $('#supply').combobox({
                             valueField : 'id',
-                            textField : 'supplier',
-                            data : res
+                            textField : 'supplierId',
+                            url: '/service/drug-supplier-catalog/findListWithFilter?orgId='+currentOrgId,
+                            method:'get',
+                            mode:'remote',
+                            onSelect: function(){
+                                $('#drug-import').datagrid('loadData',[])
+                            }
                         })
                         $('#supply').combobox('addBlurListener')
-                    })
                 } else {
                     $("#supplyChild").combobox('loadData',[])
                     $("#supplyChild").combobox({
                         disabled:false,
-                        value:''
+                        value:'',
+                        onSelect: function () {
+                            $('#drug-import').datagrid('loadData', [])
+                        }
                     })
-                    $.get('/service/drug-storage-dept/list',{orgId:currentOrgId,storageType:(o.storageType == '全部'?'': o.storageType)},function(res){
-                        $('#supply').combobox({
-                            valueField : 'storageCode',
-                            textField : 'storageName',
-                            data : res,
-                            onSelect : function(r){
-                                loadSubDept('supplyChild',currentOrgId, r.storageCode)
-                            }
-                        })
-                        $('#supply').combobox('addBlurListener')
+                    $('#supply').combobox({
+                        valueField : 'storageCode',
+                        textField : 'storageName',
+                        url: '/service/drug-storage-dept/list?orgId='+currentOrgId+'&storageType=' + (o.storageType == '全部'?'': o.storageType),
+                        method:'get',
+                        mode:'remote',
+                        onSelect : function(r){
+                            $('#drug-import').datagrid('loadData',[])
+                            loadSubDept('supplyChild',currentOrgId, r.storageCode)
+                        }
                     })
+                    $('#supply').combobox('addBlurListener')
                 }
             }
         })
@@ -440,6 +457,7 @@ $(function () {
             ,width:140
             ,editable: false
             ,onSelect:function(record){
+                $('#drug-import').datagrid('loadData',[])
                 currentSubStorageDeptId = record['id']
                 var _prefix = record['importNoPrefix']
                 var _suffix = record['importNoAva']
@@ -460,6 +478,18 @@ $(function () {
             text : '新 单',
             onClick : function(){
                 $('#drug-import').datagrid('loadData',[])
+                $('#import').combobox('clear')
+                $('#date').datebox('setValue',parent.formatDatebox(new Date()))
+                $('#supply').combobox('clear')
+                $('#supply').combobox('loadData',[])
+                $('#importChild').combobox('clear')
+                $('#supplyChild').combobox('clear')
+                $('#supplyChild').combobox('loadData',[])
+                $('#account').numberbox('setValue',0)
+                $('#surcharge').numberbox('setValue',0)
+                $('#paid').numberbox('setValue',0)
+                $('#remarks').textbox('clear')
+                $('#importDocument').textbox('clear')
             }
         })
         $('#addBtn').linkbutton({
@@ -605,8 +635,8 @@ $(function () {
                     options:{
                         required:true,
                         missingMessage:'数量不能为空',
-                        min : 1,
-                        precision : 0
+                        min : 0,
+                        validType : ['maxStock']
                     }
                 }
             }, {
@@ -796,7 +826,6 @@ $(function () {
             var subStorage = $('#importChild').combobox('getValue')
             var storage=currentStorage;
             var priceListId=drugPrice.id;
-            console.log(subStorage+storage+priceListId);
             $.get("/service/drug-price/find-by-sub-quantity?priceListId="+priceListId+"&storage="+storage+"&subStorage="+subStorage, function (node){
                 console.log(node);
                 if(node.length>0){
@@ -815,8 +844,11 @@ $(function () {
                 importTableRow.retailPrice = drugPrice.retailPrice; //市场零售价
                 importTableRow.tradePrice = drugPrice.tradePrice;   //市场批发价
                 importTableRow.purchasePrice = drugPrice.tradePrice;    //进价=批发价
-                console.log(drugPrice);
-                $('#drug-import').datagrid('endEdit', $('#drug-import').datagrid('getRowIndex', importTableRow))
+                if(!isNaN(importTableRow.quantity) && +importTableRow.quantity > +importTableRow.currentStock){
+                    onClickCell(currentSelectIndex,'quantity')
+                } else {
+                    $('#drug-import').datagrid('endEdit', currentSelectIndex)
+                }
                 _tempFlag = true
             })
 

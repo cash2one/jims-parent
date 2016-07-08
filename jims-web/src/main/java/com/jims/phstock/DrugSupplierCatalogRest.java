@@ -39,6 +39,17 @@ public class DrugSupplierCatalogRest {
     }
 
     /**
+     * 查询全部(可模糊检索)
+     * @param orgId
+     * @return
+     */
+    @Path("findListWithFilter")
+    @GET
+    public List<DrugSupplierCatalog> findListWithFilter(@QueryParam("orgId") String orgId,@QueryParam("q") String q) {
+        return drugSupplierCatalogApi.findList(orgId,q);
+    }
+
+    /**
      * 查询厂商类别
      *
      * @param orgId

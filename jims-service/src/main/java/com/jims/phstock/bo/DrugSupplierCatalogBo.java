@@ -36,13 +36,12 @@ public class DrugSupplierCatalogBo extends CrudImplService<DrugSupplierCatalogDa
 
     /**
      * 查询全部
-     *
+     * @param q 拼音码、厂商名
      * @return
      * @author wei
      */
-
-    public List<DrugSupplierCatalog> findList(String orgId) {
-        return dao.findList(orgId);
+    public List<DrugSupplierCatalog> findList(String orgId, String q) {
+        return dao.findList(orgId,q);
     }
 
     /**

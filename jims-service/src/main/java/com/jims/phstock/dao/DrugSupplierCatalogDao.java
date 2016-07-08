@@ -3,6 +3,7 @@ package com.jims.phstock.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugSupplierCatalog;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,10 +27,11 @@ public interface DrugSupplierCatalogDao extends CrudDao<DrugSupplierCatalog> {
      * 查询全部数据
      *
      * @param orgId
+     * @param q 拼音码、厂商名
      * @return
      * @author wei
      */
-    public List<DrugSupplierCatalog> findList(String orgId);
+    public List<DrugSupplierCatalog> findList(@Param("orgId")String orgId,@Param("q")String q);
 
     /**
      * 根据拼音码查询所属组织机构的供应商和生产商
