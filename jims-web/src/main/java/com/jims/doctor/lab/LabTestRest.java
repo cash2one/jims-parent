@@ -158,8 +158,10 @@ public class LabTestRest {
      */
 
     @Path("zhenduan")
-    @POST
-    public List<EmrDiagnosis> zhenduan(EmrDiagnosis emrDiagnosis){
+    @GET
+    public List<EmrDiagnosis> zhenduan(@QueryParam("clinicId")String clinicId){
+        EmrDiagnosis emrDiagnosis = new EmrDiagnosis();
+        emrDiagnosis.setClinicId(clinicId);
         List<EmrDiagnosis> diagnosises = emrDiagnosisServiceApi.findAllDiagnosisForOne(emrDiagnosis);
         return diagnosises;
     }
