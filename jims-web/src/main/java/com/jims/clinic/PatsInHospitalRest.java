@@ -161,4 +161,75 @@ public class PatsInHospitalRest {
         return baseDto;
     }
 
+    /**
+     * @return java.util.List<com.jims.common.web.impl.BaseDto>    返回类型
+     * @throws
+     * @Title: cancelPatientlist
+     * @Description: (查询所有可被取消入科病人列表)
+     * @author CTQ
+     * @date 2016/7/7
+     */
+    @Path("cancelPatientlist")
+    @GET
+    public List<BaseDto> cancelPatientlist(){
+
+        String wardCode ="160101";
+        List<BaseDto> baseDto = patsInHospitalServiceApi.cacelPatientlist(wardCode);
+        return baseDto;
+    }
+    /**
+     * @param         comeDeptVo    传递参数
+     * @return com.jims.common.data.StringData    返回类型
+     * @throws
+     * @Title: cancelComeDept
+     * @Description: (确认取消病人入科)
+     * @author CTQ
+     * @date 2016/7/7
+     */
+    @Path("cancelComeDept")
+    @POST
+    public StringData cancelComeDept(ComeDeptVo comeDeptVo){
+
+        StringData stringData=new StringData();
+        try {
+            String data = patsInHospitalServiceApi.cancelComeDept(comeDeptVo);
+            stringData.setCode(data);
+            stringData.setData(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return stringData;
+    }
+
+    @Path("cancelLeavePatientlist")
+    @GET
+    public List<BaseDto> cancelLeavePatientlist(ComeDeptVo vo){
+
+        String wardCode ="160101";
+
+        List<BaseDto> baseDto = patsInHospitalServiceApi.cancelLeavePatientlist(vo);
+        return baseDto;
+    }
+    /**
+     * @param     comeDeptVo        传递参数
+     * @return com.jims.common.data.StringData    返回类型
+     * @throws
+     * @Title: cancelLeaveHosp
+     * @Description: (这里用一句话描述这个方法的作用)
+     * @author JIMS
+     * @date 2016/7/7
+     */
+    @Path("cancelLeaveHosp")
+    @POST
+    public StringData cancelLeaveHosp(ComeDeptVo comeDeptVo){
+        StringData stringData=new StringData();
+        try {
+            String data = patsInHospitalServiceApi.cancelLeaveHosp(comeDeptVo);
+            stringData.setCode(data);
+            stringData.setData(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return stringData;
+    }
 }

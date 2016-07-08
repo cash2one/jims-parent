@@ -1,4 +1,4 @@
-package com.jims.clinic;
+package com.jims.doctor.diagnosis;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.diagnosis.api.EmrDiagnosisServiceApi;

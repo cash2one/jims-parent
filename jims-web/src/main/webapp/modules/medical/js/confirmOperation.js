@@ -40,11 +40,9 @@ $(function(){
             {field:'first_assistant',title:'助手',width:'10%',align:'center'},
             {field:'blood_tran_doctor',title:'输血医师',width:'10%',align:'center'},
             {field:'remarks',title:'备注',width:'10%',align:'center'},
-            {field:'ackIndicator',hidden:"true"}
+            {field:'ack_indicator',hidden:"true"}
         ]],
-        frozenColumns:[[
-            {field:'ck',checkbox:true}
-        ]],
+
         toolbar: [{
 
             text: '确认',
@@ -55,10 +53,10 @@ $(function(){
         }
         ],
          rowStyler:function(index,row) {
-             if (row.ackIndicator!=null ) {
-                 if (row.ackIndicator == '0'|| row.ackIndicator == 0) {//未确认
+             if (row.ack_indicator!=null ) {
+                 if (row.ack_indicator == '0'|| row.ack_indicator == 0) {//未确认
                      return 'color:red;';
-                 } else if (row.ackIndicator == '1' || row.ackIndicator == 1) {//已确认
+                 } else if (row.ack_indicator == '1' || row.ack_indicator == 1) {//已确认
                      return 'color:blue;';
                  }
              }
@@ -75,19 +73,27 @@ $(p).pagination({
     displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
 });*/
 //手术安排确认
-function confirmOperation(){
-   var rows = $('#confirmOperation').datagrid("getSelections");
-    var tableJson=JSON.stringify(rows);
-    $.postJSON(basePath+'/operationConfirm/confirm',tableJson,function(data){
-        if(data.data=='success'){
-            $.messager.alert("提示消息","确认成功");
-            $('#confirmOperation').datagrid('load');
-        }else{
-            $.messager.alert('提示',"确认失败", "error");
+function confirmOperation() {
+    var rows = $('#confirmOperation').datagrid("getSelected");
+    $.ajax({
+        'type': 'POST',
+        'url': basePath + '/operationConfirm/confirm',
+        'contentType': 'application/json',
+        'data': id = rows.id,
+        'dataType': 'json',
+        'success': function (data) {
+            if (data.data == 'success') {
+                $.messager.alert("提示消息", "确认成功");
+                $('#confirmOperation').datagrid('load');
+            } else {
+                $.messager.alert('提示', "确认失败", "error");
+            }
+        },
+
+        'error': function (data) {
+            $.messager.alert('提示', "确认失败", "error");
         }
-    },function(data){
-        $.messager.alert('提示',"确认失败", "error");
-    })
+    });
 }
 
 

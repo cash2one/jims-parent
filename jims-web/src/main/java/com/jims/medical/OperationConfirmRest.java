@@ -7,10 +7,7 @@ import com.jims.operation.api.OperatioinOrderServiceApi;
 import com.jims.operation.entity.OperationSchedule;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -45,11 +42,13 @@ public class OperationConfirmRest {
      * @author pq
      * @return
      */
-    @GET
+    @POST
     @Path("confirm")
-    public StringData confirmOperation(List<OperationSchedule> operationScheduleList){
+    public StringData confirmOperation(String id){
+        OperationSchedule operationSchedule = new OperationSchedule();
+        operationSchedule.setId(id);
         StringData stringData = new StringData();
-        String code = operatioinOrderServiceApi.confrimOperation(operationScheduleList);
+        String code = operatioinOrderServiceApi.confrimOperation(operationSchedule);
         stringData.setCode(code);
         if(!"".equals(code)&&!"0".equals(code)){
             stringData.setData("success");

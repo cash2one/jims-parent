@@ -49,7 +49,7 @@ var getOffDays = function(startDate, endDate) {
     //得到时间戳相减 得到以毫秒为单位的差
 
     var mmSec = (endDate.getTime() - startDate.getTime());
-
+     alert(mmSec);
     //单位转换为天并返回
 
     return Math.round(mmSec / 3600000 / 24);
