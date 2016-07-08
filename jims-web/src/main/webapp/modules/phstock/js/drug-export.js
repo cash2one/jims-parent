@@ -8,12 +8,12 @@ $(function () {
         maxStock: {
             validator: function(value){
                 var row = $('#dg').datagrid('getSelected')
-                if(+value > +row.currentStock) {
+                if(isNaN(value) || +value < 1 || +value > +row.currentStock) {
                     return false
                 }
                 return true
             },
-            message: '数量不能大于库存量！'
+            message: '数量必须在1和当前结存之间！'
         },
         hasSelected: {
             validator: function(value){
@@ -72,7 +72,6 @@ $(function () {
         ,currentStorage = parent.config.currentStorage  // 当前登录人所属管理单位
         ,currentUsername = '录入者'   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账
-        ,drugDicts = []  // 检索的药品字典数据
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
     /**
@@ -181,7 +180,8 @@ $(function () {
             exportRow.supplier = drugStock['supplier']
             exportRow.retailPrice = drugStock['retail_price']
             exportRow.tradePrice = drugStock['trade_price']
-            exportRow.price = drugStock['retail_price']
+            exportRow.price = $('#statisticClass').combobox('getValue') == '退药出库' ?
+                drugStock['trade_price'] : drugStock['retail_price'];
             exportRow.packageSpec = drugStock['package_spec']
             exportRow.packageUnits = drugStock['package_units']
             exportRow.subPackage1 = drugStock['sub_package_1']
@@ -193,7 +193,11 @@ $(function () {
             exportRow.purchasePrice = drugStock['purchase_price']
             exportRow.currentStock = drugStock['quantity']
             exportRow.drugStockId = drugStock['id']
-            $('#dg').datagrid('endEdit', currentSelectIndex)
+            if(!isNaN(exportRow.quantity) && +exportRow.quantity > +exportRow.currentStock){
+                onClickCell(currentSelectIndex,'quantity')
+            } else {
+                $('#dg').datagrid('endEdit', currentSelectIndex)
+            }
             _tempFlag = true
         }
         if (drugStocks.length == 1) {
@@ -254,7 +258,7 @@ $(function () {
         var editor = $('#dg').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
         if(editor){
             var rows = $(editor.target).combogrid('grid').datagrid('getRows');
-            if(rows.length > 0){
+            if(rows.length > 0 && $(editor.target).combogrid('getValue')){
                 if(!$(editor.target).combogrid('grid').datagrid('getSelected')){
                     //$(editor.target).combogrid('grid').datagrid('selectRow',0)
                 }
@@ -277,15 +281,18 @@ $(function () {
      */
     var onClickCell = function (index, field) {
         if (endEditing()) {
-            if (index == $('#dg').datagrid('getRows').length - 1) {
+            currentSelectIndex = index;
+            if (index == $('#dg').datagrid('getRows').length - 1 ||
+                (field == 'price' && $('#statisticClass').combobox('getValue') != '退药出库')) {
                 return
             }
             $('#dg').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
-            currentSelectIndex = index;
             if(field == 'drugName'){
-                var editor = $('#dg').datagrid('getEditor',{index:index,field:field})
-                $(editor.target).combogrid('grid').datagrid('loadData',drugDicts)
+                var editor = $('#dg').datagrid('getEditor',{index:index,field:field});
+                $(editor.target).combogrid('grid').datagrid({
+                    url:'/service/drug-stock/findListHasStock?limit=50&orgId='+currentOrgId+'&supplyIndicator=1&storage='+currentStorage+'&subStorage='+$('#stockSubDept').combobox('getValue')
+                })
             }
         }
     }
@@ -300,9 +307,7 @@ $(function () {
     }
 
     var save = function (mod) {
-        if (currentSelectIndex != undefined) {
-            $("#dg").datagrid("endEdit", currentSelectIndex);
-        }
+        if (!endEditing()) return false;
         var rows = $('#dg').datagrid('getRows')
         if(rows.length > 0){
             for(var i=0;i<rows.length - 1 ;i++){
@@ -313,6 +318,7 @@ $(function () {
             if(!currentSubStorageDeptId) return
             for(var i=0;i<rows.length - 1 ;i++){
                 rows[i].itemNo = i + 1
+                rows[i].purchasePrice = rows[i].price
                 delete rows[i].price
                 delete rows[i].outPrice
                 delete rows[i].supplier
@@ -416,7 +422,6 @@ $(function () {
                     required: true,
                     missingMessage: '药名不能为空',
                     fitColumns: true,
-                    url:'/service/drug-stock/findListHasStock?limit=50&orgId='+currentOrgId+'&supplyIndicator=1',
                     method:'get',
                     mode:'remote',
                     columns: [[
@@ -447,7 +452,7 @@ $(function () {
             editor: {
                 type: 'numberbox', options: {
                     required: true,
-                    min : 1,
+                    min : 0,
                     validType : ['maxStock']
                 }
             }
@@ -455,7 +460,14 @@ $(function () {
             title: "单价",
             field: "price",
             width: 70,
-            align: 'center'
+            align: 'center',
+            editor: {
+                type: 'numberbox', options: {
+                    required: true,
+                    min : 0,
+                    precision:2
+                }
+            }
         }, {
             title: "批发价",
             field: "tradePrice",
@@ -533,31 +545,38 @@ $(function () {
                     disabled:true,
                     value: '*'
                 });
-                $.get('/service/drug-supplier-catalog/list',{orgId:currentOrgId},function(res){
-                    $('#storageDept').combobox({
-                        valueField : 'id',
-                        textField : 'supplier',
-                        data : res
-                    })
-                    $('#storageDept').combobox('addBlurListener')
+                $('#storageDept').combobox({
+                    valueField : 'id',
+                    textField : 'supplierId',
+                    url: '/service/drug-supplier-catalog/findListWithFilter?orgId='+currentOrgId,
+                    method:'get',
+                    mode:'remote',
+                    onSelect: function(){
+                        $("#dg").datagrid('loadData',[])
+                    }
                 })
+                $('#storageDept').combobox('addBlurListener')
             } else {
                 $("#subStorageDept").combobox('loadData',[])
                 $("#subStorageDept").combobox({
                     disabled: false,
-                    value: ''
+                    value: '',
+                    onSelect: function(){
+                        $("#dg").datagrid('loadData',[])
+                    }
                 })
-                $.get('/service/drug-storage-dept/list',{orgId:currentOrgId,storageType:(record['storageType'] == '全部'?'':record['storageType'])},function(res){
-                    $('#storageDept').combobox({
-                        valueField : 'storageCode',
-                        textField : 'storageName',
-                        data : res,
-                        onSelect : function(r){
-                            loadSubDept('subStorageDept',currentOrgId,r['storageCode'])
-                        }
-                    })
-                    $('#storageDept').combobox('addBlurListener')
+                $('#storageDept').combobox({
+                    valueField : 'storageCode',
+                    textField : 'storageName',
+                    url: '/service/drug-storage-dept/list?orgId='+currentOrgId+'&storageType=' + (record['storageType'] == '全部'?'':record['storageType']),
+                    method:'get',
+                    mode:'remote',
+                    onSelect : function(r){
+                        $("#dg").datagrid('loadData',[])
+                        loadSubDept('subStorageDept',currentOrgId,r['storageCode'])
+                    }
                 })
+                $('#storageDept').combobox('addBlurListener')
             }
 
         }
@@ -589,7 +608,19 @@ $(function () {
     })
 
     $('#newBtn').on('click',function(){
-        $('#dg').datagrid('loadData',[])
+        $('#dg').datagrid('loadData',[]);
+        $('#statisticClass').combobox('clear')
+        $('#calendar').datebox('setValue',parent.formatDatebox(new Date()))
+        $('#storageDept').combobox('clear')
+        $('#storageDept').combobox('loadData',[])
+        $('#stockSubDept').combobox('clear')
+        $('#subStorageDept').combobox('clear')
+        $('#subStorageDept').combobox('loadData',[])
+        $('#accountReceivable').numberbox('setValue',0)
+        $('#accountPayed').numberbox('setValue',0)
+        $('#additionalFee').numberbox('setValue',0)
+        $('#memos').textbox('clear')
+        $('#documentNo').textbox('clear')
     })
     $("#addBtn").on('click', function () {
         if(!$('#statisticClass').combobox('getValue')){
@@ -630,6 +661,9 @@ $(function () {
         if (currentSelectIndex != undefined) {
             if(currentSelectIndex == $('#dg').datagrid('getRows').length - 1) return
             $("#dg").datagrid('deleteRow', currentSelectIndex);
+            if($("#dg").datagrid('getRows').length == 1){
+                $("#dg").datagrid('deleteRow', 0);
+            }
             currentSelectIndex = undefined
             //更新出库金额合计与应收款数据
             var newRows = $("#dg").datagrid('getRows');

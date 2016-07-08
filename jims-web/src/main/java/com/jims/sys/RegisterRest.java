@@ -9,10 +9,7 @@ import com.jims.sys.entity.SysUser;
 import com.jims.sys.vo.RegisterVo;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
@@ -63,90 +60,62 @@ public class RegisterRest {
     /**
      * 校验身份证号是否存在
      *
-     * @param registerVo
+     * @param
      * @return
      */
-    @POST
+    @GET
     @Path("getCard")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public StringData selectCard(RegisterVo registerVo) {
+    public PersionInfo selectCard(@QueryParam("cardNo") String cardNo,@QueryParam("persionId") String persionId) {
 
         PersionInfo persionInfo = new PersionInfo();
-        persionInfo.setCardNo(registerVo.getCardNo());
-        PersionInfo persionInfo1 = persionInfoApi.getCard(persionInfo);
-        if (persionInfo1 != null) {
-            StringData stringData = new StringData();
-            stringData.setData("success");
-            return stringData;
-        }
-        return null;
-
+        persionInfo.setCardNo(cardNo);
+        persionInfo.setId(persionId);
+        return persionInfoApi.getCard(persionInfo);
     }
 
     /**
      * 检验用户名是否存在
-     * @param registerVo
+     * @param
      * @return
      */
 
-    @POST
+    @GET
     @Path("getNick")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public StringData selectNick(RegisterVo registerVo) {
+    public PersionInfo selectNick(@QueryParam("nickName") String nickName,@QueryParam("persionId") String persionId) {
 
         PersionInfo persionInfo = new PersionInfo();
-        persionInfo.setNickName(registerVo.getNickName());
-        PersionInfo persionInfo1 = persionInfoApi.getNick(persionInfo);
-        if (persionInfo1 != null) {
-            StringData stringData = new StringData();
-            stringData.setData("success");
-            return stringData;
-        }
-        return null;
-
+        persionInfo.setNickName(nickName);
+        persionInfo.setId(persionId);
+        return persionInfoApi.getNick(persionInfo);
     }
 
     /**
      * 检验邮箱是否存在
-     * @param registerVo
+     * @param
      * @return
      */
-    @POST
+    @GET
     @Path("getEmail")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public StringData selectEmail(RegisterVo registerVo) {
+    public PersionInfo selectEmail(@QueryParam("email") String email,@QueryParam("persionId") String persionId) {
 
         PersionInfo persionInfo = new PersionInfo();
-        persionInfo.setEmail(registerVo.getEmail());
-        PersionInfo persionInfo1 = persionInfoApi.getEmail(persionInfo);
-        if (persionInfo1 != null) {
-            StringData stringData = new StringData();
-            stringData.setData("success");
-            return stringData;
-        }
-        return null;
+        persionInfo.setEmail(email);
+        persionInfo.setId(persionId);
+        return persionInfoApi.getEmail(persionInfo);
     }
 
     /**
      * 检验手机号是否存在
-     * @param registerVo
+     * @param
      * @return
      */
-    @POST
+    @GET
     @Path("getPhone")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public StringData selectPhone(RegisterVo registerVo) {
+    public PersionInfo selectPhone(@QueryParam("phoneNum") String phoneNum,@QueryParam("persionId") String persionId) {
 
         PersionInfo persionInfo = new PersionInfo();
-        persionInfo.setPhoneNum(registerVo.getPhoneNum());
-        PersionInfo persionInfo1 = persionInfoApi.getPhone(persionInfo);
-        if(persionInfo1!=null)
-        {
-            StringData stringData = new StringData();
-            stringData.setData("success");
-            return stringData;
-        }
-           return null;
+        persionInfo.setPhoneNum(phoneNum);
+        return persionInfoApi.getPhone(persionInfo);
     }
 
 }

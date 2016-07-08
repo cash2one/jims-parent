@@ -5,6 +5,7 @@
  */
 
 $(function () {
+    var ue = UE.getEditor('editor1');
     var editIndex = undefined;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -143,8 +144,8 @@ $(function () {
      */
     $("#serviceDialog").dialog({
         title: '基础服务增加',
-        width: 1000,
-        height: 350,
+        width: 600,
+        height: 500,
         closed:true
 
     });
@@ -183,7 +184,7 @@ $(function () {
         flag = 0;
         var row = $("#serviceDg").datagrid("getSelected");
         if(!row){
-            $.messager.alert("提示","请选择一个服务",'info');
+            $.messager.alert("提示","请选择一个服务",'error');
             return;
         }
         $("#id").textbox("setValue",row.id);
@@ -191,7 +192,10 @@ $(function () {
         $("#serviceType").combobox("setValue",row.serviceType);
         $("#serviceClass").combobox("setValue",row.serviceClass);
         //service.serviceImage = $("#serviceImage").filebox("setValue",row.serviceImage);
-        $("#serviceDescription").val(row.serviceDescription);
+//        $("#serviceDescription").val(row.serviceDescription);//version 1.1
+        if(row.serviceDescription!=null){
+            ue.setContent(row.serviceDescription);
+        }
         $("#serviceDialog").dialog("open");
 
     });
@@ -246,7 +250,7 @@ $(function () {
         var tipMsg = "您的浏览器暂不支持计算上传文件的大小，确保上传文件不要超过2M，建议使用IE、FireFox、Chrome浏览器。";
         var  browserCfg = {};
         var ua = window.navigator.userAgent;
-        console.log(ua);
+//        console.log(ua);
         if (ua.indexOf("MSIE")>=1){
             browserCfg.ie = true;
         }else if(ua.indexOf("Firefox")>=1){
@@ -300,11 +304,17 @@ $(function () {
             alert(errMsg);
             return;
         }
+        var serviceDescription=ue.getPlainTxt();
+        if(serviceDescription!=null){
+            $("#serviceDescription").text(serviceDescription);
+        }else{
+            $.messager.alert("请输入服务描述！");
+            return;
+        }
 
         var oData = new FormData(document.getElementById("serviceForm"));
-        console.log(oData);
         $.ajax({
-            url: basePath + "/sys-service/save" ,
+            url: basePath + "/sys-service/save?serviceDescription="+$("#serviceDescription").text() ,
             type: 'POST',
             data:  oData,
             async: false,
@@ -739,6 +749,7 @@ $(function () {
         $("#serviceClass").combobox("setValue","");
         $("#serviceImage").val("");
         $("#serviceDescription").val("");
+        ue.setContent("");
     };
 
     loadDict();

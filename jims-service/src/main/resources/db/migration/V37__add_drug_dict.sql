@@ -77,5 +77,5 @@ alter table DRUG_DICT
 grant select on DRUG_DICT to PUBLIC;*/
 -- Create/Recreate primary, unique and foreign key constraints
 alter table DRUG_DICT
-  add constraint PK_DRUG_DICT_UK unique (DRUG_CODE, DRUG_SPEC, DRUG_INDICATOR);
+  add constraint PK_DRUG_DICT_UK unique (DRUG_CODE, DRUG_SPEC, DRUG_INDICATOR ,units);
 
