@@ -8,42 +8,15 @@ $(function () {
          * 保存之后，或是由个人服务(default.html)页点击某一未审核机构进入本页面，则flag='1'，直接进入审核等待状态，前三步不可操作；
          */
         var flag = '0';
-        if (pos_end == -1) {
-            persion_id = str.substring(11);
-        }else{
+        if(str.indexOf("persionId=")>=0){//点击某一个未通过审核的服务跳转到本页 或者 注册
+            persion_id = str.substring(str.indexOf("persionId=")+10);
+        }else if(str.indexOf("persion_id=")>=0){
             persion_id = str.substring(str.indexOf("persion_id=")+11);
+        }
+        if(str.indexOf("flag=")>=0){//点击某一个未通过审核的服务跳转到本页
             flag = str.substr(str.indexOf("flag=")+5,1);
         }
     }
-
-    //var currentOrgId = '1';
-    var currentPersonId = persion_id;
-    var company = {};
-    //查询父机构
-    jQuery.ajax({
-        'type': 'post',
-        'url': "/service/sys-company/select",
-        'contentType': 'application/json',
-        'dataType': 'json',
-        'success': function (data) {
-            if (data.length > 0) {
-                for (var i = 0; i <= data.length; i++) {
-                    var orgName = data[i].orgName;
-                    $("#parentId").append("<option value='" + data[i].id + "'>" + orgName + "</option>");
-                }
-            }
-            if(data.length==1)
-            {
-                var orgName = data.orgName;
-                $("#parentId").append("<option value='" + data.id + "'>" + orgName + "</option>");
-            }
-
-
-        },
-        'error': function (data) {
-            alert("系统提示", "保存失败");
-        }
-    });
 
     if(flag=='1'){
         $('#addServiceModel3')[0].style.display="inline-block";
@@ -54,6 +27,34 @@ $(function () {
         $('#nextBut2').attr("class","done");
         $('#nextBut3').attr("class","done");
         $('#nextBut4').attr("class","go-on");
+    }
+    //var currentOrgId = '1';
+    var currentPersonId = persion_id;
+    var company = {};
+    //查询父机构
+    if(flag=='0'&&(persion_id!=null||persion_id!='')){
+        jQuery.ajax({
+            'type': 'get',
+            'url': "/service/sys-company/select?persionId="+persion_id,
+            'contentType': 'application/json',
+            'dataType': 'json',
+            'success': function (data) {
+                if (data.length > 0) {
+                    for (var i = 0; i <= data.length; i++) {
+                        var orgName = data[i].orgName;
+                        $("#parentId").append("<option value='" + data[i].id + "'>" + orgName + "</option>");
+                    }
+                }
+                if(data.length==1)
+                {
+                    var orgName = data.orgName;
+                    $("#parentId").append("<option value='" + data.id + "'>" + orgName + "</option>");
+                }
+            },
+            'error': function (data) {
+                alert("系统提示", "查询上级机构失败");
+            }
+        });
     }
 
     //校验组织机构名称是否存在
@@ -319,6 +320,12 @@ $(function () {
     $.get('/service/sys-service/findServiceWithPrice',{serviceClass:'0',serviceType:'1'},function(res){
         dataArr = res
     })
+    $("#setCompany").on('click', function () {
+        window.location.href = "/modules/sys/company.html?persionId="+persion_id;
+    });
+    $("#default").on('click', function () {
+        window.location.href = "/modules/sys/default.html?persionId="+persion_id;
+    });
     if(company) {
         $("#nextBtn0").on('click', function () {
             if(!validForm()) return false
