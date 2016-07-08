@@ -270,7 +270,7 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
         int num=0;
         if(orders!=null){
             List<Orders> ordersSub= ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(), orders.getOrderNo());
-            if(ordersSub!=null){
+            if(ordersSub!=null && ordersSub.size()>0){
                 for(int i=0;i<ordersSub.size();i++){
                     Orders orders1=ordersSub.get(i);
                     ordersDao.delete(orders1);
@@ -314,7 +314,7 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
      * @return
      */
     public  List<Orders> getSubOrders(Orders orders){
-        return ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(), orders.getOrderNo());
+        return ordersDao.getSubOrders(orders.getPatientId(), orders.getVisitId(),orders.getOrderNo());
     }
 
     /**
