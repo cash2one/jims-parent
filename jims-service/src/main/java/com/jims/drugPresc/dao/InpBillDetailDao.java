@@ -1,6 +1,7 @@
 package com.jims.drugPresc.dao;
 
 
+import com.jims.clinic.dto.InpBillDetailDto;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.drugPresc.entity.InpBillDetail;
@@ -21,6 +22,14 @@ public interface InpBillDetailDao extends CrudDao<InpBillDetail> {
      * @author pq
      */
     public Integer getMaxItemNo(@Param("patientId")String patientId,@Param("visitId")String visitId);
+
+    /**
+     * 病案首页 费用查询
+     * @param patientId
+     * @return
+     * @author zhaoning
+     */
+    public InpBillDetailDto getInpDetail(String patientId);
 
 	
 }

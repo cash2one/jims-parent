@@ -304,4 +304,10 @@
 			visit_id=#{visitId}
 		</if>
 	</select>
+	<select id="getListDiagnosis" resultType="EmrDiagnosis">
+		SELECT
+		<include refid="DiagnosisColumns"/>
+		FROM emr_diagnosis a
+		WHERE a.patient_id=#{patientId}
+	</select>
 </mapper>

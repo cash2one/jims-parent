@@ -4,221 +4,18 @@
 	<meta charset="UTF-8">
 	<title>病案首页</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/medicalRecord.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="../clinic/js/medicalRecord.js"></script>
+    <script type="text/javascript" src="/static/data/data_nation_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_profession.js"></script>
+    <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_nationality.js"></script>
+    <script type="text/javascript" src="/static/data/data_relationship.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
     <style>
-        /**展开收缩-病案首页**/
-        .showstyle
-        {
-            position:relative;
-            padding-left:5px;
-            line-height:30px;
-            border:1px solid #eee;
-            background: #ffffff; /* Old browsers */
-            /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-            background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee)); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 ); /* IE6-8 */
-        }
-        .showstyle a
-        {
-            padding-left:20px;
-            display:block;
-        }
-        #showtext,#showtext1,#showtext2,#showtext3 ,#showtext4,#showtext5,#showtext6
-        {
-            cursor:pointer;
-            background:url(../images/showicon.png) no-repeat 0 center;
-            padding-left:15px;
-        }
-        #contentid,#contentid1,#contentid2 ,#contentid3,#contentid4,#contentid5,#contentid6
-        {
-            margin-top: 5px;
-            margin-bottom: 5px;
 
-        }
-        .none
-        {
-            display: block;
-        }
-        .baset-topbtn
-        {
-            position:absolute;
-            top:-1px;
-            right:10px;
-        }
-        .babtn
-        {
-            padding:0 7px;
-            line-height:23px;
-            color:#fff;
-        }
-        .babtn-save
-        {
-            border:1px solid #f3c200;
-            background: #ffc600; /* Old browsers */
-            /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-            background: -moz-linear-gradient(top,  #ffc600 0%, #ff9c00 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffc600), color-stop(100%,#ff9c00)); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  #ffc600 0%,#ff9c00 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  #ffc600 0%,#ff9c00 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  #ffc600 0%,#ff9c00 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  #ffc600 0%,#ff9c00 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffc600', endColorstr='#ff9c00',GradientType=0 ); /* IE6-8 */
-        }
-        span.inpborder
-        {
-            width:100%;
-            display:inline-block;
-        }
-
-        /**展开收缩-病案首页结束**/
-        .padding20-top{
-            padding-top: 20px;
-        }
-        .inpborder{
-            border-bottom:1px solid #333;
-            border-top:none;
-            border-left:none;
-            border-right:none;
-            box-shadow:none;
-            border-radius:0px;
-            margin-top:5px;
-        }
-        .page-allinfo
-        {
-            border:none;
-            width:98%;
-            margin:0 auto 10px auto;
-
-        }
-        .page-allinfo-line
-        {
-            padding:0;
-            height:40px;
-        }
-        .page-allinfo-line > span
-        {
-            padding:5px 10px;
-            display:inline-block;
-            height:40px;
-            line-height:40px;
-        }
-        .page-allinfo-line > span.no-border
-        {
-            border:none;
-        }
-        .ba-ind-tile
-        {
-            position:relative;
-            top:-22px;
-            font-size:22px;
-            margin:0px;
-            padding:0px;
-            text-align:center;
-        }
-        input[].inpborder,span.inpborder
-        {
-            border-bottom:1px solid #333;
-            border-top:none;
-            border-left:none;
-            border-right:none;
-            box-shadow:none;
-            border-radius:0px;
-            margin-top:5px;
-
-        }
-        span.inpborder
-        {
-            width:100%;
-            display:inline-block;
-        }
-        .baind-tab tr td.tablast-td
-        {
-            border-top:1px solid #333;
-            height:80px;
-        }
-        .baind-tab
-        {
-            padding:0 5px;
-        }
-        .baind-tab tr td
-        {
-            height:40px;
-        }
-        .baind-tab tr td:nth-child(2n+1)
-        {
-
-            text-align:right;
-        }
-        .baind-tab-mon tr td:first-child,.tys-tabstyle tr td.tl-padd
-        {
-            text-align:left;
-            padding-left:10px;
-        }
-        .botwid
-        {
-            width:80%;
-            margin:0 auto;
-        }
-        .sel-num
-        {
-            border:1px solid #333;
-            padding:2px 7px;
-        }
-        .tys-tabstyle tr td.borr-none
-        {
-            border-right:none;
-        }
-        .width_14
-        {
-            width:180px;
-        }
-        .width_12
-        {
-            width:150px;
-        }
-        .width_7
-        {
-            width:120px;
-        }
-        .width_5
-        {
-            width:90px;
-        }
-        .width_4
-        {
-            width:80px;
-        }
-        .width_3
-        {
-            width:70px;
-        }
-        .width_2
-        {
-            width:60px;
-        }
-        .width_lasttd
-        {
-            width:10px;
-        }
-        .width_30
-        {
-            width:30%;
-        }
-        .text-right
-        {
-            text-align:right;
-        }
-        .text-left
-        {
-            text-align:left;
-        }
     </style>
     <script>
 
@@ -244,24 +41,26 @@
 <div>
     <div class="showstyle">
         <a id="showtext" onclick="showdiv_a('contentid','showtext')">基本信息</a>
-        <div class="baset-topbtn">
-            <button class="babtn babtn-save">保存</button>
-        </div>
+       <!-- <div class="baset-topbtn">
+            <button class="babtn babtn-save" onclick="baseInfo();">保存</button>
+        </div>-->
     </div>
     <div class="none" id="contentid">
         <div class="page-allinfo">
         <div class="clearfix padding10" style="width:auto;">
+            <form id="baseInfo">
+                <input type="hidden" name="id" id="baseInfoId">
             <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                 <tr>
                     <td class="width_7">姓名：</td>
-                    <td><span ><input  class="validatebox-text inpborder" name="name" style="width:180px;"></span></td>
+                    <td><span ><input  class="easyui-validatebox inpborder" name="name" style="width:180px;"></span></td>
                     <td class="width_4">性别：</td>
                     <Td >
-                        <input  class="validatebox-text inpborder" name="sex" id="sexId" style="width:150px;"></td>
+                        <input  class="easyui-validatebox inpborder" name="sex" id="sexId" style="width:150px;"></td>
                     <Td class="width_4">年龄：</td>
-                    <td><span ><input  class="validatebox-text inpborder" name="age"></span></td>
+                    <td><span ><input  class="easyui-validatebox inpborder" name="age"></span></td>
                     <td class="width_4">出生日期：</td>
-                    <td><span ><input  class="validatebox-text inpborder" name="birthdayDate"></span></td>
+                    <td><span ><input  class="easyui-datebox inpborder" name="dateOfBirth"></span></td>
 
                     <td class="width_lasttd"></td>
                 </tr>
@@ -269,11 +68,11 @@
            <!-- <table cellspacing="0" cellpadding="0" border="0" width="98%" class="baind-tab">
                 <tr>
                     <td class="width_7" align="center">（年龄不足1周岁的）年龄：</td>
-                    <td><span><input  class="validatebox-text inpborder"/></span></td>
+                    <td><span><input  class="easyui-validatebox inpborder"/></span></td>
                     <td class="width_6">新生儿出生体重：</td>
-                    <td><span><input  class="validatebox-text inpborder" style="width:40px"/>克</span></td>
+                    <td><span><input  class="easyui-validatebox inpborder" style="width:40px"/>克</span></td>
                     <td class="width_6">新生儿入院体重：</td>
-                    <td><span><input  class="validatebox-text inpborder" style="width:40px"/>克</span></td>
+                    <td><span><input  class="easyui-validatebox inpborder" style="width:40px"/>克</span></td>
                     <td class="width_lasttd"></td>
                 </tr>
             </table>-->
@@ -281,15 +80,15 @@
                 <tr>
 
                     <td class="width_7">籍贯：</td>
-                    <td><span  ><input  name="nativePlace" class="validatebox-text inpborder" style="width:180px;"/></span></td>
+                    <td><span  ><input  name="nativePlace" class="easyui-validatebox inpborder" style="width:180px;"/></span></td>
 
                     <td class="width_4">民族：</td>
-                    <td><span ><input  name="nation" id="nation" class="validatebox-text inpborder" /></span></td>
+                    <td><span ><input  name="nation" id="nation" class="easyui-combobox inpborder" id="nation"/></span></td>
                     <td class="width_4" >职业：</td>
-                    <td><span  ><input  name="occupation"  id="occupation" class="validatebox-text inpborder" /></span></td>
+                    <td><span  ><input  name="occupation"  id="occupation" class="easyui-combobox inpborder" /></span></td>
                     <td class="width_4" >婚姻：</td>
                     <td><span>
-                        <input  name="maritalStatus"  id="maritalStatus" class="validatebox-text inpborder" />
+                        <input  name="maritalStatus"  id="maritalStatus" class="easyui-combobox inpborder" />
 										</span>
                     </td>
                     <td class="width_lasttd"></td>
@@ -298,91 +97,90 @@
             <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                 <tr>
                     <td class="width_7">出生地：</td>
-                    <td><span ><input  name="birthPlace" class="validatebox-text inpborder"style="width:180px;" /></span></td>
+                    <td><span ><input  name="birthPlace" class="easyui-validatebox inpborder"style="width:180px;" /></span></td>
                     <td class="width_4">身份证号：</td>
-                    <td><span><input  name="idNo"  class="validatebox-text inpborder" style="width:150px"/></span></td>
+                    <td><span><input  name="idNo"  class="easyui-validatebox inpborder" style="width:150px"/></span></td>
                     <td class="width_4">户口地址：</td>
-                    <td><span><input  class="validatebox-text inpborder" name="mailingAddress"></span></td>
+                    <td><span><input  class="easyui-validatebox inpborder" name="mailingAddress"></span></td>
                     <td class="width_4">邮政编码：</td>
-                    <td><span><input  class="validatebox-text inpborder" name="zipCode"></span></td>
+                    <td><span><input  class="easyui-validatebox inpborder" name="zipCode"></span></td>
                     <td class="width_lasttd"></td>
                 </tr>
             </table>
             <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                 <tr>
                     <td class="width_7">工作单位及地址：</td>
-                    <td><span  ><input  class="validatebox-text inpborder" name="zipCode" style="width:180px;"></span></td>
+                    <td><span  ><input  class="easyui-validatebox inpborder" name="zipCode" style="width:180px;"></span></td>
                     <td class="width_4">单位电话：</td>
-                    <td><span  style="width: 200px;"><input  name="phoneNumberBusiness" class="validatebox-text inpborder"></span></td>
+                    <td><span  style="width: 200px;"><input  name="phoneNumberBusiness" class="easyui-validatebox inpborder"></span></td>
                     <td class="width_4">邮政编码：</td>
-                    <td><input  name="phoneNumberBusiness" class="validatebox-text inpborder"></span></td>
+                    <td><input  name="phoneNumberBusiness" class="easyui-validatebox inpborder"></span></td>
                     <td class="width_4"> 国籍：</td>
-                    <td><span style="width:100px;"><input  name="businessZipCode" class="validatebox-text inpborder"></span></td>
+                    <td><span style="width:100px;"><input  name="citizenship" id="citizenship" class="easyui-combobox inpborder"></span></td>
                     <td class="width_lasttd"></td>
                 </tr>
             </table>
             <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                 <tr>
                     <td class="width_7">联系人姓名：</td>
-                    <td><span ><input  name="nextOfKin" class="validatebox-text inpborder" style="width:180px;"></span></td>
+                    <td><span ><input  name="nextOfKin" class="easyui-validatebox inpborder" style="width:180px;"></span></td>
                     <td class="width_4">关系：</td>
-                    <td><span  style="width: 100px"><input  name="relationship" id="relationship" class="validatebox-text inpborder"></span></td>
+                    <td><span  style="width: 100px"><input  name="relationship" id="relationship" class="easyui-combobox inpborder"></span></td>
                     <td class="width_4">地址：</td>
-                    <td><span  style="width:220px;"><input  name="nextOfKinAddr" class="validatebox-text inpborder"></span></td>
+                    <td><span  style="width:220px;"><input  name="nextOfKinAddr" class="easyui-validatebox inpborder"></span></td>
                     <td class="width_4">电话：</td>
-                    <td><span  style="width: 120px"><input  name="nextOfKinPhone" class="validatebox-text inpborder"></span></td>
+                    <td><span  style="width: 120px"><input  name="nextOfKinPhone" class="easyui-validatebox inpborder"></span></td>
                     <td class="width_lasttd"></td>
                 </tr>
             </table>
+            </form>
         </div>
             </div>
     </div>
     <div class="showstyle">
         <a id="showtext1" onclick="showdiv_a('contentid1','showtext1')">入(出)院信息</a>
-        <div class="baset-topbtn">
+      <!--  <div class="baset-topbtn">
             <button class="babtn babtn-save">保存</button>
-        </div>
+        </div>-->
     </div>
     <div class="none" id="contentid1">
         <div class="page-allinfo">
             <div class="clearfix padding10" style="width:auto;">
-            <form id="fm" method="post">
-
-
+            <form id="inHosInfo" method="post">
                 <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                     <tr>
                         <td class="width_4">入院途径：</td>
-                        <td><span><input  name="patientClass" id="patientClass" class="validatebox-text inpborder"></span></td>
+                        <td><span><input  name="patientClass" id="patientClass" class="easyui-combobox inpborder"></span></td>
                         <td class="width_4">入院时间：</td>
-                        <td><span ><input  name="admissionDateTime" class="validatebox-text inpborder"></span></td>
+                        <td><span ><input  name="admissionDateTime" class="easyui-datebox inpborder"></span></td>
                         <td class="width_4">入院科别：</td>
-                        <td><span style="width:100px;"><input  name="deptAdmissionTo" class="validatebox-text inpborder"></span></td>
+                        <td><span style="width:100px;"><input  name="deptAdmissionTo" id="dept" class="easyui-combobox inpborder"></span></td>
                         <td class="width_2">病房：</td>
-                        <td><span style="width:100px"><input  class="validatebox-text inpborder"></span></td>
+                        <td><span style="width:100px"><input name="adtRoomNo" class="easyui-validatebox inpborder"></span></td>
                         <td class="width_4">转科科别：</td>
-                        <td><span  style="width: 100px"><input  class="validatebox-text inpborder"></span></td>
+                        <td><span  style="width: 100px"><input  class="easyui-validatebox inpborder"></span></td>
                         <td class="width_lasttd"></td>
                     </tr>
                 </table>
                 <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                     <tr>
                         <td class="width_4">出院时间：</td>
-                        <td><span  style="width:200px"><input  name="dischargeDateTime" class="validatebox-text inpborder"></span></td>
+                        <td><span  style="width:200px"><input  name="dischargeDateTime" class="easyui-datebox inpborder"></span></td>
                         <td class="width_4">出院科别：</td>
-                        <td><span style="width:100px"><input  name="deptDischargeFrom" class="validatebox-text inpborder"></span></td>
+                        <td><span style="width:100px"><input  name="deptDischargeFrom" id="deptDisFrom" class="easyui-combobox inpborder"></span></td>
                         <td class="width_2">病房：</td>
-                        <td><span  style="width:100px"><input  class="validatebox-text inpborder"></span></td>
+                        <td><span  style="width:100px"><input name="ddtRoomNo" class="easyui-validatebox inpborder"></span></td>
                         <td class="width_4">实际住院：</td>
-                        <td><span><input  class="validatebox-text inpborder" />天</span></td>
+                        <td><span><input  class="easyui-validatebox inpborder" />天</span></td>
                         <td class="width_lasttd"></td>
                     </tr>
                 </table>
                 <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                     <tr>
                         <td class="width_5">门(急)诊诊断：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name=""></span></td>
                         <td class="width_4">疾病编码：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder"></span></td>
                         <td class="width_lasttd"></td>
                     </tr>
                 </table>
@@ -392,9 +190,9 @@
     </div>
     <div class="showstyle">
         <a id="diagnosis" onclick="showdiv_a('diagnosisInfo','diagnosis')">诊断</a>
-        <div class="baset-topbtn">
+      <!--  <div class="baset-topbtn">
             <button class="babtn babtn-save">保存</button>
-        </div>
+        </div>-->
     </div>
     <div class="none" id="diagnosisInfo">
         <div class="page-allinfo">
@@ -458,9 +256,9 @@
     </div>
     <div class="showstyle">
         <a id="operation" onclick="showdiv_a('operationInfo','operation')">手术</a>
-        <div class="baset-topbtn">
+    <!--    <div class="baset-topbtn">
             <button class="babtn babtn-save">保存</button>
-        </div>
+        </div>-->
     </div>
     <div class="none" id="operationInfo">
         <div class="page-allinfo">
@@ -542,181 +340,186 @@
    <div class="showstyle">
        <a id="otherInfo" onclick="showdiv_a('other','otherInfo')">其他信息</a>
        <div class="baset-topbtn">
-           <button class="babtn babtn-save">保存</button>
+           <button class="babtn babtn-save" onclick="saveOtherInfo()">保存</button>
        </div>
    </div>
     <div class="none" id="other">
         <div class="page-allinfo">
             <div class="clearfix padding10" style="width:auto;">
+                <form id="visitOtherInfo">
+                    <input type="hidden" name="id" id="patId">
                 <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                     <tr>
                         <td class="width_5">损伤、中毒的外部原因：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder"></span></td>
                         <td class="width_4">疾病编码：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder"></span></td>
                         <td class="width_lasttd"></td>
                     </tr>
                     <tr>
                         <td  class="width_5">病理诊断：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder"></span></td>
                         <td  class="width_5" style="padding-top:10px;">疾病编码：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder"></span></td>
                         <td class="width_5">病理号：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="pathologyNo"></span></td>
                     <tr/>
                     <tr>
                         <td class="width_5">药物过敏：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder"></span></td>
                         <td class="width_5">过敏药物：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="alergyDrugs"></span></td>
                         <td class="width_5">死亡患者尸检：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="autopsyIndicator"></span></td>
                     <tr/>
                     <tr>
                         <td class="width_5">ABO血型：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="bloodType"></span></td>
                         <td class="width_5">Rh血型：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="bloodTypeRh"></span></td>
                     <tr/>
                     <tr>
                         <td class="width_5">科主任：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="director"></span></td>
                         <td class="width_5">主任(副主任)医师：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
-                        <td class="width_5">医师：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="chiefDoctor"></span></td>
+                        <td class="width_5">主治医师：</td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="attendingDoctor"></span></td>
                         <td class="width_5" >住院医师：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="doctorInCharge"></span></td>
                     <tr/>
                     <tr>
                         <td class="width_5">责任护士：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="dutyNurse"></span></td>
                         <td class="width_5">进修医师：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="advancedStudiesDoctor"></span></td>
                         <td class="width_5">实习医师：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="practiceDoctor"></span></td>
                         <td  class="width_5" >编码员：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder"></span></td>
                     <tr/>
                     <tr>
                         <td class="width_5">病案质量：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="mrQuality"></span></td>
                         <td class="width_5"  >质控医师：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="doctorOfControlQuality"></span></td>
                         <td class="width_5">质控护士：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="nurseOfControlQuality"></span></td>
                         <td  class="width_5">质控日期：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-datebox inpborder" name="dateOfControlQuality"></span></td>
                     </tr>
                     <tr>
                         <td class="width_5">离院方式：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="dischargeDisposition"></span></td>
                         <td class="width_5">是否有出院31天内再住院计划：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="plan31Admission"></span></td>
                         <td class="width_5">目的：</td>
-                        <td><span ><input   class="validatebox-text inpborder"></span></td>
+                        <td><span ><input   class="easyui-validatebox inpborder" name="reason31Admission"></span></td>
                     <tr/>
                     <tr>
                         <td  class="width_12" style="padding-top:10px;">颅脑损伤患者昏迷时间：</td>
-                    <td> 入院前<input  class="validatebox-text inpborder" style="width:60px;">天</td>
-                    <td><input  class="validatebox-text inpborder" style="width:60px;">小时</td>
-                    <td><input  class="validatebox-text inpborder" style="width:60px;">分钟</td>
+                    <td> 入院前<input  class="easyui-validatebox inpborder" name="" style="width:60px;">天</td>
+                    <td><input  class="easyui-validatebox inpborder" style="width:60px;">小时</td>
+                    <td><input  class="easyui-validatebox inpborder" style="width:60px;">分钟</td>
 
                     <tr/>
                    <tr>
                        <td class="width_12" style="padding-top:10px;"></td>
-                       <td> 入院后<input  class="validatebox-text inpborder" style="width:60px;">天</td>
-                       <td><input  class="validatebox-text inpborder" style="width:60px;">小时</td>
-                       <td><input  class="validatebox-text inpborder" style="width:60px;">分钟</td>
+                       <td> 入院后<input  class="easyui-validatebox inpborder" style="width:60px;">天</td>
+                       <td><input  class="easyui-validatebox inpborder" style="width:60px;">小时</td>
+                       <td><input  class="easyui-validatebox inpborder" style="width:60px;">分钟</td>
                    </tr>
 
                 </table>
+                </form>
             </div>
         </div>
     </div>
     <div class="showstyle">
         <a id="showtext2" onclick="showdiv_a('contentid2','showtext2')">收费信息</a>
-        <div class="baset-topbtn">
+        <!--<div class="baset-topbtn">
             <button class="babtn babtn-save">保存</button>
-        </div>
+        </div>-->
     </div>
     <div class="none" id="contentid2">
         <div class="page-allinfo">
             <div class="clearfix padding10" style="width:auto;">
+                <form id="inpCosts">
                 <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab baind-tab-mon">
                     <tr>
                         <td>住院费用总计（元）：</td>
-                        <td><input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td><input  class="easyui-validatebox inpborder" style="width:150px;"></td>
                     </tr>
                     <tr>
                         <td>1、综合医疗服务类：</td>
-                        <td>(1)一般医疗服务费：<input  class="validatebox-text inpborder" style="width:150px;">(2)一般治疗操作费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(1)一般医疗服务费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="generalMedicCosts">(2)一般治疗操作费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="generalTreatOperCosts"></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>(3)护理费：<input  class="validatebox-text inpborder" style="width:150px;">(4)其他费用：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(3)护理费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="nursingCosts">(4)其他费用：<input  class="easyui-validatebox inpborder" style="width:150px;" name="otherCostsMedicServ"></td>
                     </tr>
                     <tr>
                         <td>2、诊断类：</td>
-                        <td>(5)病理诊断费：<input  class="validatebox-text inpborder" style="width:150px;">(6)实验室诊断费<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(5)病理诊断费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="pathologicalDiagCosts">(6)实验室诊断费<input  class="easyui-validatebox inpborder" style="width:150px;" name="laboratoryDiagCosts"></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>(7)影像学诊断费：<input  class="validatebox-text inpborder" style="width:150px;">(8)临床诊断项目费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(7)影像学诊断费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="imagingDiagCosts">(8)临床诊断项目费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="clinicalDiagCosts"></td>
                     </tr>
                     <tr>
                         <td>3、治疗类：</td>
-                        <td>(9)非手术治疗项目费：<input  class="validatebox-text inpborder" style="width:150px;">（临床物理治疗费：<input  class="validatebox-text inpborder" style="width:150px;">）</td>
+                        <td>(9)非手术治疗项目费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="nonSurgicalTreatCosts">（临床物理治疗费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="llinicalPhysicalCosts">）</td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>(10)手术治疗费：<input  class="validatebox-text inpborder" style="width:150px;">（麻醉费：<input  class="validatebox-text inpborder" style="width:150px;">手术费：<input  class="validatebox-text inpborder" style="width:150px;">）</td>
+                        <td>(10)手术治疗费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="operationMedCosts">（麻醉费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="anesthesiaCosts">手术费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="operationCosts">）</td>
                     </tr>
                     <tr>
                         <td>4、康复类：</td>
-                        <td>(11)康复费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(11)康复费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="rehabilitationCosts"></td>
                     </tr>
                     <tr>
                         <td>5、中医类：</td>
-                        <td>(12)中医治疗费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(12)中医治疗费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="chinaMedTreatCosts"></td>
                     </tr>
                     <tr>
                         <td>6、西医类：</td>
-                        <td>(13)西药费：<input  class="validatebox-text inpborder" style="width:150px;">（抗菌药物费用：<input  class="validatebox-text inpborder" style="width:150px;">）</td>
+                        <td>(13)西药费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="westMedicCosts">（抗菌药物费用：<input  class="easyui-validatebox inpborder" style="width:150px;" name="antimicrobialAgentsCOsts">）</td>
                     </tr>
                     <tr>
                         <td>7、中药类：</td>
-                        <td>(14)中成药费：<input  class="validatebox-text inpborder" style="width:150px;">(15)中草药费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(14)中成药费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="chinaAgentCosts">(15)中草药费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="chinaHerbalCosts"></td>
                     </tr>
                     <tr>
                         <td>8、血液和血液制品类：</td>
-                        <td>(16)血费：<input  class="validatebox-text inpborder" style="width:150px;">(17)白蛋白类制品费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(16)血费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="bloodCosts">(17)白蛋白类制品费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="albuminCosts"></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>(18)球蛋白类制品费：<input  class="validatebox-text inpborder" style="width:150px;">(19)凝血因子类制品费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(18)球蛋白类制品费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="globulinCosts">(19)凝血因子类制品费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="clottingFactorCosts"></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>(20)细胞因子类制品费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(20)细胞因子类制品费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="cytokinesCosts"></td>
                     </tr>
                     <tr>
                         <td>9、耗材类：</td>
-                        <td>(21)检查用一次性医用材料费：<input  class="validatebox-text inpborder" style="width:150px;">(22)治疗用一次性医用材料费；<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(21)检查用一次性医用材料费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="disposableMaterExamCosts">(22)治疗用一次性医用材料费；<input  class="easyui-validatebox inpborder" style="width:150px;" name="disposableMaterTreatCosts"></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>(23)手术用一次性医用材料费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(23)手术用一次性医用材料费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="disposableMaterOpertCosts"></td>
                     </tr>
                     <tr>
                         <td>10、其他类：</td>
-                        <td>(24)其他费：<input  class="validatebox-text inpborder" style="width:150px;"></td>
+                        <td>(24)其他费：<input  class="easyui-validatebox inpborder" style="width:150px;" name="otherCosts"></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="tablast-td"></td>
                     </tr>
 
                 </table>
+                </form>
             </div>
        </div>
     </div>
