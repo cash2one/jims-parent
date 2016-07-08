@@ -2865,6 +2865,13 @@
     border-bottom: 1px dashed rgb(204, 204, 204);
     margin-bottom: 10px;
 }
+.fitem1
+{
+    padding: 5px;
+    margin-left: 102px;
+    /*border-bottom: 1px dashed rgb(204, 204, 204);*/
+    margin-bottom: 10px;
+}
 .validatebox-text
 {
     border-radius: 5px;
