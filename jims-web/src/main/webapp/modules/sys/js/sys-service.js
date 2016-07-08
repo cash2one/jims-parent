@@ -313,6 +313,7 @@ $(function () {
         }
 
         var oData = new FormData(document.getElementById("serviceForm"));
+
         $.ajax({
             url: basePath + "/sys-service/save?serviceDescription="+$("#serviceDescription").text() ,
             type: 'POST',
@@ -446,7 +447,7 @@ $(function () {
     $("#addDetailBtn").on("click", function () {
         stopEdit();
         var rows = $("#serviceDetailDg").datagrid("getRows");
-        console.log(rows.length)
+
         if(rows.length >= 2){
             $.messager.alert("提示","最多只能添加一个月价格，一个年价格","error");
             return;
@@ -542,8 +543,7 @@ $(function () {
         priceBeanVo.inserted = insertData;
         priceBeanVo.deleted = deleteDate;
         priceBeanVo.updated = updateDate;
-        //console.log(priceBeanVo);
-        //console.log(JSON.stringify(priceBeanVo));
+
         if (priceBeanVo) {
             $.postJSON(basePath + "/sys-service/save-detail", JSON.stringify(priceBeanVo), function (data) {
                 $.messager.alert("系统提示", "保存成功", "info");
@@ -632,7 +632,6 @@ $(function () {
         method:'get',
         animate:true,
         checkbox:true
-        //onlyLeafCheck:true
     });
     /**
      * 菜单明细保存
@@ -683,9 +682,7 @@ $(function () {
 
 
         }
-        //console.log(menuVsServices);
-        //console.log(menuVsServicesParent);
-        //console.log(menuVsServices.concat(menuVsServicesParent));
+
         if(menuVsServices.concat(menuVsServicesParent).length > 0){
             $.postJSON(basePath + "/sys-service/save-serviceVsMenu",JSON.stringify(menuVsServices.concat(menuVsServicesParent)), function () {
                 $.messager.alert("系统提示", "保存成功", "info");
@@ -859,7 +856,7 @@ $(function () {
         }
 
         var inserted = $("#serviceParamDg").datagrid('getChanges','inserted') ;
-        console.log(inserted) ;
+
         for(var i = 0 ;i<inserted.length;i++){
             if(inserted[i].paramName){
                 beanChangeVo.inserted.push(inserted[i]) ;
@@ -867,7 +864,6 @@ $(function () {
         }
 
         var deleted = $("#serviceParamDg").datagrid('getChanges','deleted') ;
-        console.log(deleted) ;
         for(var i = 0 ;i<deleted.length;i++){
             if(deleted[i].id){
                 beanChangeVo.deleted.push(deleted[i]) ;
@@ -889,6 +885,10 @@ $(function () {
     $("#paramBtn").on('click',function(){
 
         var row = $("#serviceDg").datagrid('getSelected') ;
+        if(row == null){
+            $.messager.alert("系统提示","请选择服务!!");
+            return ;
+        }
 
         if(row.serviceClass=='1'){
             $.messager.alert("系统提示","个人服务，不许允许定制参数")
