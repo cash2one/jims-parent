@@ -25,7 +25,7 @@ public class Orders extends DataEntity<Orders> {
 	private String patientId;		// 病人标识号
 	private String visitId;		// 病人本次住院标识
 	private String orgId;    //组织机构id
-	private String clinicId;		//处方、检查检验等申请表id
+/*	private String clinicId;		//处方、检查检验等申请表id*/
 	private int orderNo;		// 医嘱序号
 	private int orderSubNo;		// 医嘱子序号
 	private String repeatIndicator;		// 长期医嘱标志
@@ -58,7 +58,7 @@ public class Orders extends DataEntity<Orders> {
 	private Date lastPerformDateTime;		// 最后一次执行日期及时间
 	private Date time;		// 摆药时，将摆药的截止日期(自动填入)
 	private Date lastAcctingDateTime;		// 最后一次计价日期及时间
-	private Integer currentPrescNo;		// 对应处方号
+	private String currentPrescNo;		// 对应处方号
 	private Long doctorUser;		// 医生代码
 	private Date verifyDataTime;		// 校对时间
 	private Long orderPrintIndicator;		// 医嘱本打印标志
@@ -113,13 +113,7 @@ public class Orders extends DataEntity<Orders> {
 	}
 
 
-	public String getClinicId() {
-		return clinicId;
-	}
 
-	public void setClinicId(String clinicId) {
-		this.clinicId = clinicId;
-	}
 
 	public String getOrgId() {
 		return orgId;
@@ -448,15 +442,15 @@ public class Orders extends DataEntity<Orders> {
 	public void setLastAcctingDateTime(Date lastAcctingDateTime) {
 		this.lastAcctingDateTime = lastAcctingDateTime;
 	}
-	
-	public Integer getCurrentPrescNo() {
+
+	public String getCurrentPrescNo() {
 		return currentPrescNo;
 	}
 
-	public void setCurrentPrescNo(Integer currentPrescNo) {
+	public void setCurrentPrescNo(String currentPrescNo) {
 		this.currentPrescNo = currentPrescNo;
 	}
-	
+
 	public Long getDoctorUser() {
 		return doctorUser;
 	}

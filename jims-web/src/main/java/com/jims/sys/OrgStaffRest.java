@@ -137,7 +137,9 @@ public class OrgStaffRest {
 
         PersionInfo persionInfo = new PersionInfo();
         SysUser sysUser = new SysUser();
-        sysUser.setPassword(orgStaffVo.getPassword());
+        if (orgStaffVo.getPassword() != "") {
+            sysUser.setPassword(orgStaffVo.getPassword());
+        }
         OrgStaff orgStaff = new OrgStaff();
         String[] array=orgStaffVo.getRole();
 
@@ -157,7 +159,7 @@ public class OrgStaffRest {
         orgStaff.setOrgId(orgStaffVo.getOrgId());
         orgStaff.setTitle(orgStaffVo.getTitle());
         orgStaff.setPersionId(orgStaffVo.getId());
-        String num = orgStaffApi.insertOrgStaffAndPersion(persionInfo, sysUser, orgStaff,array);
+        String num = orgStaffApi.insertOrgStaffAndPersion(persionInfo, sysUser, orgStaff, array);
         if (num != null) {
             StringData stringData = new StringData();
             stringData.setCode(num);
@@ -196,8 +198,8 @@ public class OrgStaffRest {
     @Path("findRole")
     @GET
     public List<OrgRole> findRole(@QueryParam("staffId") String staffId) {
-        List<OrgRole> role=orgStaffApi.getRole(staffId);
-       return role;
+        List<OrgRole> role = orgStaffApi.getRole(staffId);
+        return role;
 
     }
 
@@ -251,7 +253,7 @@ public class OrgStaffRest {
      */
     @Path("findList")
     @GET
-    public List<OrgStaffVo> findList(@QueryParam("orgId")String orgId,@QueryParam("deptId")String deptId) {
+    public List<OrgStaffVo> findList(@QueryParam("orgId") String orgId, @QueryParam("deptId") String deptId) {
         OrgStaffVo orgStaffVo = new OrgStaffVo();
 
         orgStaffVo.setOrgId(orgId);

@@ -131,10 +131,10 @@ $(function () {
             title: '药品',
             field: 'drugCode',
             width: '6%',
-            editor: {
-                type: 'textbox', options: {
-                }
-            },
+            //editor: {
+            //    type: 'textbox', options: {
+            //    }
+            //},
             formatter: function (value,row,index) {
                 var drugName = value;
                 $.each(drugNameDictList, function (index,item) {
@@ -343,9 +343,10 @@ $(function () {
             title: '最小单位',
             field: 'minUnits',
             width: '6%',
-            editor: {
-                type: 'textbox'
-            },formatter:function(value,row,index){
+            //editor: {
+            //    type: 'textbox'
+            //},
+            formatter:function(value,row,index){
                 var label = value;
                 $.each(specUnit, function (index,item) {
                     if (item.value == value){

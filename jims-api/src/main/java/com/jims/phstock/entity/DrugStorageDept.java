@@ -27,6 +27,8 @@ public class DrugStorageDept extends DataEntity<DrugStorageDept> {
 	private String ygFlag;		// 是否纳入药柜范畴
 	private String wardCode;		// 对应药柜护理单元
 	private String orgId;		// 结构Id
+
+    private String q ;  // 用于模糊查询
 	
 	public DrugStorageDept() {
 		super();
@@ -149,5 +151,12 @@ public class DrugStorageDept extends DataEntity<DrugStorageDept> {
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
 	}
-	
+
+    public String getQ() {
+        return q;
+    }
+
+    public void setQ(String q) {
+        this.q = q;
+    }
 }

@@ -46,10 +46,16 @@ public interface DrugSupplierCatalogApi {
 
     /**
      * 查询全部
-     *
      * @return
      */
     public List<DrugSupplierCatalog> findList(String orgId);
+
+    /**
+     * 查询全部
+     * @param q 拼音码、厂商名
+     * @return
+     */
+    public List<DrugSupplierCatalog> findList(String orgId,String q);
 
     /**
      * 根据拼音码查询所属组织机构的供应商和生产商
