@@ -67,7 +67,6 @@ $(function () {
         fit: true
     });
     $("#datagridLeft").datagrid({
-        title: '药品价格维护',
         fit: true,
         fitColumns: true,
         singleSelect: true,
@@ -81,6 +80,7 @@ $(function () {
         }, {
             title: '药品名称',
             field: 'drugName',
+
             width: '100%'
         }]],
         onDblClickRow: function (rowIndex, rowData) {
@@ -116,7 +116,6 @@ $(function () {
 
     });
     $("#datagridRight").datagrid({
-        title: '药品价格维护',
         fit: true,//让#dg数据创铺满父类容器
         idField: 'id',
         toolbar: '#datagridRightTb',
@@ -130,6 +129,7 @@ $(function () {
         },{
             title: '药品',
             field: 'drugCode',
+            align: 'center',
             width: '6%',
             editor: {
                 type: 'textbox', options: {
@@ -157,6 +157,7 @@ $(function () {
         },{
             title: '包装数量',
             field: 'amountPerPackage',
+            align: 'center',
             width: '6%',
             editor: {
                 type: 'textbox',options: {
@@ -180,6 +181,7 @@ $(function () {
         }, {
             title: '规格',
             field: 'drugSpec',
+            align: 'center',
             width: '6%',
             editor: {
                 type: 'textbox', options: {
@@ -207,6 +209,7 @@ $(function () {
         }, {
             title: '单位',
             field: 'units',
+            align: 'center',
             width: '6%',
             editor: {
                 type: 'combobox', options: {
@@ -227,6 +230,7 @@ $(function () {
         }, {
             title: '厂家',
             field: 'firmId',
+            align: 'center',
             width: '8%',
             editor: {
                 type: 'combobox', options: {
@@ -247,6 +251,7 @@ $(function () {
         },{
             title: '开始日期',
             field: 'startDate',
+            align: 'center',
             width: '10%',
             editor: {
                 type: 'datetimebox', options: {
@@ -263,6 +268,7 @@ $(function () {
         },{
             title: '批发价',
             field: 'tradePrice',
+            align: 'center',
             width: '6%',
             editor: {
                 type: 'textbox', options: {
@@ -271,6 +277,7 @@ $(function () {
         }, {
             title: '零售价格',
             field: 'retailPrice',
+            align: 'center',
             width: '6%',
             editor: {
                 type: 'textbox', options: {
@@ -279,6 +286,7 @@ $(function () {
         }, {
             title: '最高限价',
             field: 'hlimitPrice',
+            align: 'center',
             width: '6%',
             editor: {
                 type: 'textbox', options: {
@@ -287,6 +295,7 @@ $(function () {
         }, {
             title: '价格类别',
             field: 'priceClass',
+            align: 'center',
             width: '6%',
             editor: {
                 type: 'combobox', options: {
