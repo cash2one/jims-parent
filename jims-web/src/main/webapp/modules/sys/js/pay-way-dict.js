@@ -41,7 +41,7 @@ $(function () {
             title: "支付方式代码",
             field: "payWayCode",
             align: 'center',
-            width: "13%",
+            width: "12%",
             editor: {
                 type: 'textbox',
                 options: {
@@ -52,7 +52,7 @@ $(function () {
             title: "支付方式名称",
             field: "payWayName",
             align: 'center',
-            width: '13%',
+            width: '12%',
             editor: {
                 type: 'textbox',
                 options: {
@@ -63,7 +63,7 @@ $(function () {
             title: "记账标志",                  //0，不记账，1记账
             field: "acctingIndicator",
             align: 'center',
-            width: '12%',
+            width: '11%',
             editor: {
                 type: 'combobox', options: {
                     editable: false,
