@@ -93,7 +93,7 @@
 
     <select id="findListByVo" resultType="OrgStaffVo">
 		SELECT
-        p.id,p.name,p.sex,p.card_no,p.phone_num,p.email,o.title
+        p.id,p.name,p.sex,p.card_no,p.phone_num,p.email,p.nick_name,p.nation,o.title,o.id as staffId
 		FROM org_staff o,persion_info p
         WHERE o.persion_id=p.id
         <if test="deptId != null and deptId != ''">

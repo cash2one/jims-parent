@@ -18,8 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- *
- * @author   yangruidong
+ * @author yangruidong
  * @version 2016-06-16
  */
 @Service
@@ -33,7 +32,6 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
     private SysUserDao sysUserDao;
     @Autowired
     private StaffVsRoleDao staffVsRoleDao;
-
 
 
     /**
@@ -75,9 +73,9 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
      * @param orgStaff
      * @return
      */
-    public String insertOrgStaffAndPersion(PersionInfo persionInfo, SysUser sysUser, OrgStaff orgStaff,String[] array) {
+    public String insertOrgStaffAndPersion(PersionInfo persionInfo, SysUser sysUser, OrgStaff orgStaff, String[] array) {
         PersionInfo oldPersion = new PersionInfo();
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         if (org.apache.commons.lang3.StringUtils.isNotBlank(persionInfo.getId())) {
             boolean flag = false;
             oldPersion = persionInfoDao.get(persionInfo.getId());
@@ -85,24 +83,22 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
             persionInfoDao.updateById(persionInfo);
 
             OrgStaff neworgStaff = dao.getByPersionId(persionInfo.getId());
-            OrgStaff of=null;
-            if(neworgStaff==null)
-            {
-                of=new OrgStaff();
+            OrgStaff of = null;
+            if (neworgStaff == null) {
+                of = new OrgStaff();
                 of.setTitle(orgStaff.getTitle());
             }
 
-            if (of!=null) {
+            if (of != null) {
 
                 //向orgStaff表中插入数据
                 orgStaff.preInsert();
                 dao.insert(orgStaff);
                 //orgStaff的id
-                String id=orgStaff.getId();
-                StaffVsRole staffVsRole=new StaffVsRole();
+                String id = orgStaff.getId();
+                StaffVsRole staffVsRole = new StaffVsRole();
 
-                for(int i=0;i<array.length;i++)
-                {
+                for (int i = 0; i < array.length; i++) {
                     staffVsRole.preInsert();
                     staffVsRole.setStaffId(id);
                     staffVsRole.setRoleId(array[i]);
@@ -115,14 +111,12 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
                 if (org.apache.commons.lang3.StringUtils.equalsIgnoreCase(orgStaff.getDeptId(), neworgStaff.getDeptId())) {
 
                     dao.update(neworgStaff);
-                    String id=neworgStaff.getId();
-                    if(array!=null)
-                    {
+                    String id = neworgStaff.getId();
+                    if (array != null) {
                         staffVsRoleDao.delete(id);
-                        StaffVsRole staffVsRole=new StaffVsRole();
+                        StaffVsRole staffVsRole = new StaffVsRole();
 
-                        for(int i=0;i<array.length;i++)
-                        {
+                        for (int i = 0; i < array.length; i++) {
                             staffVsRole.preInsert();
                             staffVsRole.setStaffId(id);
                             staffVsRole.setRoleId(array[i]);
@@ -134,8 +128,8 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
                     //如果也面传递的科室和数据库中的科室不一样，说明要更改科室
                     neworgStaff.setDeptId(orgStaff.getDeptId());
                     dao.update(neworgStaff);
-                    String id=neworgStaff.getId();
-                    if(array.length>0) {
+                    String id = neworgStaff.getId();
+                    if (array.length > 0) {
                         staffVsRoleDao.delete(id);
                         StaffVsRole staffVsRole = new StaffVsRole();
 
@@ -151,32 +145,38 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
             //登录表中添加记录（身份证号）
             if (org.apache.commons.lang3.StringUtils.isNotBlank(persionInfo.getCardNo())) {
                 SysUser sysUser1 = sysUserDao.findByLoginName(oldPersion.getCardNo(), persionInfo.getId());
-                if(sysUser1==null)
-                {
-                    SysUser user=new SysUser();
+                if (sysUser1 == null) {
+                    SysUser user = new SysUser();
                     user.preInsert();
                     user.setLoginName(persionInfo.getCardNo());
-                    user.setPassword(sysUser.getPassword());
+                    if (sysUser.getPassword() != null) {
+                        user.setPassword(sysUser.getPassword());
+                    }
                     sysUserDao.insert(user);
-                }else{
+                } else {
                     sysUser1.setLoginName(persionInfo.getCardNo());
-                    sysUser1.setPassword(sysUser.getPassword());
+                    if (sysUser.getPassword() != null) {
+                        sysUser1.setPassword(sysUser.getPassword());
+                    }
                     sysUserDao.updateById(sysUser1);
                 }
             }
             //登录表中添加记录（联系电话）
             if (org.apache.commons.lang3.StringUtils.isNotBlank(persionInfo.getPhoneNum())) {
                 SysUser sysUser1 = sysUserDao.findByLoginName(oldPersion.getPhoneNum(), persionInfo.getId());
-                if(sysUser1==null)
-                {
-                    SysUser user=new SysUser();
+                if (sysUser1 == null) {
+                    SysUser user = new SysUser();
                     user.preInsert();
                     user.setLoginName(persionInfo.getPhoneNum());
-                    user.setPassword(sysUser.getPassword());
+                    if (sysUser.getPassword() != null) {
+                        user.setPassword(sysUser.getPassword());
+                    }
                     sysUserDao.insert(user);
-                }else{
+                } else {
                     sysUser1.setLoginName(persionInfo.getPhoneNum());
-                    sysUser1.setPassword(sysUser.getPassword());
+                    if (sysUser.getPassword() != null) {
+                        sysUser1.setPassword(sysUser.getPassword());
+                    }
                     sysUserDao.updateById(sysUser1);
                 }
 
@@ -184,32 +184,38 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
             //登录表中添加记录（邮箱）
             if (org.apache.commons.lang3.StringUtils.isNotBlank(persionInfo.getEmail())) {
                 SysUser sysUser1 = sysUserDao.findByLoginName(oldPersion.getEmail(), persionInfo.getId());
-                if(sysUser1==null)
-                {
-                    SysUser user=new SysUser();
+                if (sysUser1 == null) {
+                    SysUser user = new SysUser();
                     user.preInsert();
                     user.setLoginName(persionInfo.getEmail());
-                    user.setPassword(sysUser.getPassword());
+                    if (sysUser.getPassword() != null) {
+                        user.setPassword(sysUser.getPassword());
+                    }
                     sysUserDao.insert(user);
-                }else{
+                } else {
                     sysUser1.setLoginName(persionInfo.getEmail());
-                    sysUser1.setPassword(sysUser.getPassword());
+                    if (sysUser.getPassword() != null) {
+                        sysUser1.setPassword(sysUser.getPassword());
+                    }
                     sysUserDao.updateById(sysUser1);
                 }
             }
             //登录表中添加记录（昵称）
             if (org.apache.commons.lang3.StringUtils.isNotBlank(persionInfo.getNickName())) {
                 SysUser sysUser1 = sysUserDao.findByLoginName(oldPersion.getNickName(), persionInfo.getId());
-                if(sysUser1==null)
-                {
-                    SysUser user=new SysUser();
+                if (sysUser1 == null) {
+                    SysUser user = new SysUser();
                     user.preInsert();
                     user.setLoginName(persionInfo.getNickName());
-                    user.setPassword(sysUser.getPassword());
+                    if (sysUser.getPassword() != null) {
+                        user.setPassword(sysUser.getPassword());
+                    }
                     sysUserDao.insert(user);
-                }else{
+                } else {
                     sysUser1.setLoginName(persionInfo.getNickName());
-                    sysUser1.setPassword(sysUser.getPassword());
+                    if (sysUser.getPassword() != null) {
+                        sysUser1.setPassword(sysUser.getPassword());
+                    }
                     sysUserDao.updateById(sysUser1);
                 }
             }
@@ -225,12 +231,11 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
             orgStaff.preInsert();
             orgStaff.setPersionId(id);
             dao.insert(orgStaff);
-            String staffId=orgStaff.getId();
+            String staffId = orgStaff.getId();
 
 
-            StaffVsRole staffVsRole=new StaffVsRole();
-            for(int i=0;i<array.length;i++)
-            {
+            StaffVsRole staffVsRole = new StaffVsRole();
+            for (int i = 0; i < array.length; i++) {
                 staffVsRole.preInsert();
                 staffVsRole.setStaffId(staffId);
                 staffVsRole.setRoleId(array[i]);
@@ -289,19 +294,20 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
      * @return
      * @author yangruidong
      */
-    public OrgStaff findStaffByPersionId(String persionId,String orgId) {
-        return dao.findStaffByPersonIdOrgId(persionId,orgId);
+    public OrgStaff findStaffByPersionId(String persionId, String orgId) {
+        return dao.findStaffByPersonIdOrgId(persionId, orgId);
     }
 
     /**
      * 根据人员ID和组织机构ID查询该人员在某家组织机构的员工信息
+     *
      * @param personId 人员ID
      * @param orgId    组织机构ID
      * @return 员工信息
      * @author fengyuguang
      */
-    public OrgStaff findStaffByPersonIdOrgId(String personId, String orgId){
-        return dao.findStaffByPersonIdOrgId(personId,orgId);
+    public OrgStaff findStaffByPersonIdOrgId(String personId, String orgId) {
+        return dao.findStaffByPersonIdOrgId(personId, orgId);
     }
 
     /**
@@ -309,12 +315,13 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
      *
      * @return
      */
-    public List<OrgRole> getRole(String staffId){
+    public List<OrgRole> getRole(String staffId) {
         return staffVsRoleDao.getRole(staffId);
     }
 
     /**
      * 根据员工ID查询员工拥有的角色下所有的服务
+     *
      * @param staffId 员工ID
      * @return 角色对应服务的list集合
      * @author fengyuguang
@@ -325,13 +332,14 @@ public class OrgStaffBo extends CrudImplService<OrgStaffDao, OrgStaff> {
 
     /**
      * 根据roleServiceId查询数据列表
+     *
      * @param serviceId 服务ID
-     * @param staffId 员工ID
+     * @param staffId   员工ID
      * @return role_service_menu和menu_dict两个表联查集合
      * @author fengyuguang
      */
-    public List<OrgSelfServiceVsMenu> findByServiceId(String serviceId,String staffId) {
-        return dao.findByServiceId(serviceId,staffId);
+    public List<OrgSelfServiceVsMenu> findByServiceId(String serviceId, String staffId) {
+        return dao.findByServiceId(serviceId, staffId);
     }
 
 }

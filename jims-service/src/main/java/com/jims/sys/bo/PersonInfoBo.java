@@ -94,12 +94,7 @@ public class PersonInfoBo extends CrudImplService<PersionInfoDao, PersionInfo> {
      */
     public PersionInfo getCard(PersionInfo persionInfo)
     {
-        //验证数据是否正确
-        if (StringUtils.isNotBlank(persionInfo.getCardNo())) {
-            PersionInfo card = persionInfoDao.getCard(persionInfo);
-            return card;
-        }
-        return null;
+       return persionInfoDao.getCard(persionInfo);
     }
 
     /**
@@ -110,11 +105,7 @@ public class PersonInfoBo extends CrudImplService<PersionInfoDao, PersionInfo> {
      */
     public PersionInfo getNick(PersionInfo persionInfo) {
         //验证数据是否正确
-        if (StringUtils.isNotBlank(persionInfo.getNickName())) {
-            PersionInfo nick = persionInfoDao.getNick(persionInfo);
-            return nick;
-        }
-        return null;
+       return persionInfoDao.getNick(persionInfo);
     }
 
     /**
@@ -125,11 +116,7 @@ public class PersonInfoBo extends CrudImplService<PersionInfoDao, PersionInfo> {
      */
     public PersionInfo getPhone(PersionInfo persionInfo) {
         //验证数据是否正确
-        if (StringUtils.isNotBlank(persionInfo.getPhoneNum())) {
-            PersionInfo phone = persionInfoDao.getPhone(persionInfo);
-            return phone;
-        }
-        return null;
+       return persionInfoDao.getPhone(persionInfo);
     }
 
     /**
@@ -140,11 +127,7 @@ public class PersonInfoBo extends CrudImplService<PersionInfoDao, PersionInfo> {
      */
     public PersionInfo getEmail(PersionInfo persionInfo) {
         //验证数据是否正确
-        if (StringUtils.isNotBlank(persionInfo.getEmail())) {
-            PersionInfo email = persionInfoDao.getEmail(persionInfo);
-            return email;
-        }
-        return null;
+       return persionInfoDao.getEmail(persionInfo);
     }
 
     /**

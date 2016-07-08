@@ -81,34 +81,35 @@ public class OrgStaffRest {
      */
     @Path("findPasswordByPersionId")
     @GET
-    public SysUser findPasswordByPersionId(@QueryParam("persionId") String persionId)
-    {
-        return  orgStaffApi.findPasswordByPersionId(persionId);
+    public SysUser findPasswordByPersionId(@QueryParam("persionId") String persionId) {
+        return orgStaffApi.findPasswordByPersionId(persionId);
     }
 
     /**
      * 根据人员ID和组织机构ID查询该人员在某家组织机构的员工信息
+     *
      * @param personId 人员ID
-     * @param orgId 组织机构ID
+     * @param orgId    组织机构ID
      * @return 员工信息
      * @author fengyuguang
      */
     @GET
     @Path("find-staff-by-orgId-personId")
-    public OrgStaff findStaffByPersonIdOrgId(@QueryParam("persionId")String personId,@QueryParam("orgId")String orgId){
-        return orgStaffApi.findStaffByPersonIdOrgId(personId,orgId);
+    public OrgStaff findStaffByPersonIdOrgId(@QueryParam("persionId") String personId, @QueryParam("orgId") String orgId) {
+        return orgStaffApi.findStaffByPersonIdOrgId(personId, orgId);
     }
 
     /**
      * 通过persionId查询密码  ，用于回显数据
+     *
      * @param persionId
      * @return
      * @author yangruidong
      */
     @Path("findTitleByPersionId")
     @GET
-    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId,@QueryParam("orgId") String orgId) {
-        return orgStaffApi.findStaffByPersionId(persionId,orgId);
+    public OrgStaff findStaffByPersionId(@QueryParam("persionId") String persionId, @QueryParam("orgId") String orgId) {
+        return orgStaffApi.findStaffByPersionId(persionId, orgId);
     }
 
 
@@ -137,9 +138,11 @@ public class OrgStaffRest {
 
         PersionInfo persionInfo = new PersionInfo();
         SysUser sysUser = new SysUser();
-        sysUser.setPassword(orgStaffVo.getPassword());
+        if (orgStaffVo.getPassword() != "") {
+            sysUser.setPassword(orgStaffVo.getPassword());
+        }
         OrgStaff orgStaff = new OrgStaff();
-        String[] array=orgStaffVo.getRole();
+        String[] array = orgStaffVo.getRole();
 
 
         persionInfo.setPhoneNum(orgStaffVo.getPhoneNum());
@@ -152,12 +155,11 @@ public class OrgStaffRest {
         persionInfo.setId(orgStaffVo.getId());
 
 
-
         orgStaff.setDeptId(orgStaffVo.getDeptId());
         orgStaff.setOrgId(orgStaffVo.getOrgId());
         orgStaff.setTitle(orgStaffVo.getTitle());
         orgStaff.setPersionId(orgStaffVo.getId());
-        String num = orgStaffApi.insertOrgStaffAndPersion(persionInfo, sysUser, orgStaff,array);
+        String num = orgStaffApi.insertOrgStaffAndPersion(persionInfo, sysUser, orgStaff, array);
         if (num != null) {
             StringData stringData = new StringData();
             stringData.setCode(num);
@@ -188,53 +190,54 @@ public class OrgStaffRest {
     }
 
     /**
-     *查询人员角色信息
-     *
+     * 查询人员角色信息
      *
      * @return
      */
     @Path("findRole")
     @GET
     public List<OrgRole> findRole(@QueryParam("staffId") String staffId) {
-        List<OrgRole> role=orgStaffApi.getRole(staffId);
-       return role;
+        List<OrgRole> role = orgStaffApi.getRole(staffId);
+        return role;
 
     }
 
     /**
      * 根据员工ID查询员工拥有的角色下所有的服务
+     *
      * @param staffId 员工ID
      * @return 角色对应服务的list集合
      * @author fengyuguang
      */
     @GET
     @Path("find-serviceId-by-staffId")
-    public List<OrgRoleVsService> findServiceId(@QueryParam("staffId")String staffId){
+    public List<OrgRoleVsService> findServiceId(@QueryParam("staffId") String staffId) {
         return orgStaffApi.findServiceId(staffId);
     }
 
     /**
      * 根据roleServiceId查询数据列表
+     *
      * @param serviceId 服务ID
-     * @param staffId 员工ID
+     * @param staffId   员工ID
      * @return
      * @author fengyuguang
      */
     @GET
     @Path("find-list-by-serviceId")
-    public List<OrgSelfServiceVsMenu> findByServiceId(@QueryParam("serviceId")String serviceId,@QueryParam("staffId")String staffId){
-        List<OrgSelfServiceVsMenu> menus = orgStaffApi.findByServiceId(serviceId,staffId);
+    public List<OrgSelfServiceVsMenu> findByServiceId(@QueryParam("serviceId") String serviceId, @QueryParam("staffId") String staffId) {
+        List<OrgSelfServiceVsMenu> menus = orgStaffApi.findByServiceId(serviceId, staffId);
         //去掉重复的菜单
         List<OrgSelfServiceVsMenu> lists = new ArrayList<OrgSelfServiceVsMenu>();
         Map<String, OrgSelfServiceVsMenu> map = new HashMap<String, OrgSelfServiceVsMenu>();
-        for(int i = 0; i < menus.size(); i++){
-            map.put(menus.get(i).getMenuId(),menus.get(i));
+        for (int i = 0; i < menus.size(); i++) {
+            map.put(menus.get(i).getMenuId(), menus.get(i));
         }
         //排序
         Set<String> sets = map.keySet();
-        for(int i = 0; i < menus.size(); i++){
+        for (int i = 0; i < menus.size(); i++) {
             for (String key : map.keySet()) {
-                if(key == menus.get(i).getMenuId()){
+                if (key == menus.get(i).getMenuId()) {
                     lists.add(map.get(key));
                 }
             }
@@ -245,13 +248,14 @@ public class OrgStaffRest {
 
     /**
      * 检索机构科室的员工
+     *
      * @param orgId
      * @param deptId
      * @return
      */
     @Path("findList")
     @GET
-    public List<OrgStaffVo> findList(@QueryParam("orgId")String orgId,@QueryParam("deptId")String deptId) {
+    public List<OrgStaffVo> findList(@QueryParam("orgId") String orgId, @QueryParam("deptId") String deptId) {
         OrgStaffVo orgStaffVo = new OrgStaffVo();
 
         orgStaffVo.setOrgId(orgId);
