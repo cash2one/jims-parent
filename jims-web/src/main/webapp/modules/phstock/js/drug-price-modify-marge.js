@@ -160,7 +160,7 @@ $(function () {
     $("#priceList").datagrid({
         fit: true,
         striped: true,
-        title: '价格记录',
+        //title: '价格记录',
         toolbar: '#modifyListTb',
         singleSelect: true,
         method: 'GET',

@@ -37,7 +37,7 @@ $(function(){
         fitColumns: true,
         striped: true,
         singleSelect: true,
-        //toolbar: '#tb',
+        toolbar: '#tb',
         method: 'GET',
         rownumbers: true,
         //  url: basePath + "/AdministrationDict/listAll",
