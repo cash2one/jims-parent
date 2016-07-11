@@ -13,9 +13,12 @@
     <script type="text/javascript" src="/static/bookstrap/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/bookstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../sys/js/company.js"></script>
+    <script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="/static/ueditor/ueditor.all.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bookstrap/easyui.css">
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
+    <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <!--<script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>-->
     <style>
@@ -267,6 +270,18 @@
         </div>
     </div>
 </div>
+<!-- 服务模态start -->
+<div id="serviceDialog" buttons="#serviceDialog-buttons" data-options="modal:true">
+     <div disabled="disabled">
+        <script id="editor1" type="text/plain" style="width:580px;height:250px;"></script></td>
+    </div>
+</div>
+<div id="serviceDialog-buttons">
+    <!--<a href="javascript:void(0)" id="submitBtn" class="easyui-linkbutton c6" iconCls="icon-ok">保存</a>-->
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+       onclick="javascript:$('#serviceDialog').dialog('close')">关闭</a>
+</div>
+<!-- 服务模态end -->
 <footer>
     <div class="text-center">
         &copy; 2013 北京极目云软件有限公司 网站备案：京ICP备13045463号

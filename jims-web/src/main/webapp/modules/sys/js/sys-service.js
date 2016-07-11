@@ -91,7 +91,18 @@ $(function () {
             formatter: function (value,index,row) {
                 return "<img src='"+value+"' style='width:50px;height:50px;'/>"
             }
-        }]]
+        }
+        ]],
+        onDblClickRow:function(index,row){
+            var ue2=UE.getEditor("editor2");
+            ue2.setContent("");//清空编辑器
+            if(row.serviceDescription!=null){
+                ue2.setContent(row.serviceDescription);
+            }
+            $("#serviceDialog1").dialog("setTitle","基础服务描述").dialog("open");
+
+        }
+
     });
     /**
      * 服务名称
@@ -149,6 +160,12 @@ $(function () {
         closed:true
 
     });
+    $("#serviceDialog1").dialog({
+        title: '基础服务描述',
+        width: 580,
+        height: 250,
+        closed:true
+     });
     /**
      * 服务定位
      */
@@ -174,7 +191,7 @@ $(function () {
         flag = 1;
         $("#serviceType").combobox("setValue","0");
         $("#serviceClass").combobox("setValue","0");
-        $("#serviceDialog").dialog("open");
+        $("#serviceDialog").dialog("setTitle","基础服务添加").dialog("open");
     });
     /**
      * 修改
@@ -196,9 +213,8 @@ $(function () {
         if(row.serviceDescription!=null){
             ue.setContent(row.serviceDescription);
         }
-        $("#serviceDialog").dialog("open");
-
-    });
+        $("#serviceDialog").dialog("setTitle","基础服务修改").dialog("open");
+     });
 
     /**
      * 删除

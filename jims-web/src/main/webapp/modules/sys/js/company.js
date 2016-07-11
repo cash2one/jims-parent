@@ -1,4 +1,8 @@
 $(function () {
+    /**
+     * 服务弹出框
+     */
+
     var str = decodeURI(window.location.search);   //location.search是从当前URL的?号开始的字符串
     if (str.indexOf(name) != -1) {
         var pos_start = str.indexOf(name) + name.length + 1;
@@ -126,7 +130,12 @@ $(function () {
             return false;
         }
     });
-
+    $("#serviceDialog").dialog({
+        title: '基础服务增加',
+        width: 600,
+        height: 500,
+        closed:true
+    });
     //校验组织机构地址
     $("#address").focus(function () {
         $("#res-address").css("color", "gray");
@@ -445,7 +454,7 @@ $(function () {
         var liArr = $('#addServiceModel1 ul li')
         if(liArr.length < 1) {
             for (var i = 0; i < dataArr.length; i++) {
-                var li = '<li id="service_' + dataArr[i].id + '" name="serviceName_' + dataArr[i].serviceName + '">';
+                var li = '<li onclick="findInfo(dataArr[i])" id="service_' + dataArr[i].id + '" name="serviceName_' + dataArr[i].serviceName + '">';
                 li += '<div class="service-set">'
                 li += '<h3>' + dataArr[i].serviceName + '</h3>'
                 li += '<table width="100%">'
@@ -467,7 +476,8 @@ $(function () {
 
                 li += '</tr>'
                 li += '<tr style="height: 35px">'
-                li += '<td width="60"><span class="text-success">　金额：</span></td>'
+                li += '<td width="60"><span' +
+                    ' class="text-success">　金额：</span></td>'
                 li += '<td colspan="3" style="color: red">'
                 if(priceArr && priceArr.length > 0){
                     var num = priceArr[0].serviceTimeLimit == '年' ? '1' : '12';
@@ -542,6 +552,77 @@ $(function () {
         }
     }
     addNext();
+    var ue = UE.getEditor('editor1');
+    /**
+     * 单击服务弹出服务信息
+     * @param sysService
+     */
+    function findInfo(sysService){
+        alert(sysService.id);
+        ue.setContent("");
+        if(sysService.serviceDescription!=null){
+            ue.setContent(sysService.serviceDescription);
+        }
+        $("#serviceDialog").dialog("setTitle","基础服务描述").dialog("open");
+      }
+    /**
+     * 重置服务明细
+     */
+    var reset = function () {
+        $("#id").textbox("setValue","");
+        $("#serviceName").textbox("setValue","");
+        $("#serviceType").combobox("setValue","");
+        $("#serviceClass").combobox("setValue","");
+        $("#serviceImage").val("");
+        $("#serviceDescription").val("");
+        ue.setContent("");
+    };
+    /**
+     * 服务名称
+     */
+    $("#serviceName").textbox({
+            width:'200px'
+        }
+    );
+    /**
+     * 服务类型
+     */
+    $("#serviceType").combobox({
+        valueField:"value",
+        textField:"text",
+        width:'200px',
+        data: [{
+            text: '无偿服务',
+            value: "0"
+        },{
+            text: '有偿服务',
+            value: "1",
+            selected:true
+        }]
+    });
+    /**
+     * 服务类别
+     */
+    $("#serviceClass").combobox({
+        valueField:'value',
+        textField:'text',
+        width:'200px',
+        data: [{
+            text: '机构服务',
+            value: "0"
+        },{
+            text: '个人服务',
+            value: "1",
+            selected:true
+        },{
+            text: '所有服务',
+            value: "2"
+        },{
+            text: '机构管理服务',
+            value: "3"
+        }]
+    });
+
 });
 
 
