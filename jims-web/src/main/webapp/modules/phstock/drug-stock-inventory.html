@@ -24,33 +24,31 @@
             <table>
                 <tr style="height: 40px;">
                     <td>
-                        &nbsp;<label >盘点时间：</label>
+                        &nbsp;<span style="font-size:20px;color:blue;" >盘点时间：</span>
                     </td>
                     <td>
-                        <input id="date"  editable="false"  class="easyui-datebox"  required="true"  style="width: 150px;">
+                        <input id="date"  editable="false"  class="easyui-datebox" formatter="yyyy-MM-dd HH:mm:ss" required="true"  style="height: 20px;width: 150px;">
                     </td>
                     <td>
-                        <label >&nbsp;库房：</label>
+                        <span style="font-size:20px;color:blue;" >&nbsp;库房：</span>
                     </td>
                     <td>
-                        <input type="text" id="storage" class="easyui-textbox">
+                        <input type="text" id="storage" style="height: 20px;width: 120px;">
                     </td>
                     <td>
-                        <label >&nbsp;定位：</label>
+                        <span style="font-size:20px;color:blue;" >&nbsp;定位：</span>
                     </td>
                     <td>
-                        <input type="text" id="location" class="easyui-combobox"  style="width: 200px;">
+                        <input type="text" id="location" class="easyui-combobox"  style="height: 20px;width: 200px;">
                     </td>
-                    <td style="width: 5%"></td>
                     <td>
                         <!--&nbsp;<input type="checkbox" name="check1" style="width: 20px;height:20px;zoom:100%;" >-->
                         <!--<span style="font-size:20px" >是否显示实盘数为零的记录</span>-->
-                        <!--<input id="actualFill" type="button" value="实盘填充" >-->
-                        <a href="#" id="actualFill" class="easyui-linkbutton" iconCls="icon-search">实盘填充</a>
-                        <a href="#" id="extractBtn" class="easyui-linkbutton" iconCls="icon-search">提取</a>
-                        <a href="#" id="generateBtn" class="easyui-linkbutton" iconCls="icon-add">生成</a>
-                        <a href="#" id="temporaryStorageBtn" class="easyui-linkbutton" iconCls="icon-save">暂存</a>
-                        <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">终存</a>
+                        <input id="actualFill" type="button" value="实盘填充" style="width: 80px;height: 30px;font-weight:bold;">&nbsp;&nbsp;
+                        <a href="#" id="extractBtn" class="easyui-linkbutton" iconCls="icon-search">提 取</a>&nbsp;&nbsp;
+                        <a href="#" id="generateBtn" class="easyui-linkbutton" iconCls="icon-add">生 成</a>&nbsp;&nbsp;
+                        <a href="#" id="temporaryStorageBtn" class="easyui-linkbutton" iconCls="icon-search">暂 存</a>&nbsp;&nbsp;
+                        <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">终 存</a>
 
                     </td>
                     <td width="7%"></td>
@@ -79,11 +77,8 @@
         </div>
 
     </div>
-
-</div>
-
-
-<div region="south" split="true" style="height:25px;">北京极目云医院---医院信息系统---药库管理子系统---库存盘点</div>
-
+    <table id="inventoryList"></table>
+    <!--</div>-->
+    <!--<div region="south" split="true" style="height:25px;">北京极目云医院-&#45;&#45;医院信息系统-&#45;&#45;药库管理子系统-&#45;&#45;库存盘点</div>-->
 </body>
 </html>

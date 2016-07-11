@@ -12,5 +12,11 @@ import com.jims.common.persistence.annotation.MyBatisDao;
 @MyBatisDao
 public interface ServiceSelfVsSysDao extends CrudDao<ServiceSelfVsSys> {
 
+    /**
+     * 根据自定义服务ID删除
+     * @param selfServiceId
+     * @return
+     */
+    public int deleteBySelfServiceId(String selfServiceId);
 
 }

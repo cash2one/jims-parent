@@ -28,7 +28,7 @@ window.addTab = function (title, href) {
         $("#mainContent").tabs('select', title);
     } else {
         var content = undefined;
-        content = '<iframe scrolling="auto" frameborder="0"  src="' + href + '" style="width:85%;height:95%;"></iframe>'
+        content = '<iframe scrolling="auto" frameborder="0"  src="' + href + '" style="width:85%;height:93%;"></iframe>'
         $("#mainContent").tabs('add', {
             title: title,
             content: content,

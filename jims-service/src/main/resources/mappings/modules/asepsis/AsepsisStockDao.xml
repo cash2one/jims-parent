@@ -134,7 +134,7 @@
         a.org_id
         FROM ASEPSIS_STOCK a,asepsis_dict b
         <where> a.org_id =  #{orgId} and b.asepsis_code = a.item_code and b.belong_dept = a.from_dept and a.org_id = b.org_id
-            and to_char(a.sysdate,'yyyy-MM-dd') > to_char(a.anti_date,'yyyy-MM-dd') + b.valid_days
+            and to_char(sysdate,'yyyy-MM-dd') > to_char(a.anti_date,'yyyy-MM-dd') + b.valid_days
             <if test="fromDept != null and fromDept != ''">
                 and a.FROM_DEPT = #{fromDept}
             </if>

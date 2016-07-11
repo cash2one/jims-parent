@@ -14,22 +14,10 @@
 <div class="easyui-layout" style="width:100%;height:100%;">
 <div data-options="region:'center',split:true">
     <div id="lookListData">
-    <table cellpadding="0" cellspacing="0" width="100%">
-        <tr>
-            <td class="text-right">门诊科室：</td>
-            <td><input class="easyui-combobox" id="deptNameId"/></td>
-            <td class="text-right">号别名称：</td>
-            <td><input class="validatebox-text vt-text-percent" id="clinicTypeNameId"/></td>
-        </tr>
-        <tr>
-            <td class="text-right">医生：</td>
-            <td><input type="text" class="easyui-combobox" id="doctorNameId"/></td>
-            <td>
-                &nbsp;<button class="easyui-linkbutton"  data-options="iconCls:'icon-search'" onclick="searchClinicIndex();">查询</button>
-            </td>
-
-        </tr>
-    </table>
+        科室：<input class="easyui-combobox" id="deptNameId" style="width:100px;"/>
+        号别名称：<input class="validatebox-text vt-text-percent" id="clinicTypeNameId" style="width:100px;"/><br>
+        医生：<input type="text" class="easyui-combobox" id="doctorNameId" style="width:200px;"/>
+        <button class="easyui-linkbutton"  data-options="iconCls:'icon-search'" onclick="searchClinicIndex();">查 询</button>
     </div>
     <table id="list_data"   cellspacing="0" cellpadding="0">
 

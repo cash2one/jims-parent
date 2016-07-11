@@ -13,21 +13,10 @@
 <div class="easyui-layout" style="width:100%;height:100%;">
     <div data-options="region:'center',split:true">
         <div id="searchDiv">
-            <table cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td class="text-right">星期：</td>
-                    <td><input type="text" class="easyui-combobox" id="weekId"/></td>
-                    <td class="text-right">时间：</td>
-                    <td><input type="text" class="easyui-combobox" id="timeIntervalId" /></td>
-                </tr>
-                <tr>
-                    <td class="text-right">号别名称：</td>
-                    <td><input type="text" class="validatebox-text vt-text-percent" id="clinicNameId"/></td>
-                    <td>
-                        &nbsp;<button class="easyui-linkbutton"  data-options="iconCls:'icon-search'" onclick="searchClinicIndex();">查询</button>
-                    </td>
-                </tr>
-            </table>
+            星期：<input type="text" class="easyui-combobox" id="weekId" style="width:40px;"/>
+            时间：<input type="text" class="easyui-combobox" id="timeIntervalId" style="width:50px;"/>
+            号别名称：<input type="text" class="validatebox-text vt-text-percent" id="clinicNameId" style="width:90px;"/>
+            <button class="easyui-linkbutton"  data-options="iconCls:'icon-search'" onclick="searchClinicIndex();">查 询</button>
         </div>
         <table id="list_data"   cellspacing="0" cellpadding="0">
 
@@ -36,9 +25,9 @@
     <div data-options="region:'east',iconCls:'icon-ok'"  style="width:60%;">
 
         <div id="time">
-           门诊号表生成日期： <input class="easyui-datebox" id="startTime"> 至 <input class="easyui-datebox" id="endTime"><br>
-            <button class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addRowCol();">生成</button>&nbsp;&nbsp;
-            <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="deleteForReg();">删除</button>
+           门诊号表生成日期： <input class="easyui-datebox" id="startTime"> 至 <input class="easyui-datebox" id="endTime">
+            <button class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="addRowCol();">生 成</button>
+            <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="deleteForReg();">删 除</button>
         </div>
         <table id="list_data_num"   cellspacing="0" cellpadding="0">
 
