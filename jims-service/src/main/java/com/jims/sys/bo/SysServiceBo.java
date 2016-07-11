@@ -46,6 +46,28 @@ public class SysServiceBo extends CrudImplService<SysServiceDao, SysService>{
         return priceDao.findListByServiceId(serviceId);
     };
 
+    /**
+     * 删除服务数据
+     * @param ids 服务的ID集合
+     * @return
+     * @author fengyuguang
+     */
+    @Transactional(readOnly = false)
+    public String delete(String ids){
+        int i = 0;
+        try {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++) {
+                dao.delete(id[j]);  //删除服务
+                priceDao.deleteByServiceId(id[j]);  //删除服务价格明细
+                serviceVsMenuDao.deleteByServiceId(id[j]);  //删除服务所有菜单
+                i++;
+            }
+        } catch (Exception e) {
+            return i + "";
+        }
+        return i + "";
+    }
 
     /**
      * 修改保存删除服务明细
@@ -65,7 +87,6 @@ public class SysServiceBo extends CrudImplService<SysServiceDao, SysService>{
                 for (SysServicePrice sysServicePrice : inserts) {
                     sysServicePrice.preInsert();
                     priceDao.insert(sysServicePrice);
-
                 }
             }
             if (updates != null && updates.size() > 0) {
@@ -119,8 +140,6 @@ public class SysServiceBo extends CrudImplService<SysServiceDao, SysService>{
         }
         return "1";
     };
-
-
 
     /**
      * 检索不同人群的服务

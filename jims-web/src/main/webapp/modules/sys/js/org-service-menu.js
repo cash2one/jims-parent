@@ -13,7 +13,7 @@ $(function () {
         singleSelect: true,//是否单选
         columns: [[//显示的列
             {
-                field: 'roleName', title: '角色名称', width: 220
+                field: 'roleName', title: '角色名称', width: '95%'
             }
         ]],
         onClickRow: function (index, data) {
@@ -27,9 +27,9 @@ $(function () {
                 singleSelect: true,
                 columns: [[//显示的列
                     {
-                        field: 'serviceId', title: '服务ID', width: 120, hidden: true
+                        field: 'serviceId', title: '服务ID', hidden: true
                     }, {
-                        field: 'serviceName', title: '服务名称', width: 120, editor: {
+                        field: 'serviceName', title: '服务名称', width: '95%', editor: {
                             type: 'combobox',
                             options: {
                                 panelHeight: '150',
@@ -96,15 +96,16 @@ $(function () {
             {
                 title: '菜单名称',
                 field: 'menuName',
-                width: "50%"
+                width: "45%"
             }, {
                 title: '权限功能',
                 field: 'menuOperate',
-                width: "50%",
+                width: "45%",
                 editor: {
                     type: 'combobox', options: {
                         valueField: 'value',
                         textField: 'label',
+                        editable: false,
                         data: storage
                     }
                 },

@@ -5,7 +5,13 @@ $(function () {
         var pos_start = str.indexOf(name) + name.length + 1;
         var pos_end = str.indexOf("&", pos_start);
         if (pos_end == -1) {
-            var persion_id = str.substring(12);
+            var persion_id = '';
+            //var persion_id = str.substring(12);
+            if(str.indexOf("persionId=")>=0){
+                persion_id = str.substring(str.indexOf("persionId=")+10);
+            }else if(str.indexOf("persion_id=")>=0){
+                persion_id = str.substring(str.indexOf("persion_id=")+11);
+            }
             $.get('/service/persion-service-list/findListByFlag?persionId=' + persion_id, function (data) {
 
                 if (data != null) {
@@ -39,7 +45,7 @@ $(function () {
                                 {
                                     window.location.href="/modules/index.html?id=" + id+"?persion_id="+persion_id;
                                 }else{
-                                    window.location.href="/modules/sys/company.html?flag=1&persion_id="+persion_id;
+                                    window.location.href="/modules/sys/company.html?flag=1&persionId="+persion_id;
                                 }
                             });
 
@@ -78,9 +84,16 @@ $(function () {
 
         $("#hosptial").click(function () {
 
-            window.location.href = "/modules/sys/company.html?persionId=" + persion_id;
+            window.location.href = "/modules/sys/company.html?persionId="+persion_id;
         });
+
+        $("#default").on('click', function () {
+            window.location.href = "/modules/sys/default.html?persionId="+persion_id;
+        });
+
     }
-
-
+    //退出
+    $("#exit").on("click", function () {
+        location.href = "/modules/sys/login.html";
+    });
 });

@@ -11,9 +11,8 @@ $(function () {
         }
     }
     $("#dg").datagrid({
-        title: '角色信息维护',
         fit: true,
-        footer: '#tb',
+        toolbar: '#tb',
         singleSelect: true,
         rownumbers: true,
         method: 'get',
@@ -33,7 +32,7 @@ $(function () {
             field: "roleName",
             align: 'center',
             width: '20%',
-            editor: 'text'
+            editor: {type: 'textbox', options: {required: true}}
         }]],
         onClickRow: function (index, row) {
             stopEdit();
@@ -71,29 +70,20 @@ $(function () {
         }
 
         var insertData = $("#dg").datagrid("getChanges", "inserted");
-        var updateDate = $("#dg").datagrid("getChanges", "updated");
-        var deleteDate = $("#dg").datagrid("getChanges", "deleted");
+        var updateData = $("#dg").datagrid("getChanges", "updated");
+        var deleteData = $("#dg").datagrid("getChanges", "deleted");
 
         var beanChangeVo = {};
         beanChangeVo.inserted = insertData;
-        beanChangeVo.deleted = deleteDate;
-        beanChangeVo.updated = updateDate;
+        beanChangeVo.deleted = deleteData;
+        beanChangeVo.updated = updateData;
 
         if (beanChangeVo.inserted.length > 0) {
             for (var i = 0; i < beanChangeVo.inserted.length; i++) {
                 beanChangeVo.inserted[i].orgId = orgId;     //设置组织ID
                 var roleName = beanChangeVo.inserted[i].roleName;
-                if (roleName.length == 0) {
+                if(typeof(roleName) == "undefined" || trim(roleName) == ""){
                     $.messager.alert('提示', '角色名称不能为空!!', 'error');
-                    return;
-                }
-            }
-        }
-        if (beanChangeVo.updated.length > 0) {
-            for (var i = 0; i < beanChangeVo.updated.length; i++) {
-                var roleName = beanChangeVo.updated[i].roleName;
-                if (roleName.length == 0) {
-                    $.messager.alert('提示', '角色名称不能改为空!!', 'error');
                     return;
                 }
             }
@@ -121,4 +111,11 @@ $(function () {
     }
     loadDict();
 
+    //去除字符串两边空格
+    function trim(value) {
+        if (typeof(value) != "undefined") {
+            value = value.trim();
+            return value;
+        }
+    }
 });
