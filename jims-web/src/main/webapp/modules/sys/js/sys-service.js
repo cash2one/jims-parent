@@ -5,6 +5,7 @@
  */
 
 $(function () {
+    var ue = UE.getEditor('editor1');
     var editIndex = undefined;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -143,8 +144,8 @@ $(function () {
      */
     $("#serviceDialog").dialog({
         title: '基础服务增加',
-        width: 1000,
-        height: 350,
+        width: 600,
+        height: 500,
         closed:true
 
     });
@@ -183,7 +184,7 @@ $(function () {
         flag = 0;
         var row = $("#serviceDg").datagrid("getSelected");
         if(!row){
-            $.messager.alert("提示","请选择一个服务",'info');
+            $.messager.alert("提示","请选择一个服务",'error');
             return;
         }
         $("#id").textbox("setValue",row.id);
@@ -191,7 +192,10 @@ $(function () {
         $("#serviceType").combobox("setValue",row.serviceType);
         $("#serviceClass").combobox("setValue",row.serviceClass);
         //service.serviceImage = $("#serviceImage").filebox("setValue",row.serviceImage);
-        $("#serviceDescription").val(row.serviceDescription);
+//        $("#serviceDescription").val(row.serviceDescription);//version 1.1
+        if(row.serviceDescription!=null){
+            ue.setContent(row.serviceDescription);
+        }
         $("#serviceDialog").dialog("open");
 
     });
@@ -246,7 +250,7 @@ $(function () {
         var tipMsg = "您的浏览器暂不支持计算上传文件的大小，确保上传文件不要超过2M，建议使用IE、FireFox、Chrome浏览器。";
         var  browserCfg = {};
         var ua = window.navigator.userAgent;
-        console.log(ua);
+//        console.log(ua);
         if (ua.indexOf("MSIE")>=1){
             browserCfg.ie = true;
         }else if(ua.indexOf("Firefox")>=1){
@@ -300,11 +304,18 @@ $(function () {
             alert(errMsg);
             return;
         }
+        var serviceDescription=ue.getPlainTxt();
+        if(serviceDescription!=null){
+            $("#serviceDescription").text(serviceDescription);
+        }else{
+            $.messager.alert("请输入服务描述！");
+            return;
+        }
 
         var oData = new FormData(document.getElementById("serviceForm"));
-        console.log(oData);
+
         $.ajax({
-            url: basePath + "/sys-service/save" ,
+            url: basePath + "/sys-service/save?serviceDescription="+$("#serviceDescription").text() ,
             type: 'POST',
             data:  oData,
             async: false,
@@ -436,7 +447,7 @@ $(function () {
     $("#addDetailBtn").on("click", function () {
         stopEdit();
         var rows = $("#serviceDetailDg").datagrid("getRows");
-        console.log(rows.length)
+
         if(rows.length >= 2){
             $.messager.alert("提示","最多只能添加一个月价格，一个年价格","error");
             return;
@@ -532,8 +543,7 @@ $(function () {
         priceBeanVo.inserted = insertData;
         priceBeanVo.deleted = deleteDate;
         priceBeanVo.updated = updateDate;
-        //console.log(priceBeanVo);
-        //console.log(JSON.stringify(priceBeanVo));
+
         if (priceBeanVo) {
             $.postJSON(basePath + "/sys-service/save-detail", JSON.stringify(priceBeanVo), function (data) {
                 $.messager.alert("系统提示", "保存成功", "info");
@@ -622,7 +632,6 @@ $(function () {
         method:'get',
         animate:true,
         checkbox:true
-        //onlyLeafCheck:true
     });
     /**
      * 菜单明细保存
@@ -673,9 +682,7 @@ $(function () {
 
 
         }
-        //console.log(menuVsServices);
-        //console.log(menuVsServicesParent);
-        //console.log(menuVsServices.concat(menuVsServicesParent));
+
         if(menuVsServices.concat(menuVsServicesParent).length > 0){
             $.postJSON(basePath + "/sys-service/save-serviceVsMenu",JSON.stringify(menuVsServices.concat(menuVsServicesParent)), function () {
                 $.messager.alert("系统提示", "保存成功", "info");
@@ -739,6 +746,7 @@ $(function () {
         $("#serviceClass").combobox("setValue","");
         $("#serviceImage").val("");
         $("#serviceDescription").val("");
+        ue.setContent("");
     };
 
     loadDict();
@@ -848,7 +856,7 @@ $(function () {
         }
 
         var inserted = $("#serviceParamDg").datagrid('getChanges','inserted') ;
-        console.log(inserted) ;
+
         for(var i = 0 ;i<inserted.length;i++){
             if(inserted[i].paramName){
                 beanChangeVo.inserted.push(inserted[i]) ;
@@ -856,7 +864,6 @@ $(function () {
         }
 
         var deleted = $("#serviceParamDg").datagrid('getChanges','deleted') ;
-        console.log(deleted) ;
         for(var i = 0 ;i<deleted.length;i++){
             if(deleted[i].id){
                 beanChangeVo.deleted.push(deleted[i]) ;
@@ -878,6 +885,10 @@ $(function () {
     $("#paramBtn").on('click',function(){
 
         var row = $("#serviceDg").datagrid('getSelected') ;
+        if(row == null){
+            $.messager.alert("系统提示","请选择服务!!");
+            return ;
+        }
 
         if(row.serviceClass=='1'){
             $.messager.alert("系统提示","个人服务，不许允许定制参数")

@@ -49,6 +49,10 @@
             <if test="storageType != null and storageType != ''">
                 and a.storage_type = #{storageType}
             </if>
+            <if test="q != null and q != ''">
+                and (upper(a.storage_code) like upper(#{q}) || '%'
+                or a.storage_name like #{q} || '%')
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

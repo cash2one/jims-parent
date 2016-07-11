@@ -22,7 +22,7 @@ $(function(){
             {field:'dispensarySub',title:'发药子药局',hidden:'true'},
             {field:'prepayment',title:'预交金',hidden:'true'},
             {field:'prescSource',title:'处方来源',hidden:'true'},
-            {field:'dianosis',title:'诊断',hidden:'true'},
+            {field:'dianosis',title:'诊断',hidden:'true',formatter:icdFormatter},
             {field:'usage',title:'用法',hidden:'true'},
             {field:'prescStatus',title:'处方状态',hidden:'true'},
             {field:'prescDate',title:'处方日期',width:'30%',align:'center'},

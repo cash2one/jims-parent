@@ -74,4 +74,11 @@ public interface EmrDiagnosisDao extends CrudDao<EmrDiagnosis> {
      * @return
      */
     public EmrDiagnosis getDescription(@Param("clinicId")String clinicId,@Param("visitId")String visitId);
+
+    /**
+     * 根据 病人ID 查询 诊断列表
+     * @param patientId
+     * @return
+     */
+    public List<EmrDiagnosis> getListDiagnosis(@Param("patientId")String patientId);
 }

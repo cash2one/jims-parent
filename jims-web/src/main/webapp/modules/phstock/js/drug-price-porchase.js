@@ -1,6 +1,5 @@
 $(function () {
     $("#porchase").datagrid({
-        title: '药品进阶维护',
         fit: true,
         fitColumns: true,
         striped: true,

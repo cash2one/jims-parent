@@ -23,5 +23,13 @@ public interface SysServicePriceDao extends CrudDao<SysServicePrice> {
      * @version 2016-06-01
      */
     public List<SysServicePrice> findListByServiceId(String serviceId);
+
+    /**
+     * 根据服务ID删除服务价格明细
+     * @param serviceId 服务ID
+     * @return
+     * @author fengyuguang
+     */
+    public Integer deleteByServiceId(String serviceId);
 	
 }

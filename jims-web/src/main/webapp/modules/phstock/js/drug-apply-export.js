@@ -329,7 +329,6 @@ config.orgId
                     required: true,
                     missingMessage: '药名不能为空',
                     fitColumns: true,
-
                     method:'get',
                     mode:'remote',
                     columns: [[

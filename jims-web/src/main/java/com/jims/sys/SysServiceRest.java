@@ -131,7 +131,7 @@ public class SysServiceRest {
     @Path("save")
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public StringData save( FormDataMultiPart form ) {
+    public StringData save( FormDataMultiPart form,@QueryParam("serviceDescription") String serviceDescription) {
         //获取文件流
         FormDataBodyPart filePart = form.getField("serviceImage");
         //获取表单的其他数据
@@ -175,7 +175,7 @@ public class SysServiceRest {
             sysService.setId(form.getField("id").getValue());
         }
         sysService.setServiceClass(form.getField("serviceClass").getValue());
-        sysService.setServiceDescription(form.getField("serviceDescription").getValue());
+        sysService.setServiceDescription(serviceDescription);
         sysService.setServiceType(form.getField("serviceType").getValue());
         sysService.setServiceName(form.getField("serviceName").getValue());
         if (result.length() >= 3){

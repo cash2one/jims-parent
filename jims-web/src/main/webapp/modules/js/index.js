@@ -28,7 +28,7 @@ window.addTab = function (title, href) {
         $("#mainContent").tabs('select', title);
     } else {
         var content = undefined;
-        content = '<iframe scrolling="auto" frameborder="0"  src="' + href + '" style="width:100%;height:100%;"></iframe>'
+        content = '<iframe scrolling="auto" frameborder="0"  src="' + href + '" style="width:85%;height:95%;"></iframe>'
         $("#mainContent").tabs('add', {
             title: title,
             content: content,
@@ -109,5 +109,10 @@ $(function () {
         for (var i = 0; i < data.length; i++) {
             $("#menu").append("<li><a href=\"#\" onclick=\'addMenu(\""+data[i].id+"\",\""+staffId+"\")\'>" + data[i].serviceName + "</a></li>");
         }
+    });
+
+    //退出
+    $("#exit").on("click", function () {
+        location.href = "/modules/sys/login.html";
     });
 });

@@ -1134,6 +1134,29 @@
 		 WHERE "ID" =#{id}
 
 	</update>
+	<update id="updateOtherInfo">
+		UPDATE pat_visit
+		   SET pathology_no          = #{pathologyNo},
+			   alergy_drugs            = #{alergyDrugs},
+			   autopsy_indicator       = #{autopsyIndicator},
+			   blood_type             = #{bloodType},
+			   blood_type_rh           = #{bloodTypeRh},
+			   director                = #{director},
+			   chief_doctor           = #{chiefDoctor},
+			   attending_doctor        = #{attendingDoctor},
+			   doctor_in_charge        = #{doctorInCharge},
+			   duty_nurse              = #{dutyNurse},
+			   advanced_studies_doctor = #{advancedStudiesDoctor},
+			   practice_doctor         = #{practiceDoctor},
+			   mr_quality              = #{mrQuality},
+			   doctor_of_control_quality     = #{doctorOfControlQuality},
+			   nurse_of_control_quality      = #{nurseOfControlQuality},
+			   date_of_control_quality       = #{dateOfControlQuality},
+		       discharge_disposition         = #{dischargeDisposition},
+		       plan_31_admission             = #{plan31Admission},
+		       reason_31_admission           = #{reason31Admission}
+		 WHERE id =#{id}
+	</update>
 	<select id="selectPatVisit" resultType="PatVisit">
 		SELECT  * from PAT_VISIT WHERE
 		<if test="id!=null and id!=''">

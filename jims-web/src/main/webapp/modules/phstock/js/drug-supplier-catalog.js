@@ -12,7 +12,6 @@ $(function () {
     };
 
     $("#dg").datagrid({
-        title: '药品厂商维护',
         fit: true,//让#dg数据创铺满父类容器
         toolbar: '#tb',
         singleSelect: true,
