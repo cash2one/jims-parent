@@ -39,7 +39,7 @@ $(function () {
 
             idField: "id",
             treeField: "deptName",
-            footer: '#tb',
+            toolbar: '#tb',
             fitColumns: true,
             columns: [[{
                 title: 'id',
