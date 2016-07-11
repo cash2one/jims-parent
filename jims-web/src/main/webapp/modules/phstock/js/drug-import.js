@@ -40,12 +40,12 @@ $(function () {
         maxStock: {
             validator: function(value){
                 var row = $('#drug-import').datagrid('getSelected')
-                if(isNaN(value) || +value < 1 || +value > +row.currentStock) {
+                if(isNaN(value) || +value < 1) {
                     return false
                 }
                 return true
             },
-            message: '数量必须在1和当前结存之间！'
+            message: '数量必须大于0！'
         },
         hasSelected: {
             validator: function(value){
