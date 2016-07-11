@@ -5,10 +5,7 @@
  */
 $("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/easyui/css/icon.css"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
-$("<script>").attr({
-    type: "application/javascript",
-    src: "/static/easyui/locale/easyui-lang-zh_CN.js"
-}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
 var basePath = "/service";
@@ -17,7 +14,6 @@ $(function () {
     //var orgId=parent.config.org_id;
     var orgId = 1;
     var asepsisCode;
-    var staffFrom = [];
     var currentSelectDeptData;
     var editIndex1 = undefined;
     //包名称维护
@@ -61,34 +57,8 @@ $(function () {
             align: 'center'
         }]],
         onClickRow: function (index, row) {
-            staffFrom = [];
             var node = $("#asepsis-dict").datagrid("getSelected");
             asepsisCode = node.asepsisCode;
-            var dictType = 'v_exp_dict_price_list';
-            //加载字段名称
-            jQuery.ajax({
-                'type': 'GET',
-                'url': basePath + '/input-setting/list?orgId=' + orgId + '&dictType=' + dictType,
-                'contentType': 'application/json',
-                'dataType': 'json',
-                'success': function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        staffFrom.push({
-                            itemCode: data[i].exp_code, itemName: data[i].exp_name, supplier: data[i].supplier ,
-                            id: data[i].id
-                            , expSpec: data[i].exp_spec
-                            , units: data[i].units
-                            , label: data[i].label
-                            , inputcode: data[i].input_code
-                            , tradePrice: data[i].trade_price
-                            , retailPricce: data[i].retail_price
-                        });
-                    }
-                },
-                'error': function (data) {
-                    $.messager.alert("系统提示", "加载数据出错");
-                }
-            });
             var url = basePath + "/asepsisDetailDict/findList?asepsisCode=" + asepsisCode + "&orgId=" + orgId;
             $("#asepsis-detail-dict").datagrid("reload", url);
 
@@ -191,32 +161,35 @@ $(function () {
             width: '10%',
             align: 'center',
             editor: {
-
                 type: 'combogrid',
                 options: {
                     panelWidth: 400,
-                    idField: 'itemName',
-                    textField: 'itemName',
+                    idField: 'exp_name',
+                    textField: 'exp_name',
+                    mode: 'remote',
+                    method: 'GET',
+                    url: basePath + '/input-setting/listParamByGET?orgId=' + orgId + '&dictType=v_exp_dict_price_list',
                     columns: [[
-                        {field: 'itemCode', title: '代码', width: 100, align: 'center'},
-                        {field: 'itemName', title: '名称', width: 100, align: 'center'},
+                        {field: 'exp_code', title: '代码', width: 100, align: 'center'},
+                        {field: 'exp_name', title: '名称', width: 120, align: 'center'},
+                        {field: 'input_code', title: '拼音码', width: 100, align: 'center'},
                         {field: 'supplier', title: '厂家', width: 100, align: 'center'},
-                        {field: 'expSpec', title: '规格', width: 100, align: 'center'},
+                        {field: 'exp_spec', title: '规格', width: 100, align: 'center'},
                         {field: 'label', title: '单位', width: 100, align: 'center'},
-                        {field: 'inputcode', title: '拼音码', width: 100, align: 'center'},
-                        {field: 'tradePrice', title: '批发价', width: 100, align: 'center'},
-                        {field: 'id', title: '厂家ID', width: 100, align: 'center'},
-                        {field: 'retailPricce', title: '零售价', width: 100, align: 'center'}
+                        {field: 'trade_price', title: '批发价', width: 100, align: 'center'},
+                        {field: 'id', title: '厂家ID', width: 100, align: 'center', hidden: true},
+                        {field: 'retail_price', title: '零售价', width: 100, align: 'center'},
+                        {field: 'units', title: '包单位', width: 100, align: 'center', hidden: true}
                     ]],
                     onSelect: function (index, data) {
                         var row = $('#asepsis-detail-dict').datagrid('getSelected');
-                        row.itemCode = data.itemCode;
-                        row.itemName = data.itemName;
-                        row.itemSpec = data.expSpec;
+                        row.itemCode = data.exp_code;
+                        row.itemName = data.exp_name;
+                        row.itemSpec = data.exp_spec;
                         row.units = data.units;
                         row.label = data.label;
-                        row.itemPrice = data.tradePrice;
-                        row.firmId=data.id;
+                        row.itemPrice = data.trade_price;
+                        row.firmId = data.id;
                         $('#asepsis-detail-dict').datagrid('endEdit', editIndex1);
                     }
                 }
@@ -288,10 +261,6 @@ $(function () {
             $('#asepsis-detail-dict').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
             editIndex1 = index;
-            if (field == 'itemName') {
-                var editor = $("#asepsis-detail-dict").datagrid('getEditor', {index: index, field: 'itemName'});
-                $(editor.target).combogrid('grid').datagrid('loadData', staffFrom);
-            }
         }
     }
 
@@ -304,7 +273,7 @@ $(function () {
         }
 
         $("#asepsis-detail-dict").datagrid('appendRow', {
-            amount:0,
+            amount: 0,
             orgId: orgId,
             asepsisCode: $("#asepsis-dict").datagrid('getSelected').asepsisCode
         });
