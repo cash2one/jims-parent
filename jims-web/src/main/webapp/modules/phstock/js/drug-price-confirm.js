@@ -16,7 +16,7 @@ $(function () {
         }
     };
     $("#modifyList").datagrid({
-        title:'调价记录',
+        //title:'调价记录',
         fit: true,
         fitColumns: true,
         striped: true,
