@@ -124,9 +124,8 @@
 	</update>
 
     <update id="delete">
-		UPDATE sys_service SET 
-			del_flag = '1'
-		WHERE id = #{id}
+		DELETE FROM sys_service t
+		WHERE t.id = #{id}
 	</update>
 
     <select id="findServiceWithPrice" resultMap="serviceMap">
