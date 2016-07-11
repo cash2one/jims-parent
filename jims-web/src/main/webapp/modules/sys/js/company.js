@@ -453,7 +453,6 @@ $(function () {
     addNext = function(){
         var liArr = $('#addServiceModel1 ul li')
         if(liArr.length < 1) {
-            alert(JSON.stringify(dataArr))
             for (var i = 0; i < dataArr.length; i++) {
                 //用于判断服务信息是否维护完整
                 var sysServicePriceList = dataArr[i].sysServicePriceList;
