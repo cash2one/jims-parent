@@ -159,6 +159,7 @@ $(function () {
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
+        toolbar: '#searchTb',
         nowrap: false,  //如果为true，则在同一行中显示数据
         striped: true,  //显示斑马线效果
         border: true,
@@ -254,6 +255,7 @@ $(function () {
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
+        toolbar: '#ft',
         nowrap: false,  //如果为true，则在同一行中显示数据
         striped: true,  //显示斑马线效果
         border: true,
@@ -334,11 +336,6 @@ $(function () {
                 oneData = {};
             }
         }
-    });
-
-    $('#cc').layout('panel', 'south').panel('resize', {height: 'auto'});
-    $("#cc").layout({
-        fit: true
     });
 
     var loadTypeDict = function () {

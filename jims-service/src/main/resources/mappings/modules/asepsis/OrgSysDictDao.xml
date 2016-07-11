@@ -37,9 +37,9 @@
         t.type AS "type",t.description AS "description"
         FROM ORG_SYS_DICT t
         WHERE 1=1
+            AND t.org_id = #{2}
             AND t.type LIKE CONCAT(CONCAT('%', #{0}), '%')
             or t.description LIKE CONCAT(CONCAT('%', #{1}), '%')
-            AND t.org_id = #{2}
         GROUP BY t.type,t.description
     </select>
 
