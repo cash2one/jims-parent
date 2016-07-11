@@ -83,4 +83,11 @@ public interface PatVisitDao extends CrudDao<PatVisit> {
 
     public PatVisit selectPatVisit(@Param("id")String id);
 
+    /**
+     * 病案首页--更新住院其他信息
+     * @param patVisit
+     * @author zhaoning
+     */
+    public void updateOtherInfo(PatVisit patVisit);
+
 }

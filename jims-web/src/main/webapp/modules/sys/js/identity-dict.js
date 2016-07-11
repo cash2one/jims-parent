@@ -12,11 +12,10 @@ $(function () {
     }
 
     $("#dg").datagrid({
-        title: '身份字典表维护',
         fit: true,
-        footer: '#tb',
         singleSelect: true,
         rownumbers: true,
+        toolbar: '#tb',
         method: 'get',
         url: basePath + '/identity-dict/list?orgId=' + orgId,
         loadMsg: '数据正在加载中，请稍后.....',
@@ -55,7 +54,7 @@ $(function () {
             title: "优先标志",
             field: "priorityIndicator",             //1,优先;0,不优先
             align: 'center',
-            width: '16%',
+            width: '15%',
             editor: {
                 type: 'combobox', options: {
                     editable: false,
@@ -84,7 +83,7 @@ $(function () {
             title: "军人标志",
             field: "militaryIndicator",
             align: 'center',
-            width: '16%',
+            width: '15%',
             editor: {
                 type: 'combobox', options: {
                     editable: false,
@@ -113,7 +112,7 @@ $(function () {
             title: "五笔码",
             field: "inputCodeWb",
             align: 'center',
-            width: '16%',
+            width: '15%',
             editor: 'textbox'
         }]],
         onClickRow: function (index, row) {
