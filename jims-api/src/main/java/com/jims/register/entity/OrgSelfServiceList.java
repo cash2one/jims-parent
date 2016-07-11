@@ -1,6 +1,7 @@
 package com.jims.register.entity;
 
 import com.jims.common.persistence.DataEntity;
+import com.jims.sys.entity.ServiceSelfVsSys;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
 	private String orgId;		// 机构ID
 
     private List<OrgSelfServiceVsMenu> menus;   // 自定义服务对应的菜单
+    private List<ServiceSelfVsSys> serviceVs;   // 服务与平台服务对照
 
     public List<OrgSelfServiceVsMenu> getMenus() {
         return menus;
@@ -68,5 +70,13 @@ public class OrgSelfServiceList extends DataEntity<OrgSelfServiceList> {
 
     public void setMenuPosition(String menuPosition) {
         this.menuPosition = menuPosition;
+    }
+
+    public List<ServiceSelfVsSys> getServiceVs() {
+        return serviceVs;
+    }
+
+    public void setServiceVs(List<ServiceSelfVsSys> serviceVs) {
+        this.serviceVs = serviceVs;
     }
 }

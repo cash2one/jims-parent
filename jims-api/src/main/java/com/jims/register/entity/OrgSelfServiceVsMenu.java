@@ -14,6 +14,7 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 	
     private static final long serialVersionUID = 1L;
     private String selfServiceId;		// 服务ID
+    private String sysServiceId;		// 所属平台服务ID
     private String menuId;		// 菜单ID
     private Integer menuSort;		// 菜单排序
     private String pid ;     // 父ID
@@ -104,5 +105,13 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 
     public void setMenuOperate(String menuOperate) {
         this.menuOperate = menuOperate;
+    }
+
+    public String getSysServiceId() {
+        return sysServiceId;
+    }
+
+    public void setSysServiceId(String sysServiceId) {
+        this.sysServiceId = sysServiceId;
     }
 }

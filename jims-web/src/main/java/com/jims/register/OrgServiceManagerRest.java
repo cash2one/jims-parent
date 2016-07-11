@@ -5,6 +5,7 @@ import com.jims.register.api.OrgServiceManagerApi;
 import com.jims.register.entity.OrgSelfServiceList;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
+import com.jims.sys.entity.ServiceSelfVsSys;
 import com.jims.sys.vo.MenuDictVo;
 import com.jims.sys.vo.OrgSelfServiceVsMenuVo;
 import org.springframework.stereotype.Component;
@@ -42,8 +43,9 @@ public class OrgServiceManagerRest {
      *                        参数OrgSelfServiceList属性中
      *                        delFlag 为 1 时，属性id为药删除的自定义服务id,多个以‘,’隔开，
      *                        id不为空，orgId为空时，属性menus为服务(id)对应的菜单数据(树形结构)
+     *                                              servicesVs 为对应平台服务数据
      *
-     *                        其他值时，为修改的自定义服务，当为添加的自定义服务时，menus为添加的菜单。
+     *                        其他值时，为修改的自定义服务，当为添加的自定义服务时，包含所有需添加信息。
      * @return 0保存失败，1保存成功
      */
     @POST
@@ -105,5 +107,16 @@ public class OrgServiceManagerRest {
             roleId,@QueryParam("isTree") boolean isTree) {
         List<OrgSelfServiceVsMenu> menuDictVos = api.findSelfServiceMenu(serviceId, roleId,isTree);
         return menuDictVos;
+    }
+
+    /**
+     * 检索自定义服务对应平台服务
+     * @param selfServiceId
+     * @return
+     */
+    @GET
+    @Path("findVsSys")
+    public List<ServiceSelfVsSys> findVsSys(@QueryParam("selfServiceId") String selfServiceId){
+        return api.findVsSys(selfServiceId);
     }
 }
