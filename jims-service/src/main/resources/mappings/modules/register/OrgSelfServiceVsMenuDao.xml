@@ -5,7 +5,6 @@
 	<sql id="orgSelfServiceVsMenuColumns">
 		a.id AS "id",
 		a.self_service_id AS "selfServiceId",
-		a.sys_service_id AS "sysServiceId",
 		a.menu_id AS "menuId",
 		a.menu_sort AS "menuSort",
 		a.pid AS "pid",
@@ -93,7 +92,6 @@
 		INSERT INTO org_self_service_vs_menu(
 			id,
 			self_service_id,
-			sys_service_id,
 			menu_id,
 			menu_sort,
 			pid,
@@ -107,7 +105,6 @@
 		) VALUES (
 			#{id},
 			#{selfServiceId},
-			#{sysServiceId},
 			#{menuId},
 			#{menuSort},
 			#{pid},
@@ -124,7 +121,6 @@
 	<update id="update">
 		UPDATE org_self_service_vs_menu SET 	
 			self_service_id = #{selfServiceId},
-			sys_service_id = #{sysServiceId},
 			menu_id = #{menuId},
 			menu_sort = #{menuSort},
 			pid = #{pid},
