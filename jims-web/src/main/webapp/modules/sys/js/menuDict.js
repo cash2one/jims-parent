@@ -563,7 +563,7 @@ $(function () {
     $("#tt").treegrid({
         idField: 'id',
         treeField: 'menuName',
-        title: '系统菜单维护',
+        //title: '系统菜单维护',
         fit: true,
         toolbar: '#tb',
         singleSelect:true,

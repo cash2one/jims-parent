@@ -547,7 +547,7 @@ $(function () {
                 });
                 $('#storageDept').combobox({
                     valueField : 'id',
-                    textField : 'supplierId',
+                    textField : 'supplier',
                     url: '/service/drug-supplier-catalog/findListWithFilter?orgId='+currentOrgId,
                     method:'get',
                     mode:'remote',
