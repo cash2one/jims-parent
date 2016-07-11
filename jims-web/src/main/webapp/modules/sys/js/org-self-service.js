@@ -285,6 +285,11 @@ $(function() {
         },
         onBeforeDrop:function(t, s){
             p = $('#selectedMenu').tree('getParent', s.target);
+        },
+        onClick: function(node){
+            if(!$(this).tree('isLeaf',node.target)){
+                $(this).tree('toggle',node.target)
+            }
         }
 
     })
@@ -300,13 +305,7 @@ $(function() {
             do{
                 parent = $('#selectedMenu').tree('getParent',node.target);
                 $('#selectedMenu').tree('remove',node.target);
-                for(var i=0;i<treeNum;i++){
-                    var n = $('#tree'+i).tree('find',node.id);
-                    if(n){
-                        $('#tree'+i).tree('uncheck',n.target);
-                        //break;
-                    }
-                }
+                unSelectNode(node)
                 for(var i=0;i<treeNum;i++){
                     if(parent && $('#tree'+i).tree('find', parent.id)){
                         if($('#tree'+i).tree('isLeaf',  $('#tree'+i).tree('find', parent.id).target)){
@@ -327,6 +326,23 @@ $(function() {
             $.messager.alert('警告','请选择要删除的节点！','warning')
         }
     })
+
+    // 删除node时取消选择
+    function unSelectNode (node){
+        if(node){
+            var treeNum = $('#selectServiceMenu .easyui-tree').length
+            for(var i=0;i<treeNum;i++){
+                var n = $('#tree'+i).tree('find',node.id);
+                if(n && $('#tree'+i).tree('isLeaf',n.target)){
+                    $('#tree'+i).tree('uncheck',n.target);
+                }
+            }
+            var c = node.children;
+            for(var i= 0,j= c ? c.length : 0; i<j; i++) {
+                unSelectNode(c[i]);
+            }
+        }
+    }
     //确认选择
     $('#okMenu').click(function(){
         var row = $('#orgSelfService').datagrid('getSelected');

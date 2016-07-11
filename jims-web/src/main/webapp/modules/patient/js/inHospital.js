@@ -17,7 +17,7 @@ $(function() {
             {field: 'id', title: 'ID', hidden: 'true'},
             {field: 'name', title: '姓名', width: '15%', align: 'center'},
             {field: 'idNo', title: '身份证号', width: '25%', align: 'center'},
-            {field: 'sex', title: '性别', width: '10%', align: 'center'},
+            {field: 'sex', title: '性别', width: '10%', align: 'center',formatter:sexFormatter},
             {field: 'inpNo', title: '住院号', width: '10%', align: 'center'},
             {field: 'birthPlace', title: '出生地', width: '20%', align: 'center'},
             {field: 'mailingAddress', title: '通信地址', width: '20%', align: 'center'}
@@ -37,91 +37,128 @@ $(function() {
 
 
     //性别
-    $('#sex').combobox({
+    $('#sexId').combobox({
         data: sexData,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#sex").val(n.value);
+        }
     });
-    $("#sex ").combobox('select',setData[0].value);
+    $("#sexId ").combobox('select',setData[0].value);
     //婚姻状况
-    $('#maritalStatus').combobox({
+    $('#maritalStatusId').combobox({
         data: marriageDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#maritalStatus").val(n.value);
+        }
+
     });
-    $("#maritalStatus ").combobox('select',marriageDict[0].value);
+    $("#maritalStatusId ").combobox('select',marriageDict[0].value);
     //国籍
-    $('#citizenship').combobox({
+    $('#citizenshipId').combobox({
         data: nationalityDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#citizenship").val(n.value);
+        }
     });
-    $("#citizenship ").combobox('select',nationalityDict[0].value);
+    $("#citizenshipId ").combobox('select',nationalityDict[0].value);
     //民族
-    $('#nation').combobox({
+    $('#nationId').combobox({
         data: nationDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#nation").val(n.value);
+        }
     });
-    $("#nation ").combobox('select',nationDict[0].value);
+    $("#nationId").combobox('select',nationDict[0].value);
     //费别
-    $('#chargeType').combobox({
+    $('#chargeTypeId').combobox({
         data: chargeType,
         valueField: 'id',
-        textField: 'charge_type_name'
+        textField: 'charge_type_name',
+        onSelect: function (n, o) {
+            $("#chargeType").val(n.id);
+        }
     });
-    $("#chargeType ").combobox('select',chargeType[0].value);
+    $("#chargeTypeId ").combobox('select',chargeType[0].value);
     //身份
-   /* $('#identity').combobox({
+    $('#identityId').combobox({
         data: identityDict,
         valueField: 'id',
-        textField: 'identityName'
+        textField: 'identityName',
+        onSelect: function (n, o) {
+            $("#identity").val(n.id);
+        }
     });
-    $("#identity ").combobox('select',identityDict[0].id);*/
+    $("#identityId ").combobox('select',identityDict[0].id);
 
     //职业
-    $('#occupation').combobox({
+    $('#occupationId').combobox({
         data: professionDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#occupation").val(n.value);
+        }
     });
-    $("#occupation ").combobox('select',professionDict[0].value);
+    $("#occupationId ").combobox('select',professionDict[0].value);
 
     //关系
-    $('#relationship').combobox({
+    $('#relationshipId').combobox({
         data: relationshipDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#relationship").val(n.value);
+        }
     });
-    $("#relationship ").combobox('select',relationshipDict[0].value);
+    $("#relationshipId ").combobox('select',relationshipDict[0].value);
     //入院来源
-    $('#fromOtherPlaceIndicator').combobox({
+    $('#fromOtherPlaceIndicatorId').combobox({
         data: resourceDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#fromOtherPlaceIndicator").val(n.value);
+        }
     });
-    $("#fromOtherPlaceIndicator ").combobox('select',resourceDict[0].value);
+    $("#fromOtherPlaceIndicatorId ").combobox('select',resourceDict[0].value);
     //入院方式
-    $('#patientClass').combobox({
+    $('#patientClassId').combobox({
         data: methodDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#patientClass").val(n.value);
+        }
     });
-    $("#patientClass ").combobox('select',methodDict[0].value);
+    $("#patientClassId ").combobox('select',methodDict[0].value);
     //住院目的
-    $('#admissionCause').combobox({
+    $('#admissionCauseId').combobox({
         data: objectiveDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#admissionCause").val(n.value);
+        }
     });
-    $("#admissionCause ").combobox('select',objectiveDict[0].value);
+    $("#admissionCauseId").combobox('select',objectiveDict[0].value);
     //病情
-    $('#patAdmCondition').combobox({
+    $('#patAdmConditionId').combobox({
         data: admissionDict,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#patAdmCondition").val(n.value);
+        }
     });
-    $("#patAdmCondition ").combobox('select',admissionDict[0].value);
+    $("#patAdmConditionId").combobox('select',admissionDict[0].value);
 
 
     //入院科室

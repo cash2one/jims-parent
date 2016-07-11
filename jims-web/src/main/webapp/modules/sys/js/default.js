@@ -92,6 +92,8 @@ $(function () {
         });
 
     }
-
-
+    //退出
+    $("#exit").on("click", function () {
+        location.href = "/modules/sys/login.html";
+    });
 });

@@ -92,6 +92,7 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
         List<OrgDeptPropertyDict> newUpdateDict = new ArrayList<OrgDeptPropertyDict>();
         List<OrgDeptPropertyDict> inserted = orgDeptPropertyDictVo.getInserted();
         List<OrgDeptPropertyDict> updated = orgDeptPropertyDictVo.getUpdated();
+        List<OrgDeptPropertyDict> deleted = orgDeptPropertyDictVo.getDeleted();
         //插入
         for (OrgDeptPropertyDict orgDeptPropertyDict : inserted) {
 
@@ -99,7 +100,7 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
             //给插入的科室属性进行排序
             OrgDeptPropertyDict sort = orgDeptPropertyDictDao.findSort(orgDeptPropertyDict.getOrgId());
             if (list.size() > 0) {
-                orgDeptPropertyDict.setSort(null);
+                orgDeptPropertyDict.setSort(list.get(0).getSort());
             } else {
                 if (sort.getSort() == null) {
                     orgDeptPropertyDict.setSort(0L);
@@ -115,6 +116,15 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
         for (OrgDeptPropertyDict orgDeptPropertyDict : updated) {
             orgDeptPropertyDict.preUpdate();
             int num = orgDeptPropertyDictDao.update(orgDeptPropertyDict);
+        }
+
+        //删除
+        List<String> ids = new ArrayList<String>();
+        for (OrgDeptPropertyDict orgDeptPropertyDict : deleted) {
+            ids.add(orgDeptPropertyDict.getId());
+        }
+        for (String id : ids) {
+            dao.delete(id);
         }
         return newUpdateDict;
     }

@@ -6,7 +6,7 @@
 
 $(function () {
 
-    var orgId =config.org_Id;
+    var orgId = config.org_Id;
     var deptId;
     var deptName;
     //检查类别
@@ -125,6 +125,19 @@ $(function () {
             title: '职称',
             field: 'title',
             width: '15%'
+        }, {
+            title: '昵称',
+            field: 'nickName',
+            width: '15%'
+        }, {
+            title: '民族',
+            field: 'nation',
+            width: '15%'
+        }, {
+            title: '人员id',
+            field: 'staffId',
+            width: '15%',
+            hidden: 'true'
         }
         ]]
     });
@@ -143,7 +156,7 @@ $(function () {
     });
 
     $('#deptName').combobox({
-        url: basePath + '/dept-dict/selectParentByOrgId?orgId='+orgId,
+        url: basePath + '/dept-dict/selectParentByOrgId?orgId=' + orgId,
         valueField: 'id',
         textField: 'deptName'
     });
@@ -179,20 +192,71 @@ $(function () {
 
     //添加人员按钮
     $("#addBtn").on('click', function () {
+        $("#password").validatebox({'disabled':false});
         var node = $("#staff").treegrid("getSelected");
         if (node) {
             $("#addStaff").window('open');
             $("#role").combobox('clear');
+            $("#id").val("");
             $("#selectCardNo").val("");
+            $("#res-card").html("");
+            $("#res-nick").html("");
+            $("#res-phone").html("");
+            $("#res-password").html("");
+            $("#res-email").html("");
+            $("#res-name").html("");
+            $("#res-title").html("");
+
         } else {
             $.messager.alert("系统提示", "请先选择科室信息");
         }
-
-
     });
+
+    //修改人员按钮
+    $("#editBtn").on('click', function () {
+        $("#res-card").html("");
+        $("#res-nick").html("");
+        $("#res-phone").html("");
+        $("#res-password").html("");
+        $("#res-email").html("");
+        $("#res-name").html("");
+        $("#res-title").html("");
+        var node = $("#staffGrid").datagrid("getSelected");
+        if (node) {
+
+            $("#addStaff").window('open');
+            $("#password").validatebox({'disabled':true});
+            $("#selectCardNo").val("");
+
+            $("#cardNo").val(node.cardNo);
+            $("#phoneNum").val(node.phoneNum);
+            $("#name").val(node.name);
+            $("#email").val(node.email);
+            $("#nickName").val(node.nickName);
+            $("#title").val(node.title);
+            $("#sex").combobox('setValue', node.sex);
+            $("#nation").combobox('setValue', node.nation);
+            $("#id").val(node.id);
+
+            var staffId = node.staffId;
+            var role = [];
+            $.get("/service/orgStaff/findRole?staffId=" + staffId, function (data) {
+                if (data != null) {
+                    for (var i = 0; i < data.length; i++) {
+                        role.push(data[i].id);
+                    }
+                    $("#role").combobox('setValues', role);
+                }
+            });
+        } else {
+            $.messager.alert("系统提示", "请选择要修改的行");
+        }
+    });
+
+
     //取消添加人员维护
     $("#cancelBtn").on('click', function () {
-       $("#staffForm").form('reset');
+        $("#staffForm").form('reset');
         $("#addStaff").window('close');
     });
 
@@ -215,15 +279,15 @@ $(function () {
                     $("#sex").combobox('setValue', data.sex);
                     $("#nation").combobox('setValue', data.nation);
                     $("#id").val(data.id);
-                    $.get("/service/orgStaff/findTitleByPersionId?persionId=" + data.id+"&orgId="+orgId, function (data) {
+                    $.get("/service/orgStaff/findTitleByPersionId?persionId=" + data.id + "&orgId=" + orgId, function (data) {
 
                         if (data != null) {
                             $("#title").val(data.title);
                             $("#staffId").val(data.id);
                         }
-                        var staffId=$("#staffId").val();
+                        var staffId = $("#staffId").val();
                         var role = [];
-                        $.get("/service/orgStaff/findRole?staffId="+staffId, function (data) {
+                        $.get("/service/orgStaff/findRole?staffId=" + staffId, function (data) {
                             if (data != null) {
                                 for (var i = 0; i < data.length; i++) {
                                     role.push(data[i].id);
@@ -252,12 +316,12 @@ $(function () {
     //组织机构人员保存
     $("#saveBtn").on('click', function () {
         var flag = false
-        $('.fitem  span').each(function(){
-            if($(this).css('color') == 'rgb(255, 0, 0)' && $.trim($(this).html()) != '*'){
+        $('.fitem  span').each(function () {
+            if ($(this).css('color') == 'rgb(255, 0, 0)' && $.trim($(this).html()) != '*') {
                 flag = true
             }
         })
-        if(flag) return
+        if (flag) return
         var orgStaffVo = {};
         orgStaffVo.id = $("#id").val();
         orgStaffVo.selectCardNo = $("#selectCardNo").val();
@@ -267,7 +331,7 @@ $(function () {
         orgStaffVo.cardNo = $("#cardNo").val();
         orgStaffVo.phoneNum = $("#phoneNum").val();
         orgStaffVo.email = $("#email").val();
-        orgStaffVo.password = $("#password").val();
+        //orgStaffVo.password = $("#password").val();
         orgStaffVo.nickName = $("#nickName").val();
         orgStaffVo.deptId = $("#deptName").combobox('getValue');
         var array = [];
@@ -277,6 +341,11 @@ $(function () {
         }
         else {
             orgStaffVo.role = array;
+        }
+        if ($("#password").val() == null) {
+
+        } else {
+            orgStaffVo.password = $("#password").val();
         }
         // orgStaffVo.orgId = parent.config.org_id;
         orgStaffVo.orgId = orgId;
@@ -322,11 +391,7 @@ $(function () {
     })
 
 
-
-
-
-
-    var registerVo={};
+    var registerVo = {};
     //文本框获取焦点的时候，显示
     $("#name").focus(function () {
         $("#res-name").text("*请输入正确的姓名");
@@ -383,15 +448,13 @@ $(function () {
             return false;
         }
 
-        registerVo.cardNo = $("#cardNo").val();
+        var cardNo = $("#cardNo").val();
+        var persion_id = $("#id").val();
         jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/getCard",
-            'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
-            'dataType': 'json',
+            'type': 'GET',
+            'url': "/service/register/getCard?cardNo=" + cardNo + "&persionId=" + persion_id,
             'success': function (data) {
-                if (data && data.data == "success") {
+                if (data.id != persion_id) {
                     $("#res-card").text("*身份证号已经存在");
                     $("#res-card").css("color", "red");
                     return false;
@@ -413,7 +476,8 @@ $(function () {
 
     //校验用户名是否已经存在
     $("#nickName").blur(function () {
-        registerVo.nickName = $("#nickName").val();
+        var nickName = $("#nickName").val();
+        var persion_id = $("#id").val();
         var name = $("#nickName").val();
         if ($("#nickName").val() == "") {
             $("#res-nick").text("*用户名不能为空");
@@ -432,13 +496,11 @@ $(function () {
         }
 
         jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/getNick",
+            'type': 'GET',
+            'url': "/service/register/getNick?nickName=" + nickName + "&persionId=" + persion_id,
             'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
-            'dataType': 'json',
             'success': function (data) {
-                if (data && data.data == "success") {
+                if (data.id != persion_id) {
                     $("#res-nick").text("*用户名已经存在");
                     $("#res-nick").css("color", "red");
                     return false;
@@ -459,8 +521,8 @@ $(function () {
     });
     //校验邮箱是否合法，是否已被注册
     $("#email").blur(function () {
-        registerVo.email = $("#email").val();
-
+        var email = $("#email").val();
+        var persion_id = $("#id").val();
         if ($("#email").val() == "") {
             $("#res-email").text("*邮箱不能为空");
             $("#res-email").css("color", "red");
@@ -477,14 +539,12 @@ $(function () {
             return false;
         }
         jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/getEmail",
-            'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
+            'type': 'GET',
+            'url': "/service/register/getEmail?email=" + email + "&persionId=" + persion_id,
             'dataType': 'json',
             'success': function (data) {
 
-                if (data && data.data == "success") {
+                if (data.id != persion_id) {
                     $("#res-email").text("*邮箱已注册");
                     $("#res-email").css("color", "red");
                     return false;
@@ -506,7 +566,7 @@ $(function () {
     //文本框获取焦点的时候，显示
     $("#phoneNum").blur(function () {
         var phone = $("#phoneNum").val();
-        registerVo.phoneNum = phone;
+        var persion_id = $("#id").val();
         if ($("#phoneNum").val() == "") {
             $("#res-phone").text("*手机号不能为空");
             $("#res-phone").css("color", "red");
@@ -524,14 +584,11 @@ $(function () {
             return false;
         }
         jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/getPhone",
-            'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
-            'dataType': 'json',
+            'type': 'GET',
+            'url': "/service/register/getPhone?phoneNum=" + phone + "&persionId=" + persion_id,
             'success': function (data) {
 
-                if (data && data.data == "success") {
+                if (data.id != persion_id) {
                     $("#res-phone").text("*手机号已经注册");
                     $("#res-phone").css("color", "red");
                     return false;

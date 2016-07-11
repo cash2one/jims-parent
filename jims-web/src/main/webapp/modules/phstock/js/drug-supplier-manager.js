@@ -6,7 +6,6 @@
 
 $(function () {
     $("#supplier").datagrid({
-        title: '药品供应维护',
         fit: true,
         fitColumns: true,
         striped: true,
