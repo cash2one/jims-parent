@@ -16,7 +16,9 @@
     <script type="text/javascript" src="/static/data/data_units_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_bloodInuses_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_patSource_dict.js"></script>
-
+    <style>
+        .fitem label{ width: 100px; }
+    </style>
 </head>
 <body onload="onloadMethod()" class="easyui-layout">
 <div class="easyui-layout" style="width:100%;height:100%;">
@@ -27,7 +29,7 @@
     <div data-options="region:'center',iconCls:'icon-ok'">
         <form id="useBloodForm" method="post">
             <!--<input type="hidden" id="inpNo" name="inpNo" value="">-->
-            <div class="fitem fitem_pop" style="height: 50px;">
+            <div style="padding:5px;" style="height: 50px;">
             </div>
             <input type="hidden" name="id">
             <!--<div class="fitem fitem_pop">-->
@@ -93,7 +95,7 @@
                 </label>
                 <input name="rh" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
-                <label style="width: 25%;">
+                <label>
                     红细胞压积：
                 </label>
                 <input  class="easyui-validatebox validatebox-text validatebox-invalid"
