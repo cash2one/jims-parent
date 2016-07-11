@@ -9,6 +9,7 @@ import com.jims.phstock.entity.DrugDict;
 import com.jims.phstock.entity.DrugNameDict;
 import com.jims.phstock.entity.DrugPriceList;
 import com.jims.phstock.entity.DrugStock;
+import com.jims.phstock.vo.DrugCatalogChangeVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -80,20 +81,20 @@ public interface DrugPriceListDao extends CrudDao<DrugPriceList> {
 
     /**
      * 根据价格表的ID检索全院库存量
-     * @param priceListId
+     * @param
      * @return
      * @author zq
      */
-    public List<DrugStock> findListByPriceListId(String priceListId);
+    public List<DrugStock> findListByPriceListId(String orgId,String drugCode,String drugSpec,String firmId,String packageSpec);
 
 
     /**
      * 根据价格表的ID,subStorage,storage检索库存量
-     * @param priceListId
+     * @param
      * @return
      * @author zq
      */
-    public List<DrugStock> findBySubQuantity( String priceListId,String storage,String subStorage);
+    public List<DrugStock> findBySubQuantity(String orgId,String drugCode,String drugSpec,String firmId,String packageSpec,String storage,String subStorage);
 
     /**
      * 检索（没有其他关联表）
