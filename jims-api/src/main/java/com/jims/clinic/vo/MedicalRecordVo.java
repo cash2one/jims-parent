@@ -1,8 +1,9 @@
 package com.jims.clinic.vo;
 
 import com.jims.clinic.dto.InpBillDetailDto;
-import com.jims.clinic.entity.EmrDiagnosis;
+
 import com.jims.common.persistence.DataEntity;
+import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.patient.entity.PatVisit;
