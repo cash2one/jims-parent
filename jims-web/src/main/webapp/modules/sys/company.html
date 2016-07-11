@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html  >
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -13,12 +13,9 @@
     <script type="text/javascript" src="/static/bookstrap/js/jquery.min.js"></script>
     <script type="text/javascript" src="/static/bookstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../sys/js/company.js"></script>
-    <script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" src="/static/ueditor/ueditor.all.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bookstrap/easyui.css">
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
-    <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <!--<script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>-->
     <style>
@@ -57,227 +54,215 @@
     <!-- /.container -->
 </nav>
 <div class="container padd50-top">
-    <div class="col-md-9">
+<div class="col-md-9">
 
-        <h3 class="gfm-asktile">注册机构</h3>
-        <div class="form-horizontal">
-            <div class="office-stepsign clearfix">
-                <ul>
-                    <li id="nextBut1" class="go-on" style="width: 200px;cursor:pointer;">1、完善基本信息</li>
-                    <li id="nextBut2" class="default" style="width: 200px;cursor:pointer;">2、选择服务</li>
-                    <li id="nextBut3" class="default" style="width: 200px;cursor:pointer;">3、信息确认</li>
-                    <li id="nextBut4" class="default" style="width: 200px;cursor:pointer;">4、等待审核</li>
-                </ul>
+    <h3 class="gfm-asktile">注册机构</h3>
+    <div class="form-horizontal">
+        <div class="office-stepsign clearfix">
+            <ul>
+                <li id="nextBut1" class="go-on" style="width: 200px;cursor:pointer;">1、完善基本信息</li>
+                <li id="nextBut2" class="default" style="width: 200px;cursor:pointer;">2、选择服务</li>
+                <li id="nextBut3" class="default" style="width: 200px;cursor:pointer;">3、信息确认</li>
+                <li id="nextBut4" class="default" style="width: 200px;cursor:pointer;">4、等待审核</li>
+            </ul>
+        </div>
+        <div class="easyui-tabs" style="padding:10px;display: inline-block;width: 100%" id="addServiceModel0">
+            <div class="control-group" style="width: 100%">
+                <label class="control-label">上级机构：</label>
+                <div class="controls">
+                    <select class="form-control form-short" id="parentId" name="parentId">
+                        <option value="">请选择</option>
+                    </select>
+                    <span class="font-red">*</span>
+                    请选择上级机构！
+                </div>
             </div>
-            <div class="easyui-tabs" style="padding:10px;display: inline-block;width: 100%" id="addServiceModel0">
-                <div class="control-group" style="width: 100%">
-                    <label class="control-label">上级机构：</label>
-                    <div class="controls">
-                        <select class="form-control form-short" id="parentId" name="parentId">
-                            <option value="">请选择</option>
-                        </select>
-                        <span class="font-red">*</span>
-                        请选择上级机构！
-                    </div>
+            <div class="control-group">
+
+                <label class="control-label">机构名称：</label>
+
+                <div class="controls">
+                    <input type="text" class="form-control form-short" id="orgName" name="orgName">
+                    <span  id="res-orgName"></span>
+                    <!--请输入真实的名称机构，以便验证通过！-->
                 </div>
-                <div class="control-group">
+            </div>
+            <div class="control-group">
+                <label class="control-label">机构代码：</label>
 
-                    <label class="control-label">机构名称：</label>
-
-                    <div class="controls">
-                        <input type="text" class="form-control form-short" id="orgName" name="orgName">
-                        <span  id="res-orgName"></span>
-                        <!--请输入真实的名称机构，以便验证通过！-->
-                    </div>
+                <div class="controls">
+                    <input type="text" class="form-control form-short" id="orgCode" name="orgCode">
+                    <span id="res-orgCode" ></span>
+                    <!-- 请输入真实证书号，以便验证通过！-->
                 </div>
-                <div class="control-group">
-                    <label class="control-label">机构代码：</label>
+            </div>
+            <div class="control-group">
+                <label class="control-label">机构地址：</label>
 
-                    <div class="controls">
-                        <input type="text" class="form-control form-short" id="orgCode" name="orgCode">
-                        <span id="res-orgCode" ></span>
-                        <!-- 请输入真实证书号，以便验证通过！-->
-                    </div>
+                <div class="controls">
+                    <input type="text" class="form-control form-short" id="address" name="address">
+                    <span id="res-address"></span>
+                    <!--   请输入真实机构地址，以便验证通过！-->
                 </div>
-                <div class="control-group">
-                    <label class="control-label">机构地址：</label>
+            </div>
+            <div class="control-group">
+                <label class="control-label">联 系 人：</label>
 
-                    <div class="controls">
-                        <input type="text" class="form-control form-short" id="address" name="address">
-                        <span id="res-address"></span>
-                        <!--   请输入真实机构地址，以便验证通过！-->
-                    </div>
+                <div class="controls">
+                    <input type="text" class="form-control form-short" id="linkMan" name="linkMan">
+                    <span id="res-linkMan"></span>
+                    <!--    请输入真实的联系人，以方便联系！-->
                 </div>
-                <div class="control-group">
-                    <label class="control-label">联 系 人：</label>
+            </div>
+            <div class="control-group">
+                <label class="control-label">联系电话：</label>
 
-                    <div class="controls">
-                        <input type="text" class="form-control form-short" id="linkMan" name="linkMan">
-                        <span id="res-linkMan"></span>
-                        <!--    请输入真实的联系人，以方便联系！-->
-                    </div>
+                <div class="controls">
+                    <input type="text" class="form-control form-short" id="linkPhoneNum" name="linkPhoneNum">
+                    <span id="res-linkPhoneNum"></span>
+                    <!--    请输入真实的联系电话，以方便联系！-->
                 </div>
-                <div class="control-group">
-                    <label class="control-label">联系电话：</label>
+            </div>
+            <div class="control-group">
+                <label class="control-label">邮箱地址：</label>
 
-                    <div class="controls">
-                        <input type="text" class="form-control form-short" id="linkPhoneNum" name="linkPhoneNum">
-                        <span id="res-linkPhoneNum"></span>
-                        <!--    请输入真实的联系电话，以方便联系！-->
-                    </div>
+                <div class="controls">
+                    <input type="text" class="form-control form-short" id="email" name="email">
+                    <span  id="res-email"></span>
+                    <!-- 请输入真实的邮箱地址，以便验证通过！-->
                 </div>
-                <div class="control-group">
-                    <label class="control-label">邮箱地址：</label>
-
-                    <div class="controls">
-                        <input type="text" class="form-control form-short" id="email" name="email">
-                        <span  id="res-email"></span>
-                        <!-- 请输入真实的邮箱地址，以便验证通过！-->
+            </div>
+            <div class="control-group text-center">
+                <button class="btn btn-success" id="nextBtn0" data-toggle="modal">下一步</button>
+            </div>
+        </div>
+        <div class="easyui-tabs" id="addServiceModel1" style="padding:10px;display: none">
+            <div  style="width:800px">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">请选择下面的服务</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-service-list">
+                        <div class="ser-type clearfix">
+                            <ul>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="control-group text-center">
-                    <button class="btn btn-success" id="nextBtn0" data-toggle="modal">下一步</button>
+                    <button class="btn btn-success" id="nextBtn1" data-toggle="modal">下一步</button>
                 </div>
             </div>
-            <div class="easyui-tabs" id="addServiceModel1" style="padding:10px;display: none">
-                <div  style="width:800px">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">请选择下面的服务</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-service-list">
-                            <div class="ser-type clearfix">
-                                <ul>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="control-group text-center">
-                        <button class="btn btn-success" id="nextBtn1" data-toggle="modal">下一步</button>
+        </div>
+        <div class="easyui-tabs" id="addServiceModel2" style="padding:10px;display: none">
+            <div  style="width:800px">
+                <div class="control-group1">
+                    <label class="control-label">上级机构：</label>
+                    <div class="controls" id="parentId0"> <span style="color:red;">请选择上级机构</span> </div>
+                </div>
+                <div class="control-group1">
+                    <label class="control-label">机构名称：</label>
+                    <div class="controls" id="orgName0"> <span style="color:red;">请输入机构名称</span> </div>
+                </div>
+                <div class="control-group1">
+                    <label class="control-label">机构代码：</label>
+                    <div class="controls" id="orgCode0"> <span style="color:red;">请输入机构代码</span> </div>
+                </div>
+                <div class="control-group1">
+                    <label class="control-label">机构地址：</label>
+                    <div class="controls" id="address0"> <span style="color:red;">请输入机构地址</span> </div>
+                </div>
+                <div class="control-group1">
+                    <label class="control-label">联 系 人：</label>
+                    <div class="controls" id="linkMan0"> <span style="color:red;">请输入联系人</span> </div>
+                </div>
+                <div class="control-group1">
+                    <label class="control-label">联系电话：</label>
+                    <div class="controls" id="linkPhoneNum0"> <span style="color:red;">请输入联系电话</span> </div>
+                </div>
+                <div class="control-group1">
+                    <label class="control-label">邮箱地址：</label>
+                    <div class="controls" id="email0"> <span style="color:red;">请输入邮箱地址</span> </div>
+                </div>
+                <div class="control-group1">
+                    <label class="control-label">已选择服务：</label>
+                    <div class="controls alrcur-service" id="myService0"> <span style="color:red;">请定制服务</span>
                     </div>
                 </div>
-            </div>
-            <div class="easyui-tabs" id="addServiceModel2" style="padding:10px;display: none">
-                <div  style="width:800px">
-                    <div class="control-group1">
-                        <label class="control-label">上级机构：</label>
-                        <div class="controls" id="parentId0"> <span style="color:red;">请选择上级机构</span> </div>
-                    </div>
-                    <div class="control-group1">
-                        <label class="control-label">机构名称：</label>
-                        <div class="controls" id="orgName0"> <span style="color:red;">请输入机构名称</span> </div>
-                    </div>
-                    <div class="control-group1">
-                        <label class="control-label">机构代码：</label>
-                        <div class="controls" id="orgCode0"> <span style="color:red;">请输入机构代码</span> </div>
-                    </div>
-                    <div class="control-group1">
-                        <label class="control-label">机构地址：</label>
-                        <div class="controls" id="address0"> <span style="color:red;">请输入机构地址</span> </div>
-                    </div>
-                    <div class="control-group1">
-                        <label class="control-label">联 系 人：</label>
-                        <div class="controls" id="linkMan0"> <span style="color:red;">请输入联系人</span> </div>
-                    </div>
-                    <div class="control-group1">
-                        <label class="control-label">联系电话：</label>
-                        <div class="controls" id="linkPhoneNum0"> <span style="color:red;">请输入联系电话</span> </div>
-                    </div>
-                    <div class="control-group1">
-                        <label class="control-label">邮箱地址：</label>
-                        <div class="controls" id="email0"> <span style="color:red;">请输入邮箱地址</span> </div>
-                    </div>
-                    <div class="control-group1">
-                        <label class="control-label">已选择服务：</label>
-                        <div class="controls alrcur-service" id="myService0"> <span style="color:red;">请定制服务</span>
-                        </div>
-                    </div>
 
-                    <div class="control-group text-center">
-                        <button class="btn btn-success" id="nextBtn2" data-toggle="modal">确认并提交</button>
-                    </div>
-                </div>
-                <!--<div class="control-group1"><button class="btn btn-success" id="nextBtn2" >确认并提交</button></div>-->
-            </div>
-            <div class="easyui-tabs" id="addServiceModel3" style="padding:10px;display: none">
-                <div style="position:relative;width: 300px;">
-                    <div class="regsuc-remind">
-                        <span class="font-green">感谢您注册本平台机构用户!</span><br/>
-                        系统已经受理，会尽快与您联系！
-                    </div>
-                </div>
-                <div class="control-group2 text-center">
-                    <button class="btn btn-success" id="nextBtn3" data-toggle="modal">退出并返回</button>
+                <div class="control-group text-center">
+                    <button class="btn btn-success" id="nextBtn2" data-toggle="modal">确认并提交</button>
                 </div>
             </div>
-
+            <!--<div class="control-group1"><button class="btn btn-success" id="nextBtn2" >确认并提交</button></div>-->
+        </div>
+        <div class="easyui-tabs" id="addServiceModel3" style="padding:10px;display: none">
+            <div style="position:relative;width: 300px;">
+                <div class="regsuc-remind">
+                    <span class="font-green">感谢您注册本平台机构用户!</span><br/>
+                    系统已经受理，会尽快与您联系！
+                </div>
+            </div>
+            <div class="control-group2 text-center">
+                <button class="btn btn-success" id="nextBtn3" data-toggle="modal">退出并返回</button>
+            </div>
         </div>
 
     </div>
 
+</div>
 
-    <div class="col-md-3 def-rinfo">
-        <div class="priv-info clearfix">
-            <div class="priv-headimg fd-left">
-                <img src="/static/bookstrap/images/bg-img2.jpg"/>
-            </div>
-            <div class="priv-otherinfo fd-left">
-                双滦区人民医院
-                <br/>
-                <ul>
-                    <li><a href="private-info.html">个人资料</a></li>
-                    <li><img src="/static/bookstrap/images/v1.png" width="20"/></li>
-                    <li><img src="/static/bookstrap/images/flower.png" width="20"/>(58)</li>
-                </ul>
-            </div>
+
+<div class="col-md-3 def-rinfo">
+    <div class="priv-info clearfix">
+        <div class="priv-headimg fd-left">
+            <img src="/static/bookstrap/images/bg-img2.jpg"/>
         </div>
-        <div class="othersys-reg clearfix">
+        <div class="priv-otherinfo fd-left">
+            双滦区人民医院
+            <br/>
             <ul>
-                <li>
-                    <button class="btn btn-info" onclick="window.location.href='doctor-authentication.html'">我是医生
-                    </button>
-                </li>
-                <li>
-                    <button class="btn btn-warning" id="setCompany">注册机构
-                    </button>
-                </li>
+                <li><a href="private-info.html">个人资料</a></li>
+                <li><img src="/static/bookstrap/images/v1.png" width="20"/></li>
+                <li><img src="/static/bookstrap/images/flower.png" width="20"/>(58)</li>
             </ul>
         </div>
-        <div class="priv-pluser clearfix">
-            <ul>
-                <li><a href="online-ask.html">在线问诊</a></li>
-                <li><a href="#">查找医生</a></li>
-                <li><a href="#">查找医院</a></li>
-                <li><a href="#">我的关注</a></li>
-                <li><a href="#">我的消息<span class="num-sign">5</span></a></li>
-                <li><a href="#">我的好友</a></li>
-            </ul>
-        </div>
-        <div class="history-info">
-            <h3>历史记录</h3>
-            <ol>
-                <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
-                <li>修改了个人资料<span class="his-time">2016-01-18 15:48:02</span></li>
-                <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
-                <li>在线问诊<span class="his-time">2016-01-18 15:48:02</span></li>
-                <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
-                <li>查找了“心脏病”相关的信息<span class="his-time">2016-01-18 15:48:02</span></li>
-            </ol>
-        </div>
+    </div>
+    <div class="othersys-reg clearfix">
+        <ul>
+            <li>
+                <button class="btn btn-info" onclick="window.location.href='doctor-authentication.html'">我是医生
+                </button>
+            </li>
+            <li>
+                <button class="btn btn-warning" id="setCompany">注册机构
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="priv-pluser clearfix">
+        <ul>
+            <li><a href="online-ask.html">在线问诊</a></li>
+            <li><a href="#">查找医生</a></li>
+            <li><a href="#">查找医院</a></li>
+            <li><a href="#">我的关注</a></li>
+            <li><a href="#">我的消息<span class="num-sign">5</span></a></li>
+            <li><a href="#">我的好友</a></li>
+        </ul>
+    </div>
+    <div class="history-info">
+        <h3>历史记录</h3>
+        <ol>
+            <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
+            <li>修改了个人资料<span class="his-time">2016-01-18 15:48:02</span></li>
+            <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
+            <li>在线问诊<span class="his-time">2016-01-18 15:48:02</span></li>
+            <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
+            <li>查找了“心脏病”相关的信息<span class="his-time">2016-01-18 15:48:02</span></li>
+        </ol>
     </div>
 </div>
-<!-- 服务模态start -->
-<div id="serviceDialog" buttons="#serviceDialog-buttons" data-options="modal:true">
-     <div disabled="disabled">
-        <script id="editor1" type="text/plain" style="width:580px;height:250px;"></script></td>
-    </div>
 </div>
-<div id="serviceDialog-buttons">
-    <!--<a href="javascript:void(0)" id="submitBtn" class="easyui-linkbutton c6" iconCls="icon-ok">保存</a>-->
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
-       onclick="javascript:$('#serviceDialog').dialog('close')">关闭</a>
-</div>
-<!-- 服务模态end -->
 <footer>
     <div class="text-center">
         &copy; 2013 北京极目云软件有限公司 网站备案：京ICP备13045463号
