@@ -1,11 +1,13 @@
 package com.jims.clinic.bo;
 
-import com.jims.clinic.dao.EmrDiagnosisDao;
+
 import com.jims.clinic.dao.PatMasterIndexDao;
 import com.jims.clinic.dao.PatVisitDao;
 import com.jims.clinic.dto.InpBillDetailDto;
-import com.jims.clinic.entity.EmrDiagnosis;
+
 import com.jims.clinic.vo.MedicalRecordVo;
+import com.jims.diagnosis.entity.EmrDiagnosis;
+import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
 import com.jims.drugPresc.dao.InpBillDetailDao;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.patient.entity.PatVisit;
