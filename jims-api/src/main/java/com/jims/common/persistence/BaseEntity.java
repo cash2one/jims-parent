@@ -154,4 +154,23 @@ public abstract class BaseEntity<T> implements Serializable {
      *签名
      */
     public static final String SIGNATURE_TYPE_DEFAULT = "0";
+
+    /**
+     * 检验申请状态（0：申请； 1：完成）
+     */
+    public static final String LAB_STATUS_APPLY = "0";
+    public static final String LAB_STATUS_COMPLETE = "1";
+    /**
+     * 检验结果状态（0：申请； 1：完成）
+     */
+    public static final String LAB_RESULTSTATUS_APPLY = "0";
+    public static final String LAB_RESULTSTATUS_COMPLETE = "1";
+
+    /***
+     * 打印标记(0:未打印；1：打印 )
+     */
+    public static final Integer PRINTINDICATOR_NOT = 0;
+    public static final Integer PRINTINDICATOR_COMPLETE = 1;
+
+
 }
