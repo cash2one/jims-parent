@@ -52,7 +52,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	private Integer printIndicator;		// 打印标志
 	private String subject;		// subject
 	private String containerCarrier;		// container_carrier
-	private String status;		// status
+	private String status;		// 申请状态
 	private String memo;		// memo
 	private String wardCode;		// 护理单元
 	private String phyexamFlag;		// phyexam_flag
@@ -127,8 +127,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 	public void setWorkingId(String workingId) {
 		this.workingId = workingId;
 	}
-	
-	@JsonSerialize(using = CustomDateSerializer.class)
+
 	public Date getExecuteDate() {
 		return executeDate;
 	}
@@ -217,7 +216,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 		this.notesForSpcm = notesForSpcm;
 	}
 	
-	@JsonSerialize(using = CustomDateSerializer.class)
+
 	public Date getSpcmReceivedDateTime() {
 		return spcmReceivedDateTime;
 	}
@@ -226,7 +225,7 @@ public class LabTestMaster extends DataEntity<LabTestMaster> {
 		this.spcmReceivedDateTime = spcmReceivedDateTime;
 	}
 	
-	@JsonSerialize(using = CustomDateSerializer.class)
+
 	public Date getSpcmSampleDateTime() {
 		return spcmSampleDateTime;
 	}

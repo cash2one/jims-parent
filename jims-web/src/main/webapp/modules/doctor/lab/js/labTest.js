@@ -35,7 +35,6 @@ function onloadMethod(){
         url: basePath + '/labtest/list',
         queryParams:{'clinicId' : clinicId},
         remoteSort: false,
-        idField: 'fldId',
         singleSelect: false,//是否单选
         pagination: true,//分页控件
         pageSize: 15,
@@ -44,10 +43,10 @@ function onloadMethod(){
             {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter:formatDateBoxFull},
             {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center',formatter:function(data){
-                if(data == '1'){
+                if(data == '0'){
                     return '未检验';
                 }else{
-                    return '以检验';
+                    return '已检验';
                 }
             }},
             {
@@ -58,40 +57,37 @@ function onloadMethod(){
                 formatter: function (value, row, index) {
                     var html = '';
                     html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                    html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
+                    //html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
                     return html;
                 }
             }
         ]],
-    //    onExpandRow(index,row){
-    //    alert("1");
-    //}
-        view: detailview,
-        detailFormatter: function(rowIndex, rowData){
-
-            var item=[];
-            $.ajax({
-                type:"POST",
-                url: basePath+"/labtest/getItem",
-                contentType: 'application/json',
-                data: testNo=rowData.testNo,
-                async:false,
-                dataType: 'json',
-                success:function(data){
-                    item=data;
-                }
-            })
-
-            return  '<table><tr>' +
-                '<td style="border:0">' +
-                '<p>检验项目: </p>' +
-                '</td>' +
-                '</tr><tr>' +
-                '<td style="border:0">' +
-                '<p> ' +item[0].itemName + '</p>' +
-                '</td>' +
-                '</tr></table>';
-        },
+        //view: detailview,
+        //detailFormatter: function(rowIndex, rowData){
+        //
+        //    var item=[];
+        //    $.ajax({
+        //        type:"POST",
+        //        url: basePath+"/labtest/getItem",
+        //        contentType: 'application/json',
+        //        data: testNo=rowData.testNo,
+        //        async:false,
+        //        dataType: 'json',
+        //        success:function(data){
+        //            item=data;
+        //        }
+        //    })
+        //
+        //    return  '<table><tr>' +
+        //        '<td style="border:0">' +
+        //        '<p>检验项目: </p>' +
+        //        '</td>' +
+        //        '</tr><tr>' +
+        //        '<td style="border:0">' +
+        //        '<p> ' +item[0].itemName + '</p>' +
+        //        '</td>' +
+        //        '</tr></table>';
+        //},
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]],
