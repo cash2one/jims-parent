@@ -58,11 +58,11 @@ public interface OrdersDao extends CrudDao<Orders> {
 
     /**
      * 下达医嘱
-     * @param id
+     * @param orders
      * @return
      * pq
      */
-    public int issuedOrders(@Param("id")String id);
+    public int issuedOrders(Orders orders);
 
     /**
      * 查找子医嘱
@@ -173,5 +173,22 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @return
      */
     public int cancelOrders(Orders orders);
+
+
+    /**
+     * 护理端 - 医嘱停止
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public int nurseStopOrders(Orders orders);
+
+    /**
+     * 护理端 - 医嘱作废
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String nurseCancelOrders(Orders orders);
 
 }

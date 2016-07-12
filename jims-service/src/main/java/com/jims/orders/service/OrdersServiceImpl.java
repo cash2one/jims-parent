@@ -63,9 +63,15 @@ public class OrdersServiceImpl implements OrdersServiceApi{
         return ordersServiceBo.saveSubOrder(orders);
     }
 
+    /**
+     * 下达医嘱
+     * @param orders
+     * @return
+     * pq
+     */
     @Override
-    public String issuedOrders(String id) {
-        return ordersServiceBo.issuedOrders(id);
+    public String issuedOrders(Orders orders) {
+        return ordersServiceBo.issuedOrders(orders);
     }
 
     @Override
@@ -75,12 +81,12 @@ public class OrdersServiceImpl implements OrdersServiceApi{
 
     @Override
     public Integer getMaxOrderNo(String patientId, String visitId) {
-        return ordersServiceBo.getMaxOrderNo(patientId,visitId);
+        return ordersServiceBo.getMaxOrderNo(patientId, visitId);
     }
 
     @Override
     public Integer getOrderSubNo(String patientId, String visitId, Integer orderNo) {
-        return ordersServiceBo.getOrderSubNo(patientId,visitId,orderNo);
+        return ordersServiceBo.getOrderSubNo(patientId, visitId, orderNo);
     }
 
     @Override
@@ -104,8 +110,8 @@ public class OrdersServiceImpl implements OrdersServiceApi{
     }
 
     @Override
-    public List<OrdersCosts> getOrdersCost(String visitId) {
-        return ordersServiceBo.getOrdersCost(visitId);
+    public List<OrdersCosts> getOrdersCost(String patientId,String visitId) {
+        return ordersServiceBo.getOrdersCost(patientId,visitId);
     }
 
     /**

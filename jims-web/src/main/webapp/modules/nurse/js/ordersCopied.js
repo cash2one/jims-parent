@@ -16,6 +16,14 @@ $(function() {
         singleSelect: true,//是否单选
         rownumbers: true,//行号
         columns: [[      //每个列具体内容
+            {field:'remarks'
+                ,formatter:function(value, rowData, rowIndex){
+                if(rowData.orderNo!=rowData.orderSubNo){
+                    return "<div style='color:blue;font-weight:bold; '>子</div>";
+                }else{
+                    return "";
+                }
+            }},
             {field: 'orderStatus', title: '执/停', width: '5%', align: 'center',formatter:function(value, row, index){}
             },
             {field: 'bedNo', title: '床号', width: '5%', align: 'center'},

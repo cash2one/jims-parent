@@ -430,7 +430,7 @@ function save(){
     $.postJSON(basePath+'/bedRec/save',tableJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
-
+            window.parent.document.getElementById("centerIframe").window.location.reload();
             $('#bedRec').datagrid('load');
             $('#bedRec').datagrid('clearChecked');
         }else{

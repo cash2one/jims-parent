@@ -118,4 +118,23 @@ public class OrdersNurseRest {
         return stringData;
     }
 
+    /**
+     * 护理端 - 医嘱停止
+     * @param orders
+     * @author pq
+     * @return
+     */
+    @Path("stopOrders")
+    @POST
+    public StringData executeOrders(Orders orders){
+        StringData stringData = new StringData();
+        String code = ordersNurseServiceApi.nurseStopOrders(orders);
+        stringData.setCode(code);
+        if(!"0".equals(code)&& !"".equals(code)){
+            stringData.setData("success");
+        }else{
+            stringData.setData("error");
+        }
+        return stringData;
+    }
 }

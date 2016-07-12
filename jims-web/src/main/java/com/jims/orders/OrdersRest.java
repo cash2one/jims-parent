@@ -81,16 +81,15 @@ public class OrdersRest {
 
     /**
      * 下达医嘱
-     * @param id
+     * @param orders
      * @return
      * pq
      */
     @Path("issuedOrders")
     @POST
-    public StringData issuedOrders(String id){
+    public StringData issuedOrders(Orders orders){
         StringData data = new StringData();
-        String num=ordersServiceApi.issuedOrders(id);
-        Orders orders=ordersServiceApi.get(id);
+        String num=ordersServiceApi.issuedOrders(orders);
 
         data.setCode(num);
         if(Integer.parseInt(num)>0){
@@ -140,7 +139,7 @@ public class OrdersRest {
 
     /**
      * 查询子医嘱
-     * @param orders
+     * @param id
      * @return
      * pq
      */
@@ -188,7 +187,7 @@ public class OrdersRest {
     @Path("getCost")
     @GET
     public List<OrdersCosts> getOrdersCost(@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId){
-        return ordersServiceApi.getOrdersCost(visitId);
+        return ordersServiceApi.getOrdersCost(patientId,visitId);
     }
 
     /**
@@ -212,7 +211,7 @@ public class OrdersRest {
     }
 
     /**
-     * 医生端作废医嘱
+     * 医生端作废医嘱（已执行的以及已收费的都不能作废）
      * @param orders
      * @author pq
      * @return

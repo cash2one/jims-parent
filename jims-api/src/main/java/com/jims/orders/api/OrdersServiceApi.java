@@ -65,11 +65,11 @@ public interface OrdersServiceApi {
 
     /**
      * 下达医嘱
-     * @param id
+     * @param orders
      * @return
      * pq
      */
-   public  String issuedOrders(String id);
+   public  String issuedOrders(Orders orders);
 
     /**
      * 删除医嘱
@@ -138,7 +138,7 @@ public interface OrdersServiceApi {
      * @param visitId
      * @return
      */
-    public  List<OrdersCosts> getOrdersCost(String visitId);
+    public  List<OrdersCosts> getOrdersCost(String patientId,String visitId);
 
     /**
      * 停止医嘱

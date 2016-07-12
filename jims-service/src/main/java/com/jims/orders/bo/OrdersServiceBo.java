@@ -160,14 +160,17 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
                 Orders orders=ordersList.get(i);
                     if (orders.getIsNewRecord()) {
                         orders.preInsert();
+                        orders.setStartDateTime(new Date());
                         orders.setOrderStatus("5");//医生保存
+                        orders.setDrugBillingAttr(3);//药品默认不计价
+                        orders.setEnterDateTime(new Date());
                        if(orders.getOrdersCostses()!=null){
                            List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
                            for(int j=0;j<ordersCostsList.size();j++) {
                                OrdersCosts ordersCosts = ordersCostsList.get(j);
                                if (ordersCosts.getIsNewRecord()) {
                                    ordersCosts.setPatientId(orders.getPatientId());
-                                   ordersCosts.setVisitId(orders.getPatientId());
+                                   ordersCosts.setVisitId(orders.getVisitId());
                                    ordersCosts.setOrderId(orders.getId());
                                    ordersCosts.setOrderNo(orders.getOrderNo());
                                    ordersCosts.setOrderSubNo(orders.getOrderSubNo());
@@ -186,7 +189,7 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
                                 OrdersCosts ordersCosts = ordersCostsList.get(j);
                                 if (ordersCosts.getIsNewRecord()) {
                                     ordersCosts.setPatientId(orders.getPatientId());
-                                    ordersCosts.setVisitId(orders.getPatientId());
+                                    ordersCosts.setVisitId(orders.getVisitId());
                                     ordersCosts.setOrderId(orders.getId());
                                     ordersCosts.setOrderNo(orders.getOrderNo());
                                     ordersCosts.setOrderSubNo(orders.getOrderSubNo());
@@ -246,12 +249,12 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
 
     /**
      * 下达医嘱
-     * @param id
+     * @param orders
      * @return
      * pq
      */
-    public String issuedOrders(String id){
-        int num=ordersDao.issuedOrders(id);
+    public String issuedOrders(Orders orders){
+        int num=ordersDao.issuedOrders(orders);
 
         return  String.valueOf(num);
     }
@@ -340,8 +343,9 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
      * @param visitId
      * @return
      */
-    public List<OrdersCosts> getOrdersCost(String visitId) {
+    public List<OrdersCosts> getOrdersCost(String patientId,String visitId) {
         OrdersCosts ordersCosts=new OrdersCosts();
+        ordersCosts.setPatientId(patientId);
         ordersCosts.setVisitId(visitId);
         Page<OrdersCosts> page=new Page<OrdersCosts>();
         page.setOrderBy("order_no");

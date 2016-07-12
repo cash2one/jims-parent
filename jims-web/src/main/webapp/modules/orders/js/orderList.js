@@ -7,14 +7,13 @@ var orderSubNo = 1;
 var orderCostsArray={};
 
 $(function(){
-    alert("patId="+patId+"visitId="+visitId);
-   $("#patientId").val(patId);
+    $("#patientId").val(patId);
     $("#visitId").val(visitId);
     $.ajax({
         'type': 'GET',
         'url':basePath+'/inOrders/getCost',
         'contentType': 'application/json',
-        'data':'visitId='+visitId,
+        'data':'visitId='+visitId+'&patientId='+patId,
         'dataType': 'json',
         'async': false,
         'success': function(data){
@@ -51,10 +50,10 @@ $(function(){
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'remarks',editor:{type:'textbox',options:{editable:false,disable:false}}
+            {field:'remarks'
                 ,formatter:function(value, rowData, rowIndex){
                     if(rowData.orderNo!=rowData.orderSubNo){
-                        return "<div style='color:blue;font-weight:bold; '>子医嘱</div>";
+                        return "<div style='color:blue;font-weight:bold; '>子</div>";
                     }else{
                         return "";
                     }
@@ -300,7 +299,7 @@ $(function(){
                         }
 
                     }}}},
-            {field:'performSchedule',title:'执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'performSchedule',title:'护士执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'performResult',title:'阴阳',width:'5%',align:'center'},
             {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',formatter:formatDateBoxFull, editor:{type: 'datebox',options:{editable:false,disable:false}}},
             {field:'freqDetail',title:'医生说明',width:'10%',align:'center',editor:'text'},
@@ -320,7 +319,10 @@ $(function(){
                 }},
             {field:'orderSubNo',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'orderStatus',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'orderCode',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}}
+            {field:'orderCode',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'execDateTime',hidden:'true'},
+            {field:'verifyDataTime',hidden:'true'},
+            {field:'lastPerformDateTime',hidden:'true'}
             /*{field:'freqIntervalUnit',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'freqInterval',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},*/
         ]],
@@ -341,17 +343,21 @@ $(function(){
                 var startDate=formatDateBoxFull(new Date());
                 var idx = $("#orderList").datagrid('appendRow', {
                         orderNo:orderNo,
-                        orderSubNo:orderNo,
-                        startDateTime:startDate
+                        orderSubNo:orderNo
                     }).datagrid('getRows').length-1;
                 rowNum=idx;
                 $('#orderList').datagrid('beginEdit', idx);
             }
         },'-',{
-            text: '删除',
-            iconCls: 'icon-remove',
-            handler: function(){
-                deleteOrders();
+            text: '保存',
+            iconCls:'icon-save',
+            handler:function(){
+                $("#orderList").datagrid('endEdit', editRow);
+                if (editRow != undefined) {
+
+                    $("#orderList").datagrid("endEdit", editRow);
+                }
+                save();
             }
         },'-',{
             text: '传输医嘱',
@@ -377,19 +383,7 @@ $(function(){
                 reload();
             }
         },'-',{
-            text: '保存',
-            iconCls:'icon-save',
-            handler:function(){
-                $("#orderList").datagrid('endEdit', editRow);
-                if (editRow != undefined) {
-
-                    $("#orderList").datagrid("endEdit", editRow);
-                }
-                save();
-            }
-        },'-',{
             text: '停止',
-            iconCls:'icon-save',
             handler:function(){
                 $("#orderList").datagrid('endEdit', editRow);
                 if (editRow != undefined) {
@@ -399,13 +393,18 @@ $(function(){
             }
         },'-',{
             text: '作废',
-            iconCls:'icon-save',
             handler:function(){
                 $("#orderList").datagrid('endEdit', editRow);
                 if (editRow != undefined) {
                     $("#orderList").datagrid("endEdit", editRow);
                 }
-
+                docCancelOrders
+            }
+        },'-',{
+            text: '删除',
+            iconCls: 'icon-remove',
+            handler: function(){
+                deleteOrders();
             }
         }
         ],onAfterEdit:function(rowIndex, rowData){
@@ -442,11 +441,22 @@ $(function(){
                 }else if(row.orderStatus=='2') {//护士执行
                     return 'background-color:#EED5D2;color:blue;';
                 }else if(row.orderStatus=='3') {//护士停止
-                    return 'background-color:#A7CACB;color:yellow;';
+                    return 'background-color:#698B69;color:yellow;';
                 }else if(row.orderStatus=='4') {//护士作废
-                    return 'background-color:#A7CACB;color:red;';
+                    return 'background-color:#CD0000;color:red;';
+                }else if(row.orderStatus=='7'){//医生停止
+                    return 'background-color:#FFA54F;color:black;';
+                }else if(row.orderStatus=='8'){//医生作废
+                    return 'background-color:#778899;color:black;';
+                }else if(row.orderStatus=='5'){//医生新开
+                    return "color:#7D26CD";
                 }
+            },onLoadSuccess: function (data) {
+            if (data.total == 0) {
+                var body = $(this).data().datagrid.dc.body2;
+                body.find('table tbody').append('<tr><td colspan="23" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
             }
+        }
 
 
     });
@@ -571,6 +581,12 @@ function deleteOrders(){
     }else if(row.orderStatus=='4') {//作废
         $.messager.alert('提示', "医嘱已经作废，不能删除", "error");
     }
+    else if(row.orderStatus=='7') {//医生停止
+        $.messager.alert('提示', "医嘱已经被医生停止，不能删除", "error");
+    }
+    else if(row.orderStatus=='8') {//医生作废
+        $.messager.alert('提示', "医嘱已经被医生作废，不能删除", "error");
+    }
 }
 
 //把医嘱改变成子医嘱
@@ -677,25 +693,18 @@ function changeSubNo(row){
 //传输医嘱（下达医嘱）下达时间不能早于昨天22:00
 function issuedOrders(){
     var row = $('#orderList').datagrid('getSelected');
+    var tableJson=JSON.stringify(row);
     if(row==null){
         $.messager.alert('提示',"请将医嘱信息填写完整！", "error");
     }else{
-        $.ajax({
-            method:"POST",
-            contentType:"application/json",
-            dataType:"json",
-            data:id=row.id,
-            url:basePath+"/inOrders/issuedOrders",
-            success:function(data){
-                if(data!=null){
-                    $.messager.alert('提示',"医嘱已经下达！");
-                    $('#orderList').datagrid('load');
-
-                }else{
-                    $.messager.alert('提示',"医嘱下达失败！", "error");
-                }
+        $.postJSON(basePath+"/inOrders/issuedOrders",tableJson,function(data){
+            if(data.data=='success'){
+                $.messager.alert('提示',"医嘱已经下达！");
+                $('#orderList').datagrid('load');
+            }else{
+                $.messager.alert('提示',"医嘱下达失败！", "error");
             }
-        })
+        });
     }
 }
 
@@ -705,17 +714,51 @@ function docStopOrders(){
     var tableJson=JSON.stringify(row);
     if(row == null){
         $.messager.alert('提示',"请将医嘱信息填写完整！", "error");
-    }else{
+    }else if(row.repeatIndicator=='0'){
+        $.messager.alert('提示',"该医嘱是临时医嘱,不能进行停止操作！", "error");
+    }else if(row.orderStatus=='2'){
         $.postJSON(basePath+'/inOrders/docStopOrders',tableJson,function(data){
             if(data.data=='success'){
                 $.messager.alert("提示消息","该医嘱已经停止");
                 $('#orderList').datagrid('load');
                 $('#orderList').datagrid('clearChecked');
             }else{
-                $.messager.alert('提示',"操作失败", "error");
+                $.messager.alert('提示',"医嘱停止操作失败", "error");
             }
         });
+    }else{
+        $.messager.alert("提示消息","该医嘱未进行校对不能停止");
     }
 }
+
+//医生作废医嘱
+function docCancelOrders(){
+    var row = $('#orderList').datagrid('getSelected');
+    var tableJson=JSON.stringify(row);
+    if(row == null){
+        $.messager.alert('提示',"请将医嘱信息填写完整！", "error");
+    }else{
+        if(row.execDateTime!=null){
+            $.messager.alert("提示消息","该医嘱已经执行,不能作废");
+        }else if(row.verifyDataTime==null){
+            $.messager.alert("提示消息","该医嘱未进行校验,不能作废");
+        }else if(row.lastPerformDateTime!=null){
+            $.messager.alert("提示消息","该医嘱已经收费,不能作废");
+        }
+        else {
+            $.postJSON(basePath+'/inOrders/docCancelOrders',tableJson,function(data){
+                if(data.data=='success'){
+                    $.messager.alert("提示消息","该医嘱已经作废");
+                    $('#orderList').datagrid('load');
+                    $('#orderList').datagrid('clearChecked');
+                }else{
+                    $.messager.alert('提示',"医生作废操作失败", "error");
+                }
+            });
+        }
+
+    }
+}
+
 
 
