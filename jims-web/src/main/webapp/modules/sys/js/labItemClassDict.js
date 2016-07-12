@@ -12,7 +12,6 @@ $(function () {
     };
 
     $("#dg").datagrid({
-        title: '类别列表',
         width: '100%',
         //url: "/service/lab-item-dict/list",
         mode: 'remote',
@@ -86,7 +85,7 @@ $(function () {
 
 
     $("#bottom").datagrid({
-        footer: '#tb',
+        toolbar: '#tb',
         border: false
     });
     $('#cc').layout('panel', 'north').panel('resize', {height: 'auto'});

@@ -20,8 +20,7 @@ public class ScheduledOperationName extends DataEntity<ScheduledOperationName> {
 	private String operation;		// 手术
 	private String operationScale;		// 手术等级
 	private String operationCode;		// 手术编码
-	private OperationSchedule schedule;
-	
+
 	public ScheduledOperationName() {
 		super();
 	}
@@ -29,15 +28,6 @@ public class ScheduledOperationName extends DataEntity<ScheduledOperationName> {
 	public ScheduledOperationName(String id){
 		super(id);
 	}
-
-	public OperationSchedule getSchedule() {
-		return schedule;
-	}
-
-	public void setSchedule(OperationSchedule schedule) {
-		this.schedule = schedule;
-	}
-
 	public String getScheduleId() {
 		return scheduleId;
 	}

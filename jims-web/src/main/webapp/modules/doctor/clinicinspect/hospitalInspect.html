@@ -70,9 +70,8 @@
                     <label>
                         临床诊断：
                     </label>
-                    <input title="" name="clinDiag" readonly= "true " class="easyui-validatebox validatebox-text validatebox-invalid"
-                           required="true">
-                </div>
+                    <textarea id="clinDiagDiv" class="easyui-validatebox validatebox-text validatebox-textarea"
+                              style="width: 60%"></textarea>
                 <div class="fitem">
                     <label>
                         其他诊断：
@@ -97,11 +96,11 @@
             </div>
             <input type="hidden"  id="visitId" name="visitId" value="">
             <input type="hidden" id="patientId" name="patientId" value="">
+            <input type="hidden" id="inOrOut" name="inOrOut" value="1">
         </form>
         <div id="dlg-buttons" class="btn-save">
             <a href="javascript:void(0)" class="easyui-linkbutton"  data-options="iconCls:'icon-save'" onclick="saveClinicInspect();"
                style="width: 90px">保存</a>
-            <input type="hidden" value="1" id="modify">
         </div>
     </div>
 </div>

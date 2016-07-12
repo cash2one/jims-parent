@@ -171,6 +171,7 @@ $(function(){
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
+        footer: '#searchTb',
         nowrap: false,  //如果为true，则在同一行中显示数据
         striped: true,  //显示斑马线效果
         border: true,
@@ -268,6 +269,7 @@ $(function(){
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
+        footer: '#ft',
         nowrap: false,  //如果为true，则在同一行中显示数据
         striped: true,  //显示斑马线效果
         border: true,
@@ -286,7 +288,7 @@ $(function(){
             {
                 field: 'label',
                 title: '标签',
-                width: '20%',
+                width: '16%',
                 align: 'center',
                 editor: {
                     type: 'textbox',
@@ -298,7 +300,7 @@ $(function(){
             {
                 field: 'value',
                 title: '键值',
-                width: '20%',
+                width: '16%',
                 align: 'center',
                 editor: {
                     type: 'textbox',
@@ -307,12 +309,12 @@ $(function(){
                     }
                 }
             },
-            {field: 'remarks', title: '备注', width: '20%', align: 'center', editor: 'text'},
-            {field: 'inputCode', title: '拼音码', width: '20%', align: 'center'},
+            {field: 'remarks', title: '备注', width: '16%', align: 'center', editor: 'text'},
+            {field: 'inputCode', title: '拼音码', width: '15.9%', align: 'center'},
             {
                 field: 'sort',
                 title: '排序',
-                width: '20%',
+                width: '15.9%',
                 align: 'center',
                 editor: {
                     type: 'numberbox',
@@ -359,11 +361,6 @@ $(function(){
                 oneData = {};
             }
         }
-    });
-
-    $('#cc').layout('panel', 'south').panel('resize', {height: 'auto'});
-    $("#cc").layout({
-        fit: true
     });
 
     var loadTypeDict = function () {

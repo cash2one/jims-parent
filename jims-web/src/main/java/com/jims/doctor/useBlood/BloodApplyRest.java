@@ -97,9 +97,11 @@ public class BloodApplyRest {
      */
     @Path("listHos")
     @GET
-    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("visitId")String visitId) {
+    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("visitId")String visitId,
+            @QueryParam("patientId")String patientId) {
         BloodApply bloodApply = new BloodApply();
         bloodApply.setVisitId(visitId);
+        bloodApply.setPatientId(patientId);
         Page<BloodApply> page = bloodApplyServiceApi.findPage(new Page<BloodApply>(request, response),bloodApply);
         PageData pageData = new PageData();
         pageData.setRows(page.getList());

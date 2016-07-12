@@ -67,6 +67,7 @@ create table EXAM_APPOINTS
   PRINT_STATUS        NUMBER(1),
   WARD_CODE           VARCHAR2(64 CHAR),
   RCPT_NO             VARCHAR2(20 CHAR),
+  IN_OR_OUT           NUMBER(1),
    CREATE_BY            VARCHAR2(64),
    CREATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64),
@@ -157,3 +158,5 @@ comment on column EXAM_APPOINTS.WARD_CODE
   is '护理单元';
 comment on column EXAM_APPOINTS.RCPT_NO
   is '收据号';
+  comment on column EXAM_APPOINTS.IN_OR_OUT
+  is '门诊住院标示';

@@ -316,7 +316,7 @@ $(function () {
     /**
      * 保存信息
      */
-    var dataArr
+    var dataArr=[];
     $.get('/service/sys-service/findServiceWithPrice',{serviceClass:'0',serviceType:'1'},function(res){
         dataArr = res
     })
@@ -345,7 +345,6 @@ $(function () {
             $('#nextBut2').attr("class","done");
             $('#nextBut3').attr("class","go-on");
             if($('#parentId').val().trim()!=""){$('#parentId0').html($("#parentId").find("option:selected").text());}
-            else{$('#parentId0').html(" 无 ");}
             if($('#orgName').val().trim()!=""){$('#orgName0').html($('#orgName').val().trim());}
             if($('#orgCode').val().trim()!=""){$('#orgCode0').html($('#orgCode').val().trim());}
             if($('#address').val().trim()!=""){$('#address0').html($('#address').val().trim());}
@@ -415,7 +414,6 @@ $(function () {
             }
             $('#nextBut2').attr("class","done");
             if($('#parentId').val().trim()!=""){$('#parentId0').html($("#parentId").find("option:selected").text());}
-            else{$('#parentId0').html(" 无 ");}
             if($('#orgName').val().trim()!=""){$('#orgName0').html($('#orgName').val().trim());}
             if($('#orgCode').val().trim()!=""){$('#orgCode0').html($('#orgCode').val().trim());}
             if($('#address').val().trim()!=""){$('#address0').html($('#address').val().trim());}
@@ -450,51 +448,63 @@ $(function () {
 
         });
     }
-    addNext = function(){
+    /**
+     * 弹出服务描述的提示
+     * @param sysService
+     */
+
+//
+
+    function findInfo(sysService){
+
+            alert(sysService);
+            console.info(sysService);
+
+    }
+
+
+    var arr=[];
+    function addNext(){
         var liArr = $('#addServiceModel1 ul li')
         if(liArr.length < 1) {
             for (var i = 0; i < dataArr.length; i++) {
-                //用于判断服务信息是否维护完整
-                var sysServicePriceList = dataArr[i].sysServicePriceList;
-                if(sysServicePriceList[0].serviceTimeLimit !=null && sysServicePriceList[0].servicePrice !=null) {
-                    var li = '<li id="service_' + dataArr[i].id + '" name="serviceName_' + dataArr[i].serviceName + '">';
-                    li += '<div class="service-set">'
-                    li += '<h3>' + dataArr[i].serviceName + '</h3>'
-                    li += '<table width="100%">'
-                    li += '<tr style="height: 35px">'
-                    li += '<td width="60"><span class="text-success">　类别：</span></td>'
-                    li += '<td colspan="3">'
-                    var priceArr = dataArr[i].sysServicePriceList
-                    for(var j= 0,k = (priceArr ? priceArr.length : 0);j<k;j++){
-                        li += '<span class="span-class' + (j == 0 ? '2' : '') + '">' + priceArr[j].serviceTimeLimit + '</span>&nbsp;&nbsp;&nbsp;&nbsp;'
-                    }
-                    li += '</td></tr>'
-                    li += '<tr style="height: 35px">'
-                    li += '<td width="60"><span class="text-success">　时长：</span></td>'
-                    li += '<td colspan="3"><input class="service-num" type="text" style="width: 50px" value="';
-                    if(priceArr && priceArr.length > 0){
-                        li += (priceArr[0].serviceTimeLimit == '年' ? '1' : '12')
-                    }
-                    li +=  '"/><span>　' + (priceArr && priceArr.length > 0 ? priceArr[0].serviceTimeLimit : '') + '</span></td>'
-
-                    li += '</tr>'
-                    li += '<tr style="height: 35px">'
-                    li += '<td width="60"><span class="text-success">　金额：</span></td>'
-                    li += '<td colspan="3" style="color: red">'
-                    if(priceArr && priceArr.length > 0){
-                        var num = priceArr[0].serviceTimeLimit == '年' ? '1' : '12';
-                        li += ((isNaN(priceArr[0].servicePrice) ? 0 : (+priceArr[0].servicePrice)) * num).toFixed(2)
-                    } else {
-                        li += '0.00'
-                    }
-                    li += '　元</td>'
-                    li += '</tr>'
-                    li += '</table></div>';
-                    li += '<div id="cBut_" class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
-                    li += '</li>'
-                    $('#addServiceModel1 ul').append(li);
+                arr[i]='service_' + dataArr[i].id;
+                var li = '<li  id="service_' + dataArr[i].id + '" name="serviceName_' + dataArr[i].serviceName + '" >';
+                li += '<div class="service-set">'
+                li += '<h3>' + dataArr[i].serviceName + '</h3>'
+                li += '<table width="100%">'
+                li += '<tr style="height: 35px">'
+                li += '<td width="60"><span class="text-success">　类别：</span></td>'
+                li += '<td colspan="3">'
+                var priceArr = dataArr[i].sysServicePriceList
+                for(var j= 0,k = (priceArr ? priceArr.length : 0);j<k;j++){
+                    li += '<span class="span-class' + (j == 0 ? '2' : '') + '">' + priceArr[j].serviceTimeLimit + '</span>&nbsp;&nbsp;&nbsp;&nbsp;'
                 }
+                li += '</td></tr>'
+                li += '<tr style="height: 35px">'
+                li += '<td width="60"><span class="text-success">　时长：</span></td>'
+                li += '<td colspan="3"><input class="service-num" type="text" style="width: 50px" value="';
+                if(priceArr && priceArr.length > 0){
+                    li += (priceArr[0].serviceTimeLimit == '年' ? '1' : '12')
+                }
+                li +=  '"/><span>　' + (priceArr && priceArr.length > 0 ? priceArr[0].serviceTimeLimit : '') + '</span></td>'
 
+                li += '</tr>'
+                li += '<tr style="height: 35px">'
+                li += '<td width="60"><span class="text-success">　金额：</span></td>'
+                li += '<td colspan="3" style="color: red">'
+                if(priceArr && priceArr.length > 0){
+                    var num = priceArr[0].serviceTimeLimit == '年' ? '1' : '12';
+                    li += ((isNaN(priceArr[0].servicePrice) ? 0 : (+priceArr[0].servicePrice)) * num).toFixed(2)
+                } else {
+                    li += '0.00'
+                }
+                li += '　元</td>'
+                li += '</tr>'
+                li += '</table></div>';
+                li += '<div id="cBut_" class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
+                li += '</li>'
+                $('#addServiceModel1 ul').append(li);
             }
             $('#addServiceModel1 ul li').each(function(){
                 var liObj = $(this)
@@ -556,6 +566,7 @@ $(function () {
         }
     }
     addNext();
+
 });
 
 

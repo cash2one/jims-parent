@@ -171,7 +171,7 @@
 		)
 	</insert>
 	<select id="getItemList" resultType="ExamItems">
-		SELECT *
+		SELECT <include refid="examItemsColumns"/>
 		FROM  exam_items a
 		WHERE
 		a.appoints_id=#{appointsId}

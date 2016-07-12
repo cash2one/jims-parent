@@ -1,5 +1,24 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
+/**
+ * /门诊诊断类型
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function diagnosisTypeClinicFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < diagnosisTypeClinic.length; i++) {
+        if (diagnosisTypeClinic[i].value == value) {
+            return diagnosisTypeClinic[i].text;
+        }
+    }
+}
 function onloadMethod(){
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
@@ -131,18 +150,18 @@ function add(){
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
+
     $.ajax({
         //添加
-        url: basePath+"/labtest/zhenduan",
-        type: "POST",
+        url: basePath+"/diagnosis/findListOfOut",
+        type: "GET",
         dataType: "json",
-        contentType: "application/json", //必须有
-        data: JSON.stringify({"clinicId":clinicId,inOrOutFlag:"0","visitId":null}),
+        data: {"clinicId":clinicId},
         success: function (data) {
             if (data!= ""&& data!=null) {
-                var d;
+                var d="";
                 $.each(data, function (index, item) {
-                    d =item.description+"\r";
+                    d =d +diagnosisTypeClinicFormatter(item.type)+"："+item.icdName+"\r\n";
                 });
                 $("#relevantClinicDiag").val(d);
             }
@@ -155,7 +174,7 @@ function add(){
             textField: 'class_name',
             onSelect: function (n, o) {
                 $("#specimen").val("");
-                SendProduct();
+                SendProduct(n.class_name);
                 $("#performedBy").val(n.dept_name);
                $("#performedByCode").val(n.dept_code);
             }
@@ -226,10 +245,17 @@ function look() {
     $("#treeGrid").dialog("open");
 }
 //弹出选择项目窗口
-function SendProduct() {
+function SendProduct(name) {
     var item={};
     //item.orgId="";
     item.dictType="lab_item_view";
+    var inputParamVos=new Array();
+    var InputParamVo={};
+    InputParamVo.colName='expand2';
+    InputParamVo.colValue=name;
+    InputParamVo.operateMethod='=';
+    inputParamVos.push(InputParamVo);
+    item.inputParamVos=inputParamVos;
     var expand3 = $("#performedBy").val();
     var expand2 = $("#labItemClass").val();
     var expand1 = $("#specimen").val();
@@ -241,24 +267,28 @@ function SendProduct() {
             'dataType': 'json',
             'async': false,
         'success': function(data){
+            if(data.length==0){
+                $.messager.alert("提示消息","没有检查项目");
+                return false;
+            }
             var divstr ="<table>";
                     for(var i=0; i<data.length; i++)
                     {   if(i==0){
-                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
                         }
                         else if(i%3==0){
-                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
                         }
                         else if(i%3==2){
-                            divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td></tr>";
+                            divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td></tr>";
                         }
                         else{
-                             divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
+                             divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
                         }
                         //alert(data[i].expand1);
                     }
                     divstr = divstr +"</table>";
-                    divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
+                    divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easyui-linkbutton' onclick='doSelect();' style='width: 90px'>提交</a></div>";
                     $("#SendProduct").html(divstr);
                     $("#SendProduct").dialog("open");
 

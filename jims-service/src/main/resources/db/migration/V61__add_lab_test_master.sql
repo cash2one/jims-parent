@@ -54,6 +54,7 @@ create table LAB_TEST_MASTER
   CREATE_BY VARCHAR2(64  CHAR),
   UPDATE_DATE TIMESTAMP(6),
   CREATE_DATE TIMESTAMP(6),
+  IN_OR_OUT               VARCHAR2(1 CHAR),
    constraint "PK_LAB_TEST_MASTER" primary key (ID)
 );
 

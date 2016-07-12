@@ -389,7 +389,7 @@ function herbalList(){
                 '<input  type="text" id="drugName'+i+'" class="easyui-textbox" onclick="openOombogrid(this,\''+i+'\')" style="width: 150px" value="'+data[i].drugName+'"/>' +
                 '<input type="text" value="'+data[i].amount+'" style="width: 50px" class="easyui-textbox" id="amount'+i+'" namehide="amount" inputhide="herbalHide'+i+'" />' +
                 '<span id="span'+i+'" class="color-blue" style="padding-left:10px;">'+data[i].units+'</span>' +
-                '<a class="ul_li_a" href="#"  onclick="delherbal(\''+data[i].id+'\')">X</a>' +
+                '<a class="ul_li_a"   onclick="delherbal(\''+data[i].id+'\')">X</a>' +
                 '<input type="hidden" id="drugCode'+i+'" namehide="drugCode" inputhide="herbalHide'+i+'" value="'+data[i].drugCode+'"/> ' +
                 '<input type="hidden" id="drugSpec'+i+'" namehide="drugSpec" inputhide="herbalHide'+i+'" value="'+data[i].drugSpec+'"/> ' +
                 '<input type="hidden" id="firmId'+i+'" namehide="firmId" inputhide="herbalHide'+i+'" value="'+data[i].firmId+'"/> ' +

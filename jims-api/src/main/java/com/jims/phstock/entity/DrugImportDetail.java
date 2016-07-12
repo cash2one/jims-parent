@@ -45,16 +45,6 @@ public class DrugImportDetail extends DataEntity<DrugImportDetail> {
     private Date productionDate;		// 生产日期
     private Date produceDate;		// produce_date
     private String orgId;		// 所属结构
-    private String priceListId;  //对应价格主键
-
-    @Transient
-    public String getPriceListId() {
-        return priceListId;
-    }
-
-    public void setPriceListId(String priceListId) {
-        this.priceListId = priceListId;
-    }
 
     public DrugImportDetail() {
         super();

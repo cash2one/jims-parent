@@ -232,4 +232,24 @@ public class PatsInHospitalRest {
         }
         return stringData;
     }
+
+
+
+    @Path("test")
+    @GET
+    public StringData test(){
+        ComeDeptVo comeDeptVo=new ComeDeptVo();
+        StringData stringData=new StringData();
+        try {
+            comeDeptVo.setPatientId("1");
+            comeDeptVo.setPatientId("2");
+            String data = patsInHospitalServiceApi.test(comeDeptVo);
+            stringData.setCode(data);
+            stringData.setData(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return stringData;
+    }
+
 }

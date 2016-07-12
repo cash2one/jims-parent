@@ -137,7 +137,7 @@ function ShowInfo() {
 
 function ItemClass() {
     var code = $("#aa").combobox("getValue");
-    alert(code);
+    //alert(code);
     if (code != "") {
         $.ajax({
             'type': 'GET',

@@ -41,7 +41,7 @@ public interface OperatioinOrderServiceApi {
      * @param visitId
      * @return
      */
-     public String  getScheduleId(String patientId,String visitId);
+     public Integer  getScheduleId(String patientId,String visitId,String clinicId);
 
     /**
      * 通过主表Id拿到手术名称的列表
