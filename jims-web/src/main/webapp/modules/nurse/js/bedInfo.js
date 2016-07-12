@@ -9,7 +9,7 @@ $(function(){
         url: basePath + '/bedRec/getAllBed',
         success: function (data) {
             $.each(data,function(id,item){ //循环对象取值
-                html = html+'<li class="bgcolor-green"  onmouseup="showMenu(event);">  ' ;
+                html = html+'<li class="bgcolor-green"  onmouseup="showMenu(event);" style="background: #CDCDB4">  ' ;
                 html = html+'<div class="bednum-cusinf"> <span class="bednum-val">'+item.bed_no1+'</span> <span class="bednum-name">'+(item.name==null?"":item.name)+'</span>  <span class="bednum-age">'+(item.age==null?"":item.name)+'岁</span></div>';
                 html = html+'<table cellpadding="0" cellspacing="0" border="0" width="100%" class="bn-cusinfo-tab">';
                 html = html+'<tr><td>性别：</td> <td >'+(item.sex==null?"":item.sex)+'</td></tr>';
