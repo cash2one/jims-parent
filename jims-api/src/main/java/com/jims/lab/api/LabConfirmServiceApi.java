@@ -16,7 +16,7 @@ public interface LabConfirmServiceApi {
      * @return
      * @author zhaoning
      */
-  public List<LabTestMaster> getLabMaster(String performedBy);
+  public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut);
 
     /**
      * 检验确认，
@@ -24,5 +24,5 @@ public interface LabConfirmServiceApi {
      * @return
      * @author zhaoning
      */
-    public String confrimLab(LabTestMaster labTestMaster);
+    public String confrimLab(LabTestMaster labTestMaster)throws Exception;
 }

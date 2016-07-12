@@ -6,6 +6,7 @@ package com.jims.doctor.cliniIcnspect.dao;
 import com.jims.exam.entity.ExamItems;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface ExamItemsDao extends CrudDao<ExamItems> {
      * @param appointsId
      * @return
      */
-    public ExamItems getItemList(String appointsId);
+    public List<ExamItems> getItemList(@Param("appointsId")String appointsId);
     /**
      *  检查项目保存
      */
