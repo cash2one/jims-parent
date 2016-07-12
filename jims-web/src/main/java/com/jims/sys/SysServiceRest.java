@@ -87,7 +87,18 @@ public class SysServiceRest {
     @Path("list")
     @GET
     public List<SysService> list() {
-        return sysServiceApi.findList();
+        List<SysService> list=sysServiceApi.findList();
+        if(list!=null&&!list.isEmpty()){
+            for(SysService sysService:list){
+                try {
+                    if(sysService.getServiceDescription()!=null)
+                    sysService.setTranServiceDescription(new String(sysService.getServiceDescription(),"utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
     }
 
 
@@ -175,7 +186,13 @@ public class SysServiceRest {
             sysService.setId(form.getField("id").getValue());
         }
         sysService.setServiceClass(form.getField("serviceClass").getValue());
-        sysService.setServiceDescription(serviceDescription);
+        byte[] bytes=null;
+        try {
+            bytes=serviceDescription.getBytes("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        sysService.setServiceDescription(bytes);
         sysService.setServiceType(form.getField("serviceType").getValue());
         sysService.setServiceName(form.getField("serviceName").getValue());
         if (result.length() >= 3){
