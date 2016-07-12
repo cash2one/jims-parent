@@ -5,11 +5,13 @@ var visitNo;
 var prescNo;
 var itemClass;
 var clinicId;
+var orgId;
 var chargeIndicator='新开';
 //页面加载
 $(function(){
     itemClass = $("#itemClass").val();
     clinicId = parent.clinicMaster.id;
+    orgId = parent.config.org_Id;
     $("#clinicId").val(clinicId);
     $('#leftList').datagrid({
         singleSelect: true,
@@ -18,6 +20,7 @@ $(function(){
         method:'GET',
         url:basePath+'/outppresc/list?clinicId='+clinicId,
         columns:[[      //每个列具体内容
+            {field:'chargeIndicator',title:'收费标记',hidden:true},
             {field:'visitDate',title:'就诊时间',width:'20%',align:'center'},
             {field:'visitNo',title:'就诊序号',width:'20%',align:'center'},
             {field:'prescNo',title:'处方号',width:'20%',align:'center'},
@@ -61,7 +64,7 @@ $(function(){
         nowrap: false,
         columns:[[      //每个列具体内容
             {field:'id',title:'ID',hidden:'true'},
-            {field:'markSubOrderNo',title:'全',width:'5%',align:'center',formatter:function(value, rowData, rowIndex){
+            {field:'markSubOrderNo',title:'全',width:'3%',align:'center',formatter:function(value, rowData, rowIndex){
                 if(rowData.subOrderNo==rowData.orderNo){
                     return "";
                 }else{
@@ -84,7 +87,14 @@ $(function(){
                             {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
                             {field: 'quanity', title: '库存', width: '15%', align: 'center'},
                             {field: 'units', title: '包装单位', width: '15%', align: 'center'},
-                            {field: 'item_class', title: '库房', width: '15%', align: 'center'},
+                            {field: 'item_class', title: '库房', width: '15%', align: 'center',
+                                formatter : function(value,row,index){
+                                if(value=='A'){
+                                    return '西药房'
+                                } else if(value=='B'){
+                                    return '中草药房'
+                                }
+                            }},
                             {field: 'supplier', title: '厂家', width: '15%', align: 'center'},
                             {field: 'dose_per_unit', title: '单次用量', width: '15%', align: 'center'},
                             {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
@@ -134,7 +144,7 @@ $(function(){
             {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'firmId',title:'厂家',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'repetition',title:'剂数',width:'5%',align:'center',editor:'numberbox'},
-            {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:{type:'textbox',options:{editable:true,disable:false}}},
+            {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:{type:'numberbox',options:{required:true}}},
             {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'administration',title:'途径',width:'5%',align:'center',formatter:administrationFormatter,editor:{
                 type:'combobox',
@@ -171,7 +181,12 @@ $(function(){
             {field:'units',title:'单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
             {field:'charges',title:'实收',width:'5%',align:'center',editor:{type:'numberbox',options:{editable:false,disable:false}}},
-            {field:'itemClass',title:'药局',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'itemClass',title:'药局',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}},
+                formatter : function(value,row,index){
+                    if(value=='A'){return '西药房'}
+                    else if(value=='B'){return '中草药房'}
+                }
+            },
             {field:'freqDetail',title:'医生说明',width:'5%',align:'center',editor:'text'},
             {field:'skinFlag',title:'皮试',width:'5%',align:'center',formatter:skinFlagFormatter,editor:{
                 type:'combobox',
@@ -246,13 +261,13 @@ $(function(){
                     $.messager.alert('提示',"请选择要操作的处方！", "error");
                 }
             }
-        }, '-',{
+        }/*, '-',{
             text: '删除',
             iconCls: 'icon-remove',
             handler: function(){
                 doDelete();
             }
-        }],onClickRow:function(rowIndex,rowData){
+        }*/],onClickRow:function(rowIndex,rowData){
             var dataGrid=$('#list_data');
             if(!dataGrid.datagrid('validateRow', rowNum)){
                 $.messager.alert('提示',"数据填写不完整，请填写完整后再对其他行进行编辑", "error");
@@ -326,7 +341,8 @@ $(function(){
     $('#prescAttr').combobox({
         data: prescAttrDict,
         valueField: 'label',
-        textField: 'label'
+        textField: 'label',
+        required:true
     });
 
 });
@@ -582,28 +598,42 @@ function savePre(){
 function giveUpPre(){
     $('#leftList').datagrid('load');
     $('#leftList').datagrid('clearChecked');
-    $('#list_data').datagrid('load');
-    $('#list_data').datagrid('clearChecked');
 }
 //删除药品信息
 function doDelete() {
-    //把你选中的 数据查询出来。
-    var selectRows = $('#list_data').datagrid("getSelections");
-    if (selectRows.length < 1) {
-        $.messager.alert("提示消息", "请选中要删的数据!");
+    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
+    if(selRow!=null&&selRow!=''&&selRow!='undefined') {
+        if(selRow[0].chargeIndicator!=0){
+            //提醒用户是否是真的删除数据
+            $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+                if (r) {
+                    $.ajax({
+                        'type': 'POST',
+                        'url': basePath+'/outppresc/delByPrescNo?prescNo='+selRow[0].prescNo+'&orgId='+orgId+'&clinicId='+clinicId,
+                        'contentType': 'application/json',
+                        'dataType': 'json',
+                        'success': function(data){
+                            if(data.data=='success'){
+                                $.messager.alert("提示消息","1条处方删除成功！");
+                                $('#leftList').datagrid('load');
+                            }else{
+                                $.messager.alert('提示',"删除失败", "error");
+                            }
+                        }, 'error': function(data){
+                            $.messager.alert('提示',"删除失败", "error");
+                        }
+                    });
+                }
+            });
+        }else{
+            $.messager.alert('提示', "该处方已收费，不能进行删除操作", "warning");
+            return;
+        }
+    }else{
+        $.messager.alert("提示消息", "请选择要删除的处方数据!","warning");
         return;
     }
-    //提醒用户是否是真的删除数据
-    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
-        if (r) {
-            var strIds = "";
-            for (var i = 0; i < selectRows.length; i++) {
-                strIds += selectRows[i].id + ",";
-            }
-            strIds = strIds.substr(0, strIds.length - 1);
-            del(strIds);
-        }
-    })
+
 }
 function del(id){
     $.ajax({
