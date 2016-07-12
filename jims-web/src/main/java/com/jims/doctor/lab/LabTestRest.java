@@ -60,9 +60,11 @@ public class LabTestRest {
      */
     @Path("listHos")
     @GET
-    public PageData listHos(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("visitId")String visitId){
+    public PageData listHos(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("visitId")String visitId,
+                            @QueryParam("patientId")String patientId){
         LabTestMaster labTestMaster = new LabTestMaster();
         labTestMaster.setVisitId(visitId);
+        labTestMaster.setPatientId(patientId);
         Page<LabTestMaster> page = labTestMasterServiceApi.findPage(new Page<LabTestMaster>(request,response), labTestMaster);
         PageData pageData=new PageData();
         pageData.setRows(page.getList());

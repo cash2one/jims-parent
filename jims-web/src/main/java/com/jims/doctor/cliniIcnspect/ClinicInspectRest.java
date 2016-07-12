@@ -40,9 +40,11 @@ public class ClinicInspectRest {
      */
     @Path("listHos")
     @GET
-    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("visitId")String visitId){
+    public PageData listHos(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("visitId")String visitId,
+                            @QueryParam("patientId")String patientId){
         ExamAppoints examAppoints= new ExamAppoints();
         examAppoints.setVisitId(visitId);
+        examAppoints.setPatientId(patientId);
         Page<ExamAppoints> page=examAppointsServiceApi.findPage(new Page<ExamAppoints>(request,response),examAppoints);
         PageData<ExamAppoints> pageData=new PageData<ExamAppoints>();
         pageData.setRows(page.getList());
