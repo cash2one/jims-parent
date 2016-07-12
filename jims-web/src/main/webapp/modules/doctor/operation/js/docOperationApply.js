@@ -65,7 +65,7 @@ function onloadMethod() {
             down: function() {},
             enter: function() {},
             query: function(q) {
-                comboGridCompleting(q,'list_data');
+                comboGridCompleting(q,'surgeon');
             }
         },
         onClickRow:function(rowIndex,rowData){
