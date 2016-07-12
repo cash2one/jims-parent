@@ -24,7 +24,7 @@ $(function () {
                     var liArr = $('#addServiceModel ul li')
                     for (var i = 0; i < dataArr.length; i++) {
                         var li = '<li id="service_' + dataArr[i].id + '">';
-                        li += '<a href="#"><span class="service-name">' + dataArr[i].serviceName + '</span></a>'
+                        li += '<a ><span class="service-name">' + dataArr[i].serviceName + '</span></a>'
                         if(dataArr[i].serviceImage==null)
                         {
                             li += '<img src="/static/bookstrap/images/service/normal.jpg"/>'
