@@ -102,6 +102,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         //添加EXAM_APPOINTS 相应字段
         examAppoints.setCnsltState(0);
         examAppoints.preInsert();
+        examAppoints.setRegPrnFlag(0);
         examAppoints.setVisitNo(clinicMaster.getVisitNo());
         examAppoints.setChargeType(clinicMaster.getChargeType());
         List<ClinicItemDict> clinicItemDictList=new ArrayList<ClinicItemDict>();
