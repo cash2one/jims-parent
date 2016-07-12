@@ -34,12 +34,13 @@ public class OrdersRest {
      */
     @Path("getOrders")
     @GET
-    public List<Orders> getOrders(@QueryParam("repeatIndicator")String repeatIndicator,@QueryParam("startDateTime")String startDateTime,@QueryParam("stopDateTime")String stopDateTime,@QueryParam("orderStatus")String orderStatus){
+    public List<Orders> getOrders(@QueryParam("repeatIndicator")String repeatIndicator,@QueryParam("startDateTime")String startDateTime,@QueryParam("stopDateTime")String stopDateTime
+            ,@QueryParam("orderStatus")String orderStatus,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId){
         Orders orders=new Orders();
         orders.setRepeatIndicator(repeatIndicator);
         orders.setOrderStatus(orderStatus);
-        orders.setPatientId("15006135");
-        orders.setVisitId("1");
+        orders.setPatientId(patientId);
+        orders.setVisitId(visitId);
         return ordersServiceApi.getPatientOrders(orders);
     }
 
@@ -80,16 +81,15 @@ public class OrdersRest {
 
     /**
      * 下达医嘱
-     * @param id
+     * @param orders
      * @return
      * pq
      */
     @Path("issuedOrders")
     @POST
-    public StringData issuedOrders(String id){
+    public StringData issuedOrders(Orders orders){
         StringData data = new StringData();
-        String num=ordersServiceApi.issuedOrders(id);
-        Orders orders=ordersServiceApi.get(id);
+        String num=ordersServiceApi.issuedOrders(orders);
 
         data.setCode(num);
         if(Integer.parseInt(num)>0){
@@ -139,7 +139,7 @@ public class OrdersRest {
 
     /**
      * 查询子医嘱
-     * @param orders
+     * @param id
      * @return
      * pq
      */
@@ -186,7 +186,48 @@ public class OrdersRest {
      */
     @Path("getCost")
     @GET
-    public List<OrdersCosts> getOrdersCost(@QueryParam("visitId")String visitId){
-        return ordersServiceApi.getOrdersCost(visitId);
+    public List<OrdersCosts> getOrdersCost(@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId){
+        return ordersServiceApi.getOrdersCost(patientId,visitId);
     }
+
+    /**
+     * 停止医嘱医生
+     * @param orders
+     * @author pq
+     * @return
+     */
+   @Path("docStopOrders")
+   @POST
+   public StringData docStopOrders(Orders orders){
+       StringData data = new StringData();
+       String num=ordersServiceApi.stopOrders(orders);
+       data.setCode(num);
+       if(Integer.parseInt(num)>0){
+           data.setData("success");
+       }else{
+           data.setData("error");
+       }
+       return data;
+    }
+
+    /**
+     * 医生端作废医嘱（已执行的以及已收费的都不能作废）
+     * @param orders
+     * @author pq
+     * @return
+     */
+    @Path("docCancelOrders")
+    @POST
+    public StringData docCancelOrders(Orders orders){
+        StringData data = new StringData();
+        String num=ordersServiceApi.cancelOrders(orders);
+        data.setCode(num);
+        if(Integer.parseInt(num)>0){
+            data.setData("success");
+        }else{
+            data.setData("error");
+        }
+        return data;
+    }
+
 }
