@@ -140,4 +140,20 @@ public interface OrdersServiceApi {
      */
     public  List<OrdersCosts> getOrdersCost(String visitId);
 
+    /**
+     * 停止医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String stopOrders(Orders orders);
+
+    /**
+     * 作废医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String cancelOrders(Orders orders);
+
 }

@@ -107,4 +107,24 @@ public class OrdersServiceImpl implements OrdersServiceApi{
     public List<OrdersCosts> getOrdersCost(String visitId) {
         return ordersServiceBo.getOrdersCost(visitId);
     }
+
+    /**
+     * 停止医嘱(长期医嘱，停止时间是空)
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String stopOrders(Orders orders){
+        return  ordersServiceBo.stopOrders(orders);
+    }
+
+    /**
+     * 作废医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String cancelOrders(Orders orders){
+        return ordersServiceBo.cancelOrders(orders);
+    }
 }

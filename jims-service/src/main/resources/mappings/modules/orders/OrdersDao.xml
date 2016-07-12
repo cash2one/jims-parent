@@ -183,7 +183,8 @@
          else
           'B'
        end) aa,
-       0.00 bb
+       0.00 bb,
+		"ORDERS"."REMARKS" as "remarks"
      FROM "ORDERS", "CLINIC_ITEM_NAME_DICT"
        WHERE (ORDERS.PATIENT_ID = #{patientId})
 		   AND (ORDERS.VISIT_ID = #{visitId})
@@ -662,5 +663,44 @@
 		<if test="clinicId !=null and clinicId !=''">
 			AND current_presc_no=#{currentPrescNo}
 		</if>
+	</update>
+
+
+	<update id="stopOrders">
+       update orders set order_status = '7',
+          stop_date_time = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		<if test="stopDoctor">
+			,stop_doctor = #{stopDoctor}
+		</if>
+       where repeat_indicator = '1'
+       and  stop_date_time ==null
+       <if test="orderNo !=null and  orderNo != ''">
+			<if test="orderSubNo !=null and  orderSubNo != ''">
+			      and order_sub_no = #{orderSubNo}
+				   and patient_id = #{patientId}
+				   and visit_id = #{visitId}
+			</if>
+	   </if>
+
+	</update>
+
+
+
+	<update id="cancelOrders">
+		update orders set order_status = '8',
+		cancel_date_time = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		<if test="cancelDoctor!=null and cancelDoctor !=''">
+			,cancel_doctor = #{cancelDoctor}
+		</if>
+		where exec_date_time is  null
+		and verify_data_time is not null
+		<if test="orderNo !=null and  orderNo != ''">
+				<if test="orderSubNo !=null and  orderSubNo != ''">
+					and order_sub_no = #{orderSubNo}
+					and patient_id = #{patientId}
+					and visit_id = #{visitId}
+			</if>
+		</if>
+
 	</update>
 </mapper>

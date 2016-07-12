@@ -161,9 +161,6 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
                     if (orders.getIsNewRecord()) {
                         orders.preInsert();
                         orders.setOrderStatus("5");//医生保存
-                        orders.setPatientId("15006135");
-                        orders.setVisitId("1");
-                        orders.setStartDateTime(new Date());
                        if(orders.getOrdersCostses()!=null){
                            List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
                            for(int j=0;j<ordersCostsList.size();j++) {
@@ -351,5 +348,29 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
         ordersCosts.setPage(page);
         List<OrdersCosts> ordersList=ordersCostsDao.findList(ordersCosts);
         return ordersList;
+    }
+
+    /**
+     * 停止医嘱(长期医嘱，停止时间是空)
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String stopOrders(Orders orders){
+       int num = 0;
+        num = ordersDao.stopOrders(orders);
+        return num+"";
+    }
+
+    /**
+     * 作废医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String cancelOrders(Orders orders){
+        int num = 0;
+        num = ordersDao.cancelOrders(orders);
+        return num+"";
     }
 }

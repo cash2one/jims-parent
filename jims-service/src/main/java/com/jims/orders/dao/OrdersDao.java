@@ -156,4 +156,22 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @return
      */
     public String delOrders(@Param("visitId")String visitId);
+
+
+    /**
+     * 停止医嘱(长期医嘱，停止时间是空)
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public int stopOrders(Orders orders);
+
+    /**
+     * 作废医嘱
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public int cancelOrders(Orders orders);
+
 }

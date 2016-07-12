@@ -13,7 +13,7 @@ $(function() {
         url: basePath + '/ordersNurse/findOrdersCopied?' + $('#searchform').serialize(),
         remoteSort: false,
         idField: 'id',
-        singleSelect: false,//是否单选
+        singleSelect: true,//是否单选
         rownumbers: true,//行号
         columns: [[      //每个列具体内容
             {field: 'orderStatus', title: '执/停', width: '5%', align: 'center',formatter:function(value, row, index){}
