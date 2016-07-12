@@ -58,20 +58,6 @@ function onloadMethod(outOrIn){
             }
         }
         ], onClickRow: function (rowIndex, rowData) {
-            var dataGrid=$('#list_data');
-            if(!dataGrid.datagrid('validateRow', rowNum)){
-                return false
-            }else{
-                if(rowNum!=rowIndex){
-                    if(rowNum>=0){
-                        dataGrid.datagrid('endEdit', rowNum);
-                    }
-                    rowNum=rowIndex;
-                    dataGrid.datagrid('beginEdit', rowIndex);
-                    var ed = $('#list_data').datagrid('getEditor', {index:rowIndex,field:'doctor'});
-                    $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
-                }
-            }
         }
     });
     //设置分页控件
@@ -81,6 +67,14 @@ function onloadMethod(outOrIn){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+}
+/**
+ * 查询
+ */
+function searchAppoints(){
+    var startTime= $("#startTime").datebox('getValue');
+    var startTime= $("#endTime").datebox('getValue');
+
 }
 /**
  * 确认

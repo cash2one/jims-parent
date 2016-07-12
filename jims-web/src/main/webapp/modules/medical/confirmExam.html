@@ -9,19 +9,16 @@
     <script type="text/javascript" src="../medical/js/confirmExam.js"></script>
 </head>
 
-<body onload="onloadMethod()">
+<body onload="onloadMethod('0')">
 <div class="search-standard clearfix">
     <ul class="clearfix" id="wrap">
         <li>检查:
             <input type="radio" name="status" id="dai" checked="checked" onclick="onloadMethod('0')" value="0"/>门诊
             <input type="radio" name="status" id="yi" onclick="onloadMethod('1')" value="1"/>住院</li>
         <li>预约时间:
-            <input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="startTime"/> 至  <input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="endTime"/></li>
-        <li>申请科室:<input class="easyui-combobox" id="doctorRole"></li>
-        <li>检查号:<input class="validatebox-text"></li>
         <li>病人ID：<input type="text" class="validatebox-text" id="patientId"/></li>
         <li>姓名:<input type="text" class="validatebox-text" id="patName"/></li>
-        <li><button class="easy-nbtn easy-nbtn-info" onclick="search();">查询</button></li>
+        <li><button class="easy-nbtn easy-nbtn-info" onclick="searchAppoints();">查询</button></li>
     </ul>
 </div>
 <table id="list_data"   cellspacing="0" cellpadding="0">

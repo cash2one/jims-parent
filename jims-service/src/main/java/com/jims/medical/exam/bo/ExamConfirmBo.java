@@ -130,7 +130,7 @@ public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
         SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
          int num=0;
          List<ExamItems> list=examItemsDao.getItemList(examAppoints.getId());//检查主记录 对应的检查项目
-         String orgId="";
+         String orgId="1";
         for(int i=0;i<list.size();i++){
             //查询检查项目 对应的 计价项目
             List<PriceListVo>  listPriceListVo=priceListDao.listByClinicItemCodeAndOrgId(orgId, list.get(i).getExamItemCode());
@@ -138,7 +138,7 @@ public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
                 PriceListVo priceListVo=listPriceListVo.get(j);
                 InpBillDetail inpBillDetail=new InpBillDetail();//住院病人 费用明细
                 inpBillDetail.setPatientId(examAppoints.getPatientId());
-                inpBillDetail.setVisitId(examAppoints.getVisitId());
+                inpBillDetail.setVisitId("12540");
                 //inpBillDetail.setItemNo(1);//项目序号
                 inpBillDetail.setItemClass(priceListVo.getItemClass());
                 inpBillDetail.setItemName(priceListVo.getItemName());
