@@ -16,35 +16,21 @@
 </head>
 <body>
 <div  class="easyui-layout" style="width:100%;height:100%;">
-    <div data-options="region:'center',split:true">
-            <div class="">
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <td class="text-right">身份证：</td>
-                    <td><input type="text" class="validatebox-text vt-text-percent" id="idNo"/></td>
-                    <td class="text-right">姓名：</td>
-                    <td><input type="text" class="validatebox-text vt-text-percent" id="name"/></td>
-                    <td class="text-right">就诊日期：</td>
-                    <td><input type="text" class="easyui-datebox vt-text-percent" id="visitDate"/></td>
-                    <td>
-                        &nbsp;&nbsp;<button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchConfirm();">查询</button>
-                    </td>
-
-                </tr>
-            </table>
-
-        </div>
-       <!-- <div class="bg-gray">
-            <button class="easy-nbtn easy-nbtn-success" onclick="confirmAppoint('chargeId','预约结果');">确认</button>
-            <a class="easy-nbtn easy-nbtn-warning" href="#" onclick="deleteAppoint();">退约</a>
-            <a class="easy-nbtn easy-nbtn-info" href="#" onclick="editAppoint();">修改</a>
-        </div>-->
-        <table id="confirm_data"   cellspacing="0" cellpadding="0">
-
-        </table>
+    <div id="tb" style="padding: 5px;">
+        身份证：<input type="text" class="validatebox-text vt-text-percent" id="idNo" style="width: 150px;"/>
+        姓名：<input type="text" class="validatebox-text vt-text-percent" id="name" style="width: 80px;"/>
+        就诊日期：<input type="text" class="easyui-datebox vt-text-percent" id="visitDate" style="width: 80px;"/>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchConfirm();">查 询</button>
+        <button onclick="confirmAppoint('chargeId','预约结果');" class="easyui-linkbutton" data-options="iconCls:'icon-add'">确 认</button>
+        <a  onclick="saveAppointInfo();" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保 存</a>
+        <a  onclick="deleteAppoint();" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">退 约</a>
+        <!--<a  onclick="editAppoint();" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>-->
     </div>
+    <table id="confirm_data"   cellspacing="0" cellpadding="0">
 
-    <div data-options="region:'east',iconCls:'icon-ok'"  style="width:22%;">
+    </table>
+
+    <div data-options="region:'east',iconCls:'icon-ok'"  style="width:24%;">
         <form id="patIndex" method="post">
             <input type="hidden" name="id">
         <div class="rego-right">
@@ -110,7 +96,7 @@
                 </div>
                 <br>
                 <div style="text-align:right;">
-                    <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'" href="#" onclick="saveAppointReg()">保存</a>&nbsp;
+                    <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'"  onclick="saveAppointReg()">保存</a>&nbsp;
                     <button  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-cancel'" onclick="closeDialog('chargeId')">取消</button>
                 </div>
             </div>

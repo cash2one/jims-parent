@@ -16,24 +16,11 @@
 </head>
 
 <body>
-<div style="padding:10px;">
-    <div class="margb-10">
-        <table cellpadding="0" cellspacing="0" width="100%">
-            <tr>
-                <td class="text-right">门诊号别：</td>
-                <td><input type="text" class="validatebox-text vt-text-percent" id="clinicTypeNameId"/></td>
-                <td class="text-right">门诊科室：</td>
-                <td><input type="text" class="easyui-combobox" style="width: 60%" id="deptNameId"/></td>
-                <td>
-                    <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="getClinicForRegist()">查询</button>
-                </td>
-
-            </tr>
-        </table>
-
-    </div>
-
+<div style="padding: 5px;">
     <div>
+        门诊号别：<input type="text" class="validatebox-text vt-text-percent" id="clinicTypeNameId" style="width: 150px;"/>
+        门诊科室：<input type="text" class="easyui-combobox" style="width: 150px;" id="deptNameId"/>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="getClinicForRegist()">查询</button>
         <!--<button class="easyui-linkbutton" data-options="iconCls:'icon-back'">读卡</button>-->
         <button class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="openDialog('chargeId','挂号结果')">挂号</button>
         <button class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="openDialogRetreat('backNumberId','退号')">退号</button>
@@ -75,7 +62,7 @@
         </div>
         <br>
         <div style="text-align:right;">
-            <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'" href="#" onclick="saveClinic()">保存</a>&nbsp;
+            <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'"  onclick="saveClinic()">保存</a>&nbsp;
             <button  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-cancel'" onclick="closeDialog('chargeId')">取消</button>
         </div>
     </div>

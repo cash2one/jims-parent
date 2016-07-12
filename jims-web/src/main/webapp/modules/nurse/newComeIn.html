@@ -26,10 +26,11 @@
             padding:10px;
 
         }
+        .fitem label{ width: 100px; }
     </style>
 </head>
 <body class="easyui-layout">
-<div data-options="region:'north'" style="height: 40%;">
+<div data-options="region:'north'" style="height: 61%;">
     <form id="masterForm" method="post">
         <div class="fitem fitem_pop">
             <label>
@@ -136,15 +137,17 @@
         </div>
         <div class="fitem fitem_pop">
             <label>
-                诊断：
-            </label>
-            <input name="diagnosis" id="diagnosis" class="easyui-textbox" >
-            <label>
                 发病日期：
             </label>
             <input name="onsetDate" class="easyui-datetimebox" />
 
-
+            <label>
+                诊断：
+            </label>
+            <input name="diagnosis" id="diagnosis" class="easyui-textbox" >
+            <div class="fd-right" style="padding: 0 85px 0 0;">
+                <a  onclick="confirmFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确定</a>
+            </div>
         </div>
         <input name="bedRecId" type="hidden" class="easyui-textbox">
         </form>
@@ -154,11 +157,7 @@
 
     </table>
 </div>
-<div data-options="region:'south'" style="height: 10%;">
-    <div class="bot-medbtn">
-        <a href="#" onclick="confirmFun()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">确定</a>
-
-    </div>
+<div data-options="region:'south'">
 </div>
 </body>
 </html>

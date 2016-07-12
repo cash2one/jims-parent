@@ -9,7 +9,7 @@
 <body>
 
 <div class="easyui-layout" id="global">
-    <div region="north" title="药品目录管理" border="false">
+    <div region="north" border="false">
         <table id="top" class="easyui-datagrid" style="width:100%;"></table>
     </div>
     <div region="south" border="false">
@@ -18,33 +18,33 @@
     <div region="west" border="false" style="width:30%;">
         <table id="drugNameDict" class="easyui-datagrid"></table>
     </div>
-    <div region="center" border="false" >
+    <div region="center" border="false">
         <table id="drugDict" class="easyui-datagrid"></table>
     </div>
 </div>
 
 
-<div id="tbNameDict">
-    <a id="addDrugName" href="#" class="easyui-linkbutton" iconCls="icon-add">新增</a>
-    <a id="removeDrugName" href="#" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+<div id="tbNameDict" style="padding: 5px;">
+    <a id="addDrugName"  class="easyui-linkbutton" iconCls="icon-add">新增</a>
+    <a id="removeDrugName"  class="easyui-linkbutton" iconCls="icon-remove">删除</a>
 </div>
-<div id="tbDict">
-    <a id="appendDrug" href="#" class="easyui-linkbutton" iconCls="icon-add">新增</a>
-    <a id="removeDrug" href="#" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
-    <a id="listPrice" href="#" class="easyui-linkbutton" iconCls="icon-remove">价格</a>
+<div id="tbDict" style="padding: 5px;">
+    <a id="appendDrug"  class="easyui-linkbutton" iconCls="icon-add">新增</a>
+    <a id="removeDrug"  class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+    <a id="listPrice"  class="easyui-linkbutton" iconCls="icon-remove">价格</a>
 </div>
 <div id="tb" style="padding: 5px;">
     <input type="radio" class="radios" name="two" value="0" checked/>药品名称：
-    <input id="drugName" title="药品名称" type="text"class="easyui-combogrid"/>&nbsp;&nbsp;<br>
+    <input id="drugName" title="药品名称" type="text" class="easyui-combogrid"/>
     <input type="radio" class="radios" name="two" value="1"/>药品类别：
-    <select id="drugClass" class="easyui-combobox"  disabled></select>
+    <select id="drugClass" class="easyui-combobox" disabled></select>
     <select id="drugSubClass" class="easyui-combobox" disabled></select>
-    <br><br><br>
+    <a  id="clear" class="easyui-linkbutton" iconCls="icon-clear">清屏</a>
+    <a  id="save" class="easyui-linkbutton" iconCls="icon-save">保存</a>
 </div>
 <div id="ft">
-    <!--<a href="#" id="filter" class="easyui-linkbutton" iconCls="icon-filter">提取</a>-->
-    <a href="#" id="clear" class="easyui-linkbutton" iconCls="icon-clear">清屏</a>
-    <a href="#" id="save" class="easyui-linkbutton" iconCls="icon-save">保存</a><br><br>
+    <!--&nbsp;-->
+    <!--<a  id="filter" class="easyui-linkbutton" iconCls="icon-filter">提取</a>-->
 </div>
 
 <div id="dosageDialog" class="easyui-dialog" style="width:400px;height:500px;padding:10px 20px"

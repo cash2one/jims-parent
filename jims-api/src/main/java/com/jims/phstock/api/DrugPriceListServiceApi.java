@@ -155,19 +155,19 @@ public interface DrugPriceListServiceApi {
     public String stopDate(String id);
 
     /**
-     * 根据价格表的ID检索全院库存量
-     * @param priceListId
+     * 根据价格表检索全院库存量
+     * @param
      * @return
      * @author zq
      */
-    public List<DrugStock> findListByPriceListId(String priceListId);
+    public List<DrugStock> findListByPriceListId(String orgId,String drugCode,String drugSpec,String firmId,String packageSpec);
 
 
     /**
      * 根据价格表的ID,subStorage,storage检索库存量
-     * @param priceListId
+     * @param
      * @return
      * @author zq
      */
-    public List<DrugStock> findBySubQuantity(String priceListId,String storage,String subStorage);
+    public List<DrugStock> findBySubQuantity(String orgId,String drugCode,String drugSpec,String firmId,String packageSpec,String storage,String subStorage);
 }

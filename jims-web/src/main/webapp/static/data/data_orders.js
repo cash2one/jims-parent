@@ -56,7 +56,7 @@ function orderClassFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
-    if(value=='A'||value =='B'){
+    if(value=='A'||value =='B'||value =='1'){
         return "药品";
     }else{
         return "非药品";

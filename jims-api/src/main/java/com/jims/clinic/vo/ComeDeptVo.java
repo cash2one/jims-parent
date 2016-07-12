@@ -1,5 +1,6 @@
 package com.jims.clinic.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * Created by CTQ
  * @DATE 2016-06-06 16:46:22
  */
-public class ComeDeptVo {
+public class ComeDeptVo implements Serializable {
     private String bedRecId;
     private String patientId;
     private String visitId;

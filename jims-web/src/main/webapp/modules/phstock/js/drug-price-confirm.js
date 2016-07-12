@@ -16,7 +16,7 @@ $(function () {
         }
     };
     $("#modifyList").datagrid({
-        title:'调价记录',
+        //title:'调价记录',
         fit: true,
         fitColumns: true,
         striped: true,
@@ -47,7 +47,7 @@ $(function () {
         }, {
             title: "药品名称",
             field: "drugCode",
-            width: '12%',
+            width: '11%',
             align: 'center',
             formatter:function(value,row,index){
                 var drugName = value;

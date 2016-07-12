@@ -108,29 +108,31 @@ $(function (){
         frozenColumns:[[
             {field:'ck',checkbox:false}
         ]],
-        toolbar: [
-            {
-                text: '确认',
-                iconCls: 'icon-add',
-                handler: function() {
-                    confirmAppoint('chargeId','预约结果');
-                }
-            },
-            {
-                text: '保存',
-                iconCls: 'icon-save',
-                handler: function() {
-                    saveAppointInfo();
-                }
-            },
-            '-',{
-                text: '退约',
-                iconCls: 'icon-remove',
-                handler: function(){
-                    deleteAppoint();
-                }
-            }
-        ], onClickRow: function (rowIndex, rowData) {
+        toolber:"#tb"
+        //toolbar: [
+        //    {
+        //        text: '确认',
+        //        iconCls: 'icon-add',
+        //        handler: function() {
+        //            confirmAppoint('chargeId','预约结果');
+        //        }
+        //    },
+        //    {
+        //        text: '保存',
+        //        iconCls: 'icon-save',
+        //        handler: function() {
+        //            saveAppointInfo();
+        //        }
+        //    },
+        //    '-',{
+        //        text: '退约',
+        //        iconCls: 'icon-remove',
+        //        handler: function(){
+        //            deleteAppoint();
+        //        }
+        //    }
+        //]
+        , onClickRow: function (rowIndex, rowData) {
             $("#patIndex").form('load',rowData);
             var dataGrid=$('#confirm_data');
             if(!dataGrid.datagrid('validateRow', rowNum)){

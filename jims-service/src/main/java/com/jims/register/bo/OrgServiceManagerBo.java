@@ -9,10 +9,8 @@ import com.jims.register.entity.OrgSelfServiceList;
 import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.register.entity.OrgServiceList;
 import com.jims.sys.dao.MenuDictDao;
-import com.jims.sys.entity.MenuDict;
-import com.jims.sys.entity.RoleServiceMenu;
-import com.jims.sys.vo.MenuDictVo;
-import com.jims.sys.vo.OrgSelfServiceVsMenuVo;
+import com.jims.sys.dao.ServiceSelfVsSysDao;
+import com.jims.sys.entity.ServiceSelfVsSys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -35,6 +33,8 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
     @Autowired
     private OrgSelfServiceVsMenuDao selfServiceVsMenuDao;
     @Autowired
+    private ServiceSelfVsSysDao vsSysDao;
+    @Autowired
     private MenuDictDao menuDictDao;
 
     /**
@@ -55,8 +55,9 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
      *                        参数OrgSelfServiceList属性中
      *                        delFlag 为 1 时，属性id为药删除的自定义服务id,多个以‘,’隔开，
      *                        id不为空，orgId为空时，属性menus为服务(id)对应的菜单数据(树形结构)
+     *                                              servicesVs 为对应平台服务数据
      *
-     *                        其他值时，为修改的自定义服务，当为添加的自定义服务时，menus为添加的菜单。
+     *                        其他值时，为修改的自定义服务，当为添加的自定义服务时，包含所有需添加信息。
      */
     public void saveSelfService(List<OrgSelfServiceList> selfServiceList){
         if(selfServiceList != null || selfServiceList.size() > 0){
@@ -66,18 +67,22 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
                     for (int i = 0; i < ids.length; i++){
                         selfServiceDao.delete(ids[i]);
                         selfServiceVsMenuDao.deleteByServiceId(ids[i]);
+                        vsSysDao.deleteBySelfServiceId(ids[i]);
                     }
                     continue;
                 }
                 if(service.getId() != null && service.getOrgId() == null){
                     selfServiceVsMenuDao.deleteByServiceId(service.getId());
                     saveSelfServiceVsMenu(service.getMenus(),service.getId(),null);
+                    vsSysDao.deleteBySelfServiceId(service.getId());
+                    saveSelfVsSys(service.getServiceVs(),service.getId());
                     continue;
                 }
                 if (service.getIsNewRecord()){
                     service.preInsert();
                     selfServiceDao.insert(service);
                     saveSelfServiceVsMenu(service.getMenus(),service.getId(),null);
+                    saveSelfVsSys(service.getServiceVs(),service.getId());
                 }else{
                     service.preUpdate();
                     selfServiceDao.update(service);
@@ -107,6 +112,16 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
                     selfServiceVsMenuDao.update(menu);
                 }
                 saveSelfServiceVsMenu(menu.getChildren(),selfServiceID,menu.getMenuId());
+            }
+        }
+    }
+
+    private void saveSelfVsSys(List<ServiceSelfVsSys> serviceSelfVsSys,String selfServiceId){
+        if(serviceSelfVsSys != null && serviceSelfVsSys.size() > 0){
+            for(ServiceSelfVsSys vs : serviceSelfVsSys){
+                vs.setSelfServiceId(selfServiceId);
+                vs.preInsert();
+                vsSysDao.insert(vs);
             }
         }
     }
@@ -182,6 +197,12 @@ public class OrgServiceManagerBo extends CrudImplService<OrgServiceListDao, OrgS
         return TreeUtils.handleTreeList(orgSelfServiceVsMenus,keyMap);
         }
         return orgSelfServiceVsMenus;
+    }
+
+    public List<ServiceSelfVsSys> findVsSys(String selfServiceId){
+        ServiceSelfVsSys vs = new ServiceSelfVsSys();
+        vs.setSelfServiceId(selfServiceId);
+        return vsSysDao.findList(vs);
     }
 
 }

@@ -39,7 +39,6 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private String zipCode;		// 邮政编码
 	private String phoneNumber;		// 联系电话
 	private String examClass;		// 检查类别
-	private String inOrOut;//门诊住院标示0：门诊，11:住院
 	private String examSubClass;		// 检查子类
 	private String clinSymp;		// 临床症状
 	private String physSign;		// 体征
@@ -84,7 +83,6 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
 	private String resultStatus;//检查结果
-
 	//扩展
 	private List<ExamItems> examItemsList;
 
@@ -648,13 +646,5 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 
 	public void setResultStatus(String resultStatus) {
 		this.resultStatus = resultStatus;
-	}
-
-	public String getInOrOut() {
-		return inOrOut;
-	}
-
-	public void setInOrOut(String inOrOut) {
-		this.inOrOut = inOrOut;
 	}
 }

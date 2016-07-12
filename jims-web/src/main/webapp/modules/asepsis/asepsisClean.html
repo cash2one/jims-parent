@@ -9,19 +9,6 @@
     <script type="text/javascript" src="../asepsis/js/asepsisClean.js"></script>
 </head>
 <body class="easyui-layout" onload="onloadMethod('0')">
-<!--<div class="search-standard clearfix">-->
-    <!--<ul class="clearfix">-->
-        <!--<li>住院状态:-->
-            <!--<input type="radio" name="status" id="dai" checked="checked" onclick="onloadMethod('0')"/>在院中-->
-            <!--<input type="radio" name="status" id="yi" onclick="onloadMethod('1')"/>已出院</li>-->
-        <!--<li>医师权限:<select class="validatebox-text"/><option>111</option></select></li>-->
-        <!--<li>病历状态:<select class="validatebox-text"/><option>111</option></select></li>-->
-        <!--<li>按开始日期查询：<input type="text" class="validatebox-text validatebox-text-sm"/> 至  <input type="text" class="validatebox-text validatebox-text-sm"/></li>-->
-        <!--<li>病人姓名:<input type="text" class="validatebox-text"/></li>-->
-        <!--<li><button class="easy-nbtn easy-nbtn-info">查询</button></li>-->
-    <!--</ul>-->
-<!--</div>-->
-
 <div class="margb-10">
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
@@ -31,9 +18,10 @@
             <td class="text-right">所属科室：</td>
             <td><input type="text" class="easyui-combobox" id="belongDept" style="width: 80%"/></td>
             <td class="text-right">包名称：</td>
-            <td colspan="3"><input type="text" class="easyui-combobox" id="asepsisName"/></td>
+            <td colspan="2"><input type="text" class="easyui-combobox" id="asepsisName"/></td>
             <td colspan="3">
-                <button id="searchBtn"  class="easyui-linkbutton" data-options="iconCls:'icon-search'">查&nbsp;询</button>
+                <button id="searchBtn"  class="easyui-linkbutton" data-options="iconCls:'icon-search'">查 询</button>
+                <button id="saveBtn"  class="easyui-linkbutton" data-options="iconCls:'icon-save'">保 存</button>
             </td>
         </tr>
         <tr>
@@ -47,9 +35,6 @@
             <td><input type="text" class="easyui-combobox" id="cleanNo" style="width: 55%"/></td>
             <td class="text-right">机次：</td>
             <td><input type="text" class="easyui-combobox" id="cleanTimes" style="width: 55%"/></td>
-            <td>
-                <button id="saveBtn"  class="save-btn">保&nbsp;存</button>
-            </td>
         </tr>
     </table>
 

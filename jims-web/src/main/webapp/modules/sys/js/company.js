@@ -219,7 +219,7 @@ $(function () {
             result = false;
         }
         var phone = $("#linkPhoneNum").val();
-        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
         if (!myreg.test(phone)) {
             $("#res-linkPhoneNum").css("color", "red");
             $("#res-linkPhoneNum").text('*请输入有效的手机号码');
@@ -316,7 +316,7 @@ $(function () {
     /**
      * 保存信息
      */
-    var dataArr
+    var dataArr=[];
     $.get('/service/sys-service/findServiceWithPrice',{serviceClass:'0',serviceType:'1'},function(res){
         dataArr = res
     })
@@ -448,11 +448,28 @@ $(function () {
 
         });
     }
-    addNext = function(){
+    /**
+     * 弹出服务描述的提示
+     * @param sysService
+     */
+
+//
+
+    function findInfo(sysService){
+
+            alert(sysService);
+            console.info(sysService);
+
+    }
+
+
+    var arr=[];
+    function addNext(){
         var liArr = $('#addServiceModel1 ul li')
         if(liArr.length < 1) {
             for (var i = 0; i < dataArr.length; i++) {
-                var li = '<li id="service_' + dataArr[i].id + '" name="serviceName_' + dataArr[i].serviceName + '">';
+                arr[i]='service_' + dataArr[i].id;
+                var li = '<li  id="service_' + dataArr[i].id + '" name="serviceName_' + dataArr[i].serviceName + '" >';
                 li += '<div class="service-set">'
                 li += '<h3>' + dataArr[i].serviceName + '</h3>'
                 li += '<table width="100%">'
@@ -549,6 +566,7 @@ $(function () {
         }
     }
     addNext();
+
 });
 
 

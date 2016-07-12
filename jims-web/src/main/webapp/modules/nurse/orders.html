@@ -13,9 +13,7 @@
 </head>
 <body class="easyui-layout" >
 
-<div class="search-standard clearfix">
-
-        <ul class="clearfix">
+<div style="padding: 5px;">
          <!--   <form id="baseInfo">
             <li>床标号:<input name="bed_no1" class="validatebox-text" readonly/></li>
             <li>姓名:<input name="name" class="validatebox-text" readonly/></li>
@@ -28,34 +26,26 @@
             <li>经治医生:<input name="doctor_in_charge" class="validatebox-text" readonly/></li>
             </form>-->
             <form name="searchform" method="post" id ="searchform">
-            <li>
                长期/临时:
                 <input type="radio" name="repeatIndicator"  checked="checked" value="" />全部
                 <input type="radio" name="repeatIndicator" value="2"  />长期
                 <input type="radio" name="repeatIndicator" value="3"  />临时
-                <input type="radio" name="repeatIndicator" value="4"  />当日医嘱
-            </li>
-            <li>
+                <input type="radio" name="repeatIndicator" value="4"  />当日医嘱&nbsp;&nbsp;&nbsp;
                 医嘱状态:
-                <input type="radio" name="orderStatus"  checked="checked" value="" />全部 &nbsp;&nbsp;
+                <input type="radio" name="orderStatus"  checked="checked" value="" />全部
                 <input type="radio" name="orderStatus" value="2"  />新开
                 <input type="radio" name="orderStatus" value="3"  />执行
                 <input type="radio" name="orderStatus" value="4"  />已停
-            </li>
                 <input name="patientId" value="15006135" type="hidden">
-                <input name="visitId" value="1" type="hidden">
+                <input name="visitId" value="1" type="hidden">&nbsp;
+                <a id="submit_search" class="easyui-linkbutton" iconCls="icon-search">查询</a>
             </form>
-            <li><a id="submit_search">查询</a></li>
-
-        </ul>
-
-
 </div>
 <div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
         <div class="bot-medbtn">
-            <a href="#" onclick="executeOrders()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">临时医嘱执行</a>
-            <a href="#" onclick="savePre()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
-            <a href="#" onclick="proofOrders()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">校对</a>
+            <a  onclick="executeOrders()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">临时医嘱执行</a>
+            <a  onclick="savePre()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+            <a  onclick="proofOrders()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">校对</a>
 
         </div>
 </div>

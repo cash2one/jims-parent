@@ -117,7 +117,7 @@ function onloadMethod() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/bloodApply/listHos',
-        QueryParams: {'visitId': visitId},
+        QueryParams: {'visitId': visitId,'patientId':patientId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
