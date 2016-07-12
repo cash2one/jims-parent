@@ -71,7 +71,7 @@
         and (BB.DRUG_SPEC = DRUG_STOCK.PACKAGE_SPEC)
         and (BB.MIN_SPEC = DRUG_STOCK.DRUG_SPEC)
         and (BB.FIRM_ID = DRUG_STOCK.FIRM_ID)
-        and (BB.START_DATE &lt; to_date(#{2},'yyyy-mm-dd hh24-mi-ss')))
+        and (BB.START_DATE &lt;= to_date(#{2},'yyyy-mm-dd hh24-mi-ss')))
 	</select>
     
     <select id="extractInventory" resultType="com.jims.phstock.vo.DrugInventoryCheckVo">

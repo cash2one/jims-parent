@@ -100,6 +100,7 @@ $(function(){
 
     //弹出框默认值清空
     var reset = function(){
+        $("#drugClassCode").combogrid('enable');
         $("#drugParentIdChange").html("");
         $("#drugClassCodeChange").html("");
         $("#drugClassNameChange").html("");
@@ -141,6 +142,11 @@ $(function(){
             }else{
                 way="*";
                 $("#drugClassCode").textbox('setValue', node.classCode);
+                if(node.children.length>0 &&node.parentId=='*'){
+                    $("#drugClassCode").combogrid('disable');
+                }else{
+                    $("#drugClassCode").combogrid('enable');
+                }
             }
             $("#drugClassName").textbox('setValue', node.className);
             $("#drugParentId").combogrid('setValue', node.parentId);

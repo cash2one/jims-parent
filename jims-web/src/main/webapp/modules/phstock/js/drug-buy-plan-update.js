@@ -77,6 +77,11 @@ $(function () {
         drugFormDict = data;
     })
 
+    var drugNameDictList=[]; //药品名称
+    $.get("/service/drug-price/findDrugNameDictList", function (data) {
+        drugNameDictList = data;
+    });
+
     // 药品类别
     var drugIndicators = [
         {value: '1', label: '西药'},
@@ -179,28 +184,23 @@ $(function () {
                     if (value == '采购金额合计') return '<div style="text-align:right">' + value + '：　　　</div>'
                     return value
                 }},
-                {field: 'drugName', title: '药名', width: 120, halign: "center",align:'left', editor: {
-                    type: 'combogrid',
-                    options: {
-                        panelWidth: 463,
-                        idField: 'drugName',
-                        textField: 'drugName',
-                        //required: true,
-                        //missingMessage: '药名不能为空',
+                { field: 'drugCode', title: '药品编码', width: 130,halign : "center",align : "left",editor:{
+                    type:'combogrid',
+                    options:{
+                        panelWidth:460,
+                        idField:'drugCode',
+                        textField:'drugCode',
+                        //required:true,
+                        //missingMessage:'药名不能为空',
                         fitColumns: true,
                         url : '/service/drug-price/findDrugDictWithFilter?limit=50&orgId='+orgId,
                         method:'get',
                         mode:'remote',
-                        columns: [[
-                            {field: 'drugCode', title: '药品代码', width: 100, align: "center"},
-                            {field: 'drugName',
-                                title: '药品名称',
-                                width: 160,
-                                halign: "center",
-                                align: "left"
-                            },
-                            {field: 'inputCode', title: '输入码', width: 70, align: "center"},
-                            {field: 'toxiProperty', title: '毒理分类', width: 70, align: "center",
+                        columns:[[
+                            {field:'drugCode',title:'药品代码',width:100,align : "center"},
+                            {field:'drugName',title:'药品名称',width:160,halign : "center",align : "left" },
+                            {field:'inputCode',title:'输入码',width:70,align : "center"},
+                            {field:'toxiProperty',title:'毒理分类',width:70,align : "center",
                                 formatter:function(value,row,index){
                                     var label=value;
                                     $.each(drugToxi, function (index,item) {
@@ -210,17 +210,45 @@ $(function () {
                                     });
                                     return label;
                                 }},
-                            {field: 'drugIndicator', title: '药品类别', width: 60, align: "center",
-                                formatter: function (value) {
-                                    return format(drugIndicators, value)
-                                }
-                            }
+                            {field:'drugIndicator',title:'药品类别',width:60,align : "center",
+                                formatter:function(value){
+                                    return format(drugIndicators,value)
+                                }}
                         ]],
-                        onSelect: function (index, row) {
+                        onSelect:function(index,row){
                             loadDrugPriceData(row)
                         }
                     }
-                }},
+                },
+                    formatter:function(value,row,index){
+                        var a=false;
+                        //console.log(buyPlanRow);
+                        console.log(row);
+                        $.each(drugNameDictList, function (index,item) {
+                            if(item.drugCode == value && item.drugName==row.drugName){
+                                a=true;
+                            }
+                        });
+                        if(a==false){
+                            row.drugName = '';
+                            row.drugCode = '';
+                            row.drugSpec = '';
+                            row.units = '';
+                            row.packSpec = '';
+                            row.packUnit = '';
+                            row.firmId = '';
+                            row.supplier = '';
+                            row.dosePerUnit = '';
+                            row.doseUnits = '';
+                            row.drugForm = '';
+                            row.toxiProperty = '';
+                            row.drugIndicator = '';
+                            row.inputCode = '';
+                        }
+                        return row.drugCode;
+                    }
+                },
+                { field: 'drugName', title: '药品名称', width: 180,align : "center" },
                 {field: 'supplier', title: '生产厂家', width: 200, halign: "center",align:'left'},
                 {field: 'stockSupplier', title: '采购供应商', width: 200, align: "center", editor: {
                     type: 'combobox',
@@ -418,7 +446,7 @@ $(function () {
                 return
             }
             _buyPlanTableRow.drugName = drugDict.drugName
-            _buyPlanTableRow.drugCode = drugDict.drugCode
+            //_buyPlanTableRow.drugCode = drugDict.drugCode
             _buyPlanTableRow.drugSpec = drugPrice.drugSpec
             _buyPlanTableRow.units = drugPrice.units
             _buyPlanTableRow.packSpec = drugPrice.drugSpec
@@ -548,8 +576,8 @@ $(function () {
      */
     var validateRow = function (row) {
         var _index = $('#buyPlanTable').datagrid('getRowIndex', row)
-        if (!row.drugName) {
-            onClickCell(_index, 'drugName')
+        if (!row.drugCode) {
+            onClickCell(_index, 'drugCode')
             return false
         }
         if (isNaN(row.purchasePrice)) {

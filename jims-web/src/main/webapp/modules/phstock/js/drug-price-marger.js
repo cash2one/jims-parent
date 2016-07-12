@@ -611,9 +611,13 @@ $(function () {
     $("#stopBtn").on('click', function () {
         var row = $("#datagridRight").datagrid('getSelected');
         console.log(row);
+        var drugPriceList=row;
         $.messager.confirm('Confirm','是否确定停价该药品？',function(r){
             if (r){
-                $.postJSON(basePath + "/drug-price/find-by-price-list-id",row.id,function(data){
+                $.get(basePath + "/drug-price/find-by-price-list-id",
+                    {orgId:row.orgId,drugCode:row.drugCode,drugSpec:row.minSpec,firmId:row.firmId,packageSpec:row.drugSpec}
+                    ,function(data){
+                        console.log(data);
                     if(data[0].quantity>0){
                         $.messager.alert("系统提示", "全院库存量不为0，不允许停价", "error");
                     }else{
