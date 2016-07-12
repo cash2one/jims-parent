@@ -80,4 +80,11 @@ public interface DrugProvideApplicationApi {
      * @return
      */
     public List<DrugProvideApplication> findDocumentByDistinct(DrugProvideApplication entity);
+
+    /**
+     *查询去除重复的申请时间和单位
+     * @param entity
+     * @return
+     */
+    public List<DrugProvideApplication> findListByDistinct(DrugProvideApplication entity);
 }
