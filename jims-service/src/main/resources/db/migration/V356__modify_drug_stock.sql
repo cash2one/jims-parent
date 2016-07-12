@@ -8,8 +8,10 @@
 alter table DRUG_STOCK add price_list_id VARCHAR2(64 CHAR);
 
 --增加字段长度
-alter table DRUG_PRICE_MODIFY modify  firm_id varchar(64)
+alter table DRUG_PRICE_MODIFY modify  firm_id varchar(64);
 -- Add/modify columns
+
+alter table drug_inventory_check modify  firm_id varchar(64);
 
 -- Drop columns
 alter table DRUG_STOCK drop column price_list_id;

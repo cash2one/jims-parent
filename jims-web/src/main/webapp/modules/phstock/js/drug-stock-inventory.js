@@ -29,6 +29,21 @@ $(function(){
         drugSupplierDict = data;
     });
 
+    var specUnits = [];//规格单位字典
+    $.get("/service/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
+    //var drugToxi = [];//毒理属性字典
+    //$.get( "/service/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT", function (data) {
+    //    drugToxi = data;
+    //});
+
+    var drugFormDict = [];//剂型字典
+    $.get("/service/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
+        drugFormDict = data;
+    })
+
     $("#date").datebox("setValue",loadDate());
     //$("#date").datetimebox("setValue","2015-11-1 3:25:10");
 
@@ -69,32 +84,52 @@ $(function(){
             title: "单位",
             field: "packageUnits",
             width: '6%',
-            align: 'center'
+            align: 'center',
+            formatter:function(value,row,index){
+                var unitsName = value;
+                $.each(specUnits, function (index,item) {
+                    if(item.value == value){
+                        unitsName =  item.label;
+                    }
+                });
+                return unitsName;
+            }
         }, {
             title: "生产商",
             field: "supplier",
-            width: '9%',
-            align: 'center'
+            hidden:true
+
         }, {
             title: "厂家",
             field: "firmId",
-            hidden:true
+            width: '9%',
+            align: 'center',
+            //hidden:true
             // align: 'center',
-            // formatter: function (value,row,index) {
-            //     var supplierId = value;
-            //     $.each(drugSupplierDict, function (index,item) {
-            //         if(item.supplierCode == value){
-            //             supplierId  =  item.supplierId;
-            //         }
-            //     });
-            //     return  supplierId;
-            //}
+            formatter: function (value,row,index) {
+                 var supplierName = value;
+                 $.each(drugSupplierDict, function (index,item) {
+                     if(item.id == value){
+                         supplierName  =  item.supplier;
+                     }
+                 });
+                 return  supplierName;
+            }
 
         }, {
             title: "剂型",
             field: "drugForm",
             width: '4%',
-            align: 'center'
+            align: 'center',
+            formatter:function(value,row,index){
+                var label=value;
+                $.each(drugFormDict, function (index,item) {
+                    if (item.value == value){
+                        label =   item.label;
+                    }
+                });
+                return label;
+            }
         }, {
             title: "批号",
             field: "batchNo",
@@ -117,6 +152,12 @@ $(function(){
             align: 'center',
             formatter: function (value,row,index) {
                 if(value == "合计") return value;
+                //var units='';
+                //$.each(specUnits, function (index,item){
+                //    if(item.value=row.packageUnits){
+                //        units=item.label;
+                //    }
+                //}
                 var quantityNum = row.quantity + row.packageUnits + "(" + row.packageSpec + ")";
                 if(row.quantity){
                     return quantityNum;
@@ -256,11 +297,14 @@ $(function(){
         },{
             field: "orgId",
             hidden:true
+        },{
+            field: "recStatus",
+            hidden:true
         }
         ]],
         onSelect: function (rowIndex, rowDate) {
             stopEdit();
-            if (rowDate.recStatus == 0){
+            if (rowDate.recStatus == 0||rowDate.recStatus == 2){
                 $("#inventoryList").datagrid("beginEdit",rowIndex);
                 editIndex = rowIndex;
                 var editor = $('#inventoryList').datagrid('getEditor', {index:rowIndex,field:"actualQuantity"});
@@ -268,16 +312,21 @@ $(function(){
             }
         },
         onLoadSuccess: function (data) {
-            var sumQuantityAmount = 0.0000;
-            var sumActualAmount = 0.0000;
-            var sumProfitAndLossAmount = 0.0000;
             var rows = $("#inventoryList").datagrid("getRows");
-            $.each(rows, function (index,item) {
-                sumQuantityAmount = parseFloat(sumQuantityAmount) + parseFloat(item.quantityAmount);
-                sumActualAmount = parseFloat(sumActualAmount) + parseFloat(item.actualAmount);
-                sumProfitAndLossAmount = parseFloat(sumProfitAndLossAmount) + parseFloat(item.profitAndLossAmount);
-            });
-            $("#inventoryList").datagrid("appendRow",{quantityNum:"合计",quantityAmount:sumQuantityAmount,actualAmount:sumActualAmount,profitAndLossAmount:sumProfitAndLossAmount});
+            console.log(rows);
+            if(rows[rows.length-1].quantityNum=="合计"){
+            }else{
+                var sumQuantityAmount = 0.0000;
+                var sumActualAmount = 0.0000;
+                var sumProfitAndLossAmount = 0.0000;
+
+                $.each(rows, function (index,item) {
+                    sumQuantityAmount = parseFloat(sumQuantityAmount) + parseFloat(item.quantityAmount);
+                    sumActualAmount = parseFloat(sumActualAmount) + parseFloat(item.actualAmount);
+                    sumProfitAndLossAmount = parseFloat(sumProfitAndLossAmount) + parseFloat(item.profitAndLossAmount);
+                });
+                $("#inventoryList").datagrid("appendRow",{quantityNum:"合计",quantityAmount:sumQuantityAmount,actualAmount:sumActualAmount,profitAndLossAmount:sumProfitAndLossAmount});
+            }
         }
     });
 
@@ -330,7 +379,22 @@ $(function(){
         drugSubStorageDict = data;
     });
 
-
+    var drugInventoryList=[];
+    var reset=function(){
+        $.ajax({
+            type: 'get',
+            url: basePath + "/drug-inventory-check/extractInventory?storage=" + parent.config.currentStorage + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue").substr(0,10) + "&subStorage="+ $("#storage").combobox("getValue"),
+            async : false,   // true 异步,false 同步
+            contentType: 'application/json',
+            success: function(res){
+                if(res.length>0){
+                    drugInventoryList=res;
+                }else{
+                    drugInventoryList=[];
+                }
+            }
+        })
+    }
 
 
     //提取
@@ -359,6 +423,7 @@ $(function(){
     //生成
     $("#generateBtn").on("click", function () {
         stopEdit();
+
         var subStor=$("#storage").combobox("getValue");
         if(subStor=='' ||subStor==null) {
             $.messager.alert("提示", "请选择子库房", 'info');
@@ -366,29 +431,42 @@ $(function(){
             var drugInventoryCheckVos = $("#inventoryList").datagrid("getRows");
 
             //判断是否有改时间盘点记录
-            var data;
+            //var data;
             //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + 150520
             //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue").substr(0,10) + "&subStorage="
             //    + $("#storage").combobox("getValue");
-            var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
-                + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue").substr(0,10) + "&subStorage="
-                + $("#storage").combobox("getValue");
-            $.get(url, function (data) {
-                data =data;
-            });
+            //var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
+            //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue").substr(0,10) + "&subStorage="
+            //    + $("#storage").combobox("getValue");
+            //$.get(url, function (data) {
+            //    data =data;
+            //});
+            reset();
             if(drugInventoryCheckVos.length > 1){
-                $.messager.alert("提示","盘点数据已经存在不能生成","error");
-            }else if(data){
-                $.messager.alert("提示","盘点数据已经存在,请选择提取","error");
+                $.messager.alert("提示","盘点数据已经存在，不能生成","error");
             }else{
-                var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
-                    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue") + "&subStorage="
-                    + $("#storage").combobox("getValue");
-                //var url = basePath + "/drug-inventory-check/extractInventory?storage=" + parent.config.currentStorage
-                //    + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datetimebox("getValue") + "&subStorage="
-                //    + $("#storage").combobox("getValue");
+                if(drugInventoryList.length>0){
+                    $.messager.alert("提示","该时间点有盘点信息，请提取","error");
+                }else{
+                    var url = basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage
+                        + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue") + "&subStorage="
+                        + $("#storage").combobox("getValue");
+                    var drugList=[];
+                    $.ajax({
+                        type: 'get',
+                        url:basePath + "/drug-inventory-check/generateInventory?storage=" + parent.config.currentStorage + "&orgId=" + parent.config.org_Id + "&checkYearMonth=" + $("#date").datebox("getValue") + "&subStorage=" + $("#storage").combobox("getValue"),
+                        async : false,   // true 异步,false 同步
+                        contentType: 'application/json',
+                        success: function(res){
+                                drugList=res;
+                        }
+                    })
+                    for(var i=0;i<drugList.length;i++){
+                        drugList[i].recStatus='2';
+                    }
+                    $("#inventoryList").datagrid("loadData", drugList);
+                }
 
-                $("#inventoryList").datagrid("reload", url);
 
             }
         }
