@@ -7,6 +7,8 @@ import com.jims.sys.entity.OrgServiceParam;
 import com.jims.sys.entity.SysService;
 import com.jims.sys.entity.SysServiceParam;
 import com.jims.sys.vo.BeanChangeVo;
+import com.jims.sys.vo.ParamVo;
+import com.jims.sys.vo.SqlAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -115,5 +117,27 @@ public class SysServiceParamBo {
             i+=orgServiceParamDao.update(orgServiceParam) ;
         }
         return i ;
+    }
+
+    public List<SysServiceParam> findSysServiceParamBySelfServiceId(String selfServiceId,String orgId) {
+        List<SysServiceParam> sysServiceParams = sysServiceParamDao.findSysServiceParamBySelfServiceId(selfServiceId) ;
+        for(SysServiceParam param:sysServiceParams){
+            if("".equals(param.getValueRange())||null==param.getValueRange()){
+                sysServiceParams.remove(param);
+            }else{
+                String sql = param.getValueRange() ;
+                sql=sql.replace("${orgId}",orgId);
+                List<ParamVo> values = sysServiceParamDao.execuSql(new SqlAdapter(sql)) ;
+                StringBuffer stringBuffer = new StringBuffer() ;
+                for(ParamVo vo:values){
+                    stringBuffer.append(vo.getLabel());
+                    stringBuffer.append("|") ;
+                    stringBuffer.append(vo.getValue()) ;
+                    stringBuffer.append(";");
+                }
+                param.setValueRange(stringBuffer.toString());
+            }
+        }
+        return sysServiceParams;
     }
 }

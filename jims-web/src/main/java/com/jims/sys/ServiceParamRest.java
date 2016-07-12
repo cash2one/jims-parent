@@ -3,6 +3,8 @@ package com.jims.sys;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.sys.api.ServiceParamApi;
+import com.jims.sys.api.ServiceSelfVsSysApi;
+import com.jims.sys.entity.ServiceSelfVsSys;
 import com.jims.sys.entity.SysServiceParam;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,9 @@ public class ServiceParamRest {
 
     @Reference(version = "1.0.0")
     private ServiceParamApi serviceParamApi ;
+
+    @Reference
+    private ServiceSelfVsSysApi serviceSelfVsSysApi ;
 
     /**
      * 根据某一个服务查询其参数
@@ -76,4 +81,9 @@ public class ServiceParamRest {
         return stringData;
     }
 
+    @Path("find-by-self-service-id")
+    @GET
+    public List<SysServiceParam> findSysServiceParamBySelfServiceId(@QueryParam("selfServiceId")String selfServiceId,@QueryParam("orgId")String orgId){
+        return serviceParamApi.findSysServiceParamBySelfServiceId(selfServiceId,orgId) ;
+    }
 }

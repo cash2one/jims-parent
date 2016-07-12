@@ -393,8 +393,6 @@ $(function () {
         toolbar: '#serviceDetailTb',
         method: 'GET',
         rownumbers: true,
-        //  url: basePath + "/AdministrationDict/listAll",
-
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
@@ -810,7 +808,12 @@ $(function () {
         },{
             title:'值域',
             field:'valueRange',
-            width:'75%',
+            width:'45%',
+            editor:{type:'text',options:{}}
+        },{
+            title:"参数描述",
+            field:"paramDesp",
+            width:'30%',
             editor:{type:'text',options:{}}
         }]],
         onDblClickRow:function(index,row){
