@@ -18,7 +18,7 @@ function onloadMethod() {
         columns: [[
             {field: 'id', title: 'id', hidden: true, align: 'center'},
             {
-                field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: {
+                field: 'fastSlow', title: '用血方式', width: '15%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: fastSlo,
@@ -29,8 +29,11 @@ function onloadMethod() {
             }, formatter: fastSloFormatter
             },
             //每个列具体内容
-            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'datetimebox'},
-            {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: 'text'},
+            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'datetimebox',required: true},
+            {field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: {
+                type:'text',
+                required: true
+            }},
             {
                 field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
                 type: 'combobox',
@@ -43,7 +46,7 @@ function onloadMethod() {
             }, formatter: unitsFormatter
             },
             {
-                field: 'bloodType', title: '血液要求', width: '20%', align: 'center', editor: {
+                field: 'bloodType', title: '血液要求', width: '23%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: bloodTypeName,
@@ -95,7 +98,6 @@ function onloadMethod() {
         }
     });
     //获取门诊id
-    alert(clinicId)
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
     $("#patName").val(parent.clinicMaster.name);
@@ -142,18 +144,20 @@ function onloadMethod() {
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]],
-        toolbar: [{
-            text: '修改',
-            iconCls: 'icon-edit',
-            handler: function () {
-                var selectRows = $('#list_data').datagrid("getSelections");
-                if (selectRows.length < 1) {
-                    $.messager.alert("提示消息", "请选中需要修改的数据");
-                    return;
-                }
-                get(selectRows[0].id);
-            }
-        }, '-', {
+        toolbar: [
+            //{
+            //text: '修改',
+            //iconCls: 'icon-edit',
+            //handler: function () {
+            //    var selectRows = $('#list_data').datagrid("getSelections");
+            //    if (selectRows.length < 1) {
+            //        $.messager.alert("提示消息", "请选中需要修改的数据");
+            //        return;
+            //    }
+            //    get(selectRows[0].id);
+            //}
+        //},
+            '-', {
             text: '删除',
             iconCls: 'icon-remove',
             handler: function () {
@@ -194,6 +198,14 @@ function onloadMethod() {
     //        $("#birthday").val(new Date(data.patMaster.dateOfBirth));
     //    }
     //})
+    $("#preBloodGroup").combobox({
+        data: bloodType,
+        valueField: 'value',
+        textField: 'label',
+        onSelect: function (n) {
+            $("#preBloodGroupId").val(n.value);
+        }
+    })
     $("#preBloodType").combobox({
         data: bloodType,
         valueField: 'value',

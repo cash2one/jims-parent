@@ -14,7 +14,7 @@ function onloadMethod() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/labtest/listHos',
-        queryParams:{'visitId' : visitId},
+        queryParams:{'visitId' : visitId,'patientId':patientId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -92,7 +92,7 @@ function onloadMethod() {
         nowrap: false,
         method: 'post',
         url: basePath + '/labtest/listHos',
-        queryParams:{'visitId' : visitId},
+        queryParams:{'visitId' : visitId,'patientId':patientId},
         columns: [[
             {field: 'itemName', title: '项目名称', width: '40%', align: 'center'},
             {field: 'itemCode', title: '项目代码', width: '40%', align: 'center'},
