@@ -4,13 +4,41 @@ var description = [];
 function onloadMethods() {
     $("#patientId").val(patientId);
     $("#visitId").val(visitId);
-    $.ajax({
-        type: "GET",
-        url: basePath + '/clinicInspect/getDescription',
-        data: {"visitIds": visitId},
-        success: function (data) {
-            description = data;
-            $("#clinDiag").val(data.description);
+    //$.ajax({
+    //    type: "GET",
+    //    url: basePath + '/clinicInspect/getDescription',
+    //    data: {"visitIds": visitId},
+    //    success: function (data) {
+    //        description = data;
+    //        $("#clinDiag").val(data.description);
+    //    }
+    //})
+
+    $("#clinDiag").combogrid({
+        data:icdAllData,
+        valueField:'code',
+        textField:'zhongwen_mingcheng',
+        required:true,
+        columns:[
+            [
+                {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
+                {field: 'code', title: 'ICD-10编码', width: '30%', align: 'center'},
+                {field: 'keyword_shuoming', title: '关键词', width: '40%', align: 'center'},
+            ]
+        ],
+        keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                icdCompleting(q,'clinDiag');
+                $("#clinDiag").combogrid("grid").datagrid("loadData", icdAllData);
+
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#clinDiag").combogrid('setText',rowData.zhongwen_mingcheng);
+            $("#clinDiagId").val(rowData.zhongwen_mingcheng);
         }
     })
     //下拉框选择控件，下拉框的内容是动态查询数据库信息

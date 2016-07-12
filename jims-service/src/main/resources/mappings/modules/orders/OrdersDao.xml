@@ -325,7 +325,6 @@
 			last_perform_date_time,
 			time,
 			last_accting_date_time,
-			current_presc_no,
 			doctor_user,
 			verify_data_time,
 			order_print_indicator,
@@ -355,7 +354,7 @@
 			STOP_PROCESSING_DATE_TIME
 		) VALUES (
 			#{id},
-			#{clinicId},
+			#{currentPrescNo},
 			#{orgId},
 			#{patientId},
 			#{visitId},
@@ -392,7 +391,6 @@
 			#{lastPerformDateTime},
 			#{time},
 			#{lastAcctingDateTime},
-			#{currentPrescNo},
 			#{doctorUser},
 			#{verifyDataTime},
 			#{orderPrintIndicator},
@@ -542,10 +540,8 @@
 				</if>
 				<if test="visitId!=null and visitId!='' ">
 					AND visit_id=#{visitId}
-				</if>
-				<if test="orderNo!=null">
-					AND order_no=#{orderNo}
-			    </if>
+			</if>
+					AND order_sub_no != order_no
 		</where>
 	</select>
 

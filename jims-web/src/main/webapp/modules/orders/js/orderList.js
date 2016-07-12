@@ -399,6 +399,26 @@ $(function(){
                 }
                 save();
             }
+        },'-',{
+            text: '停止',
+            iconCls:'icon-save',
+            handler:function(){
+                $("#orderList").datagrid('endEdit', editRow);
+                if (editRow != undefined) {
+                    $("#orderList").datagrid("endEdit", editRow);
+                }
+
+            }
+        },'-',{
+            text: '作废',
+            iconCls:'icon-save',
+            handler:function(){
+                $("#orderList").datagrid('endEdit', editRow);
+                if (editRow != undefined) {
+                    $("#orderList").datagrid("endEdit", editRow);
+                }
+
+            }
         }
         ],onAfterEdit:function(rowIndex, rowData){
             var rows=$('#orderCostList').datagrid("getRows");
@@ -454,14 +474,10 @@ $(function(){
                     return 'background-color:#A7CACB;color:red;';
                 }
             }
-
-
-
-
-
         }
 
     });
+
     $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true }).click(function () {
         $('#orderList').datagrid({url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize() });
     });
@@ -516,7 +532,7 @@ function save(){
             $.messager.alert('提示',"保存失败", "error");
         }
     },function(data){
-        $.messager.alert('提示',"保存失败", "error");
+        $.messager.alert('提示',"医嘱数据填写完整", "error");
     })
 }
 

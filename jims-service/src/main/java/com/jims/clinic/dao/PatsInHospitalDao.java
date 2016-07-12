@@ -12,6 +12,7 @@ import com.jims.common.web.impl.BaseDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 在院病人记录DAO接口
@@ -86,4 +87,9 @@ public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
      * @return
      */
     public List<BaseDto> cancelLeavePatientlist(ComeDeptVo vo);
+
+
+    public String comeDeptVoGet(Map map);
+
+
 }

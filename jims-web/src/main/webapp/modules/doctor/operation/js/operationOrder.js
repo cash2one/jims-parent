@@ -1,153 +1,182 @@
 var rowNum = -1;
 var visitIds = parent.patVisit.visitId;
 var patientIds = parent.patVisit.patientId;
-var deptCode;
 function onloadMethod() {
+    var deptCode = "";
     $("#visitId").val(visitIds);
     $("#patientId").val(patientIds);
     /**
      * 病人科室
      */
     $("#deptCode").combobox({
-        data:clinicDeptCode,
-        valueField:'id',
-        textField:'dept_name',
-        onSelect:function(n,o){
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name',
+        onSelect: function (n, o) {
             $("#deptCodeId").val(n.id);
-            deptCode=n.id;
+            deptCode = n.id;
+            //病人列表
+            $('#patient').datagrid({
+                singleSelect: true,
+                fit: true,
+                method: 'GET',
+                url: basePath + '/operatioinOrder/findPat?deptCode=' + deptCode,
+                idField: 'patientId',
+                columns: [[      //每个列具体内容
+                    {field: 'bedNo', title: '床号', width: '50%', align: 'center'},
+                    {field: 'name', title: '姓名', width: '50%'},
+                    {field: 'patientId', title: '病人Id', hidden: 'true'},
+                    {field: 'visitId', title: '住院Id', hidden: 'true'},
+                    {field: 'sex', title: '性别', hidden: 'true'}
+                ]],
+                onClickRow: function (index, row) {//单击行事件
+                    $("#bedNo").val(row.bedNo);
+                    $("#name").val(row.name);
+                    $("#diagnosis").val(row.diagnosis);
+                    $("#patientId").val(row.patientId);
+                    $("#visitId").val(row.visitId);
+                    $("#sex").val(row.sex);
+                    $.ajax({
+                        method: "POST",
+                        url: basePath + "/operatioinOrder/getScheduleIn",
+                        contentType: "application/json", //必须有
+                        dataType: 'json',
+                        data: JSON.stringify({"patientId": row.patientId, "visitId": row.visitId}),
+                        success: function (data) {
+                            $('#operation').form('load', data);
+                        }
+                    });
 
-    //病人列表
+                    $.ajax({
+                        method: "POST",
+                        url: basePath + "/operatioinOrder/getScheduleOutHos",
+                        contentType: "application/json",
+                        data: visitId = visitIds,
+                        dataType: 'json',
+                        success: function (data) {
+                            $('#operation').form('load', data);
+                        }
+                    });
+                    $('#operationName').datagrid({
+                        rownumbers: true,
+                        singleSelect: true,
+                        fit: true,
+                        method: 'POST',
+                        url: basePath + '/operatioinOrder/getOperationName?patientId=' + row.patientId + '&visitId=' + row.visitId,
+                        idField: 'id',
+                        columns: [[      //每个列具体内容
+                            {
+                                field: 'operation',
+                                title: '拟实施手术名称',
+                                width: '48%',
+                                align: 'center',
+                                formatter: operationNameFormatter
+                                ,
+                                editor: {
+                                    type: 'combogrid',
+                                    options: {
+                                        panelWidth: 500,
+                                        data: operation,
+                                        idField: 'operation_code',
+                                        textField: 'operation_name',
+                                        //url: '/modules/operation/js/clinic_data.json',
+                                        columns: [[
+                                            {field: 'operation_code', title: '项目代码', width: '20%', align: 'center'},
+                                            {field: 'operation_name', title: '项目名称', width: '20%', align: 'center'},
+                                            {
+                                                field: 'input_code',
+                                                title: '拼音输入码',
+                                                width: '20%',
+                                                align: 'center',
+                                                editor: 'text'
+                                            },
+                                            //{field: 'input_code', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
+                                        ]],
+                                        fitColumns: true
+                                    }
+                                }
+                            },
+                            {
+                                field: 'schedule',
+                                title: '等级',
+                                width: '50%',
+                                align: 'center',
+                                formatter: function (value, rowData, rowIndex) {
+                                    if (rowData.schedule == undefined) {
+                                        return '';
+                                    } else {
+                                        if (operationScale == undefined) {
+                                            return '';
+                                        } else {
+                                            return operationScaleFormatter(rowData.schedule.operationScale, '', '');
+                                        }
+                                    }
+
+                                }
+                            }
+                        ]],
+                        toolbar: [{
+                            text: '添加',
+                            iconCls: 'icon-add',
+                            handler: function () {
+                                if (rowNum >= 0) {
+                                    rowNum++;
+                                }
+                                $("#operationName").datagrid("insertRow", {
+                                    index: 0, // index start with 0
+                                    row: {}
+                                });
+                            }
+                        }, '-', {
+                            text: '删除',
+                            iconCls: 'icon-remove',
+                            handler: function () {
+                                doDelete();
+                            }
+                        }, {
+                            text: '保存',
+                            iconCls: 'icon-save',
+                            handler: function () {
+                                $("#operationName").datagrid('endEdit', rowNum);
+                                if (rowNum != undefined) {
+                                    $("#operationName").datagrid("endEdit", rowNum);
+                                }
+                                savePperationApply();
+                            }
+                        }],
+                        onClickRow: function (rowIndex, rowData) {
+                            var dataGrid = $('#operationName');
+                            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                                return false
+                            }
+                            if (rowNum != rowIndex) {
+                                if (rowNum >= 0) {
+                                    dataGrid.datagrid('endEdit', rowNum);
+                                }
+                                rowNum = rowIndex;
+                                dataGrid.datagrid('beginEdit', rowIndex);
+
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+    //病人列表（默认显示无）
     $('#patient').datagrid({
         singleSelect: true,
         fit: true,
-        method: 'GET',
-        url: basePath + '/operatioinOrder/findPat?deptCode=' + deptCode,
-        idField: 'patientId',
         columns: [[      //每个列具体内容
             {field: 'bedNo', title: '床号', width: '50%', align: 'center'},
             {field: 'name', title: '姓名', width: '50%'},
             {field: 'patientId', title: '病人Id', hidden: 'true'},
             {field: 'visitId', title: '住院Id', hidden: 'true'},
             {field: 'sex', title: '性别', hidden: 'true'}
-        ]],
-        onClickRow: function (index, row) {//单击行事件
-            $("#bedNo").val(row.bedNo);
-            $("#name").val(row.name);
-            $("#diagnosis").val(row.diagnosis);
-            $("#patientId").val(row.patientId);
-            $("#visitId").val(row.visitId);
-            $("#sex").val(row.sex);
-            $.ajax({
-                method: "POST",
-                url: basePath + "/operatioinOrder/getScheduleIn",
-                contentType: "application/json", //必须有
-                dataType: 'json',
-                data: JSON.stringify({"patientId": row.patientId, "visitId": row.visitId}),
-                success: function (data) {
-                    $('#operation').form('load', data);
-                }
-            });
-
-            $.ajax({
-                method: "POST",
-                url: basePath + "/operatioinOrder/getScheduleOutHos",
-                contentType: "application/json",
-                data: visitId = visitIds,
-                dataType: 'json',
-                success: function (data) {
-                    $('#operation').form('load', data);
-                }
-            });
-            $('#operationName').datagrid({
-                rownumbers: true,
-                singleSelect: true,
-                fit: true,
-                method: 'POST',
-                url: basePath + '/operatioinOrder/getOperationName?patientId=' + row.patientId + '&visitId=' + row.visitId,
-                idField: 'id',
-                columns: [[      //每个列具体内容
-                    {
-                        field: 'operation', title: '拟实施手术名称', width: '48%', align: 'center', formatter: operationNameFormatter
-                        , editor: {
-                        type: 'combogrid',
-                        options: {
-                            panelWidth: 500,
-                            data: operation,
-                            idField: 'operation_code',
-                            textField: 'operation_name',
-                            //url: '/modules/operation/js/clinic_data.json',
-                            columns: [[
-                                {field: 'operation_code', title: '项目代码', width: '20%', align: 'center'},
-                                {field: 'operation_name', title: '项目名称', width: '20%', align: 'center'},
-                                {field: 'input_code', title: '拼音输入码', width: '20%', align: 'center', editor: 'text'},
-                                //{field: 'input_code', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
-                            ]],
-                            fitColumns: true
-                        }
-                    }
-                    },
-                    {field: 'schedule', title: '等级', width: '50%', align: 'center',formatter:function(value,rowData,rowIndex){
-                        if(rowData.schedule == undefined){
-                            return '';
-                        }else{
-                            if(operationScale == undefined){
-                                return '';
-                            }else{
-                                return operationScaleFormatter(rowData.schedule.operationScale,'','');
-                            }
-                        }
-
-                    }}
-                ]],
-                toolbar: [{
-                    text: '添加',
-                    iconCls: 'icon-add',
-                    handler: function () {
-                        if (rowNum >= 0) {
-                            rowNum++;
-                        }
-                        $("#operationName").datagrid("insertRow", {
-                            index: 0, // index start with 0
-                            row: {
-                            }
-                        });
-                    }
-                }, '-', {
-                    text: '删除',
-                    iconCls: 'icon-remove',
-                    handler: function () {
-                        doDelete();
-                    }
-                }, {
-                    text: '保存',
-                    iconCls: 'icon-save',
-                    handler: function () {
-                        $("#operationName").datagrid('endEdit', rowNum);
-                        if (rowNum != undefined) {
-                            $("#operationName").datagrid("endEdit", rowNum);
-                        }
-                        savePperationApply();
-                    }
-                }],
-                onClickRow: function (rowIndex, rowData) {
-                    var dataGrid = $('#operationName');
-                    if (!dataGrid.datagrid('validateRow', rowNum)) {
-                        return false
-                    }
-                    if (rowNum != rowIndex) {
-                        if (rowNum >= 0) {
-                            dataGrid.datagrid('endEdit', rowNum);
-                        }
-                        rowNum = rowIndex;
-                        dataGrid.datagrid('beginEdit', rowIndex);
-
-                    }
-                }
-            });
-        }
+        ]]
     });
-        }
-    });
+
+
     //手术室下拉框
     $('#operatingRoom').combobox({
         data: operatingRoom,
@@ -174,19 +203,19 @@ function onloadMethod() {
      * 手术科室
      */
     $('#operatingDept').combobox({
-        data:clinicDeptCode,
-        valueField:'id',
-        textField:'dept_name',
-        onSelect:function(data){
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name',
+        onSelect: function (data) {
             $("#operatingDeptId").val(data.id);
         }
     })
 
     $("#provideWay").combobox({
-        data:provideWay,
-        valueField:'id',
-        textField:'label',
-        onSelect:function(data){
+        data: provideWay,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (data) {
             $("#provideWayId").val(data.value);
         }
     })
@@ -194,10 +223,10 @@ function onloadMethod() {
      * 手术病情
      */
     $("#patientCondition").combobox({
-        data:patientCondition,
-        valueField:'id',
-        textField:'label',
-        onSelect:function(n,o){
+        data: patientCondition,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
             $("#patientConditionId").val(n.value);
         }
     })
@@ -206,10 +235,10 @@ function onloadMethod() {
      * 隔离
      */
     $("#isolationIndicator").combobox({
-        data:isolationIndicator,
-        valueField:'id',
-        textField:'label',
-        onSelect:function(n,o){
+        data: isolationIndicator,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
             $("#isolationIndicatorId").val(n.value);
         }
     })
