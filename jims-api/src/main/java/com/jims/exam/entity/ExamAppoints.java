@@ -80,15 +80,6 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 	private String dbUser;		// db_user
 	private String cnsltName;		// cnslt_name
 	private Integer printStatus;		// print_status
-
-	public String getInOrOut() {
-		return inOrOut;
-	}
-
-	public void setInOrOut(String inOrOut) {
-		this.inOrOut = inOrOut;
-	}
-
 	private String wardCode;		// 护理单元
 	private String rcptNo;		// 收据号
 	private String resultStatus;//检查结果
@@ -105,7 +96,13 @@ public class ExamAppoints extends DataEntity<ExamAppoints> {
 		this.examItemsList = examItemsList;
 	}
 
+	public String getInOrOut() {
+		return inOrOut;
+	}
 
+	public void setInOrOut(String inOrOut) {
+		this.inOrOut = inOrOut;
+	}
 
 	public ExamAppoints() {
 		super();
