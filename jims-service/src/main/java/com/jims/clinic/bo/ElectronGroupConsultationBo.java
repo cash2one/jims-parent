@@ -81,7 +81,7 @@ public class ElectronGroupConsultationBo extends CrudImplService<ElectronGroupCo
 //                    orders.setOrderCode(examItems.getExamItemCode());
                         ordersDao.insert(orders);
                     } else {
-                        electronGroupConsultationIn.preInsert();
+                        electronGroupConsultationIn.preUpdate();
                         electronGroupConsultationInDao.update(electronGroupConsultationIn);
                         orders.preUpdate();
                         ordersDao.update(orders);
