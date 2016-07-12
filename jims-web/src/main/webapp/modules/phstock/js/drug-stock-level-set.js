@@ -33,32 +33,32 @@ $(function () {
         }, {
             title: "代码",
             field: "administrationCode",
-            width: '8%',
+            width: '10%',
             align: 'center'
         }, {
             title: "名称",
             field: "administrationCode",
-            width: '8%',
+            width: '10%',
             align: 'center'
         }, {
             title: "规格",
             field: "administrationCode",
-            width: '8%',
+            width: '10%',
             align: 'center'
         }, {
             title: "单位",
             field: "administrationCode",
-            width: '8%',
+            width: '10%',
             align: 'center'
         }, {
             title: "每包装含量",
             field: "administrationCode",
-            width: '8%',
+            width: '10%',
             align: 'center'
         }, {
             title: "包装单位",
             field: "administrationCode",
-            width: '8%',
+            width: '10%',
             align: 'center'
         }, {
             title: "高位水平",
@@ -71,7 +71,7 @@ $(function () {
         }, {
             title: "低位水平",
             field: "className",
-            width: '8%',
+            width: '10%',
             align: 'center',
             editor: {
                 type: 'textbox'
@@ -79,12 +79,12 @@ $(function () {
         }, {
             title: "统计区间消耗",
             field: "administrationCode",
-            width: '8%',
+            width: '10%',
             align: 'center'
         }, {
             title: "库存子单位",
             field: "administrationCode",
-            width: '7%',
+            width: '10%',
             align: 'center'
         }
         ]] ,

@@ -11,17 +11,14 @@
     <script type="text/javascript" src="/static/data/data_doctorRole_dict.js"></script>
 </head>
 <body class="easyui-layout" onload="onloadMethod('0')">
-<div class="search-standard clearfix">
-    <ul class="clearfix" id="wrap">
-        <li>住院状态:
-            <input type="radio" name="status" id="dai" checked="checked" onclick="onloadMethod('0')" value="0"/>在院中
-            <input type="radio" name="status" id="yi" onclick="onloadMethod('1')" value="1"/>已出院</li>
-        <li>医师权限:<input class="easyui-combobox" id="doctorRole"></li>
-        <li>病历状态:<input class="easyui-combobox" id="mrStatus"></li>
-        <li>出院时间：<input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="startTime"/> 至  <input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="endTime"/></li>
-        <li>病人姓名:<input type="text" class="validatebox-text" id="patName"/></li>
-        <li><button class="easy-nbtn easy-nbtn-info" onclick="searchPatList();">查询</button></li>
-    </ul>
+<div id="tb" style="padding: 5px;">
+    住院状态:<input type="radio" name="status" id="dai" checked="checked" onclick="onloadMethod('0')" value="0"/>在院中
+            <input type="radio" name="status" id="yi" onclick="onloadMethod('1')" value="1"/>已出院
+    医师权限:<input class="easyui-combobox" id="doctorRole">
+    病历状态:<input class="easyui-combobox" id="mrStatus">
+    出院时间：<input type="text" class="easyui-datebox vt-text-percent"  style="width:80px;" id="startTime"/> 至  <input type="text" class="easyui-datebox vt-text-percent"  style="width:80px;" id="endTime"/>
+    病人姓名:<input type="text" class="validatebox-text" id="patName" style="width:80px;"/>
+    <button onclick="searchPatList();" class="easyui-linkbutton" iconCls="icon-search">查询</button>
 </div>
 <input type="hidden" id="listView">
 <div id="patientDivId">

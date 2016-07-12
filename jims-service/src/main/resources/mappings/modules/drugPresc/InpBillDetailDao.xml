@@ -298,5 +298,40 @@
 			</if>
 		</where>
 	</select>
-	
+	<select id="getInpDetail" resultType="com.jims.clinic.dto.InpBillDetailDto">
+         select
+            sum(decode(CLASS_ON_MR,'01',costs,0)) AS generalMedicCosts ,
+            sum(decode(CLASS_ON_MR,'02',costs,0))  AS generalTreatOperCosts,
+            sum(decode(CLASS_ON_MR,'03',costs,0))  AS nursingCosts,
+            sum(decode(CLASS_ON_MR,'04',costs,0))  AS otherCostsMedicServ,
+            sum(decode(CLASS_ON_MR,'05',costs,0))  AS pathologicalDiagCosts,
+            sum(decode(CLASS_ON_MR,'06',costs,0))  AS laboratoryDiagCosts,
+            sum(decode(CLASS_ON_MR,'07',costs,0))  AS imagingDiagCosts,
+            sum(decode(CLASS_ON_MR,'08',costs,0)) AS clinicalDiagCosts,
+            sum(decode(CLASS_ON_MR,'09',costs,0)) + sum(decode(CLASS_ON_MR,'0901',costs,0)) AS nonSurgicalTreatCosts,
+            sum(decode(CLASS_ON_MR,'0901',costs,0))  AS llinicalPhysicalCosts,
+            sum(decode(CLASS_ON_MR,'10',costs,0)) +  sum(decode(CLASS_ON_MR,'1001',costs,0)) + sum(decode(CLASS_ON_MR,'1002',costs,0))  AS operationMedCosts,
+            sum(decode(CLASS_ON_MR,'1001',costs,0))  AS anesthesiaCosts,
+            sum(decode(CLASS_ON_MR,'1002',costs,0))  AS operationCosts,
+            sum(decode(CLASS_ON_MR,'11',costs,0))  AS rehabilitationCosts,
+            sum(decode(CLASS_ON_MR,'12',costs,0))  AS chinaMedTreatCosts,
+            sum(decode(CLASS_ON_MR,'13',costs,0)) + sum(decode(CLASS_ON_MR,'1301',costs,0))  AS westMedicCosts ,
+            sum(decode(CLASS_ON_MR,'1301',costs,0))  AS antimicrobialAgentsCOsts,
+            sum(decode(CLASS_ON_MR,'14',costs,0))  AS chinaAgentCosts,
+            sum(decode(CLASS_ON_MR,'15',costs,0))  AS chinaHerbalCosts,
+            sum(decode(CLASS_ON_MR,'16',costs,0))  AS bloodCosts,
+            sum(decode(CLASS_ON_MR,'17',costs,0))  AS albuminCosts,
+            sum(decode(CLASS_ON_MR,'18',costs,0))  AS albuminCosts,
+            sum(decode(CLASS_ON_MR,'19',costs,0))  AS clottingFactorCosts,
+            sum(decode(CLASS_ON_MR,'20',costs,0))  AS cytokinesCosts,
+            sum(decode(CLASS_ON_MR,'21',costs,0))  AS disposableMaterExamCosts,
+            sum(decode(CLASS_ON_MR,'22',costs,0))  AS disposableMaterTreatCosts ,
+            sum(decode(CLASS_ON_MR,'23',costs,0))  AS disposableMaterOpertCosts,
+            sum(decode(CLASS_ON_MR,'24',costs,0))  AS otherCosts,
+            patient_id AS patientId ,visit_id AS visitId
+      from inp_bill_detail
+      WHERE patient_id=#{patientId}
+      group by patient_id,visit_id
+
+	</select>
 </mapper>

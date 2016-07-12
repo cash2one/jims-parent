@@ -127,16 +127,15 @@ function add() {
     //$('#requestedDateTime').datetimebox('setValue',newDate);
     $.ajax({
         //添加
-        url: basePath + "/labtest/zhenduan",
-        type: "POST",
+        url: basePath + "/diagnosis/findListOfIn",
+        type: "GET",
         dataType: "json",
-        contentType: "application/json", //必须有
-        data: JSON.stringify({"clinicId": null, inOrOutFlag: "1", "visitId": visitId}),//住院visitId不为null
+        data: {"patientId": patientId, "visitId": visitId},//住院visitId不为null
         success: function (data) {
             if (data != "" && data != null) {
                 var d;
                 $.each(data, function (index, item) {
-                    d = d + item.icdAndTypeNmae + "\r";
+                    d = d + item.icdName + "\r";
                 });
                 $("#relevantClinicDiag").val(d);
             }

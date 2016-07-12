@@ -20,12 +20,12 @@ import java.util.List;
 @MyBatisDao
 public interface OperationScheduleDao extends CrudDao<OperationSchedule> {
     /**
-     * 通过病人ID，住院ID拿到病人本次住院的手术最大的申请号
+     * 通过病人ID，住院ID或者clinicId拿到病人本次住院或者门诊的手术最大的申请号
      * @param patientId
      * @param visitId
      * @return
      */
-    public String getScheduleId(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId);
+    public Integer getScheduleId(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param(value = "clinicId")String clinicId);
 
     /**
      * 通过病人Id、住院Id拿到病人本次住院的手术安排

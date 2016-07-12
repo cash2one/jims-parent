@@ -14,6 +14,9 @@
     <script type="text/javascript" src="/static/data/data_sex_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_admission_situation_dict.js"></script>
+    <style>
+        .fitem label{ width: 100px; }
+    </style>
 </head>
 <body class="easyui-layout" onload="onloadMethod()">
 <div class="easyui-layout" style="width:100%;height:100%;">
@@ -109,12 +112,12 @@
                     工作单位：
                 </label>
                 <input name="serviceAgency" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:25%;"/>
+                       style="width:30%;"/>
                 <label>
                     电话：
                 </label>
                 <input name="serviceAgencyPhone" id="serviceAgencyPhone" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>
+                       style="width:25%;"/>
             </div>
             <div class="fitem fitem_pop">
                 <label>
@@ -179,7 +182,7 @@
                     预交住院费：
                 </label>
                 <input  name="prepaidFee" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:30%;"/>元
+                       style="width:28%;"/>元
                 <label>
                     入院情况：
                 </label>

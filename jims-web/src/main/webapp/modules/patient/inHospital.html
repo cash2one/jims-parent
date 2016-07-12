@@ -88,8 +88,9 @@
                         <label>
                             性别：
                         </label>
-                        <select id="sex" name="sex" class="easyui-combobox" style="width: 5%">
-                        </select>
+                        <input type="hidden" name="sex"  id="sex" >
+                        <input id="sexId"  class="easyui-textbox" style="width: 5%">
+
                         <label>
                             年龄：
                         </label>
@@ -97,12 +98,12 @@
                         <label>
                             出生日期：
                         </label>
-                        <input name="dateOfBirth" class="easyui-datebox" style="width:10%;"/>
+                        <input name="dateOfBirth" class="easyui-textbox" style="width:10%;"/>
                         <label>
                             婚姻状况：
                         </label>
-                        <select id="maritalStatus" name="maritalStatus" class="easyui-combobox"  style="width: 5%">
-                        </select>
+                        <input name="maritalStatus"  id="maritalStatus"  type="hidden"/>
+                        <input id="maritalStatusId" class="easyui-textbox" style="width:10%;"/>
                     </div>
 
                     <div class="fitem fitem_pop">
@@ -113,15 +114,14 @@
                         <label>
                             国籍：
                         </label>
-                        <select id="citizenship" name="citizenship" class="easyui-combobox"  style="width: 11%">
-                        </select>
+                        <input name="citizenship"  id="citizenship"   type="hidden"/>
+                        <input id="citizenshipId" class="easyui-textbox" />
 
                         <label>
                             民族：
                         </label>
-                        <select id="nation" name="nation" class="easyui-combobox" style="width: 11%">
-                            <option value="1">汉族</option>
-                        </select>
+                        <input name="nation"  id="nation"   type="hidden"/>
+                        <input id="nationId" class="easyui-textbox" />
                         <label>
                             身份证号：
                         </label>
@@ -144,18 +144,18 @@
                         <label>
                             患者费别：
                         </label>
-                        <select id="chargeType" name="chargeType" class="easyui-combobox" style="width: 11%">
-                            　　</select>
+                        <input name="chargeType"  id="chargeType"  type="hidden"/>
+                        <input id="chargeTypeId" class="easyui-textbox" />
                         <label>
                             身份：
                         </label>
-                        <select id="identity" name="identity" class="easyui-combobox"  style="width: 11%">
-                            　　</select>
+                        <input name="identity"  id="identity"  type="hidden"/>
+                        <input id="identityId" class="easyui-textbox" />
                         <label>
                             职业：
                         </label>
-                        <select id="occupation" name="occupation" class="easyui-combobox"  style="width: 11%">
-                            　　</select>
+                        <input name="occupation"  id="occupation"  type="hidden"/>
+                        <input id="occupationId" class="easyui-textbox" />
                         <label>
                             工作单位：
                         </label>
@@ -177,23 +177,23 @@
                         <label>
                             联系人：
                         </label>
-                        <input name="nextOfKin" class="easyui-textbox" style="width: 11%"/>
+                        <input name="nextOfKin" class="easyui-textbox" />
                         <label>
                             关系：
                         </label>
-                        <select id="relationship" name="relationship" class="easyui-combobox" style="width: 11%">
-                        </select>
+                        <input name="relationship"  id="relationship" type="hidden"/>
+                        <input id="relationshipId" class="easyui-textbox" />
                         <label>
                             联系电话：
                         </label>
-                        <input name="nextOfKinPhone" class="easyui-textbox" style="width: 11%"/>
+                        <input name="nextOfKinPhone" class="easyui-textbox" />
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             联系地址：
                         </label>
-                        <input name="nextOfKinAddr" class="easyui-textbox" style="width: 72%"/>
+                        <input name="nextOfKinAddr" class="easyui-textbox" />
                     </div>
 
                     <div class="fitem fitem_pop">
@@ -201,78 +201,78 @@
                             入院时间：
                         </label>
                         <input name="admissionDateTime" class="easyui-datetimebox"
-                               style="width:11%;"/>
+                               />
                         <label>
                             接诊时间：
                         </label>
                         <input name="consultingDate" class="easyui-datetimebox"
-                               style="width:11%;"/>
+                               />
                         <label>
                             入院科室：
                         </label>
-                        <select id="deptAdmissionTo" name="deptAdmissionTo" class="easyui-combobox" style="width: 11%">
-                        </select>
+                        <input name="deptAdmissionTo"  id="deptAdmissionTo" type="hidden"/>
+                        <input id="deptAdmissionTod" class="easyui-textbox" />
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             门诊诊断：
                         </label>
-                        <input id="diagnosis" name="diagnosis" class="easyui-textbox" style="width: 72%" />
+                        <input id="diagnosis" name="diagnosis" class="easyui-textbox"  />
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             入院来源：
                         </label>
-                        <select id="fromOtherPlaceIndicator" name="fromOtherPlaceIndicator" class="easyui-combobox" style="width: 11%">
-                            　　</select>
-                        <label>
+                        <input name="fromOtherPlaceIndicator"  id="fromOtherPlaceIndicator"   type="hidden"/>
+                        <input id="fromOtherPlaceIndicatorId" class="easyui-textbox" />
                             入院方式：
                         </label>
-                        <select id="patientClass" name="patientClass" class="easyui-combobox" style="width: 11%">
-                            　　</select>
+                        <input name="patientClass"  id="patientClass"  type="hidden"/>
+                        <input id="patientClassId" class="easyui-textbox" />
                         <label>
                             住院目的：
                         </label>
-                        <select id="admissionCause" name="admissionCause" class="easyui-combobox" style="width: 11%">
-                            　　</select>
+                        <input name="admissionCause"  id="admissionCause"  type="hidden"/>
+                        <input id="admissionCauseId" class="easyui-textbox" />
+
                         <label>
                             病情：
                         </label>
-                        <select id="patAdmCondition" name="patAdmCondition" class="easyui-combobox" style="width: 12%">
-                            　　</select>
+                        <input name="patAdmCondition"  id="patAdmCondition"  type="hidden"/>
+                        <input id="patAdmConditionId" class="easyui-textbox" />
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             接诊医生：
                         </label>
-                        <input id="consultingDoctor" name="consultingDoctor" class="easyui-textbox" style="width: 72%" />
+                        <input id="consultingDoctor" name="consultingDoctor" class="easyui-textbox"  />
                         <label>
                             经办人：
                         </label>
-                        <input name="admittedBy" class="easyui-textbox" style="width: 11%">
+                        <input name="admittedBy" class="easyui-textbox" >
                         <label>
                             出院科室：
                         </label>
-                       <input name="ddtRoomNo" class="easyui-textbox" readonly style="width: 11%">
+                       <input name="ddtRoomNo" class="easyui-textbox" readonly >
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             发病日期：
                         </label>
-                        <input name="onsetDate" class="easyui-datebox"  style="width:11%;">
+                        <input name="onsetDate" class="easyui-textbox"  >
                       <!--  <label style="display: none">
                             胎次：
                         </label>
                         <input type="hidden" name="parityNo" class="easyui-textbox"
-                               style="width:11%;"/>-->
+                               />-->
                         <label>
                             医保登记号：
                         </label>
-                        <input name="nhSerialNo" class="easyui-textbox" style="width: 11%">
+                        <input name="nhSerialNo" class="easyui-textbox" >
                     </div>
 
                     <div class="fitem fitem_pop">

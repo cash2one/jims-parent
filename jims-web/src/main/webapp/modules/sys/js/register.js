@@ -1,4 +1,5 @@
 $(function () {
+
     var registerVo = {};
 
     //文本框获取焦点的时候，显示
@@ -18,6 +19,7 @@ $(function () {
 
     //添加注册信息
     $("#btnSubmit").click(function () {
+        $("#btnSubmit").attr('disabled','true')
         var flag = false
         $('.reg-inp li span').each(function(){
             if($(this).css('color') == 'rgb(255, 0, 0)' && $.trim($(this).html()) != '*'){

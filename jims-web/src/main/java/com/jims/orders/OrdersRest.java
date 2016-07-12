@@ -145,9 +145,13 @@ public class OrdersRest {
      */
     @Path("getSubOrders")
     @POST
-    public List<Orders> getSubOrders(Orders orders){
-           List<Orders> ordersList = ordersServiceApi.getSubOrders(orders);
-        return ordersList;
+    public Boolean getSubOrders(String id){
+        Boolean tag = false;
+           List<Orders> ordersList = ordersServiceApi.getSubOrders(ordersServiceApi.get(id));
+            if(ordersList !=null && ordersList.size()>0){
+                tag = true;
+              }
+        return tag;
     }
 
 

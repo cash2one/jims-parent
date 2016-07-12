@@ -161,10 +161,12 @@ $(function() {
             crearTreeCheck()
             if(row.menus){
                 $('#selectedMenu').tree('loadData', row.menusTreeData)
-                createTreeCheck(row.menusTreeData)
+                loadVsSys();
+                createTreeCheck(row.menusTreeData);
             } else if(!row.id){
                 $('#selectedMenu').tree('loadData', [])
             } else {
+                loadVsSys();
                 $.get('/service/org-service/find-self-service-menu', {selfServiceId: row.id,isTree:true}, function (res) {
                     var d = handlerSelfTreeDta(res)
                     $('#selectedMenu').tree('loadData', d)
@@ -196,8 +198,9 @@ $(function() {
         for(var i=0;i<allRows.length;i++){
             delete allRows[i].menusTreeData;
             if(allRows[i].id && allRows[i].updateFlag){
-                rows.push({id:allRows[i].id,menus:allRows[i].menus})
+                rows.push({id:allRows[i].id,menus:allRows[i].menus,serviceVs:allRows[i].serviceVs})
                 delete allRows[i].menus;
+                delete allRows[i].serviceVs;
             }
             delete allRows[i].updateFlag;
         }
@@ -216,6 +219,21 @@ $(function() {
         })
     })
 
+    var loadVsSys = function(){
+        var row = $('#orgSelfService').datagrid('getSelected');
+        if(row && !row.serviceVs) {
+            $.ajax({
+                type: 'get',
+                url: parent.basePath + '/org-service/findVsSys',
+                async: false,   // true 异步,false 同步
+                data: {selfServiceId: row.id},
+                success: function (res) {
+                    row.serviceVs = res;
+                }
+            })
+        }
+    }
+
     //使弹出框中菜单选择中没有被选中的节点
     var crearTreeCheck = function(){
         var treeNum = $('#selectServiceMenu .easyui-tree').length
@@ -228,16 +246,22 @@ $(function() {
             }
         }
     }
+
     //根据数据选中树中节点
     var createTreeCheck = function(data){
         if(data){
             var treeNum = $('#selectServiceMenu .easyui-tree').length
+            var ids = []
+            for(var i=0;i<treeNum;i++){
+                ids.push($('#selectServiceMenu').accordion('getPanel',i).panel('options').id);
+            }
             for(var i=0;i<data.length;i++){
                 for(var j=0;j<treeNum;j++){
-                    var node = $('#tree'+j).tree('find',data[i].id);
-                    if(node && $('#tree'+j).tree('isLeaf',node.target)){
-                        $('#tree'+j).tree('check',node.target);
-                        //break;
+                    if(data[i].sysServiceId.indexOf(ids[j]) > -1) {
+                        var node = $('#tree' + j).tree('find', data[i].id);
+                        if (node && $('#tree' + j).tree('isLeaf', node.target)) {
+                            $('#tree' + j).tree('check', node.target);
+                        }
                     }
                 }
                 createTreeCheck(data[i].children)
@@ -285,6 +309,11 @@ $(function() {
         },
         onBeforeDrop:function(t, s){
             p = $('#selectedMenu').tree('getParent', s.target);
+        },
+        onClick: function(node){
+            if(!$(this).tree('isLeaf',node.target)){
+                $(this).tree('toggle',node.target)
+            }
         }
 
     })
@@ -300,13 +329,7 @@ $(function() {
             do{
                 parent = $('#selectedMenu').tree('getParent',node.target);
                 $('#selectedMenu').tree('remove',node.target);
-                for(var i=0;i<treeNum;i++){
-                    var n = $('#tree'+i).tree('find',node.id);
-                    if(n){
-                        $('#tree'+i).tree('uncheck',n.target);
-                        //break;
-                    }
-                }
+                unSelectNode(node)
                 for(var i=0;i<treeNum;i++){
                     if(parent && $('#tree'+i).tree('find', parent.id)){
                         if($('#tree'+i).tree('isLeaf',  $('#tree'+i).tree('find', parent.id).target)){
@@ -327,6 +350,23 @@ $(function() {
             $.messager.alert('警告','请选择要删除的节点！','warning')
         }
     })
+
+    // 删除node时取消选择
+    function unSelectNode (node){
+        if(node){
+            var treeNum = $('#selectServiceMenu .easyui-tree').length
+            for(var i=0;i<treeNum;i++){
+                var n = $('#tree'+i).tree('find',node.id);
+                if(n && $('#tree'+i).tree('isLeaf',n.target)){
+                    $('#tree'+i).tree('uncheck',n.target);
+                }
+            }
+            var c = node.children;
+            for(var i= 0,j= c ? c.length : 0; i<j; i++) {
+                unSelectNode(c[i]);
+            }
+        }
+    }
     //确认选择
     $('#okMenu').click(function(){
         var row = $('#orgSelfService').datagrid('getSelected');
@@ -345,6 +385,7 @@ $(function() {
                     var menu = {
                         selfServiceId:row.id,
                         menuId:data.id,
+                        sysServiceId:data.sysServiceId,
                         menuEndDate:parent.parent.parseToDate(data.endData)
                     }
                     var childs = data.children
@@ -358,8 +399,29 @@ $(function() {
                 }
                 return data;
             }
+            //
+            var treeNum = $('#selectServiceMenu .easyui-tree').length;
+            var serviceVs = []
+            for(var i=0;i<treeNum;i++){
+                if($('#tree'+i).tree('getChecked').length > 0){
+                    serviceVs.push({
+                        sysServiceId: $('#tree'+i).tree('getChecked')[0].sysServiceId
+                    });
+                }
+            }
+            row.serviceVs = serviceVs
         }
         $('#selfServiceMenuWin').window('close')
+    })
+    $('#delAllMenu').click(function () {
+        $('#selectedMenu').tree('loadData', []);
+        crearTreeCheck()
+    })
+    $('#allClose').click(function () {
+        $('#selectedMenu').tree('collapseAll')
+    })
+    $('#allOpen').click(function () {
+        $('#selectedMenu').tree('expandAll')
     })
 
     //添加菜单
@@ -377,6 +439,7 @@ $(function() {
                     id:parentData.id,
                     text:parentData.text,
                     href:parentData.href,
+                    sysServiceId:parentData.sysServiceId,
                     endData:parentData.endData,
                     children:[temp]
                 }
@@ -394,6 +457,7 @@ $(function() {
                     id:data.id,
                     text:data.text,
                     href:data.href,
+                    sysServiceId:data.sysServiceId,
                     endData:data.endData
                 }
                 var param = {data:t}
@@ -401,6 +465,8 @@ $(function() {
                     param.parent = parent.target
                 }
                 $('#selectedMenu').tree('append',param)
+            } else if(d.sysServiceId.indexOf(data.sysServiceId) == -1){
+                d.sysServiceId += ',' + data.sysServiceId
             }
             var children = data.children
             if(children && children.length > 0) {
@@ -420,6 +486,7 @@ $(function() {
                 var node = {
                     id: o.menuId,
                     text: o.menuName,
+                    sysServiceId: o.sysServiceId,
                     endData: parent.parent.formatDateBoxFull(o.menuEndDate)
                 }
                 if(o.children){
@@ -431,7 +498,7 @@ $(function() {
         return r;
     }
     //处理服务中的菜单数据
-    var handlerTreeData = function(res,endData){
+    var handlerTreeData = function(res,endData,sysServiceId){
         var r = [];
         if(res){
             for(var j=0;j<res.length;j++){
@@ -440,10 +507,11 @@ $(function() {
                     id: o.id,
                     text: o.menuName,
                     href: o.href,
+                    sysServiceId: sysServiceId,
                     endData: parent.parent.formatDateBoxFull(endData)
                 }
                 if(o.children){
-                    node.children = handlerTreeData(o.children,endData);
+                    node.children = handlerTreeData(o.children,endData,sysServiceId);
                 }
                 r.push(node);
             }
@@ -457,12 +525,13 @@ $(function() {
             var treeIndex  = 0 ;
             for(var i=0;i<res.length;i++){
                 $('#selectServiceMenu').accordion('add', {
+                    id: res[i].serviceId,
                     title: res[i].serviceName,
                     content: '<ul class="easyui-tree" id="tree'+treeIndex+'"></ul>',
                     selected: i == 0
                 });
                 $('#tree'+treeIndex).tree({
-                    data:handlerTreeData(res[i].menus,res[i].serviceEndDate),
+                    data:handlerTreeData(res[i].menus,res[i].serviceEndDate,res[i].serviceId),
                     checkbox:true,
                     animate:true,
                     lines:true,

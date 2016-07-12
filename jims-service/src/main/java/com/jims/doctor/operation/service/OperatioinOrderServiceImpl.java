@@ -22,7 +22,6 @@ import java.util.List;
  * @date2016/5/12 0012
  */
 @Service(version = "1.0.0")
-
 public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDao, PatsInHospital> implements OperatioinOrderServiceApi {
     @Autowired
     private OperationBo operationBo;
@@ -59,16 +58,17 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
       return operationBo.saveOperationOut(operationSchedule);
     }
 
-
     /**
      * 找到病人本次住院最大的ScheduleId
      * @param patientId
      * @param visitId
      * @return
      */
-    public String getScheduleId(String patientId,String visitId){
-        return operationBo.getScheduleId(patientId,visitId);
+    @Override
+    public Integer getScheduleId(String patientId, String visitId,String clinicId) {
+        return operationBo.getScheduleId(patientId,visitId,clinicId);
     }
+
 
     /**
      * 通过patientId、visitId拿到手术安排
@@ -90,6 +90,7 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
        List<ScheduledOperationName> scheduledOperationNameList =operationBo.getOperationName(patientId,visitId,clinicId,scheduleId);
         return scheduledOperationNameList;
     }
+
 
     /**
      * 删除手术名称(门诊)

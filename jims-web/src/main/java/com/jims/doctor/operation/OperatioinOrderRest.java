@@ -106,9 +106,9 @@ public class OperatioinOrderRest {
      * @return
      */
     @Path("getOperationName")
-    @POST
+    @GET
     public List<ScheduledOperationName> getOperationNameIn(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId,@QueryParam("clinicId")String clinicId){
-        OperationSchedule operationSchedule=new OperationSchedule();
+        OperationSchedule operationSchedule= new OperationSchedule();
         if(clinicId!=null && !"".equals(clinicId)){
              operationSchedule= getScheduleOut(clinicId);
         }else{

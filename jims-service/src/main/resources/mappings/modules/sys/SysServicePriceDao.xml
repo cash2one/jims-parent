@@ -113,5 +113,10 @@
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
+
+    <update id="deleteByServiceId">
+        DELETE FROM sys_service_price s
+        WHERE s.service_id = #{serviceId}
+    </update>
 	
 </mapper>

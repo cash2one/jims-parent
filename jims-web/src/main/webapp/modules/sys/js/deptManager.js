@@ -1,9 +1,6 @@
 $("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/easyui/css/icon.css"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
-$("<script>").attr({
-    type: "application/javascript",
-    src: "/static/easyui/locale/easyui-lang-zh_CN.js"
-}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"}).appendTo("head");
@@ -16,14 +13,20 @@ $(function () {
                 validator: function (value, param) {
                     var rows = $('#dg').datagrid('getRows')
                     var select_index = $('#dg').datagrid('getRowIndex', $('#dg').datagrid('getSelected'))
+                    var p;
+                    if (param[0] == "propertyType") {
+                        p = "propertyValue"
+                    } else if (param[0] == "propertyValue") {
+                        p = "propertyType"
+                    }
                     for (var index = rows.length - 1; index > -1; index--) {
-                        if (index != select_index && rows[index][param[0]] == value) {
+                        if (index != select_index && rows[index][param[0]] == value && rows[index][p] == rows[select_index][p]) {
                             return false
                         }
                     }
                     return true
                 },
-                message: '内容已存在'
+                message: '同类型的值不能相同'
             }
         });
 
@@ -36,7 +39,7 @@ $(function () {
 
             idField: "id",
             treeField: "deptName",
-            footer: '#tb',
+            toolbar: '#tb',
             fitColumns: true,
             columns: [[{
                 title: 'id',
@@ -197,11 +200,7 @@ $(function () {
          * 添加科室信息
          */
         $("#addBtnProperty").on('click', function () {
-
-
             $("#dlg_property").dialog("open").dialog("setTitle", "添加科室属性");
-
-
         });
 
 
@@ -252,37 +251,6 @@ $(function () {
             }
 
 
-        });
-        /**
-         * 保存科室属性信息
-         */
-        $("#savePropertyBtn").on('click', function () {
-
-            if (!endEditing1()) {
-                return
-            }
-
-            var insertData = $("#dg").datagrid("getChanges", "inserted");
-            var updateData = $("#dg").datagrid("getChanges", "updated");
-            var deleteData = $("#dg").datagrid("getChanges", "deleted");
-
-            var orgDeptPropertyDictVo = {};
-            orgDeptPropertyDictVo.inserted = insertData;
-            orgDeptPropertyDictVo.deleted = deleteData;
-            orgDeptPropertyDictVo.updated = updateData;
-
-            orgDeptPropertyDictVo.orgId = orgId;
-            if (orgDeptPropertyDictVo) {
-                $.postJSON("/service/dept-property/saveAll", JSON.stringify(orgDeptPropertyDictVo), function (data) {
-                    if (data.data == "success") {
-                        $.messager.alert("系统提示", "保存成功", "info");
-                        $("#dg").datagrid('reload');
-                        $("#dlg_property").dialog('close');
-                    }
-                }, function (data) {
-                    $.messager.alert('提示', "保存失败", "error");
-                })
-            }
         });
 
 
@@ -435,7 +403,7 @@ $(function () {
             method: 'get',
             url: '/service/dept-property/listProperty?orgId=' + orgId,
             idField: 'id',
-            singleSelect: false,//是否单选
+            singleSelect: true,//是否单选
             rownumbers: true,//行号
             fitColumns: true,
             columns: [[
@@ -445,6 +413,7 @@ $(function () {
                         type: 'textbox',
                         options: {
                             required: true,
+                            validType: 'IsExisted["propertyType"]',
                             missingMessage: '属性类型不能为空'
                         }
                     }
@@ -455,7 +424,6 @@ $(function () {
                         type: 'textbox',
                         options: {
                             required: true,
-                            validType: 'IsExisted["propertyName"]',
                             missingMessage: '属性名称不能为空'
                         }
                     }
@@ -472,7 +440,10 @@ $(function () {
                     }
                 }
             ]],
-            onClickCell: onClickCell
+            onClickCell: onClickCell,
+            onBeforeSelect: function (index) {
+                return $('#dg').datagrid('validateRow', editIndex)
+            }
         });
 
 
@@ -515,6 +486,14 @@ $(function () {
 
         function onClickCell(index, field) {
             if (endEditing1()) {
+                if (field == 'propertyType') {
+                    var row = $('#dg').datagrid('getRows')[index];
+                    if (row.id)return;
+                }
+                if (field == 'propertyValue') {
+                    var row = $('#dg').datagrid('getRows')[index];
+                    if (row.id)return;
+                }
                 $('#dg').datagrid('selectRow', index)
                     .datagrid('editCell', {index: index, field: field});
                 editIndex = index;
@@ -523,12 +502,80 @@ $(function () {
 
         //开始编辑行
         $("#addPropertyBtn").on('click', function () {
-            $("#dg").datagrid('appendRow', {
-                orgId: orgId
+            $.get(basePath + "/dept-dict/list?orgId=" + orgId, function (data) {
+                if (data != "") {
+                    $.messager.alert('系统提示', "已有科室,不能再维护科室属性了", 'info');
+                    return;
+                } else {
+                    $("#dg").datagrid('appendRow', {orgId: orgId});
+                    var rows = $("#dg").datagrid('getRows');
+                    onClickCell(rows.length - 1, 'dg');
+                }
             });
-            var rows = $("#dg").datagrid('getRows');
-            onClickCell(rows.length - 1, 'dg');
+
         });
+
+        //删除
+        $("#delPropertyBtn").on("click", function () {
+            $.get(basePath + "/dept-dict/list?orgId=" + orgId, function (data) {
+                if (data != "") {
+                    $.messager.alert('系统提示', "已有科室,不能删除科室属性了", 'info');
+                    return;
+                } else {
+                    var row = $("#dg").datagrid('getSelected');
+                    if (row) {
+                        var rowIndex = $("#dg").datagrid('getRowIndex', row);
+                        $("#dg").datagrid('deleteRow', rowIndex);
+                        if (editIndex == rowIndex) {
+                            editIndex = undefined;
+                        }
+                    } else {
+                        $.messager.alert('系统提示', "请选择要删除的行", 'info');
+                    }
+                }
+            });
+        });
+
+        //关闭
+        $("#cancelPropertyBtn").on("click", function () {
+            $("#dg").datagrid('reload');
+        });
+
+        /**
+         * 保存科室属性信息
+         */
+        $("#savePropertyBtn").on('click', function () {
+            if (!endEditing1()) {
+                return
+            }
+            var insertData = $("#dg").datagrid("getChanges", "inserted");
+            var updateData = $("#dg").datagrid("getChanges", "updated");
+            var deleteData = $("#dg").datagrid("getChanges", "deleted");
+            //保存时判断值不能为空
+            for (var i = 0; i < insertData.length; i++) {
+                if (!("propertyValue" in insertData[i]) || !("propertyName" in insertData[i]) || !("propertyType" in insertData[i])) {
+                    $.messager.alert("系统提示", "值,名称,类型不能为空", "info");
+                    return
+                }
+            }
+            var orgDeptPropertyDictVo = {};
+            orgDeptPropertyDictVo.inserted = insertData;
+            orgDeptPropertyDictVo.deleted = deleteData;
+            orgDeptPropertyDictVo.updated = updateData;
+            orgDeptPropertyDictVo.orgId = orgId;
+            if (orgDeptPropertyDictVo) {
+                $.postJSON("/service/dept-property/saveAll", JSON.stringify(orgDeptPropertyDictVo), function (data) {
+                    if (data.data == "success") {
+                        $.messager.alert("系统提示", "保存成功", "info");
+                        $("#dg").datagrid('reload');
+                        $("#dlg_property").dialog('close');
+                    }
+                }, function (data) {
+                    $.messager.alert('提示', "保存失败", "error");
+                })
+            }
+        });
+
     }
 );
 

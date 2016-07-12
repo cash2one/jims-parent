@@ -80,4 +80,5 @@ public interface PatsInHospitalServiceApi {
     public String cancelLeaveHosp(ComeDeptVo comeDeptVo);
 
 
+    public String test(ComeDeptVo comeDeptVo);
 }

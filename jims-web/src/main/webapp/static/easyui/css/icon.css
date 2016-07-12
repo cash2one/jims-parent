@@ -103,3 +103,9 @@
 .icon-build{
      background:url('icons/build.png') no-repeat center center;
  }
+.icon-in{
+    background:url('icons/arrow_in_longer.png') no-repeat center center;
+}
+.icon-out{
+    background:url('icons/arrow_out_longer.png') no-repeat center center;
+}
