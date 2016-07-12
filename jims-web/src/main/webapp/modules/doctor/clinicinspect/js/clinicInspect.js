@@ -1,6 +1,18 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 var description = [];
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
+
+function diagnosisTypeClinicformatter(value){
+    if(value == 0){
+        return;
+    }
+    for(var i=0;i<diagnosisTypeClinic.length;i++){
+        if(diagnosisTypeClinic[i].value == value){
+            return diagnosisTypeClinic[i].text
+        }
+    }
+}
 function onloadMethod() {
     $("#patientId").val(patientId);
     $("#clinicId").val(clinicId);
@@ -14,33 +26,33 @@ function onloadMethod() {
     //
     //    }
     //})
-    $("#clinDiag").combogrid({
-        data:icdAllData,
-        valueField:'code',
-        textField:'zhongwen_mingcheng',
-        required:true,
-        columns:[
-            [
-                {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
-                {field: 'code', title: 'ICD-10编码', width: '30%', align: 'center'},
-                {field: 'keyword_shuoming', title: '关键词', width: '40%', align: 'center'},
-            ]
-        ],
-         keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                icdCompleting(q,'clinDiag');
-                $("#clinDiag").combogrid("grid").datagrid("loadData", icdAllData);
-
-            }
-        },
-        onClickRow:function(rowIndex,rowData){
-            $("#clinDiag").combogrid('setText',rowData.zhongwen_mingcheng);
-            $("#clinDiagId").val(rowData.zhongwen_mingcheng);
-        }
-    })
+    //$("#clinDiag").combogrid({
+    //    data:icdAllData,
+    //    valueField:'code',
+    //    textField:'zhongwen_mingcheng',
+    //    required:true,
+    //    columns:[
+    //        [
+    //            {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
+    //            {field: 'code', title: 'ICD-10编码', width: '30%', align: 'center'},
+    //            {field: 'keyword_shuoming', title: '关键词', width: '40%', align: 'center'},
+    //        ]
+    //    ],
+    //     keyHandler: {
+    //        up: function() {},
+    //        down: function() {},
+    //        enter: function() {},
+    //        query: function(q) {
+    //            icdCompleting(q,'clinDiag');
+    //            $("#clinDiag").combogrid("grid").datagrid("loadData", icdAllData);
+    //
+    //        }
+    //    },
+    //    onClickRow:function(rowIndex,rowData){
+    //        $("#clinDiag").combogrid('setText',rowData.zhongwen_mingcheng);
+    //        $("#clinDiagId").val(rowData.zhongwen_mingcheng);
+    //    }
+    //})
 
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
@@ -108,7 +120,6 @@ function onloadMethod() {
             });
         }
     });
-
 
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
@@ -182,6 +193,24 @@ function onloadMethod() {
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+
+    $.ajax({
+        //添加
+        url: basePath+"/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId":clinicId},
+        success: function (data) {
+            if (data!= ""&& data!=null) {
+                var d="";
+                $.each(data, function (index, item) {
+                    formatter:var type = diagnosisTypeClinicformatter(item.type);
+                    d =d +type +":"+item.icdName+"\r";
+                });
+                $("#clinDiagDiv").val(d);
+            }
+        }
+    })
 }
 //检查选中
 function selecteds() {

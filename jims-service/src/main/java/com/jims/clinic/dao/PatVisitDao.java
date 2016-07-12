@@ -81,7 +81,7 @@ public interface PatVisitDao extends CrudDao<PatVisit> {
      */
     public void updatePatVisit(PatVisit patVisit);
 
-    public PatVisit selectPatVisit(@Param("id")String id);
+    public PatVisit selectPatVisit(@Param("visitId")String visitId,@Param("patientId")String patientId);
 
     /**
      * 病案首页--更新住院其他信息

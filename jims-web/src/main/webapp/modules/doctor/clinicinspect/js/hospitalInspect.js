@@ -119,7 +119,7 @@ function onloadMethods() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/clinicInspect/listHos',
-        queryParams: {'visitId': visitId},
+        queryParams: {'visitId': visitId,'patientId':patientId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -186,6 +186,24 @@ function onloadMethods() {
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+
+    $.ajax({
+        //添加
+        url: basePath+"/diagnosis/findListOfIn",
+        type: "GET",
+        dataType: "json",
+        data: {"visitId":visitId,"patientId":patientId},
+        success: function (data) {
+            if (data!= ""&& data!=null) {
+                var d="";
+                $.each(data, function (index, item) {
+                    formatter:var type = diagnosisTypeClinicformatter(item.type);
+                    d =d +type +":"+item.icdName+"\r";
+                });
+                $("#clinDiagDiv").val(d);
+            }
+        }
+    })
 }
 //检查选中
 function selecteds() {
@@ -301,7 +319,6 @@ function get(id) {
         'data': id = id,
         'dataType': 'json',
         'success': function (data) {
-            $("#modify").val("2");
             $('#hospitalInspectForm').form('load', data);
         }
     });
@@ -322,14 +339,7 @@ function saveClinicInspect() {
         })
         divJson = divJson.substring(0, divJson.length - 1);
         var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
-
-        var save = $("#modify").val();
-        var url = "";
-        if (save == "1") {
-            url = basePath + "/clinicInspect/saveHospitalInspect";
-        } else {
-            url = basePath + "/orders/update";
-        }
+        var url = basePath + "/clinicInspect/saveHospitalInspect";
         $.postJSON(url, submitJson, function (data) {
             if (data.code == "1") {
                 $.messager.alert("提示信息", "保存成功");
