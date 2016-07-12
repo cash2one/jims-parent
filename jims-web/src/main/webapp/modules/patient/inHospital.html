@@ -37,6 +37,9 @@
             padding:10px;
 
         }
+        .fitem_pop label {
+             width: 70px;
+         }
     </style>
 </head>
 
@@ -48,21 +51,20 @@
         <form name="searchform" method="post" action="" id ="searchform">
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                    <td class="text-right">患者姓名：</td>
-                    <td><input type="text" class="easyui-textbox" id="name"/></td>
                     <td class="text-right">身份证号：</td>
-                    <td><input type="text" class="easyui-textbox" id="idNo"/></td>
+                    <td><input type="text" class="easyui-textbox" id="idNo" style="width: 130px;"/></td>
+                    <td class="text-right">患者姓名：</td>
+                    <td><input type="text" class="easyui-textbox" id="name" style="width: 80px;"/></td>
                 </tr>
                 <tr>
-                    <td class="text-right">住院号：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor"/></td>
-
                     <td class="text-right">医保类别：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor1"/></td>
+                    <td><input type="text" class="easyui-textbox" id="doctor1" style="width: 130px;"/></td>
+                    <td class="text-right">住院号：</td>
+                    <td><input type="text" class="easyui-textbox" id="doctor" style="width: 80px;"/></td>
                 </tr>
                 <tr>
                     <td class="text-right">医保账号：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor23"/></td>
+                    <td><input type="text" class="easyui-textbox" id="doctor23" style="width: 130px;"/></td>
 
                     <td colspan="2">
                         <button class="easy-nbtn easy-nbtn-info" onclick="searchByCondition();" style="float: right">查询</button>
@@ -91,7 +93,7 @@
                         <input type="hidden" name="sex"  id="sex" >
                         <input id="sexId"  class="easyui-textbox" style="width: 5%">
 
-                        <label>
+                        <label style="width: 50px;">
                             年龄：
                         </label>
                         <input name="age" class="easyui-textbox" style="width: 5%">
@@ -248,7 +250,7 @@
                         <label>
                             接诊医生：
                         </label>
-                        <input id="consultingDoctor" name="consultingDoctor" class="easyui-textbox" style="width: 72%" />
+                        <input id="consultingDoctor" name="consultingDoctor" class="easyui-textbox" style="width: 33%" />
                         <label>
                             经办人：
                         </label>
@@ -269,7 +271,7 @@
                         </label>
                         <input type="hidden" name="parityNo" class="easyui-textbox"
                                style="width:11%;"/>-->
-                        <label>
+                        <label style="width: 75px;">
                             医保登记号：
                         </label>
                         <input name="nhSerialNo" class="easyui-textbox" style="width: 11%">

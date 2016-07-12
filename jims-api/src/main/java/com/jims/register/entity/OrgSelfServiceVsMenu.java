@@ -14,7 +14,7 @@ public class OrgSelfServiceVsMenu extends DataEntity<OrgSelfServiceVsMenu> {
 	
     private static final long serialVersionUID = 1L;
     private String selfServiceId;		// 服务ID
-    private String sysServiceId;		// 原所属平台服务ID
+    private String sysServiceId;		// 所属平台服务ID
     private String menuId;		// 菜单ID
     private Integer menuSort;		// 菜单排序
     private String pid ;     // 父ID
