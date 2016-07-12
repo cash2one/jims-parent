@@ -45,7 +45,7 @@ $(function() {
             $("#sex").val(n.value);
         }
     });
-    $("#sexId ").combobox('select',setData[0].value);
+    //$("#sexId ").combobox('select',setData[0].value);
     //婚姻状况
     $('#maritalStatusId').combobox({
         data: marriageDict,
@@ -56,7 +56,7 @@ $(function() {
         }
 
     });
-    $("#maritalStatusId ").combobox('select',marriageDict[0].value);
+    //$("#maritalStatusId ").combobox('select',marriageDict[0].value);
     //国籍
     $('#citizenshipId').combobox({
         data: nationalityDict,
@@ -66,7 +66,7 @@ $(function() {
             $("#citizenship").val(n.value);
         }
     });
-    $("#citizenshipId ").combobox('select',nationalityDict[0].value);
+    //$("#citizenshipId ").combobox('select',nationalityDict[0].value);
     //民族
     $('#nationId').combobox({
         data: nationDict,
@@ -76,7 +76,7 @@ $(function() {
             $("#nation").val(n.value);
         }
     });
-    $("#nationId").combobox('select',nationDict[0].value);
+    //$("#nationId").combobox('select',nationDict[0].value);
     //费别
     $('#chargeTypeId').combobox({
         data: chargeType,
@@ -86,18 +86,18 @@ $(function() {
             $("#chargeType").val(n.id);
         }
     });
-    $("#chargeTypeId ").combobox('select',chargeType[0].value);
-    //身份
+    //$("#chargeTypeId ").combobox('select',chargeType[0].value);
+ /*   //身份
     $('#identityId').combobox({
         data: identityDict,
         valueField: 'id',
         textField: 'identityName',
         onSelect: function (n, o) {
-            $("#identity").val(n.id);
+            $("#identityId").val(n.id);
         }
     });
-    $("#identityId ").combobox('select',identityDict[0].id);
-
+    //$("#identityId ").combobox('select',identityDict[0].id);
+*/
     //职业
     $('#occupationId').combobox({
         data: professionDict,
@@ -107,7 +107,7 @@ $(function() {
             $("#occupation").val(n.value);
         }
     });
-    $("#occupationId ").combobox('select',professionDict[0].value);
+    //$("#occupationId ").combobox('select',professionDict[0].value);
 
     //关系
     $('#relationshipId').combobox({
@@ -118,7 +118,7 @@ $(function() {
             $("#relationship").val(n.value);
         }
     });
-    $("#relationshipId ").combobox('select',relationshipDict[0].value);
+    //$("#relationshipId ").combobox('select',relationshipDict[0].value);
     //入院来源
     $('#fromOtherPlaceIndicatorId').combobox({
         data: resourceDict,
@@ -128,7 +128,7 @@ $(function() {
             $("#fromOtherPlaceIndicator").val(n.value);
         }
     });
-    $("#fromOtherPlaceIndicatorId ").combobox('select',resourceDict[0].value);
+    //$("#fromOtherPlaceIndicatorId ").combobox('select',resourceDict[0].value);
     //入院方式
     $('#patientClassId').combobox({
         data: methodDict,
@@ -138,7 +138,7 @@ $(function() {
             $("#patientClass").val(n.value);
         }
     });
-    $("#patientClassId ").combobox('select',methodDict[0].value);
+    //$("#patientClassId ").combobox('select',methodDict[0].value);
     //住院目的
     $('#admissionCauseId').combobox({
         data: objectiveDict,
@@ -148,7 +148,7 @@ $(function() {
             $("#admissionCause").val(n.value);
         }
     });
-    $("#admissionCauseId").combobox('select',objectiveDict[0].value);
+    //$("#admissionCauseId").combobox('select',objectiveDict[0].value);
     //病情
     $('#patAdmConditionId').combobox({
         data: admissionDict,
@@ -158,7 +158,7 @@ $(function() {
             $("#patAdmCondition").val(n.value);
         }
     });
-    $("#patAdmConditionId").combobox('select',admissionDict[0].value);
+    //$("#patAdmConditionId").combobox('select',admissionDict[0].value);
 
 
     //入院科室
@@ -167,8 +167,8 @@ $(function() {
         valueField: 'value',
         textField: 'label'
     });
-    $("#deptAdmissionTo ").combobox('select',clinicDeptCode[0].value);
-
+    //$("#deptAdmissionTo ").combobox('select',clinicDeptCode[0].value);
+    //
     //诊断
     $('#diagnosis').combogrid({
         width: '300',
@@ -183,8 +183,8 @@ $(function() {
             {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'left'},
         ]], keyHandler: {
             query: function (q) {
-                comboGridCompleting(q, 'diagnosisName');
-                $('#diagnosisName').combogrid("grid").datagrid("loadData", comboGridComplete);
+                comboGridCompleting(q, 'diagnosis');
+                $('#diagnosis').combogrid("grid").datagrid("loadData", comboGridComplete);
             }
         }
     })
