@@ -102,10 +102,10 @@ function onloadMethod() {
 
     $("#visitId").val(visitId);
     $("#patientId").val(patientId);
-    $("#patName").val(parent.patVisitIndex.name);
-    $("#patSex").val(parent.patVisitIndex.sex);
-    $("#feeType").val(itemFormatter(parent.patVisitIndex.chargeType,'',''));
-    $("#feeTypeId").val(parent.patVisitIndex.chargeType);
+    $("#patName").val(parent.patVisit.name);
+    $("#patSex").val(parent.patVisit.sex);
+    $("#feeType").val(itemFormatter(parent.patVisit.chargeType,'',''));
+    $("#feeTypeId").val(parent.patVisit.chargeType);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -179,6 +179,14 @@ function onloadMethod() {
         textField: 'label',
         onSelect: function (n) {
             $("#preBloodTypeId").val(n.value);
+        }
+    })
+    $("#preBloodGroup").combobox({
+        data: bloodType,
+        valueField: 'value',
+        textField: 'label',
+        onSelect: function (n) {
+            $("#preBloodGroupId").val(n.value);
         }
     })
     /**
