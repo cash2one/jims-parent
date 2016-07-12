@@ -131,18 +131,18 @@ function add(){
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
+
     $.ajax({
         //添加
-        url: basePath+"/labtest/zhenduan",
-        type: "POST",
+        url: basePath+"/diagnosis/findListOfOut",
+        type: "GET",
         dataType: "json",
-        contentType: "application/json", //必须有
-        data: JSON.stringify({"clinicId":clinicId,inOrOutFlag:"0","visitId":null}),
+        data: {"clinicId":clinicId},
         success: function (data) {
             if (data!= ""&& data!=null) {
                 var d;
                 $.each(data, function (index, item) {
-                    d =item.description+"\r";
+                    d =d + item.icdName+"\r";
                 });
                 $("#relevantClinicDiag").val(d);
             }
