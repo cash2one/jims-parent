@@ -146,7 +146,7 @@ function patientList(status,dept){
     }
     $.get(url, function (data) {
         for (var i = 0; i < data.length; i++) {
-            liHtml+='<li><a href="#" onclick="userMenu(\''+data[i].id+'\',this)">' +
+            liHtml+='<li><a onclick="userMenu(\''+data[i].id+'\',this)">' +
             '<span class="cus-lbor"></span>' +
             '<span class="cus-name">'+data[i].name+'</span>' ;
             var sex=itemFormatter(data[i].sex, '', '');
