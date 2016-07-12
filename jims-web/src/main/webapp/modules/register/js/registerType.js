@@ -126,7 +126,7 @@ function clinicTypeList(){
     var typeHtml='';
     $.get(basePath + '/clinicType/findList',function(data){
         for(var i=0;i<data.length;i++){
-            typeHtml+='<li><a href="#" onclick="onloadMethod(\''+data[i].id+'\',\''+data[i].clinicTypeName+'\')">'+data[i].clinicTypeName+'</a><a href="#" class="rp-close" onclick="deleteClinicType(\''+data[i].id+'\')">X</a></li>';
+            typeHtml+='<li><a  onclick="onloadMethod(\''+data[i].id+'\',\''+data[i].clinicTypeName+'\')">'+data[i].clinicTypeName+'</a><a  class="rp-close" onclick="deleteClinicType(\''+data[i].id+'\')">X</a></li>';
         }
         $("#clinicType").html(typeHtml);
     })
