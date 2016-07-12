@@ -1,18 +1,21 @@
 var visitId = parent.patVisit.visitId;
 var patientId = parent.patVisit.patientId;
 var description = [];
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
+function diagnosisTypeClinicformatter(value) {
+    if (value == 0) {
+        return;
+    }
+    for (var i = 0; i < diagnosisTypeClinic.length; i++) {
+        if (diagnosisTypeClinic[i].value == value) {
+            return diagnosisTypeClinic[i].text
+        }
+    }
+}
 function onloadMethods() {
     $("#patientId").val(patientId);
     $("#visitId").val(visitId);
-    //$.ajax({
-    //    type: "GET",
-    //    url: basePath + '/clinicInspect/getDescription',
-    //    data: {"visitIds": visitId},
-    //    success: function (data) {
-    //        description = data;
-    //        $("#clinDiag").val(data.description);
-    //    }
-    //})
+
 
     $("#clinDiag").combogrid({
         data:icdAllData,
@@ -325,35 +328,45 @@ function get(id) {
 }
 //保存
 function saveClinicInspect() {
-    if (description == null) {
-        alert("病人没有诊断消息，不能开检查单");
-    } else {
         if (!$("#hospitalInspectForm").form("validate")) {
             return false;
         }
-        var formJson = fromJson('hospitalInspectForm');
-        formJson = formJson.substring(0, formJson.length - 1);
-        var divJson = "";
-        $('#target .submitName').each(function (index, element) {
-            divJson += $(this).html();
-        })
-        divJson = divJson.substring(0, divJson.length - 1);
-        var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
-        var url = basePath + "/clinicInspect/saveHospitalInspect";
-        $.postJSON(url, submitJson, function (data) {
-            if (data.code == "1") {
-                $.messager.alert("提示信息", "保存成功");
-                $('#list_data').datagrid('load');
-                $("#hospitalInspectForm").form('clear');
-                $("#target").empty();
-                $("#descriptionId").empty();
-            } else {
-                $.messager.alert("提示信息", "保存失败", "error");
-            }
+    $.ajax({
+        //添加
+        url: basePath+"/diagnosis/findListOfIn",
+        type: "GET",
+        dataType: "json",
+        data: {"visitId":visitId,"patientId":patientId},
+        success: function (data) {
+            if (data!= ""&& data!=null) {
+                var formJson = fromJson('hospitalInspectForm');
+                formJson = formJson.substring(0, formJson.length - 1);
+                var divJson = "";
+                $('#target .submitName').each(function (index, element) {
+                    divJson += $(this).html();
+                })
+                divJson = divJson.substring(0, divJson.length - 1);
+                var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
+                var url = basePath + "/clinicInspect/saveHospitalInspect";
+                $.postJSON(url, submitJson, function (data) {
+                    if (data.code == "1") {
+                        $.messager.alert("提示信息", "保存成功");
+                        $('#list_data').datagrid('load');
+                        $("#hospitalInspectForm").form('clear');
+                        $("#target").empty();
+                        $("#descriptionId").empty();
+                    } else {
+                        $.messager.alert("提示信息", "保存失败", "error");
+                    }
 
-        }), function (data) {
-            $.messager.alert("提示信息", "保存失败", "error");
+                }), function (data) {
+                    $.messager.alert("提示信息", "保存失败", "error");
+                }
+            }else {
+                alert("病人没有诊断信息，不能开出检查申请");
+            }
         }
-    }
+    })
+
 }
 

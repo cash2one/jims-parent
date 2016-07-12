@@ -35,7 +35,7 @@
             <!--</div>-->
 
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     费别：
                 </label>
                 <input type="hidden" id="feeTypeId" name="feeType" value="">
@@ -50,25 +50,30 @@
             </div>
 
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     属地：
                 </label>
                 <input type="hidden" id="patSourceId" name="patSource" value="">
                 <input id="patSource" style="width:25%;"/>
-                <label>
-                    血库收到日期：
-                </label>
-                <input name="gatherDate" class="easyui-datetimebox"
-                       style="width:30%;"/>
-            </div>
-            <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     血型：
                 </label>
-                <input type="hidden" id="preBloodTypeId" name="preBloodType" value="">
-                <input id="preBloodType" class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input type="hidden" id="preBloodGroupId" name="preBloodGroup" value="">
+                <input id="preBloodGroup" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
-                <label>
+                <!--<label style="width:120px">-->
+                <!--血库收到日期：-->
+                <!--</label>-->
+                <!--<input name="gatherDate" class="easyui-datetimebox"-->
+                <!--style="width:25%;"/>-->
+            </div>
+            <div class="fitem fitem_pop">
+                <label style="width:120px">
+                    预输血型：
+                </label>
+                <input type="hidden" id="preBloodTypeId" name="preBloodType" value="">
+                <input id="preBloodType" style="width:25%;"/>
+                <label style="width:120px">
                     血源：
                 </label>
                 <input type="hidden" id="bloodInuseId" name="bloodInuse" value="">
@@ -76,24 +81,24 @@
             </div>
 
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     申请时间：
                 </label>
                 <input name="applyDate" class="easyui-datetimebox" style="width:25%;"/>
 
-                <label>
+                <label style="width:120px">
                     反应及禁忌症：
                 </label>
                 <input name="bloodTaboo" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
             </div>
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     RH(D)：
                 </label>
                 <input name="rh" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
-                <label style="width: 25%;">
+                <label style="width:120px">
                     红细胞压积：
                 </label>
                 <input  class="easyui-validatebox validatebox-text validatebox-invalid"
@@ -101,87 +106,82 @@
             </div>
 
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     梅毒：
                 </label>
                 <input name="antiMd" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
-                <label>
-                    预输血型：
+                <label style="width:120px">
+                    诊断及适应症：
                 </label>
-                <input name="preBloodType" class="easyui-validatebox validatebox-text validatebox-invalid"
+                <input name="bloodDiagnose" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
             </div>
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     辐照血：
                 </label>
                 <input name="shineBlood" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
-                <label>
+                <label style="width:120px">
                     谷丙转氨酶：
                 </label>
                 <input class="easyui-validatebox validatebox-text validatebox-invalid" name="alt"
                        style="width:25%;"/>U/L
             </div>
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     乙型肝炎表面抗体：
                 </label>
                 <input class="easyui-validatebox validatebox-text validatebox-invalid" name="hbsag"
                        style="width:25%;"/>
-                <label>
+                <label style="width:120px">
                     丙型肝炎抗体：
                 </label>
                 <input class="easyui-validatebox validatebox-text validatebox-invalid" name="hcv"
                        style="width:25%;"/>
             </div>
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     人类免疫缺陷病毒：
                 </label>
                 <input class="easyui-validatebox validatebox-text validatebox-invalid" name="hiv"
                        style="width:25%;"/>
-                <label>
+                <label style="width:120px">
                     血红蛋白：
                 </label>
                 <input class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>g/l
             </div>
             <div class="fitem fitem_pop">
-                <label>
+                <label style="width:120px">
                     血小板：
                 </label>
                 <input name="platelet" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:18%;"/>10^9/g
-                <label>
+                <label style="width:120px">
                     白细胞：
                 </label>
                 <input  class="easyui-validatebox validatebox-text validatebox-invalid"
                         style="width:20%;"/>10^9/g
             </div>
-            <div class="fitem fitem_pop">
-                <label>
-                    主任：
-                </label>
-                <input name="director" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:25%;"/>
-                <label>
-                    主治：
-                </label>
-                <input name="physician" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:25%;"/>
-            </div>
+            <!--<div class="fitem fitem_pop">-->
+                <!--<label>-->
+                    <!--主任：-->
+                <!--</label>-->
+                <!--<input name="director" class="easyui-validatebox validatebox-text validatebox-invalid"-->
+                       <!--style="width:25%;"/>-->
+                <!--<label>-->
+                    <!--主治：-->
+                <!--</label>-->
+                <!--<input name="physician" class="easyui-validatebox validatebox-text validatebox-invalid"-->
+                       <!--style="width:25%;"/>-->
+            <!--</div>-->
             <div class="fitem fitem_pop">
                 <label>
                     医生：
                 </label>
                 <input name="doctor" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:25%;"/>
-                <label>
-                    诊断及适应症：
-                </label>
-                <input name="bloodDiagnose" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
             </div>
 
