@@ -1,10 +1,78 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
+var scheduleId  = null;
 function onloadMethod() {
+    var ids="";
     $("#clinicId").val(clinicId);
-    alert(clinicId);
     $("#patientId").val(patientId);
+
+    //手术室下拉框
+    $('#operatingRoom').combobox({
+        data: operatingRoom,
+        valueField: 'id',
+        textField: 'deptName',
+        onSelect: function (n, o) {
+            $("#operatingRoomCode").val(n.id);
+            comboboxLoad(n.id, 'operatingRoomNo', 'operatingRoomNoCode');
+        }
+    });
+
+    /**
+     * 麻醉方式
+     */
+    $("#anesthesiaMethod").combobox({
+        data: anaesthesiaName,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#anesthesiaMethodId").val(n.value);
+        }
+    });
+
+    /**
+     * 手术病情
+     */
+    $("#patientCondition").combobox({
+        data: patientCondition,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#patientConditionId").val(n.value);
+        }
+    })
+    /**
+     * 隔离
+     */
+    $("#isolationIndicator").combobox({
+        data: isolationIndicator,
+        valueField: 'id',
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#isolationIndicatorId").val(n.value);
+        }
+    })
+    $("#surgeon").combobox({
+        data:doctorName,
+        valueField:'id',
+        valueField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'list_data');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#firstAssistant").combogrid('setText',rowData.name);
+            $("#clinDiagId").val(rowData.id);
+        }
+    })
     $.ajax({
         method: "POST",
         url: basePath + "/operatioinOrder/getScheduleOut",
@@ -12,14 +80,26 @@ function onloadMethod() {
         data: clinicId = clinicId,
         dataType: 'json',
         success: function (data) {
+            //scheduleId = data.id;
+            //$('#operationName').datagrid({url:basePath+'/operatioinOrder/getOperationName?scheduleId='+scheduleId });
+
             $('#operation').form('load', data);
+           //$("#patientCondition").combobox("setValue",data.patientCondition);
+           // $("#isolationIndicator").combobox("setValue",data.isolationIndicator);
+           // $("#operatingRoom").combobox("setValue",data.operatingRoom);
+           // $("#operatingRoomNo").combobox("setValue",data.operatingRoomNo);
+           // $("#operationScale").combobox("setValue",data.operationScale);
+           // $("#anesthesiaMethod").combobox("setValue",data.anesthesiaMethod);
+
+
         }
     });
+
     $('#operationName').datagrid({
         rownumbers: true,
         singleSelect: true,
         fit: true,
-        method: 'POST',
+        method: 'GET',
         url: basePath + '/operatioinOrder/getOperationName',
         queryParams: {'clinicId': clinicId},
         idField: 'id',
@@ -45,21 +125,18 @@ function onloadMethod() {
             }
             },
             {
-                field: 'schedule',
+                field: 'operationScale',
                 title: '等级',
                 width: '50%',
                 align: 'center',
-                formatter: function (value, rowData, rowIndex) {
-                    if (rowData.schedule == undefined) {
-                        return '';
-                    } else {
-                        if (operationScale == undefined) {
-                            return '';
-                        } else {
-                            return operationScaleFormatter(rowData.schedule.operationScale, '', '');
-                        }
-                    }
-                }
+                editor: {
+                    type: 'combobox',
+                    options: {
+                        panelWidth: 500,
+                        data: operationScaleName,
+                        valueField: 'value',
+                        textField: 'label'}},
+                formatter:operationScaleFormatter
             }
         ]],
         toolbar: [{
@@ -106,64 +183,6 @@ function onloadMethod() {
             }
         }
     });
-
-
-    //手术室下拉框
-    $('#operatingRoom').combobox({
-        data: operatingRoom,
-        valueField: 'deptCode',
-        textField: 'deptName',
-        onSelect: function (n, o) {
-            $("#operatingRoomCode").val(n.deptCode);
-            comboboxLoad(n.deptCode, 'operatingRoomNo', 'operatingRoomNoCode');
-        }
-    });
-
-    /**
-     * 麻醉方式
-     */
-    $("#anesthesiaMethod").combobox({
-        data: anaesthesiaName,
-        valueField: 'id',
-        textField: 'label',
-        onSelect: function (n, o) {
-            $("#anesthesiaMethodId").val(n.value);
-        }
-    });
-
-    /**
-     * 手术等级
-     */
-    $("#operationScale").combobox({
-        data: operationScaleName,
-        valueField: 'id',
-        textField: 'label',
-        onSelect: function (n, o) {
-            $("#operationScaleId").val(n.value);
-        }
-    });
-    /**
-     * 手术病情
-     */
-    $("#patientCondition").combobox({
-        data: patientCondition,
-        valueField: 'id',
-        textField: 'label',
-        onSelect: function (n, o) {
-            $("#patientConditionId").val(n.value);
-        }
-    })
-    /**
-     * 隔离
-     */
-    $("#isolationIndicator").combobox({
-        data: isolationIndicator,
-        valueField: 'id',
-        textField: 'label',
-        onSelect: function (n, o) {
-            $("#isolationIndicatorId").val(n.value);
-        }
-    })
 }
 
 /**
@@ -176,9 +195,9 @@ function savePperationApply() {
     formJson = formJson.substring(0, formJson.length - 1);
     var tableJson = JSON.stringify(rows);
     var submitJson = formJson + ",\"scheduledOperationNameList\":" + tableJson + "}";
-
-    $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
-        if (data == "1") {
+  //alert(tableJson);
+   $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
+        if (data =="1") {
             $.messager.alert("提示消息", data + "条记录，保存成功");
             $('#operationName').datagrid('load');
             $('#operationName').datagrid('clearChecked');

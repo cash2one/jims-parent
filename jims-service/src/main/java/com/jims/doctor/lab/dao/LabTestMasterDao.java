@@ -60,7 +60,7 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      * @return
      * @author zhaoning
      */
-    public List<LabTestMaster> getLabMaster(@Param("performedBy")String performedBy );
+    public List<LabTestMaster> getLabMaster(@Param("performedBy")String performedBy,@Param("inOrOut")String inOrOut );
 
     /**
      * 检验确认 更新 检验主记录 状态，更改为：1 （已确认）

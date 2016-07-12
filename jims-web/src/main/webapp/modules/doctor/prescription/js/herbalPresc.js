@@ -80,7 +80,7 @@ $(function() {
                 '<input  type="text" id="drugName'+rowNumZ+'" namehide="drugName" class="easyui-textbox" onclick="openOombogrid(this,\''+rowNumZ+'\')"  inputhide="herbalHide'+rowNumZ+'" style="width: 150px"/>' +
                 '<input type="text" value="0" style="width: 50px" class="easyui-textbox" id="amount'+rowNumZ+'" namehide="amount" inputhide="herbalHide'+rowNumZ+'"/>' +
             '<span id="span'+rowNumZ+'" class="color-blue" style="padding-left:10px;"></span>' +
-                '<a class="ul_li_a" href="#" onclick="delActive(this)" >X</a>' +
+                '<a class="ul_li_a"  onclick="delActive(this)" >X</a>' +
                 '<input type="hidden" id="drugCode'+rowNumZ+'" namehide="drugCode" inputhide="herbalHide'+rowNumZ+'" /> ' +
                 '<input type="hidden" id="drugSpec'+rowNumZ+'" namehide="drugSpec" inputhide="herbalHide'+rowNumZ+'" /> ' +
                 '<input type="hidden" id="firmId'+rowNumZ+'" namehide="firmId" inputhide="herbalHide'+rowNumZ+'" /> ' +

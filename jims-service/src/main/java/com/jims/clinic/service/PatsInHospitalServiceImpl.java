@@ -107,4 +107,12 @@ public class PatsInHospitalServiceImpl implements PatsInHospitalServiceApi {
     public List<BaseDto> cancelLeavePatientlist(ComeDeptVo comeDeptVo) {
         return patsInHospitalBo.cancelLeavePatientlist(comeDeptVo);
     }
+
+    @Override
+    public String test(ComeDeptVo comeDeptVo) {
+        return patsInHospitalBo.comeDeptVoGet(comeDeptVo);
+    }
+
+
+
 }

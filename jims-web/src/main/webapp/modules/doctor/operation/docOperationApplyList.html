@@ -21,7 +21,7 @@
 
     <div data-options="region:'center',iconCls:'icon-ok'">
         <form id="operation" method="post">
-            <input type="hidden" name="id">
+            <input type="hidden" name="id" id="id">
             <div class="fitem fitem_pop" style="width:100%;height: 200px;">
                 <table id="operationName"></table>
             </div>
@@ -40,7 +40,7 @@
                 <label>
                     隔离：
                 </label>
-                <!--<select name="isolationIndicator" class="easyui-combobox" style="width:10%;">-->
+                <!--<select name="isolationIndicator" class="easyui-combobox" style="width:10%;height: 30px">-->
                 <!--<option value="1">正常</option>-->
                 <!--<option value="2">隔离</option>-->
                 <!--<option value="3">放射</option>-->
@@ -58,11 +58,11 @@
                 </label>
                 <input name="reqDateTime" class="easyui-datetimebox"
                        style="width:12%;"/>
-                <label style="width: 100px;">
-                    手术等级：
-                </label>
-                <input type="hidden" name="operationScale" id="operationScaleId" value="">
-                <input id="operationScale"style="width:45%;">
+                <!--<label>-->
+                    <!--手术等级：-->
+                <!--</label>-->
+                <!--<input type="hidden" name="operationScale" id="operationScaleId" value="">-->
+                <!--<input id="operationScale"style="width:45%;">-->
 
 
             </div>
@@ -71,69 +71,55 @@
                     手术室：
                 </label>
                 <input type="hidden" name="operatingRoom" id="operatingRoomCode" value="">
-                <input  id="operatingRoom" style="width: 10%;">
+                <input  id="operatingRoom" style="width: 145px;">
                 <label>
                     手术间：
                 </label>
                 <input type="hidden" name="operatingRoomNo" id="operatingRoomNoCode" value="">
-                <input  id="operatingRoomNo" style="width: 10%;">
+                <input  id="operatingRoomNo" style="width: 145px;">
                 <label>
                     手术医生：
                 </label>
-                <select name="surgeon" class="easyui-combobox" style="width:10%;">
-                    <option value="1">丛军</option>
-                    <option value="2">丛玲</option>
-                </select>
+                <input id="surgeon" style="width: 10%;">
+                <input type="hidden" id="surgeonId" name="surgeon" value="">
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     助手：
                 </label>
-                <select name="firstAssistant" class="easyui-combobox" style="width:10%;">
-                    <option value="1">丛军</option>
-                    <option value="2">丛玲</option>
-                    　　</select>
-                <select name="secondAssistant" class="easyui-combobox" style="width:10%;">
-                    <option value="1">丛军</option>
-                    <option value="2">丛玲</option>
-                    　　</select>
-                <select name="thirdAssistant" class="easyui-combobox" style="width:10%;">
-                    <option value="1">丛军</option>
-                    <option value="2">丛玲</option>
-                    　　</select>
-                <select name="fourthAssistant" class="easyui-combobox" style="width:10%;">
-                    <option value="1">丛军</option>
-                    <option value="2">丛玲</option>
-                    　　</select>
+                <input id="firstAssistant" style="width: 10%;">
+                <input type="hidden" id="firstAssistantId" name="firstAssistant" value="">
+                <input id="secondAssistant" style="width: 10%;">
+                <input type="hidden" id="secondAssistantId" name="secondAssistant" value="">
+                <input id="thirdAssistant" style="width: 10%;">
+                <input type="hidden" id="thirdAssistantId" name="thirdAssistant" value="">
+                <input id="fourthAssistant" style="width: 10%;">
+                <input type="hidden" id="fourthAssistantId" name="fourthAssistant" value="">
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     麻醉方法：
                 </label>
-                <!--<select name="anesthesiaMethod" class="easyui-combobox" style="width:10%;">-->
-                <!--<option value="1">基础</option>-->
-                <!--<option value="2">体外</option>-->
-                <!--　　</select>-->
                 <input type="hidden" name="anesthesiaMethod" id="anesthesiaMethodId" value="">
                 <input id="anesthesiaMethod" style="width: 10%;">
                 <label>
                     麻醉医师：
                 </label>
-                <select name="anesthesiaDoctor" class="easyui-combobox" style="width:10%;">
+                <select name="anesthesiaDoctor" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
                 <label>
                     助手：
                 </label>
-                <select name="anesthesiaAssistant" class="easyui-combobox" style="width:10%;">
+                <select name="anesthesiaAssistant" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>
                 <label>
                     供血医师：
                 </label>
-                <select name="bloodTranDoctor" class="easyui-combobox" style="width:10%;">
+                <select name="bloodTranDoctor" class="easyui-combobox" style="width:10%;height: 30px">
                     <option value="1">丛军</option>
                     <option value="2">丛玲</option>
                     　　</select>

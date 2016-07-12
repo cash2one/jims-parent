@@ -11,20 +11,20 @@ import java.util.List;
  */
 public interface ExamConfirmServiceApi {
     /**
-     * 根据病人ID 查询 确认列表
+     * 根据病人ID 查询 确认列表(门诊||住院)
      * @param performedBy  执行科室
      * @return
      * @author zhaoning
      */
-    public List<ExamAppoints> getExamAppointses(String performedBy);
+    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn);
 
     /**
-     * 确认检查
+     * 确认检查(门诊||住院)
      * @param examAppoints
      * @return
      * @author  zhaoning
      */
-    public String confrimExam(ExamAppoints examAppoints);
+    public String confrimExam(ExamAppoints examAppoints)throws Exception;
 
 
 }

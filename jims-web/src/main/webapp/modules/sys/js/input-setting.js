@@ -25,7 +25,6 @@ $(function () {
         singleSelect: true,
         idField: "id",
         toolbar: '#classft',
-        //url:basePath+'/input-setting/findAllListByOrgId?orgId='+orgId,
         url:basePath+'/input-setting/findAllListByOrgId?orgId='+orgId,
         method:'get',
         loadMsg: '数据正在加载中，请稍后.....',
@@ -36,7 +35,7 @@ $(function () {
         }, {
             title: '字典类型',
             field: 'dictName',
-            width: '50%'    ,
+            width: '40%'    ,
             align: 'center',
             editor: 'textbox'
         }, {
@@ -240,7 +239,7 @@ $(function () {
         }, {
             title: "字段",
             field: "dataCol",
-            width: '10%' ,
+            width: '9%' ,
             align:'center' ,
             editor: {
                 type: 'combobox',
@@ -253,7 +252,7 @@ $(function () {
         }, {
             title: '输入码',
             field: 'inputCode',
-            width: '10%' ,
+            width: '9%' ,
             align:'center',
             formatter:function(value){
                 if(value=='00')
@@ -275,7 +274,7 @@ $(function () {
         }, {
             title: '标题',
             field: 'dataTitle',
-            width: '10%' ,
+            width: '9%' ,
             align:'center'  ,
             editor: {
                 type: 'textbox'
@@ -283,7 +282,7 @@ $(function () {
         }, {
             title: '是否显示',
             field: 'flagShow',
-            width: '10%' ,
+            width: '9%' ,
             align:'center'  ,
             formatter:function(value){
                 if(value=='1')
@@ -305,7 +304,7 @@ $(function () {
         }, {
             title: '显示顺序',
             field: 'showSort',
-            width: '10%' ,
+            width: '9%' ,
             align:'center' ,
             editor: {
                 type: 'textbox'
@@ -313,7 +312,7 @@ $(function () {
         }, {
             title: '是否名称字段',
             field: 'flagIsname',
-            width: '10%' ,
+            width: '9%' ,
             align:'center',
             formatter:function(value){
                 if(value=='Y')
@@ -335,7 +334,7 @@ $(function () {
         } , {
             title: '结果顺序位',
             field: 'resultSort',
-            width: '10%' ,
+            width: '9%' ,
             align:'center' ,
             editor: {
                 type: 'textbox',
@@ -345,7 +344,7 @@ $(function () {
         }, {
             title: '显示宽度',
             field: 'showWidth',
-            width: '10%' ,
+            width: '9%' ,
             align:'center'  ,
             editor: {
                 type: 'textbox'

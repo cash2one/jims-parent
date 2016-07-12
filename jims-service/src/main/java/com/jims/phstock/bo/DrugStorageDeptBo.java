@@ -41,7 +41,7 @@ public class DrugStorageDeptBo extends CrudImplService<DrugStorageDeptDao, DrugS
         List<DrugStorageDept> inserted = beanChangeVo.getInserted();
         int inNum = 0;
         for (DrugStorageDept drugStorageDept : inserted) {
-            DeptDict deptDict = deptDictDao.getByName(drugStorageDept.getStorageName()).get(0);
+            DeptDict deptDict = deptDictDao.getByNameOrgId(drugStorageDept.getStorageName(),drugStorageDept.getOrgId()).get(0);
             drugStorageDept.setStorageCode(deptDict.getDeptCode());
             inNum = Integer.valueOf(this.save(drugStorageDept));
             inNum++;

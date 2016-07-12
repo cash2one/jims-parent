@@ -97,6 +97,11 @@ $(function () {
         drugToxi = data;
     });
 
+    var supplierList = [];//毒理属性字典
+    $.get( "/service/drug-supplier-catalog/findListWithFilter?orgId="+currentOrgId, function (data) {
+        supplierList = data;
+    });
+
 
     // 药品类别
     var drugIndicators = [
@@ -347,6 +352,7 @@ $(function () {
             }
             console.log(_record);
             _record.detailList
+            console.log(_record);
             parent.$.postJSON('/service/drug-in/save',JSON.stringify(_record),function(res){
                 if(res == '1'){
                     $.messager.alert('保存',(accountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
@@ -606,7 +612,6 @@ $(function () {
                 align: 'center',
                 formatter:function(value,row,index){
                     var unitsName = value;
-                    console.log(specUnits);
                     $.each(specUnits, function (index,item) {
                         if(item.value == value){
                             unitsName =  item.label;
@@ -702,10 +707,19 @@ $(function () {
                 align: 'center'
             }, {
                 title: "厂家",
-                field: "supplier",
+                field: "firmId",
                 width: '200px',
                 halign: 'center',
-                align: 'left'
+                align: 'left',
+                formatter:function(value,row,index){
+                    var supplierName = value;
+                    $.each(supplierList, function (index,item) {
+                        if(item.id == value){
+                            supplierName =  item.supplier;
+                        }
+                    });
+                    return supplierName;
+                }
             }, {
                 title: "有效期",
                 field: "expireDate",
@@ -768,10 +782,6 @@ $(function () {
                 halign: 'center',
                 align: 'left',
                 editor : 'textbox'
-            },{
-                title: "价格主键",
-                field: "priceListId",
-                hidden:true
             }
             ]],
             onClickCell: onClickCell,
@@ -815,7 +825,6 @@ $(function () {
                 , packSpec: drugPrice.drugSpec
                 , packUnit: drugPrice.units
                 , firmId: drugPrice.firmId
-                , priceListId:drugPrice.id
             }
             if (chargeDrugExisted(drugParam)) {
                 $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
@@ -825,8 +834,11 @@ $(function () {
 
             var subStorage = $('#importChild').combobox('getValue')
             var storage=currentStorage;
-            var priceListId=drugPrice.id;
-            $.get("/service/drug-price/find-by-sub-quantity?priceListId="+priceListId+"&storage="+storage+"&subStorage="+subStorage, function (node){
+            console.log(drugPrice);
+
+            $.get("/service/drug-price/find-by-sub-quantity",
+            {orgId:drugPrice.orgId,drugCode:drugPrice.drugCode,drugSpec:drugPrice.minSpec,firmId:drugPrice.firmId,packageSpec:drugPrice.drugSpec,storage:storage,subStorage:subStorage}
+                , function (node){
                 console.log(node);
                 if(node.length>0){
                     importTableRow.currentStock=node[0].quantity;
@@ -834,13 +846,12 @@ $(function () {
                     importTableRow.currentStock=0;
                 }
                 importTableRow.drugCode = drugPrice.drugCode;
-                importTableRow.drugSpec = drugPrice.drugSpec;   //规格
+                importTableRow.drugSpec = drugPrice.minSpec;   //规格
                 importTableRow.units = drugPrice.units;     //单位
                 importTableRow.packageSpec = drugPrice.drugSpec;
                 importTableRow.packageUnits = drugPrice.units;
                 importTableRow.firmId = drugPrice.firmId;   //厂家标识
                 importTableRow.supplier = drugPrice.supplier;   //厂商
-                importTableRow.priceListId=drugPrice.id;
                 importTableRow.retailPrice = drugPrice.retailPrice; //市场零售价
                 importTableRow.tradePrice = drugPrice.tradePrice;   //市场批发价
                 importTableRow.purchasePrice = drugPrice.tradePrice;    //进价=批发价
@@ -895,7 +906,16 @@ $(function () {
                         return unitsName;
                     }
                 },
-                {field: 'supplier', title: '厂家', width: 200, halign: "center",align: "left"},
+                {field: 'firmId', title: '厂家', width: 200, halign: "center",align: "left",
+                    formatter:function(value,row,index){
+                        var supplierName = value;
+                        $.each(supplierList, function (index,item) {
+                            if(item.id == value){
+                                supplierName =  item.supplier;
+                            }
+                        });
+                        return supplierName;
+                    }},
                 {field: 'tradePrice', title: '批发价', width: 60, align: "center"},
                 {field: 'retailPrice', title: '零售价', width: 60, align: "center"}
             ]],

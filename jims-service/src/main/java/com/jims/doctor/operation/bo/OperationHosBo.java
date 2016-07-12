@@ -35,8 +35,8 @@ public class OperationHosBo {
     public String saveOperationIn(OperationSchedule operationSchedule){
         if(operationSchedule!=null) {
             if (operationSchedule.getIsNewRecord()) {
-                String scheduleId = getScheduleId(operationSchedule.getPatientId(), operationSchedule.getVisitId());
-                int sId=Integer.parseInt(scheduleId)+1;
+                int scheduleId = getScheduleId(operationSchedule.getPatientId(), operationSchedule.getVisitId(),"");
+                int sId= scheduleId+1;
                 operationSchedule.setScheduleId(sId);
                 operationSchedule.preInsert();
                 operationSchedule.setAckIndicator(0);
@@ -168,10 +168,10 @@ public class OperationHosBo {
      * @param visitId
      * @return
      */
-    public String getScheduleId(String patientId,String visitId){
-        String   scheduleId =operationScheduleDao.getScheduleId(patientId, visitId);
+    public Integer getScheduleId(String patientId,String visitId,String clinicId){
+        Integer   scheduleId =operationScheduleDao.getScheduleId(patientId, visitId,"");
         if(scheduleId==null){
-            scheduleId="0";
+            scheduleId=0;
         }
         return scheduleId;
     }

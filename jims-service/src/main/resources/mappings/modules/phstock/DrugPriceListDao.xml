@@ -47,16 +47,24 @@
         select
         sum(quantity)as quantity
         from drug_Stock
-        where price_list_id=#{priceListId}
+        where org_id=#{0}
+        and drug_code=#{1}
+        and drug_spec=#{2}
+        and firm_id=#{3}
+        and package_spec=#{4}
     </select>
 
     <select id="findBySubQuantity" resultType="com.jims.phstock.entity.DrugStock">
         select
         *
         from drug_Stock
-        where price_list_id = #{0}
-        and storage = #{1}
-        and sub_storage = #{2}
+        where org_id=#{0}
+        and drug_code=#{1}
+        and drug_spec=#{2}
+        and firm_id=#{3}
+        and package_spec=#{4}
+        and storage = #{5}
+        and sub_storage = #{6}
     </select>
 
     <select id="listDrugNameDict" resultType="com.jims.phstock.entity.DrugNameDict">
