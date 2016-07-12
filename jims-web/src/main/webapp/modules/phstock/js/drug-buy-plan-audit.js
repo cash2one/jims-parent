@@ -97,6 +97,10 @@ $(function () {
         drugFormDict = data;
     })
 
+    var drugNameDictList=[]; //药品名称
+    $.get("/service/drug-price/findDrugNameDictList", function (data) {
+        drugNameDictList = data;
+    });
 
     /**
      * 格式化数据
@@ -181,28 +185,23 @@ $(function () {
                     if (value == '审核金额合计') return '<div style="text-align:right">' + value + '：　　　</div>'
                     return value
                 }},
-                {field: 'drugName', title: '药名', width: 220, halign: "center",align: "left", editor: {
-                    type: 'combogrid',
-                    options: {
-                        panelWidth: 463,
-                        idField: 'drugName',
-                        textField: 'drugName',
-                        //required: true,
-                        //missingMessage: '药名不能为空',
+                { field: 'drugCode', title: '药品编码', width: 130,halign : "center",align : "left",editor:{
+                    type:'combogrid',
+                    options:{
+                        panelWidth:460,
+                        idField:'drugCode',
+                        textField:'drugCode',
+                        //required:true,
+                        //missingMessage:'药名不能为空',
                         fitColumns: true,
                         url : '/service/drug-price/findDrugDictWithFilter?limit=50&orgId='+orgId,
                         method:'get',
                         mode:'remote',
-                        columns: [[
-                            {field: 'drugCode', title: '药品代码', width: 100, align: "center"},
-                            {field: 'drugName',
-                                title: '药品名称',
-                                width: 160,
-                                halign: "center",
-                                align: "left"
-                            },
-                            {field: 'inputCode', title: '输入码', width: 70, align: "center"},
-                            {field: 'toxiProperty', title: '毒理分类', width: 70, align: "center",
+                        columns:[[
+                            {field:'drugCode',title:'药品代码',width:100,align : "center"},
+                            {field:'drugName',title:'药品名称',width:160,halign : "center",align : "left" },
+                            {field:'inputCode',title:'输入码',width:70,align : "center"},
+                            {field:'toxiProperty',title:'毒理分类',width:70,align : "center",
                                 formatter:function(value,row,index){
                                     var label=value;
                                     $.each(drugToxi, function (index,item) {
@@ -212,17 +211,45 @@ $(function () {
                                     });
                                     return label;
                                 }},
-                            {field: 'drugIndicator', title: '药品类别', width: 60, align: "center",
-                                formatter: function (value) {
-                                    return format(drugIndicators, value)
-                                }
-                            }
+                            {field:'drugIndicator',title:'药品类别',width:60,align : "center",
+                                formatter:function(value){
+                                    return format(drugIndicators,value)
+                                }}
                         ]],
-                        onSelect: function (index, row) {
+                        onSelect:function(index,row){
                             loadDrugPriceData(row)
                         }
                     }
-                }},
+                },
+                    formatter:function(value,row,index){
+                        var a=false;
+                        //console.log(buyPlanRow);
+                        console.log(row);
+                        $.each(drugNameDictList, function (index,item) {
+                            if(item.drugCode == value && item.drugName==row.drugName){
+                                a=true;
+                            }
+                        });
+                        if(a==false){
+                            row.drugName = '';
+                            row.drugCode = '';
+                            row.drugSpec = '';
+                            row.units = '';
+                            row.packSpec = '';
+                            row.packUnit = '';
+                            row.firmId = '';
+                            row.supplier = '';
+                            row.dosePerUnit = '';
+                            row.doseUnits = '';
+                            row.drugForm = '';
+                            row.toxiProperty = '';
+                            row.drugIndicator = '';
+                            row.inputCode = '';
+                        }
+                        return row.drugCode;
+                    }
+                },
+                { field: 'drugName', title: '药品名称', width: 180,align : "center" },
                 {field: 'checkSupplier', title: '审核供应商', width: 200, halign: "center", align: "left", editor: {
                     type: 'combobox',
                     options: {
@@ -556,7 +583,7 @@ $(function () {
     var validateRow = function (row) {
         var _index = $('#buyPlanTable').datagrid('getRowIndex', row)
         if (!row.drugName) {
-            onClickCell(_index, 'drugName')
+            onClickCell(_index, 'drugCode')
             return false
         }
         if (!row.checkSupplier) {

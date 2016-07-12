@@ -1,6 +1,6 @@
 var rowNum=-1;
 
-function onloadMethod(){
+function onloadMethod(outOrIn){
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -11,7 +11,7 @@ function onloadMethod(){
         collapsible:false,//是否可折叠的
         //fit: true,//自动大小
         method:'GET',
-        url:basePath+'/examConfirm/getExamAppoints',
+        url:basePath+'/examConfirm/getExamAppoints?outOrIn='+outOrIn,
         //sortName: 'code',
         //sortOrder: 'desc',
         remoteSort:false,

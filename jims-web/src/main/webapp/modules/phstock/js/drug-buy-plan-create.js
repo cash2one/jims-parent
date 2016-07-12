@@ -122,7 +122,6 @@ $(function(){
      * @param index
      * @param field
      */
-        var buyPlanRow=[];
     var onClickCell = function(index, field){
         if (endEditing()){
             if(index == $('#buyPlanTable').datagrid('getRows').length - 1) return
@@ -134,8 +133,6 @@ $(function(){
             planSelectIndex = index;
         }
     }
-
-    //var buyPlanRow=$("#buyPlanTable").datagrid("getSelected");
 
     //初始化药品购买计划表
     $("#buyPlanTable").datagrid({
@@ -197,7 +194,20 @@ $(function(){
                         }
                     });
                     if(a==false){
-                        row.drugCode='';
+                        row.drugName = '';
+                        row.drugCode = '';
+                        row.drugSpec = '';
+                        row.units = '';
+                        row.packSpec = '';
+                        row.packUnit = '';
+                        row.firmId = '';
+                        row.supplier = '';
+                        row.dosePerUnit = '';
+                        row.doseUnits = '';
+                        row.drugForm = '';
+                        row.toxiProperty = '';
+                        row.drugIndicator = '';
+                        row.inputCode = '';
                     }
                         return row.drugCode;
                 }

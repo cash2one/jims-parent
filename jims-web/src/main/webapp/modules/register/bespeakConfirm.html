@@ -22,9 +22,9 @@
         就诊日期：<input type="text" class="easyui-datebox vt-text-percent" id="visitDate" style="width: 80px;"/>
         <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchConfirm();">查 询</button>
         <button onclick="confirmAppoint('chargeId','预约结果');" class="easyui-linkbutton" data-options="iconCls:'icon-add'">确 认</button>
-        <a href="#" onclick="saveAppointInfo();" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保 存</a>
-        <a href="#" onclick="deleteAppoint();" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">退 约</a>
-        <!--<a href="#" onclick="editAppoint();" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>-->
+        <a  onclick="saveAppointInfo();" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保 存</a>
+        <a  onclick="deleteAppoint();" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">退 约</a>
+        <!--<a  onclick="editAppoint();" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>-->
     </div>
     <table id="confirm_data"   cellspacing="0" cellpadding="0">
 
@@ -96,7 +96,7 @@
                 </div>
                 <br>
                 <div style="text-align:right;">
-                    <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'" href="#" onclick="saveAppointReg()">保存</a>&nbsp;
+                    <a  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-save'"  onclick="saveAppointReg()">保存</a>&nbsp;
                     <button  class="easyui-linkbutton l-btn l-btn-small" data-options="iconCls:'icon-cancel'" onclick="closeDialog('chargeId')">取消</button>
                 </div>
             </div>
