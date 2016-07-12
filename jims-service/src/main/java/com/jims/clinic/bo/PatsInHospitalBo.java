@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 病人在院记录
@@ -404,4 +406,16 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
     public List<BaseDto>  cancelLeavePatientlist(ComeDeptVo vo){
         return patsInHospitalDao.cancelLeavePatientlist(vo);
     }
+
+
+    public String comeDeptVoGet(ComeDeptVo vo){
+        Map map=new HashMap();
+        vo.setBedRecId("hello");
+        map.put("comeDeptVo",vo);
+        map.put("test","111 ");
+        map.put("oResult","hi  ");
+         patsInHospitalDao.comeDeptVoGet(map);
+        return "";
+    }
+
 }
