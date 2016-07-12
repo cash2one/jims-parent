@@ -105,6 +105,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         examAppoints.setRegPrnFlag(0);
         examAppoints.setVisitNo(clinicMaster.getVisitNo());
         examAppoints.setChargeType(clinicMaster.getChargeType());
+        num = examAppointsDao.insert(examAppoints);
         List<ClinicItemDict> clinicItemDictList=new ArrayList<ClinicItemDict>();
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
         for(int i=0;i<examItemsList.size();i++){
@@ -120,7 +121,6 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         }
 
         costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,examAppoints.getId());
-        num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;
     }
 }
