@@ -8,7 +8,7 @@ $(function() {
         valueField: 'value',
         textField: 'label'
     })
-    $("#setId ").combobox('select',setData[0].value);
+    //$("#setId").combobox('select',setData[0].value);
     /**
      * 身份下拉框
      */
@@ -26,9 +26,16 @@ $(function() {
         valueField: 'id',
         textField: 'charge_type_name'
     })
-   // $("#chargeTypeId ").combobox('select',chargeType[0].id);
-    var clinicId=$("#clinicMasterId",parent.document).val();
-    alert(clinicId);
+
+    /**
+     * 合同单位下拉框
+     */
+    $('#companyId').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
+    var clinicId=parent.clinicMaster.id;
     $.ajax({
         'type': 'get',
         'url':basePath + '/clinicMaster/getPatInfo',
