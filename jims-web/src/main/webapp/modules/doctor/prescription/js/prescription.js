@@ -20,7 +20,7 @@ $(function(){
         method:'GET',
         url:basePath+'/outppresc/list?clinicId='+clinicId,
         columns:[[      //每个列具体内容
-            {field:'chargeIndicator',title:'收费标记',hidden:true},
+            //{field:'chargeIndicator',title:'收费标记',hidden:true},
             {field:'visitDate',title:'就诊时间',width:'20%',align:'center'},
             {field:'visitNo',title:'就诊序号',width:'20%',align:'center'},
             {field:'prescNo',title:'处方号',width:'20%',align:'center'},
@@ -38,6 +38,10 @@ $(function(){
                 formatter: function (value, row, index) {
                     if (value == "0") {
                         value = "未收费";
+                    }else if(value== "1"){
+                        value = "已收费";
+                    }else if(value=='2'){
+                        value = "已退费";
                     }
                     return value;
                 }}
@@ -598,31 +602,17 @@ function savePre(){
 function giveUpPre(){
     $('#leftList').datagrid('load');
     $('#leftList').datagrid('clearChecked');
+    $("#list_data").datagrid('loadData', { total: 0, rows: [] });
 }
 //删除药品信息
 function doDelete() {
     var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
     if(selRow!=null&&selRow!=''&&selRow!='undefined') {
-        if(selRow[0].chargeIndicator!=0){
+        if(selRow[0].chargeIndicator==0){
             //提醒用户是否是真的删除数据
             $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
                 if (r) {
-                    $.ajax({
-                        'type': 'POST',
-                        'url': basePath+'/outppresc/delByPrescNo?prescNo='+selRow[0].prescNo+'&orgId='+orgId+'&clinicId='+clinicId,
-                        'contentType': 'application/json',
-                        'dataType': 'json',
-                        'success': function(data){
-                            if(data.data=='success'){
-                                $.messager.alert("提示消息","1条处方删除成功！");
-                                $('#leftList').datagrid('load');
-                            }else{
-                                $.messager.alert('提示',"删除失败", "error");
-                            }
-                        }, 'error': function(data){
-                            $.messager.alert('提示',"删除失败", "error");
-                        }
-                    });
+                    del(selRow[0].prescNo);
                 }
             });
         }else{
@@ -635,24 +625,21 @@ function doDelete() {
     }
 
 }
-function del(id){
+function del(prescNos){
     $.ajax({
         'type': 'POST',
-        'url': basePath+'/outppresc/delete',
+        'url': basePath+'/outppresc/delByPrescNo',
+        'data':"prescNo="+prescNos+"&orgId="+orgId+"&clinicId="+clinicId,
         'contentType': 'application/json',
-        'data': ids=id,
         'dataType': 'json',
         'success': function(data){
             if(data.data=='success'){
-                $.messager.alert("提示消息",data.code+"条记录删除成功！");
+                $.messager.alert("提示消息","1条处方删除成功！");
                 $('#leftList').datagrid('load');
-                $('#list_data').datagrid('load');
-                $('#list_data').datagrid('clearChecked');
             }else{
                 $.messager.alert('提示',"删除失败", "error");
             }
-        },
-        'error': function(data){
+        }, 'error': function(data){
             $.messager.alert('提示',"删除失败", "error");
         }
     });

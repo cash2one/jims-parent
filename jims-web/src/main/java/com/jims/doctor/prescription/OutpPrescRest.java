@@ -137,7 +137,7 @@ public class OutpPrescRest {
         return stringData;
     }
     /**
-     * @param     outpPresc        传递参数
+     * @param     prescNo        传递参数
      * @return com.jims.common.data.StringData    返回类型
      * @throws
      * @Title: delByPrescNo
@@ -147,8 +147,11 @@ public class OutpPrescRest {
      */
     @Path("delByPrescNo")
     @POST
-    public StringData delByPrescNo(OutpPresc outpPresc){
-
+    public StringData delByPrescNo(Integer prescNo,String clinicId,String orgId ){
+        OutpPresc outpPresc = new OutpPresc();
+        outpPresc.setPrescNo(prescNo);
+        outpPresc.setClinicId(clinicId);
+        outpPresc.setOrgId(orgId);
         StringData stringData=new StringData();
         String num=outpPrescServiceApi.delByPrescNo(outpPresc);
         stringData.setCode(num);
