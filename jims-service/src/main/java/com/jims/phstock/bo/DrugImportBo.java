@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.FormSubmitEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -110,5 +113,35 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
                 save(detail);
             }
         }
+    }
+
+    public List<DrugImportMaster> findImportData(String orgId, String startTime, String storageCode) {
+        DrugImportMaster d=new DrugImportMaster();
+        d.setOrgId(orgId);
+        d.setStorage(storageCode);
+        try {
+            Date date=new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
+            d.setImportDate(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return masterDao.findList(d);
+    }
+
+    /**
+     * 根据Id查询
+     * @param id
+     * @return
+     */
+    public DrugImportMaster findById(String id) {
+        return masterDao.get(id);
+    }
+
+    /**
+     * 修改
+     * @param drugImportMaster
+     */
+    public void update(DrugImportMaster drugImportMaster) {
+        masterDao.update(drugImportMaster);
     }
 }
