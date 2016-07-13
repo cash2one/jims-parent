@@ -9,6 +9,7 @@ import com.jims.clinic.dao.OutpOrdersDao;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpOrders;
 import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.common.utils.NumberUtils;
 import com.jims.prescription.entity.OutpPresc;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.IdGen;
@@ -62,6 +63,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                 OutpOrders oo = new OutpOrders();
                 List<OutpPresc> lists = outpPresc.getList();
                 List<OutpOrdersCosts> ordersCostsesList = new ArrayList<OutpOrdersCosts>();
+                outpPresc.setPrescNo(NumberUtils.getClinicPrescription(clinicMaster.getId()));
                if(lists!=null && lists.size()>0){
                    for (OutpPresc op : lists) {
                        op.setChargeIndicator(0); // 未收费
@@ -97,18 +99,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                            num = String.valueOf(dao.update(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }else{
-                           /**判断机构下该处方号是否存在，如果存在表示为存在处方增加药品，如果不存在则表示该处方也是新开处方**/
-                           Integer flag = dao.searchPrescNoIfExist(/*clinicMaster.getOrgId()*/"","", op.getPrescNo());
-                           if(flag<=0 || flag==null){
-                               op.setPrescNo(prescno!=null?prescno:1);
-                           }else{
-                              /**如果机构下该处方号存在，则判断是否是当前病人的处方号，如果不是，则重新创建**/
-                               flag = dao.searchPrescNoIfExist("",clinicMaster.getId(),op.getPrescNo());
-                               if(flag<=0 || flag==null){
-                                   op.setPrescNo(prescno!=null?prescno:1);
-                               }
-                           }
-
+                           op.setPrescNo(outpPresc.getPrescNo());
                            op.setProvidedIndicator(0);//自备标记
                            op.preInsert();
                            num = String.valueOf(dao.insert(op));
