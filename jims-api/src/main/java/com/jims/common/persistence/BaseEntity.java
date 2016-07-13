@@ -172,5 +172,10 @@ public abstract class BaseEntity<T> implements Serializable {
     public static final Integer PRINTINDICATOR_NOT = 0;
     public static final Integer PRINTINDICATOR_COMPLETE = 1;
 
+    /**
+     * 计价标记(0:未计价；1：已计价)
+     */
+    public static final Integer LAB_BILLINGINDICATOR_APPLY = 0;
+    public static final Integer LAB_BILLINGINDICATOR_COMPLETE = 1;
 
 }
