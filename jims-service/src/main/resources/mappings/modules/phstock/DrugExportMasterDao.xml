@@ -63,6 +63,12 @@
             <if test="subReceiver != null and subReceiver != ''">
                 and a.sub_receiver = #{subReceiver}
             </if>
+            <if test="exportDate != null and exportDate != ''">
+                and a.export_date = #{exportDate}
+            </if>
+            <if test="storage != null and storage != ''">
+                and a.storage = #{storage}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

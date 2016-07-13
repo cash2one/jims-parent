@@ -469,6 +469,7 @@ function doDelete(){
                     if(data.data=='success'){
                         $.messager.alert("提示消息",data.code+"条记录删除成功！");
                         $('#bedRec').datagrid('reload');
+                        window.parent.document.getElementById("centerIframe").window.location.reload();
                     }else{
                         $.messager.alert('提示',"删除失败", "error");
                     }

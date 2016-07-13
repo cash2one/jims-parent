@@ -25,9 +25,25 @@ public interface DrugImportServiceApi {
      */
     public String saveMasterAndDetail(DrugImportMaster master);
 
+    /**
+     * 查询某一天的入库记录
+     * @param orgId
+     * @param startTime
+     * @param storageCode
+     * @return
+     */
     public List<DrugImportMaster> findImportData(String orgId, String startTime, String storageCode);
 
+    /**
+     *根据id查询入库记录
+     * @param id
+     * @return
+     */
     public DrugImportMaster findById(String id);
 
+    /**
+     *修改入库记录
+     * @param drugImportMaster
+     */
     public void update(DrugImportMaster drugImportMaster);
 }

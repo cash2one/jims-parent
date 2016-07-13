@@ -47,10 +47,10 @@
                 <!--</select>-->
                 <input type="hidden" name="isolationIndicator" id="isolationIndicatorId" value="">
                 <input id="isolationIndicator"style="width:10%;">
-                <label>
-                    急症：
-                </label>
-                <input type="checkbox" id="jizheng">
+                <!--<label>-->
+                    <!--急症：-->
+                <!--</label>-->
+                <!--<input type="checkbox" id="jizheng">-->
             </div>
             <div class="fitem fitem_pop">
                 <label>
@@ -63,7 +63,11 @@
                 <!--</label>-->
                 <!--<input type="hidden" name="operationScale" id="operationScaleId" value="">-->
                 <!--<input id="operationScale"style="width:45%;">-->
-
+                <label>
+                    手术医生：
+                </label>
+                <input id="surgeon" style="width: 25%;">
+                <input type="hidden" id="surgeonId" name="surgeon" value="">
 
             </div>
             <div class="fitem fitem_pop">
@@ -78,10 +82,10 @@
                 <input type="hidden" name="operatingRoomNo" id="operatingRoomNoCode" value="">
                 <input  id="operatingRoomNo" style="width: 145px;">
                 <label>
-                    手术医生：
+                    供血医师：
                 </label>
-                <input id="surgeon" style="width: 25%;">
-                <input type="hidden" id="surgeonId" name="surgeon" value="">
+                <input type="hidden" name="bloodTranDoctor" id="bloodTranDoctorId" value="">
+                <input id="bloodTranDoctor" style="width: 20%;">
             </div>
             <div class="fitem fitem_pop">
                 <label>
@@ -105,24 +109,14 @@
                 <label>
                     麻醉医师：
                 </label>
-                <select name="anesthesiaDoctor" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="1">丛军</option>
-                    <option value="2">丛玲</option>
-                    　　</select>
+                <input type="hidden" name="anesthesiaDoctor" id="anesthesiaDoctorId" value="">
+                <input id="anesthesiaDoctor" style="width: 20%;">
                 <label>
                     助手：
                 </label>
-                <select name="anesthesiaAssistant" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="1">丛军</option>
-                    <option value="2">丛玲</option>
-                    　　</select>
-                <label>
-                    供血医师：
-                </label>
-                <select name="bloodTranDoctor" class="easyui-combobox" style="width:10%;height: 30px">
-                    <option value="1">丛军</option>
-                    <option value="2">丛玲</option>
-                    　　</select>
+                <input type="hidden" name="anesthesiaAssistant" id="anesthesiaAssistantId" value="">
+                <input id="anesthesiaAssistant" style="width: 20%;">
+
             </div>
 
             <div class="fitem fitem_pop">

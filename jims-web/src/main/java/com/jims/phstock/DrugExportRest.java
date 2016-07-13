@@ -8,6 +8,7 @@ import com.jims.phstock.entity.DrugExportMaster;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,18 +115,17 @@ public class DrugExportRest {
     @POST
     @Path("find-export-data")
     public List<ImpExpVo> findExportData(@QueryParam("startTime") String startTime, @QueryParam("endTime") String endTime, @QueryParam("orgId") String orgId, @QueryParam("storageCode") String storageCode){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         List<ImpExpVo> returnVal=new ArrayList<ImpExpVo>();
-        List<DrugExportMaster> l= api.findExportData(startTime,endTime,orgId,storageCode);
+        List<DrugExportMaster> l= api.findExportData(startTime,orgId,storageCode);
         if(l!=null&&!l.isEmpty()){
             for(DrugExportMaster d:l){
                 ImpExpVo i=new ImpExpVo();
                 i.setAccountIndicator(d.getAccountIndicator());
                 i.setId(d.getId());
-                i.setAcctDate(d.getAcctDate());
-                i.setAcctOperator(d.getAcctOperator());
                 i.setDocumentNo(d.getDocumentNo());
                 i.setImportExportClass(d.getExportClass());
-                i.setDate(d.getExportDate());
+                i.setDate(d.getExportDate()!=null?sdf.format(d.getExportDate()):null);
                 i.setFlag(1);
                 returnVal.add(i);
             }
@@ -140,10 +140,8 @@ public class DrugExportRest {
      */
     @POST
     @Path("acct")
-    public DrugExportMaster acct(@QueryParam("id") String id,@QueryParam("personId") String personId){
+    public DrugExportMaster acct(@QueryParam("id") String id){
         DrugExportMaster drugExportMaster=api.findById(id);
-        drugExportMaster.setAcctDate(new Date());
-        drugExportMaster.setAcctOperator(personId);
         drugExportMaster.setAccountIndicator(1);
         return api.update(drugExportMaster);
     }

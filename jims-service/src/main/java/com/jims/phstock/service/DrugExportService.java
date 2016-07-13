@@ -89,8 +89,8 @@ public class DrugExportService implements DrugExportServiceApi{
     }
 
     @Override
-    public List<DrugExportMaster> findExportData(String startTime, String endTime, String orgId, String storageCode) {
-        return bo.findExportData(startTime,endTime,orgId,storageCode);
+    public List<DrugExportMaster> findExportData(String startTime, String orgId, String storageCode) {
+        return bo.findExportData(startTime,orgId,storageCode);
     }
 
     @Override

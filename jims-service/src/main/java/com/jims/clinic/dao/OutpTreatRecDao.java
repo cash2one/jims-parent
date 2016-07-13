@@ -82,4 +82,13 @@ public interface OutpTreatRecDao extends CrudDao<OutpTreatRec> {
     public  List<OutpOrdersCosts> findSubTreatment(@Param(value = "itemCode")String itemCode,@Param(value = "itemClass")String itemClass);
 
 
+    /**
+     * 获取最大序号
+     * @param clinicId
+     * @param orgId
+     * @return
+     */
+    public Integer getMaxItemNo(@Param("clinicId") String clinicId,@Param("orgId")String orgId);
+
+
 }

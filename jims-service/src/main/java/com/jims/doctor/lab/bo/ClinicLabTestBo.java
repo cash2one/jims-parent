@@ -7,6 +7,7 @@ import com.jims.clinic.dao.OutpTreatRecDao;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.NumberUtils;
 import com.jims.doctor.lab.dao.LabTestItemsDao;
 import com.jims.doctor.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestItems;
@@ -50,7 +51,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
         int num=0;
         ClinicMaster clinicMaster=clinicMasterDao.get(labTestMaster.getClinicId());
         labTestMaster.preInsert();
-        labTestMaster.setOrgId(clinicMaster.getId());
+        labTestMaster.setOrgId(clinicMaster.getOrgId());
         //申请医生(暂无)
         labTestMaster.setOrderingProvider("");
         //申请科室(暂无)
@@ -61,8 +62,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
         labTestMaster.setResultStatus(labTestMaster.LAB_RESULTSTATUS_APPLY);
 
         //申请序号
-        String testNo="JC"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
-        labTestMaster.setTestNo(testNo);
+        labTestMaster.setTestNo(NumberUtils.getClinicLab(clinicMaster.getId()));
         //打印标记
         labTestMaster.setPrintIndicator(labTestMaster.PRINTINDICATOR_NOT);
         //申请时间
@@ -77,6 +77,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
                 clinicItemDict.setItemCode(labTestItems.getItemCode());
                 clinicItemDict.setOrgId(labTestMaster.getOrgId());
                 labTestItems.setItemNo(i + 1);
+                labTestItems.setBillingIndicator(labTestItems.LAB_BILLINGINDICATOR_APPLY);
                 labTestItems.setLabMaster(labTestMaster.getId());
                 labTestItems.setTestNo(labTestMaster.getTestNo());
                 labTestItems.preInsert();

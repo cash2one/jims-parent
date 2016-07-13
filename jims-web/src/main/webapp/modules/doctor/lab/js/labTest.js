@@ -172,7 +172,7 @@ function add(){
                 $("#specimen").val("");
                 SendProduct(n.class_name);
                 $("#performedBy").val(n.dept_name);
-               $("#performedByCode").val(n.dept_code);
+               $("#performedById").val(n.id);
             }
         })
 
