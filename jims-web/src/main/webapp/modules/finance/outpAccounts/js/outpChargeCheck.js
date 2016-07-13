@@ -115,11 +115,11 @@ function compute(tableName,colName) {
 function searchAcct(){
     var tableJson=fromJson('northForm');
     $.postJSON(basePath+'/oupRcptMaster/findCharge',tableJson,function(data){
-        if(data !=null){
+       var  obj=eval(data);
+        if(data !=null && obj.countNo !=0){
             $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#northForm").serialize() });
             $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#northForm").serialize() });
             $('#searchform').form('load',data);
-
         }else{
             $.messager.alert('提示',"收费没有未结账的数据", "error");
         }

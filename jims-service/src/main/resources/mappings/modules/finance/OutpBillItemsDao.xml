@@ -288,7 +288,13 @@
 	<select id="findItems" resultType="OutpBillItems">
 		select  item.subj_code as subjCode, sum(item.costs) as costs,
 		sum(item.charges) as  charges  from outp_bill_items item ,outp_rcpt_master maste
-		where item.rcpt_no=maste.rcpt_no and maste.operator_no =#{operatorNo}
+		where item.rcpt_no=maste.rcpt_no
+		 and maste.operator_no =#{operatorNo}
+		<if test="visitDate !=null and visitDate !=''">
+			AND   maste.VISIT_DATE &lt;=
+			to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
+		</if>
+		AND   maste.acct_no is null
 		GROUP BY item.subj_code
 
 	</select>
