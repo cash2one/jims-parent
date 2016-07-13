@@ -62,15 +62,30 @@
     </select>
 
     <select id="findList" resultType="DrugStock">
-        SELECT
-        <include refid="drugStockColumns"/>
-        FROM drug_stock a
-        <include refid="drugStockJoins"/>
+		SELECT
+		<include refid="drugStockColumns"/>,d.drug_name drugName,d.input_code inputCode,b.storage_name storageName,c.sub_storage subStorageName
+		FROM drug_stock a,(select distinct drug_code,drug_name,input_code from drug_dict where del_flag=#{DEL_FLAG_NORMAL}) d
+		,(select distinct storage_code,storage_name from DRUG_STORAGE_DEPT where del_flag=#{DEL_FLAG_NORMAL}) b
+		,(select distinct storage_code,sub_storage_code,sub_storage from drug_sub_storage_dept where del_flag=#{DEL_FLAG_NORMAL}) c
+		<include refid="drugStockJoins"/>
         <where>
-            a.del_flag = #{DEL_FLAG_NORMAL}
+            a.del_flag = #{DEL_FLAG_NORMAL} and a.drug_code = d.drug_code
+			and a.storage = b.storage_code and a.sub_storage = c.sub_storage_code and b.storage_code = c.storage_code
+			<if test="supplyIndicator==0 or supplyIndicator==1">
+				and a.supply_indicator = #{supplyIndicator}
+			</if>
+			<if test="orgId != null and orgId != ''">
+				and a.org_id = #{orgId}
+			</if>
             <if test="storage != null and storage != ''">
                 and a.storage = #{storage}
             </if>
+			<if test="subStorage != null and subStorage != ''">
+				and a.sub_storage = #{subStorage}
+			</if>
+			<if test="documentNo != null and documentNo != ''">
+				and a.document_no = #{documentNo}
+			</if>
             <if test="drugCode != null and drugCode != ''">
                 and a.drug_code = #{drugCode}
             </if>
@@ -79,28 +94,41 @@
             </if>
             <if test="units != null and units != ''">
                 and a.units = #{units}
-            </if><if test="batchNo != null and batchNo != ''">
-            and a.batch_no = #{batchNo}
-        </if>
-            <if test="orgId != null and orgId != ''">
-                and a.org_id = #{orgId}
             </if>
+			<if test="batchNo != null and batchNo != ''">
+				and a.batch_no = #{batchNo}
+			</if>
             <if test="packageSpec != null and packageSpec != ''">
                 and a.package_spec = #{packageSpec}
-            </if>
-            <if test="subStorage != null and subStorage != ''">
-                and a.sub_storage = #{subStorage}
             </if>
             <if test="firmId != null and firmId != ''">
                 and a.firm_id = #{firmId}
             </if>
+			<if test="q != null and q != ''">
+				and (a.drug_code like #{q}||'%'
+				or d.drug_name like #{q}||'%'
+				or upper(d.input_code) like upper(#{q})||'%')
+			</if>
+			and a.quantity > 0
+			AND EXISTS
+			(SELECT 1 FROM drug_price_list t
+			WHERE d.drug_code = t.drug_code
+			AND t.del_flag = #{DEL_FLAG_NORMAL}
+			AND t.org_id = #{orgId}
+			and a.drug_code = t.drug_code
+			and a.drug_spec = t.drug_spec
+			and a.firm_id = t.firm_id
+			and a.org_id = t.org_id
+			and a.units = t.units
+			and sysdate>=t.start_date
+			and(t.stop_date is null or (t.stop_date is not null and t.stop_date>sysdate)))
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
                 ORDER BY ${page.orderBy}
             </when>
             <otherwise>
-                ORDER BY a.update_date DESC
+                ORDER BY a.drug_code DESC
             </otherwise>
         </choose>
     </select>

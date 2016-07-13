@@ -6,6 +6,7 @@ import com.jims.phstock.api.DrugStockServiceApi;
 import com.jims.phstock.bo.DrugStockBo;
 import com.jims.phstock.entity.DrugStock;
 import com.jims.phstock.vo.DrugStockAllVo;
+import com.jims.phstock.vo.DrugStockVo;
 import com.jims.phstock.vo.DrugWorkCount;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -94,4 +95,15 @@ public class DrugStockService implements DrugStockServiceApi{
     public List<DrugStock> findListHasStock(DrugStock drugStock){
         return bo.findListHasStock(drugStock);
     };
+    /**
+     * 保存  增删改
+     *
+     * @param drugStockVo
+     * @return
+     * @author yangruidong
+     */
+    @Override
+    public List<DrugStock> saveAll(DrugStockVo<DrugStock> drugStockVo) {
+        return bo.saveAll(drugStockVo);
+    }
 }
