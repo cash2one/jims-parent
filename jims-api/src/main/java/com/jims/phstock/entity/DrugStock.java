@@ -44,9 +44,12 @@ public class DrugStock extends DataEntity<DrugStock> {
 	private String orgId;		// 所属组织结构
 
     private String drugName;  // 药品名称
+    private String storageName;  // 库房（一级二级等库房）
+    private String subStorageName;  // 子库房（一级二级等库房的子库房）
     private String inputCode;  // 拼音码
     private String q;  // 模糊查询字段
-
+    private String priceListId;
+	
 	public DrugStock() {
 		super();
 	}
@@ -288,4 +291,27 @@ public class DrugStock extends DataEntity<DrugStock> {
 		this.orgId = orgId;
 	}
 
+    public String getPriceListId() {
+        return priceListId;
+    }
+
+    public void setPriceListId(String priceListId) {
+        this.priceListId = priceListId;
+    }
+
+	public String getStorageName() {
+		return storageName;
+	}
+
+	public String getSubStorageName() {
+		return subStorageName;
+	}
+
+	public void setStorageName(String storageName) {
+		this.storageName = storageName;
+	}
+
+	public void setSubStorageName(String subStorageName) {
+		this.subStorageName = subStorageName;
+	}
 }

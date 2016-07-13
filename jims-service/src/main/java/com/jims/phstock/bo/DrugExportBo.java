@@ -137,13 +137,16 @@ public class DrugExportBo extends CrudImplService<DrugExportDetailDao, DrugExpor
      * @param storageCode
      * @return
      */
-    public List<DrugExportMaster> findExportData(String startTime, String endTime, String orgId, String storageCode) {
+    public List<DrugExportMaster> findExportData(String startTime, String orgId, String storageCode) {
         DrugExportMaster drugExportMaster=new DrugExportMaster();
         try {
-            Date d=new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
-            drugExportMaster.setExportDate(d);
+            if(startTime!=null&&!"".equals(startTime)){
+                Date d=new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
+                drugExportMaster.setExportDate(d);
+            }
             drugExportMaster.setOrgId(orgId);
             drugExportMaster.setStorage(storageCode);
+            drugExportMaster.setDelFlag("0");
         } catch (ParseException e) {
             e.printStackTrace();
         }

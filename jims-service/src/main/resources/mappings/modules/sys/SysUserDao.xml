@@ -29,7 +29,7 @@
 
     <select id="selectLoginName" resultType="SysUser">
         SELECT
-        login_name
+        *
         FROM sys_user
         WHERE
         login_name=#{loginName}
