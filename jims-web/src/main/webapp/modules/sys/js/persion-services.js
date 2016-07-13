@@ -1,6 +1,6 @@
 $(function () {
     var dataArr = [];
-    var str = decodeURI(window.location.search);   //location.searchÊÇ´Óµ±Ç°URLµÄ?ºÅ¿ªÊ¼µÄ×Ö·û´®
+    var str = decodeURI(window.location.search);   //location.searchæ˜¯ä»å½“å‰URLçš„?å·å¼€å§‹çš„å­—ç¬¦ä¸²
     if (str.indexOf(name) != -1) {
         var pos_start = str.indexOf(name) + name.length + 1;
         var pos_end = str.indexOf("&", pos_start);
@@ -17,30 +17,37 @@ $(function () {
 
     var persionServiceList={};
 
+    $("#setCompany").on('click', function () {
+        window.location.href = "/modules/sys/company.html?persionId="+persion_id;
+    });
     $("#default").on('click', function () {
         window.location.href = "/modules/sys/default.html?persionId="+persion_id;
     });
+    $("#myServices").on('click', function () {
+        window.location.href = "/modules/sys/service-list.html?persionId="+persion_id;
+    });
+
     $('#saveService').click(function(){
         var datas = $('#addServiceModel .curr-btn-save')
         if(datas.length == 0){
-            alert('ÖÁÉÙ¶¨ÖÆÒ»Ïî·şÎñ£¡')
+            alert('è‡³å°‘å®šåˆ¶ä¸€é¡¹æœåŠ¡ï¼')
             return false
         }
         var total = 0
         var saveData = []
         /**
-         * ´¦ÀíÈÕÆÚ£¬
-         * @param d ÈÕÆÚ
-         * @param t Äê¡¢ÔÂ
-         * @param n ÊıÁ¿
+         * å¤„ç†æ—¥æœŸï¼Œ
+         * @param d æ—¥æœŸ
+         * @param t å¹´ã€æœˆ
+         * @param n æ•°é‡
          * @returns {Date}
          */
         var handlerDate = function(d,t,n){
             if(!d) return new Date()
-            if(t == 'Äê'){
+            if(t == 'å¹´'){
                 var year = d.getFullYear()
                 d.setFullYear(+year + (isNaN(n) ? 0 : +n))
-            } else if(t == 'ÔÂ'){
+            } else if(t == 'æœˆ'){
                 var month = + d.getMonth() + (isNaN(n) ? 0 : +n)
                 d.setFullYear(parseInt(month / 12) + d.getFullYear())
                 d.setMonth(month = month % 12)
@@ -59,11 +66,11 @@ $(function () {
             saveData.push(o)
 
             var v = $('div tr:eq(2) td:eq(1)',datas[i]).html()
-            total += +v.substr(0,v.indexOf('¡¡'))
+            total += +v.substr(0,v.indexOf('ã€€'))
         }
 
 
-        //alert('Ö§¸¶½çÃæ£¬½ğ¶î'+total+'Ôª£¡£¡')
+        //alert('æ”¯ä»˜ç•Œé¢ï¼Œé‡‘é¢'+total+'å…ƒï¼ï¼')
 
         persionServiceList.serviceList = saveData
 
@@ -75,19 +82,19 @@ $(function () {
             'dataType': 'json',
             'success': function (data) {
                 if (data == "1") {
-                    alert("±£´æ³É¹¦£¡£¡");
+                    alert("ä¿å­˜æˆåŠŸï¼ï¼");
                     window.location.href="/modules/sys/default.html?persion_id="+persion_id;
                 } else {
-                    alert("±£´æÊ§°Ü£¡£¡");
+                    alert("ä¿å­˜å¤±è´¥ï¼ï¼");
                 }
             },
             'error': function (data) {
-                alert("±£´æÊ§°Ü£¡£¡");
+                alert("ä¿å­˜å¤±è´¥ï¼ï¼");
             }
         });
     })
     /**
-     * ±£´æĞÅÏ¢
+     * ä¿å­˜ä¿¡æ¯
      */
     var dataArr
     $.get('/service/sys-service/findServiceWithPrice',{serviceClass:'1',serviceType:'1'},function(res){
@@ -100,7 +107,7 @@ $(function () {
                 li += '<h3>' + dataArr[i].serviceName + '</h3>'
                 li += '<table width="100%">'
                 li += '<tr style="height: 35px">'
-                li += '<td width="60"><span class="text-success">¡¡Àà±ğ£º</span></td>'
+                li += '<td width="60"><span class="text-success">ã€€ç±»åˆ«ï¼š</span></td>'
                 li += '<td colspan="3">'
                 var priceArr = dataArr[i].sysServicePriceList
                 for(var j= 0,k = (priceArr ? priceArr.length : 0);j<k;j++){
@@ -108,27 +115,27 @@ $(function () {
                 }
                 li += '</td></tr>'
                 li += '<tr style="height: 35px">'
-                li += '<td width="60"><span class="text-success">¡¡Ê±³¤£º</span></td>'
+                li += '<td width="60"><span class="text-success">ã€€æ—¶é•¿ï¼š</span></td>'
                 li += '<td colspan="3"><input class="service-num" type="text" style="width: 50px" value="';
                 if(priceArr && priceArr.length > 0){
-                    li += (priceArr[0].serviceTimeLimit == 'Äê' ? '1' : '12')
+                    li += (priceArr[0].serviceTimeLimit == 'å¹´' ? '1' : '12')
                 }
-                li +=  '"/><span>¡¡' + (priceArr && priceArr.length > 0 ? priceArr[0].serviceTimeLimit : '') + '</span></td>'
+                li +=  '"/><span>ã€€' + (priceArr && priceArr.length > 0 ? priceArr[0].serviceTimeLimit : '') + '</span></td>'
 
                 li += '</tr>'
                 li += '<tr style="height: 35px">'
-                li += '<td width="60"><span class="text-success">¡¡½ğ¶î£º</span></td>'
+                li += '<td width="60"><span class="text-success">ã€€é‡‘é¢ï¼š</span></td>'
                 li += '<td colspan="3" style="color: red">'
                 if(priceArr && priceArr.length > 0){
-                    var num = priceArr[0].serviceTimeLimit == 'Äê' ? '1' : '12';
+                    var num = priceArr[0].serviceTimeLimit == 'å¹´' ? '1' : '12';
                     li += ((isNaN(priceArr[0].servicePrice) ? 0 : (+priceArr[0].servicePrice)) * num).toFixed(2)
                 } else {
                     li += '0.00'
                 }
-                li += '¡¡Ôª</td>'
+                li += 'ã€€å…ƒ</td>'
                 li += '</tr>'
                 li += '</table></div>';
-                li += '<div class="curr-btn" style="margin-left: 140px;"><button>¶¨ÖÆ</button></div>'
+                li += '<div class="curr-btn" style="margin-left: 140px;"><button>å®šåˆ¶</button></div>'
                 li += '</li>'
                 $('#addServiceModel ul').append(li);
             }
@@ -141,8 +148,8 @@ $(function () {
                     $(this).parent('td').children('span').attr('class','span-class')
                     $(this).attr('class','span-class2');
                     var v = $(this).text()
-                    $('div tr:eq(1) td:eq(1) input',liObj).val(v == 'Äê' ? 1 : 12)
-                    $('div tr:eq(1) td:eq(1) span',liObj).html('¡¡' + v)
+                    $('div tr:eq(1) td:eq(1) input',liObj).val(v == 'å¹´' ? 1 : 12)
+                    $('div tr:eq(1) td:eq(1) span',liObj).html('ã€€' + v)
                     initPrice(liObj)
                 })
 
@@ -155,11 +162,11 @@ $(function () {
 
                 $('.curr-btn',this).click(function(){
                     if($('.service-num',liObj).attr('disabled')){
-                        $(".curr-btn",liObj).html("<button>È·¶¨</button>");
+                        $(".curr-btn",liObj).html("<button>ç¡®å®š</button>");
                         $('.service-num',liObj).attr('disabled',false)
                         $(liObj).attr('class', 'curr-btn');
                     }else{
-                        $(".curr-btn",liObj).html("<button>È¡Ïû</button>");
+                        $(".curr-btn",liObj).html("<button>å–æ¶ˆ</button>");
                         $('.service-num',liObj).attr('disabled',true)
                         $(liObj).attr('class', 'curr-btn-save');
                     }
@@ -186,7 +193,7 @@ $(function () {
                         for(var j=0;j<price.length;j++){
                             if(price[j].serviceTimeLimit == t){
                                 var p = ((isNaN(price[j].servicePrice) ? 0 : (+price[j].servicePrice)) * n).toFixed(2)
-                                $('div tr:eq(2) td:eq(1)',li).html(p + '¡¡Ôª')
+                                $('div tr:eq(2) td:eq(1)',li).html(p + 'ã€€å…ƒ')
                                 return
                             }
                         }

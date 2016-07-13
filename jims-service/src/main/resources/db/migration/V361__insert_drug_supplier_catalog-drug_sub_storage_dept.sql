@@ -1,27 +1,24 @@
 /*================================================================================*/
-/* Table: DRUG_SUPPLIER_CATALOG    Ôö¼ÓÉú²ú³§ÉÌ±íÊı¾İ                             */
-/* Table: drug_stock    		       ĞŞ¸ÄÒ©Æ·¿â´æ±íÊı¾İ(del_flag='0',org_id='1')    */
-/* Table: drug_storage_dept    	   ĞŞ¸ÄËùÊô¿â·¿±íÊı¾İ(del_flag='0',org_id='1')    */
-/* Table: drug_sub_storage_dept    Ôö¼ÓËùÊô×Ó¿â·¿±íÊı¾İ                           */
+/* Table: DRUG_SUPPLIER_CATALOG    å¢åŠ ç”Ÿäº§å‚å•†è¡¨æ•°æ®                             */
+/* Table: drug_stock    		       ä¿®æ”¹è¯å“åº“å­˜è¡¨æ•°æ®(del_flag='0',org_id='1')    */
+/* Table: drug_storage_dept    	   ä¿®æ”¹æ‰€å±åº“æˆ¿è¡¨æ•°æ®(del_flag='0',org_id='1')    */
+/* Table: drug_sub_storage_dept    å¢åŠ æ‰€å±å­åº“æˆ¿è¡¨æ•°æ®                           */
 /* CREATE_DATE: 2016-07-13                                                        */
-/* CREATE_BY :  Â¦»áÀö                                                            */
+/* CREATE_BY :  å¨„ä¼šä¸½                                                            */
 /*================================================================================*/
 --insert into DRUG_SUPPLIER_CATALOG (SUPPLIER_ID, SUPPLIER, SUPPLIER_CLASS, INPUT_CODE, MEMO, TRADEMARK, INPUT_CODE_WB, FOREIGNX, SUPPLIER_CODE, USED_FLAG, ID, ORG_ID, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE) values();
 insert into DRUG_SUPPLIER_CATALOG (SUPPLIER_ID, SUPPLIER, SUPPLIER_CLASS, INPUT_CODE, MEMO, TRADEMARK, INPUT_CODE_WB, FOREIGNX, SUPPLIER_CODE, USED_FLAG, ID, ORG_ID, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE)
-values('¹ã¶«ÆëĞÇ','¹ãÖİ°×ÔÆÉ½ÆæĞÇÒ©ÒµÓĞÏŞ¹«Ë¾','Éú²úÉÌ','gzqx',null,'GZBYSQXYYYXGS',null,0,'YS000120',0,'7302ab5f08cf4ae589634f473fb69d48','1',null,null,null,to_date('13-07-2016 09:10:04', 'dd-mm-yyyy hh24:mi:ss'),'0',to_date('13-07-2016 09:10:04', 'dd-mm-yyyy hh24:mi:ss'));
+values('å¹¿ä¸œé½æ˜Ÿ','å¹¿å·ç™½äº‘å±±å¥‡æ˜Ÿè¯ä¸šæœ‰é™å…¬å¸','ç”Ÿäº§å•†','gzqx',null,'GZBYSQXYYYXGS',null,0,'YS000120',0,'7302ab5f08cf4ae589634f473fb69d48','1',null,null,null,to_date('13-07-2016 09:10:04', 'dd-mm-yyyy hh24:mi:ss'),'0',to_date('13-07-2016 09:10:04', 'dd-mm-yyyy hh24:mi:ss'));
 
 update drug_stock set del_flag='0',org_id='1';
 
 update drug_storage_dept set del_flag='0',org_id='1';
 
-insert into drug_sub_storage_dept(storage_code,sub_storage,import_no_prefix,import_no_ava,export_no_prefix,export_no_ava,sub_storage_code,input_code,id,org_id,remarks,update_by,create_by,update_date,del_flag,create_date) 
-values('150103','B02×Ó¿â·¿',null,null,null,null,'B02','B02ZKF','1','1',null,null,null,null,0,null);
-insert into drug_sub_storage_dept(storage_code,sub_storage,import_no_prefix,import_no_ava,export_no_prefix,export_no_ava,sub_storage_code,input_code,id,org_id,remarks,update_by,create_by,update_date,del_flag,create_date) 
-values('150102','B01×Ó¿â·¿',null,null,null,null,'B01','B01ZKF','2','1',null,null,null,null,0,null);
-insert into drug_sub_storage_dept(storage_code,sub_storage,import_no_prefix,import_no_ava,export_no_prefix,export_no_ava,sub_storage_code,input_code,id,org_id,remarks,update_by,create_by,update_date,del_flag,create_date) 
-values('150101','A01×Ó¿â·¿',null,null,null,null,'A01','A01ZKF','3','1',null,null,null,null,0,null);
-insert into drug_sub_storage_dept(storage_code,sub_storage,import_no_prefix,import_no_ava,export_no_prefix,export_no_ava,sub_storage_code,input_code,id,org_id,remarks,update_by,create_by,update_date,del_flag,create_date) 
-values('150104','A02×Ó¿â·¿',null,null,null,null,'A02','A02ZKF','4','1',null,null,null,null,0,null);
-
-
-
+insert into drug_sub_storage_dept(storage_code,sub_storage,import_no_prefix,import_no_ava,export_no_prefix,export_no_ava,sub_storage_code,input_code,id,org_id,remarks,update_by,create_by,update_date,del_flag,create_date)
+values('150103','B02å­åº“æˆ¿',null,null,null,null,'B02','B02ZKF','1','1',null,null,null,null,0,null);
+insert into drug_sub_storage_dept(storage_code,sub_storage,import_no_prefix,import_no_ava,export_no_prefix,export_no_ava,sub_storage_code,input_code,id,org_id,remarks,update_by,create_by,update_date,del_flag,create_date)
+values('150102','B01å­åº“æˆ¿',null,null,null,null,'B01','B01ZKF','2','1',null,null,null,null,0,null);
+insert into drug_sub_storage_dept(storage_code,sub_storage,import_no_prefix,import_no_ava,export_no_prefix,export_no_ava,sub_storage_code,input_code,id,org_id,remarks,update_by,create_by,update_date,del_flag,create_date)
+values('150101','A01å­åº“æˆ¿',null,null,null,null,'A01','A01ZKF','3','1',null,null,null,null,0,null);
+insert into drug_sub_storage_dept(storage_code,sub_storage,import_no_prefix,import_no_ava,export_no_prefix,export_no_ava,sub_storage_code,input_code,id,org_id,remarks,update_by,create_by,update_date,del_flag,create_date)
+values('150104','A02å­åº“æˆ¿',null,null,null,null,'A02','A02ZKF','4','1',null,null,null,null,0,null);

@@ -17,7 +17,6 @@ $(function () {
             flag = str.substr(str.indexOf("flag=")+5,1);
         }
     }
-
     if(flag=='1'){
         $('#addServiceModel3')[0].style.display="inline-block";
         $('#addServiceModel1')[0].style.display="none";
@@ -325,6 +324,9 @@ $(function () {
     });
     $("#default").on('click', function () {
         window.location.href = "/modules/sys/default.html?persionId="+persion_id;
+    });
+    $("#myServices").on('click', function () {
+        window.location.href = "/modules/sys/service-list.html?persionId="+persion_id;
     });
     if(company) {
         $("#nextBtn0").on('click', function () {
