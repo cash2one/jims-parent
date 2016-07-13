@@ -8,7 +8,6 @@ $(function(){
 
          data: ,*/
         success: function(data){
-            alert(data);
             accNo=data;
             $("#acctNoU").val(accNo);
             $('#acctNo').val(accNo);
