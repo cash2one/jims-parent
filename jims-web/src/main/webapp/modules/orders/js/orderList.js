@@ -73,9 +73,9 @@ $(function(){
                             var d = new Date();
                             $('#frequency').combobox('disable');
                             $(performSchedule.target).textbox('setValue',d.getHours()+":"+ d.getMinutes());
-                            var stopDate=formatDateBoxFull(new Date());
+                        /*    var stopDate=formatDateBoxFull(new Date());
                             var stopDateTime = $("#orderList").datagrid('getEditor',{index:rowNum,field:'stopDateTime'});
-                            $(stopDateTime.target).datebox("setValue",stopDate);
+                            $(stopDateTime.target).datebox("setValue",stopDate);*/
 
                         }
                     }}}},
@@ -301,7 +301,7 @@ $(function(){
                     }}}},
             {field:'performSchedule',title:'护士执行时间',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'performResult',title:'阴阳',width:'5%',align:'center'},
-            {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',formatter:formatDateBoxFull, editor:{type: 'datebox',options:{editable:false,disable:false}}},
+            {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',formatter:formatDateBoxFull},
             {field:'freqDetail',title:'医生说明',width:'10%',align:'center',editor:'text'},
             {field:'doctor',title:'医生',width:'5%',align:'center',
                 formatter:function(value, row, index){
@@ -398,7 +398,7 @@ $(function(){
                 if (editRow != undefined) {
                     $("#orderList").datagrid("endEdit", editRow);
                 }
-                docCancelOrders
+                docCancelOrders();
             }
         },'-',{
             text: '删除',
@@ -420,7 +420,12 @@ $(function(){
                     if (rowNum != rowIndex) {
                         if (rowNum >= 0) {
                             dataGrid.datagrid('endEdit', rowNum);
-                            $('#orderCostList').datagrid('loadData', orderCostsArray[rowData.orderNo]);
+                            if(orderCostsArray[rowData.orderNo]=='null'||orderCostsArray[rowData.orderNo]=='undefined'){
+                                $('#orderCostList').datagrid('loadData',  { total: 0, rows: [] });
+                            }else{
+                                $('#orderCostList').datagrid('loadData', orderCostsArray[rowData.orderNo]);
+                            }
+
                         }
                         rowNum = rowIndex;
                         if(rowData.orderStatus=='5'||rowData.orderStatus=='') {
@@ -443,7 +448,7 @@ $(function(){
                 }else if(row.orderStatus=='3') {//护士停止
                     return 'background-color:#698B69;color:yellow;';
                 }else if(row.orderStatus=='4') {//护士作废
-                    return 'background-color:#CD0000;color:red;';
+                    return 'background-color:#8B668B;color:red;';
                 }else if(row.orderStatus=='7'){//医生停止
                     return 'background-color:#FFA54F;color:black;';
                 }else if(row.orderStatus=='8'){//医生作废
@@ -462,8 +467,8 @@ $(function(){
     });
 
 
-    $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true }).click(function () {
-        $('#orderList').datagrid({url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize() });
+    $("#submit_search").click(function () {
+        $('#orderList').datagrid("load");
     });
     //设置分页控件
     var p = $('#orderList').datagrid('getPager');
