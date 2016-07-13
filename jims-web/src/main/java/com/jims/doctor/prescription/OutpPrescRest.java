@@ -10,6 +10,7 @@ import com.jims.common.data.StringData;
 import com.jims.prescription.api.OutpPrescServiceApi;
 import com.jims.prescription.entity.OutpPresc;
 import org.springframework.stereotype.Component;
+import org.springframework.util.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -147,7 +148,7 @@ public class OutpPrescRest {
      */
     @Path("delByPrescNo")
     @POST
-    public StringData delByPrescNo(Integer prescNo,String clinicId,String orgId ){
+    public StringData delByPrescNo(@QueryParam("prescNo")Integer prescNo,@QueryParam("clinicId")String clinicId,@QueryParam("orgId")String orgId ){
         OutpPresc outpPresc = new OutpPresc();
         outpPresc.setPrescNo(prescNo);
         outpPresc.setClinicId(clinicId);
