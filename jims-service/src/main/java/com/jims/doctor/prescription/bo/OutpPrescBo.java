@@ -299,6 +299,16 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
      * @return
      */
     public String delByPrescNo(OutpPresc outpPresc) {
+        List<OutpPresc> list = new ArrayList<OutpPresc>();
+        list = dao.findListByParams(outpPresc);
+        if(list!=null){
+            for(OutpPresc op : list){
+                OutpOrdersCosts opc = new OutpOrdersCosts();
+                opc.setMasterId(op.getId());
+                //删除计价项目
+                outpOrdersCostsDao.removeByMasterId(opc);
+            }
+        }
         return String.valueOf(dao.delByPrescNo(outpPresc));
     }
 }
