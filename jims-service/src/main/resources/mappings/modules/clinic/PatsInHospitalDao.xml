@@ -426,4 +426,15 @@
 
 	</select>
 
+
+    <parameterMap id="comeDeptVoMap"  type="java.util.HashMap">
+        <parameter property="comeDeptVo" jdbcType="STRUCT" javaType="java.lang.Object" mode="IN" 
+                   typeHandler="com.jims.nurse.typeHandler.ComeDeptTypeHandler" />
+        <parameter property="oResult" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+    </parameterMap>
+    <select   id="comeDeptVoGet" statementType="CALLABLE" parameterType="java.util.HashMap">
+        {call P_comedept(#{comeDeptVo,jdbcType=STRUCT,mode=IN,javaType=java.sql.Struct,typeHandler=com.jims.nurse.typeHandler.ComeDeptTypeHandler},
+        #{test,mode=IN,jdbcType=VARCHAR},
+        #{oResult,mode=OUT,jdbcType=VARCHAR})}
+    </select>
 </mapper>

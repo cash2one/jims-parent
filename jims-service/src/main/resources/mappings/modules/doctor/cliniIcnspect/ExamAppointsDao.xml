@@ -139,6 +139,7 @@
 		a.print_status AS "printStatus",
 		a.ward_code AS "wardCode",
 		a.rcpt_no AS "rcptNo",
+		a.in_or_out AS "inOrOut",
 		a.create_date AS "createDate",
 		a.create_by AS "createBy.id",
 		a.update_date AS "updateDate",
@@ -172,6 +173,9 @@
 			</if>
 			<if test="visitId!=null and visitId!='' ">
 				AND a.visit_id=#{visitId}
+			</if>
+			<if test="patientId!=null and patientId!='' ">
+				AND a.patient_id=#{patientId}
 			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
@@ -230,6 +234,7 @@
 			phone_number,
 			exam_class,
 			exam_sub_class,
+			in_or_out,
 			clin_symp,
 			phys_sign,
 			relevant_lab_test,
@@ -299,6 +304,7 @@
 			#{phoneNumber},
 			#{examClass},
 			#{examSubClass},
+			#{inOrOut},
 			#{clinSymp},
 			#{physSign},
 			#{relevantLabTest},
@@ -412,6 +418,7 @@
 			print_status = #{printStatus},
 			ward_code = #{wardCode},
 			rcpt_no = #{rcptNo},
+			in_or_out = #{inOrOut},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
 			remarks = #{remarks},
@@ -446,6 +453,7 @@
 		phone_number,
 		exam_class,
 		exam_sub_class,
+		in_or_out,
 		clin_symp,
 		phys_sign,
 		relevant_lab_test,
@@ -487,6 +495,7 @@
 		cnslt_name,
 		print_status,
 		ward_code,
+		in_or_out,
 		create_date,
 		create_by,
 		update_date,
@@ -514,6 +523,7 @@
 		#{phoneNumber},
 		#{examClass},
 		#{examSubClass},
+		#{inOrOut},
 		#{clinSymp},
 		#{physSign},
 		#{relevantLabTest},

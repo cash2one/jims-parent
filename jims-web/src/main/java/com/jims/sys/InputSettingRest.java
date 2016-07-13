@@ -18,8 +18,14 @@ import com.jims.sys.vo.InputSettingVo;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yangruidong on 2016/4/24 0024.
@@ -130,13 +136,55 @@ public class InputSettingRest {
      */
     @Path("listParam")
     @POST
-    public List<BaseDto> listParam(InputInfoVo inputInfoVo,@QueryParam("q")String q) {
-        if(StringUtils.isNotEmpty(q)){
-            List<InputParamVo> inputParamVos = inputInfoVo.getInputParamVos() ;
-            InputParamVo vo = new InputParamVo("input_code",q,"like") ;
-            inputParamVos.add(vo) ;
+    public List<BaseDto> listParam(InputInfoVo inputInfoVo, @QueryParam("q") String q) {
+        if (StringUtils.isNotEmpty(q)) {
+            List<InputParamVo> inputParamVos = inputInfoVo.getInputParamVos();
+            InputParamVo vo = new InputParamVo("input_code", q, "like");
+            inputParamVos.add(vo);
         }
         List<BaseDto> list = inputSettingServiceApi.listInputDataByParam(inputInfoVo);
         return list;
+    }
+
+
+    @Path("listParamByGET")
+    @GET
+    public List<BaseDto> listParamByGET(@Context UriInfo info) {
+        InputInfoVo inputInfoVo = new InputInfoVo();
+        inputInfoVo.setInputParamVos(new ArrayList<InputParamVo>());
+        Class c = InputInfoVo.class;
+        MultivaluedMap<String, String> params = info.getQueryParameters();
+        Set<String> keys = params.keySet();
+        int size = keys.size();
+        try {
+            for (String key : keys) {
+                List<String> values = params.get(key);
+                if ("q".equals(key)) {
+                    InputParamVo vo = new InputParamVo("input_code", values.get(0).toUpperCase(), "like");
+                    inputInfoVo.getInputParamVos().add(vo);
+                    size--;
+                } else if (!key.startsWith("inputParamVos")) {
+                    if (values != null && values.size() > 0) {
+                        PropertyDescriptor keyDes = new PropertyDescriptor(key, c);
+                        Method m = keyDes.getWriteMethod();
+                        m.invoke(inputInfoVo, values.get(0));
+                        size--;
+                    }
+                }
+            }
+            for (int i = 0; i < size / 3; i++) {
+                List<String> names = params.get("inputParamVos[" + i + "][colName]");
+                List<String> values = params.get("inputParamVos[" + i + "][colValue]");
+                List<String> operates = params.get("inputParamVos[" + i + "][operateMethod]");
+                if (names != null && names.size() > 0 && values != null
+                        && values.size() > 0 && operates != null && operates.size() > 0) {
+                    InputParamVo vo = new InputParamVo(names.get(0), values.get(0), operates.get(0));
+                    inputInfoVo.getInputParamVos().add(vo);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inputSettingServiceApi.listInputDataByParam(inputInfoVo);
     }
 }

@@ -86,6 +86,16 @@ $(function () {
         })
     }
 
+
+    var specUnits = [];//规格单位字典
+    $.get("/service/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
+    var drugToxi = [];//毒理属性字典
+    $.get( "/service/dict/findListByType?type=DRUG_TOXI_PROPERTY_DICT", function (data) {
+        drugToxi = data;
+    });
     /**
      * 加载同一药品的不同规格、厂商等
      * @param drugDict
@@ -443,7 +453,17 @@ $(function () {
             title: "单位",
             field: "units",
             width: 70,
-            align: 'center'
+            align: 'center',
+                formatter:function(value,row,index){
+                    var unitsName = value;
+                    console.log(specUnits);
+                    $.each(specUnits, function (index,item) {
+                        if(item.value == value){
+                            unitsName =  item.label;
+                        }
+                    });
+                    return unitsName;
+                }
         }, {
             title: "数量",
             field: "quantity",

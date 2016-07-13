@@ -32,17 +32,22 @@
 
     <select id="findList" resultType="DrugProvideApplication">
         SELECT
-        <include refid="drugProvideApplicationColumns"/>,o.label,  b."SUPPLIER_ID"  as "supplierId" ,c.drug_name as "drugName"
-        FROM DRUG_PROVIDE_APPLICATION a ,(select value,label from sys_dict where  type = 'spec_unit') o ,
+        <include refid="drugProvideApplicationColumns"/>,o.label,  b."SUPPLIER_ID"  as "supplierId" ,c.drug_name as "drugName",d.storage_name as "storageName"
+        FROM DRUG_PROVIDE_APPLICATION a ,
+        (select value,label from sys_dict where  type = 'spec_unit') o ,
         (select DISTINCT id,supplier_id,supplier from drug_supplier_catalog where org_id = #{orgId}) b,
-        (select DISTINCT drug_name,drug_code from drug_dict ) c
+        (select DISTINCT drug_name,drug_code from drug_dict ) c,
+        (select DISTINCT storage_name,storage_code from drug_storage_dept ) d
         <where>
-            a.org_id =  #{orgId}  and o.VALUE = a.package_units and b.id=a.firm_id and   c.drug_code=a.drug_code
+            a.org_id =  #{orgId}  and o.VALUE = a.package_units and b.id=a.firm_id and   c.drug_code=a.drug_code  and d.storage_code =a.applicant_storage
             <if test="applicantStorage!=null and applicantStorage!=''">
                AND  applicant_storage =#{applicantStorage}
             </if>
             <if test="applicantStorageSub!=null and applicantStorageSub!=''">
                 AND  applicant_storage_sub =#{applicantStorageSub}
+            </if>
+            <if test="enterDateTime != null and enterDateTime != ''">
+                and to_char(a.enter_date_time,'yyyy-MM-dd hh') = to_char(#{enterDateTime},'yyyy-MM-dd hh')
             </if>
             <if test="documentNo!=null and documentNo!=''">
                 AND  document_no =#{documentNo}
@@ -52,6 +57,23 @@
             </if>
         </where>
     </select>
+
+
+    <select id="findListByDistinct" resultType="DrugProvideApplication">
+        SELECT
+        DISTINCT a.enter_date_time as "enterDateTime",document_no as "documentNo" ,
+        d.storage_name as "storageName"
+        FROM DRUG_PROVIDE_APPLICATION a ,
+        (select DISTINCT storage_name,storage_code from drug_storage_dept ) d
+        <where>
+            a.org_id =  #{orgId}   and d.storage_code =a.applicant_storage
+            <if test="flag!=null and flag!=''">
+                AND instr(','||#{flag}||',' , ','||a.flag||',') > 0
+            </if>
+        </where>
+    </select>
+
+
 
     <select id="findDocumentByDistinct" resultType="DrugProvideApplication">
         SELECT

@@ -183,7 +183,9 @@
          else
           'B'
        end) aa,
-       0.00 bb
+       0.00 bb,
+		"ORDERS"."REMARKS" as "remarks",
+		"ORDERS"."EXEC_DATE_TIME" as "execDateTime"
      FROM "ORDERS", "CLINIC_ITEM_NAME_DICT"
        WHERE (ORDERS.PATIENT_ID = #{patientId})
 		   AND (ORDERS.VISIT_ID = #{visitId})
@@ -268,7 +270,8 @@
 		else
 		'B'
 		end) aa,
-		0.00 bb
+		0.00 bb,
+		"ORDERS"."REMARKS" as "remarks"
 		FROM "ORDERS"
 		WHERE (ORDERS.PATIENT_ID = #{patientId})
 		AND (ORDERS.VISIT_ID = #{visitId})
@@ -281,6 +284,7 @@
 		<if test="repeatIndicator !=null and repeatIndicator !=''">
 			and ORDERS.repeat_indicator = #{repeatIndicator}
 		</if>
+		order by order_no
 	</select>
 
 
@@ -325,7 +329,6 @@
 			last_perform_date_time,
 			time,
 			last_accting_date_time,
-			current_presc_no,
 			doctor_user,
 			verify_data_time,
 			order_print_indicator,
@@ -355,7 +358,7 @@
 			STOP_PROCESSING_DATE_TIME
 		) VALUES (
 			#{id},
-			#{clinicId},
+			#{currentPrescNo},
 			#{orgId},
 			#{patientId},
 			#{visitId},
@@ -392,7 +395,6 @@
 			#{lastPerformDateTime},
 			#{time},
 			#{lastAcctingDateTime},
-			#{currentPrescNo},
 			#{doctorUser},
 			#{verifyDataTime},
 			#{orderPrintIndicator},
@@ -484,7 +486,15 @@
 	<update id="delete">
 		UPDATE orders SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE
+		patient_id = #{patientId}
+		and visit_id = #{visitId}
+		<if test="orderNo !=null and  orderNo != ''">
+			<if test="orderSubNo !=null and  orderSubNo != ''">
+				and order_sub_no = #{orderSubNo}
+
+			</if>
+		</if>
 	</update>
 	<update id="deleteOrders">
 		UPDATE orders SET
@@ -527,7 +537,14 @@
 
 	<update id="issuedOrders">
           update    orders       set  order_status = '6'
-          where id= #{id}
+          where  patient_id = #{patientId}
+		and visit_id = #{visitId}
+		<if test="orderNo !=null and  orderNo != ''">
+			<if test="orderSubNo !=null and  orderSubNo != ''">
+				and order_sub_no = #{orderSubNo}
+
+			</if>
+		</if>
 	</update>
 
 	<select id="getSubOrders" resultType="Orders">
@@ -542,10 +559,8 @@
 				</if>
 				<if test="visitId!=null and visitId!='' ">
 					AND visit_id=#{visitId}
-				</if>
-				<if test="orderNo!=null">
-					AND order_no=#{orderNo}
-			    </if>
+			</if>
+					AND order_sub_no != order_no
 		</where>
 	</select>
 
@@ -579,6 +594,7 @@
 			AND 	a.repeat_indicator = #{repeatIndicator}
 		</if>
 		AND a."ORDER_STATUS"='6'
+		order by order_no
 	</select>
 
 
@@ -591,14 +607,17 @@
         UPDATE orders
         SET
 		ORDER_STATUS = '1'
-        <if test="processingNurse !=null and processingNurse !=''">
-			,PROCESSING_NURSE = #{processingNurse}
+        <if test="processionNurse !=null and processionNurse !=''">
+			,procession_nurse = #{processionNurse}
 		</if>
-		<if test="startDateTime != null and startDateTime !=''">
-			, STOP_DATE_TIME = #{startDateTime}
+           ,procession_date_time = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		WHERE  patient_id = #{patientId}
+		       and visit_id = #{visitId}
+		<if test="orderNo !=null and  orderNo != ''">
+			<if test="orderSubNo !=null and  orderSubNo != ''">
+				and order_sub_no = #{orderSubNo}
+			</if>
 		</if>
-           ,PROCESSING_DATE_TIME = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
-		WHERE id = #{id}
 
 
 	</update>
@@ -618,7 +637,15 @@
          ,DOCTOR_USER = #{doctorUser}
 		</if>
 		,VERIFY_DATA_TIME = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
-		WHERE id = #{id}
+		WHERE
+		 patient_id = #{patientId}
+		and visit_id = #{visitId}
+		<if test="orderNo !=null and  orderNo != ''">
+			<if test="orderSubNo !=null and  orderSubNo != ''">
+				and order_sub_no = #{orderSubNo}
+
+			</if>
+		</if>
 	</update>
 
 	<update id="executeOrders">
@@ -630,7 +657,16 @@
 		<if test="execOperator !=null and execOperator !=''">
             ,EXEC_OPERATOR = #{execOperator}
 		</if>
-		WHERE id = #{id}
+
+		WHERE
+		patient_id = #{patientId}
+		and visit_id = #{visitId}
+		<if test="orderNo !=null and  orderNo != ''">
+		<if test="orderSubNo !=null and  orderSubNo != ''">
+			and order_sub_no = #{orderSubNo}
+		</if>
+	</if>
+
 	</update>
 
 
@@ -667,4 +703,66 @@
 			AND current_presc_no=#{currentPrescNo}
 		</if>
 	</update>
+
+
+	<update id="stopOrders">
+       update orders set order_status = '7',
+          stop_date_time = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		<if test="stopDoctor">
+			,stop_doctor = #{stopDoctor}
+		</if>
+		,billing_attr = '0', drug_billing_attr = '0'
+		,last_perform_date_time = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		where repeat_indicator = '1'
+       and  stop_date_time is null
+       <if test="orderNo !=null and  orderNo != ''">
+			<if test="orderSubNo !=null and  orderSubNo != ''">
+			      and order_sub_no = #{orderSubNo}
+				   and patient_id = #{patientId}
+				   and visit_id = #{visitId}
+			</if>
+	   </if>
+
+	</update>
+
+
+
+	<update id="cancelOrders">
+		update orders set order_status = '8',
+		cancel_date_time = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		<if test="cancelDoctor!=null and cancelDoctor !=''">
+			,cancel_doctor = #{cancelDoctor}
+		</if>
+		where
+			 patient_id = #{patientId}
+			and visit_id = #{visitId}
+		<if test="orderNo !=null and  orderNo != ''">
+				<if test="orderSubNo !=null and  orderSubNo != ''">
+					and order_sub_no = #{orderSubNo}
+
+			</if>
+		</if>
+
+	</update>
+
+	<update id="nurseStopOrders">
+		update orders set order_status = '3',
+		stop_procession_date_time = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		<if test="stopProcessionNurse">
+			,stop_procession_nurse = #{stopProcessionNurse}
+		</if>
+		,billing_attr = '0', drug_billing_attr = '0'
+		,last_perform_date_time = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+		where repeat_indicator = '1'
+		and  stop_date_time is null
+		<if test="orderNo !=null and  orderNo != ''">
+			<if test="orderSubNo !=null and  orderSubNo != ''">
+				and order_sub_no = #{orderSubNo}
+				and patient_id = #{patientId}
+				and visit_id = #{visitId}
+			</if>
+		</if>
+
+	</update>
+
 </mapper>

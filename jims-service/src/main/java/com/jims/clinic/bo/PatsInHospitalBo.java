@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 病人在院记录
@@ -71,6 +73,7 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
             BedRec bedRec = bedRecDao.get(vo.getBedRecId());
             //update bed_rec set bed_status ='1' where bed_no =65553 And ward_code ='160101' ;
             bedRec.setBedStatus("1");
+            bedRec.setPatientId(patientId);
             bedRecDao.update(bedRec);
             /**2.插入病人在科记录**/
             Transfer transfer = new Transfer();
@@ -404,4 +407,16 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
     public List<BaseDto>  cancelLeavePatientlist(ComeDeptVo vo){
         return patsInHospitalDao.cancelLeavePatientlist(vo);
     }
+
+
+    public String comeDeptVoGet(ComeDeptVo vo){
+        Map map=new HashMap();
+        vo.setBedRecId("hello");
+        map.put("comeDeptVo",vo);
+        map.put("test","111 ");
+        map.put("oResult","hi  ");
+         patsInHospitalDao.comeDeptVoGet(map);
+        return "";
+    }
+
 }

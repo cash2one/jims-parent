@@ -58,6 +58,8 @@ public class DrugProvideApplicationBo extends CrudImplService<DrugProvideApplica
         //插入
         for (DrugProvideApplication drugProvideApplication : inserted) {
             drugProvideApplication.preInsert();
+            drugProvideApplication.setEnterDateTime(new Date());
+            drugProvideApplication.setBatchNo("X");
             int num = dao.insert(drugProvideApplication);
         }
         //更新
@@ -86,6 +88,15 @@ public class DrugProvideApplicationBo extends CrudImplService<DrugProvideApplica
      */
     public List<DrugProvideApplication> findDocumentByDistinct(DrugProvideApplication entity){
         return  dao.findDocumentByDistinct(entity);
+    }
+
+    /**
+     *查询去除重复的申请时间和单位
+     * @param entity
+     * @return
+     */
+    public List<DrugProvideApplication> findListByDistinct(DrugProvideApplication entity){
+       return dao.findListByDistinct(entity);
     }
 
     /**

@@ -70,6 +70,9 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                        op.setClinicId(clinicMaster.getId());
                        op.setItemClass(outpPresc.getItemClass());
                        op.setPrescAttr(outpPresc.getPrescAttr());
+                       op.setGetdrugFlag(1);//未取药
+                       op.setAbidance(1);
+                       op.setPatientId(clinicMaster.getClinicId());
                        if(op.getItemClass()!=null&&"B".equals(op.getItemClass())){//中药
                            if(op.getAmount()!=null&&!"".equals(op.getAmount())&&op.getAmount()!=0){//中药数量>0
                                if(op.getRepetition()!=null&&!"".equals(op.getRepetition())&&op.getRepetition()!=0){//剂数>0
@@ -288,5 +291,14 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
      */
     public List<OutpPresc> findListByParams(OutpPresc outpPresc){
         return dao.findListByParams(outpPresc);
+    }
+    /**
+     * 根据处方号删除处方
+     * @param outpPresc
+     * @author CTQ
+     * @return
+     */
+    public String delByPrescNo(OutpPresc outpPresc) {
+        return String.valueOf(dao.delByPrescNo(outpPresc));
     }
 }

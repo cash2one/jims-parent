@@ -96,19 +96,29 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
 
             DrugInventoryCheck drugInventoryCheck = new DrugInventoryCheck();
             drugInventoryCheck = generateInventoryByVo(drugInventoryCheck, drugInventoryCheckVo);
-            if(drugInventoryCheck.getRecStatus()==null){  //终存状态
+            drugInventoryCheck.setRecStatus(1);
+            String id=drugInventoryCheckVo.getId();
+            if(id==null ||""==id){   //判断暂存状态
                 j=0;
-                drugInventoryCheck.setRecStatus(1);
                 drugInventoryCheck.preInsert();
                 drugInventoryCheckDao.insert(drugInventoryCheck);
-            }else if(drugInventoryCheck.getRecStatus()==0){
-                j=0;
-                drugInventoryCheck.setRecStatus(1);
-                drugInventoryCheck.preUpdate();
-                drugInventoryCheckDao.update(drugInventoryCheck);
-            }else if (drugInventoryCheck.getRecStatus()==1){
-                j=1;
+            }else{
+                if(drugInventoryCheck.getRecStatus()==0){
+                    j=0;
+                    drugInventoryCheck.preUpdate();
+                    drugInventoryCheckDao.update(drugInventoryCheck);
+                }else{
+                    j=1;
+                }
             }
+//                j=0;
+//                drugInventoryCheck.preInsert();
+//                drugInventoryCheckDao.insert(drugInventoryCheck);
+//            }else if(drugInventoryCheck.getRecStatus()==0){
+//
+//            }else if (drugInventoryCheck.getRecStatus()==1){
+//
+//            }
 
 //            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //            String checkYearMonth = simpleDateFormat.format(drugInventoryCheck.getCheckYearMonth());
@@ -303,6 +313,7 @@ public class DrugInventoryCheckBo extends CrudImplService<DrugInventoryCheckDao,
         drugInventoryCheck.setStorage(drugInventoryCheckVo.getStorage());
         drugInventoryCheck.setSubStorage(drugInventoryCheckVo.getSubStorage());
         drugInventoryCheck.setBatchNo(drugInventoryCheckVo.getBatchNo());
+        drugInventoryCheck.setRecStatus(Integer.parseInt(drugInventoryCheckVo.getRecStatus()));
         drugInventoryCheck.setChangeFlag(Integer.parseInt(drugInventoryCheckVo.getChangeFlag()));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {

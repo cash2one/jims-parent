@@ -33,8 +33,7 @@
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
-		a.price_list_id AS "priceListId"
+		a.del_flag AS "delFlag"
 	</sql>
 
     <sql id="drugStockJoins">
@@ -183,8 +182,7 @@
 			update_date,
 			update_by,
 			remarks,
-			del_flag,
-			price_list_id
+			del_flag
 		) VALUES (
 			#{id},
 			#{storage},
@@ -216,8 +214,7 @@
 			#{updateDate},
 			#{updateBy.id},
 			#{remarks},
-			#{delFlag},
-			#{priceListId}
+			#{delFlag}
 		)
 	</insert>
 
@@ -249,8 +246,7 @@
 			org_id = #{orgId},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id},
-			remarks = #{remarks},
-			price_list_id = #{priceListId}
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 

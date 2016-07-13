@@ -57,6 +57,9 @@
             <if test="visitId !=null and visitId !=''">
                 and a.visit_id = #{visitId}
             </if>
+			<if test="patientId !=null and patientId !=''">
+				and a.patient_id = #{patientId}
+					</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

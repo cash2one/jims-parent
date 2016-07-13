@@ -104,5 +104,20 @@ insert into sys_dict
   (id, label, value, type, description, sort)
   values
   (sys_guid(), '无皮试', '2', 'SKIN_RESULT_DICT', '皮试结果字典',3); 
-  
-  
+
+  insert into sys_dict
+  (id, label, value, type, description, sort)
+  values
+  (sys_guid(), '非限制级', '0', 'LIMIT_CLASS_DICT', '药品限制登记',1);
+  insert into sys_dict
+  (id, label, value, type, description, sort)
+  values
+  (sys_guid(), '限制级', '1', 'LIMIT_CLASS_DICT', '药品限制登记',2);
+  insert into sys_dict
+  (id, label, value, type, description, sort)
+  values
+  (sys_guid(), '特殊级', '2', 'LIMIT_CLASS_DICT', '药品限制登记',3);
+  insert into sys_dict
+  (id, label, value, type, description, sort)
+  values
+  (sys_guid(), '其他', '3', 'LIMIT_CLASS_DICT', '药品限制登记',4);

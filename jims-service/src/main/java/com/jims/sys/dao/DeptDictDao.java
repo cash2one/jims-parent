@@ -26,6 +26,15 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
     public List<DeptDict> getByName(String deptName);
 
     /**
+     * 根据部门名称和组织机构ID查询指定组织机构的部门信息
+     * @param deptName 部门名称
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<DeptDict> getByNameOrgId(String deptName,String orgId);
+
+    /**
      * 查询所有的科室信息
      * @return
      */

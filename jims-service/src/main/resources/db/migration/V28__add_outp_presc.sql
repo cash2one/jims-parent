@@ -52,7 +52,7 @@ create table OUTP_PRESC
    UPDATE_DATE          TIMESTAMP,
    UPDATE_BY            VARCHAR2(64 CHAR),
    REMARKS              VARCHAR2(200 CHAR),
-   DEL_FLAG             NUMBER(1),
+   DEL_FLAG             char(1) DEFAULT  '0',
     constraint "PK_OUTP_PRESC" primary key (ID)
 )
 ;

@@ -137,6 +137,28 @@ public class OutpPrescRest {
         return stringData;
     }
     /**
+     * @param     prescNo        传递参数
+     * @return com.jims.common.data.StringData    返回类型
+     * @throws
+     * @Title: delByPrescNo
+     * @Description: (根据处方号删除处方信息)
+     * @author CTQ
+     * @date 2016/7/12
+     */
+    @Path("delByPrescNo")
+    @POST
+    public StringData delByPrescNo(Integer prescNo,String clinicId,String orgId ){
+        OutpPresc outpPresc = new OutpPresc();
+        outpPresc.setPrescNo(prescNo);
+        outpPresc.setClinicId(clinicId);
+        outpPresc.setOrgId(orgId);
+        StringData stringData=new StringData();
+        String num=outpPrescServiceApi.delByPrescNo(outpPresc);
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
+    /**
      * @param       id      传递参数
      * @return com.jims.clinic.entity.ClinicMaster    返回类型
      * @throws

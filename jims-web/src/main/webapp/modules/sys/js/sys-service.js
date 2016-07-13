@@ -35,7 +35,7 @@ $(function () {
         }, {
             title: "服务名称",
             field: "serviceName",
-            width: '11%',
+            width: '16%',
             align: 'center',
             editor:{
                 type:"textbox",options:{
@@ -45,9 +45,10 @@ $(function () {
 
         }, {
             title: "服务描述",
-            field: "serviceDescription",
+            field: "tranServiceDescription",
             width: '11%',
             align: 'center',
+            hidden:true,
             editor:{
                 type:"textbox",options:{
 
@@ -56,7 +57,7 @@ $(function () {
         }, {
             title: "服务类型",
             field: "serviceType",
-            width: '11%',
+            width: '17%',
             align: 'center',
             formatter: function (value,row,index) {
                 if (value == "0"){
@@ -91,7 +92,19 @@ $(function () {
             formatter: function (value,index,row) {
                 return "<img src='"+value+"' style='width:50px;height:50px;'/>"
             }
-        }]]
+        }
+        ]],
+        onDblClickRow:function(index,row){
+//            var ue2=UE.getEditor("editor2");
+//            ue2.setContent("");//清空编辑器
+//            if(row.serviceDescription!=null){
+//                ue2.setContent(row.serviceDescription);
+//            }
+            $("#serviceDialog1").html("");
+            $("#serviceDialog1").html(row.tranServiceDescription);
+            $("#serviceDialog1").dialog("open");
+         }
+
     });
     /**
      * 服务名称
@@ -149,6 +162,12 @@ $(function () {
         closed:true
 
     });
+    $("#serviceDialog1").dialog({
+        title: '基础服务描述',
+        width: 580,
+        height: 250,
+        closed:true
+     });
     /**
      * 服务定位
      */
@@ -174,7 +193,7 @@ $(function () {
         flag = 1;
         $("#serviceType").combobox("setValue","0");
         $("#serviceClass").combobox("setValue","0");
-        $("#serviceDialog").dialog("open");
+        $("#serviceDialog").dialog("setTitle","基础服务添加").dialog("open");
     });
     /**
      * 修改
@@ -193,12 +212,11 @@ $(function () {
         $("#serviceClass").combobox("setValue",row.serviceClass);
         //service.serviceImage = $("#serviceImage").filebox("setValue",row.serviceImage);
 //        $("#serviceDescription").val(row.serviceDescription);//version 1.1
-        if(row.serviceDescription!=null){
-            ue.setContent(row.serviceDescription);
+        if(row.tranServiceDescription!=null){
+            ue.setContent(row.tranServiceDescription);
         }
-        $("#serviceDialog").dialog("open");
-
-    });
+        $("#serviceDialog").dialog("setTitle","基础服务修改").dialog("open");
+     });
 
     /**
      * 删除
@@ -304,7 +322,7 @@ $(function () {
             alert(errMsg);
             return;
         }
-        var serviceDescription=ue.getPlainTxt();
+        var serviceDescription=ue.getContent();//获得带格式的文本
         if(serviceDescription!=null){
             $("#serviceDescription").text(serviceDescription);
         }else{
@@ -375,8 +393,6 @@ $(function () {
         toolbar: '#serviceDetailTb',
         method: 'GET',
         rownumbers: true,
-        //  url: basePath + "/AdministrationDict/listAll",
-
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
@@ -792,7 +808,12 @@ $(function () {
         },{
             title:'值域',
             field:'valueRange',
-            width:'75%',
+            width:'45%',
+            editor:{type:'text',options:{}}
+        },{
+            title:"参数描述",
+            field:"paramDesp",
+            width:'30%',
             editor:{type:'text',options:{}}
         }]],
         onDblClickRow:function(index,row){

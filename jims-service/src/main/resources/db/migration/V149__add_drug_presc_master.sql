@@ -61,7 +61,7 @@ create table DRUG_PRESC_MASTER
    UPDATE_BY            VARCHAR2(64 char),
    UPDATE_DATE          TIMESTAMP,
    REMARKS              VARCHAR2(200 char),
-   DEL_FLAG             NUMBER(1)            default 0,
+   DEL_FLAG            char(1) default '0',
   constraint PK_DRUG_PRESC_MASTER primary key (ID)
 );
 

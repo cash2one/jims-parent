@@ -1,6 +1,6 @@
 var rowNum=-1;
-var patientId =parent.patVisit.patientId;
-var zhuyuanId = parent.patVisit.visitId;
+//var patientId =parent.patVisit.patientId;
+//var zhuyuanId = parent.patVisit.visitId;
 var visitDate='2015-06-09';
 var visitNo='410';
 var prescNo ='';
@@ -11,7 +11,7 @@ function onloadMethod() {
     /**
      * 会诊类型
      */
-    $("#grouptype").combobox({
+    $("#groupType").combobox({
         data: groupType,
         valueField: 'value',
         textField: 'label',
@@ -42,7 +42,16 @@ function onloadMethod() {
                         data: clinicDeptCode,
                         valueField: 'id',
                         textField: 'dept_name',
-                        required: true
+                        required: true,
+                        onSelect:function(newValue,oldValue){
+                            var row = $('#list_doctor').datagrid('getSelected');
+                            var rowIndex = $('#list_doctor').datagrid();
+                            var ed = ('#list_doctor').datagrid('getEditor', {
+                                index : rowIndex,
+                                field : 'doctorId'
+                            });
+                            //$(ed.target).combobox('setValue',newValue. );
+                        }
                     }
                 }
             },
@@ -342,6 +351,7 @@ function get(id) {
         'dataType': 'json',
         'success': function(data){
             $('#form').form('load',data);
+            $("#groupType").combobox("setValue",data.grouptype);
             getDiv("form");
             changeYiJian("0");
             var id= $("#id").val();
@@ -404,8 +414,8 @@ function ideaRow(id) {
 //参与会诊者发表意见
 function ideaOtherRow(id) {
     $.ajax({
-        'type': 'post',
-        'data': id=id,
+        'type': 'GET',
+        'data': {'id':id},
         'url': basePath+'/group/get',
         'contentType': 'application/json',
         'dataType': 'json',

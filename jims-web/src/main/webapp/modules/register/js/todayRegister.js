@@ -138,7 +138,7 @@ function getClinicForRegist(){
             if(data[i].registrationLimits!='0'){
                 registrationLimits=data[i].registrationLimits
             }
-            liHtml=liHtml+'<a href="#" class="color-red">'+registrationNum+'</a>/'+registrationLimits+
+            liHtml=liHtml+'<a  class="color-red">'+registrationNum+'</a>/'+registrationLimits+
             '<span class="color-blue" style="padding-left:10px;">'+clinicDeptCodeFormatter(data[i].clinicDept, '', '')+'</span>' +
             '</li>' ;
         }

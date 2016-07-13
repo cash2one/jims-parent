@@ -67,6 +67,20 @@ public class DrugCatalogRest {
     public List<DrugNameDict> listDrugNameDictByDrugCode(@QueryParam("drugCode")String drugCode){
         return drugNameDictServiceApi.listDrugNameDictByDrugCode(drugCode);
     }
+
+    /**
+     * 通过药品类别和剂型获取药品列表
+     * @param  drugForm,classCode 剂型，类别
+     * @return
+     * @author zhuqi
+     */
+    @Path("listDrugNameDictByClassCode")
+    @GET
+    public List<DrugNameDict> listDrugNameDictByClassCode(@QueryParam("classCode")String classCode,@QueryParam("drugForm")String drugForm){
+        return drugNameDictServiceApi.listDrugNameDictByClassCode(classCode,drugForm);
+    }
+
+
     /**
      * 删除药品名称
      * @param id 药品名称id

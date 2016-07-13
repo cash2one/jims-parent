@@ -33,9 +33,8 @@
 	
 	<select id="getOperationName" resultType="ScheduledOperationName">
 		SELECT
-		b.operation_scale AS "schedule.operationScale",<include refid="scheduledOperationNameColumns"/>
+			<include refid="scheduledOperationNameColumns"/>
 		FROM scheduled_operation_name a
-			<include refid="scheduledOperationNameJoins1"/>
 		<where>
 			a.del_flag = '0'
 			<if test="scheduleId !=null and scheduleId !=''">

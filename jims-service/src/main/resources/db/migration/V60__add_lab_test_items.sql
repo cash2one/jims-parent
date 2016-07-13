@@ -7,7 +7,7 @@
 create table LAB_TEST_ITEMS
 (
   ID                VARCHAR2(64 CHAR) not null,
-  TEST_NO           VARCHAR2(10 CHAR),
+  TEST_NO           VARCHAR2(20 CHAR),
   ITEM_NO           NUMBER(2),
   ITEM_NAME         VARCHAR2(100 CHAR),
   ITEM_CODE         VARCHAR2(20 CHAR),
