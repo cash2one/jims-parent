@@ -50,9 +50,6 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
         clinicLabTestBo.delete(ids);
     }
 
-    public String creatTestNo(){
-        return clinicLabTestBo.creatTestNo();
-    }
 
     /**
      * 住院检验保存

@@ -31,13 +31,6 @@ public interface LabTestMasterServiceApi {
 
     public String saveAllIn(LabTestMaster labTestMaster);
 
-    /**
-     * 生成申请序号
-     * @param主表 当前日期
-     * @author xueyx
-     * @version 2016/5/09
-     */
-    public String creatTestNo();
 
     /**
      * 删除申请

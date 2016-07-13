@@ -46,8 +46,7 @@ public class DrugStock extends DataEntity<DrugStock> {
     private String drugName;  // 药品名称
     private String inputCode;  // 拼音码
     private String q;  // 模糊查询字段
-    private String priceListId;
-	
+
 	public DrugStock() {
 		super();
 	}
@@ -289,11 +288,4 @@ public class DrugStock extends DataEntity<DrugStock> {
 		this.orgId = orgId;
 	}
 
-    public String getPriceListId() {
-        return priceListId;
-    }
-
-    public void setPriceListId(String priceListId) {
-        this.priceListId = priceListId;
-    }
 }

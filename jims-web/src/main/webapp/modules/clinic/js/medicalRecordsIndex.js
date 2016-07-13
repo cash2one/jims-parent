@@ -22,7 +22,7 @@ function onloadMethod(){
             {field:'age',title:'年龄',width:'10%',align:'center'},
             {field:'type',title:'病人类型',width:'18%',align:'center'},
             {field:'itemid',title:'操作',width:'30%',align:'center',formatter:function(value, row, index){
-                return '<a href="#">查看</a>&nbsp<a href="#">修改</a>&nbsp<a href="#">删除</a>';
+                return '<a >查看</a>&nbsp<a >修改</a>&nbsp<a >删除</a>';
             }}
         ]],
         frozenColumns:[[

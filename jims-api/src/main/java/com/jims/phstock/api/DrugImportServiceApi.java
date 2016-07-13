@@ -25,4 +25,9 @@ public interface DrugImportServiceApi {
      */
     public String saveMasterAndDetail(DrugImportMaster master);
 
+    public List<DrugImportMaster> findImportData(String orgId, String startTime, String storageCode);
+
+    public DrugImportMaster findById(String id);
+
+    public void update(DrugImportMaster drugImportMaster);
 }

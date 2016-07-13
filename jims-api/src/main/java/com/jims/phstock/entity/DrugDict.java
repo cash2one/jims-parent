@@ -3,7 +3,9 @@
  */
 package com.jims.phstock.entity;
 
+import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
@@ -162,7 +164,7 @@ public class DrugDict extends DataEntity<DrugDict> {
 	public Date getEnteredDatetime() {
 		return enteredDatetime;
 	}
-
+    @JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setEnteredDatetime(Date enteredDatetime) {
 		this.enteredDatetime = enteredDatetime;
 	}

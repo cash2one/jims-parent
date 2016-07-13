@@ -1159,8 +1159,11 @@
 	</update>
 	<select id="selectPatVisit" resultType="PatVisit">
 		SELECT  * from PAT_VISIT WHERE
-		<if test="id!=null and id!=''">
-			id=#{id}
+		<if test="visitId!=null and visitId!=''">
+			visit_id=#{visitId}
+		</if>
+		<if test="patientId!=null and patientId!=''">
+			patient_id=#{patientId}
 		</if>
 	</select>
 </mapper>

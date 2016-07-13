@@ -52,6 +52,27 @@ function onloadMethod() {
             $("#isolationIndicatorId").val(n.value);
         }
     })
+    $("#surgeon").combobox({
+        data:doctorName,
+        valueField:'id',
+        valueField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'surgeon');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#firstAssistant").combogrid('setText',rowData.name);
+            $("#clinDiagId").val(rowData.id);
+        }
+    })
     $.ajax({
         method: "POST",
         url: basePath + "/operatioinOrder/getScheduleOut",

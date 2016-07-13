@@ -143,6 +143,20 @@ $(function () {
     }
     data();
 
+    var menuOperatorSet = function(data){
+        for(var i=0;i<data.length;i++){
+            if(!data[i].id){
+                data[i].id=data[i].menuId;
+            }
+            if(data[i].menuOperate==null){
+                data[i].menuOperate='1';
+                if(data[i].children&&data[i].children.length >0){
+                    menuOperatorSet(data[i].children);
+                }
+            }
+        }
+    }
+
     function menuDict() {
         var menus = [];//菜单列表
         var menuTreeData = [];//菜单树的列表
@@ -150,14 +164,10 @@ $(function () {
         var row = $('#roleId').datagrid('getSelected');
 
         var menuPromise = $.get(basePath + "/org-service/find-menu",{serviceId:node.serviceId,roleId:row.id,isTree:true}, function (data) {
-            var list=[];
-            for(var i=0;i<data.length;i++){
-                list[i]=data[i];
-                if(list[i].menuOperate==null){
-                    list[i].menuOperate='2';
-                }
-            }
-            $("#tt").treegrid('loadData', list);
+
+           menuOperatorSet(data);
+            console.log(data);
+            $("#tt").treegrid('loadData', data);
         });
     }
 

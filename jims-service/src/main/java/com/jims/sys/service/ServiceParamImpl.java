@@ -3,7 +3,6 @@ package com.jims.sys.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.sys.api.ServiceParamApi;
 import com.jims.sys.bo.SysServiceParamBo;
-import com.jims.sys.dao.SysServiceParamDao;
 import com.jims.sys.entity.SysServiceParam;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +56,16 @@ public class ServiceParamImpl implements ServiceParamApi {
 
         return sysServiceParamBo.mergeSysServiceParam(sysServiceParamBeanChangeVo) ;
 
+    }
+
+
+    /**
+     * 根据自定义服务ID查询出所有的服务参数
+     * @param selfServiceId
+     * @param orgId
+     * @return
+     */
+    public List<SysServiceParam> findSysServiceParamBySelfServiceId(String selfServiceId, String orgId) {
+        return sysServiceParamBo.findSysServiceParamBySelfServiceId(selfServiceId,orgId);
     }
 }

@@ -34,10 +34,19 @@ public class DrugProvideApplication extends DataEntity<DrugProvideApplication> {
     private String drugName;   //名称
     private String supplierId;   //厂家
     private String label;     //包单位
+    private String storageName;  //请领单位名称
     private Double tradePrice;		// 市场批发价
     private Double retailPrice;		// 市场零售价
     private Double stock;
     private String drugStockId;
+
+    public String getStorageName() {
+        return storageName;
+    }
+
+    public void setStorageName(String storageName) {
+        this.storageName = storageName;
+    }
 
     public String getSupplierId() {
         return supplierId;
