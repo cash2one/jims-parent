@@ -23,11 +23,19 @@
 
     <select id="findAll" resultType="DrugRationalDosage">
         SELECT DISTINCT
-        <include refid="drugRationalDosageColumns"/>,d.drug_name AS "drugName",t.administration_name AS "administrationName"
-        FROM drug_rational_dosage a,drug_dict d,administration_dict t
+        <include refid="drugRationalDosageColumns"/>,d.drug_name AS "drugName"
+        FROM drug_rational_dosage a,drug_dict d
         <include refid="drugRationalDosageJoins"/>
         WHERE a.drug_code = d.drug_code
-        AND a.administration_code = t.administration_code
+    </select>
+
+    <select id="getListByDrugCode" resultType="DrugRationalDosage">
+        SELECT DISTINCT
+        <include refid="drugRationalDosageColumns"/>,d.drug_name AS "drugName"
+        FROM drug_rational_dosage a,drug_dict d
+        <include refid="drugRationalDosageJoins"/>
+        WHERE a.drug_code = d.drug_code
+        AND a.drug_code = #{drugCode}
     </select>
 
     <insert id="insert">

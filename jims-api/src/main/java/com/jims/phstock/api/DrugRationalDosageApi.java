@@ -25,4 +25,12 @@ public interface DrugRationalDosageApi {
      * @author fengyuguang
      */
     public String merge(BeanChangeVo<DrugRationalDosage> beanChangeVo);
+
+    /**
+     * 根据药品代码查询药品用量信息
+     * @param drugCode 药品代码
+     * @return
+     * @author fengyuguang
+     */
+    public List<DrugRationalDosage> getListByDrugCode(String drugCode);
 }

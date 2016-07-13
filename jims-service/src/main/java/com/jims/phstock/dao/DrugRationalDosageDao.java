@@ -19,4 +19,12 @@ public interface DrugRationalDosageDao extends CrudDao<DrugRationalDosage> {
      * @author fengyuguang
      */
     public List<DrugRationalDosage> findAll();
+
+    /**
+     * 根据药品代码查询药品用量信息
+     * @param drugCode 药品代码
+     * @return
+     * @author fengyuguang
+     */
+    public List<DrugRationalDosage> getListByDrugCode(String drugCode);
 }

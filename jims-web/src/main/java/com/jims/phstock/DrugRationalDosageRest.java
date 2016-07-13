@@ -7,10 +7,7 @@ import com.jims.phstock.entity.DrugRationalDosage;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -34,6 +31,18 @@ public class DrugRationalDosageRest {
     @GET
     public List<DrugRationalDosage> findAll(){
         return drugRationalDosageApi.findAll();
+    }
+
+    /**
+     * 根据药品代码查询药品用量信息
+     * @param drugCode 药品代码
+     * @return
+     * @author fengyuguang
+     */
+    @Path("list-by-drugCode")
+    @GET
+    public List<DrugRationalDosage> getListByDrugCode(@QueryParam("drugCode")String drugCode){
+        return drugRationalDosageApi.getListByDrugCode(drugCode);
     }
 
     /**

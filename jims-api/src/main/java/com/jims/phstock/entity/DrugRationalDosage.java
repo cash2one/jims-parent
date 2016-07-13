@@ -23,15 +23,6 @@ public class DrugRationalDosage extends DataEntity<DrugRationalDosage> {
     private String freqIntervalUnits;        //频率间隔单位
 
     private String drugName;                //药品名称
-    private String administrationName;      //给药途径和方法
-
-    public String getAdministrationName() {
-        return administrationName;
-    }
-
-    public void setAdministrationName(String administrationName) {
-        this.administrationName = administrationName;
-    }
 
     public String getDrugName() {
         return drugName;

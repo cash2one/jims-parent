@@ -4,6 +4,7 @@
  */
 $(function(){
     var currentSelectIndex = undefined;
+    var drugRationalDosages = [];
     var editIndex;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -15,6 +16,11 @@ $(function(){
     var AdministrationDictList = [];    //给药途径和方法
     $.get(basePath + '/AdministrationDict/list', function (data) {
         AdministrationDictList = data;
+    });
+
+    var drugNameList = [];    //药品名称
+    $.get(basePath + '/drug-catalog/drugNameDictList', function (data) {
+        drugNameList = data;
     });
 
     //药品定位
@@ -31,11 +37,16 @@ $(function(){
             {field: 'drugCode', title: '编码', width: 150, align: 'center'},
             {field: 'drugName', title: '名称', width: 200, align: 'center'},
             {field: 'inputCode', title: '拼音', width: 50, align: 'center'}
-        ]]
+        ]],
+        onSelect: function (rowIndex, rowData) {
+            var url = basePath + '/drug-rational-dosage/list-by-drugCode?drugCode=' + rowData.drugCode;
+            $("#dg").datagrid('loadData', {total: 0, rows: []});
+            $('#dg').datagrid('reload', url);
+        }
     });
 
-    var classCode = ''
-    var drugForm = '';
+    var classCode = ''  //药品类别
+    var drugForm = '';  //剂型
     //药品类别
     $("#drugClass").combobox({
         valueField: 'classCode',
@@ -70,6 +81,41 @@ $(function(){
         }
     });
 
+    var load=function(){
+        $.ajax({
+            type: 'get',
+            url: basePath + "/drug-catalog/listDrugNameDictByClassCode?classCode=" + classCode + "&drugForm=" + drugForm,
+            async: false,   // true 异步,false 同步
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        $.ajax({
+                            type: 'get',
+                            url: basePath + '/drug-rational-dosage/list-by-drugCode?drugCode=' + data[i].drugCode,
+                            async: false,   // true 异步,false 同步
+                            contentType: 'application/json',
+                            success: function (resp) {
+                                for (var j = 0; j < resp.length; j++) {
+                                    drugRationalDosages.push(resp[j]);
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        })
+    }
+
+    var loadDrugNameDict = function () {
+        drugRationalDosages=[];
+        load();
+        if (drugRationalDosages.length == 0) {
+            $("#dg").datagrid('loadData', []);
+        } else {
+            $("#dg").datagrid('loadData', drugRationalDosages);
+        }
+    }
 
     $("#dg").datagrid({
         width: 'auto',
@@ -118,6 +164,14 @@ $(function(){
                             loadDrugNameData(rowData);
                         }
                     }
+                }, formatter: function (value, row, index) {
+                    var drugName = value;
+                    $.each(drugNameList, function (index, item) {
+                        if (item.drugCode == value) {
+                            drugName = item.drugName;
+                        }
+                    });
+                    return drugName;
                 }
             },{
                 title: '规格',
@@ -228,13 +282,82 @@ $(function(){
                 width: '8%'
             }
         ]],
-        onClickRow: function (index, row) {
-            //var opts = $('#dg').datagrid('getColumnFields',true);
-            stopEdit();
-            $(this).datagrid('beginEdit', index);
-            editIndex = index;
+        onClickCell: onClickCell
+    });
+
+    //datagrid的单元格编辑
+    $.extend($.fn.datagrid.methods, {
+        editCell: function (jq, param) {
+            return jq.each(function () {
+                var opts = $(this).datagrid('options');
+                var fields = $(this).datagrid('getColumnFields', true).concat($(this).datagrid('getColumnFields'));
+                for (var i = 0; i < fields.length; i++) {
+                    var col = $(this).datagrid('getColumnOption', fields[i]);
+                    col.editor1 = col.editor;
+                    if (fields[i] != param.field) {
+                        col.editor = null;
+                    }
+                }
+                $(this).datagrid('beginEdit', param.index);
+                for (var i = 0; i < fields.length; i++) {
+                    var col = $(this).datagrid('getColumnOption', fields[i]);
+                    col.editor = col.editor1;
+                }
+            });
         }
     });
+
+    editIndex = undefined;
+
+    function endEditing1() {
+        if (editIndex == undefined) {
+            return true
+        }
+        if ($('#dg').datagrid('validateRow', editIndex)) {
+            $('#dg').datagrid('endEdit', editIndex);
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function onClickCell(index, field) {
+        if (endEditing1()) {
+            if (field == 'drugName') {
+                var row = $('#dg').datagrid('getRows')[index];
+                if (row.id)return;
+            }
+            if (field == 'drugSpec') {
+                var row = $('#dg').datagrid('getRows')[index];
+                if (row.id)return;
+            }
+            if (field == 'dosePerUnit') {
+                var row = $('#dg').datagrid('getRows')[index];
+                if (row.id)return;
+            }
+            if (field == 'doseUnits') {
+                var row = $('#dg').datagrid('getRows')[index];
+                if (row.id)return;
+            }
+            if (field == 'freqCounter') {
+                var row = $('#dg').datagrid('getRows')[index];
+                if (row.id)return;
+            }
+            if (field == 'freqInterval') {
+                var row = $('#dg').datagrid('getRows')[index];
+                if (row.id)return;
+            }
+            if (field == 'freqIntervalUnits') {
+                var row = $('#dg').datagrid('getRows')[index];
+                if (row.id)return;
+            }
+            $('#dg').datagrid('selectRow', index)
+                .datagrid('editCell', {index: index, field: field});
+            editIndex = index;
+
+        }
+    }
 
     //加载同一药品的不同规格、最小单位剂量、剂量单位
     var loadDrugNameData = function (drugDict) {
@@ -275,8 +398,7 @@ $(function(){
         if (data.length == 1) {
             initData(data[0], drugDict);
             return;
-        }
-        ;
+        };
 
         $('#drugNameWindow').window({
             title: '选择药品规格和单位',
@@ -349,13 +471,9 @@ $(function(){
     };
 
     $("#addBtn").on("click", function () {
-        stopEdit();
         $("#dg").datagrid('appendRow', {});
         var rows = $("#dg").datagrid('getRows');
-        var addRowIndex = $("#dg").datagrid('getRowIndex', rows[rows.length - 1]);
-        editIndex = addRowIndex;
-        $("#dg").datagrid('selectRow', editIndex);
-        $("#dg").datagrid('beginEdit', editIndex);
+        onClickCell(rows.length - 1, 'dg');
     });
 
     $("#delBtn").on("click", function () {
@@ -385,28 +503,15 @@ $(function(){
         beanChangeVo.deleted = deleteData;
         beanChangeVo.updated = updateData;
 
-        console.log(beanChangeVo.inserted);
-
         if (beanChangeVo) {
             $.postJSON(basePath + '/drug-rational-dosage/merge', JSON.stringify(beanChangeVo), function (data) {
-                console.log(data);
                 $.messager.alert("系统提示", "保存成功", "info");
                 loadDict();
+                var row = $("#dg").datagrid('getSelected');
             }, function (data) {
                 $.messager.alert('提示', '保存失败', "error");
             })
         }
-    });
-
-    $("#searchBtn").on("click", function () {
-        var drugClass = $("#drugClass").combobox('getValue');
-        var drugSubClass = $("#drugSubClass").combobox('getValue');
-        var drugLocation = $("#drugLocation").combobox('getValue');
-        var drugForm = $("#drugForm").combobox('getValue');
-        console.log("drugClass:" + drugClass);
-        console.log("drugSubClass:" + drugSubClass);
-        console.log("drugLocation:" + drugLocation);
-        console.log("drugForm:" + drugForm);
     });
 
     var loadDict = function () {

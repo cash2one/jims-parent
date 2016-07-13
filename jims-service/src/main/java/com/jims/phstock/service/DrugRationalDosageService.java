@@ -29,6 +29,16 @@ public class DrugRationalDosageService implements DrugRationalDosageApi {
     }
 
     /**
+     * 根据药品代码查询药品用量信息
+     * @param drugCode 药品代码
+     * @return
+     * @author fengyuguang
+     */
+    public List<DrugRationalDosage> getListByDrugCode(String drugCode){
+        return drugRationalDosageBo.getListByDrugCode(drugCode);
+    }
+
+    /**
      * 保存增删改数据
      * @param beanChangeVo
      * @return

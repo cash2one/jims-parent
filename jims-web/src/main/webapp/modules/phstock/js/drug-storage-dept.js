@@ -129,13 +129,19 @@ $(function () {
             }
         ]],
         onClickRow: function(index,row){
-            stopEdit();
-            storageCode = row.storageCode;
-            $.get(basePath + '/drug-sub-storage-dept/list-by-storageCode?orgId=' + orgId + '&storageCode=' + row.storageCode, function (data) {
-                oldSubStorage = [];
-                oldSubStorage = data;
-                $("#drug-sub-storage").datagrid('loadData', data);
-            });
+            if(row.storageName == ""){
+                stopEdit();
+                $("#drug-storage").datagrid("beginEdit", index);
+            }else{
+                stopEdit();
+                storageCode = row.storageCode;
+                $.get(basePath + '/drug-sub-storage-dept/list-by-storageCode?orgId=' + orgId + '&storageCode=' + row.storageCode, function (data) {
+                    oldSubStorage = [];
+                    oldSubStorage = data;
+                    $("#drug-sub-storage").datagrid('loadData', data);
+                });
+            }
+
         }
     });
 
@@ -227,21 +233,6 @@ $(function () {
                 loadStorageDept();
             });
         }
-
-        /*if (beanChangeVo) {
-            $.postJSON(basePath + '/drug-storage-dept/save', JSON.stringify(beanChangeVo), function (resp) {
-                if (resp.data == 'success') {
-                    $.messager.alert("提示消息", "保存成功!");
-                    loadStorageDept();
-                } else {
-                    $.messager.alert('提示', "保存失败", "error");
-                    loadStorageDept();
-                }
-            }, function (data) {
-                $.messager.alert('提示', "保存失败", "error");
-                loadStorageDept();
-            });
-        }*/
     });
 
     $("#drug-sub-storage").datagrid({

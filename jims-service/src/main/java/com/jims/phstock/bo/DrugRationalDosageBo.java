@@ -33,6 +33,16 @@ public class DrugRationalDosageBo extends CrudImplService<DrugRationalDosageDao,
     }
 
     /**
+     * 根据药品代码查询药品用量信息
+     * @param drugCode 药品代码
+     * @return
+     * @author fengyuguang
+     */
+    public List<DrugRationalDosage> getListByDrugCode(String drugCode) {
+        return drugRationalDosageDao.getListByDrugCode(drugCode);
+    }
+
+    /**
      * 保存增删改数据
      * @param beanChangeVo
      * @return
