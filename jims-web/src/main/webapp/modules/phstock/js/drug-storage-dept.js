@@ -155,19 +155,19 @@ $(function () {
             }
         ]],
         onClickRow: function(index,row){
-            if(row.storageName == ""){
-                stopEdit();
-                $("#drug-storage").datagrid("beginEdit", index);
-            }else{
-                stopEdit();
-                storageCode = row.storageCode;
-                $.get(basePath + '/drug-sub-storage-dept/list-by-storageCode?orgId=' + orgId + '&storageCode=' + row.storageCode, function (data) {
-                    oldSubStorage = [];
-                    oldSubStorage = data;
-                    $("#drug-sub-storage").datagrid('loadData', data);
-                });
-            }
-
+            $.get(basePath + '/drug-storage-dept/list?orgId=' + orgId,function(data){
+                if(index > data.length - 1){
+                    stopEdit();
+                    $("#drug-storage").datagrid("beginEdit", index);
+                }
+            });
+            stopEdit();
+            storageCode = row.storageCode;
+            $.get(basePath + '/drug-sub-storage-dept/list-by-storageCode?orgId=' + orgId + '&storageCode=' + row.storageCode, function (data) {
+                oldSubStorage = [];
+                oldSubStorage = data;
+                $("#drug-sub-storage").datagrid('loadData', data);
+            });
         }
     });
 
