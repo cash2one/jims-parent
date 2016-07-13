@@ -82,8 +82,8 @@ function save(){
     $.postJSON(basePath+'/outpAcctMaster/save',submitJson,function(data){
         if(data.data=="success"){
             $.messager.alert("提示消息","收费结账成功");
-            $('#payments').datagrid('load');
-            $('#itemsTables').datagrid('load');
+            $('#payments').datagrid('load', { total: 0, rows: [] });
+            $('#itemsTables').datagrid('load', { total: 0, rows: [] });
             $('#searchform').form('load',"");
         }else{
             $.messager.alert('提示',"收费结账失败", "error");
