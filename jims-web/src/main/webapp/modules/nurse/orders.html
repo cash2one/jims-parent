@@ -10,13 +10,60 @@
     <script type="text/javascript" src="/static/data/data_orders.js"></script>
     <script type="text/javascript" src="/static/data/data_orders_administration.js"></script>
     <script type="text/javascript" src="/static/data/data_orders_freq.js"></script>
+    <style>
+        .colorblock-info
+        {
+            position:absolute;
+            top:10px;
+            right:5px;
+            z-index: 20;
+        }
+        .colorblock-info ul li
+        {
+            display:inline-block;
+            padding-right:5px;
+        }
+        .colorblock-info ul li span
+        {
+            width:10px;
+            height:10px;
+            display:inline-block;
+            margin-right:5px;
+        }
+        .colorblock-info ul li span.color1
+        {
+            background: #A7CACB;
+        }
+        .colorblock-info ul li span.color2
+        {
+            background: #90EE90;
+        }
+        .colorblock-info ul li span.color3
+        {
+            background: #EED5D2;
+        }
+        .colorblock-info ul li span.color4
+        {
+            background:  #FFA54F;
+        }
+        .colorblock-info ul li span.color5
+        {
+            background:  #8B668B;
+        }
+        .colorblock-info ul li span.color6
+        {
+            background:   #698B69;
+        }
+
+
+    </style>
 </head>
 <body class="easyui-layout" >
 
 <div class="search-standard clearfix">
 
         <ul class="clearfix">
-         <!--   <form id="baseInfo">
+           <form id="baseInfo">
             <li>床标号:<input name="bed_no1" class="validatebox-text" readonly/></li>
             <li>姓名:<input name="name" class="validatebox-text" readonly/></li>
             <li>性别:<input name="sex" class="validatebox-text" readonly/></li>
@@ -26,7 +73,7 @@
             <li>费别:<input name="charge_type" class="validatebox-text" readonly/></li>
             <li>诊断:<input name="diagnosis" class="validatebox-text" readonly/></li>
             <li>经治医生:<input name="doctor_in_charge" class="validatebox-text" readonly/></li>
-            </form>-->
+            </form>
             <form name="searchform" method="post" id ="searchform">
             <li>
                长期/临时:
@@ -51,24 +98,20 @@
 
 
 </div>
-<div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
-        <div class="bot-medbtn">
-            <a href="#" onclick="executeOrders()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">临时医嘱执行</a>
-            <a href="#" onclick="savePre()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
-            <a href="#" onclick="proofOrders()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">校对</a>
-
-        </div>
-</div>
 <table id="orderList" width="100%"   cellspacing="0" cellpadding="0" >
 
 </table>
-
-<table id="orderCostList" width="100%"   cellspacing="0" cellpadding="0" >
-
-</table>
-<div id="ordersDialog"  >
-    <div id="ordersDatagrid">
+<div style=" position:absolute; right:200px; bottom:20px; z-index:1;">
+    <div class="colorblock-info">
+        <ul>
+            <li><span class="color2"></span>传输</li>
+            <li><span class="color1"></span>护士转抄</li>
+            <li><span class="color3"></span>护士执行</li>
+            <li><span class="color4"></span>医生停止</li>
+            <li><span class="color5"></span>医生作废</li>
+            <li><span class="color6"></span>护士停止</li>
+        </ul>
     </div>
-</div>
+    </div>
 </body>
 </html>

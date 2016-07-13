@@ -200,10 +200,11 @@
 			and ORDERS.repeat_indicator = #{repeatIndicator}
 		</if>
 		<if test="startDateTime!=null and startDateTime!=''">
+			<if test="stopDateTime!=null and stopDateTime!=''">
 			and ORDERS.START_DATE_TIME  &gt;= to_date(to_char(startDateTime,'yyyy-mm-dd'),'yyyy-mm-dd')
-		</if>
-		<if test="stopDateTime!=null and stopDateTime!=''">
+
 			and ORDERS.START_DATE_TIME   &lt;= to_date(to_char(stopDateTime,'yyyy-mm-dd'),'yyyy-mm-dd')
+		</if>
 		</if>
      order by order_no
 	</select>
