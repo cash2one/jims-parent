@@ -111,7 +111,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         for(int i=0;i<examItemsList.size();i++){
             ClinicItemDict clinicItemDict=new ClinicItemDict();
             ExamItems examItems=examItemsList.get(i);
-            clinicItemDict.setInputCode(examItems.getExamItemCode());
+            clinicItemDict.setItemCode(examItems.getExamItemCode());
             examItems.setAppointsId(examAppoints.getId());
             examItems.setClinicId(examAppoints.getClinicId());
             examItems.setVisitId(examAppoints.getVisitId());
