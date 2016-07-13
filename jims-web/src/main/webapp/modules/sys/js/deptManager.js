@@ -1,6 +1,9 @@
 $("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/easyui/css/icon.css"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
-$("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
+$("<script>").attr({
+    type: "application/javascript",
+    src: "/static/easyui/locale/easyui-lang-zh_CN.js"
+}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
 $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"}).appendTo("head");
@@ -75,7 +78,6 @@ $(function () {
             var depts = [];
             var treeDepts = [];
 
-            //var orgId=1
             var loadPromise = $.get("/service/dept-dict/list?orgId=" + orgId, function (data) {
                 $.each(data, function (index, item) {
                     var obj = {};
@@ -89,9 +91,7 @@ $(function () {
                     obj.children = [];
 
                     depts.push(obj);
-
                 });
-
             });
 
 
@@ -110,7 +110,6 @@ $(function () {
                         treeDepts.push(depts[i])
                     }
                 }
-
                 $("#tt").treegrid('loadData', treeDepts);
                 console.log(treeDepts);
             })
@@ -139,7 +138,6 @@ $(function () {
             $("#deptPropertity").html("");
             $("#dlg").dialog("open").dialog("setTitle", "添加科室");
             $("#inputCode").attr('readonly', true);
-
 
             $.ajax({
                 url: "/service/dept-property/selectProperty?orgId=" + orgId,
@@ -171,8 +169,6 @@ $(function () {
                 }
             });
 
-            //  clearInput();
-
             $("#parentId").combobox({
                 'url': '/service/dept-dict/selectParentByOrgId?orgId=' + orgId,
                 valueField: 'id',
@@ -186,8 +182,6 @@ $(function () {
                     $("#inputCode").textbox('setValue', inputCode);
                 }
             });
-
-
         });
 
         //给上级科室的下拉列表赋值
@@ -249,8 +243,6 @@ $(function () {
             } else {
                 $.messager.alert("系统提示", "填写信息不完整，请重新填写！");
             }
-
-
         });
 
 
@@ -401,11 +393,12 @@ $(function () {
             striped: true,
             singleSelect: true,
             method: 'get',
-            url: '/service/dept-property/listProperty?orgId=' + orgId,
+            url: '/service/dept-property/list?orgId=' + orgId,
             idField: 'id',
             singleSelect: true,//是否单选
             rownumbers: true,//行号
             fitColumns: true,
+
             columns: [[
                 {
                     field: 'propertyType', title: '属性类型', width: 235, align: 'center',

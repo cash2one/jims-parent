@@ -58,13 +58,16 @@ public class DeptDictBo extends CrudImplService<DeptDictDao, DeptDict> {
                     //得到每一个切割后的科室属性值
                     if (StringUtils.isNotBlank(str[y])) {
                         //拿科室属性值和科室的类型去数据库中查询科室属性名称
-                        OrgDeptPropertyDict listName = orgDeptPropertyDictDao.findNameByTypeAndValue(listProperty.get(y).getPropertyType(), str[y],orgId);
-                        if (listName == null) {
+                        OrgDeptPropertyDict orgDeptPropertyDict=new OrgDeptPropertyDict();
+                        orgDeptPropertyDict.setPropertyType(listProperty.get(y).getPropertyType());
+                        orgDeptPropertyDict.setOrgId(orgId);
+                        orgDeptPropertyDict.setPropertyValue(str[y]);
+                        List<OrgDeptPropertyDict> listName = orgDeptPropertyDictDao.findByCondition(orgDeptPropertyDict);
+                        if (listName.get(0) == null) {
                             sb.append(" ");
                         } else {
-                            sb.append(listName.getPropertyName() + " ");
+                            sb.append(listName.get(0).getPropertyName() + " ");
                         }
-                     //   sb.append(listName.getPropertyName() + ",") ;
                     }
                 }
                 list.get(i).setDeptPropertityName(sb.toString());
