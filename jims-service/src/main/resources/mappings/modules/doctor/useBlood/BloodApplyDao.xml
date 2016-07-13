@@ -52,6 +52,8 @@
 	</sql>
 	
 	<sql id="bloodApplyJoins">
+	</sql>
+	<sql id="bloodApplyJoins2">
 		left join  pat_visit b on a.patient_id =b.patient_id
 	</sql>
     
