@@ -10,7 +10,6 @@ import com.jims.common.data.StringData;
 import com.jims.prescription.api.OutpPrescServiceApi;
 import com.jims.prescription.entity.OutpPresc;
 import org.springframework.stereotype.Component;
-import org.springframework.util.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -172,6 +171,8 @@ public class OutpPrescRest {
     @POST
     public ClinicMaster getClinicMaster(String id) {
         ClinicMaster clinicMaster = clinicMasterServiceApi.get(id);
+        String prescNo = clinicMasterServiceApi.getPrescNo(id);
+        clinicMaster.setPrescNo(prescNo);
         return clinicMaster;
     }
 

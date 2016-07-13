@@ -58,14 +58,13 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
             if(outpPresc!=null){
                 //根据病人就诊ID，查询病人就诊记录信息
                 ClinicMaster clinicMaster = clinicMasterDao.get(outpPresc.getClinicId());
-                Integer prescno=dao.getMaxPrescNo(clinicMaster.getOrgId());
                 String serialNo = IdGen.uuid();
                 OutpOrders oo = new OutpOrders();
                 List<OutpPresc> lists = outpPresc.getList();
                 List<OutpOrdersCosts> ordersCostsesList = new ArrayList<OutpOrdersCosts>();
-                outpPresc.setPrescNo(NumberUtils.getClinicPrescription(clinicMaster.getId()));
                if(lists!=null && lists.size()>0){
-                   for (OutpPresc op : lists) {
+                   for(int i=0;i<lists.size();i++){
+                       OutpPresc op = lists.get(i);
                        op.setChargeIndicator(0); // 未收费
                        op.setVisitNo(clinicMaster.getVisitNo());
                        op.setVisitDate(clinicMaster.getVisitDate());
@@ -93,56 +92,57 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                            }
                        }
                        op.setCharges(op.getCosts());
-                       op.setItemNo(1);
+                       op.setItemNo(i+1);
                        op.setSerialNo(serialNo);
                        if(op.getId()!=null && !op.getId().equals("")){
                            num = String.valueOf(dao.update(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }else{
-                           op.setPrescNo(outpPresc.getPrescNo());
+//                           op.setPrescNo(outpPresc.getPrescNo());
                            op.setProvidedIndicator(0);//自备标记
                            op.preInsert();
                            num = String.valueOf(dao.insert(op));
                            ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
                        }
                        if(op.getSubOrderNo().equals(op.getOrderNo())){//主医嘱，由于子处方用药途径与主处方用药途径只收一次途径项目费用
-                            if(op.getAdministration()!=null&&!"".equals(op.getAdministration())){
-                                BaseDto baseDto = administrationDictDao.findByParams(op.getAdministration(),op.getOrgId());
-                                if(baseDto!=null&&baseDto.get("price").toString()!=null&&!"".equals(baseDto.get("price").toString())){
-                                    OrgStaff orgStaff=new OrgStaff();
-                                    OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
-                                    outpOrdersCosts.setMasterId(outpPresc.getId());
-                                    outpOrdersCosts.setClinicId(clinicMaster.getId());
-                                    outpOrdersCosts.setOrgId(clinicMaster.getOrgId());
-                                    outpOrdersCosts.setOrderClass(outpPresc.getItemClass());//诊疗项目类别
-                                    outpOrdersCosts.setPatientId(clinicMaster.getPatientId());
-                                    outpOrdersCosts.setSerialNo(op.getSerialNo());
-                                    outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
-                                    outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
-                                    outpOrdersCosts.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + clinicMaster.getVisitNo());
-                                    outpOrdersCosts.setOrderNo(outpPresc.getOrderNo());
-                                    outpOrdersCosts.setOrderSubNo(outpPresc.getSubOrderNo());
-                                    outpOrdersCosts.setItemNo(outpPresc.getItemNo());
-                                    outpOrdersCosts.setItemClass(baseDto.get("charge_item_class").toString());//收费项目类别
-                                    outpOrdersCosts.setItemName(baseDto.get("item_name").toString());
-                                    outpOrdersCosts.setItemCode(baseDto.get("item_code").toString());
-                                    outpOrdersCosts.setItemSpec(baseDto.get("item_spec").toString());
-                                    outpOrdersCosts.setUnits(baseDto.get("units").toString());
-                                    outpOrdersCosts.setRepetition(outpPresc.getRepetition());
-                                    outpOrdersCosts.setAmount(outpPresc.getAmount());
-                                    outpOrdersCosts.setOrderedByDept(""); // 当前医师坐诊科室
-                                    outpOrdersCosts.setOrderedByDoctor("");
-                                    outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
-                                    outpOrdersCosts.setCosts(outpPresc.getCosts()*outpPresc.getAmount());
-                                    outpOrdersCosts.setCharges(outpPresc.getCharges()*outpPresc.getAmount());
-                                    outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
-                                    outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
-                                    outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
-                                    ordersCostsesList.add(outpOrdersCosts);
-                                }
-                            }
+                           if(op.getAdministration()!=null&&!"".equals(op.getAdministration())){
+                               BaseDto baseDto = administrationDictDao.findByParams(op.getAdministration(),op.getOrgId());
+                               if(baseDto!=null&&baseDto.get("price").toString()!=null&&!"".equals(baseDto.get("price").toString())){
+                                   OrgStaff orgStaff=new OrgStaff();
+                                   OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
+                                   outpOrdersCosts.setMasterId(outpPresc.getId());
+                                   outpOrdersCosts.setClinicId(clinicMaster.getId());
+                                   outpOrdersCosts.setOrgId(clinicMaster.getOrgId());
+                                   outpOrdersCosts.setOrderClass(outpPresc.getItemClass());//诊疗项目类别
+                                   outpOrdersCosts.setPatientId(clinicMaster.getPatientId());
+                                   outpOrdersCosts.setSerialNo(op.getSerialNo());
+                                   outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
+                                   outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
+                                   outpOrdersCosts.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + clinicMaster.getVisitNo());
+                                   outpOrdersCosts.setOrderNo(outpPresc.getOrderNo());
+                                   outpOrdersCosts.setOrderSubNo(outpPresc.getSubOrderNo());
+                                   outpOrdersCosts.setItemNo(outpPresc.getItemNo());
+                                   outpOrdersCosts.setItemClass(baseDto.get("charge_item_class").toString());//收费项目类别
+                                   outpOrdersCosts.setItemName(baseDto.get("item_name").toString());
+                                   outpOrdersCosts.setItemCode(baseDto.get("item_code").toString());
+                                   outpOrdersCosts.setItemSpec(baseDto.get("item_spec").toString());
+                                   outpOrdersCosts.setUnits(baseDto.get("units").toString());
+                                   outpOrdersCosts.setRepetition(outpPresc.getRepetition());
+                                   outpOrdersCosts.setAmount(outpPresc.getAmount());
+                                   outpOrdersCosts.setOrderedByDept(""); // 当前医师坐诊科室
+                                   outpOrdersCosts.setOrderedByDoctor("");
+                                   outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
+                                   outpOrdersCosts.setCosts(outpPresc.getCosts()*outpPresc.getAmount());
+                                   outpOrdersCosts.setCharges(outpPresc.getCharges()*outpPresc.getAmount());
+                                   outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
+                                   outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
+                                   outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
+                                   ordersCostsesList.add(outpOrdersCosts);
+                               }
+                           }
                        }
                    }
+
                }
                 //保存门诊医嘱信息
                 oo.setClinicId(clinicMaster.getId());

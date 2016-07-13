@@ -519,7 +519,7 @@ function newpresc(){
             visitDate=parse.visitDate;
             visitNo = parse.visitNo;
             itemClass = itemClass;
-            prescNo = prescNo;
+            prescNo = parse.prescNo;
             chargeIndicator = chargeIndicator;
             var idx = $('#leftList').datagrid('appendRow', {
                     visitDate: visitDate,
