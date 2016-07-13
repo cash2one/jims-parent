@@ -83,4 +83,15 @@ public class DrugNameDictService implements DrugNameDictServiceApi {
     public List<DrugNameDict> listDrugNameDictByDrugCode(String drugCode) {
         return bo.listDrugNameDictByDrugCode(drugCode);
     }
+
+    /**
+     * 通过药品类别和剂型获取药品列表
+     * @param  drugForm,classCode 剂型，类别
+     * @return
+     * @author zhuqi
+     */
+    @Override
+    public List<DrugNameDict> listDrugNameDictByClassCode(String classCode, String drugForm) {
+        return bo.listDrugNameDictByClassCode(classCode,drugForm);
+    }
 }

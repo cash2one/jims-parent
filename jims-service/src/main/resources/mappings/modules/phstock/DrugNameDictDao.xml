@@ -43,6 +43,16 @@
 		WHERE a.drug_code  = #{drugCode}
 		and a.del_flag = '0'
 	</select>
+
+    <select id="listDrugNameDictByClassCode" resultType="DrugNameDict">
+        select
+            *
+        from drug_name_dict a
+        where
+            a.drug_code like '%'||#{1}||'%'
+            and a.drug_code like #{0}||'%'
+            and a.del_flag = '0'
+    </select>
 	
 	<select id="findList" resultType="DrugNameDict">
 		SELECT 
