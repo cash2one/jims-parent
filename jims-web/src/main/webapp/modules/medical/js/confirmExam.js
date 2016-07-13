@@ -20,7 +20,7 @@ function onloadMethod(outOrIn){
         //sortOrder: 'desc',
         remoteSort:false,
         idField:'fldId',
-        singleSelect:true,//是否单选
+        singleSelect:false,//是否单选
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容

@@ -15,6 +15,7 @@
     <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_relationship.js"></script>
     <script type="text/javascript" src="/static/data/data_dict_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_profession.js"></script>
 </head>
 
 <body>
@@ -37,16 +38,16 @@
             <tr>
                 <td colspan="3">
                     性&nbsp;&nbsp;别  <input name="sex" class="easyui-validatebox validatebox-text" style="width:100px;" id="setId">
-                    &nbsp; 出生日期  <input  name="dateOfBirth" style="width: 199px;" class="easyui-datebox datebox-f combo-f textbox-f validatebox-text-s" required="true">
-                    &nbsp;&nbsp;身份证号  <input  name="idNo" class="easyui-validatebox validatebox-text  " required="true"  style="width:200px;">
+                    &nbsp; 出生日期  <input  name="dateOfBirth" style="width: 199px;" class="easyui-datebox datebox-f combo-f textbox-f validatebox-text-s">
+                    &nbsp;&nbsp;身份证号  <input  name="idNo" class="easyui-validatebox validatebox-text  "   style="width:200px;" validType="idcard">
                     <!--&nbsp;&nbsp;&nbsp; 身份证号 <input  name="name" style="width: 200px;" class="easyui-validatebox validatebox-text" required="true">-->
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
                     国&nbsp;&nbsp;籍  <input name="citizenship" class="easyui-validatebox validatebox-text" id="citizenship" style="width: 100px;">
-                    &nbsp; 民&nbsp;&nbsp;族  <input  name="nation" class="easyui-validatebox validatebox-text " required="true" id="nation" style="width: 200px;">
-                    &nbsp;&nbsp;  职&nbsp;&nbsp;业  <input  name="occupation" class="easyui-validatebox validatebox-text " required="true" id="occupation" style="width: 100px;">
+                    &nbsp; 民&nbsp;&nbsp;族  <input  name="nation" class="easyui-validatebox validatebox-text "  id="nation" style="width: 200px;">
+                    &nbsp;&nbsp;  职&nbsp;&nbsp;业  <input  name="occupation" class="easyui-validatebox validatebox-text validatebox-text-xs"  id="occupation" style="width: 100px;">
                     &nbsp;&nbsp;&nbsp;身&nbsp;&nbsp;份  <input name="identity" class="easyui-validatebox validatebox-text validatebox-text-xs" id="identity" style="width: 200px;">
                 </td>
             </tr>
@@ -71,19 +72,19 @@
             </tr>
              <tr>
                  <td colspan="3">
-                     现住详细地址  <input  name="patientAreaAddress" class="easyui-validatebox validatebox-text" required="true" style="width:800px;">
+                     现住详细地址  <input  name="patientAreaAddress" class="easyui-validatebox validatebox-text"  style="width:800px;">
                  </td>
              </tr>
             <tr>
                 <td colspan="3">
                     户口地址  <input name="mailingAddressCode" class="easyui-validatebox validatebox-text">&nbsp;&nbsp;
-                    邮&nbsp;&nbsp;编  <input  name="zipCode" style="width: 100px;" class="easyui-validatebox validatebox-text" required="true">
+                    邮&nbsp;&nbsp;编  <input  name="zipCode" style="width: 100px;" class="easyui-validatebox validatebox-text">
                 </td>
 
             </tr>
              <tr>
                  <td colspan="3">
-                   户口详细地址  <input  name="mailingAddress" class="easyui-validatebox validatebox-text" required="true" style="width: 800px;">
+                   户口详细地址  <input  name="mailingAddress" class="easyui-validatebox validatebox-text"  style="width: 800px;">
                  </td>
              </tr>
             <tr>
