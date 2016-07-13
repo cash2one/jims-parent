@@ -52,4 +52,18 @@ public interface DrugExportServiceApi {
      * @return
      */
     public List<DrugExportDetail> findDetailListWithStock(DrugExportDetail detail,String storage,String subStorage);
+
+    /**
+     * 查询某段时间内的出库数据
+     * @param startTime
+     * @param endTime
+     * @param orgId
+     * @param storageCode
+     * @return
+     */
+    public List<DrugExportMaster> findExportData(String startTime, String endTime, String orgId, String storageCode);
+
+    public DrugExportMaster findById(String id);
+
+    public DrugExportMaster update(DrugExportMaster drugExportMaster);
 }

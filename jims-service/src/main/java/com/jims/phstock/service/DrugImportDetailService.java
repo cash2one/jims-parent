@@ -15,6 +15,8 @@ import com.jims.phstock.entity.DrugSubStorageDept;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,8 @@ public class DrugImportDetailService implements DrugImportServiceApi{
 
     @Autowired
     private DrugImportBo bo;
+    @Autowired
+    private DrugImportMasterDao drugImportMasterDao;
 
     /**'
      * 保存药品出库主表数据
@@ -59,5 +63,20 @@ public class DrugImportDetailService implements DrugImportServiceApi{
         } catch (RuntimeException e){
         }
         return result;
+    }
+
+    @Override
+    public List<DrugImportMaster> findImportData(String orgId, String startTime, String storageCode) {
+       return bo.findImportData(orgId,startTime,storageCode);
+    }
+
+    @Override
+    public DrugImportMaster findById(String id) {
+        return bo.findById(id);
+    }
+
+    @Override
+    public void update(DrugImportMaster drugImportMaster) {
+        bo.update(drugImportMaster);
     }
 }

@@ -1,12 +1,15 @@
 package com.jims.phstock;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.asepsis.vo.ImpExpVo;
 import com.jims.phstock.api.DrugExportServiceApi;
 import com.jims.phstock.entity.DrugExportDetail;
 import com.jims.phstock.entity.DrugExportMaster;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,4 +106,46 @@ public class DrugExportRest {
         detail.setDocumentNo(documentNo);
         return api.findDetailListWithStock(detail,storage,subStorage);
     }
+
+    /**
+     * 查询某段时间内的出库记录
+     * @return
+     */
+    @POST
+    @Path("find-export-data")
+    public List<ImpExpVo> findExportData(@QueryParam("startTime") String startTime, @QueryParam("endTime") String endTime, @QueryParam("orgId") String orgId, @QueryParam("storageCode") String storageCode){
+        List<ImpExpVo> returnVal=new ArrayList<ImpExpVo>();
+        List<DrugExportMaster> l= api.findExportData(startTime,endTime,orgId,storageCode);
+        if(l!=null&&!l.isEmpty()){
+            for(DrugExportMaster d:l){
+                ImpExpVo i=new ImpExpVo();
+                i.setAccountIndicator(d.getAccountIndicator());
+                i.setId(d.getId());
+                i.setAcctDate(d.getAcctDate());
+                i.setAcctOperator(d.getAcctOperator());
+                i.setDocumentNo(d.getDocumentNo());
+                i.setImportExportClass(d.getExportClass());
+                i.setDate(d.getExportDate());
+                i.setFlag(1);
+                returnVal.add(i);
+            }
+        }
+        return returnVal;
+    }
+
+    /**
+     * 记账
+     * @param id
+     * @return
+     */
+    @POST
+    @Path("acct")
+    public DrugExportMaster acct(@QueryParam("id") String id,@QueryParam("personId") String personId){
+        DrugExportMaster drugExportMaster=api.findById(id);
+        drugExportMaster.setAcctDate(new Date());
+        drugExportMaster.setAcctOperator(personId);
+        drugExportMaster.setAccountIndicator(1);
+        return api.update(drugExportMaster);
+    }
+
 }
