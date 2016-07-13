@@ -48,6 +48,9 @@ function endEditing(){
 
     loadAnother = function(){
         //厂商
+        if(drugSupplierCatalog.length==0||drugDict.length==0||drugSubStorageDept.length==0){//若这三个对象任何一个为空，就隔一秒递归调用一次本方法，直至三个对象都不为空
+            setTimeout("loadAnother()",1000);
+        }
         $('#firmId').combogrid({
             panelWidth:300,
             idField:'supplierCode',
@@ -82,11 +85,11 @@ function endEditing(){
     loadAnotherData = function(){
         var listAll = $('#list_data').datagrid('getRows');
         $.each(listAll, function(i, r){
-            $.each(drugSubStorageDept,function(index,row){
-                if(row.subStorageCode == r.subStorage){
-                    r.subStorage = row.subStorage;
-                }
-            });
+            //$.each(drugSubStorageDept,function(index,row){
+            //    if(row.subStorageCode == r.subStorage){
+            //        r.subStorage = row.subStorage;
+            //    }
+            //});
             $.each(drugSupplierCatalog,function(index,row){
                 if(row.supplierCode == r.firmId){
                     r.firmId = row.supplierId;

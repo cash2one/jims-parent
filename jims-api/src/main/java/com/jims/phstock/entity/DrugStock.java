@@ -44,8 +44,8 @@ public class DrugStock extends DataEntity<DrugStock> {
 	private String orgId;		// 所属组织结构
 
     private String drugName;  // 药品名称
-    private String storageName;  // 一级库房
-    private String subStorageName;  // 二级库房
+    private String storageName;  // 库房（一级二级等库房）
+    private String subStorageName;  // 子库房（一级二级等库房的子库房）
     private String inputCode;  // 拼音码
     private String q;  // 模糊查询字段
     private String priceListId;
