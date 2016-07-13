@@ -10,8 +10,33 @@ $(function(){
             editIndex = undefined;
         }
     }
+    var storage =[];
+    $.ajax({
+        url: parent.basePath + '/dict/findListByType',
+        data: {type:'DRUG_STOCK_TYPE_DICT'},
+        type: 'get',
+        async: false
+    }).always(function(res){
+        if(res){
+            storage = res;
+        }
+    })
 
-    var storage = [{storageType: '全部'}, {storageType: '药库'}, {storageType: '药局'}];
+    /**
+     * 格式化字典表数据
+     * @param arr
+     * @param value
+     */
+    var formatDict = function(arr,value){
+        if(arr && arr.length > 0 && value != undefined){
+            for(var i= 0,j=arr.length;i<j;i++){
+                if(arr[i].value == value){
+                    return arr[i].label;
+                }
+            }
+        }
+        return '';
+    }
 
     $("#importDict").on("click", function () {
         $("#drugdict").datagrid('loadData',[]);
@@ -49,10 +74,12 @@ $(function(){
                     options: {
                         editable: false,
                         align: 'center',
-                        valueField: 'storageType',
-                        textField: 'storageType',
+                        valueField: 'value',
+                        textField: 'label',
                         data: storage
                     }
+                },formatter: function (value) {
+                    return formatDict(storage,value);
                 }
             },{
                 title: '是否记账',
@@ -149,10 +176,12 @@ $(function(){
                     options: {
                         editable: false,
                         align: 'center',
-                        valueField: 'storageType',
-                        textField: 'storageType',
+                        valueField: 'value',
+                        textField: 'label',
                         data: storage
                     }
+                },formatter: function (value) {
+                    return formatDict(storage,value);
                 }
             }, {
                 title: '是否记账',

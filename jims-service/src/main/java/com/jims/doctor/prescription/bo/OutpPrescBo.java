@@ -72,7 +72,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                        op.setPrescAttr(outpPresc.getPrescAttr());
                        op.setGetdrugFlag(1);//未取药
                        op.setAbidance(1);
-                       op.setPatientId(clinicMaster.getClinicId());
+                       op.setPatientId(clinicMaster.getPatientId());
                        if(op.getItemClass()!=null&&"B".equals(op.getItemClass())){//中药
                            if(op.getAmount()!=null&&!"".equals(op.getAmount())&&op.getAmount()!=0){//中药数量>0
                                if(op.getRepetition()!=null&&!"".equals(op.getRepetition())&&op.getRepetition()!=0){//剂数>0
@@ -299,6 +299,16 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
      * @return
      */
     public String delByPrescNo(OutpPresc outpPresc) {
+        List<OutpPresc> list = new ArrayList<OutpPresc>();
+        list = dao.findListByParams(outpPresc);
+        if(list!=null){
+            for(OutpPresc op : list){
+                OutpOrdersCosts opc = new OutpOrdersCosts();
+                opc.setMasterId(op.getId());
+                //删除计价项目
+                outpOrdersCostsDao.removeByMasterId(opc);
+            }
+        }
         return String.valueOf(dao.delByPrescNo(outpPresc));
     }
 }
