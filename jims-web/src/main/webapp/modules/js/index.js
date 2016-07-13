@@ -1,18 +1,16 @@
-function centerRefresh(id, name, url) {
-    $(window.parent.document).contents().find("#centerIframe")[0].contentWindow.addTabs(id, name, url);
-}
-var str = decodeURI(window.location.search);   //location.search是从当前URL的
-if (str.indexOf(name) != -1) {
-    var pos_start = str.indexOf(name) + name.length + 1;
-    var pos_end = str.indexOf("&", pos_start);
-    if (pos_end == -1) {
-        var id = str.substring(4, str.lastIndexOf("?"));
-        //人员id
-        var pid = str.substring(id.length + 16);
-    }
-
-
-}
+//function centerRefresh(id, name, url) {
+//    $(window.parent.document).contents().find("#centerIframe")[0].contentWindow.addTabs(id, name, url);
+//}
+//var str = decodeURI(window.location.search);   //location.search是从当前URL的
+//if (str.indexOf(name) != -1) {
+//    var pos_start = str.indexOf(name) + name.length + 1;
+//    var pos_end = str.indexOf("&", pos_start);
+//    if (pos_end == -1) {
+//        var id = str.substring(4, str.lastIndexOf("?"));
+//        //人员id
+//        var pid = str.substring(id.length + 16);
+//    }
+//}
 
 
 window.addTab = function (title, href) {
@@ -124,64 +122,76 @@ var addMenu = function (serviceId, staffId) {
         }
 
     })
-
-
 }
 
 var config = {};
 
-config.org_Id = id;
-config.persion_Id = pid;
-config.operator = 'thinkgem';
-config.currentStorage = '1001';
+
 $(function () {
-    var orgId = config.org_Id;
-    var personId = config.persion_Id;
-    var staffId = '';   //员工Id
+
     var sysService;    //名称为系统管理的服务
+    var loginInfo = undefined ;
+    var promise = $.getJSON(basePath+"/login/get-login-info?date="+new Date(),function(data){
+        loginInfo = data ;
+        config = loginInfo ;
+        config.org_Id=loginInfo.orgId ;
+        config.persion_Id = loginInfo.persionId;
+        config.staffId =loginInfo.staffId;
+    }) ;
 
-    //根据机构ID和人员ID查询员工ID
-    $.get(basePath + '/orgStaff/find-staff-by-orgId-personId?persionId=' + personId + '&orgId=' + orgId+"&date=new Date()", function (data) {
-        staffId = data.id;
-    });
-    //根据机构ID和人员ID查询该员工在该机构的所有服务
-    $.get(basePath + '/org-service/find-selfServiceList-by-orgId-personId?personId=' + personId + '&orgId=' + orgId, function (data) {
-        for (var i = 0; i < data.length; i++) {
-            $("#menu").append("<li><a href=\"#\" onclick=\'addMenu(\"" + data[i].id + "\",\"" + staffId + "\")\'>" + data[i].serviceName + "</a></li>");
+    var init=function(){
+        if(!config.currentStorage){
+
         }
-    });
+    }
 
-    //退出
-    $("#exit").on("click", function () {
-        location.href = "/modules/sys/login.html";
-    });
+    promise.done(function(){
+        var orgId = config.org_Id;
+        var personId = config.persion_Id;
+        var staffId = config.staffId;   //员工Id
 
-    $("#paramDialog").dialog({
-        width: 400,
-        height: 500,
-        modal: 'true',
-        title: '参数选择',
-        closed: true,
-        closable: false,
-        buttons: [{
-            text: '确定',
-            handler: function () {
-                $("#paramDialog .easyui-combobox").each(function (index, item) {
-                    var value = $("#" + item.id).combobox('getValue');
-                    config[item.id] = value;
-                    console.log("config");
-                    console.log(config);
-                })
-                $.get(basePath + "/orgStaff/find-list-by-serviceId?serviceId=" + config.serviceId + "&staffId=" + config.staffId, function (data) {
-                    makeTree(data)
-                })
-                $("#paramDialog").dialog("close");
+        //根据机构ID和人员ID查询该员工在该机构的所有服务
+        $.get(basePath + '/org-service/find-selfServiceList-by-orgId-personId?personId=' + personId + '&orgId=' + orgId, function (data) {
+            for (var i = 0; i < data.length; i++) {
+
+                $("#menu").append("<li><a href=\"#\" onclick=\'addMenu(\"" + data[i].id + "\",\"" + staffId + "\")\'>" + data[i].serviceName + "</a></li>");
             }
-        }, {
-            text: '取消',
-            handler: function () {
-                $("#paramDialog").dialog("close")
-            }
-        }]
+        });
+
+        //退出
+        $("#exit").on("click", function () {
+            location.href = "/modules/sys/login.html";
+        });
+
+        $("#paramDialog").dialog({
+            width: 400,
+            height: 500,
+            modal: 'true',
+            title: '参数选择',
+            closed: true,
+            closable: false,
+            buttons: [{
+                text: '确定',
+                handler: function () {
+                    $("#paramDialog .easyui-combobox").each(function (index, item) {
+                        var value = $("#" + item.id).combobox('getValue');
+                        config[item.id] = value;
+                        console.log("config");
+                        console.log(config);
+                        init();
+                    })
+                    $.get(basePath + "/orgStaff/find-list-by-serviceId?serviceId=" + config.serviceId + "&staffId=" + config.staffId, function (data) {
+                        makeTree(data)
+                    })
+                    $("#paramDialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                handler: function () {
+                    $("#paramDialog").dialog("close")
+                }
+            }]
+        })
     })
+
 });
