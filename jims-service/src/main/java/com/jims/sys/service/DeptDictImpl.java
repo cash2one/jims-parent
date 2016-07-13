@@ -104,5 +104,8 @@ public class DeptDictImpl implements DeptDictApi {
         return deptDictBo.getOperation();
     }
 
-    ;
+    @Override
+    public DeptDict get(String id) {
+        return deptDictBo.get(id);
+    }
 }
