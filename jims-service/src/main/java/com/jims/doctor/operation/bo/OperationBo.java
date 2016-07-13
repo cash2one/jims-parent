@@ -3,6 +3,7 @@ package com.jims.doctor.operation.bo;
 import com.jims.clinic.bo.CostOrdersUtilsService;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.ClinicItemDict;
+import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.doctor.operation.dao.OperationScheduleDao;
 import com.jims.doctor.operation.dao.ScheduledOperationNameDao;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @Service
 @Transactional(readOnly = false)
-public class OperationBo {
+public class OperationBo extends CrudImplService<OperationScheduleDao,OperationSchedule>{
 
     @Autowired
     private PatsInHospitalDao patsInHospitalDao;
@@ -121,23 +122,23 @@ public class OperationBo {
      * @param visitId
      * @return
      */
-    public OperationSchedule getSchedule(String patientId, String visitId, String clinicId) {
-        OperationSchedule operationSchedule = operationScheduleDao.getSchedule(patientId, visitId, clinicId);
-        return operationSchedule;
+    public List<OperationSchedule> getSchedule(String patientId, String visitId, String clinicId) {
+        List<OperationSchedule> operationScheduleList = operationScheduleDao.getScheduleList("", "", clinicId);
+        return operationScheduleList;
     }
 
-    /**
-     * 查询手术名称
-     *
-     * @param patientId
-     * @param visitId
-     * @return
-     */
-    public List<ScheduledOperationName> getOperationName(String patientId, String visitId, String clinicId, String scheduleId) {
-        OperationSchedule operationSchedule = operationScheduleDao.getSchedule(patientId, visitId, clinicId);
-        List<ScheduledOperationName> operationNameList = scheduledOperationNameDao.getOperationName(patientId, visitId, clinicId, scheduleId);
-        return operationNameList;
-    }
+//    /**
+//     * 查询手术名称
+//     *
+//     * @param patientId
+//     * @param visitId
+//     * @return
+//     */
+//    public List<ScheduledOperationName> getOperationName(String patientId, String visitId, String clinicId, String scheduleId) {
+//        OperationSchedule operationSchedule = operationScheduleDao.getSchedule(patientId, visitId, clinicId);
+//        List<ScheduledOperationName> operationNameList = scheduledOperationNameDao.getOperationName(patientId, visitId, clinicId, scheduleId);
+//        return operationNameList;
+//    }
 
     /**
      * 删除手术名称
@@ -169,5 +170,14 @@ public class OperationBo {
     public String confrimOperation(OperationSchedule operationSchedule) {
         int num = operationScheduleDao.confrimOperation(operationSchedule);
         return num + "";
+    }
+    /**
+     * 获取单条数据
+     * @param id
+     * @return
+     */
+    public OperationSchedule getOneOperation(String id){
+        OperationSchedule operationSchedule = operationScheduleDao.getOneOperation(id);
+        return operationSchedule;
     }
 }

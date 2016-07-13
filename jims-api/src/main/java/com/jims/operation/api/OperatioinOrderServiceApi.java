@@ -1,6 +1,7 @@
 package com.jims.operation.api;
 
 import com.jims.clinic.entity.PatsInHospital;
+import com.jims.common.service.CrudService;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.operation.entity.ScheduledOperationName;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author PangQian
  * @date2016/5/12 0012
  */
-public interface OperatioinOrderServiceApi {
+public interface OperatioinOrderServiceApi{
     /**
      * 通过科室ID拿到病人列表
      * @param deptCode
@@ -57,7 +58,7 @@ public interface OperatioinOrderServiceApi {
      * @param patientId
      * @return
      */
-     public OperationSchedule getSchedule(String patientId,String visitId,String clinicId);
+     public List<OperationSchedule> getSchedule(String patientId,String visitId,String clinicId);
 
     /**
      * 删除手术名称
@@ -77,10 +78,16 @@ public interface OperatioinOrderServiceApi {
 
     /**
      * 确认门诊手术
-     * @param id
      * @author pq
      * @return
      */
     public String confrimOperation(OperationSchedule operationSchedule);
+
+    /**
+     * 获取单条数据
+     * @param id
+     * @return
+     */
+    public OperationSchedule getOneOperation(String id);
 
 }
