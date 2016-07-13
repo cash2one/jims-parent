@@ -56,12 +56,11 @@ public interface DrugExportServiceApi {
     /**
      * 查询某段时间内的出库数据
      * @param startTime
-     * @param endTime
      * @param orgId
      * @param storageCode
      * @return
      */
-    public List<DrugExportMaster> findExportData(String startTime, String endTime, String orgId, String storageCode);
+    public List<DrugExportMaster> findExportData(String startTime, String orgId, String storageCode);
 
     public DrugExportMaster findById(String id);
 
