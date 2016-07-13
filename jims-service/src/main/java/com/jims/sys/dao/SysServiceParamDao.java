@@ -3,6 +3,9 @@ package com.jims.sys.dao;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.sys.entity.SysServiceParam;
+import com.jims.sys.vo.ParamVo;
+import com.jims.sys.vo.SqlAdapter;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,4 +30,17 @@ public interface SysServiceParamDao extends CrudDao<SysServiceParam>{
     public int mergeSysServiceParam(List<SysServiceParam> sysServiceParams);
 
 
+    /**
+     * 根据自定义服务ID查询改自定义服务所有的的参数
+     * @param selfServiceId
+     * @return
+     */
+    public List<SysServiceParam> findSysServiceParamBySelfServiceId(String selfServiceId);
+
+    /**
+     * 根据SQL查询结果
+     * @param sqlAdapter
+     * @return
+     */
+    public List<ParamVo> execuSql(SqlAdapter sqlAdapter);
 }

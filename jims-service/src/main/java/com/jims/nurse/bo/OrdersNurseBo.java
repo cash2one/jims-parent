@@ -105,5 +105,28 @@ public class OrdersNurseBo extends CrudImplService<OrdersDao, Orders> {
         }
         return num + "";
     }
+
+
+    /**
+     * 护理端 - 医嘱停止
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String nurseStopOrders(Orders orders){
+        int num = 0;
+        num = dao.nurseStopOrders(orders);
+        return num+"";
+    }
+
+    /**
+     * 护理端 - 医嘱作废
+     * @param orders
+     * @author pq
+     * @return
+     */
+ /*   public String nurseCancelOrders(Orders orders){
+
+    }*/
 }
 

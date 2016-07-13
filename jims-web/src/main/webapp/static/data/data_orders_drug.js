@@ -1,10 +1,11 @@
 var ordersDrugData={};
-ordersDrugData.orgId="1";
 ordersDrugData.dictType="v_clinic_item_price";
+ordersDrugData.inputParamVos =inputParamVos;
+
 
 var drugData = [];
 
-var comboGridComplete = [];
+
 /**
  * 药品
  */
@@ -22,15 +23,9 @@ $.ajax({
 
 
 //药品自动补全
-function comboGridCompleting(q,id){
-    var drugNameData={};
-    drugNameData.orgId="1";
-    drugNameData.dictType="v_clinic_item_price"
+
+function ordersDrugCom(q,id){
     var inputParamVos=new Array();
-    var InputParamVo1={};
-    InputParamVo1.colName='rownum';
-    InputParamVo1.colValue='20';
-    InputParamVo1.operateMethod='<';
     inputParamVos.push(InputParamVo1);
     if(q!='' && q!=null){
         var InputParamVo={};
@@ -38,19 +33,20 @@ function comboGridCompleting(q,id){
         InputParamVo.colValue=q;
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
+        ordersDrugData.inputParamVos=inputParamVos;
+
     }else{
         $("#"+id).combogrid('setValue','');
     }
-    drugNameData.inputParamVos=inputParamVos;
     $.ajax({
         'type': 'POST',
         'url':basePath+'/input-setting/listParam' ,
-        data: JSON.stringify(drugNameData),
+        data: JSON.stringify(ordersDrugData),
         'contentType': 'application/json',
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            comboGridComplete = data;
+            drugData = data;
 
         }
     });

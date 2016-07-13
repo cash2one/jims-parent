@@ -48,4 +48,16 @@ public class OutpPrescServiceImpl implements OutpPrescServiceApi{
     public List<OutpPresc> findListByParams(OutpPresc outpPresc) {
         return outpPrescBo.findListByParams(outpPresc);
     }
+    /**
+     * 根据处方号删除处方
+     * @param outpPresc
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public String delByPrescNo(OutpPresc outpPresc) {
+        return outpPrescBo.delByPrescNo(outpPresc);
+    }
+
+
 }

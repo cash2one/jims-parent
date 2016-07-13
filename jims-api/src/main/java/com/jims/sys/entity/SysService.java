@@ -4,21 +4,27 @@ package com.jims.sys.entity;
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
+import java.beans.Transient;
 import java.util.List;
 
 /**
  * 系统服务Entity
  * @author txb
  * @version 2016-05-31
+ * update by chenxy
+ * 将服务描述字段类型改为byte[]
  */
 public class SysService extends DataEntity<SysService> {
 	
 	private static final long serialVersionUID = 1L;
 	private String serviceName;		// 系统服务名称
-	private String serviceDescription;		// 服务描述
-	private String serviceType;		// 1,有偿服务,0无偿服务
+//	private String serviceDescription;		// 服务描述
+    private byte[] serviceDescription;		// 服务描述
+
+    private String serviceType;		// 1,有偿服务,0无偿服务
 	private String serviceClass;		// 2,所有服务，1,个人服务，0机构服务
 	private String serviceImage;		// 服务图片
+    private String tranServiceDescription;
 
     private List<MenuDict> menuDictList;
     private List<SysServicePrice> sysServicePriceList;
@@ -56,12 +62,11 @@ public class SysService extends DataEntity<SysService> {
 		this.serviceName = serviceName;
 	}
 	
-	@Length(min=0, max=2048, message="服务描述长度必须介于 0 和 2048 之间")
-	public String getServiceDescription() {
+ 	public byte[] getServiceDescription() {
 		return serviceDescription;
 	}
 
-	public void setServiceDescription(String serviceDescription) {
+	public void setServiceDescription(byte[] serviceDescription) {
 		this.serviceDescription = serviceDescription;
 	}
 	
@@ -88,5 +93,13 @@ public class SysService extends DataEntity<SysService> {
 	public void setServiceImage(String serviceImage) {
 		this.serviceImage = serviceImage;
 	}
-	
+
+    @Transient
+    public String getTranServiceDescription() {
+        return tranServiceDescription;
+    }
+
+    public void setTranServiceDescription(String tranServiceDescription) {
+        this.tranServiceDescription = tranServiceDescription;
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,15 +40,34 @@ public class DrugProvideApplicationRest {
                                                  @QueryParam("applicantStorage") String applicantStorage,
                                                  @QueryParam("applicantStorageSub") String applicantStorageSub,
                                                  @QueryParam("documentNo") String documentNo,
-                                                 @QueryParam("flag") String flag) {
+                                                 @QueryParam("flag") String flag,
+                                                 @QueryParam("enterDateTime") Date enterDateTime) {
         DrugProvideApplication entity = new DrugProvideApplication();
         entity.setOrgId(orgId);
         entity.setApplicantStorage(applicantStorage);
         entity.setApplicantStorageSub(applicantStorageSub);
         entity.setDocumentNo(documentNo);
         entity.setFlag(flag);
+        entity.setEnterDateTime(enterDateTime);
         return api.findList(entity);
     }
+    /**
+     * 检索
+     *
+     * @param orgId
+     * @return
+     */
+    @GET
+    @Path("findListByDistinct")
+    public List<DrugProvideApplication> findListByDistinct(@QueryParam("orgId") String orgId,
+                                                           @QueryParam("flag") String flag) {
+        DrugProvideApplication entity = new DrugProvideApplication();
+        entity.setOrgId(orgId);
+        entity.setFlag(flag);
+        return api.findListByDistinct(entity);
+    }
+
+
 
     /**
      * 检索(含有价格)

@@ -69,5 +69,18 @@ private OrdersNurseBo ordersNurseBo;
     public String executeOrders(List<Orders> ordersList){
      return  ordersNurseBo.executeOrders(ordersList);
     }
+
+
+    /**
+     * 护理端 - 医嘱停止
+     * @param orders
+     * @author pq
+     * @return
+     */
+    public String nurseStopOrders(Orders orders){
+        return ordersNurseBo.nurseStopOrders(orders);
+    }
+
+
 }
 

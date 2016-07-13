@@ -64,4 +64,12 @@ public interface OutpPrescDao extends CrudDao<OutpPresc> {
      */
     public Integer searchPrescNoIfExist(@Param("orgId")String orgId,@Param("clinicId")String clinicId,@Param("prescNo")Integer prescNo);
 
+    /**
+     * 根据处方号删除处方
+     * @param outpPresc
+     * @author CTQ
+     * @return
+     */
+    public Integer delByPrescNo(OutpPresc outpPresc);
+
 }

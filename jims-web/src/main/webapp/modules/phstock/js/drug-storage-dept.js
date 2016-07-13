@@ -78,7 +78,7 @@ $(function () {
                         idField: 'deptName',
                         textField: "storageName",
                         mode: 'remote',
-                        url: basePath + '/dept-dict/findListWithFilter?orgId=' + orgId,
+                        url: basePath + '/dept-dict/list?orgId=' + orgId,
                         method: 'get',
                         columns: [[
                             {title: '科室名称', field: 'deptName', align: 'center', width: '30%'},

@@ -395,6 +395,7 @@
 		"EXAM_APPOINTS"."REQ_PHYSICIAN" AS reqPhysician,
 		"EXAM_APPOINTS"."SCHEDULED_DATE" AS scheduledDate,
 		"EXAM_APPOINTS"."COSTS" AS costs,
+		"EXAM_APPOINTS"."IN_OR_OUT" AS inOrOut,
 		"EXAM_MASTER"."RESULT_STATUS" AS resultStatus,
 
 		"EXAM_APPOINTS"."PATIENT_ID" AS patientId,
@@ -426,11 +427,14 @@
 		"EXAM_APPOINTS"."LOCAL_ID_CLASS" AS localIdClass,
 		"EXAM_APPOINTS"."PATIENT_LOCAL_ID" AS patientLocalId
 		FROM "EXAM_APPOINTS", "EXAM_MASTER"
-		WHERE  (exam_appoints.exam_no = exam_master.exam_no(+))
-		and ("EXAM_APPOINTS"."BILLING_INDICATOR" = 1)
+		WHERE exam_appoints.del_flag='0'
+		AND (exam_appoints.exam_no = exam_master.exam_no(+))
+		AND ("EXAM_APPOINTS"."BILLING_INDICATOR" = 1)
 		AND (EXAM_appoints.EXAM_CLASS like '%' and
 		EXAM_appoints.performed_by =#{performedBy})
+		<if test="outOrIn!=null and outOrIn!='' and outOrIn!='undefined'">
+			AND "EXAM_APPOINTS"."IN_OR_OUT"=#{outOrIn}
+		</if>
 		ORDER BY EXAM_APPOINTS.PATIENT_ID
-
 	</select>
 </mapper>

@@ -7,6 +7,7 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamMaster;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,10 +19,11 @@ import java.util.List;
 @MyBatisDao
 public interface ExamMasterDao extends CrudDao<ExamMaster> {
     /**
-     * 查询 检查确认列表
+     * 查询 检查确认列表(门诊 || 住院)
      * @param performedBy 执行科室
+     * @param outOrIn 门诊 or 住院
      * @return
      * @author zhaoning
      */
-	public List<ExamAppoints> getExamAppointses(String performedBy);
+	public List<ExamAppoints> getExamAppointses(@Param("performedBy")String performedBy,@Param("outOrIn")String outOrIn);
 }

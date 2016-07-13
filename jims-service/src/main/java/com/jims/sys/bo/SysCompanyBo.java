@@ -50,6 +50,8 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
     private OrgStaffDao orgStaffDao;
 
     @Autowired
+    private ServiceSelfVsSysDao serviceSelfVsSysDao ;
+    @Autowired
     private SysServiceParamBo sysServiceParamBo ;
 
     /**
@@ -129,17 +131,11 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
             orgSelfServiceListDao.insert(orgSelfServiceList);   //添加自定义服务
             String roleVsServiceId = null;
 
-            List<SysServiceParam> sysServiceParams = sysServiceParamBo.findSysServiceParamByServiceId(service.getId()) ;//添加自定义服务参数
-            int i = 0 ;
-            for(SysServiceParam param:sysServiceParams){
-                OrgServiceParam orgServiceParam = new OrgServiceParam() ;
-                orgServiceParam.setOrgId(orgId);
-                orgServiceParam.setParamName(param.getParamName());
-                orgServiceParam.setValueRange(param.getValueRange());
-                orgServiceParam.setServiceId(orgSelfServiceList.getId());
-                i+=sysServiceParamBo.meregeOrgServiceParam(orgServiceParam) ;
-            }
-
+            ServiceSelfVsSys serviceSelfVsSys = new ServiceSelfVsSys() ;
+            serviceSelfVsSys.preInsert();
+            serviceSelfVsSys.setSysServiceId(service.getServiceId());
+            serviceSelfVsSys.setSelfServiceId(orgSelfServiceList.getId());
+            serviceSelfVsSysDao.insert(serviceSelfVsSys) ;
             if ("0".equals(service.getServiceType()) && "3".equals(service.getServiceClass())) {
                 List<MenuDict> menus = service.getMenus();//服务对应菜单集合
                 //角色对应服务
@@ -165,6 +161,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 orgSelfServiceVsMenu.setHref(menuDict.getHref());
                 //orgSelfServiceVsMenu.setMenuSort(Integer.parseInt(menuDict.getSort().toString()));
                 orgSelfServiceVsMenu.setSelfServiceId(orgSelfServiceList.getId());
+                orgSelfServiceVsMenu.setSysServiceId(service.getServiceId());
                 orgSelfServiceVsMenuDao.insert(orgSelfServiceVsMenu);
             }
 

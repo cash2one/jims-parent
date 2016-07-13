@@ -22,7 +22,7 @@
 		a.del_flag AS "delFlag",
 		a.appoints_id AS "appointsId",
 		a.visit_id AS "visitId",
-		a.patient_id AS "patientId";
+		a.patient_id AS "patientId"
 	</sql>
 	
 	<sql id="examItemsJoins">
@@ -171,7 +171,8 @@
 		)
 	</insert>
 	<select id="getItemList" resultType="ExamItems">
-		SELECT *
+		SELECT
+		<include refid="examItemsColumns"/>
 		FROM  exam_items a
 		WHERE
 		a.appoints_id=#{appointsId}

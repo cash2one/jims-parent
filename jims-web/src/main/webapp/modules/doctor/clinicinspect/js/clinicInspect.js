@@ -1,46 +1,21 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 var description = [];
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
+
+function diagnosisTypeClinicformatter(value){
+    if(value == 0){
+        return;
+    }
+    for(var i=0;i<diagnosisTypeClinic.length;i++){
+        if(diagnosisTypeClinic[i].value == value){
+            return diagnosisTypeClinic[i].text
+        }
+    }
+}
 function onloadMethod() {
     $("#patientId").val(patientId);
     $("#clinicId").val(clinicId);
-    //$.ajax({
-    //    type: "GET",
-    //    url: basePath + '/clinicInspect/getDescription',
-    //    data: {"clinicIds": clinicId},
-    //    success: function (data) {
-    //        description = data;
-    //        $("#clinDiag").val(data.description);
-    //
-    //    }
-    //})
-    $("#clinDiag").combogrid({
-        data:icdAllData,
-        valueField:'code',
-        textField:'zhongwen_mingcheng',
-        required:true,
-        columns:[
-            [
-                {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
-                {field: 'code', title: 'ICD-10编码', width: '30%', align: 'center'},
-                {field: 'keyword_shuoming', title: '关键词', width: '40%', align: 'center'},
-            ]
-        ],
-         keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                icdCompleting(q,'clinDiag');
-                $("#clinDiag").combogrid("grid").datagrid("loadData", icdAllData);
-
-            }
-        },
-        onClickRow:function(rowIndex,rowData){
-            $("#clinDiag").combogrid('setText',rowData.zhongwen_mingcheng);
-            $("#clinDiagId").val(rowData.zhongwen_mingcheng);
-        }
-    })
 
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
@@ -108,7 +83,6 @@ function onloadMethod() {
             });
         }
     });
-
 
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
@@ -182,6 +156,24 @@ function onloadMethod() {
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+
+    $.ajax({
+        //添加
+        url: basePath+"/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId":clinicId},
+        success: function (data) {
+            if (data!= ""&& data!=null) {
+                var d="";
+                $.each(data, function (index, item) {
+                    formatter:var type = diagnosisTypeClinicformatter(item.type);
+                    d =d +type +":"+item.icdName+"\r";
+                });
+                $("#clinDiagDiv").val(d);
+            }
+        }
+    })
 }
 //检查选中
 function selecteds() {
@@ -304,43 +296,54 @@ function get(id) {
 }
 //保存
 function saveClinicInspect() {
-    if(description == null){
-        alert("病人没有诊断消息，不能开检查单");
-    }else {
-        if (!$("#clinicInspectForm").form("validate")) {
-            return false;
-        }
-        var formJson = fromJson('clinicInspectForm');
-        formJson = formJson.substring(0, formJson.length - 1);
-        var divJson = "";
-        $('#target .submitName').each(function (index, element) {
-            divJson += $(this).html();
-        })
-        divJson = divJson.substring(0, divJson.length - 1);
-        var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
-
-        var save = $("#modify").val();
-        var url = "";
-        if (save == "1") {
-            url = basePath + "/clinicInspect/saveExamAppoints";
-        } else {
-            url = basePath + "/clinicInspect/update";
-        }
-        $.postJSON(url, submitJson, function (data) {
-            if (data.code == "1") {
-                $.messager.alert("提示信息", "保存成功");
-                $('#list_data').datagrid('load');
-                $("#clinicInspectForm").form('clear');
-                $("#target").empty();
-                $("#descriptionId").empty();
-            } else {
-                $.messager.alert("提示信息", "保存失败", "error");
-            }
-
-        }), function (data) {
-            $.messager.alert("提示信息", "保存失败", "error");
-        }
+    if (!$("#clinicInspectForm").form("validate")) {
+        return false;
     }
+    $.ajax({
+        //添加
+        url: basePath+"/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId":clinicId},
+        success: function (data) {
+            if (data!= ""&& data!=null) {
+                var formJson = fromJson('clinicInspectForm');
+                formJson = formJson.substring(0, formJson.length - 1);
+                var divJson = "";
+                $('#target .submitName').each(function (index, element) {
+                    divJson += $(this).html();
+                })
+                divJson = divJson.substring(0, divJson.length - 1);
+                var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
+
+                var save = $("#modify").val();
+                var url = "";
+                if (save == "1") {
+                    url = basePath + "/clinicInspect/saveExamAppoints";
+                } else {
+                    url = basePath + "/clinicInspect/update";
+                }
+                $.postJSON(url, submitJson, function (data) {
+                    if (data.code == "1") {
+                        $.messager.alert("提示信息", "保存成功");
+                        $('#list_data').datagrid('load');
+                        $("#clinicInspectForm").form('clear');
+                        $("#target").empty();
+                        $("#descriptionId").empty();
+                    } else {
+                        $.messager.alert("提示信息", "保存失败", "error");
+                    }
+
+                }), function (data) {
+                    $.messager.alert("提示信息", "保存失败", "error");
+                }
+            }else {
+                alert("病人没有诊断信息，不能开出检查申请");
+            }
+        }
+    })
+
+
 
 }
 
