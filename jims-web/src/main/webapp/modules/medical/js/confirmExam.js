@@ -1,6 +1,10 @@
 var rowNum=-1;
 
 function onloadMethod(outOrIn){
+    $('#doctorRole').combobox({
+        data: clinicDeptCode,
+        valueField: 'id'
+    })
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -16,7 +20,7 @@ function onloadMethod(outOrIn){
         //sortOrder: 'desc',
         remoteSort:false,
         idField:'fldId',
-        singleSelect:false,//是否单选
+        singleSelect:true,//是否单选
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
@@ -29,7 +33,7 @@ function onloadMethod(outOrIn){
                 }
             }},
             {field:'examSubClass',title:'检查子类',width:'15%',align:'center'},
-            {field:'reqDept',title:'申请科室',width:'10%',align:'center'},
+            {field:'reqDept',title:'申请科室',width:'10%',align:'center',formatter:clinicDeptCodeFormatter},
             /* {field:'clinicDept',title:'病人ID',width:'15%',align:'center'},*/
             {field:'name',title:'姓名',width:'13%',align:'center'},
             {field:'sex',title:'性别',width:'10%',align:'center'},
@@ -73,8 +77,10 @@ function onloadMethod(outOrIn){
  */
 function searchAppoints(){
     var startTime= $("#startTime").datebox('getValue');
-    var startTime= $("#endTime").datebox('getValue');
-
+    var endTime= $("#endTime").datebox('getValue');
+    var appointsDept=$('#doctorRole').combobox('getValue')
+    var patientName=$("#patName").val();
+    $('#list_data').datagrid({queryParams:{"startTime":startTime,"endTime":endTime,"appointsDept":appointsDept,"patientName":patientName}});
 }
 /**
  * 确认
