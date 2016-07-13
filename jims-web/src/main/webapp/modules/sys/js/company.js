@@ -17,7 +17,6 @@ $(function () {
             flag = str.substr(str.indexOf("flag=")+5,1);
         }
     }
-
     if(flag=='1'){
         $('#addServiceModel3')[0].style.display="inline-block";
         $('#addServiceModel1')[0].style.display="none";
@@ -219,7 +218,7 @@ $(function () {
             result = false;
         }
         var phone = $("#linkPhoneNum").val();
-        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
         if (!myreg.test(phone)) {
             $("#res-linkPhoneNum").css("color", "red");
             $("#res-linkPhoneNum").text('*请输入有效的手机号码');
@@ -316,7 +315,7 @@ $(function () {
     /**
      * 保存信息
      */
-    var dataArr=[];
+    var dataArr
     $.get('/service/sys-service/findServiceWithPrice',{serviceClass:'0',serviceType:'1'},function(res){
         dataArr = res
     })
@@ -325,6 +324,9 @@ $(function () {
     });
     $("#default").on('click', function () {
         window.location.href = "/modules/sys/default.html?persionId="+persion_id;
+    });
+    $("#myServices").on('click', function () {
+        window.location.href = "/modules/sys/service-list.html?persionId="+persion_id;
     });
     if(company) {
         $("#nextBtn0").on('click', function () {
@@ -345,6 +347,7 @@ $(function () {
             $('#nextBut2').attr("class","done");
             $('#nextBut3').attr("class","go-on");
             if($('#parentId').val().trim()!=""){$('#parentId0').html($("#parentId").find("option:selected").text());}
+            else{$('#parentId0').html(" 无 ");}
             if($('#orgName').val().trim()!=""){$('#orgName0').html($('#orgName').val().trim());}
             if($('#orgCode').val().trim()!=""){$('#orgCode0').html($('#orgCode').val().trim());}
             if($('#address').val().trim()!=""){$('#address0').html($('#address').val().trim());}
@@ -414,6 +417,7 @@ $(function () {
             }
             $('#nextBut2').attr("class","done");
             if($('#parentId').val().trim()!=""){$('#parentId0').html($("#parentId").find("option:selected").text());}
+            else{$('#parentId0').html(" 无 ");}
             if($('#orgName').val().trim()!=""){$('#orgName0').html($('#orgName').val().trim());}
             if($('#orgCode').val().trim()!=""){$('#orgCode0').html($('#orgCode').val().trim());}
             if($('#address').val().trim()!=""){$('#address0').html($('#address').val().trim());}
@@ -448,28 +452,25 @@ $(function () {
 
         });
     }
-    /**
-     * 弹出服务描述的提示
-     * @param sysService
-     */
+    //
+    //var IsNum =  function(e) {
+    //    var k = window.event ? e.keyCode : e.which;
+    //    if (((k >= 48) && (k <= 57)) || k == 8 || k == 0) {
+    //    } else {
+    //        if (window.event) {
+    //            window.event.returnValue = false;
+    //        }
+    //        else {
+    //            e.preventDefault(); //for firefox
+    //        }
+    //    }
+    //}
+    addNext = function(){
 
-//
-
-    function findInfo(sysService){
-
-            alert(sysService);
-            console.info(sysService);
-
-    }
-
-
-    var arr=[];
-    function addNext(){
         var liArr = $('#addServiceModel1 ul li')
         if(liArr.length < 1) {
             for (var i = 0; i < dataArr.length; i++) {
-                arr[i]='service_' + dataArr[i].id;
-                var li = '<li  id="service_' + dataArr[i].id + '" name="serviceName_' + dataArr[i].serviceName + '" >';
+                var li = '<li id="service_' + dataArr[i].id + '" name="serviceName_' + dataArr[i].serviceName + '">';
                 li += '<div class="service-set">'
                 li += '<h3>' + dataArr[i].serviceName + '</h3>'
                 li += '<table width="100%">'
@@ -483,7 +484,7 @@ $(function () {
                 li += '</td></tr>'
                 li += '<tr style="height: 35px">'
                 li += '<td width="60"><span class="text-success">　时长：</span></td>'
-                li += '<td colspan="3"><input class="service-num" type="text" style="width: 50px" value="';
+                li += '<td colspan="3"><input class="service-num" id="srsjh" maxlength="11" type="text" style="width: 50px" value="';
                 if(priceArr && priceArr.length > 0){
                     li += (priceArr[0].serviceTimeLimit == '年' ? '1' : '12')
                 }
@@ -502,7 +503,7 @@ $(function () {
                 li += '　元</td>'
                 li += '</tr>'
                 li += '</table></div>';
-                li += '<div id="cBut_" class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
+                li += '<div class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
                 li += '</li>'
                 $('#addServiceModel1 ul').append(li);
             }
@@ -519,7 +520,6 @@ $(function () {
                     $('div tr:eq(1) td:eq(1) span',liObj).html('　' + v)
                     initPrice(liObj)
                 })
-
                 $('.service-num',this).keyup(function(){
                     validNum(this,liObj)
                 })
@@ -547,6 +547,10 @@ $(function () {
             }
             var initPrice = function(li){
                 var n = $('.service-num',li).val()
+                var numcheck = /^[1-9][0-9]*$/;
+                if(!numcheck.test(n)){
+                    $('.service-num',li).val('1');
+                }
                 var t = $('.span-class2',li).html()
                 var liId = $(li).attr('id')
                 var serviceId = liId.substr(liId.indexOf('_')+1)
