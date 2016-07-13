@@ -54,7 +54,7 @@ public interface DrugExportServiceApi {
     public List<DrugExportDetail> findDetailListWithStock(DrugExportDetail detail,String storage,String subStorage);
 
     /**
-     * 查询某段时间内的出库数据
+     * 查询某天的出库数据或全部
      * @param startTime
      * @param orgId
      * @param storageCode
@@ -62,7 +62,17 @@ public interface DrugExportServiceApi {
      */
     public List<DrugExportMaster> findExportData(String startTime, String orgId, String storageCode);
 
+    /**
+     *根据id查询出库记录
+     * @param id
+     * @return
+     */
     public DrugExportMaster findById(String id);
 
+    /**
+     * 修改出库记录
+     * @param drugExportMaster
+     * @return
+     */
     public DrugExportMaster update(DrugExportMaster drugExportMaster);
 }
