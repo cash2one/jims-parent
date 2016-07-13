@@ -281,4 +281,9 @@
 		#{wardCode}
 		)
 	</insert>
+    <select id="getMaxItemNo" resultType="Integer">
+        SELECT MAX (item_no) FROM OUTP_TREAT_REC a
+        WHERE a.clinic_id=#{clinicId} and a.org_id=#{orgId}
+    </select>
+
 </mapper>

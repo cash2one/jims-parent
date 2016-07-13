@@ -65,25 +65,32 @@ public class CostOrdersUtilsService {
         OutpOrders outpOrders=new OutpOrders();
         outpOrders.setClinicId(clinicId);
         outpOrders.setPatientId(patientId);
+        outpOrders.setOrgId(orgId);
         outpOrders.setDoctor(orgStaff.getPersionId());
         outpOrders.setVisitDate(clinicMaster.getVisitDate());
         outpOrders.setSerialNo(serialNo);
         outpOrders.preInsert();
         outpOrdersDao.saveOutpOrders(outpOrders);
-        Integer orderNo=outpOrdersCostsDao.getMaxOrderNo(clinicId,orgId);
-        if(orderNo==null){
-            orderNo=1;
+        Integer  itemNo=outpTreatRecDao.getMaxItemNo(clinicId, orgId);
+        if(itemNo==null){
+            itemNo=0;
         }
         for (int i = 0; i <itemDictList.size() ; i++) {
+            itemNo++;
             ClinicItemDict clinicItemDict=itemDictList.get(i);
             clinicItemDict.setOrgId(orgId);
              List<ClinicItemDict> clinicItemDictList= clinicItemDictDao.findExisted(clinicItemDict);
             clinicItemDict=clinicItemDictList.get(0);
             OutpTreatRec outpTreatRec=new OutpTreatRec();
+
+            outpTreatRec.setItemNo(itemNo);
             outpTreatRec.setVisitDate(clinicMaster.getVisitDate());
+            outpTreatRec.setOrgId(orgId);
+            outpTreatRec.setVisitNo(clinicMaster.getVisitNo());
             outpTreatRec.setClinicId(clinicId);
             outpTreatRec.setSerialNo(serialNo);
             outpTreatRec.setAppointNo(appointsId);
+
             outpTreatRec.setItemClass(clinicItemDict.getItemClass());
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());
@@ -109,7 +116,7 @@ public class CostOrdersUtilsService {
                 outpOrdersCosts.setItemCode(priceListVo.getItemCode());
                 outpOrdersCosts.setItemName(priceListVo.getItemName());
                 outpOrdersCosts.setItemClass(priceListVo.getItemClass());
-                outpOrdersCosts.setOrderNo(orderNo);
+                outpOrdersCosts.setOrderNo(itemNo);
                 outpOrdersCosts.setOrderSubNo(1);
                 outpOrdersCosts.setItemSpec(priceListVo.getItemSpec());
                 outpOrdersCosts.setUnits(priceListVo.getUnits());
@@ -122,7 +129,6 @@ public class CostOrdersUtilsService {
                 outpOrdersCosts.setCharges(priceListVo.getPrice());
                 outpOrdersCosts.setChargeIndicator(0);
                 outpOrdersCosts.preInsert();
-                orderNo++;
                 outpOrdersCostsDao.saveOrdersCosts(outpOrdersCosts);
             }
             outpTreatRec.setCharges(price);
