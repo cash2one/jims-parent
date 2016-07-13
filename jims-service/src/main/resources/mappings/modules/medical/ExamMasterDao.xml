@@ -395,6 +395,7 @@
 		"EXAM_APPOINTS"."REQ_PHYSICIAN" AS reqPhysician,
 		"EXAM_APPOINTS"."SCHEDULED_DATE" AS scheduledDate,
 		"EXAM_APPOINTS"."COSTS" AS costs,
+		"EXAM_APPOINTS"."IN_OR_OUT" AS inOrOut,
 		"EXAM_MASTER"."RESULT_STATUS" AS resultStatus,
 
 		"EXAM_APPOINTS"."PATIENT_ID" AS patientId,
@@ -431,8 +432,8 @@
 		AND ("EXAM_APPOINTS"."BILLING_INDICATOR" = 1)
 		AND (EXAM_appoints.EXAM_CLASS like '%' and
 		EXAM_appoints.performed_by =#{performedBy})
-		<if test="outOrIn!=null and outOrIn!=''">
-			AND a.IN_OR_OUT=#{outOrIn}
+		<if test="outOrIn!=null and outOrIn!='' and outOrIn!='undefined'">
+			AND "EXAM_APPOINTS"."IN_OR_OUT"=#{outOrIn}
 		</if>
 		ORDER BY EXAM_APPOINTS.PATIENT_ID
 	</select>
