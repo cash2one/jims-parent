@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>药品用量信息</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+</head>
+<body>
+<div id="topBar" style="padding: 5px;">
+    <input type="radio" class="radios" name="two" value="0" checked />
+    药品定位:<input type="text" id="drugLocation" class="easyui-combobox">
+    <input type="radio" class="radios" name="two" value="1" />
+    类别:<select id="drugClass" class="easyui-combobox" disabled></select>
+    剂型:<select id="drugForm" class="easyui-combogrid" disabled></select>
+    <!--<a href="#" id="searchBtn" class="easyui-linkbutton" iconCls="icon-search">查询</a>-->
+    <a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">添加</a>
+    <a href="#" id="delBtn" class="easyui-linkbutton" iconCls="icon-remove">删除</a>
+    <a href="#" id="saveBtn" class="easyui-linkbutton" iconCls="icon-save">保存</a>
+</div>
+<table id="dg" class="easyui-datagrid">
+</table>
+
+<div id="drugNameWindow">
+    <table id="drugNameTable"></table>
+</div>
+
+<script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../../static/easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../../static/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/static/js/head.js"></script>
+<script type="text/javascript" src="../../static/js/tool.js"></script>
+<script type="text/javascript" src="../phstock/js/drug-rational-dosage.js"></script>
+</body>
+</html>

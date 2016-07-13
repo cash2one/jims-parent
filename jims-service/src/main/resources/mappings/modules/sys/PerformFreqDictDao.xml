@@ -26,6 +26,14 @@
 		<include refid="performFreqDictJoins"/>
 		WHERE a.id = #{id}
 	</select>
+
+    <select id="listAll" resultType="PerformFreqDict">
+        SELECT
+        <include refid="performFreqDictColumns"/>
+        FROM perform_freq_dict a
+        <include refid="performFreqDictJoins"/>
+        WHERE a.del_flag = '0'
+    </select>
 	
 	<select id="findList" resultType="PerformFreqDict">
 		SELECT 

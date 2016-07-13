@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.phstock.dao.DrugRationalDosageDao">
+
+    <sql id="drugRationalDosageColumns">
+        a.id AS "id",
+        a.drug_code AS "drugCode",
+        a.drug_spec AS "drugSpec",
+        a.dose_per_unit AS "dosePerUnit",
+        a.dose_units AS "doseUnits",
+        a.max_dosage AS "maxDosage",
+        a.max_presc_dosage AS "maxPrescDosage",
+        a.max_outp_abidance AS "maxOutpAbidance",
+        a.administration_code AS "administrationCode",
+        a.freq_desc AS "freqDesc",
+        a.freq_counter AS "freqCounter",
+        a.freq_interval AS "freqInterval",
+        a.freq_interval_units AS "freqIntervalUnits"
+    </sql>
+
+    <sql id="drugRationalDosageJoins">
+    </sql>
+
+    <select id="findAll" resultType="DrugRationalDosage">
+        SELECT DISTINCT
+        <include refid="drugRationalDosageColumns"/>,d.drug_name AS "drugName",t.administration_name AS "administrationName"
+        FROM drug_rational_dosage a,drug_dict d,administration_dict t
+        <include refid="drugRationalDosageJoins"/>
+        WHERE a.drug_code = d.drug_code
+        AND a.administration_code = t.administration_code
+    </select>
+
+    <insert id="insert">
+        INSERT INTO drug_rational_dosage(
+        id,
+        drug_code,
+        drug_spec,
+        dose_per_unit,
+        dose_units,
+        max_dosage,
+        max_presc_dosage,
+        max_outp_abidance,
+        administration_code,
+        freq_desc,
+        freq_counter,
+        freq_interval,
+        freq_interval_units
+        ) VALUES (
+        #{id},
+        #{drugCode},
+        #{drugSpec},
+        #{dosePerUnit},
+        #{doseUnits},
+        #{maxDosage},
+        #{maxPrescDosage},
+        #{maxOutpAbidance},
+        #{administrationCode},
+        #{freqDesc},
+        #{freqCounter},
+        #{freqInterval},
+        #{freqIntervalUnits}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE drug_rational_dosage SET
+        drug_code = #{drugCode},
+        drug_spec = #{drugSpec},
+        dose_per_unit = #{dosePerUnit},
+        dose_units = #{doseUnits},
+        max_dosage = #{maxDosage},
+        max_presc_dosage = #{maxPrescDosage},
+        max_outp_abidance = #{maxOutpAbidance},
+        administration_code = #{administrationCode},
+        freq_desc = #{freqDesc},
+        freq_counter = #{freqCounter},
+        freq_interval = #{freqInterval},
+        freq_interval_units = #{freqIntervalUnits}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM drug_rational_dosage
+        WHERE id = #{id}
+    </update>
+
+</mapper>
