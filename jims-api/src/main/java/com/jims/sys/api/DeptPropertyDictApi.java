@@ -36,14 +36,6 @@ public interface DeptPropertyDictApi {
     public List<OrgDeptPropertyDict> findList(OrgDeptPropertyDict orgDeptPropertyDict) ;
 
     /**
-     * 保存修改方法
-     *
-     * @param
-     */
-    public StringData add(OrgDeptPropertyDict orgDeptPropertyDict);
-
-
-    /**
      * 保存  增删改
      * @param orgDeptPropertyDictVo
      * @return
@@ -59,31 +51,10 @@ public interface DeptPropertyDictApi {
     public String delete(String ids);
 
     /**
-     * 根据属性类型查询属性名称
-     * @param propertyType
-     * @return
-     */
-    public List<OrgDeptPropertyDict> findNameByType(String propertyType,String orgId);
-
-    /**
-     * 根据属性类型和属性值来查询属性名称
-     * @param propertyType
-     * @param propertyValue
-     * @return
-     */
-    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue,String orgId);
-
-    /**
      * 查询所有的属性类型
      * @return
      */
     public List<OrgDeptPropertyDict> findProperty(String orgId);
-
-    /**
-     * 查询所有的科室信息
-     * @return
-     */
-   // public List<OrgDeptPropertyDict> findList();
 
     /**
      * 根据条件查询所有的属性信息
@@ -91,13 +62,6 @@ public interface DeptPropertyDictApi {
      * @return
      */
     public List<OrgDeptPropertyDict> findByCondition(OrgDeptPropertyDict orgDeptPropertyDict);
-
-    /**
-     * 查询属性名称
-     * @param
-     * @return
-     */
-    public List<OrgDeptPropertyDict> findName(String propertyType,String orgId);
 
     /**
      * 查询最大的排序值

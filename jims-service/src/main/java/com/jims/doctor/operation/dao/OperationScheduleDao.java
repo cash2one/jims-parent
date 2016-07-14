@@ -66,4 +66,11 @@ public interface OperationScheduleDao extends CrudDao<OperationSchedule> {
      * @return
      */
     public OperationSchedule getOneOperation(@Param("id")String id);
+
+    /**
+     * 删除主记录
+     * @param id
+     * @return
+     */
+    public int deleteOperation(@Param("id")String id);
 }

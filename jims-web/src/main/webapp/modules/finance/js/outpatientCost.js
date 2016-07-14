@@ -1,4 +1,32 @@
 function init(){
+
+    /**
+     * 费别下拉框
+     */
+    $('#chargeTypeId').combobox({
+        data: chargeType,
+        valueField: 'id',
+        textField: 'charge_type_name'
+    })
+
+    /**
+     * 合同单位
+     */
+    $('#unitInContractId').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
+    /**
+     * 科室下拉框
+     */
+    $('#visitDeptId').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name'
+    })
+
+
     var flag =true;
     $('#clinicNoId').textbox('textbox').keydown(function(e){
         if (e.keyCode == 13) {
@@ -665,7 +693,6 @@ function confirmPay(){
     orderIds = orderIds.substr(0, orderIds.length - 1);
     strIds +=orderIds
     strIds+="]"
-    alert(strIds);
     $.ajax({
         'type': 'POST',
         'url': basePath+'/outPatientCost/confirmPay',
