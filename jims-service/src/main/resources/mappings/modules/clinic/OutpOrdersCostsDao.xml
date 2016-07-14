@@ -457,12 +457,13 @@
          '' administration,
          '' frequency,
 			0 aa,
-         ward_code
-    FROM "OUTP_ORDERS_COSTS"
+         ward_code,
+         b.id as orderId
+    FROM "OUTP_ORDERS_COSTS" left join OUTP_ORDERS b on "OUTP_ORDERS_COSTS".serial_no=b.serial_no
    WHERE
 			("OUTP_ORDERS_COSTS"."CLINIC_ID" = #{clinicId})and
       ("OUTP_ORDERS_COSTS"."CHARGE_INDICATOR" =0)
-      order by "OUTP_ORDERS_COSTS"."ITEM_CLASS"
+      order by "OUTP_ORDERS_COSTS"."PERFORMED_BY" ,"OUTP_ORDERS_COSTS"."SERIAL_NO" ,"OUTP_ORDERS_COSTS".item_no
     </select>
 
 	<select id="confirmPay" statementType="CALLABLE">
