@@ -69,7 +69,7 @@ $(function () {
 
     var currentSelectIndex   // datagrid 当前选择的行索引
         ,currentOrgId = config.org_Id  // 当前登录人所属单位ID
-        ,currentStorage = parent.config.currentStorage  // 当前登录人所属管理单位
+        ,currentStorage = config.currentStorage  // 当前登录人所属管理单位
         ,currentUsername = '录入者'   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
@@ -552,7 +552,7 @@ $(function () {
     })
     // 出库类别
     $('#statisticClass').combobox({
-        url: parent.basePath + '/drug-export/findAll',
+        url: parent.basePath + '/drug-export/findList?storageType='+config.currentStorageObj.storageType,
         valueField: 'exportClass',
         textField: 'exportClass',
         editable: false,
@@ -560,7 +560,7 @@ $(function () {
         onSelect: function(record){
             currentAccountFlag = record['accountFlag']
             $("#dg").datagrid('loadData',[])
-            if(record['exportClass'] == '退药出库'){
+            if(record['toLevel'] == '4'){
                 $("#subStorageDept").combobox({
                     disabled:true,
                     value: '*'
@@ -585,12 +585,35 @@ $(function () {
                         $("#dg").datagrid('loadData',[])
                     }
                 })
+                var url = '/service/drug-storage-dept/findListByLevel?orgId='+currentOrgId;
+                switch(record.toLevel){
+                    case '1' :
+                        url += '&condition=remarks<\''+ config.currentStorageObj.level+'\'';
+                        break;
+                    case '2' :
+                        url += '&condition=remarks=\''+ config.currentStorageObj.level+'\'';
+                        break;
+                    case '3' :
+                        url += '&condition=remarks>\''+ config.currentStorageObj.level+'\'';
+                        break;
+                }
                 $('#storageDept').combobox({
                     valueField : 'storageCode',
                     textField : 'storageName',
-                    url: '/service/drug-storage-dept/list?orgId='+currentOrgId+'&storageType=' + (record['storageType'] == '全部'?'':record['storageType']),
+                    url: url,
                     method:'get',
                     mode:'remote',
+                    loadFilter: function(data){
+                        if(record.toLevel == '2' && data){
+                            for(var i=0;i<data.length;i++){
+                                if(data[i].storageCode == config.currentStorageObj.storageCode){
+                                    data.splice(i,1);
+                                    break;
+                                }
+                            }
+                        }
+                        return data
+                    },
                     onSelect : function(r){
                         $("#dg").datagrid('loadData',[])
                         loadSubDept('subStorageDept',currentOrgId,r['storageCode'])

@@ -1,9 +1,9 @@
 $(function(){
 config.orgId
     var currentSelectIndex   // datagrid 当前选择的行索引
-        ,currentOrgId = '1'  // 当前登录人所属单位ID
+        ,currentOrgId = config.org_Id  // 当前登录人所属单位ID
         ,currentStorage = config.currentStorage  // 当前登录人所属管理单位
-        ,currentUsername = '录入者'   // 当前登录人姓名
+        ,currentUsername = config.username   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
@@ -213,7 +213,7 @@ config.orgId
 
     // 出库类别
     $('#statisticClass').combobox({
-        url: parent.basePath + '/drug-export/findAll',
+        url: parent.basePath + '/drug-export/findList?storageType='+config.currentStorageObj.storageType,
         valueField: 'exportClass',
         textField: 'exportClass',
         editable: false,
@@ -225,7 +225,30 @@ config.orgId
             $('#stockSubDept').combobox('clear')
             $('#documentNo').textbox('clear')
             $('#storageDept').combobox('clear')
-            $('#storageDept').combobox('reload',parent.basePath+'/drug-storage-dept/list?orgId='+currentOrgId+'&storageType='+(record['storageType'] == '全部'?'':record['storageType']))
+            var url = parent.basePath + '/drug-storage-dept/findListByLevel?orgId='+currentOrgId;
+            switch(record.toLevel){
+                case '1' :
+                    url += '&condition=remarks<\''+ config.currentStorageObj.level+'\'';
+                    break;
+                case '2' :
+                    url += '&condition=remarks=\''+ config.currentStorageObj.level+'\'';
+                    break;
+                case '3' :
+                    url += '&condition=remarks>\''+ config.currentStorageObj.level+'\'';
+                    break;
+            }
+            $("#storageDept").combobox('options').loadFilter = function (data) {
+                if(record.toLevel == '2' && data){
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].storageCode == config.currentStorageObj.storageCode){
+                            data.splice(i,1);
+                            break;
+                        }
+                    }
+                }
+                return data
+            }
+            $('#storageDept').combobox('reload',url)
         },
         onLoadSuccess: function(){
             $('#statisticClass').combobox('select', '发放出库');

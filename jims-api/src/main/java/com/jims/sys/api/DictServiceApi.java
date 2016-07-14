@@ -112,4 +112,6 @@ public interface DictServiceApi {
      */
     public List<Dict> findList(String type);
 
+    public List<Dict> findList(Dict dict);
+
 }
