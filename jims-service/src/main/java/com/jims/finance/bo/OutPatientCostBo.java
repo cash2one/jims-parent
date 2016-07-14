@@ -77,11 +77,11 @@ public class OutPatientCostBo {
      * @author zhaoning
      */
     public String confirmPay(String ids) {
-
-        /*调用存储过程*/
-        ids="6f09b8c7726c4a0db03063f6728c8f08,";
-        outpOrdersCostsDao.confirmPay(ids);
-        return null;
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("jsonStr",ids);
+        map.put("ret", "1123456");
+        outpOrdersCostsDao.confirmPay(map);
+        return (String)map.get("ret");
     }
 
     /**
@@ -106,15 +106,17 @@ public class OutPatientCostBo {
     }
 
     /**
-     *  确认收费
+     *  确认退费
      * @param rcptNo
      * @return
      * @author zhaoning
      */
     public String confirmBackChar(String rcptNo) {
-        Map<String,Object> mm=new HashMap<String,Object>();
-        mm.put("rcptNo",rcptNo);
-        outpRcptMasterDao.confirmBackCharge(mm);
-        return null;
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("rcpt_no",rcptNo);
+        map.put("o_outp_flag","2");
+        outpRcptMasterDao.confirmBackCharge(map);
+        return (String)map.get("o_outp_flag");
+
     }
 }
