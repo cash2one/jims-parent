@@ -395,11 +395,9 @@
 		a.item_class=#{itemClass}
 	</select>
 
-	<update id="deleteOutpOrders">
-		UPDATE outp_orders_costs  a SET
-			del_flag = '1'
-		WHERE
-		 a.clinic_id=#{clinicId}
+	<update id="deleteOutpOrdersCosts">
+		DELETE FROM outp_orders_costs
+		WHERE  serial_no=#{serialNo}
 	</update>
 
 	<update id="removeByMasterId" >

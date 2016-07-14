@@ -1,5 +1,9 @@
 package com.jims.doctor.useBlood.bo;
 
+import com.jims.clinic.dao.OutpOrdersCostsDao;
+import com.jims.clinic.dao.OutpOrdersDao;
+import com.jims.clinic.dao.OutpTreatRecDao;
+import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.doctor.useBlood.dao.BloodApplylDao;
 import com.jims.doctor.useBlood.dao.BloodCapacityDao;
 import com.jims.blood.entity.BloodApply;
@@ -30,6 +34,12 @@ public class BloodApplyBo {
     private OrdersDao ordersDao;
     @Autowired
     private CostOrdersUtilsService costOrdersUtilsService;
+    @Autowired
+    private OutpOrdersDao outpOrdersDao;
+    @Autowired
+    private OutpTreatRecDao outpTreatRecDao;
+    @Autowired
+    private OutpOrdersCostsDao outpOrdersCostsDao;
 
     /**
      * 保存用血申请和用血量申请
@@ -55,6 +65,7 @@ public class BloodApplyBo {
                     bloodCapacity.preInsert();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
+                    bloodCapacity.setApplyId(bloodApply.getId());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
@@ -62,6 +73,7 @@ public class BloodApplyBo {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
+                    bloodCapacity.setApplyId(bloodApply.getId());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
@@ -89,6 +101,7 @@ public class BloodApplyBo {
                     bloodCapacity.preInsert();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
+                    bloodCapacity.setApplyId(bloodApply.getId());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
@@ -96,6 +109,7 @@ public class BloodApplyBo {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
+                    bloodCapacity.setApplyId(bloodApply.getId());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
@@ -111,4 +125,23 @@ public class BloodApplyBo {
 //        String applyNu=bloodCapacityDao.getMatchSubNum(applyNum);
 //        return applyNu;
 //    }
+    public String delete(String ids){
+        int num =0;
+        try {
+            String[] id = ids.split(",");
+            for (int j = 0; j < id.length; j++){
+                OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
+                num = bloodApplylDao.deleteBloodApply(id[j]);
+                bloodCapacityDao.deleteBloodCapacity(id[j]);
+                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
+                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
+                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
+
+
+            }
+        }catch(Exception e){
+            return num+"";
+        }
+        return num+"";
+    }
 }

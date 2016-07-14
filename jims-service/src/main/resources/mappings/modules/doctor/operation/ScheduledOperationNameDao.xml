@@ -110,7 +110,7 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE scheduled_operation_name SET 
+		UPDATE scheduled_operation_name SET
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
@@ -122,4 +122,9 @@
 			and   schedule_id = #{scheduleId}
 		</if>
 	</select>
+
+	<update id="deleteSchedule">
+		DELETE FROM scheduled_operation_name
+		WHERE schedule_id = #{scheduleId}
+	</update>
 </mapper>
