@@ -1,6 +1,5 @@
 var rowNum=-1;
 var labItemClass=[]//检验类别
-//var specimen=[]//检验标本
 var labItmeData={};
 labItmeData.orgId="1";
 labItmeData.dictType="v_lab_class"
