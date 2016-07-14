@@ -28,7 +28,8 @@ public class BloodCapacity extends DataEntity<BloodCapacity> {
 	private String orgId;		// 所属结构
 	private String visitId; //住院id
 	private String clinicId; //就诊id
-	private String patientId; //病人主表ID
+	private String patientId; //病人主表
+	private String applyId;  //主表ID
 	
 	public BloodCapacity() {
 		super();
@@ -36,6 +37,14 @@ public class BloodCapacity extends DataEntity<BloodCapacity> {
 
 	public BloodCapacity(String id){
 		super(id);
+	}
+
+	public String getApplyId() {
+		return applyId;
+	}
+
+	public void setApplyId(String applyId) {
+		this.applyId = applyId;
 	}
 
 	public String getPatientId() {

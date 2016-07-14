@@ -7,6 +7,7 @@ import com.jims.clinic.bo.CostOrdersUtilsService;
 import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
@@ -41,7 +42,8 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
     private OutpOrdersCostsDao outpOrdersCostsDao;
     @Autowired
     private ClinicMasterDao clinicMasterDao;
-
+    @Autowired
+    private OutpOrdersDao outpOrdersDao;
     @Autowired
     private CostOrdersUtilsService costOrdersUtilsService;
     /**
@@ -67,11 +69,10 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
                 examItemsDao.deleteItems(id[j]);
-                ExamAppoints examAppoints=examAppointsDao.get(id[j]);
-                String clinicId=examAppoints.getClinicId();
-//                ExamItems examItems=examItemsDao.getItemList(id[j]);
-                outpTreatRecDao.deleteTreat(clinicId);
-                outpOrdersCostsDao.deleteOutpOrders(clinicId);
+                OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
+                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
+                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
+                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
                 num = examAppointsDao.deleteExamAppionts(id[j]);
 
             }

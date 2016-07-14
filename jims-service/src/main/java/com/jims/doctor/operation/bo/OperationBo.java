@@ -1,8 +1,12 @@
 package com.jims.doctor.operation.bo;
 
 import com.jims.clinic.bo.CostOrdersUtilsService;
+import com.jims.clinic.dao.OutpOrdersCostsDao;
+import com.jims.clinic.dao.OutpOrdersDao;
+import com.jims.clinic.dao.OutpTreatRecDao;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.ClinicItemDict;
+import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.doctor.operation.dao.OperationScheduleDao;
@@ -32,6 +36,12 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
     private OperationScheduleDao operationScheduleDao;
     @Autowired
     private CostOrdersUtilsService costOrdersUtilsService;
+    @Autowired
+    private OutpOrdersDao outpOrdersDao;
+    @Autowired
+    private OutpTreatRecDao outpTreatRecDao;
+    @Autowired
+    private OutpOrdersCostsDao outpOrdersCostsDao;
 
     /**
      * 保存门诊
@@ -147,7 +157,14 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
      * @return
      */
     public int deleteOperationName(String id) {
-        return scheduledOperationNameDao.delete(id);
+        int num = operationScheduleDao.deleteOperation(id);
+        scheduledOperationNameDao.deleteSchedule(id);
+        OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id);
+        outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
+        outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
+        outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
+
+        return num;
     }
 
 
