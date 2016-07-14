@@ -77,4 +77,11 @@ public interface ClinicMasterServiceApi {
 
 
     public ClinicMaster getPatient(String id);
+
+    /**
+     * 拿出最大的收据单号
+     * @author pq
+     * @return
+     */
+    public String getMaxAcctNo();
 }

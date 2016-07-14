@@ -635,4 +635,11 @@
 			 a.id = #{id}
 		</if>
 	</select>
+
+
+	<select id="getMaxAcctNo" resultType="java.lang.String">
+		SELECT  max(acct_no)
+		from clinic_master
+		where del_flag = '0'
+	</select>
 </mapper>
