@@ -14,7 +14,7 @@ function onloadMethod() {
         collapsible: false,//是否可折叠的
         fit: true,//自动大小
         url: basePath + '/labtest/listHos',
-        queryParams:{'visitId' : visitId},
+        queryParams:{'visitId' : visitId,'patientId':patientId},
         remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
@@ -23,7 +23,7 @@ function onloadMethod() {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter:formatDateBoxFull},
-            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:clinicDeptCodeFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center',formatter:function(data){
                 if(data == '1'){
                     return '未检验';
@@ -92,7 +92,7 @@ function onloadMethod() {
         nowrap: false,
         method: 'post',
         url: basePath + '/labtest/listHos',
-        queryParams:{'visitId' : visitId},
+        queryParams:{'visitId' : visitId,'patientId':patientId},
         columns: [[
             {field: 'itemName', title: '项目名称', width: '40%', align: 'center'},
             {field: 'itemCode', title: '项目代码', width: '40%', align: 'center'},
@@ -112,7 +112,7 @@ function onloadMethod() {
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center', formatter: performedBFormatter},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center', formatter: clinicDeptCodeFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });
@@ -145,12 +145,12 @@ function add() {
     $('#labItemClass').combobox({
 
         data:labItemClass,
-        valueField: 'dept_name',
+        valueField: 'id',
         textField: 'class_name',
         onChange: function (n, o) {
             $("#specimen").val("");
             SendProduct();
-            $("#performedBy").val(n);
+            $("#performedBy").val(n.dept_name);
             $("#performedByCode").val(n.dept_code);
         }
     })

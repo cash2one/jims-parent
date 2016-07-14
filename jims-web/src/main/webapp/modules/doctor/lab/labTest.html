@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/static/easyui/js/datagrid-detailview.js"></script>
     <script type="text/javascript" src="js/labTest.js"></script>
     <script type="text/javascript" src="/static/data/data_lab_item.js"></script>
-    <script type="text/javascript" src="/static/data/data_lab_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
 </head>
 <body  class="easyui-layout" onload="onloadMethod()">
 <div class="easyui-layout" style="width:100%;height:100%;">
@@ -42,7 +42,7 @@
                     <label>
                         检验科室：
                     </label>
-                    <input type="hidden" name="performedBy" value="" id="performedByCode"  >
+                    <input type="hidden" name="performedBy" value="" id="performedById"  >
                     <input placeholder="科室"   id="performedBy"   style="width: 145px;">
                 </div>
                 <div class="fitem">
@@ -70,14 +70,14 @@
                 <div id="treeGrid" title="检验结果" class="easyui-window" style="top:0px;width: 100%;" >
                 </div>
                 <div class="fitem">
-                    <div id="SendProduct" class="easyui-window"  title="检验项目"  style="width:1000px;height:400px;" closed="true">
-aasdasdsa
+                    <div id="SendProduct" class="easyui-window" data-options="modal:true"  title="检验项目"  style="width:90%;height:80%" closed="true">
+
                     </div>
                 </div>
             </div>
         </form>
         <div id="dlg-buttons" class="btn-save">
-            <a href="javascript:void(0)" id="saveBut"  class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();" style="width: 90px">保存</a>
+            <a id="saveBut"  class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();" >保存</a>
         </div>
     </div>
 </div>

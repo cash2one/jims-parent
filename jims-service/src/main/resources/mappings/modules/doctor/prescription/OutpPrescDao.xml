@@ -310,7 +310,7 @@
 		WHERE id = #{id}
 	</update>
 	<select id="getOutpPresc" resultType="OutpPresc">
-		 SELECT DISTINCT VISIT_DATE AS "visitDate",
+		<!-- SELECT DISTINCT VISIT_DATE AS "visitDate",
          VISIT_NO AS "visitNo",
          PRESC_NO AS "prescNo",
          ITEM_CLASS AS "itemClass",
@@ -327,7 +327,31 @@
 			</if>
 		</where>
 
-		ORDER BY PRESC_NO DESC
+		ORDER BY PRESC_NO DESC-->
+		select max(order_no) as "orderNo",
+		VISIT_DATE AS "visitDate",
+		VISIT_NO AS "visitNo",
+		PRESC_NO AS "prescNo",
+		ITEM_CLASS AS "itemClass",
+		CHARGE_INDICATOR AS "chargeIndicator",
+		PRESC_ATTR AS "prescAttr"
+		from outp_presc
+		<where>
+			del_flag='0'
+			<if test="clinicId!=null and clinicId!=''">
+				and clinic_id=#{clinicId}
+			</if>
+			<if test="orgId!=null and orgId!=''">
+				and org_id=#{orgId}
+			</if>
+		</where>
+		group by presc_no,
+		VISIT_DATE,
+		VISIT_NO,
+		ITEM_CLASS,
+		CHARGE_INDICATOR,
+		PRESC_ATTR
+		order by max(order_no) asc
 	</select>
 	<select id="getOrderNo" resultType="Integer">
 		select MAX(order_no) FROM outp_presc a
@@ -434,5 +458,21 @@
 			</if>
 		</where>
 	</select>
+
+	<update id="delByPrescNo">
+		update outp_presc set del_flag='1'
+		<where>
+			del_flag='0'
+			<if test="prescNo!=null">
+				and presc_no=#{prescNo}
+			</if>
+			<if test="clinicId!=null and clinicId!=''">
+				and clinic_id=#{clinicId}
+			</if>
+			<if test="orgId!=null and orgId!=''">
+				and org_id=#{orgId}
+			</if>
+		</where>
+	</update>
 
 </mapper>

@@ -6,10 +6,7 @@ import com.jims.lab.api.LabConfirmServiceApi;
 import com.jims.lab.entity.LabTestMaster;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -32,9 +29,10 @@ public class LabConfirmRest {
      */
     @GET
     @Path("getLabMaster")
-    public List<LabTestMaster> getLabMaster(){
+    public List<LabTestMaster> getLabMaster(@QueryParam("inOrOut") String inOrOut,@QueryParam("startTime")String startTime,@QueryParam("endTime")String endTime,
+                                            @QueryParam("reqDept")String reqDept,@QueryParam("labNo")String labNo,@QueryParam("patName")String patName){
         String performedBy="";
-        return   labConfirmServiceApi.getLabMaster(performedBy);
+        return   labConfirmServiceApi.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName);
     }
 
     /**
@@ -45,7 +43,7 @@ public class LabConfirmRest {
      */
     @POST
     @Path("confirmLab")
-    public StringData confirmLab(LabTestMaster labTestMaster){
+    public StringData confirmLab(LabTestMaster labTestMaster)throws Exception{
      StringData data=new StringData();
         data.setCode(labConfirmServiceApi.confrimLab(labTestMaster));
         return data;

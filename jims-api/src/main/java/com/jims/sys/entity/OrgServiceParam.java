@@ -11,18 +11,20 @@ public class OrgServiceParam extends DataEntity<OrgServiceParam> {
     private String paramValue ;//参数值
     private String serviceId;//所属服务
     private String valueRange ;//值域
-    private String paramDesp ;//参数描述
+    private String parmDesp;//参数描述
     private String paramType ;//参数类型
     private String orgId ;//所属组织机构
+    private String serviceType ;//服务类型
 
-    public OrgServiceParam(String paramName, String paramValue, String serviceId, String valueRange, String paramDesp, String paramType, String orgId) {
+    public OrgServiceParam(String paramName, String paramValue, String serviceId, String valueRange, String parmDesp, String paramType, String orgId, String serviceType) {
         this.paramName = paramName;
         this.paramValue = paramValue;
         this.serviceId = serviceId;
         this.valueRange = valueRange;
-        this.paramDesp = paramDesp;
+        this.parmDesp = parmDesp;
         this.paramType = paramType;
         this.orgId = orgId;
+        this.serviceType = serviceType;
     }
 
     public OrgServiceParam(String id) {
@@ -64,12 +66,12 @@ public class OrgServiceParam extends DataEntity<OrgServiceParam> {
         this.valueRange = valueRange;
     }
 
-    public String getParamDesp() {
-        return paramDesp;
+    public String getParmDesp() {
+        return parmDesp;
     }
 
-    public void setParamDesp(String paramDesp) {
-        this.paramDesp = paramDesp;
+    public void setParmDesp(String parmDesp) {
+        this.parmDesp = parmDesp;
     }
 
     public String getParamType() {
@@ -86,5 +88,13 @@ public class OrgServiceParam extends DataEntity<OrgServiceParam> {
 
     public void setOrgId(String orgId) {
         this.orgId = orgId;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
     }
 }

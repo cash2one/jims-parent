@@ -4,6 +4,7 @@ var doctorName=[];
  * @type {{}}
  */
 var doctorNameData={};
+var inputParamVos=[]
 doctorNameData.orgId="1";
 doctorNameData.dictType="v_staff_dict";
 doctorNameData.inputParamVos=inputParamVos;

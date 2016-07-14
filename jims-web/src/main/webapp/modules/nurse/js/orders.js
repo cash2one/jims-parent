@@ -18,6 +18,14 @@ $(function() {
         fitColumns:true,
         fit: true,//自动大小
         columns: [[      //每个列具体内容
+            {field:'remarks'
+                ,formatter:function(value, rowData, rowIndex){
+                if(rowData.orderNo!=rowData.orderSubNo){
+                    return "<div style='color:blue;font-weight:bold; '>子</div>";
+                }else{
+                    return "";
+                }
+            }},
             {field: 'repeatIndicator', title: '长', formatter:itemFormatter,width: '2%', align: 'center'},
             {field: 'orderClass', title: '类别', width: '3%', formatter:orderClassFormatter,align: 'center'},
             {field: 'startDateTime', title: '开始时间', width: '6%', align: 'center',formatter:formatDateBoxFull},
@@ -55,6 +63,42 @@ $(function() {
             {field:'visitId',hidden:true},
             {field:'orderNo',hidden:true}
         ]],
+        toolbar: [{
+            text: '保存',
+            iconCls:'icon-save',
+            handler:function(){
+
+                    $("#orderList").datagrid('endEdit', editRow);
+                    if (editRow != undefined) {
+
+                        $("#orderList").datagrid("endEdit", editRow);
+                    }
+                    save();
+                }
+
+        },'-',{
+            text: '临时医嘱执行',
+            iconCls:'icon-add',
+            handler:function(){
+                executeOrders();
+            }
+        },'-',{
+            text: '校对',
+            handler:function(){
+                proofOrders();
+            }
+        },'-',{
+            text: '停止',
+            handler:function(){
+                $("#orderList").datagrid('endEdit', editRow);
+                if (editRow != undefined) {
+                    $("#orderList").datagrid("endEdit", editRow);
+                }
+                nurseStopOrders();
+            }
+        }
+        ],
+
        onClickRow: function (rowIndex, rowData) {
 
             var row = $('#orderList').datagrid('getSelected');
@@ -76,32 +120,22 @@ $(function() {
         }, onDblClickRow: function (rowIndex, rowData) {
             $("#ordersDialog").dialog('open');
         }, rowStyler:function(index,row){
-            if (row.orderNo!=row.orderSubNo){
-                return 'background-color:#D4D4D4;';
-                if(row.orderStatus=='6'){//传输
-                    return 'color:#8A2BE2;';
-                }else if(row.orderStatus=='1'){//转抄
-                    return 'color:black;';
-                }else if(row.orderStatus=='2') {//执行
-                    return 'color:blue;';
-                }else if(row.orderStatus=='3') {//停止
-                    return 'color:yellow;';
-                }else if(row.orderStatus=='4') {//作废
-                    return 'color:red;';
-                }
-
-            }else{
-                if(row.orderStatus=='6'){//传输
-                    return 'background-color:#90EE90;color:#8A2BE2;';
-                }else if(row.orderStatus=='1'){//转抄
-                    return 'background-color:#A7CACB;color:black;';
-                }else if(row.orderStatus=='2') {//执行
-                    return 'background-color:#A7CACB;color:blue;';
-                }else if(row.orderStatus=='3') {//停止
-                    return 'background-color:#A7CACB;color:yellow;';
-                }else if(row.orderStatus=='4') {//作废
-                    return 'background-color:#A7CACB;color:red;';
-                }
+            if(row.orderStatus=='6'){//传输
+                return 'background-color:#90EE90;color:#8A2BE2;';
+            }else if(row.orderStatus=='1'){//护士转抄
+                return 'background-color:#A7CACB;color:black;';
+            }else if(row.orderStatus=='2') {//护士执行
+                return 'background-color:#EED5D2;color:blue;';
+            }else if(row.orderStatus=='3') {//护士停止
+                return 'background-color:#698B69;color:yellow;';
+            }else if(row.orderStatus=='4') {//护士作废
+                return 'background-color:#CD0000;color:red;';
+            }else if(row.orderStatus=='7'){//医生停止
+                return 'background-color:#FFA54F;color:black;';
+            }else if(row.orderStatus=='8'){//医生作废
+                return 'background-color:#778899;color:black;';
+            }else if(row.orderStatus=='5'){//医生新开
+                return "color:#7D26CD";
             }
 
 
@@ -145,8 +179,13 @@ function proofOrders(){
 function executeOrders(){
 
 
-    var ordersRow = $('#orderList').datagrid("getSelections");
+    var ordersRow = $('#orderList').datagrid("getSelected");
     var tableJson=JSON.stringify(ordersRow);
+    if(ordersRow.repeatIndicator=='1'){//长期医嘱执行
+        $.messager.alert("提示消息","只有临时医嘱才需要执行");
+    }else if(ordersRow.execDateTime!=null) {
+        $.messager.alert("提示消息", "该条医嘱已经执行，不能重复执行");
+    } else {
     $.postJSON(basePath+'/ordersNurse/executeOrders',tableJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息","执行成功");
@@ -157,6 +196,7 @@ function executeOrders(){
     },function(data){
         $.messager.alert('提示',"执行错误", "error");
     })
+    }
 }
 
 
@@ -175,19 +215,50 @@ function loadBaseInfo(id){
     });
 }
 
-//转抄
-function operationCopied(){
-    var ordersRow = $('#orderCopied').datagrid("getSelections");
-    var tableJson=JSON.stringify(ordersRow);
-    $.postJSON(basePath+'/ordersNurse/operationCopied',tableJson,function(data){
+
+//护士医生停止医嘱
+function nurseStopOrders(){
+    var row = $('#orderList').datagrid('getSelected');
+    var tableJson=JSON.stringify(row);
+    if(row == null){
+        $.messager.alert('提示',"请将医嘱信息填写完整！", "error");
+    }else if(row.repeatIndicator=='0'){
+        $.messager.alert('提示',"该医嘱是临时医嘱,不能进行停止操作！", "error");
+    }else if(row.orderStatus=='2'){
+        $.postJSON(basePath+'/ordersNurse/stopOrders',tableJson,function(data){
+            if(data.data=='success'){
+                $.messager.alert("提示消息","该医嘱已经停止");
+                $('#orderList').datagrid('load');
+                $('#orderList').datagrid('clearChecked');
+            }else{
+                $.messager.alert('提示',"医嘱停止操作失败", "error");
+            }
+        });
+    }else{
+        $.messager.alert("提示消息","该医嘱未进行校对不能停止");
+    }
+}
+
+
+//保存
+function save(){
+    var patId = "71921abbf7204bff8d4b3a534fbc08de";
+    var visitId ="1";
+    $("#orderList").datagrid('endEdit', rowNum);
+    var  rows=$('#orderList').datagrid('getChanges');
+    var tableJson=JSON.stringify(rows);
+    tableJson=tableJson.substring(0, tableJson.length - 1);
+    tableJson=tableJson.substring(0, tableJson.length - 1);
+    var submitJson=tableJson+",\"patientId\":\""+patId+"\",\"visitId\":\""+visitId+"\"}]";
+    $.postJSON(basePath+'/inOrders/save',submitJson,function(data){
         if(data.data=='success'){
-            $.messager.alert("提示消息","处理成功");
-            $('#orderCopied').datagrid("load");
+            $.messager.alert("提示消息","保存成功");
+            $('#orderList').datagrid('load');
+            $('#orderList').datagrid('clearChecked');
         }else{
-            $.messager.alert('提示',"处理失败", "error");
+            $.messager.alert('提示',"保存失败", "error");
         }
     },function(data){
-        $.messager.alert('提示',"处理失败", "error");
+        $.messager.alert('提示',"网络异常", "error");
     })
-
 }

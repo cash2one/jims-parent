@@ -50,7 +50,8 @@
 		a.update_date AS "updateDate",
 		a.create_date AS "createDate",
 		a.clinic_id AS clinicId,
-		a.org_id AS orgId
+		a.org_id AS orgId,
+		a.in_or_out AS inOrOutFlag
 	</sql>
 	
 	<sql id="labTestMasterJoins">
@@ -67,8 +68,28 @@
 		SELECT
 		<include refid="labTestMasterColumns"/>
 		FROM lab_test_master a
-
-		WHERE a.performed_by = #{performedBy}
+		WHERE a.del_flag='0'
+		<if test="performedBy!=null and performedBy!=''">
+			AND a.performed_by = #{performedBy}
+		</if>
+		<if test="inOrOut!=null and inOrOut!=''">
+			AND a.in_or_out=#{inOrOut}
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			AND a.requested_date_time &gt;= to_date(#{startTime},'yyyy-MM-dd')
+		</if>
+        <if test="endTime!=null and endTime!=''">
+			AND a.requested_date_time &lt;=to_date(#{endTime},'yyyy-MM-dd')
+		</if>
+		<if test="reqDept!=null and reqDept!=''">
+			AND a.ordering_dept=#{reqDept}
+		</if>
+		<if test="labNo!=null and labNo!=''">
+			AND a.test_no=#{labNo}
+		</if>
+		<if test="patName!=null and patName!=''">
+			AND a.name=#{patName}
+		</if>
 	</select>
 	<select id="findList" resultType="LabTestMaster">
 		SELECT 
@@ -170,7 +191,8 @@
 			update_date,
 			clinic_id,
 			org_id,
-			create_date
+			create_date,
+			in_or_out
 		) VALUES (
 			#{id},
 			#{testNo},
@@ -219,7 +241,8 @@
 			#{updateDate},
 			#{clinicId},
 			#{orgId},
-			#{createDate}
+			#{createDate},
+			#{inOrOutFlag}
 		)
 	</insert>
 	
@@ -268,7 +291,8 @@
 			update_by = #{updateBy.id},
 			clinic_id = #{clinicId},
 			org_id = #{orgId},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			in_or_out=#{inOrOutFlag}
 		WHERE id = #{id}
 	</update>
 	
@@ -287,6 +311,6 @@
 	</update>
 	<update id="updateLabMaster">
 		UPDATE lab_test_master SET
-		result_status = '1' WHERE id = #{id}
+		status = '1' WHERE id = #{id}
 	</update>
 </mapper>

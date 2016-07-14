@@ -25,7 +25,6 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	
 	private static final long serialVersionUID = 1L;
     private String orgId;		// 所属组织结构
-    private String clinicId;		//就诊id
     private String patientId;		// 病人标识号
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
@@ -93,6 +92,7 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	private String item;//检查项目
 	private Double fee;
 	private PatMasterIndex patMaster;
+	private String prescNo;
 
 	
 	public ClinicMaster() {
@@ -119,13 +119,6 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
         this.orgId = orgId;
     }
 
-    public String getClinicId() {
-        return clinicId;
-    }
-
-    public void setClinicId(String clinicId) {
-        this.clinicId = clinicId;
-    }
 
     public String getPatientId() {
         return patientId;
@@ -657,5 +650,13 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 
 	public void setPhoneNumberHome(String phoneNumberHome) {
 		this.phoneNumberHome = phoneNumberHome;
+	}
+
+	public String getPrescNo() {
+		return prescNo;
+	}
+
+	public void setPrescNo(String prescNo) {
+		this.prescNo = prescNo;
 	}
 }

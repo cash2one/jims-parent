@@ -1,10 +1,15 @@
 package com.jims.doctor.lab.bo;
 
 import com.jims.clinic.bo.CostOrdersUtilsService;
+import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.clinic.dao.OutpOrdersCostsDao;
+import com.jims.clinic.dao.OutpOrdersDao;
 import com.jims.clinic.dao.OutpTreatRecDao;
 import com.jims.clinic.entity.ClinicItemDict;
+import com.jims.clinic.entity.ClinicMaster;
+import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.NumberUtils;
 import com.jims.doctor.lab.dao.LabTestItemsDao;
 import com.jims.doctor.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestItems;
@@ -36,6 +41,10 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
     private OutpTreatRecDao outpTreatRecDao;
     @Autowired
     private OutpOrdersCostsDao outpOrdersCostsDao;
+    @Autowired
+    private ClinicMasterDao clinicMasterDao;
+    @Autowired
+    private OutpOrdersDao outpOrdersDao;
     /**
      * 门诊检验保存
      *
@@ -43,79 +52,49 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
      * @return
      */
     public String saveAll(LabTestMaster labTestMaster) {
-        int num;
-        if (true) {//labTestMaster!=null && labTestMaster.getId()!=null
-            String a = "";
-            //patientId病人标识号页面有公共值
-            //labTestMaster.setPatientId("");
-            labTestMaster.preInsert();
-            labTestMaster.setOrderingProvider("");
-            labTestMaster.setOrderingDept("");
-            //结果状态
-            labTestMaster.setResultStatus("1");
-            //申请序号
-            labTestMaster.setTestNo(creatTestNo());
-            labTestMaster.setBillingIndicator(0);
-            labTestMaster.setPrintIndicator(0);
-            labTestMaster.setRequestedDateTime(new Date());
-            List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
-            List<LabTestItems> labTestItemsList = labTestMaster.getList();
-            if (labTestItemsList.size() > 0) {
-                for (int i = 0; i < labTestItemsList.size() ; i++) {
-                    ClinicItemDict clinicItemDict = new ClinicItemDict();
-                    LabTestItems labTestItems = labTestItemsList.get(i);
-                    clinicItemDict.setItemCode(labTestItems.getItemCode());
-                    clinicItemDict.setOrgId(labTestMaster.getOrgId());
-                    labTestItems.setDelFlag("0");
-                    labTestItems.setItemNo(i + 1);
-                    labTestItems.setLabMaster(labTestMaster.getId());
-                    labTestItems.setTestNo(labTestMaster.getTestNo());
-                    labTestItems.preInsert();
-                    labTestItemsDao.insert(labTestItems);
-                    clinicItemDictList.add(clinicItemDict);
-                }
-                costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId());
-                num = labTestMasterDao.insert(labTestMaster);
-                return num + "";
+        int num=0;
+        ClinicMaster clinicMaster=clinicMasterDao.get(labTestMaster.getClinicId());
+        labTestMaster.preInsert();
+        labTestMaster.setOrgId(clinicMaster.getOrgId());
+        //申请医生(暂无)
+        labTestMaster.setOrderingProvider("");
+        //申请科室(暂无)
+        labTestMaster.setOrderingDept("");
+         //申请状态
+         labTestMaster.setStatus(labTestMaster.LAB_STATUS_APPLY);
+        //结果状态
+        labTestMaster.setResultStatus(labTestMaster.LAB_RESULTSTATUS_APPLY);
+
+        //申请序号
+        labTestMaster.setTestNo(NumberUtils.getClinicLab(clinicMaster.getId()));
+        //打印标记
+        labTestMaster.setPrintIndicator(labTestMaster.PRINTINDICATOR_NOT);
+        //申请时间
+        labTestMaster.setRequestedDateTime(new Date());
+
+        List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
+        List<LabTestItems> labTestItemsList = labTestMaster.getList();
+        if (labTestItemsList.size() > 0) {
+            for (int i = 0; i < labTestItemsList.size() ; i++) {
+                ClinicItemDict clinicItemDict = new ClinicItemDict();
+                LabTestItems labTestItems = labTestItemsList.get(i);
+                clinicItemDict.setItemCode(labTestItems.getItemCode());
+                clinicItemDict.setOrgId(labTestMaster.getOrgId());
+                labTestItems.setItemNo(i + 1);
+                labTestItems.setBillingIndicator(labTestItems.LAB_BILLINGINDICATOR_APPLY);
+                labTestItems.setLabMaster(labTestMaster.getId());
+                labTestItems.setTestNo(labTestMaster.getTestNo());
+                labTestItems.preInsert();
+                labTestItemsDao.insert(labTestItems);
+                clinicItemDictList.add(clinicItemDict);
             }
+            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId());
+            num = labTestMasterDao.insert(labTestMaster);
+            return num + "";
         }
-        return "0";
+    return "0";
     }
 
-    /**
-     * 生成申请序号
-     *
-     * @param主表 当前日期
-     * @author xueyx
-     * @version 2016/5/09
-     */
-    public String creatTestNo() {
-        String no = dao.creatTestNo();
-        Date dt = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyMMddS");
-        String d1 = format.format(dt);
-        String result = "";
-        if (no == null) {
-            return "000000";
-        }else {
-            return d1;
-        }
-//            if (d1.equals(no.substring(0, 6))) {
-//                int temp = Integer.valueOf(no.substring(6));
-//                temp = temp + 1;
-//                result = String.format("%4d", temp).replace(" ", "0");
-//                if (result.length() > 4) {
-//                    result = d1.concat("0000");
-//                } else {
-//                    result = d1.concat(result);
-//                }
-//            } else {
-//                result = d1.concat("0001");
-//            }
-//            return result;
-//        }
-//        return d1;
-    }
 
     /**
      * 删除门诊记录
@@ -128,11 +107,10 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
                 labTestItemsDao.deleteItmes(id[j]);
-                LabTestMaster labTestMaster=labTestMasterDao.get(id[j]);
-                String clinicId=labTestMaster.getClinicId();
-//                ExamItems examItems=examItemsDao.getItemList(id[j]);
-                outpTreatRecDao.deleteTreat(clinicId);
-                outpOrdersCostsDao.deleteOutpOrders(clinicId);
+                OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
+                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
+                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
+                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
                 num = labTestMasterDao.deleteLabTestMaster(id[j]);
 
             }

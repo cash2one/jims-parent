@@ -4,6 +4,8 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugExportMaster;
 
+import java.util.List;
+
 /**
  * 药品出库主记录DAO接口
  * @author lgx
@@ -11,5 +13,5 @@ import com.jims.phstock.entity.DrugExportMaster;
  */
 @MyBatisDao
 public interface DrugExportMasterDao extends CrudDao<DrugExportMaster> {
-	
+
 }

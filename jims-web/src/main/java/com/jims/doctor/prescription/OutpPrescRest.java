@@ -65,7 +65,7 @@ public class OutpPrescRest {
      */
     @Path("sublist")
     @GET
-    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orgId") String orgId,@QueryParam("clinicId") String clinicId,@QueryParam("prescNo") Integer prescNo){
+    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orgId") String orgId,@QueryParam("clinicId") String clinicId,@QueryParam("prescNo")String prescNo){
         OutpPresc op = new OutpPresc();
         op.setPrescNo(prescNo);
         op.setOrgId(orgId);
@@ -137,6 +137,28 @@ public class OutpPrescRest {
         return stringData;
     }
     /**
+     * @param     prescNo        传递参数
+     * @return com.jims.common.data.StringData    返回类型
+     * @throws
+     * @Title: delByPrescNo
+     * @Description: (根据处方号删除处方信息)
+     * @author CTQ
+     * @date 2016/7/12
+     */
+    @Path("delByPrescNo")
+    @POST
+    public StringData delByPrescNo(@QueryParam("prescNo")String prescNo,@QueryParam("clinicId")String clinicId,@QueryParam("orgId")String orgId ){
+        OutpPresc outpPresc = new OutpPresc();
+        outpPresc.setPrescNo(prescNo);
+        outpPresc.setClinicId(clinicId);
+        outpPresc.setOrgId(orgId);
+        StringData stringData=new StringData();
+        String num=outpPrescServiceApi.delByPrescNo(outpPresc);
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
+    /**
      * @param       id      传递参数
      * @return com.jims.clinic.entity.ClinicMaster    返回类型
      * @throws
@@ -149,6 +171,8 @@ public class OutpPrescRest {
     @POST
     public ClinicMaster getClinicMaster(String id) {
         ClinicMaster clinicMaster = clinicMasterServiceApi.get(id);
+        String prescNo = clinicMasterServiceApi.getPrescNo(id);
+        clinicMaster.setPrescNo(prescNo);
         return clinicMaster;
     }
 

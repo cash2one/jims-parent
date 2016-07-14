@@ -6,10 +6,7 @@ import com.jims.exam.api.ExamConfirmServiceApi;
 import com.jims.exam.entity.ExamAppoints;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -31,9 +28,10 @@ public class ExamConfirmRest {
      */
     @GET
     @Path("getExamAppoints")
-    public List<ExamAppoints> getExamAppoints(){
+    public List<ExamAppoints> getExamAppoints(@QueryParam("outOrIn")String outOrIn,@QueryParam("startTime")String startTime,@QueryParam("endTime")String endTime,
+                                              @QueryParam("appointsDept")String appointsDept,@QueryParam("patientName")String patientName){
         String performedBy="240101";//当前登录 人执行科室人
-        return examConfirmServiceApi.getExamAppointses(performedBy);
+        return examConfirmServiceApi.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName);
     }
 
     /**
@@ -43,7 +41,7 @@ public class ExamConfirmRest {
      */
     @POST
     @Path("confirmExam")
-    public StringData confirmExam(ExamAppoints examAppoints){
+    public StringData confirmExam(ExamAppoints examAppoints)throws Exception{
      StringData data=new StringData();
         data.setCode(examConfirmServiceApi.confrimExam(examAppoints));
         return data;

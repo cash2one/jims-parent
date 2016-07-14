@@ -40,4 +40,12 @@ public interface OutpPrescServiceApi {
      * @return
      */
     public List<OutpPresc> findListByParams(OutpPresc outpPresc);
+
+    /**
+     * 根据处方号删除处方
+     * @param outpPresc
+     * @author CTQ
+     * @return
+     */
+    public String delByPrescNo(OutpPresc outpPresc);
 }

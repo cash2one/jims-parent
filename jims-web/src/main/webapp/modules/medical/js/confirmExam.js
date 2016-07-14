@@ -1,6 +1,10 @@
 var rowNum=-1;
 
-function onloadMethod(){
+function onloadMethod(outOrIn){
+    $('#doctorRole').combobox({
+        data: clinicDeptCode,
+        valueField: 'id'
+    })
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -11,7 +15,7 @@ function onloadMethod(){
         collapsible:false,//是否可折叠的
         //fit: true,//自动大小
         method:'GET',
-        url:basePath+'/examConfirm/getExamAppoints',
+        url:basePath+'/examConfirm/getExamAppoints?outOrIn='+outOrIn,
         //sortName: 'code',
         //sortOrder: 'desc',
         remoteSort:false,
@@ -29,7 +33,7 @@ function onloadMethod(){
                 }
             }},
             {field:'examSubClass',title:'检查子类',width:'15%',align:'center'},
-            {field:'reqDept',title:'申请科室',width:'10%',align:'center'},
+            {field:'reqDept',title:'申请科室',width:'10%',align:'center',formatter:clinicDeptCodeFormatter},
             /* {field:'clinicDept',title:'病人ID',width:'15%',align:'center'},*/
             {field:'name',title:'姓名',width:'13%',align:'center'},
             {field:'sex',title:'性别',width:'10%',align:'center'},
@@ -58,20 +62,6 @@ function onloadMethod(){
             }
         }
         ], onClickRow: function (rowIndex, rowData) {
-            var dataGrid=$('#list_data');
-            if(!dataGrid.datagrid('validateRow', rowNum)){
-                return false
-            }else{
-                if(rowNum!=rowIndex){
-                    if(rowNum>=0){
-                        dataGrid.datagrid('endEdit', rowNum);
-                    }
-                    rowNum=rowIndex;
-                    dataGrid.datagrid('beginEdit', rowIndex);
-                    var ed = $('#list_data').datagrid('getEditor', {index:rowIndex,field:'doctor'});
-                    $(ed.target).combogrid("grid").datagrid("loadData", doctorName);
-                }
-            }
         }
     });
     //设置分页控件
@@ -81,6 +71,16 @@ function onloadMethod(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+}
+/**
+ * 查询
+ */
+function searchAppoints(){
+    var startTime= $("#startTime").datebox('getValue');
+    var endTime= $("#endTime").datebox('getValue');
+    var appointsDept=$('#doctorRole').combobox('getValue')
+    var patientName=$("#patName").val();
+    $('#list_data').datagrid({queryParams:{"startTime":startTime,"endTime":endTime,"appointsDept":appointsDept,"patientName":patientName}});
 }
 /**
  * 确认

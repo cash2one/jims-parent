@@ -3,7 +3,6 @@
  */
 $(function () {
     var orgId = config.org_Id;
-    //var orgId = '1d341cfe36a5468ca33195dc8620ef80';
     var editTypeIndex;
     var editLabelIndex;
     var sysDictType;    //定义字典表类型
@@ -159,6 +158,7 @@ $(function () {
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
+        toolbar: '#searchTb',
         nowrap: false,  //如果为true，则在同一行中显示数据
         striped: true,  //显示斑马线效果
         border: true,
@@ -254,6 +254,7 @@ $(function () {
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
+        toolbar: '#ft',
         nowrap: false,  //如果为true，则在同一行中显示数据
         striped: true,  //显示斑马线效果
         border: true,
@@ -336,11 +337,6 @@ $(function () {
         }
     });
 
-    $('#cc').layout('panel', 'south').panel('resize', {height: 'auto'});
-    $("#cc").layout({
-        fit: true
-    });
-
     var loadTypeDict = function () {
         //提交成功后刷新左侧datagrid
         $("#descrip").datagrid('reload');
@@ -405,6 +401,7 @@ $(function () {
         stopLabelEdit();
         tempSave();
         var deleteRows = $("#label_value").datagrid('getSelections');	//获取所有被选中的行，即要删除的所有行
+        console.log(deleteRows);
         if (deleteRows.length < 1) {
             $.messager.alert("提示消息", "请选中要删的数据!");
             return;
@@ -475,7 +472,7 @@ $(function () {
     function decide() {
         tempSave();
         if (inserted.length > 0 || updated.length > 0) {
-            $.messager.confirm('提示', '您要保存刚才的操作吗?', function (r) {
+            $.messager.confirm('提示', '是否保存?', function (r) {
                 if (r) {
                     save();
                 } else {

@@ -15,6 +15,7 @@
     <script type="text/javascript" src="/static/data/data_operation_quarantine.js"></script>
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
     <script type="text/javascript" src="/static/data/data_transfusion_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
 </head>
 <body  onload="onloadMethod()">
 <div class="reg-plan-wrap">
@@ -88,12 +89,6 @@
                         </td>
                         <td>手术等级：</td>
                         <td>
-                            <!--<select name="operationScale" class="easyui-combobox" style="width:40%;height: 30px">-->
-                               <!--<option value="1">一级手术</option>-->
-                                <!--<option value="2">二级手术</option>-->
-                                <!--<option value="3"> 三级手术</option>-->
-                                <!--<option value="4">四级手术</option>-->
-                            <!--</select>-->
                             <input type="hidden" name="operationScale" id="operationScaleId" value="">
                             <input id="operationScale"style="width:80%;">
                         </td>
@@ -106,44 +101,33 @@
                     <tr>
                         <td>手术医师：</td>
                         <td>
-                            <select name="surgeon" class="easyui-combobox" style="width:40%;height: 30px">
-                            <option value="1">丛军</option>
-                            <option value="2">丛玲</option>
+                            <input id="surgeon" style="width: 40%;">
+                            <input type="hidden" id="surgeonId" name="surgeon" value="">
                         　　</select>
                         </td>
                         <td>助手：</td>
                         <td>
-                            <select name="firstAssistant" class="easyui-combobox" style="width:40%;height: 30px">
-                            <option value="1">丛军</option>
-                            <option value="2">丛玲</option>
-                            　　</select>
+                            <input id="firstAssistant" style="width: 20%;">
+                            <input type="hidden" id="firstAssistantId" name="firstAssistant" value="">
                         </td>
                         <td>
-                            <select name="secondAssistant" class="easyui-combobox" style="width:40%;height: 30px">
-                                <option value="1">丛军</option>
-                                <option value="2">丛玲</option>
-                                　　</select>
+                            <input id="secondAssistant" style="width: 20%;">
+                            <input type="hidden" id="secondAssistantId" name="secondAssistant" value="">
                         </td>
                         <td>
-                            <select name="thirdAssistant" class="easyui-combobox" style="width:40%;height: 30px">
-                                <option value="1">丛军</option>
-                                <option value="2">丛玲</option>
-                                　　</select>
+                            <input id="thirdAssistant" style="width: 20%;">
+                            <input type="hidden" id="thirdAssistantId" name="thirdAssistant" value="">
                         </td>
                         <td colspan="2">
-                            <select name="fourthAssistant" class="easyui-combobox" style="width:40%;height: 30px">
-                                <option value="1">丛军</option>
-                                <option value="2">丛玲</option>
-                                　　</select>
+                            <input id="fourthAssistant" style="width: 20%;">
+                            <input type="hidden" id="fourthAssistantId" name="fourthAssistant" value="">
                         </td>
                     </tr>
                     <tr>
                         <td>输血医师：</td>
                         <td>
-                            <select name="bloodTranDoctor" class="easyui-combobox" style="width:40%;height: 30px">
-                            <option value="1">丛军</option>
-                            <option value="2">丛玲</option>
-                            　　</select>
+                            <input type="hidden" name="bloodTranDoctor" id="bloodTranDoctorId" value="">
+                            <input id="bloodTranDoctor" style="width: 20%;">
                         </td>
                         <td>输/供血方式：</td>
                         <td colspan="5">
@@ -155,10 +139,8 @@
                     <Tr>
                         <td>麻醉医师：</td>
                         <td >
-                            <select name="anesthesiaDoctor" class="easyui-combobox" style="width:40%;height: 30px">
-                                <option value="1">丛军</option>
-                                <option value="2">丛玲</option>
-                                　　</select>
+                            <input type="hidden" name="anesthesiaDoctor" id="anesthesiaDoctorId" value="">
+                            <input id="anesthesiaDoctor" style="width: 20%;">
                         </td>
                         <td>麻醉方法：</td>
                         <td  colspan="3">
@@ -191,7 +173,7 @@
 </form>
 
     <div id="dlg-buttons" class="btn-save" style="right: 10px;">
-        <a href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();"  style="width: 70px;">保存</a>
+        <a  class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();"  style="width: 70px;">保存</a>
 
     </div>
 

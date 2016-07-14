@@ -7,6 +7,7 @@ import com.jims.clinic.bo.CostOrdersUtilsService;
 import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicMaster;
+import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
@@ -41,7 +42,8 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
     private OutpOrdersCostsDao outpOrdersCostsDao;
     @Autowired
     private ClinicMasterDao clinicMasterDao;
-
+    @Autowired
+    private OutpOrdersDao outpOrdersDao;
     @Autowired
     private CostOrdersUtilsService costOrdersUtilsService;
     /**
@@ -67,11 +69,10 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
                 examItemsDao.deleteItems(id[j]);
-                ExamAppoints examAppoints=examAppointsDao.get(id[j]);
-                String clinicId=examAppoints.getClinicId();
-//                ExamItems examItems=examItemsDao.getItemList(id[j]);
-                outpTreatRecDao.deleteTreat(clinicId);
-                outpOrdersCostsDao.deleteOutpOrders(clinicId);
+                OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
+                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
+                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
+                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
                 num = examAppointsDao.deleteExamAppionts(id[j]);
 
             }
@@ -102,24 +103,29 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         //添加EXAM_APPOINTS 相应字段
         examAppoints.setCnsltState(0);
         examAppoints.preInsert();
+        examAppoints.setRegPrnFlag(0);
         examAppoints.setVisitNo(clinicMaster.getVisitNo());
+        //申请序号
+        String examNo="JC"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
+        examAppoints.setExamNo(examNo);
         examAppoints.setChargeType(clinicMaster.getChargeType());
+        num = examAppointsDao.insert(examAppoints);
         List<ClinicItemDict> clinicItemDictList=new ArrayList<ClinicItemDict>();
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
         for(int i=0;i<examItemsList.size();i++){
             ClinicItemDict clinicItemDict=new ClinicItemDict();
             ExamItems examItems=examItemsList.get(i);
-            clinicItemDict.setInputCode(examItems.getExamItemCode());
+            clinicItemDict.setItemCode(examItems.getExamItemCode());
             examItems.setAppointsId(examAppoints.getId());
             examItems.setClinicId(examAppoints.getClinicId());
             examItems.setVisitId(examAppoints.getVisitId());
+            examItems.setExamNo(examAppoints.getExamNo());
             examItems.preInsert();
             examItemsDao.saveExamItems(examItems);
             clinicItemDictList.add(clinicItemDict);
         }
 
         costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,examAppoints.getId());
-        num = examAppointsDao.saveExamAppionts(examAppoints);
         return  num;
     }
 }

@@ -73,4 +73,6 @@ public interface DeptDictApi {
 
 
     public List<DeptDict> getOperation();
+
+    public DeptDict get(String id) ;
 }

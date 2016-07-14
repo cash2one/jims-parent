@@ -36,4 +36,12 @@ public interface ServiceParamApi {
      * @return
      */
     public int mergeSysServiceParam(BeanChangeVo<SysServiceParam> sysServiceParamBeanChangeVo) ;
+
+    /**
+     * 根据自定义服务查询出，该自定义服务应的菜单
+     * @param selfServiceId
+     * @param orgId
+     * @return
+     */
+    public List<SysServiceParam> findSysServiceParamBySelfServiceId(String selfServiceId, String orgId);
 }

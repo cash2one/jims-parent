@@ -1,5 +1,24 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
+/**
+ * /门诊诊断类型
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @returns {string|string|string}
+ */
+function diagnosisTypeClinicFormatter(value, rowData, rowIndex) {
+    if (value == 0) {
+        return;
+    }
+
+    for (var i = 0; i < diagnosisTypeClinic.length; i++) {
+        if (diagnosisTypeClinic[i].value == value) {
+            return diagnosisTypeClinic[i].text;
+        }
+    }
+}
 function onloadMethod(){
     $("#treeGrid").dialog("close");
     $("#saveBut").hide();
@@ -16,19 +35,18 @@ function onloadMethod(){
         url: basePath + '/labtest/list',
         queryParams:{'clinicId' : clinicId},
         remoteSort: false,
-        idField: 'fldId',
         singleSelect: false,//是否单选
         pagination: true,//分页控件
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter:formatDateBoxFull},
-            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:clinicDeptCodeFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center',formatter:function(data){
-                if(data == '1'){
+                if(data == '0'){
                     return '未检验';
                 }else{
-                    return '以检验';
+                    return '已检验';
                 }
             }},
             {
@@ -39,40 +57,37 @@ function onloadMethod(){
                 formatter: function (value, row, index) {
                     var html = '';
                     html =  html +  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
-                    html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
+                    //html = html +'<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看结果</button>';
                     return html;
                 }
             }
         ]],
-    //    onExpandRow(index,row){
-    //    alert("1");
-    //}
-        view: detailview,
-        detailFormatter: function(rowIndex, rowData){
-
-            var item=[];
-            $.ajax({
-                type:"POST",
-                url: basePath+"/labtest/getItem",
-                contentType: 'application/json',
-                data: testNo=rowData.testNo,
-                async:false,
-                dataType: 'json',
-                success:function(data){
-                    item=data;
-                }
-            })
-
-            return  '<table><tr>' +
-                '<td style="border:0">' +
-                '<p>检验项目: </p>' +
-                '</td>' +
-                '</tr><tr>' +
-                '<td style="border:0">' +
-                '<p> ' +item[0].itemName + '</p>' +
-                '</td>' +
-                '</tr></table>';
-        },
+        //view: detailview,
+        //detailFormatter: function(rowIndex, rowData){
+        //
+        //    var item=[];
+        //    $.ajax({
+        //        type:"POST",
+        //        url: basePath+"/labtest/getItem",
+        //        contentType: 'application/json',
+        //        data: testNo=rowData.testNo,
+        //        async:false,
+        //        dataType: 'json',
+        //        success:function(data){
+        //            item=data;
+        //        }
+        //    })
+        //
+        //    return  '<table><tr>' +
+        //        '<td style="border:0">' +
+        //        '<p>检验项目: </p>' +
+        //        '</td>' +
+        //        '</tr><tr>' +
+        //        '<td style="border:0">' +
+        //        '<p> ' +item[0].itemName + '</p>' +
+        //        '</td>' +
+        //        '</tr></table>';
+        //},
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]],
@@ -117,7 +132,7 @@ function onloadMethod(){
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:clinicDeptCodeFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });
@@ -140,9 +155,9 @@ function add(){
         data: {"clinicId":clinicId},
         success: function (data) {
             if (data!= ""&& data!=null) {
-                var d;
+                var d="";
                 $.each(data, function (index, item) {
-                    d =d + item.icdName+"\r";
+                    d =d +diagnosisTypeClinicFormatter(item.type)+"："+item.icdName+"\r\n";
                 });
                 $("#relevantClinicDiag").val(d);
             }
@@ -155,9 +170,9 @@ function add(){
             textField: 'class_name',
             onSelect: function (n, o) {
                 $("#specimen").val("");
-                SendProduct();
+                SendProduct(n.class_name);
                 $("#performedBy").val(n.dept_name);
-               $("#performedByCode").val(n.dept_code);
+               $("#performedById").val(n.dept_code);
             }
         })
 
@@ -226,10 +241,17 @@ function look() {
     $("#treeGrid").dialog("open");
 }
 //弹出选择项目窗口
-function SendProduct() {
+function SendProduct(name) {
     var item={};
     //item.orgId="";
     item.dictType="lab_item_view";
+    var inputParamVos=new Array();
+    var InputParamVo={};
+    InputParamVo.colName='expand2';
+    InputParamVo.colValue=name;
+    InputParamVo.operateMethod='=';
+    inputParamVos.push(InputParamVo);
+    item.inputParamVos=inputParamVos;
     var expand3 = $("#performedBy").val();
     var expand2 = $("#labItemClass").val();
     var expand1 = $("#specimen").val();
@@ -241,24 +263,28 @@ function SendProduct() {
             'dataType': 'json',
             'async': false,
         'success': function(data){
+            if(data.length==0){
+                $.messager.alert("提示消息","没有检查项目");
+                return false;
+            }
             var divstr ="<table>";
                     for(var i=0; i<data.length; i++)
                     {   if(i==0){
-                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
                         }
                         else if(i%3==0){
-                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
                         }
                         else if(i%3==2){
-                            divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td></tr>";
+                            divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td></tr>";
                         }
                         else{
-                             divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand2+"'/></div></td>";
+                             divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
                         }
                         //alert(data[i].expand1);
                     }
                     divstr = divstr +"</table>";
-                    divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easy-nbtn easy-nbtn-padd' onclick='doSelect();' style='width: 90px'>提交</a></div>";
+                    divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easyui-linkbutton' onclick='doSelect();' style='width: 90px'>提交</a></div>";
                     $("#SendProduct").html(divstr);
                     $("#SendProduct").dialog("open");
 

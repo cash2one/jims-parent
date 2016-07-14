@@ -241,8 +241,7 @@
 			SUM(DECODE(SIGN(TOTAL_CHARGES), -1, ABS(TOTAL_CHARGES), 0)) as "refundMoney",
 			MIN(RCPT_NO) as "minRcptNo",
 			MAX(RCPT_NO) as "maxRcptNo",
-			COUNT(*) as "countNo",
-		    ID   AS "id"
+			COUNT(*) as "countNo"
 		FROM OUTP_RCPT_MASTER
 		WHERE  DEL_FlAG = '0'
 		<if test="operatorNo !=null and operatorNo !=''">
@@ -255,15 +254,23 @@
 			AND VISIT_DATE &lt;=
 			to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
 		</if>
-		group by id
+
 	</select>
 
 	<update id="updateAcctNo">
 		UPDATE outp_rcpt_master SET
 			acct_no = #{acctNo}
-		WHERE id = #{id}
+		WHERE  OUTP_RCPT_MASTER.ACCT_NO is null
+		<if test="operatorNo !=null and operatorNo !=''">
+			AND OUTP_RCPT_MASTER.OPERATOR_NO = #{operatorNo}
+		</if>
+		<if test="visitDate !=null and visitDate !=''">
+				AND OUTP_RCPT_MASTER.VISIT_DATE &lt;=
+		   to_date(to_char(#{visitDate},'yyyy-mm-dd hh24:mi:ss'), 'yyyy-mm-dd hh24:mi:ss')
+		</if>
 	</update>
+
     <select id="confirmBackCharge" statementType="CALLABLE" parameterType="java.util.Map">
-		{call p_back_charge(#{rcptNo,mode=IN,jdbcType=VARCHAR},#{o_outp_flag,mode=OUT,jdbcType=VARCHAR})}
+		{call p_back_charge(#{rcpt_no,mode=IN,jdbcType=VARCHAR},#{o_outp_flag,mode=OUT,jdbcType=VARCHAR})}
 	</select>
 </mapper>

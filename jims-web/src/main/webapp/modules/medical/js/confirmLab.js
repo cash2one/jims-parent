@@ -1,6 +1,10 @@
 var rowNum=-1;
 
-function onloadMethod(){
+function onloadMethod(inOrOut){
+    $('#doctorRole').combobox({
+        data: clinicDeptCode,
+        valueField: 'id'
+    })
     $('#list_data').datagrid({
         iconCls:'icon-edit',//图标
         width: 'auto',
@@ -11,17 +15,17 @@ function onloadMethod(){
         collapsible:false,//是否可折叠的
         //fit: true,//自动大小
         method:'GET',
-       url:basePath+'/labConfirm/getLabMaster',
+       url:basePath+'/labConfirm/getLabMaster?inOrOut='+inOrOut,
         //sortName: 'code',
         //sortOrder: 'desc',
         remoteSort:false,
         idField:'id',
-        singleSelect:false,//是否单选
+        singleSelect:true,//是否单选
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'resultStatus',title:'确认状态',width:'5%',align:'center',formatter:function(value, rowData, rowIndex){
-                if (value == null || value=='') {
+            {field:'status',title:'确认状态',width:'5%',align:'center',formatter:function(value, rowData, rowIndex){
+                if (value == '0' || value=='') {
                     return "未确认";
                 }
                 if(value=='1'){
@@ -41,7 +45,7 @@ function onloadMethod(){
             {field:'spcmReceivedDateTime',title:'标本采样日期',width:'15%',align:'center'},
             {field:'spcmSampleDateTime',title:'标本收到日期',width:'15%',align:'center'},
             {field:'requestedDateTime',title:'申请日期',width:'10%',align:'center'},
-            {field:'orderingDept',title:'申请科室',width:'10%',align:'center'},
+            {field:'orderingDept',title:'申请科室',width:'10%',align:'center',formatter:clinicDeptCodeFormatter},
             {field:'orderingProvider',title:'申请医生',width:'10%',align:'center'},
             {field:'performedBy',title:'执行科室',width:'10%',align:'center'},
             {field:'resultStatus',title:'结果状态',width:'5%',align:'center'},
@@ -81,6 +85,17 @@ function onloadMethod(){
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
+}
+/**
+ * 条件查询
+ */
+function searchLab(){
+   var startTime=$("#startTime").datebox('getValue');
+   var endTime=$("#endTime").datebox('getValue');
+   var reqDept=$("#doctorRole").combobox('getValue');
+   var labNo=$("#labNo").val();
+   var patName=$("#patName").val();
+    $('#list_data').datagrid({queryParams:{"startTime":startTime,"endTime":endTime,"reqDept":reqDept,"labNo":labNo,"patName":patName}});
 }
 /**
  * 确认

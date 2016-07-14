@@ -86,6 +86,9 @@ function confirmFun(){
     $.postJSON(basePath+'/registAcctMaster/save',submitJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息","挂号结账"+data.code+"条记录，保存成功");
+            $('#regiForm').form('load', "");
+            $("#centerList").datagrid("loadData",  { total: 0, rows: [] });
+            $("#dataList").datagrid("loadData",  { total: 0, rows: [] });
         }else{
             $.messager.alert('提示',"挂号结账保存失败", "error");
         }

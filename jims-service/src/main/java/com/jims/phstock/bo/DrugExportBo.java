@@ -1,5 +1,6 @@
 package com.jims.phstock.bo;
 
+import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.dao.*;
 import com.jims.phstock.entity.*;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -122,5 +126,49 @@ public class DrugExportBo extends CrudImplService<DrugExportDetailDao, DrugExpor
             }
         }
         return details;
+    }
+
+
+    /**
+     * 查询一段时间内的出库记录
+     * @param startTime
+     * @param endTime
+     * @param orgId
+     * @param storageCode
+     * @return
+     */
+    public List<DrugExportMaster> findExportData(String startTime, String orgId, String storageCode) {
+        DrugExportMaster drugExportMaster=new DrugExportMaster();
+        try {
+            if(startTime!=null&&!"".equals(startTime)){
+                Date d=new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
+                drugExportMaster.setExportDate(d);
+            }
+            drugExportMaster.setOrgId(orgId);
+            drugExportMaster.setStorage(storageCode);
+            drugExportMaster.setDelFlag("0");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return masterDao.findList(new DrugExportMaster());
+     }
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    public DrugExportMaster findById(String id) {
+       return masterDao.get(id);
+    }
+
+    /**
+     * 修改
+     * @param drugExportMaster
+     * @return
+     */
+    public DrugExportMaster update(DrugExportMaster drugExportMaster) {
+        int i=masterDao.update(drugExportMaster);
+        return drugExportMaster;
     }
 }

@@ -41,17 +41,18 @@
      data-hide="y">
     <div class="container">
         <div class="nav-header">
-            <a class="navbar-brand" href="#"><img src="/static/bookstrap/images/logo1.png" alt="Brand logo"/></a>
+            <a class="navbar-brand" ><img src="/static/bookstrap/images/logo1.png" alt="Brand logo"/></a>
             <a class="nav-handle fs-touch-element" data-nav=".nav"><i class="fa fa-bars"></i></a>
         </div>
         <div class="nav vm-item def-menu">
-            <ul>
-                <li class="active"><a href="#" id="default">个人首页</a></li>
-                <li><a href="#">寻医问药</a></li>
-                <li><a href="#">私人医生</a></li>
-                <li><a href="#">健康管理</a></li>
-                <li><a href="#">个人信息管理</a></li>
-                <li><a href="#">我的消息</a></li>
+            <ul style="cursor: pointer">
+                <li class="active"><a  id="default">个人首页</a></li>
+                <li><a >寻医问药</a></li>
+                <li><a >私人医生</a></li>
+                <li><a >健康管理</a></li>
+                <li><a >个人信息管理</a></li>
+                <li><a >我的消息</a></li>
+                <li><a id="myServices">我的服务</a></li>
             </ul>
             <div class="nav-other">
                 <a href="/modules/sys/login.html" class="btn btn-primary btn-sm">退出</a>
@@ -98,7 +99,7 @@
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-warning" onclick="window.location.href='hospital-authentication.html'">注册机构
+                    <button class="btn btn-warning" id="setCompany">注册机构
                     </button>
                 </li>
             </ul>
@@ -106,21 +107,21 @@
         <div class="priv-pluser clearfix">
             <ul>
                 <li><a href="online-ask.html">在线问诊</a></li>
-                <li><a href="#">查找医生</a></li>
-                <li><a href="#">查找医院</a></li>
-                <li><a href="#">我的关注</a></li>
-                <li><a href="#">我的消息<span class="num-sign">5</span></a></li>
-                <li><a href="#">我的好友</a></li>
+                <li><a >查找医生</a></li>
+                <li><a >查找医院</a></li>
+                <li><a >我的关注</a></li>
+                <li><a >我的消息<span class="num-sign">5</span></a></li>
+                <li><a >我的好友</a></li>
             </ul>
         </div>
         <div class="history-info">
             <h3>历史记录</h3>
             <ol>
-                <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
+                <li>更新了好友<a >@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
                 <li>修改了个人资料<span class="his-time">2016-01-18 15:48:02</span></li>
-                <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
+                <li>更新了好友<a >@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
                 <li>在线问诊<span class="his-time">2016-01-18 15:48:02</span></li>
-                <li>更新了好友<a href="#">@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
+                <li>更新了好友<a >@周成</a>的健康记录<span class="his-time">2016-01-18 15:48:02</span></li>
                 <li>查找了“心脏病”相关的信息<span class="his-time">2016-01-18 15:48:02</span></li>
             </ol>
         </div>
@@ -138,10 +139,10 @@
                     <div class="ser-type clearfix">
                         <ul>
                             <li class="active">
-                                <a href="#"><span class="service-name">诊疗服务</span></a>
-                                <a href="#" class="ser-moreinfo" style="z-index: 100">查看介绍</a> <img src="/static/bookstrap/images/service/normal.jpg"/>
+                                <a ><span class="service-name">诊疗服务</span></a>
+                                <a  class="ser-moreinfo" style="z-index: 100">查看介绍</a> <img src="/static/bookstrap/images/service/normal.jpg"/>
                                 <div style="width:100%;height:100%;background-color: #fff;z-index: 99">
-                                    <a href="#"><span class="service-name">定制</span></a>
+                                    <a ><span class="service-name">定制</span></a>
                                 </div>
                             </li>
                         </ul>

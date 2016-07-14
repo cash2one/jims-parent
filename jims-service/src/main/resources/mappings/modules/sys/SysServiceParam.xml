@@ -35,4 +35,19 @@
         DELETE FROM SYS_SERVICE_PARAM where id=#{id}
     </delete>
 
+    <select id="findSysServiceParamBySelfServiceId" resultType="SysServiceParam">
+        SELECT A.ID,
+            PARAM_NAME AS PARAMNAME,
+            SERVICE_ID AS SERVICEID,
+            VALUE_RANGE AS VALUERANGE,
+            PARAM_DESP AS PARAMDESP,
+            SERVICE_TYPE SERVICETYPE
+          FROM SYS_SERVICE_PARAM A, SERVICE_SELF_VS_SYS B
+         WHERE A.SERVICE_ID = B.SYS_SERVICE_ID
+           AND B.SELF_SERVICE_ID =#{selfServiceId}
+    </select>
+
+    <select id="execuSql" parameterType="com.jims.sys.vo.SqlAdapter" resultType="ParamVo">
+        ${sql}
+    </select>
 </mapper>

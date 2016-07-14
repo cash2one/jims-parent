@@ -95,7 +95,7 @@ $.ajax({
  * @returns {string|string|string}
  */
 function billingAttrFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
+    if (value == null) {
         return;
     }
 

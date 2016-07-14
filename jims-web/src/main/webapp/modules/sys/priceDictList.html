@@ -12,15 +12,14 @@
 <body>
 
    <div class="easyui-layout" data-options="fit:true">
-    <div data-options="region:'west'" style="width:45%">
-        <table id="clinic_item"></table>
-        <div id="tb" style="padding:5px;height:auto;">
+    <div data-options="region:'west'" style="width:50%">
+        <table id="clinic_item" class="easyui-datagrid"></table>
+        <div id="tb" style="padding:5px;">
             <div>
                 类别
                 <select id="item_class" class="easyui-combobox" panelHeight="auto" style="width:100px;">
 
                 </select>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="radio" name="adminFlag" value="0" checked="checked">拼音码</input>
                 <input type="radio" name="adminFlag" value="1">五笔码</input>
                 <label style="margin-left: 20px" for="code_gps">拼音码定位</label>
@@ -30,9 +29,9 @@
         </div>
     </div>
 
-    <div data-options="region:'center',title:'价表管理系统'" iconcls="icon-save">
+    <div data-options="region:'center',title:'价表管理系统'">
         <form id="prescForm" method="post">
-            <table  style="padding-left:95px;font-size: 17px">
+            <table  style="padding: 5px;">
                 <tr>
                     <td>项目类别:</td>
                     <td><select id="aa" name="itemClass" class="easyui-validatebox"
@@ -42,43 +41,45 @@
                 </tr>
                 <tr>
                     <td>项目代码:</td>
-                    <td><input name="itemCode" id="itemCode" class="easyui-textbox"></td>
+                    <td><input name="itemCode" id="itemCode" class="easyui-textbox" readonly="readonly"></td>
                     <td style="padding-left: 15px">物价码:</td>
-                    <td><input name="materialCode" class="easyui-textbox"></td>
+                    <td><input id="materialCode" name="materialCode" class="easyui-textbox"></td>
                 </tr>
                 <tr>
                     <td>项目规格:</td>
-                    <td><input title="" name="itemSpec" class="easyui-textbox"></td>
+                    <td><input id="itemSpec" name="itemSpec" class="easyui-textbox"></td>
                     <td style="padding-left: 15px">计价单位:</td>
-                    <td><input title="" name="units" class="easyui-textbox"></td>
+                    <td><input id="units" name="units" class="easyui-textbox"></td>
                 </tr>
                 <tr>
                     <td>项目名称:</td>
                     <td><input name="itemName" id="itemName" type="text" onblur="ShowInfo();"
                                class="easyui-validatebox" style="width: 153px"/></td>
                     <td style="padding-left: 15px">拼音码:</td>
-                    <td><input title="" name="inputCode" id="inputCode" type="text" class="easyui-textbox"></td>
+                    <td><input id="inputCode" type="text" class="easyui-textbox" readonly="readonly"></td>
                 </tr>
                 <tr>
-                    <td>标准价格:</td>
-                    <td><input title="" name="price" value="0.00" class="easyui-textbox"></td>
+                    <td>基本价格:</td>
+                    <td><input id="price" name="price" value="0.00" class="easyui-textbox"></td>
                     <td style="padding-left: 15px">优惠价格:</td>
-                    <td><input title="" name="preferPrice" value="0.00" class="easyui-textbox"></td>
+                    <td><input id="preferPrice" name="preferPrice" value="0.00" class="easyui-textbox"></td>
                 </tr>
                 <tr>
                     <td>外宾价格:</td>
-                    <td><input title="" name="foreignerPrice" value="0.00" class="easyui-textbox"></td>
-                    <td style="padding-left: 15px">起用日期:</td>
+                    <td><input id="foreignerPrice" name="foreignerPrice" value="0.00" class="easyui-textbox"></td>
+                    <td style="padding-left: 15px">启用日期:</td>
                     <td><input name="startDate" type="text" id="dt" class="easyui-textbox"></td>
                 </tr>
                 <tr>
                     <td>执行科室:</td>
                     <td><input title="" name="performedBy" id="performedBy" class="easyui-textbox easyui-combogrid"></td>
-                    <td colspan="2" style="padding-left: 15px"><input type="checkbox" name="feeTypeMask" id="feeTypeMask">自费</td>
+                    <td colspan="2" style="padding-left: 15px"><input type="checkbox" name="feeTypeMask" id="feeTypeMask" value="0">自费</td>
                 </tr>
                 <tr>
                     <td>备注:</td>
-                    <td colspan="4"><textarea name="memo" class="easyui-validatebox validatebox-text validatebox-textarea" style="width: 400px"></textarea></td>
+                    <td colspan="4"><textarea id="memo" name="memo" class="easyui-validatebox validatebox-text validatebox-textarea"
+                                              style="width:
+                    400px"></textarea></td>
                 </tr>
                 <tr>
                     <td colspan="4" >项目费用类别分类</td>
@@ -87,7 +88,7 @@
                     <td>会计科目:</td>
                     <td><select name="subjCode" class="easyui-combobox" id="bb" style="width:150px;">
                     </select></td>
-                    <td style="padding-left: 15px">门诊收据:</td>
+                    <td style="padding-left: 15px">门诊收费:</td>
                     <td><select name="classOnOutpRcpt" class="easyui-combobox" id="cc" style="width:150px;">
                     </select></td>
                 </tr>
@@ -100,18 +101,16 @@
                     </select></td>
                 </tr>
                 <tr>
-                    <td>核算项目:</td>
+                    <td>核算科目:</td>
                     <td><select name="classOnReckoning" class="easyui-combobox" id="ff" style="width:150px;">
                     </select></td>
                 </tr>
             </table>
         </form>
         <div style="text-align:center;padding:5px">
-
-            <a href="javascript:void(0)" id="refresh" class="easyui-linkbutton" data-options="iconCls:'icon-mini-refresh'">刷新</a>
+            <a href="javascript:void(0)" id="refresh" class="easyui-linkbutton" data-options="iconCls:'icon-mini-refresh'">刷新整页</a>
             <a href="javascript:void(0)" id="generate" class="easyui-linkbutton" data-options="iconCls:'icon-add'">生成代码</a>
             <a href="javascript:void(0)" id="saveDict" class="easyui-linkbutton" iconcls="icon-save">保存</a>
-            <a href="javascript:void(0)" id="cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">关闭</a>
         </div>
 
     </div>

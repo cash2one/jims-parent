@@ -42,7 +42,16 @@ function onloadMethod() {
                         data: clinicDeptCode,
                         valueField: 'id',
                         textField: 'dept_name',
-                        required: true
+                        required: true,
+                        onSelect:function(newValue,oldValue){
+                            var row = $('#list_doctor').datagrid('getSelected');
+                            var rowIndex = $('#list_doctor').datagrid();
+                            var ed = ('#list_doctor').datagrid('getEditor', {
+                                index : rowIndex,
+                                field : 'doctorId'
+                            });
+                            //$(ed.target).combobox('setValue',newValue. );
+                        }
                     }
                 }
             },

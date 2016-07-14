@@ -7,19 +7,44 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    <style>
+        body
+        {
+            margin:0;
+        }
+        .nodata-wrap
+        {
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-left:-210px;
+            margin-top:-180px;
+        }
+        .nodata-text
+        {
+            background:url('/static/images/index/nodata.png') no-repeat;
+            width:391px;
+            height:108px;
+            font-size:35px;
+            padding-top:250px;
+            padding-left:30px;
+
+        }
+
+    </style>
     <script type="text/javascript" src="../nurse/js/bedInfo.js"></script>
     <script type="text/javascript" src="/modules/clinic/js/centerRegion.js"></script>
     <script type="text/javascript" src="../nurse/js/orders.js"></script>
     <script type="text/javascript" src="../nurse/js/patientOperate.js"></script>
     <script type="text/javascript" src="/static/data/data_discharge_disposition.js"></script>
+
+
+
 </head>
 <body class="easyui-layout">
 <div class="bednum-main"  id="content">
-    <ul >
-    </ul>
+
 </div>
-
-
 <div id="menuId" class="easyui-menu" style="width: 50px; display: none;">
     <div>
         <span>病人流转</span>

@@ -135,6 +135,9 @@
         <where>
             a.del_flag = '0'
             and a.id = b.service_id(+)
+            <if test="id != null and id != ''">
+                and a.id = #{id}
+            </if>
             <if test="serviceClass != null and serviceClass != '3'">
                 and (a.service_class = #{serviceClass} or a.service_class = '2')
             </if>
@@ -144,6 +147,16 @@
             <if test="serviceType != null and serviceType != ''">
                 and a.service_type = #{serviceType}
             </if>
+            <choose>
+                <when test="persionId != null and persionId != '' and state != null and state != ''">
+                    and a.id in (select c.service_id from persion_service_list c where c.persion_id=#{persionId})
+                </when>
+                <when test="persionId != null and persionId != '' and state != null and state == ''">
+                    and a.id not in (select c.service_id from persion_service_list c where c.persion_id=#{persionId})
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
         </where>
         order by b.service_time_limit
     </select>

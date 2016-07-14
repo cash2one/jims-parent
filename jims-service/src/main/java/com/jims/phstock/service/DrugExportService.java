@@ -87,4 +87,19 @@ public class DrugExportService implements DrugExportServiceApi{
     public List<DrugExportDetail> findDetailListWithStock(DrugExportDetail detail,String storage,String subStorage){
         return bo.findDetailListWithStock(detail,storage,subStorage);
     }
+
+    @Override
+    public List<DrugExportMaster> findExportData(String startTime, String orgId, String storageCode) {
+        return bo.findExportData(startTime,orgId,storageCode);
+    }
+
+    @Override
+    public DrugExportMaster findById(String id) {
+        return bo.findById(id);
+    }
+
+    @Override
+    public DrugExportMaster update(DrugExportMaster drugExportMaster) {
+        return bo.update(drugExportMaster);
+    }
 }
