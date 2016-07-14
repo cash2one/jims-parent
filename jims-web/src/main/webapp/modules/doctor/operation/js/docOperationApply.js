@@ -296,7 +296,7 @@ function onloadMethod() {
         method: 'GET',
         url: basePath + '/operatioinOrder/getOperationName',
         queryParams: {'clinicId': clinicId},
-        idField: 'id',
+        //idField: 'id',
         columns: [[      //每个列具体内容
             {
                 field: 'reqDateTime', title: '预约时间', width: '30%', align: 'center', formatter: formatDateBoxFull
@@ -449,19 +449,19 @@ function look(id){
         async:true,
         success: function (data) {
             $("#operation").form("load",data);
-            //$("#patientCondition").combobox("setValue",patientConditionFormatter(data.patientCondition,'',''));
-            //$("#isolationIndicator").combobox("setValue",isolationIndicatorFormatter(data.isolationIndicator,'',''));
-            //$("#surgeon").combogrid("setValue",doctorNameFormatter(data.surgeon,'',''));
-            //$("#operatingRoom").combobox("setValue",operationFormatter(data.operatingRoom,'',''));
+            $("#patientCondition").combobox("setValue",patientConditionFormatter(data.patientCondition,'',''));
+            $("#isolationIndicator").combobox("setValue",isolationIndicatorFormatter(data.isolationIndicator,'',''));
+            $("#surgeon").combogrid("setValue",doctorNameFormatter(data.surgeon,'',''));
+            $("#operatingRoom").combobox("setValue",operationFormatter(data.operatingRoom,'',''));
             //$("#operatingRoomNo").combobox("setValue",operationRoomNoFormatter(data.operatingRoomNo,'',''));
-            //$("#bloodTranDoctor").combogrid("setValue",doctorNameFormatter(data.bloodTranDoctor,'',''));
-            //$("#firstAssistant").combogrid("setValue",doctorNameFormatter(data.firstAssistant,'',''));
-            //$("#secondAssistant").combogrid("setValue",doctorNameFormatter(data.secondAssistant,'',''));
-            //$("#thirdAssistant").combogrid("setValue",doctorNameFormatter(data.thirdAssistant,'',''));
-            //$("#fourthAssistant").combogrid("setValue",doctorNameFormatter(data.fourthAssistant,'',''));
-            //$("#anesthesiaDoctor").combogrid("setValue",doctorNameFormatter(data.anesthesiaDoctor,'',''));
-            //$("#anesthesiaAssistant").combogrid("setValue",doctorNameFormatter(data.anesthesiaAssistant,'',''));
-            //$("#anesthesiaMethod").combobox("setValue",anaesthesiaNameFormatter(data.anesthesiaMethod,'',''));
+            $("#bloodTranDoctor").combogrid("setValue",doctorNameFormatter(data.bloodTranDoctor,'',''));
+            $("#firstAssistant").combogrid("setValue",doctorNameFormatter(data.firstAssistant,'',''));
+            $("#secondAssistant").combogrid("setValue",doctorNameFormatter(data.secondAssistant,'',''));
+            $("#thirdAssistant").combogrid("setValue",doctorNameFormatter(data.thirdAssistant,'',''));
+            $("#fourthAssistant").combogrid("setValue",doctorNameFormatter(data.fourthAssistant,'',''));
+            $("#anesthesiaDoctor").combogrid("setValue",doctorNameFormatter(data.anesthesiaDoctor,'',''));
+            $("#anesthesiaAssistant").combogrid("setValue",doctorNameFormatter(data.anesthesiaAssistant,'',''));
+            $("#anesthesiaMethod").combobox("setValue",anaesthesiaNameFormatter(data.anesthesiaMethod,'',''));
             var scheduleId = data.id;
             $("#operationName").datagrid({
                 url: basePath + "/operatioinOrder/getOperationNameList",
@@ -529,9 +529,10 @@ function doDelete() {
                     'dataType': 'json',
                     'success': function (data) {
                         if (data == 1) {
+                            $('#operation').form('clear');
                             $.messager.alert("提示消息", data + "条记录删除成功！");
-                            $('#operationName').datagrid('load');
-                            $('#operationName').datagrid('clearChecked');
+                            //$('#operationName').datagrid('load');
+                            $('#operationName').datagrid('loadData', { total: 0, rows: [] });
                         } else {
                             $.messager.alert('提示', "删除失败", "error");
                         }

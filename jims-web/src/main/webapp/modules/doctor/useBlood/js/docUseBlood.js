@@ -198,12 +198,12 @@ function onloadMethod() {
     //        $("#birthday").val(new Date(data.patMaster.dateOfBirth));
     //    }
     //})
-    $("#preBloodGroup").combobox({
+    $("#patBloodGroup").combobox({
         data: bloodType,
         valueField: 'value',
         textField: 'label',
         onSelect: function (n) {
-            $("#preBloodGroupId").val(n.value);
+            $("#patBloodGroupId").val(n.value);
         }
     })
     $("#preBloodType").combobox({
