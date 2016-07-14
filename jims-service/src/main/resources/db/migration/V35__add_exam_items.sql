@@ -6,7 +6,7 @@
 create table EXAM_ITEMS
 (
   ID                VARCHAR2(64 CHAR) not null,
-  EXAM_NO           VARCHAR2(10 CHAR),
+  EXAM_NO           VARCHAR2(64 CHAR),
   EXAM_ITEM_NO      NUMBER(2),
   EXAM_ITEM         VARCHAR2(100 CHAR),
   EXAM_ITEM_CODE    VARCHAR2(20 CHAR),
