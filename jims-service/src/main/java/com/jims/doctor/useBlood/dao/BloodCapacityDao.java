@@ -6,6 +6,7 @@ package com.jims.doctor.useBlood.dao;
 import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,12 @@ import java.util.List;
 public interface BloodCapacityDao extends CrudDao<BloodCapacity> {
 	public  void delBloodCapacity(String applyNum);
 	public List<BloodCapacity> getBloodCapacityList(BloodCapacity bloodCapacity);
+
+	/**
+	 * 删除记录
+	 * @param applyId
+	 * @return
+	 */
+	public int deleteBloodCapacity(@Param("applyId")String applyId);
 //	public String getMatchSubNum(@Param("applyNum")String applyNum);
 }

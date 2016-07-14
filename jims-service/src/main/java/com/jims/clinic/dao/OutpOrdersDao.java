@@ -42,7 +42,12 @@ public interface OutpOrdersDao extends CrudDao<OutpOrders> {
      */
     public List<OutpOrders> findListFy(OutpOrders outpOrders);
 
-    public int deleteOutpOrders(String visitNo);
+    /***
+     * 删除医嘱记录
+     * @param serialNo
+     * @return
+     */
+    public int deleteOutpOrders(@Param("serialNo")String serialNo);
 
     /**
      * 通过clinicId拿到门诊医嘱记录

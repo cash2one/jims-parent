@@ -377,4 +377,8 @@
 			AND id = #{id}
 		</if>
 	</select>
+	<update id="deleteOperation">
+		DELETE FROM operation_schedule
+		WHERE id = #{id}
+	</update>
 </mapper>
