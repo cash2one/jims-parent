@@ -131,6 +131,7 @@ $(function () {
         $("#addBtn").on('click', function () {
 
 
+            $("#id").val("");
             $("#parentId").combobox('setValue', "");
             $("#deptCode").textbox('setValue', "");
             $("#deptName").textbox('setValue', "");
@@ -234,6 +235,7 @@ $(function () {
                             clearInput();
                             $("#deptPropertity").html("");
                             $("#dlg").dialog('close');
+                            $("#tt").datagrid("reload");
                         }
                     },
                     'error': function (data) {
@@ -314,6 +316,8 @@ $(function () {
                         var propertyIds = "propertyName" + item;
                         $("#" + propertyIds).combobox("setValue", dept[item]);
                     }
+
+
                 }
             });
 
