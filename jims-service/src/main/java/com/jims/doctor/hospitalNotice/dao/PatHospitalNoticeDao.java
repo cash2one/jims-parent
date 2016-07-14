@@ -1,6 +1,6 @@
-package com.jims.clinic.dao;
+package com.jims.doctor.hospitalNotice.dao;
 
-import com.jims.clinic.entity.PatHospitalNotice;
+import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 /**
