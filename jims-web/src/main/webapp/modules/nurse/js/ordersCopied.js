@@ -54,18 +54,7 @@ $(function() {
                 }
                 operationCopied();
             }
-        }],
-        rowStyler: function (index, row) {
-            if (row.orderStatus == '1') {
-                return 'color:black;';
-            } else if (row.orderStatus == "2") {
-                return 'color:blue;';
-            } else if (row.orderStatus == "3") {
-                return 'color:yellow;';
-            } else if (row.orderStatus == "4") {
-                return 'color:red;';
-            }
-        }
+        }]
     });
     $("#submit_search").click(function () {
         $('#orderCopied').datagrid({url:basePath + '/ordersNurse/findOrdersCopied?' + $('#searchform').serialize() });   //点击搜索

@@ -102,13 +102,17 @@ $(function(){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
-                $("#bedRec").datagrid('endEdit', rowNum);
-                if (rowNum != -1) {
-                    $("#bedRec").datagrid("endEdit", rowNum);
-                }
+                if(!$("#bedRec").datagrid('validateRow', rowNum)){
+                    $.messager.alert('提示',"请填写完本行数据后，再进行保存", "error");
+                    return false
+                }else {
+                    $("#bedRec").datagrid('endEdit', rowNum);
+                    if (rowNum != -1) {
+                        $("#bedRec").datagrid("endEdit", rowNum);
+                    }
 
                     save();
-
+                }
 
             }
         },{
@@ -124,35 +128,10 @@ $(function(){
                 handler: function () {
                     doDelete();
                 }
-            }],/*onAfterEdit: function (rowIndex, rowData, changes) {
-            $("#bedRec").datagrid('endEdit', rowIndex);
-            if(rowData!=null){
-                if(rowData.bedNo!=null){
-                    $.ajax({
-                        method:"POST",
-                        contentType: "application/json", //必须有
-                        dataType: 'json',
-                        data: JSON.stringify({"wardCode":wardCode,"bedNo":rowData.bedNo}),
-                        url: basePath + '/bedRec/judgeBedNo',
-                        success: function (data) {
-                            if(data){
-                                $.messager.alert('提示',"该床位号已经存在，不能重复", "warning");
-                                bedFlag = false;
-                                return "";
-                            }else{
-                                bedFlag = true;
-                                return rowData.bedNo;
-                            }
-                        }
-                    })
-                }
-
-            }
-
-        },*/onDblClickRow:function (rowIndex, rowData) {
-            if(!$("#bedRec").datagrid('validateRow', rowNum)){
+            }],onDblClickRow:function (rowIndex, rowData) {
+           /* if(!$("#bedRec").datagrid('validateRow', rowNum)){
                 return false
-            }else {
+            }else {*/
                 if (editRow != undefined) {
                     $("#bedRec").datagrid('endEdit', rowNum);
                 }
@@ -160,12 +139,12 @@ $(function(){
                     $("#bedRec").datagrid('beginEdit', rowIndex);
                     editRow = rowIndex;
                 }
-            }
+           // }
         },onClickRow:function(rowIndex,rowData) {
             var dataGrid = $('#bedRec');
-            if (!dataGrid.datagrid('validateRow', rowNum)) {
+           /* if (!dataGrid.datagrid('validateRow', rowNum)) {
                 return false
-            }
+            }*/
             if (rowNum != rowIndex) {
                 if (rowNum >= 0) {
                     dataGrid.datagrid('endEdit', rowNum);

@@ -67,13 +67,15 @@ $(function() {
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
-                $("#orderList").datagrid('endEdit', editRow);
-                if (editRow != undefined) {
 
-                    $("#orderList").datagrid("endEdit", editRow);
+                    $("#orderList").datagrid('endEdit', editRow);
+                    if (editRow != undefined) {
+
+                        $("#orderList").datagrid("endEdit", editRow);
+                    }
+                    save();
                 }
-                save();
-            }
+
         },'-',{
             text: '临时医嘱执行',
             iconCls:'icon-add',
