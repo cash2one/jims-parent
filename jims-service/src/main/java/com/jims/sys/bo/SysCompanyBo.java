@@ -70,7 +70,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 serviceDao.insert(service);
             }
         }
-        List<SysService> sysServices = sysServiceDao.findServiceWithPrice("3", "0");
+        List<SysService> sysServices = sysServiceDao.findServiceWithPrice("3", "0","","","");
         if (sysServices != null && sysServices.size() > 0) {
             for (SysService service : sysServices) {
                 OrgServiceList orgService = new OrgServiceList();
