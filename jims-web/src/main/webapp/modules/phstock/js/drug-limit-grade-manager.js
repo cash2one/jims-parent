@@ -114,6 +114,7 @@ $(function () {
         textField: 'className',
         width:130,
         method: 'GET',
+        editable:false,
         url: basePath +  "/drug-class-dict/list-parent?parentId=*",
         onSelect: function(){
             classCode=$("#drugClass").combobox('getValue');
@@ -134,6 +135,7 @@ $(function () {
         textField: 'label',
         width:130,
         method: 'GET',
+        editable:false,
         url: basePath  + "/dict/findListByType?type=DRUG_FORM_DICT",
         onSelect: function(){
             classCode=$("#drugClass").combobox('getValue');
@@ -421,6 +423,9 @@ $(function () {
                 }
                 drugDictList=[];
                 clear();
+                $("#drugClass").combobox('clear');
+                $("#drugClassForm").combobox('clear');
+                $("#drugName").combogrid('clear');
             }, function (data) {
                 $.messager.alert('提示', "保存失败", "error");
             })
