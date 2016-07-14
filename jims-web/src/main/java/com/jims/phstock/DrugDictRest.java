@@ -35,23 +35,6 @@ public class DrugDictRest {
     }
 
 
-    /***
-     * 保存修改与增加父类
-     * @param drugDict
-     * zq
-     */
-    @Path("save")
-    @POST
-    public StringData save(DrugDict drugDict){;
-        drugDict=drugDict;
-//        String num=drugDictApi.saveDrugDict(drugDict);
-//        StringData stringData=new StringData();
-//        stringData.setCode(num);
-//        stringData.setData("success");
-//        return stringData;
-        return null;
-    }
-
 
     /**
      * 根据药品名称或药品代码查询数据
