@@ -30,7 +30,7 @@ function operationFormatter(value, rowData, rowIndex) {
         return;
     }
     for (var i = 0; i < operatingRoom.length; i++) {
-        if (operatingRoom[i].deptCode == value) {
+        if (operatingRoom[i].id == value) {
             return operatingRoom[i].deptName;
         }
     }

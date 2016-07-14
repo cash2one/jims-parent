@@ -25,6 +25,13 @@ public interface PerformFreqDictApi {
     public String save(PerformFreqDict performFreqDict);
 
     /**
+     * 查询所有医嘱执行频率
+     * @return
+     * @author fengyuguang
+     */
+    public List<PerformFreqDict> listAll();
+
+    /**
      * 删除数据
      * @param ids
      * @return

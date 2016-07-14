@@ -186,8 +186,7 @@
 	</select>
 
 	<update id="deleteItems">
-		UPDATE exam_items a SET
-			del_flag = '1'
+		DELETE FROM exam_items a
 		WHERE a.appoints_id = #{appointsId}
 	</update>
 </mapper>

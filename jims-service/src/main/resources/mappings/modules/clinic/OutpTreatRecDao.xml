@@ -214,10 +214,14 @@
 		WHERE a.visit_no=#{visitNo}
 	</update>
 
+	<select id="getSerialNo" resultType="OutpTreatRec">
+		SELECT *from outp_treat_rec
+		WHERE
+		appoint_no = #{appointNo}
+	</select>
 	<update id="deleteTreat">
-		UPDATE outp_treat_rec  SET
-		del_flag = '1'
-		WHERE clinic_id=#{clinicId}
+		DELETE FROM outp_treat_rec
+		WHERE serial_no=#{serialNo}
 	</update>
 
 
@@ -226,10 +230,6 @@
 		max (item_no)
 		FROM outp_treat_rec a
 		WHERE  a.visit_date=#{visitDate} AND  a.visit_no=#{visitNo} AND a.item_class=#{itemClass}
-	</select>
-	<select id="getSerialNo" resultType="Integer">
-		select max(serial_no)
-		from outp_treat_rec
 	</select>
 
 	<insert id="saveTreatRec">
@@ -281,4 +281,9 @@
 		#{wardCode}
 		)
 	</insert>
+    <select id="getMaxItemNo" resultType="Integer">
+        SELECT MAX (item_no) FROM OUTP_TREAT_REC a
+        WHERE a.clinic_id=#{clinicId} and a.org_id=#{orgId}
+    </select>
+
 </mapper>

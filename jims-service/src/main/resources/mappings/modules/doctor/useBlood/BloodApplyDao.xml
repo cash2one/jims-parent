@@ -52,6 +52,8 @@
 	</sql>
 	
 	<sql id="bloodApplyJoins">
+	</sql>
+	<sql id="bloodApplyJoins2">
 		left join  pat_visit b on a.patient_id =b.patient_id
 	</sql>
     
@@ -256,5 +258,10 @@
            apply_status = '1' ,
            gather_date = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
            where id = #{id}
+	</update>
+
+	<update id="deleteBloodApply">
+		DELETE FROM blood_apply
+		WHERE id = #{id}
 	</update>
 </mapper>

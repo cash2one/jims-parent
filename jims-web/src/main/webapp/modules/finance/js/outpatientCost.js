@@ -1,4 +1,32 @@
 function init(){
+
+    /**
+     * 费别下拉框
+     */
+    $('#chargeTypeId').combobox({
+        data: chargeType,
+        valueField: 'id',
+        textField: 'charge_type_name'
+    })
+
+    /**
+     * 合同单位
+     */
+    $('#unitInContractId').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
+    /**
+     * 科室下拉框
+     */
+    $('#visitDeptId').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name'
+    })
+
+
     var flag =true;
     $('#clinicNoId').textbox('textbox').keydown(function(e){
         if (e.keyCode == 13) {
@@ -34,7 +62,7 @@ function init(){
         }, {
             title: "名称",
             field: "item_name",
-            width: '6%',
+            width: '15%',
             align: 'center'
         }, {
             title: "类别",
@@ -59,7 +87,7 @@ function init(){
             },{
             title: "付",
             field: "repetition",
-            width: '6%',
+            width: '2%',
             align: 'center'
         }, {
             title: "单次用量",
@@ -165,7 +193,7 @@ function init(){
                 }
             }, {
                 title: "序号",
-                field: "item_no",
+                field: "appoint_item_no",
                 width: '8%',
                 align: 'center'
             }, {
@@ -212,12 +240,19 @@ function init(){
                 var row=$('#list-zhu').datagrid('getRows');
                 for(var i=0;i<row.length;i++){
                     var data=row[i];
-                    if(rowData.presc_no==data.presc_no){
+                    if(rowData.appoint_no==data.appoint_no){
                         var index = $('#list-zhu').datagrid('getRowIndex', data);
                         if(index!=rowIndex){
                             $("#list-zhu").datagrid('selectRow',index);
-                            //
                         }
+                    }
+                }
+                var zirow=$('#list-xi').datagrid('getRows');
+                for(var i=0;i<zirow.length;i++){
+                    var data=zirow[i];
+                    if(rowData.serial_no==data.serial_no){
+                        var index = $('#list-xi').datagrid('getRowIndex', data);
+                        $("#list-xi").datagrid('selectRow',index);
                     }
                 }
                 flag=true;
@@ -228,11 +263,17 @@ function init(){
             if(flag){
                 flag = false;
                 $.each($('#list-zhu').datagrid('getChecked'),function(j,val){
-                    if(rowData.presc_no==val.presc_no){
+                    if(rowData.appoint_no==val.appoint_no){
                         var index = $('#list-zhu').datagrid('getRowIndex', val);
                         if(index!=rowIndex){
                             $("#list-zhu").datagrid('uncheckRow',index);
                         }
+                    }
+                });
+                $.each($('#list-xi').datagrid('getChecked'),function(j,val){
+                    if(rowData.serial_no==val.serial_no){
+                        var index = $('#list-xi').datagrid('getRowIndex', val);
+                        $("#list-xi").datagrid('uncheckRow',index);
                     }
                 });
                 flag=true;
@@ -242,10 +283,10 @@ function init(){
     $("#list-xi").datagrid({
         fit: true,
         fitColumns: true,
-        striped: true,
+        border: true,
         method: 'GET',
-        rownumbers: true,
         singleSelect:false,//是否单选
+        remoteSort:false,
         loadMsg: '数据正在加载中，请稍后.....',
         frozenColumns:[[
             {field:'ck',checkbox:true}
@@ -492,7 +533,8 @@ function confirmBackCharge(){
 
 }
 function showContDiv(){
-   var row=$("#list").datagrid("getSelected");
+    var rows = $('#list').datagrid('getRows');
+   var row=rows[rows.length-1]
     $("#pay").val(row.costs);
     $("#totalCharge").val(row.costs);
     $("#receive").val(row.costs);
@@ -549,8 +591,12 @@ function rowCount(){
             }else{
                 class_type="2";
                 if(i>0){
-                    if(class_type_zl!=data.item_class){
+                    if(class_type_zl!=data.performed_by){
                         var dataCount={};
+                        var date=new Date();
+                        var rcptNo=date.format("yyyyMMddhhmmss")+Math.floor(Math.random()*10000);
+                        dataCount.item_price="处方号："
+                        dataCount.dosage=rcptNo;
                         dataCount.performed_by="小计";
                         dataCount.costs=price;
                         dataCount.charges=price;
@@ -558,7 +604,7 @@ function rowCount(){
                         datazl.push(dataCount);
                     }
                 }
-                class_type_zl=data.item_class;
+                class_type_zl=data.performed_by;
             }
             price=Number(price)+Number(data.costs);
             priceCount=Number(priceCount)+Number(data.costs);
@@ -573,6 +619,15 @@ function rowCount(){
             }
             datazl.push(data);
         }
+        var dataCount={};
+        dataCount.item_price="处方号："
+        var date=new Date();
+        var rcptNo=date.format("yyyyMMddhhmmss")+Math.floor(Math.random()*10000);
+        dataCount.dosage=rcptNo;
+        dataCount.performed_by="小计";
+        dataCount.costs=price;
+        dataCount.charges=price;
+        datazl.push(dataCount);
         var dataCountAll={};
         dataCountAll.performed_by="总计";
         dataCountAll.costs=priceCount;
@@ -607,12 +662,37 @@ function addDrugRow(){
  */
 function confirmPay(){
     var rows= $("#list").datagrid("getRows");
-    var strIds="";
-    for(var i=0;i<rows.length;i++){
-        strIds += rows[i].id + ",";
+    var strIds="["
+    var oldOrder="";
+    var orderIds="";
+    var dosageType=1;
+    var dosageTypeOld=1;
+    for(var i=0;i<rows.length-1;i++){
+        var row=rows[i];
+        var orderId=row.orderid;
+        var rcptNo=row.dosage;
+        if(orderId==undefined){
+            if(orderIds.length>0){
+                orderIds = orderIds.substr(0, orderIds.length - 1);
+                orderIds+="]";
+                orderIds=orderIds+",\"rcptNo\":\""+rcptNo+"\"},";
+            }
+            dosageTypeOld=dosageType;
+            continue;
+        }
+        if(orderId!=oldOrder){
+            if(dosageType==dosageTypeOld){
+                orderIds+="{\"orderIds\":[{\"orderId\":\""+orderId+"\"},";
+                dosageTypeOld=2;
+            }else{
+                orderIds+="{\"orderId\":\""+orderId+"\"},";
+            }
+        }
+        oldOrder=orderId;
     }
-    strIds = strIds.substr(0, strIds.length - 1);
-    alert(strIds);
+    orderIds = orderIds.substr(0, orderIds.length - 1);
+    strIds +=orderIds
+    strIds+="]"
     $.ajax({
         'type': 'POST',
         'url': basePath+'/outPatientCost/confirmPay',
@@ -626,6 +706,4 @@ function confirmPay(){
             $.messager.alert('提示',"删除失败", "error");
         }
     });
-
-
 }

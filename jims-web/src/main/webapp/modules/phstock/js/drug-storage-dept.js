@@ -10,6 +10,34 @@ $(function () {
     var updated = [];
     var deleted = [];
 
+    var storage =[];
+    $.ajax({
+        url: parent.basePath + '/dict/findListByType',
+        data: {type:'DRUG_STOCK_TYPE_DICT'},
+        type: 'get',
+        async: false
+    }).always(function(res){
+        if(res){
+            storage = res;
+        }
+    })
+
+    /**
+     * 格式化字典表数据
+     * @param arr
+     * @param value
+     */
+    var formatDict = function(arr,value){
+        if(arr && arr.length > 0 && value != undefined){
+            for(var i= 0,j=arr.length;i<j;i++){
+                if(arr[i].value == value){
+                    return arr[i].label;
+                }
+            }
+        }
+        return '';
+    }
+
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
             $("#drug-storage").datagrid('endEdit', editIndex);
@@ -93,18 +121,16 @@ $(function () {
                 width: '20%',
                 align: 'center',
                 editor: {
-                    type: 'combogrid', options: {
-                        idField: 'label',
-                        treeField: "label",
+                    type: 'combobox',
+                    options: {
                         editable: false,
-                        mode: 'remote',
-                        url: basePath + '/dict/label-value-list?type=' + 'DRUG_STOCK_TYPE_DICT',
-                        method: 'get',
-                        columns: [[
-                            {title: '标签', field: 'label', align: 'center', width: '50%'},
-                            {title: '键值', field: 'value', align: 'center', width: '50%'}
-                        ]]
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'label',
+                        data: storage
                     }
+                },formatter: function (value) {
+                    return formatDict(storage,value);
                 }
             }, {
                 title: '付款单前缀',
@@ -129,6 +155,12 @@ $(function () {
             }
         ]],
         onClickRow: function(index,row){
+            $.get(basePath + '/drug-storage-dept/list?orgId=' + orgId,function(data){
+                if(index > data.length - 1){
+                    stopEdit();
+                    $("#drug-storage").datagrid("beginEdit", index);
+                }
+            });
             stopEdit();
             storageCode = row.storageCode;
             $.get(basePath + '/drug-sub-storage-dept/list-by-storageCode?orgId=' + orgId + '&storageCode=' + row.storageCode, function (data) {
@@ -227,21 +259,6 @@ $(function () {
                 loadStorageDept();
             });
         }
-
-        /*if (beanChangeVo) {
-            $.postJSON(basePath + '/drug-storage-dept/save', JSON.stringify(beanChangeVo), function (resp) {
-                if (resp.data == 'success') {
-                    $.messager.alert("提示消息", "保存成功!");
-                    loadStorageDept();
-                } else {
-                    $.messager.alert('提示', "保存失败", "error");
-                    loadStorageDept();
-                }
-            }, function (data) {
-                $.messager.alert('提示', "保存失败", "error");
-                loadStorageDept();
-            });
-        }*/
     });
 
     $("#drug-sub-storage").datagrid({

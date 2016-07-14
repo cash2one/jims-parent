@@ -50,22 +50,19 @@
         }
         .colorblock-info ul li span.color5
           {
-              background:  #778899;
+              background:  #8B668B;
           }
         .colorblock-info ul li span.color6
         {
             background:   #698B69;
         }
-        .colorblock-info ul li span.color7
-        {
-            background:   #CD0000;
-        }
+
 
     </style>
 </head>
 <body class="easyui-layout" >
 
-<div data-options="region:'north'" style="height:80px">
+<div data-options="region:'north'" style="height:60px">
 <div class="search-standard search-new clearfix">
     <form name="searchform" method="post" id ="searchform">
     <ul class="clearfix">
@@ -74,14 +71,14 @@
              <input type="radio" name="repeatIndicator" value="1"  />长期
              <input type="radio" name="repeatIndicator" value="0"  />临时
         </li>
-        <li style="width:50%;"><input type="text" name="startDateTime" class="easyui-datetimebox"/> 至  <input type="text" name="stopDateTime" class="easyui-datetimebox"/></li>
-        <li><a id="submit_search">查询</a></li>
+        <li style="width:40%;"><input type="text" name="startDateTime" class="easyui-datetimebox"/> 至  <input type="text" name="stopDateTime" class="easyui-datetimebox"/></li>
+
         <li>
             <input type="radio" name="orderStatus"  checked="checked" value="" />都显示
             <input type="radio" name="orderStatus" value="2"  />已执行
             <input type="radio" name="orderStatus" value="3"  />医嘱本
         </li>
-
+        <li><button id="submit_search" class="easy-nbtn easy-nbtn-info">查询</button></li>
     </ul>
         <input type="hidden" name="patientId" id="patientId">
         <input type="hidden" name="visitId" id="visitId">
@@ -102,7 +99,6 @@
             <li><span class="color4"></span>医生停止</li>
             <li><span class="color5"></span>医生作废</li>
             <li><span class="color6"></span>护士停止</li>
-            <li><span class="color7"></span>护士作废</li>
         </ul>
     </div>
 

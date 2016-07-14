@@ -51,7 +51,16 @@
 		<include refid="drugImportMasterJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>
+            <if test="storage != null and storage != ''">
+                and a.storage = #{storage}
+            </if>
+            <if test="importDate != null and importDate != ''">
+                and a.import_date = #{importDate}
+            </if>
+            <if test="orgId != null and orgId != ''">
+                and a.org_id = #{orgId}
+            </if>
+        </where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

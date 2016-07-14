@@ -6,6 +6,7 @@ $(function(){
     $("#checkFlag").combobox({
         valueField: 'label',
         textField: 'value',
+        editable: false,
         data:[
             {
                 label: '全部',
@@ -118,11 +119,7 @@ function pass(id) {     //通过审核
                 'dataType': 'json',
                 'success': function (data) {
                     $.messager.alert("提示消息", "保存成功!");
-                    //$("#dg").datagrid('reload');
                     loadData();
-                    /*$.get(basePath + '/sys-sompany/find-list-by-status?applyStatus=' + applyStatus, function(data){
-                        $("#dg").datagrid('loadData',data);
-                    });*/
                 }
             });
         }

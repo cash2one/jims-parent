@@ -253,8 +253,8 @@
 		FROM outp_orders_costs a
 		<where>
 			a.del_flag = '0'
-			<if test="masterId!=null and masterId!=''">
-				and a.master_id=#{masterId}
+			<if test="orderNo!=null and orderNo!=''">
+				and a.order_no=#{orderNo}
 			</if>
 			<if test="clinicId!=null and clinicId!=''">
 				AND a.clinic_id=#{clinicId}
@@ -395,11 +395,9 @@
 		a.item_class=#{itemClass}
 	</select>
 
-	<update id="deleteOutpOrders">
-		UPDATE outp_orders_costs  a SET
-			del_flag = '1'
-		WHERE
-		 a.clinic_id=#{clinicId}
+	<update id="deleteOutpOrdersCosts">
+		DELETE FROM outp_orders_costs
+		WHERE  serial_no=#{serialNo}
 	</update>
 
 	<update id="removeByMasterId" >
@@ -457,12 +455,13 @@
          '' administration,
          '' frequency,
 			0 aa,
-         ward_code
-    FROM "OUTP_ORDERS_COSTS"
+         ward_code,
+         b.id as orderId
+    FROM "OUTP_ORDERS_COSTS" left join OUTP_ORDERS b on "OUTP_ORDERS_COSTS".serial_no=b.serial_no
    WHERE
 			("OUTP_ORDERS_COSTS"."CLINIC_ID" = #{clinicId})and
       ("OUTP_ORDERS_COSTS"."CHARGE_INDICATOR" =0)
-      order by "OUTP_ORDERS_COSTS"."ITEM_CLASS"
+      order by "OUTP_ORDERS_COSTS"."PERFORMED_BY" ,"OUTP_ORDERS_COSTS"."SERIAL_NO" ,"OUTP_ORDERS_COSTS".item_no
     </select>
 
 	<select id="confirmPay" statementType="CALLABLE">

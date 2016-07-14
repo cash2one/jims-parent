@@ -41,7 +41,7 @@ function onloadMethod(){
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             {field: 'requestedDateTime', title: '申请日期', width: '27%', align: 'center', formatter:formatDateBoxFull},
-            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'performedBy', title: '检验科室', width: '25%', align: 'center',formatter:clinicDeptCodeFormatter},
             {field: 'resultStatus', title: '状态', width: '15%', align: 'center',formatter:function(data){
                 if(data == '0'){
                     return '未检验';
@@ -132,7 +132,7 @@ function onloadMethod(){
         treeField: 'id',
         columns: [[      //每个列具体内容
             {field: 'id', title: '申请日期', width: '30%', align: 'center'},
-            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:performedBFormatter},
+            {field: 'itemCode', title: '检查科室', width: '25%', align: 'center',formatter:clinicDeptCodeFormatter},
             {field: 'itemName', title: '状态', width: '15%', align: 'center'}
         ]]
     });
@@ -172,7 +172,7 @@ function add(){
                 $("#specimen").val("");
                 SendProduct(n.class_name);
                 $("#performedBy").val(n.dept_name);
-               $("#performedByCode").val(n.dept_code);
+               $("#performedById").val(n.dept_code);
             }
         })
 

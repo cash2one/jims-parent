@@ -208,7 +208,7 @@ function loadBaseInfo(id){
 }
 
 
-//医生停止医嘱
+//护士医生停止医嘱
 function nurseStopOrders(){
     var row = $('#orderList').datagrid('getSelected');
     var tableJson=JSON.stringify(row);
@@ -234,6 +234,8 @@ function nurseStopOrders(){
 
 //保存
 function save(){
+    var patId = "71921abbf7204bff8d4b3a534fbc08de";
+    var visitId ="1";
     $("#orderList").datagrid('endEdit', rowNum);
     var  rows=$('#orderList').datagrid('getChanges');
     var tableJson=JSON.stringify(rows);

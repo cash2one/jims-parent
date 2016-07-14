@@ -20,7 +20,13 @@ $(function(){
         method:'GET',
         url:basePath+'/outppresc/list?clinicId='+clinicId,
         columns:[[      //每个列具体内容
-            //{field:'chargeIndicator',title:'收费标记',hidden:true},
+            {field:'orderNo',title:'医嘱号',hidden:true,
+                formatter: function (value, row, index) {
+                if(orderNo < value){
+                    orderNo = value;
+                }
+                return value;
+        }},
             {field:'visitDate',title:'就诊时间',width:'20%',align:'center'},
             {field:'visitNo',title:'就诊序号',width:'20%',align:'center'},
             {field:'prescNo',title:'处方号',width:'20%',align:'center'},
@@ -208,13 +214,8 @@ $(function(){
                     textField:'label'
                 }
             }},
-            {field:'orderNo',title:'处方',hidden:'true',
-                formatter: function (value, row, index) {
-                    if(orderNo < value){ orderNo = value;}
-
-                    return value;
-                }},
-            {field:'subOrderNo',title:'子处方',hidden:'true'},
+            {field:'orderNo',title:'处方',hidden:true},
+            {field:'subOrderNo',title:'子处方',hidden:true},
             {field:'serialNo',title:'流水号',hidden:'true'},
             {field:'subjCode',title:'会计科目',hidden:'true',editor:{type:'textbox',options:{editable:false}}},
             {field:'performedBy',title:'执行科室',hidden:'true',editor:{type:'textbox',options:{editable:false}}},
@@ -471,7 +472,6 @@ function addPre(){
     itemClass = $("#itemClass").val();
     if(itemClass=='A'){
         $("#list_data").datagrid('loadData', { total: 0, rows: [] });
-        orderNo=0;
         newpresc();
         $("#list_data").datagrid();
     }else{
@@ -491,8 +491,10 @@ function newpresc(){
             if(rows[i].chargeIndicator=='新开'){
                 $.messager.alert("提示消息", "已有新开处方，请先保存或者弃方后再试!");
                 return;
+            }else{
+
             }
-            for(var j=0;j<rows.length;j++){
+            /*for(var j=0;j<rows.length;j++){
                 if(rows[i].prescNo>rows[j].prescNo){
                     prescNo= rows[i].prescNo+1;
                     break;
@@ -500,11 +502,11 @@ function newpresc(){
                     prescNo = rows[j].prescNo+1;
                     break;
                 }
-            }
+            }*/
         }
-    }else{
+    }/*else{
         prescNo=1;
-    }
+    }*/
     /*    var index= $('#list_data').datagrid('getRowIndex',nowrow);*/
     $.ajax({
         'type': 'POST',
@@ -517,7 +519,7 @@ function newpresc(){
             visitDate=parse.visitDate;
             visitNo = parse.visitNo;
             itemClass = itemClass;
-            prescNo = prescNo;
+            prescNo = parse.prescNo;
             chargeIndicator = chargeIndicator;
             var idx = $('#leftList').datagrid('appendRow', {
                     visitDate: visitDate,
@@ -603,6 +605,7 @@ function giveUpPre(){
     $('#leftList').datagrid('load');
     $('#leftList').datagrid('clearChecked');
     $("#list_data").datagrid('loadData', { total: 0, rows: [] });
+    orderNo=0;
 }
 //删除药品信息
 function doDelete() {
@@ -628,17 +631,22 @@ function doDelete() {
 function del(prescNos){
     $.ajax({
         'type': 'POST',
-        'url': basePath+'/outppresc/delByPrescNo',
-        'data':"prescNo="+prescNos+"&orgId="+orgId+"&clinicId="+clinicId,
+        'url': basePath+'/outppresc/delByPrescNo?prescNo='+prescNos+'&orgId='+orgId+'&clinicId='+clinicId,
+        //'data':"prescNo="+prescNos+"&orgId="+orgId+"&clinicId="+clinicId,
         'contentType': 'application/json',
         'dataType': 'json',
         'success': function(data){
-            if(data.data=='success'){
-                $.messager.alert("提示消息","1条处方删除成功！");
-                $('#leftList').datagrid('load');
+            if(data.code!='0'){
+                if(data.data=='success'){
+                    $.messager.alert("提示消息","1条处方删除成功！");
+                    $('#leftList').datagrid('load');
+                }else{
+                    $.messager.alert('提示',"删除失败", "error");
+                }
             }else{
                 $.messager.alert('提示',"删除失败", "error");
             }
+
         }, 'error': function(data){
             $.messager.alert('提示',"删除失败", "error");
         }

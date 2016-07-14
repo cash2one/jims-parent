@@ -12,4 +12,11 @@ import java.util.List;
 @MyBatisDao
 public interface PerformFreqDictDao extends CrudDao<PerformFreqDict>{
     public List<String> findTypeList(PerformFreqDict performFreqDict);
+
+    /**
+     * 查询所有医嘱执行频率
+     * @return
+     * @author fengyuguang
+     */
+    public List<PerformFreqDict> listAll();
 }

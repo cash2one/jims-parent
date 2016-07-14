@@ -4,10 +4,10 @@
  * @version 2016-05-14
  */
 $(function () {
-    var currentOrgId = '1';
-    var currentStorage = '当前库存';
+    var currentOrgId = config.org_Id;
+    var currentStorage = config.currentStorage;
     var accountFlag ;
-    var currentUsername = '测试员' ;
+    var currentUsername = config.username ;
     var currentSubStorageDeptId  ;
     var currentSelectIndex;
 
@@ -55,7 +55,7 @@ $(function () {
     // 入库类别
     $("#importClass").combobox({
         width:'130',
-        url: parent.basePath + '/drug-import/findAll',
+        url: parent.basePath + '/drug-import/findList?storageType='+config.currentStorageObj.storageType,
         valueField: 'importClass',
         textField: 'importClass',
         editable: false,
@@ -69,7 +69,30 @@ $(function () {
             $("#supply").combobox('clear');
             $("#supplyChild").combobox('loadData',[]);
             $("#supplyChild").combobox('clear');
-            $("#supply").combobox('reload',parent.basePath + '/drug-storage-dept/list?orgId='+currentOrgId+'&storageType='+ r.storageType)
+            var supplyUrl = parent.basePath + '/drug-storage-dept/findListByLevel?orgId='+currentOrgId;
+            switch(r.fromLevel){
+                case '1' :
+                    supplyUrl += '&condition=remarks<\''+ config.currentStorageObj.level+'\'';
+                    break;
+                case '2' :
+                    supplyUrl += '&condition=remarks=\''+ config.currentStorageObj.level+'\'';
+                    break;
+                case '3' :
+                    supplyUrl += '&condition=remarks>\''+ config.currentStorageObj.level+'\'';
+                    break;
+            }
+            $("#supply").combobox('options').loadFilter = function (data) {
+                if(r.fromLevel == '2' && data){
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].storageCode == config.currentStorageObj.storageCode){
+                            data.splice(i,1);
+                            break;
+                        }
+                    }
+                }
+                return data
+            }
+            $("#supply").combobox('reload',supplyUrl)
         }
     });
     //入库库房

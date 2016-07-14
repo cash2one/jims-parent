@@ -435,6 +435,18 @@
 		<if test="outOrIn!=null and outOrIn!='' and outOrIn!='undefined'">
 			AND "EXAM_APPOINTS"."IN_OR_OUT"=#{outOrIn}
 		</if>
+		<if test="startTime!=null and startTime!=''">
+			AND  "EXAM_APPOINTS".req_date_time &gt;= to_date(#{startTime},'yyyy-MM-dd')
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			AND  "EXAM_APPOINTS".req_date_time &lt;= to_date(#{endTime},'yyyy-MM-dd')
+		</if>
+		<if test="appointsDept!=null and appointsDept!=''">
+			AND "EXAM_APPOINTS".REQ_DEPT=#{appointsDept}
+		</if>
+		<if test="patientName!=null and patientName!=''">
+			AND "EXAM_APPOINTS"."NAME"=#{patientName}
+		</if>
 		ORDER BY EXAM_APPOINTS.PATIENT_ID
 	</select>
 </mapper>

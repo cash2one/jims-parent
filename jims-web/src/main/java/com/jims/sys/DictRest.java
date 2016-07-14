@@ -156,7 +156,7 @@ public class DictRest {
      */
     @Path("findType")
     @GET
-    public List<String> findListType(String type) {
+    public List<String> findListType(@QueryParam("type")String type) {
         List<String> data = dictService.findListType(type);
         for (int i = 0; i < data.size(); i++) {
             String b = data.get(i);
@@ -173,8 +173,12 @@ public class DictRest {
      */
     @GET
     @Path("findListByType")
-    public List<Dict> findListByType(@QueryParam("type") String type) {
-        return dictService.findList(type);
+    public List<Dict> findListByType(@QueryParam("type") String type,
+                                     @QueryParam("value") String value) {
+        Dict d = new Dict();
+        d.setType(type);
+        d.setValue(value);
+        return dictService.findList(d);
     }
 
     /**

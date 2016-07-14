@@ -58,6 +58,17 @@ public class AdministrationDictRest {
         return administrationDictApi.findAllList();
     }
 
+    /**
+     * 查询给药途径字典表
+     * @param inputCode 输入码
+     * @return
+     * @author fengyuguang
+     */
+    @Path("list")
+    @GET
+    public List<AdministrationDict> list(@QueryParam("q")String inputCode){
+        return administrationDictApi.list(inputCode);
+    }
 
     /**
      * 获取单条数据

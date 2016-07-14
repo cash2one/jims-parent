@@ -8,10 +8,7 @@ import com.jims.phstock.entity.DrugExportClassDict;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -74,5 +71,13 @@ public class DrugExportClassDictRest {
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
+    }
+
+    @Path("findList")
+    @GET
+    public List<DrugExportClassDict> findList(@QueryParam("storageType")String storageType){
+        DrugExportClassDict param = new DrugExportClassDict();
+        param.setStorageType(storageType);
+        return drugExportClassDictApi.findList(param);
     }
 }

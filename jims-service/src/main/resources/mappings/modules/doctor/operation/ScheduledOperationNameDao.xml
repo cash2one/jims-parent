@@ -110,9 +110,21 @@
 	</update>
 	
 	<update id="delete">
-		UPDATE scheduled_operation_name SET 
+		UPDATE scheduled_operation_name SET
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
-	
+
+	<select id="getOperationNameList" resultType="ScheduledOperationName">
+		SELECT * FROM scheduled_operation_name
+		where del_flag = '0'
+		<if test="scheduleId !=null and scheduleId !=''">
+			and   schedule_id = #{scheduleId}
+		</if>
+	</select>
+
+	<update id="deleteSchedule">
+		DELETE FROM scheduled_operation_name
+		WHERE schedule_id = #{scheduleId}
+	</update>
 </mapper>

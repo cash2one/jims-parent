@@ -338,7 +338,7 @@ function saveClinicInspect() {
                     $.messager.alert("提示信息", "保存失败", "error");
                 }
             }else {
-                alert("病人没有诊断信息，不能开出检查申请");
+                $.messager.alert("提示信息", "病人没有诊断信息，不能开出检查申请");
             }
         }
     })

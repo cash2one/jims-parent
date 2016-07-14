@@ -1,6 +1,7 @@
 package com.jims.orders;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.utils.DateUtils;
 import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.data.StringData;
 import com.jims.common.web.impl.BaseDto;
@@ -41,6 +42,8 @@ public class OrdersRest {
         orders.setOrderStatus(orderStatus);
         orders.setPatientId(patientId);
         orders.setVisitId(visitId);
+        orders.setStartDateTime(DateUtils.parseDate(startDateTime));
+        orders.setStopDateTime(DateUtils.parseDate(stopDateTime));
         return ordersServiceApi.getPatientOrders(orders);
     }
 

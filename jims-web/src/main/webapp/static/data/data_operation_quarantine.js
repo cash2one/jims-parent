@@ -36,7 +36,7 @@ function isolationIndicatorFormatter(value, rowData, RowIndex) {
         return;
     }
     for (var i = 0; i < isolationIndicator.length; i++) {
-        if (isolationIndicator[i].id == value) {
+        if (isolationIndicator[i].value == value) {
             return isolationIndicator[i].label;
         }
     }

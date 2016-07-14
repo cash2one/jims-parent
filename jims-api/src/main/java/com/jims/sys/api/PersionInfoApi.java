@@ -55,4 +55,5 @@ public interface PersionInfoApi {
      * @return
      */
     public PersionInfo findInfoByCardNo(String cardNo);
+
 }

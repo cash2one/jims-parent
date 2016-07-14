@@ -1,6 +1,5 @@
 $(function(){
     var patientId = parent.patVisit.patientId;
-    alert(patientId);
     /**
      * 性别下拉框
      */
@@ -22,11 +21,11 @@ $(function(){
     /**
      * 职业
      */
-    /*$("#occupation").combobox({
-        data: setData,
+    $("#occupation").combobox({
+        data: professionDict,
         valueField: 'value',
         textField: 'label'
-    })*/
+    })
     /**
      * 身份
      */
@@ -79,6 +78,7 @@ $(function(){
     })
 })
 function savePatInfo(){
+    $('#xinxiForm').form('validate');
     var patientId=$("#patientId",parent.document).val();
     var formJson=fromJson('xinxiForm');
     $.postJSON(basePath+"/patList/savePatInfo",formJson,function(data){

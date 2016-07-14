@@ -40,6 +40,17 @@ public class PerformFreqDictRest {
     }
 
     /**
+     * 查询所有医嘱执行频率
+     * @return
+     * @author fengyuguang
+     */
+    @Path("listAll")
+    @GET
+    public List<PerformFreqDict> listAll(){
+        return performFreqDictApi.listAll();
+    }
+
+    /**
      * 获取单条数据
      * @param id
      * @return

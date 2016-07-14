@@ -10,8 +10,33 @@ $(function(){
             editIndex = undefined;
         }
     }
+    var storage =[];
+    $.ajax({
+        url: parent.basePath + '/dict/findListByType',
+        data: {type:'DRUG_STOCK_TYPE_DICT'},
+        type: 'get',
+        async: false
+    }).always(function(res){
+        if(res){
+            storage = res;
+        }
+    })
 
-    var storage = [{storageType: '全部'}, {storageType: '药库'}, {storageType: '药局'}];
+    /**
+     * 格式化字典表数据
+     * @param arr
+     * @param value
+     */
+    var formatDict = function(arr,value){
+        if(arr && arr.length > 0 && value != undefined){
+            for(var i= 0,j=arr.length;i<j;i++){
+                if(arr[i].value == value){
+                    return arr[i].label;
+                }
+            }
+        }
+        return '';
+    }
 
     $("#importDict").on("click", function () {
         $("#drugdict").datagrid('loadData',[]);
@@ -49,10 +74,12 @@ $(function(){
                     options: {
                         editable: false,
                         align: 'center',
-                        valueField: 'storageType',
-                        textField: 'storageType',
+                        valueField: 'value',
+                        textField: 'label',
                         data: storage
                     }
+                },formatter: function (value) {
+                    return formatDict(storage,value);
                 }
             },{
                 title: '是否记账',
@@ -83,7 +110,24 @@ $(function(){
                         return "不记账";
                     }
                 }
-            }]],
+            },{
+                title: '来往等级', //入库
+                field: 'fromLevel',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox', options: {
+                        editable: false,
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'label',
+                        method: 'GET',
+                        url:basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR"
+                    }
+                }
+            }
+
+            ]],
             toolbar: [{
                 text: '新增',
                 iconCls: 'icon-add',
@@ -149,10 +193,12 @@ $(function(){
                     options: {
                         editable: false,
                         align: 'center',
-                        valueField: 'storageType',
-                        textField: 'storageType',
+                        valueField: 'value',
+                        textField: 'label',
                         data: storage
                     }
+                },formatter: function (value) {
+                    return formatDict(storage,value);
                 }
             }, {
                 title: '是否记账',
@@ -181,6 +227,21 @@ $(function(){
                     }
                     if (value == "0") {
                         return "不记账";
+                    }
+                }
+            },{
+                title: '药品入出库方向', //出库
+                field: 'toLevel',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox', options: {
+                        editable: false,
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'label',
+                        method: 'GET',
+                        url:basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR"
                     }
                 }
             }]],

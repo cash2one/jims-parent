@@ -164,6 +164,9 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
                         orders.setOrderStatus("5");//医生保存
                         orders.setDrugBillingAttr(3);//药品默认不计价
                         orders.setEnterDateTime(new Date());
+                        if(orders.getRepeatIndicator()=="0"){//临时医嘱
+                            orders.setStopDateTime(new Date());
+                        }
                        if(orders.getOrdersCostses()!=null){
                            List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
                            for(int j=0;j<ordersCostsList.size();j++) {
