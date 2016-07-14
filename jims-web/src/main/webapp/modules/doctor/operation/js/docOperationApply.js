@@ -385,12 +385,8 @@ function savePperationApply() {
    $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
         if (data =="1") {
             $.messager.alert("提示消息", data + "条记录，保存成功");
-            $('#operationName').datagrid('load');
-            $('#operationName').datagrid('clearChecked');
         } else {
             $.messager.alert('提示', "保存失败", "error");
-            $('#operationName').datagrid('load');
-            $('#operationName').datagrid('clearChecked');
         }
     }, function (data) {
         $.messager.alert('提示', "保存失败", "error");

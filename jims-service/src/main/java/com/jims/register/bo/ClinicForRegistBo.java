@@ -137,7 +137,13 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
             patMasterIndex.preUpdate();
             i=patMasterIndexDao.update(patMasterIndex);
         }
+        Integer no= clinicMasterDao.getMaxVisitNO();
 
+        if(no!=null &&!no.equals("")){
+            no=no+1;
+        }else{
+            no=1;
+        }
         if(list!=null && list.size()>0){
             for(int k=0;k<list.size();k++){
                 ClinicMaster master=new ClinicMaster();
@@ -158,17 +164,12 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                 master.setVisitTimeDesc(timeDesc);//门诊时间
                 master.setVisitDate(format.parse(DateUtils.getDate()));//就诊日期
                 master.setVisitDept(clinicMaster.getVisitDept()); //就诊科室
-                Integer no= clinicMasterDao.getMaxVisitNO();
-
-                if(no!=null &&!no.equals("")){
-                 master.setVisitNo(no+1);
-                }else{
-                    master.setVisitNo(1);//就诊序号
-                }
+                master.setVisitNo(no);//就诊序号
                 master.setClinicNo(DateUtils.getDate("yyyyMMdd")+master.getVisitNo());//就诊号==就诊日期+就诊序号
                 if("0".equals(clinicMaster.getVisitIndicator())){
                     master.setFirstVisitIndicator(0);//初诊标志
                 }
+                no=no+1;
                 master.setRegisteringDate(format.parse(DateUtils.getDate()));//挂号日期
 
                 //获取费用

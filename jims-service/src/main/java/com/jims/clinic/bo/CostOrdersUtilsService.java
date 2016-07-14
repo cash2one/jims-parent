@@ -90,7 +90,7 @@ public class CostOrdersUtilsService {
             outpTreatRec.setClinicId(clinicId);
             outpTreatRec.setSerialNo(serialNo);
             outpTreatRec.setAppointNo(appointsId);
-
+            outpTreatRec.setAppointItemNo(i+1);
             outpTreatRec.setItemClass(clinicItemDict.getItemClass());
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());
@@ -123,7 +123,7 @@ public class CostOrdersUtilsService {
                 outpOrdersCosts.setAmount(clinicItemDict.getNum());
                 outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
                 outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
-                outpOrdersCosts.setPerformedBy(priceListVo.getPerformedBy());
+                outpOrdersCosts.setPerformedBy(clinicItemDict.getExpand3());
                 outpOrdersCosts.setCosts(priceListVo.getPrice());
                 price+=priceListVo.getPrice();
                 outpOrdersCosts.setCharges(priceListVo.getPrice());
