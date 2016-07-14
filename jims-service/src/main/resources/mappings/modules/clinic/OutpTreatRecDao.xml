@@ -231,10 +231,6 @@
 		FROM outp_treat_rec a
 		WHERE  a.visit_date=#{visitDate} AND  a.visit_no=#{visitNo} AND a.item_class=#{itemClass}
 	</select>
-	<select id="getSerialNo" resultType="Integer">
-		select max(serial_no)
-		from outp_treat_rec
-	</select>
 
 	<insert id="saveTreatRec">
 		INSERT INTO outp_treat_rec(
