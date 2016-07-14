@@ -42,6 +42,16 @@ public class AdministrationDictImpl extends CrudImplService<AdministrationDictDa
     }
 
     /**
+     * 查询给药途径字典表
+     * @param inputCode 输入码
+     * @return
+     * @author fengyuguang
+     */
+    public List<AdministrationDict> list(String inputCode){
+        return dao.list(inputCode);
+    }
+
+    /**
      * 查询给药途径字典列表,并使用文字回显门诊住院标识
      *
      * @return

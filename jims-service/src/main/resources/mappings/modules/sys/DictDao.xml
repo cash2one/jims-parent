@@ -91,12 +91,11 @@
 
 
     <select id="findListType" resultType="Dict">
-        SELECT
-        *
-        FROM sys_dict
-        WHERE type =#{type}
-        Group BY label
-        ORDER BY label
+        SELECT *
+        FROM sys_dict t
+        WHERE t.type = #{type}
+        ORDER BY t.value
+
     </select>
 	
 	<insert id="insert">
