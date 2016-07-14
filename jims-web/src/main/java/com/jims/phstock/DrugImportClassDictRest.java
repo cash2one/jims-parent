@@ -7,10 +7,7 @@ import com.jims.phstock.entity.DrugImportClassDict;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -29,6 +26,14 @@ public class DrugImportClassDictRest {
     @GET
     public List<DrugImportClassDict> findAllList(){
         return drugImportClassDictApi.findAllList();
+    }
+
+    @Path("findList")
+    @GET
+    public List<DrugImportClassDict> findList(@QueryParam("storageType")String storageType){
+        DrugImportClassDict param = new DrugImportClassDict();
+        param.setStorageType(storageType);
+        return drugImportClassDictApi.findList(param);
     }
 
     /**

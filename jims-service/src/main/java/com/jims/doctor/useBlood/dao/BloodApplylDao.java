@@ -7,6 +7,7 @@ package com.jims.doctor.useBlood.dao;
 import com.jims.blood.entity.BloodApply;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用血申请DAO接口
@@ -32,4 +33,11 @@ public interface BloodApplylDao  extends CrudDao<BloodApply> {
      * @return
      */
     public  int confirmBlood(BloodApply bloodApply);
+
+    /**
+     * 删除主记录
+     * @param id
+     * @return
+     */
+    public int deleteBloodApply(@Param("id")String id);
 }

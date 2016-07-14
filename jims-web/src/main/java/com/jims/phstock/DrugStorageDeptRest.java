@@ -84,4 +84,19 @@ public class DrugStorageDeptRest {
     public String saveSub(DrugSubStorageDept sub){
         return drugStorageDeptService.saveSub(sub);
     }
+
+    /**
+     * 根据等级的判断条件检索
+     * @param condition 等级条件 例如： remarks>'1'
+     * @param orgId
+     * @param q 模糊检索
+     * @return
+     */
+    @GET
+    @Path("findListByLevel")
+    public List<DrugStorageDept> findListByLevel(@QueryParam("condition")String condition,
+                                                 @QueryParam("orgId")String orgId,
+                                                 @QueryParam("q") String q){
+        return drugStorageDeptService.findListByLevel(condition,orgId,q);
+    }
 }

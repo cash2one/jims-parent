@@ -254,8 +254,7 @@
 	</insert>
 
 	<update id="deleteOutpOrders">
-		UPDATE outp_orders  a SET
-		del_flag = '1'
-		WHERE a.clinic_id=#{clinicId}
+		DELETE FROM outp_orders
+		WHERE serial_no=#{serialNo}
 	</update>
 </mapper>

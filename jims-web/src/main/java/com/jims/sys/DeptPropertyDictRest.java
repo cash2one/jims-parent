@@ -55,19 +55,6 @@ public class DeptPropertyDictRest {
     }
 
     /**
-     * 查询科室属性信息
-     *
-     * @return
-     */
-    @GET
-    @Path("listProperty")
-    public List<OrgDeptPropertyDict> list(@QueryParam("orgId") String orgId) {
-        OrgDeptPropertyDict orgDeptPropertyDict = new OrgDeptPropertyDict();
-        orgDeptPropertyDict.setOrgId(orgId);
-        return deptPropertyDictApi.findList(orgDeptPropertyDict);
-    }
-
-    /**
      * 根据条件查询科室属性信息
      *
      * @param
@@ -90,7 +77,7 @@ public class DeptPropertyDictRest {
 
 
     /**
-     * 查询属性信息
+     * 查询属性信息并且排序
      *
      * @return
      */
@@ -108,23 +95,11 @@ public class DeptPropertyDictRest {
      * @return
      */
     @Path("get")
-    @POST
+    @GET
     public OrgDeptPropertyDict get(String id) {
         OrgDeptPropertyDict orgDeptPropertyDict = deptPropertyDictApi.get(id);
         return orgDeptPropertyDict;
     }
-/*
-    *//**
-     * 查询父机构
-     *
-     * @return
-     *//*
-    @GET
-    @Path("select")
-    public List<SysCompany> findAllByName() {
-        return sysCompanyApi.findListByName();
-    }*/
-
 
     /**
      * 查询属性名称
@@ -134,31 +109,16 @@ public class DeptPropertyDictRest {
     @POST
     @Path("selectName/{deptPropertity}/{orgId}")
     public List<OrgDeptPropertyDict> findNameByType(@PathParam("deptPropertity") String deptPropertity, @PathParam("orgId") String orgId) {
-
-        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findNameByType(deptPropertity, orgId);
+        OrgDeptPropertyDict orgDeptPropertyDict=new OrgDeptPropertyDict();
+        orgDeptPropertyDict.setPropertyType(deptPropertity);
+        orgDeptPropertyDict.setOrgId(orgId);
+        List<OrgDeptPropertyDict> list = deptPropertyDictApi.findByCondition(orgDeptPropertyDict);
         return list;
     }
 
-
-    /**
-     * 保存修改方法
-     *
-     * @param
-     * @return
-     */
-    @Path("add")
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    public StringData save(OrgDeptPropertyDict orgDeptPropertyDict) {
-
-        StringData stringData = deptPropertyDictApi.add(orgDeptPropertyDict);
-        return stringData;
-    }
-
-
     /**
      * 保存  增删改
-     *                            c
+     *
      * @param orgDeptPropertyDictVo
      * @return
      * @author yangruidong

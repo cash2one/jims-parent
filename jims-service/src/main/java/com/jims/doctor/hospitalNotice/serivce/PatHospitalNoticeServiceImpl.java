@@ -1,10 +1,10 @@
-package com.jims.clinic.service;
+package com.jims.doctor.hospitalNotice.serivce;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.jims.clinic.api.PatHospitalNoticeServiceApi;
-import com.jims.clinic.bo.PatHospitalNoticeBo;
-import com.jims.clinic.entity.PatHospitalNotice;
+import com.jims.hospitalNotice.api.PatHospitalNoticeServiceApi;
+import com.jims.doctor.hospitalNotice.bo.PatHospitalNoticeBo;
+import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.common.persistence.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -64,8 +64,6 @@ public class PatHospitalNoticeServiceImpl implements PatHospitalNoticeServiceApi
      */
     @Override
     public String save(PatHospitalNotice patHospitalNotice) {
-        int num;
-        num = patHospitalNoticeBo.savePatHospitalNotice(patHospitalNotice);
-        return  num+"";
+        return  patHospitalNoticeBo.savePatHospitalNotice(patHospitalNotice);
     }
 }

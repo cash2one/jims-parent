@@ -259,4 +259,9 @@
            gather_date = to_date(to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
            where id = #{id}
 	</update>
+
+	<update id="deleteBloodApply">
+		DELETE FROM blood_apply
+		WHERE id = #{id}
+	</update>
 </mapper>

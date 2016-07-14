@@ -79,12 +79,12 @@ $(function () {
         window.location.href = "/modules/sys/persion-services.html?persionId=" + loginInfo.persionId;
     });
     $("#setCompany").on('click', function () {
-        window.location.href = "/modules/sys/company.html?persionId="+persion_id;
+        window.location.href = "/modules/sys/company.html?persionId="+loginInfo.persionId;
     });
 
 
     $("#myServices").on('click', function () {
-        window.location.href = "/modules/sys/service-list.html?persionId="+persion_id;
+        window.location.href = "/modules/sys/service-list.html?persionId="+loginInfo.persionId;
     });
 
 
