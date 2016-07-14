@@ -102,12 +102,13 @@ $(function () {
         }, {
             title: '厂商代码',
             field: 'supplierCode',
-            width: "20%",
-            editor: {
-                type: 'text', options: {
-                    required: true
-                }
-            }
+            hidden:true
+            //width: "20%",
+            //editor: {
+            //    type: 'text', options: {
+            //        required: true
+            //    }
+            //}
         }, {
             title: '是否使用',
             field: 'usedFlag',
@@ -255,33 +256,44 @@ $(function () {
             $("#dg").datagrid("endEdit", editIndex);
         }
 
-        var insertData = $("#dg").datagrid("getChanges", "inserted");
-        var updateData = $("#dg").datagrid("getChanges", "updated");
-
-        var examRptPatternVo = {};
-        examRptPatternVo.inserted = insertData;
-        examRptPatternVo.updated = updateData;
-        examRptPatternVo.orgId = parent.config.org_Id;
-        for (var i = 0; i < examRptPatternVo.updated.length; i++) {
-            if (examRptPatternVo.updated[i].usedFlag == '使用') {
-                examRptPatternVo.updated[i].usedFlag = '0';
-            }
-            if (examRptPatternVo.updated[i].usedFlag == '停用') {
-                examRptPatternVo.updated[i].usedFlag = '1';
-            }
-            if (examRptPatternVo.updated[i].foreignx == '是') {
-                examRptPatternVo.updated[i].foreignx = '0';
-            }
-            if (examRptPatternVo.updated[i].foreignx == '否') {
-                examRptPatternVo.updated[i].foreignx = '1';
+        var rows=$("#dg").datagrid("getRows");
+        var sign=true;
+        for(var j=0;j<rows.length;j++){
+            if(rows[j].supplierId.length>5){
+                $("#dg").datagrid("selectRow",j);
+                $.messager.alert("系统提示：","供应厂商别名超长，输入汉字请不超过5位","error");
+                sign=false;
             }
         }
+        if(sign){
+            var insertData = $("#dg").datagrid("getChanges", "inserted");
+            var updateData = $("#dg").datagrid("getChanges", "updated");
 
-        $.postJSON(basePath + "/drug-supplier-catalog/merge", JSON.stringify(examRptPatternVo), function (data) {
-            $.messager.alert('系统提示', '保存成功', 'info');
-            loadDict();
-            $('#supplierType').combogrid();
-        })
+            var examRptPatternVo = {};
+            examRptPatternVo.inserted = insertData;
+            examRptPatternVo.updated = updateData;
+            examRptPatternVo.orgId = parent.config.org_Id;
+            for (var i = 0; i < examRptPatternVo.updated.length; i++) {
+                if (examRptPatternVo.updated[i].usedFlag == '使用') {
+                    examRptPatternVo.updated[i].usedFlag = '0';
+                }
+                if (examRptPatternVo.updated[i].usedFlag == '停用') {
+                    examRptPatternVo.updated[i].usedFlag = '1';
+                }
+                if (examRptPatternVo.updated[i].foreignx == '是') {
+                    examRptPatternVo.updated[i].foreignx = '0';
+                }
+                if (examRptPatternVo.updated[i].foreignx == '否') {
+                    examRptPatternVo.updated[i].foreignx = '1';
+                }
+            }
+            $.postJSON(basePath + "/drug-supplier-catalog/merge", JSON.stringify(examRptPatternVo), function (data) {
+                $.messager.alert('系统提示', '保存成功', 'info');
+                loadDict();
+                $('#supplierType').combogrid();
+            })
+        }
+
     });
 
 });
