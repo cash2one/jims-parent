@@ -177,8 +177,13 @@ function proofOrders(){
 function executeOrders(){
 
 
-    var ordersRow = $('#orderList').datagrid("getSelections");
+    var ordersRow = $('#orderList').datagrid("getSelected");
     var tableJson=JSON.stringify(ordersRow);
+    if(ordersRow.repeatIndicator=='1'){//长期医嘱执行
+        $.messager.alert("提示消息","只有临时医嘱才需要执行");
+    }else if(ordersRow.execDateTime!=null) {
+        $.messager.alert("提示消息", "该条医嘱已经执行，不能重复执行");
+    } else {
     $.postJSON(basePath+'/ordersNurse/executeOrders',tableJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息","执行成功");
@@ -189,6 +194,7 @@ function executeOrders(){
     },function(data){
         $.messager.alert('提示',"执行错误", "error");
     })
+    }
 }
 
 
