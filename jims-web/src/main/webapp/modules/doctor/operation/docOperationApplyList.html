@@ -19,12 +19,19 @@
 <body  onload="onloadMethod()">
 <div  style="width:100%;height:100%;">
 
-    <div data-options="region:'center',iconCls:'icon-ok'">
+    <div class="fitem fitem_pop" style="width:100%;height: 260px;">
+        <div class="fd-left" style="width:49%;height: 260px;">
+            <table id="operationName"></table>
+        </div>
+        <div class="fd-right" style="width:49%;height: 260px;">
+            <table id="operationNameList">
+            </table>
+        </div>
+    </div>
+    <div data-options="region:'center',iconCls:'icon-ok'" style="height: 98%">
         <form id="operation" method="post">
             <input type="hidden" name="id" id="id">
-            <div class="fitem fitem_pop" style="width:100%;height: 200px;">
-                <table id="operationName"></table>
-            </div>
+
             <div class="fitem fitem_pop">
                 <label>
                     术前诊断：
@@ -36,28 +43,19 @@
                     病情：
                 </label>
                 <input type="hidden" name="patientCondition" id="patientConditionId" value="">
-                <input id="patientCondition"style="width:10%;">
+                <input id="patientCondition" style="width:10%;">
                 <label>
                     隔离：
                 </label>
-                <!--<select name="isolationIndicator" class="easyui-combobox" style="width:10%;height: 30px">-->
-                <!--<option value="1">正常</option>-->
-                <!--<option value="2">隔离</option>-->
-                <!--<option value="3">放射</option>-->
-                <!--</select>-->
                 <input type="hidden" name="isolationIndicator" id="isolationIndicatorId" value="">
                 <input id="isolationIndicator"style="width:10%;">
-                <!--<label>-->
-                    <!--急症：-->
-                <!--</label>-->
-                <!--<input type="checkbox" id="jizheng">-->
             </div>
             <div class="fitem fitem_pop">
                 <label>
                     预约时间：
                 </label>
                 <input name="reqDateTime" class="easyui-datetimebox"
-                       style="width:12%;"/>
+                       style="width:20%;"/>
                 <!--<label>-->
                     <!--手术等级：-->
                 <!--</label>-->

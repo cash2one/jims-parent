@@ -8,6 +8,7 @@ import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.clinic.dao.PatMasterIndexDao;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.utils.NumberUtils;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.dao.ClinicReturnedAcctDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,10 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     private PatMasterIndexDao patMasterIndexDao;
 
 
+    @Override
+    public String getPrescNo(String clinicId) {
+        return NumberUtils.getClinicPrescription(clinicId);
+    }
 
     /**
      * 查询 病人列表 （待诊）

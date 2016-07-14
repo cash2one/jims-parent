@@ -7,9 +7,10 @@
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="../medical/js/confirmLab.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
 </head>
 
-<body onload="onloadMethod()">
+<body onload="onloadMethod('0')">
 <div class="search-standard clearfix">
     <ul class="clearfix" id="wrap">
         <li>检验:
@@ -18,10 +19,9 @@
         <li>预约时间:
             <input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="startTime"/> 至  <input type="text" class="easyui-datebox vt-text-percent"  style="width:140px;" id="endTime"/></li>
         <li>申请科室:<input class="easyui-combobox" id="doctorRole"></li>
-        <li>检验号:<input class="validatebox-text"></li>
-        <li>病人ID：<input type="text" class="validatebox-text" id="patientId"/></li>
+        <li>检验号:<input class="validatebox-text" id="labNo"></li>
         <li>姓名:<input type="text" class="validatebox-text" id="patName" style="width:200px;"/></li>
-        <li><button class="easy-nbtn easy-nbtn-info" onclick="search();">查询</button></li>
+        <li><button class="easy-nbtn easy-nbtn-info" onclick="searchLab();">查询</button></li>
     </ul>
 </div>
 <table id="list_data"   cellspacing="0" cellpadding="0">

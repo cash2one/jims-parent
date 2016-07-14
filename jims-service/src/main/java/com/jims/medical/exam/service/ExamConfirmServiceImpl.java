@@ -24,8 +24,8 @@ public class ExamConfirmServiceImpl implements ExamConfirmServiceApi {
      * @author zhaoning
      */
     @Override
-    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn) {
-        return examConfirmBo.getExamAppointses(performedBy,outOrIn);
+    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName) {
+        return examConfirmBo.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName);
     }
 
     /**

@@ -133,7 +133,7 @@
 		<include refid="labTestItemsColumns"/>
 		FROM lab_test_items a
 		WHERE a.del_flag = '0'
-		<if test="testNo != '' and testNo != null">
+		<if test="labMasterId != '' and labMasterId != null">
 			 and a.lab_master=#{labMasterId}
 		</if>
 	</select>
