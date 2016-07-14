@@ -49,6 +49,9 @@
             <if test="storageType != null and storageType != ''">
                 and a.storage_type = #{storageType}
             </if>
+            <if test="storageCode != null and storageCode != ''">
+                and a.storage_code = #{storageCode}
+            </if>
             <if test="q != null and q != ''">
                 and (upper(a.storage_code) like upper(#{q}) || '%'
                 or a.storage_name like #{q} || '%')

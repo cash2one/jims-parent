@@ -7,6 +7,7 @@
 		a.import_class AS "importClass",
 		a.statistic_class AS "statisticClass",
 		a.storage_type AS "storageType",
+		a.from_level AS "fromLevel",
 		a.remarks AS "remarks",
 		a.update_by AS "updateBy.id",
 		a.create_by AS "createBy.id",
@@ -81,6 +82,7 @@
 			import_class,
 			statistic_class,
 			storage_type,
+			from_level,
 			remarks,
 			update_by,
 			update_date,
@@ -93,6 +95,7 @@
 			#{importClass},
 			#{statisticClass},
 			#{storageType},
+			#{fromLevel},
 			#{remarks},
 			#{updateBy.id},
 			#{updateDate},
@@ -107,6 +110,7 @@
 		UPDATE drug_import_class_dict SET
 		    import_class = #{importClass},
 		    statistic_class = #{statisticClass},
+		    from_level = #{fromLevel},
 		    storage_type = #{storageType},
 			account_flag = #{accountFlag},
 			update_date = #{updateDate}

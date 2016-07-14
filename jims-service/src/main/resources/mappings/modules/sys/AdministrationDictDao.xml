@@ -8,6 +8,13 @@
 		WHERE id = #{id}
 	</select>
 
+    <select id="list" resultType="AdministrationDict">
+        SELECT *
+        FROM administration_dict a
+        WHERE a.del_flag = '0'
+        AND a.input_code  like UPPER(#{inputCode}) || '%'
+        ORDER BY a.update_date DESC
+    </select>
 
 	<select id="findList" resultType="AdministrationDict">
     SELECT

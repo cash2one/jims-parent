@@ -102,8 +102,8 @@ public class DictServiceApiImpl implements DictServiceApi {
         return dictBo.delete(ids);
     }
 
-    public List<String> findListType(String dict) {
-        return dictBo.findListType(dict);
+    public List<String> findListType(String type) {
+        return dictBo.findListType(type);
     }
 
     public String getLabel(String type, String value) {

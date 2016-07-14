@@ -20,4 +20,13 @@ public class PerformFreqDictImpl extends CrudImplService<PerformFreqDictDao, Per
     public List<String> findTypeList() {
         return dao.findTypeList(new PerformFreqDict());
     }
+
+    /**
+     * 查询所有医嘱执行频率
+     * @return
+     * @author fengyuguang
+     */
+    public List<PerformFreqDict> listAll(){
+        return dao.listAll();
+    }
 }
