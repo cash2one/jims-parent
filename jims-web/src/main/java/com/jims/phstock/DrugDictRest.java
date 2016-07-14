@@ -6,10 +6,7 @@ import com.jims.phstock.api.DrugDictServiceApi;
 import com.jims.phstock.entity.DrugDict;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -55,16 +52,6 @@ public class DrugDictRest {
         return null;
     }
 
-    //保存多个
-
-    //根据大类获取亚类
-
-    //修改类别
-
-    //删除类别
-
-    @Reference(version = "1.0.0")
-    private DrugDictServiceApi drugDictServiceApi;
 
     /**
      * 根据药品名称或药品代码查询数据
@@ -74,6 +61,6 @@ public class DrugDictRest {
     @Path("get-by-name")
     @GET
     public List<DrugDict> getByName(@QueryParam("drugCode")String drugCode,@QueryParam("drugName")String drugName){
-        return drugDictServiceApi.getByName(drugCode,drugName);
+        return drugDictApi.getByName(drugCode,drugName);
     }
 }
