@@ -105,7 +105,7 @@ public class ClinicMasterRest {
 
         ClinicMaster clinicMaster = new ClinicMaster();
         clinicMaster.setAcctDate(DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
-        clinicMaster.setAcctNo(clinicMasterServiceApi.getMaxAcctNo());
+        clinicMaster.setAcctNo("1");
         return clinicMaster;
     }
     /**
