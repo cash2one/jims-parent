@@ -69,7 +69,7 @@ public class BloodApplyBo {
 
                 clinicItemDictList.add(clinicItemDict);
             }
-            costOrdersUtilsService.save(bloodApply.getClinicId(), clinicItemDictList, bloodApply.getId());
+            //costOrdersUtilsService.save(bloodApply.getClinicId(), clinicItemDictList, bloodApply.getId());
 
         }else {
             bloodApply.preUpdate();
@@ -102,7 +102,7 @@ public class BloodApplyBo {
                 }
                 clinicItemDictList.add(clinicItemDict);
             }
-            costOrdersUtilsService.save(bloodApply.getClinicId(), clinicItemDictList, bloodApply.getId());
+            //costOrdersUtilsService.save(bloodApply.getClinicId(), clinicItemDictList, bloodApply.getId());
         }
         return strState+"";
     }

@@ -67,7 +67,7 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
                 }
                 clinicItemDictList.add(clinicItemDict);
             }
-            costOrdersUtilsService.save(operationSchedule.getClinicId(), clinicItemDictList, operationSchedule.getId());
+            //costOrdersUtilsService.save(operationSchedule.getClinicId(), clinicItemDictList, operationSchedule.getId());
             return num + "";
         }else {
             operationSchedule.preUpdate();
@@ -97,7 +97,7 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
             }
         }
 //            return "1";
-        costOrdersUtilsService.save(operationSchedule.getClinicId(),clinicItemDictList,operationSchedule.getId());
+        //costOrdersUtilsService.save(operationSchedule.getClinicId(),clinicItemDictList,operationSchedule.getId());
         return  num+"";
 
     }

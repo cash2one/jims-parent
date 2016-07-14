@@ -1,8 +1,8 @@
 package com.jims.clinic.notice;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.clinic.api.PatHospitalNoticeServiceApi;
-import com.jims.clinic.entity.PatHospitalNotice;
+import com.jims.hospitalNotice.api.PatHospitalNoticeServiceApi;
+import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;

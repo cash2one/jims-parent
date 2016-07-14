@@ -1,6 +1,6 @@
-package com.jims.clinic.api;
+package com.jims.hospitalNotice.api;
 
-import com.jims.clinic.entity.PatHospitalNotice;
+import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.common.persistence.Page;
 
 /**
