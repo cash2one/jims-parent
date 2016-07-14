@@ -593,6 +593,7 @@ function rowCount(){
         }
         var dataCount={};
         dataCount.item_price="处方号："
+        var date=new Date();
         var rcptNo=date.format("yyyyMMddhhmmss")+Math.floor(Math.random()*10000);
         dataCount.dosage=rcptNo;
         dataCount.performed_by="小计";
@@ -633,10 +634,7 @@ function addDrugRow(){
  */
 function confirmPay(){
     var rows= $("#list").datagrid("getRows");
-    var strIds="[{\"rcptNo\":\"123\",\"orderIds\":[{\"orderId\":\"1\"},{\"orderId\":\"2\"}]}," +
-        "{\"rcptNo\":\"1234\",\"orderIds\":[{\"orderId\":\"1\"},{\"orderId\":\"2\"}]}]";
-
-    strIds="["
+    var strIds="["
     var oldOrder="";
     var orderIds="";
     var dosageType=1;
@@ -645,18 +643,18 @@ function confirmPay(){
         var row=rows[i];
         var orderId=row.orderid;
         var rcptNo=row.dosage;
-        if(rcptNo.length>10 && rcptNo!=''){
+        if(orderId==undefined){
             if(orderIds.length>0){
                 orderIds = orderIds.substr(0, orderIds.length - 1);
                 orderIds+="]";
+                orderIds=orderIds+",\"rcptNo\":\""+rcptNo+"\"},";
             }
-            orderIds=orderIds+"\",rcptNo\":\""+rcptNo+"\"},";
             dosageTypeOld=dosageType;
             continue;
         }
         if(orderId!=oldOrder){
             if(dosageType==dosageTypeOld){
-                orderIds="\"{orderIds\":[{\"orderId\":\""+orderId+"\"},";
+                orderIds+="{\"orderIds\":[{\"orderId\":\""+orderId+"\"},";
                 dosageTypeOld=2;
             }else{
                 orderIds+="{\"orderId\":\""+orderId+"\"},";
@@ -664,22 +662,21 @@ function confirmPay(){
         }
         oldOrder=orderId;
     }
+    orderIds = orderIds.substr(0, orderIds.length - 1);
     strIds +=orderIds
     strIds+="]"
     alert(strIds);
-    //$.ajax({
-    //    'type': 'POST',
-    //    'url': basePath+'/outPatientCost/confirmPay',
-    //    'contentType': 'application/json',
-    //    'data': ids=strIds,
-    //    'dataType': 'json',
-    //    'success': function(data){
-    //
-    //    },
-    //    'error': function(data){
-    //        $.messager.alert('提示',"删除失败", "error");
-    //    }
-    //});
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/outPatientCost/confirmPay',
+        'contentType': 'application/json',
+        'data': ids=strIds,
+        'dataType': 'json',
+        'success': function(data){
 
-
+        },
+        'error': function(data){
+            $.messager.alert('提示',"删除失败", "error");
+        }
+    });
 }
