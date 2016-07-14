@@ -352,12 +352,18 @@ $(function(){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
-                $("#orderList").datagrid('endEdit', editRow);
-                if (editRow != undefined) {
+                if(!$("#orderList").datagrid('validateRow', rowNum)){
+                    $.messager.alert('提示',"请填写完本行数据后，再进行保存", "error");
+                    return false
+                }else{
+                    $("#orderList").datagrid('endEdit', editRow);
+                    if (editRow != undefined) {
 
-                    $("#orderList").datagrid("endEdit", editRow);
+                        $("#orderList").datagrid("endEdit", editRow);
+                    }
+                    save();
                 }
-                save();
+
             }
         },'-',{
             text: '传输医嘱',
@@ -369,11 +375,15 @@ $(function(){
             text: '子医嘱',
             iconCls:'icon-save',
             handler:function(){
-                var selRow = $('#orderList').datagrid('getChecked');
-                if(selRow!=null&&selRow!=''&&selRow!='undefined') {
-                    changeSubNo(selRow);
-                }else{
-                    $.messager.alert('提示',"请选择要操作的医嘱！", "error");
+                if (! $("#orderList").datagrid('validateRow', rowNum)) {
+                    $.messager.alert('提示', "请选择要操作的医嘱！", "error");
+                } else {
+                    var selRow = $('#orderList').datagrid('getChecked');
+                    if (selRow != null && selRow != '' && selRow != 'undefined') {
+                        changeSubNo(selRow);
+                    } else {
+                        $.messager.alert('提示', "请选择要操作的医嘱！", "error");
+                    }
                 }
             }
         },'-',{
@@ -512,6 +522,9 @@ function save(){
     tableJson=tableJson.substring(0, tableJson.length - 1);
     var costJson = JSON.stringify(costRows);
     var submitJson=tableJson+",\"patientId\":\""+patId+"\",\"visitId\":\""+visitId+"\",\"ordersCostses\":"+costJson+"}]";
+    if (!$("#orderList").datagrid('validateRow', rowNum)) {
+        $.messager.alert("提示消息","请把医嘱信息输入完整再进行保存！");
+    }else{
     $.postJSON(basePath+'/inOrders/save',submitJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息","保存成功");
@@ -523,6 +536,7 @@ function save(){
     },function(data){
         $.messager.alert('提示',"网络异常", "error");
     })
+    }
 }
 
 //刷新
