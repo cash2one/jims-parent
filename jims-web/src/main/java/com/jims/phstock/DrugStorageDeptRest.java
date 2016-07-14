@@ -27,6 +27,7 @@ public class DrugStorageDeptRest {
      * 获取药品库存单位集合
      * @param orgId 组织机构ID
      * @param storageType 单位性质
+     * @param storageCode
      * @param q 检索查询字段
      * @return 库存单位list集合
      * @author fyg
@@ -35,10 +36,12 @@ public class DrugStorageDeptRest {
     @Path("list")
     public List<DrugStorageDept> list(@QueryParam("orgId")String orgId,
                                       @QueryParam("storageType") String storageType,
+                                      @QueryParam("storageCode") String storageCode,
                                       @QueryParam("q") String q){
         DrugStorageDept drugStorageDept = new DrugStorageDept();
         drugStorageDept.setOrgId(orgId);
         drugStorageDept.setStorageType(storageType);
+        drugStorageDept.setStorageCode(storageCode);
         drugStorageDept.setQ(q);
         return drugStorageDeptService.findList(drugStorageDept);
     }

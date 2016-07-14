@@ -140,8 +140,12 @@ $(function () {
     }) ;
 
     var init=function(){
-        if(!config.currentStorage){
-
+        if(config.currentStorage){
+            $.get(basePath + '/drug-storage-dept/list',{orgId:config.org_Id,storageCode:config.currentStorage},function(res){
+                if(res && res.length > 0){
+                    config.currentStorageObj = res[0];
+                }
+            })
         }
     }
 
