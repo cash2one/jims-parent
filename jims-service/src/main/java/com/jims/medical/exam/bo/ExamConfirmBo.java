@@ -45,8 +45,8 @@ public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
      * @return
      * @author zhaoning
      */
-    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn){
-     return examMasterDao.getExamAppointses(performedBy,outOrIn);
+    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName){
+     return examMasterDao.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName);
     }
 
     /**

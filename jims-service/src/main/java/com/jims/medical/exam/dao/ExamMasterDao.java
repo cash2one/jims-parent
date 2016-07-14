@@ -19,11 +19,17 @@ import java.util.List;
 @MyBatisDao
 public interface ExamMasterDao extends CrudDao<ExamMaster> {
     /**
-     * 查询 检查确认列表(门诊 || 住院)
+     * 查询检查确认列表 （门诊||住院）
      * @param performedBy 执行科室
      * @param outOrIn 门诊 or 住院
+     * @param startTime 申请时间段
+     * @param endTime 申请时间段
+     * @param appointsDept 申请科室
+     * @param patientName 病人姓名
      * @return
      * @author zhaoning
      */
-	public List<ExamAppoints> getExamAppointses(@Param("performedBy")String performedBy,@Param("outOrIn")String outOrIn);
+	public List<ExamAppoints> getExamAppointses(@Param("performedBy")String performedBy,@Param("outOrIn")String outOrIn,
+                                                @Param("startTime")String startTime,@Param("endTime")String endTime,@Param("appointsDept")String appointsDept,
+                                                @Param("patientName")String patientName);
 }

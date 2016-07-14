@@ -28,9 +28,10 @@ public class ExamConfirmRest {
      */
     @GET
     @Path("getExamAppoints")
-    public List<ExamAppoints> getExamAppoints(@QueryParam("outOrIn")String outOrIn){
+    public List<ExamAppoints> getExamAppoints(@QueryParam("outOrIn")String outOrIn,@QueryParam("startTime")String startTime,@QueryParam("endTime")String endTime,
+                                              @QueryParam("appointsDept")String appointsDept,@QueryParam("patientName")String patientName){
         String performedBy="240101";//当前登录 人执行科室人
-        return examConfirmServiceApi.getExamAppointses(performedBy,outOrIn);
+        return examConfirmServiceApi.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName);
     }
 
     /**

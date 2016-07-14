@@ -39,8 +39,8 @@ public class LabConfirmBo extends CrudImplService<LabTestMasterDao,LabTestMaster
      * @return
      * @author zhaoning
      */
-    public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut){
-     return labTestMasterDao.getLabMaster(performedBy,inOrOut);
+    public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut,String startTime,String endTime,String reqDept,String labNo,String patName){
+     return labTestMasterDao.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName);
     }
 
     /**
@@ -76,7 +76,7 @@ public class LabConfirmBo extends CrudImplService<LabTestMasterDao,LabTestMaster
      */
     public void confirmLabInHos(LabTestMaster labTestMaster) throws Exception{
         SimpleDateFormat format= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String orgId="";
+        String orgId="1";
             List<LabTestItems> list = labTestItemsDao.getItemName(labTestMaster.getId());
             for (int i = 0; i < list.size(); i++) {
                 List<PriceListVo> listPriceListVo = priceListDao.listByClinicItemCodeAndOrgId(orgId, list.get(i).getItemCode());
