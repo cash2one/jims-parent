@@ -58,18 +58,35 @@ public class PriceListImpl implements PriceListApi {
     }
 
     /**
+     * 根据类别查询价表
+     * @param itemClass 类别
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<PriceList> findByItemClass(String itemClass, String orgId){
+        return bo.findByItemClass(itemClass,orgId);
+    }
+
+    /**
+     * 根据输入码查询价表数据
+     * @param inputCode 输入码
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<PriceList> getByInputCode(String inputCode, String orgId){
+        return bo.getByInputCode(inputCode,orgId);
+    }
+
+    /**
      * 价表的保存
      * @param dictListVo
      * @return
      */
     @Override
-    public String save(PriceDictListVo dictListVo) {
-        try {
-            bo.save(dictListVo);
-            return "1";
-        } catch (Exception e) {
-        }
-        return "0";
+    public String saveData(PriceDictListVo dictListVo) {
+        return bo.saveData(dictListVo);
     }
 
     @Override

@@ -49,7 +49,25 @@ public interface PriceListApi {
      * @param priceDictListVo
      * @return 0 失败，1成功
      */
-    public String save(PriceDictListVo priceDictListVo);
+    public String saveData(PriceDictListVo priceDictListVo);
+
+    /**
+     * 根据类别查询价表
+     * @param itemClass 类别
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<PriceList> findByItemClass(String itemClass, String orgId);
+
+    /**
+     * 根据输入码查询价表数据
+     * @param inputCode 输入码
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<PriceList> getByInputCode(String inputCode,String orgId);
 
     /**
      * 删除数据
