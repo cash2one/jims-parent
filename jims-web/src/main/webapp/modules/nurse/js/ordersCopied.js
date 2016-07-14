@@ -13,7 +13,7 @@ $(function() {
         url: basePath + '/ordersNurse/findOrdersCopied?' + $('#searchform').serialize(),
         remoteSort: false,
         idField: 'id',
-        singleSelect: true,//是否单选
+        singleSelect: false,//是否单选
         rownumbers: true,//行号
         columns: [[      //每个列具体内容
             {field:'remarks'
@@ -41,6 +41,20 @@ $(function() {
             {field: 'stopDateTime', title: '停止时间', width: '10%', align: 'center',formatter:formatDateBoxFull}
 
         ]],
+        frozenColumns:[[
+            {field:'ck',checkbox:true}
+        ]],toolbar: [{
+            text: '转抄',
+            iconCls:'icon-save',
+            handler:function(){
+                $("#orderCopied").datagrid('endEdit', editRow);
+                if (editRow != undefined) {
+
+                    $("#orderCopied").datagrid("endEdit", editRow);
+                }
+                operationCopied();
+            }
+        }],
         rowStyler: function (index, row) {
             if (row.orderStatus == '1') {
                 return 'color:black;';
@@ -53,7 +67,7 @@ $(function() {
             }
         }
     });
-    $("#submit_search").linkbutton({iconCls: 'icon-search', plain: true}).click(function () {
+    $("#submit_search").click(function () {
         $('#orderCopied').datagrid({url:basePath + '/ordersNurse/findOrdersCopied?' + $('#searchform').serialize() });   //点击搜索
     });
 });
