@@ -37,7 +37,7 @@ public class NumberUtils {
      */
     public static String getClinicPrescription(String clinicId) {
         ClinicMaster clinicMaster=clinicMasterService.get(clinicId);
-        String testNo="CF"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
+        String testNo="CP"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
         return testNo;
     }
 

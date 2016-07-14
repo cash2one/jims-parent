@@ -1,19 +1,21 @@
 var accNo;
 $(function(){
-    $("#visitDate").datebox("setValue", formatDateBoxFull(new Date()));
-
     $.ajax({
         method:"GET",
         url:basePath+"/outpAcctMaster/getMaxAcctNo",
-      /*  contentType: "application/json", //必须有
         dataType: 'json',
-        data: ,*/
+        /*  contentType: "application/json", //必须有
+
+         data: ,*/
         success: function(data){
             accNo=data;
             $("#acctNoU").val(accNo);
             $('#acctNo').val(accNo);
         }
     });
+    $("#visitDate").datebox("setValue", formatDateBoxFull(new Date()));
+    $("#visitDateMaster").val(formatDateBoxFull(new Date()));
+
     $('#payments').datagrid({
         singleSelect: true,
         fit: true,
@@ -25,15 +27,15 @@ $(function(){
             {field:'paymentAmount',title:'收款',width:'15%',align:'center'},
             {field:'refundedAmount',title:'找零',width:'25%',align:'center'},
             {field: 'xiaoji', title: '小计', width: '10%', align: 'center'}
-        ]],onLoadSuccess:function(index,row){
+        ]]/*,onLoadSuccess:function(index,row){
 
                 $('#payments').datagrid('appendRow', {
-                    moneyType: '<span>合计</span>',
-                    paymentAmount: '<span class="subtotal">' + compute("payments","paymentAmount") + '</span>',
-                    refundedAmount: '<span class="subtotal">' + compute("payments","refundedAmount") + '</span>',
-                    xiaoji: '<span class="xiaoji">' + compute("payments","xiaoji") + '</span>'
+                    moneyType: '合计',
+                    paymentAmount: compute("payments","paymentAmount") ,
+                    refundedAmount: compute("payments","refundedAmount") ,
+                    xiaoji: compute("payments","xiaoji")
                 });
-            }
+            }*/
 
 
     });
@@ -45,24 +47,22 @@ $(function(){
       method: 'GET',
         /*   url: basePath + '/outpBillItems/findItems?' + $("#search").serialize(),*/
         columns: [[      //每个列具体内容
-            {field: 'subjcode', title: '项目', width: '15%', align: 'center'},
+            {field: 'subjCode', title: '项目',formatter:subjcodeFormatter, width: '15%', align: 'center'},
             {field: 'costs', title: '金额', width: '15%', align: 'center'},
             {field: 'charges', title: '应收金额', width: '25%', align: 'center'}
-        ]],onLoadSuccess:function(index,row){
+        ]]/*,onLoadSuccess:function(index,row){
                 $('#itemsTables').datagrid('appendRow', {
-                    subjcode: '<span>合计</span>',
-                    costs: '<span class="subtotal">' + compute("itemsTables","costs") + '</span>',
-                    charges: '<span class="subtotal">' + compute("itemsTables","charges") + '</span>'
+                    subjcode: '合计',
+                    costs: compute("itemsTables","costs"),
+                    charges:  compute("itemsTables","charges")
                 });
 
 
-        }
+        }*/
     });
 
 
-    $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true }).click(function () {
-        searchAcct();
-    });
+
 
 
 });
@@ -71,6 +71,7 @@ $(function(){
 //结账确认
 function save(){
     $('#acctNo').val(accNo);
+    $("#visitDateMaster").val(formatDatebox(new Date()));
     var  paymentsRows=$('#payments').datagrid('getRows');
     var paymentsJson=JSON.stringify(paymentsRows);
     var itemsRows  = $('#itemsTables').datagrid('getRows');
@@ -80,9 +81,10 @@ function save(){
     var submitJson=masterFrom+",\"outpAcctMoneyList\":"+paymentsJson+",\"outpAcctDetailList\":"+itemsJson+"}";
     $.postJSON(basePath+'/outpAcctMaster/save',submitJson,function(data){
         if(data.data=="success"){
-            $.messager.alert("提示消息","收费结账"+data.code+"结账成功");
-            $('#operationName').datagrid('load');
-            $('#operationName').datagrid('clearChecked');
+            $.messager.alert("提示消息","收费结账成功");
+            $('#payments').datagrid('load', { total: 0, rows: [] });
+            $('#itemsTables').datagrid('load', { total: 0, rows: [] });
+            $('#searchform').form('load',"");
         }else{
             $.messager.alert('提示',"收费结账失败", "error");
         }
@@ -113,7 +115,8 @@ function compute(tableName,colName) {
 function searchAcct(){
     var tableJson=fromJson('northForm');
     $.postJSON(basePath+'/oupRcptMaster/findCharge',tableJson,function(data){
-        if(data !=null){
+       var  obj=eval(data);
+        if(data !=null && obj.countNo !=0){
             $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#northForm").serialize() });
             $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#northForm").serialize() });
             $('#searchform').form('load',data);

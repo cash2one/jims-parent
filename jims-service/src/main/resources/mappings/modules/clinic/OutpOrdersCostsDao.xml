@@ -253,8 +253,8 @@
 		FROM outp_orders_costs a
 		<where>
 			a.del_flag = '0'
-			<if test="masterId!=null and masterId!=''">
-				and a.master_id=#{masterId}
+			<if test="orderNo!=null and orderNo!=''">
+				and a.order_no=#{orderNo}
 			</if>
 			<if test="clinicId!=null and clinicId!=''">
 				AND a.clinic_id=#{clinicId}
