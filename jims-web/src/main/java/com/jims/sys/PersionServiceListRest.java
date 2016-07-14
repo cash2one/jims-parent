@@ -30,6 +30,21 @@ public class PersionServiceListRest {
     {
         return persionServiceListApi.findListByFlag(persionId);
     }
+    /**
+     * @auto louhuili
+     * 查询的是可以或者不可以定制的个人服务
+     * @param serviceClass 服务人群 1,个人服务，0机构服务
+     * @param serviceType  服务类型
+     * @param persionId  用户persionId(若persionId不为空，查询的是可以或者不可以定制的个人服务，具体决定是可以或是不可以是根据state决定的)
+     * @param state  若state=0，表示查询个人已经定制的个人服务；若state=1，查询的是个人还可以定制的其他个人服务
+     * @return
+     */
+    @GET
+    @Path("findListByPersionId")
+    public List<PersionServiceList> findListByPersionId(@QueryParam("serviceClass")String serviceClass,@QueryParam("serviceType")String serviceType ,@QueryParam("persionId")String persionId ,@QueryParam("state")String state)
+    {
+        return persionServiceListApi.findListByPersionId(serviceClass,serviceType, persionId, state);
+    }
 
     /**
      * 保存注册信息以及选择的服务
