@@ -95,7 +95,7 @@ $(function(){
                             {field: 'drug_code', title: '代码', width: '8%', align: 'center'},
                             {field: 'item_name', title: '名称', width: '15%', align: 'center'},
                             {field: 'drug_spec', title: '规格', width: '15%', align: 'center'},
-                            {field: 'quanity', title: '库存', width: '15%', align: 'center'},
+                            {field: 'quantity', title: '库存', width: '15%', align: 'center'},
                             {field: 'units', title: '包装单位', width: '15%', align: 'center'},
                             {field: 'item_class', title: '库房', width: '15%', align: 'center',
                                 formatter : function(value,row,index){
@@ -124,6 +124,8 @@ $(function(){
                         $(drugSpec.target).textbox('setValue',row.drug_spec);
                         var firmId = $("#list_data").datagrid('getEditor',{index:rowNum,field:'firmId'});
                         $(firmId.target).textbox('setValue',row.supplier);
+                        var repetition = $("#list_data").datagrid('getEditor',{index:rowNum,field:'repetition'});
+                        $(repetition.target).numberbox('setValue',1);
                         var dosage = $("#list_data").datagrid('getEditor',{index:rowNum,field:'dosage'});
                         $(dosage.target).textbox('setValue',row.dose_per_unit);
                         var dosageUnits = $("#list_data").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
@@ -136,9 +138,12 @@ $(function(){
                         $(subjCode.target).textbox('setValue',row.subj_code);
                         var performedBy = $("#list_data").datagrid('getEditor',{index:rowNum,field:'performedBy'});
                         $(performedBy.target).textbox('setValue',row.performed_by);
-
                         var charges = $("#list_data").datagrid('getEditor',{index:rowNum,field:'charges'});
                         $(charges.target).textbox('setValue',row.price);
+                        var quantity = $("#list_data").datagrid('getEditor',{index:rowNum,field:'quantity'});
+                        $(quantity.target).textbox('setValue',row.quantity);
+                        var am = $("#list_data").datagrid('getEditor',{index:rowNum,field:'amount'});
+                        $(am.target).textbox('setValue',"");
                         $("#prescDialog").dialog('open');
                         var index =  $("#prescriptionDatagrid").datagrid('appendRow', {
                                 itemClass: row.item_class,
@@ -153,13 +158,13 @@ $(function(){
             }},
             {field:'drugSpec',title:'规格',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'firmId',title:'厂家',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'repetition',title:'剂数',width:'5%',align:'center',editor:'numberbox'},
+            {field:'repetition',title:'剂数',width:'5%',align:'center',editor:{type:'numberbox',options:{required:true}}},
             {field:'dosage',title:'单次用量',width:'5%',align:'center',editor:{type:'numberbox',options:{required:true}}},
             {field:'dosageUnits',title:'用量单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'administration',title:'途径',width:'5%',align:'center',formatter:administrationFormatter,editor:{
                 type:'combobox',
                 options:{
-                    data :administrationmzDict,
+                    data :administrationDict,
                     valueField:'id',
                     textField:'administrationName',
                     required:true,
@@ -187,7 +192,36 @@ $(function(){
                     }
                 }
             }},
-            {field:'amount',title:'药品数量',width:'5%',align:'center',editor:{type:'numberbox',options: {required: true}}},
+            {field:'amount',title:'药品数量',width:'5%',align:'center',editor:{
+                type:'numberbox',
+                options: {
+                    required: true,
+                    onChange : function (newValue, oldValue) {
+                        var qy = $('#list_data').datagrid('getEditor', {
+                            index : rowNum,
+                            field : 'quantity'
+                        });
+                        var dn = $('#list_data').datagrid('getEditor', {
+                            index : rowNum,
+                            field : 'drugName'
+                        });
+                        var a = $('#list_data').datagrid('getEditor', {
+                            index : rowNum,
+                            field : 'amount'
+                        });
+
+                        var quantity = $(qy.target).textbox("getValue");
+                        var drugName = $(dn.target).textbox("getValue");
+                        if(drugName!='' && drugName!=null){
+                            if(newValue>quantity){
+                                $.messager.alert("提示消息", "药房药品【"+drugName+"】库存不足（考虑待发药药品,实际余量"+quantity+"）,请确认","warning");
+                                $(a.target).textbox("setValue","");
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }},
             {field:'units',title:'单位',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'abidance',title:'用药天数',width:'5%',align:'center',editor:'numberbox'},
             {field:'charges',title:'实收',width:'5%',align:'center',editor:{type:'numberbox',options:{editable:false,disable:false}}},
@@ -216,10 +250,11 @@ $(function(){
             }},
             {field:'orderNo',title:'处方',hidden:true},
             {field:'subOrderNo',title:'子处方',hidden:true},
-            {field:'serialNo',title:'流水号',hidden:'true'},
-            {field:'subjCode',title:'会计科目',hidden:'true',editor:{type:'textbox',options:{editable:false}}},
-            {field:'performedBy',title:'执行科室',hidden:'true',editor:{type:'textbox',options:{editable:false}}},
-            {field:'drugCode',title:'药品编号',hidden:'true',editor:{type:'textbox',options:{editable:false}}}
+            {field:'serialNo',title:'流水号',hidden:true},
+            {field:'quantity',title:'库存量',hidden:true,editor:{type:'textbox',options:{editable:false}}},
+            {field:'subjCode',title:'会计科目',hidden:true,editor:{type:'textbox',options:{editable:false}}},
+            {field:'performedBy',title:'执行科室',hidden:true,editor:{type:'textbox',options:{editable:false}}},
+            {field:'drugCode',title:'药品编号',hidden:true,editor:{type:'textbox',options:{editable:false}}}
 
         ]],
         toolbar: [{
@@ -245,6 +280,7 @@ $(function(){
                         }).datagrid('getRows').length-1;
                     rowNum=idx;
                     $('#list_data').datagrid('beginEdit', idx);
+                    $("#list_data").datagrid('selectRow',idx);
                 }else{
                     $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
                     return;
@@ -254,11 +290,6 @@ $(function(){
             text: '子处方',
             iconCls: 'icon-edit',
             handler: function() {
-                //var dataGrid=$('#list_data');
-                //if(!dataGrid.datagrid('validateRow', rowNum)){
-                //    $.messager.alert('提示',"请填写本行数据后，在添加下一句", "error");
-                //    return false
-                //}
                 var selRow = $('#list_data').datagrid('getChecked');
                 if(selRow!=null&&selRow!=''&&selRow!='undefined') {
                     changeSubPresc(selRow);
@@ -266,13 +297,7 @@ $(function(){
                     $.messager.alert('提示',"请选择要操作的处方！", "error");
                 }
             }
-        }/*, '-',{
-            text: '删除',
-            iconCls: 'icon-remove',
-            handler: function(){
-                doDelete();
-            }
-        }*/],onClickRow:function(rowIndex,rowData){
+        }],onClickRow:function(rowIndex,rowData){
             var dataGrid=$('#list_data');
             if(!dataGrid.datagrid('validateRow', rowNum)){
                 $.messager.alert('提示',"数据填写不完整，请填写完整后再对其他行进行编辑", "error");
@@ -308,8 +333,6 @@ $(function(){
                 singleSelect: true,
                 fit: true,
                 fitColumns: true,
-                /*  url: basePath+'/outppresc/jijia',
-                 method: 'GET',*/
                 columns: [[{
                     title: '类别',
                     field: 'itemClass',
@@ -351,6 +374,7 @@ $(function(){
     });
 
 });
+
 //加载数据时加载子项方法
 function subLoadData(row){
 
@@ -494,20 +518,9 @@ function newpresc(){
             }else{
 
             }
-            /*for(var j=0;j<rows.length;j++){
-                if(rows[i].prescNo>rows[j].prescNo){
-                    prescNo= rows[i].prescNo+1;
-                    break;
-                }else{
-                    prescNo = rows[j].prescNo+1;
-                    break;
-                }
-            }*/
+
         }
-    }/*else{
-        prescNo=1;
-    }*/
-    /*    var index= $('#list_data').datagrid('getRowIndex',nowrow);*/
+    }
     $.ajax({
         'type': 'POST',
         'url': basePath+'/outppresc/getClinicMaster',
@@ -535,68 +548,88 @@ function newpresc(){
 }
 //保存处方及药品信息
 function savePre(){
-    if(itemClass=='B'){
-        var administration = $('#administration').combobox('getValue');
-        var frequency = $('#frequency').combobox('getValue');
-        var repetition = $("#repetition").val();
-        var formJson=fromJson('prescForm');
-        formJson = formJson.substring(0, formJson.length - 1);
-        var drugJson="\"list\":[";
+    if($("#prescForm").form('validate')) {
+        if (itemClass == 'B') {
+            if($("#bottomForm").form('validate')){
+                var administration = $('#administration').combobox('getValue');
+                var frequency = $('#frequency').combobox('getValue');
+                var repetition = $("#repetition").val();
+                var formJson = fromJson('prescForm');
+                formJson = formJson.substring(0, formJson.length - 1);
+                var drugJson = "\"list\":[";
 
-        $("#herbal_ul li").each(function(){
-            var liHidden=$(this).attr("inputhide");
-            drugJson+="{";
-            $("input[inputhide='"+liHidden+"']").each(function(){
-                drugJson+='"'+$(this).attr("namehide")+'":"'+$(this).val()+'",';
-            });
+                $("#herbal_ul li").each(function () {
+                    var liHidden = $(this).attr("inputhide");
+                    drugJson += "{";
+                    $("input[inputhide='" + liHidden + "']").each(function () {
+                        drugJson += '"' + $(this).attr("namehide") + '":"' + $(this).val() + '",';
+                    });
 
-            drugJson = drugJson.substring(0, drugJson.length - 1);
-            drugJson+=",\"administration\":\""+administration+"\",\"frequency\":\""+frequency+"\",\"repetition\":\""+repetition+"\"";
-            drugJson+="},";
-        });
-        drugJson = drugJson.substring(0, drugJson.length - 1);
-        drugJson+="]";
+                    drugJson = drugJson.substring(0, drugJson.length - 1);
+                    drugJson += ",\"administration\":\"" + administration + "\",\"frequency\":\"" + frequency + "\",\"repetition\":\"" + repetition + "\"";
+                    drugJson += "},";
+                });
+                drugJson = drugJson.substring(0, drugJson.length - 1);
+                drugJson += "]";
 
-        var submitJsons=formJson+","+drugJson+"}";
-       /* alert(submitJsons)*/
-        $.postJSON(basePath+'/outppresc/save',submitJsons,function(data){
-            if(data.data=='success'){
-                $.messager.alert("提示消息",data.code+"条处方，保存成功");
-                $('#list_data').datagrid('load');
-                $('#list_data').datagrid('clearChecked');
+                var submitJsons = formJson + "," + drugJson + "}";
+                /* alert(submitJsons)*/
+                $.postJSON(basePath + '/outppresc/save', submitJsons, function (data) {
+                    if (data.data == 'success') {
+                        $.messager.alert("提示消息", data.code + "条处方，保存成功");
+                        $('#leftList').datagrid('load');
+                        $('#list_data').datagrid('load');
+                        $('#list_data').datagrid('clearChecked');
+                    } else {
+                        $.messager.alert('提示', "保存失败", "error");
+                        $('#leftList').datagrid('load');
+                        $('#list_data').datagrid('load');
+                        $('#list_data').datagrid('clearChecked');
+                    }
+                }, function (data) {
+                    $.messager.alert('提示', "保存失败", "error");
+                    $('#leftList').datagrid('load');
+                    $('#list_data').datagrid('load');
+                    $('#list_data').datagrid('clearChecked');
+                });
             }else{
-                $.messager.alert('提示',"保存失败", "error");
+                $.messager.alert('提示', "请选择途径或者频次", "warning");
+                return;
+            }
+        } else {
+            var dataGrid = $('#list_data');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
+                return false
+            }
+            $("#list_data").datagrid('endEdit', rowNum);
+            var rows = $('#list_data').datagrid('getRows');
+            var formJson = fromJson('prescForm');
+            formJson = formJson.substring(0, formJson.length - 1);
+            var tableJson = JSON.stringify(rows);
+            var submitJson = formJson + ",\"list\":" + tableJson + "}";
+            $.postJSON(basePath + '/outppresc/save', submitJson, function (data) {
+                if (data.data == 'success') {
+                    $.messager.alert("提示消息", data.code + "条处方，保存成功");
+                    $('#leftList').datagrid('load');
+                    $('#list_data').datagrid('load');
+                    $('#list_data').datagrid('clearChecked');
+                } else {
+                    $.messager.alert('提示', "保存失败", "error");
+                    $('#leftList').datagrid('load');
+                    $('#list_data').datagrid('load');
+                    $('#list_data').datagrid('clearChecked');
+                }
+            }, function (data) {
+                $.messager.alert('提示', "保存失败", "error");
+                $('#leftList').datagrid('load');
                 $('#list_data').datagrid('load');
                 $('#list_data').datagrid('clearChecked');
-            }
-        },function(data){
-            $.messager.alert('提示',"保存失败", "error");
-        })
-    }else{
-        var dataGrid=$('#list_data');
-        if(!dataGrid.datagrid('validateRow', rowNum)){
-            $.messager.alert('提示',"请填写完本行数据后，再保存", "error");
-            return false
+            })
         }
-        $("#list_data").datagrid('endEdit', rowNum);
-        var  rows=$('#list_data').datagrid('getRows');
-        var formJson=fromJson('prescForm');
-        formJson = formJson.substring(0, formJson.length - 1);
-        var tableJson=JSON.stringify(rows);
-        var submitJson=formJson+",\"list\":"+tableJson+"}";
-        $.postJSON(basePath+'/outppresc/save',submitJson,function(data){
-            if(data.data=='success'){
-                $.messager.alert("提示消息",data.code+"条记录，保存成功");
-                $('#list_data').datagrid('load');
-                $('#list_data').datagrid('clearChecked');
-            }else{
-                $.messager.alert('提示',"保存失败", "error");
-                $('#list_data').datagrid('load');
-                $('#list_data').datagrid('clearChecked');
-            }
-        },function(data){
-            $.messager.alert('提示',"保存失败", "error");
-        })
+    }else{
+        $.messager.alert('提示', "请选择处方属性", "warning");
+        return;
     }
 
 }
