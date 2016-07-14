@@ -1,5 +1,11 @@
 package com.jims.sys.bo;
 
+import com.jims.clinic.dao.ClinicItemDictDao;
+import com.jims.clinic.dao.ClinicItemNameDictDao;
+import com.jims.clinic.dao.ClinicVsChargeDao;
+import com.jims.clinic.entity.ClinicItemDict;
+import com.jims.clinic.entity.ClinicItemNameDict;
+import com.jims.clinic.entity.ClinicVsCharge;
 import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
@@ -26,18 +32,26 @@ import java.util.List;
 @Component
 @Transactional(readOnly = false)
 public class PriceListBo extends CrudImplService<PriceListDao, PriceList> {
-
     @Autowired
-    private PriceItemNameDictDao priceItemNameDictDao;
+    private PriceItemNameDictDao priceItemNameDictDao;  //价表项目名称
     @Autowired
-    private PriceListDao priceListDao;
+    private PriceListDao priceListDao;      //价表
+    @Autowired
+    private ClinicItemDictDao clinicItemDictDao;    //诊疗项目
+    @Autowired
+    private ClinicItemNameDictDao clinicItemNameDictDao;    //诊疗项目名称
+    @Autowired
+    private ClinicVsChargeDao clinicVsChargeDao;    //诊疗项目与价表对照
 
     /**
      * 价表的保存
      * @param dictListVo
      * @return
+     * @author fengyuguang
      */
-    public void save(PriceDictListVo dictListVo) {
+    public String saveData(PriceDictListVo dictListVo) {
+        int code = 0;
+        //保存价表项目名称
         PriceItemNameDict priceItemNameDict = new PriceItemNameDict();
         priceItemNameDict.setId(IdGen.uuid());
         priceItemNameDict.setItemClass(dictListVo.getItemClass());
@@ -45,8 +59,11 @@ public class PriceListBo extends CrudImplService<PriceListDao, PriceList> {
         priceItemNameDict.setItemCode(dictListVo.getItemCode());
         priceItemNameDict.setInputCode(dictListVo.getInputCode());
         priceItemNameDict.setMemo(dictListVo.getMemo());
-        priceItemNameDict.setStdIndicator(1);
+        priceItemNameDict.setStdIndicator(1);   //正名
+        priceItemNameDict.setOrgId(dictListVo.getOrgId());
+        code = priceItemNameDictDao.insert(priceItemNameDict);//保存价表项目名称
 
+        //保存价表
         PriceList priceList = new PriceList();
         priceList.setId(IdGen.uuid());
         priceList.setItemClass(dictListVo.getItemClass());
@@ -66,12 +83,76 @@ public class PriceListBo extends CrudImplService<PriceListDao, PriceList> {
         priceList.setClassOnMr(dictListVo.getClassOnMr());
         priceList.setMemo(dictListVo.getMemo());
         priceList.setStartDate(DateUtils.parseDate(dictListVo.getStartDate()));
-        priceList.setMaterialCode(dictListVo.getInputCode());
         priceList.setInputCode(dictListVo.getInputCode());
         priceList.setMaterialCode(dictListVo.getMaterialCode());
+        priceList.setOrgId(dictListVo.getOrgId());
+         code += priceListDao.insert(priceList);         //保存价表
 
-        priceItemNameDictDao.insert(priceItemNameDict);
-        priceListDao.insert(priceList);
+        //判断诊疗标识，如果是1则生成诊疗项目、诊疗项目名称、诊疗项目与价表对照
+        if(dictListVo.getClinicDict().equals("1")){
+            //保存诊疗项目
+            ClinicItemDict clinicItem = new ClinicItemDict();
+            clinicItem.setId(IdGen.uuid());
+            clinicItem.setItemName(dictListVo.getItemName());
+            clinicItem.setItemClass(dictListVo.getItemClass());
+            clinicItem.setItemCode(dictListVo.getItemCode());
+            clinicItem.setInputCode(dictListVo.getInputCode());
+            clinicItem.setExpand3(dictListVo.getPerformedBy());
+            clinicItem.setMemo(dictListVo.getMemo());
+            clinicItem.setItemStatus("0");
+            clinicItem.setOrgId(dictListVo.getOrgId());
+            code += clinicItemDictDao.insert(clinicItem);     //保存诊疗项目
+
+            //保存诊疗项目名称
+            ClinicItemNameDict clinicItemName = new ClinicItemNameDict();
+            clinicItemName.setId(IdGen.uuid());
+            clinicItemName.setItemClass(dictListVo.getItemClass());
+            clinicItemName.setItemCode(dictListVo.getItemCode());
+            clinicItemName.setItemName(dictListVo.getItemName());
+            clinicItemName.setInputCode(dictListVo.getInputCode());
+            clinicItemName.setStdIndicator(1);  //正名
+            clinicItemName.setExpand3(dictListVo.getPerformedBy());
+            clinicItemName.setItemStatus("1");
+            clinicItemName.setOrgId(dictListVo.getOrgId());
+            code += clinicItemNameDictDao.insert(clinicItemName);   //保存诊疗项目名称
+
+            //保存诊疗项目与价表对照
+            ClinicVsCharge clinicVsCharge = new ClinicVsCharge();
+            clinicVsCharge.setId(IdGen.uuid());
+            clinicVsCharge.setClinicItemClass(dictListVo.getItemClass());
+            clinicVsCharge.setClinicItemCode(dictListVo.getItemCode());
+            clinicVsCharge.setChargeItemNo(1);
+            clinicVsCharge.setChargeItemClass(dictListVo.getItemClass());
+            clinicVsCharge.setChargeItemCode(dictListVo.getItemCode());
+            clinicVsCharge.setChargeItemSpec(dictListVo.getItemSpec());
+            clinicVsCharge.setAmount(1);
+            clinicVsCharge.setUnits(dictListVo.getUnits());
+            clinicVsCharge.setOrgId(dictListVo.getOrgId());
+            code += clinicVsChargeDao.insert(clinicVsCharge);
+        }
+        return code + "";
+    }
+
+    /**
+     * 根据类别查询价表
+     * @param itemClass 类别
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<PriceList> findByItemClass(String itemClass, String orgId) {
+        return priceListDao.findByItemClass(itemClass, orgId);
+    }
+
+    /**
+     * 根据输入码查询价表数据
+     * @param inputCode 输入码
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<PriceList> getByInputCode(String inputCode, String orgId) {
+        return priceListDao.getByInputCode(inputCode, orgId);
     }
 
     /**
