@@ -10,7 +10,6 @@ import com.jims.common.data.StringData;
 import com.jims.prescription.api.OutpPrescServiceApi;
 import com.jims.prescription.entity.OutpPresc;
 import org.springframework.stereotype.Component;
-import org.springframework.util.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,7 +65,7 @@ public class OutpPrescRest {
      */
     @Path("sublist")
     @GET
-    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orgId") String orgId,@QueryParam("clinicId") String clinicId,@QueryParam("prescNo") Integer prescNo){
+    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orgId") String orgId,@QueryParam("clinicId") String clinicId,@QueryParam("prescNo")String prescNo){
         OutpPresc op = new OutpPresc();
         op.setPrescNo(prescNo);
         op.setOrgId(orgId);
@@ -148,7 +147,7 @@ public class OutpPrescRest {
      */
     @Path("delByPrescNo")
     @POST
-    public StringData delByPrescNo(@QueryParam("prescNo")Integer prescNo,@QueryParam("clinicId")String clinicId,@QueryParam("orgId")String orgId ){
+    public StringData delByPrescNo(@QueryParam("prescNo")String prescNo,@QueryParam("clinicId")String clinicId,@QueryParam("orgId")String orgId ){
         OutpPresc outpPresc = new OutpPresc();
         outpPresc.setPrescNo(prescNo);
         outpPresc.setClinicId(clinicId);
@@ -172,6 +171,8 @@ public class OutpPrescRest {
     @POST
     public ClinicMaster getClinicMaster(String id) {
         ClinicMaster clinicMaster = clinicMasterServiceApi.get(id);
+        String prescNo = clinicMasterServiceApi.getPrescNo(id);
+        clinicMaster.setPrescNo(prescNo);
         return clinicMaster;
     }
 
