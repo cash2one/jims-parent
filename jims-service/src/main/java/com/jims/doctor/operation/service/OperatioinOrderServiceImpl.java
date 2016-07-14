@@ -71,13 +71,19 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
 
 
     /**
-     * 通过patientId、visitId拿到手术安排
+     * 通过clinicid或者visitId 和patientId拿到手术安排
      * @param patientId
      * @param visitId
      * @return
      */
-    public OperationSchedule getSchedule(String patientId,String visitId,String clinicId){
-       return operationBo.getSchedule(patientId,visitId,clinicId);
+    public List<OperationSchedule> getSchedule(String patientId,String visitId,String clinicId){
+        if(clinicId != null){
+            List<OperationSchedule> operationScheduleList =  operationBo.getSchedule("", "", clinicId);
+            return operationScheduleList;
+        }
+        else {
+            return null;
+        }
     }
 
     /**
@@ -87,8 +93,8 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @return
      */
     public List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId,String scheduleId){
-       List<ScheduledOperationName> scheduledOperationNameList =operationBo.getOperationName(patientId,visitId,clinicId,scheduleId);
-        return scheduledOperationNameList;
+//       List<ScheduledOperationName> scheduledOperationNameList =operationBo.getOperationName(patientId,visitId,clinicId,scheduleId);
+        return null;
     }
 
 
@@ -124,5 +130,16 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
               num=  operationBo.confrimOperation(operationSchedule);
 
       return num;
+    }
+
+    /**
+     * 获取单条数据
+     * @param id
+     * @return
+     */
+    @Override
+    public OperationSchedule getOneOperation(String id) {
+        OperationSchedule operationSchedule = operationBo.getOneOperation(id);
+        return operationSchedule;
     }
 }

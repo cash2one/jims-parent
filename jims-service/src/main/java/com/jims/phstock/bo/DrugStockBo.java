@@ -4,12 +4,16 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.dao.DrugStockDao;
 import com.jims.phstock.entity.DrugStock;
 import com.jims.phstock.vo.DrugStockAllVo;
+import com.jims.phstock.vo.DrugStockVo;
 import com.jims.phstock.vo.DrugWorkCount;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lgx on 2016/6/21.
@@ -55,4 +59,38 @@ public class DrugStockBo extends CrudImplService<DrugStockDao, DrugStock> {
     public List<DrugStock> findListHasStock(DrugStock drugStock){
         return dao.findListHasStock(drugStock);
     };
+    /**
+     * 保存  增删改
+     *
+     * @param drugStockVo
+     * @return
+     * @author yangruidong
+     */
+    public List<DrugStock> saveAll(DrugStockVo<DrugStock> drugStockVo) {
+        List<DrugStock> newUpdateDict = new ArrayList<DrugStock>();
+        List<DrugStock> inserted = drugStockVo.getInserted();
+        List<DrugStock> updated = drugStockVo.getUpdated();
+        List<DrugStock> deleted = drugStockVo.getDeleted();
+        //插入
+        for (DrugStock drugStock : inserted) {
+            drugStock.preInsert();
+            drugStock.setOrgId(drugStockVo.getOrgId());
+            int num = dao.insert(drugStock);
+        }
+        //更新
+        for (DrugStock drugStock : updated) {
+            drugStock.preUpdate();
+            int num = dao.update(drugStock);
+        }
+        //删除
+        Map<String,String> ids = new HashMap<String, String>();
+
+        for (Map.Entry<String, String> entry : ids.entrySet()) {
+            String key = entry.getKey().toString();
+            String value = entry.getValue().toString();
+            dao.delete(key);
+//            asepsisDetailDictDao.deleteByCode(value);
+        }
+        return newUpdateDict;
+    }
 }

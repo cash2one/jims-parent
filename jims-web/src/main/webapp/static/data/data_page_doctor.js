@@ -16,7 +16,6 @@ $.ajax({
     'dataType': 'json',
     'async': false,
     'success': function(data){
-        alert("1")
         doctorName=data;
     }
 });

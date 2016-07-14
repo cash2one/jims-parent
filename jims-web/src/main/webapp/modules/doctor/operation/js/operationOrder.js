@@ -3,6 +3,198 @@ var visitIds = parent.patVisit.visitId;
 var patientIds = parent.patVisit.patientId;
 function onloadMethod() {
     var deptCode = "";
+    /**
+     * 医生自动补全
+     */
+    $("#surgeon").combogrid({
+        data:doctorName,
+        valueField:'id',
+        textField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'surgeon');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#surgeon").combogrid('setText',rowData.name);
+            $("#surgeonId").val(rowData.id);
+        }
+    })
+    /**
+     * firstAssistant自动补全
+     */
+    $("#firstAssistant").combogrid({
+        data:doctorName,
+        valueField:'id',
+        textField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'firstAssistant');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#firstAssistant").combogrid('setText',rowData.name);
+            $("#firstAssistantId").val(rowData.id);
+        }
+    })
+    /**
+     * secondAssistant自动补全
+     */
+    $("#secondAssistant").combogrid({
+        data:doctorName,
+        valueField:'id',
+        textField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'secondAssistant');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#secondAssistant").combogrid('setText',rowData.name);
+            $("#secondAssistantId").val(rowData.id);
+        }
+    })
+    /**
+     * thirdAssistant自动补全
+     */
+    $("#thirdAssistant").combogrid({
+        data:doctorName,
+        valueField:'id',
+        textField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'thirdAssistant');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#thirdAssistant").combogrid('setText',rowData.name);
+            $("#thirdAssistantId").val(rowData.id);
+        }
+    })
+    /**
+     * fourthAssistant自动补全
+     */
+    $("#fourthAssistant").combogrid({
+        data:doctorName,
+        valueField:'id',
+        textField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'surgeon');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#fourthAssistant").combogrid('setText',rowData.name);
+            $("#fourthAssistantId").val(rowData.id);
+        }
+    })
+    /**
+     * 供血医生自动补全
+     */
+    $("#bloodTranDoctor").combogrid({
+        data:doctorName,
+        valueField:'id',
+        textField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'bloodTranDoctor');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#bloodTranDoctor").combogrid('setText',rowData.name);
+            $("#bloodTranDoctorId").val(rowData.id);
+        }
+    })
+    /**
+     * 麻醉医生自动补全
+     */
+    $("#anesthesiaDoctor").combogrid({
+        data:doctorName,
+        valueField:'id',
+        textField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'anesthesiaDoctor');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#anesthesiaDoctor").combogrid('setText',rowData.name);
+            $("#anesthesiaDoctorId").val(rowData.id);
+        }
+    })
+    /**
+     * anesthesiaAssistant自动补全
+     */
+    $("#anesthesiaAssistant").combogrid({
+        data:doctorName,
+        valueField:'id',
+        textField:'name',
+        columns:[[
+            {field:'name',title:'医生姓名',width:70},
+            {field:'dept_name',title:'科室',width:120},
+            {field:'title',title:'职称',width:70}
+        ]],keyHandler: {
+            up: function() {},
+            down: function() {},
+            enter: function() {},
+            query: function(q) {
+                comboGridCompleting(q,'anesthesiaAssistant');
+            }
+        },
+        onClickRow:function(rowIndex,rowData){
+            $("#anesthesiaAssistant").combogrid('setText',rowData.name);
+            $("#anesthesiaAssistantId").val(rowData.id);
+        }
+    })
     $("#visitId").val(visitIds);
     $("#patientId").val(patientIds);
     /**

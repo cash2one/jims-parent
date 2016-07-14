@@ -24,8 +24,8 @@ public class LabConfirmServiceImpl implements LabConfirmServiceApi {
      * @author zhaoning
      */
     @Override
-    public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut) {
-        return labConfirmBo.getLabMaster(performedBy,inOrOut);
+    public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut,String startTime,String endTime,String reqDept,String labNo,String patName) {
+        return labConfirmBo.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName);
     }
 
     /**

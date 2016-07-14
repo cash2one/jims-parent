@@ -11,7 +11,7 @@ create table OUTP_PRESC
    VISIT_DATE           TIMESTAMP,
    VISIT_NO             NUMBER(5),
    SERIAL_NO            VARCHAR2(64 CHAR),
-   PRESC_NO             NUMBER(5),
+   PRESC_NO             varchar2(64 CHAR),
    ITEM_NO              NUMBER(2),
    ITEM_CLASS           VARCHAR2(64 CHAR),
    DRUG_CODE            VARCHAR2(64 CHAR),

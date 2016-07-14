@@ -256,7 +256,8 @@
 		   native_place         = #{nativePlace},
 		   mailing_address_code = #{mailingAddressCode},
 		   mailing_address      = #{mailingAddress},
-		   zip_code             = #{zipCode}
+		   zip_code             = #{zipCode},
+		   occupation           = #{occupation}
 	 where id = #{id}
 	</update>
 	<update id="update">
@@ -368,7 +369,7 @@
 				   b.id_no AS idNo,
 				   b.birth_place AS birthPlace,
 				   b.native_place AS nativePlace,
-				   a.occupation AS occupation,
+				   b.occupation AS occupation,
 				   a.identity AS identity ,
 				   a.charge_type AS chargeType,
 				   a.marital_status AS maritalStatus ,

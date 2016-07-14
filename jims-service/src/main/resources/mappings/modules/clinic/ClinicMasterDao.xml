@@ -493,7 +493,7 @@
                   from outp_orders
                  where serial_no = OUTP_TREAT_REC.SERIAL_NO) clinic_no,
                "OUTP_TREAT_REC"."SERIAL_NO" serial_no,
-               0 presc_no,
+               '' presc_no,
                "OUTP_TREAT_REC"."ITEM_NO" item_no,
                "OUTP_TREAT_REC"."ITEM_CLASS" item_class,
                "OUTP_TREAT_REC"."ITEM_CODE" item_code,
