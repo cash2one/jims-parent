@@ -8,7 +8,6 @@ import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.clinic.dao.PatMasterIndexDao;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.common.utils.NumberUtils;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.dao.ClinicReturnedAcctDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +33,6 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     private PatMasterIndexDao patMasterIndexDao;
 
 
-    @Override
-    public String getPrescNo(String clinicId) {
-        return NumberUtils.getClinicPrescription(clinicId);
-    }
 
     /**
      * 查询 病人列表 （待诊）
@@ -136,23 +131,5 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     public ClinicMaster getPatient(String id){
         ClinicMaster clinicMaster = clinicMasterDao.getPatient(id);
         return clinicMaster;
-    }
-
-
-    /**
-     * 拿出最大的收据单号
-     * @author pq
-     * @return
-     */
-    public String getMaxAcctNo(){
-        String accptNo =  dao.getMaxAcctNo();
-        if("".equals(accptNo) || accptNo == null){
-            accptNo= ""+28000;
-
-        }else{
-            int no= Integer.parseInt(accptNo)+1;
-            accptNo = String.valueOf(no);
-        }
-        return accptNo;
     }
 }

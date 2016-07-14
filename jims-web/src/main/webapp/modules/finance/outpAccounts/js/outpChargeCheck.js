@@ -121,7 +121,7 @@ function searchAcct(){
             $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#northForm").serialize() });
             $('#searchform').form('load',data);
         }else{
-            $.messager.alert('提示',"收费没有未结账的数据", "error");
+            $.messager.alert('提示',"收费没有未结账的数据", "warning");
         }
     },function(data){
         $.messager.alert('提示',"收费结账加载失败", "error");
