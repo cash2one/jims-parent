@@ -35,7 +35,7 @@ function patientConditionFormatter(value, rowData, RowIndex) {
         return;
     }
     for (var i = 0; i < patientCondition.length; i++) {
-        if (patientCondition[i].id == value) {
+        if (patientCondition[i].value == value) {
             return operationScaleName[i].label;
         }
     }

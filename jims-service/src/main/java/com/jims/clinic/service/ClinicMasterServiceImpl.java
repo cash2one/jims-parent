@@ -34,10 +34,6 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     private PatMasterIndexDao patMasterIndexDao;
 
 
-    @Override
-    public String getPrescNo(String clinicId) {
-        return NumberUtils.getClinicPrescription(clinicId);
-    }
 
     /**
      * 查询 病人列表 （待诊）
@@ -136,5 +132,10 @@ public class ClinicMasterServiceImpl extends CrudImplService<ClinicMasterDao, Cl
     public ClinicMaster getPatient(String id){
         ClinicMaster clinicMaster = clinicMasterDao.getPatient(id);
         return clinicMaster;
+    }
+
+    @Override
+    public String getPrescNo(String clinicId) {
+        return NumberUtils.getClinicPrescription(clinicId);
     }
 }

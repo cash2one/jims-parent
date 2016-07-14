@@ -2,6 +2,7 @@
 create or replace procedure p_fin_outcalc
   (
   I_IDS  IN VARCHAR2,  /*待划价项目id字符串 ,分割*/
+  v_rcpt_no IN VARCHAR2,
   O_SCCE_FLAG     OUT number  /*返回值 0为正确 -1为失败*/
   ) as
   v_ids VARCHAR2(2000) :='';
@@ -13,13 +14,12 @@ create or replace procedure p_fin_outcalc
   v_bill_date date;
   v_costs number(12,8);
   v_charges number(12,8);
-  v_rcpt_no varchar2(20);
   v_appoints_Id varchar2(64);
   v_order_class varchar2(10);/*标记：用来表示 收费类型，：检验，检查，处方*/
 
   begin
   select sysdate into v_bill_date from dual;/*获取当前系统时间*/
-  select to_char(sysdate,'yyyyMMddHHmmss')||trunc(dbms_random.value(0,1000))into v_rcpt_no from dual;/*根据当前日期+随机数 生成 收据号*/
+
   v_ids := I_IDS;
   v_new_pos := instr(v_ids,',');
 
@@ -37,8 +37,8 @@ create or replace procedure p_fin_outcalc
 
     /*根据截取outp_orders Id  查询outpOrders对象*/
     select * into v_outp_orders from outp_orders where id = v_id;
-    select sum(costs) into v_costs from outp_orders_costs where serial_no=v_outp_orders.serial_no;
-    select sum(charges) into v_charges from outp_orders_costs where serial_no=v_outp_orders.serial_no;
+    select sum(costs), sum(charges) into v_costs, v_charges from outp_orders_costs where serial_no=v_outp_orders.serial_no;
+
      /*更新 outp_orders_costs*/
     update outp_orders_costs set charge_indicator =1 ,BILL_DATE=v_bill_date,rcpt_no=v_rcpt_no where serial_no=v_outp_orders.serial_no;
 
@@ -64,14 +64,14 @@ create or replace procedure p_fin_outcalc
      else if t_costs.order_class  ='C' then
 
     /*更新 lab_test_items*/
-    update lab_test_items set BILLING_INDICATOR =1 ,rcpt_no=v_rcpt_no where APPOINTS_ID=v_appoints_Id;
+    update lab_test_items set BILLING_INDICATOR =1 ,rcpt_no=v_rcpt_no where LAB_MASTER=v_appoints_Id;
     /*更新 lab_test_master*/
     update lab_test_master set costs=v_costs,charges=v_charges ,BILLING_INDICATOR =1 where id=v_appoints_Id;
 
     else if t_costs.order_class ='A' then /*处方*/
 
        select * into v_outp_presc from outp_presc where serial_no=t_costs.serial_no;
-       update outp_presc set drug_presc_date=v_bill_date ,drug_presc_no='1403' where serial_no=t_costs.serial_no;
+       update outp_presc set drug_presc_date=v_bill_date ,drug_presc_no=v_outp_presc.presc_no where serial_no=t_costs.serial_no;
        INSERT INTO drug_presc_detail_temp (
        presc_date ,
        presc_no ,
@@ -189,6 +189,8 @@ create or replace procedure p_fin_outcalc
       visit_date,
       total_costs,
       total_charges,
+      ordered_by_dept,
+      ordered_by_doctor,
       operator_no,
       charge_indicator,
       refunded_rcpt_no,
@@ -206,6 +208,8 @@ create or replace procedure p_fin_outcalc
       v_clinic_master.visit_date,
       v_costs,
       v_charges,
+       v_outp_orders.ordered_by,/*开单科室*/
+       v_outp_orders.doctor,/*开单医生*/
       '当前登录人',
       0,
       null,
@@ -213,30 +217,7 @@ create or replace procedure p_fin_outcalc
       '');
       /*更新 clinic_master*/
       update clinic_master set REGISTRATION_STATUS =1 where id=v_outp_orders.clinic_id;
-      /*insert outp_order_desc 开单记录*/
-      INSERT INTO outp_order_desc(
-      id,
-      visit_date,
-      visit_no,
-      presc_indicator,
-      ordered_by_dept,
-      ordered_by_doctor,
-      rcpt_no,
-      presc_attr,
-      clinic_no,
-      order_group
-    ) values (
-       sys_guid() ,
-       v_bill_date,
-       v_rcpt_no,
-       0,
-       '104610',/*开单科室*/
-       '医生',/*开单医生*/
-       v_rcpt_no,
-       '',
-       v_clinic_master.clinic_no,
-       ''
-    );
+
     if v_order_class='A' then /*只有是药品时执行该语句*/
    /*处方代发药主表  drug_presc_master_temp  插入数据*/
    INSERT INTO drug_presc_master_temp (
@@ -269,8 +250,8 @@ create or replace procedure p_fin_outcalc
      0,/*0:西药，1：中药*/
      0,/*0:门诊，1：住院，2：其他*/
      1,/*剂数：从处方数据中取，还未定义变量*/
-     '101000',/*开单科室 --数据未知*/
-     '00XX',/*开单医生，*/
+     v_outp_orders.ordered_by,/*开单科室 --数据未知*/
+     v_outp_orders.doctor,/*开单医生，*/
      v_rcpt_no,
      '00XX',/*当前登录人*/
      '',/*处方属性，从处方明细中取出*/

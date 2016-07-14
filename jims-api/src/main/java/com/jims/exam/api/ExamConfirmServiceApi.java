@@ -16,7 +16,7 @@ public interface ExamConfirmServiceApi {
      * @return
      * @author zhaoning
      */
-    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn);
+    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName);
 
     /**
      * 确认检查(门诊||住院)

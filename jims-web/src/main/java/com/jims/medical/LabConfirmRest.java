@@ -29,9 +29,10 @@ public class LabConfirmRest {
      */
     @GET
     @Path("getLabMaster")
-    public List<LabTestMaster> getLabMaster(@QueryParam("inOrOut") String inOrOut){
+    public List<LabTestMaster> getLabMaster(@QueryParam("inOrOut") String inOrOut,@QueryParam("startTime")String startTime,@QueryParam("endTime")String endTime,
+                                            @QueryParam("reqDept")String reqDept,@QueryParam("labNo")String labNo,@QueryParam("patName")String patName){
         String performedBy="";
-        return   labConfirmServiceApi.getLabMaster(performedBy,inOrOut);
+        return   labConfirmServiceApi.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName);
     }
 
     /**
