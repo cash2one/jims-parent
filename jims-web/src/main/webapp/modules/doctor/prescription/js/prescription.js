@@ -502,23 +502,21 @@ function addPre(){
         newpresc();
         $("#medicineId").show();
         $(".layout-split-south .datagrid").hide();
+        $("#herbal_ul").html("");
     }
 
 }
 //新方
 function newpresc(){
     disableForm('prescForm',false);
-    //获取处方列表所有行，并取出所有行中处方号prescNo的最大值，加1后作为新处方的处方号
+    //获取处方列表所有行，判断是否有新开处方
     var rows = $('#leftList').datagrid('getRows');
     if(rows.length>0){
         for(var i=0;i<rows.length;i++){
             if(rows[i].chargeIndicator=='新开'){
                 $.messager.alert("提示消息", "已有新开处方，请先保存或者弃方后再试!");
                 return;
-            }else{
-
             }
-
         }
     }
     $.ajax({
@@ -543,55 +541,58 @@ function newpresc(){
 
                 }).datagrid('getRows').length-1;
             $('#leftList').datagrid('selectRow',idx);
+            $("#list_data").datagrid('loadData', { total: 0, rows: [] });
         }
-    })
+    });
 }
 //保存处方及药品信息
 function savePre(){
     if($("#prescForm").form('validate')) {
         if (itemClass == 'B') {
             if($("#bottomForm").form('validate')){
-                var administration = $('#administration').combobox('getValue');
-                var frequency = $('#frequency').combobox('getValue');
-                var repetition = $("#repetition").val();
-                var formJson = fromJson('prescForm');
-                formJson = formJson.substring(0, formJson.length - 1);
-                var drugJson = "\"list\":[";
+                if($("#herbalForm").form('validate')){
+                    var administration = $('#administration').combobox('getValue');
+                    var frequency = $('#frequency').combobox('getValue');
+                    var repetition = $("#repetition").val();
+                    var formJson = fromJson('prescForm');
+                    formJson = formJson.substring(0, formJson.length - 1);
+                    var drugJson = "\"list\":[";
 
-                $("#herbal_ul li").each(function () {
-                    var liHidden = $(this).attr("inputhide");
-                    drugJson += "{";
-                    $("input[inputhide='" + liHidden + "']").each(function () {
-                        drugJson += '"' + $(this).attr("namehide") + '":"' + $(this).val() + '",';
+                    $("#herbal_ul li").each(function () {
+                        var liHidden = $(this).attr("inputhide");
+                        drugJson += "{";
+                        $("input[inputhide='" + liHidden + "']").each(function () {
+                            drugJson += '"' + $(this).attr("namehide") + '":"' + $(this).val() + '",';
+                        });
+
+                        drugJson = drugJson.substring(0, drugJson.length - 1);
+                        drugJson += ",\"administration\":\"" + administration + "\",\"frequency\":\"" + frequency + "\",\"repetition\":\"" + repetition + "\"";
+                        drugJson += "},";
                     });
-
                     drugJson = drugJson.substring(0, drugJson.length - 1);
-                    drugJson += ",\"administration\":\"" + administration + "\",\"frequency\":\"" + frequency + "\",\"repetition\":\"" + repetition + "\"";
-                    drugJson += "},";
-                });
-                drugJson = drugJson.substring(0, drugJson.length - 1);
-                drugJson += "]";
+                    drugJson += "]";
 
-                var submitJsons = formJson + "," + drugJson + "}";
-                /* alert(submitJsons)*/
-                $.postJSON(basePath + '/outppresc/save', submitJsons, function (data) {
-                    if (data.data == 'success') {
-                        $.messager.alert("提示消息", data.code + "条处方，保存成功");
-                        $('#leftList').datagrid('load');
-                        $('#list_data').datagrid('load');
-                        $('#list_data').datagrid('clearChecked');
-                    } else {
+                    var submitJsons = formJson + "," + drugJson + "}";
+                    /* alert(submitJsons)*/
+                    $.postJSON(basePath + '/outppresc/save', submitJsons, function (data) {
+                        if (data.data == 'success') {
+                            $.messager.alert("提示消息", data.code + "条处方，保存成功");
+                            $('#leftList').datagrid('load');
+                            $('#list_data').datagrid('load');
+                            $('#list_data').datagrid('clearChecked');
+                        } else {
+                            $.messager.alert('提示', "保存失败", "error");
+                            $('#leftList').datagrid('load');
+                            $('#list_data').datagrid('load');
+                            $('#list_data').datagrid('clearChecked');
+                        }
+                    }, function (data) {
                         $.messager.alert('提示', "保存失败", "error");
                         $('#leftList').datagrid('load');
                         $('#list_data').datagrid('load');
                         $('#list_data').datagrid('clearChecked');
-                    }
-                }, function (data) {
-                    $.messager.alert('提示', "保存失败", "error");
-                    $('#leftList').datagrid('load');
-                    $('#list_data').datagrid('load');
-                    $('#list_data').datagrid('clearChecked');
-                });
+                    });
+                }
             }else{
                 $.messager.alert('提示', "请选择途径或者频次", "warning");
                 return;
@@ -778,26 +779,37 @@ function changeSubPresc(row){
 
 //删除中药
 function delherbal(id){
-    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
-        $.ajax({
-            'type': 'POST',
-            'url': basePath + '/outppresc/delete',
-            'contentType': 'application/json',
-            'data': ids = id,
-            'dataType': 'json',
-            'success': function (data) {
-                if (data.data == 'success') {
-                    $.messager.alert("提示消息", data.code + "条记录删除成功！");
-                    $('#leftList').datagrid('load');
-                } else {
-                    $.messager.alert('提示', "删除失败", "error");
-                }
-            },
-            'error': function (data) {
-                $.messager.alert('提示', "删除失败", "error");
-            }
-        });
-    });
+    var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
+    if(selRow!=null&&selRow!=''&&selRow!='undefined') {
+        if(selRow[0].chargeIndicator==0){
+            $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+                $.ajax({
+                    'type': 'POST',
+                    'url': basePath + '/outppresc/delete',
+                    'contentType': 'application/json',
+                    'data': ids = id,
+                    'dataType': 'json',
+                    'success': function (data) {
+                        if (data.data == 'success') {
+                            $.messager.alert("提示消息", data.code + "条记录删除成功！");
+                            $('#leftList').datagrid('load');
+                        } else {
+                            $.messager.alert('提示', "删除失败", "error");
+                        }
+                    },
+                    'error': function (data) {
+                        $.messager.alert('提示', "删除失败", "error");
+                    }
+                });
+            });
+        }else{
+            $.messager.alert('提示', "该处方已收费，不能进行删除操作", "warning");
+            return;
+        }
+    }else{
+        $.messager.alert("提示消息", "请选择要删除的处方数据!","warning");
+        return;
+    }
 }
 
 
