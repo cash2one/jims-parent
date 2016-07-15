@@ -232,17 +232,6 @@ public class ClinicItemDictBo extends CrudImplService<ClinicItemDictDao, ClinicI
         delete(vs);
     }
 
-    public String saveDictList(PriceDictListVo dictListVo) {
-        ClinicItemDict dict = new ClinicItemDict();
-        dict.setItemName(dictListVo.getItemName());
-        dict.setItemClass(dictListVo.getItemClass());
-        dict.setItemCode(dictListVo.getItemCode());
-        dict.setInputCode(dictListVo.getInputCode());
-        dict.setExpand3(dictListVo.getPerformedBy());
-        dict.setMemo(dictListVo.getMemo());
-        return super.save(dict);
-    }
-
     /**
      * 根据组织机构ID和诊疗项目类别获取诊疗项目名称
      * @param orgId 组织机构Id

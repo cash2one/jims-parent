@@ -1,4 +1,4 @@
-package com.jims.clinic.entity;
+package com.jims.hospitalNotice.entity;
 import com.jims.common.persistence.DataEntity;
 import com.jims.common.utils.CustomDateDeSerializer;
 import com.jims.common.utils.CustomDateSerializer;
@@ -15,7 +15,7 @@ import java.util.Date;
 public class PatHospitalNotice extends DataEntity<PatHospitalNotice> {
 	
 	private static final long serialVersionUID = 1L;
-	private String masterId;		//就诊记录ID
+	private String clinicId;		//就诊记录ID
 	private String orgId;		// 机构ID
 	private String patientId;		// 病人ID
 	private String name;		// 姓名
@@ -100,12 +100,10 @@ public class PatHospitalNotice extends DataEntity<PatHospitalNotice> {
 		this.age = age;
 	}
 
-	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -417,11 +415,11 @@ public class PatHospitalNotice extends DataEntity<PatHospitalNotice> {
 		this.orgId = orgId;
 	}
 
-	public String getMasterId() {
-		return masterId;
-	}
+    public String getClinicId() {
+        return clinicId;
+    }
 
-	public void setMasterId(String masterId) {
-		this.masterId = masterId;
-	}
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
+    }
 }

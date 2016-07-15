@@ -25,8 +25,16 @@
         SELECT
         *
         FROM persion_service_list a
-
-        WHERE a.id = #{id}
+		WHERE 1=1
+			<if test="id!=null and id!=''">
+				and a.id = #{id}
+			</if>
+			<if test="persionId!=null and persionId!=''">
+				and a.persion_id = #{persionId}
+			</if>
+			<if test="serviceId!=null and serviceId!=''">
+				and a.service_id = #{serviceId}
+			</if>
     </select>
     <select id="findListByFlag" resultType="SysService">
         select se.service_image,se.id,se.service_name from sys_service se,persion_service_list pp where pp.persion_id=#{persionId}
@@ -40,6 +48,41 @@
         FROM persion_service_list a
 
         WHERE a.persion_id = #{persionId} and a.flag='0'
+    </select>
+
+    <select id="findListByPersionId" resultType="PersionServiceList">
+		SELECT a.id,a.persion_id,a.service_id,to_char(a.service_start_date,'yyyy-mm-dd') startDate,to_char(a.service_end_date,'yyyy-mm-dd') endDate,c.service_name serviceName,c.service_image serviceImage
+		FROM persion_service_list a,sys_service c
+		WHERE a.del_flag = '0' and a.service_id=c.id
+		<if test="persionId != null and persionId != ''">
+			and a.persion_id=#{persionId}
+			<if test="state != null and state != ''">
+				and a.service_id in ( select b.id from sys_service b where b.del_flag = '0'
+				<if test="serviceClass != null and serviceClass != '3'">
+					and (b.service_class = #{serviceClass} or b.service_class = '2')
+				</if>
+				<if test="serviceClass == '3'">
+					and b.service_class = '3'
+				</if>
+				<if test="serviceType != null and serviceType != ''">
+					and b.service_type = #{serviceType}
+				</if> )
+			</if>
+			<if test="state != null and state == ''">
+				and a.service_id not in ( select b.id from sys_service b where b.del_flag = '0'
+				<if test="serviceClass != null and serviceClass != '3'">
+					and (b.service_class = #{serviceClass} or b.service_class = '2')
+				</if>
+				<if test="serviceClass == '3'">
+					and b.service_class = '3'
+				</if>
+				<if test="serviceType != null and serviceType != ''">
+					and b.service_type = #{serviceType}
+				</if> )
+			</if>
+
+		</if>
+		order by a.update_date desc
     </select>
 
     <insert id="insert">
