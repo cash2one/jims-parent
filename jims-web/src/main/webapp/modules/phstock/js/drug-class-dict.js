@@ -286,7 +286,7 @@ $(function(){
     $('#drugClassCode').textbox({
         onChange: function (value) {
             var classCode=$("#drugClassCode").textbox('getValue');
-            var patrn=/[a-zA-Z0-9]/;
+            var patrn=/^[0-9a-zA-Z]*$/g;
             console.log(way);
             var drugId=$("#drugId").textbox("getValue");
             var parentId=$("#drugParentId").combogrid("getValue");
@@ -300,7 +300,7 @@ $(function(){
                         $("#drugClassCodeChange").html("");
                         classCodeWay=true;
                     }else{
-                        $("#drugClassCodeChange").html("请输入字母数字");
+                        $("#drugClassCodeChange").html("请输入字母或数字");
                         classCodeWay=false;
                     }
                 }
