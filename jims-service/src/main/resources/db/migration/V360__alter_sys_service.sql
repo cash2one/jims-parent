@@ -2,10 +2,10 @@
 --修改系统服务表的服务描述字段类型为Blob
 -- Add/modify columns
 
-rename sys_service to sys_service_test;
+rename sys_service to sys_service_test;--原表改名
 
 -- Create table
-create table SYS_SERVICE
+create table SYS_SERVICE--创建新表（注意：新表名与原表名同，新表的service_description字段是blob类型，原表中是varchar2）
 (
   id                  VARCHAR2(64) not null,
   service_name        VARCHAR2(100),
@@ -46,8 +46,16 @@ comment on column SYS_SERVICE.service_class
 comment on column SYS_SERVICE.service_image
   is '服务图片';
 -- Create/Recreate primary, unique and foreign key constraints
+
+--从原表中查询数据，插入到新表中（注意：原表的varchar2数据经过rawtohex()加工才放到新表的吧blob类型同一字段内）
+insert into sys_service(id,service_name,service_type,service_class,service_image,remarks,update_by,create_by,update_date,del_flag,create_date,service_description)
+  select id,service_name,service_type,service_class,service_image,remarks,update_by,create_by,update_date,del_flag,create_date,rawtohex(service_description) from sys_service_test;
+
+drop table sys_service_test;--删除原表
+
+--下面是创建主键和附键
 alter table SYS_SERVICE
-  add constraint SYS_SERVICE1_PK primary key (ID)
+  add constraint SYS_SERVICE_PK primary key (ID)
   using index
   tablespace USERS
   pctfree 10
@@ -61,7 +69,7 @@ alter table SYS_SERVICE
     maxextents unlimited
   );
 alter table SYS_SERVICE
-  add constraint SYS_SERVICE1_UK unique (SERVICE_NAME)
+  add constraint SYS_SERVICE_UK unique (SERVICE_NAME)
   using index
   tablespace USERS
   pctfree 10
@@ -74,6 +82,3 @@ alter table SYS_SERVICE
     minextents 1
     maxextents unlimited
   );
-
-
-insert into sys_service select * from  sys_service_test;

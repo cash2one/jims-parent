@@ -36,6 +36,10 @@ $(function () {
             myDataArr = res
             var liArr = $('#myServiceModel div')
             if (liArr.length < 1) {
+				if(myDataArr.length<=0){
+					$('#myServiceModel').append('<p align="center" style="padding-top: 30px;">尚未定制任何个人服务，请尝试定制下面的推荐服务。</p>');
+					return false;
+				}
                 var now = new Date();
                 var year = now.getFullYear(); //getFullYear getYear
                 var month = now.getMonth() + 1;
