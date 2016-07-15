@@ -22,10 +22,10 @@ function onloadMethod() {
             //$("#age").val(data.age);
             //$("#patientId").val(data.patientId);
             $("#masterId").val(data.id);
-            var date = data.patMaster.dateOfBirth;
-            var year=date.substr(0,10);
-            $("#dateOfBirth").val(year);//出生日期
-            $("#idNo").val(data.patMaster.idNo);//身份证
+            //var date = data.patMaster.dateOfBirth;
+          //  var year=date.substr(0,10);
+           // $("#dateOfBirth").val(year);//出生日期
+         //   $("#idNo").val(data.patMaster.idNo);//身份证
             $("#nation").val(nationFormatter(data.patMaster.nation));//名族
             $("#nationId").val(data.patMaster.nation);
             $("#birthPlace").val(data.patMaster.mailingAddress);//出生地
