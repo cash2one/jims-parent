@@ -390,8 +390,12 @@ $(function () {
      */
     var initComponent = function(){
         //入库类型以及选择事件
+        var classUrl = ''
+        if(config.currentStorageObj){
+            classUrl = parent.basePath + '/drug-import/findList?storageType='+config.currentStorageObj.storageType;
+        }
         $("#import").combobox({
-            url: parent.basePath + '/drug-import/findList?storageType='+config.currentStorageObj.storageType,
+            url: classUrl,
             valueField: 'importClass',
             textField: 'importClass',
             method: 'GET',
@@ -868,7 +872,7 @@ $(function () {
                 }
                 importTableRow.drugCode = drugPrice.drugCode;
                 importTableRow.drugSpec = drugPrice.minSpec;   //规格
-                importTableRow.units = drugPrice.units;     //单位
+                importTableRow.units = drugPrice.minUnits;     //单位
                 importTableRow.packageSpec = drugPrice.drugSpec;
                 importTableRow.packageUnits = drugPrice.units;
                 importTableRow.firmId = drugPrice.firmId;   //厂家标识

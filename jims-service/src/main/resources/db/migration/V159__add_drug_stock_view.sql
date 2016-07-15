@@ -41,10 +41,12 @@ select
   from drug_stock d,(select id,supplier from drug_supplier_catalog where del_flag='0') s,drug_price_list p
   where d.firm_id = s.id(+)
   and d.drug_code = p.drug_code
-  and d.drug_spec = p.drug_spec
+  and d.drug_spec = p.min_spec
   and d.firm_id = p.firm_id
   and d.org_id = p.org_id
-  and d.units = p.units
+  and d.units = p.min_units
+  and d.package_spec = p.drug_spec
+  and d.package_units = p.units
   and d.del_flag = '0'
   and p.del_flag = '0'
   and d.supply_indicator = '1'
