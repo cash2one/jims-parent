@@ -126,12 +126,20 @@ function init(){
             align: 'center'
         }, {
             title: "状态",
-            field: "classCode",
+            field: "charge_indicator",
             width: '10%',
             align: 'center',
             editor: {
                 type: 'datebox'
-            }
+            },
+                formatter:function(value,rowData, rowIndex){
+                      if(value=='0'){
+                          return "未收费";
+                      }
+                    if(value=='1'){
+                        return "已收费";
+                    }
+                }
         }, {
             title: "开单号",
             field: "className",
@@ -527,7 +535,8 @@ function confirmBackCharge(){
         'data': rcptNO=rcptNo,
         'dataType': 'json',
         'success': function(data){
-            alert(data.code);
+            $.messager.alert("提示消息", "退费成功");
+            $('#list-zhu-t').datagrid('load');
         }
     });
 
@@ -691,8 +700,8 @@ function confirmPay(){
         oldOrder=orderId;
     }
     orderIds = orderIds.substr(0, orderIds.length - 1);
-    strIds +=orderIds
-    strIds+="]"
+    strIds +=orderIds;
+    strIds+="]";
     $.ajax({
         'type': 'POST',
         'url': basePath+'/outPatientCost/confirmPay',
@@ -700,10 +709,15 @@ function confirmPay(){
         'data': ids=strIds,
         'dataType': 'json',
         'success': function(data){
-
+            if(data.code=="1"){
+                $.messager.alert('提示',"确认成功");
+                $('#contDiv').window("close");
+                $("#baseInfo").form('clear');
+                 $("#list").datagrid('loadData',  { total: 0, rows: [] });
+            }
         },
         'error': function(data){
-            $.messager.alert('提示',"删除失败", "error");
+            $.messager.alert('提示',"确认失败", "error");
         }
     });
 }

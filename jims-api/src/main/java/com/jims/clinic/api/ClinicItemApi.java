@@ -169,13 +169,6 @@ public interface ClinicItemApi {
     public String deleteVs(ClinicItemDict entity);
 
     /**
-     * 保存临床诊疗与价表对照数据
-     * @param priceDictListVo
-     * @return 0 失败，1成功
-     */
-    public String saveDictList(PriceDictListVo priceDictListVo);
-
-    /**
      * 根据组织机构ID和诊疗项目类别获取诊疗项目名称
      * @param orgId 组织机构Id
      * @param clinicClass 诊疗项目名称

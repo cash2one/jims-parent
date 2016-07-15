@@ -122,4 +122,8 @@ public class DictServiceApiImpl implements DictServiceApi {
         d.setType(type);
         return dictBo.findList(d);
     }
+
+    public List<Dict> findList(Dict d) {
+        return dictBo.findList(d);
+    }
 }

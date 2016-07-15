@@ -464,7 +464,7 @@
       order by "OUTP_ORDERS_COSTS"."PERFORMED_BY" ,"OUTP_ORDERS_COSTS"."SERIAL_NO" ,"OUTP_ORDERS_COSTS".item_no
     </select>
 
-	<select id="confirmPay" statementType="CALLABLE">
-		{call p_fin_outcalc(#{ids,mode=IN})}
+	<select id="confirmPay" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{call p_fin_outcalc_json(#{jsonStr,mode=IN,jdbcType=VARCHAR},#{ret,mode=OUT,jdbcType=VARCHAR})}
 	</select>
 </mapper>

@@ -41,6 +41,9 @@
 		<include refid="drugExportClassDictJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="storageType!=null and storageType!=''">
+                and a.storage_type = #{storageType}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
