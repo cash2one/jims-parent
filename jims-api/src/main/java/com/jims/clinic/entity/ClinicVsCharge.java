@@ -19,8 +19,8 @@ public class ClinicVsCharge extends DataEntity<ClinicVsCharge> {
 	private Integer amount;		// 对应价表项目数量
 	private String units;		// 对应价表项目单位
 	private String backbillRule;		// 划价规则
-
     private String chargeItemName;  // 对应价表项目名称
+    private String orgId;        // 所属组织结构
 
     public String getChargeItemName() {
         return chargeItemName;
@@ -37,8 +37,6 @@ public class ClinicVsCharge extends DataEntity<ClinicVsCharge> {
     public void setPrice(String price) {
         this.price = price;
     }
-
-    private String orgId;		// 所属组织结构
 
     public String getStopDate() {
         return stopDate;

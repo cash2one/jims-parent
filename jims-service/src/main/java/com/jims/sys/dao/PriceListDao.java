@@ -22,6 +22,24 @@ import java.util.List;
 public interface PriceListDao extends CrudDao<PriceList> {
 
     /**
+     * 根据类别查询价表
+     * @param itemClass 类别
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<PriceList> findByItemClass(String itemClass, String orgId);
+
+    /**
+     * 根据输入码查询价表数据
+     * @param inputCode 输入码
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    public List<PriceList> getByInputCode(String inputCode, String orgId);
+
+    /**
      * 查询价表序列
      * @return
      */

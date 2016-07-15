@@ -7,3 +7,4 @@
 -- Add/modify columns
 --增加字段长度
 alter table DRUG_SUPPLIER_CATALOG modify INPUT_CODE varchar2(20);
+alter table DRUG_SUPPLIER_CATALOG modify trademark varchar2(32);

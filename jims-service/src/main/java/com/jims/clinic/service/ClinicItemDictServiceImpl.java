@@ -308,17 +308,6 @@ public class ClinicItemDictServiceImpl implements ClinicItemApi{
         return result;
     }
 
-    @Override
-    public String saveDictList(PriceDictListVo dictListVo) {
-        String result = "0";
-        try {
-            bo.saveDictList(dictListVo);
-            result = "1";
-        } catch (RuntimeException e){
-        }
-        return result;
-    }
-
     /**
      * 根据组织机构ID和诊疗项目类别获取诊疗项目名称
      * @param orgId 组织机构Id
