@@ -4,6 +4,7 @@ package com.jims.doctor.hospitalNotice.bo;
 import com.jims.doctor.hospitalNotice.dao.PatHospitalNoticeDao;
 import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.common.service.impl.CrudImplService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 /**
@@ -21,4 +22,13 @@ public class PatHospitalNoticeBo extends CrudImplService<PatHospitalNoticeDao, P
 
     }
 
+    /**
+     * 通过就诊Id拿到住院通知单
+     * @param clinicId
+     * @author pq
+     * @return
+     */
+    public PatHospitalNotice getNotice(String clinicId){
+       return dao.getNotice(clinicId);
+    }
 }
