@@ -14,15 +14,17 @@
     <script type="text/javascript" src="/static/data/data_sex_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_admission_situation_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_dict_set.js"></script>
     <style>
         .fitem label{ width: 100px; }
     </style>
 </head>
 <body onload="onloadMethod()">
-    <form id="patHospitalForm" method="post">
+<form id="patHospitalForm" method="post">
+    <input type="hidden" name="id" id="id" value="">
         <div class="container width_90">
             <div class="clearfix goh-sign">
-        <input type="hidden" name="id" id="id" value="">
+
         <div class="fitem fitem_pop" style="height: 20px;">
         </div>
         <!--<input type="hidden" name="id">-->
@@ -37,13 +39,14 @@
                 性别：
             </label>
             <input  style="width:15%;" class="easyui-combobox"
-                        readOnly="true" name="sex" d="sexId">
+                        readOnly="true" name="sex" id="sexId">
             <label>
                 出生日期：
             </label>
             <input name="dateOfBirth"  id="dateOfBirth" class="easyui-datebox"
                    readOnly="true" style="width:15%;"/>
         </div>
+
         <div class="fitem fitem_pop">
             <label>
                 年龄：
@@ -174,12 +177,13 @@
             <input name="notes" class="easyui-textbox" style="width:70%;"
                     />
         </div>
-        <input type="hidden" id="masterId" name="masterId" value="">
+        <input type="hidden" id="clinicId" name="clinicId" value="">
         <input type="hidden" id="patientId" name="patientId" value="">
         <input type="hidden" id="enterDate" class="easyui-datetimebox" name="enterDate">
+
         </div>
         </div>
-    </form>
+        </form>
     <div id="dlg-buttons" class="btn-save" style="right: 10px;">
         <a href="javascript:void(0)" id="savePatHospitalNotice" class="easyui-linkbutton"  data-options="iconCls:'icon-save'"
         onclick="savePatHospitalNotice();"

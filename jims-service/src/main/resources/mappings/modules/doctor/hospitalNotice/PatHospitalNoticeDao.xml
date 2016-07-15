@@ -54,15 +54,25 @@
 	
 	<sql id="patHospitalNoticeJoins">
 	</sql>
-    
+
 	<select id="get" resultType="PatHospitalNotice">
-		SELECT 
+		SELECT
 			<include refid="patHospitalNoticeColumns"/>
 		FROM pat_hospital_notice a
 		<include refid="patHospitalNoticeJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+
+	<select id="getNotice" resultType="PatHospitalNotice">
+		SELECT
+		<include refid="patHospitalNoticeColumns"/>
+		FROM pat_hospital_notice a
+		<include refid="patHospitalNoticeJoins"/>
+		WHERE a.clinic_id = #{clinicId}
+	</select>
+
+
 	<select id="findList" resultType="PatHospitalNotice">
 		SELECT 
 			<include refid="patHospitalNoticeColumns"/>
