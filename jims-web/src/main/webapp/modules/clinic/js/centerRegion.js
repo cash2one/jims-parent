@@ -93,7 +93,7 @@ function closeTabs(){
 function addTabs(id,name,url,lia){
     $(lia).parent().parent().find("li a").removeClass();
     $(lia).addClass("active");
-    var content = '<iframe  src="'+url+'" frameborder="0" border="0" scrolling="yes" marginheight="0" marginwidth="0" width="100%" height="99.5%"></iframe>';
+    var content = '<iframe  src="'+url+'" frameborder="0" border="0" marginheight="0" marginwidth="0" width="100%" height="99.5%"></iframe>';
     if(!$("#tabs-header").tabs('exists',name)){
         $('#tabs-header').tabs('add',{
             id:id,
@@ -104,6 +104,8 @@ function addTabs(id,name,url,lia){
             closable:true
         });
     }else $('#tabs-header').tabs('select',name);
+
+
 }
 
 /**
@@ -191,7 +193,7 @@ function userMenu(clinicMasterId,aBtn){
     html+='<li><a onclick="addTabs(\'8\',\'治疗信息\',\'/modules/doctor/clinicItem/clinicItem.html\',this)"><span>治疗信息</span></a></li>';
     html+='<li><a onclick="addTabs(\'10\',\'用血申请\',\'/modules/doctor/useBlood/docUseBloodList.html\',this)" ><span>用血申请</span></a></li>';
     html+='<li><a   onclick="addTabs(\'13\',\'手术申请\',\'/modules/doctor/operation/docOperationApplyList.html\',this)"><span>手术申请</span></a></li>';
-    html+='<li><a   onclick="addTabs(\'14\',\'住院通知单\',\'/modules/clinic/notice/patHospitalNoticeList.html\',this)"><span>住院通知单</span></a></li>';
+    html+='<li><a   onclick="addTabs(\'14\',\'住院通知单\',\'/modules/doctor/hospitalNotice/patHospitalNoticeList.html\',this)"><span>住院通知单</span></a></li>';
     $("#userMenuId").html(html);
     $("#userMenuId li:first a").click();
 }

@@ -1,4 +1,32 @@
 function init(){
+
+    /**
+     * 费别下拉框
+     */
+    $('#chargeTypeId').combobox({
+        data: chargeType,
+        valueField: 'id',
+        textField: 'charge_type_name'
+    })
+
+    /**
+     * 合同单位
+     */
+    $('#unitInContractId').combobox({
+        data: unitContract,
+        valueField: 'id',
+        textField: 'unitName'
+    })
+    /**
+     * 科室下拉框
+     */
+    $('#visitDeptId').combobox({
+        data: clinicDeptCode,
+        valueField: 'id',
+        textField: 'dept_name'
+    })
+
+
     var flag =true;
     $('#clinicNoId').textbox('textbox').keydown(function(e){
         if (e.keyCode == 13) {
@@ -98,12 +126,20 @@ function init(){
             align: 'center'
         }, {
             title: "状态",
-            field: "classCode",
+            field: "charge_indicator",
             width: '10%',
             align: 'center',
             editor: {
                 type: 'datebox'
-            }
+            },
+                formatter:function(value,rowData, rowIndex){
+                      if(value=='0'){
+                          return "未收费";
+                      }
+                    if(value=='1'){
+                        return "已收费";
+                    }
+                }
         }, {
             title: "开单号",
             field: "className",
@@ -499,7 +535,8 @@ function confirmBackCharge(){
         'data': rcptNO=rcptNo,
         'dataType': 'json',
         'success': function(data){
-            alert(data.code);
+            $.messager.alert("提示消息", "退费成功");
+            $('#list-zhu-t').datagrid('load');
         }
     });
 
@@ -593,6 +630,7 @@ function rowCount(){
         }
         var dataCount={};
         dataCount.item_price="处方号："
+        var date=new Date();
         var rcptNo=date.format("yyyyMMddhhmmss")+Math.floor(Math.random()*10000);
         dataCount.dosage=rcptNo;
         dataCount.performed_by="小计";
@@ -633,10 +671,7 @@ function addDrugRow(){
  */
 function confirmPay(){
     var rows= $("#list").datagrid("getRows");
-    var strIds="[{\"rcptNo\":\"123\",\"orderIds\":[{\"orderId\":\"1\"},{\"orderId\":\"2\"}]}," +
-        "{\"rcptNo\":\"1234\",\"orderIds\":[{\"orderId\":\"1\"},{\"orderId\":\"2\"}]}]";
-
-    strIds="["
+    var strIds="["
     var oldOrder="";
     var orderIds="";
     var dosageType=1;
@@ -645,18 +680,18 @@ function confirmPay(){
         var row=rows[i];
         var orderId=row.orderid;
         var rcptNo=row.dosage;
-        if(rcptNo.length>10 && rcptNo!=''){
+        if(orderId==undefined){
             if(orderIds.length>0){
                 orderIds = orderIds.substr(0, orderIds.length - 1);
                 orderIds+="]";
+                orderIds=orderIds+",\"rcptNo\":\""+rcptNo+"\"},";
             }
-            orderIds=orderIds+"\",rcptNo\":\""+rcptNo+"\"},";
             dosageTypeOld=dosageType;
             continue;
         }
         if(orderId!=oldOrder){
             if(dosageType==dosageTypeOld){
-                orderIds="\"{orderIds\":[{\"orderId\":\""+orderId+"\"},";
+                orderIds+="{\"orderIds\":[{\"orderId\":\""+orderId+"\"},";
                 dosageTypeOld=2;
             }else{
                 orderIds+="{\"orderId\":\""+orderId+"\"},";
@@ -664,22 +699,25 @@ function confirmPay(){
         }
         oldOrder=orderId;
     }
-    strIds +=orderIds
-    strIds+="]"
-    alert(strIds);
-    //$.ajax({
-    //    'type': 'POST',
-    //    'url': basePath+'/outPatientCost/confirmPay',
-    //    'contentType': 'application/json',
-    //    'data': ids=strIds,
-    //    'dataType': 'json',
-    //    'success': function(data){
-    //
-    //    },
-    //    'error': function(data){
-    //        $.messager.alert('提示',"删除失败", "error");
-    //    }
-    //});
-
-
+    orderIds = orderIds.substr(0, orderIds.length - 1);
+    strIds +=orderIds;
+    strIds+="]";
+    $.ajax({
+        'type': 'POST',
+        'url': basePath+'/outPatientCost/confirmPay',
+        'contentType': 'application/json',
+        'data': ids=strIds,
+        'dataType': 'json',
+        'success': function(data){
+            if(data.code=="1"){
+                $.messager.alert('提示',"确认成功");
+                $('#contDiv').window("close");
+                $("#baseInfo").form('clear');
+                 $("#list").datagrid('loadData',  { total: 0, rows: [] });
+            }
+        },
+        'error': function(data){
+            $.messager.alert('提示',"确认失败", "error");
+        }
+    });
 }

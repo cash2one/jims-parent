@@ -48,6 +48,7 @@ public class OutpatientCostRest {
     @POST
     public StringData confirmPay(String ids){
         StringData data =new StringData();
+        data.setCode(outPatientCostApi.confirmPay(ids));
         return data;
     }
 

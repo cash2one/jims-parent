@@ -30,6 +30,13 @@
     <sql id="drugDictJoins">
     </sql>
 
+    <select id="getByName" resultType="DrugDict">
+        SELECT *
+        FROM drug_dict t
+        where t.drug_code = #{0}
+        AND t.drug_name = #{1}
+    </select>
+
     <select id="getDrugCodeByRule" resultType="String">
         select
           case

@@ -44,20 +44,20 @@ public class OutpRcptMasterServiceImpl implements OutpRcptMasterServiceApi {
     public OutpRcptMaster findCharge(OutpRcptMaster outpRcptMaster){
        return outpRcptMasterBo.findCharge(outpRcptMaster);
     }
-  /**
+ /* *//**
    * 确认收费信息
    * @param ids
    * @return
    * @author zhaoning
-   */
+   *//*
 
   public String confirmPay(String ids) {
 
-        /*调用存储过程*/
+        *//*调用存储过程*//*
     ids="6f09b8c7726c4a0db03063f6728c8f08,";
     outpOrdersCostsDao.confirmPay(ids);
     return null;
-  }
+  }*/
 
   /**
    * 根据门诊号，获取，退费信息

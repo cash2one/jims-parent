@@ -77,6 +77,7 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
                 stock.setSubStorage(master.getSubStorage());//存放库房
                 stock.setOrgId(detail.getOrgId());
                 stock.setPackageSpec(detail.getPackageSpec());
+                stock.setPackageUnits(detail.getPackageUnits());
                 List<DrugStock> stocks = stockDao.findList(stock);
                 if (stocks != null && stocks.size() > 0) {
                     stock = stocks.get(0);

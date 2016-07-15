@@ -80,13 +80,11 @@ $(function () {
     });
 
     var currentOrgId = config.org_Id;
-    var currentStorage = parent.config.currentStorage
-        ,currentUsername = '录入者'
+    var currentStorage = config.currentStorage
+        ,currentUsername = config.username
     var accountFlag // 0，不记账，1记账
         ,currentSelectIndex = undefined
-    var drugDicts = [] // 检索的药品字典数据
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
-
     var specUnits = [];//规格单位字典
     $.get("/service/dict/findListByType?type=spec_unit", function (data) {
         specUnits = data;
@@ -190,8 +188,9 @@ $(function () {
         var _allData = $('#drug-import').datagrid('getRows')
         for (var i = 0, j = _allData.length - 1; i < j; i++) {
             if (i != currentSelectIndex && _allData[i].drugCode == o['drugCode']
-                && _allData[i].drugSpec == o['packSpec'] && _allData[i].firmId == o['firmId']
-                && _allData[i].units == o['packUnit']) {
+                && _allData[i].drugSpec == o['minSpec'] && _allData[i].firmId == o['firmId']
+                && _allData[i].units == o['minUnits']&& _allData[i].packageSpec == o['drugSpec']
+                && _allData[i].packageUnits == o['units']) {
                 return true
             }
         }
@@ -392,8 +391,12 @@ $(function () {
      */
     var initComponent = function(){
         //入库类型以及选择事件
+        var classUrl = ''
+        if(config.currentStorageObj){
+            classUrl = parent.basePath + '/drug-import/findList?storageType='+config.currentStorageObj.storageType;
+        }
         $("#import").combobox({
-            url: parent.basePath + '/drug-import/findAll',
+            url: classUrl,
             valueField: 'importClass',
             textField: 'importClass',
             method: 'GET',
@@ -408,12 +411,12 @@ $(function () {
                 $('#importDocument').textbox('setValue','') //入库单据号
                 $('#importChild').combobox('setValue','')   //供货子单位
                 $('#drug-import').datagrid('loadData', [])
-                if(o.importClass == '采购入库'){
+                if(o.fromLevel == '4'){
                     $("#supplyChild").combobox({'disabled':true});  //如果选择采购入库，则供货子单位不可编辑。
                         $('#supply').combobox({
                             valueField : 'id',
                             textField : 'supplier',
-                            url: '/service/drug-supplier-catalog/findListWithFilter?orgId='+currentOrgId,
+                            url: parent.basePath + '/drug-supplier-catalog/findListWithFilter?orgId='+currentOrgId,
                             method:'get',
                             mode:'remote',
                             onSelect: function(){
@@ -422,6 +425,18 @@ $(function () {
                         })
                         $('#supply').combobox('addBlurListener')
                 } else {
+                    var supplyUrl = parent.basePath + '/drug-storage-dept/findListByLevel?orgId='+currentOrgId;
+                    switch(o.fromLevel){
+                        case '1' :
+                            supplyUrl += '&condition=remarks<\''+ config.currentStorageObj.level+'\'';
+                            break;
+                        case '2' :
+                            supplyUrl += '&condition=remarks=\''+ config.currentStorageObj.level+'\'';
+                            break;
+                        case '3' :
+                            supplyUrl += '&condition=remarks>\''+ config.currentStorageObj.level+'\'';
+                            break;
+                    }
                     $("#supplyChild").combobox('loadData',[])
                     $("#supplyChild").combobox({
                         disabled:false,
@@ -433,9 +448,20 @@ $(function () {
                     $('#supply').combobox({
                         valueField : 'storageCode',
                         textField : 'storageName',
-                        url: '/service/drug-storage-dept/list?orgId='+currentOrgId+'&storageType=' + (o.storageType == '全部'?'': o.storageType),
+                        url: supplyUrl,
                         method:'get',
                         mode:'remote',
+                        loadFilter: function(data){
+                            if(o.fromLevel == '2' && data){
+                                for(var i=0;i<data.length;i++){
+                                    if(data[i].storageCode == config.currentStorageObj.storageCode){
+                                        data.splice(i,1);
+                                        break;
+                                    }
+                                }
+                            }
+                            return data
+                        },
                         onSelect : function(r){
                             $('#drug-import').datagrid('loadData',[])
                             loadSubDept('supplyChild',currentOrgId, r.storageCode)
@@ -797,7 +823,7 @@ $(function () {
      */
     var loadDrugPriceData = function (drugDict) {
         $.ajaxAsync('/service/drug-price/findList', {
-            orgId: drugDict.orgId,
+            orgId: currentOrgId,
             drugCode: drugDict.drugCode
         }, function (res) {
             console.log(res);
@@ -820,13 +846,7 @@ $(function () {
         var _tempFlag = false   // 当window关闭时是否赋值
 
         var initData = function (drugPrice, drugDict) {
-            var drugParam = {
-                drugCode: drugPrice.drugCode
-                , packSpec: drugPrice.drugSpec
-                , packUnit: drugPrice.units
-                , firmId: drugPrice.firmId
-            }
-            if (chargeDrugExisted(drugParam)) {
+            if (chargeDrugExisted(drugPrice)) {
                 $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
                 rollBack(_oldDrugName)
                 return
@@ -847,7 +867,7 @@ $(function () {
                 }
                 importTableRow.drugCode = drugPrice.drugCode;
                 importTableRow.drugSpec = drugPrice.minSpec;   //规格
-                importTableRow.units = drugPrice.units;     //单位
+                importTableRow.units = drugPrice.minUnits;     //单位
                 importTableRow.packageSpec = drugPrice.drugSpec;
                 importTableRow.packageUnits = drugPrice.units;
                 importTableRow.firmId = drugPrice.firmId;   //厂家标识

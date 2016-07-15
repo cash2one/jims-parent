@@ -34,4 +34,11 @@ public interface DrugDictDao extends CrudDao<DrugDict> {
      *
      */
     public String  getDrugCodeByRule(String secondType,String drugForm,String numLength);
+
+    /**
+     * 根据药品名称或药品代码查询数据
+     * @return
+     * @author fengyuguang
+     */
+    public List<DrugDict> getByName(String drugCode,String drugName);
 }

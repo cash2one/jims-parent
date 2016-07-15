@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jims.clinic.dao.PatHospitalNoticeDao">
+<mapper namespace="com.jims.doctor.hospitalNotice.dao.PatHospitalNoticeDao">
     
 	<sql id="patHospitalNoticeColumns">
 		a.id AS "id",
-		a.master_id AS "masterId",
+		a.clinic_id AS "clinicId",
 		a.org_id AS "orgId",
 		a.patient_id AS "patientId",
 		a.name AS "name",
@@ -54,15 +54,25 @@
 	
 	<sql id="patHospitalNoticeJoins">
 	</sql>
-    
+
 	<select id="get" resultType="PatHospitalNotice">
-		SELECT 
+		SELECT
 			<include refid="patHospitalNoticeColumns"/>
 		FROM pat_hospital_notice a
 		<include refid="patHospitalNoticeJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
+
+	<select id="getNotice" resultType="PatHospitalNotice">
+		SELECT
+		<include refid="patHospitalNoticeColumns"/>
+		FROM pat_hospital_notice a
+		<include refid="patHospitalNoticeJoins"/>
+		WHERE a.clinic_id = #{clinicId}
+	</select>
+
+
 	<select id="findList" resultType="PatHospitalNotice">
 		SELECT 
 			<include refid="patHospitalNoticeColumns"/>
@@ -102,7 +112,7 @@
 	<insert id="insert">
 		INSERT INTO pat_hospital_notice(
 			id,
-			master_id,
+			clinic_id,
 			org_id,
 			patient_id,
 			name,
@@ -150,7 +160,7 @@
 			del_flag
 		) VALUES (
 			#{id},
-			#{masterId},
+			#{clinicId},
 			#{orgId},
 			#{patientId},
 			#{name},
@@ -201,7 +211,7 @@
 	
 	<update id="update">
 		UPDATE pat_hospital_notice SET
-		    master_id = #{masterId},
+		    clinic_id = #{clinicId},
 		    org_id = #{orgId},
 			patient_id = #{patientId},
 			name = #{name},

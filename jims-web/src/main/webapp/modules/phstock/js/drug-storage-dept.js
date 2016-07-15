@@ -155,6 +155,12 @@ $(function () {
             }
         ]],
         onClickRow: function(index,row){
+            $.get(basePath + '/drug-storage-dept/list?orgId=' + orgId,function(data){
+                if(index > data.length - 1){
+                    stopEdit();
+                    $("#drug-storage").datagrid("beginEdit", index);
+                }
+            });
             stopEdit();
             storageCode = row.storageCode;
             $.get(basePath + '/drug-sub-storage-dept/list-by-storageCode?orgId=' + orgId + '&storageCode=' + row.storageCode, function (data) {
@@ -258,21 +264,6 @@ $(function () {
                 loadStorageDept();
             });
         }
-
-        /*if (beanChangeVo) {
-            $.postJSON(basePath + '/drug-storage-dept/save', JSON.stringify(beanChangeVo), function (resp) {
-                if (resp.data == 'success') {
-                    $.messager.alert("提示消息", "保存成功!");
-                    loadStorageDept();
-                } else {
-                    $.messager.alert('提示', "保存失败", "error");
-                    loadStorageDept();
-                }
-            }, function (data) {
-                $.messager.alert('提示', "保存失败", "error");
-                loadStorageDept();
-            });
-        }*/
     });
 
     $("#drug-sub-storage").datagrid({

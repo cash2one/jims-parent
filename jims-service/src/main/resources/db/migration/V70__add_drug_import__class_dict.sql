@@ -9,6 +9,7 @@ create table DRUG_IMPORT_CLASS_DICT
   IMPORT_CLASS    VARCHAR2(8) not null,
   STATISTIC_CLASS VARCHAR2(16),
   STORAGE_TYPE    VARCHAR2(8),
+  FROM_LEVEL            VARCHAR2(4),
   REMARKS         VARCHAR2(2000),
   UPDATE_BY       VARCHAR2(64),
   CREATE_BY       VARCHAR2(64),
@@ -28,7 +29,9 @@ comment on column DRUG_IMPORT_CLASS_DICT.IMPORT_CLASS
 comment on column DRUG_IMPORT_CLASS_DICT.STATISTIC_CLASS
   is '所属类别';
 comment on column DRUG_IMPORT_CLASS_DICT.STORAGE_TYPE
-  is '库存类型，全部、药局、药库';
+  is '库存类型';
+comment on column DRUG_IMPORT_CLASS_DICT.FROM_LEVEL
+  is '来源(上级、平级、下级、供货商)';
 comment on column DRUG_IMPORT_CLASS_DICT.ACCOUNT_FLAG
   is '0，不记账，1记账';
 -- Create/Recreate primary, unique and foreign key constraints

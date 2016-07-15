@@ -43,6 +43,13 @@ public interface DrugDictServiceApi {
     public List<DrugDict> findList(DrugDict drugDict);
 
     /**
+     * 根据药品名称或药品代码查询数据
+     * @return
+     * @author fengyuguang
+     */
+    public List<DrugDict> getByName(String drugCode,String drugName);
+
+    /**
      * 获取单条数据
      * @param id
      * @return

@@ -1,8 +1,10 @@
-package com.jims.clinic.dao;
+package com.jims.doctor.hospitalNotice.dao;
 
-import com.jims.clinic.entity.PatHospitalNotice;
+import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
+import org.apache.ibatis.annotations.Param;
+
 /**
  * 住院通知单DAO接口
  * @author qinlongxin
@@ -18,5 +20,13 @@ public interface PatHospitalNoticeDao extends CrudDao<PatHospitalNotice> {
      * @return
      */
     public int updateNotice(PatHospitalNotice patHospitalNotice);
+
+    /**
+     * 通过就诊Id拿到住院通知单
+     * @param clinicId
+     * @author pq
+     * @return
+     */
+    public PatHospitalNotice getNotice(@Param(value = "clinicId")String clinicId);
 	
 }

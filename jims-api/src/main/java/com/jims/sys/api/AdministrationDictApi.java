@@ -28,7 +28,13 @@ public interface AdministrationDictApi {
      */
     public Page<AdministrationDict> findPage(Page<AdministrationDict> page, AdministrationDict administrationDict);
 
-
+    /**
+     * 查询给药途径字典表
+     * @param inputCode 输入码
+     * @return
+     * @author fengyuguang
+     */
+    public List<AdministrationDict> list(String inputCode);
 
     /**
      * 查询给药途径字典列表,并使用文字回显门诊住院标识

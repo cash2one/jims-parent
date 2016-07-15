@@ -66,6 +66,7 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 
     //扩展
     private String markSubOrderNo;  //标示是否子医嘱
+	private String quantity;//库存量
 	public OutpPresc() {
 		super();
 	}
@@ -421,4 +422,12 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
     public void setMarkSubOrderNo(String markSubOrderNo) {
         this.markSubOrderNo = markSubOrderNo;
     }
+
+	public String getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
+	}
 }

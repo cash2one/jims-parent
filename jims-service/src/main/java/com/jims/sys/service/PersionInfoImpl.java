@@ -26,7 +26,7 @@ import java.util.UUID;
  * Created by yangruidong on 2016/4/13 0013.
  */
 @Service(version = "1.0.0")
-public class PersionInfoImpl extends CrudImplService<PersionInfoDao, PersionInfo> implements PersionInfoApi {
+public class PersionInfoImpl implements PersionInfoApi {
 
     @Autowired
     private PersonInfoBo personInfoBo;

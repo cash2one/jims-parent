@@ -1,6 +1,6 @@
-package com.jims.clinic.api;
+package com.jims.hospitalNotice.api;
 
-import com.jims.clinic.entity.PatHospitalNotice;
+import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.common.persistence.Page;
 
 /**
@@ -9,11 +9,11 @@ import com.jims.common.persistence.Page;
 public interface PatHospitalNoticeServiceApi {
     /**
      * 获取住院通知单信息
-     * @param id
+     * @param clinicId
      *  @author qinlongxin
      * @return
      */
-    public PatHospitalNotice get(String id);
+    public PatHospitalNotice getNotice(String clinicId);
     /**
      * 住院通知单分页
      * @param page,patHospitalNotice

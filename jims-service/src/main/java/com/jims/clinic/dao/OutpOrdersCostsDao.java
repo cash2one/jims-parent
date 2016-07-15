@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 门诊医生收费明细DAO接口
@@ -57,10 +58,10 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
     /**
      * 删除门诊医师收费
      *
-     * @param clinicId
+     * @param serialNo
      * @return
      */
-    public int deleteOutpOrders(String clinicId);
+    public int deleteOutpOrdersCosts(@Param("serialNo")String serialNo);
 
     /**
      * 查询出最大的序号
@@ -102,7 +103,7 @@ public interface OutpOrdersCostsDao extends CrudDao<OutpOrdersCosts> {
 
     /**
      * 确认收费
-     * @param ids
+     * @param map
      */
-    public void confirmPay(String ids);
+    public void confirmPay(Map<String ,Object> map);
 }
