@@ -138,7 +138,7 @@ $(function () {
             },
             formatter: function (value,row,index) {
                 row.noticeEfficientDate = new Date(value);
-                return value;
+                return formatDatebox(value);
             }
         }, {
             title: "调价依据",
@@ -272,6 +272,13 @@ $(function () {
         onSelect: function (rowIndex,rowData) {
             stopEdit();
             selectedPriceListRow = rowData;
+
+        },
+        onClickRow: function (rowIndex, rowData) {
+            $.get(basePath + "/drug-price-modify/findAll?drugCode=" +  rowData.drugCode + "&orgId=" + parent.config.org_Id,function(data){
+                $('#modifyList').datagrid('loadData', data);
+            });
+
         }
     });
     //定义药品名称
@@ -292,7 +299,8 @@ $(function () {
         onSelect: function(rowIndex,rowData){
             var url = basePath + "/drug-price/listDrugPriceList?drugCode=" +  rowData.drugCode + "&orgId=" + parent.config.org_Id;
             $('#priceList').datagrid('reload', url);
-
+            var url1 = basePath + "/drug-price/listDrugPriceList?drugCode=null"
+            $('#modifyList').datagrid('reload', url1);
         }
     });
     //新增

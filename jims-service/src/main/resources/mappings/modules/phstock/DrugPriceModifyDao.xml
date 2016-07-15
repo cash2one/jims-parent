@@ -92,6 +92,12 @@
 		<include refid="drugPriceModifyJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="drugCode!=null and drugCode!=''">
+                AND  a.drug_code=#{drugCode}  and  a.ACTUAL_EFFICIENT_DATE is null
+            </if>
+            <if test="orgId !=null and orgId !=''">
+               AND a.org_id=#{orgId}
+            </if>
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
