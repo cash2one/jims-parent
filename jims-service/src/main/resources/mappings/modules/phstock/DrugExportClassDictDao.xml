@@ -7,6 +7,7 @@
 		a.export_class AS "exportClass",
 		a.statistic_class AS "statisticClass",
 		a.storage_type AS "storageType",
+		a.to_level AS "toLevel",
 		a.account_flag AS "accountFlag",
 		a.remarks AS "remarks",
 		a.update_by AS "updateBy.id",
@@ -40,6 +41,9 @@
 		<include refid="drugExportClassDictJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="storageType!=null and storageType!=''">
+                and a.storage_type = #{storageType}
+            </if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -81,6 +85,7 @@
 			export_class,
 			statistic_class,
 			storage_type,
+			to_level,
 			account_flag,
 			remarks,
 			update_by,
@@ -93,6 +98,7 @@
 			#{exportClass},
 			#{statisticClass},
 			#{storageType},
+			#{toLevel},
 			#{accountFlag},
 			#{remarks},
 			#{updateBy.id},
@@ -108,6 +114,7 @@
 			export_class = #{exportClass},
 			statistic_class = #{statisticClass},
 			storage_type = #{storageType},
+			to_level = #{toLevel},
 			account_flag = #{accountFlag},
 			remarks = #{remarks},
 			update_by = #{updateBy},

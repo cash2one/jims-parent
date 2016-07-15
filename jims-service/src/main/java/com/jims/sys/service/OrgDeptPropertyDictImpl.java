@@ -44,12 +44,6 @@ public class OrgDeptPropertyDictImpl implements DeptPropertyDictApi {
         return deptPropertyDictBo.findPage(page, orgDeptPropertyDict);
     }
 
-    @Override
-    public StringData add(OrgDeptPropertyDict orgDeptPropertyDict) {
-        orgDeptPropertyDict.preInsert();
-        StringData stringData = deptPropertyDictBo.add(orgDeptPropertyDict);
-        return stringData;
-    }
 
     /**
      * 查询科室属性信息
@@ -78,29 +72,6 @@ public class OrgDeptPropertyDictImpl implements DeptPropertyDictApi {
     }
 
     /**
-     * 根据属性类型查询属性名称
-     *
-     * @param
-     * @return
-     */
-    @Override
-    public List<OrgDeptPropertyDict> findNameByType(String propertyType, String orgId) {
-        return deptPropertyDictBo.findNameByType(propertyType, orgId);
-    }
-
-    /**
-     * 根据属性类型和属性值查询属性名称
-     *
-     * @param propertyType
-     * @param propertyValue
-     * @return
-     */
-    @Override
-    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue, String orgId) {
-        return deptPropertyDictBo.findNameByTypeAndValue(propertyType, propertyValue, orgId);
-    }
-
-    /**
      * 查询所有的属性类型
      *
      * @return
@@ -123,16 +94,7 @@ public class OrgDeptPropertyDictImpl implements DeptPropertyDictApi {
         return deptPropertyDictBo.findByCondition(orgDeptPropertyDict);
     }
 
-    /**
-     * 查询属性的名称
-     *
-     * @param propertyType
-     * @return
-     */
-    @Override
-    public List<OrgDeptPropertyDict> findName(String propertyType, String orgId) {
-        return deptPropertyDictBo.findName(propertyType, orgId);
-    }
+
 
     /**
      * 查询最大的排序值

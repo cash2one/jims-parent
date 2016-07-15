@@ -57,6 +57,15 @@ public class DrugDictService implements DrugDictServiceApi {
         return bo.findList(drugDict);
     }
 
+    /**
+     * 根据药品名称或药品代码查询数据
+     * @return
+     * @author fengyuguang
+     */
+    public List<DrugDict> getByName(String drugCode,String drugName){
+        return bo.getByName(drugCode,drugName);
+    }
+
     @Override
     public DrugDict get(String id) {
         return bo.get(id);

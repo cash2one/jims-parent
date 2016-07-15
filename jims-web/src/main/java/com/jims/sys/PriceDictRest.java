@@ -31,6 +31,12 @@ public class PriceDictRest {
     @Reference(version = "1.0.0")
     private ClinicItemApi clinicItemApi;
 
+    /**
+     * 保存价表
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
     @Path("save")
     @POST
     public StringData save(PriceDictListVo priceDictListVo) {
@@ -54,19 +60,41 @@ public class PriceDictRest {
             stringData.setCode("起用日期不能为空");
             return stringData;
         }
-        if(priceDictListVo.getClinicDict() == 1){
-            clinicItemApi.saveDictList(priceDictListVo);
-        }
-        String num = priceListApi.save(priceDictListVo);
-        stringData.setCode(num);
+        String code = priceListApi.saveData(priceDictListVo);
+        stringData.setCode(code);
         stringData.setData("success");
         return stringData;
+    }
+
+    /**
+     * 根据类别查询价表
+     * @param itemClass 类别
+     * @param orgId 组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    @Path("find-by-item-class")
+    @GET
+    public List<PriceList> findByItemClass(@QueryParam("itemClass")String itemClass,@QueryParam("orgId")String orgId){
+        return priceListApi.findByItemClass(itemClass,orgId);
+    }
+
+    /**
+     * 根据输入码查询价表数据
+     * @param inputCode  输入码
+     * @param orgId  组织机构ID
+     * @return
+     * @author fengyuguang
+     */
+    @Path("get-by-inputCode")
+    @GET
+    public List<PriceList> getByInputCode(@QueryParam("inputCode")String inputCode,@QueryParam("orgId")String orgId){
+        return priceListApi.getByInputCode(inputCode,orgId);
     }
 
     @Path("code/{transcode}")
     @GET
     public StringData Transcoding(@PathParam("transcode") String transcode) {
-        System.out.print(transcode);
         String res = priceListApi.findSeqences();
         if (res.length() <= 1) {
             res = "00" + res + transcode;

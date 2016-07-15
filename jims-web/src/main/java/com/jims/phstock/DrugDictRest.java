@@ -10,9 +10,8 @@ import javax.ws.rs.*;
 import java.util.List;
 
 /**
- * 提供药品字典维护的服务
- * Created by ztq on 2016/7/12.
- * @author : lhl
+ * 药品字典Rest
+ * Created by fyg on 2016/7/12.
  */
 @Component
 @Produces("application/json")
@@ -36,29 +35,15 @@ public class DrugDictRest {
     }
 
 
-    /***
-     * 保存修改与增加父类
-     * @param drugDict
-     * zq
+
+    /**
+     * 根据药品名称或药品代码查询数据
+     * @return
+     * @author fengyuguang
      */
-    @Path("save")
-    @POST
-    public StringData save(DrugDict drugDict){;
-        drugDict=drugDict;
-//        String num=drugDictApi.saveDrugDict(drugDict);
-//        StringData stringData=new StringData();
-//        stringData.setCode(num);
-//        stringData.setData("success");
-//        return stringData;
-        return null;
+    @Path("get-by-name")
+    @GET
+    public List<DrugDict> getByName(@QueryParam("drugCode")String drugCode,@QueryParam("drugName")String drugName){
+        return drugDictApi.getByName(drugCode,drugName);
     }
-
-    //保存多个
-
-    //根据大类获取亚类
-
-    //修改类别
-
-    //删除类别
-
 }

@@ -140,8 +140,17 @@ $(function () {
     }) ;
 
     var init=function(){
-        if(!config.currentStorage){
-
+        if(config.currentStorage && !config.currentStorageObj){
+            $.get(basePath + '/drug-storage-dept/list',{orgId:config.org_Id,storageCode:config.currentStorage},function(res){
+                if(res && res.length > 0){
+                    config.currentStorageObj = res[0];
+                    $.get(parent.basePath + '/dict/findListByType',{type:'DRUG_STOCK_TYPE_DICT',value:res[0].storageType},function(r){
+                        if(r && r.length > 0){
+                            config.currentStorageObj.level = r[0].remarks;
+                        }
+                    })
+                }
+            })
         }
     }
 
@@ -178,7 +187,9 @@ $(function () {
                         config[item.id] = value;
                         console.log("config");
                         console.log(config);
-                        init();
+                        if(item.id == 'currentStorage') {
+                            init();
+                        }
                     })
                     $.get(basePath + "/orgStaff/find-list-by-serviceId?serviceId=" + config.serviceId + "&staffId=" + config.staffId, function (data) {
                         makeTree(data)

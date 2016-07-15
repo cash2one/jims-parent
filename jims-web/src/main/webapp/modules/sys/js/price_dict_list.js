@@ -2,70 +2,89 @@
  * Created by Administrator on 2016/5/7.
  */
 $(function () {
-    init_clinic_data()
-    $('#aa').combobox({
-        url: basePath + '/dict/findType/' + 'BILL_ITEM_CLASS_DICT',
+    var orgId = config.org_Id;
+    var itemClassList = []; //项目类别
+    $.get(basePath + '/dict/label-value-list?type=' + 'BILL_ITEM_CLASS_DICT', function(data){
+        itemClassList = data;
+    });
+    init_clinic_data();
+    //类别
+    $("#item_class").combobox({
         valueField: 'value',
         textField: 'label',
-        method: 'GET'
+        width: 150,
+        method: 'GET',
+        url: basePath + '/dict/label-value-list?type=' + 'BILL_ITEM_CLASS_DICT',
+        editable: false,
+         onSelect: function () {
+             var itemClass = $("#item_class").combobox('getValue');
+             $.get(basePath + '/price/find-by-item-class?itemClass=' + itemClass + '&orgId=' + orgId, function(data){
+                 $("#clinic_item").datagrid('loadData',data);
+             });
+         }
     });
+    //项目类别
+    $("#aa").combobox({
+        valueField: 'value',
+        textField: 'label',
+        width: 150,
+        method: 'GET',
+        url: basePath + '/dict/label-value-list?type=' + 'BILL_ITEM_CLASS_DICT',
+        editable: false
+    });
+    //会计科目
     $('#bb').combobox({
-        url: basePath + '/dict/findType/' + 'TALLY_SUBJECT_DICT',
+        url: basePath + '/dict/label-value-list?type=' + 'TALLY_SUBJECT_DICT',
         valueField: 'value',
         textField: 'label',
-        method: 'GET'
+        method: 'GET',
+        editable: false
     });
-
+    //门诊收据
     $('#cc').combobox({
-        url: basePath + '/dict/findType/' + 'OUTP_RCPT_FEE_DICT',
+        url: basePath + '/dict/label-value-list?type=' + 'OUTP_RCPT_FEE_DICT',
         valueField: 'value',
         textField: 'label',
-        method: 'GET'
+        method: 'GET',
+        editable: false
     });
+    //住院收据
     $('#dd').combobox({
-        url: basePath + '/dict/findType/' + 'INP_RCPT_FEE_DICT',
+        url: basePath + '/dict/label-value-list?type=' + 'INP_RCPT_FEE_DICT',
         valueField: 'value',
         textField: 'label',
-        method: 'GET'
+        method: 'GET',
+        editable: false
     });
-
+    //病案首页
     $('#ee').combobox({
-        url: basePath + '/dict/findType/' + 'MR_FEE_CLASS_DICT',
+        url: basePath + '/dict/label-value-list?type=' + 'MR_FEE_CLASS_DICT',
         valueField: 'value',
         textField: 'label',
-        method: 'GET'
+        method: 'GET',
+        editable: false
     });
-
+    //核算项目
     $('#ff').combobox({
-        url: basePath + '/dict/findType/' + 'RECK_ITEM_CLASS_DICT',
+        url: basePath + '/dict/label-value-list?type=' + 'RECK_ITEM_CLASS_DICT',
         valueField: 'value',
         textField: 'label',
-        method: 'GET'
+        method: 'GET',
+        editable: false
     });
-
+    //启用日期
     $('#dt').datetimebox({
         showSeconds: false
     });
-   /* $('#code_gps').textbox('textbox').keydown(function (e) {
-        if (e.keyCode == 13) {
-            var inputCode = $('#code_gps').val();
-            $.ajax({
-                'type': 'GET',
-                'url': basePath + '/price/find/' + inputCode,
-                'success': function (data) {
-                    $("#clinic_item").datagrid('loadData', data);
 
-                }
-            });
-        }
-    });*/
+    //执行科室
     $("#performedBy").combogrid({
         panelWidth: 300,
         idField: 'deptCode',
         textField: 'deptName',
-        mode: 'local',
+        mode: 'remote',
         method: 'GET',
-        url: basePath + '/dept-dict/list',
+        url: basePath + '/dept-dict/findListWithFilter?orgId=' + orgId,
         columns: [[
             {field: 'deptCode', title: '科室编码', width: 100},
             {field: 'deptName', title: '科室名称', width: 100},
@@ -74,12 +93,9 @@ $(function () {
 
             return row.inputCode.indexOf(q) == 0;
         }
-
-
     });
-
+    //是否自费   1,自费；0,非自费
     $("#feeTypeMask").on("click", function () {
-        console.log($("#feeTypeMask").prop("checked"));
         if ($("#feeTypeMask").prop("checked") == true) {
             $("#feeTypeMask").val(1);
         } else {
@@ -88,24 +104,27 @@ $(function () {
     });
 
     $("#clinicDict").on("click", function () {
-        console.log($("#clinicDict").prop("checked"));
         if ($("#clinicDict").prop("checked") == true) {
             $("#clinicDict").val(1);
-            alert(1)
+            //alert(1)
         } else {
             $("#clinicDict").val(0);
-            alert(0);
+            //alert(0);
         }
     });
-
+    //生成代码
     $("#generate").on("click", function () {
-        var code = $("#aa").combobox("getValue");
+        var code = $("#aa").combobox("getValue");   //项目类别的值
+        if(code == ''){
+            $.messager.alert('提示','请选择项目类别','error');
+            return ;
+        }
         $.ajax({
             'type': 'GET',
             'url': basePath + '/price/code/' + code,
             'success': function (data) {
                 $("#itemCode").textbox('setValue', data.data);
-                $.messager.alert('提示', "成功", "success");
+                $.messager.alert('提示', "成功生成项目代码!", "success");
 
             },
             'error': function (data) {
@@ -115,31 +134,50 @@ $(function () {
     });
     //保存当前标签页
     $("#saveDict").on("click", function () {
-        console.log($("#clinicDict").val());
-        $.postForm(basePath + "/price/save", "prescForm", function (data) {
-            if (data.data == 'success') {
-                $.messager.alert("提示消息", "保存成功", "success");
-            } else {
-                $.messager.alert('提示消息', data.code, "error");
-            }
-        }, function (data) {
-            $.messager.alert('提示', "保存失败", "error");
-        })
+        var priceDictListVo = {};
+        priceDictListVo.itemClass = $("#aa").combobox('getValue');  //类别
+        priceDictListVo.itemName = $("#itemName").val();            //名称
+        priceDictListVo.itemCode = $("#itemCode").val();            //代码
+        priceDictListVo.itemSpec = $("#itemSpec").val();            //规格
+        priceDictListVo.units = $("#units").val();                  //计价单位
+        priceDictListVo.price = $("#price").val();                  //基本价格
+        priceDictListVo.preferPrice = $("#preferPrice").val();    //优惠价格
+        priceDictListVo.foreignerPrice = $("#foreignerPrice").val();    //外宾价格
+        priceDictListVo.startDate = $("#dt").datetimebox('getValue');    //启用日期
+        priceDictListVo.performedBy = $("#performedBy").combogrid('getValue');  //执行科室
+        priceDictListVo.feeTypeMask = $("#feeTypeMask").val();   //是否自费
+        priceDictListVo.classOnInpRcpt = $("#dd").combobox('getValue');     //住院收据
+        priceDictListVo.classOnOutpRcpt = $("#cc").combobox('getValue');     //门诊收据
+        priceDictListVo.classOnReckoning = $("#ff").combobox('getValue');     //核算科目
+        priceDictListVo.subjCode = $("#bb").combobox('getValue');           //会计科目
+        priceDictListVo.classOnMr = $("#ee").combobox('getValue');      //病案首页
+        priceDictListVo.memo = $("#memo").val();            //备注信息
+        priceDictListVo.inputCode = $("#inputCode").val();      //拼音码
+        priceDictListVo.materialCode = $("#materialCode").val();    //物价码
+        priceDictListVo.clinicDict = $("#clinicDict").val();        //诊疗标识
+        priceDictListVo.orgId = orgId;      //所属组织机构
+
+        if(priceDictListVo){
+            $.postJSON(basePath + '/price/save',JSON.stringify(priceDictListVo),function(data){
+                if (data.data == 'success') {
+                    $.messager.alert("提示消息", "保存成功", "success");
+                } else {
+                    $.messager.alert('提示消息', data.code, "error");
+                }
+            },function(data){
+                $.messager.alert('提示', "保存失败", "error");
+            });
+        }
     });
 
     // 刷新当前标签页
     $("#refresh").on("click", function () {
         window.location.reload();
     });
-    // 关闭当前标签页
-    $("#cancel").on("click", function () {
-
-    });
     function init_clinic_data() {
         $("#clinic_item").datagrid({
             title: "价表管理列表",
-            //iconCls: 'icon-save', //图标
-            url: basePath +'/price/find',
+            //url: basePath +'/price/find',
             method:'get',
             idField: 'id',
             fit: true,
@@ -149,14 +187,27 @@ $(function () {
             pageList: [10, 15, 20, 25], //页大小下拉选项此项各value是pageSize的倍数
             fitColumns: true, //列自适应宽度
             columns: [[//显示的列
-                {field: 'itemCode', title: '项目代码', width: 120},
-                {field: 'itemName', title: '项目名称', width: 120},
-                {field: 'itemSpec', title: '项目规格', width: 120},
-                {field: 'materialCode', title: '物价码', width: 120},
-                //{field: 'materialCode', title: '类别', width: 60},
-                {field: 'itemClass', title: '项目类别', width: 120},
-                {field: 'inputCode', title: '拼音码', width: 120},
-                {field: 'inputCodeWb', title: '五笔码', width: 120}
+                {field: 'itemCode', title: '项目代码', width: '14%',align: 'center'},
+                {field: 'itemName', title: '项目名称', width: '16%',align: 'center'},
+                {field: 'itemSpec', title: '项目规格', width: '14%',align: 'center'},
+                {field: 'materialCode', title: '物价码', width: '13%',align: 'center'},
+                {
+                    field: 'itemClass',
+                    title: '项目类别',
+                    width: '14%',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var itemClass = value;
+                        $.each(itemClassList, function (index, item) {
+                            if (item.value == value) {
+                                itemClass = item.label;
+                            }
+                        });
+                        return itemClass;
+                    }
+                },
+                {field: 'inputCode', title: '拼音码', width: '14%',align: 'center'},
+                {field: 'inputCodeWb', title: '五笔码', width: '13%',align: 'center'}
             ]],
            /* toolbar: [{
                 text: '修改',
@@ -257,14 +308,13 @@ function del(id) {
 }
 
 function ShowInfo() {
-    var oDiv = $("#itemName").val();
-    if (oDiv.value != "") {
+    var oDiv = $("#itemName").val();    //获取项目名称的值
+    if (oDiv != '') {
         $.ajax({
             'type': 'GET',
             'url': basePath + '/price/abb/' + oDiv,
             'success': function (data) {
                 $("#inputCode").textbox('setValue', data.code);
-
             }
         });
     } else {
@@ -278,7 +328,7 @@ function load_data() {
     var inputCode = $('#code_gps').val();
     $.ajax({
         'type': 'GET',
-        'url': basePath + '/price/find/' + inputCode,
+        'url': basePath + '/price/get-by-inputCode?inputCode=' + inputCode + '&orgId=' + config.org_Id,
         'success': function (data) {
             $("#clinic_item").datagrid('loadData',data);
 

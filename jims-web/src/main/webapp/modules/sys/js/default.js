@@ -78,11 +78,15 @@ $(function () {
 
         window.location.href = "/modules/sys/persion-services.html?persionId=" + loginInfo.persionId;
     });
-
-    $("#hosptial").click(function () {
-
+    $("#setCompany").on('click', function () {
         window.location.href = "/modules/sys/company.html?persionId="+loginInfo.persionId;
     });
+
+
+    $("#myServices").on('click', function () {
+        window.location.href = "/modules/sys/service-list.html?persionId="+loginInfo.persionId;
+    });
+
 
     $("#default").on('click', function () {
         window.location.href = "/modules/sys/default.html?persionId="+loginInfo.persionId;

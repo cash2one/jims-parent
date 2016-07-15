@@ -61,4 +61,15 @@ public class DrugStorageDeptService extends CrudImplService<DrugStorageDeptDao, 
     public String saveSub(DrugSubStorageDept sub) {
         return drugStorageDeptBo.saveSub(sub);
     }
+
+    /**
+     * 根据等级的判断条件检索
+     * @param condition 等级条件 例如： remarks>'1'
+     * @param orgId
+     * @param q 模糊检索
+     * @return
+     */
+    public List<DrugStorageDept> findListByLevel(String condition, String orgId, String q){
+        return drugStorageDeptBo.findListByLevel(condition,orgId,q);
+    }
 }

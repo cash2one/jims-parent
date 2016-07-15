@@ -95,8 +95,8 @@ public class DictBo extends CrudImplService<DictDao, Dict> {
         return dao.findTypeList(new Dict());
     }
 
-    public List<String> findListType(String dict) {
-        return dao.findListType(dict);
+    public List<String> findListType(String type) {
+        return dao.findListType(type);
     }
 
     public String getLabel(String type, String value) {

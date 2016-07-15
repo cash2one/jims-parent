@@ -1,9 +1,9 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
-var scheduleId  = null;
+var scheduleId = null;
 function onloadMethod() {
-    var ids="";
+    var ids = "";
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
 
@@ -56,47 +56,53 @@ function onloadMethod() {
      * 医生自动补全
      */
     $("#surgeon").combogrid({
-        data:doctorName,
-        valueField:'id',
-        textField:'name',
-        columns:[[
-            {field:'name',title:'医生姓名',width:70},
-            {field:'dept_name',title:'科室',width:120},
-            {field:'title',title:'职称',width:70}
-        ]],keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                comboGridCompleting(q,'surgeon');
+        data: doctorName,
+        valueField: 'id',
+        textField: 'name',
+        columns: [[
+            {field: 'name', title: '医生姓名', width: 70},
+            {field: 'dept_name', title: '科室', width: 120},
+            {field: 'title', title: '职称', width: 70}
+        ]], keyHandler: {
+            up: function () {
+            },
+            down: function () {
+            },
+            enter: function () {
+            },
+            query: function (q) {
+                comboGridCompleting(q, 'surgeon');
             }
         },
-        onClickRow:function(rowIndex,rowData){
-            $("#firstAssistant").combogrid('setText',rowData.name);
-            $("#clinDiagId").val(rowData.id);
+        onClickRow: function (rowIndex, rowData) {
+            $("#surgeon").combogrid('setText', rowData.name);
+            $("#surgeonId").val(rowData.id);
         }
     })
     /**
      * firstAssistant自动补全
      */
     $("#firstAssistant").combogrid({
-        data:doctorName,
-        valueField:'id',
-        textField:'name',
-        columns:[[
-            {field:'name',title:'医生姓名',width:70},
-            {field:'dept_name',title:'科室',width:120},
-            {field:'title',title:'职称',width:70}
-        ]],keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                comboGridCompleting(q,'firstAssistant');
+        data: doctorName,
+        valueField: 'id',
+        textField: 'name',
+        columns: [[
+            {field: 'name', title: '医生姓名', width: 70},
+            {field: 'dept_name', title: '科室', width: 120},
+            {field: 'title', title: '职称', width: 70}
+        ]], keyHandler: {
+            up: function () {
+            },
+            down: function () {
+            },
+            enter: function () {
+            },
+            query: function (q) {
+                comboGridCompleting(q, 'firstAssistant');
             }
         },
-        onClickRow:function(rowIndex,rowData){
-            $("#firstAssistant").combogrid('setText',rowData.name);
+        onClickRow: function (rowIndex, rowData) {
+            $("#firstAssistant").combogrid('setText', rowData.name);
             $("#firstAssistantId").val(rowData.id);
         }
     })
@@ -104,23 +110,26 @@ function onloadMethod() {
      * secondAssistant自动补全
      */
     $("#secondAssistant").combogrid({
-        data:doctorName,
-        valueField:'id',
-        textField:'name',
-        columns:[[
-            {field:'name',title:'医生姓名',width:70},
-            {field:'dept_name',title:'科室',width:120},
-            {field:'title',title:'职称',width:70}
-        ]],keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                comboGridCompleting(q,'secondAssistant');
+        data: doctorName,
+        valueField: 'id',
+        textField: 'name',
+        columns: [[
+            {field: 'name', title: '医生姓名', width: 70},
+            {field: 'dept_name', title: '科室', width: 120},
+            {field: 'title', title: '职称', width: 70}
+        ]], keyHandler: {
+            up: function () {
+            },
+            down: function () {
+            },
+            enter: function () {
+            },
+            query: function (q) {
+                comboGridCompleting(q, 'secondAssistant');
             }
         },
-        onClickRow:function(rowIndex,rowData){
-            $("#secondAssistant").combogrid('setText',rowData.name);
+        onClickRow: function (rowIndex, rowData) {
+            $("#secondAssistant").combogrid('setText', rowData.name);
             $("#secondAssistantId").val(rowData.id);
         }
     })
@@ -128,23 +137,26 @@ function onloadMethod() {
      * thirdAssistant自动补全
      */
     $("#thirdAssistant").combogrid({
-        data:doctorName,
-        valueField:'id',
-        textField:'name',
-        columns:[[
-            {field:'name',title:'医生姓名',width:70},
-            {field:'dept_name',title:'科室',width:120},
-            {field:'title',title:'职称',width:70}
-        ]],keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                comboGridCompleting(q,'thirdAssistant');
+        data: doctorName,
+        valueField: 'id',
+        textField: 'name',
+        columns: [[
+            {field: 'name', title: '医生姓名', width: 70},
+            {field: 'dept_name', title: '科室', width: 120},
+            {field: 'title', title: '职称', width: 70}
+        ]], keyHandler: {
+            up: function () {
+            },
+            down: function () {
+            },
+            enter: function () {
+            },
+            query: function (q) {
+                comboGridCompleting(q, 'thirdAssistant');
             }
         },
-        onClickRow:function(rowIndex,rowData){
-            $("#thirdAssistant").combogrid('setText',rowData.name);
+        onClickRow: function (rowIndex, rowData) {
+            $("#thirdAssistant").combogrid('setText', rowData.name);
             $("#thirdAssistantId").val(rowData.id);
         }
     })
@@ -152,23 +164,26 @@ function onloadMethod() {
      * fourthAssistant自动补全
      */
     $("#fourthAssistant").combogrid({
-        data:doctorName,
-        valueField:'id',
-        textField:'name',
-        columns:[[
-            {field:'name',title:'医生姓名',width:70},
-            {field:'dept_name',title:'科室',width:120},
-            {field:'title',title:'职称',width:70}
-        ]],keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                comboGridCompleting(q,'surgeon');
+        data: doctorName,
+        valueField: 'id',
+        textField: 'name',
+        columns: [[
+            {field: 'name', title: '医生姓名', width: 70},
+            {field: 'dept_name', title: '科室', width: 120},
+            {field: 'title', title: '职称', width: 70}
+        ]], keyHandler: {
+            up: function () {
+            },
+            down: function () {
+            },
+            enter: function () {
+            },
+            query: function (q) {
+                comboGridCompleting(q, 'surgeon');
             }
         },
-        onClickRow:function(rowIndex,rowData){
-            $("#fourthAssistant").combogrid('setText',rowData.name);
+        onClickRow: function (rowIndex, rowData) {
+            $("#fourthAssistant").combogrid('setText', rowData.name);
             $("#fourthAssistantId").val(rowData.id);
         }
     })
@@ -176,23 +191,26 @@ function onloadMethod() {
      * 供血医生自动补全
      */
     $("#bloodTranDoctor").combogrid({
-        data:doctorName,
-        valueField:'id',
-        textField:'name',
-        columns:[[
-            {field:'name',title:'医生姓名',width:70},
-            {field:'dept_name',title:'科室',width:120},
-            {field:'title',title:'职称',width:70}
-        ]],keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                comboGridCompleting(q,'bloodTranDoctor');
+        data: doctorName,
+        valueField: 'id',
+        textField: 'name',
+        columns: [[
+            {field: 'name', title: '医生姓名', width: 70},
+            {field: 'dept_name', title: '科室', width: 120},
+            {field: 'title', title: '职称', width: 70}
+        ]], keyHandler: {
+            up: function () {
+            },
+            down: function () {
+            },
+            enter: function () {
+            },
+            query: function (q) {
+                comboGridCompleting(q, 'bloodTranDoctor');
             }
         },
-        onClickRow:function(rowIndex,rowData){
-            $("#bloodTranDoctor").combogrid('setText',rowData.name);
+        onClickRow: function (rowIndex, rowData) {
+            $("#bloodTranDoctor").combogrid('setText', rowData.name);
             $("#bloodTranDoctorId").val(rowData.id);
         }
     })
@@ -200,23 +218,26 @@ function onloadMethod() {
      * 麻醉医生自动补全
      */
     $("#anesthesiaDoctor").combogrid({
-        data:doctorName,
-        valueField:'id',
-        textField:'name',
-        columns:[[
-            {field:'name',title:'医生姓名',width:70},
-            {field:'dept_name',title:'科室',width:120},
-            {field:'title',title:'职称',width:70}
-        ]],keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                comboGridCompleting(q,'anesthesiaDoctor');
+        data: doctorName,
+        valueField: 'id',
+        textField: 'name',
+        columns: [[
+            {field: 'name', title: '医生姓名', width: 70},
+            {field: 'dept_name', title: '科室', width: 120},
+            {field: 'title', title: '职称', width: 70}
+        ]], keyHandler: {
+            up: function () {
+            },
+            down: function () {
+            },
+            enter: function () {
+            },
+            query: function (q) {
+                comboGridCompleting(q, 'anesthesiaDoctor');
             }
         },
-        onClickRow:function(rowIndex,rowData){
-            $("#anesthesiaDoctor").combogrid('setText',rowData.name);
+        onClickRow: function (rowIndex, rowData) {
+            $("#anesthesiaDoctor").combogrid('setText', rowData.name);
             $("#anesthesiaDoctorId").val(rowData.id);
         }
     })
@@ -224,23 +245,26 @@ function onloadMethod() {
      * anesthesiaAssistant自动补全
      */
     $("#anesthesiaAssistant").combogrid({
-        data:doctorName,
-        valueField:'id',
-        textField:'name',
-        columns:[[
-            {field:'name',title:'医生姓名',width:70},
-            {field:'dept_name',title:'科室',width:120},
-            {field:'title',title:'职称',width:70}
-        ]],keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                comboGridCompleting(q,'anesthesiaAssistant');
+        data: doctorName,
+        valueField: 'id',
+        textField: 'name',
+        columns: [[
+            {field: 'name', title: '医生姓名', width: 70},
+            {field: 'dept_name', title: '科室', width: 120},
+            {field: 'title', title: '职称', width: 70}
+        ]], keyHandler: {
+            up: function () {
+            },
+            down: function () {
+            },
+            enter: function () {
+            },
+            query: function (q) {
+                comboGridCompleting(q, 'anesthesiaAssistant');
             }
         },
-        onClickRow:function(rowIndex,rowData){
-            $("#anesthesiaAssistant").combogrid('setText',rowData.name);
+        onClickRow: function (rowIndex, rowData) {
+            $("#anesthesiaAssistant").combogrid('setText', rowData.name);
             $("#anesthesiaAssistantId").val(rowData.id);
         }
     })
@@ -255,25 +279,65 @@ function onloadMethod() {
             //$('#operationName').datagrid({url:basePath+'/operatioinOrder/getOperationName?scheduleId='+scheduleId });
 
             $('#operation').form('load', data);
-           //$("#patientCondition").combobox("setValue",data.patientCondition);
-           // $("#isolationIndicator").combobox("setValue",data.isolationIndicator);
-           // $("#operatingRoom").combobox("setValue",data.operatingRoom);
-           // $("#operatingRoomNo").combobox("setValue",data.operatingRoomNo);
-           // $("#operationScale").combobox("setValue",data.operationScale);
-           // $("#anesthesiaMethod").combobox("setValue",data.anesthesiaMethod);
+            //$("#patientCondition").combobox("setValue",data.patientCondition);
+            // $("#isolationIndicator").combobox("setValue",data.isolationIndicator);
+            // $("#operatingRoom").combobox("setValue",data.operatingRoom);
+            // $("#operatingRoomNo").combobox("setValue",data.operatingRoomNo);
+            // $("#operationScale").combobox("setValue",data.operationScale);
+            // $("#anesthesiaMethod").combobox("setValue",data.anesthesiaMethod);
 
 
         }
     });
-
-    $('#operationName').datagrid({
+    $('#operationNameList').datagrid({
         rownumbers: true,
         singleSelect: true,
         fit: true,
         method: 'GET',
         url: basePath + '/operatioinOrder/getOperationName',
         queryParams: {'clinicId': clinicId},
-        idField: 'id',
+        //idField: 'id',
+        columns: [[      //每个列具体内容
+            {
+                field: 'reqDateTime', title: '预约时间', width: '30%', align: 'center', formatter: formatDateBoxFull
+            },
+            {
+                field: 'operatingRoom', title: '手术室', width: '20%', align: 'center', formatter: operationFormatter
+            },
+            {
+                field: 'ackIndicator', title: '确认标志', width: '20%', align: 'center',
+                formatter: function (value, rowData, rowIndex) {
+                    if (value == "0") {
+                        return "手术未做"
+                    }
+                    if (value == "1") {
+                        return "手术已做"
+                    }
+                }
+            },
+            {
+                field: 'id',
+                title: '操作',
+                width: '25%',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var html = '';
+                    html = html + '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>';
+                    html = html + '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
+                    return html;
+                }
+            }
+        ]]
+    });
+
+    $('#operationName').datagrid({
+        rownumbers: true,
+        singleSelect: true,
+        fit: true,
+        //method: 'GET',
+        //url: basePath + '/operatioinOrder/getOperationName',
+        //queryParams: {'clinicId': clinicId},
+        //idField: 'id',
         columns: [[      //每个列具体内容
             {
                 field: 'operation', title: '拟实施手术名称', width: '48%', align: 'center', formatter: operationNameFormatter
@@ -290,14 +354,17 @@ function onloadMethod() {
                         {field: 'operation_name', title: '项目名称', width: '20%', align: 'center'},
                         {field: 'input_code', title: '拼音输入码', width: '20%', align: 'center', editor: 'text'},
                         //{field: 'input_code', title: '五笔输入码', width: '10%', align: 'center', editor: 'text'}
-                    ]],keyHandler: {
-                    up: function() {},
-                    down: function() {},
-                    enter: function() {},
-                    query: function(q) {
-                        dataGridCompletings(q,'operationName','operation');
-                    }
-                },
+                    ]], keyHandler: {
+                        up: function () {
+                        },
+                        down: function () {
+                        },
+                        enter: function () {
+                        },
+                        query: function (q) {
+                            dataGridCompletings(q, 'operationName', 'operation');
+                        }
+                    },
                     //onClickRow: function (index, data) {
                     //    var rows = $('#operationName').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
                     //    var columns = $('#operationName').datagrid("options").columns;
@@ -308,8 +375,7 @@ function onloadMethod() {
                     fitColumns: true
 
                 }
-            }
-            },
+            }},
             {
                 field: 'operationScale',
                 title: '等级',
@@ -321,8 +387,10 @@ function onloadMethod() {
                         panelWidth: 500,
                         data: operationScaleName,
                         valueField: 'value',
-                        textField: 'label'}},
-                formatter:operationScaleFormatter
+                        textField: 'label'
+                    }
+                },
+                formatter: operationScaleFormatter
             }
         ]],
         toolbar: [{
@@ -369,6 +437,40 @@ function onloadMethod() {
             }
         }
     });
+
+
+}
+
+function look(id){
+    $.ajax({
+        type: 'get',
+        url: basePath + '/operatioinOrder/get',
+        data: {"id":id},
+        async:true,
+        success: function (data) {
+            $("#operation").form("load",data);
+            $("#patientCondition").combobox("setValue",patientConditionFormatter(data.patientCondition,'',''));
+            $("#isolationIndicator").combobox("setValue",isolationIndicatorFormatter(data.isolationIndicator,'',''));
+            $("#surgeon").combogrid("setValue",doctorNameFormatter(data.surgeon,'',''));
+            $("#operatingRoom").combobox("setValue",operationFormatter(data.operatingRoom,'',''));
+            //$("#operatingRoomNo").combobox("setValue",operationRoomNoFormatter(data.operatingRoomNo,'',''));
+            $("#bloodTranDoctor").combogrid("setValue",doctorNameFormatter(data.bloodTranDoctor,'',''));
+            $("#firstAssistant").combogrid("setValue",doctorNameFormatter(data.firstAssistant,'',''));
+            $("#secondAssistant").combogrid("setValue",doctorNameFormatter(data.secondAssistant,'',''));
+            $("#thirdAssistant").combogrid("setValue",doctorNameFormatter(data.thirdAssistant,'',''));
+            $("#fourthAssistant").combogrid("setValue",doctorNameFormatter(data.fourthAssistant,'',''));
+            $("#anesthesiaDoctor").combogrid("setValue",doctorNameFormatter(data.anesthesiaDoctor,'',''));
+            $("#anesthesiaAssistant").combogrid("setValue",doctorNameFormatter(data.anesthesiaAssistant,'',''));
+            $("#anesthesiaMethod").combobox("setValue",anaesthesiaNameFormatter(data.anesthesiaMethod,'',''));
+            var scheduleId = data.id;
+            $("#operationName").datagrid({
+                url: basePath + "/operatioinOrder/getOperationNameList",
+                queryParams:{"scheduleId":scheduleId},
+                method: "get"
+            })
+
+        }
+    })
 }
 
 /**
@@ -381,12 +483,17 @@ function savePperationApply() {
     formJson = formJson.substring(0, formJson.length - 1);
     var tableJson = JSON.stringify(rows);
     var submitJson = formJson + ",\"scheduledOperationNameList\":" + tableJson + "}";
-  //alert(tableJson);
-   $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
-        if (data =="1") {
+    //alert(tableJson);
+    $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
+        if (data == "1") {
             $.messager.alert("提示消息", data + "条记录，保存成功");
+            $('#operationName').datagrid('clearChecked');
+            $('#operationNameList').datagrid('load');
+
         } else {
             $.messager.alert('提示', "保存失败", "error");
+            $('#operationName').datagrid('load');
+            $('#operationName').datagrid('clearChecked');
         }
     }, function (data) {
         $.messager.alert('提示', "保存失败", "error");
@@ -422,9 +529,10 @@ function doDelete() {
                     'dataType': 'json',
                     'success': function (data) {
                         if (data == 1) {
+                            $('#operation').form('clear');
                             $.messager.alert("提示消息", data + "条记录删除成功！");
-                            $('#operationName').datagrid('load');
-                            $('#operationName').datagrid('clearChecked');
+                            //$('#operationName').datagrid('load');
+                            $('#operationName').datagrid('loadData', { total: 0, rows: [] });
                         } else {
                             $.messager.alert('提示', "删除失败", "error");
                         }

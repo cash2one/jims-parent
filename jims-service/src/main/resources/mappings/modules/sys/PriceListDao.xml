@@ -63,6 +63,24 @@
         WHERE a.id = #{id}
     </select>
 
+    <select id="findByItemClass" resultType="PriceList">
+        SELECT
+        <include refid="priceListColumns"/>
+        FROM price_list a
+        WHERE a.item_class = #{0}
+        AND a.org_id = #{1}
+        AND (a.stop_date is NULL or(a.stop_date is not null and a.stop_date &lt; sysdate))
+    </select>
+
+    <select id="getByInputCode" resultType="PriceList">
+        SELECT
+        <include refid="priceListColumns"/>
+        FROM price_list a
+        WHERE upper(a.input_code) like upper(#{0})||'%'
+        AND a.org_id = #{1}
+        AND (a.stop_date is NULL or(a.stop_date is not null and a.stop_date &lt; sysdate))
+    </select>
+
     <select id="findList" resultType="PriceList">
         SELECT
         <include refid="priceListColumns"/>

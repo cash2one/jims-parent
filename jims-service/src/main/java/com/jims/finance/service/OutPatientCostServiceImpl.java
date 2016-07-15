@@ -26,12 +26,16 @@ public class OutPatientCostServiceImpl  implements OutPatientCostServiceApi {
     @Autowired
     private OutPatientCostBo outPatientCostBo;
 
-
     @Override
     public BaseData<BaseDto> list(String orgId, String clinicNo) {
         return outPatientCostBo.list(orgId,clinicNo);
     }
 
+    /**
+     * 确认收费
+     * @param ids
+     * @return
+     */
     @Override
     public String confirmPay(String ids) {
         return outPatientCostBo.confirmPay(ids);

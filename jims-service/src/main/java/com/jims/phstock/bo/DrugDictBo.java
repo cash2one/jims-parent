@@ -30,6 +30,14 @@ public class DrugDictBo extends CrudImplService<DrugDictDao, DrugDict> {
     @Autowired
     private DrugCodingRuleDao drugCodingRuleDao;
 
+    /**
+     * 根据药品名称或药品代码查询数据
+     * @return
+     * @author fengyuguang
+     */
+    public List<DrugDict> getByName(String drugCode,String drugName){
+        return dao.getByName(drugCode,drugName);
+    }
 
     /**
      * 根据商品亚类 药品剂型,序号长度生成药品代码drug_code

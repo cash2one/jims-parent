@@ -34,6 +34,14 @@ public interface AdministrationDictDao extends CrudDao<AdministrationDict> {
     public List<AdministrationDict> findAllList();
 
     /**
+     * 查询给药途径字典表
+     * @param inputCode 输入码
+     * @return
+     * @author fengyuguang
+     */
+    public List<AdministrationDict> list(String inputCode);
+
+    /**
      * 选择用药途径，根据用药途径信息获取途径费用信息
      * @param itemName
      * @param orgId
