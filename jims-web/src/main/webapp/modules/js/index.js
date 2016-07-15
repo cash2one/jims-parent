@@ -140,11 +140,12 @@ $(function () {
     }) ;
 
     var init=function(){
-        if(config.currentStorage && !config.currentStorageObj){
+        if(config.currentStorage){
             $.get(basePath + '/drug-storage-dept/list',{orgId:config.org_Id,storageCode:config.currentStorage},function(res){
+                console.log(res)
                 if(res && res.length > 0){
                     config.currentStorageObj = res[0];
-                    $.get(parent.basePath + '/dict/findListByType',{type:'DRUG_STOCK_TYPE_DICT',value:res[0].storageType},function(r){
+                    $.get(basePath + '/dict/findListByType',{type:'DRUG_STOCK_TYPE_DICT',value:res[0].storageType},function(r){
                         if(r && r.length > 0){
                             config.currentStorageObj.level = r[0].remarks;
                         }
