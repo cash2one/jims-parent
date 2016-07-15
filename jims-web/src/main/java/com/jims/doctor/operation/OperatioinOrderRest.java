@@ -3,6 +3,7 @@ package com.jims.doctor.operation;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.operation.api.OperatioinOrderServiceApi;
+import com.jims.operation.api.ScheduledOperationNameApi;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.operation.entity.ScheduledOperationName;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,8 @@ import java.util.List;
 public class OperatioinOrderRest {
     @Reference(version = "1.0.0")
     private OperatioinOrderServiceApi operatioinOrderServiceApi;
+    @Reference(version = "1.0.0")
+    private ScheduledOperationNameApi scheduledOperationNameApi;
 
     /**
      * 通过科室Code查找病人列表
@@ -62,17 +65,17 @@ public class OperatioinOrderRest {
      return  operatioinOrderServiceApi.saveOperationOut(operationSchedule);
     }
 
-    /**
-     * 通过病人Id拿到手术安排(住院)
-     * @param operationSchedule
-     * @return
-     */
-    @Path("getScheduleIn")
-     @POST
-     public OperationSchedule getScheduleIn(OperationSchedule operationSchedule){
-       /* visitId="1";*/
-        return operatioinOrderServiceApi.getSchedule(operationSchedule.getPatientId(), operationSchedule.getVisitId(),operationSchedule.getClinicId());
-    }
+//    /**
+//     * 通过病人Id拿到手术安排(住院)
+//     * @param operationSchedule
+//     * @return
+//     */
+//    @Path("getScheduleIn")
+//     @POST
+//     public OperationSchedule getScheduleIn(OperationSchedule operationSchedule){
+//       /* visitId="1";*/
+//        return operatioinOrderServiceApi.getSchedule(operationSchedule.getPatientId(), operationSchedule.getVisitId(),operationSchedule.getClinicId());
+//    }
 
     /**
      * 通过clinicId拿到手术安排
@@ -81,7 +84,7 @@ public class OperatioinOrderRest {
      */
     @Path("getScheduleOut")
     @POST
-    public OperationSchedule getScheduleOut(String clinicId){
+    public List<OperationSchedule> getScheduleOut(String clinicId){
         return operatioinOrderServiceApi.getSchedule("","",clinicId);
     }
 
@@ -92,41 +95,47 @@ public class OperatioinOrderRest {
      */
     @Path("getScheduleOutHos")
     @POST
-    public OperationSchedule getScheduleOutHos(String visitId){
-        OperationSchedule operationSchedule=  operatioinOrderServiceApi.getSchedule("", visitId, "");
-        return operationSchedule;
+    public List<OperationSchedule> getScheduleOutHos(String visitId){
+        List<OperationSchedule> operationScheduleList=  operatioinOrderServiceApi.getSchedule("", visitId, "");
+        return operationScheduleList;
     }
 
 
     /**
-     * 通过patientId、住院Id拿到手术名称(住院)
-     * 通过clinicId 拿到手术名称（门诊）
-     * @param patientId
-     * @param visitId
+     * 通过clinicId 拿到手术主记录（门诊）
      * @return
      */
     @Path("getOperationName")
     @GET
-    public List<ScheduledOperationName> getOperationNameIn(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId,@QueryParam("clinicId")String clinicId){
-        OperationSchedule operationSchedule= new OperationSchedule();
-        if(clinicId!=null && !"".equals(clinicId)){
-             operationSchedule= getScheduleOut(clinicId);
-        }else{
-            operationSchedule= operatioinOrderServiceApi.getSchedule(patientId,visitId, clinicId);
-        }
-        List<ScheduledOperationName> scheduledOperationNames = new ArrayList<ScheduledOperationName>();
-        if(operationSchedule!=null){
-
-                scheduledOperationNames= operatioinOrderServiceApi.getOperationName(patientId, visitId,clinicId, operationSchedule.getId());
-
-
-
-        }
-
-        return  scheduledOperationNames;
+    public List<OperationSchedule> getOperationName(@Context HttpServletRequest request,
+                                                      @Context HttpServletResponse response,@QueryParam("clinicId")String clinicId){
+        List<OperationSchedule> operationScheduleList = operatioinOrderServiceApi.getSchedule("","",clinicId);
+        return operationScheduleList;
     }
 
+    /**
+     * 通过id获取单条数据
+     * @param id
+     * @return
+     */
+    @Path("get")
+    @GET
+    public OperationSchedule get(@QueryParam("id")String id){
+        OperationSchedule operationSchedule = operatioinOrderServiceApi.getOneOperation(id);
+        return operationSchedule;
+    }
 
+    /**
+     * 通过scheduleId获取手术安排
+     * @param scheduleId
+     * @return
+     */
+    @Path("getOperationNameList")
+    @GET
+    public List<ScheduledOperationName> getOperationNameList(@QueryParam("scheduleId")String scheduleId){
+            List<ScheduledOperationName> scheduledOperationNameList =  scheduledOperationNameApi.getOperationNameList(scheduleId);
+            return scheduledOperationNameList;
+    }
     /**
      * 删除手术名称
      * @param id

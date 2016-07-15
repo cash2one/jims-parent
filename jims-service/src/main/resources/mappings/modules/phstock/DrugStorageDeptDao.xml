@@ -49,6 +49,9 @@
             <if test="storageType != null and storageType != ''">
                 and a.storage_type = #{storageType}
             </if>
+            <if test="storageCode != null and storageCode != ''">
+                and a.storage_code = #{storageCode}
+            </if>
             <if test="q != null and q != ''">
                 and (upper(a.storage_code) like upper(#{q}) || '%'
                 or a.storage_name like #{q} || '%')
@@ -63,6 +66,25 @@
 			</otherwise>
 		</choose>
 	</select>
+
+    <select id="findListByLevel" resultType="DrugStorageDept">
+        SELECT
+        <include refid="drugStorageDeptColumns"/>
+        FROM drug_storage_dept a
+        ,(select * from sys_dict where type = 'DRUG_STOCK_TYPE_DICT'
+        <if test="condition != null and condition != ''">
+            and ${condition}
+        </if>) st
+        <where>
+            a.del_flag = '0'
+            and a.org_id = #{orgId}
+            and a.storage_type = st.value
+            <if test="q != null and q != ''">
+                and (upper(a.storage_code) like upper(#{q}) || '%'
+                or a.storage_name like #{q} || '%')
+            </if>
+        </where>
+    </select>
 
     <select id="findSubList" resultType="com.jims.phstock.entity.DrugSubStorageDept">
           SELECT

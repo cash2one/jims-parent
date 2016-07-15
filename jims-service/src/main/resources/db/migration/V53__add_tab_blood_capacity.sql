@@ -11,6 +11,7 @@ create table BLOOD_CAPACITY
   UNIT           VARCHAR2(10),
   ID             VARCHAR2(64) not null,
   ORG_ID         VARCHAR2(64),
+  APPLY_ID      VARCHAR2(64),
   REMARKS        VARCHAR2(2000),
   UPDATE_BY      VARCHAR2(64),
   CREATE_BY      VARCHAR2(64),
@@ -42,6 +43,8 @@ comment on column BLOOD_CAPACITY.ID
   is '主键';
 comment on column BLOOD_CAPACITY.ORG_ID
   is '所属结构';
+  comment on column BLOOD_CAPACITY.APPLY_ID
+  is '主表ID';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table BLOOD_CAPACITY
   add constraint BLOOD_CAPACITY_UK unique (APPLY_NUM, MATCH_SUB_NUM);

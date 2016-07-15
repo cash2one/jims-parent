@@ -92,6 +92,7 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 	private String item;//检查项目
 	private Double fee;
 	private PatMasterIndex patMaster;
+	private String prescNo;
 
 	
 	public ClinicMaster() {
@@ -649,5 +650,13 @@ public class ClinicMaster extends DataEntity<ClinicMaster> {
 
 	public void setPhoneNumberHome(String phoneNumberHome) {
 		this.phoneNumberHome = phoneNumberHome;
+	}
+
+	public String getPrescNo() {
+		return prescNo;
+	}
+
+	public void setPrescNo(String prescNo) {
+		this.prescNo = prescNo;
 	}
 }

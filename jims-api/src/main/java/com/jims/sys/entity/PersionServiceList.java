@@ -23,6 +23,11 @@ public class PersionServiceList extends DataEntity<PersionServiceList> {
 	private String flag;		// 0默认服务1，增值服务
 	private Date serviceStartDate;		// 服务开始时间
 	private Date serviceEndDate;		// 服务结束时间
+	private String serviceName;		// 服务名称
+	private String serviceImage;		// 服务图片
+	private String startDate;		// 服务开始时间
+	private String endDate;		// 服务结束时间
+	private String upFlag;		// 一个状态：当是0，表示新增，当是1，表示修改
 
     private List<PersionServiceList> serviceList;  // 机构定制的服务
 
@@ -86,5 +91,44 @@ public class PersionServiceList extends DataEntity<PersionServiceList> {
 	public void setServiceEndDate(Date serviceEndDate) {
 		this.serviceEndDate = serviceEndDate;
 	}
-	
+
+	public String getServiceImage() {
+		return serviceImage;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceImage(String serviceImage) {
+		this.serviceImage = serviceImage;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getUpFlag() {
+		return upFlag;
+	}
+
+	public void setUpFlag(String upFlag) {
+		this.upFlag = upFlag;
+	}
 }

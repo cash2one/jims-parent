@@ -3,6 +3,7 @@ var patId;
 var editRow = undefined;
 var rowNum=-1;
 var wardCode='160101';
+
 $(function(){
     $('#bedRec').datagrid({
      /*   view: myview,
@@ -24,57 +25,10 @@ $(function(){
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'bedNo', title: '床号', width: '10%', align: 'center',editor:'text', required: true
-                ,keyHandler: {
-                up: function() {},
-                down: function() {},
-                enter: function() {},
-                query: function(q) {
-                    $.ajax({
-                        method:"POST",
-                        contentType: "application/json", //必须有
-                        dataType: 'json',
-                        data: JSON.stringify({"wardCode":wardCode,"bedNo":q}),
-                        url: basePath + '/bedRec/judgeBedNo',
-                        success: function (data) {
-                            if(data){
-                                $.messager.alert('提示',"该床位号已经存在，不能重复", "error");
-                                return "";
-                            }else{
-                                return row.bedNo;
-                            }
-                        }
-                    })
-
-                }
-            }
-                /*     ,formatter:function(value, row, index){
-           var editors = $('#bedRec').datagrid('getEditors', index);
-                console.info(editors[1]);
-                var sfgzEditor = editors[1];
-                sfgzEditor.target.bind('change',function () {
-                    console.info("111");
-                    console.info(sfgzEditor.target.val());
-                    $.ajax({
-                        method:"POST",
-                        contentType: "application/json", //必须有
-                        dataType: 'json',
-                        data: JSON.stringify({"wardCode":wardCode,"bedNo":row.bedNo}),
-                        url: basePath + '/bedRec/judgeBedNo',
-                        success: function (data) {
-                            if(data){
-                                $.messager.alert('提示',"该床位号已经存在，不能重复", "error");
-                                return "";
-                            }else{
-                                return row.bedNo;
-                            }
-                        }
-                    })
-                }); }*/
-
+            {field: 'bedNo', title: '床号', width: '10%', align: 'center', editor:{type:'numberbox',options:{editable:true,disable:false,required: true}}
            },
-            {field: 'bedLabel', title: '床标号', width: '10%', align: 'center',editor:'text', required: true},
-            {field: 'roomNo', title: '房间', width: '10%', align: 'center',editor:'text', required: true},
+            {field: 'bedLabel', title: '床标号', width: '10%', align: 'center',editor:'text', editor:{type:'numberbox',options:{editable:true,disable:false,required: true}}},
+            {field: 'roomNo', title: '房间', width: '10%', align: 'center',editor:'text',editor:{type:'numberbox',options:{editable:true,disable:false,required: true}}},
             {field: 'bedSexType', title: '男/女', width: '10%', align: 'center',editor:{
                 type:'combobox',
                 options:{
@@ -148,11 +102,18 @@ $(function(){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
-                $("#bedRec").datagrid('endEdit', rowNum);
-                if (rowNum != -1) {
-                    $("#bedRec").datagrid("endEdit", rowNum);
+                if(!$("#bedRec").datagrid('validateRow', rowNum)){
+                    $.messager.alert('提示',"请填写完本行数据后，再进行保存", "error");
+                    return false
+                }else {
+                    $("#bedRec").datagrid('endEdit', rowNum);
+                    if (rowNum != -1) {
+                        $("#bedRec").datagrid("endEdit", rowNum);
+                    }
+
+                    save();
                 }
-                save();
+
             }
         },{
             text: '换床',
@@ -167,23 +128,23 @@ $(function(){
                 handler: function () {
                     doDelete();
                 }
-            }],onAfterEdit: function (rowIndex, rowData, changes) {
-            $("#bedRec").datagrid('endEdit', rowIndex);
-
-
-        },onDblClickRow:function (rowIndex, rowData) {
-            if (editRow != undefined) {
-                $("#bedRec").datagrid('endEdit', rowNum);
-            }
-            if (editRow == undefined) {
-                $("#bedRec").datagrid('beginEdit', rowIndex);
-                editRow = rowIndex;
-            }
+            }],onDblClickRow:function (rowIndex, rowData) {
+           /* if(!$("#bedRec").datagrid('validateRow', rowNum)){
+                return false
+            }else {*/
+                if (editRow != undefined) {
+                    $("#bedRec").datagrid('endEdit', rowNum);
+                }
+                if (editRow == undefined) {
+                    $("#bedRec").datagrid('beginEdit', rowIndex);
+                    editRow = rowIndex;
+                }
+           // }
         },onClickRow:function(rowIndex,rowData) {
             var dataGrid = $('#bedRec');
-            if (!dataGrid.datagrid('validateRow', rowNum)) {
+           /* if (!dataGrid.datagrid('validateRow', rowNum)) {
                 return false
-            }
+            }*/
             if (rowNum != rowIndex) {
                 if (rowNum >= 0) {
                     dataGrid.datagrid('endEdit', rowNum);
@@ -192,9 +153,8 @@ $(function(){
                 dataGrid.datagrid('beginEdit', rowIndex);
 
             }
-        },/*onClickCell: function (rowIndex, field, value) {
-            beginEditing(rowIndex, field, value)
-        },*/onLoadSuccess: function (data) {
+        },
+            onLoadSuccess: function (data) {
             if (data.total == 0) {
                 var body = $(this).data().datagrid.dc.body2;
                 body.find('table tbody').append('<tr><td colspan="8" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
@@ -214,41 +174,6 @@ $(function(){
     });
 
 
-
-/*    var beginEditing = function (rowIndex, field, value) {
-        if (field != "bedNo")
-            return;
-
-        if (rowIndex != rowNum) {
-
-                $('#bedRec').datagrid('beginEdit', rowIndex);
-                rowNum = rowIndex;
-
-                var ed = $('#bedRec').datagrid('getEditor', { index: rowIndex, field: 'bedNo' });
-          var rowContent =  $('#bedRec').datagrid('getSelected');
-                 var number = $(ed.target).text('getValue');
-            alert(rowContent.bedNo+"test");
-                $(ed.target).focus().bind('blur', function () {
-                    $.ajax({
-                        method:"POST",
-                        contentType: "application/json", //必须有
-                        dataType: 'json',
-                        data: JSON.stringify({"wardCode":wardCode,"bedNo":rowContent.bedNo}),
-                        url: basePath + '/bedRec/judgeBedNo',
-                        success: function (data) {
-                            if(data){
-                                $.messager.alert('提示',"该床位号已经存在，不能重复", "error");
-                                return "";
-                            }else{
-                                return row.bedNo;
-                            }
-                        }
-                    })
-
-                });
-
-        }
-    }*/
 
 
     //已经分配了床位的在院病人列表
@@ -425,12 +350,27 @@ $(function(){
 
 
 function save(){
+    var flag=0;
    var bedRows =  $("#bedRec").datagrid("getChanges");
     var tableJson=JSON.stringify(bedRows);
+    var arry = new Array();
+    arry = tableJson;
+    var ary=arry;
+    for(var i=0;i<ary.length-1;i++){
+
+        if(ary[i].bedNo==ary[i+1].bedNo){
+
+            flag =flag +1;
+
+        }
+    }
+    if(flag>0){
+        $.messager.alert('提示',"检测到存在相同的床位号,请检查!", "error");
+    }else{
     $.postJSON(basePath+'/bedRec/save',tableJson,function(data){
         if(data.data=='success'){
             $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            window.parent.document.getElementById("centerIframe").window.location.reload();
+            //  window.parent.document.getElementById("centerIframe").window.location.reload();
             $('#bedRec').datagrid('load');
             $('#bedRec').datagrid('clearChecked');
         }else{
@@ -439,6 +379,7 @@ function save(){
     },function(data){
         $.messager.alert('提示',"保存失败", "error");
     })
+    }
 
 }
 

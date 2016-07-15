@@ -119,12 +119,14 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
         DrugImportMaster d=new DrugImportMaster();
         d.setOrgId(orgId);
         d.setStorage(storageCode);
-        try {
-            Date date=new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
-            d.setImportDate(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        d.setDelFlag("0");
+        if(startTime!=null&&!"".equals(startTime)){
+            try {
+                Date date=new SimpleDateFormat("yyyy-MM-dd").parse(startTime);
+                d.setImportDate(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }}
         return masterDao.findList(d);
     }
 

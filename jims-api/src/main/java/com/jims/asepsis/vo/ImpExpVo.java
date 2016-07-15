@@ -3,17 +3,16 @@ package com.jims.asepsis.vo;
 import java.util.Date;
 
 /**
- * Created by admin on 2016/7/12.
+ * Created by chenxy on 2016/7/12.
+ *  用于入出库记账数据展示
  */
 public class ImpExpVo {
 
     private String id;
-    private Date date;
+    private String date;
     private String documentNo;
     private String importExportClass;
     private Integer accountIndicator;
-    private String acctOperator;
-    private Date acctDate;
     private Integer flag;
 
     public String getId() {
@@ -24,11 +23,11 @@ public class ImpExpVo {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -56,17 +55,7 @@ public class ImpExpVo {
         this.documentNo = documentNo;
     }
 
-    public String getAcctOperator() {
-        return acctOperator;
-    }
 
-    public void setAcctOperator(String acctOperator) {
-        this.acctOperator = acctOperator;
-    }
-
-    public Date getAcctDate() {
-        return acctDate;
-    }
 
     public Integer getFlag() {
         return flag;
@@ -76,7 +65,5 @@ public class ImpExpVo {
         this.flag = flag;
     }
 
-    public void setAcctDate(Date acctDate) {
-        this.acctDate = acctDate;
-    }
+
 }

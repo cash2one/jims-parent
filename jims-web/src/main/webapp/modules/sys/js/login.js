@@ -46,10 +46,11 @@ $(function () {
                                 window.location.href = ('/modules/admin-index.html');
                                 return false;
                             }
-                            window.location.href = ('/modules/sys/default.html?persion_id='+data.data);
+                            window.location.href = ('/modules/sys/default.html');
                             return false;
                         }
                     });
+
                 });
                 return true;
             },

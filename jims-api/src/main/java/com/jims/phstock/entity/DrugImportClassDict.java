@@ -12,7 +12,8 @@ public class DrugImportClassDict extends DataEntity<DrugImportClassDict> {
     private static final long serialVersionUID = 1L;
     private String importClass;        // 入库分类
     private String statisticClass;        // 所属类别
-    private String storageType;        // 库存类型，全部、药局、药库
+    private String storageType;        // 库存类型
+    private String fromLevel;        // 来源等级
     private String accountFlag;        // 0，不记账，1记账
 
     public DrugImportClassDict() {
@@ -59,4 +60,11 @@ public class DrugImportClassDict extends DataEntity<DrugImportClassDict> {
         this.accountFlag = accountFlag;
     }
 
+    public String getFromLevel() {
+        return fromLevel;
+    }
+
+    public void setFromLevel(String fromLevel) {
+        this.fromLevel = fromLevel;
+    }
 }

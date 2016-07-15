@@ -75,7 +75,21 @@
 		<if test="inOrOut!=null and inOrOut!=''">
 			AND a.in_or_out=#{inOrOut}
 		</if>
-
+		<if test="startTime!=null and startTime!=''">
+			AND a.requested_date_time &gt;= to_date(#{startTime},'yyyy-MM-dd')
+		</if>
+        <if test="endTime!=null and endTime!=''">
+			AND a.requested_date_time &lt;=to_date(#{endTime},'yyyy-MM-dd')
+		</if>
+		<if test="reqDept!=null and reqDept!=''">
+			AND a.ordering_dept=#{reqDept}
+		</if>
+		<if test="labNo!=null and labNo!=''">
+			AND a.test_no=#{labNo}
+		</if>
+		<if test="patName!=null and patName!=''">
+			AND a.name=#{patName}
+		</if>
 	</select>
 	<select id="findList" resultType="LabTestMaster">
 		SELECT 

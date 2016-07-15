@@ -110,7 +110,24 @@ $(function(){
                         return "不记账";
                     }
                 }
-            }]],
+            },{
+                title: '来往等级', //入库
+                field: 'fromLevel',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox', options: {
+                        editable: false,
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'label',
+                        method: 'GET',
+                        url:basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR"
+                    }
+                }
+            }
+
+            ]],
             toolbar: [{
                 text: '新增',
                 iconCls: 'icon-add',
@@ -210,6 +227,21 @@ $(function(){
                     }
                     if (value == "0") {
                         return "不记账";
+                    }
+                }
+            },{
+                title: '药品入出库方向', //出库
+                field: 'toLevel',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox', options: {
+                        editable: false,
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'label',
+                        method: 'GET',
+                        url:basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR"
                     }
                 }
             }]],

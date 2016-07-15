@@ -20,21 +20,13 @@
         <input type="radio" name="repeatIndicator"   value="" />全部
         <input type="radio" name="repeatIndicator" value="1"  />长期
         <input type="radio" name="repeatIndicator" value="0" checked  />临时
-    <!--<li>
-        <input type="radio" name="orderStatus"  checked="checked" value="1" />未执行
-    </li>-->
         <input type="hidden" name="wardCode" value="160101">
-        <a  id="submit_search" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+        <button class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="submit_search">查 询</button>
     </form>
 </div>
 
 
-<div style=" position:absolute; right:0px; bottom:20px; z-index:1;">
-    <div class="bot-medbtn">
-        <a  onclick="operationCopied()" class="easyui-linkbutton" iconCls="icon-add">转抄</a>
 
-    </div>
-</div>
 <table id="orderCopied" width="100%"   cellspacing="0" cellpadding="0" >
 
 </table>

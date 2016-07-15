@@ -13,6 +13,7 @@ public class DrugExportClassDict extends DataEntity<DrugExportClassDict> {
     private String exportClass;        // 出库分类
     private String statisticClass;        // statistic_class
     private String storageType;        // storage_type
+    private String toLevel;        // 去向等级
     private Long accountFlag;        // 保存时是否记帐
 
     public DrugExportClassDict() {
@@ -58,4 +59,11 @@ public class DrugExportClassDict extends DataEntity<DrugExportClassDict> {
         this.accountFlag = accountFlag;
     }
 
+    public String getToLevel() {
+        return toLevel;
+    }
+
+    public void setToLevel(String toLevel) {
+        this.toLevel = toLevel;
+    }
 }

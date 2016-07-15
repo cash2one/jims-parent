@@ -29,7 +29,7 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	private Date visitDate;		// 就诊日期
 	private Integer visitNo;		// 就诊序号
 	private String serialNo;		// 流水号
-	private Integer prescNo;		// 处方序号
+	private String prescNo;		// 处方序号
 	private Integer itemNo;		// 项目序号
 	private String itemClass;		// 项目类别
 	private String drugCode;		// 药名编码
@@ -66,6 +66,7 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 
     //扩展
     private String markSubOrderNo;  //标示是否子医嘱
+	private String quantity;//库存量
 	public OutpPresc() {
 		super();
 	}
@@ -101,11 +102,11 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
 	}
 	
 	@NotNull(message="处方序号不能为空")
-	public Integer getPrescNo() {
+	public String getPrescNo() {
 		return prescNo;
 	}
 
-	public void setPrescNo(Integer prescNo) {
+	public void setPrescNo(String prescNo) {
 		this.prescNo = prescNo;
 	}
 	
@@ -421,4 +422,12 @@ public class OutpPresc extends DataEntity<OutpPresc> implements Serializable {
     public void setMarkSubOrderNo(String markSubOrderNo) {
         this.markSubOrderNo = markSubOrderNo;
     }
+
+	public String getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
+	}
 }

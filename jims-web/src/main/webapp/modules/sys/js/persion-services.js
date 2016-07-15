@@ -17,9 +17,16 @@ $(function () {
 
     var persionServiceList = {};
 
+    $("#setCompany").on('click', function () {
+        window.location.href = "/modules/sys/company.html?persionId=" + persion_id;
+    });
     $("#default").on('click', function () {
         window.location.href = "/modules/sys/default.html?persionId=" + persion_id;
     });
+    $("#myServices").on('click', function () {
+        window.location.href = "/modules/sys/service-list.html?persionId=" + persion_id;
+    });
+
     $('#saveService').click(function () {
         var datas = $('#addServiceModel .curr-btn-save')
         if (datas.length == 0) {
@@ -91,13 +98,13 @@ $(function () {
      */
     var dataArr
     $.get('/service/sys-service/findServiceWithPrice', {serviceClass: '1', serviceType: '1'}, function (res) {
-        dataArr = res;
+        dataArr = res
         var liArr = $('#addServiceModel ul li')
         if (liArr.length < 1) {
             for (var i = 0; i < dataArr.length; i++) {
                 //用于判断服务信息是否维护完整
                 var sysServicePriceList = dataArr[i].sysServicePriceList;
-                if(sysServicePriceList[0].serviceTimeLimit !=null && sysServicePriceList[0].servicePrice !=null) {
+                if (sysServicePriceList[0].serviceTimeLimit != null && sysServicePriceList[0].servicePrice != null) {
                     var li = '<li id="service_' + dataArr[i].id + '">';
                     li += '<div class="service-set">'
                     li += '<h3>' + dataArr[i].serviceName + '</h3>'
@@ -113,7 +120,7 @@ $(function () {
                     li += '<tr style="height: 35px">'
                     li += '<td width="60"><span class="text-success">　时长：</span></td>'
                     li += '<td colspan="3"><input class="service-num" type="text" style="width: 50px" value="';
-                    if (priceArr != null && priceArr.length > 0) {
+                    if (priceArr && priceArr.length > 0) {
                         li += (priceArr[0].serviceTimeLimit == '年' ? '1' : '12')
                     }
                     li += '"/><span>　' + (priceArr && priceArr.length > 0 ? priceArr[0].serviceTimeLimit : '') + '</span></td>'
@@ -122,7 +129,7 @@ $(function () {
                     li += '<tr style="height: 35px">'
                     li += '<td width="60"><span class="text-success">　金额：</span></td>'
                     li += '<td colspan="3" style="color: red">'
-                    if (priceArr != null && priceArr.length > 0) {
+                    if (priceArr && priceArr.length > 0) {
                         var num = priceArr[0].serviceTimeLimit == '年' ? '1' : '12';
                         li += ((isNaN(priceArr[0].servicePrice) ? 0 : (+priceArr[0].servicePrice)) * num).toFixed(2)
                     } else {
@@ -135,10 +142,7 @@ $(function () {
                     li += '</li>'
                     $('#addServiceModel ul').append(li);
                 }
-
             }
-
-
             $('#addServiceModel ul li').each(function () {
                 var liObj = $(this)
                 $(this).children('div').slideDown('normal')
@@ -180,6 +184,10 @@ $(function () {
             }
             var initPrice = function (li) {
                 var n = $('.service-num', li).val()
+                var numcheck = /^[1-9][0-9]*$/;
+                if (!numcheck.test(n)) {
+                    $('.service-num', li).val('1');
+                }
                 var t = $('.span-class2', li).html()
                 var liId = $(li).attr('id')
                 var serviceId = liId.substr(liId.indexOf('_') + 1)

@@ -1,14 +1,12 @@
 package com.jims.phstock;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.StringData;
 import com.jims.phstock.api.DrugDictServiceApi;
 import com.jims.phstock.entity.DrugDict;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -20,8 +18,23 @@ import java.util.List;
 @Path("drug-dict")
 public class DrugDictRest {
 
-    @Reference(version = "1.0.0")
-    private DrugDictServiceApi drugDictServiceApi;
+    @Reference(version ="1.0.0")
+    private DrugDictServiceApi drugDictApi ;
+
+    /**
+     * 获取药品类别字典
+     * @return
+     * @Author zq
+     */
+    @GET
+    @Path("list")
+    public List<DrugDict> listDrugDict(){
+        DrugDict drugDict = new DrugDict();
+//        drugDict.setDelFlag("0");
+        return drugDictApi.findList(drugDict) ;
+    }
+
+
 
     /**
      * 根据药品名称或药品代码查询数据
@@ -31,6 +44,6 @@ public class DrugDictRest {
     @Path("get-by-name")
     @GET
     public List<DrugDict> getByName(@QueryParam("drugCode")String drugCode,@QueryParam("drugName")String drugName){
-        return drugDictServiceApi.getByName(drugCode,drugName);
+        return drugDictApi.getByName(drugCode,drugName);
     }
 }

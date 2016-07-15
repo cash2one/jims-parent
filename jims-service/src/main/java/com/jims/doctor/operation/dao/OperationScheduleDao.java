@@ -33,8 +33,16 @@ public interface OperationScheduleDao extends CrudDao<OperationSchedule> {
      * @param visitId
      * @return
      */
-    public OperationSchedule getSchedule(@Param(value = "patientId")String patientId,@Param(value = "visitId")String visitId,@Param("clinicId")String clinicId);
+    public List<OperationSchedule> getScheduleList(@Param("patientId")String patientId,@Param("visitId")String visitId,@Param("clinicId")String clinicId);
 
+    /**
+     *
+     * @param patientId
+     * @param visitId
+     * @param clinicId
+     * @return
+     */
+    public OperationSchedule getSchedule(@Param("patientId")String patientId,@Param("visitId")String visitId,@Param("clinicId")String clinicId);
 
     /**
      * 查询门诊手术确认的列表
@@ -51,4 +59,18 @@ public interface OperationScheduleDao extends CrudDao<OperationSchedule> {
      * @return
      */
     public int confrimOperation(OperationSchedule operationSchedule);
+
+    /**
+     * 获取单条数据
+     * @param id
+     * @return
+     */
+    public OperationSchedule getOneOperation(@Param("id")String id);
+
+    /**
+     * 删除主记录
+     * @param id
+     * @return
+     */
+    public int deleteOperation(@Param("id")String id);
 }

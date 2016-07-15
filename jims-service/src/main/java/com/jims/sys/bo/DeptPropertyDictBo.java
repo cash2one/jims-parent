@@ -6,7 +6,6 @@ package com.jims.sys.bo;
 import com.jims.common.data.StringData;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.StringUtils;
-import com.jims.sys.dao.DeptDictDao;
 import com.jims.sys.dao.OrgDeptPropertyDictDao;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.OrgDeptPropertyDict;
@@ -29,56 +28,7 @@ import java.util.List;
 public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, OrgDeptPropertyDict> {
 
     @Autowired
-    private DeptDictDao deptDictDao;
-
-    @Autowired
     private OrgDeptPropertyDictDao orgDeptPropertyDictDao;
-
-    public StringData add(OrgDeptPropertyDict orgDeptPropertyDict) {
-        List<OrgDeptPropertyDict> list = orgDeptPropertyDictDao.findName(orgDeptPropertyDict.getPropertyType(), orgDeptPropertyDict.getOrgId());
-        //给插入的科室属性进行排序
-        OrgDeptPropertyDict sort = orgDeptPropertyDictDao.findSort(orgDeptPropertyDict.getOrgId());
-        if (list.size() > 0) {
-            orgDeptPropertyDict.setSort(null);
-        } else {
-            if (sort.getSort() == null) {
-                orgDeptPropertyDict.setSort(0L);
-            } else {
-                orgDeptPropertyDict.setSort(sort.getSort() + 1);
-            }
-
-        }
-        if (list.size() == 0) {
-            int num = orgDeptPropertyDictDao.insert(orgDeptPropertyDict);
-            if (num != 0) {
-                StringData stringData = new StringData();
-                stringData.setData("success");
-                return stringData;
-            }
-        } else {
-            boolean insert = true;
-            for (int i = 0; i < list.size(); i++) {
-                if (StringUtils.equalsIgnoreCase(orgDeptPropertyDict.getPropertyValue(), list.get(i).getPropertyValue())) {
-                    insert = false;
-                    break;
-                }
-            }
-            if (insert) {
-                int num = orgDeptPropertyDictDao.insert(orgDeptPropertyDict);
-                if (num != 0) {
-                    StringData stringData = new StringData();
-                    stringData.setData("success");
-                    return stringData;
-                }
-            }
-            if (insert == false) {
-                StringData stringData = new StringData();
-                stringData.setData("fail");
-                return stringData;
-            }
-        }
-        return null;
-    }
 
 
     /**
@@ -96,7 +46,11 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
         //插入
         for (OrgDeptPropertyDict orgDeptPropertyDict : inserted) {
 
-            List<OrgDeptPropertyDict> list = orgDeptPropertyDictDao.findName(orgDeptPropertyDict.getPropertyType(), orgDeptPropertyDict.getOrgId());
+            OrgDeptPropertyDict orgDeptPropertyDict1=new OrgDeptPropertyDict();
+            orgDeptPropertyDict1.setPropertyType(orgDeptPropertyDict.getPropertyType());
+            orgDeptPropertyDict1.setOrgId(orgDeptPropertyDict.getOrgId());
+
+            List<OrgDeptPropertyDict> list = orgDeptPropertyDictDao.findByCondition(orgDeptPropertyDict1);
             //给插入的科室属性进行排序
             OrgDeptPropertyDict sort = orgDeptPropertyDictDao.findSort(orgDeptPropertyDict.getOrgId());
             if (list.size() > 0) {
@@ -107,7 +61,6 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
                 } else {
                     orgDeptPropertyDict.setSort(sort.getSort() + 1);
                 }
-
             }
             orgDeptPropertyDict.preInsert();
             int num = orgDeptPropertyDictDao.insert(orgDeptPropertyDict);
@@ -117,7 +70,6 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
             orgDeptPropertyDict.preUpdate();
             int num = orgDeptPropertyDictDao.update(orgDeptPropertyDict);
         }
-
         //删除
         List<String> ids = new ArrayList<String>();
         for (OrgDeptPropertyDict orgDeptPropertyDict : deleted) {
@@ -127,28 +79,6 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
             dao.delete(id);
         }
         return newUpdateDict;
-    }
-
-
-    /**
-     * 根据属性类型查询属性名称
-     *
-     * @param
-     * @return
-     */
-    public List<OrgDeptPropertyDict> findNameByType(String propertyType, String orgId) {
-        return dao.findNameByType(propertyType, orgId);
-    }
-
-    /**
-     * 根据属性类型和属性值查询属性名称
-     *
-     * @param propertyType
-     * @param propertyValue
-     * @return
-     */
-    public OrgDeptPropertyDict findNameByTypeAndValue(String propertyType, String propertyValue, String orgId) {
-        return dao.findNameByTypeAndValue(propertyType, propertyValue, orgId);
     }
 
     /**
@@ -169,16 +99,6 @@ public class DeptPropertyDictBo extends CrudImplService<OrgDeptPropertyDictDao, 
     public List<OrgDeptPropertyDict> findByCondition(OrgDeptPropertyDict orgDeptPropertyDict) {
 
         return dao.findByCondition(orgDeptPropertyDict);
-    }
-
-    /**
-     * 查询属性的名称
-     *
-     * @param propertyType
-     * @return
-     */
-    public List<OrgDeptPropertyDict> findName(String propertyType, String orgId) {
-        return dao.findName(propertyType, orgId);
     }
 
     /**

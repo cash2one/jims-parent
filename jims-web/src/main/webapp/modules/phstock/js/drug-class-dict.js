@@ -228,6 +228,21 @@ $(function(){
         }
     })
 
+    var drugList=[];
+    //根据classCode查询全院药库是否还有药品
+    var drugNum=function(classCode){
+        $.ajax({
+            type:'get',
+            url:basePath + "/drug-price/listDrugNameDictByClassCode?classCode="+classCode,
+            async:false,
+            contentType:"application/json",
+            success:function(data){
+                //console.log(data);
+                drugList=data;
+            }
+        })
+    }
+
     //删除按钮
     $("#removeBtn").on('click', function () {
         var row = $("#dg").datagrid('getSelected');
@@ -241,23 +256,29 @@ $(function(){
             $.messager.alert("系统提示", "请先删除子类别");
             return;
         } else {
-            $.messager.confirm("系统提示", "确认删除:【" + row.className + "】的类别吗?", function (r) {
-                if (r) {
-                    //$.postJSON(basePath + "/menuDict/del" ,row.id, function (data) {
-                    var drugClassDict={};
-                    drugClassDict.id=row.id;
-                    drugClassDict.classCode=row.classCode;
-                    drugClassDict.className=row.className;
-                    drugClassDict.parentId=row.parentId;
-                    drugClassDict.delFlag="1";
-                    console.log(drugClassDict);
+            drugNum(row.classCode);
+            if(drugList.length>0){
+                $.messager.alert("系统提示","该类别下含有药品信息，不允许删除","error")
+            }else{
+                $.messager.confirm("系统提示", "确认删除:【" + row.className + "】的类别吗?", function (r) {
+                    if (r) {
+                        //$.postJSON(basePath + "/menuDict/del" ,row.id, function (data) {
+                        var drugClassDict={};
+                        drugClassDict.id=row.id;
+                        drugClassDict.classCode=row.classCode;
+                        drugClassDict.className=row.className;
+                        drugClassDict.parentId=row.parentId;
+                        drugClassDict.delFlag="1";
+                        console.log(drugClassDict);
+                        drugNum(drugClassDict.classCode);
+                        $.postJSON(basePath + "/drug-class-dict/save", JSON.stringify(drugClassDict), function (data){
+                            $.messager.alert("系统提示", "删除成功");
+                            loadDept();
+                        })
+                    }
+                })
+            }
 
-                    $.postJSON(basePath + "/drug-class-dict/save", JSON.stringify(drugClassDict), function (data){
-                        $.messager.alert("系统提示", "删除成功");
-                        loadDept();
-                    })
-                }
-            })
         }
     });
 

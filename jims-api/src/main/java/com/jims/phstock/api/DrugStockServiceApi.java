@@ -3,6 +3,7 @@ package com.jims.phstock.api;
 import com.jims.common.persistence.Page;
 import com.jims.phstock.entity.DrugStock;
 import com.jims.phstock.vo.DrugStockAllVo;
+import com.jims.phstock.vo.DrugStockVo;
 import com.jims.phstock.vo.DrugWorkCount;
 
 import java.util.List;
@@ -90,4 +91,11 @@ public interface DrugStockServiceApi{
      * @return
      */
     public List<DrugStock> findListHasStock(DrugStock drugStock);
+    /**
+     * 保存  增删改
+     * @param drugStockVo
+     * @return
+     *  @author  yangruidong
+     */
+    public List<DrugStock> saveAll(DrugStockVo<DrugStock> drugStockVo);
 }
