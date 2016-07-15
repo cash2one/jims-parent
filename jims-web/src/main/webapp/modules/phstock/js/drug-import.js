@@ -818,7 +818,7 @@ $(function () {
      */
     var loadDrugPriceData = function (drugDict) {
         $.ajaxAsync('/service/drug-price/findList', {
-            orgId: drugDict.orgId,
+            orgId: currentOrgId,
             drugCode: drugDict.drugCode
         }, function (res) {
             console.log(res);
