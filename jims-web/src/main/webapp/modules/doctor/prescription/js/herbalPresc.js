@@ -1,20 +1,15 @@
 var rowNumZ=0;
-var orderNo=0;
 var prescNo;
 var itemClass;
-var clinicId;
 var chargeIndicator='新开';
 //页面加载
 $(function() {
     itemClass = $("#itemClass").val();
-    clinicId = parent.clinicMaster.id;
     $("#clinicId").val(clinicId);
-
-
 
     //途径
     $('#administration').combobox({
-        data: administrationmzDict,
+        data: administrationDict,
         valueField: 'id',
         textField: 'administrationName',
         required:true
@@ -54,7 +49,7 @@ $(function() {
             {field: 'drug_code',hidden:true}
         ]],onClickRow: function (index, row) {
             var i=$("#numHideId").val();
-            $("#drugName"+i).val(row.item_name);
+            $("#drugName"+i).textbox('setValue',row.item_name);
             $("#drugCode"+i).val(row.drug_code);
             $("#drugSpec"+i).val(row.drug_spec);
             $("#firmId"+i).val(row.firm_id);
@@ -66,19 +61,25 @@ $(function() {
             $("#subjCode"+i).val(row.subj_code);
             $("#performedBy"+i).val(row.performed_by);
             $("#charges"+i).val(row.price);
+            $("#orderNo"+i).val(orderNo);
+            $("#subOrderNo"+i).val(orderNo);
+            $("#prescNo"+i).val(prescNo);
             $("#drugNameDialog").dialog('close');
+
         }
     });
     $("#addBtn").on("click",function(){
         rowNumZ++;
+        orderNo++;
         /**药品**/
         var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
         if(selRow!=null&&selRow!=''&&selRow!='undefined') {
+            prescNo = selRow[0].prescNo;
             var html='';
             html += '<li  style="position:relative;" onclick="centerActive(this,\'herbalHide'+rowNumZ+'\')" id="herbal'+rowNumZ+'" inputhide="herbalHide'+rowNumZ+'">' +
-                '<div><input  type="text" id="freqDetail'+rowNumZ+'" namehide="freqDetail" inputhide="herbalHide'+rowNumZ+'"  class="easyui-textbox" style="width: 200px;"/></div>' +
-                '<input  type="text" id="drugName'+rowNumZ+'" namehide="drugName" class="easyui-textbox" onclick="openOombogrid(this,\''+rowNumZ+'\')"  inputhide="herbalHide'+rowNumZ+'" style="width: 150px"/>' +
-                '<input type="text" value="0" style="width: 50px" class="easyui-textbox" id="amount'+rowNumZ+'" namehide="amount" inputhide="herbalHide'+rowNumZ+'"/>' +
+                '<div><input  type="text" id="freqDetail'+rowNumZ+'" namehide="freqDetail" inputhide="herbalHide'+rowNumZ+'"  class="easyui-textbox" style="width: 200px;" required="true"/></div>' +
+                '<input  type="text" id="drugName'+rowNumZ+'" namehide="drugName" class="easyui-textbox " required="true"  inputhide="herbalHide'+rowNumZ+'" style="width: 150px"/>' +
+                '<input type="text" value="0" style="width: 50px" class="easyui-numberbox" required="true" id="amount'+rowNumZ+'" namehide="amount" inputhide="herbalHide'+rowNumZ+'"/>' +
             '<span id="span'+rowNumZ+'" class="color-blue" style="padding-left:10px;"></span>' +
                 '<a class="ul_li_a"  onclick="delActive(this)" >X</a>' +
                 '<input type="hidden" id="drugCode'+rowNumZ+'" namehide="drugCode" inputhide="herbalHide'+rowNumZ+'" /> ' +
@@ -90,15 +91,19 @@ $(function() {
                 '<input type="hidden" id="units'+rowNumZ+'" namehide="units" inputhide="herbalHide'+rowNumZ+'" /> ' +
                 '<input type="hidden" id="subjCode'+rowNumZ+'" namehide="subjCode" inputhide="herbalHide'+rowNumZ+'" /> ' +
                 '<input type="hidden" id="performedBy'+rowNumZ+'" namehide="performedBy" inputhide="herbalHide'+rowNumZ+'" /> ' +
-                '<input type="hidden" id="orderNo'+rowNumZ+'" namehide="orderNo" inputhide="herbalHide'+rowNumZ+'" value="'+rowNumZ+'"/> ' +
-                '<input type="hidden" id="subOrderNo'+rowNumZ+'" namehide="subOrderNo" inputhide="herbalHide'+rowNumZ+'" value="'+rowNumZ+'"/> ' +
+                '<input type="hidden" id="orderNo'+rowNumZ+'" namehide="orderNo" inputhide="herbalHide'+rowNumZ+'"/> ' +
+                '<input type="hidden" id="subOrderNo'+rowNumZ+'" namehide="subOrderNo" inputhide="herbalHide'+rowNumZ+'"/> ' +
                 '<input type="hidden" id="charges'+rowNumZ+'" namehide="charges" inputhide="herbalHide'+rowNumZ+'" /> '+
+                '<input type="hidden" id="prescNo'+rowNumZ+'" namehide="prescNo" inputhide="herbalHide'+rowNumZ+'" /> '+
                 '<input type="hidden" id="serialNo'+rowNumZ+'" namehide="serialNo" inputhide="herbalHide'+rowNumZ+'" /> ';
             $("#herbal_ul").append(html);
             html='';
-          /*  $('#freqDetail'+rowNumZ).textbox("setValue",'');
-            $('#amount'+rowNumZ).numberbox("setValue",'');*/
-
+            $("#freqDetail"+rowNumZ).textbox();
+            $("#drugName"+rowNumZ).textbox();
+            $("#drugName"+rowNumZ).textbox('textbox').bind("click", function () {
+                openOombogrid(this,rowNumZ);
+            });
+            $("#amount"+rowNumZ).numberbox();
 
         }else{
             $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
