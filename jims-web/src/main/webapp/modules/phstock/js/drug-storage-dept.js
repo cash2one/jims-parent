@@ -184,6 +184,8 @@ $(function () {
         $("#drug-storage").datagrid('selectRow', editIndex);
         $("#drug-storage").datagrid('beginEdit', editIndex);
     });
+
+
     $("#editStorageBtn").on('click', function () {
         var row = $("#drug-storage").datagrid("getSelected");
         var index = $("#drug-storage").datagrid("getRowIndex", row);
@@ -199,6 +201,7 @@ $(function () {
             $("#drug-storage").datagrid("beginEdit", index);
             editIndex = index;
         }
+        console.log(row);
     });
     $("#delStorageBtn").on('click', function () {
         var row = $("#drug-storage").datagrid('getSelected');
@@ -219,6 +222,7 @@ $(function () {
         beanChangeVo.deleted = deleted; //deleted;
         beanChangeVo.updated = updated; //updated;
         if(beanChangeVo.updated.length > 0){
+            console.log(beanChangeVo);
             $.messager.confirm('系统警告','注意:此修改可能会引起库存子单位的改变,您确定要保存吗?',function(r){
                 if(!r){
                     beanChangeVo.updated = null;
@@ -240,6 +244,7 @@ $(function () {
                 }
             });
         }else{
+            console.log(beanChangeVo);
             $.postJSON(basePath + '/drug-storage-dept/save', JSON.stringify(beanChangeVo), function (resp) {
                 if (resp.data == 'success') {
                     $.messager.alert("提示消息", "保存成功!");

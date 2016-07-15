@@ -38,6 +38,11 @@ $(function(){
         return '';
     }
 
+    var levelList=[];
+    $.get( basePath  + "/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
+        levelList = data;
+    });
+
     $("#importDict").on("click", function () {
         $("#drugdict").datagrid('loadData',[]);
         $("#drugdict").datagrid({
@@ -110,7 +115,32 @@ $(function(){
                         return "不记账";
                     }
                 }
-            }]],
+            },{
+                title: '来往等级', //入库
+                field: 'fromLevel',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox', options: {
+                        editable: false,
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'label',
+                        method: 'GET',
+                        url:basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR"
+                    }
+                }
+                ,formatter:function(value,row,index){
+                    var fromLevelName=value;
+                    $.each(levelList,function(index,item){
+                        if(item.value=value){
+                            fromLevelName=item.label;
+                        }
+                    })
+                }
+            }
+
+            ]],
             toolbar: [{
                 text: '新增',
                 iconCls: 'icon-add',
@@ -211,6 +241,29 @@ $(function(){
                     if (value == "0") {
                         return "不记账";
                     }
+                }
+            },{
+                title: '药品入出库方向', //出库
+                field: 'toLevel',
+                align: 'center',
+                width: '20%',
+                editor: {
+                    type: 'combobox', options: {
+                        editable: false,
+                        align: 'center',
+                        valueField: 'value',
+                        textField: 'label',
+                        method: 'GET',
+                        url:basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR"
+                    }
+                }
+                ,formatter:function(value,row,index){
+                    var fromLevelName=value;
+                    $.each(levelList,function(index,item){
+                        if(item.value=value){
+                            fromLevelName=item.label;
+                        }
+                    })
                 }
             }]],
             toolbar: [{
