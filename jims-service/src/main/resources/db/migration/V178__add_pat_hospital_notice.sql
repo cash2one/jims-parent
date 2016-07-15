@@ -52,7 +52,7 @@ create table PAT_HOSPITAL_NOTICE
 
 comment on table PAT_HOSPITAL_NOTICE
   is '住院通知单表';
-  comment on column PAT_HOSPITAL_NOTICE.MASTER_ID
+  comment on column PAT_HOSPITAL_NOTICE.CLINIC_ID
   is '就诊记录ID';
     comment on column PAT_HOSPITAL_NOTICE.ORG_ID
   is '机构ID';

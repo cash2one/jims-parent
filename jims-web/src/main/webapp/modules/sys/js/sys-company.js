@@ -91,9 +91,18 @@ $(function(){
                 width: '10%'
             },{
                 field: 'id', title: '操作', width: '23%', align: 'center', formatter: function (value, row, index) {
-                    var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="pass(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>通过</button>' +
-                        '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="refuse(\'' + value + '\')"><img src="/static/images/index/icon2.png"  width="12" />驳回</button>' /*+
-                        '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="checkService(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>查看服务</button>'*/;
+                    var html = ''; /*+
+                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="checkService(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>查看服务</button>'*/;
+                    if(row.applyStatus == '1'){
+                        html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="pass(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>通过</button>' +
+                            '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="refuse(\'' + value + '\')"><img src="/static/images/index/icon2.png"  width="12" />驳回</button>'
+                    }
+                    if(row.applyStatus == '2'){
+                        html = '/';
+                    }
+                    if(row.applyStatus == '-1'){
+                        html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="pass(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>通过</button>'
+                    }
                     return html;
                 }
             }
