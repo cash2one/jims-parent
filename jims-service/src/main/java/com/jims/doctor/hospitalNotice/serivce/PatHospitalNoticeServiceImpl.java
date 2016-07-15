@@ -19,17 +19,6 @@ public class PatHospitalNoticeServiceImpl implements PatHospitalNoticeServiceApi
     @Autowired
     private PatHospitalNoticeBo patHospitalNoticeBo;
 
-    /**
-     * 获取住院通知单信息
-     *
-     * @param id
-     * @return
-     * @author qinlongxin
-     */
-    @Override
-    public PatHospitalNotice get(String id) {
-        return patHospitalNoticeBo.get(id);
-    }
 
     /**
      * 住院通知单分页
@@ -65,5 +54,16 @@ public class PatHospitalNoticeServiceImpl implements PatHospitalNoticeServiceApi
     @Override
     public String save(PatHospitalNotice patHospitalNotice) {
         return  patHospitalNoticeBo.savePatHospitalNotice(patHospitalNotice);
+    }
+
+
+    /**
+     * 获取住院通知单信息
+     * @param clinicId
+     *  @author qinlongxin
+     * @return
+     */
+    public PatHospitalNotice getNotice(String clinicId){
+        return  patHospitalNoticeBo.getNotice(clinicId);
     }
 }
