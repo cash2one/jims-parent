@@ -89,7 +89,10 @@ public class PriceDictRest {
     @Path("get-by-inputCode")
     @GET
     public List<PriceList> getByInputCode(@QueryParam("inputCode")String inputCode,@QueryParam("orgId")String orgId){
-        return priceListApi.getByInputCode(inputCode,orgId);
+        if(inputCode != null || inputCode != ""){
+            return priceListApi.getByInputCode(inputCode, orgId);
+        }
+        return null;
     }
 
     @Path("code/{transcode}")
