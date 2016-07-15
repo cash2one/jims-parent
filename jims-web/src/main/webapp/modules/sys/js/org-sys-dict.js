@@ -129,7 +129,7 @@ $(function () {
             if (labelUpdatedData && labelUpdatedData.length > 0) {    //更新数据
                 for (var i = 0; i < labelUpdatedData.length; i++) {
                     labelUpdatedData[i].label = trim(labelUpdatedData[i].label);
-                    labelUpdatedData[i].value = trim(labelUpdatedData[i].label);
+                    labelUpdatedData[i].value = trim(labelUpdatedData[i].value);
                     if (typeof(labelUpdatedData[i].label) != "undefined" && labelUpdatedData[i].label != ""
                         && typeof(labelUpdatedData[i].value) != "undefined" && labelUpdatedData[i].value != "") {
                         updatedData.id = datasForType[i].id;
