@@ -6,22 +6,12 @@ $(function () {
     }) ;
     promise.done(function() {
         if (!loginInfo.persionId) {
-            //非法的而用户进入
+            //阻止非法用户进入和长时间未操作需要再次登录
             return;
         }
-        persion_id = loginInfo.persionId;
+        var persion_id = loginInfo.persionId;
 
         var persionServiceList = {};
-
-        $("#setCompany").on('click', function () {
-            window.location.href = "/modules/sys/company.html?persionId=" + persion_id;
-        });
-        $("#default").on('click', function () {
-            window.location.href = "/modules/sys/default.html?persionId=" + persion_id;
-        });
-        $("#myServices").on('click', function () {
-            window.location.href = "/modules/sys/service-list.html?persionId=" + persion_id;
-        });
 
         /**
          * 展示我的服务
@@ -291,7 +281,7 @@ $(function () {
                 'success': function (data) {
                     if (data == "1") {
                         alert("保存成功！！");
-                        window.location.href = "/modules/sys/service-list.html?persion_id=" + persion_id;
+                        window.location.href = "/modules/sys/service-list.html";
                     } else {
                         alert("保存失败！！");
                     }
@@ -316,12 +306,7 @@ $(function () {
          * 展示可定制的有偿的个人服务
          */
         var dataArr
-        $.get('/service/sys-service/findServiceWithPrice', {
-            serviceClass: '1',
-            serviceType: '1',
-            persionId: persion_id,
-            state: '1'
-        }, function (res) {
+        $.get('/service/sys-service/findServiceWithPrice', { serviceClass: '1', serviceType: '1', persionId: persion_id, state: '1' }, function (res) {
             dataArr = res
             var liArr = $('#addServiceModel ul li')
             if (liArr.length < 1) {
@@ -430,6 +415,22 @@ $(function () {
 
     })
 
+    //注册机构
+    $("#setCompany").on('click', function () {
+        window.location.href = "/modules/sys/company.html";
+    });
+    //个人首页
+    $("#default").on('click', function () {
+        window.location.href = "/modules/sys/default.html";
+    });
+    //我的服务
+    $("#myServices").on('click', function () {
+        window.location.href = "/modules/sys/service-list.html";
+    });
+    //退出
+    $("#exit").on("click", function () {
+        location.href = "/modules/sys/login.html";
+    });
 
 
 });

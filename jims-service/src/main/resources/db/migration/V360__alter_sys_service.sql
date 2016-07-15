@@ -2,10 +2,11 @@
 --修改系统服务表的服务描述字段类型为Blob
 -- Add/modify columns
 
-rename sys_service to sys_service_test;--原表改名
+--原表改名
+rename sys_service to sys_service_test;
 
--- Create table
-create table SYS_SERVICE--创建新表（注意：新表名与原表名同，新表的service_description字段是blob类型，原表中是varchar2）
+-- Create table--创建新表（注意：新表名与原表名同，新表的service_description字段是blob类型，原表中是varchar2）
+create table SYS_SERVICE
 (
   id                  VARCHAR2(64) not null,
   service_name        VARCHAR2(100),
@@ -51,7 +52,8 @@ comment on column SYS_SERVICE.service_image
 insert into sys_service(id,service_name,service_type,service_class,service_image,remarks,update_by,create_by,update_date,del_flag,create_date,service_description)
   select id,service_name,service_type,service_class,service_image,remarks,update_by,create_by,update_date,del_flag,create_date,rawtohex(service_description) from sys_service_test;
 
-drop table sys_service_test;--删除原表
+--删除原表
+drop table sys_service_test;
 
 --下面是创建主键和附键
 alter table SYS_SERVICE
