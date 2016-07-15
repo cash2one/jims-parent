@@ -188,8 +188,9 @@ $(function () {
         var _allData = $('#drug-import').datagrid('getRows')
         for (var i = 0, j = _allData.length - 1; i < j; i++) {
             if (i != currentSelectIndex && _allData[i].drugCode == o['drugCode']
-                && _allData[i].drugSpec == o['packSpec'] && _allData[i].firmId == o['firmId']
-                && _allData[i].units == o['packUnit']) {
+                && _allData[i].drugSpec == o['minSpec'] && _allData[i].firmId == o['firmId']
+                && _allData[i].units == o['minUnits']&& _allData[i].packageSpec == o['drugSpec']
+                && _allData[i].packageUnits == o['units']) {
                 return true
             }
         }
@@ -845,13 +846,7 @@ $(function () {
         var _tempFlag = false   // 当window关闭时是否赋值
 
         var initData = function (drugPrice, drugDict) {
-            var drugParam = {
-                drugCode: drugPrice.drugCode
-                , packSpec: drugPrice.drugSpec
-                , packUnit: drugPrice.units
-                , firmId: drugPrice.firmId
-            }
-            if (chargeDrugExisted(drugParam)) {
+            if (chargeDrugExisted(drugPrice)) {
                 $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
                 rollBack(_oldDrugName)
                 return
