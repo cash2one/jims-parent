@@ -72,6 +72,7 @@ $(function () {
         ,currentStorage = config.currentStorage  // 当前登录人所属管理单位
         ,currentUsername = '录入者'   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账
+        ,currentToLevel;  //去向
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
     /**
@@ -107,7 +108,7 @@ $(function () {
 
         parent.$.postJSON('/service/input-setting/listParam',
             JSON.stringify(param) ,function(res){
-                showWindow(res, drugDict)
+                showWindow(res)
             })
     }
 
@@ -158,9 +159,8 @@ $(function () {
     /**
      * 展现药品库存数据，当库存参数内只有一条数据时不显示，直接赋值。当一条也没有时清空药品名称。
      * @param drugStocks 药品库存数据
-     * @param drugDict 药品名称
      */
-    var showWindow = function (drugStocks, drugDict) {
+    var showWindow = function (drugStocks) {
         var exportRow = $('#dg').datagrid('getSelected')
         var _oldDrugName = exportRow.drugName
         if (!drugStocks || drugStocks.length == 0) {
@@ -168,8 +168,7 @@ $(function () {
             return
         }
         var _tempFlag = false   // 当window关闭时是否赋值
-
-        var initData = function (drugStock, drugDict) {
+        var initData = function (drugStock) {
             var drugParam = {
                 drugCode: drugStock['drug_code'],
                 firmId: drugStock['firm_id'],
@@ -190,7 +189,7 @@ $(function () {
             exportRow.supplier = drugStock['supplier']
             exportRow.retailPrice = drugStock['retail_price']
             exportRow.tradePrice = drugStock['trade_price']
-            exportRow.price = $('#statisticClass').combobox('getValue') == '退药出库' ?
+            exportRow.price = currentToLevel == '4' ?
                 drugStock['trade_price'] : drugStock['retail_price'];
             exportRow.packageSpec = drugStock['package_spec']
             exportRow.packageUnits = drugStock['package_units']
@@ -211,7 +210,7 @@ $(function () {
             _tempFlag = true
         }
         if (drugStocks.length == 1) {
-            initData(drugStocks[0], drugDict)
+            initData(drugStocks[0])
             return
         }
 
@@ -251,7 +250,7 @@ $(function () {
 
             ]],
             onDblClickRow: function (index, row) {
-                initData(row, drugDict)
+                initData(row)
                 $('#drugStockWindow').window('close')
             }
         })
@@ -559,6 +558,7 @@ $(function () {
         method: 'GET',
         onSelect: function(record){
             currentAccountFlag = record['accountFlag']
+            currentToLevel = record['toLevel']
             $("#dg").datagrid('loadData',[])
             if(record['toLevel'] == '4'){
                 $("#subStorageDept").combobox({

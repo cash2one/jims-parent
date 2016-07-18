@@ -263,7 +263,8 @@
 
     <select id="findListHasStock" resultType="DrugStock">
         SELECT
-        <include refid="drugStockColumns"/>,d.drug_name drugName,d.input_code inputCode
+        distinct
+        a.storage, a.drug_code,a.sub_storage,a.org_id,d.drug_name,d.input_code
         FROM drug_stock a,(select distinct drug_code,drug_name,input_code from drug_dict where del_flag='0') d
         <include refid="drugStockJoins"/>
         <where>
