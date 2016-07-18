@@ -152,8 +152,8 @@ public class DrugPriceListBo extends CrudImplService<DrugPriceListDao, DrugPrice
      * @author txb
      * @return
      */
-    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate, String endDate) {
-        return drugPriceModifyDao.findModifyListByNoticeEfficientDate(startDate,endDate);
+    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate, String endDate,String orgId) {
+        return drugPriceModifyDao.findModifyListByNoticeEfficientDate(startDate,endDate,orgId);
     }
 
     /**

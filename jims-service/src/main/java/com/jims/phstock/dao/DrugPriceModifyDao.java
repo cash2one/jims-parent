@@ -21,5 +21,5 @@ public interface DrugPriceModifyDao extends CrudDao<DrugPriceModify> {
      * @author txb
      * @return
      */
-    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate , String endDate);
+    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate , String endDate,String orgId);
 }
