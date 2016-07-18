@@ -219,7 +219,7 @@ $(function () {
         examRptPatternVo.updated = updateData;
         examRptPatternVo.examClass =  $('#examClass').combobox("getValue");
         examRptPatternVo.examSubClass =  $('#examSubClass').combobox("getValue");
-        examRptPatternVo.orgId =  1;
+        examRptPatternVo.orgId =  config.org_Id;
 
         $.postJSON(basePath +  "/examRptPattern/saveList",JSON.stringify(examRptPatternVo), function (data) {
             $.messager.alert('系统提示', '保存成功', 'info');
