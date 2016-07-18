@@ -171,8 +171,10 @@ $(function () {
                             selectedSpec =  $(spec.target).textbox("getValue");
 
                         }
-                        if (newValue){
+                        if (newValue>1){
                             $(spec.target).textbox("setValue",newValue +"*"+row.minSpec);
+                        }else{
+                            $(spec.target).textbox("setValue",row.minSpec);
                         }
                     }
                 }
@@ -690,10 +692,11 @@ $(function () {
             return;
         }
         stopEdit();
-        var newSpec = row.drugSpec.substring(0,row.drugSpec.length - row.amountPerPackage.length - 1);
+        //var newSpec = row.drugSpec.substring(0,row.drugSpec.length - row.amountPerPackage.length - 1);
+
         var tradePrice = parseFloat(row.tradePrice  /  row.amountPerPackage).toFixed(4);
         var retailPrice =parseFloat(row.retailPrice  /  row.amountPerPackage).toFixed(4);
-        $("#datagridRight").datagrid("appendRow",{drugCode:row.drugCode,amountPerPackage:'1',drugSpec:newSpec,units:row.units,
+        $("#datagridRight").datagrid("appendRow",{drugCode:row.drugCode,amountPerPackage:'1',drugSpec:row.minSpec,units:row.units,
             firmId:row.firmId,startDate:new Date(),tradePrice:tradePrice,retailPrice:retailPrice,priceClass:row.priceClass,
             passNo:row.passNo,gmp:row.gmp,orgId:parent.config.org_Id,
             minSpec:row.minSpec,minUnits:row.minUnits,classOnInpRcpt:row.classOnInpRcpt ,
