@@ -287,4 +287,15 @@ $(function () {
 
     });
 
+    $.extend($.fn.validatebox.defaults.rules, {
+
+        examClassCode: {//param的值为[]中值
+            validator: function (value) {
+                var reg = /^[a-zA-Z0-9]{0,1}$/;
+                return reg.test(value);
+            },
+            message: '编码只能是1位数字或字母.'
+        }
+    })
+
 });
