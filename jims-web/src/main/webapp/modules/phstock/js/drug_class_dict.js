@@ -39,7 +39,7 @@ $(function(){
     }
 
     var levelList=[];
-    $.get( basePath  + "/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
+    $.get( basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR", function (data) {
         levelList = data;
     });
 
@@ -132,11 +132,13 @@ $(function(){
                 }
                 ,formatter:function(value,row,index){
                     var fromLevelName=value;
+                    console.log(levelList);
                     $.each(levelList,function(index,item){
-                        if(item.value=value){
+                        if(item.value==value){
                             fromLevelName=item.label;
                         }
                     })
+                    return fromLevelName;
                 }
             }
 
@@ -260,10 +262,11 @@ $(function(){
                 ,formatter:function(value,row,index){
                     var fromLevelName=value;
                     $.each(levelList,function(index,item){
-                        if(item.value=value){
+                        if(item.value==value){
                             fromLevelName=item.label;
                         }
                     })
+                    return fromLevelName;
                 }
             }]],
             toolbar: [{
