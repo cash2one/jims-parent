@@ -58,8 +58,7 @@ public interface DictDao extends CrudDao<Dict> {
 
     /**
      * 根据类型查询标签列表
-     *
-     * @param dict 类型
+     * @param type 类型
      * @return 标签名称列表
      * @author zhangyao
      */
