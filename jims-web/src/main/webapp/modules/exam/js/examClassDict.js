@@ -6,6 +6,7 @@
 
 $(function () {
 
+
     //检查类别
     $("#examClassGrid").datagrid({
         fit: true,
@@ -13,7 +14,7 @@ $(function () {
         striped: true,
         singleSelect: true,
         toolbar: '#classft',
-        url: basePath +  "/examClassDict/listByOrgId?orgId="+parent.config.org_Id,
+        url: basePath +  "/examClassDict/listByOrgId?orgId="+config.org_Id,
         method: 'GET',
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
@@ -43,7 +44,7 @@ $(function () {
         }]],
         onClickRow: function (rowIndex, rowData) {
             var options = $("#examSubclassGrid").datagrid('options');
-            options.url = basePath + "/examSubclassDict/list-by-class?orgId=" + parent.config.org_Id+ "&className=" + rowData.examClassName;
+            options.url = basePath + "/examSubclassDict/list-by-class?orgId=" + config.org_Id+ "&className=" + rowData.examClassName;
             $("#examSubclassGrid").datagrid('reload');
         }
     });
@@ -56,7 +57,7 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers:true,
-        url: basePath + "/examSubclassDict/listByOrgId?orgId=" + parent.config.org_Id,
+        url: basePath + "/examSubclassDict/listByOrgId?orgId=" + config.org_Id,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
@@ -97,16 +98,17 @@ $(function () {
             if(row){
                 $("#examSubClassNameParent").combobox('setValue',row.examClassName) ;
             }
-
         }
     });
 
     //类别项目下拉框
     $("#examSubClassNameParent").combobox({
+        width:176,
+        editable:false,
         valueField: 'examClassName',
         textField: 'examClassName',
         method: 'GET',
-        url: basePath +  "/examClassDict/listByOrgId?orgId="+parent.config.org_Id,
+        url: basePath +  "/examClassDict/listByOrgId?orgId="+config.org_Id,
         onLoadSuccess: function () {
             var data = $(this).combobox('getData');
             if (data.length > 0) {
@@ -116,10 +118,12 @@ $(function () {
     });
     //执行科室下拉框
     $("#performBy").combobox({
+        width:176,
+        editable:false,
         valueField: 'deptCode',
         textField: 'deptName',
         method: 'GET',
-        url: basePath + "/dept-dict/list",
+        url: basePath + "/dept-dict/list?orgId="+config.org_Id,
         onLoadSuccess: function () {
             var data = $(this).combobox('getData');
             if (data.length > 0) {
@@ -129,6 +133,8 @@ $(function () {
     });
     //打印格式下拉框
     $("#printStyle").combobox({
+        width:176,
+        editable:false,
         valueField: 'value',
         textField: 'text',
         method: 'GET',
@@ -143,6 +149,8 @@ $(function () {
     });
     //特殊科室下拉框
     $("#specialtiesDept").combobox({
+        width:176,
+        editable:false,
         valueField: 'value',
         textField: 'text',
         method: 'GET',
@@ -186,15 +194,15 @@ $(function () {
         saveObj.performBy = $("#performBy").combobox('getValue');
         saveObj.printStyle = $("#printStyle").combobox('getValue');
         saveObj.specialtiesDept = $("#specialtiesDept").combobox('getValue');
-        saveObj.orgId = '1';
+        saveObj.orgId = config.org_Id;
         console.log(saveObj);
         $.postJSON(basePath + "/examClassDict/save", JSON.stringify(saveObj), function (data) {
             $("#classWin").window('close');
-            $.messager.alert('系统提示', '分类添加成功');
+            $.messager.alert('系统提示', '分类添加成功','info');
             $("#examClassGrid").datagrid('reload');
             $("#classForm").form('reset');
         }, function (data) {
-            $.messager.alert('系统提示', '保存失败', 'info');
+            $.messager.alert('系统提示', '保存失败', 'error');
         });
     });
     //分类项目删除
@@ -205,7 +213,7 @@ $(function () {
             return;
         }
         //首先判断有没有子项目
-        var promise = $.get(basePath + "/examSubclassDict/list-by-class?orgId=" + parent.config.org_Id+ "&className=" + row.examClassName, function (data) {
+        var promise = $.get(basePath + "/examSubclassDict/list-by-class?orgId=" + config.org_Id+ "&className=" + row.examClassName, function (data) {
             if (data.length > 0) {
                 $.messager.alert("系统提示", '存在该类别的子类别，不允许删除！', 'error');
                 return;
@@ -231,7 +239,7 @@ $(function () {
             saveObj.examClassName = $('#examSubClassNameParent').combobox('getValue');
             saveObj.examSubclassName = $("#examSubClassName").val();
             saveObj.inputCode = "";
-            saveObj.orgId = '1';
+            saveObj.orgId = config.org_Id;
             saveObj.id =  $("#id").textbox('getValue');
 
 

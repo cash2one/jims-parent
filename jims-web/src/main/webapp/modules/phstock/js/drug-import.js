@@ -188,8 +188,9 @@ $(function () {
         var _allData = $('#drug-import').datagrid('getRows')
         for (var i = 0, j = _allData.length - 1; i < j; i++) {
             if (i != currentSelectIndex && _allData[i].drugCode == o['drugCode']
-                && _allData[i].drugSpec == o['packSpec'] && _allData[i].firmId == o['firmId']
-                && _allData[i].units == o['packUnit']) {
+                && _allData[i].drugSpec == o['minSpec'] && _allData[i].firmId == o['firmId']
+                && _allData[i].units == o['minUnits']&& _allData[i].packageSpec == o['drugSpec']
+                && _allData[i].packageUnits == o['units']) {
                 return true
             }
         }
@@ -390,8 +391,12 @@ $(function () {
      */
     var initComponent = function(){
         //入库类型以及选择事件
+        var classUrl = ''
+        if(config.currentStorageObj){
+            classUrl = parent.basePath + '/drug-import/findList?storageType='+config.currentStorageObj.storageType;
+        }
         $("#import").combobox({
-            url: parent.basePath + '/drug-import/findList?storageType='+config.currentStorageObj.storageType,
+            url: classUrl,
             valueField: 'importClass',
             textField: 'importClass',
             method: 'GET',
@@ -818,7 +823,7 @@ $(function () {
      */
     var loadDrugPriceData = function (drugDict) {
         $.ajaxAsync('/service/drug-price/findList', {
-            orgId: drugDict.orgId,
+            orgId: currentOrgId,
             drugCode: drugDict.drugCode
         }, function (res) {
             console.log(res);
@@ -841,13 +846,7 @@ $(function () {
         var _tempFlag = false   // 当window关闭时是否赋值
 
         var initData = function (drugPrice, drugDict) {
-            var drugParam = {
-                drugCode: drugPrice.drugCode
-                , packSpec: drugPrice.drugSpec
-                , packUnit: drugPrice.units
-                , firmId: drugPrice.firmId
-            }
-            if (chargeDrugExisted(drugParam)) {
+            if (chargeDrugExisted(drugPrice)) {
                 $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
                 rollBack(_oldDrugName)
                 return
@@ -868,7 +867,7 @@ $(function () {
                 }
                 importTableRow.drugCode = drugPrice.drugCode;
                 importTableRow.drugSpec = drugPrice.minSpec;   //规格
-                importTableRow.units = drugPrice.units;     //单位
+                importTableRow.units = drugPrice.minUnits;     //单位
                 importTableRow.packageSpec = drugPrice.drugSpec;
                 importTableRow.packageUnits = drugPrice.units;
                 importTableRow.firmId = drugPrice.firmId;   //厂家标识

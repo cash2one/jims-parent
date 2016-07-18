@@ -51,7 +51,12 @@ public class PatHospitalNoticeRest {
             num = patHospitalNoticeServiceApi.save(patHospitalNotice);
         }
         data.setCode(num);
-        data.setData("success");
+        if(!"".equals(num)&& !"0".equals(num)&&num!=null){
+            data.setData("success");
+        }else{
+            data.setData("error");
+        }
+
         return data;
     }
     /**
@@ -73,8 +78,8 @@ public class PatHospitalNoticeRest {
      */
     @Path("get")
     @POST
-    public PatHospitalNotice get(String id) {
-        PatHospitalNotice patHospitalNotice= patHospitalNoticeServiceApi.get(id);
+    public PatHospitalNotice get(String clinicId) {
+        PatHospitalNotice patHospitalNotice= patHospitalNoticeServiceApi.getNotice(clinicId);
         return patHospitalNotice;
     }
 }

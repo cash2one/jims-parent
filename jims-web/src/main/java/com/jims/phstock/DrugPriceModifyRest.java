@@ -31,8 +31,11 @@ public class DrugPriceModifyRest {
      */
     @Path("findAll")
     @GET
-    public List<DrugPriceModify> findAllList() {
-        return drugPriceListServiceApi.findListDrugPriceModify(new DrugPriceModify());
+    public List<DrugPriceModify> findAllList(@QueryParam("drugCode") String drugCode,@QueryParam("orgId") String orgId) {
+        DrugPriceModify drugPriceModify=new DrugPriceModify();
+        drugPriceModify.setDrugCode(drugCode);
+        drugPriceModify.setOrgId(orgId);
+        return drugPriceListServiceApi.findListDrugPriceModify(drugPriceModify);
     }
     /**
      * 保存药品调价数据

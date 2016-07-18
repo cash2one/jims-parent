@@ -102,14 +102,12 @@ $(function () {
             $("#feeTypeMask").val(0);
         }
     });
-
+    //是否生成诊疗项目
     $("#clinicDict").on("click", function () {
         if ($("#clinicDict").prop("checked") == true) {
             $("#clinicDict").val(1);
-            //alert(1)
         } else {
             $("#clinicDict").val(0);
-            //alert(0);
         }
     });
     //生成代码
@@ -161,6 +159,7 @@ $(function () {
             $.postJSON(basePath + '/price/save',JSON.stringify(priceDictListVo),function(data){
                 if (data.data == 'success') {
                     $.messager.alert("提示消息", "保存成功", "success");
+                    reset();
                 } else {
                     $.messager.alert('提示消息', data.code, "error");
                 }
@@ -169,6 +168,29 @@ $(function () {
             });
         }
     });
+    //清空输入框
+    var reset = function(){
+        $("#aa").combobox('setValue','');  //类别
+        $("#itemName").val('');            //名称
+        $("#itemCode").textbox('setValue','');    //代码
+        $("#itemSpec").textbox('setValue', '');         //规格
+        $("#units").textbox('setValue','');           //计价单位
+        $("#price").textbox('setValue','');               //基本价格
+        $("#preferPrice").textbox('setValue','');   //优惠价格
+        $("#foreignerPrice").textbox('setValue','');    //外宾价格
+        $("#dt").datetimebox('setValue','');    //启用日期
+        $("#performedBy").combogrid('setValue','');  //执行科室
+        $("#feeTypeMask").prop('checked',false);   //是否自费
+        $("#dd").combobox('setValue','');     //住院收据
+        $("#cc").combobox('setValue', '');     //门诊收据
+        $("#ff").combobox('setValue', '');     //核算科目
+        $("#bb").combobox('setValue', '');           //会计科目
+        $("#ee").combobox('setValue', '');      //病案首页
+        $("#memo").val('');            //备注信息
+        $("#inputCode").textbox('setValue','');      //拼音码
+        $("#materialCode").textbox('setValue','');    //物价码
+        $("#clinicDict").prop('checked',false);        //诊疗标识
+    }
 
     // 刷新当前标签页
     $("#refresh").on("click", function () {
@@ -321,19 +343,22 @@ function ShowInfo() {
         $("#inputCode").textbox('setValue', "");
     }
 }
-/**
- *  加载数据
- */
+//根据拼音码定位加载数据
 function load_data() {
     var inputCode = $('#code_gps').val();
-    $.ajax({
-        'type': 'GET',
-        'url': basePath + '/price/get-by-inputCode?inputCode=' + inputCode + '&orgId=' + config.org_Id,
-        'success': function (data) {
-            $("#clinic_item").datagrid('loadData',data);
+    if(inputCode && inputCode != ""){
+        $.ajax({
+            'type': 'GET',
+            'url': basePath + '/price/get-by-inputCode?inputCode=' + inputCode + '&orgId=' + config.org_Id,
+            'success': function (data) {
+                $("#clinic_item").datagrid('loadData', data);
 
-        }
-    });
+            }
+        });
+    }else{
+        $("#clinic_item").datagrid('loadData', []);
+    }
+
 }
 
 

@@ -1,5 +1,6 @@
 var wardCode='160101';
 $(function(){
+    $("#spanId").click();
     var html = '<ul>';
     $.ajax({
         method:"POST",

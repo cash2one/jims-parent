@@ -126,8 +126,8 @@
 		FROM OUTP_RCPT_MASTER orm,
 		      OUTP_PAYMENTS_MONEY  opm
 		WHERE orm.RCPT_NO = opm.RCPT_NO
-		        AND  orm.DEL_FLAG = '0'
-		        AND opm.DEL_FLAG = '0'
+		      /*  AND  orm.DEL_FLAG = '0'
+		        AND opm.DEL_FLAG = '0'*/
 				AND   orm.acct_no is null
 				<if test="operatorNo !=null and operatorNo !=''">
 					AND   orm.operator_no = #{operatorNo}

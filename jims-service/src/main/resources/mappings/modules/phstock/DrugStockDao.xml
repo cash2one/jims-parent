@@ -100,6 +100,9 @@
             <if test="packageSpec != null and packageSpec != ''">
                 and a.package_spec = #{packageSpec}
             </if>
+            <if test="packageUnits != null and packageUnits != ''">
+                and a.package_units = #{packageUnits}
+            </if>
             <if test="firmId != null and firmId != ''">
                 and a.firm_id = #{firmId}
             </if>
@@ -115,10 +118,12 @@
 			AND t.del_flag = #{DEL_FLAG_NORMAL}
 			AND t.org_id = #{orgId}
 			and a.drug_code = t.drug_code
-			and a.drug_spec = t.drug_spec
+			and a.drug_spec = t.min_spec
 			and a.firm_id = t.firm_id
 			and a.org_id = t.org_id
-			and a.units = t.units
+			and a.units = t.min_units
+            and a.package_spec = t.drug_spec
+            and a.package_units = t.units
 			and sysdate>=t.start_date
 			and(t.stop_date is null or (t.stop_date is not null and t.stop_date>sysdate)))
         </where>
@@ -258,7 +263,8 @@
 
     <select id="findListHasStock" resultType="DrugStock">
         SELECT
-        <include refid="drugStockColumns"/>,d.drug_name drugName,d.input_code inputCode
+        distinct
+        a.storage, a.drug_code,a.sub_storage,a.org_id,d.drug_name,d.input_code
         FROM drug_stock a,(select distinct drug_code,drug_name,input_code from drug_dict where del_flag='0') d
         <include refid="drugStockJoins"/>
         <where>
@@ -287,10 +293,12 @@
             AND t.del_flag = #{delFlag}
             AND t.org_id = #{orgId}
             and a.drug_code = t.drug_code
-            and a.drug_spec = t.drug_spec
+            and a.drug_spec = t.min_spec
             and a.firm_id = t.firm_id
             and a.org_id = t.org_id
-            and a.units = t.units
+            and a.units = t.min_units
+            and a.package_spec = t.drug_spec
+            and a.package_units = t.units
             and sysdate>=t.start_date
             and(t.stop_date is null or (t.stop_date is not null and t.stop_date>sysdate)))
         </where>

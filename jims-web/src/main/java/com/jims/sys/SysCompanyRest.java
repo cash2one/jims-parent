@@ -65,15 +65,17 @@ public class SysCompanyRest {
         LoginInfo loginInfo = (LoginInfo) cache.getValue();
         loginInfo.setOrgId(id);
         OrgStaff orgStaff = orgStaffApi.findStaffByPersonIdOrgId(loginInfo.getPersionId(), id);
-        loginInfo.setStaffId(orgStaff.getId());
-        loginInfo.setDeptId(orgStaff.getDeptId());
-        DeptDict deptDict = deptDictApi.get(orgStaff.getDeptId());
-        if(deptDict!=null){
-            loginInfo.setDeptCode(deptDict.getDeptCode());
-            loginInfo.setDeptName(deptDict.getDeptName());
+        if(orgStaff!=null){
+            loginInfo.setStaffId(orgStaff.getId());
+            loginInfo.setDeptId(orgStaff.getDeptId());
+            DeptDict deptDict = deptDictApi.get(orgStaff.getDeptId());
+            if(deptDict!=null){
+                loginInfo.setDeptCode(deptDict.getDeptCode());
+                loginInfo.setDeptName(deptDict.getDeptName());
+            }
+            cache.setValue(loginInfo);
+            CacheManager.putCache(session.getId(),cache);
         }
-        cache.setValue(loginInfo);
-        CacheManager.putCache(session.getId(),cache);
         return sysCompanyApi.get(id);
     }
 

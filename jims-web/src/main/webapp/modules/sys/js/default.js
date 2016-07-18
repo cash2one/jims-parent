@@ -43,7 +43,7 @@ $(function () {
                             {
                                 window.location.href="/modules/index.html";
                             }else{
-                                window.location.href="/modules/sys/company.html?flag=1&persionId="+persion_id;
+                                window.location.href="/modules/sys/company.html?flag=1";
                             }
                         });
 
@@ -74,22 +74,21 @@ $(function () {
         });
     }) ;
 
+    //定制更多个人服务
     $("#moreServices").click(function () {
-
-        window.location.href = "/modules/sys/persion-services.html?persionId=" + loginInfo.persionId;
+        window.location.href = "/modules/sys/persion-services.html";
     });
+    //注册机构
     $("#setCompany").on('click', function () {
-        window.location.href = "/modules/sys/company.html?persionId="+loginInfo.persionId;
+        window.location.href = "/modules/sys/company.html";
     });
-
-
-    $("#myServices").on('click', function () {
-        window.location.href = "/modules/sys/service-list.html?persionId="+loginInfo.persionId;
-    });
-
-
+    //个人首页
     $("#default").on('click', function () {
-        window.location.href = "/modules/sys/default.html?persionId="+loginInfo.persionId;
+        window.location.href = "/modules/sys/default.html";
+    });
+    //我的服务
+    $("#myServices").on('click', function () {
+        window.location.href = "/modules/sys/service-list.html";
     });
     //退出
     $("#exit").on("click", function () {

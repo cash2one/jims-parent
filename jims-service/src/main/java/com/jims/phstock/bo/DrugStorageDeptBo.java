@@ -50,7 +50,7 @@ public class DrugStorageDeptBo extends CrudImplService<DrugStorageDeptDao, DrugS
         List<DrugStorageDept> updated = beanChangeVo.getUpdated();
         int updNum = 0;
         for (DrugStorageDept drugStorageDept : updated) {
-            DeptDict deptDict = deptDictDao.getByName(drugStorageDept.getStorageName()).get(0);
+            DeptDict deptDict = deptDictDao.getByNameOrgId(drugStorageDept.getStorageName(), drugStorageDept.getOrgId()).get(0);
             drugStorageDept.setStorageCode(deptDict.getDeptCode());
 
             //修改库存单位表的同时更新库存子单位表数据

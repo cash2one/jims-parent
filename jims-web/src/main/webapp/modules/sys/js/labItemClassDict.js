@@ -3,7 +3,7 @@ $(function () {
     var list=[];
     var classCodeTest=false;
     var classNameTest=false;
-    var orgId=parent.config.org_Id;
+    var orgId=config.org_Id;
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
             $("#dg").datagrid('endEdit', editIndex);
@@ -51,9 +51,9 @@ $(function () {
     //var deptNameList=$.get(basePath + '/dept-dict/list');
 
     var loadDept = function (){
-        $.get(basePath + '/labitemclass/list', function (data) {
-
-            $.get(basePath + '/dept-dict/list', function (node) {
+        $.get(basePath + '/labitemclass/findListByOrgId?orgId='+orgId, function (data) {
+            console.log(data);
+            $.get(basePath + '/dept-dict/list?orgId='+orgId, function (node) {
                 list=data;
                 for(var i=0;i<list.length;i++){
                     for (var j=0;j<node.length;j++){
@@ -69,18 +69,19 @@ $(function () {
     loadDept();
 
 //弹出框的下拉框
-    $('#deptCode').combogrid({
+    $('#deptCode').combobox({
+        editable:false,
         delay: 300,
-        width:'196px',
+        width:'160px',
         mode: 'remote',
         method: 'GET',
-        url: basePath + '/dept-dict/list',
-        idField: 'deptCode',
-        textField: 'deptName',
-        columns: [[
-            {field:'deptName',title:'部门名称',width:"150px",sortable:true},
-            {field:'deptCode',title:'部门编码',width:"150px",sortable:true}
-        ]]
+        url: basePath + '/dept-dict/list?orgId='+orgId,
+        valueField: 'deptCode',
+        textField: 'deptName'
+        //columns: [[
+        //    {field:'deptName',title:'部门名称',width:"150px",sortable:true},
+        //    {field:'deptCode',title:'部门编码',width:"150px",sortable:true}
+        //]]
     });
 
 
@@ -102,7 +103,7 @@ $(function () {
         $("#id").textbox("setValue","");
         $("#classCode").textbox("setValue","");
         $("#className").textbox("setValue","");
-        $('#deptCode').combogrid('setValue',"");
+        $('#deptCode').combobox('setValue',"");
     }
 
     //删除按钮
@@ -136,7 +137,7 @@ $(function () {
         labItemClassDict.id = $("#id").textbox("getValue")
         labItemClassDict.classCode = $("#classCode").textbox("getValue")
         labItemClassDict.className = $("#className").textbox("getValue")
-        labItemClassDict.deptCode = $("#deptCode").combogrid('getValue');
+        labItemClassDict.deptCode = $("#deptCode").combobox('getValue');
         labItemClassDict.orgId=orgId;
         if(classCodeTest &&classNameTest  && labItemClassDict.deptCode.length>0 && labItemClassDict.classCode.length>0 && labItemClassDict.className.length>0 ){
 
@@ -183,7 +184,7 @@ $(function () {
             $("#id").textbox("setValue",row.id);
             $("#classCode").textbox("setValue",row.classCode);
             $("#className").textbox("setValue",row.className);
-            $('#deptCode').combogrid('setValue',row.deptCode);
+            $('#deptCode').combobox('setValue',row.deptCode);
             $('#dlg').dialog('open').dialog('center').dialog('setTitle', '修改类别');
         } else {
             $.messager.alert('系统提示', "请选择要修改的行", 'info');
@@ -201,18 +202,26 @@ $(function () {
             classCodeTest=true;
             var classCodeChange=$("#classCode").textbox("getValue");
             var classId=$("#id").textbox("getValue");
+
             for(var i=0;i<list.length;i++){
                 if(list[i].classCode==classCodeChange && list[i].id !=classId){
                     classCodeTest=false;
                 }
             }
             if(classCodeChange.length>0){
-                if(classCodeTest){
-                    $("#classCodeChange").css("color","green");
-                    $("#classCodeChange").html("✔");
+                var patrn=/^[0-9a-zA-Z]*$/g;//加正则校验输入内容
+                if(patrn.test(classCodeChange)){
+                    //校验是否重复
+                    if(classCodeTest){
+                        $("#classCodeChange").css("color","green");
+                        $("#classCodeChange").html("✔");
+                    }else{
+                        $("#classCodeChange").css("color","red");
+                        $("#classCodeChange").html("编号重复，请更改");
+                    }
                 }else{
                     $("#classCodeChange").css("color","red");
-                    $("#classCodeChange").html("编号重复，请更改")
+                    $("#classCodeChange").html("请输入字母或数字");
                 }
             }else{
                 classCodeTest=false;
@@ -255,10 +264,9 @@ $(function () {
     });
 
 
-    $("#deptCode").combogrid({
+    $("#deptCode").combobox({
         onChange:function(value){
             $("#deptCodeChange").html("");
         }
     })
-
 });
