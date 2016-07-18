@@ -46,4 +46,12 @@ public interface DrugImportServiceApi {
      * @param drugImportMaster
      */
     public void update(DrugImportMaster drugImportMaster);
+
+    /**
+     *查询入库详情
+     * @param documentNo
+     * @return
+     */
+    public List<DrugImportDetail> findDetailList(String documentNo);
+
 }
