@@ -63,7 +63,7 @@ public interface DictDao extends CrudDao<Dict> {
      * @return 标签名称列表
      * @author zhangyao
      */
-    public List<String> findListType(String type);
+    public List<Dict> findListType(String type);
 
     public String getLabel(@Param(value = "type") String type, @Param(value = "value") String value);
 
