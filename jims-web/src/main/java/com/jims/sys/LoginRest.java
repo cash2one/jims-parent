@@ -95,18 +95,21 @@ public class LoginRest {
 
     @Path("get-login-info")
     @GET
-    public Response getLoginInfo(@Context HttpServletRequest request,@Context HttpServletResponse response,@Context UriInfo uriInfo) throws IOException {
+    public LoginInfo getLoginInfo(@Context HttpServletRequest request,@Context HttpServletResponse response,@Context UriInfo uriInfo) throws IOException {
         HttpSession session = request.getSession() ;
         String sessionId = session.getId() ;
         Cache cache = CacheManager.getCacheInfo(sessionId);
-        if(cache==null){
-            return Response.temporaryRedirect(uriInfo.getBaseUriBuilder().path("/500.html").build()).build() ;
-        }else{
-            LoginInfo loginInfo = (LoginInfo)cache.getValue() ;
-            return Response.status(Response.Status.OK).entity(loginInfo).build();
-        }
+        LoginInfo loginInfo = cache==null?null:(LoginInfo)cache.getValue() ;
+        return loginInfo;
     }
 
+    @Path("exit")
+    @GET
+    public void exit(@Context HttpServletRequest request) throws IOException {
+        HttpSession session = request.getSession() ;
+        String sessionId = session!=null?null:session.getId() ;
+        CacheManager.clearOnly(sessionId);
+    }
 
 }
 

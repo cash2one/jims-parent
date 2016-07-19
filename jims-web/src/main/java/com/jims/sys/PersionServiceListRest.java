@@ -11,6 +11,7 @@ import com.jims.sys.entity.SysService;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 
@@ -28,7 +29,17 @@ public class PersionServiceListRest {
     @Path("findListByFlag")
     public List<SysService> findAllListByOrgId(@QueryParam("persionId") String persionId)
     {
-        return persionServiceListApi.findListByFlag(persionId);
+        List<SysService> list=persionServiceListApi.findListByFlag(persionId);
+        if(list!=null&&!list.isEmpty()){
+            for(SysService sysService:list){
+                try {
+                    if(sysService.getServiceDescription()!=null){
+                        sysService.setTranServiceDescription(new String(sysService.getServiceDescription(), "utf-8"));
+                    }
+                } catch (UnsupportedEncodingException e) { e.printStackTrace(); }
+            }
+        }
+        return list;
     }
     /**
      * @auto louhuili
@@ -43,7 +54,17 @@ public class PersionServiceListRest {
     @Path("findListByPersionId")
     public List<PersionServiceList> findListByPersionId(@QueryParam("serviceClass")String serviceClass,@QueryParam("serviceType")String serviceType ,@QueryParam("persionId")String persionId ,@QueryParam("state")String state)
     {
-        return persionServiceListApi.findListByPersionId(serviceClass,serviceType, persionId, state);
+        List<PersionServiceList> list=persionServiceListApi.findListByPersionId(serviceClass, serviceType, persionId, state);
+        if(list!=null&&!list.isEmpty()){
+            for(PersionServiceList pService:list){
+                try {
+                    if(pService.getServiceDescription()!=null){
+                        pService.setTranServiceDescription(new String(pService.getServiceDescription(),"utf-8"));
+                    }
+                } catch (UnsupportedEncodingException e) { e.printStackTrace(); }
+            }
+        }
+        return list;
     }
 
     /**

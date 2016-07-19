@@ -3,12 +3,12 @@ $(function () {
     var promise = $.getJSON("/service/login/get-login-info",function(data){
         loginInfo = data ;
         console.log(data);
+        //阻止非法用户进入和长时间未操作需要再次登录
+        if(loginInfo == undefined || loginInfo==null || !loginInfo.persionId){
+            window.location.href = "/modules/sys/login.html";
+        }
     }) ;
     promise.done(function() {
-        if (!loginInfo.persionId) {
-            //阻止非法用户进入和长时间未操作需要再次登录
-            return;
-        }
         var persion_id = loginInfo.persionId;
 
         var persionServiceList = {};
@@ -40,14 +40,15 @@ $(function () {
                 for (var i = 0; i < myDataArr.length; i++) {
                     var li = '<div class="doctortesebox">';
                     li += '<div class="doctorteseboxL">';
+                    li += '<a href="#">';
                     if (myDataArr[i].serviceImage == null) {
-                        li += '<a href="#"><img src="/static/bookstrap/images/service/normal.jpg" height="100" width="100" /></a>'
+                        li += '<img src="/static/bookstrap/images/service/normal.jpg" height="100" width="100" />'
                     } else {
-                        li += '<a href="#"><img src="' + myDataArr[i].serviceImage + '" height="100" width="100" /></a>'
+                        li += '<img src="' + myDataArr[i].serviceImage + '" height="100" width="100" />'
                     }
-                    li += '</div>'
+                    li += '</a></div>'
                     li += '<div class="doctorteseboxR">';
-                    li += '<div class="doctorteseboxR_name"><a href="#">' + myDataArr[i].serviceName;
+                    li += '<div class="doctorteseboxR_name" data-target="#serviceDialog" data-toggle="modal"><a href="#" id="desid_' + myDataArr[i].serviceId + '">' + myDataArr[i].serviceName;
                     var startDate = myDataArr[i].startDate;
                     var endDate = myDataArr[i].endDate;
                     if (endDate == null) {
@@ -111,10 +112,23 @@ $(function () {
                     }
                     li += '</div>'
                     li += '</div>'
+                    li += '<div id="des_'+myDataArr[i].serviceId+'" style="display:none;">'+(myDataArr[i].tranServiceDescription==null?"":myDataArr[i].tranServiceDescription)+'</div>'
                     $('#myServiceModel').append(li);
                 }
                 var fi = 0;
                 //alert($('#myServiceModel').html());
+
+                $('#myServiceModel .doctorteseboxR_name').each(function () {
+                    var liDesObj = $(this)
+                    $('a', this).click(function () {
+                        var liDesId = ($(this).attr('id')).substring(6, $(this).attr('id').length);
+                        if($("#des_"+liDesId).html()==null||$("#des_"+liDesId).html()==""){
+                            $("#serviceDialogDes").html('尚未添加描述');
+                        }else{
+                            $("#serviceDialogDes").html($("#des_"+liDesId).html());
+                        }
+                    })
+                })
                 $('#myServiceModel div').each(function () {
                     var liObj = $(this)
                     $(this).children('div').slideDown('normal')
@@ -271,6 +285,10 @@ $(function () {
                 var v = $('div tr:eq(2) td:eq(1)', datas[i]).html()
                 total += +v.substr(0, v.indexOf('　'))
             }
+
+
+            alert('支付界面，金额'+total+'元！！')
+
             persionServiceList.serviceList = saveData
             jQuery.ajax({
                 'type': 'POST',
@@ -311,43 +329,59 @@ $(function () {
             var liArr = $('#addServiceModel ul li')
             if (liArr.length < 1) {
                 for (var i = 0; i < dataArr.length; i++) {
-                    var li = '<li id="service_' + dataArr[i].id + '">';
-                    li += '<div class="service-set">'
-                    li += '<h3>' + dataArr[i].serviceName + '</h3>'
-                    li += '<table width="100%">'
-                    li += '<tr style="height: 35px">'
-                    li += '<td width="60"><span class="text-success">　类别：</span></td>'
-                    li += '<td colspan="3">'
-                    var priceArr = dataArr[i].sysServicePriceList
-                    for (var j = 0, k = (priceArr ? priceArr.length : 0); j < k; j++) {
-                        li += '<span class="span-class' + (j == 0 ? '2' : '') + '">' + priceArr[j].serviceTimeLimit + '</span>&nbsp;&nbsp;&nbsp;&nbsp;'
-                    }
-                    li += '</td></tr>'
-                    li += '<tr style="height: 35px">'
-                    li += '<td width="60"><span class="text-success">　时长：</span></td>'
-                    li += '<td colspan="3"><input class="service-num" type="text" style="width: 50px" value="';
-                    if (priceArr && priceArr.length > 0) {
-                        li += (priceArr[0].serviceTimeLimit == '年' ? '1' : '12')
-                    }
-                    li += '"/><span>　' + (priceArr && priceArr.length > 0 ? priceArr[0].serviceTimeLimit : '') + '</span></td>'
+                    var sysServicePriceList = dataArr[i].sysServicePriceList;
+                    if (sysServicePriceList[0].serviceTimeLimit != null && sysServicePriceList[0].servicePrice != null) {
+                        var li = '<li id="service_' + dataArr[i].id + '">';
+                        li += '<div class="service-set">'
+                        li += '<h3 data-target="#serviceDialog" data-toggle="modal"><span id="desh3_' + dataArr[i].id + '" style="cursor: pointer">' + dataArr[i].serviceName + '</span></h3>'
+                        li += '<table width="100%">'
+                        li += '<tr style="height: 35px">'
+                        li += '<td width="60"><span class="text-success">　类别：</span></td>'
+                        li += '<td colspan="3">'
+                        var priceArr = dataArr[i].sysServicePriceList
+                        for (var j = 0, k = (priceArr ? priceArr.length : 0); j < k; j++) {
+                            li += '<span class="span-class' + (j == 0 ? '2' : '') + '">' + priceArr[j].serviceTimeLimit + '</span>&nbsp;&nbsp;&nbsp;&nbsp;'
+                        }
+                        li += '</td></tr>'
+                        li += '<tr style="height: 35px">'
+                        li += '<td width="60"><span class="text-success">　时长：</span></td>'
+                        li += '<td colspan="3"><input class="service-num" type="text" style="width: 50px" value="';
+                        if (priceArr && priceArr.length > 0) {
+                            li += (priceArr[0].serviceTimeLimit == '年' ? '1' : '12')
+                        }
+                        li += '"/><span>　' + (priceArr && priceArr.length > 0 ? priceArr[0].serviceTimeLimit : '') + '</span></td>'
 
-                    li += '</tr>'
-                    li += '<tr style="height: 35px">'
-                    li += '<td width="60"><span class="text-success">　金额：</span></td>'
-                    li += '<td colspan="3" style="color: red">'
-                    if (priceArr && priceArr.length > 0) {
-                        var num = priceArr[0].serviceTimeLimit == '年' ? '1' : '12';
-                        li += ((isNaN(priceArr[0].servicePrice) ? 0 : (+priceArr[0].servicePrice)) * num).toFixed(2)
-                    } else {
-                        li += '0.00'
+                        li += '</tr>'
+                        li += '<tr style="height: 35px">'
+                        li += '<td width="60"><span class="text-success">　金额：</span></td>'
+                        li += '<td colspan="3" style="color: red">'
+                        if (priceArr && priceArr.length > 0) {
+                            var num = priceArr[0].serviceTimeLimit == '年' ? '1' : '12';
+                            li += ((isNaN(priceArr[0].servicePrice) ? 0 : (+priceArr[0].servicePrice)) * num).toFixed(2)
+                        } else {
+                            li += '0.00'
+                        }
+                        li += '　元</td>'
+                        li += '</tr>'
+                        li += '</table></div>';
+                        li += '<div class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
+                        li += '</li>'
+                        li += '<div id="desdiv_'+dataArr[i].id+'" style=" display:none; ">'+(dataArr[i].tranServiceDescription==null?"":dataArr[i].tranServiceDescription)+'</div>'
+                        $('#addServiceModel ul').append(li);
                     }
-                    li += '　元</td>'
-                    li += '</tr>'
-                    li += '</table></div>';
-                    li += '<div class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
-                    li += '</li>'
-                    $('#addServiceModel ul').append(li);
                 }
+
+                $('#addServiceModel h3').each(function () {
+                    var liDesObj = $(this)
+                    $('span', this).click(function () {
+                        var liDesId = ($(this).attr('id')).substring(6, $(this).attr('id').length);
+                        if($("#desdiv_"+liDesId).html()==null||$("#desdiv_"+liDesId).html()==""){
+                            $("#serviceDialogDes").html('尚未添加描述');
+                        }else{
+                            $("#serviceDialogDes").html($("#desdiv_"+liDesId).html());
+                        }
+                    })
+                })
                 $('#addServiceModel ul li').each(function () {
                     var liObj = $(this)
                     $(this).children('div').slideDown('normal')
@@ -427,9 +461,15 @@ $(function () {
     $("#myServices").on('click', function () {
         window.location.href = "/modules/sys/service-list.html";
     });
+    //定制更多个人服务
+    $("#moreServices").click(function () {
+        window.location.href = "/modules/sys/persion-services.html";
+    });
     //退出
     $("#exit").on("click", function () {
-        location.href = "/modules/sys/login.html";
+        $.getJSON("/service/login/exit",function(data){
+            window.location.href = "/modules/sys/login.html";
+        }) ;
     });
 
 

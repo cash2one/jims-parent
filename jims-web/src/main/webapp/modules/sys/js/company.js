@@ -3,12 +3,12 @@ $(function () {
     var promise = $.getJSON("/service/login/get-login-info",function(data){
         loginInfo = data ;
         console.log(data);
+        //阻止非法用户进入和长时间未操作需要再次登录
+        if(loginInfo == undefined || loginInfo==null || !loginInfo.persionId){
+            window.location.href = "/modules/sys/login.html";
+        }
     }) ;
     promise.done(function() {
-        if (!loginInfo.persionId) {
-            //阻止非法用户进入和长时间未操作需要再次登录
-            return;
-        }
         var persion_id = loginInfo.persionId;
         var str = decodeURI(window.location.search);   //location.search是从当前URL的?号开始的字符串
         if (str.indexOf(name) != -1) {
@@ -626,7 +626,9 @@ $(function () {
     });
     //退出
     $("#exit").on("click", function () {
-        location.href = "/modules/sys/login.html";
+        $.getJSON("/service/login/exit",function(data){
+            window.location.href = "/modules/sys/login.html";
+        }) ;
     });
 });
 
