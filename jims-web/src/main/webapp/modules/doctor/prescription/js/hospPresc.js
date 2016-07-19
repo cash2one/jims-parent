@@ -4,7 +4,7 @@ var prescNo;
 var prescDate;
 var bindingPrescTitle;
 var prescSource;
-var dispensary =  [{ "value": "1", "text": "西药局" }, { "value": "2", "text": "中药局" }];
+//var dispensary =  [{ "value": "1", "text": "西药局" }, { "value": "2", "text": "中药局" }];
 var comboGridComplete = [];
 var itemClass ;
 //页面加载

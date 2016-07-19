@@ -40,6 +40,10 @@ $(function () {
     var drugTypeDictPromise =  $.ajaxAsync(basePath  + "/dict/findListByType?type=drug_type_dict", function (data) {
         drugTypeDict = data;
     });
+    var limitClassList = [];//药品类型字典
+    var limitClassListPromise =  $.ajaxAsync(basePath  + "/dict/findListByType?type=LIMIT_CLASS_DICT", function (data) {
+        limitClassList = data;
+    });
     //停止编辑
     var stopEdit = function () {
         if (editIndex || editIndex == 0) {
@@ -387,32 +391,22 @@ $(function () {
             editor: {
                 type: 'combobox',
                 options: {
+                    method:'get',
                     panelHeight: 'auto',
-                    valueField: 'code',
-                    textField: 'name',
-                    data: [
-                        {'code': '0', 'name': '非限制级'},
-                        {'code': '1', 'name': '限制级'},
-                        {'code': '2', 'name': '特殊级'},
-                        {'code': '3', 'name': '其他'}
-                    ]
+                    valueField: 'value',
+                    textField: 'label',
+                    url:basePath  + "/dict/findListByType?type=LIMIT_CLASS_DICT"
+
                 }
             },
             formatter:function(value,row,index){
-                if(value  == '0'){
-                    value = "非限制级";
-                }else if(value=="1"){
-                    value = "限制级";
-                }
-                else if(value=="2"){
-                    value="特殊级";
-                }
-                else if(value=="3"){
-                    value = "其他";
-                }else{
-                    value ="";
-                }
-                return value;
+                var label=value;
+                $.each(limitClassList,function(index,item){
+                    if(item.value=value){
+                        label=item.label;
+                    }
+                })
+                return label;
             }
         }, {
             title: '贵重等级',
