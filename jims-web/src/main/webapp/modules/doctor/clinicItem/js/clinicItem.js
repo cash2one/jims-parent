@@ -2,6 +2,7 @@ var rowNum = -1;
 var itemCode = "";
 var clinicId = parent.clinicMaster.id;
 $(function () {
+    //$('#clinicItem').datagrid('getEditor', { index: index, field: 'amount' }).target.val('1');
     $('#clinicItem').datagrid({
         singleSelect: true,
         fit: true,
@@ -11,7 +12,7 @@ $(function () {
         idField: 'id',
         columns: [[      //每个列具体内容
             {
-                field: 'itemName', title: '项目名称', width: '20%', align: 'center', editor: {
+                field: 'itemName', title: '项目名称', width: '25%', align: 'center', editor: {
                 type: 'combogrid',
                 options: {
                     panelWidth: 500,
@@ -63,15 +64,11 @@ $(function () {
             },
             {field: 'itemCode', title: '项目代码', width: '15%', align: 'center'},
             {field: 'clinicId', title: '就诊id', width: '20%', align: 'center', hidden: 'true'},
-            {field: 'amount', title: '数量', width: '5%', align: 'center', editor: 'text'},
-            {
-                field: 'units',
-                title: '单位',
-                width: '5%',
-                align: 'center',
-                editor: {type: 'textbox', options: {editable: false, disable: false}}
-            },
-            {field: 'frequency', title: '频次', width: '10%', align: 'center', editor: 'text'},
+            {field: 'amount', title: '数量', width: '6%', align: 'center', editor: 'text'},
+            //{ field: 'units', title: '单位', width: '6%', align: 'center', editor: {
+            //    type: 'textbox', options: {editable: false, disable: false}}
+            //},
+            //{field: 'frequency', title: '频次', width: '10%', align: 'center', editor: 'text'},
             {
                 field: 'performedBy',
                 title: '执行科室',
@@ -102,8 +99,17 @@ $(function () {
                     }
                 }
             },
-            {field: 'charges', title: '实收', width: '5%', align: 'center'},
-            {field: 'serialNo', title: '开单序号', width: '10%', align: 'center'},
+            {field: 'charges', title: '实收', width: '10%', align: 'center',editor: {
+                options: {
+                    onLoadSuccess: function (index, row) {
+                        $('#itemsTables').datagrid('appendRow', {
+                            subjcode: '合计',
+                            costs: compute("clinicItem", "costs"),
+                            charges: compute("clinicItem", "charges")
+                        });
+                    }
+                }
+            }},
             {field: 'chargeIndicator', title: '收费标识', width: '10%', align: 'center',
                 formatter:function(value,rowData,rowIndex){
                     if(value == '0'){
@@ -113,8 +119,6 @@ $(function () {
                         return '已收费';
                     }
             }}
-
-
         ]],
 
 
@@ -173,6 +177,22 @@ $(function () {
         }
 
     });
+
+
+    //求和
+    function compute(tableName,colName) {
+        var rows = $('#'+tableName).datagrid('getRows');
+        var total = 0;
+        for (var i = 0; i < rows.length; i++) {
+
+            if(isNaN(parseFloat(rows[i][colName]))){
+                total += 0;
+            }else{
+                total += parseFloat(rows[i][colName]);
+            }
+        }
+        return total;
+    }
 //处置计价
     $('#clinic').datagrid({
         singleSelect: true,

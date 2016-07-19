@@ -88,7 +88,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
                 labTestItemsDao.insert(labTestItems);
                 clinicItemDictList.add(clinicItemDict);
             }
-            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId());
+            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId(),null);
             num = labTestMasterDao.insert(labTestMaster);
             return num + "";
         }

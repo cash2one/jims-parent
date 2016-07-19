@@ -55,7 +55,7 @@ public class CostOrdersUtilsService {
      * @param itemDictList 诊疗项目list
      * @return
      */
-    public String save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId) {
+    public String save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId,OutpTreatRec outpTreatRec1) {
         ClinicMaster clinicMaster=clinicMasterDao.get(clinicId);
         OrgStaff orgStaff=new OrgStaff();
        // SysUser user=new SysUser();
@@ -96,7 +96,13 @@ public class CostOrdersUtilsService {
             outpTreatRec.setItemName(clinicItemDict.getItemName());
             outpTreatRec.setAmount(clinicItemDict.getNum());
             //执行科室
-            outpTreatRec.setPerformedBy(clinicItemDict.getExpand3());
+//            outpTreatRec.setPerformedBy(clinicItemDict.getExpand3());
+            outpTreatRec.setPerformedBy(outpTreatRec1.getPerformedBy());
+            outpTreatRec.setUnits(outpTreatRec1.getUnits());//单位
+            outpTreatRec.setAmount(outpTreatRec1.getAmount());//数量
+            outpTreatRec.setWardCode(outpTreatRec1.getWardCode());//护理单元
+            outpTreatRec.setFrequency(outpTreatRec1.getFrequency());//频次
+            outpTreatRec.setCharges(outpTreatRec1.getCharges());//实收
             outpTreatRec.setChargeIndicator(0);
             Double price=0.00;
             List<PriceListVo>  listPriceListVo=priceListDao.listByClinicItemCodeAndOrgId(orgId,clinicItemDict.getItemCode());
