@@ -108,7 +108,8 @@ public class CostOrdersUtilsService {
                 OutpOrdersCosts outpOrdersCosts=new OutpOrdersCosts();
                 outpOrdersCosts.setOrgId(orgId);
                 outpOrdersCosts.setClinicId(clinicId);
-                outpOrdersCosts.setSubjCode(priceListVo.getSubjCode());
+                outpOrdersCosts.setSubjCode(priceListVo.getSubjCode());//会计科目
+                outpOrdersCosts.setClassOnReckoning(priceListVo.getClassOnReckoning());//核算项目分类
                 outpOrdersCosts.setOrderClass(priceListVo.getItemClass());
                 outpOrdersCosts.setPatientId(patientId);
                 outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
