@@ -48,6 +48,8 @@ $(function () {
      * 退出
      */
     $("#exit").on("click", function () {
-       location.href="/modules/sys/login.html";
+        $.getJSON("/service/login/exit",function(data){
+            window.location.href = "/modules/sys/login.html";
+        }) ;
     });
 });

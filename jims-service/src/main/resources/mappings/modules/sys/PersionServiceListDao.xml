@@ -37,7 +37,7 @@
 			</if>
     </select>
     <select id="findListByFlag" resultType="SysService">
-        select se.service_image,se.id,se.service_name from sys_service se,persion_service_list pp where pp.persion_id=#{persionId}
+        select se.service_image,se.id,se.service_name,se.service_description from sys_service se,persion_service_list pp where pp.persion_id=#{persionId}
         and pp.service_id=se.id
 
 	</select>
@@ -51,7 +51,8 @@
     </select>
 
     <select id="findListByPersionId" resultType="PersionServiceList">
-		SELECT a.id,a.persion_id,a.service_id,to_char(a.service_start_date,'yyyy-mm-dd') startDate,to_char(a.service_end_date,'yyyy-mm-dd') endDate,c.service_name serviceName,c.service_image serviceImage
+		SELECT a.id,a.persion_id,a.service_id,to_char(a.service_start_date,'yyyy-mm-dd') startDate,to_char(a.service_end_date,'yyyy-mm-dd') endDate,
+		c.service_name serviceName,c.service_image serviceImage,c.service_description serviceDescription
 		FROM persion_service_list a,sys_service c
 		WHERE a.del_flag = '0' and a.service_id=c.id
 		<if test="persionId != null and persionId != ''">
