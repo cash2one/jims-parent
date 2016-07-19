@@ -57,7 +57,7 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers:true,
-        url: basePath + "/examSubclassDict/listByOrgId?orgId=" + config.org_Id,
+        //url: basePath + "/examSubclassDict/listByOrgId?orgId=" + config.org_Id,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
@@ -286,5 +286,16 @@ $(function () {
         });
 
     });
+
+    $.extend($.fn.validatebox.defaults.rules, {
+
+        examClassCode: {//param的值为[]中值
+            validator: function (value) {
+                var reg = /^[a-zA-Z0-9]{0,1}$/;
+                return reg.test(value);
+            },
+            message: '编码只能是1位数字或字母.'
+        }
+    })
 
 });

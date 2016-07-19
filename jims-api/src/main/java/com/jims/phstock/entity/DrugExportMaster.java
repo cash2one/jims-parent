@@ -34,9 +34,13 @@ public class DrugExportMaster extends DataEntity<DrugExportMaster> {
 	private String subReceiver;		// 收货方子单位
 	private String recoveryDocuNo;		// 纠错出库的单据号
 	private String orgId;		// 所属结构
+    private String importMan;
+    private Date importDate;
+    private String importDocumentNo;
 
     private List<DrugExportDetail> detailList;   // 药品出库明细
     private String subStorageDeptId;   // 出库子单位ID
+    private String importFlag;    //  出库药品已入库状态 ，不为空时检索未入库数据
 
     public String getSubStorageDeptId() {
         return subStorageDeptId;
@@ -251,4 +255,35 @@ public class DrugExportMaster extends DataEntity<DrugExportMaster> {
 		this.orgId = orgId;
 	}
 
+    public String getImportMan() {
+        return importMan;
+    }
+
+    public void setImportMan(String importMan) {
+        this.importMan = importMan;
+    }
+
+    public Date getImportDate() {
+        return importDate;
+    }
+
+    public void setImportDate(Date importDate) {
+        this.importDate = importDate;
+    }
+
+    public String getImportDocumentNo() {
+        return importDocumentNo;
+    }
+
+    public void setImportDocumentNo(String importDocumentNo) {
+        this.importDocumentNo = importDocumentNo;
+    }
+
+    public String getImportFlag() {
+        return importFlag;
+    }
+
+    public void setImportFlag(String importFlag) {
+        this.importFlag = importFlag;
+    }
 }

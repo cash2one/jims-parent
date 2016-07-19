@@ -130,7 +130,7 @@
 
     <select id="findServiceWithPrice" resultMap="serviceMap">
         SELECT
-        a.id,a.service_name,a.service_image,b.service_price,b.service_time_limit
+        a.id,a.service_name,a.service_image,a.service_description,b.service_price,b.service_time_limit
         FROM sys_service a ,sys_service_price b
         <where>
             a.del_flag = '0'

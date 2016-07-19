@@ -39,4 +39,14 @@ public class ExamItemsServiceImpl extends CrudImplService<ExamItemsDao, ExamItem
     public Integer deleteItems(String examNo) {
         return examItemsDao.deleteItems(examNo);
     }
+
+    /**
+     * 通过主记录id获取检查子项
+     * @param appointsId
+     * @return
+     */
+    @Override
+    public List<ExamItems> getItemName(String appointsId) {
+        return examItemsDao.getItemName(appointsId);
+    }
 }
