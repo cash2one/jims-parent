@@ -2,6 +2,7 @@
 /* Table: persion_info  用户信息表           */
 /*CREATE_BY: yangruidong	                                      */
 /*==============================================================*/
+insert into PERSION_INFO (id, name, sex, nation, card_no, phone_num, email, nick_name, remarks, update_by, create_by, update_date, del_flag, create_date)values ('1', 'admin', null, null, '230321199002244424', '15845320001', 'admin@126.com', 'admin', null, null, null, null, '0', null);
 insert into PERSION_INFO (id, name, sex, nation, card_no, phone_num, email, nick_name, remarks, update_by, create_by, update_date, del_flag, create_date)values ('5F68D6EC01404F0AB4118B70E848506E', '王丽秋', null, null, '130803196608070000', '15930090976', null, '000WLQ', null, null, null, null, '0', null);
 insert into PERSION_INFO (id, name, sex, nation, card_no, phone_num, email, nick_name, remarks, update_by, create_by, update_date, del_flag, create_date)values ('4C125FCA1D8746FAAAB8CD4CB126A7F0', '刘盛松', null, null, '130925198204035064', '18631465115', null, '000LSS', null, null, null, null, '0', null);
 insert into PERSION_INFO (id, name, sex, nation, card_no, phone_num, email, nick_name, remarks, update_by, create_by, update_date, del_flag, create_date)values ('607496E5AB28495C831955501FC5FEE0', '孙海梅', null, null, '130803197709180023', '13831401867', null, '000SHM', null, null, null, null, '0', null);

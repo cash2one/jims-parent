@@ -3,12 +3,12 @@ $(function () {
     var promise = $.getJSON("/service/login/get-login-info",function(data){
         loginInfo = data ;
         console.log(data);
+        //阻止非法用户进入和长时间未操作需要再次登录
+        if(loginInfo == undefined || loginInfo==null || !loginInfo.persionId){
+            window.location.href = "/modules/sys/login.html";
+        }
     }) ;
     promise.done(function() {
-        if (!loginInfo.persionId) {
-            //阻止非法用户进入和长时间未操作需要再次登录
-            return;
-        }
         var persion_id = loginInfo.persionId;
         var persionServiceList = {};
 
@@ -55,7 +55,7 @@ $(function () {
             }
 
 
-            //alert('支付界面，金额'+total+'元！！')
+            alert('支付界面，金额'+total+'元！！')
 
             persionServiceList.serviceList = saveData
 
@@ -92,7 +92,7 @@ $(function () {
                     if (sysServicePriceList[0].serviceTimeLimit != null && sysServicePriceList[0].servicePrice != null) {
                         var li = '<li id="service_' + dataArr[i].id + '">';
                         li += '<div class="service-set">'
-                        li += '<h3>' + dataArr[i].serviceName + '</h3>'
+                        li += '<h3 data-target="#serviceDialog" data-toggle="modal"><span id="desh3_' + dataArr[i].id + '" style="cursor: pointer">' + dataArr[i].serviceName + '</span></h3>'
                         li += '<table width="100%">'
                         li += '<tr style="height: 35px">'
                         li += '<td width="60"><span class="text-success">　类别：</span></td>'
@@ -125,9 +125,21 @@ $(function () {
                         li += '</table></div>';
                         li += '<div class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
                         li += '</li>'
+                        li += '<div id="desdiv_'+dataArr[i].id+'" style=" display:none; ">'+(dataArr[i].tranServiceDescription==null?"":dataArr[i].tranServiceDescription)+'</div>'
                         $('#addServiceModel ul').append(li);
                     }
                 }
+                $('#addServiceModel h3').each(function () {
+                    var liDesObj = $(this)
+                    $('span', this).click(function () {
+                        var liDesId = ($(this).attr('id')).substring(6, $(this).attr('id').length);
+                        if($("#desdiv_"+liDesId).html()==null||$("#desdiv_"+liDesId).html()==""){
+                            $("#serviceDialogDes").html('尚未添加描述');
+                        }else{
+                            $("#serviceDialogDes").html($("#desdiv_"+liDesId).html());
+                        }
+                    })
+                })
                 $('#addServiceModel ul li').each(function () {
                     var liObj = $(this)
                     $(this).children('div').slideDown('normal')
@@ -216,7 +228,9 @@ $(function () {
     });
     //退出
     $("#exit").on("click", function () {
-        location.href = "/modules/sys/login.html";
+        $.getJSON("/service/login/exit",function(data){
+            window.location.href = "/modules/sys/login.html";
+        }) ;
     });
 });
 
