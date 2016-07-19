@@ -108,6 +108,7 @@ public class CostOrdersUtilsService {
                 OutpOrdersCosts outpOrdersCosts=new OutpOrdersCosts();
                 outpOrdersCosts.setOrgId(orgId);
                 outpOrdersCosts.setClinicId(clinicId);
+                outpOrdersCosts.setSubjCode(priceListVo.getSubjCode());
                 outpOrdersCosts.setOrderClass(priceListVo.getItemClass());
                 outpOrdersCosts.setPatientId(patientId);
                 outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
