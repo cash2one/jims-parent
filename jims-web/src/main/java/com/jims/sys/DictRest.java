@@ -156,13 +156,8 @@ public class DictRest {
      */
     @Path("findType")
     @GET
-    public List<String> findListType(@QueryParam("type")String type) {
-        List<String> data = dictService.findListType(type);
-        for (int i = 0; i < data.size(); i++) {
-            String b = data.get(i);
-            System.out.print("b=" + b);
-        }
-        return data;
+    public List<Dict> findListType(@QueryParam("type")String type) {
+        return dictService.findListType(type);
     }
 
     /**

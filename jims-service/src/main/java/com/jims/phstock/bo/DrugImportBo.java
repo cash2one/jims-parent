@@ -1,14 +1,9 @@
 package com.jims.phstock.bo;
 
 import com.jims.common.service.impl.CrudImplService;
-import com.jims.phstock.dao.DrugImportDetailDao;
-import com.jims.phstock.dao.DrugImportMasterDao;
-import com.jims.phstock.dao.DrugStockDao;
-import com.jims.phstock.dao.DrugSubStorageDeptDao;
-import com.jims.phstock.entity.DrugImportDetail;
-import com.jims.phstock.entity.DrugImportMaster;
-import com.jims.phstock.entity.DrugStock;
-import com.jims.phstock.entity.DrugSubStorageDept;
+import com.jims.common.utils.StringUtils;
+import com.jims.phstock.dao.*;
+import com.jims.phstock.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -35,6 +30,9 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
 
     @Autowired
     private DrugSubStorageDeptDao subStorageDeptDao;
+
+    @Autowired
+    private DrugExportMasterDao exportMasterDao;
 
     /**
      * 保存药品出库主表数据
@@ -63,6 +61,18 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
         // 保存入库单主表
         master.preInsert();
         masterDao.insert(master);
+        if(StringUtils.isNotBlank(master.getExportDocumentNo())){
+            DrugExportMaster exportMaster = new DrugExportMaster();
+            exportMaster.setOrgId(master.getOrgId());
+            exportMaster.setDocumentNo(master.getExportDocumentNo());
+            List<DrugExportMaster> exports = exportMasterDao.findList(exportMaster);
+            if(exports != null && exports.size() > 0){
+                exports.get(0).setImportMan(master.getOperator());
+                exports.get(0).setImportDate(new Date());
+                exports.get(0).setImportDocumentNo(master.getDocumentNo());
+                exportMasterDao.update(exports.get(0));
+            }
+        }
         //保存入库单明细表
         List<DrugImportDetail> details = master.getDetailList();
         if(details != null && details.size() > 0){

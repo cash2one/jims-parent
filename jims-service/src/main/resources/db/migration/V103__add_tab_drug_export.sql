@@ -29,6 +29,9 @@ create table DRUG_EXPORT_MASTER
   RECOVERY_DOCU_NO   VARCHAR2(10),
   ID                 VARCHAR2(64) not null,
   ORG_ID             VARCHAR2(64),
+  IMPORT_MAN         VARCHAR2(20),
+  IMPORT_DATE        DATE,
+  IMPORT_DOCUMENT_NO VARCHAR2(10),
   REMARKS            VARCHAR2(2000),
   UPDATE_BY          VARCHAR2(64),
   CREATE_BY          VARCHAR2(64),
@@ -36,6 +39,12 @@ create table DRUG_EXPORT_MASTER
   DEL_FLAG           VARCHAR2(100),
   CREATE_DATE        DATE
 );
+comment on column DRUG_EXPORT_MASTER.IMPORT_MAN
+  is '入库人';
+comment on column DRUG_EXPORT_MASTER.IMPORT_DATE
+  is '入库日期';
+comment on column DRUG_EXPORT_MASTER.IMPORT_DOCUMENT_NO
+  is '入库单据号';
 -- Add comments to the table
 comment on table DRUG_EXPORT_MASTER
   is '出库主记录';
@@ -76,6 +85,12 @@ comment on column DRUG_EXPORT_MASTER.SUB_RECEIVER
   is '收货方子单位';
 comment on column DRUG_EXPORT_MASTER.RECOVERY_DOCU_NO
   is '纠错出库的单据号';
+comment on column DRUG_EXPORT_MASTER.IMPORT_MAN
+  is '入库人';
+comment on column DRUG_EXPORT_MASTER.IMPORT_DATE
+  is '入库日期';
+comment on column DRUG_EXPORT_MASTER.IMPORT_DOCUMENT_NO
+  is '入库单据号';
 comment on column DRUG_EXPORT_MASTER.ID
   is '主键';
 comment on column DRUG_EXPORT_MASTER.ORG_ID

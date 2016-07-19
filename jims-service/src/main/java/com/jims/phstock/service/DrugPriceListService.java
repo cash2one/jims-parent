@@ -170,8 +170,8 @@ public class DrugPriceListService implements DrugPriceListServiceApi {
      * @return
      */
     @Override
-    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate, String endDate) {
-        return bo.findModifyListByNoticeEfficientDate(startDate,endDate);
+    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate, String endDate,String orgId) {
+        return bo.findModifyListByNoticeEfficientDate(startDate,endDate,orgId);
     }
 
     /**

@@ -381,6 +381,10 @@ $(function () {
         for(var i=0;i<beanChangeVo.inserted.length;i++){
             beanChangeVo.inserted[i].orgId = orgId;
             beanChangeVo.inserted[i].storageCode = storageCode;
+            if(typeof(beanChangeVo.inserted[i].storageCode) == "undefined"){
+                $.messager.alert('系统提示','请选择有效的库存单位!','info');
+                return;
+            }
         }
         if (beanChangeVo) {
             $.postJSON(basePath + '/drug-sub-storage-dept/merge', JSON.stringify(beanChangeVo), function (data) {

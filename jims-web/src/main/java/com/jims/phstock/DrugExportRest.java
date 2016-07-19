@@ -71,6 +71,7 @@ public class DrugExportRest {
         master.setReceiver(receiver);
         master.setSubReceiver(subReceiver);
         master.setSubStorage(subStorage);
+        master.setImportFlag("0");   // 检索未入库数据
         return api.findMasterList(master);
     }
 

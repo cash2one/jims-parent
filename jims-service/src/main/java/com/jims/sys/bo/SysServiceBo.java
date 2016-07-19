@@ -3,6 +3,8 @@ package com.jims.sys.bo;
 
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.phstock.vo.DrugCatalogChangeVo;
+import com.jims.register.dao.OrgSelfServiceVsMenuDao;
+import com.jims.register.entity.OrgSelfServiceVsMenu;
 import com.jims.sys.dao.ServiceVsMenuDao;
 import com.jims.sys.dao.SysServiceDao;
 import com.jims.sys.dao.SysServicePriceDao;
@@ -34,6 +36,8 @@ public class SysServiceBo extends CrudImplService<SysServiceDao, SysService>{
     private SysServicePriceDao priceDao;
     @Autowired
     private ServiceVsMenuDao serviceVsMenuDao;
+    @Autowired
+    private OrgSelfServiceVsMenuDao selfServiceVsMenuDao;
 
     /**
      * 查询服务明细全部列表
@@ -133,13 +137,55 @@ public class SysServiceBo extends CrudImplService<SysServiceDao, SysService>{
      * @version 2016-06-02
      */
     public String saveServiceVsMenu(List<ServiceVsMenu> serviceVsMenus){
-        serviceVsMenuDao.deleteByServiceId(serviceVsMenus.get(0).getServiceId());
+        List<ServiceVsMenu> menus = serviceVsMenuDao.serviceVsMenuList(serviceVsMenus.get(0).getServiceId());
+        if(menus != null && menus.size() > 0){
+            for(ServiceVsMenu menu : menus){
+                for (int i=0,j=serviceVsMenus.size();i<j;i++){
+                    if(menu.getMenuId().equals(serviceVsMenus.get(i).getMenuId()))
+                        break;
+                    if(i == j-1){
+                        handlerSelfServiceVsMenu(menu);
+                    }
+                }
+            }
+            serviceVsMenuDao.deleteByServiceId(serviceVsMenus.get(0).getServiceId());
+        }
+
         for (ServiceVsMenu serviceVsMenu : serviceVsMenus){
                 serviceVsMenu.preInsert();
                 serviceVsMenuDao.insert(serviceVsMenu);
         }
         return "1";
     };
+
+    /**
+     * 当删除平台服务菜单时处理自定义服务对应菜单
+     * @param menu
+     */
+    private void handlerSelfServiceVsMenu(ServiceVsMenu menu){
+        OrgSelfServiceVsMenu param = new OrgSelfServiceVsMenu();
+        param.setMenuId(menu.getMenuId());
+        param.setSysServiceId(menu.getServiceId());
+        List<OrgSelfServiceVsMenu> selfMenus = selfServiceVsMenuDao.findListNoJoin(param);
+        if(selfMenus != null && selfMenus.size() > 0){
+            selfServiceVsMenuDao.deleteByMenuIdAndSysServiceId(menu.getMenuId(),menu.getServiceId());
+            for(OrgSelfServiceVsMenu selfMenu : selfMenus){
+                Integer maxSort = selfServiceVsMenuDao.findMaxSort(selfMenu);
+                maxSort = maxSort == null || maxSort < 0 ? 0 : maxSort;
+                String pid = selfMenu.getPid();
+                selfMenu.setPid(selfMenu.getMenuId());
+                selfMenu.setMenuId(null);
+                List<OrgSelfServiceVsMenu> childrens = selfServiceVsMenuDao.findListNoJoin(selfMenu);
+                if(childrens != null && childrens.size() > 0){
+                    for(OrgSelfServiceVsMenu children : childrens){
+                        children.setPid(pid);
+                        children.setMenuSort(++maxSort);
+                        selfServiceVsMenuDao.update(children);
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * 检索不同人群的服务
