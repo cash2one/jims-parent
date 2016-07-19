@@ -57,7 +57,7 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers:true,
-        url: basePath + "/examSubclassDict/listByOrgId?orgId=" + config.org_Id,
+        //url: basePath + "/examSubclassDict/listByOrgId?orgId=" + config.org_Id,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",

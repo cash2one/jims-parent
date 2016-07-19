@@ -91,10 +91,10 @@ $(function () {
             hidden: true
         }]],
         onDblClickRow: function (rowIndex, rowData) {
-            $('#itemDetail').dialog('open');
-            var url = basePath + "/examRptPattern/findListByItem?orgId=" + parent.config.org_Id + "&clinicItemCode=" + rowData.descriptionCode;
-            $('#itemDetailGrid').datagrid('reload', url);
-
+            //$('#itemDetail').dialog('open');
+            //var url = basePath + "/examRptPattern/findListByItem?orgId=" + parent.config.org_Id + "&clinicItemCode=" + rowData.descriptionCode;
+            //console.log(url);
+            //$('#itemDetailGrid').datagrid('reload', url);
         }
     });
 
@@ -167,7 +167,10 @@ $(function () {
             var data = $(this).combobox('getData');
             if (data.length > 0) {
                 $(this).combobox('setValue', data[0].examClassName);
+                var url = basePath + "/examSubclassDict/list-by-class?orgId=" + parent.config.org_Id + "&className=" + data[0].examClassName;
+                $('#examSubClass').combobox('reload', url);
             }
+
         },
         onSelect: function(rowData) {
             if (editorRow || editorRow == 0) {
@@ -187,14 +190,14 @@ $(function () {
         textField: 'examSubclassName',
         method: 'GET',
         url: '',
-        onLoadSuccess: function () {
-            var data = $(this).combobox('getData');
-            if (data.length > 0) {
-                $(this).combobox('setValue', data[0].examSubclassName);
-                var url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_Id+ "&className=" + data[0].examClassName+ "&subClassName=" + data[0].examSubclassName;
-                $('#examRptPatternGrid').datagrid('reload', url);
-            }
-        },
+        //onLoadSuccess: function () {
+            //var data = $(this).combobox('getData');
+            //if (data.length > 0) {
+            //    $(this).combobox('setValue', data[0].examSubclassName);
+            //    var url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_Id+ "&className=" + data[0].examClassName+ "&subClassName=" + data[0].examSubclassName;
+            //    $('#examRptPatternGrid').datagrid('reload', url);
+            //}
+        //},
         onSelect: function(rowData){
             var url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_Id+ "&className=" + rowData.examClassName+ "&subClassName=" + rowData.examSubclassName;
             $('#examRptPatternGrid').datagrid('reload', url);
