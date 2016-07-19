@@ -1,51 +1,51 @@
 $(function () {
     var bill = $("#bill").val();
-    $('#aa').combobox({
+    $('#aa').combobox({     //项目类别
         url: basePath + '/dict/findType/' + bill,
         valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
     var tally = $("#TALLY").val();
-    $('#bb').combobox({
+    $('#bb').combobox({     //会计科目
         url: basePath + '/dict/findType/' + tally,
         valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
     var outp = $("#OUTP").val();
-    $('#cc').combobox({
+    $('#cc').combobox({     //门诊收费
         url: basePath + '/dict/findType/' + outp,
         valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
     var inp = $("#INP").val();
-    $('#dd').combobox({
+    $('#dd').combobox({     //住院收据
         url: basePath + '/dict/findType/' + inp,
         valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
     var mr = $("#MR").val();
-    $('#ee').combobox({
+    $('#ee').combobox({     //病案首页
         url: basePath + '/dict/findType/' + mr,
         valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
     var reck = $("#RECK").val();
-    $('#ff').combobox({
+    $('#ff').combobox({     //核算科目
         url: basePath + '/dict/findType/' + reck,
         valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
 
-    $('#dt').datetimebox({
+    $('#dt').datetimebox({      //启用日期
         showSeconds: false
     });
-
+    //执行科室
     $("#performedBy").combogrid({
         panelWidth: 300,
         idField: 'deptCode',
@@ -61,10 +61,8 @@ $(function () {
 
             return row.inputCode.indexOf(q) == 0;
         }
-
-
     });
-
+    //是否自费
     $("#feeTypeMask").on("click", function () {
         console.log($("#feeTypeMask").prop("checked"));
         if ($("#feeTypeMask").prop("checked") == true) {
@@ -73,7 +71,7 @@ $(function () {
             $("#feeTypeMask").val(0);
         }
     });
-
+    //生成同名诊疗项目
     $("#clinicDict").on("click", function () {
         console.log($("#clinicDict").prop("checked"));
         if ($("#clinicDict").prop("checked") == true) {
@@ -82,7 +80,7 @@ $(function () {
             $("#clinicDict").val(0);
         }
     });
-
+    //生成项目代码
     $("#generate").on("click", function () {
         var code = $("#aa").combobox("getValue");
         $.ajax({

@@ -4,7 +4,6 @@ var clinicDictName=[];
  * @type {{}}
  */
 var clinicDictNameData={};
-var inputParamVos=[]
 clinicDictNameData.orgId="1";
 clinicDictNameData.dictType="V_CLINIC_NAME_DICT";
 clinicDictNameData.inputParamVos=inputParamVos;
