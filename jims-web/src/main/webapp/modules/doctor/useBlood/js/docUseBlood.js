@@ -357,7 +357,7 @@ function getBloodApply(id, state) {
             $('#list_doctor').datagrid({
                 url: basePath + "/bloodApply/getBloodCapacityList",
                 queryParams: {'applyNum': applyNum},
-                method: "post"
+                method: "get"
             });
         }
     })
