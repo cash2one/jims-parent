@@ -202,7 +202,7 @@ $(function () {
             exportRow.purchasePrice = drugStock['purchase_price']
             exportRow.currentStock = drugStock['quantity']
             exportRow.drugStockId = drugStock['id']
-            if(!isNaN(exportRow.quantity) && +exportRow.quantity > +exportRow.currentStock){
+            if(isNaN(exportRow.quantity) || +exportRow.quantity < 1 || +exportRow.quantity > +exportRow.currentStock){
                 onClickCell(currentSelectIndex,'quantity')
             } else {
                 $('#dg').datagrid('endEdit', currentSelectIndex)
@@ -311,8 +311,8 @@ $(function () {
      */
     var mergeLastCells = function () {
         var _index = $('#dg').datagrid('getRows').length - 1
-        $('#dg').datagrid('mergeCells', {index: _index, field: 'drugCode', rowspan: null, colspan: 10})
-        $('#dg').datagrid('mergeCells', {index: _index, field: 'batchNo', rowspan: null, colspan: 2})
+        $('#dg').datagrid('mergeCells', {index: _index, field: 'drugCode', rowspan: null, colspan: 9})
+        $('#dg').datagrid('mergeCells', {index: _index, field: 'batchNo', rowspan: null, colspan: 3})
     }
 
     var save = function (mod) {
@@ -351,6 +351,10 @@ $(function () {
                 ,orgId : currentOrgId
                 ,detailList : rows.slice(0,rows.length - 1)
                 ,subStorageDeptId : currentSubStorageDeptId
+            }
+            if(currentAccountFlag) {
+                record.acctDate = new Date()
+                record.acctOperator = config.username
             }
             parent.$.postJSON('/service/drug-out/save',JSON.stringify(record),function(res){
                 if(res == '1'){
@@ -410,12 +414,6 @@ $(function () {
                 if(value == '出库金额合计') return '<div style="text-align: right">' + value + '   </div>'
                 return value
             }
-        }, {
-            title: "厂家",
-            field: "supplier",
-            width: 200,
-            align: 'left',
-            halign: 'center'
         }, {
             title: "药名",
             field: "drugName",
@@ -533,6 +531,12 @@ $(function () {
             field: "batchNo",
             width: 70,
             align: 'center'
+        }, {
+            title: "厂家",
+            field: "supplier",
+            width: 200,
+            align: 'left',
+            halign: 'center'
         }, {
             title: "有效期",
             field: "expireDate",
@@ -699,6 +703,7 @@ $(function () {
 
         $("#dg").datagrid('insertRow',{index:currentSelectIndex,row: record});
         $("#dg").datagrid('selectRow', currentSelectIndex);
+        onClickCell(currentSelectIndex,'drugName')
     })
     $("#delBtn").on('click', function () {
         if (currentSelectIndex != undefined) {

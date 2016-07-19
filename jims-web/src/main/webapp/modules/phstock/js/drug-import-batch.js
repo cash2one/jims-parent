@@ -63,8 +63,8 @@ $(function () {
         onSelect: function(r){
             $("#drug-import-batch").datagrid('loadData',[])
             accountFlag = r['accountFlag']
-            $("#importStock").combobox('clear');
-            $("#importSubStock").combobox('loadData',[]);
+            //$("#importStock").combobox('clear');
+            //$("#importSubStock").combobox('loadData',[]);
             $("#importSubStock").combobox('clear');
             $("#supply").combobox('clear');
             $("#supplyChild").combobox('loadData',[]);
@@ -96,22 +96,24 @@ $(function () {
         }
     });
     //入库库房
-    $("#importStock").combobox({
+    $("#importStock").textbox({
         width:'150',
-        url: parent.basePath + '/drug-storage-dept/list?orgId='+currentOrgId,
-        valueField: 'storageCode',
-        textField: 'storageName',
-        editable: false,
-        method: 'GET',
-        onSelect : function(r){
-            $("#drug-import-batch").datagrid('loadData',[])
-            $("#importSubStock").combobox('clear');
-            $('#importDocument').textbox('setValue','')
-            $("#importSubStock").combobox('reload',parent.basePath + '/drug-storage-dept/findSubList?orgId='+currentOrgId+'&storageCode='+ r.storageCode)
-            $("#supply").combobox('clear');
-            $("#supplyChild").combobox('loadData',[]);
-            $("#supplyChild").combobox('clear');
-        }
+        value: config.currentStorageObj.storageName,
+        disabled: true
+        //url: parent.basePath + '/drug-storage-dept/list?orgId='+currentOrgId,
+        //valueField: 'storageCode',
+        //textField: 'storageName',
+        //editable: false,
+        //method: 'GET',
+        //onSelect : function(r){
+        //    $("#drug-import-batch").datagrid('loadData',[])
+        //    $("#importSubStock").combobox('clear');
+        //    $('#importDocument').textbox('setValue','')
+        //    $("#importSubStock").combobox('reload',parent.basePath + '/drug-storage-dept/findSubList?orgId='+currentOrgId+'&storageCode='+ r.storageCode)
+        //    $("#supply").combobox('clear');
+        //    $("#supplyChild").combobox('loadData',[]);
+        //    $("#supplyChild").combobox('clear');
+        //}
     });
     //入库子单位
     $("#importSubStock").combobox({
@@ -119,6 +121,7 @@ $(function () {
         valueField: 'subStorageCode',
         textField: 'subStorage',
         editable: false,
+        url: parent.basePath + '/drug-storage-dept/findSubList?orgId='+currentOrgId+'&storageCode='+ config.currentStorage,
         method: 'GET',
         onSelect : function(r){
             $("#drug-import-batch").datagrid('loadData',[])
@@ -352,7 +355,8 @@ $(function () {
         ]],
         onDblClickRow: function (index, row) {
             $.get(parent.basePath + '/drug-out/findDetailListWithStock',
-                {orgId:currentOrgId,documentNo:row.documentNo,storage:row.storage,subStorage:row.subStorage}, function (res) {
+                {orgId:currentOrgId,documentNo:row.documentNo,storage:config.currentStorage,
+                    subStorage:$('#importSubStock').combobox('getValue')}, function (res) {
                 $("#drug-import-batch").datagrid('loadData',res)
             })
             $('#importWindow').window('close')
@@ -371,7 +375,7 @@ $(function () {
     })
 
     var query = function(){
-        var receiver = $('#importStock').combobox('getValue');
+        var receiver = config.currentStorage;
         var subReceiver = $('#importSubStock').combobox('getValue');
         var subStorage = $('#supplyChild').combobox('getValue');
         if(!receiver || !subReceiver || !subStorage){
@@ -394,6 +398,7 @@ $(function () {
             $.messager.alert('保存','没有要保存的数据！','info');
             return false;
         }
+        var exportDocumentNo = rows[0].documentNo;
         for(var i=0;i<rows.length;i++){
             rows[i].documentNo = $('#importDocument').textbox('getValue')
             delete rows[i].id
@@ -405,6 +410,7 @@ $(function () {
         }
         var record = {
             documentNo : $('#importDocument').textbox('getValue')
+            ,exportDocumentNo: exportDocumentNo
             ,storage : currentStorage
             ,importDate : $('#date').datebox('getValue')
             ,supplier : $('#supply').combobox('getValue')
@@ -420,6 +426,10 @@ $(function () {
             ,orgId : currentOrgId
             ,detailList : rows.slice(0,rows.length - 1)
             ,subStorageDeptId : currentSubStorageDeptId
+        }
+        if(accountFlag) {
+            record.acctDate = new Date()
+            record.acctOperator = config.username
         }
         parent.$.postJSON('/service/drug-in/save',JSON.stringify(record),function(res){
             if(res == '1'){

@@ -31,8 +31,8 @@ config.orgId
     //合并合计单元格
     var mergeLastCells = function () {
         var _index = $('#dg').datagrid('getRows').length - 1
-        $('#dg').datagrid('mergeCells', {index: _index, field: 'drugCode', rowspan: null, colspan: 10})
-        $('#dg').datagrid('mergeCells', {index: _index, field: 'batchNo', rowspan: null, colspan: 2})
+        $('#dg').datagrid('mergeCells', {index: _index, field: 'drugCode', rowspan: null, colspan: 9})
+        $('#dg').datagrid('mergeCells', {index: _index, field: 'batchNo', rowspan: null, colspan: 3})
     }
     var endEditing = function () {
         if (currentSelectIndex == undefined) {
@@ -160,7 +160,11 @@ config.orgId
             exportRow.purchasePrice = drugStock['purchase_price']
             exportRow.stock = drugStock['quantity']
             exportRow.drugStockId = drugStock['id']
-            exportRow.quantity=0
+            if(isNaN(exportRow.quantity) || +exportRow.quantity < 1 || +exportRow.quantity > +exportRow.currentStock){
+                onClickCell(currentSelectIndex,'quantity')
+            } else {
+                $('#dg').datagrid('endEdit', currentSelectIndex)
+            }
             $('#dg').datagrid('endEdit', currentSelectIndex)
             _tempFlag = true
         }
@@ -251,7 +255,7 @@ config.orgId
             $('#storageDept').combobox('reload',url)
         },
         onLoadSuccess: function(){
-            $('#statisticClass').combobox('select', '发放出库');
+            //$('#statisticClass').combobox('select', '发放出库');
         }
     })
     //日期
@@ -331,12 +335,6 @@ config.orgId
                 if(value == '出库金额合计') return '<div style="text-align: right">' + value + '   </div>'
                 return value
             }
-        }, {
-            title: "厂家",
-            field: "supplier",
-            width: 200,
-            align: 'left',
-            halign: 'center'
         }, {
             title: "药名",
             field: "drugName",
@@ -440,6 +438,12 @@ config.orgId
             width: 70,
             align: 'center'
         }, {
+            title: "厂家",
+            field: "supplier",
+            width: 200,
+            align: 'left',
+            halign: 'center'
+        }, {
             title: "有效期",
             field: "expireDate",
             width: 100,
@@ -502,14 +506,7 @@ config.orgId
             {field: 'applicantStorageSub', title: '请领子库房', width: 150, align: "center",formatter: function(){
                 return $('#subStorageDept').combobox('getText');
             }}
-        ]],
-        onDblClickRow: function (index, row) {
-            $.get(parent.basePath + '/drug-out/findDetailListWithStock',
-                {orgId:currentOrgId,documentNo:row.documentNo,storage:row.storage,subStorage:row.subStorage}, function (res) {
-                    $("#drug-import-batch").datagrid('loadData',res)
-                })
-            $('#importWindow').window('close')
-        }
+        ]]
     })
     $('#allBtn').click(function(){
         $("#requestTable").datagrid('selectAll');
@@ -632,6 +629,10 @@ config.orgId
             ,detailList : details
             ,subStorageDeptId : currentSubStorageDeptId
         }
+        if(currentAccountFlag) {
+            record.acctDate = new Date()
+            record.acctOperator = config.username
+        }
         parent.$.postJSON('/service/drug-out/saveAndUpdateRequest',JSON.stringify(record),function(res){
                 if(res == '1'){
                     $.messager.alert('保存',(currentAccountFlag == '1' ? '保存并记账成功！' : '保存成功！'),'info',function(){
@@ -679,7 +680,11 @@ config.orgId
             }
             currentSelectIndex = len ;
             $("#dg").datagrid('insertRow',{index:currentSelectIndex,row: row});
-            $("#dg").datagrid('selectRow', currentSelectIndex);
+            if(row.drugName) {
+                $("#dg").datagrid('selectRow', currentSelectIndex);
+            } else {
+                onClickCell(currentSelectIndex,'drugName')
+            }
         }
     }
 })
