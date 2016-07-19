@@ -141,4 +141,10 @@
 		WHERE a.id = #{id}
 	</update>
 
+
+    <delete id="deletes">
+      DELETE FROM org_role_vs_service a
+		WHERE a.id = #{id}
+    </delete>
+
 </mapper>

@@ -79,4 +79,16 @@ public class DrugImportDetailService implements DrugImportServiceApi{
     public void update(DrugImportMaster drugImportMaster) {
         bo.update(drugImportMaster);
     }
+
+
+    /**
+     * 查询入库详情
+     * @param documentNo
+     * @return
+     */
+    @Override
+    public List<DrugImportDetail> findDetailList(String documentNo) {
+        return bo.findDetailList(documentNo);
+    }
+
 }

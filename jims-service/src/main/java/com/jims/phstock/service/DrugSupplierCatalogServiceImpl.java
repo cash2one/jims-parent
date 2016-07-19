@@ -90,5 +90,15 @@ public class DrugSupplierCatalogServiceImpl implements DrugSupplierCatalogApi {
     @Override
     public List<DrugSupplierCatalog> listDrugSupplierCatalogBySupplierType(String orgId, String supplierType) {
         return drugSupplierCatalogBo.listDrugSupplierCatalogBySupplierType(orgId, supplierType);
+
+    }
+
+    /**
+     *查询全部单位
+     * @param orgId
+     * @return
+     */
+    public List<DrugSupplierCatalog> findBySupplier(String orgId) {
+        return drugSupplierCatalogBo.findBySupplier(orgId);
     }
 }
