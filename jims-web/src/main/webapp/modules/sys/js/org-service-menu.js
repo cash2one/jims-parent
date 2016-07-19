@@ -164,9 +164,9 @@ $(function () {
         var row = $('#roleId').datagrid('getSelected');
 
         var menuPromise = $.get(basePath + "/org-service/find-menu",{serviceId:node.serviceId,roleId:row.id,isTree:true}, function (data) {
-
-           menuOperatorSet(data);
-            console.log(data);
+            //console.log(data);
+            menuOperatorSet(data);
+            //console.log(data);
             $("#tt").treegrid('loadData', data);
         });
     }
@@ -266,7 +266,7 @@ $(function () {
                 var orgRoleVsService = [];
                 orgRoleVsService.push({'serviceId': selectRows.serviceId, 'roleId': roleRow.id});
                 $.postJSON(basePath + '/roleVs/delete',JSON.stringify(orgRoleVsService), function (res) {
-                    console.log(res);
+                    //console.log(res);
                     if (res.data == "success") {
                         $.messager.alert("提示消息", "删除成功", "success");
                         $('#serviceId').datagrid('reload');
@@ -288,7 +288,16 @@ $(function () {
         var row = $('#roleId').datagrid('getSelected');
         var roots = $('#tt').treegrid('getRoots');
         var saveData = []
-
+        var changes=$("#tt").treegrid("getChanges");
+        var ids='';
+        for(var i=0;i<changes.length;i++){
+            if(changes[i].menuOperate== 2){
+                ids=ids+changes[i].id+","
+                $.postJSON(basePath + '/roleVs/delete-orgRole', ids, function (res) {
+                    menuDict();
+                });
+            }
+        }
         var handleData = function (datas) {
             var ds = []
             if (datas && datas.length > 0) {
@@ -324,7 +333,7 @@ $(function () {
         }
         saveData = handleData(roots)
         saveData.unshift({id: node.id})
-        console.log(saveData);
+        //console.log(saveData);
         $.postJSON(basePath + '/roleVs/save', JSON.stringify(saveData), function (res) {
                 if (parseInt(res) > 0) {
                     $.messager.alert("提示消息", "保存成功", "success");

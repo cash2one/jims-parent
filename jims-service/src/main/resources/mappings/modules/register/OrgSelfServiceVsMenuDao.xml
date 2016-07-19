@@ -38,6 +38,7 @@
           where service_id = #{0}
           and role_id=#{1}
           ) r where a.menu_id = r.menu_id(+)
+          and r.id is not null
       order by a.menu_sort
     </select>
 
