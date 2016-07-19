@@ -275,8 +275,9 @@ $(function () {
             orgId : currentOrgId
         }
         $('#drug-import').datagrid('insertRow',{index:len,row:_record})
-        $("#drug-import").datagrid('selectRow', len)
-        currentSelectIndex = len
+        //$("#drug-import").datagrid('selectRow', len)
+        onClickCell(len,'drugName')
+        //currentSelectIndex = len
     }
     var delRow = function(){
         var _row = $('#drug-import').datagrid('getSelected')
@@ -348,6 +349,10 @@ $(function () {
                 ,orgId : currentOrgId
                 ,detailList : _rows.slice(0,_rows.length - 1)
                 ,subStorageDeptId : currentSubStorageDeptId
+            }
+            if(accountFlag) {
+                _record.acctDate = new Date()
+                _record.acctOperator = config.username
             }
             console.log(_record);
             _record.detailList
@@ -875,7 +880,7 @@ $(function () {
                 importTableRow.retailPrice = drugPrice.retailPrice; //市场零售价
                 importTableRow.tradePrice = drugPrice.tradePrice;   //市场批发价
                 importTableRow.purchasePrice = drugPrice.tradePrice;    //进价=批发价
-                if(!isNaN(importTableRow.quantity) && +importTableRow.quantity > +importTableRow.currentStock){
+                if(isNaN(importTableRow.quantity) || +importTableRow.quantity < 1){
                     onClickCell(currentSelectIndex,'quantity')
                 } else {
                     $('#drug-import').datagrid('endEdit', currentSelectIndex)

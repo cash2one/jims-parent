@@ -58,7 +58,7 @@
         TO_DATE(#{1}, 'YYYY-mm-dd HH24:MI:SS')) and
         ("DRUG_PRICE_MODIFY"."ACTUAL_EFFICIENT_DATE" is null) and
         ("DRUG_DICT"."DRUG_INDICATOR" in (2, 3, 1, 5)))
-        and "DRUG_PRICE_MODIFY"."DEL_FLAG" = 0
+        and "DRUG_PRICE_MODIFY"."DEL_FLAG" = 0  and  "DRUG_PRICE_MODIFY"."ORG_ID"=#{2}
     </select>
 	<select id="get" resultType="DrugPriceModify">
 		SELECT 

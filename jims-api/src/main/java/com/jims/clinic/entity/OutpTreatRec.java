@@ -69,11 +69,12 @@ public class OutpTreatRec extends DataEntity<OutpTreatRec> {
         this.orgId = orgId;
     }
 
-    @JsonSerialize(using = CustomDateSerializer.class)
+	@JsonSerialize(using = CustomDateSerializer.class)
 	public Date getVisitDate() {
 		return visitDate;
 	}
 
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setVisitDate(Date visitDate) {
 		this.visitDate = visitDate;
 	}
