@@ -62,32 +62,25 @@ function onloadMethod(){
                 }
             }
         ]],
-        //view: detailview,
-        //detailFormatter: function(rowIndex, rowData){
-        //
-        //    var item=[];
-        //    $.ajax({
-        //        type:"POST",
-        //        url: basePath+"/labtest/getItem",
-        //        contentType: 'application/json',
-        //        data: testNo=rowData.testNo,
-        //        async:false,
-        //        dataType: 'json',
-        //        success:function(data){
-        //            item=data;
-        //        }
-        //    })
-        //
-        //    return  '<table><tr>' +
-        //        '<td style="border:0">' +
-        //        '<p>检验项目: </p>' +
-        //        '</td>' +
-        //        '</tr><tr>' +
-        //        '<td style="border:0">' +
-        //        '<p> ' +item[0].itemName + '</p>' +
-        //        '</td>' +
-        //        '</tr></table>';
-        //},
+        view: detailview,
+        detailFormatter: function(rowIndex, rowData){
+            var detailHtml="<table style='width:100%;color:blue' border='0'><tr><td><strong>检验项目：</strong></td></tr>";
+            $.ajax({
+                type:"POST",
+                url: basePath+"/labtest/getItem",
+                contentType: 'application/json',
+                data: testNo=rowData.id,
+                async:false,
+                dataType: 'json',
+                success:function(data){
+                    $.each(data,function(i,list){
+                        detailHtml+="<tr><td>"+list.itemName+"</td></tr>";
+                    });
+                }
+            })
+            detailHtml+="</table>";
+            return  detailHtml;
+        },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]],
