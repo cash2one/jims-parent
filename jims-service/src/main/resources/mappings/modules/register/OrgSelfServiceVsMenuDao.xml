@@ -70,6 +70,48 @@
 			</otherwise>
 		</choose>
 	</select>
+
+    <select id="findListNoJoin" resultType="OrgSelfServiceVsMenu">
+        SELECT
+        <include refid="orgSelfServiceVsMenuColumns"/>
+        FROM org_self_service_vs_menu a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="selfServiceId != null and selfServiceId != ''">
+                AND a.self_service_id = #{selfServiceId}
+            </if>
+            <if test="sysServiceId != null and sysServiceId != ''">
+                AND a.sys_service_id = #{sysServiceId}
+            </if>
+            <if test="menuId != null and menuId != ''">
+                AND a.menu_id = #{menuId}
+            </if>
+            <if test="pid != null and pid != ''">
+                AND a.pid = #{pid}
+            </if>
+        </where> ORDER BY a.self_service_id,a.menu_sort
+    </select>
+
+    <select id="findMaxSort" resultType="integer">
+        SELECT
+        max(menu_sort)
+        FROM org_self_service_vs_menu a
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="selfServiceId != null and selfServiceId != ''">
+                AND a.self_service_id = #{selfServiceId}
+            </if>
+            <if test="sysServiceId != null and sysServiceId != ''">
+                AND a.sys_service_id = #{sysServiceId}
+            </if>
+            <if test="pid != null and pid != ''">
+                AND a.pid = #{pid}
+            </if>
+            <if test="pid == null or pid == ''">
+                AND a.pid is null
+            </if>
+        </where>
+    </select>
 	
 	<select id="findAllList" resultType="OrgSelfServiceVsMenu">
 		SELECT 
@@ -130,7 +172,7 @@
 			pid = #{pid},
 			menu_end_date = #{menuEndDate},
 			create_by = #{createBy},
-			remarks = #{remark},
+			remarks = #{remarks},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			create_date = #{createDate}
@@ -145,6 +187,12 @@
     <delete id="deleteByServiceId">
         delete from org_self_service_vs_menu
         WHERE self_service_id = #{1}
+    </delete>
+
+    <delete id="deleteByMenuIdAndSysServiceId">
+        delete from org_self_service_vs_menu
+        WHERE sys_service_id = #{1}
+        and menu_id = #{0}
     </delete>
 	
 </mapper>

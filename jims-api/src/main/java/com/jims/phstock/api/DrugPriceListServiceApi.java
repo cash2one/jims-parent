@@ -134,7 +134,7 @@ public interface DrugPriceListServiceApi {
      * @author txb
      * @return
      */
-    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate , String endDate);
+    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(String startDate , String endDate,String orgId);
 
     /**
      * 保存调价记录确认

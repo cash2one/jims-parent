@@ -35,6 +35,7 @@ public class DrugImportMaster extends DataEntity<DrugImportMaster> {
 
     private List<DrugImportDetail> detailList;   // 关联的详细数据
     private String subStorageDeptId;   // 入库子单位ID
+    private String exportDocumentNo;   // 批量入库时出库单据号
 
     public String getSubStorageDeptId() {
         return subStorageDeptId;
@@ -247,5 +248,13 @@ public class DrugImportMaster extends DataEntity<DrugImportMaster> {
 
     public void setOrgId(String orgId) {
         this.orgId = orgId;
+    }
+
+    public String getExportDocumentNo() {
+        return exportDocumentNo;
+    }
+
+    public void setExportDocumentNo(String exportDocumentNo) {
+        this.exportDocumentNo = exportDocumentNo;
     }
 }

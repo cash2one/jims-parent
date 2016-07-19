@@ -24,4 +24,25 @@ public interface OrgSelfServiceVsMenuDao extends CrudDao<OrgSelfServiceVsMenu> {
     public List<OrgSelfServiceVsMenu> findSelfServiceId(String serviceId, String roleId);
 
     public List<OrgSelfServiceVsMenu> findServiceId(String selfServiceId);
+
+    /**
+     * 单表查询
+     * @param entity
+     * @return
+     */
+    public List<OrgSelfServiceVsMenu> findListNoJoin(OrgSelfServiceVsMenu entity);
+
+    /**
+     * @param menuId
+     * @param sysServiceId
+     * @return
+     */
+    public int deleteByMenuIdAndSysServiceId(String menuId,String sysServiceId);
+
+    /**
+     * 获取最大的排序
+     * @param entity
+     * @return
+     */
+    public Integer findMaxSort(OrgSelfServiceVsMenu entity);
 }

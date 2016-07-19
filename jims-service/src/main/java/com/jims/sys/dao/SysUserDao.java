@@ -64,4 +64,19 @@ public interface SysUserDao extends CrudDao<SysUser> {
      * @return
      */
     public SysUser findPasswordByPersionId(String persionId);
+
+    /**
+     *根据登录人的persionId查询四种方式的密码
+     * @param sysUser
+     * @return
+     */
+    public List<SysUser> findPasswordByPid(SysUser sysUser);
+
+    /**
+     * 根据persionId修改四种方式登录的密码
+     *
+     * @param sysUser
+     * @return
+     */
+    public int updatePassword(SysUser sysUser);
 }

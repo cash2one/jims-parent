@@ -63,8 +63,8 @@ public class DrugPriceModifyRest {
      */
     @Path("findModifyListByNoticeEfficientDate")
     @GET
-    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(@QueryParam("startDate")String startDate,@QueryParam("endDate")String endDate) {
-        return drugPriceListServiceApi.findModifyListByNoticeEfficientDate(startDate,endDate);
+    public List<DrugPriceModify> findModifyListByNoticeEfficientDate(@QueryParam("startDate")String startDate,@QueryParam("endDate")String endDate,@QueryParam("orgId") String orgId) {
+        return drugPriceListServiceApi.findModifyListByNoticeEfficientDate(startDate,endDate,orgId);
     }
     /**
      * 保存调价记录确认
