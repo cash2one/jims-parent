@@ -175,8 +175,6 @@ public class LabTestRest {
     @Path("del")
     @POST
     public StringData del(String ids){
-        LabTestMaster labTestMaster = new LabTestMaster();
-        labTestMaster.setId(ids);
         labTestMasterServiceApi.deleteLabTestMaster(ids);
         StringData stringData=new StringData();
         stringData.setData("success");
@@ -198,14 +196,14 @@ public class LabTestRest {
     }
 
     /**
-     * 通过testNo获取对应检验项目列表
-     * @param testNo
+     * 通过labMaster获取对应检验项目列表
+     * @param labMaster
      * @return
      */
     @Path("getItem")
     @POST
-    public List<LabTestItems> getItem(String testNo){
-        List<LabTestItems> labTestItemsList=labTestItemsServiceApi.getItemName(testNo);
+    public List<LabTestItems> getItem(String labMaster){
+        List<LabTestItems> labTestItemsList=labTestItemsServiceApi.getItemName(labMaster);
         return labTestItemsList;
     }
 }

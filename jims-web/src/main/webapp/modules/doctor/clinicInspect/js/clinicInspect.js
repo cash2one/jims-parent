@@ -97,7 +97,7 @@ function onloadMethod() {
         url: basePath + '/clinicInspect/list',
         queryParams: {'clinicId': clinicId},
         remoteSort: false,
-        idField: 'fldId',
+        //idField: 'fldId',
         singleSelect: false,//是否单选
         pagination: true,//分页控件
         pageSize: 15,
@@ -133,6 +133,25 @@ function onloadMethod() {
                 }
             }
         ]],
+        view: detailview,
+        detailFormatter: function(rowIndex, rowData){
+            var detailHtml="<table style='width:100%;color:blue' border='0'><tr><td><strong>检查项目：</strong></td></tr>";
+            $.ajax({
+                type:"POST",
+                url: basePath+"/clinicInspect/getItemName",
+                contentType: 'application/json',
+                data: appointsId=rowData.id,
+                async:false,
+                dataType: 'json',
+                success:function(data){
+                    $.each(data,function(i,list){
+                        detailHtml+="<tr><td>"+list.examItem+"</td></tr>";
+                    });
+                }
+            })
+            detailHtml+="</table>";
+            return  detailHtml;
+        },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]],
@@ -323,13 +342,8 @@ function saveClinicInspect() {
                 divJson = divJson.substring(0, divJson.length - 1);
                 var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
 
-                var save = $("#modify").val();
                 var url = "";
-                if (save == "1") {
                     url = basePath + "/clinicInspect/saveExamAppoints";
-                } else {
-                    url = basePath + "/clinicInspect/update";
-                }
                 $.postJSON(url, submitJson, function (data) {
                     if (data.code == "1") {
                         $.messager.alert("提示信息", "保存成功");

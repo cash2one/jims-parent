@@ -184,6 +184,14 @@
 		FROM exam_items a
 		WHERE a.exam_no = #{examNo}
 	</select>
+	<select id="getItemName" resultType="ExamItems">
+		SELECT
+		exam_item
+		FROM exam_items
+		<if test="appointsId != '' and appointsId != null">
+			WHERE  appoints_id=#{appointsId}
+		</if>
+	</select>
 
 	<update id="deleteItems">
 		DELETE FROM exam_items a
