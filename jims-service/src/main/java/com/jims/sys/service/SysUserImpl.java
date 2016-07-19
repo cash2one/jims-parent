@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -68,5 +69,24 @@ public class SysUserImpl extends CrudImplService<SysUserDao, SysUser> implements
     @Override
     public SysUser selectPassword(String loginName) {
         return persionServiceListBo.selectPassword(loginName);
+    }
+
+
+    /**
+     *根据登录人的persionId查询四种方式的密码
+     * @param sysUser
+     * @return
+     */
+    public List<SysUser> findPasswordByPid(SysUser sysUser){
+        return  dao.findPasswordByPid(sysUser);
+    }
+    /**
+     * 根据persionId修改四种方式登录的密码
+     *
+     * @param sysUser
+     * @return
+     */
+    public int updatePassword(SysUser sysUser){
+       return dao.updatePassword(sysUser);
     }
 }

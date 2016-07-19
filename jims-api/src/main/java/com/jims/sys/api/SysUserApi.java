@@ -3,6 +3,8 @@ package com.jims.sys.api;
 import com.jims.sys.entity.SysCompany;
 import com.jims.sys.entity.SysUser;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/4/14 0014.
  */
@@ -32,6 +34,22 @@ public interface SysUserApi {
     public SysUser selectPassword(String loginName);
 
     public SysCompany findNameByOwner(String loginName);
+
+    /**
+     *根据登录人的persionId查询四种方式的密码
+     * @param sysUser
+     * @return
+     */
+    public List<SysUser> findPasswordByPid(SysUser sysUser);
+
+    /**
+     * 根据persionId修改四种方式登录的密码
+     *
+     * @param sysUser
+     * @return
+     */
+    public int updatePassword(SysUser sysUser);
+
 
 
 }
