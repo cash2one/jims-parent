@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/14 0014.
@@ -38,22 +39,22 @@ public class LoginRest {
     private SysUserApi sysUserApi;
 
     @Reference(version = "1.0.0")
-    private PersionInfoApi persionInfoApi ;
+    private PersionInfoApi persionInfoApi;
     SysUser user = null;
 
     @GET
     @Path("list")
     @Consumes({MediaType.APPLICATION_JSON})
-    public StringData login(@QueryParam("loginName") String loginName,@QueryParam("password") String password,@Context HttpServletRequest request) {
-        HttpSession session = request.getSession() ;
+    public StringData login(@QueryParam("loginName") String loginName, @QueryParam("password") String password, @Context HttpServletRequest request) {
+        HttpSession session = request.getSession();
         //判断用户名和密码是否不为空
-        if (StringUtils.isNotBlank(loginName) && StringUtils.isNotBlank(password)){
+        if (StringUtils.isNotBlank(loginName) && StringUtils.isNotBlank(password)) {
 
             //与数据库中的用户名进行比对，查看是否正确，并响应给用户
             SysUser sysUser = sysUserApi.selectLoginName(loginName);
-            String name = sysUser.getLoginName() ;
-            String pwd = sysUser.getPassword() ;
-            if ( name== null) {
+            String name = sysUser.getLoginName();
+            String pwd = sysUser.getPassword();
+            if (name == null) {
                 StringData stringData = new StringData();
                 stringData.setData("nameNull");
                 return stringData;
@@ -63,15 +64,15 @@ public class LoginRest {
                 StringData stringData = new StringData();
                 stringData.setCode("success");
                 stringData.setData(sysUser.getPersionId());
-                LoginInfo loginInfo = new LoginInfo() ;
+                LoginInfo loginInfo = new LoginInfo();
                 loginInfo.setPersionId(sysUser.getPersionId());
-                PersionInfo persionInfo = new PersionInfo() ;
+                PersionInfo persionInfo = new PersionInfo();
                 persionInfo.setId(sysUser.getPersionId());
-                PersionInfo p=persionInfoApi.getCard(persionInfo) ;
+                PersionInfo p = persionInfoApi.getCard(persionInfo);
                 loginInfo.setUserName(p.getName());
                 //将登陆信息方到缓存中
-                Cache cache = new Cache(session.getId(),loginInfo,7200,true);
-                CacheManager.putCache(session.getId(),cache);
+                Cache cache = new Cache(session.getId(), loginInfo, 7200, true);
+                CacheManager.putCache(session.getId(), cache);
 
                 return stringData;
             } else {
@@ -87,25 +88,67 @@ public class LoginRest {
     @POST
     @Path("findNameByOwner")
     public StringData findNameByOwner(String loginName) {
-        SysCompany sysCompany=sysUserApi.findNameByOwner(loginName);
-        StringData stringData=new StringData();
+        SysCompany sysCompany = sysUserApi.findNameByOwner(loginName);
+        StringData stringData = new StringData();
         stringData.setData(sysCompany.getOrgName());
         return stringData;
     }
 
     @Path("get-login-info")
     @GET
-    public Response getLoginInfo(@Context HttpServletRequest request,@Context HttpServletResponse response,@Context UriInfo uriInfo) throws IOException {
-        HttpSession session = request.getSession() ;
-        String sessionId = session.getId() ;
+    public Response getLoginInfo(@Context HttpServletRequest request, @Context HttpServletResponse response, @Context UriInfo uriInfo) throws IOException {
+        HttpSession session = request.getSession();
+        String sessionId = session.getId();
         Cache cache = CacheManager.getCacheInfo(sessionId);
-        if(cache==null){
-            return Response.temporaryRedirect(uriInfo.getBaseUriBuilder().path("/500.html").build()).build() ;
-        }else{
-            LoginInfo loginInfo = (LoginInfo)cache.getValue() ;
+        if (cache == null) {
+            return Response.temporaryRedirect(uriInfo.getBaseUriBuilder().path("/500.html").build()).build();
+        } else {
+            LoginInfo loginInfo = (LoginInfo) cache.getValue();
             return Response.status(Response.Status.OK).entity(loginInfo).build();
         }
     }
+
+
+    /**
+     * 根据登录人的persionId查询四种方式的密码
+     *
+     * @param persionId
+     * @return
+     */
+    @GET
+    @Path("findPasswordByPid")
+    public StringData findPasswordByPid(@QueryParam("persionId") String persionId) {
+
+        SysUser sysUser = new SysUser();
+        sysUser.setPersionId(persionId);
+
+        List<SysUser> list = sysUserApi.findPasswordByPid(sysUser);
+
+        StringData stringData = new StringData();
+        stringData.setData(list.get(0).getPassword());
+        return stringData;
+    }
+
+    /**
+     * 根据persionId修改四种方式登录的密码
+     *
+     * @param password
+     * @return
+     */
+    @GET
+    @Path("updatePassword")
+    public StringData updatePassword(@QueryParam("password") String password,@QueryParam("persionId") String persionId) {
+
+        SysUser sysUser = new SysUser();
+        sysUser.setPassword(password);
+        sysUser.setPersionId(persionId);
+        sysUserApi.updatePassword(sysUser);
+
+        StringData stringData = new StringData();
+        stringData.setData("success");
+        return stringData;
+    }
+
 
 
 }

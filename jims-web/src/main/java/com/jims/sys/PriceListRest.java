@@ -7,6 +7,7 @@ import com.jims.common.persistence.Page;
 import com.jims.sys.api.PriceListApi;
 import com.jims.sys.vo.PriceListVo;
 import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -74,7 +75,8 @@ public class PriceListRest {
     @GET
     @Path("list-by-clinic-code")
     public List<PriceListVo> getListByClinicItemCodeAndOrgId(@QueryParam("orgId")String orgId,@QueryParam("clinicItemCode")String clinicItemCode){
-        return priceListApi.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
+        List<PriceListVo> priceListVo=  priceListApi.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
+        return priceListVo;
     }
 
 

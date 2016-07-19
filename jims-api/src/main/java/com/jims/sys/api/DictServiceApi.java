@@ -94,7 +94,7 @@ public interface DictServiceApi {
      * @param type
      * @return
      */
-    public List<String> findListType(String type);
+    public List<Dict> findListType(String type);
 
     /**
      * 通过value值拿到label

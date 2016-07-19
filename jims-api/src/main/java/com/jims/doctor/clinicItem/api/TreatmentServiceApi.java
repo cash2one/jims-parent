@@ -26,15 +26,15 @@ public interface TreatmentServiceApi {
      * @return
      * @author
      */
-    public  String saveClinicItem(List<OutpTreatRec> outpTreatRecs,String clinicId);
+    public  String saveClinicItem(List<OutpTreatRec> outpTreatRecs);
 
     /**
      * 删除处置项目
      * pq
-     * @param outpTreatRec
+     * @param id
      * @return
      */
-    public int deleteTreat(OutpTreatRec outpTreatRec);
+    public int deleteTreat(String id);
 
     /**
      * 通过项目code，itemClass(检查治疗医嘱明细里的code和class)

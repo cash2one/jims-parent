@@ -30,12 +30,12 @@ public class TreatmentServiceImpl  implements TreatmentServiceApi {
     }
 
     @Override
-    public String saveClinicItem(List<OutpTreatRec> outpTreatRecs, String clinicId) {
-        return treatmentBo.saveClinicItem(outpTreatRecs,clinicId);
+    public String saveClinicItem(List<OutpTreatRec> outpTreatRecs) {
+        return treatmentBo.saveClinicItem(outpTreatRecs);
     }
 
     @Override
-    public int deleteTreat(OutpTreatRec outpTreatRec) {
-        return treatmentBo.deleteTreat(outpTreatRec);
+    public int deleteTreat(String id) {
+        return treatmentBo.deleteTreat(id);
     }
 }

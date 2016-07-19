@@ -8,10 +8,7 @@ import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -37,23 +34,22 @@ public class TreatmentRest {
      */
     @Path("findList")
     @GET
-    public PageData findList(){
+    public PageData findList(@QueryParam("clinicId")String clinicId){
         PageData pageData=new PageData();
-        pageData.setRows(treatmentServiceApi.findTreatment("15001159"));
+        pageData.setRows(treatmentServiceApi.findTreatment(clinicId));
         return  pageData;
     }
 
     /**
      * 保存治疗处置项目
      * @param outpOrdersCostses
-     * @param clinicId
      * @return
      */
     @Path("save")
     @POST
-    public StringData saveTreatment(List<OutpTreatRec> outpOrdersCostses,String clinicId){
+    public StringData saveTreatment(List<OutpTreatRec> outpOrdersCostses){
         StringData data=new StringData();
-        String code=treatmentServiceApi.saveClinicItem(outpOrdersCostses,clinicId);
+        String code=treatmentServiceApi.saveClinicItem(outpOrdersCostses);
         data.setCode(code);
         return  data;
     }
@@ -66,9 +62,7 @@ public class TreatmentRest {
     @Path("delete")
     @POST
     public int delete(String id){
-       OutpTreatRec outpTreatRec= outpTreatRecServiceApi.get(id);
-        return  treatmentServiceApi.deleteTreat(outpTreatRec);
-
-
+        int num =  treatmentServiceApi.deleteTreat(id);
+        return num;
     }
 }
