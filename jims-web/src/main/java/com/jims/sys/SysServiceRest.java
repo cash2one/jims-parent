@@ -276,7 +276,18 @@ public class SysServiceRest {
                                                  @QueryParam("persionId")String persionId ,@QueryParam("state")String state ,@QueryParam("id")String id){
         if("0".equals(serviceClass))
             serviceType = "1";
-        return sysServiceApi.findServiceWithPrice(serviceClass,serviceType, persionId, state,id);
+        List<SysService> list=sysServiceApi.findServiceWithPrice(serviceClass,serviceType, persionId, state,id);
+        if(list!=null&&!list.isEmpty()){
+            for(SysService sysService:list){
+                try {
+                    if(sysService.getServiceDescription()!=null)
+                        sysService.setTranServiceDescription(new String(sysService.getServiceDescription(),"utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
     }
 
     /**
