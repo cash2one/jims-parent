@@ -5,6 +5,7 @@
 $(function () {
     ////////////////////////////////////////////////////////////
     $("#dispensary").val(config.deptCode);
+    $("#deptName").html("<b>"+config.deptName+"<b>");
     $("#prescDate").datebox("setValue", "");
     $('#prescDate').datebox({
         required: true,
@@ -14,7 +15,7 @@ $(function () {
     $("#ck").on("click", function () {
         if ($("#ck").is(':checked')) {
             $('#prescDate').combo("enable");
-            $("#prescDate").datebox("setValue", $("#prescDate").datebox("setValue", ""));
+            $("#prescDate").datebox("setValue",formatDatebox(new Date()));
         } else {
             $('#prescDate').combo("disable");
             $("#prescDate").datebox("setValue", "");
@@ -32,13 +33,12 @@ $(function () {
             [      //每个列具体内容
                 {field: 'prescNo', title: '处方号', width: '30%', align: 'center'},
                 {field: 'name', title: '姓名', width: '20%', align: 'center'},
-                {field: 'prescDate', title: '处方日期', width: '50%', align: 'center', formatter: formatDateBoxFull}
+                {field: 'prescDate', title: '处方日期', width: '50%', align: 'center', formatter: formatDateBoxFull},
                 //一下是隐藏域 cxy
                 {field: 'identity', title: '身份', hidden: true},
                 {field: 'chargeType', title: '费别', hidden: true},
-                {field: 'prescDate', title: '处方日期', hidden: true},
                 {field: 'prescribedBy', title: '开方医生', hidden: true},
-                {field: 'orderedBy', title: '开单医生', hidden: true},
+                {field: 'orderedBy', title: '开单科室', hidden: true},
                 {field: 'repetition', title: '剂数', hidden: true},
                 {field: 'countPerRepetition', title: '煎药次数', hidden: true},
                 {field: 'prescAttr', title: '处方属性', hidden: true},
@@ -88,7 +88,6 @@ $(function () {
                 clinicNo: row.clinicNo,
                 name: row.name,
                 identity: row.identity,
-                prescDate: row.prescDate,
                 chargeType: row.chargeType,
                 prescribedBy: row.prescribedBy,
                 orderedBy: row.orderedBy,

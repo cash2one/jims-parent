@@ -1,5 +1,21 @@
 $(function(){
-    $("#prescDate").datebox("setValue", formatDatebox(new Date()));
+    $("#dispensary").val(config.deptCode);
+    $("#deptName").html("<b>"+config.deptName+"<b>");
+    $("#prescDate").datebox("setValue", "");
+    $("#prescDate").datebox({
+        required: true,
+        editable: false
+    });
+    $("#prescDate").combo("disable");
+    $("#ck").on("click",function(){
+        if ($("#ck").is(':checked')) {
+            $('#prescDate').combo("enable");
+            $("#prescDate").datebox("setValue", formatDatebox(new Date()));
+        } else {
+            $('#prescDate').combo("disable");
+            $("#prescDate").datebox("setValue", "");
+        }
+    })
     //加载发药住院主记录
     $("#prescTable").datagrid({
         singleSelect: true,
@@ -8,13 +24,26 @@ $(function(){
         url: basePath+'/drugPrescIn/list?'+$("#presc").serialize(),
         idField: 'id',
         columns: [[      //每个列具体内容
-            {field: 'prescNo', title: '处方号', width: '20%', align: 'center'},
-            {field: 'name', title: '姓名', width: '10%', align: 'center'},
-            {field: 'prescDate', title: '处方日期', width: '50%', align: 'center',formatter: formatDateBoxFull},
-            {field: 'orderedBy', title: '开单科室', width: '20%', align: 'center'}
-        ]],onClickRow: function (index, row) {//单击行事件
-
-            $("#drug").datagrid({
+            {field: 'prescNo', title: '处方号', width: '30%', align: 'center'},
+            {field: 'name', title: '姓名', width: '20%', align: 'center'},
+            {field: 'prescDate', title: '处方日期',width: '50%', align: 'center'},
+            //一下是隐藏域 cxy
+            {field: 'identity', title: '身份', hidden: true},
+            {field: 'chargeType', title: '费别', hidden: true},
+            {field: 'costs', title: '计价', hidden: true},
+            {field: 'prescribedBy', title: '开方医生', hidden: true},
+            {field: 'orderedBy', title: '开单科室', hidden: true},
+            {field: 'repetition', title: '剂数', hidden: true},
+            {field: 'prescAttr', title: '处方属性', hidden: true},
+            {field: 'enteredBy', title: '录入人员', hidden: true},
+            {field: 'dispensarySub', title: '子库房', hidden: true},
+            {field: 'clinicNo', title: '门诊号', hidden: true},
+            {field: 'countPerRepetition', title: '每剂份数', hidden: true},
+            {field: 'prepayment', title: '预交金', hidden: true},
+            {field: 'payments', title: '应收', hidden: true},
+            {field: 'patientId', title: '病人Id', hidden: true}
+         ]],onClickRow: function (index, row) {//单击行事件
+             $("#drug").datagrid({
                 singleSelect: true,
                 fit: true,
                 method: 'GET',
@@ -45,9 +74,25 @@ $(function(){
                         administration: '<span class="subtotal"></span>'
                     });
                 }
-
-            });
-            $('#patientInfoForm').form('load',row);
+             });
+            $('#patientInfoForm').form('load',{
+                name:row.name,
+                identity:row.identity,
+                chargeType:row.chargeType,
+                prescribedBy:row.prescribedBy,
+                orderedBy:row.orderedBy,
+                repetition:row.repetition,
+                prescAttr:row.prescAttr,
+                enteredBy:row.enteredBy,
+                dispensarySub:row.dispensarySub,
+                clinicNo:row.clinicNo,
+                countPerRepetition:row.countPerRepetition,
+                prepayment:row.prepayment,
+                payments:row.payments,
+                costs:row.costs,
+                patientId:row.patientId,
+                deptName:config.deptName
+             });
         }
     });
 
@@ -78,7 +123,7 @@ function compute(colName) {
         }
 
     }
-    return total;
+    return total.toFixed(4);
 }
 
 //确认发药
@@ -87,9 +132,8 @@ function confirmDrug(){
     if(rowMaster!=null){
         $.ajax({
             'type': 'post',
-            'url': basePath + '/drugPrescIn/confirmInDrugPresc',
+            'url': basePath + '/drugPrescIn/confirmInDrugPresc?masterId='+rowMaster.id+"&persionId="+config.persion_Id+"&deptName="+config.deptName,
             'contentType': 'application/json',
-            'data': masterId = rowMaster.id,
             'dataType': 'json',
             'success': function (data) {
                 if(data.data=="success"){
@@ -99,8 +143,7 @@ function confirmDrug(){
                 }else{
                     $.messager.alert("提示信息", "发药失败", "error");
                 }
-
-            }
+             }
         });
     }else{
         $.messager.alert("提示信息", "请选择药品", "error");
