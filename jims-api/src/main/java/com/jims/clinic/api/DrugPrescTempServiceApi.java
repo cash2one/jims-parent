@@ -36,10 +36,12 @@ public interface DrugPrescTempServiceApi  {
 
   /**
    * 确认发药
-   * @param id
+   * updated by chenxy
+   * @param masterId  待发药主记录id
+   * @param persionId 当前登陆人persionId
    * @return
    */
-   public  String confirmDrug(String id);
-  /*缺少更新药品库存*/
+   public  String confirmDrug(String masterId,String persionId);
+
 
 }

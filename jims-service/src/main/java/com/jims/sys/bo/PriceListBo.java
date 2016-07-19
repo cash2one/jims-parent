@@ -10,8 +10,10 @@ import com.jims.common.persistence.Page;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
 import com.jims.common.utils.IdGen;
+import com.jims.sys.dao.PerformDeptDao;
 import com.jims.sys.dao.PriceItemNameDictDao;
 import com.jims.sys.dao.PriceListDao;
+import com.jims.sys.entity.PerformDept;
 import com.jims.sys.entity.PriceItemNameDict;
 import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceDictListVo;
@@ -36,6 +38,8 @@ public class PriceListBo extends CrudImplService<PriceListDao, PriceList> {
     private PriceItemNameDictDao priceItemNameDictDao;  //价表项目名称
     @Autowired
     private PriceListDao priceListDao;      //价表
+    @Autowired
+    private PerformDeptDao performDeptDao;  //价表项目执行科室
     @Autowired
     private ClinicItemDictDao clinicItemDictDao;    //诊疗项目
     @Autowired
@@ -86,7 +90,16 @@ public class PriceListBo extends CrudImplService<PriceListDao, PriceList> {
         priceList.setInputCode(dictListVo.getInputCode());
         priceList.setMaterialCode(dictListVo.getMaterialCode());
         priceList.setOrgId(dictListVo.getOrgId());
-         code += priceListDao.insert(priceList);         //保存价表
+        code += priceListDao.insert(priceList);         //保存价表
+
+        //保存执行科室表
+        PerformDept performDept = new PerformDept();
+        performDept.preInsert();    //主键
+        performDept.setItemClass(priceList.getItemClass());
+        performDept.setItemCode(priceList.getItemCode());
+        performDept.setPerformedBy(priceList.getPerformedBy());
+        performDept.setOrgId(priceList.getOrgId());
+        code += performDeptDao.insert(performDept);     //保存价表项目执行科室
 
         //判断诊疗标识，如果是1则生成诊疗项目、诊疗项目名称、诊疗项目与价表对照
         if(dictListVo.getClinicDict().equals("1")){

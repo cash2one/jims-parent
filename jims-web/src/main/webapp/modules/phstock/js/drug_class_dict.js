@@ -22,6 +22,18 @@ $(function(){
         }
     })
 
+    var levelList = [];
+    $.ajax({
+        url: parent.basePath + '/dict/findListByType',
+        data: {type: 'DRUG_TRANSFER_DIR'},
+        type: 'get',
+        async: false
+    }).always(function (res) {
+        if (res) {
+            levelList = res;
+        }
+    })
+
     /**
      * 格式化字典表数据
      * @param arr
@@ -37,11 +49,6 @@ $(function(){
         }
         return '';
     }
-
-    var levelList=[];
-    $.get( basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR", function (data) {
-        levelList = data;
-    });
 
     $("#importDict").on("click", function () {
         $("#drugdict").datagrid('loadData',[]);
@@ -121,27 +128,18 @@ $(function(){
                 align: 'center',
                 width: '20%',
                 editor: {
-                    type: 'combobox', options: {
+                    type: 'combobox',
+                    options: {
                         editable: false,
                         align: 'center',
                         valueField: 'value',
                         textField: 'label',
-                        method: 'GET',
-                        url:basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR"
+                        data: levelList
                     }
-                }
-                ,formatter:function(value,row,index){
-                    var fromLevelName=value;
-                    console.log(levelList);
-                    $.each(levelList,function(index,item){
-                        if(item.value==value){
-                            fromLevelName=item.label;
-                        }
-                    })
-                    return fromLevelName;
+                }, formatter: function (value) {
+                    return formatDict(levelList, value);
                 }
             }
-
             ]],
             toolbar: [{
                 text: '新增',
@@ -250,23 +248,16 @@ $(function(){
                 align: 'center',
                 width: '20%',
                 editor: {
-                    type: 'combobox', options: {
+                    type: 'combobox',
+                    options: {
                         editable: false,
                         align: 'center',
                         valueField: 'value',
                         textField: 'label',
-                        method: 'GET',
-                        url:basePath  + "/dict/findListByType?type=DRUG_TRANSFER_DIR"
+                        data: levelList
                     }
-                }
-                ,formatter:function(value,row,index){
-                    var fromLevelName=value;
-                    $.each(levelList,function(index,item){
-                        if(item.value==value){
-                            fromLevelName=item.label;
-                        }
-                    })
-                    return fromLevelName;
+                }, formatter: function (value) {
+                    return formatDict(levelList, value);
                 }
             }]],
             toolbar: [{

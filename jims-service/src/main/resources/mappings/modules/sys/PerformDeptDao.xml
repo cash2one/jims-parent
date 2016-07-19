@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jims.sys.dao.PerformDeptDao">
+
+    <sql id="performDeptColumns">
+        a.id AS "id",
+        a.item_class AS "itemClass",
+        a.item_code AS "itemCode",
+        a.performed_by AS "performedBy",
+        a.org_id AS "orgId"
+    </sql>
+
+    <sql id="performDeptJoins">
+    </sql>
+
+    <select id="get" resultType="PerformDept">
+        SELECT *
+        FROM perform_dept a
+        WHERE a.id = #{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO perform_dept(
+        id,
+        item_class,
+        item_code,
+        performed_by,
+        org_id
+        ) VALUES (
+        #{id},
+        #{itemClass},
+        #{itemCode},
+        #{performedBy},
+        #{orgId}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE perform_dept SET
+        item_class = #{itemClass},
+        item_code = #{itemCode},
+        performed_by = #{performedBy},
+        org_id = #{org_id}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE
+        FROM perform_dept
+        WHERE id = #{id}
+    </update>
+</mapper>

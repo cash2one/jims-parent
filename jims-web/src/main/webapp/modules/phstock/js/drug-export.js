@@ -72,6 +72,7 @@ $(function () {
         ,currentStorage = config.currentStorage  // 当前登录人所属管理单位
         ,currentUsername = '录入者'   // 当前登录人姓名
         ,currentAccountFlag    //记账标志 0，不记账，1记账
+        ,currentToLevel;  //去向
     var currentSubStorageDeptId // 当前选择的入库子单位的ID
 
     /**
@@ -107,7 +108,7 @@ $(function () {
 
         parent.$.postJSON('/service/input-setting/listParam',
             JSON.stringify(param) ,function(res){
-                showWindow(res, drugDict)
+                showWindow(res)
             })
     }
 
@@ -158,9 +159,8 @@ $(function () {
     /**
      * 展现药品库存数据，当库存参数内只有一条数据时不显示，直接赋值。当一条也没有时清空药品名称。
      * @param drugStocks 药品库存数据
-     * @param drugDict 药品名称
      */
-    var showWindow = function (drugStocks, drugDict) {
+    var showWindow = function (drugStocks) {
         var exportRow = $('#dg').datagrid('getSelected')
         var _oldDrugName = exportRow.drugName
         if (!drugStocks || drugStocks.length == 0) {
@@ -168,8 +168,7 @@ $(function () {
             return
         }
         var _tempFlag = false   // 当window关闭时是否赋值
-
-        var initData = function (drugStock, drugDict) {
+        var initData = function (drugStock) {
             var drugParam = {
                 drugCode: drugStock['drug_code'],
                 firmId: drugStock['firm_id'],
@@ -190,7 +189,7 @@ $(function () {
             exportRow.supplier = drugStock['supplier']
             exportRow.retailPrice = drugStock['retail_price']
             exportRow.tradePrice = drugStock['trade_price']
-            exportRow.price = $('#statisticClass').combobox('getValue') == '退药出库' ?
+            exportRow.price = currentToLevel == '4' ?
                 drugStock['trade_price'] : drugStock['retail_price'];
             exportRow.packageSpec = drugStock['package_spec']
             exportRow.packageUnits = drugStock['package_units']
@@ -203,7 +202,7 @@ $(function () {
             exportRow.purchasePrice = drugStock['purchase_price']
             exportRow.currentStock = drugStock['quantity']
             exportRow.drugStockId = drugStock['id']
-            if(!isNaN(exportRow.quantity) && +exportRow.quantity > +exportRow.currentStock){
+            if(isNaN(exportRow.quantity) || +exportRow.quantity < 1 || +exportRow.quantity > +exportRow.currentStock){
                 onClickCell(currentSelectIndex,'quantity')
             } else {
                 $('#dg').datagrid('endEdit', currentSelectIndex)
@@ -211,7 +210,7 @@ $(function () {
             _tempFlag = true
         }
         if (drugStocks.length == 1) {
-            initData(drugStocks[0], drugDict)
+            initData(drugStocks[0])
             return
         }
 
@@ -251,7 +250,7 @@ $(function () {
 
             ]],
             onDblClickRow: function (index, row) {
-                initData(row, drugDict)
+                initData(row)
                 $('#drugStockWindow').window('close')
             }
         })
@@ -312,8 +311,8 @@ $(function () {
      */
     var mergeLastCells = function () {
         var _index = $('#dg').datagrid('getRows').length - 1
-        $('#dg').datagrid('mergeCells', {index: _index, field: 'drugCode', rowspan: null, colspan: 10})
-        $('#dg').datagrid('mergeCells', {index: _index, field: 'batchNo', rowspan: null, colspan: 2})
+        $('#dg').datagrid('mergeCells', {index: _index, field: 'drugCode', rowspan: null, colspan: 9})
+        $('#dg').datagrid('mergeCells', {index: _index, field: 'batchNo', rowspan: null, colspan: 3})
     }
 
     var save = function (mod) {
@@ -352,6 +351,10 @@ $(function () {
                 ,orgId : currentOrgId
                 ,detailList : rows.slice(0,rows.length - 1)
                 ,subStorageDeptId : currentSubStorageDeptId
+            }
+            if(currentAccountFlag) {
+                record.acctDate = new Date()
+                record.acctOperator = config.username
             }
             parent.$.postJSON('/service/drug-out/save',JSON.stringify(record),function(res){
                 if(res == '1'){
@@ -411,12 +414,6 @@ $(function () {
                 if(value == '出库金额合计') return '<div style="text-align: right">' + value + '   </div>'
                 return value
             }
-        }, {
-            title: "厂家",
-            field: "supplier",
-            width: 200,
-            align: 'left',
-            halign: 'center'
         }, {
             title: "药名",
             field: "drugName",
@@ -535,6 +532,12 @@ $(function () {
             width: 70,
             align: 'center'
         }, {
+            title: "厂家",
+            field: "supplier",
+            width: 200,
+            align: 'left',
+            halign: 'center'
+        }, {
             title: "有效期",
             field: "expireDate",
             width: 100,
@@ -559,6 +562,7 @@ $(function () {
         method: 'GET',
         onSelect: function(record){
             currentAccountFlag = record['accountFlag']
+            currentToLevel = record['toLevel']
             $("#dg").datagrid('loadData',[])
             if(record['toLevel'] == '4'){
                 $("#subStorageDept").combobox({
@@ -699,6 +703,7 @@ $(function () {
 
         $("#dg").datagrid('insertRow',{index:currentSelectIndex,row: record});
         $("#dg").datagrid('selectRow', currentSelectIndex);
+        onClickCell(currentSelectIndex,'drugName')
     })
     $("#delBtn").on('click', function () {
         if (currentSelectIndex != undefined) {
