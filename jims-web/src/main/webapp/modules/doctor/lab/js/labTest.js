@@ -69,7 +69,7 @@ function onloadMethod(){
                 type:"POST",
                 url: basePath+"/labtest/getItem",
                 contentType: 'application/json',
-                data: testNo=rowData.id,
+                data: labMaster=rowData.id,
                 async:false,
                 dataType: 'json',
                 success:function(data){
@@ -168,7 +168,33 @@ function add(){
                $("#performedById").val(n.dept_code);
             }
         })
-
+    /**
+     * 送检医师
+     */
+        $("#orderingProvider").combogrid({
+            data: doctorName,
+            valueField: 'id',
+            textField: 'name',
+            columns: [[
+                {field: 'name', title: '医生姓名', width: 70},
+                {field: 'dept_name', title: '科室', width: 120},
+                {field: 'title', title: '职称', width: 70}
+            ]], keyHandler: {
+                up: function () {
+                },
+                down: function () {
+                },
+                enter: function () {
+                },
+                query: function (q) {
+                    comboGridCompleting(q, 'orderingProvider');
+                }
+            },
+            onClickRow: function (rowIndex, rowData) {
+                $("#orderingProvider").combogrid('setText', rowData.name);
+                $("#orderingProviderId").val(rowData.id);
+            }
+        })
 }
 
 function loadTreeGrid() {
