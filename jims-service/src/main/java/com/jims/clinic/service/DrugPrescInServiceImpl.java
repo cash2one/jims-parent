@@ -10,6 +10,8 @@ import com.jims.clinic.entity.*;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.drugPresc.dao.InpBillDetailDao;
 import com.jims.drugPresc.entity.InpBillDetail;
+import com.jims.phstock.dao.DrugStockDao;
+import com.jims.phstock.entity.DrugStock;
 import com.jims.prescription.entity.DoctDrugPrescDetail;
 import com.jims.prescription.entity.DoctDrugPrescMaster;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
     private DrugPrescMasterDao drugPrescMasterDao;
     @Autowired
     private DrugPrescDetailDao drugPrescDetailDao;
+
+    @Autowired
+    private DrugStockDao drugStockDao;
 
     public String confirmInDrugPresc(String masterId){
         int num=0;
@@ -114,6 +119,11 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
                     drugPrescDetail.setFreqDetail(doctDrugPrescDetail.getFreqDetail());
                     drugPrescDetail.setBatchNo(doctDrugPrescDetail.getBatchNo());
                     drugPrescDetailDao.insert(drugPrescDetail);
+                    List<DrugStock> list=drugStockDao.findByUnique(drugPrescDetail.getDrugCode(),drugPrescDetail.getDrugSpec(),drugPrescDetail.getFirmId(),drugPrescDetail.getPackageSpec(),drugPrescDetail.getBatchNo(),drugPrescMaster.getDispensary(),drugPrescMaster.getDispensarySub(),drugPrescMaster.getOrgId());
+                    if(list!=null&&!list.isEmpty()){
+                        list.get(0).setQuantity(list.get(0).getQuantity()-1);
+                        drugStockDao.update(list.get(0));
+                    }
                 }
                 /******************插入住院收费明细*************************/
                 InpBillDetail inpBillDetail = new InpBillDetail();
