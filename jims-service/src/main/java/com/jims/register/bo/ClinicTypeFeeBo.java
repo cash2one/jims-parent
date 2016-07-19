@@ -6,6 +6,7 @@ package com.jims.register.bo;
 
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.register.dao.ClinicTypeFeeDao;
 import com.jims.register.dao.ClinicTypeSettingDao;
 import com.jims.register.entity.ClinicTypeFee;
@@ -32,7 +33,7 @@ public class ClinicTypeFeeBo extends CrudImplService<ClinicTypeFeeDao, ClinicTyp
      * @param clinicTypeFeeList
      * @return
      */
-    public String saveList(List<ClinicTypeFee> clinicTypeFeeList,String type,String clinicTypeId) {
+    public String saveList(List<ClinicTypeFee> clinicTypeFeeList,String type,String clinicTypeId,LoginInfo loginInfo) {
         String num = "";
         ClinicTypeSetting clinicTypeSetting = new ClinicTypeSetting();
         if(type!=null){
@@ -41,6 +42,7 @@ public class ClinicTypeFeeBo extends CrudImplService<ClinicTypeFeeDao, ClinicTyp
                 clinicTypeSetting.setId(clinicTypeId);
             }//保存号类主表
             if (clinicTypeSetting.getIsNewRecord()){
+                clinicTypeSetting.setOrgId(loginInfo.getOrgId());
                 clinicTypeSetting.preInsert();
                 clinicTypeSettingDao.insert(clinicTypeSetting);
             }else{
