@@ -1,5 +1,5 @@
 $(function(){
-    var currentOrgId = '1'   // 当前机构ID
+    var currentOrgId = config.org_Id   // 当前机构ID
         ,currentSelectClinicIndex   //诊疗项目 当前选择行
         ,currentSelectNameIndex   // 正别名当前选择行
         ,currentSelectVsIndex ;   // 对照项目当前选择行
@@ -92,7 +92,7 @@ $(function(){
                     textField:'deptName',
                     fitColumns: true,
                     mode:'remote',
-                    url:'/service/dept-dict/findListWithFilter?orgId='+currentOrgId,
+                    url:'/service/dept-dict/findListWithFilter?orgId='+config.org_Id,
                     method:'get',
                     columns:[[
                         {field:'deptCode',title:'部门代码',width:60},
@@ -127,7 +127,7 @@ $(function(){
                     valueField:'className',
                     textField:'className',
                     editable:false,
-                    url:'/service/labitemclass/findListByOrgId?orgId='+currentOrgId,
+                    url:'/service/labitemclass/findListByOrgId?orgId='+config.org_Id,
                     method:'get',
                     required:false,
                     onSelect:function(recode){
@@ -207,88 +207,91 @@ $(function(){
             var row = $('#clinic_item').datagrid('getRows')[currentSelectClinicIndex];
             var nameRows = $('#clinic_item_name').datagrid('getRows');
             //五个字段是否更新
-            var flags = [row.expand1!=nameRows[0].expand1,
-                row.expand2!=nameRows[0].expand2,
-                row.expand3!=nameRows[0].expand3,
-                row.expand4!=nameRows[0].expand4,
-                row.expand5!=nameRows[0].expand5];
-            //拓展的五个字段是否有更新
-            var updateFlag = flags[0] || flags[1] || flags[2] || flags[3] || flags[4]
-            for(var i=0;i<nameRows.length;i++){
-                if(flags[0]){
-                    nameRows[i].expand1 = row.expand1
+            if(nameRows.length>0){
+                var flags = [row.expand1!=nameRows[0].expand1,
+                    row.expand2!=nameRows[0].expand2,
+                    row.expand3!=nameRows[0].expand3,
+                    row.expand4!=nameRows[0].expand4,
+                    row.expand5!=nameRows[0].expand5];
+                //拓展的五个字段是否有更新
+                var updateFlag = flags[0] || flags[1] || flags[2] || flags[3] || flags[4]
+                for(var i=0;i<nameRows.length;i++){
+                    if(flags[0]){
+                        nameRows[i].expand1 = row.expand1
+                    }
+                    if(flags[1]){
+                        nameRows[i].expand2 = row.expand2
+                    }
+                    if(flags[2]){
+                        nameRows[i].expand3 = row.expand3
+                    }
+                    if(flags[3]){
+                        nameRows[i].expand4 = row.expand4
+                    }
+                    if(flags[4]){
+                        nameRows[i].expand5 = row.expand5
+                    }
                 }
-                if(flags[1]){
-                    nameRows[i].expand2 = row.expand2
-                }
-                if(flags[2]){
-                    nameRows[i].expand3 = row.expand3
-                }
-                if(flags[3]){
-                    nameRows[i].expand4 = row.expand4
-                }
-                if(flags[4]){
-                    nameRows[i].expand5 = row.expand5
-                }
-            }
 
-            if(updateFlag || row.saveNameList){
-                row.saveNameList = $('#clinic_item_name').datagrid('getRows');
-            } else {
-                var names = $('#clinic_item_name').datagrid('getChanges', 'inserted')
-                    .concat($('#clinic_item_name').datagrid('getChanges', 'deleted'))
-                    .concat($('#clinic_item_name').datagrid('getChanges', 'updated'));
-                if(names.length > 0){
+                if(updateFlag || row.saveNameList){
                     row.saveNameList = $('#clinic_item_name').datagrid('getRows');
+                } else {
+                    var names = $('#clinic_item_name').datagrid('getChanges', 'inserted')
+                        .concat($('#clinic_item_name').datagrid('getChanges', 'deleted'))
+                        .concat($('#clinic_item_name').datagrid('getChanges', 'updated'));
+                    if(names.length > 0){
+                        row.saveNameList = $('#clinic_item_name').datagrid('getRows');
+                    }
                 }
-            }
-            if(row.saveVsList){
-                row.saveVsList = $('#clinic_vs_charge').datagrid('getRows');
-            } else {
-                var vss = $('#clinic_vs_charge').datagrid('getChanges', 'inserted')
-                    .concat($('#clinic_vs_charge').datagrid('getChanges', 'deleted'))
-                    .concat($('#clinic_vs_charge').datagrid('getChanges', 'updated'));
-                if(vss.length > 0){
+                if(row.saveVsList){
                     row.saveVsList = $('#clinic_vs_charge').datagrid('getRows');
+                } else {
+                    var vss = $('#clinic_vs_charge').datagrid('getChanges', 'inserted')
+                        .concat($('#clinic_vs_charge').datagrid('getChanges', 'deleted'))
+                        .concat($('#clinic_vs_charge').datagrid('getChanges', 'updated'));
+                    if(vss.length > 0){
+                        row.saveVsList = $('#clinic_vs_charge').datagrid('getRows');
+                    }
                 }
             }
-        }
 
-        if(index != undefined && index != currentSelectClinicIndex) {
-            var row = $('#clinic_item').datagrid('getRows')[index]
-            if (row.saveVsList) {
-                $('#clinic_vs_charge').datagrid('loadData', row.saveVsList);
-            } else if (row.oldVsList) {
-                $('#clinic_vs_charge').datagrid('loadData', row.oldVsList);
-            } else {
-                $.get(base_url + 'findVsList', {
-                    itemClass: row.itemClass,
-                    itemCode: row.itemCode,
-                    orgId: row.orgId
-                }, function (res) {
-                    $('#clinic_vs_charge').datagrid('loadData', res);
-                    row.oldVsList = res;
-                })
+            if(index != undefined && index != currentSelectClinicIndex) {
+                var row = $('#clinic_item').datagrid('getRows')[index]
+                if (row.saveVsList) {
+                    $('#clinic_vs_charge').datagrid('loadData', row.saveVsList);
+                } else if (row.oldVsList) {
+                    $('#clinic_vs_charge').datagrid('loadData', row.oldVsList);
+                } else {
+                    $.get(base_url + 'findVsList', {
+                        itemClass: row.itemClass,
+                        itemCode: row.itemCode,
+                        orgId: config.org_Id
+                    }, function (res) {
+                        $('#clinic_vs_charge').datagrid('loadData', res);
+                        row.oldVsList = res;
+                    })
+                }
+                if(row.saveNameList){
+                    $('#clinic_item_name').datagrid('loadData', row.saveNameList);
+                } else if(row.oldNameList){
+                    $('#clinic_item_name').datagrid('loadData', row.oldNameList);
+                } else {
+                    $.get(base_url + 'findNameList', {
+                        itemClass: row.itemClass,
+                        itemCode: row.itemCode,
+                        orgId: config.org_Id
+                    }, function (res) {
+                        row.oldNameList = res
+                        $('#clinic_item_name').datagrid('loadData', res);
+                    })
+                }
+                $('#clinic_vs_charge').datagrid('unselectAll');
+                $('#clinic_item_name').datagrid('unselectAll');
+                currentSelectNameIndex = undefined;
+                currentSelectVsIndex = undefined;
             }
-            if(row.saveNameList){
-                $('#clinic_item_name').datagrid('loadData', row.saveNameList);
-            } else if(row.oldNameList){
-                $('#clinic_item_name').datagrid('loadData', row.oldNameList);
-            } else {
-                $.get(base_url + 'findNameList', {
-                    itemClass: row.itemClass,
-                    itemCode: row.itemCode,
-                    orgId: row.orgId
-                }, function (res) {
-                    row.oldNameList = res
-                    $('#clinic_item_name').datagrid('loadData', res);
-                })
             }
-            $('#clinic_vs_charge').datagrid('unselectAll');
-            $('#clinic_item_name').datagrid('unselectAll');
-            currentSelectNameIndex = undefined;
-            currentSelectVsIndex = undefined;
-        }
+
     }
 
     /***********诊疗项目正别名 ☟ ***********/
@@ -491,7 +494,7 @@ $(function(){
                 }
                 $(editor.target).combogrid({
                     value: $(editor.target).combogrid('getValue'),
-                    url : '/service/price/findListWithLimit?limit=50&orgId='+currentOrgId+'&priceType='+type
+                    url : '/service/price/findListWithLimit?limit=50&orgId='+config.org_Id+'&priceType='+type
                 })
                 $(editor.target).combogrid('grid').datagrid('reload')
             }
@@ -559,13 +562,13 @@ $(function(){
     })
     $('#clinic_org').combobox({
         mode:'remote',
-        url:'/service/dept-dict/findListWithFilter?orgId='+currentOrgId,
+        url:'/service/dept-dict/findListWithFilter?orgId='+config.org_Id,
         method:'get'
     })
     $('#add_project').click(function(){
         if(!endEditing_name() || !validVs()) return false;
         $.get('/service/price/findListWithLimit',{itemClass:$('#item_class').combobox('getValue'),
-                orgId:currentOrgId,start:'0',limit:'200'},
+                orgId:config.org_Id,start:'0',limit:'200'},
             function(res){
                 $('#dept_grid').datagrid('loadData',res)
             }
@@ -588,7 +591,7 @@ $(function(){
             ,'itemClass':$('#item_class').combobox('getValue')
             ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').textbox('getValue'))
             ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
-            ,'orgId' : currentOrgId
+            ,'orgId' : config.org_Id
             ,'inputCodeWb': ''}]
         var pro_obj = {'itemClass':$('#item_class').combobox('getValue')
             ,'itemCode':$('#item_code').textbox('getValue')
@@ -596,7 +599,7 @@ $(function(){
             ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').textbox('getValue'))
             ,'inputCodeWb': ''
             ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
-            ,'orgId' : currentOrgId
+            ,'orgId' : config.org_Id
             ,'saveNameList':new_name_json
         }
         $("#clinic_item").datagrid('appendRow',pro_obj);
@@ -638,7 +641,7 @@ $(function(){
                     , 'expand3': row.expand3
                     , 'expand4': row.expand4
                     , 'expand5': row.expand5
-                    , 'orgId': row.orgId
+                    , 'orgId': config.org_Id
                 }
                 $('#clinic_item_name').datagrid('appendRow', new_name_json);
                 currentSelectNameIndex = $('#clinic_item_name').datagrid('getRows').length - 1;
@@ -665,7 +668,7 @@ $(function(){
                     'clinicItemClass': row.itemClass,
                     'clinicItemCode': row.itemCode,
                     'chargeItemNo': '1',
-                    'orgId': currentOrgId
+                    'orgId': config.org_Id
                 }
                 $('#clinic_vs_charge').datagrid('appendRow', vs_json);
                 currentSelectVsIndex = $('#clinic_vs_charge').datagrid('getRows').length - 1;
@@ -750,7 +753,7 @@ $(function(){
         var params = {'itemClass':itemClass}
         params.itemCode = $(':radio[name="adminFlag"][value="0"]').prop('checked') ? $('#code_filter').textbox('getValue').toUpperCase() : ''
         params.inputCode = $(':radio[name="adminFlag"][value="1"]').prop('checked') ? $('#code_filter').textbox('getValue').toUpperCase() : ''
-        params.orgId = currentOrgId
+        params.orgId = config.org_Id
         $.get('/service/clinicItem/findList',params,function(res){
             $('#clinic_item').datagrid('loadData',res)
             $('#clinic_item').datagrid('uncheckAll')

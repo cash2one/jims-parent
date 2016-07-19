@@ -152,13 +152,13 @@ $(function(){
             align: 'center',
             formatter: function (value,row,index) {
                 if(value == "合计") return value;
-                //var units='';
-                //$.each(specUnits, function (index,item){
-                //    if(item.value=row.packageUnits){
-                //        units=item.label;
-                //    }
-                //}
-                var quantityNum = row.quantity + row.packageUnits + "(" + row.packageSpec + ")";
+                var units='';
+                for(var i=0;i<specUnits.length;i++){
+                    if(specUnits[i].value==row.packageUnits){
+                        units=specUnits[i].label;
+                    }
+                }
+                var quantityNum = row.quantity + units + "(" + row.packageSpec + ")";
                 if(row.quantity){
                     return quantityNum;
                 }else{
