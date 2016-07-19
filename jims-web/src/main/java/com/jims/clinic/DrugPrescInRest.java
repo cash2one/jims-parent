@@ -43,13 +43,14 @@ public class DrugPrescInRest {
      */
     @Path("list")
     @GET
-    public List<DoctDrugPrescMaster> list(@QueryParam("visitId") String visitId,@QueryParam("prescNo")int prescNo,@QueryParam("dispensary")String dispensary,@QueryParam("prescDate") String prescDate,@QueryParam("name") String name){
+    public List<DoctDrugPrescMaster> list(@QueryParam("visitId") String visitId,@QueryParam("prescNo")int prescNo,@QueryParam("dispensary")String dispensary,@QueryParam("prescDate") String prescDate,@QueryParam("name") String name,@QueryParam("orgId") String orgId){
         List<DoctDrugPrescMaster> list = Lists.newArrayList();
         DoctDrugPrescMaster ddpm = new DoctDrugPrescMaster();
         ddpm.setVisitId(visitId);
         ddpm.setPrescNo(prescNo);
         ddpm.setName(name);
         ddpm.setDispensary(dispensary);
+        ddpm.setOrgId(orgId);
         try {
              if(prescDate!=null&&!"".equals(prescDate)) {
              ddpm.setPrescDate(new SimpleDateFormat("yyyy-MM-dd").parse(prescDate));

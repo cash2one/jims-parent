@@ -5,6 +5,7 @@
 $(function () {
     ////////////////////////////////////////////////////////////
     $("#dispensary").val(config.deptCode);
+    $("#orgId").val(config.org_Id);
     $("#deptName").html("<b>"+config.deptName+"<b>");
     $("#prescDate").datebox("setValue", "");
     $('#prescDate').datebox({
