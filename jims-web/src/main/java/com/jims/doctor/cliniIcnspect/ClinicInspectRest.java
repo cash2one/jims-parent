@@ -106,10 +106,11 @@ public class ClinicInspectRest {
     @Path("saveExamAppoints")
     public StringData saveExamAppoints(ExamAppoints examAppoints,@Context HttpServletRequest request, @Context HttpServletResponse response){
         StringData stringData=new StringData();
-//        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
-//        examAppoints.setReqPhysician(loginInfo.getPersionId());
-//        examAppoints.setReqDept(loginInfo.getDeptId());
-//        examAppoints.setDoctorUser(loginInfo.getUserName());
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        examAppoints.setReqPhysician(loginInfo.getPersionId());
+        examAppoints.setReqDept(loginInfo.getDeptId());
+        examAppoints.setDoctorUser(loginInfo.getUserName());
+        examAppoints.setOrgId(loginInfo.getOrgId());
         int num= examAppointsServiceApi.batchSave(examAppoints);
         stringData.setCode(num+"");
         return stringData;

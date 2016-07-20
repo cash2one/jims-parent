@@ -56,15 +56,12 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
         ClinicMaster clinicMaster=clinicMasterDao.get(labTestMaster.getClinicId());
         labTestMaster.preInsert();
         labTestMaster.setOrgId(clinicMaster.getOrgId());
-        //申请医生(暂无)
-        labTestMaster.setOrderingProvider("");
-        //申请科室(暂无)
-        labTestMaster.setOrderingDept("");
          //申请状态
          labTestMaster.setStatus(labTestMaster.LAB_STATUS_APPLY);
         //结果状态
         labTestMaster.setResultStatus(labTestMaster.LAB_RESULTSTATUS_APPLY);
-
+        //门诊或住院
+        labTestMaster.setInOrOutFlag(labTestMaster.LAB_STATUS_APPLY);
         //申请序号
         labTestMaster.setTestNo(NumberUtils.getClinicLab(clinicMaster.getId()));
         //打印标记

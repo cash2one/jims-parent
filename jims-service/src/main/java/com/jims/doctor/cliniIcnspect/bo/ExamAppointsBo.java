@@ -107,6 +107,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         examAppoints.setRegPrnFlag(0);
         examAppoints.setVisitNo(clinicMaster.getVisitNo());
         examAppoints.setReqDateTime(new Date());
+        examAppoints.setInOrOut("0");
         //申请序号
         String examNo="JC"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
         examAppoints.setExamNo(examNo);
