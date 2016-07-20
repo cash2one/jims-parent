@@ -75,6 +75,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                        op.setPrescAttr(outpPresc.getPrescAttr());
                        op.setGetdrugFlag(1);//未取药
                        op.setAbidance(1);
+                       op.setOrgId(loginInfo.getOrgId());
                        op.setPatientId(clinicMaster.getPatientId());
                        if(op.getItemClass()!=null&&"B".equals(op.getItemClass())){//中药
                            if(op.getAmount()!=null&&!"".equals(op.getAmount())&&op.getAmount()!=0){//中药数量>0
@@ -132,8 +133,8 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                                    outpOrdersCosts.setOrderedByDept(loginInfo.getDeptId()); // 当前医师坐诊科室
                                    outpOrdersCosts.setOrderedByDoctor(loginInfo.getPersionId());
                                    outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
-                                   outpOrdersCosts.setCosts(outpPresc.getCosts()*outpPresc.getAmount());
-                                   outpOrdersCosts.setCharges(outpPresc.getCharges()*outpPresc.getAmount());
+                                   outpOrdersCosts.setCosts(outpPresc.getCosts() * outpPresc.getAmount());
+                                   outpOrdersCosts.setCharges(outpPresc.getCharges() * outpPresc.getAmount());
                                    outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
                                    ordersCostsesList.add(outpOrdersCosts);
                                }
@@ -151,6 +152,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                 oo.setDoctor(loginInfo.getPersionId());
                 oo.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + oo.getVisitNo());
                 oo.setDoctorNo(clinicMaster.getDoctor());
+                oo.setOrgId(loginInfo.getOrgId());
                 oo.preInsert();
                 outpOrdersDao.insert(oo);
                 //保存门诊处方药品价目表信息
