@@ -1,10 +1,8 @@
 var operatingRoom = [];//手术室
 var operatingDate = {};
-operatingDate.orgId = "1";
-InputParamVo1.colValue='20';
 var operationRoomNo = [];//手术间
 var operationRoomNoData = {};
-operationRoomNoData.orgId = "";
+operationRoomNoData.isOrgId=false;
 operationRoomNoData.dictType = "OPERATING_ROOM";
 
 $.ajax({
@@ -13,7 +11,7 @@ $.ajax({
     'data': JSON.stringify(operatingDate),
     'contentType': 'application/json',
     'dataType': 'json',
-    'async': 'false',
+    'async': false,
     'success': function (data) {
         operatingRoom = data;
     }
@@ -61,7 +59,7 @@ function operationRoomNoFormatter(value, id, rowData, rowindex) {
 function comboboxLoad(q, id,operatingRoomNoId) {
     if (q != '' && q != null) {
         var operationRoomNoData = {};
-        operationRoomNoData.orgId = "";
+        operationRoomNoData.isOrgId=false;
         operationRoomNoData.dictType = "OPERATING_ROOM";
         var InputParamVo = {};
         var InputParamVo2 = {};

@@ -5,7 +5,6 @@
 var discharge = [];
 var predischarge = [];//出院通知单
 var preData={};
-preData.orgId="";
 preData.dictType="PRE_DISCHARGE_DICT";
 var dis = [];
 
@@ -78,7 +77,6 @@ function perFormatter(value, rowData, rowIndex) {
 
 function getDis(id){
     var drugNameData={};
-    drugNameData.orgId="";
     drugNameData.dictType="PRE_DISCHARGE_DICT"
     var inputParamVos=new Array();
     if(id!='' && id!=null){

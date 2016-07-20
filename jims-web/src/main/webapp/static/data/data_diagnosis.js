@@ -1,6 +1,7 @@
 //icd10
 var icdData={};
 icdData.dictType="emr_data_icd10";
+icdData.isOrgId=false;
 icdData.inputParamVos=inputParamVos;
 var icdAllData = [];
 

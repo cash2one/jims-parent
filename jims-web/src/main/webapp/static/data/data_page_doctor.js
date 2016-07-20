@@ -5,7 +5,6 @@ var doctorName=[];
  */
 var doctorNameData={};
 var inputParamVos=[]
-doctorNameData.orgId="1";
 doctorNameData.dictType="v_staff_dict";
 doctorNameData.inputParamVos=inputParamVos;
 $.ajax({
@@ -66,7 +65,6 @@ function doctorNameFormatter(value, rowData, rowIndex) {
  */
 function dataGridCompleting(q,dataId,column){
     var doctorNameData={};
-    doctorNameData.orgId="1";
     doctorNameData.dictType="v_staff_dict"
     var inputParamVos=new Array();
     var InputParamVo1={};
@@ -101,7 +99,6 @@ function dataGridCompleting(q,dataId,column){
 
 function comboGridCompleting(q,id){
     var doctorNameData={};
-    doctorNameData.orgId="1";
     doctorNameData.dictType="v_staff_dict"
     var inputParamVos=new Array();
     var InputParamVo1={};
