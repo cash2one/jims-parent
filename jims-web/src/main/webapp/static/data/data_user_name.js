@@ -3,16 +3,17 @@
  * 通过病人Id拿到病人姓名
  */
 var loginUser={};
-loginUser.dictType="v_clinic_item_price";
-var currentUser = [];
-function userName(value, rowData, rowIndex){
+loginUser.dictType="persion_info";
+var currentUser ;
+
+function formatUserName(value, rowData, rowIndex){
+    alert("value="+value);
     var inputParamVos=new Array();
-    inputParamVos.push(InputParamVo1);
     if(value!='' && value!=null){
         var InputParamVo={};
-        InputParamVo.colName='input_code';
-        InputParamVo.colValue=q;
-        InputParamVo.operateMethod='like';
+        InputParamVo.colName='id';
+        InputParamVo.colValue=value;
+        InputParamVo.operateMethod='=';
         inputParamVos.push(InputParamVo);
         loginUser.inputParamVos=inputParamVos;
 
@@ -27,7 +28,7 @@ function userName(value, rowData, rowIndex){
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            currentUser = data;
+            currentUser = data.name;
 
         }
     });

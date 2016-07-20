@@ -1,5 +1,6 @@
 package com.jims.enterHospital.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.enterHospital.entity.ElectronEnterHospital;
 
 /**
@@ -21,5 +22,5 @@ public interface ElectronEnterHospitalServiceApi {
      * 保存/修改  病历文书--入院记录
       * @param electronEnterHospital
      */
-    public String saveEnter(ElectronEnterHospital electronEnterHospital,String LoginName,String orgId);
+    public String saveEnter(ElectronEnterHospital electronEnterHospital,LoginInfo loginInfo);
 }

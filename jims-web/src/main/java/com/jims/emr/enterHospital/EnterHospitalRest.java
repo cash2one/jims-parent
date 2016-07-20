@@ -37,7 +37,7 @@ public class EnterHospitalRest {
     StringData data = new StringData();
     String num = data.getCode();
     if (electronEnterHospital != null) {
-      num = electronEnterHospitalApi.saveEnter(electronEnterHospital,loginInfo.getPersionId(),loginInfo.getOrgId());
+      num = electronEnterHospitalApi.saveEnter(electronEnterHospital,loginInfo);
     }
     data.setCode(num);
     if(!"".equals(num)&&!"0".equals(num)){
