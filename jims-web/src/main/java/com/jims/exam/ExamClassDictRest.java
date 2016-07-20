@@ -2,7 +2,9 @@ package com.jims.exam;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.PinYin2Abbreviation;
+import com.jims.common.vo.LoginInfo;
 import com.jims.exam.api.ExamClassDictApi;
 import com.jims.exam.api.ExamRptPatternApi;
 import com.jims.exam.api.ExamSubclassDictApi;
@@ -36,22 +38,25 @@ public class ExamClassDictRest {
 
     @Path("getEx")
     @GET
-    public List getEx(@QueryParam("orgId")String orgId) {
-        List<ExamClassDict> list=examClassDictApi.getEx(orgId);
+    public List getEx(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        List<ExamClassDict> list=examClassDictApi.getEx(loginInfo.getOrgId());
         return list;
     }
 
     @Path("getExamSubclass")
     @GET
-    public List getExamSubclass(@QueryParam("examClassName")String examClassName,@QueryParam("orgId")String orgId){
-       List<ExamSubclassDict> examSubclassDictList=examSubclassDictApi.getEx(examClassName,orgId);
+    public List getExamSubclass(@QueryParam("examClassName")String examClassName,@Context HttpServletRequest request, @Context HttpServletResponse response){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        List<ExamSubclassDict> examSubclassDictList=examSubclassDictApi.getEx(examClassName,loginInfo.getOrgId());
        return examSubclassDictList;
     }
 
     @Path("getExamRptPattern")
     @GET
-    public List getExamRptPattern(@QueryParam("examSubClass")String examSubClass,@QueryParam("orgId")String orgId){
-        List<ExamRptPattern> examRptPatternList=examRptPatternApi.getExamRptPattern(examSubClass,orgId);
+    public List getExamRptPattern(@QueryParam("examSubClass")String examSubClass,@Context HttpServletRequest request, @Context HttpServletResponse response){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        List<ExamRptPattern> examRptPatternList=examRptPatternApi.getExamRptPattern(examSubClass,loginInfo.getOrgId());
         return examRptPatternList;
     }
 

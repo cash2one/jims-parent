@@ -114,7 +114,6 @@ function add() {
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
         method: "GET",
-        queryParams: {"orgId": 1},
         dataType: "json",
         valueField: 'id',
         textField: 'examClassName',
@@ -132,7 +131,7 @@ function add() {
             $.ajax({
                 url: basePath + '/examClassDict/getExamSubclass',
                 method: "GET",
-                data: {"examClassName": examClassName, "orgId": 1},
+                data: {"examClassName": examClassName},
                 dataType: "json",
                 success: function (data) {
                     $("#examSubclassNameId").combobox('loadData', data);
@@ -142,13 +141,13 @@ function add() {
     });
 //联动下拉框 子项目
     $('#examSubclassNameId').combobox({
-        valueField: 'examSubclassName',
+        valueField: 'id',
         textField: 'examSubclassName',
         onSelect: function (data) {
             $.ajax({
                 url: basePath + '/examClassDict/getExamRptPattern',
                 method: "GET",
-                data: {"examSubClass": data.examSubclassName, "orgId": 1},
+                data: {"examSubClass": data.examSubclassName},
                 dataType: "json",
                 success: function (data) {
                     var checkbox = "";
@@ -197,6 +196,11 @@ function add() {
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
+    $("#name").val(parent.clinicMaster.name);
+    $("#sex").val(parent.clinicMaster.sex);
+    $("#chargeType").val(parent.clinicMaster.chargeType);
+    $("#identity").val(parent.clinicMaster.identity);
+
 };
 function clearForm(){
     $("#clinicInspectForm").form('clear');
