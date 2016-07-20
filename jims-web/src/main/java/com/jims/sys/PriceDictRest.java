@@ -147,6 +147,9 @@ public class PriceDictRest {
     @GET
     public StringData Abbreviation(@PathParam("code") String code) {
         String res = AbbreviationUtils.cn2py(code);
+        if(res.length() > 8){
+            res = res.substring(0, 8);
+        }
         StringData stringData = new StringData();
         stringData.setCode(res);
         stringData.setData("success");
