@@ -147,6 +147,96 @@ public class PriceListBo extends CrudImplService<PriceListDao, PriceList> {
     }
 
     /**
+     * 修改价表
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
+    public String updatePrice(PriceDictListVo priceDictListVo) {
+        int code = 0;
+        //修改价表
+        PriceList priceList = new PriceList();
+        priceList.setId(priceDictListVo.getId());
+        priceList.setItemClass(priceDictListVo.getItemClass());
+        priceList.setItemName(priceDictListVo.getItemName());
+        priceList.setItemCode(priceDictListVo.getItemCode());
+        priceList.setItemSpec(priceDictListVo.getItemSpec());
+        priceList.setUnits(priceDictListVo.getUnits());
+        priceList.setPrice(priceDictListVo.getPrice());
+        priceList.setPreferPrice(priceDictListVo.getPreferPrice());
+        priceList.setForeignerPrice(priceDictListVo.getForeignerPrice());
+        priceList.setPerformedBy(priceDictListVo.getPerformedBy());
+        priceList.setFeeTypeMask(priceDictListVo.getFeeTypeMask());
+        priceList.setClassOnInpRcpt(priceDictListVo.getClassOnInpRcpt());
+        priceList.setClassOnOutpRcpt(priceDictListVo.getClassOnOutpRcpt());
+        priceList.setClassOnReckoning(priceDictListVo.getClassOnReckoning());
+        priceList.setSubjCode(priceDictListVo.getSubjCode());
+        priceList.setClassOnMr(priceDictListVo.getClassOnMr());
+        priceList.setMemo(priceDictListVo.getMemo());
+        priceList.setStartDate(DateUtils.parseDate(priceDictListVo.getStartDate()));
+        priceList.setStopDate(DateUtils.parseDate(priceDictListVo.getStopDate()));  //停用日期
+        priceList.setInputCode(priceDictListVo.getInputCode());
+        priceList.setMaterialCode(priceDictListVo.getMaterialCode());
+        priceList.setOrgId(priceDictListVo.getOrgId());
+        code += priceListDao.update(priceList);        //修改价表
+
+        //根据组织机构ID和项目代码查询执行科室
+        PerformDept dept = performDeptDao.getByOrgIdItemCode(priceDictListVo.getOrgId(), priceDictListVo.getItemCode());
+        if(dept != null){
+            dept.setOrgId(priceDictListVo.getOrgId());
+            dept.setItemClass(priceDictListVo.getItemClass());
+            dept.setItemCode(priceDictListVo.getItemCode());
+            dept.setPerformedBy(priceDictListVo.getPerformedBy());
+            code += performDeptDao.update(dept);    //修改项目执行科室
+        }
+
+        //查询是否有相关的诊疗项目
+        ClinicItemDict clinicItemDict = clinicItemDictDao.findByOrgIdItemNameItemCode(priceDictListVo.getOrgId(), priceDictListVo
+                .getItemName(), priceDictListVo.getItemCode());
+        if(clinicItemDict != null){
+            clinicItemDict.setItemName(priceDictListVo.getItemName());
+            clinicItemDict.setItemClass(priceDictListVo.getItemClass());
+            clinicItemDict.setItemCode(priceDictListVo.getItemCode());
+            clinicItemDict.setInputCode(priceDictListVo.getInputCode());
+            clinicItemDict.setExpand3(priceDictListVo.getPerformedBy());
+            clinicItemDict.setMemo(priceDictListVo.getMemo());
+            clinicItemDict.setItemStatus("0");
+            clinicItemDict.setOrgId(priceDictListVo.getOrgId());
+            code += clinicItemDictDao.update(clinicItemDict);   //修改诊疗项目
+        }
+
+        ClinicItemNameDict itemNameDict = clinicItemNameDictDao.findByOrgIdItemNameItemCode(priceDictListVo.getOrgId(),
+                priceDictListVo
+                .getItemName(), priceDictListVo.getItemCode());
+        if(itemNameDict != null){
+            itemNameDict.setItemClass(priceDictListVo.getItemClass());
+            itemNameDict.setItemCode(priceDictListVo.getItemCode());
+            itemNameDict.setItemName(priceDictListVo.getItemName());
+            itemNameDict.setInputCode(priceDictListVo.getInputCode());
+            itemNameDict.setStdIndicator(1);  //正名
+            itemNameDict.setExpand3(priceDictListVo.getPerformedBy());
+            itemNameDict.setItemStatus("1");
+            itemNameDict.setOrgId(priceDictListVo.getOrgId());
+            code += clinicItemNameDictDao.update(itemNameDict);     //修改诊疗项目名称
+        }
+
+        ClinicVsCharge clinicVsCharge = clinicVsChargeDao.findByOrgIdItemCode(priceDictListVo.getOrgId(), priceDictListVo.getItemCode());
+        if(clinicVsCharge != null){
+            clinicVsCharge.setClinicItemClass(priceDictListVo.getItemClass());
+            clinicVsCharge.setClinicItemCode(priceDictListVo.getItemCode());
+            clinicVsCharge.setChargeItemNo(1);
+            clinicVsCharge.setChargeItemClass(priceDictListVo.getItemClass());
+            clinicVsCharge.setChargeItemCode(priceDictListVo.getItemCode());
+            clinicVsCharge.setChargeItemSpec(priceDictListVo.getItemSpec());
+            clinicVsCharge.setAmount(1);
+            clinicVsCharge.setUnits(priceDictListVo.getUnits());
+            clinicVsCharge.setOrgId(priceDictListVo.getOrgId());
+            code += clinicVsChargeDao.update(clinicVsCharge);   //修改诊疗项目与价表对照
+        }
+        return code + "";
+    }
+
+    /**
      * 根据类别查询价表
      * @param itemClass 类别
      * @param orgId 组织机构ID
