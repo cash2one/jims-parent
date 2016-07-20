@@ -1,6 +1,5 @@
 var operation=[];//手术名称
 var operationData={};
-operationData.orgId="";
 operationData.dictType="operation_dict"
 
 $.ajax({

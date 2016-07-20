@@ -4,6 +4,7 @@
 package com.jims.doctor.prescription.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.prescription.api.OutpPrescServiceApi;
 import com.jims.prescription.entity.OutpPresc;
 import com.jims.doctor.prescription.bo.OutpPrescBo;
@@ -35,8 +36,8 @@ public class OutpPrescServiceImpl implements OutpPrescServiceApi{
     }
 
     @Override
-    public String save(OutpPresc outpPresc) {
-        return outpPrescBo.save(outpPresc);
+    public String save(OutpPresc outpPresc,LoginInfo loginInfo) {
+        return outpPrescBo.save(outpPresc,loginInfo);
     }
 
     @Override

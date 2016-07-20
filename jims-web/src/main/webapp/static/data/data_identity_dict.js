@@ -1,13 +1,10 @@
 var identityDict= [];
-
-var orgId="1";
 /**
  * 身份
  */
 $.ajax({
     'type': 'get',
     'url':basePath+'/identity-dict/list' ,
-    data: "orgId="+orgId,
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,

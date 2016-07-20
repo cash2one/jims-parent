@@ -75,4 +75,12 @@ public interface DrugExportServiceApi {
      * @return
      */
     public DrugExportMaster update(DrugExportMaster drugExportMaster);
+
+
+    /**
+     *查询出库详情
+     * @param documentNo
+     * @return
+     */
+    public List<DrugExportDetail> findDetailList(String documentNo);
 }

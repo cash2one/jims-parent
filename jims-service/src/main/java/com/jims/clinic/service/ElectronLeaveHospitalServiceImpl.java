@@ -6,6 +6,7 @@ package com.jims.clinic.service;
 import com.jims.clinic.api.ElectronLeaveHopitalServiceApi;
 import com.jims.clinic.bo.ElectronLeaveHospitalBo;
 import com.jims.clinic.entity.ElectronLeaveHospital;
+import com.jims.common.vo.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -38,7 +39,8 @@ public class ElectronLeaveHospitalServiceImpl implements ElectronLeaveHopitalSer
 	 * @Author zhaoning
 	 * @version 2016-04-21
 	 */
-	public String save(ElectronLeaveHospital electronLeaveHospital) {
+	public String save(ElectronLeaveHospital electronLeaveHospital,LoginInfo loginInfo) {
+		electronLeaveHospital.setOrgId(loginInfo.getOrgId());
 		return  electronLeaveHospitalBo.save(electronLeaveHospital);
 	}
 

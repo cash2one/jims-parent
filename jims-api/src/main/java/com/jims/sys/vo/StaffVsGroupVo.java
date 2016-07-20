@@ -32,7 +32,15 @@ public class StaffVsGroupVo<T> implements Serializable {
     private String  staffId;       //组织机构人员id
     private String groupCode;    //组代码
     private String staffVsId;    //staff_vs_group的id
+    private String inputCode;   //拼音码
 
+    public String getInputCode() {
+        return inputCode;
+    }
+
+    public void setInputCode(String inputCode) {
+        this.inputCode = inputCode;
+    }
 
     public String getId() {
         return id;

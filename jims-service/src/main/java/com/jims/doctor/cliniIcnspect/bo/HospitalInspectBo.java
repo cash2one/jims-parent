@@ -40,10 +40,13 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
         PatVisit patVisit = patVisitDao.selectPatVisit(examAppoints.getPatientId(),examAppoints.getVisitId());
         examAppoints.setCnsltState(0);
         examAppoints.preInsert();
+        examAppoints.setInOrOut("1");
         examAppoints.setChargeType(patVisit.getChargeType());
+        examAppoints.setVisitNo(patVisit.getVisitNo());
         num = examAppointsDao.insert(examAppoints);
-        //设置就诊序号
-        examAppoints.setVisitNo((int) Math.random() * 1000);
+        //申请序号
+        String examNo="JC"+patVisit.getVisitNo()+(int)(Math.random()*9000);
+        examAppoints.setExamNo(examNo);
         List<ExamItems> examItemsList = examAppoints.getExamItemsList();
         for (int i = 0; i < examItemsList.size(); i++) {
             ExamItems examItems = examItemsList.get(i);

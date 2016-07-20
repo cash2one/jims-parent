@@ -40,12 +40,13 @@ public class DrugPrescTempRest {
                                                         @QueryParam(value = "dispensarySub")String dispensarySub,
                                                         @QueryParam(value = "patientId")String patientId,
                                                         @QueryParam(value = "prescNo")int prescNo,
-                                                        @QueryParam(value = "name")String name){
+                                                        @QueryParam(value = "name")String name,@QueryParam(value="orgId") String orgId){
         DrugPrescMasterTemp drugPrescMasterTemp=new DrugPrescMasterTemp();
         drugPrescMasterTemp.setDispensary(dispensary);
         drugPrescMasterTemp.setDispensarySub(dispensarySub);
         drugPrescMasterTemp.setPatientId(patientId);
         drugPrescMasterTemp.setPrescNo(prescNo);
+        drugPrescMasterTemp.setOrgId(orgId);
         drugPrescMasterTemp.setName(name);
         if(prescDate!=null&&!"".equals(prescDate)){
             try {
@@ -54,7 +55,7 @@ public class DrugPrescTempRest {
                 e.printStackTrace();
             }
         }
-         return drugPrescTempServiceApi.getPrescMasterTemp(drugPrescMasterTemp);
+        return drugPrescTempServiceApi.getPrescMasterTemp(drugPrescMasterTemp);
     }
 
     /**

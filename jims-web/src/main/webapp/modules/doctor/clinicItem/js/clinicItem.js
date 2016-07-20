@@ -19,6 +19,7 @@ $(function () {
                     data: clinicDictName,
                     idField: 'item_code',
                     textField: 'item_name',
+                    required: true,
                     columns: [[
                         {field: 'item_name', title: '项目名称', width: '20%', align: 'center'},
                         {field: 'item_code', title: '项目代码', width: '20%', align: 'center'},
@@ -49,7 +50,7 @@ $(function () {
                         $('#dlg').dialog('open').dialog('center').dialog('setTitle', '处置计价');
                         $("#clinic").datagrid({
                             url: basePath + '/price-list/list-by-clinic-code',
-                            queryParams:{"orgId":1,"clinicItemCode":itemCode},
+                            queryParams: {"orgId": 1, "clinicItemCode": itemCode},
                             method: "get"
                         })
 
@@ -80,7 +81,8 @@ $(function () {
                     options: {
                         data: clinicDeptCode,
                         valueField: 'id',
-                        textField: 'dept_name'
+                        textField: 'dept_name',
+                        required: true
                     }
                 }
             },
@@ -95,11 +97,13 @@ $(function () {
                     options: {
                         data: clinicDeptCode,
                         valueField: 'id',
-                        textField: 'dept_name'
+                        textField: 'dept_name',
+                        required: true
                     }
                 }
             },
-            {field: 'charges', title: '实收', width: '10%', align: 'center',editor: {
+            {
+                field: 'charges', title: '实收', width: '10%', align: 'center', editor: {
                 options: {
                     onLoadSuccess: function (index, row) {
                         $('#itemsTables').datagrid('appendRow', {
@@ -109,16 +113,19 @@ $(function () {
                         });
                     }
                 }
-            }},
-            {field: 'chargeIndicator', title: '收费标识', width: '10%', align: 'center',
-                formatter:function(value,rowData,rowIndex){
-                    if(value == '0'){
+            }
+            },
+            {
+                field: 'chargeIndicator', title: '收费标识', width: '10%', align: 'center',
+                formatter: function (value, rowData, rowIndex) {
+                    if (value == '0') {
                         return '未收费';
                     }
-                    if(value == '1'){
+                    if (value == '1') {
                         return '已收费';
                     }
-            }}
+                }
+            }
         ]],
 
 
@@ -157,7 +164,7 @@ $(function () {
             $('#dlg').dialog('open').dialog('center').dialog('setTitle', '处置计价');
             $("#clinic").datagrid({
                 url: basePath + '/price-list/list-by-clinic-code',
-                queryParams:{"orgId":1,"clinicItemCode":rowData.itemCode},
+                queryParams: {"orgId": 1, "clinicItemCode": rowData.itemCode},
                 method: "get"
             })
             if (rowData.id != null) {
@@ -180,26 +187,27 @@ $(function () {
 
 
     //求和
-    function compute(tableName,colName) {
-        var rows = $('#'+tableName).datagrid('getRows');
+    function compute(tableName, colName) {
+        var rows = $('#' + tableName).datagrid('getRows');
         var total = 0;
         for (var i = 0; i < rows.length; i++) {
 
-            if(isNaN(parseFloat(rows[i][colName]))){
+            if (isNaN(parseFloat(rows[i][colName]))) {
                 total += 0;
-            }else{
+            } else {
                 total += parseFloat(rows[i][colName]);
             }
         }
         return total;
     }
+
 //处置计价
     $('#clinic').datagrid({
         singleSelect: true,
         fit: true,
         method: 'GET',
         url: basePath + '/price-list/list-by-clinic-code',
-        queryParams:{"orgId":1,"clinicItemCode":itemCode},
+        queryParams: {"orgId": 1, "clinicItemCode": itemCode},
         idField: 'id',
         columns: [[      //每个列具体内容
             {field: 'itemClass', title: '类别', width: '15%', align: 'center', editor: 'text'},
@@ -288,15 +296,19 @@ function doDelete() {
 function save() {
     $("#clinicItem").datagrid("endEdit", rowNum);
     var rows = $('#clinicItem').datagrid('getRows');
-    var tableJson = JSON.stringify(rows);
-    $.postJSON(basePath + '/treatment/save', tableJson, function (data) {
-        if (data.code == 'success') {
-            $.messager.alert('提示消息', '保存成功', 'success');
-            $("#clinicItem").datagrid("reload");
-        } else {
+    if (rows[0].itemCode == undefined) {
+        $.messager.alert('提示', "请选择项目，再添加", "error");
+    } else {
+        var tableJson = JSON.stringify(rows);
+        $.postJSON(basePath + '/treatment/save', tableJson, function (data) {
+            if (data.code == 'success') {
+                $.messager.alert('提示消息', '保存成功', 'success');
+                $("#clinicItem").datagrid("reload");
+            } else {
+                $.messager.alert('提示', "保存失败", "error");
+            }
+        }, function (data) {
             $.messager.alert('提示', "保存失败", "error");
-        }
-    }, function (data) {
-        $.messager.alert('提示', "保存失败", "error");
-    })
+        })
+    }
 }
