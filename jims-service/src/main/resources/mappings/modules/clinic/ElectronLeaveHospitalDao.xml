@@ -17,7 +17,8 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
 		a.ruyuanbingqing AS "ruyuanbingqing",
-		a.visit_id AS "visitId"
+		a.visit_id AS "visitId",
+		a.org_id AS "orgId"
 	</sql>
 	
 	<sql id="electronLeaveHospitalJoins">
@@ -83,7 +84,8 @@
 			remarks,
 			del_flag,
 			ruyuanbingqing,
-			visit_id
+			visit_id,
+			org_id
 		) VALUES (
 			#{id},
 			#{patientId},
@@ -99,7 +101,8 @@
 			#{remarks},
 			#{delFlag},
 			#{ruyuanbingqing},
-			#{visitId}
+			#{visitId},
+			#{orgId}
 		)
 	</insert>
 	
@@ -115,7 +118,8 @@
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remarks = #{remarks},
-			ruyuanbingqing = #{ruyuanbingqing}
+			ruyuanbingqing = #{ruyuanbingqing},
+			org_id = #{orgId}
 		WHERE id = #{id}
 	</update>
 	
