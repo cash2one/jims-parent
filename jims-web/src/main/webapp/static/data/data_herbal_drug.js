@@ -1,6 +1,6 @@
 var herbalDrugData = [];
 var herbalDrug={};
-herbalDrugData.isOrgId=false;
+herbalDrug.isOrgId=false;
 herbalDrug.itemClass="B";
 herbalDrug.dictType="v_drug_info_mz";
 herbalDrug.inputParamVos=inputParamVos;
