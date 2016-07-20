@@ -4,7 +4,6 @@ var clinicDeptCode=[];
  * @type {{}}
  */
 var clinicDeptCodeData={};
-//clinicDeptCodeData.orgId="";
 clinicDeptCodeData.dictType="v_outp_dept_dict"
 $.ajax({
     'type': 'POST',

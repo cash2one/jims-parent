@@ -48,7 +48,7 @@ public interface ClinicAppointsServiceApi {
      * @param id
      * @return
      */
-    public String saveAppointReg(String id);
+    public String saveAppointReg(String id,String orgId);
 
     /**
      * 删除预约信息

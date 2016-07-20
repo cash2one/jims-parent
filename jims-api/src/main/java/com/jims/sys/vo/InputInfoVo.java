@@ -11,10 +11,12 @@ public class InputInfoVo implements Serializable {
     private String orgId ;//组织机构
     private String dictType ;//表或者视图名称
     private String itemClass;//如果是药品，用于区分中西药
+    private Boolean isOrgId;  //如果需要设置true(可以不设置)；否则设置false；
 
     private List<InputParamVo> inputParamVos = new ArrayList<InputParamVo>() ;
 
     public InputInfoVo() {
+        this.isOrgId=true;
     }
 
     public InputInfoVo(String orgId, String dictType, String itemClass,List<InputParamVo> inputParamVos) {
@@ -54,5 +56,13 @@ public class InputInfoVo implements Serializable {
 
     public void setItemClass(String itemClass) {
         this.itemClass = itemClass;
+    }
+
+    public Boolean getIsOrgId() {
+        return isOrgId;
+    }
+
+    public void setIsOrgId(Boolean isOrgId) {
+        this.isOrgId = isOrgId;
     }
 }

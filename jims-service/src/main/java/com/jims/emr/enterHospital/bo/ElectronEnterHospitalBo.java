@@ -1,6 +1,7 @@
 package com.jims.emr.enterHospital.bo;
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
 import com.jims.emr.enterHospital.dao.ElectronEnterHospitalDao;
@@ -31,10 +32,11 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
      * @author pq
      * @return
      */
-    public String saveEnter(ElectronEnterHospital electronEnterHospital){
+    public String saveEnter(ElectronEnterHospital electronEnterHospital,LoginInfo loginInfo){
         int num = 0;
 
         if (electronEnterHospital!=null) {
+            electronEnterHospital.setOrgId(loginInfo.getOrgId());
             String	str = save(electronEnterHospital);
             num =Integer.parseInt(str==null?"0":str);
 
@@ -47,6 +49,8 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
                         EmrDiagnosis diagnosis = emrDiagnosisList.get(i);
                         diagnosis.setDiagnosisParent(electronEnterHospital.getId());
                         diagnosis.setParentId("0");
+                        diagnosis.setDiagnosisDoc(loginInfo.getPersionId());
+                        diagnosis.setOrgId(loginInfo.getOrgId());
                         try {
                             if (diagnosis.getIsNewRecord()) {
                                 diagnosis.preInsert();

@@ -4,7 +4,9 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.PinYin2Abbreviation;
+import com.jims.common.vo.LoginInfo;
 import com.jims.exam.vo.ExamRptPatternVo;
 import com.jims.sys.api.UnitInContractApi;
 import com.jims.sys.entity.UnitInContract;
@@ -81,14 +83,15 @@ public class UnitInContractRest {
 
     /**
      * 根据拼音码查询
-     * @param orgId
+     * @param
      * @param inputCode
      * @return
      */
     @GET
     @Path("find-by-input-code")
-    public List<UnitInContract> getInputCode(@QueryParam("orgId")String orgId,@QueryParam("inputCode")String inputCode){
-        List<UnitInContract> unitInContracts = unitInContractApi.getInputCode(orgId, inputCode);
+    public List<UnitInContract> getInputCode(@Context HttpServletRequest request,@QueryParam("inputCode")String inputCode){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        List<UnitInContract> unitInContracts = unitInContractApi.getInputCode(loginInfo.getOrgId(), inputCode);
         return unitInContracts;
     }
 

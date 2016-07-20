@@ -1,6 +1,8 @@
 package com.jims.doctor.lab;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.data.StringData;
@@ -129,8 +131,11 @@ public class LabTestRest {
 
     @Path("save")
     @POST
-    public StringData save(LabTestMaster labTestMaster){
+    public StringData save(LabTestMaster labTestMaster,@Context HttpServletRequest request, @Context HttpServletResponse response){
         String mun="";
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        labTestMaster.setOrderingDept(loginInfo.getDeptId());
+        labTestMaster.setOrderingProvider(loginInfo.getPersionId());
         StringData data=new StringData();
         mun = labTestMasterServiceApi.saveAll(labTestMaster);
         data.setData("success");

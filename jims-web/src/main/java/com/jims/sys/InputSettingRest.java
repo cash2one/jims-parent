@@ -2,7 +2,9 @@ package com.jims.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.sys.api.DeptDictApi;
 import com.jims.sys.api.DeptPropertyDictApi;
@@ -17,6 +19,7 @@ import com.jims.sys.vo.InputParamVo;
 import com.jims.sys.vo.InputSettingVo;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -136,7 +139,13 @@ public class InputSettingRest {
      */
     @Path("listParam")
     @POST
-    public List<BaseDto> listParam(InputInfoVo inputInfoVo, @QueryParam("q") String q) {
+    public List<BaseDto> listParam(InputInfoVo inputInfoVo, @QueryParam("q") String q,@Context HttpServletRequest request) {
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        if(inputInfoVo.getIsOrgId()){
+            inputInfoVo.setOrgId(loginInfo.getOrgId());
+        }else{
+            inputInfoVo.setOrgId("");
+        }
         if (StringUtils.isNotEmpty(q)) {
             List<InputParamVo> inputParamVos = inputInfoVo.getInputParamVos();
             InputParamVo vo = new InputParamVo("input_code", q, "like");

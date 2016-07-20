@@ -1,6 +1,5 @@
 var priceItme= [];
 var priceItmeData={};
-priceItmeData.orgId="";
 priceItmeData.dictType="V_INPUT_REGISTRATION_LIST"
 /**
  * 门诊收费
