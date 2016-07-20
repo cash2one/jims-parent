@@ -2,13 +2,18 @@ package com.jims.register;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.register.api.ClinicTypeFeeServiceApi;
 import com.jims.register.api.ClinicTypeSettingServiceApi;
 import com.jims.register.entity.ClinicTypeFee;
 import com.jims.register.entity.ClinicTypeSetting;
+import com.jims.sys.entity.PersionInfo;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,9 +68,10 @@ public class ClinicTypesSettingRest {
      */
     @Path("saveItem")
     @POST
-    public StringData saveItem(List<ClinicTypeFee> clinicTypeFees,@QueryParam("type")String type,@QueryParam("clinicTypeId")String clinicTypeId){
+    public StringData saveItem(List<ClinicTypeFee> clinicTypeFees,@QueryParam("type")String type,@QueryParam("clinicTypeId")String clinicTypeId,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data=new StringData();
-        data.setCode(clinicTypeFeeServiceApi.saveList(clinicTypeFees,type,clinicTypeId));
+        data.setCode(clinicTypeFeeServiceApi.saveList(clinicTypeFees,type,clinicTypeId,loginInfo));
         return data;
     }
 

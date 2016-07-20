@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -26,9 +28,9 @@ public class DrugPrescTempRest {
 
     /**
      * 拿到近一个月的处方列表
-     * @param prescDate
-     * @param dispensary
-     * @param dispensarySub
+     * @param prescDate 处方日期
+     * @param dispensary  发药局
+     * @param dispensarySub 发药子药局
      * @return
      */
     @Path("getPrescMasterTemp")
@@ -45,7 +47,14 @@ public class DrugPrescTempRest {
         drugPrescMasterTemp.setPatientId(patientId);
         drugPrescMasterTemp.setPrescNo(prescNo);
         drugPrescMasterTemp.setName(name);
-       return drugPrescTempServiceApi.getPrescMasterTemp(drugPrescMasterTemp);
+        if(prescDate!=null&&!"".equals(prescDate)){
+            try {
+                drugPrescMasterTemp.setPrescDate(new SimpleDateFormat("yyyy-MM-dd").parse(prescDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+         return drugPrescTempServiceApi.getPrescMasterTemp(drugPrescMasterTemp);
     }
 
     /**
@@ -61,13 +70,15 @@ public class DrugPrescTempRest {
 
     /**
      * 确认发药
-     * @param id
+     * updated by chenxy
+     * @param masterId  待发药主记录表主键
+     * @param persionId 当前登陆人的persionId
      * @return
      */
     @Path("confirmDrug")
     @POST
-    public StringData confirmDrug(String id){
-        String num = drugPrescTempServiceApi.confirmDrug(id);
+    public StringData confirmDrug(@QueryParam(value="masterId") String masterId,@QueryParam(value="persionId") String persionId){
+        String num = drugPrescTempServiceApi.confirmDrug(masterId,persionId);
         StringData stringData = new StringData();
         stringData.setCode(num);
         if (Integer.parseInt(num) > 0) {

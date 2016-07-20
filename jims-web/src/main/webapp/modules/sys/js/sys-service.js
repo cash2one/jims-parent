@@ -917,4 +917,126 @@ $(function () {
         }
         $("#serviceParamDialog").dialog("open") ;
     }) ;
+
+/****************菜单修改说明（开始）*******************/
+
+    //服务菜单修改说明弹出框
+    $("#menuUpdateExplainDialog").dialog({
+        title: '服务菜单修改说明',
+        width: 600,
+        height: 500,
+        closed:true
+    });
+    $("#explainDialog").dialog({
+        title: '服务菜单修改说明',
+        width: 600,
+        height: 500,
+        closed:true,
+        buttons: '#explainSaveBtn'
+    });
+    //服务菜单修改说明数据框
+    $("#menuUpdateExplainTable").datagrid({
+        fit: true,
+        fitColumns: true,
+        toolbar: '#explainBtn',
+        method: 'GET',
+        loadMsg: '数据正在加载中，请稍后.....',
+        columns: [[{
+            title: "日期",
+            field: "updateDate",
+            width: '120',
+            align: 'center'
+        }, {
+            title: "标题",
+            field: "title",
+            width: '300',
+            halign: 'center',
+            align: 'left'
+        }
+        ]]
+    });
+    $('#updateExplainBtn').click(function(){
+        var row = $("#serviceDg").datagrid("getSelected");
+        if(!row){
+            $.messager.alert("提示","请选择一个服务",'error');
+            return;
+        } else if(!row.id){
+            $.messager.alert("提示","新建服务不能维护说明！",'error');
+            return;
+        }
+        $.get(basePath + '/menuUpdateExplain/findList?serviceId='+row.id, function (res) {
+            $("#menuUpdateExplainTable").datagrid('loadData',res)
+        })
+        $("#menuUpdateExplainDialog").dialog('open')
+    })
+    var explainEditor=UE.getEditor("explainEditor");
+    //添加
+    $('#addExplainBtn').click(function () {
+        explainEditor.setContent('')
+        $('#explainTitle').textbox('setValue','')
+        $('#explainId').val('')
+        $("#explainDialog").dialog("open");
+        $("#menuUpdateExplainDialog").dialog('close')
+    })
+    //修改
+    $('#editExplainBtn').click(function () {
+        var rows = $("#menuUpdateExplainTable").datagrid('getSelections');
+        if(rows.length > 1) {
+            $.messager.alert('修改','每次只能修改一条数据！','info');
+            return;
+        } else if(rows.length == 0){
+            $.messager.alert('修改','请选择一条数据！','info');
+            return;
+        }
+        explainEditor.setContent(rows[0].explainStr)
+        $('#explainTitle').textbox('setValue',rows[0].title)
+        $('#explainId').val(rows[0].id)
+        $("#explainDialog").dialog("open");
+        $("#menuUpdateExplainDialog").dialog('close')
+    })
+    //删除
+    $('#delExplainBtn').click(function () {
+        var rows = $("#menuUpdateExplainTable").datagrid('getSelections');
+        if(rows.length == 0){
+            $.messager.alert('删除','请选择要删除的数据！','info');
+            return;
+        }
+        var ids = '';
+        for(var i=0;i<rows.length ;i++){
+            ids += ',' + rows[i].id;
+        }
+        ids = ids.length == 0 ? ids : ids.substr(1);
+        $.get(basePath + '/menuUpdateExplain/delete?ids='+ids,function(res){
+            if(res){
+                $.messager.alert('删除','删除成功！','info');
+                $("#menuUpdateExplainDialog").dialog('close');
+            } else {
+                $.messager.alert('删除','删除失败！','error');
+            }
+        })
+    })
+    //保存
+    $('#explainSave').click(function () {
+        var row = $("#serviceDg").datagrid("getSelected");
+        var record = {
+            explain: explainEditor.getContent(),
+            serviceId: row.id,
+            title: $('#explainTitle').textbox('getValue'),
+            id: $('#explainId').val()
+        }
+        $.get(basePath + '/menuUpdateExplain/saveExplain',record, function (res) {
+            if(res){
+                $.messager.alert('保存','保存成功！','info');
+                $("#explainDialog").dialog("close");
+            } else {
+                $.messager.alert('保存','保存失败！','error');
+            }
+        })
+    })
+    //关闭
+    $('#explainClose').click(function () {
+         $("#explainDialog").dialog("close");
+    })
+
+/****************菜单修改说明（结束）*******************/
 });

@@ -6,7 +6,9 @@ import com.jims.clinic.api.ClinicMasterServiceApi;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.outpAccounts.entity.RegistAcctDetail;
 import com.jims.finance.outpAccounts.entity.RegistAcctMoney;
 import com.jims.patient.api.PatMasterIndexServiceApi;
@@ -14,7 +16,9 @@ import com.jims.patient.entity.PatMasterIndex;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,12 +66,14 @@ public class ClinicMasterRest {
      */
     @Path("clinicMasterList")
     @GET
-    public List<ClinicMaster> getClinicList(@QueryParam("deptName")String deptName){
+    public List<ClinicMaster> getClinicList(@QueryParam("deptName")String deptName,@Context HttpServletRequest request){
         List<ClinicMaster> list= new ArrayList<ClinicMaster>();
       /* User user =  UserUtils.getUser();
        if(user!=null && user.getId()!=null){
            list=clinicMasterServiceApi.getClinicMasterList(user.getId());
        }*/
+       LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        String deptCode=loginInfo.getDeptCode();
         list= clinicMasterServiceApi.getClinicMasterList("174",deptName);
        return list;
     }

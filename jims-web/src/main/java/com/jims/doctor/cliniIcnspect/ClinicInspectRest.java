@@ -1,19 +1,24 @@
 package com.jims.doctor.cliniIcnspect;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.exam.api.ExamAppointsServiceApi;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.exam.api.ExamItemsServiceApi;
 import com.jims.exam.entity.ExamAppoints;
+import com.jims.exam.entity.ExamItems;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/25.
@@ -30,6 +35,8 @@ public class ClinicInspectRest {
     private ExamAppointsServiceApi examAppointsServiceApi;
     @Reference(version = "1.0.0")
     private EmrDiagnosisServiceApi emrDiagnosisServiceApi;
+    @Reference(version = "1.0.0")
+    private ExamItemsServiceApi examItemsServiceApi;
 
     /**
      * 查看住院检查列表
@@ -97,8 +104,12 @@ public class ClinicInspectRest {
      */
     @POST
     @Path("saveExamAppoints")
-    public StringData saveExamAppoints(ExamAppoints examAppoints){
+    public StringData saveExamAppoints(ExamAppoints examAppoints,@Context HttpServletRequest request, @Context HttpServletResponse response){
         StringData stringData=new StringData();
+//        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+//        examAppoints.setReqPhysician(loginInfo.getPersionId());
+//        examAppoints.setReqDept(loginInfo.getDeptId());
+//        examAppoints.setDoctorUser(loginInfo.getUserName());
         int num= examAppointsServiceApi.batchSave(examAppoints);
         stringData.setCode(num+"");
         return stringData;
@@ -138,5 +149,17 @@ public class ClinicInspectRest {
         stringData.setData("success");
         return stringData;
 
+    }
+
+    /**
+     * 通过主记录id获取检查子项
+     * @param appointsId
+     * @return
+     */
+    @Path("getItemName")
+    @POST
+    public List<ExamItems> getItemName (String appointsId){
+        List<ExamItems> examItemsList = examItemsServiceApi.getItemName(appointsId);
+        return examItemsList;
     }
 }

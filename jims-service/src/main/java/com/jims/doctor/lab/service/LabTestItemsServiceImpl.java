@@ -26,8 +26,8 @@ public class LabTestItemsServiceImpl  extends CrudImplService<LabTestItemsDao, L
     @Autowired
     private LabTestItemsDao labTestItemsDao;
     @Override
-    public List<LabTestItems> getItemName(String testNo) {
-        List<LabTestItems> labTestItemsList=labTestItemsDao.getItemName(testNo);
+    public List<LabTestItems> getItemName(String labMaster) {
+        List<LabTestItems> labTestItemsList=labTestItemsDao.getItemName(labMaster);
         return labTestItemsList;
     }
 }

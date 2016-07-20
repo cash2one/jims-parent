@@ -36,13 +36,13 @@
         </div>
         <div class="nav vm-item def-menu">
             <ul style="cursor: pointer">
-                <li class="active"><a  id="default">个人首页</a></li>
-                <li><a >寻医问药</a></li>
-                <li><a >私人医生</a></li>
-                <li><a >健康管理</a></li>
+                <li><a  id="default">个人首页</a></li>
+                <!--<li><a >寻医问药</a></li>-->
+                <!--<li><a >私人医生</a></li>-->
+                <!--<li><a >健康管理</a></li>-->
                 <li><a >个人信息管理</a></li>
                 <li><a >我的消息</a></li>
-                <li><a id="myServices">我的服务</a></li>
+                <li class="active"><a id="myServices">我的服务</a></li>
             </ul>
             <div class="nav-other">
                 <a id="exit" class="btn btn-primary btn-sm">退出</a>
@@ -62,6 +62,26 @@
         <div class="doctortese clearfix" id="myServiceModel">
 
         </div>
+        <!-- 我的服务详情描述模态start -->
+        <div class="modal fade" id="serviceDialog" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document" style="width:540px; height: 250px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">服务描述</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ser-type clearfix" id="serviceDialogDes">
+                        </div>
+                    </div>
+                    <div class="modal-footer" align="center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 我的服务详情描述模态end -->
+
         <!-- 续费或继续定制 -->
         <div class="modal fade" id="goServiceModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document" style="width:350px">
@@ -86,7 +106,7 @@
             </div>
         </div>
         <div class="yun_daohang">
-            <div class="yun_daohangtil"><span>更多>></span>推荐服务
+            <div class="yun_daohangtil"><a id="moreServices" href="#"><span>更多>></span></a>推荐服务
             </div>
         </div>
         <div class="ser-type clearfix" id="addServiceModel">

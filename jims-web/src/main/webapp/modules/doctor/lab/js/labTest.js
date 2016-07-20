@@ -62,32 +62,25 @@ function onloadMethod(){
                 }
             }
         ]],
-        //view: detailview,
-        //detailFormatter: function(rowIndex, rowData){
-        //
-        //    var item=[];
-        //    $.ajax({
-        //        type:"POST",
-        //        url: basePath+"/labtest/getItem",
-        //        contentType: 'application/json',
-        //        data: testNo=rowData.testNo,
-        //        async:false,
-        //        dataType: 'json',
-        //        success:function(data){
-        //            item=data;
-        //        }
-        //    })
-        //
-        //    return  '<table><tr>' +
-        //        '<td style="border:0">' +
-        //        '<p>检验项目: </p>' +
-        //        '</td>' +
-        //        '</tr><tr>' +
-        //        '<td style="border:0">' +
-        //        '<p> ' +item[0].itemName + '</p>' +
-        //        '</td>' +
-        //        '</tr></table>';
-        //},
+        view: detailview,
+        detailFormatter: function(rowIndex, rowData){
+            var detailHtml="<table style='width:100%;color:blue' border='0'><tr><td><strong>检验项目：</strong></td></tr>";
+            $.ajax({
+                type:"POST",
+                url: basePath+"/labtest/getItem",
+                contentType: 'application/json',
+                data: labMaster=rowData.id,
+                async:false,
+                dataType: 'json',
+                success:function(data){
+                    $.each(data,function(i,list){
+                        detailHtml+="<tr><td>"+list.itemName+"</td></tr>";
+                    });
+                }
+            })
+            detailHtml+="</table>";
+            return  detailHtml;
+        },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]],
@@ -175,7 +168,33 @@ function add(){
                $("#performedById").val(n.dept_code);
             }
         })
-
+    /**
+     * 送检医师
+     */
+        $("#orderingProvider").combogrid({
+            data: doctorName,
+            valueField: 'id',
+            textField: 'name',
+            columns: [[
+                {field: 'name', title: '医生姓名', width: 70},
+                {field: 'dept_name', title: '科室', width: 120},
+                {field: 'title', title: '职称', width: 70}
+            ]], keyHandler: {
+                up: function () {
+                },
+                down: function () {
+                },
+                enter: function () {
+                },
+                query: function (q) {
+                    comboGridCompleting(q, 'orderingProvider');
+                }
+            },
+            onClickRow: function (rowIndex, rowData) {
+                $("#orderingProvider").combogrid('setText', rowData.name);
+                $("#orderingProviderId").val(rowData.id);
+            }
+        })
 }
 
 function loadTreeGrid() {

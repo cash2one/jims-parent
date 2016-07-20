@@ -2,6 +2,7 @@ $(function () {
     var drugNameDictList = [];//药品名称列表
     var drugSupplierDict  = [];//药品生产商列表
     var selectedModifyListRow;
+    var orgId=parent.config.orgId;
     var editIndex;
     $.get(basePath + "/drug-price/findDrugNameDictList", function (data) {
         drugNameDictList = data;
@@ -83,7 +84,7 @@ $(function () {
             formatter:function(value,row,index){
                 var supplierName = value;
                 $.each(drugSupplierDict, function (index,item) {
-                    if(item.supplierCode == value){
+                    if(item.id == value){
                         supplierName =  item.supplierId;
                     }
                 });
@@ -181,7 +182,7 @@ $(function () {
     $("#addBtn").on("click", function () {
        var startDate = $("#start").datetimebox("getValue");
        var endDate = $("#end").datetimebox("getValue");
-        var url = basePath + '/drug-price-modify/findModifyListByNoticeEfficientDate?startDate='+startDate+"&endDate="+endDate;
+        var url = basePath + '/drug-price-modify/findModifyListByNoticeEfficientDate?startDate='+startDate+"&endDate="+endDate+"&orgId="+orgId;
         $("#modifyList").datagrid("reload",url);
     });
      //填充时间
