@@ -1,6 +1,7 @@
 var westernDrugData = [];
 
 var westernDrug={};
+westernDrug.isOrgId=false;
 westernDrug.itemClass="A";
 westernDrug.dictType="v_drug_info_mz";
 
@@ -26,6 +27,7 @@ $.ajax({
 //药品自动补全
 function comboGridCompleting(q,id){
     var drugNameData={};
+    drugNameData.isOrgId=false;
     drugNameData.itemClass="A";
     drugNameData.dictType="v_drug_info_mz"
     var inputParamVos=new Array();

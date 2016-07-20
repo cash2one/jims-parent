@@ -93,7 +93,7 @@ function closeTabs(){
 function addTabs(id,name,url,lia){
     $(lia).parent().parent().find("li a").removeClass();
     $(lia).addClass("active");
-    var content = '<iframe  src="'+url+'" frameborder="0" border="0" marginheight="0" marginwidth="0" width="100%" height="99.5%"></iframe>';
+    var content = '<iframe  src="'+url+'" frameborder="0" border="0" marginheight="0" marginwidth="0" width="100%" height="91%"></iframe>';
     if(!$("#tabs-header").tabs('exists',name)){
         $('#tabs-header').tabs('add',{
             id:id,
