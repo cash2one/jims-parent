@@ -16,11 +16,11 @@
     </sql>
 
     <select id="findAllListByOrgId" resultType="StaffVsGroupVo">
-       select a.id as group_id,a.group_class as group_name,'' as group_code,'' as pid from staff_group_class_dict a
+       select a.id as group_id,a.group_class as group_name,'' as group_code,'' as pid from staff_group_class_dict a where a.del_flag='0'
        union all
 
        select b.id as group_id,b.group_name ,b.group_code,b.group_class_id as pid
-       from staff_group_class_dict a,staff_group_dict b where a.id=b.group_class_id
+       from staff_group_class_dict a,staff_group_dict b where a.id=b.group_class_id   and a.del_flag='0'
     </select>
 
 
@@ -33,10 +33,10 @@
 
     <select id="findOrgStaff" resultType="StaffVsGroupVo">
         SELECT
-        o.id as staffId,p.name,d.dept_name
+        o.id as staffId,p.name,d.dept_name,d.input_code
         FROM persion_info p,dept_dict d ,org_staff o
         WHERE o.persion_id=p.id AND o.dept_id=d.id
-        AND o.org_id=#{orgId} and p.del_flag='0'
+        AND o.org_id=#{orgId} and p.del_flag='0' and o.del_flag='0'
     </select>
 
     <select id="findGroupClass" resultType="StaffVsGroupVo">
@@ -48,7 +48,7 @@
 
     <select id="findStaffByGroupId" resultType="StaffVsGroupVo">
         SELECT
-        v.id as id, o.id as staffId,p.name,d.dept_name
+        v.id as id, o.id as staffId,p.name,d.dept_name ,v.group_class
         FROM persion_info p,dept_dict d ,org_staff o,staff_vs_group v
         WHERE o.persion_id=p.id
         AND o.dept_id=d.id

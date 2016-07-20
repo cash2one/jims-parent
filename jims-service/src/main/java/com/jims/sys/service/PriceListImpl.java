@@ -89,6 +89,16 @@ public class PriceListImpl implements PriceListApi {
         return bo.saveData(dictListVo);
     }
 
+    /**
+     * 修改价表
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
+    public String updatePrice(PriceDictListVo priceDictListVo){
+        return bo.updatePrice(priceDictListVo);
+    }
+
     @Override
     public String delete(PriceList priceList) {
         try {

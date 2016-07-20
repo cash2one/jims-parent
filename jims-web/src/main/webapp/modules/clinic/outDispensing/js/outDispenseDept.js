@@ -16,6 +16,7 @@ $(function () {
         ], onClickRow: function (index, row) {//单击行事件
             $('#drugDialog').dialog('destroy');
              config.deptCode=row.deptCode;
+             config.deptName=row.deptName;
              location.href = "/modules/clinic/outDispensing/centerRegion.html";
         }});
     $('#drugDialog').dialog('open').dialog('center').dialog('setTitle', '选择科室');

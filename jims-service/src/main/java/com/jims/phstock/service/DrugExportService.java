@@ -102,4 +102,16 @@ public class DrugExportService implements DrugExportServiceApi{
     public DrugExportMaster update(DrugExportMaster drugExportMaster) {
         return bo.update(drugExportMaster);
     }
+
+
+    /**
+     * 查询出库详情
+     * @param documentNo
+     * @return
+     */
+    @Override
+    public List<DrugExportDetail> findDetailList(String documentNo) {
+        return bo.findDetailList(documentNo);
+    }
+
 }

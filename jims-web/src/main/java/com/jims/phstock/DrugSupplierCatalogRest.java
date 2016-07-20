@@ -161,4 +161,17 @@ public class DrugSupplierCatalogRest {
         return stringData;
     }
 
+    /**
+     * 查询全部单位
+     * @param orgId
+     * @return
+     */
+    @Path("list-supplier")
+    @GET
+    public List<DrugSupplierCatalog> findBySupplier(@QueryParam("orgId") String orgId) {
+        return drugSupplierCatalogApi.findBySupplier(orgId);
+    }
+
+
+
 }

@@ -91,4 +91,11 @@ public interface OrgRoleVsServiceApi {
      * @return
      */
     public List<OrgRoleVsService> findRole(String roleid);
+
+    /**
+     * 根据id删除
+     * @param ids
+     * @return
+     */
+    public String del(String ids);
 }

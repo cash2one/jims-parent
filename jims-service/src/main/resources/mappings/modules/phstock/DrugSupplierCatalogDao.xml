@@ -139,5 +139,17 @@
 			del_flag = '1'
 		WHERE id = #{id}
 	</update>
+
+
+    <select id="findBySupplier" resultType="DrugSupplierCatalog">
+        SELECT
+        a.id as id,a.supplier_id as supplier
+        FROM drug_supplier_catalog a
+        union
+        select a.storage_code as id,a.storage_name as supplier from drug_storage_dept a
+        where
+            a.org_id = #{orgId}
+    </select>
+
 	
 </mapper>

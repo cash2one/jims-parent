@@ -21,4 +21,8 @@ public interface OrgRoleVsServiceDao extends CrudDao<OrgRoleVsService> {
     public List<OrgRoleVsService> findRoleId(String roleId);
 
     public List<OrgRoleVsService> findRoleIdAndServiceId(String roleId, String serviceId);
+
+    public List<OrgRoleVsService> del(OrgRoleVsService orgRoleVsService);
+
+    public int deletes(String id);
 }

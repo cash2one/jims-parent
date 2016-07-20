@@ -4,6 +4,8 @@ import com.jims.common.persistence.CrudDao;
 import com.jims.common.persistence.annotation.MyBatisDao;
 import com.jims.phstock.entity.DrugImportDetail;
 
+import java.util.List;
+
 /**
  * 药品入库明细单据DAO接口
  * @author lgx
@@ -11,5 +13,11 @@ import com.jims.phstock.entity.DrugImportDetail;
  */
 @MyBatisDao
 public interface DrugImportDetailDao extends CrudDao<DrugImportDetail> {
+
+    /**
+     * 查询入库详情
+     * @return
+     */
+    public List<DrugImportDetail> findDetailList(String documentNo);
 	
 }

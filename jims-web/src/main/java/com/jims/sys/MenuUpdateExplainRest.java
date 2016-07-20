@@ -1,14 +1,12 @@
 package com.jims.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.jims.common.utils.StringUtils;
 import com.jims.sys.entity.MenuUpdateExplain;
 import com.jims.sys.api.MenuUpdateExplainApi;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -60,15 +58,11 @@ public class MenuUpdateExplainRest {
                               @QueryParam("title")String title,
                               @QueryParam("serviceId")String serviceId){
         MenuUpdateExplain entity = new MenuUpdateExplain();
-        try {
-            entity.setId(id);
-            entity.setExplain(new String(explain.getBytes("ISO8859-1"), "UTF-8").getBytes());
-            entity.setServiceId(serviceId);
-            entity.setTitle(title);
-            return api.save(entity);
-        } catch (UnsupportedEncodingException e) {
-        }
-        return "0";
+        entity.setId(id);
+        entity.setExplain(explain.getBytes());
+        entity.setServiceId(serviceId);
+        entity.setTitle(title);
+        return api.save(entity);
     }
 
     /**
