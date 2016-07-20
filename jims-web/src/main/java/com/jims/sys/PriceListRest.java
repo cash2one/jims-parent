@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.PageData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.api.PriceListApi;
+import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceListVo;
 import org.springframework.stereotype.Component;
 
@@ -77,6 +78,21 @@ public class PriceListRest {
     public List<PriceListVo> getListByClinicItemCodeAndOrgId(@QueryParam("orgId")String orgId,@QueryParam("clinicItemCode")String clinicItemCode){
         List<PriceListVo> priceListVo=  priceListApi.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
         return priceListVo;
+    }
+
+
+    /**
+     *调价通知单
+     * @param label
+     * @param startDate
+     * @param stopDate
+     * @param orgId
+     * @return
+     */
+    @GET
+    @Path("price-notice")
+    public List<PriceList> priceNotice(@QueryParam("label")String label,@QueryParam("startDate")String startDate,@QueryParam("stopDate")String stopDate,@QueryParam("orgId")String orgId){
+        return priceListApi.priceNotice(label,startDate,stopDate,orgId);
     }
 
 

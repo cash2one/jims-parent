@@ -217,4 +217,15 @@ public class PriceListImpl implements PriceListApi {
         return bo.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
     }
 
+    /**
+     * 调价通知单
+     * @param label
+     * @param startDate
+     * @param stopDate
+     * @param orgId
+     * @return
+     */
+    public  List<PriceList> priceNotice(String label,String startDate,String stopDate,String orgId){
+        return bo.priceNotice(label,startDate,stopDate,orgId);
+    };
 }
