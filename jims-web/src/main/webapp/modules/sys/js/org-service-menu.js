@@ -4,7 +4,7 @@
 $(function () {
     var currentSelectId = null;
     var orgId=config.org_Id;
-    var storage = [{label: '可预览', value: '0'}, {label: '可编辑', value: '1'}, {label: '不可预览', value: "2"}];
+    var storage = [{label: '可预览', value: '0'}, {label: '可编辑', value: '1'}, {label: '不可预览', value: '2'}];
     $("#roleId").datagrid({
         url: basePath + '/org-role/findAllListByOrgId?orgId='+orgId,
         method: 'get',
@@ -143,19 +143,26 @@ $(function () {
     }
     data();
 
-    var menuOperatorSet = function(data){
+/*    var menuOperatorSet = function(data){
         for(var i=0;i<data.length;i++){
             if(!data[i].id){
                 data[i].id=data[i].menuId;
             }
-            if(data[i].menuOperate==null){
-                data[i].menuOperate='1';
-                if(data[i].children&&data[i].children.length >0){
-                    menuOperatorSet(data[i].children);
+            for(var j=0;j<data[i].children.length;j++){
+
+                for(var k=0 ;k<data[i].children[j].children.length;k++){
+
+                    if(data[i].children[j].children[k].menuOperate==null){
+                        data[i].children[j].children[k].menuOperate='2';
+
+                    }
                 }
             }
+
+
         }
-    }
+
+    }*/
 
     function menuDict() {
         var menus = [];//菜单列表
@@ -164,9 +171,7 @@ $(function () {
         var row = $('#roleId').datagrid('getSelected');
 
         var menuPromise = $.get(basePath + "/org-service/find-menu",{serviceId:node.serviceId,roleId:row.id,isTree:true}, function (data) {
-            //console.log(data);
-            menuOperatorSet(data);
-            //console.log(data);
+
             $("#tt").treegrid('loadData', data);
         });
     }
@@ -266,7 +271,6 @@ $(function () {
                 var orgRoleVsService = [];
                 orgRoleVsService.push({'serviceId': selectRows.serviceId, 'roleId': roleRow.id});
                 $.postJSON(basePath + '/roleVs/delete',JSON.stringify(orgRoleVsService), function (res) {
-                    //console.log(res);
                     if (res.data == "success") {
                         $.messager.alert("提示消息", "删除成功", "success");
                         $('#serviceId').datagrid('reload');
@@ -289,9 +293,10 @@ $(function () {
         var roots = $('#tt').treegrid('getRoots');
         var saveData = []
         var changes=$("#tt").treegrid("getChanges");
+
         var ids='';
         for(var i=0;i<changes.length;i++){
-            if(changes[i].menuOperate== 2){
+            if(changes[i].menuOperate== '2'){
                 ids=ids+changes[i].id+","
                 $.postJSON(basePath + '/roleVs/delete-orgRole', ids, function (res) {
                     menuDict();
@@ -333,7 +338,7 @@ $(function () {
         }
         saveData = handleData(roots)
         saveData.unshift({id: node.id})
-        //console.log(saveData);
+
         $.postJSON(basePath + '/roleVs/save', JSON.stringify(saveData), function (res) {
                 if (parseInt(res) > 0) {
                     $.messager.alert("提示消息", "保存成功", "success");
