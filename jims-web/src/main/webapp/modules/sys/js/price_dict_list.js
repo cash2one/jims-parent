@@ -202,6 +202,7 @@ $(function () {
             //url: basePath +'/price/find',
             method:'get',
             idField: 'id',
+            toolbar: '#tb',
             fit: true,
             pagination: false, //显示分页
             singleSelect: true,//是否单选
@@ -231,28 +232,26 @@ $(function () {
                 {field: 'inputCode', title: '拼音码', width: '14%',align: 'center'},
                 {field: 'inputCodeWb', title: '五笔码', width: '13%',align: 'center'}
             ]],
-           /* toolbar: [{
-                text: '修改',
-                iconCls: 'icon-edit',
-                handler: function () {
-                    var selectRows = $('#clinic_item').datagrid("getSelections");
-                    if (selectRows.length < 1) {
-                        $.messager.alert("提示消息", "请选中要修改的数据!");
-                        return;
-                    }
-                    get(selectRows[0].id);
-                }
-            }, '-', {
-                text: '批量删除',
-                iconCls: 'icon-remove',
-                handler: function () {
-                    doDelete();
-                }
-            }],*/
-            toolbar: '#tb'
-           /* frozenColumns: [[
-                {field: 'ck', checkbox: true}
-            ]],*/
+            onDblClickRow: function(index,row){
+                $("#aa").combobox('setValue',row.itemClass);
+                $("#itemCode").textbox('setValue',row.itemCode);
+                $("#materialCode").textbox('setValue',row.materialCode);
+                $("#itemSpec").textbox('setValue',row.itemSpec);
+                $("#units").textbox('setValue',row.units);
+                $("#itemName").val(row.itemName);
+                $("#inputCode").textbox('setValue',row.inputCode);
+                $("#price").textbox('setValue',row.price);
+                $("#preferPrice").textbox('setValue',row.preferPrice);
+                $("#foreignerPrice").textbox('setValue',row.foreignerPrice);
+                $("#dt").textbox('setValue',row.startDate);
+                $("#performedBy").combogrid('setValue',row.performedBy);
+                $("#memo").val(row.memo);
+                $("#bb").combobox('setValue',row.subjCode);
+                $("#cc").combobox('setValue',row.classOnOutpRcpt);
+                $("#dd").combobox('setValue',row.classOnInpRcpt);
+                $("#ee").combobox('setValue',row.classOnMr);
+                $("#ff").combobox('setValue',row.classOnReckoning);
+            }
 
         });
     }

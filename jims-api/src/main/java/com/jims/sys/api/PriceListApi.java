@@ -60,6 +60,14 @@ public interface PriceListApi {
     public String updatePrice(PriceDictListVo priceDictListVo);
 
     /**
+     * 保存调价
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
+    public String saveAdjustPrice(PriceDictListVo priceDictListVo);
+
+    /**
      * 根据类别查询价表
      * @param itemClass 类别
      * @param orgId 组织机构ID
