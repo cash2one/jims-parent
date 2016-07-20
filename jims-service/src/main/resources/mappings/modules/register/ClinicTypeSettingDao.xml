@@ -33,6 +33,9 @@
 		<include refid="clinicTypeSettingJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="orgId!=null and orgId!='' ">
+				AND a.org_id=#{orgId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

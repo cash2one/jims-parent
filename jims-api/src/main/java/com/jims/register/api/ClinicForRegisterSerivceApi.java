@@ -43,7 +43,7 @@ public interface ClinicForRegisterSerivceApi {
      * @param endTime
      * @return
      */
-    public String saveRegister (List<ClinicSchedule> clinicSchedules,String startTime,String endTime)throws Exception;
+    public String saveRegister (List<ClinicSchedule> clinicSchedules,String startTime,String endTime,String orgId)throws Exception;
 
     /**
      * 删除 已经生成的号表

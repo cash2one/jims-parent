@@ -43,7 +43,7 @@ public interface ClinicScheduleApi {
      * @param clinicIndexId
      * @return
      */
-    public String saveList(List<ClinicSchedule> list,String clinicIndexId);
+    public String saveList(List<ClinicSchedule> list,String clinicIndexId,String orgId);
 
     /**
      *删除安排录入

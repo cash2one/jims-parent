@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicScheduleApi;
 import com.jims.register.entity.ClinicSchedule;
@@ -37,11 +38,13 @@ public class ClinicScheduleRest {
     @GET
     @Path("findList")
     public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicIndexId")String clinicIndexId,@QueryParam("clinicLabelName")String clinicLabelName,@QueryParam("dayOfWeek")String dayOfWeek,@QueryParam("timeDesc")String timeDesc){
+        String orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();
         ClinicSchedule clinicSchedule = new ClinicSchedule();
         clinicSchedule.setClinicLabel(clinicIndexId);
         clinicSchedule.setClinicLabelName(clinicLabelName);
         clinicSchedule.setDayOfWeek(dayOfWeek);
         clinicSchedule.setTimeDesc(timeDesc);
+        clinicSchedule.setOrgId(orgId);
         Page<ClinicSchedule> page = clinicScheduleApi.findPage(new Page<ClinicSchedule>(request, response),clinicSchedule);
         PageData pageData = new PageData();
         pageData.setRows(page.getList());
@@ -68,9 +71,11 @@ public class ClinicScheduleRest {
      */
     @POST
     @Path("save")
-    public StringData saveSchedule(List<ClinicSchedule> clinicSchedules,@QueryParam("clinicIndexId") String clinicIndexId){
+    public StringData saveSchedule(List<ClinicSchedule> clinicSchedules,@QueryParam("clinicIndexId") String clinicIndexId,
+                                   @Context HttpServletRequest request){
+        String orgId=LoginInfoUtils.getPersionInfo(request).getOrgId();
         StringData data =new StringData();
-        data.setCode(clinicScheduleApi.saveList(clinicSchedules,clinicIndexId));
+        data.setCode(clinicScheduleApi.saveList(clinicSchedules,clinicIndexId,orgId));
         return data;
     }
 

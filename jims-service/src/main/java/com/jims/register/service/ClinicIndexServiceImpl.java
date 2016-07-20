@@ -39,8 +39,8 @@ public class ClinicIndexServiceImpl  implements ClinicIndexServiceApi {
     }
 
     @Override
-    public String saveList(List<ClinicIndex> clinicIndexList) {
-        return clinicIndexBo.saveList(clinicIndexList);
+    public String saveList(List<ClinicIndex> clinicIndexList,String orgId) {
+        return clinicIndexBo.saveList(clinicIndexList,orgId);
     }
 
     @Override
