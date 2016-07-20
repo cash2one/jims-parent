@@ -4,12 +4,10 @@ var westernDrug={};
 westernDrug.isOrgId=false;
 westernDrug.itemClass="A";
 westernDrug.dictType="v_drug_info_mz";
-
-
-
+westernDrug.inputParamVos=inputParamVos;
 var comboGridComplete = [];
 /**
- * 中药药品
+ * 西药药品
  */
 $.ajax({
     'type': 'POST',

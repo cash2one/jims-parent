@@ -36,7 +36,7 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center'},
+            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center',formatter:examClassFormatter},
             //{field: 'reqDept', title: '开单科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'performedBy', title: '执行科室', width: '25%', align: 'center', formatter: clinicDeptCodeFormatter},
             {
