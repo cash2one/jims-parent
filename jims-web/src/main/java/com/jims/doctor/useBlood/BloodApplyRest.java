@@ -13,7 +13,9 @@ import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.patient.api.PatVisitServiceApi;
 import com.jims.patient.entity.PatVisit;
 import org.springframework.stereotype.Component;
@@ -70,7 +72,7 @@ public class BloodApplyRest {
     }
 
     /**
-     * 门诊用血申请保存
+     * 门诊用血列表
      *
      * @param request
      * @param response
@@ -89,7 +91,7 @@ public class BloodApplyRest {
     }
 
     /**
-     * 住院用血申请
+     * 住院用血列表
      *
      * @param request
      * @param response
@@ -114,8 +116,11 @@ public class BloodApplyRest {
      */
     @Path("save")
     @POST
-    public StringData save(BloodApply bloodApply) {
+    public StringData save(BloodApply bloodApply,@Context HttpServletRequest request, @Context HttpServletResponse response) {
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data = new StringData();
+        bloodApply.setOrgId(loginInfo.getOrgId());
+        bloodApply.setPhysician(loginInfo.getPersionId());
         String num = data.getCode();
         if (bloodApply != null) {
             num = bloodApplyServiceApi.saveBloodApply(bloodApply);
@@ -147,7 +152,7 @@ public class BloodApplyRest {
     @POST
     public StringData del(String ids) {
         StringData stringData = new StringData();
-        String num = bloodApplyServiceApi.delete(ids);
+        String num = bloodApplyServiceApi.deleteBloodApply(ids);
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
