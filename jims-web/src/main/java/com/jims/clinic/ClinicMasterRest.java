@@ -72,9 +72,8 @@ public class ClinicMasterRest {
        if(user!=null && user.getId()!=null){
            list=clinicMasterServiceApi.getClinicMasterList(user.getId());
        }*/
-       LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
-        String deptCode=loginInfo.getDeptCode();
-        list= clinicMasterServiceApi.getClinicMasterList("174",deptName);
+        String  orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();//当前登录医生所在的机构Id
+        list= clinicMasterServiceApi.getClinicMasterList("174",deptName,orgId);
        return list;
     }
 
@@ -84,7 +83,7 @@ public class ClinicMasterRest {
      */
     @Path("clinicMasterDiagnosed")
     @GET
-    public List<ClinicMaster> getClinicMasterDiagnosed(@QueryParam("deptName")String deptName){
+    public List<ClinicMaster> getClinicMasterDiagnosed(@QueryParam("deptName")String deptName,@Context HttpServletRequest request){
 
         List<ClinicMaster> list= new ArrayList<ClinicMaster>();
 
@@ -92,7 +91,8 @@ public class ClinicMasterRest {
         if(user!=null && user.getId()!=null){
             list=clinicMasterServiceApi.getClinicMasterDiagnosed(user.getId());
         }*/
-        list= clinicMasterServiceApi.getClinicMasterDiagnosed("174",deptName);//测试中----医生ID给的定值
+        String  orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();//当前登录医生所在的机构Id
+        list= clinicMasterServiceApi.getClinicMasterDiagnosed("174",deptName,orgId);//测试中----医生ID给的定值
         return list;
     }
 
