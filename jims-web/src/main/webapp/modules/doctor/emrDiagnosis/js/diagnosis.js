@@ -70,7 +70,7 @@ $(function(){
                 }}},
             {field:'diagnosisDate',title:'诊断时间',width:'30%',align:'center',formatter:formatDatebox,editor:{type: 'datebox'}
             },
-            {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center'/*, formatter:formatUserName*/},
+            {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center', formatter:formatUserName},
             {field:'clinicId',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
             {field:'icdName',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
             {field:'itemNo',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
