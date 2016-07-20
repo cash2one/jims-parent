@@ -255,4 +255,17 @@ public class PriceListBo extends CrudImplService<PriceListDao, PriceList> {
     public List<PriceListVo> getListByClinicItemCodeAndOrgId(String orgId, String clinicItemCode) {
         return dao.listByClinicItemCodeAndOrgId(orgId,clinicItemCode);
     }
+
+    /**
+     * 调价通知单
+     * @param label
+     * @param startDate
+     * @param stopDate
+     * @param orgId
+     * @return
+     */
+    public  List<PriceList> priceNotice(String label,String startDate,String stopDate,String orgId){
+        return priceListDao.priceNotice(label,startDate,stopDate,orgId);
+    };
+
 }

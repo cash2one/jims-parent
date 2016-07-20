@@ -15,6 +15,7 @@ public class PriceListVo extends DataEntity<PriceListVo>  implements Serializabl
 
     private static final long serialVersionUID = 1L;
     private String label;//药品类型
+    private String value;//数据值
     private String itemClass;		// 项目类别
     private String itemCode;		// 项目代码
     private String itemName;		// 项目名称
@@ -418,5 +419,13 @@ public class PriceListVo extends DataEntity<PriceListVo>  implements Serializabl
 
     public void setOrgId(String orgId) {
         this.orgId = orgId;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }
