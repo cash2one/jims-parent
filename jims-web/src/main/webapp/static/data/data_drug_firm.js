@@ -1,4 +1,7 @@
-
+/**
+ * 药品厂商
+ * @type {Array}
+ */
 var drugFirmDict = [];
 
 /**
@@ -8,7 +11,6 @@ var drugFirmDict = [];
 $.ajax({
     'type': 'GET',
     'url':basePath+'/drug-supplier-catalog/list',
-    data: 'orgId=1',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,

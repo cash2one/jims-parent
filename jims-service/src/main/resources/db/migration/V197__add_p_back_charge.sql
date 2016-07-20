@@ -1,6 +1,5 @@
-/*确认退费 存储过程*/
 create or replace procedure p_back_charge(
- rcpt_no IN varchar2,
+ in_rcpt_no IN varchar2,
  o_outp_flag OUT varchar2
 )
 as 
@@ -18,7 +17,7 @@ begin
    select sysdate into v_bill_date from dual;/*获取当前系统时间*/
    select to_char(sysdate,'yyyyMMddHHmmss')||trunc(dbms_random.value(0,1000))into v_rcpt_no from dual;/*根据当前日期+随机数 生成 收据号*/
    /*根据 rcptNo 查询 outp_rcpt_master*/
-   SELECT * into v_master_info FROM OUTP_RCPT_MASTER where rcpt_no = rcpt_no and charge_indicator =0;
+   SELECT * into v_master_info FROM OUTP_RCPT_MASTER where rcpt_no = in_rcpt_no and charge_indicator =0;
    /*插入 outp_rcpt_master 退费信息*/
     INSERT INTO OUTP_RCPT_MASTER(
                         id, 
@@ -49,9 +48,9 @@ begin
                         2
                         );
      /*更新 退费信息*/
-     update OUTP_RCPT_MASTER SET CHARGE_INDICATOR = 2,REFUNDED_RCPT_NO = v_rcpt_no where rcpt_no = rcpt_no;         
+     update OUTP_RCPT_MASTER SET CHARGE_INDICATOR = 2,REFUNDED_RCPT_NO = v_rcpt_no where rcpt_no = in_rcpt_no;         
      /*查询 开单记录*/
-     select * into v_outp_order from outp_order_desc where rcpt_no=rcpt_no ORDER BY visit_date ASC,visit_no ASC;
+   --  select * into v_outp_order from outp_order_desc where rcpt_no=in_rcpt_no ORDER BY visit_date ASC,visit_no ASC;
      if v_outp_order.presc_indicator=0  then/*检查 检验*/
      update OUTP_TREAT_REC SET CHARGE_INDICATOR =2 where  bill_visit_no = v_outp_order.visit_no and bill_visit_date =v_outp_order.visit_date;  
     
@@ -99,7 +98,7 @@ begin
          );
        /*查询 所有诊疗项目费用*/  
        DECLARE CURSOR v_outp_bill_items IS
-       select * from outp_bill_items where rcpt_no=rcpt_no ;
+       select * from outp_bill_items where rcpt_no=in_rcpt_no ;
        begin
           /*循环 outp_bill_items*/
       for v_items in  v_outp_bill_items loop
@@ -164,7 +163,7 @@ begin
       end loop;
       end;
       /*查询支付方式*/
-      select * into v_payments_money from outp_payments_money where rcpt_no=rcpt_no;
+      select * into v_payments_money from outp_payments_money where rcpt_no=in_rcpt_no;
       /*插入支付方式*/
       INSERT INTO 
       OUTP_PAYMENTS_MONEY
@@ -172,7 +171,11 @@ begin
      values
      (sys_guid() ,v_rcpt_no,v_payments_money.payment_no,v_payments_money.money_type,-v_payments_money.payment_amount,v_payments_money.refunded_amount);       
       end if;
-     o_outp_flag :=1;
+     o_outp_flag :='1';
+     
+      EXCEPTION
+  WHEN OTHERS THEN
+            o_outp_flag :='-1';
      
     
 end;

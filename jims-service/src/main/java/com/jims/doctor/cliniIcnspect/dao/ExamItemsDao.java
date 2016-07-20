@@ -34,12 +34,19 @@ public interface ExamItemsDao extends CrudDao<ExamItems> {
      * @return
      */
 
-    public List<ExamItems> loadExamItems(String examNo );
+    public List<ExamItems> loadExamItems(@Param("examNo")String examNo );
 
     /**
      * 删除检查项目
      * @param appointsId
      * @return
      */
-    public Integer deleteItems(String appointsId);
+    public Integer deleteItems(@Param("appointsId")String appointsId);
+
+    /**
+     * 通过主记录id获取检查子项
+     * @param appointsId
+     * @return
+     */
+    public List<ExamItems> getItemName(@Param("appointsId")String appointsId);
 }

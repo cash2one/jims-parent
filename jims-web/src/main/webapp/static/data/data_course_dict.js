@@ -1,7 +1,4 @@
 var courseRecord  = [];//病程记录
-//var courseRecordData = {};
-//courseRecordData.orgId = "";
-//courseRecordData.dictType = "SYS_DICT";
 
 $.ajax({
     'type':'get',

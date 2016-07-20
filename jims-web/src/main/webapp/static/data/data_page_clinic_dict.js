@@ -4,7 +4,6 @@ var clinicDictName=[];
  * @type {{}}
  */
 var clinicDictNameData={};
-clinicDictNameData.orgId="1";
 clinicDictNameData.dictType="V_CLINIC_NAME_DICT";
 clinicDictNameData.inputParamVos=inputParamVos;
 $.ajax({
@@ -65,7 +64,6 @@ function clinicDictNameFormatter(value, rowData, rowIndex) {
  */
 function dataGridCompleting(q,dataId,column){
     var clinicDictNameData={};
-    clinicDictNameData.orgId="1";
     clinicDictNameData.dictType="V_CLINIC_NAME_DICT"
     var inputParamVos=new Array();
     var InputParamVo1={};
@@ -100,7 +98,6 @@ function dataGridCompleting(q,dataId,column){
 
 function comboGridCompleting(q,id){
     var clinicDictNameData={};
-    clinicDictNameData.orgId="1";
     clinicDictNameData.dictType="V_CLINIC_NAME_DICT"
     var inputParamVos=new Array();
     var InputParamVo1={};

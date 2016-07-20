@@ -1,6 +1,5 @@
 var administrationmzDict = [];
 var administrationmzDictData={};
-administrationmzDictData.orgId="";
 administrationmzDictData.dictType="V_ADMINISTRATION_DICT";
 /**
  * 途径

@@ -1,5 +1,4 @@
 var chargeType= [];
-
 var chargeTypeData={};
 chargeTypeData.dictType="charge_type_dict";
 /**

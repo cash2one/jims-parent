@@ -353,11 +353,15 @@ function getBloodApply(id, state) {
         'dataType': 'json',
         'success': function (data) {
             $('#useBloodForm').form('load', data);
+            $("#patSource").combobox("setValue",patSourceFormatter(data.patSource,'',''));
+            $("#patBloodGroup").combobox("setValue",bloodTypeFormatter(data.patBloodGroup,'',''));
+            $("#preBloodType").combobox("setValue",bloodTypeFormatter(data.preBloodType,'',''));
+            $("#bloodInuse").combobox("setValue",bloodInusesFormatter(data.bloodInuse,'',''));
             var applyNum = data.applyNum;
             $('#list_doctor').datagrid({
                 url: basePath + "/bloodApply/getBloodCapacityList",
                 queryParams: {'applyNum': applyNum},
-                method: "post"
+                method: "get"
             });
         }
     })

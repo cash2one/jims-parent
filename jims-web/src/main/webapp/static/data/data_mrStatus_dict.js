@@ -1,31 +1,24 @@
 var mrStatus = [];
-var mrStatusData = {};
-mrStatusData.orgId = "";
-mrStatusData.dictType = "SYS_DICT";
 
-var InputParamVo = {};
-var inputParamVos= [];
-var q = 'mr_status_dict';
-InputParamVo.colName = 'TYPE';
-InputParamVo.colValue = q;
-InputParamVo1.colValue = '20';
-InputParamVo.operateMethod = '=';
-inputParamVos.push(InputParamVo);
-mrStatusData.inputParamVos = inputParamVos;
+/**
+ * 病历状态
+ */
 $.ajax({
-    'type': 'POST',
-    'url': basePath + '/input-setting/listParam',
-    data: JSON.stringify(mrStatusData),
+    'type': 'GET',
+    'url':basePath+'/dict/findListByType',
+    data: 'type=mr_status_dict',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
-    'success': function (data) {
-        mrStatus = data;
+    'success': function(data){
+        mrStatus=data;
     }
 });
 
+
+
 /**
- *
+ *病历状态
  * @param value
  * @param rowData
  * @param RowIndex
