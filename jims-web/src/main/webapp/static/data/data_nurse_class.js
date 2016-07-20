@@ -1,14 +1,14 @@
 var nurseClass= [];
 
-var nurseClassData={};
-nurseClassData.dictType="NURSING_CLASS_DICT";
+
 /**
  * 护理等级
  */
+
 $.ajax({
-    'type': 'POST',
-    'url':basePath+'/input-setting/listParam' ,
-    data: JSON.stringify(nurseClassData),
+    'type': 'GET',
+    'url':basePath+'/dict/findListByType',
+    data: 'type=NURSING_CLASS_DICT',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
@@ -29,7 +29,7 @@ function nurseClassFormatter(value, rowData, rowIndex) {
     }
 
     for (var i = 0; i < nurseClass.length; i++) {
-        if (nurseClass[i].vaule == value) {
+        if (nurseClass[i].value == value) {
             return nurseClass[i].label;
         }
     }
