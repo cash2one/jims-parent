@@ -136,6 +136,9 @@ function onloadMethod(){
 //新增检验
 function add(){
     clearForm();
+    $('#labItemClass').removeAttr("disabled");
+    $('#performedBy').removeAttr("disabled");
+    $('#specimen').removeAttr("disabled");
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);

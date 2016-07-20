@@ -16,8 +16,7 @@ function diagnosisTypeClinicformatter(value) {
 function onloadMethod() {
     //$("#patientId").val(patientId);
     //$("#clinicId").val(clinicId);
-
-
+    $("#saveBut").hide();
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -109,7 +108,8 @@ function onloadMethod() {
 //新增检验
 function add() {
     $("#saveBut").hide();
-
+    $('#examClassNameId').removeAttr("disabled");
+    $('#examSubclassNameId').removeAttr("disabled");
     //下拉框选择控件，下拉框的内容是动态查询数据库信息
     $('#examClassNameId').combobox({
         url: basePath + '/examClassDict/getEx',
