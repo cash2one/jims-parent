@@ -154,6 +154,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                 String timeDesc=clinicForRegist.getTimeDesc();
                 master.setPatientId(patMasterIndex.getId());  //病人ID
                 master.setName(clinicMaster.getName()); //姓名
+                master.setOrgId(clinicMaster.getOrgId());//机构ID
                 master.setAge(Integer.valueOf(patMasterIndex.getAge())); //获取年龄
                 master.setSex(clinicMaster.getSex());//性别
                 master.setChargeType(clinicMaster.getChargeType());//费别
