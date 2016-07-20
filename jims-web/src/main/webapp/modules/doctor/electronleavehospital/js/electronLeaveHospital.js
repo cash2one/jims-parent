@@ -12,11 +12,16 @@ $(function () {
             'data':JSON.stringify({"patientId": patientId,"visitId":visitId}),
             'dataType': 'json',
             'success': function(data){
-                if(data.chuyuanshijian!=null){
-                    inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),parseToDate(data.chuyuanshijian));
+                if(data!=null){
+                    if(data.chuyuanshijian!=null){
+                        inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),parseToDate(data.chuyuanshijian));
+                    }else{
+                        inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),new Date());
+                    }
                 }else{
                     inpCount =getOffDays(parseToDate(parent.patVisit.admissionDateTime),new Date());
                 }
+
                /* alert(inpCount);
                 alert(parent.patVisit.admissionDateTime+"------"+data.chuyuanshijian);*/
                 $('#form').form('load',data);
@@ -49,7 +54,6 @@ var getOffDays = function(startDate, endDate) {
     //得到时间戳相减 得到以毫秒为单位的差
 
     var mmSec = (endDate.getTime() - startDate.getTime());
-     alert(mmSec);
     //单位转换为天并返回
 
     return Math.round(mmSec / 3600000 / 24);

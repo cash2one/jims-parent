@@ -6,6 +6,8 @@ import com.jims.clinic.entity.ElectronLeaveHospital;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.sys.entity.Dict;
 import org.springframework.stereotype.Component;
 
@@ -38,12 +40,12 @@ public class ElectronLeaveHospitalRest {
 
     @Path("save")
     @POST
-    public StringData save(ElectronLeaveHospital electronLeaveHospital){
-
+    public StringData save(ElectronLeaveHospital electronLeaveHospital,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data=new StringData();
         String num=data.getCode();
         if(electronLeaveHospital!=null){
-            num= electronLeaveHopitalServiceApi.save(electronLeaveHospital);
+            num= electronLeaveHopitalServiceApi.save(electronLeaveHospital,loginInfo);
         }
         data.setCode(num);
         if(!"".equals(num)&&!"0".equals(num)){
