@@ -23,6 +23,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -233,6 +236,51 @@ public class PriceListBo extends CrudImplService<PriceListDao, PriceList> {
             clinicVsCharge.setOrgId(priceDictListVo.getOrgId());
             code += clinicVsChargeDao.update(clinicVsCharge);   //修改诊疗项目与价表对照
         }
+        return code + "";
+    }
+
+    /**
+     * 保存调价
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
+    public String saveAdjustPrice(PriceDictListVo priceDictListVo) {
+        int code = 0;
+        //查询老的价表，设置停止日期为新的同名价表的开始日期
+        PriceList oldPriceList = priceListDao.get(priceDictListVo.getId());
+        if(oldPriceList != null){
+            oldPriceList.setStopDate(DateUtils.parseDate(priceDictListVo.getStopDate()));
+            code += priceListDao.update(oldPriceList);
+        }
+        //保存新的价表
+        PriceList newPriceList = new PriceList();
+        newPriceList.preInsert();
+        newPriceList.setItemClass(priceDictListVo.getItemClass());
+        newPriceList.setItemCode(priceDictListVo.getItemCode());
+        newPriceList.setItemName(priceDictListVo.getItemName());
+        newPriceList.setItemSpec(priceDictListVo.getItemSpec());
+        newPriceList.setUnits(priceDictListVo.getUnits());
+        newPriceList.setPrice(priceDictListVo.getPrice());
+        newPriceList.setPreferPrice(priceDictListVo.getPreferPrice());
+        newPriceList.setForeignerPrice(priceDictListVo.getForeignerPrice());
+        newPriceList.setPerformedBy(priceDictListVo.getPerformedBy());
+        newPriceList.setFeeTypeMask(priceDictListVo.getFeeTypeMask());
+        newPriceList.setClassOnInpRcpt(priceDictListVo.getClassOnInpRcpt());
+        newPriceList.setClassOnOutpRcpt(priceDictListVo.getClassOnOutpRcpt());
+        newPriceList.setClassOnReckoning(priceDictListVo.getClassOnReckoning());
+        newPriceList.setSubjCode(priceDictListVo.getSubjCode());
+        newPriceList.setClassOnMr(priceDictListVo.getClassOnMr());
+        newPriceList.setMemo(priceDictListVo.getMemo());
+        newPriceList.setStartDate(DateUtils.parseDate(priceDictListVo.getStartDate()));
+        newPriceList.setStopDate(null);
+        newPriceList.setMaterialCode(priceDictListVo.getMaterialCode());
+        newPriceList.setInputCode(priceDictListVo.getInputCode());
+        newPriceList.setCreateDate(new Date());
+        newPriceList.setDelFlag("0");
+        newPriceList.setOrgId(priceDictListVo.getOrgId());
+        code += priceListDao.insert(newPriceList);
+
         return code + "";
     }
 
