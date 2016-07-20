@@ -1,5 +1,4 @@
-//var clinicId = parent.clinicMaster.id;
-//var patientId = parent.clinicMaster.patientId;
+
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
 var rowNum = -1;
@@ -258,7 +257,7 @@ function saveUseBloodApply() {
             if (data.code == "1") {
                 $.messager.alert("提示信息", "保存成功");
                 $('#list_data').datagrid('load');
-                $('#list_data').datagrid('clearChecked');
+                $('#list_doctor').datagrid('loadData',{total:0,rows:[]});
                 $("#useBloodForm").form("clear");
             } else {
                 $.messager.alert("提示信息", "保存失败", "error");
@@ -321,7 +320,8 @@ function del(id) {
                 if (data.code > 0) {
                     $.messager.alert("提示消息", data.code + "条记录，已经删除");
                     $('#list_data').datagrid('load');
-                    $('#list_data').datagrid('clearChecked');
+                    $('#list_doctor').datagrid('loadData',{total:0,rows:[]});
+                    $("#useBloodForm").form("clear");
                 } else {
                     $.messager.alert('提示', "删除失败", "error");
                 }

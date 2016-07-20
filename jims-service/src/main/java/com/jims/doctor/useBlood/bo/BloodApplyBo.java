@@ -133,9 +133,9 @@ public class BloodApplyBo {
                 OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
                 num = bloodApplylDao.deleteBloodApply(id[j]);
                 bloodCapacityDao.deleteBloodCapacity(id[j]);
-                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
-                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
-                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
+//                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
+//                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
+//                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
 
 
             }
