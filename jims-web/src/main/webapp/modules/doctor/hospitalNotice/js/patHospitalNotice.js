@@ -89,7 +89,7 @@ function onloadMethod() {
     })
 
     $("#patAdmCondition").combobox({
-        data:situation,
+        data:admissionDict,
         valueField:'value',
         textField:'label',
         onSelect:function(data){
@@ -125,11 +125,11 @@ function savePatHospitalNotice() {
                 }
             });
         } else {
-            $.messager.alert("提示信息", "保存失败11", "error");
+            $.messager.alert("提示信息", "保存失败", "error");
         }
 
     }), function (data) {
-        $.messager.alert("提示信息", "保存失败22", "error");
+        $.messager.alert("提示信息", "保存失败", "error");
     }
 }
 
