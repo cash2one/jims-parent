@@ -7,6 +7,8 @@ import com.jims.clinic.api.OutpOrdersCostsServiceApi;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.prescription.api.OutpPrescServiceApi;
 import com.jims.prescription.entity.OutpPresc;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Request;
 import java.util.List;
 
 /**
@@ -35,7 +38,7 @@ public class OutpPrescRest {
 
 
     /**
-     * @param       orgId   clinicId   传递参数
+     * @param      clinicId   传递参数
      * @return java.util.List<com.jims.prescription.entity.OutpPresc>    返回类型
      * @throws
      * @Title: list
@@ -45,10 +48,11 @@ public class OutpPrescRest {
      */
     @Path("list")
     @GET
-    public List<OutpPresc> list(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orgId") String orgId,@QueryParam("clinicId") String clinicId){
+    public List<OutpPresc> list(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicId") String clinicId){
         List<OutpPresc> list = Lists.newArrayList();
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         try {
-            list = outpPrescServiceApi.getOutpPresc(orgId,clinicId);
+            list = outpPrescServiceApi.getOutpPresc(loginInfo.getOrgId(),clinicId);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -65,10 +69,11 @@ public class OutpPrescRest {
      */
     @Path("sublist")
     @GET
-    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orgId") String orgId,@QueryParam("clinicId") String clinicId,@QueryParam("prescNo")String prescNo){
+    public List<OutpPresc> sublist(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicId") String clinicId,@QueryParam("prescNo")String prescNo){
         OutpPresc op = new OutpPresc();
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         op.setPrescNo(prescNo);
-        op.setOrgId(orgId);
+        op.setOrgId(loginInfo.getOrgId());
         op.setClinicId(clinicId);
         List<OutpPresc> list = Lists.newArrayList();
         try {
@@ -83,10 +88,6 @@ public class OutpPrescRest {
     @Path("subherballist")
     @POST
     public List<OutpPresc> subherballist(OutpPresc outpPresc){
-/*        OutpPresc op = new OutpPresc();
-        op.setPrescNo(prescNo);
-//        op.setOrgId(orgId);
-        op.setClinicId(clinicId);*/
         List<OutpPresc> list = Lists.newArrayList();
         try {
             list = outpPrescServiceApi.findListByParams(outpPresc);
@@ -106,8 +107,9 @@ public class OutpPrescRest {
      */
     @Path("save")
     @POST
-    public StringData save(OutpPresc outpPresc){
+    public StringData save(OutpPresc outpPresc,@Context HttpServletRequest request){
         StringData stringData=new StringData();
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
        try {
            String data = outpPrescServiceApi.save(outpPresc);
            stringData.setCode(data);
@@ -147,11 +149,12 @@ public class OutpPrescRest {
      */
     @Path("delByPrescNo")
     @POST
-    public StringData delByPrescNo(@QueryParam("prescNo")String prescNo,@QueryParam("clinicId")String clinicId,@QueryParam("orgId")String orgId ){
+    public StringData delByPrescNo(@Context HttpServletRequest request,@QueryParam("prescNo")String prescNo,@QueryParam("clinicId")String clinicId){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         OutpPresc outpPresc = new OutpPresc();
         outpPresc.setPrescNo(prescNo);
         outpPresc.setClinicId(clinicId);
-        outpPresc.setOrgId(orgId);
+        outpPresc.setOrgId(loginInfo.getOrgId());
         StringData stringData=new StringData();
         String num=outpPrescServiceApi.delByPrescNo(outpPresc);
         stringData.setCode(num);
