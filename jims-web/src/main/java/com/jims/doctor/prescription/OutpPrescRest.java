@@ -111,7 +111,7 @@ public class OutpPrescRest {
         StringData stringData=new StringData();
         LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
        try {
-           String data = outpPrescServiceApi.save(outpPresc);
+           String data = outpPrescServiceApi.save(outpPresc,loginInfo);
            stringData.setCode(data);
            stringData.setData(data.compareTo("0") > 0 ? "success":"error");
        }catch (Exception e){

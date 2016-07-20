@@ -10,6 +10,7 @@ import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpOrders;
 import com.jims.clinic.entity.OutpOrdersCosts;
 import com.jims.common.utils.NumberUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.prescription.entity.OutpPresc;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.IdGen;
@@ -17,6 +18,7 @@ import com.jims.common.web.impl.BaseDto;
 import com.jims.doctor.prescription.dao.OutpPrescDao;
 import com.jims.sys.dao.AdministrationDictDao;
 import com.jims.sys.entity.OrgStaff;
+import oracle.jdbc.util.Login;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +54,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
      * @author CTQ
      * @date 2016/5/9
      */
-    public String save(OutpPresc outpPresc){
+    public String save(OutpPresc outpPresc,LoginInfo loginInfo){
         String num = "";
         try {
             if(outpPresc!=null){
@@ -96,19 +98,17 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                        op.setSerialNo(serialNo);
                        if(op.getId()!=null && !op.getId().equals("")){
                            num = String.valueOf(dao.update(op));
-                           ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
+                           ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster,loginInfo));
                        }else{
-//                           op.setPrescNo(outpPresc.getPrescNo());
                            op.setProvidedIndicator(0);//自备标记
                            op.preInsert();
                            num = String.valueOf(dao.insert(op));
-                           ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster));
+                           ordersCostsesList.add(makeOutpOrderCosts(op, clinicMaster,loginInfo));
                        }
                        if(op.getSubOrderNo().equals(op.getOrderNo())){//主医嘱，由于子处方用药途径与主处方用药途径只收一次途径项目费用
                            if(op.getAdministration()!=null&&!"".equals(op.getAdministration())){
-                               BaseDto baseDto = administrationDictDao.findByParams(op.getAdministration(),op.getOrgId());
+                               BaseDto baseDto = administrationDictDao.findByParams(op.getAdministration(),loginInfo.getOrgId());
                                if(baseDto!=null&&baseDto.get("price").toString()!=null&&!"".equals(baseDto.get("price").toString())){
-                                   OrgStaff orgStaff=new OrgStaff();
                                    OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
                                    outpOrdersCosts.setMasterId(outpPresc.getId());
                                    outpOrdersCosts.setClinicId(clinicMaster.getId());
@@ -129,14 +129,12 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                                    outpOrdersCosts.setUnits(baseDto.get("units").toString());
                                    outpOrdersCosts.setRepetition(outpPresc.getRepetition());
                                    outpOrdersCosts.setAmount(outpPresc.getAmount());
-                                   outpOrdersCosts.setOrderedByDept(""); // 当前医师坐诊科室
-                                   outpOrdersCosts.setOrderedByDoctor("");
+                                   outpOrdersCosts.setOrderedByDept(loginInfo.getDeptId()); // 当前医师坐诊科室
+                                   outpOrdersCosts.setOrderedByDoctor(loginInfo.getPersionId());
                                    outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
                                    outpOrdersCosts.setCosts(outpPresc.getCosts()*outpPresc.getAmount());
                                    outpOrdersCosts.setCharges(outpPresc.getCharges()*outpPresc.getAmount());
                                    outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
-                                   outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
-                                   outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
                                    ordersCostsesList.add(outpOrdersCosts);
                                }
                            }
@@ -150,7 +148,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                 oo.setVisitNo(clinicMaster.getVisitNo());
                 oo.setSerialNo(outpPresc.getSerialNo());
                 oo.setOrderedBy(clinicMaster.getVisitDept());
-                oo.setDoctor("李俊山");
+                oo.setDoctor(loginInfo.getPersionId());
                 oo.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + oo.getVisitNo());
                 oo.setDoctorNo(clinicMaster.getDoctor());
                 oo.preInsert();
@@ -206,8 +204,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
      * @author CTQ
      * @date 2016/5/7
      */
-    public OutpOrdersCosts makeOutpOrderCosts(OutpPresc outpPresc,ClinicMaster clinicMaster){
-        OrgStaff orgStaff=new OrgStaff();
+    public OutpOrdersCosts makeOutpOrderCosts(OutpPresc outpPresc,ClinicMaster clinicMaster,LoginInfo loginInfo){
             OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
             outpOrdersCosts.setMasterId(outpPresc.getId());
             outpOrdersCosts.setClinicId(clinicMaster.getId());
@@ -228,14 +225,12 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
             outpOrdersCosts.setUnits(outpPresc.getUnits());
             outpOrdersCosts.setRepetition(outpPresc.getRepetition());
             outpOrdersCosts.setAmount(outpPresc.getAmount());
-            outpOrdersCosts.setOrderedByDept(""); // 当前医师坐诊科室
-            outpOrdersCosts.setOrderedByDoctor("");
+            outpOrdersCosts.setOrderedByDept(loginInfo.getDeptId()); // 当前医师坐诊科室
+            outpOrdersCosts.setOrderedByDoctor(loginInfo.getPersionId());
             outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
             outpOrdersCosts.setCosts(outpPresc.getCosts());
             outpOrdersCosts.setCharges(outpPresc.getCharges());
             outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
-            outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
-            outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
 
         return  outpOrdersCosts;
     }
