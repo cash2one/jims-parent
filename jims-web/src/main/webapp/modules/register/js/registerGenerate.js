@@ -6,7 +6,7 @@ var dayWeek=[];
  * @type {{}}
  */
 var dayWeekData={};
-dayWeekData.orgId="";
+dayWeekData.isOrgId=false;
 dayWeekData.dictType="DAY_OF_WEEK_DICT"
 $.ajax({
     'type': 'POST',

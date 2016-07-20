@@ -4,7 +4,6 @@ var doctorName=[];
  * @type {{}}
  */
 var doctorNameData={};
-var inputParamVos=[]
 doctorNameData.dictType="v_staff_dict";
 doctorNameData.inputParamVos=inputParamVos;
 $.ajax({
