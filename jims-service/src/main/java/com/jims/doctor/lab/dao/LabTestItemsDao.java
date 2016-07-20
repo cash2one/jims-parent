@@ -29,5 +29,5 @@ public interface LabTestItemsDao extends CrudDao<LabTestItems> {
 	 * @param labMaster
 	 * @return
 	 */
-	public String deleteItmes(@Param("labMaster")String labMaster);
+	public Integer deleteItmes(@Param("labMaster")String labMaster);
 }

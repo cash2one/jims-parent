@@ -71,4 +71,19 @@ public class OrgRoleVsServiceRest {
         stringData.setCode("1");
         return  stringData;
     }
+
+    /**
+     * 删除
+     * @param
+     * @return
+     */
+    @Path("delete-orgRole")
+    @POST
+    public StringData del(String ids) {
+        String num = orgRoleVsServiceApi.del(ids);
+        StringData stringData = new StringData();
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
 }

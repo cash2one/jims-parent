@@ -12,5 +12,5 @@ import java.util.List;
  * @version 2016-04-28
  */
 public interface LabTestItemsServiceApi {
-    public List<LabTestItems> getItemName(String testNo);
+    public List<LabTestItems> getItemName(String labMaster);
 }

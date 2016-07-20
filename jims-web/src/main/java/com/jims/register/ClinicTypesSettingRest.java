@@ -71,7 +71,7 @@ public class ClinicTypesSettingRest {
     public StringData saveItem(List<ClinicTypeFee> clinicTypeFees,@QueryParam("type")String type,@QueryParam("clinicTypeId")String clinicTypeId,@Context HttpServletRequest request){
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data=new StringData();
-        data.setCode(clinicTypeFeeServiceApi.saveList(clinicTypeFees,type,clinicTypeId));
+        data.setCode(clinicTypeFeeServiceApi.saveList(clinicTypeFees,type,clinicTypeId,loginInfo));
         return data;
     }
 

@@ -30,7 +30,7 @@
 	</select>
 
     <select id="findSelfServiceId" resultType="OrgSelfServiceVsMenu">
-        select a.menu_id,a.menu_name,a.pid,r.id,r.menu_operate,a.menu_sort
+           select a.menu_id,a.menu_name,a.pid,nvl(r.id,sys_guid()) id,nvl(r.menu_operate,2) menuOperate,a.menu_sort
        from (select o.*,d.menu_name from  org_self_service_vs_menu o,menu_dict d
         where d.id=o.menu_id and o.self_service_id = #{0}) a ,
         (select *

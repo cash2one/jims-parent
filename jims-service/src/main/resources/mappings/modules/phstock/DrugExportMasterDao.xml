@@ -212,5 +212,20 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+
+    <select id="findMasterList" resultType="DrugExportMaster">
+        SELECT
+        <include refid="drugExportMasterColumns"/>
+        FROM drug_export_master a
+        WHERE a.org_id=#{0}
+        AND a.sub_storage=#{1}
+        AND a.export_date >=to_date(#{2},'yyyy-mm-dd')
+        AND to_date(#{3},'yyyy-mm-dd')>a.export_date
+        AND a.account_indicator = 1
+        AND (a.flag != 1 OR a.FLAG is NULL)
+        AND a.storage=#{4}
+    </select>
+
+
 </mapper>

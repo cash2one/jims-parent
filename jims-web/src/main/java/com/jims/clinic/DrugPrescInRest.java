@@ -11,6 +11,8 @@ import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -41,19 +43,24 @@ public class DrugPrescInRest {
      */
     @Path("list")
     @GET
-    public List<DoctDrugPrescMaster> list(@QueryParam("visitId") String visitId,@QueryParam("prescNo")int prescNo,@QueryParam("dispensary")String dispensary){
+    public List<DoctDrugPrescMaster> list(@QueryParam("visitId") String visitId,@QueryParam("prescNo")int prescNo,@QueryParam("dispensary")String dispensary,@QueryParam("prescDate") String prescDate,@QueryParam("name") String name,@QueryParam("orgId") String orgId){
         List<DoctDrugPrescMaster> list = Lists.newArrayList();
         DoctDrugPrescMaster ddpm = new DoctDrugPrescMaster();
         ddpm.setVisitId(visitId);
         ddpm.setPrescNo(prescNo);
+        ddpm.setName(name);
         ddpm.setDispensary(dispensary);
+        ddpm.setOrgId(orgId);
         try {
+             if(prescDate!=null&&!"".equals(prescDate)) {
+             ddpm.setPrescDate(new SimpleDateFormat("yyyy-MM-dd").parse(prescDate));
+             }
             list = doctDrugPrescMasterServiceApi.getDrugMasterList(ddpm);
         }catch (Exception e){
             e.printStackTrace();
         }
         return list;
-    }
+     }
 
     /**
      * 方法 detailList的功能描述
@@ -81,9 +88,9 @@ public class DrugPrescInRest {
      */
     @Path("confirmInDrugPresc")
     @POST
-    public StringData confirmInDrugPresc(String masterId){
+    public StringData confirmInDrugPresc(@QueryParam(value="masterId")String masterId,@QueryParam(value="persionId") String persionId,@QueryParam("deptName") String deptName){
 
-      String code=    drugPrescInServiceApi.confirmInDrugPresc(masterId);
+       String code=drugPrescInServiceApi.confirmInDrugPresc(masterId,persionId,deptName);
         StringData data = new StringData();
         data.setCode(code);
         if(code != "" && Integer.parseInt(code)<=0){

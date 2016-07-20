@@ -79,5 +79,10 @@ public class OrgRoleVsServiceServiceImpl implements OrgRoleVsServiceApi {
     public List<OrgRoleVsService> findRole(String roleid) {
         return orgRoleVsServiceService.findRole(roleid);
     }
-	
+
+    @Override
+    public String del(String ids) {
+        return orgRoleVsServiceService.deletes(ids);
+    }
+
 }
