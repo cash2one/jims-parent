@@ -167,12 +167,11 @@ public class BloodApplyRest {
      * 根据id查询用血申请表信息
      */
     @Path("getBloodCapacityList")
-    @POST
-    public List<BloodCapacity> getBloodCapacityList(String applyNum) {
+    @GET
+    public List<BloodCapacity> getBloodCapacityList(@QueryParam("applyNum")String applyNum) {
         BloodCapacity bloodCapacity = new BloodCapacity();
         if (StringUtils.isNotBlank(applyNum)) {
-            int index = applyNum.indexOf("=");
-            bloodCapacity.setApplyNum(applyNum.substring(index + 1));
+            bloodCapacity.setApplyNum(applyNum);
             List<BloodCapacity> bloodCapacityList = bloodCapacityServiceApi.getBloodCapacityList(bloodCapacity);
             return bloodCapacityList;
         }

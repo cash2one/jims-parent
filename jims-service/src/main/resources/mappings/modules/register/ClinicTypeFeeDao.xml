@@ -33,10 +33,11 @@
 		FROM clinic_type_fee a
 		<include refid="clinicTypeFeeJoins"/>
 		<where>
-			<if test="typeId!=null and typeId!=''">
-				a.type_id=#{typeId} AND
-			</if>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="typeId!=null and typeId!=''">
+			 AND a.type_id=#{typeId}
+			</if>
+
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -105,6 +106,8 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         examAppoints.preInsert();
         examAppoints.setRegPrnFlag(0);
         examAppoints.setVisitNo(clinicMaster.getVisitNo());
+        examAppoints.setReqDateTime(new Date());
+        examAppoints.setInOrOut("0");
         //申请序号
         String examNo="JC"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
         examAppoints.setExamNo(examNo);

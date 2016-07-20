@@ -199,6 +199,13 @@ public class InputSettingBo extends CrudImplService<InputSettingMasterDao, Input
                 }
             }
         }
+        if(StringUtils.isNotEmpty(orgId)){
+            InputParamVo inputParamVo=new InputParamVo();
+            inputParamVo.setColName("org_id");
+            inputParamVo.setColValue(orgId);
+            inputParamVo.setOperateMethod("=");
+            list.add(inputParamVo);
+        }
         List<BaseDto> baseDtos = inputSettingDetailDao.listInputDataByParam(param, dictType, list);
 
         return baseDtos;

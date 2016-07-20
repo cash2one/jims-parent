@@ -1,28 +1,19 @@
 var doctorRole = [];
-var doctorRoleData = {};
-doctorRoleData.orgId = "";
-doctorRoleData.dictType = "SYS_DICT";
-
-var InputParamVo = {};
-var inputParamVos= [];
-var q = 'doctor_role';
-InputParamVo.colName = 'TYPE';
-InputParamVo.colValue = q;
-InputParamVo1.colValue = '20';
-InputParamVo.operateMethod = '=';
-inputParamVos.push(InputParamVo);
-doctorRoleData.inputParamVos = inputParamVos;
+/**
+ * 医生权限
+ */
 $.ajax({
-    'type': 'POST',
-    'url': basePath + '/input-setting/listParam',
-    data: JSON.stringify(doctorRoleData),
+    'type': 'GET',
+    'url':basePath+'/dict/findListByType',
+    data: 'type=doctor_role',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
-    'success': function (data) {
-        doctorRole = data;
+    'success': function(data){
+        doctorRole=data;
     }
 });
+
 
 /**
  *

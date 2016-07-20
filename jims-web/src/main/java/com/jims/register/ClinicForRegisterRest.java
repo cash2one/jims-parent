@@ -6,6 +6,7 @@ import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.register.api.ClinicForRegisterSerivceApi;
 import com.jims.register.entity.ClinicForRegist;
 import com.jims.register.entity.ClinicSchedule;
@@ -38,11 +39,13 @@ public class ClinicForRegisterRest {
     @GET
     @Path("findList")
     public PageData findList(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("clinicDateStr")String  clinicDateStr,@QueryParam("timeDesc")String timeDesc,@QueryParam("clinicIndexName")String clinicIndexName){
+        String orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();
         Date clinicDate= DateUtils.parseDate(clinicDateStr);
         ClinicForRegist clinicForRegist=new ClinicForRegist();
         clinicForRegist.setClinicLabelName(clinicIndexName);
         clinicForRegist.setTimeDesc(timeDesc);
         clinicForRegist.setClinicDate(clinicDate);
+        clinicForRegist.setOrgId(orgId);
         Page<ClinicForRegist> page = clinicForRegisterSerivceApi.findPage(new Page<ClinicForRegist>(request, response), clinicForRegist);
         PageData pageData = new PageData();
         pageData.setRows(page.getList());
@@ -60,9 +63,11 @@ public class ClinicForRegisterRest {
      */
     @POST
     @Path("saveRegister")
-    public StringData saveRegister (List<ClinicSchedule> clinicSchedules,@QueryParam("startTime")String  startTime,@QueryParam("endTime")String  endTime)throws Exception{
+    public StringData saveRegister (List<ClinicSchedule> clinicSchedules,@QueryParam("startTime")String  startTime,
+                                    @QueryParam("endTime")String  endTime,@Context HttpServletRequest request)throws Exception{
+        String orgId=LoginInfoUtils.getPersionInfo(request).getOrgId();
         StringData data= new StringData();
-        data.setCode(clinicForRegisterSerivceApi.saveRegister(clinicSchedules,startTime,endTime));
+        data.setCode(clinicForRegisterSerivceApi.saveRegister(clinicSchedules,startTime,endTime,orgId));
         return data;
     }
     /**
@@ -85,7 +90,10 @@ public class ClinicForRegisterRest {
      */
     @POST
     @Path("findListReg")
-    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist){
+    public List<ClinicForRegist> findListReg(ClinicForRegist clinicForRegist,
+                                             @Context HttpServletRequest request){
+        String orgId=LoginInfoUtils.getPersionInfo(request).getOrgId();
+        clinicForRegist.setOrgId(orgId);
         return clinicForRegisterSerivceApi.findListReg(clinicForRegist);
     }
 
@@ -96,7 +104,9 @@ public class ClinicForRegisterRest {
      */
     @POST
     @Path("saveClinic")
-    public StringData saveClinic(ClinicMaster clinicMaster)throws Exception{
+    public StringData saveClinic(ClinicMaster clinicMaster,@Context HttpServletRequest request)throws Exception{
+        String orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();
+        clinicMaster.setOrgId(orgId);
         StringData data=new StringData();
         data.setCode(clinicForRegisterSerivceApi.saveClinic(clinicMaster));
         return data;

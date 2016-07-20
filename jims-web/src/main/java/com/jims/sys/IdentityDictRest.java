@@ -2,13 +2,17 @@ package com.jims.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.sys.api.IdentityDictApi;
 import com.jims.sys.entity.IdentityDict;
 import com.jims.sys.entity.OrgRole;
 import com.jims.sys.vo.BeanChangeVo;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -25,14 +29,15 @@ public class IdentityDictRest {
 
     /**
      * 查询所有记录
-     * @param orgId 所属组织机构
+     * @param
      * @return
      * @author fengyuguang
      */
     @GET
     @Path("list")
-    public List<IdentityDict> findList(@QueryParam("orgId") String orgId) {
-        return identityDictApi.findList(orgId);
+    public List<IdentityDict> findList(@Context HttpServletRequest request) {
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        return identityDictApi.findList(loginInfo.getOrgId());
     }
 
     /**

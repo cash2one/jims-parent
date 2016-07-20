@@ -136,9 +136,15 @@ function onloadMethod(){
 //新增检验
 function add(){
     clearForm();
+    $('#labItemClass').removeAttr("disabled");
+    $('#performedBy').removeAttr("disabled");
+    $('#specimen').removeAttr("disabled");
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
+    $("#name").val(parent.clinicMaster.name);
+    $("#sex").val(parent.clinicMaster.sex);
+    $("#chargeType").val(parent.clinicMaster.chargeType);
 
     $.ajax({
         //添加

@@ -5,13 +5,11 @@ var visitNo;
 var prescNo;
 var itemClass;
 var clinicId;
-var orgId;
 var chargeIndicator='新开';
 //页面加载
 $(function(){
     itemClass = $("#itemClass").val();
     clinicId = parent.clinicMaster.id;
-    orgId = parent.config.org_Id;
     $("#clinicId").val(clinicId);
     $('#leftList').datagrid({
         singleSelect: true,
@@ -665,8 +663,7 @@ function doDelete() {
 function del(prescNos){
     $.ajax({
         'type': 'POST',
-        'url': basePath+'/outppresc/delByPrescNo?prescNo='+prescNos+'&orgId='+orgId+'&clinicId='+clinicId,
-        //'data':"prescNo="+prescNos+"&orgId="+orgId+"&clinicId="+clinicId,
+        'url': basePath+'/outppresc/delByPrescNo?prescNo='+prescNos+'&clinicId='+clinicId,
         'contentType': 'application/json',
         'dataType': 'json',
         'success': function(data){

@@ -55,9 +55,9 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
      * @param startTime
      * @param endTime
      * @return
-     * @author zhaoning+
+     * @author zhaoning
      */
-    public String saveRegister(List<ClinicSchedule> clinicScheduleList, String  startTime, String  endTime)throws Exception{
+    public String saveRegister(List<ClinicSchedule> clinicScheduleList, String  startTime, String  endTime,String orgId)throws Exception{
         String num="1";
         if(clinicScheduleList!=null && clinicScheduleList.size()>0){
             ClinicSchedule clinicSchedule=new ClinicSchedule();
@@ -82,6 +82,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                     clinicForRegist.setAppointmentLimits(clinicSchedule.getAppointmentLimits());//限约号数
                     clinicForRegist.setAppointmentNum(0);
                     clinicForRegist.setRegistrationNum(0);
+                    clinicForRegist.setOrgId(orgId);
                     Integer currentNo=clinicForRegistDao.currentNoMax(clinicDate,clinicSchedule.getClinicLabel(),clinicSchedule.getTimeDesc());
                     if(currentNo!=null){
                         clinicForRegist.setCurrentNo(currentNo+1);  //当前号(根据，门诊日期，门诊号名称，出诊时间 查询出最大的当前号数+1)
