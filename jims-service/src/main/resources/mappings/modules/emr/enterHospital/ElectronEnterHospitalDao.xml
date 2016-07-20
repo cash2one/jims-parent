@@ -37,7 +37,8 @@
 		a.xiaojieyufenxi AS "xiaojieyufenxi",
 		a.caijiriqi AS "caijiriqi",
 		a.isdepend AS "isdepend",
-		a.inOrOut_flag AS "inOrOutFlag"
+		a.inOrOut_flag AS "inOrOutFlag",
+		a.org_id AS "orgId"
 	</sql>
 	
 	<sql id="electronEnterHospitalJoins">
@@ -133,7 +134,8 @@
 			xiaojieyufenxi,
 			caijiriqi,
 			isdepend,
-			inOrOut_flag
+			inOrOut_flag,
+			org_id
 		) VALUES (
 			#{id},
 			#{visitId},
@@ -169,7 +171,8 @@
 			#{xiaojieyufenxi},
 			#{caijiriqi},
 			#{isdepend},
-			#{inOrOutFlag}
+			#{inOrOutFlag},
+			#{orgId}
 		)
 	</insert>
 	
@@ -205,7 +208,8 @@
 			xiaojieyufenxi = #{xiaojieyufenxi},
 			caijiriqi = #{caijiriqi},
 			isdepend = #{isdepend},
-			inOrOut_flag = #{inOrOutFlag}
+			inOrOut_flag = #{inOrOutFlag},
+			org_id = #{orgId}
 		WHERE id = #{id}
 	</update>
 	

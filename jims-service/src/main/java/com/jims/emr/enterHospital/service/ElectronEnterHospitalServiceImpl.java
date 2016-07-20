@@ -25,7 +25,7 @@ public  class ElectronEnterHospitalServiceImpl  implements ElectronEnterHospital
     }
 
     @Override
-    public String saveEnter(ElectronEnterHospital electronEnterHospital) {
-        return electronEnterHospitalBo.saveEnter(electronEnterHospital);
+    public String saveEnter(ElectronEnterHospital electronEnterHospital,String LoginName,String orgId) {
+        return electronEnterHospitalBo.saveEnter(electronEnterHospital,LoginName,orgId);
     }
 }

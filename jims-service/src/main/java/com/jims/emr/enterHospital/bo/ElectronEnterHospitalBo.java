@@ -31,10 +31,11 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
      * @author pq
      * @return
      */
-    public String saveEnter(ElectronEnterHospital electronEnterHospital){
+    public String saveEnter(ElectronEnterHospital electronEnterHospital,String LoginName,String orgId){
         int num = 0;
 
         if (electronEnterHospital!=null) {
+            electronEnterHospital.setOrgId(orgId);
             String	str = save(electronEnterHospital);
             num =Integer.parseInt(str==null?"0":str);
 
@@ -47,6 +48,8 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
                         EmrDiagnosis diagnosis = emrDiagnosisList.get(i);
                         diagnosis.setDiagnosisParent(electronEnterHospital.getId());
                         diagnosis.setParentId("0");
+                        diagnosis.setDiagnosisDoc(LoginName);
+                        diagnosis.setOrgId(orgId);
                         try {
                             if (diagnosis.getIsNewRecord()) {
                                 diagnosis.preInsert();

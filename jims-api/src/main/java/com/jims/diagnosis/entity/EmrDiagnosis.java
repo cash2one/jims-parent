@@ -48,7 +48,7 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
     private String icdAndTypeNmae;//诊断类型：诊断数据
     private String visitId;
     private String clinicId;
-
+    private String orgId;
     public String getClinicId() {
         return clinicId;
     }
@@ -243,5 +243,13 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
 
     public void setIcdAndTypeNmae(String icdAndTypeNmae) {
         this.icdAndTypeNmae = icdAndTypeNmae;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 }

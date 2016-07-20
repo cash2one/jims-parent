@@ -21,5 +21,5 @@ public interface ElectronEnterHospitalServiceApi {
      * 保存/修改  病历文书--入院记录
       * @param electronEnterHospital
      */
-    public String saveEnter(ElectronEnterHospital electronEnterHospital);
+    public String saveEnter(ElectronEnterHospital electronEnterHospital,String LoginName,String orgId);
 }
