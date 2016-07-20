@@ -62,11 +62,8 @@
             SERVICE_ID = #{serviceId},
             EXPLAIN = #{explain},
             TITLE = #{title},
-            CREATE_DATE = #{createDate},
-            CREATE_BY = #{createBy},
             UPDATE_BY = #{updateBy},
-            UPDATE_DATE = #{updateDate},
-            REMARKS = #{remarks}
+            UPDATE_DATE = #{updateDate}
         WHERE id = #{id}
     </update>
 
