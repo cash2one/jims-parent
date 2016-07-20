@@ -14,6 +14,8 @@ import com.jims.phstock.dao.DrugStockDao;
 import com.jims.phstock.entity.DrugStock;
 import com.jims.prescription.entity.DoctDrugPrescDetail;
 import com.jims.prescription.entity.DoctDrugPrescMaster;
+import com.jims.sys.dao.PersionInfoDao;
+import com.jims.sys.entity.PersionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -41,14 +43,17 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
     @Autowired
     private DrugStockDao drugStockDao;
 
-    public String confirmInDrugPresc(String masterId){
-        int num=0;
-        //更新住院代发药主表（更新发药人名目前没更新）
+    @Autowired
+    private PersionInfoDao persionInfoDao;
+
+    public String confirmInDrugPresc(String masterId,String persionId,String deptName) {
+        int num = 0;
+        PersionInfo persionInfo = persionInfoDao.get(persionId);
         dao.confirmDoctDrugPresc(masterId);
-        DoctDrugPrescMaster doctDrugPrescMaster =  dao.get(masterId);//住院代发药主表
-        List<DoctDrugPrescDetail> doctDrugPrescDetailList= doctdoctDrugPrescDetailDao.findListByPrescMasterId(masterId);//住院代发药表明细
+        DoctDrugPrescMaster doctDrugPrescMaster = dao.get(masterId);//住院代发药主表
+        List<DoctDrugPrescDetail> doctDrugPrescDetailList = doctdoctDrugPrescDetailDao.findListByPrescMasterId(masterId);//住院代发药表明细
         //插入药品处方主表(插入成功后更新药品的结存数)
-        DrugPrescMaster drugPrescMaster=new DrugPrescMaster();
+        DrugPrescMaster drugPrescMaster = new DrugPrescMaster();
         if (drugPrescMaster.getIsNewRecord()) {
             drugPrescMaster.preInsert();
             drugPrescMaster.setClinicId("");
@@ -57,10 +62,16 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
             drugPrescMaster.setPrescDate(doctDrugPrescMaster.getPrescDate());
             drugPrescMaster.setPatientId(doctDrugPrescMaster.getPatientId());
             //当前登录者
-            drugPrescMaster.setBatchProvideNo("发药人");
+
+            if (persionInfo != null) {
+                drugPrescMaster.setBatchProvideNo(persionInfo.getName());
+            }
             //当处方属性是毒麻属性的时候增加
-            if(doctDrugPrescMaster.getPrescAttr()=="duma"){
-                // drugPrescMaster.setBzMz();
+//            if(doctDrugPrescMaster.getPrescAttr()=="duma"){
+//                // drugPrescMaster.setBzMz();
+//            }
+            if (doctDrugPrescMaster.getPrescAttr().equalsIgnoreCase("duma")) {
+
             }
             drugPrescMaster.setChargeType(doctDrugPrescMaster.getChargeType());
             drugPrescMaster.setCountPerRepetition(doctDrugPrescMaster.getCountPerRepetition());
@@ -69,7 +80,7 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
             drugPrescMaster.setNamePhonetic(doctDrugPrescMaster.getNamePhonetic());
             drugPrescMaster.setIdentity(doctDrugPrescMaster.getIdentity());
             drugPrescMaster.setUnitInContract(doctDrugPrescMaster.getUnitInContract());
-            drugPrescMaster.setPrescType(doctDrugPrescMaster.getPrescType()!=null?doctDrugPrescMaster.getPrescType():0);
+            drugPrescMaster.setPrescType(doctDrugPrescMaster.getPrescType() != null ? doctDrugPrescMaster.getPrescType() : 0);
             drugPrescMaster.setPrescAttr(doctDrugPrescMaster.getPrescAttr());
             drugPrescMaster.setPrescSource(doctDrugPrescMaster.getPrescSource());
             drugPrescMaster.setRepetition(doctDrugPrescMaster.getRepetition());
@@ -78,24 +89,18 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
             drugPrescMaster.setPrescribedBy(doctDrugPrescMaster.getPrescribedBy());
             drugPrescMaster.setEnteredBy(doctDrugPrescMaster.getEnteredBy());
             drugPrescMaster.setDispensingProvider(doctDrugPrescMaster.getDispensingProvider());
-           /* drugPrescMaster.setEnteredDatetime(doctDrugPrescMaster.getEnteredDatetime());*///录入日期
+            drugPrescMaster.setEnteredDatatime(new Date());
             drugPrescMaster.setDispensingDatetime(new Date());
-            //处方明细记录中有字段“ADMINISTRATION”，是记录使用方法的；
-            //处方主记录中有字段“MEMO”，可记录整副药的用法（如中药）；
             drugPrescMaster.setMemo(doctDrugPrescMaster.getUsage());
             drugPrescMaster.setDispensarySub(doctDrugPrescMaster.getDispensarySub());
-            //缺少退药
             drugPrescMasterDao.insert(drugPrescMaster);
         }
-
-
-        if(doctDrugPrescDetailList!=null && doctDrugPrescDetailList.size()>0){
-            for(int i=0;i<doctDrugPrescDetailList.size();i++){
-                //插入药品处方明细
-                DrugPrescDetail drugPrescDetail=new DrugPrescDetail();
-                DoctDrugPrescDetail  doctDrugPrescDetail= doctDrugPrescDetailList.get(i);
+        if (doctDrugPrescDetailList != null && doctDrugPrescDetailList.size() > 0) {
+            for (int i = 0; i < doctDrugPrescDetailList.size(); i++) {
+                DrugPrescDetail drugPrescDetail = new DrugPrescDetail();
+                DoctDrugPrescDetail doctDrugPrescDetail = doctDrugPrescDetailList.get(i);
                 if (doctDrugPrescDetail.getIsNewRecord()) {
-                    drugPrescDetail .preInsert();
+                    drugPrescDetail.preInsert();
                     drugPrescDetail.setMasterId(drugPrescMaster.getId());
                     drugPrescDetail.setPrescDate(doctDrugPrescDetail.getPrescDate());
                     drugPrescDetail.setPrescNo(doctDrugPrescDetail.getPrescNo());
@@ -112,27 +117,26 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
                     drugPrescDetail.setOrderNo(doctDrugPrescDetail.getOrderNo());
                     drugPrescDetail.setOrderSubNo(doctDrugPrescDetail.getOrderSubNo());
                     drugPrescDetail.setAdministration(doctDrugPrescDetail.getAdministration());
-                    //缺少退药
                     drugPrescDetail.setDosageEach(doctDrugPrescDetail.getDosageEach());
                     drugPrescDetail.setDosageUnits(doctDrugPrescDetail.getDosageUnits());
                     drugPrescDetail.setFrequency(doctDrugPrescDetail.getFrequency());
                     drugPrescDetail.setFreqDetail(doctDrugPrescDetail.getFreqDetail());
                     drugPrescDetail.setBatchNo(doctDrugPrescDetail.getBatchNo());
                     drugPrescDetailDao.insert(drugPrescDetail);
-                    List<DrugStock> list=drugStockDao.findByUnique(drugPrescDetail.getDrugCode(),drugPrescDetail.getDrugSpec(),drugPrescDetail.getFirmId(),drugPrescDetail.getPackageSpec(),drugPrescDetail.getBatchNo(),drugPrescMaster.getDispensary(),drugPrescMaster.getDispensarySub(),drugPrescMaster.getOrgId());
-                    if(list!=null&&!list.isEmpty()){
-                        list.get(0).setQuantity(list.get(0).getQuantity()-1);
+                    List<DrugStock> list = drugStockDao.findByUnique(drugPrescDetail.getDrugCode(), drugPrescDetail.getDrugSpec(), drugPrescDetail.getFirmId(), drugPrescDetail.getPackageSpec(), drugPrescDetail.getBatchNo(), drugPrescMaster.getDispensary(), drugPrescMaster.getDispensarySub(), drugPrescMaster.getOrgId());
+                    if (list != null && !list.isEmpty()) {
+                        list.get(0).setQuantity(list.get(0).getQuantity() - 1);
                         drugStockDao.update(list.get(0));
                     }
                 }
                 /******************插入住院收费明细*************************/
                 InpBillDetail inpBillDetail = new InpBillDetail();
                 if (inpBillDetail.getIsNewRecord()) {
-                    inpBillDetail .preInsert();
+                    inpBillDetail.preInsert();
                     inpBillDetail.setPatientId(doctDrugPrescMaster.getPatientId());
                     inpBillDetail.setVisitId(doctDrugPrescMaster.getVisitId());
                     Integer itemNo = inpBillDetailDao.getMaxItemNo(doctDrugPrescDetail.getPatientId(), doctDrugPrescDetail.getVisitId());
-                    inpBillDetail.setItemNo(itemNo!=null?itemNo:1);
+                    inpBillDetail.setItemNo(itemNo != null ? itemNo : 1);
                     //通过ITEM_CODE、ITEM_SPEC、UNITS拿到itemClass
                     inpBillDetail.setItemName(doctDrugPrescDetail.getDrugName());
                     inpBillDetail.setItemCode(doctDrugPrescDetail.getDrugCode());
@@ -140,23 +144,21 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
                     inpBillDetail.setAmount(doctDrugPrescDetail.getQuantity());
                     inpBillDetail.setUnits(doctDrugPrescDetail.getDosageUnits());
                     inpBillDetail.setOrderedBy(doctDrugPrescMaster.getOrderedBy());
-                    inpBillDetail.setPerformedBy("");//执行科室未找到
+                    inpBillDetail.setPerformedBy(deptName);
                     inpBillDetail.setCosts(doctDrugPrescDetail.getCosts());
                     inpBillDetail.setCharges(doctDrugPrescDetail.getPayments());
                     inpBillDetail.setBillingDateTime(new Date());//计价日期及时间
                     inpBillDetail.setOperatorNo("");//计价员号
                     inpBillDetail.setClassOnInpRcpt("");//住院收据分类
+                    if (persionInfo != null) {
+                        inpBillDetail.setDoctorUser(persionInfo.getId());
+                        inpBillDetail.setPerformDoctor(persionInfo.getName());
+                    }
+                    num = inpBillDetailDao.insert(inpBillDetail);
                 }
-               //执行医生当前登录者 order_group 开单医生核算组,order_doctor 开单医生姓名,perform_group 执行医生核算组,
-                //perform_doctor 执行医生,doctor_user 医生代码,item_price,
-               num = inpBillDetailDao.insert(inpBillDetail);
             }
-
-
         }
+        return num + "";
 
-
-     return num+"";
     }
-
 }

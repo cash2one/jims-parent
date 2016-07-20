@@ -138,7 +138,7 @@
 		</if>
 	</select>
 	<update id="deleteItmes">
-		UPDATE lab_test_items SET del_flag = '1'
+		DELETE from lab_test_items
 		WHERE LAB_MASTER = #{labMaster}
 	</update>
 </mapper>

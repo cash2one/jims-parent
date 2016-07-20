@@ -1,5 +1,5 @@
 /**
- * 输入法字典维护
+ * 科室分组字典维护
  * @author yangruidong
  * @version 2016-05-18
  */
@@ -15,8 +15,7 @@ var basePath = "/service";
 $(function () {
 
     var staffFrom = [];
-    //var orgId=parent.config.org_id;
-    var orgId = 1;
+    var orgId = config.org_Id;
     var group_class_id;
     var editIndex1 = undefined;
     //用户分组类
@@ -27,7 +26,6 @@ $(function () {
         singleSelect: true,
         idField: "id",
         toolbar: '#classft',
-        //url:basePath+'/input-setting/findAllListByOrgId?orgId='+orgId,
         url: basePath + '/staff-group/findAllListByOrgId?orgId=' + orgId,
         method: 'get',
         loadMsg: '数据正在加载中，请稍后.....',
@@ -47,30 +45,25 @@ $(function () {
             var node = $("#groupClass").datagrid("getSelected");
 
             group_class_id = node.id;
-           var dictType='v_staff_group_dict';
-
 
             //加载字段名称
-            jQuery.ajax({
-                'type': 'GET',
-                'url': basePath + '/input-setting/list?orgId='+orgId+'&dictType='+dictType,
-                'contentType': 'application/json',
-                'dataType': 'json',
-                'success': function (data) {
-                     console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        staffFrom.push({value: data[i].dept_code, text: data[i].dept_name, inputcode:data[i].input_code});
-                    }
-                    console.log(staffFrom);
-                },
-                'error': function (data) {
-                    $.messager.alert("系统提示", "加载数据出错");
-                }
-            });
+            var chargeType = [{colName: 'org_id', colValue: orgId, operateMethod: "="}]
+            var param = {dictType: 'v_staff_group_dict', orgId: orgId, inputParamVos: chargeType}
 
-            //在点击切换输入法主记录时，判断输入法明细表是否有变动的数据
-            if (editIndex1 || editIndex1 == 0) {
-                $("#groupDict").datagrid("endEdit", editIndex1);
+
+            $.postJSON('/service/input-setting/listParam',
+                JSON.stringify(param), function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        staffFrom.push({
+                            value: data[i].dept_code,
+                            text: data[i].dept_name,
+                            inputcode: data[i].input_code
+                        });
+                    }
+                })
+
+            if (!endEditing2()) {
+                return
             }
             var insertData = $("#groupDict").datagrid("getChanges", "inserted");
             var updateData = $("#groupDict").datagrid("getChanges", "updated");
@@ -83,8 +76,6 @@ $(function () {
                         staffGroupVo.inserted = insertData;
                         staffGroupVo.deleted = deleteData;
                         staffGroupVo.updated = updateData;
-
-                       // staffGroupVo.staff_group_class__id = group_class_id;
 
                         if (staffGroupVo) {
                             $.postJSON(basePath + "/staff-group/saveGroup", JSON.stringify(staffGroupVo), function (data) {
@@ -162,13 +153,15 @@ $(function () {
 
     //用户工作组类保存
     $("#saveClassBtn").on("click", function () {
-        if (editIndex || editIndex == 0) {
-            $("#groupClass").datagrid("endEdit", editIndex);
+        if (!endEditing1()) {
+            return
         }
+
 
         var insertData = $("#groupClass").datagrid("getChanges", "inserted");
         var updateData = $("#groupClass").datagrid("getChanges", "updated");
         var deleteData = $("#groupClass").datagrid("getChanges", "deleted");
+
 
         var staffGroupVo = {};
         staffGroupVo.inserted = insertData;
@@ -238,7 +231,7 @@ $(function () {
 
                 type: 'combogrid',
                 options: {
-                    panelWidth:320,
+                    panelWidth: 320,
                     idField: 'value',
                     textField: 'value',
                     columns: [[
@@ -246,20 +239,20 @@ $(function () {
                         {field: 'text', title: '科室名称', width: 100},
                         {field: 'inputcode', title: '拼音码', width: 100}
                     ]],
-                    onSelect:function(index,data){
+                    onSelect: function (index, data) {
                         var row = $('#groupDict').datagrid('getSelected');
                         row.groupName = data.text;
-                        $('#groupDict').datagrid('endEdit',editIndex1);
-                    } ,
+                        $('#groupDict').datagrid('endEdit', editIndex1);
+                    },
                     filter: function (field, row) {
-                        if (field&&  (row['value'] && row['value'].toUpperCase().indexOf(field.toUpperCase()) == 0 )
-                            || (row['text'] && row['text'].toUpperCase().indexOf(field.toUpperCase())== 0)
-                            || (row['inputcode'] && row['inputcode'].toUpperCase().indexOf(field.toUpperCase()) ==0)) {
+                        if (field && (row['value'] && row['value'].toUpperCase().indexOf(field.toUpperCase()) == 0 )
+                            || (row['text'] && row['text'].toUpperCase().indexOf(field.toUpperCase()) == 0)
+                            || (row['inputcode'] && row['inputcode'].toUpperCase().indexOf(field.toUpperCase()) == 0)) {
                             return true
                         }
                     }
-                    }
-                    }
+                }
+            }
 
 
         }, {
@@ -304,14 +297,13 @@ $(function () {
     //开始编辑行
     $("#addDictBtn").on('click', function () {
 
-        if(!$("#groupClass").datagrid('getSelected'))
-        {
+        if (!$("#groupClass").datagrid('getSelected')) {
             $.messager.alert("系统提示", "请先选择用户分组类", "info");
             return false;
         }
-            $("#groupDict").datagrid('appendRow', {groupClassId:$("#groupClass").datagrid('getSelected').id});
-            var rows = $("#groupDict").datagrid('getRows');
-            onClickCell1(rows.length - 1, 'groupCode');
+        $("#groupDict").datagrid('appendRow', {groupClassId: $("#groupClass").datagrid('getSelected').id});
+        var rows = $("#groupDict").datagrid('getRows');
+        onClickCell1(rows.length - 1, 'groupCode');
     });
 
 
@@ -319,6 +311,17 @@ $(function () {
     $("#saveDictBtn").on("click", function () {
         if (editIndex1 || editIndex1 == 0) {
             $("#groupDict").datagrid("endEdit", editIndex1);
+        }
+
+        //不能添加重复的项目
+        var data = $("#groupDict").datagrid('getData');
+        for (var i = 0; i < data.total; i++) {
+            for (var j = i + 1; j < data.total; j++) {
+                if (data.rows[i].groupCode == data.rows[j].groupCode) {
+                    $.messager.alert("系统提示", "不能添加重复的项目,请修改后再保存", "info");
+                    return;
+                }
+            }
         }
 
         var insertData = $("#groupDict").datagrid("getChanges", "inserted");
@@ -329,6 +332,10 @@ $(function () {
         staffGroupVo.inserted = insertData;
         staffGroupVo.deleted = deleteData;
         staffGroupVo.updated = updateData;
+
+
+
+
 
         staffGroupVo.staff_group_class__id = group_class_id;
 

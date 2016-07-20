@@ -45,7 +45,10 @@ public class DrugImportDetail extends DataEntity<DrugImportDetail> {
     private Date productionDate;		// 生产日期
     private Date produceDate;		// produce_date
     private String orgId;		// 所属结构
+    private String  drugName;  //药品名称
+    private String drugForm; //剂型
 
+    private String currentQuantity;//当前库存量
     public DrugImportDetail() {
         super();
     }
@@ -349,5 +352,30 @@ public class DrugImportDetail extends DataEntity<DrugImportDetail> {
 
     public void setOrgId(String orgId) {
         this.orgId = orgId;
+    }
+    @Transient
+    public String getDrugName() {
+        return drugName;
+    }
+
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
+    @Transient
+    public String getDrugForm() {
+        return drugForm;
+    }
+
+    public void setDrugForm(String drugForm) {
+        this.drugForm = drugForm;
+    }
+
+    @Transient
+    public String getCurrentQuantity() {
+        return currentQuantity;
+    }
+
+    public void setCurrentQuantity(String currentQuantity) {
+        this.currentQuantity = currentQuantity;
     }
 }

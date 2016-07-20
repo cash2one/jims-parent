@@ -186,5 +186,21 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+    <select id="findDetailList" resultType="DrugExportDetail">
+        SELECT
+        <include refid="drugExportDetailColumns"/>,
+        b.supplier,drugDict.drug_name,drugDict.drug_code,drugDict.drug_form,e.quantity
+        FROM drug_export_detail a,drug_supplier_catalog b,drug_dict drugDict,drug_export_master d,drug_stock e
+        WHERE (d.document_no=a.document_no) and
+        ( a.drug_code = drugDict.drug_code(+) ) AND
+        ( a.drug_spec= drugDict.drug_spec(+) ) AND
+        ( a.firm_id = b.supplier_id(+) ) AND
+        d.storage=e.storage and
+        (a.drug_code=e.drug_code(+) and a.drug_spec=e.drug_spec(+) and a.firm_id=e.firm_id(+) and a.package_spec=e.package_spec(+) and a.batch_no=e.batch_no(+)
+        and a.org_id=d.org_id and d.org_id=e.org_id) and
+        a.document_no = #{documentNo}
+
+    </select>
 	
 </mapper>

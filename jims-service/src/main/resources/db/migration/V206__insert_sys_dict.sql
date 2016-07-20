@@ -108,16 +108,16 @@ insert into sys_dict
   insert into sys_dict
   (id, label, value, type, description, sort)
   values
-  (sys_guid(), '非限制级', '0', 'LIMIT_CLASS_DICT', '药品限制登记',1);
+  (sys_guid(), '非限制级', '0', 'LIMIT_CLASS_DICT', '药品限制等级',1);
   insert into sys_dict
   (id, label, value, type, description, sort)
   values
-  (sys_guid(), '限制级', '1', 'LIMIT_CLASS_DICT', '药品限制登记',2);
+  (sys_guid(), '限制级', '1', 'LIMIT_CLASS_DICT', '药品限制等级',2);
   insert into sys_dict
   (id, label, value, type, description, sort)
   values
-  (sys_guid(), '特殊级', '2', 'LIMIT_CLASS_DICT', '药品限制登记',3);
+  (sys_guid(), '特殊级', '2', 'LIMIT_CLASS_DICT', '药品限制等级',3);
   insert into sys_dict
   (id, label, value, type, description, sort)
   values
-  (sys_guid(), '其他', '3', 'LIMIT_CLASS_DICT', '药品限制登记',4);
+  (sys_guid(), '其他', '3', 'LIMIT_CLASS_DICT', '药品限制等级',4);

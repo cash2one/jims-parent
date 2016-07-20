@@ -33,6 +33,9 @@ public class DrugExportBo extends CrudImplService<DrugExportDetailDao, DrugExpor
     @Autowired
     private DrugProvideApplicationDao applicationDao;
 
+    @Autowired
+    private DrugExportDetailDao drugExportDetailDao;
+
     public void saveMasterAndDetail(DrugExportMaster master) {
         saveMasterAndDetail(master,false);
     }
@@ -132,7 +135,6 @@ public class DrugExportBo extends CrudImplService<DrugExportDetailDao, DrugExpor
     /**
      * 查询一段时间内的出库记录
      * @param startTime
-     * @param endTime
      * @param orgId
      * @param storageCode
      * @return
@@ -171,4 +173,14 @@ public class DrugExportBo extends CrudImplService<DrugExportDetailDao, DrugExpor
         int i=masterDao.update(drugExportMaster);
         return drugExportMaster;
     }
+
+    /**
+     * 查询出库详情
+     * @param documentNo
+     * @return
+     */
+    public List<DrugExportDetail> findDetailList(String documentNo) {
+        return drugExportDetailDao.findDetailList(documentNo);
+    }
+
 }

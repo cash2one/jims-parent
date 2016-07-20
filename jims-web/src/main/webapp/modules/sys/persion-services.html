@@ -21,20 +21,6 @@
         .nav-other { float: right; margin-top: 10px; }
         .service-set h3 { font-size: 20px; padding: 10px 0 10px 10px; margin-top: 0px; border-radius: 5px;  }
     </style>
-    <!--<script type="text/javascript">
-        function toggleClass(id){
-            var spanId = id.toString();
-
-            if($("#"+spanId).hasClass("span-class")){
-                $("#"+spanId).removeClass("span-class");
-                $("#"+spanId).addClass("span-class2");
-            }else{
-                $("#"+spanId).removeClass("span-class2");
-                $("#"+spanId).addClass("span-class");
-            }
-        }
-    </script>-->
-
 </head>
 <body>
 <nav class="nav-wrp nav-3 dark navbar-fixed-top nav-hide nav-sticky nav-show" data-sticky="y" data-glass="y"
@@ -46,12 +32,13 @@
         </div>
         <div class="nav vm-item def-menu">
             <ul style="cursor: pointer">
-                <li class="active"><a  id="default">个人首页</a></li>
-                <li><a >寻医问药</a></li>
-                <li><a >私人医生</a></li>
-                <li><a >健康管理</a></li>
+                <li><a  id="default">个人首页</a></li>
+                <!--<li><a >寻医问药</a></li>-->
+                <!--<li><a >私人医生</a></li>-->
+                <!--<li><a >健康管理</a></li>-->
                 <li><a >个人信息管理</a></li>
                 <li><a >我的消息</a></li>
+                <li class="active"><a>服务定制</a></li>
                 <li><a id="myServices">我的服务</a></li>
             </ul>
             <div class="nav-other">
@@ -76,7 +63,25 @@
 
         </div>
     </div>
-
+    <!-- 服务详情描述模态start -->
+    <div class="modal fade" id="serviceDialog" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:540px; height: 250px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">服务描述</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="ser-type clearfix" id="serviceDialogDes">
+                    </div>
+                </div>
+                <div class="modal-footer" align="center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 服务详情描述模态end -->
     <div class="col-md-3 def-rinfo">
         <div class="priv-info clearfix">
             <div class="priv-headimg fd-left">

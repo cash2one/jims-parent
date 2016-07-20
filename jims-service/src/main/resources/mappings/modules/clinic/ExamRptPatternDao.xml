@@ -91,7 +91,7 @@
         #{descName},
         #{description},
         #{descriptionCode},
-        #{inputCode},
+        UPPER (#{inputCode}),
         #{doctorTeshu},
         #{id},
         #{orgId},

@@ -6,6 +6,7 @@ package com.jims.register.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.register.api.ClinicTypeFeeServiceApi;
 import com.jims.register.bo.ClinicTypeFeeBo;
 import com.jims.register.dao.ClinicTypeFeeDao;
@@ -39,8 +40,8 @@ public class ClinicTypeFeeServiceImpl implements ClinicTypeFeeServiceApi {
      * @return
      */
     @Override
-    public String saveList(List<ClinicTypeFee> clinicTypeFeeList,String type,String clinicTypeId) {
-       return clinicTypeFeeBo.saveList(clinicTypeFeeList,type,clinicTypeId);
+    public String saveList(List<ClinicTypeFee> clinicTypeFeeList,String type,String clinicTypeId,LoginInfo loginInfo) {
+       return clinicTypeFeeBo.saveList(clinicTypeFeeList,type,clinicTypeId,loginInfo);
     }
 
     @Override

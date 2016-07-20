@@ -1,14 +1,13 @@
-/*确认收费 存储过程*/
 create or replace procedure p_fin_outcalc
   (
-  I_IDS  IN VARCHAR2,  /*待划价项目id字符串 ,分割*/
-  v_rcpt_no IN VARCHAR2,
-  O_SCCE_FLAG     OUT number  /*返回值 0为正确 -1为失败*/
+  i_rcpt_no IN VARCHAR,
+  i_orders_json in varchar,  
+  O_SCCE_FLAG     OUT varchar  /*返回值 1为正确 -1为失败*/
   ) as
-  v_ids VARCHAR2(2000) :='';
-  v_id VARCHAR2(64) :='';
-  v_new_pos integer :=1;
-  v_outp_orders outp_orders%rowtype;
+  v_orders_json json_list;
+  v_data_order      json; ---循环对象
+  v_order_id VARCHAR2(80);
+    v_outp_orders outp_orders%rowtype;
   v_clinic_master clinic_master%rowtype;
   v_outp_presc outp_presc%rowtype;
   v_bill_date date;
@@ -16,31 +15,24 @@ create or replace procedure p_fin_outcalc
   v_charges number(12,8);
   v_appoints_Id varchar2(64);
   v_order_class varchar2(10);/*标记：用来表示 收费类型，：检验，检查，处方*/
-
+procedure p(v varchar2) as begin dbms_output.put_line(null);dbms_output.put_line(v); end;
   begin
-  select sysdate into v_bill_date from dual;/*获取当前系统时间*/
+    select sysdate into v_bill_date from dual;/*获取当前系统时间*/
+    
+     
+     v_orders_json := json_list(i_orders_json);
 
-  v_ids := I_IDS;
-  v_new_pos := instr(v_ids,',');
-
-  if v_new_pos>1 then
-
-    while(v_new_pos>1) loop
-
-     v_id := substr(v_ids,1,v_new_pos-1);
-
-     v_ids:=substr(v_ids,v_new_pos+1);
-
-     v_new_pos:=instr(v_ids,',');
-
-     dbms_output.put_line(v_id);
-
+   for i in 1..v_orders_json.count loop
+    
+    v_data_order := json(v_orders_json.get(i));
+    v_order_id := json_ext.get_string(v_data_order,'orderId');
+    p(v_order_id);
     /*根据截取outp_orders Id  查询outpOrders对象*/
-    select * into v_outp_orders from outp_orders where id = v_id;
+    select * into v_outp_orders from outp_orders where id = v_order_id;
     select sum(costs), sum(charges) into v_costs, v_charges from outp_orders_costs where serial_no=v_outp_orders.serial_no;
-
+   
      /*更新 outp_orders_costs*/
-    update outp_orders_costs set charge_indicator =1 ,BILL_DATE=v_bill_date,rcpt_no=v_rcpt_no where serial_no=v_outp_orders.serial_no;
+    update outp_orders_costs set charge_indicator =1 ,BILL_DATE=v_bill_date,rcpt_no=i_rcpt_no where serial_no=v_outp_orders.serial_no;
 
     /*根据 serial_no 查询 所有的收费明细*/
     DECLARE CURSOR costs IS
@@ -49,7 +41,7 @@ create or replace procedure p_fin_outcalc
     /*循环 costsList*/
     for t_costs in  costs loop
       /*更新 outp_treat_rec */
-    update outp_treat_rec  set charge_indicator =1 ,BILL_VISIT_DATE  =v_bill_date,rcpt_no=v_rcpt_no where serial_no=t_costs.serial_no;
+    update outp_treat_rec  set charge_indicator =1 ,BILL_VISIT_DATE  =v_bill_date,rcpt_no=i_rcpt_no where serial_no=t_costs.serial_no;
      /*查询 申请id */
     select APPOINT_NO into v_appoints_Id from outp_treat_rec where serial_no=t_costs.serial_no;
 
@@ -57,14 +49,14 @@ create or replace procedure p_fin_outcalc
     if t_costs.order_class ='D' then
 
    /*更新 exam_items */
-    update exam_items set BILLING_INDICATOR  =1 , rcpt_no=v_rcpt_no where APPOINTS_ID=v_appoints_Id ;
+    update exam_items set BILLING_INDICATOR  =1 , rcpt_no=i_rcpt_no where APPOINTS_ID=v_appoints_Id ;
      /*更新 exam_appoints 预约记录*/
     update exam_appoints set costs=v_costs,charges=v_charges where id=v_appoints_Id ;
 
      else if t_costs.order_class  ='C' then
 
     /*更新 lab_test_items*/
-    update lab_test_items set BILLING_INDICATOR =1 ,rcpt_no=v_rcpt_no where LAB_MASTER=v_appoints_Id;
+    update lab_test_items set BILLING_INDICATOR =1 ,rcpt_no=i_rcpt_no where LAB_MASTER=v_appoints_Id;
     /*更新 lab_test_master*/
     update lab_test_master set costs=v_costs,charges=v_charges ,BILLING_INDICATOR =1 where id=v_appoints_Id;
 
@@ -143,7 +135,7 @@ create or replace procedure p_fin_outcalc
          sys_guid() ,
          t_costs.visit_date,
          t_costs.visit_no,
-         v_rcpt_no,
+         i_rcpt_no,
          t_costs.item_no,
          t_costs.item_class,
          'R',
@@ -198,7 +190,7 @@ create or replace procedure p_fin_outcalc
       printed_rcpt_no
     ) VALUES (
       sys_guid() ,
-      v_rcpt_no,
+      i_rcpt_no,
       v_clinic_master.id,
       v_clinic_master.name,
       v_clinic_master.name_phonetic,
@@ -217,7 +209,7 @@ create or replace procedure p_fin_outcalc
       '');
       /*更新 clinic_master*/
       update clinic_master set REGISTRATION_STATUS =1 where id=v_outp_orders.clinic_id;
-
+      
     if v_order_class='A' then /*只有是药品时执行该语句*/
    /*处方代发药主表  drug_presc_master_temp  插入数据*/
    INSERT INTO drug_presc_master_temp (
@@ -252,7 +244,7 @@ create or replace procedure p_fin_outcalc
      1,/*剂数：从处方数据中取，还未定义变量*/
      v_outp_orders.ordered_by,/*开单科室 --数据未知*/
      v_outp_orders.doctor,/*开单医生，*/
-     v_rcpt_no,
+     i_rcpt_no,
      '00XX',/*当前登录人*/
      '',/*处方属性，从处方明细中取出*/
      v_clinic_master.clinic_no,
@@ -269,20 +261,19 @@ create or replace procedure p_fin_outcalc
       refunded_amount
     ) VALUES (
     sys_guid() ,
-    v_rcpt_no,
+    i_rcpt_no,
     '',
     '现金',
     v_costs,
     0.0
     );
-    end loop;/*id 循环结束*/
+    end loop;/*循环 json 对象结束 循环结束*/
 
-  end if;
 
-  O_SCCE_FLAG :=0;
+  O_SCCE_FLAG :='1';
 
   EXCEPTION
   WHEN OTHERS THEN
-            O_SCCE_FLAG :=-1;
+            O_SCCE_FLAG :='-1';
 
 end;

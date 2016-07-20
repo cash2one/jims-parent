@@ -7,6 +7,8 @@ import com.jims.common.utils.CustomDateDeSerializer; import com.jims.common.util
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
+import java.beans.Transient;
+import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +30,8 @@ public class PersionServiceList extends DataEntity<PersionServiceList> {
 	private String startDate;		// 服务开始时间
 	private String endDate;		// 服务结束时间
 	private String upFlag;		// 一个状态：当是0，表示新增，当是1，表示修改
+	private byte[] serviceDescription;		// 服务描述
+	private String tranServiceDescription;
 
     private List<PersionServiceList> serviceList;  // 机构定制的服务
 
@@ -130,5 +134,21 @@ public class PersionServiceList extends DataEntity<PersionServiceList> {
 
 	public void setUpFlag(String upFlag) {
 		this.upFlag = upFlag;
+	}
+
+	public byte[] getServiceDescription() {
+		return serviceDescription;
+	}
+
+	public void setServiceDescription(byte[] serviceDescription) {
+		this.serviceDescription = serviceDescription;
+	}
+	@Transient
+	public String getTranServiceDescription() {
+		return tranServiceDescription;
+	}
+
+	public void setTranServiceDescription(String tranServiceDescription) {
+		this.tranServiceDescription = tranServiceDescription;
 	}
 }
