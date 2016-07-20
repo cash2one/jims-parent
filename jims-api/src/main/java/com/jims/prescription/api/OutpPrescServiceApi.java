@@ -1,5 +1,6 @@
 package com.jims.prescription.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.prescription.entity.OutpPresc;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface OutpPrescServiceApi {
      * @param outpPresc
      * @return
      */
-    public String save(OutpPresc outpPresc);
+    public String save(OutpPresc outpPresc,LoginInfo loginInfo);
 
     /**
      * 删除方法
