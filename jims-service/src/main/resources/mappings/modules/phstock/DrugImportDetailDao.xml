@@ -5,7 +5,7 @@
 	<sql id="drugImportDetailColumns">
 		a.document_no AS "documentNo",
 		a.item_no AS "itemNo",
-		a.drug_code AS "drugCode",
+		a.drug_code AS " ",
 		a.drug_spec AS "drugSpec",
 		a.units AS "units",
 		a.batch_no AS "batchNo",
@@ -224,5 +224,29 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+
+
+    <select id="findDetailList" resultType="DrugImportDetail">
+        SELECT
+        <include refid="drugImportDetailColumns"/>,
+        b.supplier,drugDict.drug_name,drugDict.drug_code,drugDict.drug_form,nvl(invoice_no,1) rec_status,e.quantity AS currentQuantity
+        FROM drug_import_detail a,drug_supplier_catalog b,drug_dict drugDict,drug_import_master d,drug_stock e
+        WHERE (d.document_no=a.document_no) and
+        ( a.drug_code = drugDict.drug_code ) AND
+        ( a.drug_spec= drugDict.drug_spec ) AND
+        ( a.firm_id = b.supplier_id(+) ) AND
+        d.storage=e.storage and
+        (a.drug_code=e.drug_code and a.drug_spec=e.drug_spec and a.firm_id=e.firm_id and a.package_spec=e.package_spec and a.batch_no=e.batch_no
+        and a.org_id =d.org_id and d.org_id=e.org_id) and
+        a.document_no = #{documentNo}
+        group by a.document_no ,a.item_no ,a.drug_code ,a.drug_spec ,a.units ,a.batch_no ,a.expire_date ,a.firm_id,a.purchase_price ,
+        a.discount ,a.retail_price ,a.package_spec ,a.quantity ,a.package_units ,a.sub_package_1 ,a.sub_package_units_1 ,a.sub_package_spec_1 ,
+        a.sub_package_2 ,a.sub_package_units_2 ,a.sub_package_spec_2 ,a.invoice_no ,a.invoice_date ,a.trade_price ,a.inventory ,a.memo ,
+        a.order_batch ,a.voucher_no ,a.tender_no ,a.invoice_sign ,a.origin ,a.production_date,a.produce_date,a.id,a.org_id ,a.remarks ,
+        a.update_by ,a.create_by ,a.update_date ,a.del_flag ,a.create_date ,b.supplier,drugDict.drug_name,drugDict.drug_code,
+        drugDict.drug_form,nvl(invoice_no, 1),e.quantity
+
+    </select>
 	
 </mapper>

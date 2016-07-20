@@ -14,4 +14,11 @@ import java.util.List;
 @MyBatisDao
 public interface DrugExportMasterDao extends CrudDao<DrugExportMaster> {
 
+    /**
+     * 查询出库记录
+     * @return
+     */
+    public List<DrugExportMaster> findMasterList(String orgId,String subStorage,String startImportDate,String stopImportDate,String storageCode);
+
+
 }

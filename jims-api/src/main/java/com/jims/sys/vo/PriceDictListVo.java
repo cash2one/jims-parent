@@ -28,6 +28,25 @@ public class PriceDictListVo implements Serializable {
     private String clinicDict = "0"; //诊疗标识
     private String orgId;       //所属组织机构
 
+    private String stopDate;    //停用日期
+    private String id;          //价表主键ID
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getStopDate() {
+        return stopDate;
+    }
+
+    public void setStopDate(String stopDate) {
+        this.stopDate = stopDate;
+    }
+
     public String getOrgId() {
         return orgId;
     }
