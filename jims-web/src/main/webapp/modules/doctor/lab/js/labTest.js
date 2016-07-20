@@ -268,7 +268,6 @@ function look() {
 //弹出选择项目窗口
 function SendProduct(name) {
     var item={};
-    //item.orgId="";
     item.dictType="lab_item_view";
     var inputParamVos=new Array();
     var InputParamVo={};
