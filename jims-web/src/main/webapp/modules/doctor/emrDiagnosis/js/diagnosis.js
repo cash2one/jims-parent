@@ -114,7 +114,12 @@ $(function(){
                 if (rowNum1 != -1) {
                     $("#zhenduan").datagrid("endEdit", rowNum1);
                 }
-                saveDiagnosis();
+                if(!$("#zhenduan").datagrid('validateRow', rowNum1)){
+                    $.messager.alert('提示',"请填写完本行数据后，再保存", "error");
+                    return false
+                }else{
+                    saveDiagnosis();
+                }
             }
           }
 

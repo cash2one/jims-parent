@@ -3,8 +3,6 @@ var patientId = parent.clinicMaster.patientId;
 
 
 function onloadMethod() {
-
-
         $.ajax({
             'type': 'post',
             'url': basePath+'/patHospitalNotice/get',
@@ -13,8 +11,14 @@ function onloadMethod() {
             'dataType': 'json',
             'success': function(data){
                 if(data==null){
+                    var sex;
+                    for (var i = 0; i < setData.length; i++) {
+                        if (setData[i].value == parent.clinicMaster.sex) {
+                            sex = setData[i].label;
+                        }
+                    }
                     $("#name").textbox("setValue",parent.clinicMaster.name);
-                    $("#sexId").combobox("setValue",sexFormatter(parent.clinicMaster.sex,'',''));
+                    $("#sexId").combobox("setValue",sex);
                     $("#age").textbox("setValue",parent.clinicMaster.age);
                     $("#patientId").val(patientId);
                     $("#clinicId").val(parent.clinicMaster.id);
