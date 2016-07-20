@@ -46,6 +46,8 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
     private String inOrOutFlag;//是否住院
 	private List<EmrDiagnosis> diagnosisList;
 	private Integer visitId;
+	private String orgId;
+
 	
 	public ElectronEnterHospital() {
 		super();
@@ -297,5 +299,13 @@ public class ElectronEnterHospital extends DataEntity<ElectronEnterHospital> {
 
 	public void setVisitId(Integer visitId) {
 		this.visitId = visitId;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 }
