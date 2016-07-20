@@ -43,6 +43,13 @@ public interface BloodApplyServiceApi {
      * @version 2016/4/20
      */
     public String saveHosBloodApply(BloodApply bloodApply);
+
+    /**
+     * 删除门诊用血记录
+     * @param ids
+     * @return
+     */
+    public String deleteBloodApply(String ids);
     /**
      * 删除
      * @author qinlongxin

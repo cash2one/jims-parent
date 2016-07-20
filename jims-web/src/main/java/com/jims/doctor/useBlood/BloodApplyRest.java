@@ -152,7 +152,7 @@ public class BloodApplyRest {
     @POST
     public StringData del(String ids) {
         StringData stringData = new StringData();
-        String num = bloodApplyServiceApi.delete(ids);
+        String num = bloodApplyServiceApi.deleteBloodApply(ids);
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
