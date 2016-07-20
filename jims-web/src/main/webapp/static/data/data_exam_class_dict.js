@@ -26,8 +26,8 @@ function examClassFormatter(value,rowData,rowIndex){
         return;
     }
     for(var i = 0; i<examClass.length; i++){
-        if(examClass[i].value == value){
-            return examClass[i].label;
+        if(examClass[i].id == value){
+            return examClass[i].examClassName;
         }
     }
 }
