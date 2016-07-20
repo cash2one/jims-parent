@@ -34,6 +34,9 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
     @Autowired
     private DrugExportMasterDao exportMasterDao;
 
+    @Autowired
+    private DrugImportDetailDao drugImportDetailDao;
+
     /**
      * 保存药品出库主表数据
      * @param entity
@@ -156,5 +159,15 @@ public class DrugImportBo extends CrudImplService<DrugImportDetailDao, DrugImpor
      */
     public void update(DrugImportMaster drugImportMaster) {
         masterDao.update(drugImportMaster);
+    }
+
+
+    /**
+     * 查询入库详情
+     * @param documentNo
+     * @return
+     */
+    public List<DrugImportDetail> findDetailList(String documentNo) {
+        return drugImportDetailDao.findDetailList(documentNo);
     }
 }

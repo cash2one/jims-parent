@@ -10,4 +10,13 @@ import com.jims.sys.entity.PerformDept;
  */
 @MyBatisDao
 public interface PerformDeptDao extends CrudDao<PerformDept> {
+
+    /**
+     * 根据组织机构ID和项目代码查询执行科室信息
+     * @param orgId  组织机构ID
+     * @param itemCode  项目代码
+     * @return
+     * @author fengyuguang
+     */
+    public PerformDept getByOrgIdItemCode(String orgId,String itemCode);
 }

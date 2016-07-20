@@ -1,6 +1,5 @@
 var examClass = [] // 检查类别
 var examClassData = {};
-examClassData.orgId="";
 examClassData.dictType="EXAM_CLASS_DICT";
 
 $.ajax({

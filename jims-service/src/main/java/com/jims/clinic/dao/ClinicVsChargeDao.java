@@ -17,4 +17,13 @@ public interface ClinicVsChargeDao extends CrudDao<ClinicVsCharge> {
      * @return
      */
     public int deleteNoId(ClinicVsCharge entity);
+
+    /**
+     * 根据组织机构ID、项目代码查询诊疗项目与价表对照
+     * @param orgId  组织机构ID
+     * @param itemCode  项目代码
+     * @return
+     * @author fengyuguang
+     */
+    public ClinicVsCharge findByOrgIdItemCode(String orgId, String itemCode);
 }

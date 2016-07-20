@@ -1,6 +1,5 @@
 var herbalDrugData = [];
 var herbalDrug={};
-herbalDrug.orgId="1";
 herbalDrug.itemClass="B";
 herbalDrug.dictType="v_drug_info_mz";
 herbalDrug.inputParamVos=inputParamVos;
@@ -23,7 +22,6 @@ $.ajax({
 //药品自动补全
 function comboGridCompletingHerbalDrug(q,id){
     var drugNameData={};
-    drugNameData.orgId="1";
     drugNameData.itemClass="B";
     drugNameData.dictType="v_drug_info_mz"
     var inputParamVos=new Array();
