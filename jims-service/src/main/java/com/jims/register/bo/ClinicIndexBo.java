@@ -29,11 +29,12 @@ public class ClinicIndexBo extends CrudImplService<ClinicIndexDao, ClinicIndex> 
      * @param clinicIndexList
      * @return
      */
-    public String saveList(List<ClinicIndex> clinicIndexList) {
+    public String saveList(List<ClinicIndex> clinicIndexList,String orgId) {
         String num="";
         if(clinicIndexList!=null && clinicIndexList.size()>0){
             for(int i=0;i<clinicIndexList.size();i++){
                 ClinicIndex clinicIndex=clinicIndexList.get(i);
+                clinicIndex.setOrgId(orgId);
                num =save(clinicIndex);
             }
         }

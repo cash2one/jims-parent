@@ -3,12 +3,15 @@ package com.jims.register;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.api.ClinicAppointsServiceApi;
 import com.jims.register.entity.ClinicAppoints;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,14 +77,16 @@ public class ClinicAppointsRest {
 
     /**
      * 预约确认
-     * @param id
+     * @param clinicAppoints
      * @return
+     * @author zhaoning
      */
     @POST
     @Path("saveAppointReg")
-    public StringData saveAppointReg(ClinicAppoints clinicAppoints){
+    public StringData saveAppointReg(ClinicAppoints clinicAppoints,@Context HttpServletRequest request){
+        String orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();
         StringData data=new StringData();
-        data.setCode(clinicAppointsServiceApi.saveAppointReg(clinicAppoints.getId()));
+        data.setCode(clinicAppointsServiceApi.saveAppointReg(clinicAppoints.getId(),orgId));
         return data;
     }
 

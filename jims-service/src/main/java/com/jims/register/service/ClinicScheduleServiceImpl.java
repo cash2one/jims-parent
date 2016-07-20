@@ -40,8 +40,8 @@ public class ClinicScheduleServiceImpl  implements ClinicScheduleApi {
     }
 
     @Override
-    public String saveList(List<ClinicSchedule> list, String clinicIndexId) {
-        return clinicScheduleBo.saveList(list,clinicIndexId);
+    public String saveList(List<ClinicSchedule> list, String clinicIndexId,String orgId) {
+        return clinicScheduleBo.saveList(list,clinicIndexId,orgId);
     }
 
     @Override
