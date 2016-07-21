@@ -69,15 +69,29 @@ $(function () {
     }
     loadDept();
 
-//弹出框的下拉框
-    $('#deptCode').combobox({
-        editable:false,
-        delay: 300,
-        mode: 'remote',
+////弹出框的下拉框
+//    $('#deptCode').combobox({
+//        editable:false,
+//        delay: 300,
+//        mode: 'remote',
+//        method: 'GET',
+//        url: '/service/dept-dict/list?orgId='+orgId,
+//        valueField: 'deptCode',
+//        textField: 'deptName'
+//    });
+
+    $('#deptCode').combogrid({
+        //width: 176,
+        idField: 'deptCode',
+        textField: 'deptName',
         method: 'GET',
-        url: '/service/dept-dict/list?orgId='+orgId,
-        valueField: 'deptCode',
-        textField: 'deptName'
+        mode: 'remote',
+        url: basePath + "/dept-dict/findListWithFilter?orgId=" + config.org_Id,
+        columns: [[
+            {field: 'deptCode', title: '科室代码', width: 64, align: "center"},
+            {field: 'deptName', title: '科室名称', width: 110, halign: "center", align: "left"},
+            //{field: 'inputCode', title: '拼音码', width: 60},
+        ]]
     });
 
 
@@ -99,7 +113,7 @@ $(function () {
         $("#id").textbox("setValue","");
         $("#classCode").textbox("setValue","");
         $("#className").textbox("setValue","");
-        $('#deptCode').combobox('setValue',"");
+        $('#deptCode').combogrid('setValue',"");
     }
 
     //删除按钮
@@ -133,7 +147,7 @@ $(function () {
         labItemClassDict.id = $("#id").textbox("getValue")
         labItemClassDict.classCode = $("#classCode").textbox("getValue")
         labItemClassDict.className = $("#className").textbox("getValue")
-        labItemClassDict.deptCode = $("#deptCode").combobox('getValue');
+        labItemClassDict.deptCode = $("#deptCode").combogrid('getValue');
         labItemClassDict.orgId=orgId;
         if(classCodeTest &&classNameTest  && labItemClassDict.deptCode.length>0 && labItemClassDict.classCode.length>0 && labItemClassDict.className.length>0 ){
 
@@ -166,7 +180,7 @@ $(function () {
             $("#id").textbox("setValue",row.id);
             $("#classCode").textbox("setValue",row.classCode);
             $("#className").textbox("setValue",row.className);
-            $('#deptCode').combobox('setValue',row.deptCode);
+            $('#deptCode').combogrid('setValue',row.deptCode);
             $('#dlg').dialog('open').dialog('center').dialog('setTitle', '修改类别');
         } else {
             $.messager.alert('系统提示', "请选择要修改的行", 'info');
@@ -245,7 +259,7 @@ $(function () {
         }
     });
 
-    $("#deptCode").combobox({
+    $("#deptCode").combogrid({
         onChange:function(value){
             $("#deptCodeChange").html("");
         }
