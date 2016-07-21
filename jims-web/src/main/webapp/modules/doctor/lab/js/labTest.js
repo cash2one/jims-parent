@@ -239,26 +239,45 @@ function save(){
     //formSubmitInput();
     //加载值
     //$("#items").datagrid('endEdit', editRow);
-    var  rows=$('#items').datagrid('getRows');
-    var formJson=fromJson('form');
-    formJson = formJson.substring(0, formJson.length - 1);
-    var tableJson=JSON.stringify(rows);
-    var submitJson=formJson+",\"list\":"+tableJson+"}";
-    $.postJSON(basePath+'/labtest/save',submitJson,function(data){
-        if(data.data=='success'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#list_data').datagrid('load');
-            $('#list_data').datagrid('clearChecked');
-            clearForm();
+    $.ajax({
+        //添加
+        url: basePath+"/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId":clinicId},
+        success: function (data) {
+            if (data!= ""&& data!=null) {
+                var  rows=$('#items').datagrid('getRows');
+                var formJson=fromJson('form');
+                formJson = formJson.substring(0, formJson.length - 1);
+                var tableJson=JSON.stringify(rows);
+                if(rows != "" && rows != null){
+                    var submitJson=formJson+",\"list\":"+tableJson+"}";
+                    $.postJSON(basePath+'/labtest/save',submitJson,function(data){
+                        if(data.data=='success'){
+                            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+                            $('#list_data').datagrid('load');
+                            $('#list_data').datagrid('clearChecked');
+                            clearForm();
 
-        }else{
-            $.messager.alert('提示',"保存失败", "error");
-            clearForm();
+                        }else{
+                            $.messager.alert('提示',"保存失败", "error");
+                            clearForm();
+                        }
+                    },function(data){
+                        $.messager.alert('提示',"保存失败", "error");
+                        clearForm();
+                    })
+                }else {
+                    $.messager.alert("提示信息", "请选择需要的检验项目");
+                }
+
+            }else {
+                $.messager.alert("提示信息", "病人没有诊断信息，不能开出检验申请");
+            }
         }
-    },function(data){
-        $.messager.alert('提示',"保存失败", "error");
-        clearForm();
     })
+
 };
 
 function look() {
