@@ -32,12 +32,13 @@ public class ClinicScheduleBo extends CrudImplService<ClinicScheduleDao, ClinicS
      * @param list
      * @return
      */
-    public String saveList(List<ClinicSchedule> list,String clinicIndexId) {
+    public String saveList(List<ClinicSchedule> list,String clinicIndexId,String orgId) {
         String num="";
         if(list!=null && list.size()>0){
             for(int i=0;i<list.size();i++){
                 ClinicSchedule clinicSchedule=list.get(i);
                 clinicSchedule.setClinicLabel(clinicIndexId);
+                clinicSchedule.setOrgId(orgId);
                 num= save(clinicSchedule);
             }
             dao.batchDel(list,clinicIndexId);

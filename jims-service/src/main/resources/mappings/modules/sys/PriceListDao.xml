@@ -69,7 +69,7 @@
         FROM price_list a
         WHERE a.item_class = #{0}
         AND a.org_id = #{1}
-        AND (a.stop_date is NULL or(a.stop_date is not null and a.stop_date &lt; sysdate))
+        AND a.stop_date is NULL
     </select>
 
     <select id="getByInputCode" resultType="PriceList">
@@ -78,7 +78,7 @@
         FROM price_list a
         WHERE upper(a.input_code) like upper(#{0})||'%'
         AND a.org_id = #{1}
-        AND (a.stop_date is NULL or(a.stop_date is not null and a.stop_date &lt; sysdate))
+        AND a.stop_date is NULL
     </select>
 
     <select id="findList" resultType="PriceList">
@@ -329,7 +329,8 @@
 
     <select id="list" resultType="com.jims.sys.vo.PriceListVo">
         SELECT
-        b.label AS "label"
+        b.label AS "label",
+        b.value AS "value"
         FROM sys_dict b
         WHERE  b.type='BILL_ITEM_CLASS_DICT'
     </select>
@@ -347,6 +348,17 @@
         AND b.org_id = #{orgId}
         AND c.org_id = b.org_id)
         AND a.org_id = #{orgId}
+    </select>
+
+    <select id="priceNotice" resultType="PriceList">
+        SELECT
+        <include refid="priceListColumns"/>
+        FROM price_list a
+        WHERE a.item_class =#{0}
+        and  a.start_date >=to_date(#{1},'yyyy/mm/dd hh24:mi:ss')
+        and to_date(#{2},'yyyy/mm/dd hh24:mi:ss')>=a.start_date
+        and a.stop_date is NULL
+        and a.org_id =#{3}
     </select>
 
 </mapper>

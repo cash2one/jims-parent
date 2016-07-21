@@ -15,6 +15,7 @@ public class ClinicTypeFee extends DataEntity<ClinicTypeFee> {
 	
 	private static final long serialVersionUID = 1L;
 	private String typeId;		// 号类外键
+    private String orgId;		// 所属组织
 	private String chargeItem;		// 费用类型：挂号费、诊疗费、其它费；来自字典表
 	private String priceItem;		// 价表项目
 	private Double price;		// 价格（空，可以用于查询）
@@ -71,4 +72,12 @@ public class ClinicTypeFee extends DataEntity<ClinicTypeFee> {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
 }

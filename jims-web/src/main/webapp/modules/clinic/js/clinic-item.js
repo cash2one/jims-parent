@@ -166,7 +166,6 @@ $(function(){
                 return format(longArr,value);
             }},
             { field: 'inputCode', title: '拼音码',align : "center", width: 60 },
-            { field: 'inputCodeWb', title: '五笔码',align : "center", width: 60 },
             { field: 'itemClass', title: '项目分类',align : "center", hidden:true},
             { field: 'itemStatus', title: '', hidden:true},
             { field: 'memo', hidden:true},
@@ -323,8 +322,7 @@ $(function(){
                     }
                 }
             }},
-            { field: 'inputCode', title: '拼音码', width:50,align:'center'},
-            { field: 'inputCodeWb', title: '五笔码', width:50,align:'center'}
+            { field: 'inputCode', title: '拼音码', width:50,align:'center'}
         ]],
         onClickCell:onClickCell_name,
         onBeforeSelect: function(){
@@ -591,13 +589,11 @@ $(function(){
             ,'itemClass':$('#item_class').combobox('getValue')
             ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').textbox('getValue'))
             ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
-            ,'orgId' : config.org_Id
-            ,'inputCodeWb': ''}]
+            ,'orgId' : config.org_Id}]
         var pro_obj = {'itemClass':$('#item_class').combobox('getValue')
             ,'itemCode':$('#item_code').textbox('getValue')
             ,'itemName':$('#item_name').textbox('getValue')
             ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').textbox('getValue'))
-            ,'inputCodeWb': ''
             ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
             ,'orgId' : config.org_Id
             ,'saveNameList':new_name_json

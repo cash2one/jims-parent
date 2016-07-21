@@ -69,7 +69,7 @@ function onloadMethod(){
                 type:"POST",
                 url: basePath+"/labtest/getItem",
                 contentType: 'application/json',
-                data: testNo=rowData.id,
+                data: labMaster=rowData.id,
                 async:false,
                 dataType: 'json',
                 success:function(data){
@@ -136,9 +136,15 @@ function onloadMethod(){
 //新增检验
 function add(){
     clearForm();
+    $('#labItemClass').removeAttr("disabled");
+    $('#performedBy').removeAttr("disabled");
+    $('#specimen').removeAttr("disabled");
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
+    $("#name").val(parent.clinicMaster.name);
+    $("#sex").val(parent.clinicMaster.sex);
+    $("#chargeType").val(parent.clinicMaster.chargeType);
 
     $.ajax({
         //添加
@@ -168,7 +174,33 @@ function add(){
                $("#performedById").val(n.dept_code);
             }
         })
-
+    /**
+     * 送检医师
+     */
+        $("#orderingProvider").combogrid({
+            data: doctorName,
+            valueField: 'id',
+            textField: 'name',
+            columns: [[
+                {field: 'name', title: '医生姓名', width: 70},
+                {field: 'dept_name', title: '科室', width: 120},
+                {field: 'title', title: '职称', width: 70}
+            ]], keyHandler: {
+                up: function () {
+                },
+                down: function () {
+                },
+                enter: function () {
+                },
+                query: function (q) {
+                    comboGridCompleting(q, 'orderingProvider');
+                }
+            },
+            onClickRow: function (rowIndex, rowData) {
+                $("#orderingProvider").combogrid('setText', rowData.name);
+                $("#orderingProviderId").val(rowData.id);
+            }
+        })
 }
 
 function loadTreeGrid() {
@@ -236,7 +268,6 @@ function look() {
 //弹出选择项目窗口
 function SendProduct(name) {
     var item={};
-    //item.orgId="";
     item.dictType="lab_item_view";
     var inputParamVos=new Array();
     var InputParamVo={};

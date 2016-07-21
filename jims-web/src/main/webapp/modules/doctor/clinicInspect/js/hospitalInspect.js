@@ -15,7 +15,10 @@ function diagnosisTypeClinicformatter(value) {
 function onloadMethods() {
     $("#patientId").val(patientId);
     $("#visitId").val(visitId);
-
+    $("#name").val(parent.clinicMaster.name);
+    $("#sex").val(parent.clinicMaster.sex);
+    $("#chargeType").val(parent.clinicMaster.chargeType);
+    $("#identity").val(parent.clinicMaster.identity);
 
     $("#clinDiag").combogrid({
         data:icdAllData,

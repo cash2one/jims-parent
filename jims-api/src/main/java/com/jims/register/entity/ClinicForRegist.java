@@ -17,6 +17,7 @@ import java.util.Date;
 public class ClinicForRegist extends DataEntity<ClinicForRegist> {
 	
 	private static final long serialVersionUID = 1L;
+	private String orgId;//机构Id
 	private Date clinicDate;		// 门诊日期
 	private String clinicLabel;		// 号别`
 	private String timeDesc;		// 门诊时间描述
@@ -183,4 +184,12 @@ public class ClinicForRegist extends DataEntity<ClinicForRegist> {
     public void setPrice(String price) {
         this.price = price;
     }
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 }

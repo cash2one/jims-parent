@@ -32,14 +32,17 @@ public class ClinicTypesSettingRest {
     private ClinicTypeFeeServiceApi clinicTypeFeeServiceApi;
 
     /**
-     * 获取号类集合
+     * 获取号类集合(根据机构Id)
      * @return
      * @author zhaoning
      */
     @Path("findList")
     @GET
-    public List<ClinicTypeSetting> findList(){
-         List<ClinicTypeSetting> list=clinicTypeSettingServiceApi.findList(new ClinicTypeSetting());
+    public List<ClinicTypeSetting> findList(@Context HttpServletRequest request){
+         String orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();
+         ClinicTypeSetting clinicTypeSetting=new ClinicTypeSetting();
+         clinicTypeSetting.setOrgId(orgId);
+         List<ClinicTypeSetting> list=clinicTypeSettingServiceApi.findList(clinicTypeSetting);
         return list;
     }
 
@@ -52,7 +55,9 @@ public class ClinicTypesSettingRest {
     @Path("itemList")
     @GET
     public List<ClinicTypeFee> findListItem(@QueryParam("typeId")String typeId){
+
          ClinicTypeFee clinicTypeFee = new ClinicTypeFee();
+
          List<ClinicTypeFee> list = new ArrayList<ClinicTypeFee>();
         if(typeId!=null && !typeId.equals("")){
             clinicTypeFee.setTypeId(typeId);
@@ -71,7 +76,7 @@ public class ClinicTypesSettingRest {
     public StringData saveItem(List<ClinicTypeFee> clinicTypeFees,@QueryParam("type")String type,@QueryParam("clinicTypeId")String clinicTypeId,@Context HttpServletRequest request){
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data=new StringData();
-        data.setCode(clinicTypeFeeServiceApi.saveList(clinicTypeFees,type,clinicTypeId));
+        data.setCode(clinicTypeFeeServiceApi.saveList(clinicTypeFees,type,clinicTypeId,loginInfo));
         return data;
     }
 

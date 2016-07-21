@@ -3,13 +3,17 @@ package com.jims.phstock;
 import com.alibaba.dubbo.config.annotation.Reference;
 
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.PinYin2Abbreviation;
+import com.jims.common.vo.LoginInfo;
 import com.jims.exam.vo.ExamRptPatternVo;
 import com.jims.phstock.api.DrugSupplierCatalogApi;
 import com.jims.phstock.entity.DrugSupplierCatalog;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 
 
 import java.util.ArrayList;
@@ -29,13 +33,14 @@ public class DrugSupplierCatalogRest {
     /**
      * 查询全部
      *
-     * @param orgId
+     * @param
      * @return
      */
     @Path("list")
     @GET
-    public List<DrugSupplierCatalog> list(@QueryParam("orgId") String orgId) {
-        return drugSupplierCatalogApi.findList(orgId);
+    public List<DrugSupplierCatalog> list(@Context HttpServletRequest request) {
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        return drugSupplierCatalogApi.findList(loginInfo.getOrgId());
     }
 
     /**
@@ -155,5 +160,18 @@ public class DrugSupplierCatalogRest {
         stringData.setData("success");
         return stringData;
     }
+
+    /**
+     * 查询全部单位
+     * @param orgId
+     * @return
+     */
+    @Path("list-supplier")
+    @GET
+    public List<DrugSupplierCatalog> findBySupplier(@QueryParam("orgId") String orgId) {
+        return drugSupplierCatalogApi.findBySupplier(orgId);
+    }
+
+
 
 }

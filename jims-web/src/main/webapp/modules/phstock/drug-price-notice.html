@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>调价通知单</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" href="/static/easyui/css/color.css">
+    <link rel="stylesheet" href="/static/easyui/css/icon.css">
+</head>
+<body>
+<table id="dg" class="easyui-datagrid">
+</table>
+
+<div id="tb" style="padding:10px 5px;">
+    类别：<input id="label" editable="false" >
+    调价日期 <input id="startDate" editable="false" class="easyui-datetimebox"  required="false">
+    至 <input id="stopDate" editable="false" class="easyui-datetimebox"  required="false">
+    <a href="#" id="searchBtn" class="easyui-linkbutton" iconCls="icon-search">查询</a>&nbsp;&nbsp;
+    <a href="#" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">打印</a>
+</div>
+
+<script type="text/javascript" src="/static/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/head.js"></script>
+<script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/static/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/modules/phstock/js/drug-price-notice.js"></script>
+</body>
+</html>

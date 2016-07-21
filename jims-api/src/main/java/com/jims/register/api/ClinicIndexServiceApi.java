@@ -1,6 +1,7 @@
 package com.jims.register.api;
 
 import com.jims.common.persistence.Page;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.entity.ClinicIndex;
 
@@ -35,7 +36,7 @@ public interface ClinicIndexServiceApi {
      * @param clinicIndexList
      * @return
      */
-    public String saveList(List<ClinicIndex> clinicIndexList);
+    public String saveList(List<ClinicIndex> clinicIndexList,String orgId);
 
     /**
      * 删除 号别

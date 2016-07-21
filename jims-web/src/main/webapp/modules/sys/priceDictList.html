@@ -17,13 +17,9 @@
         <div id="tb" style="padding:5px;">
             <div>
                 类别
-                <select id="item_class" class="easyui-combobox" panelHeight="auto" style="width:100px;">
-
-                </select>
-                <input type="radio" name="adminFlag" value="0" checked="checked">拼音码</input>
-                <input type="radio" name="adminFlag" value="1">五笔码</input>
+                <select id="item_class" class="easyui-combobox" panelHeight="auto" style="width:100px;"></select>
                 <label style="margin-left: 20px" for="code_gps">拼音码定位</label>
-                <input id="code_gps" class="easyui-validatebox" onblur="load_data();" style="width:100px">
+                <input id="code_gps" class="easyui-validatebox" onblur="load_data();" style="width:100px;height: 19px">
 
             </div>
         </div>
@@ -115,37 +111,5 @@
 
     </div>
    </div>
-    <div id="add_pro_win">
-        <form id="pro_form" method="post">
-            <table cellpadding="4">
-                <tr>
-                    <td>项目代码:</td>
-                    <td>
-                        <input  name="itemCode"
-                               class="easyui-validatebox validatebox-text validatebox-invalid"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>项目名称:</td>
-                    <td><input name="itemName"
-                               class="easyui-validatebox validatebox-text validatebox-invalid"/></td>
-                </tr>
-                <tr>
-                    <td>项目规格:</td>
-                    <td><input name="itemSpec"
-                               class="easyui-validatebox validatebox-text validatebox-invalid"/></td>
-                </tr>
-                <tr>
-                    <td>拼音码:</td>
-                    <td><input name="inputCode"
-                               class="easyui-validatebox validatebox-text validatebox-invalid"/></td>
-                </tr>
-            </table>
-        </form>
-        <div style="text-align:center;padding:5px">
-            <a href="javascript:void(0)" class="easyui-linkbutton" id="yes_pro_form">确定</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" id="cancle_pro_form">取消</a>
-        </div>
-    </div>
 </body>
 </html>

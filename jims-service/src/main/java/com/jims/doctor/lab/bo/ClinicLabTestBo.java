@@ -56,22 +56,20 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
         ClinicMaster clinicMaster=clinicMasterDao.get(labTestMaster.getClinicId());
         labTestMaster.preInsert();
         labTestMaster.setOrgId(clinicMaster.getOrgId());
-        //申请医生(暂无)
-        labTestMaster.setOrderingProvider("");
-        //申请科室(暂无)
-        labTestMaster.setOrderingDept("");
          //申请状态
          labTestMaster.setStatus(labTestMaster.LAB_STATUS_APPLY);
         //结果状态
         labTestMaster.setResultStatus(labTestMaster.LAB_RESULTSTATUS_APPLY);
-
+        //门诊或住院
+        labTestMaster.setInOrOutFlag(labTestMaster.LAB_STATUS_APPLY);
         //申请序号
         labTestMaster.setTestNo(NumberUtils.getClinicLab(clinicMaster.getId()));
         //打印标记
         labTestMaster.setPrintIndicator(labTestMaster.PRINTINDICATOR_NOT);
         //申请时间
         labTestMaster.setRequestedDateTime(new Date());
-
+        OutpTreatRec outpTreatRec = new OutpTreatRec();
+        outpTreatRec.setPerformedBy(labTestMaster.getPerformedBy());
         List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
         List<LabTestItems> labTestItemsList = labTestMaster.getList();
         if (labTestItemsList.size() > 0) {
@@ -88,7 +86,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
                 labTestItemsDao.insert(labTestItems);
                 clinicItemDictList.add(clinicItemDict);
             }
-            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId());
+            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId(),outpTreatRec);
             num = labTestMasterDao.insert(labTestMaster);
             return num + "";
         }
@@ -112,7 +110,6 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
                 outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
                 outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
                 num = labTestMasterDao.deleteLabTestMaster(id[j]);
-
             }
         }catch(Exception e){
             return num+"";

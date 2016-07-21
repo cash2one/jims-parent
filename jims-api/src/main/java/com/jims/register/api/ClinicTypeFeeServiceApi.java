@@ -1,5 +1,6 @@
 package com.jims.register.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.register.entity.ClinicTypeFee;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface ClinicTypeFeeServiceApi {
      * @param clinicTypeFeeList
      * @return
      */
-    public String saveList (List<ClinicTypeFee> clinicTypeFeeList,String type,String ClinicTypeId);
+    public String saveList (List<ClinicTypeFee> clinicTypeFeeList,String type,String ClinicTypeId,LoginInfo loginInfo);
 
     /**
      * 删除数据

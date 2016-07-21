@@ -52,4 +52,11 @@ public interface DrugSupplierCatalogDao extends CrudDao<DrugSupplierCatalog> {
      * @author wei
      */
     public List<DrugSupplierCatalog> listDrugSupplierCatalogBySupplierType(String orgId, String supplierType);
+
+    /**
+     *查询全部单位
+     * @param orgId
+     * @return
+     */
+    public List<DrugSupplierCatalog> findBySupplier(String orgId);
 }

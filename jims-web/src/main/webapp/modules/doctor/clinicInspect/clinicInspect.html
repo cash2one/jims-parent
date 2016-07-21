@@ -6,10 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">  
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/static/easyui/js/datagrid-detailview.js"></script>
     <script type="text/javascript" src="/modules/doctor/clinicInspect/js/clinicInspect.js"></script>
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
     <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
-    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_exam_class_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_diagnosis_type.js"></script>
 </head>
 <body  class="easyui-layout" onload="onloadMethod()">
@@ -21,34 +22,37 @@
         </table>
     </div>
 
-    <div id="dlg" data-options="region:'center',iconCls:'icon-ok'">
+    <div id="dlg" data-options="region:'center',iconCls:'icon-ok'" style="height:99%;">
         <form id="clinicInspectForm" method="post">
             <input type="hidden" id="id" name="id" value="">
             <input type="hidden" id="clinicId" name="clinicId" value="">
             <input type="hidden" id="patientId" name="patientId" value="">
-            <input type="hidden" id="inOrOut" name="inOrOut" value="0">
+            <input type="hidden"  id="name" name="name" value="">
+            <input type="hidden"  id="sex" name="sex" value="">
+            <input type="hidden"  id="chargeType" name="chargeType" value="">
+            <input type="hidden"  id="identity" name="identity" value="">
             <div class="fitem fitem_pop">
                 <div class="fitem">
                     <label>
                         类别：
                     </label>
-                    <input  name="examClass" id="examClassNameId" style="width: 145px;" >
-                    <input name="examSubClass" id="examSubclassNameId" style="width: 145px;">
+                    <input  name="examClass" id="examClassNameId" style="width: 25%;" disabled="disabled">
+                    <input name="examSubClass" id="examSubclassNameId" style="width: 25%;" disabled="disabled">
                     &nbsp;
-                    <input title="" id="reqDept" readonly= "true " placeholder="发往科室"  class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;">
+                    <input title="" id="reqDept" readonly= "true " placeholder="发往科室"  class="easyui-validatebox validatebox-text validatebox-invalid" style="width:13%;">
                     <input type="hidden" id="performedBy" name="performedBy" value="">
                 </div>
                     <div class="fitem">
                         <label>
                             项目：
                         </label>
-                        <div  id="target"style=" overflow-y:scroll; border:1px solid;width: 35%" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea"
+                        <div  id="target"style=" overflow-y:scroll; border:1px solid;width: 33%" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea"
                               ></div>
                         <div class="tarea-cbtn">
                             <button onclick="selecteds();" type="button" class="tlr-btn">&lt;&lt;</button><br/>
                             <button class="tlr-btn" onclick="cancels();" type="button" style="margin:10px 0;">&gt;&gt;</button>
                         </div>
-                        <div id="descriptionId" style="width: 34%;" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea" >
+                        <div id="descriptionId" style="width: 33%;" class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea" >
                         </div>
 
                     </div>
@@ -95,8 +99,7 @@
             </div>
         </form>
         <div id="dlg-buttons" class="btn-save">
-            <button class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="saveClinicInspect();"  >保存</button>
-            <input type="hidden" value="1" id="modify">
+            <button id="saveBut" class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="saveClinicInspect();"  >保存</button>
         </div>
     </div>
 </div>

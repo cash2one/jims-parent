@@ -27,4 +27,13 @@ public interface ClinicItemDictDao extends CrudDao<ClinicItemDict> {
      * @author txb
      */
     public List<ClinicItemDict> itemListByOrgId(@Param("orgId")String orgId,@Param("q")String q);
+    /**
+     * 根据组织机构ID、项目名称、项目代码查询诊疗项目
+     * @param orgId  组织机构ID
+     * @param itemName  项目名称
+     * @param itemCode  项目代码
+     * @return
+     * @author fengyuguang
+     */
+    public ClinicItemDict findByOrgIdItemNameItemCode(String orgId,String itemName,String itemCode);
 }

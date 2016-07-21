@@ -34,6 +34,11 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
     @Autowired
     private OrgSelfServiceVsMenuDao orgSelfServiceVsMenuDao;
 
+    @Autowired
+    private OrgRoleVsServiceDao orgRoleVsServiceDao;
+
+
+
     public List<OrgRoleVsService> findAll() {
         return dao.findAll();
     }
@@ -159,4 +164,21 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
         }
         return result;
     }
+//    public String del(String ids) {
+////        return dao.delete(ids);
+//    }
+public String deletes(String ids) {
+    int i=0;
+    try {
+        String[] id = ids.split(",");
+        for (int j = 0; j < id.length; j++){
+            dao.deletes(id[j]);
+            i++;
+        }
+    }catch(Exception e){
+        return i+"";
+    }
+    return i+"";
+}
+
 }

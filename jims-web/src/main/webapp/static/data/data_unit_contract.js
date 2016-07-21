@@ -5,7 +5,6 @@ var unitContract=[];
 $.ajax({
     'type': 'get',
     'url':basePath+'/UnitInContract/find-by-input-code' ,
-    data: {"orgId":"1"},
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,

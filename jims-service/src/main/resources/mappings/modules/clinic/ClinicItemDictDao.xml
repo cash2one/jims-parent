@@ -104,6 +104,14 @@
         </where>
     </select>
 
+    <select id="findByOrgIdItemNameItemCode" resultType="ClinicItemDict">
+        SELECT *
+        FROM clinic_item_dict a
+        WHERE a.org_id = #{0}
+        AND a.item_name = #{1}
+        AND a.item_code = #{2}
+    </select>
+
     <select id="findAllList" resultType="ClinicItemDict">
 
         SELECT

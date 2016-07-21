@@ -1,30 +1,20 @@
-var provideWay =[]//性别字典
-var provideWayData = {};
-provideWayData.orgId="";
-provideWayData.dictType="SYS_DICT"
+var provideWay =[]//输血方式
 
-var InputParamVo = {};
-var inputParamVos=[];
-var q='TRANSFUSION_DICT';
-InputParamVo.colName = 'TYPE';
-InputParamVo.colValue = q;
-InputParamVo1.colValue='8';
-InputParamVo.operateMethod = '=';
-inputParamVos.push(InputParamVo);
-provideWayData.inputParamVos = inputParamVos;
+
 $.ajax({
-    'type': 'POST',
-    'url': basePath + '/input-setting/listParam',
-    data: JSON.stringify(provideWayData),
+    'type': 'GET',
+    'url':basePath+'/dict/findListByType',
+    data: 'type=TRANSFUSION_DICT',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
-    'success': function (data) {
+    'success': function(data){
         provideWay=data;
     }
 });
 
-function sexFormatter(value,rowData,rowIndex){
+
+function provideFormatter(value,rowData,rowIndex){
     if(value == 0){
         return;
     }

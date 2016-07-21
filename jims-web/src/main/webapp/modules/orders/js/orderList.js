@@ -36,6 +36,7 @@ $(function(){
     });
 
     $('#orderList').datagrid({
+        idField:'id',
         iconCls:'icon-edit',//图标
         width: 'auto',
         height: '100%',
@@ -44,7 +45,7 @@ $(function(){
         border: true,
         collapsible:false,//是否可折叠的
         method:'GET',
-        url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize(),
+        //url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize(),
         remoteSort:false,
         singleSelect:true,//是否单选
         pagination:true,//分页控件
@@ -52,11 +53,11 @@ $(function(){
         columns:[[      //每个列具体内容
             {field:'remarks'
                 ,formatter:function(value, rowData, rowIndex){
-                    if(rowData.orderNo!=rowData.orderSubNo){
-                        return "<div style='color:blue;font-weight:bold; '>子</div>";
-                    }else{
-                        return "";
-                    }
+                if(rowData.orderNo!=rowData.orderSubNo){
+                    return "<div style='color:blue;font-weight:bold; '>子</div>";
+                }else{
+                    return "";
+                }
             }},
             {field:'repeatIndicator',title:'长',width:'5%',align:'center',formatter:itemFormatter,editor:{
                 type:'combobox',
@@ -73,9 +74,9 @@ $(function(){
                             var d = new Date();
                             $('#frequency').combobox('disable');
                             $(performSchedule.target).textbox('setValue',d.getHours()+":"+ d.getMinutes());
-                        /*    var stopDate=formatDateBoxFull(new Date());
-                            var stopDateTime = $("#orderList").datagrid('getEditor',{index:rowNum,field:'stopDateTime'});
-                            $(stopDateTime.target).datebox("setValue",stopDate);*/
+                            /*    var stopDate=formatDateBoxFull(new Date());
+                             var stopDateTime = $("#orderList").datagrid('getEditor',{index:rowNum,field:'stopDateTime'});
+                             $(stopDateTime.target).datebox("setValue",stopDate);*/
 
                         }
                     }}}},
@@ -125,8 +126,8 @@ $(function(){
                             {field: 'item_code', title: '项目代码', width: '10%', align: 'center'},
                             {field: 'input_code', title: '拼音', width: '5%', align: 'center'},
                             {field: 'expand1', title: '扩展1', width: '5%', align: 'center'},
-                             {field: 'expand2', title: '扩展2', width: '5%', align: 'center'},
-                             {field: 'expand5', title: '扩展5', width: '5%', align: 'center'},
+                            {field: 'expand2', title: '扩展2', width: '5%', align: 'center'},
+                            {field: 'expand5', title: '扩展5', width: '5%', align: 'center'},
                             {field: 'price', hidden:'true'},
                             {field: 'item_class', hidden:'true'}
                         ]
@@ -260,7 +261,7 @@ $(function(){
                         var performSchedule = $("#orderList").datagrid('getEditor',{index:rowNum,field:'performSchedule'});
                         var frequency = $("#orderList").datagrid('getEditor',{index:rowNum,field:'frequency'});
                         var frequencyValue = $(frequency.target).combobox('getValue');
-                       // var freqCounter = $("#orderList").datagrid('getEditor',{index:rowNum,field:'freqCounter'});
+                        // var freqCounter = $("#orderList").datagrid('getEditor',{index:rowNum,field:'freqCounter'});
                         //var freqIntervalUnit = $("#orderList").datagrid('getEditor',{index:rowNum,field:'freqIntervalUnit'});
 
                         var repeatIndicatorValue = $("#orderList").datagrid('getEditor',{index:rowNum,field:'repeatIndicator'});
@@ -289,7 +290,7 @@ $(function(){
                                                 defaultSchedule = perSchedule[i].defaultSchedule;
                                             }
                                         }
-                                      /*  $(freqCounter.target).textbox('setValue',counter);*/
+                                        /*  $(freqCounter.target).textbox('setValue',counter);*/
                                         $(performSchedule.target).textbox('setValue',defaultSchedule);
                                     }
                                 });
@@ -315,7 +316,7 @@ $(function(){
                     if(orderNo<value){
                         orderNo = value;
                     }
-                 return value;
+                    return value;
                 }},
             {field:'orderSubNo',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'orderStatus',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
@@ -324,7 +325,7 @@ $(function(){
             {field:'verifyDataTime',hidden:'true'},
             {field:'lastPerformDateTime',hidden:'true'}
             /*{field:'freqIntervalUnit',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
-            {field:'freqInterval',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},*/
+             {field:'freqInterval',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},*/
         ]],
         toolbar: [{
             text: '新增',
@@ -422,51 +423,51 @@ $(function(){
             orderCostsArray[rowData.orderNo]=rows;
         },
         onClickRow: function (rowIndex, rowData) {
-                var row = $('#orderList').datagrid('getSelected');
-                var dataGrid = $('#orderList');
-                if (!dataGrid.datagrid('validateRow', rowNum)) {
-                    return false//新开
-                } else {
-                    if (rowNum != rowIndex) {
-                        if (rowNum >= 0) {
-                            dataGrid.datagrid('endEdit', rowNum);
-                            if(orderCostsArray[rowData.orderNo]=='null'||orderCostsArray[rowData.orderNo]=='undefined'){
-                                $('#orderCostList').datagrid('loadData',  { total: 0, rows: [] });
-                            }else{
-                                $('#orderCostList').datagrid('loadData', orderCostsArray[rowData.orderNo]);
-                            }
-
-                        }
-                        rowNum = rowIndex;
-                        if(rowData.orderStatus=='5'||rowData.orderStatus=='') {
-                        dataGrid.datagrid('beginEdit', rowNum);
+            var row = $('#orderList').datagrid('getSelected');
+            var dataGrid = $('#orderList');
+            if (!dataGrid.datagrid('validateRow', rowNum)) {
+                return false//新开
+            } else {
+                if (rowNum != rowIndex) {
+                    if (rowNum >= 0) {
+                        dataGrid.datagrid('endEdit', rowNum);
+                        if(orderCostsArray[rowData.orderNo]=='null'||orderCostsArray[rowData.orderNo]=='undefined'){
+                            $('#orderCostList').datagrid('loadData',  { total: 0, rows: [] });
                         }else{
-                            dataGrid.datagrid('endEdit', rowNum);
+                            $('#orderCostList').datagrid('loadData', orderCostsArray[rowData.orderNo]);
                         }
+
                     }
+                    rowNum = rowIndex;
+                    if(rowData.orderStatus=='5'||rowData.orderStatus=='') {
+                        dataGrid.datagrid('beginEdit', rowNum);
+                    }else{
+                        dataGrid.datagrid('endEdit', rowNum);
+                    }
+                }
 
             }
 
 
         }, rowStyler:function(index,row){
-                if(row.orderStatus=='6'){//传输
-                    return 'background-color:#90EE90;color:#8A2BE2;';
-                }else if(row.orderStatus=='1'){//护士转抄
-                    return 'background-color:#A7CACB;color:black;';
-                }else if(row.orderStatus=='2') {//护士执行
-                    return 'background-color:#EED5D2;color:blue;';
-                }else if(row.orderStatus=='3') {//护士停止
-                    return 'background-color:#698B69;color:yellow;';
-                }else if(row.orderStatus=='4') {//护士作废
-                    return 'background-color:#8B668B;color:red;';
-                }else if(row.orderStatus=='7'){//医生停止
-                    return 'background-color:#FFA54F;color:black;';
-                }else if(row.orderStatus=='8'){//医生作废
-                    return 'background-color:#778899;color:black;';
-                }else if(row.orderStatus=='5'){//医生新开
-                    return "color:#7D26CD";
-                }
-            },onLoadSuccess: function (data) {
+            if(row.orderStatus=='6'){//传输
+                return 'background-color:#90EE90;color:#8A2BE2;';
+            }else if(row.orderStatus=='1'){//护士转抄
+                return 'background-color:#A7CACB;color:black;';
+            }else if(row.orderStatus=='2') {//护士执行
+                return 'background-color:#EED5D2;color:blue;';
+            }else if(row.orderStatus=='3') {//护士停止
+                return 'background-color:#698B69;color:yellow;';
+            }else if(row.orderStatus=='4') {//护士作废
+                return 'background-color:#8B668B;color:red;';
+            }else if(row.orderStatus=='7'){//医生停止
+                return 'background-color:#FFA54F;color:black;';
+            }else if(row.orderStatus=='8'){//医生作废
+                return 'background-color:#778899;color:black;';
+            }else if(row.orderStatus=='5'){//医生新开
+                return "color:#7D26CD";
+            }
+        },onLoadSuccess: function (data) {
             if (data.total == 0) {
                 var body = $(this).data().datagrid.dc.body2;
                 body.find('table tbody').append('<tr><td colspan="23" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
@@ -477,9 +478,7 @@ $(function(){
     });
 
 
-    $("#submit_search").click(function () {
-        $('#orderList').datagrid("load");
-    });
+
     //设置分页控件
     var p = $('#orderList').datagrid('getPager');
     $(p).pagination({
@@ -512,6 +511,16 @@ $(function(){
 
 
 });
+
+
+function searchOrders(){
+    var startTime=$("#startDateTime").datebox('getValue');
+    var endTime=$("#stopDateTime").datebox('getValue');
+    var repeatIndicator=$('input[name="repeatIndicator"]:checked ').val();
+    $("#orderList").datagrid({url:basePath+'/inOrders/getOrders',queryParams:{"startDateTime":startTime,"stopDateTime":endTime,"repeatIndicator":repeatIndicator}});
+}
+
+
 //保存
 function save(){
     $("#orderList").datagrid('endEdit', rowNum);
@@ -525,17 +534,17 @@ function save(){
     if (!$("#orderList").datagrid('validateRow', rowNum)) {
         $.messager.alert("提示消息","请把医嘱信息输入完整再进行保存！");
     }else{
-    $.postJSON(basePath+'/inOrders/save',submitJson,function(data){
-        if(data.data=='success'){
-            $.messager.alert("提示消息","保存成功");
-            $('#orderList').datagrid('load');
-            $('#orderList').datagrid('clearChecked');
-        }else{
-            $.messager.alert('提示',"保存失败", "error");
-        }
-    },function(data){
-        $.messager.alert('提示',"网络异常", "error");
-    })
+        $.postJSON(basePath+'/inOrders/save',submitJson,function(data){
+            if(data.data=='success'){
+                $.messager.alert("提示消息","保存成功");
+                $('#orderList').datagrid('load');
+                $('#orderList').datagrid('clearChecked');
+            }else{
+                $.messager.alert('提示',"保存失败", "error");
+            }
+        },function(data){
+            $.messager.alert('提示',"网络异常", "error");
+        })
     }
 }
 
@@ -682,7 +691,7 @@ function changeSubNo(row){
                         $(subNo.target).textbox('setValue',prerow.orderSubNo);
                         $('#orderList').datagrid('endEdit', index);
                         $('#orderList').datagrid('beginEdit', index);
-                          save();
+                        save();
 
 
 

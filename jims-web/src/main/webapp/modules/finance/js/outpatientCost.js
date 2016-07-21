@@ -535,6 +535,7 @@ function confirmBackCharge(){
         'data': rcptNO=rcptNo,
         'dataType': 'json',
         'success': function(data){
+           //alert(data.code);
             if(data.code=='1'){
                 $.messager.alert("提示消息", "退费成功");
                 $('#list-zhu-t').datagrid('load');
