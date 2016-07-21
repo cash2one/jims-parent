@@ -100,8 +100,8 @@ public class DeptDictImpl implements DeptDictApi {
      * @return
      */
     @Override
-    public List<DeptDict> getOperation() {
-        return deptDictBo.getOperation();
+    public List<DeptDict> getOperation(String orgId) {
+        return deptDictBo.getOperation(orgId);
     }
 
     @Override

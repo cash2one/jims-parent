@@ -11,6 +11,8 @@ $(function () {
         }
     };
 
+    $("#id").textbox('disable');
+
     $("#dg").datagrid({
         width: '100%',
         //url: "/service/lab-item-dict/list",
@@ -48,12 +50,11 @@ $(function () {
             editIndex = index;
         }
     });
-    //var deptNameList=$.get(basePath + '/dept-dict/list');
 
     var loadDept = function (){
-        $.get(basePath + '/labitemclass/findListByOrgId?orgId='+orgId, function (data) {
+        $.get('/service/labitemclass/findListByOrgId?orgId='+orgId, function (data) {
             console.log(data);
-            $.get(basePath + '/dept-dict/list?orgId='+orgId, function (node) {
+            $.get('/service/dept-dict/list?orgId='+orgId, function (node) {
                 list=data;
                 for(var i=0;i<list.length;i++){
                     for (var j=0;j<node.length;j++){
@@ -68,20 +69,29 @@ $(function () {
     }
     loadDept();
 
-//弹出框的下拉框
-    $('#deptCode').combobox({
-        editable:false,
-        delay: 300,
-        width:'160px',
-        mode: 'remote',
+////弹出框的下拉框
+//    $('#deptCode').combobox({
+//        editable:false,
+//        delay: 300,
+//        mode: 'remote',
+//        method: 'GET',
+//        url: '/service/dept-dict/list?orgId='+orgId,
+//        valueField: 'deptCode',
+//        textField: 'deptName'
+//    });
+
+    $('#deptCode').combogrid({
+        //width: 176,
+        idField: 'deptCode',
+        textField: 'deptName',
         method: 'GET',
-        url: basePath + '/dept-dict/list?orgId='+orgId,
-        valueField: 'deptCode',
-        textField: 'deptName'
-        //columns: [[
-        //    {field:'deptName',title:'部门名称',width:"150px",sortable:true},
-        //    {field:'deptCode',title:'部门编码',width:"150px",sortable:true}
-        //]]
+        mode: 'remote',
+        url: basePath + "/dept-dict/findListWithFilter?orgId=" + config.org_Id,
+        columns: [[
+            {field: 'deptCode', title: '科室代码', width: 64, align: "center"},
+            {field: 'deptName', title: '科室名称', width: 110, halign: "center", align: "left"},
+            //{field: 'inputCode', title: '拼音码', width: 60},
+        ]]
     });
 
 
@@ -103,7 +113,7 @@ $(function () {
         $("#id").textbox("setValue","");
         $("#classCode").textbox("setValue","");
         $("#className").textbox("setValue","");
-        $('#deptCode').combobox('setValue',"");
+        $('#deptCode').combogrid('setValue',"");
     }
 
     //删除按钮
@@ -137,11 +147,11 @@ $(function () {
         labItemClassDict.id = $("#id").textbox("getValue")
         labItemClassDict.classCode = $("#classCode").textbox("getValue")
         labItemClassDict.className = $("#className").textbox("getValue")
-        labItemClassDict.deptCode = $("#deptCode").combobox('getValue');
+        labItemClassDict.deptCode = $("#deptCode").combogrid('getValue');
         labItemClassDict.orgId=orgId;
         if(classCodeTest &&classNameTest  && labItemClassDict.deptCode.length>0 && labItemClassDict.classCode.length>0 && labItemClassDict.className.length>0 ){
 
-            $.postJSON(basePath + '/labitemclass/save',JSON.stringify(labItemClassDict), function (data) {
+            $.postJSON('/service/labitemclass/save',JSON.stringify(labItemClassDict), function (data) {
                 $('#dlg').dialog('close');
                 $.messager.alert("系统提示", "保存成功", "info");
                 loadDept();
@@ -162,20 +172,6 @@ $(function () {
                 $("#deptCodeChange").html("请选择部门");
             }
         }
-
-        //$.ajax({
-        //    'type': 'post',
-        //    'url': basePath + '/lab-item-dict/save',
-        //    'contentType': 'application/json',
-        //    'data': JSON.stringify(labItemClassDict),
-        //    'dataType': 'json',
-        //    'success': function (data) {
-        //        $('#dlg').dialog('close');
-        //            $.messager.alert("系统提示", "保存成功", "info");
-        //            $("#dg").datagrid();
-        //            reset();
-        //    }
-        //});
     });
 
     $("#searchBtn").on("click",function(){
@@ -184,7 +180,7 @@ $(function () {
             $("#id").textbox("setValue",row.id);
             $("#classCode").textbox("setValue",row.classCode);
             $("#className").textbox("setValue",row.className);
-            $('#deptCode').combobox('setValue',row.deptCode);
+            $('#deptCode').combogrid('setValue',row.deptCode);
             $('#dlg').dialog('open').dialog('center').dialog('setTitle', '修改类别');
         } else {
             $.messager.alert('系统提示', "请选择要修改的行", 'info');
@@ -263,8 +259,7 @@ $(function () {
         }
     });
 
-
-    $("#deptCode").combobox({
+    $("#deptCode").combogrid({
         onChange:function(value){
             $("#deptCodeChange").html("");
         }

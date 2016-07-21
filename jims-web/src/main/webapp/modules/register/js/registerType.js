@@ -139,6 +139,10 @@ clinicTypeList();
 
 //保存数据
 function save(){
+    if (!$('#list_data').datagrid('validateRow', rowNum)) {
+        $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
+        return false
+    }
     var  rows=$('#list_data').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     var type=encodeURI($("#type").val());

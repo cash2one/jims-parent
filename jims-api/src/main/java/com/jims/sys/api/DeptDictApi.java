@@ -72,7 +72,7 @@ public interface DeptDictApi {
     public List<DeptDict> getList();
 
 
-    public List<DeptDict> getOperation();
+    public List<DeptDict> getOperation(String orgId);
 
     public DeptDict get(String id) ;
 }

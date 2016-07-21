@@ -159,10 +159,10 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
     public int deleteOperationName(String id) {
         int num = operationScheduleDao.deleteOperation(id);
         scheduledOperationNameDao.deleteSchedule(id);
-        OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id);
-        outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
-        outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
-        outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
+//        OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id);
+//        outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
+//        outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
+//        outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
 
         return num;
     }

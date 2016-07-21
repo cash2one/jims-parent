@@ -1,6 +1,7 @@
 package com.jims.doctor.diagnosis.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
 import com.jims.doctor.diagnosis.bo.EmrDiagnosisBo;
 import com.jims.diagnosis.entity.EmrDiagnosis;
@@ -36,8 +37,8 @@ public class EmrDiagnosisServiceImpl implements EmrDiagnosisServiceApi{
     }
 
     @Override
-    public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis) {
-        return emrDiagnosisBo.saveDiagnosis(emrDiagnosis);
+    public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis,LoginInfo loginInfo) {
+        return emrDiagnosisBo.saveDiagnosis(emrDiagnosis,loginInfo);
     }
 
     @Override
