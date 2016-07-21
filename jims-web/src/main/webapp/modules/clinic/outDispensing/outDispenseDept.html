@@ -9,12 +9,16 @@
     <script type="text/javascript" src="../outDispensing/js/outDispenseDept.js"></script>
  </head>
 <body>
-<div id="drugDialog" class="easyui-dialog" style="width:50%;height:250px;padding-top: 5px;"
-     closed="true" buttons="#dlg-buttons">
+<div id="drugDialog" class="easyui-dialog" style="width:50%;height:350px;padding-top: 5px;"
+     closed="true" buttons="#dlg-buttons" closable="false">
     <!--<div class="margin10-bot " style="border: 1px;">科室名称或拼音字头<input name="" class="validatebox-text validatebox-text-xs">-->
         <!--&lt;!&ndash;<a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save();" style="width:90px">选择</a>&ndash;&gt;-->
         <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#drug').dialog('close')" style="width:90px">关闭</a>-->
     <!--</div>-->
+    <input type="text" class="easyui-textbox" id="condition" placeholder="请输入科室名称或科室编码"/>
+    <a href="#" id="searchBtn" class="easyui-linkbutton c6" iconCls="icon-search" style="width:90px">查询</a>
+    <a href="#" id="clearBtn" class="easyui-linkbutton c6" iconCls="icon-clear" style="width:90px">清空</a>
+
     <table id="dept" cellspacing="0" cellpadding="0">
 
     </table>
