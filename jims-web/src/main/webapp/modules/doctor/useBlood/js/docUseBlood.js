@@ -15,6 +15,7 @@ function onloadMethods() {
     $("#patSex").val(parent.clinicMaster.sex);
     $("#feeType").val(itemFormatter(parent.clinicMaster.chargeType, '', ''));
     $("#feeTypeId").val(parent.clinicMaster.chargeType);
+    $("#applyDate").datetimebox("setValue",formatDateBoxFull(new Date));
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,
@@ -34,15 +35,24 @@ function onloadMethods() {
             }, formatter: fastSloFormatter
             },
             //每个列具体内容
-            {field: 'transDate', title: '预订输血时间', width: '20%', align: 'center', editor: 'datetimebox', required: true},
             {
-                field: 'transCapacity', title: '血量', width: '20%', align: 'center', editor: {
-                type: 'text',
-                required: true
-            }
-            },
-            {
-                field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
+                field: 'transDate', title: '预订输血时间', width: '20%', align: 'center',
+                    editor: {
+                        type: 'datetimebox',
+                        options: {
+                            required: true
+                        }
+                    }
+                },
+            {field: 'transCapacity', title: '血量', width: '20%', align: 'center',
+                    editor: {
+                        type: 'text',
+                        options: {
+                            required: true
+                        }
+                    }
+                },
+            {field: 'unit', title: '单位', width: '20%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: units,
@@ -201,6 +211,7 @@ function onloadMethods() {
         data: bloodType,
         valueField: 'value',
         textField: 'label',
+        required: true,
         onSelect: function (n) {
             $("#patBloodGroupId").val(n.value);
         }
@@ -209,6 +220,7 @@ function onloadMethods() {
         data: bloodType,
         valueField: 'value',
         textField: 'label',
+        required: true,
         onSelect: function (n) {
             $("#preBloodTypeId").val(n.value);
         }
@@ -233,6 +245,7 @@ function onloadMethods() {
         data: bloodInuses,
         valueField: 'value',
         textField: 'text',
+        required: true,
         onSelect: function (data) {
             $("#bloodInuseId").val(data.value);
         }
@@ -247,10 +260,10 @@ function onloadMethods() {
  */
 function saveUseBloodApply() {
     $.ajax({
-        url: basePath+"/diagnosis/findListOfOut",
+        url: basePath + "/diagnosis/findListOfOut",
         type: "GET",
         dataType: "json",
-        data: {"clinicId":clinicId},
+        data: {"clinicId": clinicId},
         success: function (data) {
             if (data != "" && data != null) {
                 $("#list_doctor").datagrid("endEdit", rowNum);
@@ -277,7 +290,7 @@ function saveUseBloodApply() {
                     alert("请添加用血方式");
                 }
 
-            }else {
+            } else {
                 $.messager.alert("提示信息", "病人没有诊断信息，不能开出用血申请");
             }
         }
