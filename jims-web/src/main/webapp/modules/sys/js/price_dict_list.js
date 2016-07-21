@@ -19,6 +19,7 @@ $(function () {
          onSelect: function () {
              var itemClass = $("#item_class").combobox('getValue');
              $.get(basePath + '/price/find-by-item-class?itemClass=' + itemClass + '&orgId=' + orgId, function(data){
+                 reset();
                  $("#clinic_item").datagrid('loadData',data);
              });
          }
@@ -175,9 +176,9 @@ $(function () {
         $("#itemCode").textbox('setValue','');    //代码
         $("#itemSpec").textbox('setValue', '');         //规格
         $("#units").textbox('setValue','');           //计价单位
-        $("#price").textbox('setValue','');               //基本价格
-        $("#preferPrice").textbox('setValue','');   //优惠价格
-        $("#foreignerPrice").textbox('setValue','');    //外宾价格
+        $("#price").textbox('setValue','0.00');               //基本价格
+        $("#preferPrice").textbox('setValue','0.00');   //优惠价格
+        $("#foreignerPrice").textbox('setValue','0.00');    //外宾价格
         $("#dt").datetimebox('setValue','');    //启用日期
         $("#performedBy").combogrid('setValue','');  //执行科室
         $("#feeTypeMask").prop('checked',false);   //是否自费
@@ -210,14 +211,14 @@ $(function () {
             pageList: [10, 15, 20, 25], //页大小下拉选项此项各value是pageSize的倍数
             fitColumns: true, //列自适应宽度
             columns: [[//显示的列
-                {field: 'itemCode', title: '项目代码', width: '14%',align: 'center'},
-                {field: 'itemName', title: '项目名称', width: '16%',align: 'center'},
-                {field: 'itemSpec', title: '项目规格', width: '14%',align: 'center'},
-                {field: 'materialCode', title: '物价码', width: '13%',align: 'center'},
+                {field: 'itemCode', title: '项目代码', width: '15%',align: 'center'},
+                {field: 'itemName', title: '项目名称', width: '25%',align: 'center'},
+                {field: 'itemSpec', title: '项目规格', width: '15%',align: 'center'},
+                {field: 'materialCode', title: '物价码', width: '15%',align: 'center'},
                 {
                     field: 'itemClass',
                     title: '项目类别',
-                    width: '14%',
+                    width: '15%',
                     align: 'center',
                     formatter: function (value, row, index) {
                         var itemClass = value;
@@ -229,8 +230,7 @@ $(function () {
                         return itemClass;
                     }
                 },
-                {field: 'inputCode', title: '拼音码', width: '14%',align: 'center'},
-                {field: 'inputCodeWb', title: '五笔码', width: '13%',align: 'center'}
+                {field: 'inputCode', title: '拼音码', width: '15%',align: 'center'}
             ]],
             onDblClickRow: function(index,row){
                 $("#aa").combobox('setValue',row.itemClass);
@@ -351,11 +351,30 @@ function load_data() {
             'url': basePath + '/price/get-by-inputCode?inputCode=' + inputCode + '&orgId=' + config.org_Id,
             'success': function (data) {
                 $("#clinic_item").datagrid('loadData', data);
-
             }
         });
     }else{
         $("#clinic_item").datagrid('loadData', []);
+        $("#aa").combobox('setValue', '');  //类别
+        $("#itemName").val('');            //名称
+        $("#itemCode").textbox('setValue', '');    //代码
+        $("#itemSpec").textbox('setValue', '');         //规格
+        $("#units").textbox('setValue', '');           //计价单位
+        $("#price").textbox('setValue', '0.00');               //基本价格
+        $("#preferPrice").textbox('setValue', '0.00');   //优惠价格
+        $("#foreignerPrice").textbox('setValue', '0.00');    //外宾价格
+        $("#dt").datetimebox('setValue', '');    //启用日期
+        $("#performedBy").combogrid('setValue', '');  //执行科室
+        $("#feeTypeMask").prop('checked', false);   //是否自费
+        $("#dd").combobox('setValue', '');     //住院收据
+        $("#cc").combobox('setValue', '');     //门诊收据
+        $("#ff").combobox('setValue', '');     //核算科目
+        $("#bb").combobox('setValue', '');           //会计科目
+        $("#ee").combobox('setValue', '');      //病案首页
+        $("#memo").val('');            //备注信息
+        $("#inputCode").textbox('setValue', '');      //拼音码
+        $("#materialCode").textbox('setValue', '');    //物价码
+        $("#clinicDict").prop('checked', false);        //诊疗标识
     }
 
 }
