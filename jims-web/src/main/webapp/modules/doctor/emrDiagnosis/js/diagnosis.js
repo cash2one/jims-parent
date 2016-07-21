@@ -151,10 +151,11 @@ function saveDiagnosis(){
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
-        if(data.code=='1'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#zhenduan').datagrid('load');
+        if(data.code!='0'&&data.code!=null){
+            $('#zhenduan').datagrid('reload');
             $('#zhenduan').datagrid('clearChecked');
+            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }
