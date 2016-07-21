@@ -112,7 +112,21 @@ $(function () {
                             {title: '科室名称', field: 'deptName', align: 'center', width: '30%'},
                             {title: '科室编码', field: 'deptCode', align: 'center', width: '30%'},
                             {title: '拼音码', field: 'inputCode', align: 'center', width: '30%'}
-                        ]]
+                        ]],
+                        onSelect: function(index,row){
+                            var rows = [];
+                            rows = $("#drug-storage").datagrid('getRows');
+                            $.each(rows,function(index,item){
+                                if(row.deptName == item.storageName){
+                                    $.messager.alert('系统提示', '该库存单位已经存在,请选择其他单位!', 'info');
+                                    //var thisRow = $("#drug-storage").datagrid('getSelected');
+                                    //var thisIndex = $("#drug-storage").datagrid('getRowIndex',thisRow);
+                                    //$('#drug-storage').datagrid('updateRow', {index: thisIndex, row: {storageName: ''}});
+                                    //$('#drug-storage').datagrid('endEdit', thisIndex);
+                                    //$('#drug-storage').datagrid('beginEdit', thisIndex);
+                                }
+                            });
+                        }
                     }
                 }
             }, {
@@ -207,7 +221,6 @@ $(function () {
             $("#drug-storage").datagrid("beginEdit", index);
             editIndex = index;
         }
-        console.log(row);
     });
     $("#delStorageBtn").on('click', function () {
         var row = $("#drug-storage").datagrid('getSelected');

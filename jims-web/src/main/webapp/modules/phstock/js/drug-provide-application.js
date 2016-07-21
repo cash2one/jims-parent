@@ -17,12 +17,12 @@ $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"})
 var basePath = "/service";
 $(function () {
 
-    //var orgId=config.org_Id;
-    var orgId = 1;
+    var orgId = config.org_Id;
+    //var orgId = 1;
     var currentSelectDeptData;
     var unitsForm = [];
     var staffFrom = [];
-
+    var currentStorage=config.currentStorage;
 
     $("#drug-provide-application").datagrid({
         fit: true,
@@ -32,8 +32,6 @@ $(function () {
         toolbar: '#tb',
         method: 'GET',
         rownumbers: true,
-        //url: basePath + '/drugProvideApplication/findList?orgId=' + orgId,
-
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
@@ -53,27 +51,30 @@ $(function () {
                 type: 'combogrid',
                 options: {
                     panelWidth: 400,
-                    idField: 'drugName',
-                    textField: 'drugName',
+                    idField: 'drug_name',
+                    textField: 'drug_name',
+                    mode: 'remote',
+                    method: 'GET',
+                    url: basePath + '/input-setting/listParamByGET?orgId=' + orgId + '&dictType=v_drug_provide_application',
                     columns: [[
-                        {field: 'drugCode', title: '代码', width: 100, align: 'center'},
-                        {field: 'drugName', title: '名称', width: 100, align: 'center'},
-                        {field: 'supplierId', title: '厂家', width: 100, align: 'center'},
-                        {field: 'drugSpec', title: '规格', width: 100, align: 'center'},
+                        {field: 'drug_code', title: '代码', width: 100, align: 'center'},
+                        {field: 'drug_name', title: '名称', width: 100, align: 'center'},
+                        {field: 'input_code', title: '拼音码', width: 100, align: 'center'},
+                        {field: 'supplier_id', title: '厂家', width: 100, align: 'center'},
+                        {field: 'drug_spec', title: '规格', width: 100, align: 'center'},
                         {field: 'label', title: '单位', width: 100, align: 'center'},
-                        {field: 'inputcode', title: '拼音码', width: 100, align: 'center'},
-                        {field: 'tradePrice', title: '批发价', width: 100, align: 'center'},
-                        {field: 'retailPricce', title: '零售价', width: 100, align: 'center'}
+                        {field: 'trade_price', title: '批发价', width: 100, align: 'center'},
+                        {field: 'retail_pricce', title: '零售价', width: 100, align: 'center'}
                     ]],
                     onSelect: function (index, data) {
                         var row = $('#drug-provide-application').datagrid('getSelected');
-                        row.drugCode = data.drugCode;
-                        row.drugName = data.drugName;
-                        row.drugSpec = data.drugSpec;
+                        row.drugCode = data.drug_code;
+                        row.drugName = data.drug_name;
+                        row.drugSpec = data.drug_spec;
                         row.packageUnits = data.units;
                         row.label = data.label;
-                        row.firmId = data.firmId;
-                        row.supplierId = data.supplierId;
+                        row.firmId = data.firm_id;
+                        row.supplierId = data.supplier_id;
                         $('#drug-provide-application').datagrid('endEdit', editIndex);
                     }
                 }
@@ -172,7 +173,7 @@ $(function () {
 
     //获取来源
     $("#storage").combobox({
-        url: basePath + '/drug-storage-dept/list?orgId=' + orgId,
+        url: basePath + '/drug-storage-dept/findListByLevel?orgId='+orgId+'&condition=remarks<\''+ config.currentStorageObj.level+'\'',
         valueField: 'storageCode',
         textField: 'storageName',
         method: 'GET',
@@ -183,7 +184,6 @@ $(function () {
                 storageCode: currentSelectDeptData
             }, function (data) {
                 $("#subStorage").combobox('loadData', data);
-                $("#subStorage1").combobox('loadData', data);
             });
         }
     });
@@ -200,7 +200,7 @@ $(function () {
                 orgId: orgId,
                 applicantStorage: storageData,
                 applicantStorageSub: row.subStorageCode,
-                flag:0
+                flag: 0
             }, function (data) {
                 $("#documentNo").combobox('loadData', data);
 
@@ -210,29 +210,24 @@ $(function () {
 
     //获取子库房
     $("#subStorage1").combobox({
+        url:basePath + "/drug-storage-dept/findSubList",
+        queryParams:  {
+            orgId: orgId,
+            storageCode:config.currentStorage
+        },
+        method:'GET',
         valueField: 'subStorageCode',
         textField: 'subStorage',
         height: 25,
-        width: 120,
-        onSelect: function (row) {
-            var storageData = $("#storage").combobox("getValue");
-            $.get(basePath + "/drugProvideApplication/findList", {
-                orgId: orgId,
-                applicantStorage: storageData,
-                applicantStorageSub: row.subStorageCode
-            }, function (data) {
-                $("#drug-provide-application").datagrid('loadData', data);
-
-            });
-        }
+        width: 120
     });
 
     //获取申请号
     $("#documentNo").combobox({
         valueField: 'documentNo',
         textField: 'documentNo',
-        height:25,
-        width:120,
+        height: 25,
+        width: 120,
         onSelect: function (row) {
             var storageData = $("#storage").combobox("getValue");
             var subStorageData = $("#subStorage").combobox("getValue");
@@ -296,27 +291,11 @@ $(function () {
 
     //开始编辑行
     $("#addBtn").on('click', function () {
-        staffFrom = [];
-        //加载字段名称
-        var param = {dictType: 'v_drug_provide_application', orgId: orgId, inputParamVos: null}
-        $.postJSON(basePath + '/input-setting/listParam', JSON.stringify(param), function (data) {
-            for (var i = 0; i < data.length; i++) {
-                staffFrom.push({
-                    drugCode: data[i].drug_code, drugName: data[i].drug_name,
-                    supplierId: data[i].supplier_id,
-                    firmId: data[i].firm_id
-                    , drugSpec: data[i].drug_spec
-                    , units: data[i].units
-                    , label: data[i].label
-                    , inputcode: data[i].input_code
-                    , tradePrice: data[i].trade_price
-                    , retailPricce: data[i].retail_price
-                });
-            }
-        });
-
-        //请领子库房
+        //发放子库房
         var subStorageCode = $('#subStorage').combobox('getValue');
+        var  StorageCode= $('#storage').combobox('getValue');
+        //请领子库房
+        var subStorage1 = $('#subStorage').combobox('getValue');
         if (!currentSelectDeptData) {
             $.messager.alert("系统提示", "请先选择来源", "info");
             return;
@@ -336,8 +315,8 @@ $(function () {
         var storageCode = $('#storage').combobox('getValue');
 
         $("#drug-provide-application").datagrid('appendRow', {
-            orgId: orgId, flag: 0, itemNo: itemNo, quantity: 0,
-            applicantStorage: storageCode, applicantStorageSub: subStorageCode
+            orgId: orgId, flag: 0, itemNo: itemNo, quantity: 0, batchNo: 'X',
+            applicantStorage: currentStorage, applicantStorageSub: subStorage1 ,provideStorage : StorageCode,subStorage:subStorageCode
         });
         var rows = $("#drug-provide-application").datagrid('getRows');
         onClickCell(rows.length - 1, 'drug-provide-application');
@@ -412,8 +391,7 @@ $(function () {
         var substorage = $("#subStorage").combobox('getValue');
         var document = $("#documentNo").combobox('getValue');
 
-        if(document!="" && insertData!=null)
-        {
+        if (document != "" && insertData != null) {
             //删除多余的字段
             for (var i = 0; i < insertData.length; i++) {
                 delete insertData[i]["supplierId"];
@@ -435,7 +413,7 @@ $(function () {
                     $.messager.alert("系统提示", "保存成功", "info");
                     var url = basePath + '/drugProvideApplication/findList?orgId=' + orgId + '&applicantStorage=' + storage + '&applicantStorageSub=' + substorage;
                     $("#drug-provide-application").datagrid('reload', url);
-                    $("#documentNo").combobox('setValue','')
+                    $("#documentNo").combobox('setValue', '')
                 }
             }, function (data) {
                 $.messager.alert('提示', "保存失败", "error");
