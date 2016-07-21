@@ -748,7 +748,7 @@ $(function(){
         parent.$.postJSON('/service/clinicItem/save',JSON.stringify(clinicItem),function(res){
             if(res = '1')
                 $.messager.alert('保存','保存成功!','info',function(){
-                    window.location.reload()
+                    //window.location.reload();
                 })
         })
     });
