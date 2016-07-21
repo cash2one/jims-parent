@@ -366,7 +366,7 @@ $(function(){
     //处方属性下拉框
     $('#prescAttr').combobox({
         data: prescAttrDict,
-        valueField: 'label',
+        valueField: 'value',
         textField: 'label',
         required:true
     });
