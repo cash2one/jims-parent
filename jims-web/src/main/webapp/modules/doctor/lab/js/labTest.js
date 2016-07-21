@@ -1,6 +1,6 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
-var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }]; 
 /**
  * /门诊诊断类型
  * @param value
@@ -62,32 +62,25 @@ function onloadMethod(){
                 }
             }
         ]],
-        //view: detailview,
-        //detailFormatter: function(rowIndex, rowData){
-        //
-        //    var item=[];
-        //    $.ajax({
-        //        type:"POST",
-        //        url: basePath+"/labtest/getItem",
-        //        contentType: 'application/json',
-        //        data: testNo=rowData.testNo,
-        //        async:false,
-        //        dataType: 'json',
-        //        success:function(data){
-        //            item=data;
-        //        }
-        //    })
-        //
-        //    return  '<table><tr>' +
-        //        '<td style="border:0">' +
-        //        '<p>检验项目: </p>' +
-        //        '</td>' +
-        //        '</tr><tr>' +
-        //        '<td style="border:0">' +
-        //        '<p> ' +item[0].itemName + '</p>' +
-        //        '</td>' +
-        //        '</tr></table>';
-        //},
+        view: detailview,
+        detailFormatter: function(rowIndex, rowData){
+            var detailHtml="<table style='width:100%;color:blue' border='0'><tr><td><strong>检验项目：</strong></td></tr>";
+            $.ajax({
+                type:"POST",
+                url: basePath+"/labtest/getItem",
+                contentType: 'application/json',
+                data: labMaster=rowData.id,
+                async:false,
+                dataType: 'json',
+                success:function(data){
+                    $.each(data,function(i,list){
+                        detailHtml+="<tr><td>"+list.itemName+"</td></tr>";
+                    });
+                }
+            })
+            detailHtml+="</table>";
+            return  detailHtml;
+        },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]],
@@ -143,9 +136,15 @@ function onloadMethod(){
 //新增检验
 function add(){
     clearForm();
+    $('#labItemClass').removeAttr("disabled");
+    $('#performedBy').removeAttr("disabled");
+    $('#specimen').removeAttr("disabled");
     $("#saveBut").show();
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
+    $("#name").val(parent.clinicMaster.name);
+    $("#sex").val(parent.clinicMaster.sex);
+    $("#chargeType").val(parent.clinicMaster.chargeType);
 
     $.ajax({
         //添加
@@ -175,7 +174,33 @@ function add(){
                $("#performedById").val(n.dept_code);
             }
         })
-
+    /**
+     * 送检医师
+     */
+        $("#orderingProvider").combogrid({
+            data: doctorName,
+            valueField: 'id',
+            textField: 'name',
+            columns: [[
+                {field: 'name', title: '医生姓名', width: 70},
+                {field: 'dept_name', title: '科室', width: 120},
+                {field: 'title', title: '职称', width: 70}
+            ]], keyHandler: {
+                up: function () {
+                },
+                down: function () {
+                },
+                enter: function () {
+                },
+                query: function (q) {
+                    comboGridCompleting(q, 'orderingProvider');
+                }
+            },
+            onClickRow: function (rowIndex, rowData) {
+                $("#orderingProvider").combogrid('setText', rowData.name);
+                $("#orderingProviderId").val(rowData.id);
+            }
+        })
 }
 
 function loadTreeGrid() {
@@ -214,26 +239,45 @@ function save(){
     //formSubmitInput();
     //加载值
     //$("#items").datagrid('endEdit', editRow);
-    var  rows=$('#items').datagrid('getRows');
-    var formJson=fromJson('form');
-    formJson = formJson.substring(0, formJson.length - 1);
-    var tableJson=JSON.stringify(rows);
-    var submitJson=formJson+",\"list\":"+tableJson+"}";
-    $.postJSON(basePath+'/labtest/save',submitJson,function(data){
-        if(data.data=='success'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#list_data').datagrid('load');
-            $('#list_data').datagrid('clearChecked');
-            clearForm();
+    $.ajax({
+        //添加
+        url: basePath+"/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId":clinicId},
+        success: function (data) {
+            if (data!= ""&& data!=null) {
+                var  rows=$('#items').datagrid('getRows');
+                var formJson=fromJson('form');
+                formJson = formJson.substring(0, formJson.length - 1);
+                var tableJson=JSON.stringify(rows);
+                if(rows != "" && rows != null){
+                    var submitJson=formJson+",\"list\":"+tableJson+"}";
+                    $.postJSON(basePath+'/labtest/save',submitJson,function(data){
+                        if(data.data=='success'){
+                            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+                            $('#list_data').datagrid('load');
+                            $('#list_data').datagrid('clearChecked');
+                            clearForm();
 
-        }else{
-            $.messager.alert('提示',"保存失败", "error");
-            clearForm();
+                        }else{
+                            $.messager.alert('提示',"保存失败", "error");
+                            clearForm();
+                        }
+                    },function(data){
+                        $.messager.alert('提示',"保存失败", "error");
+                        clearForm();
+                    })
+                }else {
+                    $.messager.alert("提示信息", "请选择需要的检验项目");
+                }
+
+            }else {
+                $.messager.alert("提示信息", "病人没有诊断信息，不能开出检验申请");
+            }
         }
-    },function(data){
-        $.messager.alert('提示',"保存失败", "error");
-        clearForm();
     })
+
 };
 
 function look() {
@@ -243,7 +287,6 @@ function look() {
 //弹出选择项目窗口
 function SendProduct(name) {
     var item={};
-    //item.orgId="";
     item.dictType="lab_item_view";
     var inputParamVos=new Array();
     var InputParamVo={};

@@ -1,6 +1,7 @@
 package com.jims.clinic.api;
 
 import com.jims.clinic.entity.ElectronLeaveHospital;
+import com.jims.common.vo.LoginInfo;
 
 /**
  * Created by Administrator on 2016/4/20.
@@ -22,5 +23,5 @@ public interface ElectronLeaveHopitalServiceApi {
      * 新增\修改 出院记录信息
      * @param electronLeaveHospital
      */
-    public String save(ElectronLeaveHospital electronLeaveHospital);
+    public String save(ElectronLeaveHospital electronLeaveHospital,LoginInfo loginInfo);
 }

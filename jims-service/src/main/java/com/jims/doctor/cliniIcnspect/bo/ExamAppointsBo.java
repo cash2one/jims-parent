@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,12 +69,13 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
+                num = examAppointsDao.deleteExamAppionts(id[j]);
                 examItemsDao.deleteItems(id[j]);
                 OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
                 outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
                 outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
                 outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
-                num = examAppointsDao.deleteExamAppionts(id[j]);
+
 
             }
         }catch(Exception e){
@@ -105,11 +107,15 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         examAppoints.preInsert();
         examAppoints.setRegPrnFlag(0);
         examAppoints.setVisitNo(clinicMaster.getVisitNo());
+        examAppoints.setReqDateTime(new Date());
+        examAppoints.setInOrOut("0");
         //申请序号
         String examNo="JC"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
         examAppoints.setExamNo(examNo);
         examAppoints.setChargeType(clinicMaster.getChargeType());
         num = examAppointsDao.insert(examAppoints);
+        OutpTreatRec outpTreatRec = new OutpTreatRec();
+        outpTreatRec.setPerformedBy(examAppoints.getPerformedBy());
         List<ClinicItemDict> clinicItemDictList=new ArrayList<ClinicItemDict>();
         List<ExamItems> examItemsList=examAppoints.getExamItemsList();
         for(int i=0;i<examItemsList.size();i++){
@@ -117,6 +123,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             ExamItems examItems=examItemsList.get(i);
             clinicItemDict.setItemCode(examItems.getExamItemCode());
             examItems.setAppointsId(examAppoints.getId());
+            examItems.setOrgId(examAppoints.getOrgId());
             examItems.setClinicId(examAppoints.getClinicId());
             examItems.setVisitId(examAppoints.getVisitId());
             examItems.setExamNo(examAppoints.getExamNo());
@@ -125,7 +132,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             clinicItemDictList.add(clinicItemDict);
         }
 
-        costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,examAppoints.getId());
+        costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,examAppoints.getId(),outpTreatRec);
         return  num;
     }
 }

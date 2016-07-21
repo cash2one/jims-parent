@@ -1,6 +1,8 @@
 package com.jims.doctor.lab;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.data.StringData;
@@ -129,8 +131,11 @@ public class LabTestRest {
 
     @Path("save")
     @POST
-    public StringData save(LabTestMaster labTestMaster){
+    public StringData save(LabTestMaster labTestMaster,@Context HttpServletRequest request, @Context HttpServletResponse response){
         String mun="";
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        labTestMaster.setOrderingDept(loginInfo.getDeptId());
+        labTestMaster.setOrderingProvider(loginInfo.getPersionId());
         StringData data=new StringData();
         mun = labTestMasterServiceApi.saveAll(labTestMaster);
         data.setData("success");
@@ -175,8 +180,6 @@ public class LabTestRest {
     @Path("del")
     @POST
     public StringData del(String ids){
-        LabTestMaster labTestMaster = new LabTestMaster();
-        labTestMaster.setId(ids);
         labTestMasterServiceApi.deleteLabTestMaster(ids);
         StringData stringData=new StringData();
         stringData.setData("success");
@@ -198,14 +201,14 @@ public class LabTestRest {
     }
 
     /**
-     * 通过testNo获取对应检验项目列表
-     * @param testNo
+     * 通过labMaster获取对应检验项目列表
+     * @param labMaster
      * @return
      */
     @Path("getItem")
     @POST
-    public List<LabTestItems> getItem(String testNo){
-        List<LabTestItems> labTestItemsList=labTestItemsServiceApi.getItemName(testNo);
+    public List<LabTestItems> getItem(String labMaster){
+        List<LabTestItems> labTestItemsList=labTestItemsServiceApi.getItemName(labMaster);
         return labTestItemsList;
     }
 }

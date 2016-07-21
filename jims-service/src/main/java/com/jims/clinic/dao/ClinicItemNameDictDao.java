@@ -31,4 +31,14 @@ public interface ClinicItemNameDictDao extends CrudDao<ClinicItemNameDict> {
      */
     public List<ClinicItemNameDict> selectLabItem(ClinicItemNameDict clinicItemNameDict);
 
+    /**
+     * 根据组织机构ID、项目名称、项目代码查询诊疗项目名称表信息
+     * @param orgId  组织机构ID
+     * @param itemName  项目名称
+     * @param itemCode  项目代码
+     * @return
+     * @author fengyuguang
+     */
+    public ClinicItemNameDict findByOrgIdItemNameItemCode(String orgId, String itemName, String itemCode);
+
 }

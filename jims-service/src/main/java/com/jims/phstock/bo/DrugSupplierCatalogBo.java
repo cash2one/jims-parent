@@ -91,4 +91,16 @@ public class DrugSupplierCatalogBo extends CrudImplService<DrugSupplierCatalogDa
         return dao.update(drugSupplierCatalog)+"";
     }
 
+
+
+    /**
+     *查询全部单位
+     * @param orgId        组织机构ID
+     * @return
+     * @author wei
+     */
+    public List<DrugSupplierCatalog> findBySupplier(String orgId) {
+        return dao.findBySupplier(orgId);
+    }
+
 }

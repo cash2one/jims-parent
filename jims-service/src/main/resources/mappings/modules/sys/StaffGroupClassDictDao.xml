@@ -88,7 +88,7 @@
 
     <update id="update">
 		UPDATE staff_group_class_dict SET
-			org_id = #{orgId}
+			org_id = #{orgId},
 			group_class = #{groupClass},
 			remarks = #{remarks},
 			update_by = #{updateBy},

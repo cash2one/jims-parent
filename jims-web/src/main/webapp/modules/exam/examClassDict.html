@@ -44,7 +44,7 @@
     <form id="classForm" data-options="fit:true">
         <div style="padding-top: 10px" class="fitem">
            分类编码：
-            <input class="easyui-validatebox" type="text" id="examClassCode" data-options="required:true,missingMessage:'请填写检查分类编码'"/>
+            <input class="easyui-validatebox" type="text" id="examClassCode" validtype="examClassCode" data-options="required:true,missingMessage:'请填写检查分类编码'"/>
         </div>
         <div style="padding-top:10px; " class="fitem">
             分类名称：
@@ -52,7 +52,7 @@
         </div>
         <div style="padding-top:10px;" class="fitem">
             执行科室：
-            <input class="easyui-combobox" id="performBy" type="text" data-options="required:true,missingMessage:'请选择执行科室名称',width:175,height:25" />
+            <input class="easyui-combogrid" id="performBy" type="text" data-options="required:true,missingMessage:'请选择执行科室名称',width:175,height:25" />
         </div>
         <div style="padding-top:10px;" class="fitem">
             打印格式：

@@ -1,6 +1,6 @@
 var bloodTypeName = [];//血液要求
 var userBloodData = {};
-userBloodData.orgId = "";
+userBloodData.isOrgId=false;
 userBloodData.dictType = "BLOOD_COMPONENT";
 userBloodData.inputParamVos = inputParamVos;
 

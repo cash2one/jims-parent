@@ -32,14 +32,14 @@ public interface ClinicMasterServiceApi {
      * @param doctorID
      * @return
      */
-    public List<ClinicMaster> getClinicMasterList(String doctorID,String visitDept);
+    public List<ClinicMaster> getClinicMasterList(String doctorID,String visitDept,String orgId);
 
     /**
      * 根据当前登录人 查询  病人列表（已诊病人）
      * @param doctorID
      * @return
      */
-    public List<ClinicMaster> getClinicMasterDiagnosed(String doctorID,String visitDept);
+    public List<ClinicMaster> getClinicMasterDiagnosed(String doctorID,String visitDept,String orgId);
 
     /**
      * 根据参数查询挂号数据

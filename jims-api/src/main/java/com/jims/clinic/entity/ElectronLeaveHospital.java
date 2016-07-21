@@ -24,6 +24,7 @@ public class ElectronLeaveHospital extends DataEntity<ElectronLeaveHospital> {
 	private String chuyuanqingkuang;		// 出院情况
 	private String chuyuanyizhu;		// 出院医嘱
 	private String ruyuanbingqing;		// 入院病情
+	private String orgId;
 	
 	public ElectronLeaveHospital() {
 		super();
@@ -99,5 +100,12 @@ public class ElectronLeaveHospital extends DataEntity<ElectronLeaveHospital> {
 	public void setRuyuanbingqing(String ruyuanbingqing) {
 		this.ruyuanbingqing = ruyuanbingqing;
 	}
-	
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 }

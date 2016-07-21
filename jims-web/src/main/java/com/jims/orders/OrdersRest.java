@@ -2,6 +2,8 @@ package com.jims.orders;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.data.StringData;
 import com.jims.common.web.impl.BaseDto;
@@ -10,7 +12,9 @@ import com.jims.orders.entity.Orders;
 
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 
 
 import java.util.List;
@@ -55,7 +59,8 @@ public class OrdersRest {
      */
     @Path("save")
     @POST
-    public  StringData saveOrders(List<Orders> ordersList){
+    public  StringData saveOrders(List<Orders> ordersList,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         String num = ordersServiceApi.saveOrdersNew(ordersList);
         StringData stringData = new StringData();
         stringData.setCode(num);

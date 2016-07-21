@@ -57,6 +57,16 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
 
     }
 
+    /**
+     * deleteBloodApply
+     * @param ids
+     * @return
+     */
+    @Override
+    public String deleteBloodApply(String ids) {
+        return bloodApplyBo.delete(ids);
+    }
+
 
     /**
      * 确认用血

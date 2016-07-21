@@ -40,6 +40,18 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
         return dao.findListByApplyStatus(applyStatus);
     }
 
+
+
+    /**
+     * 查询orgId和其子机构对应的机构信息
+     * @param orgId
+     * @return 组织机构list集合
+     * @author zhuqi
+     */
+    public List<SysCompany> findListByParentId(String orgId){
+        return bo.findListByParentId(orgId);
+    }
+
     /**
      * 查询父机构名称
      * @return

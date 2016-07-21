@@ -71,14 +71,10 @@
              <input type="radio" name="repeatIndicator" value="1"  />长期
              <input type="radio" name="repeatIndicator" value="0"  />临时
         </li>
-        <li style="width:40%;"><input type="text" name="startDateTime" class="easyui-datetimebox"/> 至  <input type="text" name="stopDateTime" class="easyui-datetimebox"/></li>
+        <li style="width:40%;"><input type="text" name="startDateTime" class="easyui-datebox" id="startDateTime"/> 至  <input type="text" name="stopDateTime" class="easyui-datebox" id="stopDateTime"/></li>
 
-        <li>
-            <input type="radio" name="orderStatus"  checked="checked" value="" />都显示
-            <input type="radio" name="orderStatus" value="2"  />已执行
-            <input type="radio" name="orderStatus" value="3"  />医嘱本
-        </li>
-        <li><button id="submit_search" class="easy-nbtn easy-nbtn-info">查询</button></li>
+
+        <li><button id="submit_search" class="easy-nbtn easy-nbtn-info" onclick="searchOrders();">查询</button></li>
     </ul>
         <input type="hidden" name="patientId" id="patientId">
         <input type="hidden" name="visitId" id="visitId">

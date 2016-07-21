@@ -260,9 +260,9 @@
                         <!-- BEGIN NAVIGATION -->
                         <ul class="nav-mob navbar-nav">
                             <li class="active"><a href="#home">个人首页</a></li>
-                            <li><a >寻医问药</a></li>
-                            <li><a >私人医生</a></li>
-                            <li><a >健康管理</a></li>
+                            <!--<li><a >寻医问药</a></li>-->
+                            <!--<li><a >私人医生</a></li>-->
+                            <!--<li><a >健康管理</a></li>-->
                             <li><a >个人信息管理</a></li>
                             <li><a >我的消息</a></li>
                             <li><a >退出</a></li>
@@ -286,6 +286,27 @@
 
             </ul>
         </div>
+
+        <!-- 服务详情描述模态start -->
+        <div class="modal fade" id="serviceDialog" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document" style="width:540px; height: 250px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">基础服务描述</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ser-type clearfix" id="serviceDialogDes">
+                        </div>
+                    </div>
+                    <div class="modal-footer" align="center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 服务详情描述模态end -->
+
         <div>
             <button class="btn btn-success" id="moreServices"><i
                     class="fa fa-plus"></i>&nbsp;我要定制更多服务

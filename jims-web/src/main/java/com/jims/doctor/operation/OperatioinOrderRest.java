@@ -2,6 +2,8 @@ package com.jims.doctor.operation;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.entity.PatsInHospital;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.operation.api.OperatioinOrderServiceApi;
 import com.jims.operation.api.ScheduledOperationNameApi;
 import com.jims.operation.entity.OperationSchedule;
@@ -61,7 +63,11 @@ public class OperatioinOrderRest {
      */
     @Path("saveOut")
     @POST
-    public String saveOut(OperationSchedule operationSchedule){
+    public String saveOut(OperationSchedule operationSchedule,@Context HttpServletRequest request, @Context HttpServletResponse response){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        operationSchedule.setEnteredBy(loginInfo.getPersionId());
+        operationSchedule.setDoctorUser(loginInfo.getUserName());
+        operationSchedule.setOrgId(loginInfo.getOrgId());
      return  operatioinOrderServiceApi.saveOperationOut(operationSchedule);
     }
 

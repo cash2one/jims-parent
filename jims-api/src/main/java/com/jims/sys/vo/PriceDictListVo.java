@@ -24,9 +24,28 @@ public class PriceDictListVo implements Serializable {
     private String memo;        // 备注信息
     private String startDate;        // 起用日期
     private String inputCode; //拼音码
-    private String MaterialCode; //物价码
+    private String materialCode; //物价码
     private String clinicDict = "0"; //诊疗标识
     private String orgId;       //所属组织机构
+
+    private String stopDate;    //停用日期
+    private String id;          //价表主键ID
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getStopDate() {
+        return stopDate;
+    }
+
+    public void setStopDate(String stopDate) {
+        this.stopDate = stopDate;
+    }
 
     public String getOrgId() {
         return orgId;
@@ -45,11 +64,11 @@ public class PriceDictListVo implements Serializable {
     }
 
     public String getMaterialCode() {
-        return MaterialCode;
+        return materialCode;
     }
 
     public void setMaterialCode(String materialCode) {
-        MaterialCode = materialCode;
+        this.materialCode = materialCode;
     }
 
     public String getItemClass() {

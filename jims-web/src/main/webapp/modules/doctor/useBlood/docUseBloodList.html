@@ -11,7 +11,7 @@
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
     <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
     <script type="text/javascript" src="/static/data/data_blood_type_dict.js"></script>
-    <script type="text/javascript" src="/static/data/data_sex_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_dict_sex.js"></script>
     <script type="text/javascript" src="/static/data/data_fastSlo_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_units_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_bloodInuses_dict.js"></script>
@@ -20,7 +20,7 @@
         .fitem label{ width: 100px; }
     </style>
 </head>
-<body onload="onloadMethod()" class="easyui-layout">
+<body onload="onloadMethods()" class="easyui-layout">
 <div class="easyui-layout" style="width:100%;height:100%;">
     <div data-options="region:'east',split:true" style="width:41%;">
         <table id="list_data" cellspacing="0" cellpadding="0">
@@ -41,8 +41,7 @@
                     费别：
                 </label>
                 <input type="hidden" id="feeTypeId" name="feeType" value="">
-                <input style="width:25%;" id="feeType"  class="easyui-validatebox validatebox-text validatebox-invalid"
-                       readOnly="true" >
+                <input style="width:25%;" id="feeType" readOnly="true" >
                 <!--<label>-->
                     <!--申请科室：-->
                 <!--</label>-->
@@ -179,14 +178,14 @@
                 <!--<input name="physician" class="easyui-validatebox validatebox-text validatebox-invalid"-->
                        <!--style="width:25%;"/>-->
             <!--</div>-->
-            <div class="fitem fitem_pop">
-                <label style="width:120px">
-                    医生：
-                </label>
-                <input name="doctor" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:25%;"/>
+            <!--<div class="fitem fitem_pop">-->
+                <!--<label style="width:120px">-->
+                    <!--科主任：-->
+                <!--</label>-->
+                <!--<input name="director" class="easyui-validatebox validatebox-text validatebox-invalid"-->
+                       <!--style="width:25%;"/>-->
 
-            </div>
+            <!--</div>-->
 
             <input type="hidden"  id="clinicId" name="clinicId" value="">
             <input type="hidden"  id="patientId" name="patientId" value="">

@@ -1,15 +1,17 @@
 var westernDrugData = [];
 
 var westernDrug={};
-westernDrug.orgId="1";
-westernDrug.itemClass="A";
-westernDrug.dictType="v_drug_info_mz";
-
-
-
+westernDrug.isOrgId=false;
+westernDrug.dictType="v_clinic_item_price";
+var InputParamVo2={};
+InputParamVo2.colName="item_class";
+InputParamVo2.colValue="A";
+InputParamVo2.operateMethod='=';
+inputParamVos.push(InputParamVo2);
+westernDrug.inputParamVos=inputParamVos;
 var comboGridComplete = [];
 /**
- * 中药药品
+ * 西药药品
  */
 $.ajax({
     'type': 'POST',
@@ -27,15 +29,19 @@ $.ajax({
 //药品自动补全
 function comboGridCompleting(q,id){
     var drugNameData={};
-    drugNameData.orgId="1";
-    drugNameData.itemClass="A";
-    drugNameData.dictType="v_drug_info_mz"
+    drugNameData.isOrgId=false;
+    drugNameData.dictType="v_clinic_item_price"
     var inputParamVos=new Array();
     var InputParamVo1={};
+    var InputParamVo2={};
+
     InputParamVo1.colName='rownum';
     InputParamVo1.colValue='20';
     InputParamVo1.operateMethod='<';
-    inputParamVos.push(InputParamVo1);
+    InputParamVo2.colName="item_class";
+    InputParamVo2.colValue="A";
+    InputParamVo2.operateMethod='=';
+    inputParamVos.push(InputParamVo1,InputParamVo2);
     if(q!='' && q!=null){
         var InputParamVo={};
         InputParamVo.colName='input_code';

@@ -6,7 +6,9 @@ import com.jims.clinic.api.ClinicMasterServiceApi;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.outpAccounts.entity.RegistAcctDetail;
 import com.jims.finance.outpAccounts.entity.RegistAcctMoney;
 import com.jims.patient.api.PatMasterIndexServiceApi;
@@ -14,7 +16,9 @@ import com.jims.patient.entity.PatMasterIndex;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,13 +66,14 @@ public class ClinicMasterRest {
      */
     @Path("clinicMasterList")
     @GET
-    public List<ClinicMaster> getClinicList(@QueryParam("deptName")String deptName){
+    public List<ClinicMaster> getClinicList(@QueryParam("deptName")String deptName,@Context HttpServletRequest request){
         List<ClinicMaster> list= new ArrayList<ClinicMaster>();
       /* User user =  UserUtils.getUser();
        if(user!=null && user.getId()!=null){
            list=clinicMasterServiceApi.getClinicMasterList(user.getId());
        }*/
-        list= clinicMasterServiceApi.getClinicMasterList("174",deptName);
+        String  orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();//当前登录医生所在的机构Id
+        list= clinicMasterServiceApi.getClinicMasterList("174",deptName,orgId);
        return list;
     }
 
@@ -78,7 +83,7 @@ public class ClinicMasterRest {
      */
     @Path("clinicMasterDiagnosed")
     @GET
-    public List<ClinicMaster> getClinicMasterDiagnosed(@QueryParam("deptName")String deptName){
+    public List<ClinicMaster> getClinicMasterDiagnosed(@QueryParam("deptName")String deptName,@Context HttpServletRequest request){
 
         List<ClinicMaster> list= new ArrayList<ClinicMaster>();
 
@@ -86,7 +91,8 @@ public class ClinicMasterRest {
         if(user!=null && user.getId()!=null){
             list=clinicMasterServiceApi.getClinicMasterDiagnosed(user.getId());
         }*/
-        list= clinicMasterServiceApi.getClinicMasterDiagnosed("174",deptName);//测试中----医生ID给的定值
+        String  orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();//当前登录医生所在的机构Id
+        list= clinicMasterServiceApi.getClinicMasterDiagnosed("174",deptName,orgId);//测试中----医生ID给的定值
         return list;
     }
 

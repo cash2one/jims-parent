@@ -106,13 +106,14 @@ public class ClinicAppointsBo extends CrudImplService<ClinicAppointsDao, ClinicA
      * @param id
      * @return
      */
-    public String saveAppointReg(String id) {
+    public String saveAppointReg(String id,String orgId) {
         ClinicAppoints clinicAppoints=get(id);
         PatMasterIndex patMasterIndex=patMasterIndexDao.get(clinicAppoints.getPatientId());
         int num=0;
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
          List<ClinicAppoints> list=patMasterIndex.getClinicAppointses();
         ClinicMaster clinicMaster=new ClinicMaster();
+        clinicMaster.setOrgId(orgId);
         clinicMaster.setPatientId(patMasterIndex.getId());
         clinicMaster.setVisitDate(clinicAppoints.getVisitDateAppted());
         clinicMaster.setClinicLabel(clinicAppoints.getClinicLabel());

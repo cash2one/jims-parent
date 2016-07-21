@@ -259,66 +259,59 @@ $(function () {
             $.messager.alert("提示","请输入必填项",'error');
             return ;
         }
-
-
         var row = $("#serviceDg").datagrid("getSelected");
-
         var maxsize = 2*1024*1024;//2M
-        var errMsg = "上传的附件文件不能超过2M！！！";
-        var tipMsg = "您的浏览器暂不支持计算上传文件的大小，确保上传文件不要超过2M，建议使用IE、FireFox、Chrome浏览器。";
-        var  browserCfg = {};
+        var errMsg = "";
+        var browserCfg = {};
         var ua = window.navigator.userAgent;
 //        console.log(ua);
-        if (ua.indexOf("MSIE")>=1){
+        if (ua.indexOf("MSIE")>=1){//IE8以及以下的浏览器
             browserCfg.ie = true;
-        }else if(ua.indexOf("Firefox")>=1){
-            browserCfg.firefox = true;
-        }else if(ua.indexOf("Chrome")>=1){
-            browserCfg.chrome = true;
         }
         var obj_file = document.getElementById("serviceImage");
         if(obj_file.value==""){
-            if(flag == 1){
-                alert("请先选择上传文件");
-                return;
-            }
-            if(row && !row.id){
-                alert("请先选择上传文件");
-                return;
-            }
+            errMsg = "请先选择上传文件";
+            if(flag == 1){ alert(errMsg); return; }
+            if(row && !row.id){ alert(errMsg); return; }
         }
         var serviceImage = $("#serviceImage").val();
         var suffer=serviceImage.substring(serviceImage.lastIndexOf(".")+1).toLowerCase();
         if(suffer!="jpg"&&suffer!="png"&&suffer!="gif"&&suffer!="jpeg"&&suffer!="bmp"&&suffer!="swf"){
-            if( flag == 1 ){
-                $.messager.alert("系统提示", "请选择正确格式的图片","error");
-                return;
-            }
-            if( row && !row.id ){
-                $.messager.alert("系统提示", "请选择正确格式的图片","error");
-                return;
-            }
+            errMsg = "请选择正确的图片格式<br/><br/>建议格式：jpg,jpeg,png,gif,bmp,swf";
+            $.messager.alert("系统提示", errMsg,"error");
+            return;
         }
         var filesize = 0;
-        if(browserCfg.firefox || browserCfg.chrome ){
+        if(!browserCfg.ie){
             if(obj_file.files[0]){
-                filesize = obj_file.files[0].size;
-
-            }
-        }else if(browserCfg.ie){
-            if(obj_file.value){
-                var obj_img = document.getElementById('tempimg');
-                obj_img.dynsrc=obj_file.value;
-                filesize = obj_img.fileSize;
+                filesize = Math.round(obj_file.files[0].size);
             }
         }else{
-            alert(tipMsg);
-            return;
+            var ImgObj;
+            if(obj_file.value.indexOf("fakepath")>0){
+                obj_file.select();
+                window.parent.document.body.focus();
+                var realpath = document.selection.createRange().text;
+                if(realpath.indexOf("file:")==0){
+                    realpath = realpath.substr(0,9)+"|"+realpath.substring(10,realpath.length);
+                }else{
+                    realpath = "file:///"+realpath.substr(0,1)+"|"+realpath.substring(2,realpath.length);
+                }
+                ImgObj=document.createElement("img");
+                ImgObj.src=realpath;
+                filesize=Math.round(ImgObj.fileSize);//取得图片文件的大小
+            }else{
+                ImgObj=new Image();
+                ImgObj.src=obj_file.value;
+                filesize=Math.round(ImgObj.fileSize);//取得图片文件的大小
+            }
         }
-        if(filesize==-1){
-            alert(tipMsg);
+        if(filesize=='NaN'||filesize==0||filesize==-1){
+            errMsg = "浏览器版本过低，暂不支持计算上传文件的大小，建议使用高版本浏览器";
+            alert(errMsg);
             return;
         }else if(filesize>maxsize){
+            errMsg = "请上传小于2M的图片，当前照片大小为"+Math.round(filesize/1024/1024*100)/100+"M";
             alert(errMsg);
             return;
         }
@@ -917,4 +910,126 @@ $(function () {
         }
         $("#serviceParamDialog").dialog("open") ;
     }) ;
+
+/****************菜单修改说明（开始）*******************/
+
+    //服务菜单修改说明弹出框
+    $("#menuUpdateExplainDialog").dialog({
+        title: '服务菜单修改说明',
+        width: 600,
+        height: 500,
+        closed:true
+    });
+    $("#explainDialog").dialog({
+        title: '服务菜单修改说明',
+        width: 600,
+        height: 500,
+        closed:true,
+        buttons: '#explainSaveBtn'
+    });
+    //服务菜单修改说明数据框
+    $("#menuUpdateExplainTable").datagrid({
+        fit: true,
+        fitColumns: true,
+        toolbar: '#explainBtn',
+        method: 'GET',
+        loadMsg: '数据正在加载中，请稍后.....',
+        columns: [[{
+            title: "日期",
+            field: "updateDate",
+            width: '120',
+            align: 'center'
+        }, {
+            title: "标题",
+            field: "title",
+            width: '300',
+            halign: 'center',
+            align: 'left'
+        }
+        ]]
+    });
+    $('#updateExplainBtn').click(function(){
+        var row = $("#serviceDg").datagrid("getSelected");
+        if(!row){
+            $.messager.alert("提示","请选择一个服务",'error');
+            return;
+        } else if(!row.id){
+            $.messager.alert("提示","新建服务不能维护说明！",'error');
+            return;
+        }
+        $.get(basePath + '/menuUpdateExplain/findList?serviceId='+row.id, function (res) {
+            $("#menuUpdateExplainTable").datagrid('loadData',res)
+        })
+        $("#menuUpdateExplainDialog").dialog('open')
+    })
+    var explainEditor=UE.getEditor("explainEditor");
+    //添加
+    $('#addExplainBtn').click(function () {
+        explainEditor.setContent('')
+        $('#explainTitle').textbox('setValue','')
+        $('#explainId').val('')
+        $("#explainDialog").dialog("open");
+        $("#menuUpdateExplainDialog").dialog('close')
+    })
+    //修改
+    $('#editExplainBtn').click(function () {
+        var rows = $("#menuUpdateExplainTable").datagrid('getSelections');
+        if(rows.length > 1) {
+            $.messager.alert('修改','每次只能修改一条数据！','info');
+            return;
+        } else if(rows.length == 0){
+            $.messager.alert('修改','请选择一条数据！','info');
+            return;
+        }
+        explainEditor.setContent(rows[0].explainStr)
+        $('#explainTitle').textbox('setValue',rows[0].title)
+        $('#explainId').val(rows[0].id)
+        $("#explainDialog").dialog("open");
+        $("#menuUpdateExplainDialog").dialog('close')
+    })
+    //删除
+    $('#delExplainBtn').click(function () {
+        var rows = $("#menuUpdateExplainTable").datagrid('getSelections');
+        if(rows.length == 0){
+            $.messager.alert('删除','请选择要删除的数据！','info');
+            return;
+        }
+        var ids = '';
+        for(var i=0;i<rows.length ;i++){
+            ids += ',' + rows[i].id;
+        }
+        ids = ids.length == 0 ? ids : ids.substr(1);
+        $.get(basePath + '/menuUpdateExplain/delete?ids='+ids,function(res){
+            if(res){
+                $.messager.alert('删除','删除成功！','info');
+                $("#menuUpdateExplainDialog").dialog('close');
+            } else {
+                $.messager.alert('删除','删除失败！','error');
+            }
+        })
+    })
+    //保存
+    $('#explainSave').click(function () {
+        var row = $("#serviceDg").datagrid("getSelected");
+        var record = {
+            explain: explainEditor.getContent(),
+            serviceId: row.id,
+            title: $('#explainTitle').textbox('getValue'),
+            id: $('#explainId').val()
+        }
+        $.get(basePath + '/menuUpdateExplain/saveExplain',record, function (res) {
+            if(res){
+                $.messager.alert('保存','保存成功！','info');
+                $("#explainDialog").dialog("close");
+            } else {
+                $.messager.alert('保存','保存失败！','error');
+            }
+        })
+    })
+    //关闭
+    $('#explainClose').click(function () {
+         $("#explainDialog").dialog("close");
+    })
+
+/****************菜单修改说明（结束）*******************/
 });

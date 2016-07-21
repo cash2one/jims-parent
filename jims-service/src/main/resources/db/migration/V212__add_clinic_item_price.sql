@@ -27,4 +27,4 @@ select a.storage,
    and a.drug_code = b.item_code
    and a.org_id = b.org_id
    and a.org_id = d.org_id
-   and a.firm_id = d.id;
+   /*and a.firm_id = d.id*/;

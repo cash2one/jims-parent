@@ -1,9 +1,8 @@
 var operation=[];//手术名称
 var operationData={};
-operationData.orgId="";
+operationData.isOrgId=false;
 operationData.dictType="operation_dict"
-
-$.ajax({
+$.ajax({ 
     'type': 'POST',
     'url':basePath+'/input-setting/listParam' ,
     data: JSON.stringify(operationData),
@@ -31,9 +30,10 @@ function operationNameFormatter(value,rowData,rowIndex){
  * @param q
  */
 function dataGridCompletings(q,dataId,column){
-    var doctorNameData={};
+    var operationData={};
     //doctorNameData.orgId="1";
-    doctorNameData.dictType="operation_dict"
+    operationData.isOrgId=false;
+    operationData.dictType="operation_dict"
     var inputParamVos=new Array();
     var InputParamVo1={};
     InputParamVo1.colName='rownum';
@@ -47,7 +47,7 @@ function dataGridCompletings(q,dataId,column){
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
     }
-    doctorNameData.inputParamVos=inputParamVos;
+    operationData.inputParamVos=inputParamVos;
     $.ajax({
         'type': 'POST',
         'url':basePath+'/input-setting/listParam' ,

@@ -35,8 +35,8 @@ public class ClinicForRegistServiceImpl implements ClinicForRegisterSerivceApi{
         return clinicForRegistBo.findPage(page,clinicForRegist);
     }
     @Override
-    public String saveRegister(List<ClinicSchedule> clinicSchedules, String startTime, String endTime) throws Exception {
-        return clinicForRegistBo.saveRegister(clinicSchedules,startTime,endTime);
+    public String saveRegister(List<ClinicSchedule> clinicSchedules, String startTime, String endTime,String orgId) throws Exception {
+        return clinicForRegistBo.saveRegister(clinicSchedules,startTime,endTime,orgId);
     }
 
     @Override

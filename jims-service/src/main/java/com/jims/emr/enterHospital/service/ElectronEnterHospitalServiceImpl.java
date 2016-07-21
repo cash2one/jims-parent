@@ -2,6 +2,7 @@
 package com.jims.emr.enterHospital.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.enterHospital.api.ElectronEnterHospitalServiceApi;
 import com.jims.enterHospital.entity.ElectronEnterHospital;
 import com.jims.emr.enterHospital.bo.ElectronEnterHospitalBo;
@@ -25,7 +26,7 @@ public  class ElectronEnterHospitalServiceImpl  implements ElectronEnterHospital
     }
 
     @Override
-    public String saveEnter(ElectronEnterHospital electronEnterHospital) {
-        return electronEnterHospitalBo.saveEnter(electronEnterHospital);
+    public String saveEnter(ElectronEnterHospital electronEnterHospital,LoginInfo loginInfo) {
+        return electronEnterHospitalBo.saveEnter(electronEnterHospital,loginInfo);
     }
 }

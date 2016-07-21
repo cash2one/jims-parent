@@ -70,7 +70,7 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
                 serviceDao.insert(service);
             }
         }
-        List<SysService> sysServices = sysServiceDao.findServiceWithPrice("3", "0","","","");
+        List<SysService> sysServices = sysServiceDao.serviceListByTC("0", "3");
         if (sysServices != null && sysServices.size() > 0) {
             for (SysService service : sysServices) {
                 OrgServiceList orgService = new OrgServiceList();
@@ -91,6 +91,16 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
         orgStaff.setOrgId(id);
         orgStaffDao.insert(orgStaff);
 
+    }
+
+    /**
+     * 查询orgId和其子机构对应的机构信息
+     * @param orgId
+     * @return 组织机构list集合
+     * @author zhuqi
+     */
+    public List<SysCompany> findListByParentId(String orgId){
+        return dao.findListByParentId(orgId);
     }
 
     /**

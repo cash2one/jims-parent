@@ -1,10 +1,17 @@
+
 /**
  * 检查类别维护
  * @author tangxb
  * @version 2016-04-29
  */
 
+
 $(function () {
+
+    var deptDictList=[];        //获取科室列表
+    $.get(basePath + "/dept-dict/list?orgId="+config.org_Id,function(data){
+        deptDictList=data;
+    })
 
 
     //检查类别
@@ -32,15 +39,42 @@ $(function () {
         },{
             title: '执行科室',
             field: 'performBy',
-            width: '20%'
+            width: '20%',
+            formatter:function(value,row,index){
+                var performByName=value;
+                $.each(deptDictList,function(index,item){
+                    if(item.deptCode==value){
+                        performByName= item.deptName;
+                    }
+                })
+                return performByName;
+            }
         },{
             title: '打印格式',
             field: 'printStyle',
-            width: '20%'
+            width: '20%',
+            formatter:function(value,row,index){
+                var printStyleName=value;
+                if(value==0){
+                    printStyleName="打印";
+                }else{
+                    printStyleName="传真";
+                }
+                return printStyleName;
+            }
         },{
             title: '特殊科室',
             field: 'specialtiesDept',
-            width: '20%'
+            width: '20%',
+            formatter:function(value,row,index){
+                var specialtiesDeptName=value;
+                if(value==0){
+                    specialtiesDeptName="否";
+                }else{
+                    specialtiesDeptName="是";
+                }
+                return specialtiesDeptName;
+            }
         }]],
         onClickRow: function (rowIndex, rowData) {
             var options = $("#examSubclassGrid").datagrid('options');
@@ -57,7 +91,7 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers:true,
-        url: basePath + "/examSubclassDict/listByOrgId?orgId=" + config.org_Id,
+        //url: basePath + "/examSubclassDict/listByOrgId?orgId=" + config.org_Id,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
@@ -116,21 +150,30 @@ $(function () {
             }
         }
     });
+
     //执行科室下拉框
-    $("#performBy").combobox({
+    $("#performBy").combogrid({
         width:176,
-        editable:false,
-        valueField: 'deptCode',
+        //editable:false,
+        idField: 'deptCode',
         textField: 'deptName',
         method: 'GET',
-        url: basePath + "/dept-dict/list?orgId="+config.org_Id,
-        onLoadSuccess: function () {
-            var data = $(this).combobox('getData');
-            if (data.length > 0) {
-                $(this).combobox('setValue', data[0].deptCode);
-            }
-        }
+        mode:'remote',
+        url: basePath + "/dept-dict/findListWithFilter?orgId="+config.org_Id,
+        columns:[[
+            {field:'deptCode',title:'科室代码',width:64,align : "center"},
+            {field:'deptName',title:'科室名称',width:110,halign : "center",align : "left" },
+            //{field: 'inputCode', title: '拼音码', width: 60},
+        ]]
     });
+    //$("#performBy").combogrid({
+    //    onChange:function(value){
+    //        var row=$("#performBy").combogrid('getText');
+    //        console.log(row);
+    //        console.log(value);
+    //    }
+    //})
+
     //打印格式下拉框
     $("#printStyle").combobox({
         width:176,
@@ -186,24 +229,39 @@ $(function () {
 
     //分类项目保存
     $("#saveClassBtn").on('click', function () {
-
-        var saveObj = {};
-        saveObj.examClassCode = $("#examClassCode").val();
-        saveObj.examClassName = $("#examClassName").val();
-        saveObj.inputCode = "";
-        saveObj.performBy = $("#performBy").combobox('getValue');
-        saveObj.printStyle = $("#printStyle").combobox('getValue');
-        saveObj.specialtiesDept = $("#specialtiesDept").combobox('getValue');
-        saveObj.orgId = config.org_Id;
-        console.log(saveObj);
-        $.postJSON(basePath + "/examClassDict/save", JSON.stringify(saveObj), function (data) {
-            $("#classWin").window('close');
-            $.messager.alert('系统提示', '分类添加成功','info');
-            $("#examClassGrid").datagrid('reload');
-            $("#classForm").form('reset');
-        }, function (data) {
-            $.messager.alert('系统提示', '保存失败', 'error');
-        });
+        var performByCode=$("#performBy").combogrid('getValue');
+        var performByName=$("#performBy").combogrid('getText');
+        var a=false;
+        for(var i=0;i<deptDictList.length;i++){
+            if(deptDictList[i].deptCode==performByCode){
+                if(deptDictList[i].deptName==performByName){
+                    a=true;
+                }
+            }
+        }
+        console.log(a);
+        if(a){
+            var saveObj = {};
+            saveObj.examClassCode = $("#examClassCode").val();
+            saveObj.examClassName = $("#examClassName").val();
+            saveObj.inputCode = "";
+            saveObj.performBy = $("#performBy").combogrid('getValue');
+            saveObj.printStyle = $("#printStyle").combobox('getValue');
+            saveObj.specialtiesDept = $("#specialtiesDept").combobox('getValue');
+            saveObj.orgId = config.org_Id;
+            //console.log(saveObj);
+            $.postJSON(basePath + "/examClassDict/save", JSON.stringify(saveObj), function (data) {
+                $("#classWin").window('close');
+                $.messager.alert('系统提示', '分类添加成功','info');
+                $("#examClassGrid").datagrid('reload');
+                $("#classForm").form('reset');
+            }, function (data) {
+                $.messager.alert('系统提示', '保存失败', 'error');
+            });
+        }else{
+            var performByCode=$("#performBy").combogrid('getDataOptions');
+            $.messager.alert('系统提示', '请重新选择科室', 'error');
+        }
     });
     //分类项目删除
     $("#removeClassBtn").on('click', function () {
@@ -286,5 +344,16 @@ $(function () {
         });
 
     });
+
+    $.extend($.fn.validatebox.defaults.rules, {
+
+        examClassCode: {//param的值为[]中值
+            validator: function (value) {
+                var reg = /^[a-zA-Z0-9]{0,1}$/;
+                return reg.test(value);
+            },
+            message: '编码只能是1位数字或字母.'
+        }
+    })
 
 });

@@ -306,8 +306,8 @@
 	</select>
 
 	<update id="deleteLabTestMaster">
-		UPDATE lab_test_master SET
-		del_flag = '1' WHERE id = #{id}
+		DELETE  FROM  lab_test_master
+		 WHERE id = #{id}
 	</update>
 	<update id="updateLabMaster">
 		UPDATE lab_test_master SET

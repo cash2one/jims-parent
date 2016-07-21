@@ -70,10 +70,7 @@ $(function(){
                 }}},
             {field:'diagnosisDate',title:'诊断时间',width:'30%',align:'center',formatter:formatDatebox,editor:{type: 'datebox'}
             },
-            {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center',editor:'text',
-                formatter:function(value, row, index){
-                  return "李俊山";
-            }},
+            {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center', formatter:formatUserName},
             {field:'clinicId',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
             {field:'icdName',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
             {field:'itemNo',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
@@ -117,7 +114,12 @@ $(function(){
                 if (rowNum1 != -1) {
                     $("#zhenduan").datagrid("endEdit", rowNum1);
                 }
-                saveDiagnosis();
+                if(!$("#zhenduan").datagrid('validateRow', rowNum1)){
+                    $.messager.alert('提示',"请填写完本行数据后，再保存", "error");
+                    return false
+                }else{
+                    saveDiagnosis();
+                }
             }
           }
 

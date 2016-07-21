@@ -1,7 +1,7 @@
 var visitId = parent.patVisit.visitId;
 var patientId = parent.patVisit.patientId;
 var description = [];
-var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }]; 
 function diagnosisTypeClinicformatter(value) {
     if (value == 0) {
         return;
@@ -15,7 +15,10 @@ function diagnosisTypeClinicformatter(value) {
 function onloadMethods() {
     $("#patientId").val(patientId);
     $("#visitId").val(visitId);
-
+    $("#name").val(parent.clinicMaster.name);
+    $("#sex").val(parent.clinicMaster.sex);
+    $("#chargeType").val(parent.clinicMaster.chargeType);
+    $("#identity").val(parent.clinicMaster.identity);
 
     $("#clinDiag").combogrid({
         data:icdAllData,

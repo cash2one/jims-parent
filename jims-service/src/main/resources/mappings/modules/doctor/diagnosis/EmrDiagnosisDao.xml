@@ -47,7 +47,8 @@
         a.DIAGNOSIS_DOC AS "diagnosisDoc",
         a.INOROUT_FLAG AS "inOrOutFlag",
         a.diagnosis_date AS "diagnosisDate",
-        a.diagnosis_parent AS "diagnosisParent"
+        a.diagnosis_parent AS "diagnosisParent",
+        a.org_id AS "orgId"
 	</sql>
 
 	<sql id="deathDiagnosisJoins">
@@ -182,7 +183,8 @@
             diagnosis_parent,
             parent_ids,
             visit_id,
-            icd_name
+            icd_name,
+            org_id
 		) VALUES (
 			#{id},
 			#{parentId},
@@ -209,7 +211,8 @@
             #{diagnosisParent},
 			#{parentIds},
 			#{visitId},
-            #{icdName}
+            #{icdName},
+            #{orgId}
 		)
 	</insert>
 	
@@ -229,7 +232,8 @@
 			diagnosis_doc = #{diagnosisDoc},
 			type = #{type},
 			diagnosis_parent = #{diagnosisParent},
-            icd_name=#{icdName}
+            icd_name=#{icdName},
+            org_id = #{orgId}
 		WHERE id = #{id}
 	</update>
 	

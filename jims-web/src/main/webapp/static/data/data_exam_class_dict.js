@@ -1,6 +1,5 @@
 var examClass = [] // 检查类别
 var examClassData = {};
-examClassData.orgId="";
 examClassData.dictType="EXAM_CLASS_DICT";
 
 $.ajax({
@@ -27,8 +26,8 @@ function examClassFormatter(value,rowData,rowIndex){
         return;
     }
     for(var i = 0; i<examClass.length; i++){
-        if(examClass[i].value == value){
-            return examClass[i].label;
+        if(examClass[i].id == value){
+            return examClass[i].exam_class_name;
         }
     }
 }

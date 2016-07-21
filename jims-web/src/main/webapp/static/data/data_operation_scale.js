@@ -1,28 +1,17 @@
 var operationScaleName = [];//手术等级
-var operationScaleNameData = {};
-operationScaleNameData.orgId = "";
-operationScaleNameData.dictType = "SYS_DICT";
 
-var InputParamVo = {};
-var inputParamVos=[];
-var q = 'OPERATION_SCALE_DICT';
-InputParamVo.colName = 'TYPE';
-InputParamVo.colValue = q;
-InputParamVo1.colValue = '20';
-InputParamVo.operateMethod = '=';
-inputParamVos.push(InputParamVo);
-operationScaleNameData.inputParamVos = inputParamVos;
 $.ajax({
-    'type': 'POST',
-    'url': basePath + '/input-setting/listParam',
-    data: JSON.stringify(operationScaleNameData),
+    'type': 'GET',
+    'url':basePath+'/dict/findListByType',
+    data: 'type=OPERATION_SCALE_DICT',
     'contentType': 'application/json',
     'dataType': 'json',
     'async': false,
-    'success': function (data) {
-        operationScaleName = data;
+    'success': function(data){
+        operationScaleName=data;
     }
 });
+
 
 /**
  * 手术等级翻译

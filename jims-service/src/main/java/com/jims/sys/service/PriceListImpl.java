@@ -89,6 +89,26 @@ public class PriceListImpl implements PriceListApi {
         return bo.saveData(dictListVo);
     }
 
+    /**
+     * 修改价表
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
+    public String updatePrice(PriceDictListVo priceDictListVo){
+        return bo.updatePrice(priceDictListVo);
+    }
+
+    /**
+     * 保存调价
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
+    public String saveAdjustPrice(PriceDictListVo priceDictListVo){
+        return bo.saveAdjustPrice(priceDictListVo);
+    }
+
     @Override
     public String delete(PriceList priceList) {
         try {
@@ -197,4 +217,15 @@ public class PriceListImpl implements PriceListApi {
         return bo.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
     }
 
+    /**
+     * 调价通知单
+     * @param label
+     * @param startDate
+     * @param stopDate
+     * @param orgId
+     * @return
+     */
+    public  List<PriceList> priceNotice(String label,String startDate,String stopDate,String orgId){
+        return bo.priceNotice(label,startDate,stopDate,orgId);
+    };
 }
