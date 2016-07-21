@@ -59,7 +59,6 @@ public class DrugProvideApplicationBo extends CrudImplService<DrugProvideApplica
         for (DrugProvideApplication drugProvideApplication : inserted) {
             drugProvideApplication.preInsert();
             drugProvideApplication.setEnterDateTime(new Date());
-            drugProvideApplication.setBatchNo("X");
             int num = dao.insert(drugProvideApplication);
         }
         //更新

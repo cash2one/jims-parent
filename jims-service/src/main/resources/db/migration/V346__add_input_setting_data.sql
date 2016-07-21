@@ -7,7 +7,8 @@
 insert into INPUT_SETTING_MASTER (dict_name, dict_type, org_id, remarks, update_by, create_by, update_date, del_flag, create_date, id)
 values ('包内物品管理', 'v_exp_dict_price_list', '1', null, null, null, to_date('30-06-2016 14:03:21', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('30-06-2016 14:03:21', 'dd-mm-yyyy hh24:mi:ss'), 'f0a3fc8d57254f7cb1a25d10513fb922');
 
-
+insert into INPUT_SETTING_DETAIL (data_col, data_title, flag_show, show_sort, flag_isname, result_sort, show_width, input_setting_master_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date, id)
+values ('ORG_ID', '组织机构ID', '1', 0, 'Y', '0', 10, 'f0a3fc8d57254f7cb1a25d10513fb922', '00', null, null, null, to_date('21-07-2016 10:10:13', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('21-07-2016 10:10:13', 'dd-mm-yyyy hh24:mi:ss'), 'a0c7c6d590ef44d1af914758160a45df');
 insert into INPUT_SETTING_DETAIL (data_col, data_title, flag_show, show_sort, flag_isname, result_sort, show_width, input_setting_master_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date, id)
 values ('UNITS', '单位', '1', 0, 'Y', '0', 10, 'f0a3fc8d57254f7cb1a25d10513fb922', '00', null, null, null, to_date('30-06-2016 14:07:11', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('30-06-2016 14:07:11', 'dd-mm-yyyy hh24:mi:ss'), '91a8928e162e4a95ad20b3d856ec2d86');
 insert into INPUT_SETTING_DETAIL (data_col, data_title, flag_show, show_sort, flag_isname, result_sort, show_width, input_setting_master_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date, id)

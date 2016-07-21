@@ -39,6 +39,8 @@ public class DrugProvideApplicationRest {
     public List<DrugProvideApplication> findList(@QueryParam("orgId") String orgId,
                                                  @QueryParam("applicantStorage") String applicantStorage,
                                                  @QueryParam("applicantStorageSub") String applicantStorageSub,
+                                                 @QueryParam("provideStorage") String provideStorage,
+                                                 @QueryParam("subStorage") String subStorage,
                                                  @QueryParam("documentNo") String documentNo,
                                                  @QueryParam("flag") String flag,
                                                  @QueryParam("enterDateTime") Date enterDateTime) {
