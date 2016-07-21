@@ -147,4 +147,14 @@ public class DrugBuyPlanService implements DrugBuyPlanApi{
     public List<String[]> getBuyId(String flag,String orgId,String buyer){
         return bo.getBuyId(flag, orgId,buyer);
     }
+
+    /**
+     * 获取当前机构和子机构的采购单据号
+     * @param orgId,flag,
+     * @return DrugBuyPlanList
+     * zhuqi
+     */
+    public List<DrugBuyPlan> getBuyListByOrg(String flag,String orgId){
+        return bo.getBuyListByOrg(flag, orgId);
+    }
 }

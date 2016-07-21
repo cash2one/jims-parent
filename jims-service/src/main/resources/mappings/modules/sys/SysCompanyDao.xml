@@ -116,6 +116,17 @@
         AND DEL_FLAG='0'
     </select>
 
+    <select id="findListByParentId" resultType="SysCompany">
+        SELECT
+        *
+        FROM sys_company
+        WHERE 1 = 1
+        AND (id=#{0} or parent_id = #{0})
+        AND DEL_FLAG='0'
+        AND apply_status='2'
+    </select>
+
+
     <select id="get" resultType="SysCompany">
         SELECT
         *
