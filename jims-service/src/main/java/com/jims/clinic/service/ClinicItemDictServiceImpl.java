@@ -47,8 +47,8 @@ public class ClinicItemDictServiceImpl implements ClinicItemApi{
      * @author txb
      */
     @Override
-    public List<ClinicItemDict> itemListByOrgId(String orgId) {
-        return bo.itemListByOrgId(orgId);
+    public List<ClinicItemDict> itemListByOrgId(String orgId,String q) {
+        return bo.itemListByOrgId(orgId,q);
     }
 
     /**
