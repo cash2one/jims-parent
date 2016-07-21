@@ -120,7 +120,7 @@ public class DeptDictBo extends CrudImplService<DeptDictDao, DeptDict> {
      * 手术科室
      * @return
      */
-    public List<DeptDict> getOperation(){
-        return deptDictDao.getOperation();
+    public List<DeptDict> getOperation(String orgId){
+        return deptDictDao.getOperation(orgId);
     }
 }

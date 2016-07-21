@@ -69,6 +69,6 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
      */
     public List<DeptDict> getList();
 
-    public List<DeptDict> getOperation();
+    public List<DeptDict> getOperation(@Param("orgId")String orgId);
 	
 }

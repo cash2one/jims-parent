@@ -2,7 +2,9 @@ package com.jims.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.sys.api.DeptDictApi;
 import com.jims.sys.api.DeptPropertyDictApi;
 import com.jims.sys.entity.DeptDict;
@@ -13,7 +15,9 @@ import com.jims.sys.entity.SysCompany;
 import com.jims.sys.vo.DeptDictVo;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,8 +182,9 @@ public class DeptDictRest {
      */
     @Path("getOperation")
     @POST
-    public List<DeptDict> getOperation(){
-        List<DeptDict> operationList=deptDictApi.getOperation();
+    public List<DeptDict> getOperation(@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        List<DeptDict> operationList=deptDictApi.getOperation(loginInfo.getOrgId());
         return operationList;
     }
 }
