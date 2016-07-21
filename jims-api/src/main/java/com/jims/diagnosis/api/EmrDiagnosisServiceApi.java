@@ -1,5 +1,6 @@
 package com.jims.diagnosis.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface EmrDiagnosisServiceApi {
      * @param emrDiagnosis
      * @return
      */
-    public String saveDiagnosis( List<EmrDiagnosis> emrDiagnosis);
+    public String saveDiagnosis( List<EmrDiagnosis> emrDiagnosis,LoginInfo loginInfo);
     /**
      * 保存住院诊断
      * @param emrDiagnosis
