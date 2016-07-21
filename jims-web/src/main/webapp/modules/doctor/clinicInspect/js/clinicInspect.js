@@ -36,7 +36,7 @@ function onloadMethod() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center',formatter:examClassFormatter},
+            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center', formatter: examClassFormatter},
             //{field: 'reqDept', title: '开单科室', width: '25%', align: 'center',formatter:performedBFormatter},
             {field: 'performedBy', title: '执行科室', width: '25%', align: 'center', formatter: clinicDeptCodeFormatter},
             {
@@ -60,30 +60,30 @@ function onloadMethod() {
                 align: 'center',
                 formatter: function (value, row, index) {
                     //= '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
-                            //var html= '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
+                    //var html= '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
                     var html = '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     return html;
                 }
             }
         ]],
         view: detailview,
-        detailFormatter: function(rowIndex, rowData){
-            var detailHtml="<table style='width:100%;color:blue' border='0'><tr><td><strong>检查项目：</strong></td></tr>";
+        detailFormatter: function (rowIndex, rowData) {
+            var detailHtml = "<table style='width:100%;color:blue' border='0'><tr><td><strong>检查项目：</strong></td></tr>";
             $.ajax({
-                type:"POST",
-                url: basePath+"/clinicInspect/getItemName",
+                type: "POST",
+                url: basePath + "/clinicInspect/getItemName",
                 contentType: 'application/json',
-                data: appointsId=rowData.id,
-                async:false,
+                data: appointsId = rowData.id,
+                async: false,
                 dataType: 'json',
-                success:function(data){
-                    $.each(data,function(i,list){
-                        detailHtml+="<tr><td>"+list.examItem+"</td></tr>";
+                success: function (data) {
+                    $.each(data, function (i, list) {
+                        detailHtml += "<tr><td>" + list.examItem + "</td></tr>";
                     });
                 }
             })
-            detailHtml+="</table>";
-            return  detailHtml;
+            detailHtml += "</table>";
+            return detailHtml;
         },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
@@ -95,7 +95,7 @@ function onloadMethod() {
                 add();
             }
         }]
-        });
+    });
     //设置分页控件
     var p = $('#list_data').datagrid('getPager');
     $(p).pagination({
@@ -202,7 +202,7 @@ function add() {
     $("#identity").val(parent.clinicMaster.identity);
 
 };
-function clearForm(){
+function clearForm() {
     $("#clinicInspectForm").form('clear');
     $("#saveBut").hide();
     //$('#items').datagrid('loadData', { total: 0, rows: [] });
@@ -346,23 +346,26 @@ function saveClinicInspect() {
                     divJson += $(this).html();
                 })
                 divJson = divJson.substring(0, divJson.length - 1);
-                var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
-
-                var url = "";
+                if (divJson != "" && divJson != null) {
+                    var submitJson = formJson + ",\"examItemsList\":[" + divJson + "]}";
+                    var url = "";
                     url = basePath + "/clinicInspect/saveExamAppoints";
-                $.postJSON(url, submitJson, function (data) {
-                    if (data.code == "1") {
-                        $.messager.alert("提示信息", "保存成功");
-                        $('#list_data').datagrid('load');
-                        $("#clinicInspectForm").form('clear');
-                        $("#target").empty();
-                        $("#descriptionId").empty();
-                    } else {
+                    $.postJSON(url, submitJson, function (data) {
+                        if (data.code == "1") {
+                            $.messager.alert("提示信息", "保存成功");
+                            $('#list_data').datagrid('load');
+                            $("#clinicInspectForm").form('clear');
+                            $("#target").empty();
+                            $("#descriptionId").empty();
+                        } else {
+                            $.messager.alert("提示信息", "保存失败", "error");
+                        }
+
+                    }), function (data) {
                         $.messager.alert("提示信息", "保存失败", "error");
                     }
-
-                }), function (data) {
-                    $.messager.alert("提示信息", "保存失败", "error");
+                }else{
+                    $.messager.alert("提示信息", "请选择需要的检查项目");
                 }
             } else {
                 $.messager.alert("提示信息", "病人没有诊断信息，不能开出检查申请");
