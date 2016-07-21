@@ -3,6 +3,11 @@ var westernDrugData = [];
 var westernDrug={};
 westernDrug.isOrgId=false;
 westernDrug.dictType="v_clinic_item_price";
+var InputParamVo2={};
+InputParamVo2.colName="item_class";
+InputParamVo2.colValue="A";
+InputParamVo2.operateMethod='=';
+inputParamVos.push(InputParamVo2);
 westernDrug.inputParamVos=inputParamVos;
 var comboGridComplete = [];
 /**

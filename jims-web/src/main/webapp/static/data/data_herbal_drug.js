@@ -2,6 +2,11 @@ var herbalDrugData = [];
 var herbalDrug={};
 herbalDrug.isOrgId=false;
 herbalDrug.dictType="v_clinic_item_price";
+var InputParamVo2={};
+InputParamVo2.colName="item_class";
+InputParamVo2.colValue="B";
+InputParamVo2.operateMethod='=';
+inputParamVos.push(InputParamVo2);
 herbalDrug.inputParamVos=inputParamVos;
 /**
  * 中药药品
