@@ -12,6 +12,7 @@ function onloadMethod() {
         data: operatingRoom,
         valueField: 'id',
         textField: 'deptName',
+        required: true,
         onSelect: function (n, o) {
             $("#operatingRoomCode").val(n.id);
             comboboxLoad(n.id, 'operatingRoomNo', 'operatingRoomNoCode');
@@ -478,35 +479,87 @@ function look(id){
  * @param id
  */
 function savePperationApply() {
-    var rows = $('#operationName').datagrid('getRows');
-    var formJson = fromJson('operation');
-    formJson = formJson.substring(0, formJson.length - 1);
-    var tableJson = JSON.stringify(rows);
-    var submitJson = formJson + ",\"scheduledOperationNameList\":" + tableJson + "}";
-    //alert(tableJson);
-    $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
-        if (data == "1") {
-            $.messager.alert("提示消息", data + "条记录，保存成功");
-            $('#operationName').datagrid('clearChecked');
-            $('#operationNameList').datagrid('load');
+    $.ajax({
+        url: basePath + "/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId": clinicId},
+        success: function (data) {
+            if (data != "" && data != null) {
+                var rows = $('#operationName').datagrid('getRows');
+                var formJson = fromJson('operation');
+                formJson = formJson.substring(0, formJson.length - 1);
+                var tableJson = JSON.stringify(rows);
+                if(rows !=null && rows !=""){
+                    var submitJson = formJson + ",\"scheduledOperationNameList\":" + tableJson + "}";
+                    //alert(tableJson);
+                    $.postJSON(basePath + '/operatioinOrder/saveOut', submitJson, function (data) {
+                        if (data == "1") {
+                            $.messager.alert("提示消息", data + "条记录，保存成功");
+                            $('#operationName').datagrid('clearChecked');
+                            $('#operationNameList').datagrid('load');
+                            $('#operationName').datagrid('loadData', {total: 0, rows: []});
 
-        } else {
-            $.messager.alert('提示', "保存失败", "error");
-            $('#operationName').datagrid('load');
-            $('#operationName').datagrid('clearChecked');
+                        } else {
+                            $.messager.alert('提示', "保存失败", "error");
+                            $('#operationName').datagrid('load');
+                            $('#operationName').datagrid('clearChecked');
+                        }
+                    }, function (data) {
+                        $.messager.alert('提示', "保存失败", "error");
+                    })
+                }else {
+                    $.messager.alert("提示消息", "请添加手术名称");
+                }
+            }else{
+                $.messager.alert('提示消息', '病人没有诊断信息，不能开手术申请');
+            }
         }
-    }, function (data) {
-        $.messager.alert('提示', "保存失败", "error");
     })
 }
 
-//删除
+//列删除
+function deleteRow(id) {
+    //真删除数据
+    //提醒用户是否是真的删除数据
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        if (r) {
+            del(id);
+        }
+    })
+}
+function del(id){
+    //真删除数据
+    $.ajax({
+        'type': 'POST',
+        'url': basePath + '/operatioinOrder/delete',
+        'contentType': 'application/json',
+        'data': id = id,
+        'dataType': 'json',
+        'success': function (data) {
+            if (data == 1) {
+                $('#operation').form('clear');
+                $.messager.alert("提示消息", data + "条记录删除成功！");
+                //$('#operationName').datagrid('load');
+                $('#operationName').datagrid('loadData', { total: 0, rows: [] });
+                $('#operationNameList').datagrid('load');
+            } else {
+                $.messager.alert('提示', "删除失败", "error");
+            }
+        },
+        'error': function (data) {
+            $.messager.alert('提示', "删除失败", "error");
+        }
+    });
+}
+//删除手术名称
 function doDelete() {
     var selectRows = $('#operationName').datagrid("getSelections");
     if (selectRows.length < 1) {
         $.messager.alert("提示消息", "请选中要删的数据!");
         return;
     }
+
     //提醒用户是否是真的删除数据
     $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
         if (r) {

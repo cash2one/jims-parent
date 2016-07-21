@@ -296,19 +296,32 @@ function doDelete() {
 function save() {
     $("#clinicItem").datagrid("endEdit", rowNum);
     var rows = $('#clinicItem').datagrid('getRows');
-    if (rows[0].itemCode == undefined) {
-        $.messager.alert('提示', "请选择项目，再添加", "error");
-    } else {
-        var tableJson = JSON.stringify(rows);
-        $.postJSON(basePath + '/treatment/save', tableJson, function (data) {
-            if (data.code == 'success') {
-                $.messager.alert('提示消息', '保存成功', 'success');
-                $("#clinicItem").datagrid("reload");
-            } else {
-                $.messager.alert('提示', "保存失败", "error");
+    $.ajax({
+        url: basePath + "/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId": clinicId},
+        success: function (data) {
+            if (data != "" && data != null) {
+                if (rows[0].itemCode == undefined) {
+                    $.messager.alert('提示', "请选择项目，再添加", "error");
+                } else {
+                    var tableJson = JSON.stringify(rows);
+                    $.postJSON(basePath + '/treatment/save', tableJson, function (data) {
+                        if (data.code == 'success') {
+                            $.messager.alert('提示消息', '保存成功', 'success');
+                            $("#clinicItem").datagrid("reload");
+                        } else {
+                            $.messager.alert('提示', "保存失败", "error");
+                        }
+                    }, function (data) {
+                        $.messager.alert('提示', "保存失败", "error");
+                    })
+                }
+            }else{
+                $.messager.alert('提示消息', '病人没有诊断信息，不能开处置治疗');
             }
-        }, function (data) {
-            $.messager.alert('提示', "保存失败", "error");
-        })
-    }
+        }
+    })
+
 }
