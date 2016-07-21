@@ -3,7 +3,10 @@ package com.jims.phstock.bo;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
 import com.jims.phstock.dao.DrugBuyPlanDao;
+import com.jims.phstock.dao.DrugStockDao;
 import com.jims.phstock.entity.DrugBuyPlan;
+import com.jims.phstock.entity.DrugStock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,9 @@ import java.util.List;
 @Component
 @Transactional(readOnly = false)
 public class DrugBuyPlanBo extends CrudImplService<DrugBuyPlanDao, DrugBuyPlan> {
+
+    @Autowired
+    private DrugStockDao stockDao;
 
     /**
      * 批量保存
@@ -101,7 +107,7 @@ public class DrugBuyPlanBo extends CrudImplService<DrugBuyPlanDao, DrugBuyPlan> 
      * @return
      */
     public List<String[]> getBuyId(String flag,String orgId){
-        return getBuyId(flag,orgId,null);
+        return getBuyId(flag,orgId,null,null);
     }
 
     /**
@@ -109,10 +115,11 @@ public class DrugBuyPlanBo extends CrudImplService<DrugBuyPlanDao, DrugBuyPlan> 
      * @param flag
      * @param orgId 所属机构ID
      * @param buyer 采购员
+     * @param storage
      * @return
      */
-    public List<String[]> getBuyId(String flag,String orgId,String buyer){
-        List<DrugBuyPlan> plans = dao.getBuyId(flag,orgId,buyer);
+    public List<String[]> getBuyId(String flag,String orgId,String buyer,String storage){
+        List<DrugBuyPlan> plans = dao.getBuyId(flag,orgId,buyer,storage);
         List<String[]> results = new ArrayList<String[]>();
         if(plans != null && plans.size() > 0){
             for(DrugBuyPlan o : plans){
@@ -123,5 +130,41 @@ public class DrugBuyPlanBo extends CrudImplService<DrugBuyPlanDao, DrugBuyPlan> 
             }
         }
         return results;
+    }
+
+    public void drugInStock(List<DrugBuyPlan> recordBatch){
+        for(DrugBuyPlan plan : recordBatch){
+            DrugStock stock = new DrugStock();
+            stock.setStorage(plan.getStorage());
+            stock.setDrugCode(plan.getDrugCode());
+            stock.setDrugSpec(plan.getDrugSpec());
+            stock.setUnits(plan.getUnits());
+            stock.setFirmId(plan.getFirmId());
+            stock.setBatchNo(plan.getBatchNo());
+            stock.setSubStorage(plan.getSubStorage());//存放库房
+            stock.setOrgId(plan.getOrgId());
+            stock.setPackageSpec(plan.getPackSpec());
+            stock.setPackageUnits(plan.getPackSpec());
+            List<DrugStock> stocks = stockDao.findListNoJoin(stock);
+            if (stocks != null && stocks.size() > 0) {
+                stock = stocks.get(0);
+            }
+            Double quantity = (stock.getQuantity() != null ? stock.getQuantity() : 0)
+                    + (plan.getExecutedNumber() != null ? plan.getExecutedNumber() : 0 );   //数量更新
+            stock.setQuantity(quantity);
+            stock.setDocumentNo(plan.getImportDocument());
+            if(stock.getId() != null) {
+                stock.preUpdate();
+                stockDao.update(stock);
+            } else {
+                stock.setExpireDate(plan.getExpireDate());    //有效期
+                stock.setPurchasePrice(plan.getPurchasePrice());  //进货价
+                stock.setDiscount(plan.getDiscount());        //折扣
+                stock.setSupplyIndicator(1);    //供应标志
+                stock.preInsert();
+                stockDao.insert(stock);
+            }
+            save(plan);
+        }
     }
 }

@@ -368,7 +368,7 @@ $(function () {
             valueField: '0',
             textField: '0',
             editable: false,
-            url:base_url+'getBuyId?flag=3&orgId='+orgId,
+            url:base_url+'getBuyId?flag=3&orgId='+orgId+'&storage='+currentStorage,
             method:'get',
             mode:'remote',
             onSelect: function (record) {

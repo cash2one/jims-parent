@@ -142,9 +142,25 @@ public class DrugBuyPlanService implements DrugBuyPlanApi{
      * @param flag
      * @param orgId 所属机构ID
      * @param buyer 采购员
+     * @param storage
      * @return
      */
-    public List<String[]> getBuyId(String flag,String orgId,String buyer){
-        return bo.getBuyId(flag, orgId,buyer);
+    public List<String[]> getBuyId(String flag,String orgId,String buyer,String storage){
+        return bo.getBuyId(flag, orgId,buyer,storage);
+    }
+
+    /**
+     * 药品入库
+     * @param plan
+     * @return 0失败，1成功
+     */
+    public String drugInStock(List<DrugBuyPlan> plan){
+        try{
+            bo.drugInStock(plan);
+            return "1";
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "0";
     }
 }

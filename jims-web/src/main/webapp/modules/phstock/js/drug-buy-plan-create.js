@@ -32,11 +32,10 @@ $(function(){
         }
     })
     var base_url = '/service/drug-buy-plan/'
-    var username  = '仓管员'
-        ,orgId = parent.config.org_Id
+    var username  = config.username
+        ,orgId = config.org_Id
         ,currentBuyId = '' // 当前采购单据号
-        ,currentStorage = parent.config.currentStorage
-        ,drugDicts = []// 检索的药品字典数据
+        ,currentStorage = config.currentStorage
         ,basePath=parent.basePath;
     // 购买计划表当前选择行索引
     var planSelectIndex = 0;
@@ -312,7 +311,7 @@ $(function(){
             valueField:'0',
             textField:'0',
             editable : false,
-            url:base_url+'getBuyId?flag=1&orgId='+orgId,
+            url:base_url+'getBuyId?flag=1&orgId='+orgId+'&storage='+currentStorage,
             method:'get',
             mode:'remote',
             onSelect:function(record){

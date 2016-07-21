@@ -1,6 +1,6 @@
 $(function () {
     var base_url = '/service/drug-buy-plan/'
-    var orgId = parent.config.org_Id
+    var orgId = config.org_Id
         ,username = '采购员'
         , drugDicts = []  // 检索的药品字典数据
         , suppliers = []  // 供应商数据
@@ -145,7 +145,7 @@ $(function () {
             valueField: '0',
             textField: '0',
             editable: false,
-            url:base_url+'getBuyId?flag=4&orgId='+orgId,
+            url:base_url+'getBuyId?flag=4&orgId='+orgId+'&storage='+currentStorage,
             method:'get',
             mode:'remote',
             onSelect: function (record) {
@@ -158,13 +158,6 @@ $(function () {
             iconCls: 'icon-cog',
             text: '执行',
             onClick: saveData
-        })
-        $('#saveAndInStockButton').linkbutton({
-            iconCls: 'icon-build',
-            text: '执行并入库',
-            onClick: function(){
-                saveData('in')
-            }
         })
         $('#flushButton').linkbutton({
             iconCls: 'icon-reload',
@@ -224,7 +217,7 @@ $(function () {
     /**
      * 保存执行数据
      */
-    var saveData = function (doFlag) {
+    var saveData = function () {
         var _allData = $('#buyPlanTable').datagrid('getRows')
         if (_allData.length == 0){
             $.messager.alert('警告','没有需要执行的数据！','warning')
@@ -233,22 +226,16 @@ $(function () {
 
         var handleData = [[],[]] // handleData[0] 保存的数据,handleData[1] 删除的数据
         _allData.splice(_allData.length-1 ,1)
+        for(var i=0;i<_allData.length;i++){
+            _allData[i].executedNumber = _allData[i].checkNumber
+            _allData[i].executedDate = new Date()
+        }
         handleData[0] = _allData
         parent.$.postJSON(base_url + 'saveBatch', JSON.stringify(handleData), function (res) {
             if (res.code = '0')
                 $.messager.alert('成功', '执行成功', 'info', function () {
-                    if(doFlag == 'in'){
-                        inStock()
-                    } else {
-                        window.location.reload()
-                    }
+                     window.location.reload()
                 })
-        })
-    }
-    // 入库
-    var inStock = function(){
-        $.messager.alert('成功', '入库成功', 'info', function () {
-            window.location.reload()
         })
     }
 
