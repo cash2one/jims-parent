@@ -173,7 +173,7 @@ $(function () {
 
     //获取来源
     $("#storage").combobox({
-        url: basePath + '/drug-storage-dept/findListByLevel?orgId='+orgId+'&condition=remarks=\''+ config.currentStorageObj.level+'\'',
+        url: basePath + '/drug-storage-dept/findListByLevel?orgId='+orgId+'&condition=remarks<\''+ config.currentStorageObj.level+'\'',
         valueField: 'storageCode',
         textField: 'storageName',
         method: 'GET',
