@@ -57,4 +57,13 @@ public interface DrugBuyPlanDao extends CrudDao<DrugBuyPlan> {
      * @return
      */
     public int deleteInfo(String id);
+
+    /**
+     * 获取当前机构和子机构的采购单据号
+     * @param orgId,flag,
+     * @return DrugBuyPlanList
+     * zhuqi
+     */
+    public List<DrugBuyPlan> getBuyListByOrg(@Param("flag")String flag,@Param("orgId") String orgId);
+
 }

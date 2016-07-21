@@ -4,6 +4,11 @@ $(function(){
         ,currentSelectNameIndex   // 正别名当前选择行
         ,currentSelectVsIndex ;   // 对照项目当前选择行
 
+    var deptList = [];  //科室列表
+    $.get('/service/dept-dict/findListWithFilter?orgId=' + config.org_Id, function(data){
+        deptList = data;
+    });
+
     // 长期、临时数据
     var longArr = [{
         "value":1,
@@ -83,12 +88,12 @@ $(function(){
         columns: [[//显示的列
             {field: 'id', title: '编号', width: 20, hidden:true},
             { field: 'itemCode', title: '代码', width: 80, sortable: true,order:'desc',align : "center" },
-            { field: 'itemName', title: '项目名称', width: 200,halign:'center',align:'left'},
-            { field: 'expand3Name', title: '执行科室', width: 120,halign:'center',align:'left',editor:{
+            { field: 'itemName', title: '项目名称', width: 200,align:'center'},
+            { field: 'expand3', title: '执行科室', width: 120,align:'center',editor:{
                 type:'combogrid',
                 options:{
                     panelWidth:180,
-                    idField:'deptName',
+                    idField:'deptCode',
                     textField:'deptName',
                     fitColumns: true,
                     mode:'remote',
@@ -104,6 +109,14 @@ $(function(){
                         //    change_name_and_vs(newV,'expand3')
 
                     }}
+            },formatter: function(value,row,index){
+                var expand3 = value;
+                $.each(deptList,function(index,item){
+                    if(item.deptCode == value){
+                        expand3 = item.deptName;
+                    }
+                });
+                return expand3;
             }},
             { field: 'expand4Name', title: '频次',align : "center", width: 80 ,editor:{
                 type:'combobox',
@@ -166,7 +179,6 @@ $(function(){
                 return format(longArr,value);
             }},
             { field: 'inputCode', title: '拼音码',align : "center", width: 60 },
-            { field: 'inputCodeWb', title: '五笔码',align : "center", width: 60 },
             { field: 'itemClass', title: '项目分类',align : "center", hidden:true},
             { field: 'itemStatus', title: '', hidden:true},
             { field: 'memo', hidden:true},
@@ -203,7 +215,7 @@ $(function(){
         }
     }
     function loadNameAndVs(index){
-        if(currentSelectClinicIndex != undefined && index != currentSelectClinicIndex){
+        if(currentSelectClinicIndex != undefined){
             var row = $('#clinic_item').datagrid('getRows')[currentSelectClinicIndex];
             var nameRows = $('#clinic_item_name').datagrid('getRows');
             //五个字段是否更新
@@ -254,7 +266,7 @@ $(function(){
                     }
                 }
             }
-
+        }
             if(index != undefined && index != currentSelectClinicIndex) {
                 var row = $('#clinic_item').datagrid('getRows')[index]
                 if (row.saveVsList) {
@@ -290,7 +302,7 @@ $(function(){
                 currentSelectNameIndex = undefined;
                 currentSelectVsIndex = undefined;
             }
-            }
+
 
     }
 
@@ -323,8 +335,7 @@ $(function(){
                     }
                 }
             }},
-            { field: 'inputCode', title: '拼音码', width:50,align:'center'},
-            { field: 'inputCodeWb', title: '五笔码', width:50,align:'center'}
+            { field: 'inputCode', title: '拼音码', width:50,align:'center'}
         ]],
         onClickCell:onClickCell_name,
         onBeforeSelect: function(){
@@ -591,13 +602,11 @@ $(function(){
             ,'itemClass':$('#item_class').combobox('getValue')
             ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').textbox('getValue'))
             ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
-            ,'orgId' : config.org_Id
-            ,'inputCodeWb': ''}]
+            ,'orgId' : config.org_Id}]
         var pro_obj = {'itemClass':$('#item_class').combobox('getValue')
             ,'itemCode':$('#item_code').textbox('getValue')
             ,'itemName':$('#item_name').textbox('getValue')
             ,'inputCode': (inputCode.length > 0 ? inputCode[0].toUpperCase() : $('#item_name').textbox('getValue'))
-            ,'inputCodeWb': ''
             ,'expand3': $(':radio[name="org_type"][value="1"]').prop('checked') ? $('#clinic_org').combobox('getValue') : ''
             ,'orgId' : config.org_Id
             ,'saveNameList':new_name_json
@@ -672,7 +681,7 @@ $(function(){
                 }
                 $('#clinic_vs_charge').datagrid('appendRow', vs_json);
                 currentSelectVsIndex = $('#clinic_vs_charge').datagrid('getRows').length - 1;
-                onClickCell_vs(currentSelectVsIndex,'chargeItemName')
+                onClickCell_vs(currentSelectVsIndex,'priceType')
             }
         } else {
             $.messager.alert('警告','请先选择需要添加对照的诊疗项目!','error')

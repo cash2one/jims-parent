@@ -1,5 +1,6 @@
 package com.jims.sys.api;
 
+import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
 import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceDictListVo;
@@ -58,6 +59,14 @@ public interface PriceListApi {
      * @author fengyuguang
      */
     public String updatePrice(PriceDictListVo priceDictListVo);
+
+    /**
+     * 保存调价
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
+    public String saveAdjustPrice(PriceDictListVo priceDictListVo);
 
     /**
      * 根据类别查询价表
@@ -159,4 +168,14 @@ public interface PriceListApi {
      * @return
      */
     public List<PriceListVo> getListByClinicItemCodeAndOrgId(String orgId, String clinicItemCode);
+
+    /**
+     * 调价通知单
+     * @param label
+     * @param startDate
+     * @param stopDate
+     * @param orgId
+     * @return
+     */
+    public  List<PriceList> priceNotice(String label,String startDate,String stopDate,String orgId);
 }

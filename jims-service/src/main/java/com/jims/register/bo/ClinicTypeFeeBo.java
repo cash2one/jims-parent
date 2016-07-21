@@ -41,8 +41,8 @@ public class ClinicTypeFeeBo extends CrudImplService<ClinicTypeFeeDao, ClinicTyp
             if(clinicTypeId!=null && !clinicTypeId.equals("")){
                 clinicTypeSetting.setId(clinicTypeId);
             }//保存号类主表
+            clinicTypeSetting.setOrgId(loginInfo.getOrgId());
             if (clinicTypeSetting.getIsNewRecord()){
-                clinicTypeSetting.setOrgId(loginInfo.getOrgId());
                 clinicTypeSetting.preInsert();
                 clinicTypeSettingDao.insert(clinicTypeSetting);
             }else{

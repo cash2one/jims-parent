@@ -27,6 +27,14 @@ public interface SysCompanyDao extends CrudDao<SysCompany> {
     public List<SysCompany> findListByApplyStatus(String applyStatus);
 
     /**
+     * 查询orgId和其子机构对应的机构信息
+     * @param orgId
+     * @return 组织机构list集合
+     * @author zhuqi
+     */
+    public List<SysCompany> findListByParentId(String orgId);
+
+    /**
      * 查询父机构
      * @return
      */

@@ -52,6 +52,18 @@ public class SysCompanyRest {
     }
 
     /**
+     * 查询orgId和其子机构对应的机构信息
+     * @param orgId
+     * @return 组织机构list集合
+     * @author zhuqi
+     */
+    @GET
+    @Path("find-list-by-parent-id")
+    public List<SysCompany> findListByParentId(@QueryParam("orgId") String orgId) {
+        return sysCompanyApi.findListByParentId(orgId);
+    }
+
+    /**
      * 根据ID获取组织机构信息
      *
      * @return 组织机构

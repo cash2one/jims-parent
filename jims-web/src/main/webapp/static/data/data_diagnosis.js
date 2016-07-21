@@ -67,7 +67,7 @@ function icdFormatter(value, rowData, rowIndex) {
  */
 var loginUser={};
 loginUser.dictType="persion_info";
-/*loginUser.isOrgId = false;*/
+loginUser.isOrgId = false;
 var currentUser =[];
 
 function formatUserName(value, rowData, rowIndex){

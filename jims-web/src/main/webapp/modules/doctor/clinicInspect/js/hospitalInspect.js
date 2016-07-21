@@ -1,7 +1,7 @@
 var visitId = parent.patVisit.visitId;
 var patientId = parent.patVisit.patientId;
 var description = [];
-var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }]; 
 function diagnosisTypeClinicformatter(value) {
     if (value == 0) {
         return;

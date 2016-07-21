@@ -26,7 +26,8 @@ function onloadMethod(id,clinicName){
                 options:{
                     data :item,
                     valueField:'value',
-                    textField:'label'
+                    textField:'label',
+                    required: true
                 }}
             },
             {field:'priceItem',title:'项目代码',width:'25%',align:'center'
@@ -39,6 +40,7 @@ function onloadMethod(id,clinicName){
                 options:{
                     data:priceItme,
                     idField:'item_code',
+                    required: true,
                     textField:'item_name',
                     columns:[[
                         {field:'item_code',title:'项目代码',width:120},
@@ -99,6 +101,7 @@ function onloadMethod(id,clinicName){
             text: '保存',
             iconCls:'icon-save',
             handler:function(){
+
                 $("#list_data").datagrid('endEdit', rowNum);
                 save();
             }
@@ -136,9 +139,17 @@ clinicTypeList();
 
 //保存数据
 function save(){
+    if (!$('#list_data').datagrid('validateRow', rowNum)) {
+        $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
+        return false
+    }
     var  rows=$('#list_data').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     var type=encodeURI($("#type").val());
+    if(type=='' || type==null){
+        $.messager.alert('提示',"挂号类型不能为空", "error");
+        return;
+    }
     var clinicTypeId=$("#clinicTypeId").val();
     $.postJSON(basePath+'/clinicType/saveItem?type='+type+'&clinicTypeId='+clinicTypeId,tableJson,function(data){
         if(data.code=='1'){

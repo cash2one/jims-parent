@@ -167,4 +167,14 @@ public class DrugBuyPlanBo extends CrudImplService<DrugBuyPlanDao, DrugBuyPlan> 
             save(plan);
         }
     }
+
+    /**
+     * 获取当前机构和子机构的采购单据号
+     * @param orgId,flag,
+     * @return DrugBuyPlanList
+     * zhuqi
+     */
+    public List<DrugBuyPlan> getBuyListByOrg(String flag,String orgId){
+        return dao.getBuyListByOrg(flag, orgId);
+    }
 }

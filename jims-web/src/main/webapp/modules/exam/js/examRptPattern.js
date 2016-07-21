@@ -31,6 +31,7 @@ $(function () {
                     idField: 'itemName',
                     textField: 'itemName',
                     method: 'GET',
+                    mode:'remote',
                     url: basePath +  "/examRptPattern/itemListByOrgId?orgId="+parent.config.org_Id,
                     columns:[[
                         {field:'itemClass',title:'项目类别',width:30},
@@ -70,10 +71,8 @@ $(function () {
                         if (flag == 0){
                             var obj = $("#examRptPatternGrid").datagrid("getEditor", {index:rowIndex,field:'descriptionCode'});
                             $(obj.target).textbox("setValue",rowData.itemCode);
+                            $("#examRptPatternGrid").datagrid('endEdit', editorRow);
                         }
-
-
-
                     }
                 }
             }

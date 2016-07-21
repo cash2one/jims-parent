@@ -94,6 +94,15 @@
         and rownum &lt; 2 order by buy_id DESC
     </select>
 
+
+    <select id="getBuyListByOrg" resultType="DrugBuyPlan">
+        select buy_Id,org_id,flag
+        from drug_buy_plan
+        where org_id=#{orgId}
+        and flag=#{flag}
+        group by org_id,buy_id ,flag
+    </select>
+
     <select id="getBuyId" resultType="DrugBuyPlan">
         select distinct a.buy_id,a.flag from drug_buy_plan a
         where

@@ -163,4 +163,14 @@ public class DrugBuyPlanService implements DrugBuyPlanApi{
         }
         return "0";
     }
+
+    /**
+     * 获取当前机构和子机构的采购单据号
+     * @param orgId,flag,
+     * @return DrugBuyPlanList
+     * zhuqi
+     */
+    public List<DrugBuyPlan> getBuyListByOrg(String flag,String orgId){
+        return bo.getBuyListByOrg(flag, orgId);
+    }
 }

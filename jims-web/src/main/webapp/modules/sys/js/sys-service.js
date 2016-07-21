@@ -259,66 +259,59 @@ $(function () {
             $.messager.alert("提示","请输入必填项",'error');
             return ;
         }
-
-
         var row = $("#serviceDg").datagrid("getSelected");
-
         var maxsize = 2*1024*1024;//2M
-        var errMsg = "上传的附件文件不能超过2M！！！";
-        var tipMsg = "您的浏览器暂不支持计算上传文件的大小，确保上传文件不要超过2M，建议使用IE、FireFox、Chrome浏览器。";
-        var  browserCfg = {};
+        var errMsg = "";
+        var browserCfg = {};
         var ua = window.navigator.userAgent;
 //        console.log(ua);
-        if (ua.indexOf("MSIE")>=1){
+        if (ua.indexOf("MSIE")>=1){//IE8以及以下的浏览器
             browserCfg.ie = true;
-        }else if(ua.indexOf("Firefox")>=1){
-            browserCfg.firefox = true;
-        }else if(ua.indexOf("Chrome")>=1){
-            browserCfg.chrome = true;
         }
         var obj_file = document.getElementById("serviceImage");
         if(obj_file.value==""){
-            if(flag == 1){
-                alert("请先选择上传文件");
-                return;
-            }
-            if(row && !row.id){
-                alert("请先选择上传文件");
-                return;
-            }
+            errMsg = "请先选择上传文件";
+            if(flag == 1){ alert(errMsg); return; }
+            if(row && !row.id){ alert(errMsg); return; }
         }
         var serviceImage = $("#serviceImage").val();
         var suffer=serviceImage.substring(serviceImage.lastIndexOf(".")+1).toLowerCase();
         if(suffer!="jpg"&&suffer!="png"&&suffer!="gif"&&suffer!="jpeg"&&suffer!="bmp"&&suffer!="swf"){
-            if( flag == 1 ){
-                $.messager.alert("系统提示", "请选择正确格式的图片","error");
-                return;
-            }
-            if( row && !row.id ){
-                $.messager.alert("系统提示", "请选择正确格式的图片","error");
-                return;
-            }
+            errMsg = "请选择正确的图片格式<br/><br/>建议格式：jpg,jpeg,png,gif,bmp,swf";
+            $.messager.alert("系统提示", errMsg,"error");
+            return;
         }
         var filesize = 0;
-        if(browserCfg.firefox || browserCfg.chrome ){
+        if(!browserCfg.ie){
             if(obj_file.files[0]){
-                filesize = obj_file.files[0].size;
-
-            }
-        }else if(browserCfg.ie){
-            if(obj_file.value){
-                var obj_img = document.getElementById('tempimg');
-                obj_img.dynsrc=obj_file.value;
-                filesize = obj_img.fileSize;
+                filesize = Math.round(obj_file.files[0].size);
             }
         }else{
-            alert(tipMsg);
-            return;
+            var ImgObj;
+            if(obj_file.value.indexOf("fakepath")>0){
+                obj_file.select();
+                window.parent.document.body.focus();
+                var realpath = document.selection.createRange().text;
+                if(realpath.indexOf("file:")==0){
+                    realpath = realpath.substr(0,9)+"|"+realpath.substring(10,realpath.length);
+                }else{
+                    realpath = "file:///"+realpath.substr(0,1)+"|"+realpath.substring(2,realpath.length);
+                }
+                ImgObj=document.createElement("img");
+                ImgObj.src=realpath;
+                filesize=Math.round(ImgObj.fileSize);//取得图片文件的大小
+            }else{
+                ImgObj=new Image();
+                ImgObj.src=obj_file.value;
+                filesize=Math.round(ImgObj.fileSize);//取得图片文件的大小
+            }
         }
-        if(filesize==-1){
-            alert(tipMsg);
+        if(filesize=='NaN'||filesize==0||filesize==-1){
+            errMsg = "浏览器版本过低，暂不支持计算上传文件的大小，建议使用高版本浏览器";
+            alert(errMsg);
             return;
         }else if(filesize>maxsize){
+            errMsg = "请上传小于2M的图片，当前照片大小为"+Math.round(filesize/1024/1024*100)/100+"M";
             alert(errMsg);
             return;
         }

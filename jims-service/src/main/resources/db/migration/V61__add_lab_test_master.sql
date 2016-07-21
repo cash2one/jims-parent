@@ -17,7 +17,7 @@ create table LAB_TEST_MASTER
   EXECUTE_DATE            DATE,
   NAME                    VARCHAR2(20 CHAR),
   NAME_PHONETIC           VARCHAR2(16 CHAR),
-  CHARGE_TYPE             VARCHAR2(8 CHAR),
+  CHARGE_TYPE             VARCHAR2(64 CHAR),
   SEX                     VARCHAR2(4 CHAR),
   AGE                     NUMBER(3),
   TEST_CAUSE              VARCHAR2(8 CHAR),

@@ -83,6 +83,22 @@ public class PriceDictRest {
     }
 
     /**
+     * 保存调价
+     * @param priceDictListVo
+     * @return
+     * @author fengyuguang
+     */
+    @Path("save-adjust-price")
+    @POST
+    public StringData saveAdjustPrice(PriceDictListVo priceDictListVo){
+        StringData stringData = new StringData();
+        String code = priceListApi.saveAdjustPrice(priceDictListVo);
+        stringData.setCode(code);
+        stringData.setData("success");
+        return stringData;
+    }
+
+    /**
      * 根据类别查询价表
      * @param itemClass 类别
      * @param orgId 组织机构ID
@@ -131,6 +147,9 @@ public class PriceDictRest {
     @GET
     public StringData Abbreviation(@PathParam("code") String code) {
         String res = AbbreviationUtils.cn2py(code);
+        if(res.length() > 8){
+            res = res.substring(0, 8);
+        }
         StringData stringData = new StringData();
         stringData.setCode(res);
         stringData.setData("success");

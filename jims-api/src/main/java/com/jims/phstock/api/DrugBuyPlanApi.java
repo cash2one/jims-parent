@@ -102,4 +102,12 @@ public interface DrugBuyPlanApi {
      * @return 0失败，1成功
      */
     public String drugInStock(List<DrugBuyPlan> plan);
+
+    /**
+     * 获取当前机构和子机构的采购单据号
+     * @param orgId,flag,
+     * @return DrugBuyPlanList
+     * zhuqi
+     */
+    public List<DrugBuyPlan> getBuyListByOrg(String flag,String orgId);
 }

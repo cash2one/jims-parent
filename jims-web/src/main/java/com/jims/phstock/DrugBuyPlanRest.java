@@ -93,4 +93,17 @@ public class DrugBuyPlanRest {
     public String drugInStock(List<DrugBuyPlan> plan){
         return drugBuyPlanApi.drugInStock(plan);
     }
+
+    /**
+     * 获取当前机构和子机构的采购单据号
+     * @param orgId,flag,
+     * @return DrugBuyPlanList
+     * zhuqi
+     */
+    @GET
+    @Path("getBuyListByOrg")
+    public List<DrugBuyPlan> getBuyListByOrg(@QueryParam("flag")String flag
+            ,@QueryParam("orgId")String orgId){
+        return drugBuyPlanApi.getBuyListByOrg(flag, orgId);
+    }
 }

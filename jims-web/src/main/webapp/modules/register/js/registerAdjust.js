@@ -7,7 +7,7 @@ var timeInterval=[];
  * @type {{}}
  */
 var timeIntervalData={};
-timeIntervalData.orgId="";
+timeIntervalData.isOrgId=false;
 timeIntervalData.dictType="TIME_INTERVAL_DICT"
 $.ajax({
     'type': 'POST',

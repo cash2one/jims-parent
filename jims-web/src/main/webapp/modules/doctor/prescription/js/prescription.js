@@ -28,6 +28,7 @@ $(function(){
             {field:'visitDate',title:'就诊时间',width:'20%',align:'center'},
             {field:'visitNo',title:'就诊序号',width:'20%',align:'center'},
             {field:'prescNo',title:'处方号',width:'20%',align:'center'},
+            {field:'serialNo',title:'流水号',hidden:true},
             {field:'itemClass',title:'处方分类',width:'20%',align:'center',
                 formatter: function (value, row, index) {
                     if (value == "A") {
@@ -60,6 +61,7 @@ $(function(){
                 $('#leftList').datagrid('selectRow',0);
                 selRow = $("#leftList").datagrid("getChecked");
             }
+
             subLoadData(selRow[0]);
         }
     });
@@ -274,7 +276,8 @@ $(function(){
                     var idx = $("#list_data").datagrid('appendRow', {
                             prescNo:selRow[0].prescNo,
                             orderNo:orderNo,
-                            subOrderNo:orderNo
+                            subOrderNo:orderNo,
+                            serialNo:selRow[0].serialNo
                         }).datagrid('getRows').length-1;
                     rowNum=idx;
                     $('#list_data').datagrid('beginEdit', idx);
@@ -366,7 +369,7 @@ $(function(){
     //处方属性下拉框
     $('#prescAttr').combobox({
         data: prescAttrDict,
-        valueField: 'label',
+        valueField: 'value',
         textField: 'label',
         required:true
     });
@@ -375,8 +378,8 @@ $(function(){
 
 //加载数据时加载子项方法
 function subLoadData(row){
-
     if(row!=undefined&&row!='undifined'){
+        $("#serialNo").val(row.serialNo);
         //如果选中数据非新开数据，则右侧药局部分禁用
         if(row.chargeIndicator!='新开'){
             disableForm('prescForm',true);

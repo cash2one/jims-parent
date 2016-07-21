@@ -3,7 +3,9 @@ package com.jims.finance;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.BaseData;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.utils.StringUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.api.OutPatientCostServiceApi;
 import com.jims.finance.entity.OutpBillItems;
@@ -11,7 +13,9 @@ import com.jims.finance.entity.OutpRcptMaster;
 import com.jims.patient.entity.PatMasterIndex;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -33,8 +37,9 @@ public class OutpatientCostRest {
      */
     @Path("list")
     @GET
-    public BaseData<BaseDto>  getPatientList(@QueryParam("clinicNo") String clinicNo,@QueryParam("orgId") String orgId){
-        BaseData<BaseDto> baseData=outPatientCostApi.list(orgId, clinicNo);
+    public BaseData<BaseDto>  getPatientList(@QueryParam("clinicNo") String clinicNo,@Context HttpServletRequest request ){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        BaseData<BaseDto> baseData=outPatientCostApi.list(loginInfo.getOrgId(), clinicNo);
         return baseData;
     }
 
