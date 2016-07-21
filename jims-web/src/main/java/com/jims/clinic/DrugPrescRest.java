@@ -38,7 +38,7 @@ public class DrugPrescRest {
     @GET
     public PageData findMaster(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam(value = "name")String name,@QueryParam(value = "clinicId")String clinicId,
                                @QueryParam(value = "patientId")String patientId,@QueryParam(value = "startDatePresc")String startDatePresc,@QueryParam(value = "stopDatePresc")String stopDatePresc,
-                               @QueryParam(value = "startDateDispense")String startDateDispense,@QueryParam(value = "stopDateDispense")String stopDateDispense,@QueryParam(value = "prescNo")int prescNo){
+                               @QueryParam(value = "startDateDispense")String startDateDispense,@QueryParam(value = "stopDateDispense")String stopDateDispense,@QueryParam(value = "prescNo")int prescNo,@QueryParam(value="orgId") String orgId){
         DrugPrescMaster drugPrescMaster=new DrugPrescMaster();
         drugPrescMaster.setName(name);
         drugPrescMaster.setClinicId(clinicId);
@@ -48,6 +48,7 @@ public class DrugPrescRest {
         drugPrescMaster.setStartDatePresc(startDatePresc);
         drugPrescMaster.setStopDateDispense(stopDateDispense);
         drugPrescMaster.setStopDatePresc(startDatePresc);
+        drugPrescMaster.setOrgId(orgId);
         Page<DrugPrescMaster> prescMasterPage=new Page<DrugPrescMaster>(request,response);
         prescMasterPage=drugPrescServiceApi.findPage(prescMasterPage,drugPrescMaster);
         PageData pageData=new PageData();

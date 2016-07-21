@@ -1,4 +1,5 @@
 $(function(){
+    $('#orgId').val(config.org_Id);
     $("#startDatePresc").datebox("setValue", formatDatebox(new Date()));
     $("#stopDatePresc").datebox("setValue", formatDatebox(new Date()));
     $("#startDateDispense").datebox("setValue", formatDatebox(new Date()));
