@@ -1,6 +1,6 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
-var description = [];
+var description = []; 
 var diagnosisTypeClinic = [{"value": "1", "text": "中医"}, {"value": "2", "text": "西医"}];
 
 function diagnosisTypeClinicformatter(value) {

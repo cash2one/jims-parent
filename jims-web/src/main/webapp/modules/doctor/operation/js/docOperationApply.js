@@ -1,6 +1,6 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
-var rowNum = -1;
+var rowNum = -1; 
 var scheduleId = null;
 function onloadMethod() {
     var ids = "";
