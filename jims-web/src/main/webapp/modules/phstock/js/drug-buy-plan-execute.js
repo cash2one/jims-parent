@@ -8,6 +8,36 @@ $(function () {
     var planSelectIndex = 0;   // 购买计划表当前选择行索引
 
 
+    var orgList=[]; //组织机构及其下级机构列表
+    $.get("/service/sys-sompany/find-list-by-parent-id?orgId="+config.org_Id, function (data) {
+        orgList= data;
+        loadBuyList(orgList);
+    });
+
+    var buyListByOrg=[];
+    var loadBuyList = function(orgLists){
+        buyListByOrg=[];
+        if(orgLists.length>0){
+            for(var i=0;i<orgLists.length;i++){
+                $.ajax({
+                    type: 'get',
+                    url: base_url+'getBuyListByOrg?flag=4&orgId='+orgLists[i].id,
+                    async : false,   // true 异步,false 同步
+                    //data: {orgId: orgLists[i].id, flag: 3},
+                    contentType: 'application/json',
+                    success: function(res){
+                        if(res.length>0){
+                            for (var j=0;j<res.length;j++){
+                                buyListByOrg.push(res[j]);
+                            }
+                        }
+                    }
+                })
+            }
+            $('#temporaryNo').combogrid('grid').datagrid("loadData", buyListByOrg);
+        }
+    }
+
     var specUnits = [];//规格单位字典
     $.get("/service/dict/findListByType?type=spec_unit", function (data) {
         specUnits = data;
@@ -21,7 +51,7 @@ $(function () {
     var drugFormDict = [];//剂型字典
     $.get("/service/dict/findListByType?type=DRUG_FORM_DICT", function (data) {
         drugFormDict = data;
-    })
+    });
 
 
     /**
@@ -141,17 +171,40 @@ $(function () {
      * 初始化按钮等
      */
     var initBtn = function () {
-        $('#temporaryNo').combobox({
-            valueField: '0',
-            textField: '0',
-            editable: false,
-            url:base_url+'getBuyId?flag=4&orgId='+orgId,
-            method:'get',
+        $('#temporaryNo').combogrid({
+            panelWidth: 203,
             mode:'remote',
-            onSelect: function (record) {
+            idField: 'buyId',
+            textField: 'buyId',
+            //editable: false,
+            //url:loadBuyList(orgList),
+            //data:[],
+            columns: [[
+                {field: 'buyId', title: '采购单据号', width: 100},
+                {field: 'orgId', title: '所属机构', width: 100
+                    ,formatter:function(value,index){
+                    var orgName=value;
+                    for(var i=0;i<orgList.length;i++){
+                        if(orgList[i].id==value){
+                            orgName=orgList[i].orgName
+                        }
+                    }
+                    return orgName;
+                }
+                }
+            ]],
+            onSelect: function (q, row) {
+                console.log(row.buyId+row.orgId);
+                console.log(q);
+                //var rows=$('#temporaryNo').combogrid('getSelected');
+                //console.log(rows);
+                //planSelectIndex = 0
+                //loadDrugBuyPlan(record[0], '3')
                 planSelectIndex = 0
-                loadDrugBuyPlan(record[0], '4')
+                loadDrugBuyPlan(row.buyId, '4',row.orgId);
             }
+            //onLoadSuccess:function(){
+            //}
         })
 
         $('#saveButton').linkbutton({
@@ -163,7 +216,13 @@ $(function () {
             iconCls: 'icon-build',
             text: '执行并入库',
             onClick: function(){
-                saveData('in')
+                var rows = $('#buyPlanTable').datagrid('getRows');
+                if(rows.length>0 &&rows[0].orgId==config.org_Id){
+                    saveData('in')
+                }else{
+                    $.messager.alert('系统警告：','子机构的采购物品不可入库','error')
+                }
+
             }
         })
         $('#flushButton').linkbutton({
@@ -187,8 +246,9 @@ $(function () {
      * @param buyId
      * @param flag
      */
-    var loadDrugBuyPlan = function (buyId, flag) {
-        $.get(base_url + 'findList', {buyId: buyId, orgId: orgId, flag: flag}, function (res) {
+    var loadDrugBuyPlan = function (buyId, flag,org) {
+        $.get(base_url + 'findList', {buyId: buyId, orgId: org, flag: flag}, function (res) {
+            console.log(res);
             for(var i=0;i<res.length;i++){
                 res[i].flag = '5'
             }
@@ -213,11 +273,12 @@ $(function () {
      * @param supplierClass
      */
     var loadSupplier = function(orgId,supplierClass){
-        $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-type', {
-            orgId: orgId,
-            supplierClass: supplierClass
+        $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-by-sub-org', {
+            orgId: config.org_Id
+            //supplierClass: supplierClass
         }, function (res) {
             suppliers = res
+            console.log(res);
         }, 'GET', false)
     }
 

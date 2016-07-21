@@ -67,6 +67,16 @@ public class DrugSupplierCatalogServiceImpl implements DrugSupplierCatalogApi {
     }
 
     /**
+     * 根据orgId查询该机构和其子机构的厂商
+     * @param orgId
+     * @param q
+     * @zhuqi
+     */
+    public List<DrugSupplierCatalog> listSupplierBySubOrg(String orgId,String q) {
+        return drugSupplierCatalogBo.listSupplierBySubOrg(orgId, q);
+    }
+
+    /**
      * 根据拼音码查询所属组织机构的供应商和生产商
      *
      * @param orgId     组织机构ID
