@@ -8,6 +8,8 @@
 
 $(function () {
 
+
+    var classCodeTest=false;
     var deptDictList=[];        //获取科室列表
     $.get(basePath + "/dept-dict/list?orgId="+config.org_Id,function(data){
         deptDictList=data;
@@ -82,6 +84,24 @@ $(function () {
             $("#examSubclassGrid").datagrid('reload');
         }
     });
+
+    //验证examClassName
+    $('#examClassName').textbox({
+        onChange: function(value) {
+            var examClassName = $("#examClassName").textbox("getValue");
+            alert(examClassName);
+            var data=$("#examSubClassNameParent").combobox("getData");
+            for(var i=0;i<data.length;i++){
+                if(data[i].examClassName==examClassName){
+                    $.messager.alert('系统提示', '分类名称重复，请重新输入', 'error');
+                    $("#examClassName").textbox("setValue",'');
+                }
+            }
+        }
+        });
+
+
+
     //检查子类别
     $("#examSubclassGrid").datagrid({
         fit: true,
@@ -145,6 +165,7 @@ $(function () {
         url: basePath +  "/examClassDict/listByOrgId?orgId="+config.org_Id,
         onLoadSuccess: function () {
             var data = $(this).combobox('getData');
+            console.log(data)
             if (data.length > 0) {
                 $(this).combobox('setValue', data[0].examClassName);
             }
@@ -175,6 +196,8 @@ $(function () {
     //})
 
     //打印格式下拉框
+
+
     $("#printStyle").combobox({
         width:176,
         editable:false,
@@ -239,7 +262,7 @@ $(function () {
                 }
             }
         }
-        console.log(a);
+        //console.log(a);
         if(a){
             var saveObj = {};
             saveObj.examClassCode = $("#examClassCode").val();
@@ -300,8 +323,15 @@ $(function () {
             saveObj.orgId = config.org_Id;
             saveObj.id =  $("#id").textbox('getValue');
 
+        var exam=$('#examSubclassGrid').datagrid('getData');
 
-        $.postJSON(basePath + "/examSubclassDict/save", JSON.stringify(saveObj), function (data) {
+        for(var i=0;i<exam.rows.length;i++){
+            if(exam.rows[i].examSubclassName==saveObj.examSubclassName){
+                $.messager.alert('系统提示', '子类名称重复，请重新命名！');
+                return false;
+            }
+        }
+            $.postJSON(basePath + "/examSubclassDict/save", JSON.stringify(saveObj), function (data) {
                 $("#subclassWin").window('close');
                 $.messager.alert('系统提示', '子分类添加成功');
                 $("#examSubclassGrid").datagrid('reload');
@@ -309,6 +339,8 @@ $(function () {
             }, function (data) {
                 $.messager.alert('系统提示', '保存失败', 'info');
             });
+
+
     });
 
      //子分类项目编辑
@@ -345,6 +377,7 @@ $(function () {
 
     });
 
+
     $.extend($.fn.validatebox.defaults.rules, {
 
         examClassCode: {//param的值为[]中值
@@ -354,6 +387,7 @@ $(function () {
             },
             message: '编码只能是1位数字或字母.'
         }
+
     })
 
 });
