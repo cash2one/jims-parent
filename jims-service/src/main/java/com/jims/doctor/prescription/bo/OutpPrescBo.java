@@ -146,12 +146,13 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                 //保存门诊医嘱信息
                 oo.setClinicId(clinicMaster.getId());
                 oo.setVisitDate(clinicMaster.getVisitDate());
+                oo.setPatientId(clinicMaster.getPatientId());
                 oo.setVisitNo(clinicMaster.getVisitNo());
                 oo.setSerialNo(outpPresc.getSerialNo());
                 oo.setOrderedBy(clinicMaster.getVisitDept());
-                oo.setDoctor(loginInfo.getPersionId());
+                oo.setDoctor(loginInfo.getUserName());
                 oo.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + oo.getVisitNo());
-                oo.setDoctorNo(clinicMaster.getDoctor());
+                oo.setDoctorNo(loginInfo.getPersionId());
                 oo.setOrgId(loginInfo.getOrgId());
                 oo.preInsert();
                 outpOrdersDao.insert(oo);

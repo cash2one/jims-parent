@@ -1,8 +1,7 @@
 var herbalDrugData = [];
 var herbalDrug={};
 herbalDrug.isOrgId=false;
-herbalDrug.itemClass="B";
-herbalDrug.dictType="v_drug_info_mz";
+herbalDrug.dictType="v_clinic_item_price";
 herbalDrug.inputParamVos=inputParamVos;
 /**
  * 中药药品
@@ -23,15 +22,18 @@ $.ajax({
 //药品自动补全
 function comboGridCompletingHerbalDrug(q,id){
     var drugNameData={};
-    drugNameData.itemClass="B";
     drugNameData.isOrgId=false;
-    drugNameData.dictType="v_drug_info_mz"
+    drugNameData.dictType="v_clinic_item_price"
     var inputParamVos=new Array();
     var InputParamVo1={};
+    var InputParamVo2={};
     InputParamVo1.colName='rownum';
     InputParamVo1.colValue='20';
     InputParamVo1.operateMethod='<';
-    inputParamVos.push(InputParamVo1);
+    InputParamVo2.colName="item_class";
+    InputParamVo2.colValue="B";
+    InputParamVo2.operateMethod='=';
+    inputParamVos.push(InputParamVo1,InputParamVo2);
     if(q!='' && q!=null){
         var InputParamVo={};
         InputParamVo.colName='input_code';
