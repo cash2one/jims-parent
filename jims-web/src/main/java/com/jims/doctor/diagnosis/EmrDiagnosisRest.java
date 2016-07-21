@@ -1,6 +1,8 @@
 package com.jims.doctor.diagnosis;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.api.EmrDiagnosisServiceApi;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.data.StringData;
@@ -30,6 +32,7 @@ public class EmrDiagnosisRest {
     @GET
     public  List<EmrDiagnosis> list(@Context HttpServletRequest request,@Context HttpServletResponse response,@QueryParam("clinicId")String clinicId){
        EmrDiagnosis emrDiagnosis=new EmrDiagnosis();
+
         emrDiagnosis.setClinicId(clinicId);
         List<EmrDiagnosis> page = emrDiagnosisServiceApi.findList(emrDiagnosis);
         return page;
@@ -50,9 +53,10 @@ public class EmrDiagnosisRest {
      */
     @Path("saveOut")
     @POST
-    public StringData saveDiagnosis(List<EmrDiagnosis> emrDiagnosisList) {
+    public StringData saveDiagnosis(List<EmrDiagnosis> emrDiagnosisList,@Context HttpServletRequest request) {
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data=new StringData();
-        data.setCode(emrDiagnosisServiceApi.saveDiagnosis(emrDiagnosisList));
+        data.setCode(emrDiagnosisServiceApi.saveDiagnosis(emrDiagnosisList,loginInfo));
         return data;
     }
 

@@ -113,6 +113,13 @@ function onloadMethod() {
  * @param id
  */
 function savePatHospitalNotice() {
+    $.ajax({
+        url: basePath+"/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId":cId},
+        success: function (data) {
+            if (data != "" && data != null) {
     $.postForm(basePath + "/patHospitalNotice/save", "patHospitalForm", function (data) {
         if (data.data == "success") {
             $.messager.alert("提示信息", "保存成功");
@@ -135,6 +142,10 @@ function savePatHospitalNotice() {
     }), function (data) {
         $.messager.alert("提示信息", "保存失败", "error");
     }
+            }else{
+                $.messager.alert("提示信息", "病人没有诊断信息，不能保存出院通知单", "warning");
+            }
+        }});
 }
 
 
