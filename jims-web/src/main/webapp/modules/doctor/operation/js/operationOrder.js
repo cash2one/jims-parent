@@ -6,7 +6,7 @@ function onloadMethod() {
     /**
      * 医生自动补全
      */
-    $("#surgeon").combogrid({
+    $("#surgeon").combogrid({ 
         data:doctorName,
         valueField:'id',
         textField:'name',

@@ -2,7 +2,7 @@ var operation=[];//手术名称
 var operationData={};
 operationData.isOrgId=false;
 operationData.dictType="operation_dict"
-$.ajax({
+$.ajax({ 
     'type': 'POST',
     'url':basePath+'/input-setting/listParam' ,
     data: JSON.stringify(operationData),

@@ -2,7 +2,7 @@ var rowNum = -1;
 var itemCode = "";
 var clinicId = parent.clinicMaster.id;
 $(function () {
-    //$('#clinicItem').datagrid('getEditor', { index: index, field: 'amount' }).target.val('1');
+    //$('#clinicItem').datagrid('getEditor', { index: index, field: 'amount' }).target.val('1'); 
     $('#clinicItem').datagrid({
         singleSelect: true,
         fit: true,
