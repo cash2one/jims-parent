@@ -189,7 +189,7 @@ public class ExamRptPatternRest {
      */
     @GET
     @Path("itemListByOrgId")
-    public List<ClinicItemDict> itemListByOrgId( @QueryParam("orgId")String orgId){
-        return clinicItemApi.itemListByOrgId(orgId);
+    public List<ClinicItemDict> itemListByOrgId( @QueryParam("orgId")String orgId,@QueryParam("q") String q){
+        return clinicItemApi.itemListByOrgId(orgId,q);
     }
 }
