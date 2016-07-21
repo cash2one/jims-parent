@@ -20,14 +20,15 @@ function onloadMethod(){
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
         columns:[[      //每个列具体内容
-            {field:'clinicLabel',title:'号别名称',width:'15%',align:'center',editor: 'text'},
-            {field:'inputCode',title:'输入码',width:'10%',align:'center',editor: 'text'},
+            {field:'clinicLabel',title:'号别名称',width:'15%',align:'center',editor: {type:'textbox',options:{required:true}}},
+            {field:'inputCode',title:'输入码',width:'10%',align:'center',editor: {type:'textbox',options:{required:true}}},
             {field:'clinicDept',title:'门诊科室',width:'15%',align:'center',formatter:clinicDeptCodeFormatter,editor: {
                 type: 'combobox',
                 options: {
                     data: clinicDeptCode,
                     valueField: 'id',
-                    textField: 'dept_name'
+                    textField: 'dept_name',
+                    required:true
                 }
             }},
             {field:'doctor',title:'医师',width:'13%',align:'center',formatter:doctorNameFormatter,editor: {
@@ -36,6 +37,7 @@ function onloadMethod(){
                     data: doctorName,
                     idField:'id',
                     textField:'name',
+                    required:true,
                     columns:[[
                         {field:'name',title:'医生姓名',width:70},
                         {field:'dept_name',title:'科室',width:120},
@@ -64,7 +66,8 @@ function onloadMethod(){
                 options: {
                     data:registerTyp,
                     valueField: 'id',
-                    textField: 'clinicTypeName'
+                    textField: 'clinicTypeName',
+                    required:true
                 }
             }},
             {field:'clinicPosition',title:'门诊位置',width:'15%',align:'center',editor: 'text'},
@@ -126,6 +129,10 @@ function onloadMethod(){
     });
 }
 function save(){
+    if (!$('#list_data').datagrid('validateRow', rowNum)) {
+        $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
+        return false
+    }
     var  rows=$('#list_data').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     //alert(tableJson);
