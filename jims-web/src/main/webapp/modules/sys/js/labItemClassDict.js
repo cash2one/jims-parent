@@ -11,6 +11,8 @@ $(function () {
         }
     };
 
+    $("#id").textbox('disable');
+
     $("#dg").datagrid({
         width: '100%',
         //url: "/service/lab-item-dict/list",
@@ -48,12 +50,11 @@ $(function () {
             editIndex = index;
         }
     });
-    //var deptNameList=$.get(basePath + '/dept-dict/list');
 
     var loadDept = function (){
-        $.get(basePath + '/labitemclass/findListByOrgId?orgId='+orgId, function (data) {
+        $.get('/service/labitemclass/findListByOrgId?orgId='+orgId, function (data) {
             console.log(data);
-            $.get(basePath + '/dept-dict/list?orgId='+orgId, function (node) {
+            $.get('/service/dept-dict/list?orgId='+orgId, function (node) {
                 list=data;
                 for(var i=0;i<list.length;i++){
                     for (var j=0;j<node.length;j++){
@@ -72,16 +73,11 @@ $(function () {
     $('#deptCode').combobox({
         editable:false,
         delay: 300,
-        width:'160px',
         mode: 'remote',
         method: 'GET',
-        url: basePath + '/dept-dict/list?orgId='+orgId,
+        url: '/service/dept-dict/list?orgId='+orgId,
         valueField: 'deptCode',
         textField: 'deptName'
-        //columns: [[
-        //    {field:'deptName',title:'部门名称',width:"150px",sortable:true},
-        //    {field:'deptCode',title:'部门编码',width:"150px",sortable:true}
-        //]]
     });
 
 
@@ -141,7 +137,7 @@ $(function () {
         labItemClassDict.orgId=orgId;
         if(classCodeTest &&classNameTest  && labItemClassDict.deptCode.length>0 && labItemClassDict.classCode.length>0 && labItemClassDict.className.length>0 ){
 
-            $.postJSON(basePath + '/labitemclass/save',JSON.stringify(labItemClassDict), function (data) {
+            $.postJSON('/service/labitemclass/save',JSON.stringify(labItemClassDict), function (data) {
                 $('#dlg').dialog('close');
                 $.messager.alert("系统提示", "保存成功", "info");
                 loadDept();
@@ -162,20 +158,6 @@ $(function () {
                 $("#deptCodeChange").html("请选择部门");
             }
         }
-
-        //$.ajax({
-        //    'type': 'post',
-        //    'url': basePath + '/lab-item-dict/save',
-        //    'contentType': 'application/json',
-        //    'data': JSON.stringify(labItemClassDict),
-        //    'dataType': 'json',
-        //    'success': function (data) {
-        //        $('#dlg').dialog('close');
-        //            $.messager.alert("系统提示", "保存成功", "info");
-        //            $("#dg").datagrid();
-        //            reset();
-        //    }
-        //});
     });
 
     $("#searchBtn").on("click",function(){
@@ -262,7 +244,6 @@ $(function () {
             }
         }
     });
-
 
     $("#deptCode").combobox({
         onChange:function(value){
