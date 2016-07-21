@@ -81,4 +81,17 @@ public class DrugBuyPlanRest {
             ,@QueryParam("orgId")String orgId){
         return drugBuyPlanApi.getBuyId(flag,orgId,buyer);
     }
+
+    /**
+     * 获取当前机构和子机构的采购单据号
+     * @param orgId,flag,
+     * @return DrugBuyPlanList
+     * zhuqi
+     */
+    @GET
+    @Path("getBuyListByOrg")
+    public List<DrugBuyPlan> getBuyListByOrg(@QueryParam("flag")String flag
+            ,@QueryParam("orgId")String orgId){
+        return drugBuyPlanApi.getBuyListByOrg(flag, orgId);
+    }
 }

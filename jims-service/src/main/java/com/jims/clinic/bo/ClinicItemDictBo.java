@@ -34,8 +34,8 @@ public class ClinicItemDictBo extends CrudImplService<ClinicItemDictDao, ClinicI
      * @return
      * @author txb
      */
-    public List<ClinicItemDict> itemListByOrgId(String orgId) {
-        return dao.itemListByOrgId(orgId);
+    public List<ClinicItemDict> itemListByOrgId(String orgId,String q) {
+        return dao.itemListByOrgId(orgId,q);
     }
 
     /**
