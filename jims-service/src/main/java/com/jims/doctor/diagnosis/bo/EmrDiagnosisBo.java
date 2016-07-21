@@ -2,6 +2,7 @@
 package com.jims.doctor.diagnosis.bo;
 
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
@@ -25,13 +26,15 @@ public class EmrDiagnosisBo extends CrudImplService<EmrDiagnosisDao, EmrDiagnosi
 	 * @param emrDiagnosis
 	 * @return
 	 */
-	public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis){
+	public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis,LoginInfo loginInfo){
 		String num = "";
 		if(emrDiagnosis.size()>0){
 			for(int i=0;i<emrDiagnosis.size();i++){
 				EmrDiagnosis diagnosis=emrDiagnosis.get(i);
                 diagnosis.setParentId("0");
 				diagnosis.setInOrOutFlag("0");//门诊
+				diagnosis.setDiagnosisDoc(loginInfo.getPersionId());
+				diagnosis.setOrgId(loginInfo.getOrgId());
 				num =	save(diagnosis);
 			}
 			return num;

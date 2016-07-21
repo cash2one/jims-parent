@@ -114,7 +114,12 @@ $(function(){
                 if (rowNum1 != -1) {
                     $("#zhenduan").datagrid("endEdit", rowNum1);
                 }
-                saveDiagnosis();
+                if(!$("#zhenduan").datagrid('validateRow', rowNum1)){
+                    $.messager.alert('提示',"请填写完本行数据后，再保存", "error");
+                    return false
+                }else{
+                    saveDiagnosis();
+                }
             }
           }
 
@@ -146,10 +151,11 @@ function saveDiagnosis(){
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
-        if(data.code=='1'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
-            $('#zhenduan').datagrid('load');
+        if(data.code!='0'&&data.code!=null){
+            $('#zhenduan').datagrid('reload');
             $('#zhenduan').datagrid('clearChecked');
+            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }

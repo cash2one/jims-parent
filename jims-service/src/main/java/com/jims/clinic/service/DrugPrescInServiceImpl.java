@@ -93,6 +93,7 @@ public class DrugPrescInServiceImpl extends CrudImplService<DoctDrugPrescMasterD
             drugPrescMaster.setDispensingDatetime(new Date());
             drugPrescMaster.setMemo(doctDrugPrescMaster.getUsage());
             drugPrescMaster.setDispensarySub(doctDrugPrescMaster.getDispensarySub());
+            drugPrescMaster.setOrgId(doctDrugPrescMaster.getOrgId());
             drugPrescMasterDao.insert(drugPrescMaster);
         }
         if (doctDrugPrescDetailList != null && doctDrugPrescDetailList.size() > 0) {

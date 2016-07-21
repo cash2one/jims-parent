@@ -56,12 +56,18 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
      */
     public String save(OutpPresc outpPresc,LoginInfo loginInfo){
         String num = "";
+        String serialNo = "";
         try {
             if(outpPresc!=null){
                 //根据病人就诊ID，查询病人就诊记录信息
                 ClinicMaster clinicMaster = clinicMasterDao.get(outpPresc.getClinicId());
-                String serialNo = IdGen.uuid();
+                if(outpPresc.getSerialNo()!=null&&!"".equals(outpPresc)){
+                    serialNo = outpPresc.getSerialNo();
+                }else{
+                    serialNo = IdGen.uuid();
+                }
                 OutpOrders oo = new OutpOrders();
+
                 List<OutpPresc> lists = outpPresc.getList();
                 List<OutpOrdersCosts> ordersCostsesList = new ArrayList<OutpOrdersCosts>();
                if(lists!=null && lists.size()>0){
@@ -116,7 +122,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                                    outpOrdersCosts.setOrgId(clinicMaster.getOrgId());
                                    outpOrdersCosts.setOrderClass(outpPresc.getItemClass());//诊疗项目类别
                                    outpOrdersCosts.setPatientId(clinicMaster.getPatientId());
-                                   outpOrdersCosts.setSerialNo(op.getSerialNo());
+                                   outpOrdersCosts.setSerialNo(serialNo);
                                    outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
                                    outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
                                    outpOrdersCosts.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + clinicMaster.getVisitNo());
@@ -143,18 +149,23 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                    }
 
                }
+                //根据唯一流水号删除ORDER
+                outpOrdersDao.deleteOutpOrders(serialNo);
                 //保存门诊医嘱信息
                 oo.setClinicId(clinicMaster.getId());
                 oo.setVisitDate(clinicMaster.getVisitDate());
+                oo.setPatientId(clinicMaster.getPatientId());
                 oo.setVisitNo(clinicMaster.getVisitNo());
-                oo.setSerialNo(outpPresc.getSerialNo());
+                oo.setSerialNo(serialNo);
                 oo.setOrderedBy(clinicMaster.getVisitDept());
-                oo.setDoctor(loginInfo.getPersionId());
+                oo.setDoctor(loginInfo.getUserName());
                 oo.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + oo.getVisitNo());
-                oo.setDoctorNo(clinicMaster.getDoctor());
+                oo.setDoctorNo(loginInfo.getPersionId());
                 oo.setOrgId(loginInfo.getOrgId());
                 oo.preInsert();
                 outpOrdersDao.insert(oo);
+                //根据流水号删除ordercosts
+                outpOrdersCostsDao.deleteOutpOrdersCosts(serialNo);
                 //保存门诊处方药品价目表信息
                 saveOutpOrdersCosts(ordersCostsesList);
             }

@@ -4,9 +4,9 @@
  */
 $(function () {
     ////////////////////////////////////////////////////////////
-    $("#dispensary").val(config.deptCode);
+    $("#dispensary").val(config.currentStorage);
     $("#orgId").val(config.org_Id);
-    $("#deptName").html("<b>"+config.deptName+"<b>");
+//    $("#deptName").html("<b>"+config.deptName+"<b>");
     $("#prescDate").datebox("setValue", "");
     $('#prescDate').datebox({
         required: true,

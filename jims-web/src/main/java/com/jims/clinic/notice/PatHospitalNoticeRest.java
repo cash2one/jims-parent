@@ -1,6 +1,8 @@
 package com.jims.clinic.notice;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.hospitalNotice.api.PatHospitalNoticeServiceApi;
 import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.common.data.PageData;
@@ -14,6 +16,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import java.util.Date;
 
 /**住院通知单
  * Created by qinlongxin on 2016/6/1.
@@ -44,10 +47,15 @@ public class PatHospitalNoticeRest {
      */
     @Path("save")
     @POST
-    public StringData save(PatHospitalNotice patHospitalNotice) {
+    public StringData save(PatHospitalNotice patHospitalNotice,@Context HttpServletRequest request) {
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data = new StringData();
         String num = data.getCode();
+
         if (patHospitalNotice != null) {
+            patHospitalNotice.setOrgId(loginInfo.getOrgId());
+            patHospitalNotice.setOperator(loginInfo.getPersionId());
+            patHospitalNotice.setEnterDate(new Date());
             num = patHospitalNoticeServiceApi.save(patHospitalNotice);
         }
         data.setCode(num);

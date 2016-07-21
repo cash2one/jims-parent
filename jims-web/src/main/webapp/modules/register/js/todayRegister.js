@@ -151,6 +151,14 @@ function getClinicForRegist(){
 }
 //挂号
 function openDialog(id,name){
+    var clinic ;
+    $('#clinicIndex li.active input.simInput').each(function (index, element) {
+        clinic=$(this).val();
+    })
+    if(clinic==null || clinic=='undefined'){
+        $.messager.alert("提示信息","请选择挂号类型");
+        return false;
+    }
     if($("#clinicForm").form("validate")) {
         $("#"+id).dialog({title: name}).dialog("open");
         var lis = $('#clinicIndex li.active');
@@ -216,6 +224,7 @@ function saveClinic(){
     })
     tableJson = tableJson.substring(0, tableJson.length - 1);
     tableJson+="]";
+    return false;
     var formJson=fromJson('clinicForm');
     formJson = formJson.substring(0, formJson.length - 1);
     var submitJson=formJson+",\"clinicForRegists\":"+tableJson+"}";

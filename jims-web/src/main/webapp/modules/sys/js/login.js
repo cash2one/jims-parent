@@ -28,7 +28,8 @@ $(function () {
                     $("#login").css("color", "red");
                     return false;
                 }
-                $("#btnSubmit").click(function () {
+                $("#btnSubmit").off('click');
+                $("#btnSubmit").on('click',function () {
                     var loginName = $("#loginName").val();
                     var password = $("#password").val();
                     $.get('/service/login/list?loginName='+loginName+'&password='+password,function(data){

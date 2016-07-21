@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jims.clinic.dao.OutpOrdersDao">
-    
+
 	<sql id="outpOrdersColumns">
 		a.id AS "id",
 		a.clinic_id AS "clinicId",
@@ -42,9 +42,9 @@
 
 	<sql id="outpOrdersJoins">
 	</sql>
-    
+
 	<select id="get" resultType="OutpOrders">
-		SELECT 
+		SELECT
 			<include refid="outpOrdersColumns"/>
 		FROM outp_orders a
 		<include refid="outpOrdersJoins"/>
@@ -61,7 +61,7 @@
 	</select>
 
 	<select id="findList" resultType="OutpOrders">
-		SELECT 
+		SELECT
 			<include refid="outpOrdersColumns"/>
 		FROM outp_orders a
 		<include refid="outpOrdersJoins"/>
@@ -77,15 +77,15 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<select id="findAllList" resultType="OutpOrders">
-		SELECT 
+		SELECT
 			<include refid="outpOrdersColumns"/>
 		FROM outp_orders a
 		<include refid="outpOrdersJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -95,7 +95,7 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO outp_orders(
 
@@ -145,7 +145,7 @@
 			#{clinicId},
 		</if>
 		<if test="orgId!=null and orgId!=''">
-			orgId,
+			#{orgId},
 		</if>
 		<if test="visitDate!=null">
 			#{visitDate},
@@ -177,9 +177,9 @@
 		#{id}
 		)
 	</insert>
-	
+
 	<update id="update">
-		UPDATE outp_orders SET 	
+		UPDATE outp_orders SET
 			patient_id = #{patientId},
 			visit_date = #{visitDate},
 			visit_no = #{visitNo},
@@ -195,9 +195,9 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
-		UPDATE outp_orders SET 
+		UPDATE outp_orders SET
 			del_flag = '1'
 		WHERE a.visit_no=#{visitNo}
 	</update>

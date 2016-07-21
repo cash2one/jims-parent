@@ -159,6 +159,6 @@
 
 	<select id="getOperation" resultType="DeptDict">
 		select *from dept_dict
-		where dept_name like '%手术%'
+		where dept_name like '%手术%' AND org_id=#{orgId}
 	</select>
 </mapper>

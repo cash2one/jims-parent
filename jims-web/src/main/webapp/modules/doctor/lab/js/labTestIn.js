@@ -6,7 +6,7 @@ function onloadMethod() {
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
-        height: 'auto',
+        height: 'auto', 
         nowrap: false,
         striped: true,
         border: true,
