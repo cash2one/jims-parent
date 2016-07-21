@@ -33,7 +33,7 @@ public interface ClinicItemApi {
      * @return
      * @author txb
      */
-    public List<ClinicItemDict> itemListByOrgId(String orgId);
+    public List<ClinicItemDict> itemListByOrgId(String orgId ,String q);
 
     /**
      * 编码或名称已存在个数
