@@ -1,5 +1,5 @@
 $(function(){
-    var currentOrgId = '1'   // 当前机构ID
+        var currentOrgId =config.org_Id,  // 当前机构ID
         ,currentSelectClinicIndex   //诊疗项目 当前选择行
         ,currentSelectNameIndex   // 正别名当前选择行
         ,currentSelectVsIndex ;   // 对照项目当前选择行
