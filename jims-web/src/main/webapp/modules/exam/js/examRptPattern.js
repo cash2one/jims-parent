@@ -86,13 +86,22 @@ $(function () {
         },{
             title: '输入码',
             field: 'inputCode',
-            width: '30%',
+            hidden: true
+        },{
+            title: '可修改标记',
+            field: 'flag',
+            //width: '35%'
             hidden: true
         }]],
-        onDblClickRow: function (rowIndex, rowData) {
+        onClickRow: function (rowIndex, rowData) {
+            $("#examRptPatternGrid").datagrid('endEdit', editorRow);
+            editorRow=rowIndex;
+            if(rowData.flag=="1"){
+                $("#examRptPatternGrid").datagrid('beginEdit', editorRow);
+            }
+
             //$('#itemDetail').dialog('open');
             //var url = basePath + "/examRptPattern/findListByItem?orgId=" + parent.config.org_Id + "&clinicItemCode=" + rowData.descriptionCode;
-            //console.log(url);
             //$('#itemDetailGrid').datagrid('reload', url);
         }
     });
@@ -184,6 +193,10 @@ $(function () {
         }
 
     });
+
+    var url='';
+    var classNames='';
+    var subClassNames='';
     $("#examSubClass").combobox({
         valueField: 'examSubclassName',
         textField: 'examSubclassName',
@@ -198,7 +211,9 @@ $(function () {
             //}
         //},
         onSelect: function(rowData){
-            var url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_Id+ "&className=" + rowData.examClassName+ "&subClassName=" + rowData.examSubclassName;
+             classNames=rowData.examClassName;
+             subClassNames=rowData.examSubclassName;
+             url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_Id+ "&className=" + rowData.examClassName+ "&subClassName=" + rowData.examSubclassName;
             $('#examRptPatternGrid').datagrid('reload', url);
         }
     });
@@ -213,22 +228,35 @@ $(function () {
         if (editorRow || editorRow == 0) {
             $("#examRptPatternGrid").datagrid("endEdit", editorRow);
         }
+        var rows=$("#examRptPatternGrid").datagrid("getRows");
+        var a=true;
+        for(var i=0;i<rows.length;i++){
+            if(rows[i].descriptionCode==""){
+                $("#examRptPatternGrid").datagrid('endEdit', editorRow);
+                a=false;
+                editorRow=i;
+            }
+        }
+        if(a){
+            var insertData = $("#examRptPatternGrid").datagrid("getChanges", "inserted");
+            var updateData = $("#examRptPatternGrid").datagrid("getChanges", "updated");
+            var examRptPatternVo = {};
+            examRptPatternVo.inserted = insertData;
+            examRptPatternVo.updated = updateData;
+            examRptPatternVo.examClass =  $('#examClass').combobox("getValue");
+            examRptPatternVo.examSubClass =  $('#examSubClass').combobox("getValue");
+            examRptPatternVo.orgId =  config.org_Id;
 
-        var insertData = $("#examRptPatternGrid").datagrid("getChanges", "inserted");
-        var updateData = $("#examRptPatternGrid").datagrid("getChanges", "updated");
-        var examRptPatternVo = {};
-        examRptPatternVo.inserted = insertData;
-        examRptPatternVo.updated = updateData;
-        examRptPatternVo.examClass =  $('#examClass').combobox("getValue");
-        examRptPatternVo.examSubClass =  $('#examSubClass').combobox("getValue");
-        examRptPatternVo.orgId =  config.org_Id;
-
-        $.postJSON(basePath +  "/examRptPattern/saveList",JSON.stringify(examRptPatternVo), function (data) {
-            $.messager.alert('系统提示', '保存成功', 'info');
-        })
-
-
-
+            $.postJSON(basePath +  "/examRptPattern/saveList",JSON.stringify(examRptPatternVo), function (data) {
+                $.messager.alert('系统提示', '保存成功', 'info');
+                url = basePath + "/examRptPattern/list-by-class?orgId=" + parent.config.org_Id+ "&className=" + classNames+ "&subClassName=" + subClassNames;
+                $('#examRptPatternGrid').datagrid('reload', url);
+            })
+        }else{
+            $.messager.alert('系统提示', '项目名称不可为空', 'error');
+            $("#examRptPatternGrid").datagrid("selectRow",editorRow);
+            $("#examRptPatternGrid").datagrid("beginEdit",editorRow);
+        }
     });
 
     /**
@@ -247,7 +275,7 @@ $(function () {
                 editorRow = undefined;
             }
 
-            $("#examRptPatternGrid").datagrid('appendRow', {});
+            $("#examRptPatternGrid").datagrid('appendRow', {flag:"1"});
             var rows = $("#examRptPatternGrid").datagrid('getRows');
             if (editorRow == 0 || editorRow > 0) {
                 $("#examRptPatternGrid").datagrid('endEdit', editorRow);
