@@ -2,6 +2,7 @@ package com.jims.finance.outpAccounts.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.outpAccounts.api.RegistAcctMasterServiceApi;
 import com.jims.finance.outpAccounts.bo.RegistAcctMasterBo;
 import com.jims.finance.outpAccounts.entity.RegistAcctMaster;
@@ -18,7 +19,7 @@ public class RegistAcctMasterServiceImpl implements RegistAcctMasterServiceApi {
     @Autowired
     RegistAcctMasterBo registAcctMasterBo;
     @Override
-    public String saveMaster(RegistAcctMaster registAcctMaster) {
-        return registAcctMasterBo.saveMaster(registAcctMaster);
+    public String saveMaster(RegistAcctMaster registAcctMaster,LoginInfo loginInfo) {
+        return registAcctMasterBo.saveMaster(registAcctMaster,loginInfo);
     }
 }

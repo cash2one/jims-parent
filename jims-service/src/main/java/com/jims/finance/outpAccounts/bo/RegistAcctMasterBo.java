@@ -4,6 +4,7 @@ import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.outpAccounts.dao.RegistAcctDetailDao;
 import com.jims.finance.outpAccounts.dao.RegistAcctMasterDao;
 import com.jims.finance.outpAccounts.dao.RegistAcctMoneyDao;
@@ -45,10 +46,10 @@ public class RegistAcctMasterBo extends CrudImplService<RegistAcctMasterDao, Reg
      * @author CTQ
      * @date 2016/6/2
      */
-    public String saveMaster(RegistAcctMaster registAcctMaster) {
+    public String saveMaster(RegistAcctMaster registAcctMaster,LoginInfo loginInfo) {
         int num = 0;
-        registAcctMaster.setAcctNo("1");
-        registAcctMaster.setOperatorNo("1");
+        registAcctMaster.setOrgId(loginInfo.getOrgId());
+        registAcctMaster.setOperatorNo(loginInfo.getPersionId());
         registAcctMaster.preInsert();
         if(registAcctMaster.getAcctDetails()!=null&&registAcctMaster.getAcctDetails().size()>0){
             for(RegistAcctDetail detail : registAcctMaster.getAcctDetails()){
@@ -70,8 +71,8 @@ public class RegistAcctMasterBo extends CrudImplService<RegistAcctMasterDao, Reg
         }
         num = registAcctMasterDao.insert(registAcctMaster);
         if(num>0){
-            clinicMasterDao.updateMaster(registAcctMaster.getAcctNo(),"1", DateUtils.formatDate(registAcctMaster.getAcctDate(),"yyyy-MM-dd HH:mm:ss"));
-            clinicReturnedAcctDao.updateReturned(registAcctMaster.getAcctNo(),"1", DateUtils.formatDate(registAcctMaster.getAcctDate(), "yyyy-MM-dd HH:mm:ss"));
+            clinicMasterDao.updateMaster(registAcctMaster.getAcctNo(),loginInfo.getPersionId(), DateUtils.formatDate(registAcctMaster.getAcctDate(),"yyyy-MM-dd HH:mm:ss"));
+            clinicReturnedAcctDao.updateReturned(registAcctMaster.getAcctNo(),loginInfo.getPersionId(), DateUtils.formatDate(registAcctMaster.getAcctDate(), "yyyy-MM-dd HH:mm:ss"));
         }
         return String.valueOf(num);
     }
