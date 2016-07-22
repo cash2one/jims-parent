@@ -2,7 +2,8 @@ var rowNum = -1;
 var itemCode = "";
 var clinicId = parent.clinicMaster.id;
 $(function () {
-    //$('#clinicItem').datagrid('getEditor', { index: index, field: 'amount' }).target.val('1'); 
+    //$('#clinicItem').datagrid('getEditor', { index: index, field: 'amount' }).target.val('1');
+    //$('#clinicItem').datagrid('getEditor', { index: 3, field: 'amount' }).target.val('1');
     $('#clinicItem').datagrid({
         singleSelect: true,
         fit: true,
@@ -65,9 +66,7 @@ $(function () {
             },
             {field: 'itemCode', title: '项目代码', width: '15%', align: 'center'},
             {field: 'clinicId', title: '就诊id', width: '20%', align: 'center', hidden: 'true'},
-            {field: 'amount', title: '数量', width: '6%', align: 'center', editor: 'text',formatter:function(value,rowData,rowIndex){
-                return "1";
-            }},
+            {field: 'amount', title: '数量', width: '6%', align: 'center', editor:"numberbox"},
             //{ field: 'units', title: '单位', width: '6%', align: 'center', editor: {
             //    type: 'textbox', options: {editable: false, disable: false}}
             //},
@@ -142,10 +141,10 @@ $(function () {
                 if (rowNum >= 0) {
                     rowNum++;
                 }
-                //添加时如果没有正在编辑的行，则在datagrid的第一行插入一行
+                //添加一行时，编辑
                 $("#clinicItem").datagrid("insertRow", {
                     index: 0, // index start with 0
-                    row: {"clinicId": clinicId}
+                    row: {"clinicId": clinicId,"amount":1}
                 });
                 rowNum=0;
                 $("#clinicItem").datagrid("beginEdit",rowNum);
