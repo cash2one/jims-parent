@@ -198,11 +198,11 @@ public class OutpPrescRest {
 
     @Path("priceItem")
     @GET
-    public List<OutpOrdersCosts> priceItem(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("orderNo") String orderNo,@QueryParam("clinicId") String clinicId){
-        List<OutpOrdersCosts> list = null;
-        try {
+    public List<OutpOrdersCosts> priceItem(@Context HttpServletRequest request, @Context HttpServletResponse response,@QueryParam("serialNo") String serialNo,@QueryParam("clinicId") String clinicId){
+            List<OutpOrdersCosts> list = null;
+            try {
             list = Lists.newArrayList();
-            list = outpOrdersCostsServiceApi.getOutpCosts(orderNo,clinicId);
+            list = outpOrdersCostsServiceApi.getOutpCosts(serialNo,clinicId);
         } catch (Exception e) {
             e.printStackTrace();
         }
