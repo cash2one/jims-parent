@@ -42,8 +42,8 @@
 
     <select id="findList" resultType="ClinicVsCharge">
         SELECT
-        <include refid="clinicVsChargeColumns"/>,p.item_name chargeItemName
-        FROM clinic_vs_charge a,(select distinct item_code,item_name from price_list) p
+        <include refid="clinicVsChargeColumns"/>,p.item_name chargeItemName,p.price price
+        FROM clinic_vs_charge a,(select distinct item_code,item_name,price from price_list) p
         <include refid="clinicVsChargeJoins"/>
         <where>
             a.del_flag = #{DEL_FLAG_NORMAL}
