@@ -213,14 +213,19 @@ $(function () {
     var initBtn = function () {
 
         $('#orgNo').combobox({
-            panelWidth: 285,
+            panelWidth: 155,
             mode:'remote',
             valueField: 'id',
             textField: 'orgName',
             editable: false,
             url:"/service/sys-sompany/find-list-by-parent-id?orgId="+config.org_Id,
             method: 'GET',
-
+            onLoadSuccess: function (row) {
+                console.log(row);
+                if(row.length>0){
+                    $('#orgNo').combobox('select',row[0].id);   //加载成功默认选中第一行
+                }
+            },
             onSelect: function (row) {
                 $.ajax({
                     type: 'get',
