@@ -47,9 +47,8 @@ function comboGridCompleting(q,id){
         InputParamVo.colValue=q;
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
-        drugNameData.inputParamVos=inputParamVos;
     }
-
+    drugNameData.inputParamVos=inputParamVos;
     $.ajax({
         'type': 'POST',
         'url':basePath+'/input-setting/listParam' ,
