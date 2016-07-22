@@ -200,6 +200,9 @@ $(function(){
                 options: {
                     required: true,
                     onChange : function (newValue, oldValue) {
+                        if(newValue=="" || newValue==null){
+                            return false;
+                        }
                         var a = $('#list_data').datagrid('getEditor', {
                             index : rowNum,
                             field : 'amount'
