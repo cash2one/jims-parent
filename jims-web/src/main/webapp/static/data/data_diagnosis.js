@@ -14,8 +14,8 @@ function icdCompleting(q,id){
         InputParamVo.colValue=q;
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
-        icdData.inputParamVos=inputParamVos;
     }
+    icdData.inputParamVos=inputParamVos;
     $.ajax({
         'type': 'POST',
         'url':basePath+'/input-setting/listParam' ,

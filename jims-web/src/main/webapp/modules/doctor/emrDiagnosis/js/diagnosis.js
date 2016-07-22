@@ -97,7 +97,8 @@ $(function(){
                     row: {
                        clinicId:clinId,
                         patientId:pId,
-                        diagnosisDate:diagnosisDate
+                        diagnosisDate:diagnosisDate,
+                        itemNo:rowNum1
                     }
                  });
                 rowNum1 = 0;
@@ -137,9 +138,7 @@ $(function(){
                 }
                 rowNum1 = rowIndex;
                 dataGrid.datagrid('beginEdit', rowIndex);
-                var itemNo = dataGrid.datagrid("getRowIndex",rowData) +1;
-                var itemNoTarget = $("#zhenduan").datagrid('getEditor', {index: rowNum1, field: 'itemNo'});
-                $(itemNoTarget.target).textbox('setValue', itemNo);
+
                 var ed = $("#zhenduan").datagrid('getEditor', {index: rowNum1, field: 'diagnosisId'});
                 $(ed.target).textbox('setValue', rowData.icdName);
             }
