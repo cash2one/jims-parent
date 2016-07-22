@@ -73,4 +73,11 @@ public interface DrugStockDao extends CrudDao<DrugStock> {
      * @return
      */
     public List<DrugStock> findListHasStock(DrugStock drugStock);
+
+    /**
+     * 单表查询
+     * @param drugStock
+     * @return
+     */
+    public List<DrugStock> findListNoJoin(DrugStock drugStock);
 }

@@ -89,7 +89,6 @@ $(function () {
     $('#examClassName').textbox({
         onChange: function(value) {
             var examClassName = $("#examClassName").textbox("getValue");
-            alert(examClassName);
             var data=$("#examSubClassNameParent").combobox("getData");
             for(var i=0;i<data.length;i++){
                 if(data[i].examClassName==examClassName){

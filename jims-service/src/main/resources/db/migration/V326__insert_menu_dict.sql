@@ -175,7 +175,10 @@ insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_
 values ('55cd209bdcd94f288e205e2a6786f259', '采购计划执行', '/modules/phstock/drug-buy-plan-execute.html', '1', 3, '1', null, null, null, '23-6月 -16 11.47.23.762000 上午', '0', '23-6月 -16 11.32.47.000000 上午', 'D82D1E51D3F8490BB3CD35ED696B3844', '2');
 
 insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
-values ('27a5892967d9474e980dcea42bb8e808', '采购计划查询', '/modules/phstock/drug-buy-plan-query.html', '1', 4, '1', null, null, null, '23-6月 -16 11.47.29.715000 上午', '0', '23-6月 -16 11.32.47.000000 上午', 'D82D1E51D3F8490BB3CD35ED696B3844', '2');
+values ('45cd209bdcd94f288e205e2a6786f259', '采购药品入库', '/modules/phstock/drug-buy-plan-stock.html', '1', 4, '1', null, null, null, '23-6月 -16 11.47.23.762000 上午', '0', '23-6月 -16 11.32.47.000000 上午', 'D82D1E51D3F8490BB3CD35ED696B3844', '2');
+
+insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
+values ('27a5892967d9474e980dcea42bb8e808', '采购计划查询', '/modules/phstock/drug-buy-plan-query.html', '1', 5, '1', null, null, null, '23-6月 -16 11.47.29.715000 上午', '0', '23-6月 -16 11.32.47.000000 上午', 'D82D1E51D3F8490BB3CD35ED696B3844', '2');
 
 insert into menu_dict (ID, MENU_NAME, HREF, ICON, SORT, TARGET, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, PID, MENU_LEVEL)
 values ('53BC035BC5AE4FC8B407A9AC37298B07', '药品目录', '/modules/phstock/drug-catalog-manager.html', '1', 0, '1', null, null, null, '23-6月 -16 01.40.20.758000 下午', '0', '12-5月 -16 01.45.42.300000 下午', 'F091DC51565646FDB438810D32685FB2', '2');
