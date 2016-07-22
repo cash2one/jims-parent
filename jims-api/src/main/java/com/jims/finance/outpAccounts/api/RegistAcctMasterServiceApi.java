@@ -1,5 +1,6 @@
 package com.jims.finance.outpAccounts.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.outpAccounts.entity.RegistAcctMaster;
 
 /**
@@ -10,6 +11,6 @@ import com.jims.finance.outpAccounts.entity.RegistAcctMaster;
 
 public interface RegistAcctMasterServiceApi{
 
-    public String saveMaster(RegistAcctMaster registAcctMaster);
+    public String saveMaster(RegistAcctMaster registAcctMaster,LoginInfo loginInfo);
 
 }
