@@ -25,7 +25,7 @@ $(function(){
             {field:'applyDate',title:'申请时间',width:'10%',formatter:formatDateBoxFull,align:'center'},
             {field:'patName',title:'姓名',width:'5%',align:'center'},
             {field:'patSex',title:'性别',width:'10%',formatter:sexFormatter,align:'center'},
-            {field:'feeType',title:'费别',width:'10%',formatter:itemFormatter,align:'center'},
+            {field:'feeType',title:'费别',width:'10%',formatter:chargeTypeFormatter,align:'center'},
             {field:'bloodInuse',title:'用血方式',width:'10%',align:'center'},
             {field:'bloodDiagnose',title:'诊断及输血适应症',width:'10%',align:'center'},
             {field:'patBloodGroup',title:'受血者血型',width:'10%',formatter:bloodTypeFormatter,align:'center'},

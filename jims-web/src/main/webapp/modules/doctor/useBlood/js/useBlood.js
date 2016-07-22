@@ -104,7 +104,7 @@ function onloadMethod() {
     $("#patientId").val(patientId);
     $("#patName").val(parent.patVisit.name);
     $("#patSex").val(parent.patVisit.sex);
-    $("#feeType").val(itemFormatter(parent.patVisit.chargeType,'',''));
+    $("#feeType").val(chargeTypeFormatter(parent.patVisit.chargeType,'',''));
     $("#feeTypeId").val(parent.patVisit.chargeType);
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
