@@ -13,7 +13,7 @@ function onloadMethods() {
     $("#patientId").val(patientId);
     $("#patName").val(parent.clinicMaster.name);
     $("#patSex").val(parent.clinicMaster.sex);
-    $("#feeType").val(itemFormatter(parent.clinicMaster.chargeType, '', ''));
+    $("#feeType").val(chargeTypeFormatter(parent.clinicMaster.chargeType, '', ''));
     $("#feeTypeId").val(parent.clinicMaster.chargeType);
     $("#applyDate").datetimebox("setValue",formatDateBoxFull(new Date));
     $('#list_doctor').datagrid({
@@ -138,7 +138,7 @@ function onloadMethods() {
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
-            {field: 'deptCode', title: '科室', width: '18%', align: 'center', formatter: clinicDeptCodeFormatter},
+            //{field: 'deptCode', title: '科室', width: '18%', align: 'center', formatter: clinicDeptCodeFormatter},
             {field: 'bloodInuse', title: '血源', width: '18%', align: 'center', formatter: bloodInusesFormatter},
             //{field: 'bloodDiagnose', title: '诊断', width: '18%', align: 'center'},
             {field: 'preBloodType', title: '血型', width: '18%', align: 'center', formatter: bloodTypeFormatter},
@@ -188,31 +188,6 @@ function onloadMethods() {
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
 
-    //$.ajax({
-    //    'type': "POST",
-    //    'url': basePath + "/bloodApply/getPatient",
-    //    data: id = clinicId,
-    //    dataType: "json",
-    //    contentType: "application/json",
-    //    success: function (data) {
-    //        $("#patientId").val(data.patientId);
-    //        $("#inpNo").val(data.visitNo);
-    //        $("#feeType").val(function (value, rowData, rowIndex) {
-    //            return itemFormatter(data.chargeType, '', '');
-    //        });
-    //        $("#deptCode").val(function (value, rowData, rowIndex) {
-    //            return clinicDeptCodeFormatter(data.visitDept, '', '');
-    //        });
-    //        $("#patName").val(data.name);
-    //        $("#patSex").val(function (value, rowData, rowIndex) {
-    //            return sexFormatter(data.sex);
-    //        });
-    //
-    //        $("#birthday").val(data.name);
-    //        $("#patSource").val(data.patMaster.mailingAddress);
-    //        $("#birthday").val(new Date(data.patMaster.dateOfBirth));
-    //    }
-    //})
     $("#patBloodGroup").combobox({
         data: bloodType,
         valueField: 'value',
