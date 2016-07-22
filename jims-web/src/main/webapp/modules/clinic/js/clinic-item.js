@@ -151,7 +151,7 @@ $(function(){
             { field: 'expand1Name', title: '标本',align : "center", width: 60 ,editor:{
                 type:'combobox',
                 options:{
-                    valueField:'label',
+                    valueField:'value',
                     textField:'label',
                     editable:false,
                     url:'/service/dict/findListByType?type=SPECIMAN_DICT',
