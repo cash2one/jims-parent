@@ -335,10 +335,6 @@ function onloadMethod() {
         rownumbers: true,
         singleSelect: true,
         fit: true,
-        //method: 'GET',
-        //url: basePath + '/operatioinOrder/getOperationName',
-        //queryParams: {'clinicId': clinicId},
-        //idField: 'id',
         columns: [[      //每个列具体内容
             {
                 field: 'operation', title: '拟实施手术名称', width: '48%', align: 'center', formatter: operationNameFormatter
@@ -349,6 +345,7 @@ function onloadMethod() {
                     data: operation,
                     idField: 'operation_code',
                     textField: 'operation_name',
+                    required: true,
                     //url: '/modules/operation/js/clinic_data.json',
                     columns: [[
                         {field: 'operation_code', title: '项目代码', width: '20%', align: 'center'},
@@ -398,13 +395,22 @@ function onloadMethod() {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
+                if(!$("#operationName").datagrid("validateRow",rowNum)){
+                    $.messager.alert('提示',"请填写完本行数据后，再添加","Warning")
+                    return false;
+                }
                 if (rowNum >= 0) {
                     rowNum++;
                 }
+                //if(rowNum!=-1){
+                //    $("#operationName").datagrid("endEdit",rowNum)
+                //}
                 $("#operationName").datagrid("insertRow", {
                     index: 0, // index start with 0
                     row: {}
                 });
+                rowNum=0;
+                $("#operationName").datagrid("beginEdit",rowNum);
             }
         }, '-', {
             text: '删除',
@@ -498,6 +504,7 @@ function savePperationApply() {
                             $.messager.alert("提示消息", data + "条记录，保存成功");
                             $('#operationName').datagrid('clearChecked');
                             $('#operationNameList').datagrid('load');
+                            $("#operation").form('clear');
                             $('#operationName').datagrid('loadData', {total: 0, rows: []});
 
                         } else {

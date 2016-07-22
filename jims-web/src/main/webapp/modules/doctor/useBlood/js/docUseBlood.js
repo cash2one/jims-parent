@@ -81,6 +81,10 @@ function onloadMethods() {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
+                if(!$("#list_doctor").datagrid("validateRow",rowNum)){
+                    $.messager.alert('提示',"请填写完本行数据后，再添加","Warning")
+                    return false;
+                }
                 if (rowNum >= 0) {
                     rowNum++;
                 }
@@ -88,6 +92,8 @@ function onloadMethods() {
                     index: 0, // index start with 0
                     row: {}
                 });
+                rowNum=0;
+                $("#list_doctor").datagrid("beginEdit",rowNum);
             }
         }, {
             text: '删除',

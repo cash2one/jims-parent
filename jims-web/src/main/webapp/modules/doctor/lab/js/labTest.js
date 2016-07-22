@@ -103,9 +103,6 @@ function onloadMethod(){
         singleSelect: true,
         fit: true,
         nowrap: false,
-        method:'post',
-        url: basePath + '/labtest/list',
-        queryParams:{'clinicId' : clinicId},
         columns:[[
             {field:'itemName',title:'项目名称',width:'40%',align:'center'},
             {field:'itemCode',title:'项目代码',width:'35%',align:'center'},
@@ -167,6 +164,7 @@ function add(){
             data:labItemClass,
             valueField: 'id',
             textField: 'class_name',
+            required: true,
             onSelect: function (n, o) {
                 $("#specimen").val("");
                 SendProduct(n.class_name);
@@ -174,33 +172,33 @@ function add(){
                $("#performedById").val(n.dept_code);
             }
         })
-    /**
-     * 送检医师
-     */
-        $("#orderingProvider").combogrid({
-            data: doctorName,
-            valueField: 'id',
-            textField: 'name',
-            columns: [[
-                {field: 'name', title: '医生姓名', width: 70},
-                {field: 'dept_name', title: '科室', width: 120},
-                {field: 'title', title: '职称', width: 70}
-            ]], keyHandler: {
-                up: function () {
-                },
-                down: function () {
-                },
-                enter: function () {
-                },
-                query: function (q) {
-                    comboGridCompleting(q, 'orderingProvider');
-                }
-            },
-            onClickRow: function (rowIndex, rowData) {
-                $("#orderingProvider").combogrid('setText', rowData.name);
-                $("#orderingProviderId").val(rowData.id);
-            }
-        })
+    ///**
+    // * 送检医师
+    // */
+    //    $("#orderingProvider").combogrid({
+    //        data: doctorName,
+    //        valueField: 'id',
+    //        textField: 'name',
+    //        columns: [[
+    //            {field: 'name', title: '医生姓名', width: 70},
+    //            {field: 'dept_name', title: '科室', width: 120},
+    //            {field: 'title', title: '职称', width: 70}
+    //        ]], keyHandler: {
+    //            up: function () {
+    //            },
+    //            down: function () {
+    //            },
+    //            enter: function () {
+    //            },
+    //            query: function (q) {
+    //                comboGridCompleting(q, 'orderingProvider');
+    //            }
+    //        },
+    //        onClickRow: function (rowIndex, rowData) {
+    //            $("#orderingProvider").combogrid('setText', rowData.name);
+    //            $("#orderingProviderId").val(rowData.id);
+    //        }
+    //    })
 }
 
 function loadTreeGrid() {
@@ -313,7 +311,7 @@ function SendProduct(name) {
             var divstr ="<table>";
                     for(var i=0; i<data.length; i++)
                     {   if(i==0){
-                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'>"+data[i].item_name+"<input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
                         }
                         else if(i%3==0){
                             divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/></div></td>";
@@ -327,7 +325,7 @@ function SendProduct(name) {
                         //alert(data[i].expand1);
                     }
                     divstr = divstr +"</table>";
-                    divstr = divstr +"<div align='center'><a href='javascript:void(0)'  class='easyui-linkbutton' onclick='doSelect();' style='width: 90px'>提交</a></div>";
+                    divstr = divstr +"<div align='center'><button  class='easyui-linkbutton' onclick='doSelect();' style='width: 90px'>提交</button></div>";
                     $("#SendProduct").html(divstr);
                     $("#SendProduct").dialog("open");
 
@@ -412,15 +410,15 @@ function del(id){
         'dataType': 'json',
         'success': function(data){
             if(data.data=='success'){
-                $.messager.alert("提示消息","已经删除");
+                $.messager.alert("提示","删除成功","success");
                 $('#list_data').datagrid('load');
                 $('#list_data').datagrid('clearChecked');
             }else{
-                $.messager.alert('提示',"删除失败", "error");
+                $.messager.alert('提示消息',"删除失败", "error");
             }
         },
         'error': function(data){
-            $.messager.alert('提示',"保存失败", "error");
+            $.messager.alert('提示消息',"保存失败", "error");
         }
     });
 }

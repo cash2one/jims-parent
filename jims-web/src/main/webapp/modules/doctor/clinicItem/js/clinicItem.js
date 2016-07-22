@@ -50,7 +50,7 @@ $(function () {
                         $('#dlg').dialog('open').dialog('center').dialog('setTitle', '处置计价');
                         $("#clinic").datagrid({
                             url: basePath + '/price-list/list-by-clinic-code',
-                            queryParams: {"orgId": 1, "clinicItemCode": itemCode},
+                            queryParams: {"clinicItemCode": itemCode},
                             method: "get"
                         })
 
@@ -65,7 +65,9 @@ $(function () {
             },
             {field: 'itemCode', title: '项目代码', width: '15%', align: 'center'},
             {field: 'clinicId', title: '就诊id', width: '20%', align: 'center', hidden: 'true'},
-            {field: 'amount', title: '数量', width: '6%', align: 'center', editor: 'text'},
+            {field: 'amount', title: '数量', width: '6%', align: 'center', editor: 'text',formatter:function(value,rowData,rowIndex){
+                return "1";
+            }},
             //{ field: 'units', title: '单位', width: '6%', align: 'center', editor: {
             //    type: 'textbox', options: {editable: false, disable: false}}
             //},
@@ -133,6 +135,10 @@ $(function () {
             text: '添加',
             iconCls: 'icon-add',
             handler: function () {
+                if(!$("#clinicItem").datagrid("validateRow",rowNum)){
+                    $.messager.alert('提示',"请填写完本行数据后，再添加","Warning")
+                    return false;
+                }
                 if (rowNum >= 0) {
                     rowNum++;
                 }
@@ -141,6 +147,8 @@ $(function () {
                     index: 0, // index start with 0
                     row: {"clinicId": clinicId}
                 });
+                rowNum=0;
+                $("#clinicItem").datagrid("beginEdit",rowNum);
             }
         }, '-', {
             text: '删除',
@@ -296,6 +304,11 @@ function doDelete() {
 function save() {
     $("#clinicItem").datagrid("endEdit", rowNum);
     var rows = $('#clinicItem').datagrid('getRows');
+    //$.each(rows, function(){
+    //    if(this.id == null && this.id == ""){
+    //        return;
+    //    }
+    //});
     $.ajax({
         url: basePath + "/diagnosis/findListOfOut",
         type: "GET",
@@ -305,8 +318,10 @@ function save() {
             if (data != "" && data != null) {
                 if (rows[0].itemCode == undefined) {
                     $.messager.alert('提示', "请选择项目，再添加", "error");
+                    return false;
                 } else {
                     var tableJson = JSON.stringify(rows);
+
                     $.postJSON(basePath + '/treatment/save', tableJson, function (data) {
                         if (data.code == 'success') {
                             $.messager.alert('提示消息', '保存成功', 'success');
