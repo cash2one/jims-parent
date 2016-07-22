@@ -382,6 +382,7 @@ $(function () {
                 }
             });
             $("#nextBtn2").on('click', function () {
+                $(this).attr("disabled","disabled");
                 saveService();
             });
             $("#nextBtn3").on('click', function () {
@@ -619,6 +620,10 @@ $(function () {
     //个人首页
     $("#default").on('click', function () {
         window.location.href = "/modules/sys/default.html";
+    });
+    //我的机构服务
+    $("#myOrgServices").on('click', function () {
+        window.location.href = "/modules/sys/self-company-service-list.html";
     });
     //我的服务
     $("#myServices").on('click', function () {
