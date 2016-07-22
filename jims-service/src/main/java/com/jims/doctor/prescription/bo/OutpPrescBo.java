@@ -9,6 +9,7 @@ import com.jims.clinic.dao.OutpOrdersDao;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpOrders;
 import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.common.persistence.BaseEntity;
 import com.jims.common.utils.NumberUtils;
 import com.jims.common.vo.LoginInfo;
 import com.jims.prescription.entity.OutpPresc;
@@ -142,6 +143,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                                    outpOrdersCosts.setCosts(outpPresc.getCosts() * outpPresc.getAmount());
                                    outpOrdersCosts.setCharges(outpPresc.getCharges() * outpPresc.getAmount());
                                    outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
+                                   outpOrdersCosts.setChargeIndicator(BaseEntity.LAB_BILLINGINDICATOR_APPLY);
                                    ordersCostsesList.add(outpOrdersCosts);
                                }
                            }
@@ -244,7 +246,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
             outpOrdersCosts.setCosts(outpPresc.getCosts());
             outpOrdersCosts.setCharges(outpPresc.getCharges());
             outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
-
+            outpOrdersCosts.setChargeIndicator(BaseEntity.LAB_BILLINGINDICATOR_APPLY);
         return  outpOrdersCosts;
     }
     /**
