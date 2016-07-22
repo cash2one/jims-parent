@@ -91,9 +91,17 @@ public interface DrugBuyPlanApi {
      * @param flag
      * @param orgId 所属机构ID
      * @param buyer 采购员
+     * @param storage
      * @return
      */
-    public List<String[]> getBuyId(String flag,String orgId,String buyer);
+    public List<String[]> getBuyId(String flag,String orgId,String buyer,String storage);
+
+    /**
+     * 药品入库
+     * @param plan
+     * @return 0失败，1成功
+     */
+    public String drugInStock(List<DrugBuyPlan> plan);
 
     /**
      * 获取当前机构和子机构的采购单据号

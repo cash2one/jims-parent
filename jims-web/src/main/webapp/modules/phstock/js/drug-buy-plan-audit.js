@@ -628,18 +628,6 @@ $(function () {
      * @param orgId
      * @param supplierClass
      */
-    //var subSupplierList=[];//下级机构厂商列表
-    //var  loadSubSupplier= function(supplierClass,org){
-    //    $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-by-sub-org', {
-    //        orgId: config.org_Id,
-    //        supplierClass: supplierClass
-    //    }, function (res) {
-    //        for(var i=0;i<res.length;i++){
-    //            subSupplierList.push(res[i]);
-    //            suppliers.push(res[i])
-    //        }
-    //    }, 'GET', false)
-    //}
     var loadSupplier = function(supplierClass){
         $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-by-sub-org', {
             orgId: config.org_Id
