@@ -3,16 +3,20 @@ package com.jims.finance;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.api.OutPatientCostServiceApi;
 import com.jims.finance.api.OutpRcptMasterServiceApi;
 import com.jims.finance.entity.OutpRcptMaster;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -40,7 +44,8 @@ public class OupRcptMasterRest {
      */
     @Path("findCharge")
     @POST
-    public OutpRcptMaster findCharge(OutpRcptMaster outpRcptMaster){
+    public OutpRcptMaster findCharge(OutpRcptMaster outpRcptMaster,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
        try{
            if(outpRcptMaster.getAcctDate()!=null){
                outpRcptMaster.setVisitDate(DateUtils.parseDate(outpRcptMaster.getAcctDate(),"yyyy-MM-dd HH:mm:ss"));
@@ -48,6 +53,7 @@ public class OupRcptMasterRest {
        }catch (Exception e){
            e.printStackTrace();
        }
+        outpRcptMaster.setOperatorNo(loginInfo.getPersionId());
        return outpRcptMasterServiceApi.findCharge(outpRcptMaster);
     }
 
