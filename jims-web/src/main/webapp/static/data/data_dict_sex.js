@@ -20,7 +20,7 @@ $.ajax({
  * @param rowIndex
  * @returns {string|string|string}
  */
-function itemFormatter(value, rowData, rowIndex) {
+function setDataFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }

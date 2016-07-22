@@ -151,7 +151,7 @@ function patientList(status,dept){
             liHtml+='<li><a onclick="userMenu(\''+data[i].id+'\',this)">' +
             '<span class="cus-lbor"></span>' +
             '<span class="cus-name">'+data[i].name+'</span>' ;
-            var sex=itemFormatter(data[i].sex, '', '');
+            var sex=setDataFormatter(data[i].sex, '', '');
             liHtml=liHtml+'&nbsp;'+sex+'&nbsp; '+data[i].age+'</a></li>';
         }
         $('ul.cus-list').html(liHtml);
@@ -175,7 +175,7 @@ function userMenu(clinicMasterId,aBtn){
             clinicMaster=data;
             $("#nameId").html(data.name);
             $("#ageId").html(data.age);
-            $("#sexId").html(itemFormatter(data.sex, '', ''));
+            $("#sexId").html(setDataFormatter(data.sex, '', ''));
             $("#clinicNo").html(data.clinicNo);
             $("#visitDate").html(formatDatebox(data.visitDate));
             $("#clinicMasterId").val(data.id);
