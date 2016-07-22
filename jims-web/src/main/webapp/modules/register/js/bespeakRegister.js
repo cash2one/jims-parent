@@ -138,6 +138,11 @@ function appointsRegister(){
         });
         tableJson = tableJson.substring(0, tableJson.length - 1);
         tableJson += "]";
+
+        if(tableJson.length<='1' ){
+            $.messager.alert("提示信息", "请选择所要预约的号别");
+            return false;
+        }
         var formJson = fromJson('patMasterInfoForm');
         formJson = formJson.substring(0, formJson.length - 1);
         var submitJson = formJson + ",\"clinicForRegistList\":" + tableJson + "}";
