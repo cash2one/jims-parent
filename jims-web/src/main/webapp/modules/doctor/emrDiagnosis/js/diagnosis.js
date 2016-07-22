@@ -100,6 +100,8 @@ $(function(){
                         diagnosisDate:diagnosisDate
                     }
                  });
+                rowNum1 = 0;
+                dataGrid.datagrid('beginEdit', rowNum1);
             }
         }, '-',{
             text: '删除',

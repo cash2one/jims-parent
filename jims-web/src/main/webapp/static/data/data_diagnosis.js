@@ -15,9 +15,6 @@ function icdCompleting(q,id){
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
         icdData.inputParamVos=inputParamVos;
-
-    }else{
-        $("#"+id).combogrid('setValue','');
     }
     $.ajax({
         'type': 'POST',
