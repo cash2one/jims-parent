@@ -33,6 +33,14 @@ public interface DrugSupplierCatalogDao extends CrudDao<DrugSupplierCatalog> {
      */
     public List<DrugSupplierCatalog> findList(@Param("orgId")String orgId,@Param("q")String q);
 
+//    /**
+//     * 根据orgId查询该机构和其子机构的厂商
+//     * @param orgId
+//     * @param q
+//     * @zhuqi
+//     */
+//    public List<DrugSupplierCatalog> listSupplierBySubOrg(@Param("orgId")String orgId,@Param("q")String q);
+
     /**
      * 根据拼音码查询所属组织机构的供应商和生产商
      *
@@ -41,6 +49,8 @@ public interface DrugSupplierCatalogDao extends CrudDao<DrugSupplierCatalog> {
      * @return
      * @author wei
      */
+
+
     public List<DrugSupplierCatalog> listDrugSupplierCatalogByInputCode(String orgId, String inputCode);
 
     /**

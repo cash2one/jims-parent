@@ -59,7 +59,7 @@ $(function () {
         , orgId = parent.config.org_Id
         , currentBuyId = '' // 当前采购单据号
         , currentStorage = parent.config.currentStorage
-        , suppliers = []  // 供应商数据
+        , suppliers = []  ;// 供应商数据
 
     var planSelectIndex = 0;   // 购买计划表当前选择行索引
 
@@ -82,6 +82,12 @@ $(function () {
         $('#buyPlanTable').datagrid('mergeCells', {index: _index, field: 'checkMoney', rowspan: null, colspan: 8})
     }
 
+    var orgList=[]; //组织机构及其下级机构列表
+    $.get("/service/sys-sompany/find-list-by-parent-id?orgId="+config.org_Id, function (data) {
+        orgList= data;
+        loadBuyList(orgList);
+    });
+
     var specUnits = [];//规格单位字典
     $.get("/service/dict/findListByType?type=spec_unit", function (data) {
         specUnits = data;
@@ -101,7 +107,29 @@ $(function () {
     $.get("/service/drug-price/findDrugNameDictList", function (data) {
         drugNameDictList = data;
     });
-
+    var buyListByOrg=[];
+    var loadBuyList = function(orgLists){
+        buyListByOrg=[];
+        if(orgLists.length>0){
+            for(var i=0;i<orgLists.length;i++){
+                $.ajax({
+                    type: 'get',
+                    url: base_url+'getBuyListByOrg?flag=3&orgId='+orgLists[i].id,
+                    async : false,   // true 异步,false 同步
+                    //data: {orgId: orgLists[i].id, flag: 3},
+                    contentType: 'application/json',
+                    success: function(res){
+                        if(res.length>0){
+                            for (var j=0;j<res.length;j++){
+                                buyListByOrg.push(res[j]);
+                            }
+                        }
+                    }
+                })
+            }
+            $('#temporaryNo').combogrid('grid').datagrid("loadData", buyListByOrg);
+        }
+    }
     /**
      * 格式化数据
      * @param arr 数组格式类似 [{value:'1',label:'测试'}...]
@@ -170,7 +198,7 @@ $(function () {
     /**
      * 初始化药品购买计划表
      */
-    var initBuyPlanTable = function () {
+    var initBuyPlanTable = function (orgs) {
         $("#buyPlanTable").datagrid({
             fit: true,
             border: 0,
@@ -185,6 +213,17 @@ $(function () {
                     if (value == '审核金额合计') return '<div style="text-align:right">' + value + '：　　　</div>'
                     return value
                 }},
+                {field: 'orgId', title: '所属机构', width: 100, align: "center",
+                    formatter:function(value,row){
+                        var orgName=value;
+                        for(var i=0;i<orgList.length;i++){
+                            if(orgList[i].id==value){
+                                orgName=orgList[i].orgName;
+                            }
+                        }
+                        return orgName;
+                    }
+                },
                 { field: 'drugCode', title: '药品编码', width: 130,halign : "center",align : "left",editor:{
                     type:'combogrid',
                     options:{
@@ -223,8 +262,6 @@ $(function () {
                 },
                     formatter:function(value,row,index){
                         var a=false;
-                        //console.log(buyPlanRow);
-                        console.log(row);
                         $.each(drugNameDictList, function (index,item) {
                             if(item.drugCode == value && item.drugName==row.drugName){
                                 a=true;
@@ -255,9 +292,12 @@ $(function () {
                     options: {
                         valueField: 'id',
                         textField: 'supplier',
+                        url:'/service/drug-supplier-catalog/list-supplier-by-sub-org?orgId='+orgs,
+                        method:'get',
+                        mode:'remote'
                         //required: true,
                         //missingMessage: '审核供应商不能为空',
-                        data: suppliers
+                        //data: subSupplierList
                     }
                 },formatter:function(value){
                     for(var i= 0,j=suppliers.length;i<j;i++){
@@ -364,17 +404,39 @@ $(function () {
      * 初始化按钮等
      */
     var initBtn = function () {
-        $('#temporaryNo').combobox({
-            valueField: '0',
-            textField: '0',
-            editable: false,
-            url:base_url+'getBuyId?flag=3&orgId='+orgId,
-            method:'get',
+        $('#temporaryNo').combogrid({
+            panelWidth: 203,
             mode:'remote',
-            onSelect: function (record) {
-                planSelectIndex = 0
-                loadDrugBuyPlan(record[0], '3')
+            idField: 'buyId',
+            textField: 'buyId',
+            //editable: false,
+            //url:loadBuyList(orgList),
+            //data:[],
+            columns: [[
+                {field: 'buyId', title: '采购单据号', width: 100},
+                {field: 'orgId', title: '所属机构', width: 100
+                    ,formatter:function(value,index){
+                    var orgName=value;
+                    for(var i=0;i<orgList.length;i++){
+                        if(orgList[i].id==value){
+                            orgName=orgList[i].orgName
+                        }
+                    }
+                    return orgName;
+                }
+                }
+            ]],
+            onSelect: function (q, row) {
+                //var rows=$('#temporaryNo').combogrid('getSelected');
+                //planSelectIndex = 0
+                //loadDrugBuyPlan(record[0], '3')
+                planSelectIndex = 0;
+                loadDrugBuyPlan(row.buyId, '3',row.orgId);
+                console.log(suppliers);
+                initBuyPlanTable(row.orgId);
             }
+            //onLoadSuccess:function(){
+            //}
         })
 
         $('#addButton').linkbutton({
@@ -536,11 +598,11 @@ $(function () {
      * @param buyId
      * @param flag
      */
-    var loadDrugBuyPlan = function (buyId, flag) {
-        $.get(base_url + 'findList', {buyId: buyId, orgId: orgId, flag: flag}, function (res) {
-            currentBuyId = buyId
+    var loadDrugBuyPlan = function (buyId, flag,org) {
+        $.get(base_url + 'findList', {buyId: buyId, orgId: org, flag: flag}, function (res) {
+            currentBuyId = buyId;
             for(var i=0;i<res.length;i++){
-                res[i].checker = username
+                res[i].checker = username;
                 res[i].flag = '4'
             }
             $('#buyPlanTable').datagrid('loadData', res)
@@ -567,9 +629,8 @@ $(function () {
      * @param supplierClass
      */
     var loadSupplier = function(supplierClass){
-        $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-type', {
-            orgId: parent.config.org_Id,
-            supplierClass: supplierClass
+        $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-by-sub-org', {
+            orgId: config.org_Id
         }, function (res) {
             suppliers = res
         }, 'GET', false)
@@ -610,6 +671,7 @@ $(function () {
             $.messager.alert('警告','请选择需审核的采购单据号！','warning')
             return
         }
+        var rows=$('#buyPlanTable').datagrid('getRows');
         if (len == 0) {
             var countRecord = {
                 buyNo: '审核金额合计',
@@ -624,7 +686,7 @@ $(function () {
             buyId: currentBuyId,  // 后台生成
             buyNo: len + 1,
             checker: username,
-            orgId: orgId,
+            orgId: rows[0].orgId,
             flag: '4',
             wantNumber:'0',
             stockNumber:'0',
@@ -704,11 +766,9 @@ $(function () {
     }
 
     var init = function () {
-        loadSupplier('供应商')
-
-        initBuyPlanTable()
-        initBtn()
+        loadSupplier('供应商');
+        initBuyPlanTable();
+        initBtn();
     }
-
     init()
 })

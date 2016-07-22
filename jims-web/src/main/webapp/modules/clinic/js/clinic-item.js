@@ -573,9 +573,12 @@ $(function(){
     })
     $('#clinic_org').combobox({
         mode:'remote',
+        valueField:'deptCode',
+        textField:'deptName',
         url:'/service/dept-dict/findListWithFilter?orgId='+config.org_Id,
         method:'get'
     })
+
     $('#add_project').click(function(){
         if(!endEditing_name() || !validVs()) return false;
         $.get('/service/price/findListWithLimit',{itemClass:$('#item_class').combobox('getValue'),
@@ -748,7 +751,7 @@ $(function(){
         parent.$.postJSON('/service/clinicItem/save',JSON.stringify(clinicItem),function(res){
             if(res = '1')
                 $.messager.alert('保存','保存成功!','info',function(){
-                    window.location.reload()
+                    //window.location.reload();
                 })
         })
     });
