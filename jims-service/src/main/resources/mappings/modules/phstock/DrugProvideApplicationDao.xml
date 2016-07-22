@@ -46,6 +46,12 @@
             <if test="applicantStorageSub!=null and applicantStorageSub!=''">
                 AND  applicant_storage_sub =#{applicantStorageSub}
             </if>
+            <if test="subStorage!=null and subStorage!=''">
+                AND  sub_storage =#{subStorage}
+            </if>
+            <if test="provideStorage!=null and provideStorage!=''">
+                AND  provide_storage =#{provideStorage}
+            </if>
             <if test="enterDateTime != null and enterDateTime != ''">
                 and to_char(a.enter_date_time,'yyyy-MM-dd hh') = to_char(#{enterDateTime},'yyyy-MM-dd hh')
             </if>

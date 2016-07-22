@@ -99,8 +99,10 @@
         select buy_Id,org_id,flag
         from drug_buy_plan
         where org_id=#{orgId}
-        and flag=#{flag}
+        and (#{flag} is null or (#{flag} is not null and flag=#{flag}))
+        and del_flag = '0'
         group by org_id,buy_id ,flag
+        order by buy_id desc ,flag asc
     </select>
 
     <select id="getBuyId" resultType="DrugBuyPlan">
@@ -110,9 +112,12 @@
             <if test="flag != null and flag != ''">
                 AND a.flag = #{flag}
             </if>
-            AND a.org_id = #{1}
+            AND a.org_id = #{orgId}
             <if test="buyer != null and buyer != ''">
                 AND a.buyer = #{buyer}
+            </if>
+            <if test="storage != null and storage != ''">
+                AND a.storage = #{storage}
             </if>
             order by a.buy_id desc
     </select>

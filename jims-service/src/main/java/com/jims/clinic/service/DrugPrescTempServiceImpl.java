@@ -110,6 +110,7 @@ public class DrugPrescTempServiceImpl extends CrudImplService<DrugPrescMasterTem
                     if (drugPrescMasterTemp.getPrescAttr() == "duma") {
                         // drugPrescMaster.setBzMz();
                     }
+                    drugPrescMaster.setOrgId(drugPrescMasterTemp.getOrgId());
                     drugPrescMaster.setChargeType(drugPrescMasterTemp.getChargeType());
                     drugPrescMaster.setCountPerRepetition(drugPrescMasterTemp.getCountPerRepetition());
                     drugPrescMaster.setDispensary(drugPrescMasterTemp.getDispensary());
@@ -130,6 +131,7 @@ public class DrugPrescTempServiceImpl extends CrudImplService<DrugPrescMasterTem
                     drugPrescMaster.setDispensingDatetime(drugPrescMasterTemp.getDispensingDatetime());
                     drugPrescMaster.setMemo(drugPrescMasterTemp.getMemo());
                     drugPrescMaster.setDispensarySub(drugPrescMasterTemp.getDispensarySub());
+                    drugPrescMaster.setDelFlag("0");
                     //缺少退药
                     drugPrescMasterDao.insert(drugPrescMaster);
                 }

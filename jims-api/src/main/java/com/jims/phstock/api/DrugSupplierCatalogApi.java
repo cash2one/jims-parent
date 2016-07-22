@@ -67,6 +67,15 @@ public interface DrugSupplierCatalogApi {
      */
     public List<DrugSupplierCatalog> listDrugSupplierCatalogByInputCode(String orgId, String inputCode);
 
+
+    /**
+     * 根据orgId查询该机构和其子机构的厂商
+     * @param orgId
+     * @param q
+     * @zhuqi
+     */
+    public List<DrugSupplierCatalog> listSupplierBySubOrg(String orgId,String q) ;
+
     /**
      * 根据厂商类别查询所属组织机构的生产商或供应商
      *

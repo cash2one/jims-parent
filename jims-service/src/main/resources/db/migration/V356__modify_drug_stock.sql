@@ -18,4 +18,4 @@ alter table DRUG_STOCK drop column price_list_id;
 -- Create/Recreate primary, unique and foreign key constraints
 
 alter table DRUG_STOCK
-  add constraint UNIQUE_DRUG_STOCK unique (DRUG_CODE, DRUG_SPEC, FIRM_ID, PACKAGE_SPEC, BATCH_NO, STORAGE, SUB_STORAGE, ORG_ID);
+  add constraint UNIQUE_DRUG_STOCK unique (DRUG_CODE, DRUG_SPEC, FIRM_ID, PACKAGE_SPEC, BATCH_NO, STORAGE, SUB_STORAGE, ORG_ID, UNITS, PACKAGE_UNITS);
