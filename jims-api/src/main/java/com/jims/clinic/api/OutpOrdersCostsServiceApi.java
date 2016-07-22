@@ -16,11 +16,11 @@ public interface OutpOrdersCostsServiceApi {
 
     /**
      * 根据病人就诊ID和医嘱号查询明细信息
-     * @param orderNo
+     * @param serialNo
      * @param clinicId
      * @return
      */
-     public List<OutpOrdersCosts> getOutpCosts(String orderNo ,String clinicId);
+     public List<OutpOrdersCosts> getOutpCosts(String serialNo ,String clinicId);
 
     public OutpOrdersCosts get(String id);
 
