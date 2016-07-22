@@ -33,11 +33,9 @@ function ordersDrugCom(q,id){
         InputParamVo.colValue=q;
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
-        ordersDrugData.inputParamVos=inputParamVos;
-
-    }else{
-        $("#"+id).combogrid('setValue','');
     }
+    ordersDrugData.inputParamVos=inputParamVos;
+
     $.ajax({
         'type': 'POST',
         'url':basePath+'/input-setting/listParam' ,

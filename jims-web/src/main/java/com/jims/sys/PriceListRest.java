@@ -4,6 +4,8 @@ package com.jims.sys;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.PageData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.sys.api.PriceListApi;
 import com.jims.sys.entity.PriceList;
 import com.jims.sys.vo.PriceListVo;
@@ -69,14 +71,14 @@ public class PriceListRest {
 
     /**
      * 根据诊疗项目获取诊疗项目所对应的价表项目
-     * @param orgId
      * @param clinicItemCode
      * @return
      */
     @GET
     @Path("list-by-clinic-code")
-    public List<PriceListVo> getListByClinicItemCodeAndOrgId(@QueryParam("orgId")String orgId,@QueryParam("clinicItemCode")String clinicItemCode){
-        List<PriceListVo> priceListVo=  priceListApi.getListByClinicItemCodeAndOrgId(orgId, clinicItemCode);
+    public List<PriceListVo> getListByClinicItemCodeAndOrgId(@Context HttpServletRequest request,@QueryParam("clinicItemCode")String clinicItemCode){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        List<PriceListVo> priceListVo=  priceListApi.getListByClinicItemCodeAndOrgId(loginInfo.getOrgId(), clinicItemCode);
         return priceListVo;
     }
 

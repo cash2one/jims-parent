@@ -189,7 +189,7 @@
 			#{delFlag}
 		)
 	</insert>
-	
+
 	<update id="update">
 		UPDATE outp_orders_costs SET
 		    master_id=#{masterId},
@@ -233,9 +233,9 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
-		UPDATE outp_orders_costs SET 
+		UPDATE outp_orders_costs SET
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE item_code = #{itemCode}
 	</update>
@@ -253,8 +253,8 @@
 		FROM outp_orders_costs a
 		<where>
 			a.del_flag = '0'
-			<if test="orderNo!=null and orderNo!=''">
-				and a.order_no=#{orderNo}
+			<if test="serialNo!=null and serialNo!=''">
+				and a.serial_no=#{serialNo}
 			</if>
 			<if test="clinicId!=null and clinicId!=''">
 				AND a.clinic_id=#{clinicId}

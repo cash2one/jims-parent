@@ -37,8 +37,8 @@ public class OutpOrdersCostsServiceImpl extends CrudImplService<OutpOrdersCostsD
      * @return
      */
     @Override
-    public List<OutpOrdersCosts> getOutpCosts(String orderNo, String clinicId) {
-        return outpOrdersCostsDao.getOutpCosts(orderNo, clinicId);
+    public List<OutpOrdersCosts> getOutpCosts(String serialNo, String clinicId) {
+        return outpOrdersCostsDao.getOutpCosts(serialNo, clinicId);
     }
 
     public OutpOrdersCosts get(String id) {

@@ -108,7 +108,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY  a.type  ASC,a.create_date ASC,a.item_no ASC
+				ORDER BY  a.item_no ASC
 			</otherwise>
 		</choose>
 
