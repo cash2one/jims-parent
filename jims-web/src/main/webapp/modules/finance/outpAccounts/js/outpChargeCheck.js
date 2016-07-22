@@ -70,28 +70,32 @@ $(function(){
 
 //结账确认
 function save(){
-    $('#acctNo').val(accNo);
-    $("#visitDateMaster").val(formatDatebox(new Date()));
-    var  paymentsRows=$('#payments').datagrid('getRows');
-    var paymentsJson=JSON.stringify(paymentsRows);
-    var itemsRows  = $('#itemsTables').datagrid('getRows');
-    var itemsJson = JSON.stringify(itemsRows);
-    var masterFrom=fromJson('searchform');
-    masterFrom = masterFrom.substring(0, masterFrom.length - 1);
-    var submitJson=masterFrom+",\"outpAcctMoneyList\":"+paymentsJson+",\"outpAcctDetailList\":"+itemsJson+"}";
-    $.postJSON(basePath+'/outpAcctMaster/save',submitJson,function(data){
-        if(data.data=="success"){
-            $.messager.alert("提示消息","收费结账成功");
-            $('#payments').datagrid('load', { total: 0, rows: [] });
-            $('#itemsTables').datagrid('load', { total: 0, rows: [] });
-            $('#searchform').form('load',"");
-        }else{
-            $.messager.alert('提示',"收费结账失败", "error");
-        }
-    },function(data){
-        $.messager.alert('提示',"收费结账失败", "error");
-    })
+    if($("#searchform").form("validate")) {
+        $('#acctNo').val(accNo);
+        $("#visitDateMaster").val(formatDatebox(new Date()));
+        var paymentsRows = $('#payments').datagrid('getRows');
+        var paymentsJson = JSON.stringify(paymentsRows);
+        var itemsRows = $('#itemsTables').datagrid('getRows');
+        var itemsJson = JSON.stringify(itemsRows);
+        var masterFrom = fromJson('searchform');
+        masterFrom = masterFrom.substring(0, masterFrom.length - 1);
+        var submitJson = masterFrom + ",\"outpAcctMoneyList\":" + paymentsJson + ",\"outpAcctDetailList\":" + itemsJson + "}";
 
+        $.postJSON(basePath + '/outpAcctMaster/save', submitJson, function (data) {
+            if (data.data == "success") {
+                $.messager.alert("提示消息", "收费结账成功");
+                $('#payments').datagrid('load', {total: 0, rows: []});
+                $('#itemsTables').datagrid('load', {total: 0, rows: []});
+                $('#searchform').form('load', "");
+            } else {
+                $.messager.alert('提示', "收费结账失败", "error");
+            }
+        }, function (data) {
+            $.messager.alert('提示', "网络异常", "error");
+        })
+    }else{
+        $.messager.alert('提示',"收费没有未结账的数据", "warning");
+    }
 }
 
 
