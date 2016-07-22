@@ -116,8 +116,10 @@ $(function(){
                             var ed = $('#list_data').datagrid('getEditor', {index:rowNum,field:'drugName'});
                             comboGridCompleting(q,'drugName');
                             $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                            $(ed.target).combogrid("setText",q);
                         }
                     },onClickRow: function (index, row) {
+
                         var drugCode = $("#list_data").datagrid('getEditor',{index:rowNum,field:'drugCode'});
                         $(drugCode.target).textbox('setValue',row.drug_code);
                         var drugSpec = $("#list_data").datagrid('getEditor',{index:rowNum,field:'drugSpec'});
@@ -192,6 +194,7 @@ $(function(){
                     }
                 }
             }},
+            {field:'quantity',title:'库存量',hidden:true,editor:{type:'textbox',options:{editable:false}}},
             {field:'amount',title:'药品数量',width:'5%',align:'center',editor:{
                 type:'numberbox',
                 options: {
@@ -251,7 +254,7 @@ $(function(){
             {field:'orderNo',title:'处方',hidden:true},
             {field:'subOrderNo',title:'子处方',hidden:true},
             {field:'serialNo',title:'流水号',hidden:true},
-            {field:'quantity',title:'库存量',hidden:true,editor:{type:'textbox',options:{editable:false}}},
+
             {field:'subjCode',title:'会计科目',hidden:true,editor:{type:'textbox',options:{editable:false}}},
             {field:'performedBy',title:'执行科室',hidden:true,editor:{type:'textbox',options:{editable:false}}},
             {field:'drugCode',title:'药品编号',hidden:true,editor:{type:'textbox',options:{editable:false}}}
@@ -299,22 +302,26 @@ $(function(){
                 }
             }
         }],onClickRow:function(rowIndex,rowData){
-            var dataGrid=$('#list_data');
-            if(!dataGrid.datagrid('validateRow', rowNum)){
-                $.messager.alert('提示',"数据填写不完整，请填写完整后再对其他行进行编辑", "error");
-                return false
-            }else{
-                if(rowNum!=rowIndex){
-                    if(rowNum>=0){
-                        dataGrid.datagrid('endEdit', rowNum);
+            if(rowData.id!=null&&rowData.id!=''){
+                //$.messager.alert("提示消息", "该药品不可编辑","warning");
+            }else {
+                var dataGrid=$('#list_data');
+                if(!dataGrid.datagrid('validateRow', rowNum)){
+                    $.messager.alert('提示',"数据填写不完整，请填写完整后再对其他行进行编辑", "error");
+                    return false
+                }else{
+                    if(rowNum!=rowIndex){
+                        if(rowNum>=0){
+                            dataGrid.datagrid('endEdit', rowNum);
+                        }
+                        rowNum=rowIndex;
+                        dataGrid.datagrid('beginEdit', rowIndex);
                     }
-                    rowNum=rowIndex;
-                    dataGrid.datagrid('beginEdit', rowIndex);
                 }
             }
             //alert(rowData);
             $("#prescDialog").dialog('open');
-            $.get(basePath+'/outppresc/priceItem?masterId=' + rowData.id+"&clinicId="+clinicId, function (data) {
+            $.get(basePath+'/outppresc/priceItem?clinicId=' + clinicId+"&serialNo="+rowData.serialNo, function (data) {
                 $("#prescriptionDatagrid").datagrid("loadData", data);
             });
         }
@@ -337,7 +344,16 @@ $(function(){
                 columns: [[{
                     title: '类别',
                     field: 'itemClass',
-                    width:'15%'
+                    width:'15%',
+                    formatter: function (value, row, index) {
+                        if (value == "A") {
+                            value = "西、成药";
+                        }
+                        else if (value == "B") {
+                            value = "草药";
+                        }
+                        return value;
+                    }
                 }, {
                     title: '计价项目',
                     field: 'itemName',
@@ -495,6 +511,7 @@ function subItem(itemClass,selRow){
 //点击新方
 function addPre(){
     itemClass = $("#itemClass").val();
+    $("#serialNo").val("");
     if(itemClass=='A'){
         $("#list_data").datagrid('loadData', { total: 0, rows: [] });
         newpresc();
@@ -642,7 +659,7 @@ function giveUpPre(){
     $("#list_data").datagrid('loadData', { total: 0, rows: [] });
     orderNo=0;
 }
-//删除药品信息
+//删除处方信息
 function doDelete() {
     var selRow = $('#leftList').datagrid('getChecked');//获取处方选中行数据，有新开处方，才能添加处方医嘱明细
     if(selRow!=null&&selRow!=''&&selRow!='undefined') {
@@ -674,6 +691,8 @@ function del(prescNos){
                 if(data.data=='success'){
                     $.messager.alert("提示消息","1条处方删除成功！");
                     $('#leftList').datagrid('load');
+                    $('#list_data').datagrid('load');
+                    $("#list_data").datagrid('loadData', { total: 0, rows: [] });
                 }else{
                     $.messager.alert('提示',"删除失败", "error");
                 }

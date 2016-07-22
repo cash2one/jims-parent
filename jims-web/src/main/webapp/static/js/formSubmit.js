@@ -4,7 +4,7 @@ function formSubmitInput(fromId){
         var inputId=$(this).attr("submit_id");
         if(typeof(inputId) != "undefined"){
             var html=$(this).html();
-            $("#"+inputId).val(html);
+            $("#"+inputId).val(escape(html));
         }
     })
 }
@@ -13,7 +13,7 @@ function getDiv(fromId){
     $("#"+fromId+" div").each(function(){
         var inputId=$(this).attr("submit_id");
         if(typeof(inputId) != "undefined"){
-            $(this).html( $("#"+inputId).val());
+            $(this).html(unescape($("#"+inputId).val()));
         }
     })
 }

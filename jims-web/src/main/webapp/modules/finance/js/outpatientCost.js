@@ -603,22 +603,22 @@ function rowCount(){
                 class_type="1";
             }else{
                 class_type="2";
-                if(i>0){
-                    if(class_type_zl!=data.performed_by){
-                        var dataCount={};
-                        var date=new Date();
-                        var rcptNo=date.format("yyyyMMddhhmmss")+Math.floor(Math.random()*10000);
-                        dataCount.item_price="处方号："
-                        dataCount.dosage=rcptNo;
-                        dataCount.performed_by="小计";
-                        dataCount.costs=price;
-                        dataCount.charges=price;
-                        price=0;
-                        datazl.push(dataCount);
-                    }
-                }
-                class_type_zl=data.performed_by;
             }
+            if(i>0){
+                if(class_type_zl!=data.performed_by){
+                    var dataCount={};
+                    var date=new Date();
+                    var rcptNo=date.format("yyyyMMddhhmmss")+Math.floor(Math.random()*10000);
+                    dataCount.item_price="处方号："
+                    dataCount.dosage=rcptNo;
+                    dataCount.performed_by="小计";
+                    dataCount.costs=price;
+                    dataCount.charges=price;
+                    price=0;
+                    datazl.push(dataCount);
+                }
+            }
+            class_type_zl=data.performed_by;
             price=Number(price)+Number(data.costs);
             priceCount=Number(priceCount)+Number(data.costs);
             if(i==0){
@@ -645,8 +645,8 @@ function rowCount(){
         dataCountAll.performed_by="总计";
         dataCountAll.costs=priceCount;
         if(class_type=="1"){
-            rows.push(dataCountAll);
-            $("#list").datagrid("loadData",rows);
+            datazl.push(dataCountAll);
+            $("#list").datagrid("loadData",datazl);
         }else{
             datazl.push(dataCountAll);
             $('#addDrug').linkbutton('disable');

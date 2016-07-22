@@ -34,7 +34,7 @@
                     <label>
                         临床诊断：
                     </label>
-                    <textarea id="relevantClinicDiag" class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
+                    <textarea id="relevantClinicDiag" readonly class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
                 </div>
                 <div class="fitem">
                     <label>
@@ -47,27 +47,27 @@
                         检验科室：
                     </label>
                     <input type="hidden" name="performedBy" value="" id="performedById"  >
-                    <input placeholder="科室"   id="performedBy"   style="width: 145px;" disabled="disabled">
+                    <input placeholder="科室"   id="performedBy" class="easyui-validatebox validatebox-text validatebox-invalid"  style="width: 145px;" disabled="disabled">
                 </div>
                 <div class="fitem">
                     <label>
                         标本：
                     </label>
-                    <input name="specimen" id="specimen" style="width: 145px;" disabled="disabled">
+                    <input name="specimen" id="specimen" class="easyui-validatebox validatebox-text validatebox-invalid" style="width: 145px;" disabled="disabled" readOnly="true" >
                 </div>
                 <div class="fitem">
                     <label>
                         标本说明：
                     </label>
-                    <textarea id="notesForSpcm" class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
+                    <textarea id="notesForSpcm"  readonly class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
                 </div>
-                <div class="fitem">
-                    <label>
-                        送检医师：
-                    </label>
-                    <input type="hidden" name="orderingProvider" id="orderingProviderId" value="">
-                    <input id="orderingProvider" style="width: 35%;">
-                </div>
+                <!--<div class="fitem">-->
+                    <!--<label>-->
+                        <!--送检医师：-->
+                    <!--</label>-->
+                    <!--<input type="hidden" name="orderingProvider" id="orderingProviderId" value="">-->
+                    <!--<input id="orderingProvider" style="width: 35%;">-->
+                <!--</div>-->
                     <!--<input type="hidden" id="requestedDateTime" style="display: none;width: 30%;" name="requestedDateTime" >-->
                 <table id="items"   cellspacing="0" cellpadding="0">
 

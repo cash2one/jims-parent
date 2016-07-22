@@ -224,7 +224,6 @@ function saveClinic(){
     })
     tableJson = tableJson.substring(0, tableJson.length - 1);
     tableJson+="]";
-    return false;
     var formJson=fromJson('clinicForm');
     formJson = formJson.substring(0, formJson.length - 1);
     var submitJson=formJson+",\"clinicForRegists\":"+tableJson+"}";

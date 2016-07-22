@@ -80,10 +80,14 @@ public class CostOrdersUtilsService {
             ClinicItemDict clinicItemDict=itemDictList.get(i);
             clinicItemDict.setOrgId(orgId);
              List<ClinicItemDict> clinicItemDictList= clinicItemDictDao.findExisted(clinicItemDict);
+            if(clinicItemDictList.size() == 0){
+                return "此项目没有相应价格，不能保存";
+            }
             clinicItemDict=clinicItemDictList.get(0);
             OutpTreatRec outpTreatRec=new OutpTreatRec();
 
             outpTreatRec.setItemNo(itemNo);
+            outpTreatRec.setAmount(1.00);
             outpTreatRec.setVisitDate(clinicMaster.getVisitDate());
             outpTreatRec.setOrgId(orgId);
             outpTreatRec.setVisitNo(clinicMaster.getVisitNo());

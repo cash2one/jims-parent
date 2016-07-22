@@ -22,7 +22,7 @@ $.ajax({
  * @param rowIndex
  * @returns {string|string|string}
  */
-function itemFormatter(value, rowData, rowIndex) {
+function chargeTypeFormatter(value, rowData, rowIndex) {
     if (value == 0) {
         return;
     }
