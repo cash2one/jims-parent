@@ -89,7 +89,6 @@ $(function () {
     $('#examClassName').textbox({
         onChange: function(value) {
             var examClassName = $("#examClassName").textbox("getValue");
-            alert(examClassName);
             var data=$("#examSubClassNameParent").combobox("getData");
             for(var i=0;i<data.length;i++){
                 if(data[i].examClassName==examClassName){
@@ -111,7 +110,6 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers:true,
-        //url: basePath + "/examSubclassDict/listByOrgId?orgId=" + config.org_Id,
         loadMsg: '数据正在加载中，请稍后.....',
         columns: [[{
             title: "id",
@@ -187,15 +185,6 @@ $(function () {
             //{field: 'inputCode', title: '拼音码', width: 60},
         ]]
     });
-    //$("#performBy").combogrid({
-    //    onChange:function(value){
-    //        var row=$("#performBy").combogrid('getText');
-    //        console.log(row);
-    //        console.log(value);
-    //    }
-    //})
-
-    //打印格式下拉框
 
 
     $("#printStyle").combobox({
@@ -262,7 +251,6 @@ $(function () {
                 }
             }
         }
-        //console.log(a);
         if(a){
             var saveObj = {};
             saveObj.examClassCode = $("#examClassCode").val();
@@ -328,6 +316,7 @@ $(function () {
         for(var i=0;i<exam.rows.length;i++){
             if(exam.rows[i].examSubclassName==saveObj.examSubclassName){
                 $.messager.alert('系统提示', '子类名称重复，请重新命名！');
+
                 return false;
             }
         }
