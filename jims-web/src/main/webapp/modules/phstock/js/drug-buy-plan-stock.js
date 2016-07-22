@@ -1,9 +1,7 @@
 $(function () {
-    var base_url = '/service/drug-buy-plan/'
-    var orgId = config.org_Id
-
+    var base_url = parent.basePath + '/drug-buy-plan/';
+    var orgId = config.org_Id;
     var planSelectIndex = 0;   // 购买计划表当前选择行索引
-
 
     var specUnits = [];//规格单位字典
     $.get("/service/dict/findListByType?type=spec_unit", function (data) {
@@ -43,7 +41,7 @@ $(function () {
         valueField: '0',
         textField: '0',
         editable: false,
-        url:base_url+'getBuyId?flag=5&orgId='+orgId+'&storage='+currentStorage,
+        url:base_url+'getBuyId?flag=5&orgId='+orgId+'&storage='+config.currentStorage,
         method:'get',
         mode:'remote',
         onSelect: function (record) {
@@ -178,7 +176,6 @@ $(function () {
             }
             $('#buyPlanTable').datagrid('loadData', res)
             $('#buyPlanTable').datagrid('selectRow', planSelectIndex);
-            //$('#buyPlanTable').datagrid('beginEdit', planSelectIndex);
         })
     }
 
