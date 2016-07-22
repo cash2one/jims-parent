@@ -116,7 +116,7 @@ function searchAcct(){
     var tableJson=fromJson('northForm');
     $.postJSON(basePath+'/oupRcptMaster/findCharge',tableJson,function(data){
        var  obj=eval(data);
-        if(data !=null && obj.countNo !=0){
+        if(data !=null && obj.countNo !="0"){
             $('#payments').datagrid({url:basePath+'/outpPaymentsMoney/findMaoneyPayment?'+$("#northForm").serialize() });
             $('#itemsTables').datagrid({url:basePath + '/outpBillItems/findItems?' + $("#northForm").serialize() });
             $('#searchform').form('load',data);

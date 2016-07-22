@@ -59,7 +59,7 @@ $(function(){
                     return "";
                 }
             }},
-            {field:'repeatIndicator',title:'长',width:'5%',align:'center',formatter:itemFormatter,editor:{
+            {field:'repeatIndicator',title:'长',width:'5%',align:'center',formatter:indicatorFormatter,editor:{
                 type:'combobox',
                 options:{
                     required:true,

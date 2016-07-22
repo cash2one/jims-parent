@@ -1,6 +1,7 @@
 package com.jims.finance.outpAccounts.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.api.OutpAcctMasterServiceApi;
 import com.jims.finance.entity.OutpAcctMaster;
 import com.jims.finance.entity.OutpRcptMaster;
@@ -41,8 +42,8 @@ public class OutpAcctMasterServiceImpl implements OutpAcctMasterServiceApi{
      * @author pq
      * @date 2016/6/1 0001
      */
-    public String saveOutpAcct(OutpRcptMaster outpRcptMaster){
-        return  outpAcctMasterBo.saveOutpAcct(outpRcptMaster);
+    public String saveOutpAcct(OutpRcptMaster outpRcptMaster,LoginInfo loginInfo){
+        return  outpAcctMasterBo.saveOutpAcct(outpRcptMaster,loginInfo);
     }
 
 

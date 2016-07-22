@@ -5,7 +5,9 @@ package com.jims.exam.entity;
 
 import com.jims.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 
 
 /**
@@ -25,8 +27,18 @@ public class ExamRptPattern extends DataEntity<ExamRptPattern> {
 	private String inputCode;		// 描述名称输入码
     private String orgId;//机构id
     private String doctorTeshu;		// 指定医生，指定项目
+    private String flag;
 
-	public ExamRptPattern() {
+    @Transient
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public ExamRptPattern() {
 		super();
 	}
 
