@@ -13,107 +13,7 @@ function diagnosisTypeClinicformatter(value) {
     }
 }
 function onloadMethods() {
-    $("#patientId").val(patientId);
-    $("#visitId").val(visitId);
-    $("#name").val(parent.clinicMaster.name);
-    $("#sex").val(parent.clinicMaster.sex);
-    $("#chargeType").val(parent.clinicMaster.chargeType);
-    $("#identity").val(parent.clinicMaster.identity);
-
-    $("#clinDiag").combogrid({
-        data:icdAllData,
-        valueField:'code',
-        textField:'zhongwen_mingcheng',
-        required:true,
-        columns:[
-            [
-                {field: 'zhongwen_mingcheng', title: '中文名称', width: '40%', align: 'center'},
-                {field: 'code', title: 'ICD-10编码', width: '30%', align: 'center'},
-                {field: 'keyword_shuoming', title: '关键词', width: '40%', align: 'center'},
-            ]
-        ],
-        keyHandler: {
-            up: function() {},
-            down: function() {},
-            enter: function() {},
-            query: function(q) {
-                icdCompleting(q,'clinDiag');
-                $("#clinDiag").combogrid("grid").datagrid("loadData", icdAllData);
-
-            }
-        },
-        onClickRow:function(rowIndex,rowData){
-            $("#clinDiag").combogrid('setText',rowData.zhongwen_mingcheng);
-            $("#clinDiagId").val(rowData.zhongwen_mingcheng);
-        }
-    })
-    //下拉框选择控件，下拉框的内容是动态查询数据库信息
-    $('#examClassNameId').combobox({
-        url: basePath + '/examClassDict/getEx',
-        method: "GET",
-        queryParams: {"orgId": 1},
-        valueField: 'id',
-        textField: 'examClassName',
-        onSelect: function (data) {
-            $("#performedBy").val(data.performBy);
-            $("#reqDept").val(clinicDeptCodeFormatter(data.performBy, '', ''));
-            //清空二级联动
-            $("#examSubclassNameId").combobox("clear");
-            //清空子项目div
-            $("#target").empty();
-            $("#descriptionId").empty();
-
-            $.ajax({
-                type: "POST",
-                url: basePath + '/examClassDict/getExamSubclass',
-                method: "GET",
-                data: {"examClassName": examClassName, "orgId": 1},
-                dataType: "json",
-                success: function (data) {
-                    $("#examSubclassNameId").combobox('loadData', data);
-                }
-            });
-        }
-    });
-//联动下拉框 子项目
-    $('#examSubclassNameId').combobox({
-        valueField: 'examSubclassName',
-        textField: 'examSubclassName',
-        onSelect: function (data) {
-            $.ajax({
-                type: "POST",
-                url: basePath + '/examClassDict/getExamRptPattern',
-                method: "GET",
-                data: {"examSubClass": data.examSubclassName, "orgId": 1},
-                dataType: "json",
-                success: function (data) {
-                    var checkbox = "";
-                    var hidden = "";
-                    var divHtmls = $('#target .submitName');
-                    var isin = true;
-                    for (var i = 0; i < data.length; i++) {
-                        for (var j = 0; j < divHtmls.length; j++) {
-                            if ($(divHtmls[j]).val() == data[i].description) {
-                                isin = false;
-                                break;
-                            }
-                        }
-                        if (isin) {
-                            var jsonHtml = "{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
-
-                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">' + jsonHtml + '</div></div>'
-                        } else {
-                            isin = true;
-                        }
-
-                    }
-                    $("#descriptionId").html(checkbox);
-                }
-            });
-        }
-    });
-
-
+    $("#saveBut").hide();
     $('#list_data').datagrid({
         iconCls: 'icon-edit',//图标
         width: 'auto',
@@ -134,13 +34,13 @@ function onloadMethods() {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             //{field: 'examNo', title: '检查单号', width: '20%', align: 'center'},
-            {field: 'examSubClass', title: '检查项目', width: '20%', align: 'center'},
+            {field: 'examSubClass', title: '检查项目', width: '25%', align: 'center',formatter:examSubClassFormatter},
             //{field: 'reqDept', title: '开单科室', width: '20%', align: 'center',formatter:performedBFormatter},
-            {field: 'performedBy', title: '检查科室', width: '20%', align: 'center', formatter: performedBFormatter},
+            {field: 'performedBy', title: '检查科室', width: '25%', align: 'center', formatter: clinicDeptCodeFormatter},
             {
                 field: 'regPrnFlag',
                 title: '状态',
-                width: '20%',
+                width: '23%',
                 align: 'center',
                 formatter: function (value, rowData, rowIndex) {
                     if (rowData.regPrnFlag == 0) {
@@ -157,31 +57,40 @@ function onloadMethods() {
                 width: '38%',
                 align: 'center',
                 formatter: function (value, row, index) {
-                    var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
+                    //var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
                             //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="get(\'' + row.id + '\',\'' + row.type + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
-                        '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
+                    var html =  '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                     return html;
                 }
             }
         ]],
+        view: detailview,
+        detailFormatter: function (rowIndex, rowData) {
+            var detailHtml = "<table style='width:100%;color:blue' border='0'><tr><td><strong>检查项目：</strong></td></tr>";
+            $.ajax({
+                type: "POST",
+                url: basePath + "/clinicInspect/getItemName",
+                contentType: 'application/json',
+                data: appointsId = rowData.id,
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, list) {
+                        detailHtml += "<tr><td>" + list.examItem + "</td></tr>";
+                    });
+                }
+            })
+            detailHtml += "</table>";
+            return detailHtml;
+        },
         frozenColumns: [[
             {field: 'ck', checkbox: true}
         ]],
         toolbar: [{
-            text: '修改',
-            iconCls: 'icon-edit',
+            text: '新增检查',
+            iconCls: 'icon-add',
             handler: function () {
-                var selectRows = $('#list_data').datagrid("getSelections");
-                if (selectRows.length < 1) {
-                    return;
-                }
-                get(selectRows[0].id);
-            }
-        }, '-', {
-            text: '删除',
-            iconCls: 'icon-remove',
-            handler: function () {
-                doDelete();
+                add();
             }
         }]
     });
@@ -210,6 +119,120 @@ function onloadMethods() {
             }
         }
     })
+}
+
+function add(){
+    $("#saveBut").hide();
+    $('#examClassNameId').removeAttr("disabled");
+    $('#examSubclassNameId').removeAttr("disabled");
+    //下拉框选择控件，下拉框的内容是动态查询数据库信息
+    $('#examClassNameId').combobox({
+        url: basePath + '/examClassDict/getEx',
+        method: "GET",
+        dataType: "json",
+        valueField: 'id',
+        textField: 'examClassName',
+        onSelect: function (data) {
+            var examClassName = data.examClassName;
+            $("#performedBy").val(data.performBy);
+            $("#reqDept").val(clinicDeptCodeFormatter(data.performBy, '', ''));
+
+            //清空二级联动
+            $("#examSubclassNameId").combobox("clear");
+
+            //清空子项目div
+            $("#target").empty();
+            $("#descriptionId").empty();
+            $.ajax({
+                url: basePath + '/examClassDict/getExamSubclass',
+                method: "GET",
+                data: {"examClassName": examClassName},
+                dataType: "json",
+                success: function (data) {
+                    $("#examSubclassNameId").combobox('loadData', data);
+                }
+            });
+        }
+    });
+//联动下拉框 子项目
+    $('#examSubclassNameId').combobox({
+        valueField: 'id',
+        textField: 'examSubclassName',
+        onSelect: function (data) {
+            $("#examSubClass").val(data.id);
+            $.ajax({
+                url: basePath + '/examClassDict/getExamRptPattern',
+                method: "GET",
+                data: {"examSubClass": data.examSubclassName},
+                dataType: "json",
+                success: function (data) {
+                    var checkbox = "";
+                    var hidden = "";
+                    var divHtmls = $('#target .submitName');
+                    var isin = true;
+                    for (var i = 0; i < data.length; i++) {
+                        for (var j = 0; j < divHtmls.length; j++) {
+                            if ($(divHtmls[j]).val() == data[i].description) {
+                                isin = false;
+                                break;
+                            }
+                        }
+                        if (isin) {
+                            var jsonHtml = "{\"examItem\":\"" + data[i].description + "\",\"examItemCode\":\"" + data[i].descriptionCode + "\"},";
+
+                            checkbox += '<div><input class="submitName"  id="' + data[i].inputCode + i + '" type="checkbox" value="' + data[i].description + '"  >' + data[i].description + '</input><div class="submitName" style="display: none">' + jsonHtml + '</div></div>'
+                        } else {
+                            isin = true;
+                        }
+
+                    }
+                    $("#descriptionId").html(checkbox);
+                }
+            });
+        }
+    });
+    $.ajax({
+        url: basePath + "/enter/get",
+        type:"POST",
+        dataType:"json",
+        'contentType': 'application/json',
+        'data':JSON.stringify({"clinicId": clinicId}),
+        success:function(data){
+            if(data != "" && data != null){
+                $("#clinSymp").val(data.xianbingshi);
+            }
+        }
+    })
+    $.ajax({
+        //添加
+        url: basePath + "/diagnosis/findListOfOut",
+        type: "GET",
+        dataType: "json",
+        data: {"clinicId": clinicId},
+        success: function (data) {
+            if (data != "" && data != null) {
+                var d = "";
+                $.each(data, function (index, item) {
+                    formatter:var type = diagnosisTypeClinicformatter(item.type);
+                    d = d + type + ":" + item.icdName + "\r";
+                });
+                $("#clinDiagDiv").val(d);
+            }
+        }
+    })
+    clearForm();
+    $("#saveBut").show();
+    $("#visitId").val(visitId);
+    $("#patientId").val(patientId);
+    $("#name").val(parent.clinicMaster.name);
+    $("#sex").val(parent.clinicMaster.sex);
+    $("#chargeType").val(parent.clinicMaster.chargeType);
+    $("#identity").val(parent.clinicMaster.identity);
+}
+function clearForm() {
+    $("#hospitalInspectForm").form('clear');
+    $("#saveBut").hide();
+    //$('#items').datagrid('loadData', { total: 0, rows: [] });
 }
 //检查选中
 function selecteds() {
