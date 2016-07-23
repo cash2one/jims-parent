@@ -65,4 +65,14 @@ public class EmrDiagnosisServiceImpl implements EmrDiagnosisServiceApi{
     public EmrDiagnosis getDescription(String clinicId, String visitIds) {
         return emrDiagnosisBo.getDescription(clinicId,visitIds);
     }
+
+    /**
+     * 查询最大的序号
+     * @param emrDiagnosis
+     * @return
+     */
+    public int getMaxItemNo(EmrDiagnosis emrDiagnosis){
+        return  emrDiagnosisBo.getMaxItemNo(emrDiagnosis);
+    }
+
 }
