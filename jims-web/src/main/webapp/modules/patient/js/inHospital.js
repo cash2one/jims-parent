@@ -17,7 +17,7 @@ $(function() {
             {field: 'id', title: 'ID', hidden: 'true'},
             {field: 'name', title: '姓名', width: '15%', align: 'center'},
             {field: 'idNo', title: '身份证号', width: '25%', align: 'center'},
-            {field: 'sex', title: '性别', width: '10%', align: 'center',formatter:sexFormatter},
+            {field: 'sex', title: '性别', width: '10%', align: 'center',formatter:setDataFormatter},
             {field: 'inpNo', title: '住院号', width: '10%', align: 'center'},
             {field: 'birthPlace', title: '出生地', width: '20%', align: 'center'},
             {field: 'mailingAddress', title: '通信地址', width: '20%', align: 'center'}
@@ -38,11 +38,20 @@ $(function() {
 
     //性别
     $('#sexId').combobox({
-        data: sexData,
+        data: setData,
         valueField: 'value',
         textField: 'label',
         onSelect: function (n, o) {
             $("#sex").val(n.value);
+        }
+    });
+    $("#dateOfBirth").datebox({
+        onSelect:function(date){
+            var nowDate = new Date();
+            if(date>nowDate){
+                $("#dateOfBirth").datebox("setValue","");
+                message:"出生日期不能大于当前日期！";
+            }
         }
     });
     //$("#sexId ").combobox('select',setData[0].value);
@@ -131,7 +140,7 @@ $(function() {
     //$("#fromOtherPlaceIndicatorId ").combobox('select',resourceDict[0].value);
     //入院方式
     $('#patientClassId').combobox({
-        data: methodDict,
+        data: patientClass,
         valueField: 'value',
         textField: 'label',
         onSelect: function (n, o) {
@@ -171,8 +180,6 @@ $(function() {
     //
     //诊断
     $('#diagnosis').combogrid({
-        width: '300',
-        height: 'auto',
         data: icdAllData,
         idField: 'zhongwen_mingcheng',
         textField: 'zhongwen_mingcheng',
@@ -190,8 +197,7 @@ $(function() {
     })
     //接诊医生
     $('#consultingDoctor').combogrid({
-        width: '300',
-        height: 'auto',
+
         data: doctorName,
         idField: 'id',
         textField: 'name',
