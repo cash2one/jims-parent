@@ -123,8 +123,13 @@ public class ClinicInspectRest {
      */
     @POST
     @Path("saveHospitalInspect")
-    public StringData saveHospitalInspect(ExamAppoints examAppoints){
+    public StringData saveHospitalInspect(@Context HttpServletRequest request,ExamAppoints examAppoints){
         StringData stringData=new StringData();
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        examAppoints.setReqPhysician(loginInfo.getPersionId());
+        examAppoints.setReqDept(loginInfo.getDeptId());
+        examAppoints.setDoctorUser(loginInfo.getUserName());
+        examAppoints.setOrgId(loginInfo.getOrgId());
         int num = examAppointsServiceApi.saveHospitalInspect(examAppoints);
         stringData.setCode(num+"");
         return stringData;

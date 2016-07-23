@@ -100,9 +100,9 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                examItemsDao.deleteItems(id[j]);
                 ExamAppoints examAppoints=examAppointsDao.get(id[j]);
                 num = examAppointsDao.deleteExamAppionts(id[j]);
+                examItemsDao.deleteItems(id[j]);
                 String visitId=examAppoints.getVisitId();
                 ordersDao.delOrders(visitId);
 
