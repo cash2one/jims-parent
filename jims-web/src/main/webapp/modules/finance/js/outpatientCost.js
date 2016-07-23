@@ -248,7 +248,17 @@ function init(){
                 var row=$('#list-zhu').datagrid('getRows');
                 for(var i=0;i<row.length;i++){
                     var data=row[i];
-                    if(rowData.appoint_no==data.appoint_no){
+                    var appoint_no="";
+                    var data_appoint_no="";
+                    if(data.item_class='A' || data.item_class == 'B'){
+                        appoint_no=data.presc_no;
+                        data_appoint_no=rowData.presc_no;
+                    }else{
+                        appoint_no=data.appoint_no;
+                        data_appoint_no=rowData.appoint_no;
+                    }
+
+                    if(data_appoint_no==appoint_no){
                         var index = $('#list-zhu').datagrid('getRowIndex', data);
                         if(index!=rowIndex){
                             $("#list-zhu").datagrid('selectRow',index);
@@ -271,7 +281,16 @@ function init(){
             if(flag){
                 flag = false;
                 $.each($('#list-zhu').datagrid('getChecked'),function(j,val){
-                    if(rowData.appoint_no==val.appoint_no){
+                    var appoint_no="";
+                    var data_appoint_no="";
+                    if(val.item_class='A' || val.item_class == 'B'){
+                        appoint_no=val.presc_no;
+                        data_appoint_no=rowData.presc_no;
+                    }else{
+                        appoint_no=val.appoint_no;
+                        data_appoint_no=rowData.appoint_no
+                    }
+                    if(data_appoint_no==appoint_no){
                         var index = $('#list-zhu').datagrid('getRowIndex', val);
                         if(index!=rowIndex){
                             $("#list-zhu").datagrid('uncheckRow',index);
