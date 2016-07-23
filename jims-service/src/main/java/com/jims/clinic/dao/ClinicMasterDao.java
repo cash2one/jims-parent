@@ -64,7 +64,7 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * 查询出最大的 visitNo
      * @return
      */
-    public Integer  getMaxVisitNO();
+    public Integer  getMaxVisitNO(@Param("orgId")String  orgId);
 
     /**
      * 退号时 更新 就诊信息

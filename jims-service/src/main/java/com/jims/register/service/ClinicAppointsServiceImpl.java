@@ -5,6 +5,7 @@ package com.jims.register.service;
 
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.api.ClinicAppointsServiceApi;
 import com.jims.register.bo.ClinicAppointsBo;
@@ -24,8 +25,8 @@ public class ClinicAppointsServiceImpl  implements ClinicAppointsServiceApi {
     private ClinicAppointsBo clinicAppointsBo;
 
     @Override
-    public String saveAppointsRegis(PatMasterIndex patMasterIndex) {
-        return clinicAppointsBo.saveAppointsRegis(patMasterIndex);
+    public String saveAppointsRegis(PatMasterIndex patMasterIndex,LoginInfo loginInfo) {
+        return clinicAppointsBo.saveAppointsRegis(patMasterIndex,loginInfo);
     }
 
     @Override
