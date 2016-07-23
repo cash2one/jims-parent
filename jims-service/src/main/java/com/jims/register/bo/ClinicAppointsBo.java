@@ -9,6 +9,7 @@ import com.jims.clinic.dao.PatMasterIndexDao;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.dao.ClinicAppointsDao;
 import com.jims.register.dao.ClinicForRegistDao;
@@ -54,7 +55,7 @@ public class ClinicAppointsBo extends CrudImplService<ClinicAppointsDao, ClinicA
      * @return
      * @author zhaoning
      */
-    public String saveAppointsRegis(PatMasterIndex patMasterIndex){
+    public String saveAppointsRegis(PatMasterIndex patMasterIndex,LoginInfo loginInfo){
         int num=0;
         long age=DateUtils.getAge(patMasterIndex.getDateOfBirth());
         patMasterIndex.setAge(age+"");
@@ -73,6 +74,7 @@ public class ClinicAppointsBo extends CrudImplService<ClinicAppointsDao, ClinicA
                  String registId = registList.get(i).getId();
                  ClinicAppoints clinicAppoints = new ClinicAppoints();
                  ClinicForRegist  regist= clinicForRegistDao.get(registId);//获取号表
+                 clinicAppoints.setOrgId(loginInfo.getOrgId()); //获取机构ID
                  clinicAppoints.setVisitDateAppted(regist.getClinicDate());//预约就诊日期
                  clinicAppoints.setClinicLabel(regist.getClinicLabel());//预约就诊号别
                  clinicAppoints.setVisitTimeAppted(regist.getTimeDesc());//预约就诊时间
@@ -130,7 +132,7 @@ public class ClinicAppointsBo extends CrudImplService<ClinicAppointsDao, ClinicA
         clinicMaster.setClinicType(clinicAppoints.getClinicType());
         clinicMaster.setVisitIndicator(clinicAppoints.getVisitIndicator()); //诊别
         clinicMaster.setIdNo(clinicAppoints.getIdNo()); //身份证号
-        Integer no= clinicMasterDao.getMaxVisitNO();
+        Integer no= clinicMasterDao.getMaxVisitNO(orgId);
         if(no!=null &&!no.equals("")){
             clinicMaster.setVisitNo(no+1);
         }else{
