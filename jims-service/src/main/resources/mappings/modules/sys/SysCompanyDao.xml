@@ -168,6 +168,21 @@
         FROM sys_company
         WHERE org_name=#{orgName} and DEL_FLAG='0'
     </select>
+    <select id="findIsNoByOwner" resultType="SysCompany">
+        SELECT
+        *
+        FROM sys_company
+        WHERE DEL_FLAG='0'
+        <if test="owner != null and owner != ''">
+            and owner=#{owner}
+        </if>
+        <if test="orgName != null and orgName != ''">
+            and org_name=#{orgName}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and orgCode=#{orgCode}
+        </if>
+    </select>
 
     <select id="findByName" resultType="SysCompany">
         SELECT

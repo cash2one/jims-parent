@@ -1,7 +1,7 @@
 $("<script>").attr({type: "application/javascript", src: "/static/easyui/locale/easyui-lang-zh_CN.js"}).appendTo("head");
 $(function () {
-    var currentOrgId = '1';
-    var currentUsername = '测试员';
+    var currentOrgId = config.org_Id;
+    var currentUsername = config.userName;
     var currentSelectIndex = undefined;
     var supplyRoomCode = '161303';  // 供应室编码
 
