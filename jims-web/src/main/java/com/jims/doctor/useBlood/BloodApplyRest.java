@@ -161,6 +161,18 @@ public class BloodApplyRest {
         stringData.setData("success");
         return stringData;
     }
+    /**
+     * 门诊用血申请记录删除
+     */
+    @Path("delHos")
+    @POST
+    public StringData delHos(String ids) {
+        StringData stringData = new StringData();
+        String num = bloodApplyServiceApi.deleteBloodApply(ids);
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
 
     /**
      * 根据id查询手术申请表信息

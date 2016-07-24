@@ -90,7 +90,7 @@ public class OperatioinOrderRest {
 //    }
 
     /**
-     * 通过clinicId拿到手术安排
+     * 通过clinicId拿到门诊手术安排
      * @param clinicId
      * @return
      */
@@ -101,14 +101,14 @@ public class OperatioinOrderRest {
     }
 
     /**
-     * 通过visitId拿到手术安排
+     * 通过visitId，patientId拿到住院手术安排
      * @param visitId
      * @return
      */
     @Path("getScheduleOutHos")
     @POST
-    public List<OperationSchedule> getScheduleOutHos(String visitId){
-        List<OperationSchedule> operationScheduleList=  operatioinOrderServiceApi.getSchedule("", visitId, "");
+    public List<OperationSchedule> getScheduleOutHos(@QueryParam("visitId")String visitId,@QueryParam("patientId")String patientId){
+        List<OperationSchedule> operationScheduleList=  operatioinOrderServiceApi.getScheduleHos(patientId, visitId);
         return operationScheduleList;
     }
 
@@ -149,7 +149,7 @@ public class OperatioinOrderRest {
             return scheduledOperationNameList;
     }
     /**
-     * 删除手术名称
+     * 删除门诊手术名称
      * @param id
      * @return
      */
@@ -157,6 +157,29 @@ public class OperatioinOrderRest {
     @POST
     public  int delete(String id){
        return operatioinOrderServiceApi.deleteOperationName(id);
+    }
+    /**
+     * 删除住院手术名称
+     * @param id
+     * @return
+     */
+    @Path("deleteHos")
+    @POST
+    public  String deleteHos(String id){
+        String num = operatioinOrderServiceApi.deleteOperationHos(id);
+        return num;
+    }
+
+    /**
+     * 删除手术名称（子表）
+     * @param id
+     * @return
+     */
+    @Path("deleteScheduledOperationName")
+    @GET
+    public String deleteScheduledOperationName(@QueryParam("id")String id){
+        String num = operatioinOrderServiceApi.deleteScheduledOperationName(id);
+        return num;
     }
 
 }

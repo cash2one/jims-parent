@@ -50,6 +50,13 @@ public interface BloodApplyServiceApi {
      * @return
      */
     public String deleteBloodApply(String ids);
+
+    /**
+     * 删除住院用血记录
+     * @param ids
+     * @return
+     */
+    public String delHos(String ids);
     /**
      * 删除
      * @author qinlongxin

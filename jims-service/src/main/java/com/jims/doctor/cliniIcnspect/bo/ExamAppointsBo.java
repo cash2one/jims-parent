@@ -66,21 +66,17 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
      */
     public String deleteExamAppionts(String ids) {
         int num =0;
-        try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                num = examAppointsDao.deleteExamAppionts(id[j]);
+                List<OutpTreatRec> outpTreatRecList = outpTreatRecDao.getSerialNo(id[j]);
+                String serialNo =  outpTreatRecList.get(0).getSerialNo();
+                outpTreatRecDao.deleteTreat(serialNo);
+                outpOrdersDao.deleteOutpOrders(serialNo);
+                outpOrdersCostsDao.deleteOutpOrdersCosts(serialNo);
                 examItemsDao.deleteItems(id[j]);
-                OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
-                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
-                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
-                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
-
-
+                num = examAppointsDao.deleteExamAppionts(id[j]);
             }
-        }catch(Exception e){
-            return num+"";
-        }
+
         return num+"";
 
     }

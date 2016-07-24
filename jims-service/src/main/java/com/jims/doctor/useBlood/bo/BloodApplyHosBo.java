@@ -174,4 +174,24 @@ public class BloodApplyHosBo {
         }
         return num1 + "";
     }
+
+    /**
+     * 删除住院用血记录
+     * @param ids
+     * @return
+     */
+    public String delHos(String ids){
+        int num = 0;
+        try {
+            String[] id =ids.split(",");
+            for(int i=0;i<id.length;i++){
+                num = bloodApplylDao.deleteBloodApply(id[i]);
+                bloodCapacityDao.deleteBloodCapacity(id[i]);
+                ordersDao.delOrders(id[i]);
+            }
+        }catch (Exception e){
+            return "0";
+        }
+        return num+"";
+    }
 }

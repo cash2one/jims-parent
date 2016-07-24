@@ -101,19 +101,16 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
      */
     public String deleteLabTestMaster(String ids) {
         int num =0;
-        try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                num = labTestMasterDao.deleteLabTestMaster(id[j]);
+                List<OutpTreatRec> outpTreatRecList = outpTreatRecDao.getSerialNo(id[j]);
+                String serialNo =  outpTreatRecList.get(0).getSerialNo();
+                outpTreatRecDao.deleteTreat(serialNo);
+                outpOrdersDao.deleteOutpOrders(serialNo);
+                outpOrdersCostsDao.deleteOutpOrdersCosts(serialNo);
                 labTestItemsDao.deleteItmes(id[j]);
-                OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
-                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
-                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
-                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
+                num = labTestMasterDao.deleteLabTestMaster(id[j]);
             }
-        }catch(Exception e){
-            return num+"";
-        }
         return num+"";
 
     }

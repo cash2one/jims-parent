@@ -99,8 +99,6 @@ public class CostOrdersUtilsService {
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());
 //            outpTreatRec.setAmount(clinicItemDict.getNum());
-            //执行科室
-//            outpTreatRec.setPerformedBy(clinicItemDict.getExpand3());
             outpTreatRec.setPerformedBy(performedBy);
 //            outpTreatRec.setUnits(outpTreatRec1.getUnits());//单位
             outpTreatRec.setAmount(amount);//数量
@@ -132,7 +130,8 @@ public class CostOrdersUtilsService {
                 outpOrdersCosts.setOrderSubNo(1);
                 outpOrdersCosts.setItemSpec(priceListVo.getItemSpec());
                 outpOrdersCosts.setUnits(priceListVo.getUnits());
-                outpOrdersCosts.setAmount(clinicItemDict.getNum());
+                outpOrdersCosts.setAmount(amount);//数量
+                outpOrdersCosts.setRepetition(1);//付数
                 outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
                 outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
                 outpOrdersCosts.setPerformedBy(clinicItemDict.getExpand3());
