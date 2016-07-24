@@ -74,7 +74,7 @@ public interface OperatioinOrderServiceApi{
      * @author pq
      * @return
      */
-    public List<BaseDto> findOperation(String scheduledDateTime,String operatingRoom);
+    public List<BaseDto> findOperation(OperationSchedule operationSchedule);
 
     /**
      * 确认门诊手术

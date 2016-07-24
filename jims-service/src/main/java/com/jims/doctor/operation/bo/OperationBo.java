@@ -174,8 +174,8 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
      * @return
      * @author pq
      */
-    public List<BaseDto> findOperation(String scheduledDateTime, String operatingRoom) {
-        return operationScheduleDao.findOperation(scheduledDateTime, operatingRoom);
+    public List<BaseDto> findOperation(OperationSchedule operationSchedule) {
+        return operationScheduleDao.findOperation(operationSchedule);
     }
 
     /**
