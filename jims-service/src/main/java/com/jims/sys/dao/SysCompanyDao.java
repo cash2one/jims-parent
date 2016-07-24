@@ -42,6 +42,13 @@ public interface SysCompanyDao extends CrudDao<SysCompany> {
     public List<SysCompany> findAllByOwner(String owner);
 
     /**
+     * 根据机构所属者和组织机构名称查询信息
+     * @param sysCompany
+     * @author 娄会丽
+     * @return
+     */
+    public SysCompany findIsNoByOwner(SysCompany sysCompany);
+    /**
      * 查询父机构
      * @return
      */

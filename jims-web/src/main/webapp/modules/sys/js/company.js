@@ -66,49 +66,26 @@ $(function () {
             return false;
         });
         $("#orgName").blur(function () {
-            if ($("#orgName").val() == "") {
+            if ($("#orgName").val().trim() == "") {
                 $("#res-orgName").css("color", "red");
                 $("#res-orgName").text("*组织机构名称不能为空");
                 return false;
             }
-            var orgName = $("#orgName").val();
-            jQuery.ajax({
-                'type': 'POST',
-                'url': "/service/sys-company/getOrgName",
-                'contentType': 'application/json',
-                'data': orgName,
-                'dataType': 'json',
-                'success': function (data) {
-                    console.log(data);
-                    if (data.data == "success") {
-                        $("#res-email").css("color", "gray");
-                        $("#res-orgName").text("*请输入真实的名称机构，以便验证通过！");
-                        return false;
-                    }
-                },
-                'error': function (data) {
-                    console.log("失败");
-                }
-            });
-            return true;
-
         });
 
         //校验邮箱是否正确
         $("#email").focus(function () {
-
             $("#res-email").text("*请输入真实的邮箱地址，以便验证通过！");
             $("#res-email").css("color", "gray");
             return false;
         });
         $("#email").blur(function () {
-
-            if ($("#email").val() == "") {
+            if ($("#email").val().trim() == "") {
                 $("#res-email").css("color", "red");
                 $("#res-email").text("*邮箱不能为空");
                 return false;
             }
-            if (!$("#email").val().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)) {
+            if (!$("#email").val().trim().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)) {
                 $("#res-email").css("color", "red");
                 $("#res-email").text("*邮箱格式不正确");
                 return false;
@@ -122,7 +99,7 @@ $(function () {
             return false;
         });
         $("#orgCode").blur(function () {
-            if ($("#orgCode").val() == "") {
+            if ($("#orgCode").val().trim() == "") {
                 $("#res-orgCode").css("color", "red");
                 $("#res-orgCode").text("*组织机构代码不能为空");
                 return false;
@@ -136,7 +113,7 @@ $(function () {
             return false;
         });
         $("#address").blur(function () {
-            if ($("#address").val() == "") {
+            if ($("#address").val().trim() == "") {
                 $("#res-address").css("color", "red");
                 $("#res-address").text("*组织机构地址不能为空");
                 return false;
@@ -149,7 +126,7 @@ $(function () {
             return false;
         });
         $("#linkMan").blur(function () {
-            if ($("#linkMan").val() == "") {
+            if ($("#linkMan").val().trim() == "") {
                 $("#res-linkMan").css("color", "red");
                 $("#res-linkMan").text("*联系人不能为空");
                 return false;
@@ -163,13 +140,13 @@ $(function () {
             return false;
         });
         $("#linkPhoneNum").blur(function () {
-            if ($("#linkPhoneNum").val() == "") {
+            if ($("#linkPhoneNum").val().trim() == "") {
                 $("#res-linkPhoneNum").css("color", "red");
                 $("#res-linkPhoneNum").text("*联系电话不能为空");
                 return false;
             }
 
-            var phone = $("#linkPhoneNum").val();
+            var phone = $("#linkPhoneNum").val().trim();
             if (phone.length != 11) {
                 $("#res-linkPhoneNum").css("color", "red");
                 $("#res-linkPhoneNum").text("*请输入有效的手机号");
@@ -182,49 +159,49 @@ $(function () {
             }
         });
 
-        var validForm = function () {
+        validForm = function () {
             var result = true;
-            if ($("#orgName").val() == "") {
+            if ($("#orgName").val().trim() == "") {
                 $("#res-orgName").css("color", "red");
                 $("#res-orgName").text("*组织机构名称不能为空");
                 result = false;
             }
-            if ($("#orgCode").val() == "") {
+            if ($("#orgCode").val().trim() == "") {
                 $("#res-orgCode").css("color", "red");
                 $("#res-orgCode").text("*组织机构代码不能为空");
                 result = false;
             }
-            if ($("#address").val() == "") {
+            if ($("#address").val().trim() == "") {
                 $("#res-address").css("color", "red");
                 $("#res-address").text("*组织机构地址不能为空");
                 result = false;
             }
-            if ($("#linkMan").val() == "") {
+            if ($("#linkMan").val().trim() == "") {
                 $("#res-linkMan").css("color", "red");
                 $("#res-linkMan").text("*联系人不能为空");
                 result = false;
             }
-            if ($("#linkPhoneNum").val() == "") {
+            if ($("#linkPhoneNum").val().trim() == "") {
                 $("#res-linkPhoneNum").css("color", "red");
                 $("#res-linkPhoneNum").text("*联系电话不能为空");
                 result = false;
             }
-            if ($("#email").val() == "") {
+            if ($("#email").val().trim() == "") {
                 $("#res-email").css("color", "red");
                 $("#res-email").text("*邮箱不能为空");
                 result = false;
             }
-            if (!$("#email").val().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/) || $("#linkPhoneNum").val().length != 11) {
+            if (!$("#email").val().trim().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)) {
                 $("#res-email").css("color", "red");
                 $("#res-email").text("*邮箱格式不正确");
                 result = false;
             }
-            if ($("#email").val().length > 50) {
+            if ($("#email").val().trim().length > 50) {
                 $("#res-email").css("color", "red");
                 $("#res-email").text("*邮箱长度不合法,请重新填写");
                 result = false;
             }
-            var phone = $("#linkPhoneNum").val();
+            var phone = $("#linkPhoneNum").val().trim();
             var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
             if (!myreg.test(phone)) {
                 $("#res-linkPhoneNum").css("color", "red");
@@ -236,9 +213,32 @@ $(function () {
 
         saveService = function () {
             if (!validForm()) {
-                alert('请完善机构基本信息！')
+                $('#addServiceModel0')[0].style.display = "inline-block";
+                $('#addServiceModel1')[0].style.display = "none";
+                $('#addServiceModel2')[0].style.display = "none";
+                $('#addServiceModel3')[0].style.display = "none";
+                $('#nextBut1').attr("class", "go-on");
+                $('#nextBut2').attr("class", "default");
+                $('#nextBut3').attr("class", "default");
+                $('#nextBut4').attr("class", "default");
+                alert('请检查机构基本信息！')
                 return false
             }
+            $.get("/service/sys-sompany/findIsNoByOwner",{owner:persion_id,orgName:$("#orgName").val().trim()},function(res){
+                if(res){
+                    $("#res-orgName").css("color", "red");
+                    $("#res-orgName").text("*当前用户下已经有一个同名机构！");
+                    $('#addServiceModel0')[0].style.display = "inline-block";
+                    $('#addServiceModel1')[0].style.display = "none";
+                    $('#addServiceModel2')[0].style.display = "none";
+                    $('#addServiceModel3')[0].style.display = "none";
+                    $('#nextBut1').attr("class", "go-on");
+                    $('#nextBut2').attr("class", "default");
+                    $('#nextBut3').attr("class", "default");
+                    $('#nextBut4').attr("class", "default");
+                    return false;
+                }
+            })
             var datas = $('#addServiceModel1 .curr-btn-save')
             if (datas.length == 0) {
                 alert('至少定制一项服务！')
@@ -280,16 +280,16 @@ $(function () {
 
             //alert('支付界面，金额'+total+'元！！')
 
-            company.parentId = $("#parentId").val();
-            company.orgName = $("#orgName").val();
-            company.orgCode = $("#orgCode").val();
-            company.address = $("#address").val();
-            company.linkPhoneNum = $("#linkPhoneNum").val();
-            company.email = $("#email").val();
-            company.linkMan = $("#linkMan").val();
+            company.parentId = $("#parentId").val().trim();
+            company.orgName = $("#orgName").val().trim();
+            company.orgCode = $("#orgCode").val().trim();
+            company.address = $("#address").val().trim();
+            company.linkPhoneNum = $("#linkPhoneNum").val().trim();
+            company.email = $("#email").val().trim();
+            company.linkMan = $("#linkMan").val().trim();
             company.owner = currentPersonId;
             company.serviceList = saveData
-            var name = $("#orgName").val();
+            var name = $("#orgName").val().trim();
 
             $.ajax({
                 'type': 'POST',
@@ -328,11 +328,19 @@ $(function () {
         if (company) {
             $("#nextBtn0").on('click', function () {
                 if (!validForm()) return false
-                $('#addServiceModel0')[0].style.display = "none";
-                $('#addServiceModel1')[0].style.display = "inline-block";
-                $('#nextBut1').attr("class", "done");
-                $('#nextBut2').attr("class", "go-on");
-                addNext();
+                $.get("/service/sys-sompany/findIsNoByOwner",{owner:persion_id,orgName:$("#orgName").val().trim()},function(res){
+                    if(res){
+                        $("#res-orgName").css("color", "red");
+                        $("#res-orgName").text("*当前用户下已经有一个同名机构！");
+                        return false;
+                    }else{
+                        $('#addServiceModel0')[0].style.display = "none";
+                        $('#addServiceModel1')[0].style.display = "inline-block";
+                        $('#nextBut1').attr("class", "done");
+                        $('#nextBut2').attr("class", "go-on");
+                        addNext();
+                    }
+                })
             });
             $("#nextBtn1").on('click', function () {
                 //var datas = $('#addServiceModel1 .active')
@@ -391,9 +399,7 @@ $(function () {
             });
 
             $("#nextBut1").on('click', function () {
-                if (flag == '1') {
-                    return false;
-                }
+                if (flag == '1') return false;
                 $('#addServiceModel0')[0].style.display = "inline-block";
                 $('#addServiceModel1')[0].style.display = "none";
                 $('#addServiceModel2')[0].style.display = "none";
@@ -404,36 +410,34 @@ $(function () {
                 $('#nextBut4').attr("class", "default");
             });
             $("#nextBut2").on('click', function () {
-                if (flag == '1') {
-                    return false;
-                }
-                if (!validForm()) {
-                    return false;
-                    //$('#nextBut1').attr("class","default");
-                }
-                $('#nextBut1').attr("class", "done");
-                $('#nextBut2').attr("class", "go-on");
-                $('#nextBut3').attr("class", "default");
-                $('#nextBut4').attr("class", "default");
-                $('#addServiceModel1')[0].style.display = "inline-block";
-                $('#addServiceModel0')[0].style.display = "none";
-                $('#addServiceModel2')[0].style.display = "none";
-                $('#addServiceModel3')[0].style.display = "none";
-                addNext();
+                if (flag == '1') return false;
+                if($('#addServiceModel1')[0].style.display=="inline-block") return false;
+                if (!validForm()) return false;
+                $.get("/service/sys-sompany/findIsNoByOwner",{owner:persion_id,orgName:$("#orgName").val().trim()},function(res){
+                    if(res){
+                        $("#res-orgName").css("color", "red");
+                        $("#res-orgName").text("*当前用户下已经有一个同名机构！");
+                        return false;
+                    }else{
+                        $('#nextBut1').attr("class", "done");
+                        $('#nextBut2').attr("class", "go-on");
+                        $('#nextBut3').attr("class", "default");
+                        $('#nextBut4').attr("class", "default");
+                        $('#addServiceModel1')[0].style.display = "inline-block";
+                        $('#addServiceModel0')[0].style.display = "none";
+                        $('#addServiceModel2')[0].style.display = "none";
+                        $('#addServiceModel3')[0].style.display = "none";
+                        addNext();
+                    }
+                })
             });
             $("#nextBut3").on('click', function () {
-                if (flag == '1') {
-                    return false;
-                }
-                if (!validForm()) {
-                    return false;
-                }
+                if (flag == '1') return false;
+                if($('#addServiceModel2')[0].style.display=="inline-block") return false;
+                if (!validForm()) return false
                 $('#nextBut1').attr("class", "done");
                 var datas = $('#addServiceModel1 .curr-btn-save')
-                if (datas.length == 0) {
-                    return false;
-                    //$('#nextBut2').attr("class","default");
-                }
+                if (datas.length == 0) return false;
                 $('#nextBut2').attr("class", "done");
                 if ($('#parentId').val().trim() != "") {
                     $('#parentId0').html($("#parentId").find("option:selected").text());
@@ -465,12 +469,8 @@ $(function () {
                 $('#addServiceModel1')[0].style.display = "none";
                 $('#addServiceModel0')[0].style.display = "none";
                 $('#addServiceModel3')[0].style.display = "none";
-
             });
             $("#backBtn1").on('click', function () {
-                if (flag == '1') {
-                    return false;
-                }
                 $('#addServiceModel0')[0].style.display = "inline-block";
                 $('#addServiceModel1')[0].style.display = "none";
                 $('#addServiceModel2')[0].style.display = "none";
@@ -481,13 +481,6 @@ $(function () {
                 $('#nextBut4').attr("class", "default");
             });
             $("#backBtn2").on('click', function () {
-                if (flag == '1') {
-                    return false;
-                }
-                if (!validForm()) {
-                    return false;
-                    //$('#nextBut1').attr("class","default");
-                }
                 $('#nextBut1').attr("class", "done");
                 $('#nextBut2').attr("class", "go-on");
                 $('#nextBut3').attr("class", "default");

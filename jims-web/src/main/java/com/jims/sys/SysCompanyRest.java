@@ -96,6 +96,24 @@ public class SysCompanyRest {
     }
 
     /**
+     * 根据机构所属者和组织机构名称查询信息
+     * @param owner
+     * @param orgName
+     * @author 娄会丽
+     * @return
+     */
+    @GET
+    @Path("findIsNoByOwner")
+    public SysCompany findIsNoByOwner(@QueryParam("owner") String owner,@QueryParam("orgName") String orgName,@QueryParam("orgCode") String orgCode) {
+
+        SysCompany sysCompany = new SysCompany();
+        sysCompany.setOwner(owner);
+        sysCompany.setOrgCode(orgCode);
+        sysCompany.setOrgName(orgName);
+        sysCompany = sysCompanyApi.findIsNoByOwner(sysCompany);
+        return sysCompany;
+    }
+    /**
      * 根据ID获取组织机构信息
      *
      * @return 组织机构
