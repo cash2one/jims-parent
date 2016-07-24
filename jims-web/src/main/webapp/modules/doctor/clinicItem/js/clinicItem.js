@@ -82,8 +82,7 @@ $(function () {
                     options: {
                         data: clinicDeptCode,
                         valueField: 'id',
-                        textField: 'dept_name',
-                        required: true
+                        textField: 'dept_name'
                     }
                 }
             },
@@ -99,7 +98,6 @@ $(function () {
                         data: clinicDeptCode,
                         valueField: 'id',
                         textField: 'dept_name',
-                        required: true
                     }
                 }
             },
