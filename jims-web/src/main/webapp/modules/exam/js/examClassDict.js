@@ -149,6 +149,7 @@ $(function () {
             var row  = $("#examClassGrid").datagrid('getSelected') ;
             if(row){
                 $("#examSubClassNameParent").combobox('setValue',row.examClassName) ;
+                $('#examSubClassNameParent').combobox('disable');
             }
         }
     });
@@ -231,6 +232,11 @@ $(function () {
 
     //添加子分类按钮
     $("#addBtn").on('click', function () {
+        var rows = $('#examClassGrid').datagrid('getSelected');
+        if(!rows){
+            alert('请先选择左栏的类别');
+            return false;
+        }
         $("#subclassWin").window('open');
     });
     //取消子分类按钮
@@ -243,6 +249,13 @@ $(function () {
     $("#saveClassBtn").on('click', function () {
         var performByCode=$("#performBy").combogrid('getValue');
         var performByName=$("#performBy").combogrid('getText');
+        alert(1);
+        var examClassCode = $("#examClassCode").val().trim();
+        var rex = /^[0-9]|[a-z]|[A-Z]$/;
+        if(!rex.test(examClassCode)){
+            alert('请保证编码是1位数字或字母');
+            return false;
+        }
         var a=false;
         for(var i=0;i<deptDictList.length;i++){
             if(deptDictList[i].deptCode==performByCode){
@@ -253,8 +266,8 @@ $(function () {
         }
         if(a){
             var saveObj = {};
-            saveObj.examClassCode = $("#examClassCode").val();
-            saveObj.examClassName = $("#examClassName").val();
+            saveObj.examClassCode = examClassCode;
+            saveObj.examClassName = $("#examClassName").val().trim();
             saveObj.inputCode = "";
             saveObj.performBy = $("#performBy").combogrid('getValue');
             saveObj.printStyle = $("#printStyle").combobox('getValue');
@@ -300,13 +313,53 @@ $(function () {
         })
 
     });
-
+    function limitLength(value, byteLength) {
+        var newvalue = value.replace(/[^\x00-\xff]/g, "**");
+        var length = newvalue.length;
+        //当输入文字的字节数小于设定的字节数
+        if (length * 1 <=byteLength * 1){
+            return true;
+        }
+        var limitDate = newvalue.substr(0, byteLength);
+        var count = 0;
+        var limitvalue = "";
+        for (var i = 0; i < limitDate.length; i++) {
+            var flat = limitDate.substr(i, 1);
+            if (flat == "*") {
+                count++;
+            }
+        }
+        var size = 0;
+        var istar = newvalue.substr(byteLength * 1 - 1, 1);//校验点是否为“×”
+        //if 基点是×; 判断在基点内有×为偶数还是奇数
+        if (count % 2 == 0) {
+            //当为偶数时
+            size = count / 2 + (byteLength * 1 - count);
+            limitvalue = value.substr(0, size);
+        } else {
+            //当为奇数时
+            size = (count - 1) / 2 + (byteLength * 1 - count);
+            limitvalue = value.substr(0, size);
+        }
+        alert( "最大输入" + byteLength + "个字节（相当于"+byteLength /2+"个汉字）！");
+        //document.getElementById(csId).value = limitvalue;
+        return false;
+    }
 
     //子分类项目保存
     $("#saveSubclassBtn").on('click', function () {
+        var examSubName = $("#examSubClassName").val().trim();
+        if(examSubName==""){
+            alert('请输入子类名称');
+            return false;
+        }else if(examSubName!=""){
+            if(!limitLength(examSubName,12)){
+                return false;
+            }
+        }
             var saveObj = {};
             saveObj.examClassName = $('#examSubClassNameParent').combobox('getValue');
-            saveObj.examSubclassName = $("#examSubClassName").val();
+            saveObj.examSubclassName = examSubName;
             saveObj.inputCode = "";
             saveObj.orgId = config.org_Id;
             saveObj.id =  $("#id").textbox('getValue');
