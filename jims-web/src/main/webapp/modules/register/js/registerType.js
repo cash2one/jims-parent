@@ -231,26 +231,32 @@ function deleteItem(){
 }
 //删除号类
 function deleteClinicType(typeId){
-    $.messager.confirm("确认消息", "您确定要删除信息吗？", function () {
-        $.ajax({
-            'type': 'POST',
-            'url': basePath+'/clinicType/deleteClinicType',
-            'contentType': 'application/json',
-            'data': id=typeId,
-            'dataType': 'json',
-            'success': function(data){
-                if(data.code=='1'){
-                    $.messager.alert("提示消息",data.code+"条记录删除成功！");
-                    clinicTypeList();
-                    onloadMethod('','');
-                }else{
+
+    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
+        if(r){
+            $.ajax({
+                'type': 'POST',
+                'url': basePath+'/clinicType/deleteClinicType',
+                'contentType': 'application/json',
+                'data': id=typeId,
+                'dataType': 'json',
+                'success': function(data){
+                    if(data.code=='1'){
+                        $.messager.alert("提示消息",data.code+"条记录删除成功！");
+                        clinicTypeList();
+                        onloadMethod('','');
+                    }else if(data.code=='0'){
+                        $.messager.alert('提示',"请先删除有关此号类的号别数据");
+                        clinicTypeList();
+                        onloadMethod('','');
+                    }
+                },
+                'error': function(data){
                     $.messager.alert('提示',"删除失败", "error");
                 }
-            },
-            'error': function(data){
-                $.messager.alert('提示',"删除失败", "error");
-            }
-        });
+            });
+        }
+
 
     })
 }
