@@ -15,7 +15,7 @@
     <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
     <script type="text/javascript" src="/static/data/data_admission_situation.js"></script>
     <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
-  <!--  <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>-->
+    <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_nation.js"></script>
     <script type="text/javascript" src="/static/data/data_profession.js"></script>
     <script type="text/javascript" src="/static/data/data_nationality.js"></script>
@@ -57,16 +57,16 @@
                 </tr>
                 <tr>
                     <td class="text-right">住院号：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor"/></td>
+                    <td><input type="text" class="easyui-textbox" id="hospNo"/></td>
                 </tr>
-                <tr>
+             <!--   <tr>
                     <td class="text-right">医保类别：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor1"/></td>
+                    <td><input type="text" class="easyui-textbox" id="ybType"/></td>
                 </tr>
                 <tr>
                     <td class="text-right">医保账号：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor23"/></td>
-                </tr>
+                    <td><input type="text" class="easyui-textbox" id="ybNo"/></td>
+                </tr>-->
                 <tr>
                     <td align="right">
                         <button class="easy-nbtn easy-nbtn-info" onclick="searchByCondition();">查询</button>
@@ -98,14 +98,14 @@
                         <label>
                             年龄：
                         </label>
-                        <input name="age" class="easyui-numberbox" required="true" style="width: 5%">
+                        <input name="age" id="age" class="easyui-numberbox" required readonly style="width: 5%">
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             出生日期：
                         </label>
-                        <input name="dateOfBirth" class="easyui-datebox" id="dateOfBirth" required data-options="validType:'md[\'yyyy-MM-dd\']'"/>
+                        <input name="dateOfBirth" class="easyui-datebox" id="dateOfBirth"  data-options="required:true,validType:'md[\'yyyy-MM-dd\']'"/>
                         <label>
                             婚姻状况：
                         </label>
@@ -224,7 +224,7 @@
                         <label>
                             入院科室：
                         </label>
-                        <input name="deptAdmissionTo"  id="deptAdmissionTo" type="hidden"/>
+                        <input name="deptAdmissionTo" id="deptAdmissionTo" type="hidden">
                         <input id="deptAdmissionToId" class="easyui-textbox" required/>
 
                         <label>

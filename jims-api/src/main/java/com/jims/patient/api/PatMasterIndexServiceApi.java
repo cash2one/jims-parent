@@ -4,6 +4,7 @@
 package com.jims.patient.api;
 
 import com.jims.clinic.vo.ComeDeptVo;
+import com.jims.common.vo.LoginInfo;
 import com.jims.patient.entity.PatMasterIndex;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public interface PatMasterIndexServiceApi {
      * @author CTQ
      * @return
      */
-    public String saveMasterIndex(PatMasterIndex patMasterIndex);
+    public String saveMasterIndex(PatMasterIndex patMasterIndex,LoginInfo loginInfo);
     /**
      * 取消入院患者登记信息
      * @param ids

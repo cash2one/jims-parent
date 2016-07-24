@@ -6,6 +6,7 @@ package com.jims.clinic.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.*;
+import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.hospitalNotice.entity.PatHospitalNotice;
 import com.jims.clinic.entity.PatsInHospital;
@@ -65,13 +66,12 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
      * @return
      */
     @Override
-    public String saveMasterIndex(PatMasterIndex patMasterIndex) {
+    public String saveMasterIndex(PatMasterIndex patMasterIndex,LoginInfo loginInfo) {
         int num = 0;
         PatsInHospital patsInHospital = new PatsInHospital();
         EmrDiagnosis emrDiagnosis = new EmrDiagnosis();
         PatsInTransferring patsInTransferring = new PatsInTransferring();
         PatVisit patVisit = new PatVisit();
-        PrepaymentRcpt prepaymentRcpt = new PrepaymentRcpt();
         if(patMasterIndex!=null&&patMasterIndex.getId()!=null&&!"".equals(patMasterIndex.getId())){
             num = dao.update(patMasterIndex);
         }else{
@@ -96,10 +96,6 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
         copytoInTrans(patMasterIndex, patsInTransferring);
         patsInTransferring.preInsert();
         patsInTransferringDao.insert(patsInTransferring);
-
-        /**6.保存预交金记录信息**/
-        prepaymentRcpt.preInsert();
-//      prepaymentRcptDao.insert(prepaymentRcpt);
 
         return String.valueOf(num);
     }
