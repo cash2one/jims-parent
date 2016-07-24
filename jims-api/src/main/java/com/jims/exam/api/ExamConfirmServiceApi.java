@@ -1,5 +1,6 @@
 package com.jims.exam.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.exam.entity.ExamAppoints;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface ExamConfirmServiceApi {
      * @return
      * @author zhaoning
      */
-    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName);
+    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName,LoginInfo loginInfo);
 
     /**
      * 确认检查(门诊||住院)

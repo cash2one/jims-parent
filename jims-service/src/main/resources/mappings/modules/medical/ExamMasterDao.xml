@@ -435,6 +435,9 @@
 		<if test="outOrIn!=null and outOrIn!='' and outOrIn!='undefined'">
 			AND "EXAM_APPOINTS"."IN_OR_OUT"=#{outOrIn}
 		</if>
+		<if test="orgId!=null and orgId!=''">
+			AND "EXAM_APPOINTS"."ORG_ID"=#{orgId}
+		</if>
 		<if test="startTime!=null and startTime!=''">
 			AND  "EXAM_APPOINTS".req_date_time &gt;= to_date(#{startTime},'yyyy-MM-dd')
 		</if>
