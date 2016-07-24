@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import com.jims.clinic.api.PatsInHospitalServiceApi;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.api.PrepaymentRcptServiceApi;
 import com.jims.finance.entity.PrepaymentRcpt;
 import com.jims.patient.api.PatMasterIndexServiceApi;
@@ -12,7 +14,9 @@ import com.jims.patient.entity.PatMasterIndex;
 import com.jims.patient.entity.PatVisit;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -32,7 +36,6 @@ public class PatMasterIndexRest {
     @Reference(version = "1.0.0")
     PatsInHospitalServiceApi patsInHospitalServiceApi;
     /**
-     * @param        patientId     传递参数
      * @return java.util.List<com.jims.patient.entity.PatMasterIndex>    返回类型
      * @throws
      * @Title: getPatientList
@@ -42,9 +45,10 @@ public class PatMasterIndexRest {
      */
     @Path("list")
     @GET
-    public List<PatMasterIndex> getPatientList(@QueryParam(value = "patientId")String patientId){
+    public List<PatMasterIndex> getPatientList(@Context HttpServletRequest request){
         PatMasterIndex patMasterIndex = new PatMasterIndex();
         List<PatMasterIndex> list = Lists.newArrayList();
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         try {
             list = patMasterIndexServiceApi.findList(patMasterIndex);
         } catch (Exception e) {
@@ -63,10 +67,11 @@ public class PatMasterIndexRest {
      */
     @Path("save")
     @POST
-    public StringData save(PatMasterIndex patMasterIndex){
+    public StringData save(@Context HttpServletRequest request,PatMasterIndex patMasterIndex){
         StringData stringData=new StringData();
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         try {
-            String data = patMasterIndexServiceApi.saveMasterIndex(patMasterIndex);
+            String data = patMasterIndexServiceApi.saveMasterIndex(patMasterIndex,loginInfo);
             stringData.setCode(data);
             stringData.setData(data.compareTo("0") > 0 ? "success":"error");
         }catch (Exception e){
