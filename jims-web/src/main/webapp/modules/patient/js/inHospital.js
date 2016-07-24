@@ -244,7 +244,7 @@ function searchByCondition(){
     var hospNo=$("#hospNo").textbox('getValue');
    /* var ybType=$("#ybType").textbox('getValue');
     var ybNo=$("#ybNo").textbox('getValue');*/
-    $("#orderList").datagrid({url:basePath+'/patMasterIndex/list',queryParams:{"patientId":patientId,"name":name,"idNo":idNo,"hospNo":hospNo}});
+    $("#orderList").datagrid({url:basePath+'/patMasterIndex/list',queryParams:{"name":name,"idNo":idNo,"hospNo":hospNo}});
 }
 
 //保存
