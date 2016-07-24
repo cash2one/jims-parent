@@ -398,7 +398,9 @@ $(function(){
         textField: 'label',
         required:true
     });
-
+    if(prescAttrDict.length>3) {
+        $("#prescAttr ").combobox('select', prescAttrDict[2].value);
+    }
 });
 
 //加载数据时加载子项方法
@@ -574,92 +576,95 @@ function newpresc(){
 }
 //保存处方及药品信息
 function savePre(){
-    if($("#prescForm").form('validate')) {
-        if (itemClass == 'B') {
-            if($("#bottomForm").form('validate')){
-                if($("#herbalForm").form('validate')){
-                    var administration = $('#administration').combobox('getValue');
-                    var frequency = $('#frequency').combobox('getValue');
-                    var repetition = $("#repetition").val();
-                    var formJson = fromJson('prescForm');
-                    formJson = formJson.substring(0, formJson.length - 1);
-                    var drugJson = "\"list\":[";
+    var rows = $('#list_data').datagrid('getRows');
+    if(rows!=null&&rows.length>0){
+        if($("#prescForm").form('validate')) {
+            if (itemClass == 'B') {
+                if($("#bottomForm").form('validate')){
+                    if($("#herbalForm").form('validate')){
+                        var administration = $('#administration').combobox('getValue');
+                        var frequency = $('#frequency').combobox('getValue');
+                        var repetition = $("#repetition").val();
+                        var formJson = fromJson('prescForm');
+                        formJson = formJson.substring(0, formJson.length - 1);
+                        var drugJson = "\"list\":[";
 
-                    $("#herbal_ul li").each(function () {
-                        var liHidden = $(this).attr("inputhide");
-                        drugJson += "{";
-                        $("input[inputhide='" + liHidden + "']").each(function () {
-                            drugJson += '"' + $(this).attr("namehide") + '":"' + $(this).val() + '",';
+                        $("#herbal_ul li").each(function () {
+                            var liHidden = $(this).attr("inputhide");
+                            drugJson += "{";
+                            $("input[inputhide='" + liHidden + "']").each(function () {
+                                drugJson += '"' + $(this).attr("namehide") + '":"' + $(this).val() + '",';
+                            });
+
+                            drugJson = drugJson.substring(0, drugJson.length - 1);
+                            drugJson += ",\"administration\":\"" + administration + "\",\"frequency\":\"" + frequency + "\",\"repetition\":\"" + repetition + "\"";
+                            drugJson += "},";
                         });
-
                         drugJson = drugJson.substring(0, drugJson.length - 1);
-                        drugJson += ",\"administration\":\"" + administration + "\",\"frequency\":\"" + frequency + "\",\"repetition\":\"" + repetition + "\"";
-                        drugJson += "},";
-                    });
-                    drugJson = drugJson.substring(0, drugJson.length - 1);
-                    drugJson += "]";
+                        drugJson += "]";
 
-                    var submitJsons = formJson + "," + drugJson + "}";
-                    /* alert(submitJsons)*/
-                    $.postJSON(basePath + '/outppresc/save', submitJsons, function (data) {
-                        if (data.data == 'success') {
-                            $.messager.alert("提示消息", data.code + "条处方，保存成功");
-                            $('#leftList').datagrid('load');
-                            $('#list_data').datagrid('load');
-                            $('#list_data').datagrid('clearChecked');
-                        } else {
+                        var submitJsons = formJson + "," + drugJson + "}";
+                        /* alert(submitJsons)*/
+                        $.postJSON(basePath + '/outppresc/save', submitJsons, function (data) {
+                            if (data.data == 'success') {
+                                $.messager.alert("提示消息", data.code + "条处方，保存成功");
+                                $('#leftList').datagrid('load');
+                                $('#list_data').datagrid('load');
+                                $('#list_data').datagrid('clearChecked');
+                            } else {
+                                $.messager.alert('提示', "保存失败", "error");
+                                $('#leftList').datagrid('load');
+                                $('#list_data').datagrid('load');
+                                $('#list_data').datagrid('clearChecked');
+                            }
+                        }, function (data) {
                             $.messager.alert('提示', "保存失败", "error");
                             $('#leftList').datagrid('load');
                             $('#list_data').datagrid('load');
                             $('#list_data').datagrid('clearChecked');
-                        }
-                    }, function (data) {
+                        });
+                    }
+                }else{
+                    $.messager.alert('提示', "请选择途径或者频次", "warning");
+                    return;
+                }
+            } else {
+                var dataGrid = $('#list_data');
+                if (!dataGrid.datagrid('validateRow', rowNum)) {
+                    $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
+                    return false
+                }
+                $("#list_data").datagrid('endEdit', rowNum);
+
+                var formJson = fromJson('prescForm');
+                formJson = formJson.substring(0, formJson.length - 1);
+
+                var tableJson = JSON.stringify(rows);
+                var submitJson = formJson + ",\"list\":" + tableJson + "}";
+                $.postJSON(basePath + '/outppresc/save', submitJson, function (data) {
+                    if (data.data == 'success') {
+                        $.messager.alert("提示消息", data.code + "条处方，保存成功");
+                        $('#leftList').datagrid('load');
+                        $('#list_data').datagrid('load');
+                        $('#list_data').datagrid('clearChecked');
+                    } else {
                         $.messager.alert('提示', "保存失败", "error");
                         $('#leftList').datagrid('load');
                         $('#list_data').datagrid('load');
                         $('#list_data').datagrid('clearChecked');
-                    });
-                }
-            }else{
-                $.messager.alert('提示', "请选择途径或者频次", "warning");
-                return;
-            }
-        } else {
-            var dataGrid = $('#list_data');
-            if (!dataGrid.datagrid('validateRow', rowNum)) {
-                $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
-                return false
-            }
-            $("#list_data").datagrid('endEdit', rowNum);
-            var rows = $('#list_data').datagrid('getRows');
-            var formJson = fromJson('prescForm');
-            formJson = formJson.substring(0, formJson.length - 1);
-            var tableJson = JSON.stringify(rows);
-            var submitJson = formJson + ",\"list\":" + tableJson + "}";
-            $.postJSON(basePath + '/outppresc/save', submitJson, function (data) {
-                if (data.data == 'success') {
-                    $.messager.alert("提示消息", data.code + "条处方，保存成功");
-                    $('#leftList').datagrid('load');
-                    $('#list_data').datagrid('load');
-                    $('#list_data').datagrid('clearChecked');
-                } else {
+                    }
+                }, function (data) {
                     $.messager.alert('提示', "保存失败", "error");
                     $('#leftList').datagrid('load');
                     $('#list_data').datagrid('load');
                     $('#list_data').datagrid('clearChecked');
-                }
-            }, function (data) {
-                $.messager.alert('提示', "保存失败", "error");
-                $('#leftList').datagrid('load');
-                $('#list_data').datagrid('load');
-                $('#list_data').datagrid('clearChecked');
-            })
+                })
+            }
+        }else{
+            $.messager.alert('提示', "请选择处方属性", "warning");
+            return;
         }
-    }else{
-        $.messager.alert('提示', "请选择处方属性", "warning");
-        return;
     }
-
 }
 //弃方即刷新页面
 function giveUpPre(){
