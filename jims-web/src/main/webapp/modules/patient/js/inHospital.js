@@ -55,6 +55,9 @@ $(function() {
             $("#sex").val(n.value);
         }
     });
+    if(setData.length>0) {
+        $("#setId").combobox('select', setData[0].value);
+    }
     $("#dateOfBirth").datebox({
         onSelect:function(date){
             var nowDate = new Date();
@@ -67,7 +70,7 @@ $(function() {
         }
     });
 
-    //$("#sexId ").combobox('select',setData[0].value);
+
     //婚姻状况
     $('#maritalStatusId').combobox({
         data: marriageDict,
@@ -78,7 +81,9 @@ $(function() {
         }
 
     });
-    //$("#maritalStatusId ").combobox('select',marriageDict[0].value);
+    if(marriageDict.length>0) {
+        $("#maritalStatusId").combobox('select',marriageDict[0].value);
+    }
     //国籍
     $('#citizenshipId').combobox({
         data: nationalityDict,
@@ -88,7 +93,9 @@ $(function() {
             $("#citizenship").val(n.value);
         }
     });
-    //$("#citizenshipId ").combobox('select',nationalityDict[0].value);
+    if(nationalityDict.length>0) {
+        $("#citizenshipId").combobox('select', nationalityDict[0].value);
+    }
     //民族
     $('#nationId').combobox({
         data: nationDict,
@@ -98,7 +105,9 @@ $(function() {
             $("#nation").val(n.value);
         }
     });
-    //$("#nationId").combobox('select',nationDict[0].value);
+    if(nationDict.length>0) {
+        $("#nationId").combobox('select', nationDict[0].value);
+    }
     //费别
     $('#chargeTypeId').combobox({
         data: chargeType,
@@ -108,7 +117,9 @@ $(function() {
             $("#chargeType").val(n.id);
         }
     });
-    //$("#chargeTypeId ").combobox('select',chargeType[0].value);
+    if(chargeType.length>0) {
+        $("#chargeTypeId").combobox('select', chargeType[0].value);
+    }
     //身份
     $('#identityId').combobox({
         data: identityDict,
@@ -118,7 +129,9 @@ $(function() {
             $("#identityId").val(n.id);
         }
     });
-    //$("#identityId ").combobox('select',identityDict[0].id);
+    if(identityDict.length>0) {
+        $("#identityDict").combobox('select', identityDict[0].id);
+    }
     //职业
     $('#occupationId').combobox({
         data: professionDict,
@@ -128,7 +141,9 @@ $(function() {
             $("#occupation").val(n.value);
         }
     });
-    //$("#occupationId ").combobox('select',professionDict[0].value);
+    if(professionDict.length>0) {
+        $("#occupationId").combobox('select', professionDict[0].value);
+    }
 
     //关系
     $('#relationshipId').combobox({
@@ -139,7 +154,9 @@ $(function() {
             $("#relationship").val(n.value);
         }
     });
-    //$("#relationshipId ").combobox('select',relationshipDict[0].value);
+    if(relationshipDict.length>0) {
+        $("#relationshipId").combobox('select', relationshipDict[0].value);
+    }
     //入院来源
     $('#fromOtherPlaceIndicatorId').combobox({
         data: resourceDict,
@@ -149,7 +166,10 @@ $(function() {
             $("#fromOtherPlaceIndicator").val(n.value);
         }
     });
-    //$("#fromOtherPlaceIndicatorId ").combobox('select',resourceDict[0].value);
+    if(resourceDict.length>0) {
+        $("#fromOtherPlaceIndicatorId").combobox('select',resourceDict[0].value);
+    }
+
     //入院方式
     $('#patientClassId').combobox({
         data: patientClass,
@@ -159,7 +179,9 @@ $(function() {
             $("#patientClass").val(n.value);
         }
     });
-    //$("#patientClassId ").combobox('select',methodDict[0].value);
+    if(patientClass.length>0) {
+        $("#patientClassId").combobox('select', patientClass[0].value);
+    }
     //住院目的
     $('#admissionCauseId').combobox({
         data: objectiveDict,
@@ -169,7 +191,9 @@ $(function() {
             $("#admissionCause").val(n.value);
         }
     });
-    //$("#admissionCauseId").combobox('select',objectiveDict[0].value);
+    if(objectiveDict.length>0) {
+        $("#admissionCauseId").combobox('select', objectiveDict[0].value);
+    }
     //病情
     $('#patAdmConditionId').combobox({
         data: admissionDict,
@@ -179,8 +203,9 @@ $(function() {
             $("#patAdmCondition").val(n.value);
         }
     });
-    //$("#patAdmConditionId").combobox('select',admissionDict[0].value);
-
+    if(admissionDict.length>0) {
+        $("#patAdmConditionId").combobox('select', admissionDict[0].value);
+    }
 
     //入院科室
     $('#deptAdmissionToId').combobox({
@@ -191,8 +216,10 @@ $(function() {
             $("#deptAdmissionTo").val(n.value);
         }
     });
-    //$("#deptAdmissionTo ").combobox('select',clinicDeptCode[0].value);
-    //
+    if(clinicDeptCode.length>0) {
+        $("#deptAdmissionTo").combobox('select', clinicDeptCode[0].value);
+    }
+
     //诊断
     $('#diagnosis').combogrid({
         data: icdAllData,
@@ -203,13 +230,15 @@ $(function() {
             {field: 'zhongwen_mingcheng', title: '中文名称', width: '30%', align: 'left'},
             {field: 'code', title: 'ICD-10编码', width: '20%', align: 'left'},
             {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'left'},
-        ]], keyHandler: {
+        ]],onClickRow:function(rowIndex,rowData) {
+            $("#diagnosisNo").textbox("setValue",rowData.code);
+        }, keyHandler: {
             query: function (q) {
                 comboGridCompleting(q, 'diagnosis');
                 $('#diagnosis').combogrid("grid").datagrid("loadData", comboGridComplete);
             }
         }
-    })
+    });
     //接诊医生
     $('#consultingDoctor').combogrid({
 
@@ -235,7 +264,7 @@ $(function() {
 
     });
 
-})
+});
 
 //列表条件查询
 function searchByCondition(){
