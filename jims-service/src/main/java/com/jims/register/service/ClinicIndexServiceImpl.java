@@ -9,7 +9,9 @@ import com.jims.common.persistence.Page;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.bo.ClinicIndexBo;
+import com.jims.register.bo.ClinicScheduleBo;
 import com.jims.register.entity.ClinicIndex;
+import com.jims.register.entity.ClinicSchedule;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -17,7 +19,7 @@ import java.util.List;
 
 
 /**
- * 好别Service
+ * 号别Service
  * @author zhaoning
  * @version 2016-05-17
  */
@@ -26,6 +28,8 @@ public class ClinicIndexServiceImpl  implements ClinicIndexServiceApi {
 
     @Autowired
     private ClinicIndexBo clinicIndexBo;
+    @Autowired
+    private ClinicScheduleBo clinicScheduleBo;
 
 
     @Override
@@ -43,9 +47,21 @@ public class ClinicIndexServiceImpl  implements ClinicIndexServiceApi {
         return clinicIndexBo.saveList(clinicIndexList,orgId);
     }
 
+    /**
+     * 删除号别
+     * @param id
+     * @return
+     */
     @Override
     public String delete(String id) {
-        return clinicIndexBo.delete(id);
+        String code="";
+        List<ClinicSchedule> list=clinicScheduleBo.getClinicSchedules(id);
+        if(list!=null && list.size()>0){
+           code="0";
+        }else{
+            clinicIndexBo.delete(id);
+        }
+        return code;
     }
 
     @Override
