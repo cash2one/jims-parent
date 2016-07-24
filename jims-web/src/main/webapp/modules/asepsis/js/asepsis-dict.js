@@ -16,8 +16,8 @@ $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"})
 var basePath = "/service";
 $(function () {
 
-    //var orgId=config.org_Id;
-    var orgId = 1;
+    var orgId=config.org_Id;
+    //var orgId = 1;
     var currentSelectDeptData;
     var unitsForm=[];
     var formatData = function(arr,value){

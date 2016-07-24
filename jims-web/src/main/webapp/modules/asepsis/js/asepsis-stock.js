@@ -14,10 +14,10 @@ $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"})
 var basePath = "/service";
 $(function () {
 
-    //var orgId=config.org_Id;
-    var orgId = 1;
+    var orgId=config.org_Id;
+    //var orgId = 1;
     //当前登录人
-    var user = 1;
+    var user = config.userName;
 
     $("#asepsis-stock").datagrid({
         fit: true,

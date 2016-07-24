@@ -11,8 +11,8 @@ $("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.
 var basePath = "/service";
 $(function () {
 
-    //var orgId=parent.config.org_id;
-    var orgId = 1;
+    var orgId=config.org_Id;
+    //var orgId = 1;
     var asepsisCode;
     var currentSelectDeptData;
     var editIndex1 = undefined;
