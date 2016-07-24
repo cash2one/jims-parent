@@ -2,7 +2,7 @@
  * Created by heren on 2016/4/20.
  */
 
-
+var sub = true;
 //扩展验证输入框
 $.extend($.fn.validatebox.defaults.rules, {
     idcard: {// 验证身份证
@@ -144,58 +144,75 @@ $.extend($.fn.validatebox.defaults.rules, {
 });
 $.extend({
     postForm: function (url,formId,callback, error) {
-        if($("#"+formId).form("validate")) {
-            var dict = '{';
-            $($('#'+formId).serializeArray()).each(function (index, element) {
-                if(element.value!=null && element.value!=''){
-                    dict=dict+'"'+element.name+'"'+':'+'"'+element.value+'",'
-                }
+        if(sub) {
+            sub=false;
+            if($("#"+formId).form("validate")) {
+                var dict = '{';
+                $($('#'+formId).serializeArray()).each(function (index, element) {
+                    if(element.value!=null && element.value!=''){
+                        dict=dict+'"'+element.name+'"'+':'+'"'+element.value+'",'
+                    }
 
-            })
-            dict = dict.substring(0, dict.length - 1);
-            dict=dict+'}'
-
+                })
+                dict = dict.substring(0, dict.length - 1);
+                dict=dict+'}'
+                return jQuery.ajax({
+                    cache: true,
+                    'type': 'POST',
+                    'url': url,
+                    'contentType': 'application/json',
+                    'data': dict,
+                    'dataType': 'json',
+                    'success': callback,
+                    'error': error,
+                    'complete':function(xhr,status){
+                        sub=true;
+                    }
+                });
+            }else{
+                return false;
+            }
+        }
+    },
+    postRows: function (url,tableId,callback, error) {
+        if(sub) {
+            sub = false;
+            $("#" + tableId).datagrid('endEdit', editRow);
+            var rows = $('#' + tableId).datagrid('getRows');
             return jQuery.ajax({
                 cache: true,
                 'type': 'POST',
                 'url': url,
                 'contentType': 'application/json',
-                'data': dict,
+                'data': JSON.stringify(rows),
                 'dataType': 'json',
                 'success': callback,
-                'error': error
-            });
-        }else{
-            return false;
+                'error': error,
+                'complete': function (xhr, status) {
+                    sub = true;
+                }
+            })
         }
-    },
-    postRows: function (url,tableId,callback, error) {
-        $("#"+tableId).datagrid('endEdit', editRow);
-        var  rows=$('#'+tableId).datagrid('getRows');
-        return jQuery.ajax({
-            cache: true,
-            'type': 'POST',
-            'url': url,
-            'contentType': 'application/json',
-            'data': JSON.stringify(rows),
-            'dataType': 'json',
-            'success': callback,
-            'error': error
-        })
     },
     postJSON: function  (url, data, callback, error) {
-        if(typeof(data)==Object){
-            data = JSON.stringify(data);
+        if(sub) {
+            sub = false;
+            if (typeof(data) == Object) {
+                data = JSON.stringify(data);
+            }
+            return jQuery.ajax({
+                'type': 'POST',
+                'url': url,
+                'contentType': 'application/json',
+                'data': data,
+                'dataType': 'json',
+                'success': callback,
+                'error': error,
+                'complete': function (xhr, status) {
+                    sub = true;
+                }
+            });
         }
-        return jQuery.ajax({
-            'type': 'POST',
-            'url': url,
-            'contentType': 'application/json',
-            'data': data,
-            'dataType': 'json',
-            'success': callback,
-            'error': error
-        });
     }
 })
 
