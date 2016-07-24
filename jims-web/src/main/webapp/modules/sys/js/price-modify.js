@@ -109,7 +109,7 @@ $(function () {
         priceDictListVo.memo = memo;  //备注信息
         priceDictListVo.id = id;  //主键
 
-        console.log(priceDictListVo);
+        //console.log(priceDictListVo);
         if (priceDictListVo) {
             $.postJSON(basePath + '/price/update-price', JSON.stringify(priceDictListVo), function (data) {
                 if (data.data == 'success') {
@@ -152,14 +152,12 @@ $(function () {
 });
 
 //根据项目名称输入框输入的拼音码查询数据赋值给其他输入框
-function ShowInfo() {
-    var itemName = $("#itemName").val(); //获取项目名称的值
-    if (itemName && itemName != "") {
+function ShowInfo(value) {
+    if (value && value != "") {
         $.ajax({
             'type': 'GET',
-            'url': basePath + '/price/get-by-inputCode?inputCode=' + itemName + '&orgId=' + config.org_Id,
+            'url': basePath + '/price/get-by-inputCode?inputCode=' + value + '&orgId=' + config.org_Id,
             'success': function (data) {
-                console.log(data);
                 if(data && data != ""){
                     id = data[0].id;    //主键ID
                     itemClass = data[0].itemClass;  //项目类别
@@ -167,6 +165,7 @@ function ShowInfo() {
                     memo = data[0].memo;  //备注信息
 
                     $("#itemName").val(data[0].itemName);  //项目名称
+                    $("#inputCode").textbox('setValue',data[0].inputCode);  //拼音码
                     $("#itemCode").val(data[0].itemCode);  //项目代码
                     $("#materialCode").val(data[0].materialCode);  //物价码
                     $("#itemSpec").val(data[0].itemSpec);   //项目规格
@@ -194,17 +193,25 @@ function ShowInfo() {
                 }
             }
         });
-    }
-    if (itemName != '') {
-        $.ajax({
-            'type': 'GET',
-            'url': basePath + '/price/abb/' + itemName,
-            'success': function (data) {
-                $("#inputCode").textbox('setValue', data.code);
-            }
-        });
-    } else {
-        $("#inputCode").textbox('setValue', "");
+    }else{
+        $("#itemName").val('');  //项目名称
+        $("#inputCode").textbox('setValue', ''); //拼音码
+        $("#itemCode").val('');  //项目代码
+        $("#materialCode").val('');  //物价码
+        $("#itemSpec").val('');   //项目规格
+        $("#units").val('');         //计价单位
+        $("#price").val('');         //基本价格
+        $("#preferPrice").val('');   //优惠价格
+        $("#foreignerPrice").val('');  //外宾价格
+        $("#dt").datetimebox('setValue', '');   //启用日期
+        $("#stopDate").datetimebox('setValue', '');  //停用日期
+        $("#performedBy").combogrid('setValue', '');    //执行科室
+        $("#dd").combobox('setValue', '');     //住院收据
+        $("#cc").combobox('setValue', '');     //门诊收据
+        $("#ff").combobox('setValue', '');     //核算科目
+        $("#bb").combobox('setValue', '');     //会计科目
+        $("#ee").combobox('setValue', '');     //病案首页
+        $("#flag").attr("checked", false);   //停用日期取消选中
     }
 }
 
