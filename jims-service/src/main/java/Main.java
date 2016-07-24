@@ -16,7 +16,7 @@ public class Main {
         String webappDirLocation = "jims-service/src/main/webapp/";
         String webPort = System.getenv("PORT");
         if (webPort == null || webPort.isEmpty()) {
-            webPort = "85";
+            webPort = "8081";
         }
 
         File file = new File(webappDirLocation);
@@ -33,7 +33,7 @@ public class Main {
         root.setParentLoaderPriority(true);
         server.setHandler(root);
         try {
-           // migrationDb();
+            migrationDb();
             server.start();
             server.join();
         } catch (Exception e) {
@@ -49,9 +49,10 @@ public class Main {
 
         Flyway flyway = new Flyway();
         //设置数据库链接配置
-        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:orcl","wx","wx");
+//        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:orcl","wx","wx");
+        flyway.setDataSource("jdbc:oracle:thin:@127.0.0.1:1521:orcl","his","his");
         //设置schema用户
-        flyway.setSchemas("WX");
+        flyway.setSchemas("HIS");
         flyway.setTable("SCHEMA_VERSION");
         flyway.setEncoding("UTF-8");
         flyway.setValidateOnMigrate(true);
