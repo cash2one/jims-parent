@@ -42,14 +42,14 @@ public class TreatmentRest {
 
     /**
      * 保存治疗处置项目
-     * @param outpOrdersCostses
+     * @param outpTreatRecList
      * @return
      */
     @Path("save")
     @POST
-    public StringData saveTreatment(List<OutpTreatRec> outpOrdersCostses){
+    public StringData saveTreatment(List<OutpTreatRec> outpTreatRecList){
         StringData data=new StringData();
-        String code=treatmentServiceApi.saveClinicItem(outpOrdersCostses);
+        String code=treatmentServiceApi.saveClinicItem(outpTreatRecList);
         data.setCode(code);
         return  data;
     }

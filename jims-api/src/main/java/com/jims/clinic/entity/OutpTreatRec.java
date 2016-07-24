@@ -264,7 +264,7 @@ public class OutpTreatRec extends DataEntity<OutpTreatRec> {
 	public Date getBillVisitDate() {
 		return billVisitDate;
 	}
-
+	@JsonDeserialize(using = CustomDateDeSerializer.class)
 	public void setBillVisitDate(Date billVisitDate) {
 		this.billVisitDate = billVisitDate;
 	}

@@ -82,6 +82,9 @@
 		FROM clinic_appoints a left join clinic_index b on a.clinic_label=b.id left join pat_master_index c on a.patient_id=c.id
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="orgId!=null and orgId!=''">
+                AND a.org_id like '${orgId}'
+            </if>
 			<if test="name!=null and name!=''">
 				AND a.name like '${name}'
 			</if>

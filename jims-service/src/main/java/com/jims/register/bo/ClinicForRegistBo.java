@@ -138,7 +138,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
             patMasterIndex.preUpdate();
             i=patMasterIndexDao.update(patMasterIndex);
         }
-        Integer no= clinicMasterDao.getMaxVisitNO();
+        Integer no= clinicMasterDao.getMaxVisitNO(clinicMaster.getOrgId());
 
         if(no!=null &&!no.equals("")){
             no=no+1;
