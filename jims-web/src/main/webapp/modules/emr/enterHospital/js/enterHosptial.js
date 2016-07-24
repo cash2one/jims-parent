@@ -6,6 +6,11 @@ function save(){
     if (rowNum1 != -1) {
         $("#zhenduan").datagrid("endEdit", rowNum1);
     }
+    if(!$("#zhenduan").datagrid('validateRow', rowNum1)){
+        $.messager.alert('提示',"请填写完本行数据后，再保存", "error");
+        return false
+    }else{
+
     var rows = $('#zhenduan').datagrid('getRows');
     $("#clinicId").val(clinId);
     $("#patientId").val(pId);
@@ -37,6 +42,8 @@ function save(){
 
     }),function(data){
         $.messager.alert("提示信息","保存失败","error");
+    }
+
     }
 }
 //查询
