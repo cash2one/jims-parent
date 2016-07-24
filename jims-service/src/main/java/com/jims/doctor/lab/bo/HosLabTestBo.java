@@ -98,11 +98,9 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++) {
-                LabTestMaster labTestMaster = labTestMasterDao.get(id[j]);
                 num = labTestMasterDao.deleteLabTestMaster(id[j]);
                 labTestItemsDao.deleteItmes(id[j]);
-                String visitId = labTestMaster.getVisitId();
-                ordersDao.delOrders(visitId);
+                ordersDao.delOrders(id[j]);
             }
         } catch (Exception e) {
             return num + "";

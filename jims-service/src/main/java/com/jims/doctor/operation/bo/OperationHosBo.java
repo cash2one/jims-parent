@@ -172,10 +172,42 @@ public class OperationHosBo {
         return scheduleId;
     }
 
+    /**
+     * 通过clinicId拿到手术安排
+     *
+     * @param patientId
+     * @param visitId
+     * @return
+     */
+    public List<OperationSchedule> getSchedule(String patientId, String visitId) {
+        List<OperationSchedule> operationScheduleList = operationScheduleDao.getScheduleList(patientId, visitId,"");
+        return operationScheduleList;
+    }
+
     public String newDate() {
         SimpleDateFormat dateFormater = new SimpleDateFormat("HH:mm");
         Date date = new Date();
         String newDate = dateFormater.format(date);
         return newDate;
     }
+
+    /**
+     * 删除住院手术
+     * @param ids
+     * @return
+     */
+    public String deleteHos(String ids){
+        int num = 0;
+        String[] id= ids.split(",");
+        try {
+            for(int i=0;i<id.length;i++){
+                num = operationScheduleDao.deleteOperation(id[i]);
+                scheduledOperationNameDao.deleteSchedule(id[i]);
+                ordersDao.delOrders(id[i]);
+            }
+        }catch (Exception e){
+            return "0";
+        }
+        return num+"";
+        }
 }
