@@ -62,7 +62,7 @@ public interface LabTestMasterDao extends CrudDao<LabTestMaster> {
      */
     public List<LabTestMaster> getLabMaster(@Param("performedBy")String performedBy,@Param("inOrOut")String inOrOut,
                                             @Param("startTime")String startTime,@Param("endTime")String endTime,@Param("reqDept")String reqDept,
-                                            @Param("labNo")String labNo,@Param("patName")String patName );
+                                            @Param("labNo")String labNo,@Param("patName")String patName,@Param("orgId")String orgId );
 
     /**
      * 检验确认 更新 检验主记录 状态，更改为：1 （已确认）

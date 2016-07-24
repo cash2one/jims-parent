@@ -2,6 +2,7 @@ package com.jims.medical.lab.bo;
 
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.lab.dao.LabTestItemsDao;
 import com.jims.doctor.lab.dao.LabTestMasterDao;
 import com.jims.drugPresc.dao.InpBillDetailDao;
@@ -39,8 +40,9 @@ public class LabConfirmBo extends CrudImplService<LabTestMasterDao,LabTestMaster
      * @return
      * @author zhaoning
      */
-    public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut,String startTime,String endTime,String reqDept,String labNo,String patName){
-     return labTestMasterDao.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName);
+    public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut,String startTime,String endTime,String reqDept,String labNo,String patName,LoginInfo loginInfo){
+        String orgId=loginInfo.getOrgId();
+        return labTestMasterDao.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName,orgId);
     }
 
     /**
