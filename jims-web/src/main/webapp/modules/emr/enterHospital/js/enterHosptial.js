@@ -25,6 +25,7 @@ function save(){
                 'dataType': 'json',
                 'success': function(data){
                   /*  $("#diagnosisParent").val(data.id);*/
+                    $('#zhenduan').datagrid('reload');
                     $('#enterForm').form('load',data);
                     getDiv('enterForm');
 

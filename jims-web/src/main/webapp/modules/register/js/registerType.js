@@ -80,8 +80,12 @@ function onloadMethod(id,clinicName){
             text: '增加',
             iconCls: 'icon-add',
             handler: function() {
-                if(rowNum>=0){
-                    rowNum++;
+                if (!$('#list_data').datagrid('validateRow', rowNum)) {
+                    $.messager.alert('提示', "请填写完本行数据后，再添加下一行", "Warning");
+                    return false;
+                }
+                if(rowNum!=-1){
+                    $("#list_data").datagrid('endEdit', rowNum);
                 }
                 $("#list_data").datagrid('insertRow', {
                     index:0,
@@ -90,6 +94,8 @@ function onloadMethod(id,clinicName){
                     }
 
                 });
+                rowNum=0;
+                $("#list_data").datagrid('beginEdit', rowNum);
             }
         },'-',{
             text: '删除',
@@ -140,14 +146,19 @@ clinicTypeList();
 //保存数据
 function save(){
     if (!$('#list_data').datagrid('validateRow', rowNum)) {
-        $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
-        return false
+        $.messager.alert('提示', "请填写完本行数据后，再保存", "Warning");
+        return false;
     }
     var  rows=$('#list_data').datagrid('getRows');
+
+    if(rows==null || rows==''){
+        $.messager.alert('提示', "请添加收费项目", "Warning");
+        return false;
+    }
     var tableJson=JSON.stringify(rows);
     var type=encodeURI($("#type").val());
     if(type=='' || type==null){
-        $.messager.alert('提示',"挂号类型不能为空", "error");
+        $.messager.alert('提示',"挂号类型不能为空", "Warning");
         return;
     }
     var clinicTypeId=$("#clinicTypeId").val();
@@ -184,9 +195,17 @@ function deleteItem(){
         if (r) {
             var strIds = "";
             for (var i = 0; i < selectRows.length; i++) {
+                if(selectRows[i].id=="" || selectRows[i].id==undefined){
+                    $('#list_data').datagrid('deleteRow', $('#list_data').datagrid('getRowIndex', selectRows[i]));
+
+                }
                 strIds += selectRows[i].id + ",";
             }
             strIds = strIds.substr(0, strIds.length - 1);
+            if(strIds=="" || strIds=="undefined"){
+
+                return false
+            }
             //删除
             $.ajax({
                 'type': 'POST',

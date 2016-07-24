@@ -77,4 +77,11 @@ public interface EmrDiagnosisServiceApi {
      * @return
      */
     public EmrDiagnosis getDescription(String clinicId,String visitIds);
+
+    /**
+     * 查询最大的序号
+     * @param emrDiagnosis
+     * @return
+     */
+    public int getMaxItemNo(EmrDiagnosis emrDiagnosis);
 }

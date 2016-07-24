@@ -51,7 +51,7 @@ function dataGridCompletings(q,dataId,column){
     $.ajax({
         'type': 'POST',
         'url':basePath+'/input-setting/listParam' ,
-        data: JSON.stringify(doctorNameData),
+        data: JSON.stringify(operationData),
         'contentType': 'application/json',
         'dataType': 'json',
         'async': false,

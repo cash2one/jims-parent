@@ -67,6 +67,18 @@ public class DrugSupplierCatalogRest {
     }
 
     /**
+     * 根据orgId查询该机构和其子机构的厂商
+     * @param orgId
+     * @param q
+     * @zhuqi
+     */
+    @Path("list-supplier-by-sub-org")
+    @GET
+    public List<DrugSupplierCatalog> listSupplierBySubOrg(@QueryParam("orgId") String orgId,@QueryParam("q") String q) {
+        return drugSupplierCatalogApi.listSupplierBySubOrg(orgId, q);
+    }
+
+    /**
      * 根据supplierType查询
      *
      * @param orgId

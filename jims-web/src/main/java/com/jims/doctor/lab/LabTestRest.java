@@ -136,6 +136,7 @@ public class LabTestRest {
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         labTestMaster.setOrderingDept(loginInfo.getDeptId());
         labTestMaster.setOrderingProvider(loginInfo.getPersionId());
+        labTestMaster.setOrderingProvider(loginInfo.getPersionId());//送检医生
         StringData data=new StringData();
         mun = labTestMasterServiceApi.saveAll(labTestMaster);
         data.setData("success");

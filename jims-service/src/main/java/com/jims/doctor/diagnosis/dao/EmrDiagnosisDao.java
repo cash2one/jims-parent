@@ -81,4 +81,11 @@ public interface EmrDiagnosisDao extends CrudDao<EmrDiagnosis> {
      * @return
      */
     public List<EmrDiagnosis> getListDiagnosis(@Param("patientId")String patientId);
+
+    /**
+     * 查询最大的序号
+     * @param emrDiagnosis
+     * @return
+     */
+    public Integer getMaxItemNo(EmrDiagnosis emrDiagnosis);
 }

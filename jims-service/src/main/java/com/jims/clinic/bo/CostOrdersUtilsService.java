@@ -55,7 +55,7 @@ public class CostOrdersUtilsService {
      * @param itemDictList 诊疗项目list
      * @return
      */
-    public String save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId,OutpTreatRec outpTreatRec1) {
+    public String save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId,String performedBy,Double amount) {
         ClinicMaster clinicMaster=clinicMasterDao.get(clinicId);
         OrgStaff orgStaff=new OrgStaff();
        // SysUser user=new SysUser();
@@ -80,10 +80,14 @@ public class CostOrdersUtilsService {
             ClinicItemDict clinicItemDict=itemDictList.get(i);
             clinicItemDict.setOrgId(orgId);
              List<ClinicItemDict> clinicItemDictList= clinicItemDictDao.findExisted(clinicItemDict);
+            if(clinicItemDictList.size() == 0){
+                return "此项目没有相应价格，不能保存";
+            }
             clinicItemDict=clinicItemDictList.get(0);
             OutpTreatRec outpTreatRec=new OutpTreatRec();
 
             outpTreatRec.setItemNo(itemNo);
+//            outpTreatRec.setAmount(1.00);
             outpTreatRec.setVisitDate(clinicMaster.getVisitDate());
             outpTreatRec.setOrgId(orgId);
             outpTreatRec.setVisitNo(clinicMaster.getVisitNo());
@@ -94,15 +98,15 @@ public class CostOrdersUtilsService {
             outpTreatRec.setItemClass(clinicItemDict.getItemClass());
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());
-            outpTreatRec.setAmount(clinicItemDict.getNum());
+//            outpTreatRec.setAmount(clinicItemDict.getNum());
             //执行科室
 //            outpTreatRec.setPerformedBy(clinicItemDict.getExpand3());
-            outpTreatRec.setPerformedBy(outpTreatRec1.getPerformedBy());
-            outpTreatRec.setUnits(outpTreatRec1.getUnits());//单位
-            outpTreatRec.setAmount(outpTreatRec1.getAmount());//数量
-            outpTreatRec.setWardCode(outpTreatRec1.getWardCode());//护理单元
-            outpTreatRec.setFrequency(outpTreatRec1.getFrequency());//频次
-            outpTreatRec.setCharges(outpTreatRec1.getCharges());//实收
+            outpTreatRec.setPerformedBy(performedBy);
+//            outpTreatRec.setUnits(outpTreatRec1.getUnits());//单位
+            outpTreatRec.setAmount(amount);//数量
+//            outpTreatRec.setWardCode(outpTreatRec1.getWardCode());//护理单元
+//            outpTreatRec.setFrequency(outpTreatRec1.getFrequency());//频次
+//            outpTreatRec.setCharges(outpTreatRec1.getCharges());//实收
             outpTreatRec.setChargeIndicator(0);
             Double price=0.00;
             List<PriceListVo>  listPriceListVo=priceListDao.listByClinicItemCodeAndOrgId(orgId,clinicItemDict.getItemCode());

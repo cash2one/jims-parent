@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>药品采购计划执行</title>
+    <title>采购药品入库</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
@@ -14,26 +14,16 @@
 <div id="tbn" style="padding: 5px;">
     <label for="temporaryNo">采购单据号:</label>
     <input id="temporaryNo">
-    <a  id="saveButton"></a>
+    <label for="subStorage">入库子库房:</label>
+    <input id="subStorage"/>
+    <label for="importDocument">入库单据号:</label>
+    <input id="importDocument" class="easyui-textbox" data-options="disabled:true,width:140">
+    <a  id="inStockButton"></a>
     <a  id="flushButton"></a>
 </div>
 <div id="drugPriceWindow">
     <table id="drugPriceTable"></table>
 </div>
-<script>
-    $.extend({
-        ajaxAsync : function(url,data,callback,type,async){
-            return $.ajax({
-                type: type,
-                url: url,
-                async : async,   // true 异步,false 同步
-                data: data,
-                success: callback,
-                'contentType': 'application/json'
-            });
-        }
-    })
-</script>
-<script src="js/drug-buy-plan-execute.js"></script>
+<script src="js/drug-buy-plan-stock.js"></script>
 </body>
 </html>

@@ -42,7 +42,7 @@
         and c.charge_item_code = b.item_code
         and a.org_id = #{orgId}
         and a.del_flag = '0'
-        and a.item_class = 'C'
+        and a.item_class = 'D'
         <if test="q != null and q != ''">
             and (upper(a.input_code) like upper(#{q}) || '%'
             or a.item_Name like #{q} || '%'

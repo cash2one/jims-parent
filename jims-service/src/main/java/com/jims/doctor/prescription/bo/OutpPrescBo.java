@@ -9,6 +9,7 @@ import com.jims.clinic.dao.OutpOrdersDao;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpOrders;
 import com.jims.clinic.entity.OutpOrdersCosts;
+import com.jims.common.persistence.BaseEntity;
 import com.jims.common.utils.NumberUtils;
 import com.jims.common.vo.LoginInfo;
 import com.jims.prescription.entity.OutpPresc;
@@ -82,6 +83,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                        op.setGetdrugFlag(1);//未取药
                        op.setAbidance(1);
                        op.setOrgId(loginInfo.getOrgId());
+                       op.setPerformedBy(op.getItemClass());
                        op.setPatientId(clinicMaster.getPatientId());
                        if(op.getItemClass()!=null&&"B".equals(op.getItemClass())){//中药
                            if(op.getAmount()!=null&&!"".equals(op.getAmount())&&op.getAmount()!=0){//中药数量>0
@@ -138,10 +140,11 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
                                    outpOrdersCosts.setAmount(outpPresc.getAmount());
                                    outpOrdersCosts.setOrderedByDept(loginInfo.getDeptId()); // 当前医师坐诊科室
                                    outpOrdersCosts.setOrderedByDoctor(loginInfo.getPersionId());
-                                   outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
+                                   outpOrdersCosts.setPerformedBy(outpPresc.getItemClass());
                                    outpOrdersCosts.setCosts(outpPresc.getCosts() * outpPresc.getAmount());
                                    outpOrdersCosts.setCharges(outpPresc.getCharges() * outpPresc.getAmount());
                                    outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
+                                   outpOrdersCosts.setChargeIndicator(BaseEntity.LAB_BILLINGINDICATOR_APPLY);
                                    ordersCostsesList.add(outpOrdersCosts);
                                }
                            }
@@ -240,11 +243,11 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc>{
             outpOrdersCosts.setAmount(outpPresc.getAmount());
             outpOrdersCosts.setOrderedByDept(loginInfo.getDeptId()); // 当前医师坐诊科室
             outpOrdersCosts.setOrderedByDoctor(loginInfo.getPersionId());
-            outpOrdersCosts.setPerformedBy(outpPresc.getPerformedBy());
+            outpOrdersCosts.setPerformedBy(outpPresc.getItemClass());
             outpOrdersCosts.setCosts(outpPresc.getCosts());
             outpOrdersCosts.setCharges(outpPresc.getCharges());
             outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
-
+            outpOrdersCosts.setChargeIndicator(BaseEntity.LAB_BILLINGINDICATOR_APPLY);
         return  outpOrdersCosts;
     }
     /**

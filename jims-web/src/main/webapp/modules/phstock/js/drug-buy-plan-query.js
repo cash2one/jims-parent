@@ -48,6 +48,35 @@ $(function () {
         storageList = data;
     })
 
+    var orgList=[]; //组织机构及其下级机构列表
+    $.get("/service/sys-sompany/find-list-by-parent-id?orgId="+config.org_Id, function (data) {
+        orgList= data;
+        //loadBuyList(orgList);
+    });
+
+    //var buyListByOrg=[];
+    //var loadBuyList = function(orgLists){
+    //    buyListByOrg=[];
+    //    if(orgLists.length>0){
+    //        for(var i=0;i<orgLists.length;i++){
+    //            $.ajax({
+    //                type: 'get',
+    //                url: base_url+'getBuyListByOrg?orgId='+orgLists[i].id,
+    //                async : false,   // true 异步,false 同步
+    //                //data: {orgId: orgLists[i].id, flag: 3},
+    //                contentType: 'application/json',
+    //                success: function(res){
+    //                    if(res.length>0){
+    //                        for (var j=0;j<res.length;j++){
+    //                            buyListByOrg.push(res[j]);
+    //                        }
+    //                    }
+    //                }
+    //            })
+    //        }
+    //        //$('#temporaryNo').combogrid('grid').datagrid("loadData", buyListByOrg);
+    //    }
+    //}
 
     /**
      * 初始化药品购买计划表
@@ -68,16 +97,7 @@ $(function () {
                 {field: 'flag', title: '执行标志', width: 80, align: "center",formatter:function(value){
                     return format(flagData,value)
                 }},
-                {field: 'drugCode', title: '药名', width: 220, halign: "center", align: "left", formatter: function (value) {
-                    if (value == undefined || value == '') return ''
-                    for (var i = 0, j = (drugDicts ? drugDicts.length : 0 ); i < j; i++) {
-                        if (drugDicts[i].drugCode == value) {
-                            value = drugDicts[i].drugName
-                            break
-                        }
-                    }
-                    return value;
-                }},
+                {field: 'drugName', title: '药名', width: 220, halign: "center", align: "center"},
                 {field: 'packSpec', title: '包装规格', width: 60, align: "center"},
                 {field: 'packUnit', title: '包装单位', width: 60, align: "center",
                     formatter:function(value,row,index){
@@ -191,44 +211,93 @@ $(function () {
      * 初始化按钮等
      */
     var initBtn = function () {
-        $.get(base_url + 'getBuyId', {orgId: orgId}, function (res) {
-            var _temporaryNo = []
-            for (var i = 0; i < res.length; i++) {
-                _temporaryNo.push({buyId: res[i][0], flag: format(flagData,res[i][1])})
-            }
-            $('#temporaryNo').combogrid({
-                panelWidth:203,
-                idField:'buyId',
-                multiple : true,
-                textField: 'buyId',
-                editable: false,
-                data : _temporaryNo,
-                columns : [[
-                    {field:'buyId',title:'单据号',width:100,align:"center"},
-                    {field:'flag',title:'执行状态',width:100,align:"center"}
-                ]],
-                onSelect: function (index,row) {
-                    planSelectIndex = 0
-                    loadDrugBuyPlan(row.buyId)
-                },
-                onUnselect : function(index,row){
-                    var _rows = $('#buyPlanTable').datagrid('getRows')
-                    if(_rows.length > 0) $('#buyPlanTable').datagrid('deleteRow',_rows.length - 1)
-                    var start = -1
-                    for(var i=_rows.length-1;i > -1;i--){
-                        if(_rows[i].buyId == row.buyId){
-                            $('#buyPlanTable').datagrid('deleteRow',i)
-                            if(start == -1) {
-                                start = i
-                            }
-                            continue
-                        }
-                        if(start != -1) break
-                    }
-                    if($('#buyPlanTable').datagrid('getRows').length > 0) addCount()
+
+        $('#orgNo').combobox({
+            panelWidth: 155,
+            mode:'remote',
+            valueField: 'id',
+            textField: 'orgName',
+            editable: false,
+            url:"/service/sys-sompany/find-list-by-parent-id?orgId="+config.org_Id,
+            method: 'GET',
+            onLoadSuccess: function (row) {
+                console.log(row);
+                if(row.length>0){
+                    $('#orgNo').combobox('select',row[0].id);   //加载成功默认选中第一行
                 }
-            })
+            },
+            onSelect: function (row) {
+                $.ajax({
+                    type: 'get',
+                    url: base_url+'getBuyListByOrg?orgId='+row.id,
+                    async : false,   // true 异步,false 同步
+                    contentType: 'application/json',
+                    success: function(res){
+                        if(res.length>0){
+                            $('#temporaryNo').combogrid('grid').datagrid("loadData", res);
+                        }
+                    }
+                }),
+                $('#temporaryNo').combogrid('setValue','');
+                $('#buyPlanTable').datagrid('loadData', []);
+            }
         })
+
+        //$.get(base_url + 'getBuyId', {orgId: orgId}, function (res) {
+        //    var _temporaryNo = []
+        //    for (var i = 0; i < res.length; i++) {
+        //        _temporaryNo.push({buyId: res[i][0], flag: format(flagData,res[i][1])})
+        //    }
+        //multiple : true,
+
+        $('#temporaryNo').combogrid({
+            panelWidth: 285,
+            mode:'remote',
+            multiple : true,
+            idField: 'buyId',
+            textField: 'buyId',
+            //editable: false,
+            //url:loadBuyList(orgList),
+            data:[],
+            columns: [[
+                {field: 'buyId', title: '采购单据号', width: 100},
+                {field: 'flag', title: '执行标志', width: 80, align: "center",formatter:function(value){
+                    return format(flagData,value)
+                }},
+                {field: 'orgId', title: '所属机构', width: 100
+                    ,formatter:function(value,index){
+                    var orgName=value;
+                    for(var i=0;i<orgList.length;i++){
+                        if(orgList[i].id==value){
+                            orgName=orgList[i].orgName
+                        }
+                    }
+                    return orgName;
+                }
+                }
+            ]],
+            onSelect: function (index,row) {
+                planSelectIndex = 0
+                loadDrugBuyPlan(row.buyId,row.orgId)
+            },
+            onUnselect : function(index,row){
+                var _rows = $('#buyPlanTable').datagrid('getRows')
+                if(_rows.length > 0) $('#buyPlanTable').datagrid('deleteRow',_rows.length - 1)
+                var start = -1
+                for(var i=_rows.length-1;i > -1;i--){
+                    if(_rows[i].buyId == row.buyId && row.orgId==_rows[i].orgId){
+                        $('#buyPlanTable').datagrid('deleteRow',i)
+                        if(start == -1) {
+                            start = i
+                        }
+                        continue
+                    }
+                    if(start != -1) break
+                }
+                if($('#buyPlanTable').datagrid('getRows').length > 0) addCount()
+            }
+        })
+        //})
 
         $('#drug_gps').textbox({
             buttonText : '定位',
@@ -318,8 +387,8 @@ $(function () {
      * @param buyId
      * @param flag
      */
-    var loadDrugBuyPlan = function (buyId, flag) {
-        $.get(base_url + 'findList', {buyId: buyId, orgId: orgId}, function (res) {
+    var loadDrugBuyPlan = function (buyId,org) {
+        $.get(base_url + 'findList', {buyId: buyId, orgId: org}, function (res) {
             if(res && res.length > 0){
                 var _rows = $('#buyPlanTable').datagrid('getRows')
                 var _len = _rows.length
@@ -327,7 +396,7 @@ $(function () {
                     _len --
                     _rows.splice(_len ,1)
                     for(var i= 0;i<_len;i++){
-                        if(_rows[i].buyId < buyId){
+                        if(_rows[i].buyId < buyId &&_rows[i].orgId==org){
                             res = _rows.slice(0,i).concat(res,_rows.slice(i))
                             break
                         }
@@ -358,12 +427,11 @@ $(function () {
      * @param supplierClass
      */
     var loadSupplier = function(orgId,supplierClass){
-        $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-type', {
+        $.ajaxAsync('/service/drug-supplier-catalog/list-supplier-by-sub-org', {
             orgId: orgId,
-            supplierClass: supplierClass
+            //supplierClass: supplierClass
         }, function (res) {
             suppliers = res
-            console.log(suppliers);
         }, 'GET', false)
     }
 

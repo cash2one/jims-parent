@@ -1,5 +1,6 @@
 package com.jims.finance.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.entity.OutpAcctMaster;
 import com.jims.finance.entity.OutpRcptMaster;
 
@@ -31,7 +32,7 @@ public interface OutpAcctMasterServiceApi {
      * @author pq
      * @date 2016/6/1 0001
      */
-    public String saveOutpAcct(OutpRcptMaster outpRcptMaster);
+    public String saveOutpAcct(OutpRcptMaster outpRcptMaster,LoginInfo loginInfo);
 
 
 

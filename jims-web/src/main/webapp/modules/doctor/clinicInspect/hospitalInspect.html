@@ -8,7 +8,9 @@
     <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/doctor/clinicInspect/js/hospitalInspect.js"></script>
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
-    <script type="text/javascript" src="/static/data/data_lab_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
+    <script type="text/javascript" src="/static/data/data_exam_class_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis_type.js"></script>
 </head>
 <body class="easyui-layout" onload="onloadMethods()">
 <div class="easyui-layout" style="width:100%;height:100%;">
@@ -26,12 +28,12 @@
                     <label>
                         类别：
                     </label>
-                    <input name="examClass" id="examClassNameId" style="width: 145px;">
-                    <input name="examSubClass" id="examSubclassNameId" style="width: 145px;">
+                    <input  name="examClass" id="examClassNameId" style="width: 25%;" disabled="disabled">
+                    <input  id="examSubclassNameId" style="width: 25%;" disabled="disabled">
+                    <input type="hidden" name="examSubClass" id="examSubClass">
+                    &nbsp;
+                    <input title="" id="reqDept" readonly= "true " placeholder="发往科室"  class="easyui-validatebox validatebox-text validatebox-invalid" style="width:13%;">
                     <input type="hidden" id="performedBy" name="performedBy" value="">
-                    <input title="" placeholder="发往科室"  id="reqDept"
-                           class="easyui-validatebox validatebox-text validatebox-invalid" style="width:150px;"
-                           readonly="true">
                 </div>
                 <div class="fitem">
                     <label>
@@ -39,7 +41,7 @@
                     </label>
 
                     <div id="target" style=" overflow-y:scroll; border:1px solid;width: 250px"
-                         class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea" data-options="required:true" >
+                         class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea" >
                     </div>
                     <div class="tarea-cbtn">
                         <button onclick="selecteds();" type="button" class="tlr-btn">&lt;&lt;</button>
@@ -70,7 +72,7 @@
                     <label>
                         临床诊断：
                     </label>
-                    <textarea id="clinDiagDiv" class="easyui-validatebox validatebox-text validatebox-textarea"
+                    <textarea id="clinDiagDiv" readonly class="easyui-validatebox validatebox-text validatebox-textarea"
                               style="width: 60%"></textarea>
                     </div>
                 <div class="fitem">
@@ -104,7 +106,7 @@
             <input type="hidden"  id="identity" name="identity" value="">
         </form>
         <div id="dlg-buttons" class="btn-save">
-            <a href="javascript:void(0)" class="easyui-linkbutton"  data-options="iconCls:'icon-save'" onclick="saveClinicInspect();"
+            <a href="javascript:void(0)" id="saveBut" class="easyui-linkbutton"  data-options="iconCls:'icon-save'" onclick="saveClinicInspect();"
                style="width: 90px">保存</a>
         </div>
     </div>
