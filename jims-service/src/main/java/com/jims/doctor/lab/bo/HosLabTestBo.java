@@ -45,11 +45,6 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
         //本次住院标识对门诊病人为空
         //patientId病人标识号页面有公共值
         //labTestMaster.setPatientId("");
-        labTestMaster.preInsert();
-        //todo(userid)申请医生
-        labTestMaster.setOrderingProvider("");
-        //todo(clinicId)申请科室
-        labTestMaster.setOrderingDept("");
         //结果状态
         labTestMaster.setResultStatus("0");
         //申请序号
@@ -87,15 +82,11 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
             orders.setOrderStatus("6");//医嘱状态
             orders.setFreqDetail("1");//执行时间详细描述
             orders.setPerformSchedule(newDate());
-            orders.setOrderingDept(labTestMaster.getOrderingDept());
-            orders.setDoctor(labTestMaster.getOrderingProvider());
-            //todo(userid)申请医生 ?
-//                orders.setDoctorUser(Long.valueOf(1));
-            //doctor_user:11=['000LJS']
-            orders.setEnterDateTime(labTestMaster.getRequestedDateTime());
-            //billing_attr:13=[3]
-            //drug_billing_attr:14=[3]
-            orders.setAppNo(labTestMaster.getTestNo());
+            orders.setAppNo(labTestMaster.getId());
+            orders.setOrgId(labTestMaster.getOrgId());
+            orders.setDoctor(labTestMaster.getOrderingProvider());//开医嘱医生
+            orders.setOrderingDept(labTestMaster.getOrderingDept());//开医嘱科室
+            orders.setEnterDateTime(labTestMaster.getRequestedDateTime());//开医嘱录入日期及时间
             orders.preInsert();
             ordersDao.insert(orders);
         }
