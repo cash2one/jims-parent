@@ -134,8 +134,12 @@ public class BloodApplyRest {
      */
     @Path("saveHos")
     @POST
-    public StringData saveHos(BloodApply bloodApply) {
+    public StringData saveHos(BloodApply bloodApply,@Context HttpServletRequest request) {
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data = new StringData();
+        bloodApply.setOrgId(loginInfo.getOrgId());
+        bloodApply.setPhysician(loginInfo.getPersionId());
+        bloodApply.setDeptCode(loginInfo.getDeptCode());
         String num = data.getCode();
         if (bloodApply != null) {
             num = bloodApplyServiceApi.saveHosBloodApply(bloodApply);

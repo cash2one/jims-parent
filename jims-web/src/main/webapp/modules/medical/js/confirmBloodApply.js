@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/7/7 0007.
  */
 /**
- * 门诊手术确认
+ * 门诊用血确认
  * Created by pq on 2016/7/6 0006.
  */
 $(function(){

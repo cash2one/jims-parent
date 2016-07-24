@@ -67,7 +67,15 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+	<select id="getClinicIndexs" resultType="ClinicIndex">
+		SELECT
+		<include refid="clinicIndexColumns"/>
+		FROM clinic_index a
+		<include refid="clinicIndexJoins"/>
+		<where>
+		a.del_flag = '0' AND a.clinic_type=#{clinicTypeId}
+		</where>
+	</select>
 	<select id="findAllList" resultType="ClinicIndex">
 		SELECT 
 			<include refid="clinicIndexColumns"/>

@@ -197,16 +197,16 @@ $(function () {
         },{
             title: '代码',
             field: 'drugCode',
-            width: "40%"
+            width: "38%"
         }, {
             title: '药品名称',
             field: 'drugName',
-            width: "50%",
+            width: "45%",
             editor: {type: 'text', options: {required: true}}
         }, {
             title: '正名',
             field: 'stdIndicator',
-            width: "8%",
+            width: "13%",
             styler: function () {
                 return "text-align: center"
             },

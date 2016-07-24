@@ -411,7 +411,7 @@ $(function(){
                     editable:true,
                     textField:'itemName',
                     fitColumns: true,
-                    required:true,
+                    //required:true,
                     method:'get',
                     mode:'remote',
                     missingMessage:'名称必填',

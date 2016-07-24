@@ -36,7 +36,7 @@ public class EmrDiagnosisBo extends CrudImplService<EmrDiagnosisDao, EmrDiagnosi
 				diagnosis.setInOrOutFlag("0");//门诊
 				diagnosis.setDiagnosisDoc(loginInfo.getPersionId());
 				diagnosis.setOrgId(loginInfo.getOrgId());
-				if(diagnosis.getId()!=null||diagnosis.getId()!=""){
+				if(diagnosis.getId()!=null && diagnosis.getId()!=""){
                      delete(diagnosis.getId());
 					 diagnosis.setId("");
 				}

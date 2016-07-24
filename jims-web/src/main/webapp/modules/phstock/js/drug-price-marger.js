@@ -130,7 +130,7 @@ $(function () {
             title: '药品',
             field: 'drugCode',
             align: 'center',
-            width: '6%',
+            width: '10%',
             //editor: {
             //    type: 'textbox', options: {
             //    }
@@ -524,12 +524,12 @@ $(function () {
                 title: '药品剂量',
                 field: 'drugSpec',
                 align: 'center',
-                width: '25%'
+                width: '20%'
             },{
                 title: '单位',
                 field: 'units',
                 align: 'center',
-                width: '25%',
+                width: '20%',
                 formatter:function(value,row,index){
                     var label = value;
                     $.each(specUnit, function (index,item) {

@@ -20,18 +20,7 @@ create table DRUG_RATIONAL_DOSAGE
   freq_counter        NUMBER(11,2),
   freq_interval       NUMBER(11,2),
   freq_interval_units CHAR(4)
-)
-tablespace USERS
-  pctfree 10
-  initrans 1
-  maxtrans 255
-  storage
-  (
-    initial 64K
-    next 8K
-    minextents 1
-    maxextents unlimited
-  );
+);
 -- Add comments to the table
 comment on table DRUG_RATIONAL_DOSAGE
   is '药品用量信息';
@@ -64,16 +53,4 @@ comment on column DRUG_RATIONAL_DOSAGE.freq_interval_units
   is '频率间隔单位';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table DRUG_RATIONAL_DOSAGE
-  add constraint PK_DRUG_RATIONAL_DOSAGE primary key (ID)
-  using index
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255
-  storage
-  (
-    initial 64K
-    next 1M
-    minextents 1
-    maxextents unlimited
-  );
+  add constraint PK_DRUG_RATIONAL_DOSAGE primary key (ID);
