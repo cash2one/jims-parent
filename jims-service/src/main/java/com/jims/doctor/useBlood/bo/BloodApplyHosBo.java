@@ -34,7 +34,32 @@ public class BloodApplyHosBo {
         if (bloodApply.getIsNewRecord()) {
             bloodApply.preInsert();
             bloodApply.setApplyNum(IdGen.uuid());
-            strState = bloodApplylDao.insert(bloodApply);
+
+            Orders orders = new Orders();
+            orders.setPatientId(bloodApply.getPatientId());
+            orders.setVisitId(bloodApply.getVisitId());
+            Integer orderNo = ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId(), "");
+            if (orderNo != null) {
+                orders.setOrderNo(orderNo + 1);
+                orders.setOrderSubNo(orderNo + 1);
+            } else {
+                orders.setOrderNo(1);
+                orders.setOrderSubNo(1);
+            }
+            orders.setStartDateTime(bloodApply.getApplyDate());
+            orders.setAppNo(bloodApply.getId());
+//                orders.setOrderClass("C");
+            orders.setRepeatIndicator("0"); // 临时医嘱标志
+            orders.setOrderStatus("6");//医嘱状态
+            orders.setFreqDetail("1");//执行时间详细描述
+            orders.setPerformSchedule(newDate());
+            orders.setOrderingDept(bloodApply.getDeptCode());//开医嘱科室
+            orders.setDoctor(bloodApply.getPhysician());//开医嘱医生
+            orders.setEnterDateTime(bloodApply.getApplyDate());//开医嘱时间
+
+            //billing_attr:13=[3]
+            //drug_billing_attr:14=[3]
+            orders.setAppNo(bloodApply.getId());
             List<BloodCapacity> bloodCapacityList = bloodApply.getBloodCapacityList();
             for (int i = 0; i < bloodApply.getBloodCapacityList().size(); i++) {
                 BloodCapacity bloodCapacity = bloodCapacityList.get(i);
@@ -43,52 +68,54 @@ public class BloodApplyHosBo {
                     bloodCapacity.preInsert();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
-                    bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
+
+                    orders.setOrderText(bloodCapacity.getBloodType());
+                    orders.setOrderCode(bloodCapacity.getBloodType());
+                    orders.preInsert();
+                    ordersDao.insert(orders);
                 } else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
-                    bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
+
+                    orders.setOrderText(bloodCapacity.getBloodType());
+                    orders.setOrderCode(bloodCapacity.getBloodType());
+                    orders.preUpdate();
+                    ordersDao.update(orders);
                 }
-                Orders orders = new Orders();
-                orders.setPatientId(bloodApply.getPatientId());
-                orders.setVisitId(bloodApply.getVisitId());
-                Integer orderNo = ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId(), "");
-                if (orderNo != null) {
-                    orders.setOrderNo(orderNo + 1);
-                    orders.setOrderSubNo(orderNo + 1);
-                } else {
-                    orders.setOrderNo(1);
-                    orders.setOrderSubNo(1);
-                }
-                orders.setStartDateTime(bloodApply.getApplyDate());
-//                orders.setOrderClass("C");
-                orders.setOrderText(bloodCapacity.getBloodType());
-                orders.setOrderCode(bloodCapacity.getBloodType());
-                orders.setRepeatIndicator("0"); // 临时医嘱标志
-                orders.setOrderStatus("6");//医嘱状态
-                orders.setFreqDetail("1");//执行时间详细描述
-                orders.setPerformSchedule(newDate());
-                orders.setOrderingDept(bloodApply.getDeptCode());
-                orders.setDoctor(bloodApply.getDoctor());
-                //todo(userid)申请医生 ?
-//                orders.setDoctorUser(Long.valueOf(1));
-                //doctor_user:11=['000LJS']
-                orders.setEnterDateTime(bloodApply.getApplyDate());
-                //billing_attr:13=[3]
-                //drug_billing_attr:14=[3]
-                orders.setAppNo(bloodApply.getId());
-                orders.preInsert();
-                ordersDao.insert(orders);
             }
+            strState = bloodApplylDao.insert(bloodApply);
 
         } else {
             bloodApply.preUpdate();
-            strState = bloodApplylDao.update(bloodApply);
+
+            Orders orders = new Orders();
+            orders.setPatientId(bloodApply.getPatientId());
+            orders.setVisitId(bloodApply.getVisitId());
+            Integer orderNo = ordersDao.getOrderNo(bloodApply.getPatientId(), bloodApply.getVisitId(), "");
+            if (orderNo != null) {
+                orders.setOrderNo(orderNo + 1);
+                orders.setOrderSubNo(orderNo + 1);
+            } else {
+                orders.setOrderNo(1);
+                orders.setOrderSubNo(1);
+            }
+            orders.setStartDateTime(bloodApply.getApplyDate());
+            orders.setAppNo(bloodApply.getId());
+//                orders.setOrderClass("C");
+            orders.setRepeatIndicator("0"); // 临时医嘱标志
+            orders.setOrderStatus("6");//医嘱状态
+            orders.setFreqDetail("1");//执行时间详细描述
+            orders.setPerformSchedule(newDate());
+            orders.setOrderingDept(bloodApply.getDeptCode());//开医嘱科室
+            orders.setDoctor(bloodApply.getPhysician());//开医嘱医生
+            orders.setEnterDateTime(bloodApply.getApplyDate());//录入医嘱时间
+
+            orders.setAppNo(bloodApply.getId());
             bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
             List<BloodCapacity> bloodCapacityList = bloodApply.getBloodCapacityList();
             for (int i = 0; i < bloodApply.getBloodCapacityList().size(); i++) {
@@ -98,18 +125,27 @@ public class BloodApplyHosBo {
                     bloodCapacity.preInsert();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
-                    bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
+
+                    orders.setOrderText(bloodCapacity.getBloodType());
+                    orders.setOrderCode(bloodCapacity.getBloodType());
+                    orders.preInsert();
+                    ordersDao.insert(orders);
                 } else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
-                    bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
+
+                    orders.setOrderText(bloodCapacity.getBloodType());
+                    orders.setOrderCode(bloodCapacity.getBloodType());
+                    orders.preUpdate();
+                    ordersDao.update(orders);
                 }
             }
+            strState = bloodApplylDao.update(bloodApply);
         }
         return strState + "";
     }
@@ -124,17 +160,18 @@ public class BloodApplyHosBo {
 
     /**
      * 手术确认
-     * @author pq
+     *
      * @param bloodApplies
      * @return
+     * @author pq
      */
-    public String confirmBlood(List<BloodApply> bloodApplies){
+    public String confirmBlood(List<BloodApply> bloodApplies) {
         int num1 = 0;
-        if(bloodApplies!=null){
-            for(int i=0;i<bloodApplies.size();i++){
+        if (bloodApplies != null) {
+            for (int i = 0; i < bloodApplies.size(); i++) {
                 num1 = bloodApplylDao.confirmBlood(bloodApplies.get(i));
             }
         }
-        return num1+"";
+        return num1 + "";
     }
 }

@@ -572,6 +572,9 @@ function doDelete() {
         if (r) {
             var strIds = "";
             for (var i = 0; i < selectRows.length; i++) {
+                if(selectRows[i].id=="" || selectRows[i].id==undefined){
+                    $("#operationName").datagrid('deleteRow',$('#operationName').datagrid('getRowIndex', selectRows[i]));
+                }
                 strIds += selectRows[i].id + ",";
             }
             strIds = strIds.substr(0, strIds.length - 1);

@@ -32,146 +32,142 @@ public class OperationHosBo {
     @Autowired
     private OrdersDao ordersDao;
 
-    public String saveOperationIn(OperationSchedule operationSchedule){
-        if(operationSchedule!=null) {
-            if (operationSchedule.getIsNewRecord()) {
-                int scheduleId = getScheduleId(operationSchedule.getPatientId(), operationSchedule.getVisitId(),"");
-                int sId= scheduleId+1;
-                operationSchedule.setScheduleId(sId);
-                operationSchedule.preInsert();
-                operationSchedule.setAckIndicator(0);
-                operationSchedule.setDoctorUser("当前医生");
-                operationScheduleDao.insert(operationSchedule);
-                if (operationSchedule.getScheduledOperationNameList() != null) {
-                    List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
-                    for (int i = 0; i < scheduledOperationNameList.size(); i++) {
-                        ScheduledOperationName scheduledOperationName = new ScheduledOperationName();
-                        scheduledOperationName = scheduledOperationNameList.get(i);
-                        if (scheduledOperationName.getIsNewRecord()) {
-                            scheduledOperationName.setOperationNo(i+1);
-                            scheduledOperationName.preInsert();
-                            scheduledOperationName.setScheduleId(operationSchedule.getId());
-                            scheduledOperationNameDao.insert(scheduledOperationName);
-                        } else {
-                            scheduledOperationName.preUpdate();
-                            scheduledOperationNameDao.update(scheduledOperationName);
-                        }
-                        Orders orders = new Orders();
-                        orders.setPatientId(operationSchedule.getPatientId());
-                        orders.setVisitId(operationSchedule.getVisitId());
-                        Integer orderNo = ordersDao.getOrderNo(operationSchedule.getPatientId(), operationSchedule.getVisitId(), "");
-                        if (orderNo != null) {
-                            orders.setOrderNo(orderNo + 1);
-                            orders.setOrderSubNo(orderNo + 1);
-                        } else {
-                            orders.setOrderNo(1);
-                            orders.setOrderSubNo(1);
-                        }
-                        orders.setStartDateTime(operationSchedule.getReqDateTime());
-                        orders.setOrderClass("C");
-                        orders.setOrderText(scheduledOperationName.getOperation());
-                        orders.setOrderCode(scheduledOperationName.getOperation());
-                        orders.setRepeatIndicator("0"); // 临时医嘱标志
-                        orders.setOrderStatus("6");//医嘱状态
-                        orders.setFreqDetail("1");//执行时间详细描述
-                        orders.setPerformSchedule(newDate());
-                        orders.setOrderingDept(operationSchedule.getDeptStayed());
-                        orders.setDoctor(operationSchedule.getDoctorUser());
-                        //todo(userid)申请医生 ?
-//                orders.setDoctorUser(Long.valueOf(1));
-                        //doctor_user:11=['000LJS']
-//                        orders.setEnterDateTime(bloodApply.getApplyDate());
-                        //billing_attr:13=[3]
-                        //drug_billing_attr:14=[3]
-                        orders.setAppNo(operationSchedule.getId());
-                        orders.preInsert();
-                        ordersDao.insert(orders);
-                    }
-                }
+    public String saveOperationIn(OperationSchedule operationSchedule) {
+        int  num=0;
+        if (operationSchedule.getIsNewRecord()) {
+            int scheduleId = getScheduleId(operationSchedule.getPatientId(), operationSchedule.getVisitId(), "");
+            int sId = scheduleId + 1;
+            operationSchedule.setScheduleId(sId);
+            operationSchedule.preInsert();
+            operationSchedule.setAckIndicator(0);
 
 
+            Orders orders = new Orders();
+            orders.setPatientId(operationSchedule.getPatientId());
+            orders.setVisitId(operationSchedule.getVisitId());
+            Integer orderNo = ordersDao.getOrderNo(operationSchedule.getPatientId(), operationSchedule.getVisitId(), "");
+            if (orderNo != null) {
+                orders.setOrderNo(orderNo + 1);
+                orders.setOrderSubNo(orderNo + 1);
             } else {
-                operationSchedule.preUpdate();
-                operationSchedule.setAckIndicator(0);
-                operationSchedule.setDoctorUser("当前医生");
-                operationScheduleDao.update(operationSchedule);
-                if (operationSchedule.getScheduledOperationNameList() != null) {
-                    List<ScheduledOperationName> scheduledOperationNameList=operationSchedule.getScheduledOperationNameList();
-                    for (int i = 0; i < scheduledOperationNameList.size(); i++) {
-                        ScheduledOperationName scheduledOperationName = new ScheduledOperationName();
-                        scheduledOperationName = scheduledOperationNameList.get(i);
-                        if (scheduledOperationName.getIsNewRecord()) {
-                            scheduledOperationName.setOperationNo(i+1);
-                            scheduledOperationName.preInsert();
-
-                            scheduledOperationName.setScheduleId(operationSchedule.getId());
-                            scheduledOperationNameDao.insert(scheduledOperationName);
-
-                        } else {
-                            scheduledOperationName.preUpdate();
-                            scheduledOperationNameDao.update(scheduledOperationName);
-
-                        }
-                        Orders orders = new Orders();
-                        orders.setPatientId(operationSchedule.getPatientId());
-                        orders.setVisitId(operationSchedule.getVisitId());
-                        Integer orderNo = ordersDao.getOrderNo(operationSchedule.getPatientId(), operationSchedule.getVisitId(), "");
-                        if (orderNo != null) {
-                            orders.setOrderNo(orderNo + 1);
-                            orders.setOrderSubNo(orderNo + 1);
-                        } else {
-                            orders.setOrderNo(1);
-                            orders.setOrderSubNo(1);
-                        }
-                        orders.setStartDateTime(operationSchedule.getReqDateTime());
-                        orders.setOrderClass("C");
-                        orders.setOrderText(scheduledOperationName.getOperation());
-                        orders.setOrderCode(scheduledOperationName.getOperation());
-                        orders.setRepeatIndicator("0"); // 临时医嘱标志
-                        orders.setOrderStatus("6");//医嘱状态
-                        orders.setFreqDetail("1");//执行时间详细描述
-                        orders.setPerformSchedule(newDate());
-                        orders.setOrderingDept(operationSchedule.getDeptStayed());
-                        orders.setDoctor(operationSchedule.getDoctorUser());
-                        //todo(userid)申请医生 ?
-//                orders.setDoctorUser(Long.valueOf(1));
-                        //doctor_user:11=['000LJS']
-//                        orders.setEnterDateTime(bloodApply.getApplyDate());
-                        //billing_attr:13=[3]
-                        //drug_billing_attr:14=[3]
-                        orders.setAppNo(operationSchedule.getId());
-                        orders.preInsert();
-                        ordersDao.insert(orders);
-                    }
+                orders.setOrderNo(1);
+                orders.setOrderSubNo(1);
+            }
+            orders.setOrderClass("C");
+            orders.setAppNo(operationSchedule.getId());
+            orders.setOrgId(operationSchedule.getOrgId());
+            orders.setRepeatIndicator("0"); // 临时医嘱标志
+            orders.setOrderStatus("6");//医嘱状态
+            orders.setFreqDetail("1");//执行时间详细描述
+            orders.setPerformSchedule(newDate());
+            orders.setOrderingDept(operationSchedule.getDeptStayed());
+            orders.setDoctor(operationSchedule.getDoctorUser());//开医嘱医生
+            orders.setStartDateTime(operationSchedule.getReqDateTime());
+            orders.setOrderingDept(operationSchedule.getOperatingDept());//开医嘱科室
+            orders.setEnterDateTime(operationSchedule.getReqDateTime());//开医嘱录入日期及时间
+            orders.setAppNo(operationSchedule.getId());
+            List<ScheduledOperationName> scheduledOperationNameList = operationSchedule.getScheduledOperationNameList();
+            for (int i = 0; i < scheduledOperationNameList.size(); i++) {
+                ScheduledOperationName scheduledOperationName = new ScheduledOperationName();
+                scheduledOperationName = scheduledOperationNameList.get(i);
+                if (scheduledOperationName.getIsNewRecord()) {
+                    scheduledOperationName.setOperationNo(i + 1);
+                    scheduledOperationName.preInsert();
+                    scheduledOperationName.setScheduleId(operationSchedule.getId());
+                    scheduledOperationNameDao.insert(scheduledOperationName);
+                    orders.setOrderText(scheduledOperationName.getOperation());
+                    orders.setOrderCode(scheduledOperationName.getOperation());
+                    orders.preInsert();
+                    ordersDao.insert(orders);
+                } else {
+                    scheduledOperationName.preUpdate();
+                    scheduledOperationNameDao.update(scheduledOperationName);
+                    orders.setOrderText(scheduledOperationName.getOperation());
+                    orders.setOrderCode(scheduledOperationName.getOperation());
+                    orders.preUpdate();
+                    ordersDao.update(orders);
                 }
             }
+            num = operationScheduleDao.insert(operationSchedule);
+        }else {
+            int scheduleId = getScheduleId(operationSchedule.getPatientId(), operationSchedule.getVisitId(), "");
+            int sId = scheduleId + 1;
+            operationSchedule.setScheduleId(sId);
+            operationSchedule.preUpdate();
+            operationSchedule.setAckIndicator(0);
 
-            return "1";
-
-
-        }else{
-            return "0";
+            Orders orders = new Orders();
+            orders.setPatientId(operationSchedule.getPatientId());
+            orders.setVisitId(operationSchedule.getVisitId());
+            Integer orderNo = ordersDao.getOrderNo(operationSchedule.getPatientId(), operationSchedule.getVisitId(), "");
+            if (orderNo != null) {
+                orders.setOrderNo(orderNo + 1);
+                orders.setOrderSubNo(orderNo + 1);
+            } else {
+                orders.setOrderNo(1);
+                orders.setOrderSubNo(1);
+            }
+            orders.setOrderClass("C");
+            orders.setAppNo(operationSchedule.getId());
+            orders.setOrgId(operationSchedule.getOrgId());
+            orders.setRepeatIndicator("0"); // 临时医嘱标志
+            orders.setOrderStatus("6");//医嘱状态
+            orders.setFreqDetail("1");//执行时间详细描述
+            orders.setPerformSchedule(newDate());
+            orders.setOrderingDept(operationSchedule.getDeptStayed());
+            orders.setDoctor(operationSchedule.getDoctorUser());//开医嘱医生
+            orders.setStartDateTime(operationSchedule.getReqDateTime());
+            orders.setOrderingDept(operationSchedule.getOperatingDept());//开医嘱科室
+            orders.setEnterDateTime(operationSchedule.getReqDateTime());//开医嘱录入日期及时间
+            orders.setAppNo(operationSchedule.getId());
+            List<ScheduledOperationName> scheduledOperationNameList = operationSchedule.getScheduledOperationNameList();
+            for (int i = 0; i < scheduledOperationNameList.size(); i++) {
+                ScheduledOperationName scheduledOperationName = new ScheduledOperationName();
+                scheduledOperationName = scheduledOperationNameList.get(i);
+                if (scheduledOperationName.getIsNewRecord()) {
+                    scheduledOperationName.setOperationNo(i + 1);
+                    scheduledOperationName.preInsert();
+                    scheduledOperationName.setScheduleId(operationSchedule.getId());
+                    scheduledOperationNameDao.insert(scheduledOperationName);
+                    orders.setOrderText(scheduledOperationName.getOperation());
+                    orders.setOrderCode(scheduledOperationName.getOperation());
+                    orders.preInsert();
+                    ordersDao.insert(orders);
+                } else {
+                    scheduledOperationName.preUpdate();
+                    scheduledOperationNameDao.update(scheduledOperationName);
+                    orders.setOrderText(scheduledOperationName.getOperation());
+                    orders.setOrderCode(scheduledOperationName.getOperation());
+                    orders.preUpdate();
+                    ordersDao.update(orders);
+                }
+            }
+            num = operationScheduleDao.update(operationSchedule);
         }
+        return num+"";
     }
+
     /**
      * 通过科室Code拿到医生所负责的病人
+     *
      * @param deptCode
      * @return
      */
-    public List<PatsInHospital> getOperationin(String deptCode){
-        return   patsInHospitalDao.getOperationin(deptCode);
+    public List<PatsInHospital> getOperationin(String deptCode) {
+        return patsInHospitalDao.getOperationin(deptCode);
     }
 
     /**
      * 找到病人本次住院最大的ScheduleId
+     *
      * @param patientId
      * @param visitId
      * @return
      */
-    public Integer getScheduleId(String patientId,String visitId,String clinicId){
-        Integer   scheduleId =operationScheduleDao.getScheduleId(patientId, visitId,"");
-        if(scheduleId==null){
-            scheduleId=0;
+    public Integer getScheduleId(String patientId, String visitId, String clinicId) {
+        Integer scheduleId = operationScheduleDao.getScheduleId(patientId, visitId, "");
+        if (scheduleId == null) {
+            scheduleId = 0;
         }
         return scheduleId;
     }
