@@ -384,7 +384,7 @@
 		WHERE id = #{id}
 	</update>
     <select id="getMaxVisitNO" resultType="Integer">
-      select max(visit_no) from clinic_master where visit_date=TRUNC(CURRENT_DATE,'DD')
+      select max(visit_no) from clinic_master where visit_date=TRUNC(CURRENT_DATE,'DD') and org_id=#{orgId}
 	</select>
 	<select id="getClinicBydoctor" resultType="ClinicMaster">
 		SELECT <include refid="clinicMasterColumns"/>

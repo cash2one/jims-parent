@@ -200,28 +200,37 @@ $(function(){
                 options: {
                     required: true,
                     onChange : function (newValue, oldValue) {
-                        var qy = $('#list_data').datagrid('getEditor', {
-                            index : rowNum,
-                            field : 'quantity'
-                        });
-                        var dn = $('#list_data').datagrid('getEditor', {
-                            index : rowNum,
-                            field : 'drugName'
-                        });
+                        if(newValue=="" || newValue==null){
+                            return false;
+                        }
                         var a = $('#list_data').datagrid('getEditor', {
                             index : rowNum,
                             field : 'amount'
                         });
-
-                        var quantity = $(qy.target).textbox("getValue");
-                        var drugName = $(dn.target).textbox("getValue");
-                        if(drugName!='' && drugName!=null){
-                            if(newValue>quantity){
-                                $.messager.alert("提示消息", "药房药品【"+drugName+"】库存不足（考虑待发药药品,实际余量"+quantity+"）,请确认","warning");
-                                $(a.target).textbox("setValue","");
-                                return false;
+                        if(newValue!=0){
+                            var qy = $('#list_data').datagrid('getEditor', {
+                                index : rowNum,
+                                field : 'quantity'
+                            });
+                            var dn = $('#list_data').datagrid('getEditor', {
+                                index : rowNum,
+                                field : 'drugName'
+                            });
+                            var quantity = $(qy.target).textbox("getValue");
+                            var drugName = $(dn.target).textbox("getValue");
+                            if(drugName!='' && drugName!=null){
+                                if(newValue>quantity){
+                                    $.messager.alert("提示消息", "药房药品【"+drugName+"】库存不足（考虑待发药药品,实际余量"+quantity+"）,请确认","warning");
+                                    $(a.target).textbox("setValue","");
+                                    return false;
+                                }
                             }
+                        }else{
+                            $.messager.alert("提示消息", "药品数量不能为0，请重新输入","warning");
+                            $(a.target).textbox("setValue","");
+                            return false;
                         }
+
                     }
                 }
             }},

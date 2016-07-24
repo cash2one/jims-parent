@@ -15,7 +15,7 @@
     <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
     <script type="text/javascript" src="/static/data/data_admission_situation.js"></script>
     <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
-  <!--  <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>-->
+    <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_nation.js"></script>
     <script type="text/javascript" src="/static/data/data_profession.js"></script>
     <script type="text/javascript" src="/static/data/data_nationality.js"></script>
@@ -49,23 +49,27 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td class="text-right">患者姓名：</td>
-                    <td><input type="text" class="easyui-textbox" id="name"/></td>
+                    <td><input type="text" class="easyui-textbox" id="name" /></td>
+                </tr>
+                <tr>
                     <td class="text-right">身份证号：</td>
                     <td><input type="text" class="easyui-textbox" id="idNo"/></td>
                 </tr>
                 <tr>
                     <td class="text-right">住院号：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor"/></td>
-
+                    <td><input type="text" class="easyui-textbox" id="hospNo"/></td>
+                </tr>
+             <!--   <tr>
                     <td class="text-right">医保类别：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor1"/></td>
+                    <td><input type="text" class="easyui-textbox" id="ybType"/></td>
                 </tr>
                 <tr>
                     <td class="text-right">医保账号：</td>
-                    <td><input type="text" class="easyui-textbox" id="doctor23"/></td>
-
-                    <td colspan="2">
-                        <button class="easy-nbtn easy-nbtn-info" onclick="searchByCondition();" style="float: right">查询</button>
+                    <td><input type="text" class="easyui-textbox" id="ybNo"/></td>
+                </tr>-->
+                <tr>
+                    <td align="right">
+                        <button class="easy-nbtn easy-nbtn-info" onclick="searchByCondition();">查询</button>
                     </td>
                 </tr>
             </table>
@@ -83,27 +87,30 @@
                         <label>
                             患者姓名：
                         </label>
-                        <input name="name" class="easyui-textbox">
+                        <input name="name" class="easyui-textbox" required="true">
 
                         <label>
                             性别：
                         </label>
                         <input type="hidden" name="sex"  id="sex" >
-                        <input id="sexId"  class="easyui-textbox" style="width: 5%">
+                        <input id="sexId"  class="easyui-textbox" required="true" style="width: 5%">
 
                         <label>
                             年龄：
                         </label>
-                        <input name="age" class="easyui-textbox" style="width: 5%">
+                        <input name="age" id="age" class="easyui-numberbox" required readonly style="width: 5%">
+                    </div>
+
+                    <div class="fitem fitem_pop">
                         <label>
                             出生日期：
                         </label>
-                        <input name="dateOfBirth" class="easyui-textbox" style="width:10%;"/>
+                        <input name="dateOfBirth" class="easyui-datebox" id="dateOfBirth"  data-options="required:true,validType:'md[\'yyyy-MM-dd\']'"/>
                         <label>
                             婚姻状况：
                         </label>
                         <input name="maritalStatus"  id="maritalStatus"  type="hidden"/>
-                        <input id="maritalStatusId" class="easyui-textbox" style="width:10%;"/>
+                        <input id="maritalStatusId" class="easyui-textbox" />
                     </div>
 
                     <div class="fitem fitem_pop">
@@ -115,17 +122,19 @@
                             国籍：
                         </label>
                         <input name="citizenship"  id="citizenship"   type="hidden"/>
-                        <input id="citizenshipId" class="easyui-textbox" />
+                        <input id="citizenshipId" class="easyui-textbox"  required/>
+                    </div>
 
+                    <div class="fitem fitem_pop">
                         <label>
                             民族：
                         </label>
                         <input name="nation"  id="nation"   type="hidden"/>
-                        <input id="nationId" class="easyui-textbox" />
+                        <input id="nationId" class="easyui-textbox" required/>
                         <label>
                             身份证号：
                         </label>
-                        <input name="idNo" class="easyui-textbox" style="width: 12%"/>
+                        <input name="idNo" class="easyui-textbox" />
 
                     </div>
 
@@ -133,11 +142,11 @@
                         <label>
                             出生地：
                         </label>
-                        <input name="birthPlace" class="easyui-textbox" style="width: 31%"/>
+                        <input name="birthPlace" class="easyui-textbox" />
                         <label>
                             通信地址：
                         </label>
-                        <input name="mailingAddress" class="easyui-textbox" style="width: 32%"/>
+                        <input name="mailingAddress" class="easyui-textbox" />
                     </div>
 
                     <div class="fitem fitem_pop">
@@ -145,12 +154,15 @@
                             患者费别：
                         </label>
                         <input name="chargeType"  id="chargeType"  type="hidden"/>
-                        <input id="chargeTypeId" class="easyui-textbox" />
+                        <input id="chargeTypeId" class="easyui-textbox" required/>
                         <label>
                             身份：
                         </label>
                         <input name="identity"  id="identity"  type="hidden"/>
-                        <input id="identityId" class="easyui-textbox" />
+                        <input id="identityId" class="easyui-textbox" required/>
+                    </div>
+
+                    <div class="fitem fitem_pop">
                         <label>
                             职业：
                         </label>
@@ -159,18 +171,18 @@
                         <label>
                             工作单位：
                         </label>
-                        <input name="insuranceType" class="easyui-textbox" style="width: 12%"/>
+                        <input name="insuranceType" class="easyui-textbox" />
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
                             合同单位：
                         </label>
-                        <input name="unitInContract" class="easyui-textbox" style="width: 31%">
+                        <input name="unitInContract" class="easyui-textbox" >
                         <label>
                             所属地区：
                         </label>
-                        <input name="insuranceAera" class="easyui-textbox" style="width: 32%"/>
+                        <input name="insuranceAera" class="easyui-textbox" />
                     </div>
 
                     <div class="fitem fitem_pop">
@@ -183,13 +195,14 @@
                         </label>
                         <input name="relationship"  id="relationship" type="hidden"/>
                         <input id="relationshipId" class="easyui-textbox" />
+                    </div>
+
+                    <div class="fitem fitem_pop">
                         <label>
                             联系电话：
                         </label>
                         <input name="nextOfKinPhone" class="easyui-textbox" />
-                    </div>
 
-                    <div class="fitem fitem_pop">
                         <label>
                             联系地址：
                         </label>
@@ -200,25 +213,24 @@
                         <label>
                             入院时间：
                         </label>
-                        <input name="admissionDateTime" class="easyui-datetimebox"
-                               />
+                        <input name="admissionDateTime" class="easyui-datebox" required  />
                         <label>
                             接诊时间：
                         </label>
-                        <input name="consultingDate" class="easyui-datetimebox"
-                               />
-                        <label>
-                            入院科室：
-                        </label>
-                        <input name="deptAdmissionTo"  id="deptAdmissionTo" type="hidden"/>
-                        <input id="deptAdmissionTod" class="easyui-textbox" />
+                        <input name="consultingDate" class="easyui-datebox" required/>
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
+                            入院科室：
+                        </label>
+                        <input name="deptAdmissionTo" id="deptAdmissionTo" type="hidden">
+                        <input id="deptAdmissionToId" class="easyui-textbox" required/>
+
+                        <label>
                             门诊诊断：
                         </label>
-                        <input id="diagnosis" name="diagnosis" class="easyui-textbox"  />
+                        <input id="diagnosis" name="diagnosis" class="easyui-textbox" required/>
                     </div>
 
                     <div class="fitem fitem_pop">
@@ -227,10 +239,14 @@
                         </label>
                         <input name="fromOtherPlaceIndicator"  id="fromOtherPlaceIndicator"   type="hidden"/>
                         <input id="fromOtherPlaceIndicatorId" class="easyui-textbox" />
+                        <label>
                             入院方式：
                         </label>
                         <input name="patientClass"  id="patientClass"  type="hidden"/>
                         <input id="patientClassId" class="easyui-textbox" />
+                    </div>
+
+                    <div class="fitem fitem_pop">
                         <label>
                             住院目的：
                         </label>
@@ -248,27 +264,26 @@
                         <label>
                             接诊医生：
                         </label>
-                        <input id="consultingDoctor" name="consultingDoctor" class="easyui-textbox"  />
+                        <input id="consultingDoctor" name="consultingDoctor" class="easyui-textbox"  required/>
                         <label>
                             经办人：
                         </label>
                         <input name="admittedBy" class="easyui-textbox" >
-                        <label>
-                            出院科室：
-                        </label>
-                       <input name="ddtRoomNo" class="easyui-textbox" readonly >
                     </div>
 
                     <div class="fitem fitem_pop">
                         <label>
+                            出院科室：
+                        </label>
+                       <input name="ddtRoomNo" class="easyui-textbox" readonly >
+
+                        <label>
                             发病日期：
                         </label>
                         <input name="onsetDate" class="easyui-textbox"  >
-                      <!--  <label style="display: none">
-                            胎次：
-                        </label>
-                        <input type="hidden" name="parityNo" class="easyui-textbox"
-                               />-->
+                    </div>
+
+                    <div class="fitem fitem_pop">
                         <label>
                             医保登记号：
                         </label>

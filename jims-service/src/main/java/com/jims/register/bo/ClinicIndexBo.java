@@ -9,6 +9,7 @@ import com.jims.common.web.impl.BaseDto;
 import com.jims.register.api.ClinicIndexServiceApi;
 import com.jims.register.dao.ClinicIndexDao;
 import com.jims.register.entity.ClinicIndex;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +17,24 @@ import java.util.List;
 
 
 /**
- * 好别Bo
+ * 号别Bo
  * @author zhangyao
  * @version 2016-06-16
  */
 @Service
 @Transactional(readOnly = false)
 public class ClinicIndexBo extends CrudImplService<ClinicIndexDao, ClinicIndex> {
+    @Autowired
+    private ClinicIndexDao clinicIndexDao;
+    /**
+     * 根据号类ID 查询 号别集合
+      * @param clinicTypeId
+     * @return
+     * @author zhaoning
+     */
+    public List<ClinicIndex> getClinicIndexs(String clinicTypeId){
+       return clinicIndexDao.getClinicIndexs(clinicTypeId);
+    }
 
     /**
      * 保存号别---多条

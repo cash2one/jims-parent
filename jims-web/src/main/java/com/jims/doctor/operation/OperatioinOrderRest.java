@@ -52,7 +52,12 @@ public class OperatioinOrderRest {
      */
     @Path("saveIn")
     @POST
-    public String save(OperationSchedule operationSchedule){
+    public String save(OperationSchedule operationSchedule,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        operationSchedule.setEnteredBy(loginInfo.getPersionId());
+        operationSchedule.setDoctorUser(loginInfo.getPersionId());
+        operationSchedule.setOperatingDept(loginInfo.getDeptCode());
+        operationSchedule.setOrgId(loginInfo.getOrgId());
       return   operatioinOrderServiceApi.saveOperationIn(operationSchedule);
     }
 
@@ -66,7 +71,8 @@ public class OperatioinOrderRest {
     public String saveOut(OperationSchedule operationSchedule,@Context HttpServletRequest request, @Context HttpServletResponse response){
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         operationSchedule.setEnteredBy(loginInfo.getPersionId());
-        operationSchedule.setDoctorUser(loginInfo.getUserName());
+        operationSchedule.setDoctorUser(loginInfo.getPersionId());
+        operationSchedule.setOperatingDept(loginInfo.getDeptCode());
         operationSchedule.setOrgId(loginInfo.getOrgId());
      return  operatioinOrderServiceApi.saveOperationOut(operationSchedule);
     }

@@ -186,8 +186,8 @@ function deleteClinicIndex(){
                         $.messager.alert("提示消息",data.code+"条记录删除成功！");
                         $('#list_data').datagrid('load');
                         $('#list_data').datagrid('clearChecked');
-                    }else{
-                        $.messager.alert('提示',"删除失败", "error");
+                    }else if(data.code=='0'){
+                        $.messager.alert('提示',"请先删除改号别下的所有安排记录");
                     }
                 },
                 'error': function(data){

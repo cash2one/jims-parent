@@ -26,7 +26,7 @@ $(function() {
                     return "";
                 }
             }},
-            {field: 'repeatIndicator', title: '长', formatter:itemFormatter,width: '2%', align: 'center'},
+            {field: 'repeatIndicator', title: '长', formatter:indicatorFormatter,width: '2%', align: 'center'},
             {field: 'orderClass', title: '类别', width: '3%', formatter:orderClassFormatter,align: 'center'},
             {field: 'startDateTime', title: '开始时间', width: '6%', align: 'center',formatter:formatDateBoxFull},
             {field: 'orderText', title: '医嘱内容', width: '5%', align: 'center'},
@@ -150,14 +150,14 @@ $(function() {
 });
 
 //设置分页控件
-var p = $('#orderList').datagrid('getPager');
+/*var p = $('#orderList').datagrid('getPager');
 $(p).pagination({
     pageSize: 10,//每页显示的记录条数，默认为10
     pageList: [5,10,15],//可以设置每页记录条数的列表
     beforePageText: '第',//页数文本框前显示的汉字
     afterPageText: '页    共 {pages} 页',
     displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-});
+});*/
 //校对
 function proofOrders(){
     var ordersRow = $('#orderList').datagrid("getSelections");

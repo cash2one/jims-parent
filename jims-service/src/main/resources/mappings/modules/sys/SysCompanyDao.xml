@@ -83,6 +83,25 @@
         #{createDate}
         )
     </insert>
+
+    <resultMap id="sysCompanyMap" type="sysCompany">
+        <!--<id property="id" column="id"/>-->
+        <result property="orgName" column="org_name"/>
+        <result property="orgCode" column="org_code"/>
+        <result property="zipCode" column="zip_code"/>
+        <collection property="sysServiceList" ofType="com.jims.sys.entity.SysService">
+            <id property="id" column="id"/>
+            <result property="serviceName" column="service_name"/>
+            <result property="startDate" column="startDate"/>
+            <result property="endDate" column="endDate"/>
+            <result property="serviceImage" column="service_image"/>
+            <result property="serviceDescription" column="service_description"/>
+            <collection property="sysServicePriceList" ofType="com.jims.sys.entity.SysServicePrice">
+                <result property="servicePrice" column="service_price"/>
+                <result property="serviceTimeLimit" column="service_time_limit"/>
+            </collection>
+        </collection>
+    </resultMap>
     <update id="update">
         UPDATE sys_company SET
         parent_id = #{parentId},
@@ -124,6 +143,15 @@
         AND (id=#{0} or parent_id = #{0})
         AND DEL_FLAG='0'
         AND apply_status='2'
+    </select>
+
+    <select id="findAllByOwner" resultMap="sysCompanyMap">
+        select sc.id zip_code,sc.org_name,sc.org_code,ss.id,ss.service_name,ss.service_image,ss.service_description,
+        to_char(osl.service_start_date,'yyyy-mm-dd') startDate,to_char(osl.service_end_date,'yyyy-mm-dd') endDate,ssp.service_price,ssp.service_time_limit
+        from sys_company sc,sys_service ss,org_service_list osl,Sys_Service_Price ssp
+        where 1=1 and sc.id = osl.org_id and osl.service_id=ss.id(+) and osl.service_end_date is not null
+        and sc.owner = #{0}
+        <!-- SELECT * FROM sys_company WHERE 1 = 1 AND owner = #{0} AND DEL_FLAG='0'-->
     </select>
 
 

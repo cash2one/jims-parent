@@ -53,6 +53,16 @@ public class SysCompanyImpl extends CrudImplService<SysCompanyDao, SysCompany> i
     }
 
     /**
+     * 查询用户注册的DEL_FLAG='0'的所有机构List
+     * @param owner
+     * @return 组织机构list集合
+     * @author 娄会丽
+     */
+    public List<SysCompany> findAllByOwner(String owner){
+        return bo.findAllByOwner(owner);
+    }
+
+    /**
      * 查询父机构名称
      * @return
      */

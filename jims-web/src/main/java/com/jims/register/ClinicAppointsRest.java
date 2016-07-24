@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
 import com.jims.common.utils.DateUtils;
 import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.api.ClinicAppointsServiceApi;
 import com.jims.register.entity.ClinicAppoints;
@@ -38,9 +39,10 @@ public class ClinicAppointsRest {
      */
     @POST
     @Path("saveAppoints")
-    public StringData saveAppoints(PatMasterIndex patMasterIndex){
+    public StringData saveAppoints(PatMasterIndex patMasterIndex,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data=new StringData();
-        data.setCode(clinicAppointsServiceApi.saveAppointsRegis(patMasterIndex));
+        data.setCode(clinicAppointsServiceApi.saveAppointsRegis(patMasterIndex,loginInfo));
         return data;
 
     }
@@ -54,10 +56,12 @@ public class ClinicAppointsRest {
      */
     @GET
     @Path("searchAppoints")
-    public List<ClinicAppoints> searchAppointsList(@QueryParam("idNo")String idNo,@QueryParam("name")String name,@QueryParam("visitDate")String visitDate)throws Exception{
+    public List<ClinicAppoints> searchAppointsList(@QueryParam("idNo")String idNo,@QueryParam("name")String name,@QueryParam("visitDate")String visitDate,@Context HttpServletRequest request)throws Exception{
         ClinicAppoints clinicAppoints=new ClinicAppoints();
+        String orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();
         clinicAppoints.setIdNo(idNo);
         clinicAppoints.setName(name);
+        clinicAppoints.setOrgId(orgId);
         clinicAppoints.setVisitDateAppted(DateUtils.parseDate(visitDate));
         List<ClinicAppoints>  list=clinicAppointsServiceApi.findList(clinicAppoints);
         return list;

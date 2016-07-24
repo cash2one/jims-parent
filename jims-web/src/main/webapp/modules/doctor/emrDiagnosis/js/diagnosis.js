@@ -2,6 +2,7 @@ var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "
 var rowNum1=-1;
 var clinId=parent.clinicMaster.id;
 var pId = parent.clinicMaster.patientId;
+var no;
 /**
  * /门诊诊断类型
  * @param value
@@ -73,7 +74,6 @@ $(function(){
             {field:'diagnosisDoc',title:'诊断医生',width:'30%',align:'center', formatter:formatUserName},
             {field:'clinicId',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
             {field:'icdName',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
-            {field:'itemNo',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
             {field:'patientId',editor:{type:'textbox',options:{editable:true,disable:false}},hidden:'true'},
             {field:'inOrOutFlag',hidden:'true',formatter:function(){
                 return "0";
@@ -83,22 +83,25 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
+
                 var dataGrid = $('#zhenduan');
                 if (!dataGrid.datagrid('validateRow', rowNum1)) {
                     $.messager.alert('提示',"请填写完内容后在添加下一行", "error");
                     return false
                 }
+                $("#zhenduan").datagrid('endEdit', rowNum1);
                 if(rowNum1>=0){
                     rowNum1++;
                 }
+
                 var diagnosisDate=formatDatebox(new Date());
                  dataGrid.datagrid("insertRow", {
                     index: 0, // index start with 0
                     row: {
                        clinicId:clinId,
                         patientId:pId,
-                        diagnosisDate:diagnosisDate,
-                        itemNo:rowNum1
+                        diagnosisDate:diagnosisDate
+
                     }
                  });
                 rowNum1 = 0;
@@ -152,16 +155,16 @@ function saveDiagnosis(){
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
-        if(data.code!='0'&&data.code!=null){
+        if(data.data=='success'){
             $('#zhenduan').datagrid('reload');
             $('#zhenduan').datagrid('clearChecked');
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $.messager.alert("提示消息","保存成功");
 
         }else{
             $.messager.alert('提示',"保存失败", "error");
         }
     },function(data){
-        $.messager.alert('提示',"保存失败", "error");
+        $.messager.alert('提示',"网络异常", "error");
     })
 }
 

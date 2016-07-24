@@ -461,6 +461,10 @@ $(function () {
     $("#myServices").on('click', function () {
         window.location.href = "/modules/sys/service-list.html";
     });
+    //我的机构服务
+    $("#myOrgServices").on('click', function () {
+        window.location.href = "/modules/sys/self-company-service-list.html";
+    });
     //定制更多个人服务
     $("#moreServices").click(function () {
         window.location.href = "/modules/sys/persion-services.html";

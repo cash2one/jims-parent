@@ -57,6 +57,11 @@ public class EmrDiagnosisRest {
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data=new StringData();
         data.setCode(emrDiagnosisServiceApi.saveDiagnosis(emrDiagnosisList,loginInfo));
+        if(!"".equals(data.getCode())&&!"0".equals(data.getCode())){
+            data.setData("success");
+        }else{
+            data.setData("error");
+        }
         return data;
     }
 
@@ -80,4 +85,12 @@ public class EmrDiagnosisRest {
        data.setCode(emrDiagnosisServiceApi.delete(id));
        return data;
    }
+
+     @Path("getMaxItemNo")
+     @POST
+    public int getMaxItemNo(String clinicId){
+         EmrDiagnosis emrDiagnosis =new EmrDiagnosis();
+         emrDiagnosis.setClinicId(clinicId);
+       return   emrDiagnosisServiceApi.getMaxItemNo(emrDiagnosis);
+    }
 }
