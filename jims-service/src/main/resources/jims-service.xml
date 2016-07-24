@@ -22,7 +22,7 @@
 
     <dubbo:application name="dubbo-demo-provider" ></dubbo:application>
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-
+    <dubbo:provider timeout="6000" retries="0" delay="-1"></dubbo:provider>
 
     <dubbo:annotation package="com.jims"/>
 
