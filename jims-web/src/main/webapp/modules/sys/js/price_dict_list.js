@@ -301,7 +301,8 @@ function ShowInfo() {
 }
 
 //根据拼音码定位加载数据
-function load_data(value) {
+function load_data() {
+    var value = $("#code_gps").val();
     if(value && value != ""){
         $.ajax({
             'type': 'GET',
