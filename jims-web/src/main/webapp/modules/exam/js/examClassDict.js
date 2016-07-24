@@ -43,7 +43,7 @@ $(function () {
             formatter:function(value,row,index){
                 var performByName=value;
                 $.each(deptDictList,function(index,item){
-                    if(item.deptCode==value){
+                    if(item.id==value){
                         performByName= item.deptName;
                     }
                 })
@@ -155,7 +155,7 @@ $(function () {
     $("#performBy").combogrid({
         width:176,
         //editable:false,
-        idField: 'deptCode',
+        idField: 'id',
         textField: 'deptName',
         method: 'GET',
         mode:'remote',
@@ -229,17 +229,17 @@ $(function () {
 
     //分类项目保存
     $("#saveClassBtn").on('click', function () {
-        var performByCode=$("#performBy").combogrid('getValue');
+        var performById=$("#performBy").combogrid('getValue');//deptId
         var performByName=$("#performBy").combogrid('getText');
         var a=false;
         for(var i=0;i<deptDictList.length;i++){
-            if(deptDictList[i].deptCode==performByCode){
+            if(deptDictList[i].id==performById){
                 if(deptDictList[i].deptName==performByName){
                     a=true;
                 }
             }
         }
-        console.log(a);
+//        console.log(a);
         if(a){
             var saveObj = {};
             saveObj.examClassCode = $("#examClassCode").val();
