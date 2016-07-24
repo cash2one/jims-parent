@@ -184,7 +184,7 @@ $("#save_data").on('click',function(){
     }
 
     if(priceDictListVo.startDate == null || priceDictListVo.startDate == ''){
-        $.messager.alert('系统提示', '启用日期不能为空,请输入!', 'info');
+        $.messager.alert('系统提示', '请设置启用日期!', 'info');
         return;
     }
 

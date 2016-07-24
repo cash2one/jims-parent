@@ -3,6 +3,7 @@
  */
 $(function () {
     var orgId = config.org_Id;
+    var thisItemClass = undefined;  //当前选中的项目类别
     var itemClassList = []; //项目类别
     $.get(basePath + '/dict/label-value-list?type=' + 'BILL_ITEM_CLASS_DICT', function(data){
         itemClassList = data;
@@ -31,8 +32,18 @@ $(function () {
         width: 150,
         method: 'GET',
         url: basePath + '/dict/label-value-list?type=' + 'BILL_ITEM_CLASS_DICT',
-        editable: false
+        editable: false,
+        onSelect: function(data){   //选中生成项目代码
+            $.ajax({
+                'type': 'GET',
+                'url': basePath + '/price/code/' + data.value,
+                'success': function (data) {
+                    $("#itemCode").textbox('setValue', data.data);
+                }
+            });
+        }
     });
+
     //会计科目
     $('#bb').combobox({
         url: basePath + '/dict/label-value-list?type=' + 'TALLY_SUBJECT_DICT',
@@ -111,26 +122,7 @@ $(function () {
             $("#clinicDict").val(0);
         }
     });
-    //生成代码
-    $("#generate").on("click", function () {
-        var code = $("#aa").combobox("getValue");   //项目类别的值
-        if(code == ''){
-            $.messager.alert('提示','请选择项目类别','error');
-            return ;
-        }
-        $.ajax({
-            'type': 'GET',
-            'url': basePath + '/price/code/' + code,
-            'success': function (data) {
-                $("#itemCode").textbox('setValue', data.data);
-                $.messager.alert('提示', "成功生成项目代码!", "success");
 
-            },
-            'error': function (data) {
-                $.messager.alert('提示', "获取失败", "error");
-            }
-        });
-    });
     //保存当前标签页
     $("#saveDict").on("click", function () {
         var priceDictListVo = {};
@@ -180,13 +172,23 @@ $(function () {
             $.messager.alert('系统提示', '请设定启用日期!', 'info');
             return;
         }
-
-
         if(priceDictListVo){
             $.postJSON(basePath + '/price/save',JSON.stringify(priceDictListVo),function(data){
                 if (data.data == 'success') {
                     $.messager.alert("提示消息", "保存成功", "success");
                     reset();
+                    $("#aa").combobox('setValue', priceDictListVo.itemClass);
+                    $.ajax({
+                        'type': 'GET',
+                        'url': basePath + '/price/code/' + priceDictListVo.itemClass,
+                        'success': function (data) {
+                            $("#itemCode").textbox('setValue', data.data);
+                        }
+                    });
+                    $("#item_class").combobox('setValue', priceDictListVo.itemClass);
+                    $.get(basePath + '/price/find-by-item-class?itemClass=' + priceDictListVo.itemClass + '&orgId=' + orgId, function (data) {
+                        $("#clinic_item").datagrid('loadData', data);
+                    });
                 } else {
                     $.messager.alert('提示消息', data.code, "error");
                 }
@@ -197,7 +199,7 @@ $(function () {
     });
     //清空输入框
     var reset = function(){
-        $("#aa").combobox('setValue','');  //类别
+        //$("#aa").combobox('setValue','');  //类别
         $("#itemName").val('');            //名称
         $("#itemCode").textbox('setValue','');    //代码
         $("#itemSpec").textbox('setValue', '');         //规格
@@ -282,77 +284,6 @@ $(function () {
         });
     }
 });
-
-/**
- * 修改字典
- * @param id
- */
-function get(id) {
-    $.ajax({
-        'type': 'post',
-        'url': basePath + '/price/get',
-        'contentType': 'application/json',
-        'data': id = id,
-        'dataType': 'json',
-        'success': function (data) {
-            $('#pro_form').form('load', data);
-            $('#add_pro_win').window({
-                title: '修改价表项目',
-                width: '350',
-                height: '200',
-                resizable: false
-            })
-        }
-    });
-}
-
-//批量删除
-function doDelete() {
-    //把你选中的 数据查询出来。
-    var selectRows = $('#clinic_item').datagrid("getSelections");
-    if (selectRows.length < 1) {
-        $.messager.alert("提示消息", "请选中要删的数据!");
-        return;
-    }
-
-    //真删除数据
-    //提醒用户是否是真的删除数据
-    $.messager.confirm("确认消息", "您确定要删除信息吗？", function (r) {
-        if (r) {
-            var strIds = "";
-            for (var i = 0; i < selectRows.length; i++) {
-                strIds += selectRows[i].id + ",";
-            }
-            //strIds = strIds.substr(0, strIds.length - 1);
-            del(strIds);
-        }
-    })
-}
-/**
- * 删除方法
- * @param id
- */
-function del(id) {
-    $.ajax({
-        'type': 'POST',
-        'url': basePath + '/price/del',
-        'contentType': 'application/json',
-        'data': id = id,
-        'dataType': 'json',
-        'success': function (data) {
-            if (data.data == 'success') {
-                $.messager.alert("提示消息", data.code + "条记录，已经删除");
-                $('#clinic_item').datagrid('load');
-                $('#clinic_item').datagrid('clearChecked');
-            } else {
-                $.messager.alert('提示', "删除失败", "error");
-            }
-        },
-        'error': function (data) {
-            $.messager.alert('提示', "删除失败", "error");
-        }
-    });
-}
 
 function ShowInfo() {
     var oDiv = $("#itemName").val();    //获取项目名称的值
