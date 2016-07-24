@@ -28,8 +28,26 @@ public class SysCompany extends DataEntity<SysCompany> {
 	private String email;		// EMAIL地址
 	private String owner;		// 超级管理员
 
-    private List<OrgServiceList> serviceList;  // 机构定制的服务
+	private List<OrgServiceList> serviceList;  // 机构定制的服务
 
+	private List<SysService> sysServiceList;//基础服务表
+	private List<List<SysServicePrice>> sysServicePriceList;  // 服务价格
+
+	public List<List<SysServicePrice>> getSysServicePriceList() {
+		return sysServicePriceList;
+	}
+
+	public void setSysServicePriceList(List<List<SysServicePrice>> sysServicePriceList) {
+		this.sysServicePriceList = sysServicePriceList;
+	}
+
+	public List<SysService> getSysServiceList() {
+		return sysServiceList;
+	}
+
+	public void setSysServiceList(List<SysService> sysServiceList) {
+		this.sysServiceList = sysServiceList;
+	}
     public List<OrgServiceList> getServiceList() {
         return serviceList;
     }

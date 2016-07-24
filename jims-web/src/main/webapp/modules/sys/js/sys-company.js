@@ -117,7 +117,9 @@ $(function(){
 });
 function pass(id) {     //通过审核
     $.get(basePath + '/sys-sompany/get-sysCompany-by-id?id=' + id, function (data) {
-        if (data.applyStatus == '2') {
+        if(data==undefined){
+            window.location.href="/modules/sys/login.html";
+        }else if (data.applyStatus == '2') {
             alert("该机构已经通过审核!");
             return ;
         }else{
@@ -136,7 +138,9 @@ function pass(id) {     //通过审核
 }
 function refuse(id) {     //驳回审核
     $.get(basePath + '/sys-sompany/get-sysCompany-by-id?id=' + id, function (data) {
-        if (data.applyStatus == '2') {
+        if(data==undefined){
+            window.location.href="/modules/sys/login.html";
+        }else if (data.applyStatus == '2') {
             alert("该机构已经通过审核!");
             return;
         }else if(data.applyStatus == '-1'){

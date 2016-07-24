@@ -33,6 +33,13 @@ public interface SysCompanyDao extends CrudDao<SysCompany> {
      * @author zhuqi
      */
     public List<SysCompany> findListByParentId(String orgId);
+    /**
+     * 查询用户注册的DEL_FLAG='0'的所有机构List
+     * @param owner
+     * @return 组织机构list集合
+     * @author 娄会丽
+     */
+    public List<SysCompany> findAllByOwner(String owner);
 
     /**
      * 查询父机构

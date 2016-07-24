@@ -20,7 +20,7 @@ public class LoginInfoUtils {
     public static LoginInfo getPersionInfo(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cache cache =CacheManager.getCacheInfo(session.getId());
-        LoginInfo loginInfo =(LoginInfo)cache.getValue();
+        LoginInfo loginInfo = cache==null?null:(LoginInfo)cache.getValue() ;
         return loginInfo;
     }
 

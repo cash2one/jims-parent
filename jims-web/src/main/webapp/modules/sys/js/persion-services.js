@@ -222,6 +222,10 @@ $(function () {
     $("#default").on('click', function () {
         window.location.href = "/modules/sys/default.html";
     });
+    //我的机构服务
+    $("#myOrgServices").on('click', function () {
+        window.location.href = "/modules/sys/self-company-service-list.html";
+    });
     //我的服务
     $("#myServices").on('click', function () {
         window.location.href = "/modules/sys/service-list.html";
