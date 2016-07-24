@@ -138,7 +138,7 @@ function onloadMethod(){
          url:basePath+'/clinicRegister/findList',
         remoteSort:false,
         idField:'id',
-        singleSelect:true,//是否单选
+        singleSelect:false,//是否单选
         pagination:true,//分页控件
         pageSize:15,
         pageList: [10,15,30,50],//可以设置每页记录条数的列表
@@ -201,7 +201,7 @@ function addRowCol(){
     }
     $.postJSON(basePath+'/clinicRegister/saveRegister?startTime='+startTime+'&endTime='+endTime,jsonData,function(data){
         if(data.code=='1'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $.messager.alert("提示消息","保存成功");
             $('#list_data_num').datagrid('reload');//加载号表列表
             $('#list_data').datagrid('clearChecked');//取消选中的号别
             //$("#startTime").datebox('setValue','');//清空门诊号表生成日期
@@ -235,7 +235,7 @@ function deleteForReg(){
                 'data': id=strIds,
                 'dataType': 'json',
                 'success': function(data){
-                    if(data.code=='1'){
+                    if(data.code!='0'){
                         $.messager.alert("提示消息",data.code+"条记录删除成功！");
                         $('#list_data_num').datagrid('load');
                         $('#list_data_num').datagrid('clearChecked');

@@ -123,11 +123,11 @@ function searchClinicIndex(){
 //保存号别安排
 function saveClinicWeek(){
     var selectRows = $('#list_data').datagrid("getSelected");
-    var clinicIndexId=  selectRows['id'];//号别ID
-    if (clinicIndexId ==null || clinicIndexId=='' || clinicIndexId==undefined) {
+    if (selectRows ==null || selectRows=='' || selectRows==undefined) {
         $.messager.alert("提示消息", "请选中要录入的号别信息!");
         return;
     }
+    var clinicIndexId=  selectRows['id'];//号别ID
     var tableJson='[';
     $("#weekTbodyId input[type=checkbox]:checked").each(function(){
         var valueInput= $(this).attr("inputText");
