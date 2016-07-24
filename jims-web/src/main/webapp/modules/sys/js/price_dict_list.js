@@ -309,6 +309,7 @@ function load_data() {
             'url': basePath + '/price/get-by-inputCode?inputCode=' + value + '&orgId=' + config.org_Id,
             'success': function (data) {
                 $("#clinic_item").datagrid('loadData', data);
+                $("#clinic_item").datagrid('selectRow', 0);     //定位到指定行
             }
         });
     }else{
