@@ -156,6 +156,32 @@ $(function () {
         priceDictListVo.clinicDict = $("#clinicDict").val();        //诊疗标识
         priceDictListVo.orgId = orgId;      //所属组织机构
 
+        if (priceDictListVo.itemClass == null || priceDictListVo.itemClass == '') {
+            $.messager.alert('系统提示', '请选择项目类别!', 'info');
+            return;
+        }
+        if (priceDictListVo.itemCode == null || priceDictListVo.itemCode == '') {
+            $.messager.alert('系统提示', '请生成项目代码!', 'info');
+            return;
+        }
+        if (priceDictListVo.itemSpec == null || priceDictListVo.itemSpec == '') {
+            $.messager.alert('系统提示', '项目规格不能为空!', 'info');
+            return;
+        }
+        if (priceDictListVo.units == null || priceDictListVo.units == '') {
+            $.messager.alert('系统提示', '计价单位不能为空!', 'info');
+            return;
+        }
+        if (priceDictListVo.itemName == null || priceDictListVo.itemName == '') {
+            $.messager.alert('系统提示', '请输入项目名称!', 'info');
+            return;
+        }
+        if (priceDictListVo.startDate == null || priceDictListVo.startDate == '') {
+            $.messager.alert('系统提示', '请设定启用日期!', 'info');
+            return;
+        }
+
+
         if(priceDictListVo){
             $.postJSON(basePath + '/price/save',JSON.stringify(priceDictListVo),function(data){
                 if (data.data == 'success') {
@@ -342,13 +368,13 @@ function ShowInfo() {
         $("#inputCode").textbox('setValue', "");
     }
 }
+
 //根据拼音码定位加载数据
-function load_data() {
-    var inputCode = $('#code_gps').val();
-    if(inputCode && inputCode != ""){
+function load_data(value) {
+    if(value && value != ""){
         $.ajax({
             'type': 'GET',
-            'url': basePath + '/price/get-by-inputCode?inputCode=' + inputCode + '&orgId=' + config.org_Id,
+            'url': basePath + '/price/get-by-inputCode?inputCode=' + value + '&orgId=' + config.org_Id,
             'success': function (data) {
                 $("#clinic_item").datagrid('loadData', data);
             }
