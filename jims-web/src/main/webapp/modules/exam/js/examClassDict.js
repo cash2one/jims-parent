@@ -249,11 +249,14 @@ $(function () {
     $("#saveClassBtn").on('click', function () {
         var performByCode=$("#performBy").combogrid('getValue');
         var performByName=$("#performBy").combogrid('getText');
-        alert(1);
         var examClassCode = $("#examClassCode").val().trim();
+        var examClassName = $("#examClassName").val().trim();
         var rex = /^[0-9]|[a-z]|[A-Z]$/;
         if(!rex.test(examClassCode)){
             alert('请保证编码是1位数字或字母');
+            return false;
+        }
+        if(!limitLength(examClassName,20,'类别名称')){
             return false;
         }
         var a=false;
@@ -267,7 +270,7 @@ $(function () {
         if(a){
             var saveObj = {};
             saveObj.examClassCode = examClassCode;
-            saveObj.examClassName = $("#examClassName").val().trim();
+            saveObj.examClassName = examClassName;
             saveObj.inputCode = "";
             saveObj.performBy = $("#performBy").combogrid('getValue');
             saveObj.printStyle = $("#printStyle").combobox('getValue');
@@ -313,7 +316,7 @@ $(function () {
         })
 
     });
-    function limitLength(value, byteLength) {
+    function limitLength(value, byteLength,title) {
         var newvalue = value.replace(/[^\x00-\xff]/g, "**");
         var length = newvalue.length;
         //当输入文字的字节数小于设定的字节数
@@ -341,7 +344,7 @@ $(function () {
             size = (count - 1) / 2 + (byteLength * 1 - count);
             limitvalue = value.substr(0, size);
         }
-        alert( "最大输入" + byteLength + "个字节（相当于"+byteLength /2+"个汉字）！");
+        alert( "["+title+"]最大输入" + byteLength + "个字节（相当于"+byteLength /2+"个汉字）！");
         //document.getElementById(csId).value = limitvalue;
         return false;
     }
@@ -352,10 +355,8 @@ $(function () {
         if(examSubName==""){
             alert('请输入子类名称');
             return false;
-        }else if(examSubName!=""){
-            if(!limitLength(examSubName,12)){
-                return false;
-            }
+        }else if(!limitLength(examSubName,12,'子分类名称')){
+            return false;
         }
             var saveObj = {};
             saveObj.examClassName = $('#examSubClassNameParent').combobox('getValue');
@@ -374,7 +375,7 @@ $(function () {
             }
         }
             $.postJSON(basePath + "/examSubclassDict/save", JSON.stringify(saveObj), function (data) {
-                $("#subclassWin").window('close');
+                //$("#subclassWin").window('close');
                 $.messager.alert('系统提示', '子分类添加成功');
                 $("#examSubclassGrid").datagrid('reload');
                 $("#subclassForm").form('reset');
