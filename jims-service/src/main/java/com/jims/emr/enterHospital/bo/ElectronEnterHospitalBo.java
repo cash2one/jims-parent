@@ -42,8 +42,6 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
 
             List<EmrDiagnosis> emrDiagnosisList = electronEnterHospital.getDiagnosisList();
             if (emrDiagnosisList!=null) {
-
-
                 if (emrDiagnosisList.size() > 0) {
                     for (int i = 0; i < emrDiagnosisList.size(); i++) {
                         EmrDiagnosis diagnosis = emrDiagnosisList.get(i);
@@ -68,7 +66,7 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
                             e.printStackTrace();
                             return num + "";
                         }
-                        return num + "";
+
                     }
                     return num + "";
                 }
