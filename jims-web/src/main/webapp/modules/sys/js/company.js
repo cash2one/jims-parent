@@ -420,7 +420,6 @@ $(function () {
                 $('#addServiceModel2')[0].style.display = "none";
                 $('#addServiceModel3')[0].style.display = "none";
                 addNext();
-
             });
             $("#nextBut3").on('click', function () {
                 if (flag == '1') {
@@ -468,43 +467,40 @@ $(function () {
                 $('#addServiceModel3')[0].style.display = "none";
 
             });
-            $("#nextBut4").on('click', function () {
+            $("#backBtn1").on('click', function () {
+                if (flag == '1') {
+                    return false;
+                }
+                $('#addServiceModel0')[0].style.display = "inline-block";
+                $('#addServiceModel1')[0].style.display = "none";
+                $('#addServiceModel2')[0].style.display = "none";
+                $('#addServiceModel3')[0].style.display = "none";
+                $('#nextBut1').attr("class", "go-on");
+                $('#nextBut2').attr("class", "default");
+                $('#nextBut3').attr("class", "default");
+                $('#nextBut4').attr("class", "default");
+            });
+            $("#backBtn2").on('click', function () {
                 if (flag == '1') {
                     return false;
                 }
                 if (!validForm()) {
                     return false;
+                    //$('#nextBut1').attr("class","default");
                 }
-                var datas = $('#addServiceModel1 .curr-btn-save')
-                if (datas.length == 0) {
-                    return false;
-                }
-                $('#nextBut2').attr("class", "done");
                 $('#nextBut1').attr("class", "done");
-                $('#nextBut3').attr("class", "done");
-                $('#nextBut4').attr("class", "go-on");
-                $('#addServiceModel3')[0].style.display = "inline-block";
-                $('#addServiceModel1')[0].style.display = "none";
-                $('#addServiceModel2')[0].style.display = "none";
+                $('#nextBut2').attr("class", "go-on");
+                $('#nextBut3').attr("class", "default");
+                $('#nextBut4').attr("class", "default");
+                $('#addServiceModel1')[0].style.display = "inline-block";
                 $('#addServiceModel0')[0].style.display = "none";
-
+                $('#addServiceModel2')[0].style.display = "none";
+                $('#addServiceModel3')[0].style.display = "none";
+                addNext();
             });
         }
-        //
-        //var IsNum =  function(e) {
-        //    var k = window.event ? e.keyCode : e.which;
-        //    if (((k >= 48) && (k <= 57)) || k == 8 || k == 0) {
-        //    } else {
-        //        if (window.event) {
-        //            window.event.returnValue = false;
-        //        }
-        //        else {
-        //            e.preventDefault(); //for firefox
-        //        }
-        //    }
-        //}
-        addNext = function () {
 
+        addNext = function () {
             var liArr = $('#addServiceModel1 ul li')
             if (liArr.length < 1) {
                 for (var i = 0; i < dataArr.length; i++) {
