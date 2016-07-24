@@ -18,9 +18,9 @@ $(function () {
     /**
      * 机构审核
      */
-    //$("#companyCheckMgr").on("click", function () {
-    //    $('#centerIframe').attr('src','/modules/sys/sys-company.html');
-    //});
+    $("#companyCheckMgr").on("click", function () {
+        $('#centerIframe').attr('src','/modules/sys/sys-company.html');
+    });
     /**
      * 字典管理
      */
