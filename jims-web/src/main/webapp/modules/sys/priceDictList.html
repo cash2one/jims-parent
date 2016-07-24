@@ -19,8 +19,7 @@
                 类别
                 <select id="item_class" class="easyui-combobox" panelHeight="auto" style="width:100px;"></select>
                 <label style="margin-left: 20px" for="code_gps">拼音码定位</label>
-                <input id="code_gps" class="easyui-validatebox" onblur="load_data();" style="width:100px;height: 19px">
-
+                <input id="code_gps" class="easyui-validatebox" onChange="load_data(this.value);" style="width:100px;height: 19px">
             </div>
         </div>
     </div>
@@ -30,7 +29,7 @@
             <table  style="padding: 5px;">
                 <tr>
                     <td>项目类别:</td>
-                    <td><select id="aa" name="itemClass" class="easyui-validatebox"
+                    <td><select id="aa" name="itemClass" class="easyui-combobox"
                                 style="width:150px;"></select>
                     </td>
                     <td colspan="2" style="padding-left: 15px"><input type="checkbox" name="clinicDict" id="clinicDict" value="0">生成同名诊疗项目、以及诊疗与价表对照</td>
@@ -103,9 +102,7 @@
                 </tr>
             </table>
         </form>
-        <div style="text-align:center;padding:5px">
-            <a href="javascript:void(0)" id="refresh" class="easyui-linkbutton" data-options="iconCls:'icon-mini-refresh'">刷新整页</a>
-            <a href="javascript:void(0)" id="generate" class="easyui-linkbutton" data-options="iconCls:'icon-add'">生成代码</a>
+        <div style="margin-right: 90px;" class="fd-right">
             <a href="javascript:void(0)" id="saveDict" class="easyui-linkbutton" iconcls="icon-save">保存</a>
         </div>
 

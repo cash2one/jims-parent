@@ -120,15 +120,14 @@ $(function () {
 })
 
 //根据拼音码定位加载数据
-function load_data() {
+function load_data(value) {
     reset();
     var itemClass = $("#itemClass").combobox('getValue');   //获取类别
     if(itemClass && itemClass != ''){   //类别不为空
-        var inputCode = $('#itemName').val();
-        if (inputCode && inputCode != "") {
+        if (value && value != "") {
             $.ajax({
                 'type': 'GET',
-                'url': '/service/price/get-by-inputCode?inputCode=' + inputCode + '&orgId=' + config.org_Id,
+                'url': '/service/price/get-by-inputCode?inputCode=' + value + '&orgId=' + config.org_Id,
                 'success': function (data) {
                     if(data.length > 0){
                         $("#priceList").datagrid('loadData', data);
@@ -185,7 +184,7 @@ $("#save_data").on('click',function(){
     }
 
     if(priceDictListVo.startDate == null || priceDictListVo.startDate == ''){
-        $.messager.alert('系统提示', '启用日期不能为空,请输入!', 'info');
+        $.messager.alert('系统提示', '请设置启用日期!', 'info');
         return;
     }
 

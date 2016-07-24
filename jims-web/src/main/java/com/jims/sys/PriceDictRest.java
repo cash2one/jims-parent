@@ -41,25 +41,6 @@ public class PriceDictRest {
     @POST
     public StringData save(PriceDictListVo priceDictListVo) {
         StringData stringData = new StringData();
-        if (priceDictListVo.getItemClass() == null) {
-            stringData.setCode("项目类别不能为空");
-            return stringData;
-        } else if (priceDictListVo.getItemCode() == null) {
-            stringData.setCode("项目代码不能为空");
-            return stringData;
-        } else if (priceDictListVo.getItemSpec() == null) {
-            stringData.setCode("项目规格不能为空");
-            return stringData;
-        } else if (priceDictListVo.getUnits() == null) {
-            stringData.setCode("计价单位不能为空");
-            return stringData;
-        } else if (priceDictListVo.getItemName() == null) {
-            stringData.setCode("项目名称不能为空");
-            return stringData;
-        } else if (priceDictListVo.getStartDate() == null) {
-            stringData.setCode("起用日期不能为空");
-            return stringData;
-        }
         String code = priceListApi.saveData(priceDictListVo);
         stringData.setCode(code);
         stringData.setData("success");
