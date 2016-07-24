@@ -50,7 +50,7 @@ public interface OperationScheduleDao extends CrudDao<OperationSchedule> {
      * @author pq
      * @return
      */
-    public List<BaseDto> findOperation(@Param(value = "scheduledDateTime")String scheduledDateTime,@Param(value = "operatingRoom")String operatingRoom);
+    public List<BaseDto> findOperation(OperationSchedule operationSchedule);
 
     /**
      * 确认门诊手术

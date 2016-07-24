@@ -110,12 +110,12 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
 
     /**
      * 查询门诊手术确认的列表
-     * @param scheduledDateTime
+     * @param operationSchedule
      * @author pq
      * @return
      */
-    public List<BaseDto> findOperation(String scheduledDateTime,String operatingRoom){
-       return  operationBo.findOperation(scheduledDateTime,operatingRoom);
+    public List<BaseDto> findOperation(OperationSchedule operationSchedule){
+       return  operationBo.findOperation(operationSchedule);
     }
 
     /**

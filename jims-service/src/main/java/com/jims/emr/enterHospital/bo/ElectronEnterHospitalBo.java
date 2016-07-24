@@ -42,8 +42,6 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
 
             List<EmrDiagnosis> emrDiagnosisList = electronEnterHospital.getDiagnosisList();
             if (emrDiagnosisList!=null) {
-
-
                 if (emrDiagnosisList.size() > 0) {
                     for (int i = 0; i < emrDiagnosisList.size(); i++) {
                         EmrDiagnosis diagnosis = emrDiagnosisList.get(i);
@@ -56,7 +54,6 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
                         diagnosis.setDiagnosisDoc(loginInfo.getPersionId());
                         diagnosis.setOrgId(loginInfo.getOrgId());
                         diagnosis.setItemNo(i+1);
-                        try {
                             if (diagnosis.getIsNewRecord()) {
                                 diagnosis.preInsert();
                                 num = emrDiagnosisDao.insert(diagnosis);
@@ -64,10 +61,6 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
                                 diagnosis.preUpdate();
                                 num = emrDiagnosisDao.update(diagnosis);
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            return num + "";
-                        }
                         return num + "";
                     }
                     return num + "";

@@ -25,7 +25,7 @@ public class EmrDiagnosis extends DataEntity<EmrDiagnosis> implements Serializab
 
     private String parentId;        // 父级id
 
-    private String diagnosisId;        // 诊断id
+    private String diagnosisId;        // icd10
     private String type; //诊断类型 1：初步诊断
     private String parentIds; // 诊断父级
     private Integer itemNo;        // 诊断序号
