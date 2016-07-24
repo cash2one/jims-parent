@@ -155,7 +155,7 @@ function saveDiagnosis(){
     var  rows=$('#zhenduan').datagrid('getRows');
     var tableJson=JSON.stringify(rows);
     $.postJSON(basePath+'/diagnosis/saveOut',tableJson,function(data){
-        if(data.success=='success'){
+        if(data.data=='success'){
             $('#zhenduan').datagrid('reload');
             $('#zhenduan').datagrid('clearChecked');
             $.messager.alert("提示消息","保存成功");
