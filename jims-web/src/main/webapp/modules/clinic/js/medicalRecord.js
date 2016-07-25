@@ -1,7 +1,7 @@
 var patientId = parent.patVisit.patientId;
 $(function(){
     $("#nation").combobox({//民族
-        data: nationData,
+        data: nationDict,
         valueField: 'value',
         textField: 'label'
     })

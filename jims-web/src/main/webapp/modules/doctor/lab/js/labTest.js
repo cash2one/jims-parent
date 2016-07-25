@@ -358,6 +358,9 @@ function doSelect() {
                 row.itemCode=$(this).val();//增
                 if($(this).next().next().next(":hidden").val() == "null"){
                     $.messager.alert('提示消息',"此项目没有价格，不能选择");
+                    $("#specimen").val("");
+                    $("#performedBy").val("");
+                    $('#labItemClass').combobox('clear');
                 }else{
                     row.price = $(this).next().next().next(":hidden").val();
                     var a =$(this).next().next(":hidden").val();

@@ -11,12 +11,17 @@ import com.jims.common.utils.StringUtils;
 import com.jims.common.vo.LoginInfo;
 import com.jims.finance.outpAccounts.entity.RegistAcctDetail;
 import com.jims.finance.outpAccounts.entity.RegistAcctMoney;
+import com.jims.oauth2.integration.utils.Cache;
+import com.jims.oauth2.integration.utils.CacheManager;
 import com.jims.patient.api.PatMasterIndexServiceApi;
 import com.jims.patient.entity.PatMasterIndex;
+import com.jims.sys.api.DeptDictApi;
+import com.jims.sys.entity.DeptDict;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.ArrayList;
@@ -35,7 +40,8 @@ public class ClinicMasterRest {
     @Reference(version = "1.0.0")
     private ClinicMasterServiceApi clinicMasterServiceApi;
 
-
+    @Reference(version = "1.0.0")
+    private DeptDictApi deptDictApi;
 
     /**
      *获取就诊记录
@@ -66,14 +72,19 @@ public class ClinicMasterRest {
      */
     @Path("clinicMasterList")
     @GET
-    public List<ClinicMaster> getClinicList(@QueryParam("deptName")String deptName,@Context HttpServletRequest request){
-        List<ClinicMaster> list= new ArrayList<ClinicMaster>();
-      /* User user =  UserUtils.getUser();
-       if(user!=null && user.getId()!=null){
-           list=clinicMasterServiceApi.getClinicMasterList(user.getId());
-       }*/
-        String  orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();//当前登录医生所在的机构Id
-        list= clinicMasterServiceApi.getClinicMasterList("174",deptName,orgId);
+    public List<ClinicMaster> getClinicList(@QueryParam("deptId")String deptId,@Context HttpServletRequest request){
+        LoginInfo loginInfo =LoginInfoUtils.getPersionInfo(request);
+        loginInfo.setDeptId(deptId);
+        DeptDict deptDict= deptDictApi.get(deptId);
+        loginInfo.setDeptCode(deptDict.getDeptCode());
+        loginInfo.setDeptName(deptDict.getDeptName());
+        HttpSession session = request.getSession();
+        //将科室信息存入缓存
+        Cache cache = new Cache(session.getId(), loginInfo, 7200, true);
+        CacheManager.putCache(session.getId(), cache);
+
+        String  orgId=loginInfo.getOrgId();//当前登录医生所在的机构Id
+        List<ClinicMaster> list= clinicMasterServiceApi.getClinicMasterList(deptId,orgId);
        return list;
     }
 
@@ -83,16 +94,18 @@ public class ClinicMasterRest {
      */
     @Path("clinicMasterDiagnosed")
     @GET
-    public List<ClinicMaster> getClinicMasterDiagnosed(@QueryParam("deptName")String deptName,@Context HttpServletRequest request){
-
-        List<ClinicMaster> list= new ArrayList<ClinicMaster>();
-
-       /* User user=  UserUtils.getUser(); //获取当前登录人
-        if(user!=null && user.getId()!=null){
-            list=clinicMasterServiceApi.getClinicMasterDiagnosed(user.getId());
-        }*/
+    public List<ClinicMaster> getClinicMasterDiagnosed(@QueryParam("deptId")String deptId,@Context HttpServletRequest request){
+        LoginInfo loginInfo =LoginInfoUtils.getPersionInfo(request);
+        loginInfo.setDeptId(deptId);
+        DeptDict deptDict= deptDictApi.get(deptId);
+        loginInfo.setDeptCode(deptDict.getDeptCode());
+        loginInfo.setDeptName(deptDict.getDeptName());
+        HttpSession session = request.getSession();
+        //将科室信息存入缓存
+        Cache cache = new Cache(session.getId(), loginInfo, 7200, true);
+        CacheManager.putCache(session.getId(), cache);
         String  orgId= LoginInfoUtils.getPersionInfo(request).getOrgId();//当前登录医生所在的机构Id
-        list= clinicMasterServiceApi.getClinicMasterDiagnosed("174",deptName,orgId);//测试中----医生ID给的定值
+        List<ClinicMaster> list= clinicMasterServiceApi.getClinicMasterDiagnosed(deptId,orgId);//测试中----医生ID给的定值
         return list;
     }
 

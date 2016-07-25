@@ -383,10 +383,10 @@
 				   a.service_agency AS serviceAgency ,
 				   a.phone_number_business AS phoneNumberBusiness,
 				   a.business_zip_code AS businessZipCode,
-				   a.next_of_kin AS nextOfKin,
-				   a.relationship AS relationship,
-				   a.next_of_kin_addr AS nextOfKinAddr,
-				   a.next_of_kin_phone AS nextOfKinPhone
+				   b.next_of_kin AS nextOfKin,
+				   b.relationship AS relationship,
+				   b.next_of_kin_addr AS nextOfKinAddr,
+				   b.next_of_kin_phone AS nextOfKinPhone
 			from pat_visit a,
 				 pat_master_index b
 			where a.patient_id = b.id
