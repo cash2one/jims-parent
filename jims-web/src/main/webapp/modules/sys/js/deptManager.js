@@ -259,6 +259,7 @@ $(function () {
                 $.messager.alert("系统提示", "请选择上级科室");
                 return;
             }
+
             $("#id").val("");
             $("#parentId").combobox('setValue', node.id);
             $("#deptCode").textbox('setValue', "");
@@ -294,8 +295,17 @@ $(function () {
 
                         $("#deptPropertity").append("</div>")
                     }
+
+                    var deptPro = node.deptPropertity;
+                    var dept = [];
+                    dept = deptPro.split(";");
+                    for (var item = 0; item < dept.length; item++) {
+                        var propertyIds = "propertyName" + item;
+                        $("#" + propertyIds).combobox("setValue", dept[item]);
+                    }
                 }
             });
+
 
             //$("#parentId").combobox({
             //    'url': '/service/dept-dict/selectParentByOrgId?orgId=' + orgId,
