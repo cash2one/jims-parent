@@ -96,6 +96,7 @@ public class CostOrdersUtilsService {
             outpTreatRec.setSerialNo(serialNo);
             outpTreatRec.setAppointNo(appointsId);
             outpTreatRec.setAppointItemNo(i+1);
+            outpTreatRec.setAppoint(appoint);
             outpTreatRec.setItemClass(clinicItemDict.getItemClass());
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());

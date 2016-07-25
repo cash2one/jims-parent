@@ -240,6 +240,7 @@
 	<insert id="saveTreatRec">
 		INSERT INTO outp_treat_rec(
 		id,
+		appoint,
 		clinic_id,
 		org_id,
 		visit_date,
@@ -250,7 +251,6 @@
 		item_code,
 		item_name,
 		item_spec,
-		appoint,
 		units,
 		amount,
 		frequency,
@@ -264,13 +264,13 @@
 		ward_code
 		) VALUES (
 		#{id},
+		#{appoint},
 		#{clinicId},
 		#{orgId},
 		#{visitDate},
 		#{visitNo},
 		#{serialNo},
 		#{itemNo},
-		#{appoint},
 		#{itemClass},
 		#{itemCode},
 		#{itemName},
