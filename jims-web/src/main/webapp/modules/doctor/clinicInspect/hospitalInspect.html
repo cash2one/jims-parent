@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script> 
     <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/static/easyui/js/datagrid-detailview.js"></script>
     <script type="text/javascript" src="/modules/doctor/clinicInspect/js/hospitalInspect.js"></script>
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
     <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
@@ -40,7 +41,7 @@
                         项目：
                     </label>
 
-                    <div id="target" style=" overflow-y:scroll; border:1px solid;width: 250px"
+                    <div id="target" style="width: 34%"
                          class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea" >
                     </div>
                     <div class="tarea-cbtn">
@@ -49,7 +50,7 @@
                         <button class="tlr-btn" onclick="cancels();" type="button" style="margin:10px 0;">
                             &gt;&gt;</button>
                     </div>
-                    <div id="descriptionId" style="width: 200px;"
+                    <div id="descriptionId" style="width: 34%;"
                          class="easyui-validatebox validatebox-text validatebox-textarea tlr-textarea">
                     </div>
 
@@ -58,15 +59,13 @@
                     <label>
                         症状：
                     </label>
-                    <input title="" name="clinSymp" class="easyui-validatebox validatebox-text validatebox-invalid"
-                           required="true">
+                    <input title="" name="clinSymp" id="clinSymp" class="easyui-validatebox validatebox-text validatebox-invalid">
                 </div>
                 <div class="fitem">
                     <label>
                         体征：
                     </label>
-                    <input title="" name="physSign" class="easyui-validatebox validatebox-text validatebox-invalid"
-                           required="true">
+                    <input title="" name="physSign" class="easyui-validatebox validatebox-text validatebox-invalid">
                 </div>
                 <div class="fitem">
                     <label>
@@ -79,8 +78,7 @@
                     <label>
                         其他诊断：
                     </label>
-                    <input title="" name="relevantDiag" class="easyui-validatebox validatebox-text validatebox-invalid"
-                           required="true">
+                    <input title="" name="relevantDiag" class="easyui-validatebox validatebox-text validatebox-invalid">
                 </div>
                 <div class="fitem">
                     <label>
@@ -93,8 +91,7 @@
                     <label>
                         申请注意事项：
                     </label>
-                    <input title="" name="notice" class="easyui-validatebox validatebox-text validatebox-invalid"
-                           required="true">
+                    <input title="" name="notice" class="easyui-validatebox validatebox-text validatebox-invalid">
                 </div>
             </div>
             <input type="hidden"  id="visitId" name="visitId" value="">
