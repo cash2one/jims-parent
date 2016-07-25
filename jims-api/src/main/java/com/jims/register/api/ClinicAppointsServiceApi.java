@@ -1,5 +1,6 @@
 package com.jims.register.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.patient.entity.PatMasterIndex;
 import com.jims.register.entity.ClinicAppoints;
 
@@ -16,7 +17,7 @@ public interface ClinicAppointsServiceApi {
      * @param patMasterIndex
      * @return
      */
-    public String saveAppointsRegis(PatMasterIndex patMasterIndex);
+    public String saveAppointsRegis(PatMasterIndex patMasterIndex,LoginInfo loginInfo);
 
     /**
      * 根据条件查询  预约list

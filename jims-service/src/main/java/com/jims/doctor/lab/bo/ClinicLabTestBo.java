@@ -68,8 +68,8 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
         labTestMaster.setPrintIndicator(labTestMaster.PRINTINDICATOR_NOT);
         //申请时间
         labTestMaster.setRequestedDateTime(new Date());
-        OutpTreatRec outpTreatRec = new OutpTreatRec();
-        outpTreatRec.setPerformedBy(labTestMaster.getPerformedBy());
+//        OutpTreatRec outpTreatRec = new OutpTreatRec();
+//        outpTreatRec.setPerformedBy(labTestMaster.getPerformedBy());
         List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
         List<LabTestItems> labTestItemsList = labTestMaster.getList();
         if (labTestItemsList.size() > 0) {
@@ -86,7 +86,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
                 labTestItemsDao.insert(labTestItems);
                 clinicItemDictList.add(clinicItemDict);
             }
-            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId(),outpTreatRec);
+            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId(),labTestMaster.getPerformedBy(),1.00);
             num = labTestMasterDao.insert(labTestMaster);
             return num + "";
         }
