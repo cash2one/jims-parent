@@ -381,7 +381,6 @@ function clearForm(){
 function formSubmitInput(){
     var clinicId=$("#clinicId").val();
     var orgId=$("#orgId").val();
-    var  visitId=$("#zhuyuanId").val();
     var newHtml='<input type="hidden" id="visitId" name="visitId" value="'+visitId+'" />'
         +'<input type="hidden" id="orgId"  name="orgId" value="'+orgId+'" />'
         +'<input type="hidden" id="clinicId"  name="clinicId" value="'+clinicId+'" />';

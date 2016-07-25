@@ -50,6 +50,7 @@ public class PatMasterIndexRest {
         List<PatMasterIndex> list = Lists.newArrayList();
         LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         try {
+            patMasterIndex.setOrgId(loginInfo.getOrgId());
             list = patMasterIndexServiceApi.findList(patMasterIndex);
         } catch (Exception e) {
             e.printStackTrace();

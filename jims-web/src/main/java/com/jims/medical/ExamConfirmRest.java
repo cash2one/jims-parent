@@ -2,11 +2,15 @@ package com.jims.medical;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.exam.api.ExamConfirmServiceApi;
 import com.jims.exam.entity.ExamAppoints;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -29,9 +33,10 @@ public class ExamConfirmRest {
     @GET
     @Path("getExamAppoints")
     public List<ExamAppoints> getExamAppoints(@QueryParam("outOrIn")String outOrIn,@QueryParam("startTime")String startTime,@QueryParam("endTime")String endTime,
-                                              @QueryParam("appointsDept")String appointsDept,@QueryParam("patientName")String patientName){
+                                              @QueryParam("appointsDept")String appointsDept,@QueryParam("patientName")String patientName,@Context HttpServletRequest request){
         String performedBy="240101";//当前登录 人执行科室人
-        return examConfirmServiceApi.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName);
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        return examConfirmServiceApi.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName,loginInfo);
     }
 
     /**

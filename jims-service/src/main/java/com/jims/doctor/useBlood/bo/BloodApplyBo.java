@@ -130,7 +130,8 @@ public class BloodApplyBo {
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                OutpTreatRec outpTreatRec = outpTreatRecDao.getSerialNo(id[j]);
+                List<OutpTreatRec> outpTreatRecList = outpTreatRecDao.getSerialNo(id[j]);
+                String serialNo = outpTreatRecList.get(0).getSerialNo();
                 num = bloodApplylDao.deleteBloodApply(id[j]);
                 bloodCapacityDao.deleteBloodCapacity(id[j]);
 //                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());

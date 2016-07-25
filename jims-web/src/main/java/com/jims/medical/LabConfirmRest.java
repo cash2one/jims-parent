@@ -2,11 +2,15 @@ package com.jims.medical;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.lab.api.LabConfirmServiceApi;
 import com.jims.lab.entity.LabTestMaster;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -30,9 +34,10 @@ public class LabConfirmRest {
     @GET
     @Path("getLabMaster")
     public List<LabTestMaster> getLabMaster(@QueryParam("inOrOut") String inOrOut,@QueryParam("startTime")String startTime,@QueryParam("endTime")String endTime,
-                                            @QueryParam("reqDept")String reqDept,@QueryParam("labNo")String labNo,@QueryParam("patName")String patName){
+                                            @QueryParam("reqDept")String reqDept,@QueryParam("labNo")String labNo,@QueryParam("patName")String patName,@Context HttpServletRequest request){
         String performedBy="";
-        return   labConfirmServiceApi.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName);
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        return   labConfirmServiceApi.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName,loginInfo);
     }
 
     /**

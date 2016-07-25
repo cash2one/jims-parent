@@ -1,5 +1,6 @@
 package com.jims.lab.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.lab.entity.LabTestMaster;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface LabConfirmServiceApi {
      * @return
      * @author zhaoning
      */
-  public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut,String startTime,String endTime,String reqDept,String labNo,String patName);
+  public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut,String startTime,String endTime,String reqDept,String labNo,String patName,LoginInfo loginInfo);
 
     /**
      * 检验确认，

@@ -73,6 +73,8 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
                     scheduledOperationNameDao.insert(scheduledOperationName);
                 } else {
                     scheduledOperationName.preUpdate();
+                    scheduledOperationName.setScheduleId(operationSchedule.getId());
+                    scheduledOperationName.setOperationNo(i+1);
                     scheduledOperationNameDao.update(scheduledOperationName);
                 }
                 clinicItemDictList.add(clinicItemDict);
@@ -94,12 +96,14 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
                     ScheduledOperationName scheduledOperationName = scheduledOperationNameList.get(i);
                     clinicItemDict.setItemCode(scheduledOperationName.getOperationCode());
                     if (scheduledOperationName.getIsNewRecord()) {
-                        scheduledOperationName.setOperationNo(i+1);
                         scheduledOperationName.preInsert();
+                        scheduledOperationName.setOperationNo(i+1);
                         scheduledOperationName.setScheduleId(operationSchedule.getId());
                         scheduledOperationNameDao.insert(scheduledOperationName);
                     } else {
                         scheduledOperationName.preUpdate();
+                        scheduledOperationName.setScheduleId(operationSchedule.getId());
+                        scheduledOperationName.setOperationNo(i+1);
                         scheduledOperationNameDao.update(scheduledOperationName);
                     }
                     clinicItemDictList.add(clinicItemDict);
@@ -126,7 +130,7 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
     }
 
     /**
-     * 通过patientId、visitId拿到手术安排
+     * 通过clinicId拿到手术安排
      *
      * @param patientId
      * @param visitId
@@ -174,8 +178,8 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
      * @return
      * @author pq
      */
-    public List<BaseDto> findOperation(String scheduledDateTime, String operatingRoom) {
-        return operationScheduleDao.findOperation(scheduledDateTime, operatingRoom);
+    public List<BaseDto> findOperation(OperationSchedule operationSchedule) {
+        return operationScheduleDao.findOperation(operationSchedule);
     }
 
     /**
@@ -197,4 +201,18 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
         OperationSchedule operationSchedule = operationScheduleDao.getOneOperation(id);
         return operationSchedule;
     }
+
+    /**
+     * 删除手术名称（子表）
+     * @param ids
+     * @return
+     */
+    public String deleteScheduledOperationName(String ids){
+        int num = 0;
+        String[] id= ids.split(",");
+        for(int i=0;i<id.length; i++){
+            num = scheduledOperationNameDao.deleteScheduledOperationName(id[i]);
+        }
+        return num+"";
+    };
 }

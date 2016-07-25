@@ -1,6 +1,7 @@
 package com.jims.medical.lab.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.lab.api.LabConfirmServiceApi;
 import com.jims.lab.entity.LabTestMaster;
 import com.jims.medical.lab.bo.LabConfirmBo;
@@ -24,8 +25,8 @@ public class LabConfirmServiceImpl implements LabConfirmServiceApi {
      * @author zhaoning
      */
     @Override
-    public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut,String startTime,String endTime,String reqDept,String labNo,String patName) {
-        return labConfirmBo.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName);
+    public List<LabTestMaster> getLabMaster(String performedBy,String inOrOut,String startTime,String endTime,String reqDept,String labNo,String patName,LoginInfo loginInfo) {
+        return labConfirmBo.getLabMaster(performedBy,inOrOut,startTime,endTime,reqDept,labNo,patName,loginInfo);
     }
 
     /**

@@ -22,7 +22,7 @@ public class BedRec extends DataEntity<BedRec> {
 	private String bedStatus;		// 床位状态
 	private String lendAttr;		// lend_attr
 	private Integer lendBedNo;		// lend_bed_no
-
+    private String orgId;//机构代码
 
 
 	public Integer getOldBedNo() {
@@ -221,5 +221,13 @@ public class BedRec extends DataEntity<BedRec> {
 
 	public void setPatId(String patId) {
 		this.patId = patId;
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 }

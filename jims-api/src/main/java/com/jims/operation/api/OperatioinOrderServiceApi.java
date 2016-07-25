@@ -54,19 +54,40 @@ public interface OperatioinOrderServiceApi{
      public  List<ScheduledOperationName> getOperationName(String patientId,String visitId,String clinicId,String scheduleId);
 
     /**
-     * 通过病人Id、visitId拿到手术安排
+     * 通过病人clinicId拿到门诊手术安排
      * @param patientId
      * @return
      */
      public List<OperationSchedule> getSchedule(String patientId,String visitId,String clinicId);
 
     /**
-     * 删除手术名称
+     * 通过patrentId visitId获取住院手术安排
+     * @param patientId
+     * @param visitId
+     * @return
+     */
+    public List<OperationSchedule> getScheduleHos(String patientId,String visitId);
+
+    /**
+     * 删除门诊手术名称
      * @param id
      * @return
      */
      public  int deleteOperationName(String id);
 
+    /**
+     * 删除住院手术名称
+     * @param id
+     * @return
+     */
+    public  String deleteOperationHos(String id);
+
+    /**
+     * 删除手术子项目
+     * @param id
+     * @return
+     */
+    public String deleteScheduledOperationName(String id);
     /**
      * 查询门诊手术确认的列表
      * @param scheduledDateTime
@@ -74,7 +95,7 @@ public interface OperatioinOrderServiceApi{
      * @author pq
      * @return
      */
-    public List<BaseDto> findOperation(String scheduledDateTime,String operatingRoom);
+    public List<BaseDto> findOperation(OperationSchedule operationSchedule);
 
     /**
      * 确认门诊手术

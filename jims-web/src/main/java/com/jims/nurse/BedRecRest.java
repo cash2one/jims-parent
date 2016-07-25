@@ -4,6 +4,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.api.BedRecServiceApi;
 import com.jims.nurse.entity.BedRec;
@@ -55,12 +57,15 @@ public class BedRecRest {
      */
     @Path("save")
     @POST
-    public StringData saveBed(List<BedRec> bedRecList){
+    public StringData saveBed(@Context HttpServletRequest request,List<BedRec> bedRecList){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData stringData = new StringData();
-        String code =   bedRecServiceApi.saveBed(bedRecList);
+        String code =   bedRecServiceApi.saveBed(bedRecList,loginInfo);
         stringData.setCode(code);
-        if(code !=null && !"0".equals(code)){
+        if(code !=null && !"0".equals(code)&& !"error".equals(code)){
             stringData.setData("success");
+        }else if("error".equals(code)){
+            stringData.setData("该床位已经在该病区下存在，不能添加重复");
         }else{
             stringData.setData("error");
         }
