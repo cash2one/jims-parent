@@ -64,7 +64,7 @@ function onloadMethod(){
         ]],
         view: detailview,
         detailFormatter: function(rowIndex, rowData){
-            var detailHtml="<table style='width:100%;color:blue' border='0'><tr><td><strong>检验项目：</strong></td></tr>";
+            var detailHtml="<table style='width:100%;color:blue' border='0'><tr><td><strong>检验项目：</strong></td><td><strong>金额：</strong></td></tr>";
             $.ajax({
                 type:"POST",
                 url: basePath+"/labtest/getItem",
@@ -74,7 +74,7 @@ function onloadMethod(){
                 dataType: 'json',
                 success:function(data){
                     $.each(data,function(i,list){
-                        detailHtml+="<tr><td>"+list.itemName+"</td></tr>";
+                        detailHtml+="<tr><td width='50%'>"+list.itemName+"</td><td>"+list.price+"&nbsp;元</td></tr>";
                     });
                 }
             })
@@ -311,7 +311,6 @@ function SendProduct(name) {
             var divstr ="<table>";
                     for(var i=0; i<data.length; i++)
                     {   if(i==0){
-                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/><input type='hidden' name='price' value='"+data[i].price+"'></div></td>";
                         }
                         else if(i%3==0){
                             divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/><input type='hidden' name='price' value='"+data[i].price+"'></div></td>";
@@ -357,12 +356,17 @@ function doSelect() {
                 var row={};
                 row.itemName=$(this).next().html();
                 row.itemCode=$(this).val();//增
-                var a =$(this).next().next(":hidden").val();
-                $("#specimen").val(a);
-                //var temp = $(this).next().next(":hidden").val();
-                //all += parseFloat(temp);
-                //row.price=temp;//增
-                rows.push(row);
+                if($(this).next().next().next(":hidden").val() == "null"){
+                    $.messager.alert('提示消息',"此项目没有价格，不能选择");
+                }else{
+                    row.price = $(this).next().next().next(":hidden").val();
+                    var a =$(this).next().next(":hidden").val();
+                    $("#specimen").val(a);
+                    //var temp = $(this).next().next(":hidden").val();
+                    //all += parseFloat(temp);
+                    //row.price=temp;//增
+                    rows.push(row);
+                }
             }
         )
         var row={};

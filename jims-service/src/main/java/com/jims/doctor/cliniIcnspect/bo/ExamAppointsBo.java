@@ -133,7 +133,8 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             clinicItemDictList.add(clinicItemDict);
         }
 
-        costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,loginInfo,examAppoints.getId(),examAppoints.getPerformedBy(),1.00,examAppoints.getExamNo());
+        costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,loginInfo,
+                examAppoints.getId(),examAppoints.getPerformedBy(),1.00,examAppoints.getExamNo());
         return  num;
     }
 }

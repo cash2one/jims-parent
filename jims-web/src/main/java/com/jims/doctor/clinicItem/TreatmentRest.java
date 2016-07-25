@@ -2,13 +2,17 @@ package com.jims.doctor.clinicItem;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.clinic.api.OutpTreatRecServiceApi;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.clinicItem.api.TreatmentServiceApi;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.data.PageData;
 import com.jims.common.data.StringData;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -47,9 +51,10 @@ public class TreatmentRest {
      */
     @Path("save")
     @POST
-    public StringData saveTreatment(List<OutpTreatRec> outpTreatRecList){
+    public StringData saveTreatment(List<OutpTreatRec> outpTreatRecList,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data=new StringData();
-        String code=treatmentServiceApi.saveClinicItem(outpTreatRecList);
+        String code=treatmentServiceApi.saveClinicItem(outpTreatRecList,loginInfo);
         data.setCode(code);
         return  data;
     }

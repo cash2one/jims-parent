@@ -1,6 +1,7 @@
 package com.jims.doctor.clinicItem.api;
 
 import com.jims.clinic.entity.OutpTreatRec;
+import com.jims.common.vo.LoginInfo;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface TreatmentServiceApi {
      * @return
      * @author
      */
-    public  String saveClinicItem(List<OutpTreatRec> outpTreatRecs);
+    public  String saveClinicItem(List<OutpTreatRec> outpTreatRecs,LoginInfo loginInfo);
 
     /**
      * 删除处置项目
