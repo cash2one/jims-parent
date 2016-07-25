@@ -1,6 +1,7 @@
 package com.jims.doctor.lab.bo;
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.orders.dao.OrdersDao;
 import com.jims.orders.entity.Orders;
 import com.jims.doctor.lab.dao.LabTestItemsDao;
@@ -40,7 +41,7 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
      * @version 2016/5/06
      */
 
-    public String saveAllIn(LabTestMaster labTestMaster) {
+    public String saveAllIn(LabTestMaster labTestMaster,LoginInfo loginInfo) {
         int num;
         //本次住院标识对门诊病人为空
         //patientId病人标识号页面有公共值
@@ -51,6 +52,8 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
         labTestMaster.setTestNo(creatTestNo());
         labTestMaster.setBillingIndicator(0);//计价标志
         labTestMaster.setPrintIndicator(0);///打印标志
+        labTestMaster.setOrderingDept(loginInfo.getDeptId());//申请科室
+        labTestMaster.setOrderingProvider(loginInfo.getPersionId());//送检医生
         labTestMaster.setRequestedDateTime(new Date());
         num = labTestMasterDao.insert(labTestMaster);
         List<LabTestItems> list = labTestMaster.getList();

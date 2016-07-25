@@ -14,6 +14,7 @@
 		a.item_code AS "itemCode",
 		a.item_name AS "itemName",
 		a.item_spec AS "itemSpec",
+		a.appoint AS "appiont",
 		a.units AS "units",
 		a.amount AS "amount",
 		a.frequency AS "frequency",
@@ -128,6 +129,7 @@
 			item_code,
 			item_name,
 			item_spec,
+			appoint,
 			units,
 			amount,
 			frequency,
@@ -155,6 +157,7 @@
 			#{itemCode},
 			#{itemName},
 			#{itemSpec},
+			#{appoint},
 			#{units},
 			#{amount},
 			#{frequency},
@@ -185,6 +188,7 @@
 			item_code = #{itemCode},
 			item_name = #{itemName},
 			item_spec = #{itemSpec},
+			appoint = #{appoint},
 			units = #{units},
 			amount = #{amount},
 			frequency = #{frequency},
@@ -236,6 +240,7 @@
 	<insert id="saveTreatRec">
 		INSERT INTO outp_treat_rec(
 		id,
+		appoint,
 		clinic_id,
 		org_id,
 		visit_date,
@@ -259,6 +264,7 @@
 		ward_code
 		) VALUES (
 		#{id},
+		#{appoint},
 		#{clinicId},
 		#{orgId},
 		#{visitDate},

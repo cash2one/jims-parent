@@ -4,6 +4,7 @@ import com.jims.clinic.dao.OutpOrdersCostsDao;
 import com.jims.clinic.dao.OutpOrdersDao;
 import com.jims.clinic.dao.OutpTreatRecDao;
 import com.jims.clinic.entity.OutpTreatRec;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.useBlood.dao.BloodApplylDao;
 import com.jims.doctor.useBlood.dao.BloodCapacityDao;
 import com.jims.blood.entity.BloodApply;
@@ -47,11 +48,14 @@ public class BloodApplyBo {
      * @param bloodApply
      * @return
      */
-    public String saveBloodApply(BloodApply bloodApply) {
+    public String saveBloodApply(BloodApply bloodApply,LoginInfo loginInfo) {
         int strState=0;
         if (bloodApply.getIsNewRecord()) {
             bloodApply.preInsert();
             bloodApply.setApplyNum(IdGen.uuid());
+            bloodApply.setOrgId(loginInfo.getOrgId());
+            bloodApply.setPhysician(loginInfo.getPersionId());
+            bloodApply.setDeptCode(loginInfo.getDeptCode());
             strState = bloodApplylDao.insert(bloodApply);
 //            bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
             List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();

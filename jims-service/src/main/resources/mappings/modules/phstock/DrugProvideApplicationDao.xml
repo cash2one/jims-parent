@@ -87,6 +87,12 @@
         FROM   DRUG_PROVIDE_APPLICATION a
         <where>
             a.org_id =  #{orgId}
+            <if test="subStorage!=null and subStorage!=''">
+                AND  sub_storage =#{subStorage}
+            </if>
+            <if test="provideStorage!=null and provideStorage!=''">
+                AND  provide_storage =#{provideStorage}
+            </if>
             <if test="applicantStorage!=null and applicantStorage!=''">
                 AND  applicant_storage =#{applicantStorage}
             </if>
@@ -116,6 +122,7 @@
             ,PACKAGE_SPEC
             ,QUANTITY
             ,PACKAGE_UNITS
+            ,UNITS
             ,ENTER_DATE_TIME
             ,FIRM_ID
             ,BATCH_NO
@@ -135,6 +142,7 @@
             ,#{packageSpec}
             ,#{quantity}
             ,#{packageUnits}
+            ,#{units}
             ,#{enterDateTime}
             ,#{firmId}
             ,#{batchNo}
@@ -158,6 +166,7 @@
             ,PACKAGE_SPEC = #{packageSpec}
             ,QUANTITY = #{quantity}
             ,PACKAGE_UNITS = #{packageUnits}
+            ,UNITS=#{units}
             ,ENTER_DATE_TIME = #{enterDateTime}
             ,FIRM_ID = #{firmId}
             ,BATCH_NO = #{batchNo}

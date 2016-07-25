@@ -134,10 +134,8 @@ public class LabTestRest {
     public StringData save(LabTestMaster labTestMaster,@Context HttpServletRequest request, @Context HttpServletResponse response){
         String mun="";
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
-        labTestMaster.setOrderingDept(loginInfo.getDeptId());
-        labTestMaster.setOrderingProvider(loginInfo.getPersionId());//送检医生
         StringData data=new StringData();
-        mun = labTestMasterServiceApi.saveAll(labTestMaster);
+        mun = labTestMasterServiceApi.saveAll(labTestMaster,loginInfo);
         data.setData("success");
         data.setCode(mun);
         return data;
@@ -155,7 +153,7 @@ public class LabTestRest {
         labTestMaster.setOrderingDept(loginInfo.getDeptId());
         labTestMaster.setOrderingProvider(loginInfo.getPersionId());//送检医生
         String mun="";
-        mun = labTestMasterServiceApi.saveAllIn(labTestMaster);
+        mun = labTestMasterServiceApi.saveAllIn(labTestMaster,loginInfo);
         data.setData("success");
         data.setCode(mun);
         return data;

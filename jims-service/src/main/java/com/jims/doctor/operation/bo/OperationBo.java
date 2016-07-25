@@ -8,6 +8,7 @@ import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.doctor.operation.dao.OperationScheduleDao;
 import com.jims.doctor.operation.dao.ScheduledOperationNameDao;
@@ -49,7 +50,7 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
      * @param operationSchedule
      * @return
      */
-    public String saveOperationOut(OperationSchedule operationSchedule) {
+    public String saveOperationOut(OperationSchedule operationSchedule,LoginInfo loginInfo) {
         int num;
         List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
         if (operationSchedule.getIsNewRecord()) {
@@ -57,6 +58,10 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
             int sId = scheduleId + 1;
             operationSchedule.setScheduleId(sId);
             operationSchedule.setAckIndicator(0);
+            operationSchedule.setEnteredBy(loginInfo.getPersionId());
+            operationSchedule.setDoctorUser(loginInfo.getUserName());
+            operationSchedule.setOperatingDept(loginInfo.getDeptCode());
+            operationSchedule.setOrgId(loginInfo.getOrgId());
             operationSchedule.preInsert();
             num = operationScheduleDao.insert(operationSchedule);
             List<ScheduledOperationName> scheduledOperationNameList = operationSchedule.getScheduledOperationNameList();
@@ -79,7 +84,7 @@ public class OperationBo extends CrudImplService<OperationScheduleDao,OperationS
                 }
                 clinicItemDictList.add(clinicItemDict);
             }
-            //costOrdersUtilsService.save(operationSchedule.getClinicId(), clinicItemDictList, operationSchedule.getId());
+//            costOrdersUtilsService.save(operationSchedule.getClinicId(), clinicItemDictList, operationSchedule.getId());
             return num + "";
         }else {
             operationSchedule.preUpdate();

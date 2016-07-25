@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.operation.api.OperatioinOrderServiceApi;
 import com.jims.doctor.operation.bo.OperationBo;
@@ -43,8 +44,8 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @param operationSchedule
      * @return
      */
-    public String saveOperationIn(OperationSchedule operationSchedule){
-       String num = operationHosBo.saveOperationIn(operationSchedule);
+    public String saveOperationIn(OperationSchedule operationSchedule,LoginInfo loginInfo){
+       String num = operationHosBo.saveOperationIn(operationSchedule,loginInfo);
         return num;
     }
 
@@ -54,8 +55,8 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @return
      */
 
-    public String saveOperationOut(OperationSchedule operationSchedule){
-      return operationBo.saveOperationOut(operationSchedule);
+    public String saveOperationOut(OperationSchedule operationSchedule,LoginInfo loginInfo){
+      return operationBo.saveOperationOut(operationSchedule,loginInfo);
     }
 
     /**

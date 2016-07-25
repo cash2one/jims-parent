@@ -24,7 +24,8 @@ create table DRUG_PROVIDE_APPLICATION
   sub_storage           VARCHAR2(8),
   applicant_storage_sub VARCHAR2(8) not null,
   id                    VARCHAR2(64) not null,
-  org_id                VARCHAR2(64)
+  org_id                VARCHAR2(64) ,
+  units                 VARCHAR2(8)
 )
 tablespace USERS
   pctfree 10

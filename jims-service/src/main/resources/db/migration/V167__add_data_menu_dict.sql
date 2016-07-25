@@ -25,3 +25,6 @@ values ('DEPT_CODE', '科室代码', '1', 1, 'Y', '0', 10, '115cc9877c83469db5f5
 
 insert into input_setting_detail (DATA_COL, DATA_TITLE, FLAG_SHOW, SHOW_SORT, FLAG_ISNAME, RESULT_SORT, SHOW_WIDTH, INPUT_SETTING_MASTER_ID, INPUT_CODE, REMARKS, UPDATE_BY, CREATE_BY, UPDATE_DATE, DEL_FLAG, CREATE_DATE, ID)
 values ('DEPT_NAME', '科室名称', '1', 2, 'Y', '0', 10, '115cc9877c83469db5f5a5288b7aee93', '00', null, null, null, null, '0', null, '1dc22f92df0b463a9ecaf4b70a7bcd1c');
+
+insert into INPUT_SETTING_DETAIL (data_col, data_title, flag_show, show_sort, flag_isname, result_sort, show_width, input_setting_master_id, input_code, remarks, update_by, create_by, update_date, del_flag, create_date, id)
+values ('ID', '科室ID', '1', 1, 'Y', '0', 10, '115cc9877c83469db5f5a5288b7aee93', '00', null, null, null, to_date('25-07-2016 11:37:57', 'dd-mm-yyyy hh24:mi:ss'), '0', to_date('25-07-2016 11:37:57', 'dd-mm-yyyy hh24:mi:ss'), '7239cc5fcdc84d3da9447e418511965b');

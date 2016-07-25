@@ -161,4 +161,14 @@
 		select *from dept_dict
 		where dept_name like '%手术%' AND org_id=#{orgId}
 	</select>
+
+    <select id="getDoctorDept" resultType="DeptDict">
+        select sgc.org_id as orgId,sgd.dept_id as id,sgd.dept_code as deptCode,sgd.dept_name as deptName from staff_vs_group sg,staff_group_dict sgd,staff_group_class_dict sgc,org_staff os
+        where sg.group_id = sgd.id and sgd.group_class_id = sgc.id
+        and sg.staff_id =os.id
+        and sgc.org_id = #{orgId}
+        and sgc.group_class = #{doctorGroup}
+        and os.persion_id = #{persionId}
+    </select>
+
 </mapper>

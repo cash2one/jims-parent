@@ -4,6 +4,7 @@
 package com.jims.doctor.lab.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.lab.bo.ClinicLabTestBo;
 import com.jims.lab.api.LabTestMasterServiceApi;
 import com.jims.doctor.lab.bo.HosLabTestBo;
@@ -37,8 +38,8 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
      */
     //@Override
 
-    public String saveAll(LabTestMaster labTestMaster){
-       String num =  clinicLabTestBo.saveAll(labTestMaster);
+    public String saveAll(LabTestMaster labTestMaster,LoginInfo loginInfo){
+       String num =  clinicLabTestBo.saveAll(labTestMaster,loginInfo);
         return num;
     }
 
@@ -56,8 +57,8 @@ public class LabTestMasterServiceImpl  extends CrudImplService<LabTestMasterDao,
      * @param labTestMaster
      * @return
      */
-    public String saveAllIn(LabTestMaster labTestMaster){
-        return hosLabTestBo.saveAllIn(labTestMaster);
+    public String saveAllIn(LabTestMaster labTestMaster,LoginInfo loginInfo){
+        return hosLabTestBo.saveAllIn(labTestMaster,loginInfo);
     }
 
     /**

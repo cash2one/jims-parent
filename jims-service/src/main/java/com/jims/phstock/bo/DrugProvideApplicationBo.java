@@ -111,8 +111,10 @@ public class DrugProvideApplicationBo extends CrudImplService<DrugProvideApplica
             DrugPriceList price = new DrugPriceList();
             price.setOrgId(application.getOrgId());
             price.setDrugCode(application.getDrugCode());
-            price.setDrugSpec(application.getDrugSpec());
-            price.setUnits(application.getLabel());
+            price.setMinSpec(application.getDrugSpec());
+            price.setMinUnits(application.getUnits());
+            price.setDrugSpec(application.getPackageSpec());
+            price.setUnits(application.getPackageUnits());
             price.setFirmId(application.getFirmId());
             price.setStopDate(new Date());
             List<DrugPriceList> priceList = priceDao.findListNoJoin(price);
@@ -124,12 +126,13 @@ public class DrugProvideApplicationBo extends CrudImplService<DrugProvideApplica
             stock.setStorage(storage);
             stock.setDrugCode(application.getDrugCode());
             stock.setDrugSpec(application.getDrugSpec());
-            stock.setUnits(application.getLabel());
+            stock.setUnits(application.getUnits());
             stock.setFirmId(application.getFirmId());
             stock.setBatchNo(application.getBatchNo());
             stock.setSubStorage(subStorage);//存放库房
             stock.setOrgId(application.getOrgId());
             stock.setPackageSpec(application.getPackageSpec());
+            stock.setPackageUnits(application.getPackageUnits());
             List<DrugStock> stocks = stockDao.findList(stock);
             if (stocks != null && stocks.size() > 0) {
                 double quantity = stocks.get(0).getQuantity();

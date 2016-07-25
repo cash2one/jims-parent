@@ -1,5 +1,6 @@
 package com.jims.doctor.useBlood.bo;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.useBlood.dao.BloodApplylDao;
 import com.jims.doctor.useBlood.dao.BloodCapacityDao;
 import com.jims.blood.entity.BloodApply;
@@ -29,12 +30,14 @@ public class BloodApplyHosBo {
     @Autowired
     private OrdersDao ordersDao;
 
-    public String saveHosBloodApply(BloodApply bloodApply) {
+    public String saveHosBloodApply(BloodApply bloodApply,LoginInfo loginInfo) {
         int strState = 0;
         if (bloodApply.getIsNewRecord()) {
             bloodApply.preInsert();
             bloodApply.setApplyNum(IdGen.uuid());
-
+            bloodApply.setOrgId(loginInfo.getOrgId());
+            bloodApply.setPhysician(loginInfo.getPersionId());
+            bloodApply.setDeptCode(loginInfo.getDeptCode());
             Orders orders = new Orders();
             orders.setPatientId(bloodApply.getPatientId());
             orders.setVisitId(bloodApply.getVisitId());
