@@ -45,5 +45,13 @@ public interface PatMasterIndexServiceApi {
      */
     public List<ComeDeptVo> findWaitFrom();
 
+    /**
+     * 根据身份证号查询是否在主记录中
+     * @param idNo
+     * @author CTQ
+     * @return
+     */
+    public List<PatMasterIndex> searchByIdCard(PatMasterIndex patMasterIndex);
+
 }
 

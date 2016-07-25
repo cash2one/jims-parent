@@ -256,4 +256,14 @@ public  class PatMasterIndexServiceImpl extends CrudImplService<PatMasterIndexDa
         patVisit.setNhSerialNo(patMasterIndex.getNhSerialNo());
         patVisit.setFromOtherPlaceIndicator(patMasterIndex.getFromOtherPlaceIndicator());
     }
+    /**
+     * 根据身份证号查询是否在主记录中
+     * @param patMasterIndex
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public List<PatMasterIndex> searchByIdCard(PatMasterIndex patMasterIndex){
+        return dao.searchByIdCard(patMasterIndex);
+    }
 }

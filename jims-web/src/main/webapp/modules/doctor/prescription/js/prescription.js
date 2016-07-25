@@ -397,7 +397,16 @@ $(function(){
             });
         }
     });
-
+    //药房
+    $('#storage').combobox({
+        data: drugStorage,
+        valueField: 'storageCode',
+        textField: 'storageName',
+        required:true
+    });
+    if(drugStorage.length>0) {
+        $("#storage").combobox('select', drugStorage[0].storageName);
+    }
     //处方属性下拉框
     $('#prescAttr').combobox({
         data: prescAttrDict,
@@ -406,8 +415,9 @@ $(function(){
         required:true
     });
     if(prescAttrDict.length>3) {
-        $("#prescAttr ").combobox('select', prescAttrDict[2].value);
+        $("#prescAttr").combobox('select', prescAttrDict[2].value);
     }
+
 });
 
 //加载数据时加载子项方法
