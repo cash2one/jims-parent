@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.operation.api.OperatioinOrderServiceApi;
 import com.jims.doctor.operation.bo.OperationBo;
@@ -39,12 +40,12 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
    }
 
     /**
-     * 保存-住院(inOrNot ,1 住院//inOrNot,0 门诊)
+     * 保存-住院
      * @param operationSchedule
      * @return
      */
-    public String saveOperationIn(OperationSchedule operationSchedule){
-       String num = operationHosBo.saveOperationIn(operationSchedule);
+    public String saveOperationIn(OperationSchedule operationSchedule,LoginInfo loginInfo){
+       String num = operationHosBo.saveOperationIn(operationSchedule,loginInfo);
         return num;
     }
 
@@ -54,8 +55,8 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      * @return
      */
 
-    public String saveOperationOut(OperationSchedule operationSchedule){
-      return operationBo.saveOperationOut(operationSchedule);
+    public String saveOperationOut(OperationSchedule operationSchedule,LoginInfo loginInfo){
+      return operationBo.saveOperationOut(operationSchedule,loginInfo);
     }
 
     /**
@@ -71,7 +72,7 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
 
 
     /**
-     * 通过clinicid或者visitId 和patientId拿到手术安排
+     * 通过clinicid拿到门诊手术安排
      * @param patientId
      * @param visitId
      * @return
@@ -86,6 +87,16 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
         }
     }
 
+    /**
+     * 通过visitId、patientId拿到门诊手术安排
+     * @param patientId
+     * @param visitId
+     * @return
+     */
+    public List<OperationSchedule> getScheduleHos(String patientId,String visitId){
+            List<OperationSchedule> operationScheduleList =  operationHosBo.getSchedule(patientId, visitId);
+            return operationScheduleList;
+    }
     /**
      * 查询手术名称
      * @param patientId
@@ -105,6 +116,23 @@ public class OperatioinOrderServiceImpl extends CrudImplService<PatsInHospitalDa
      */
     public int deleteOperationName(String id){
       return  operationBo.deleteOperationName(id);
+    }
+
+    /**
+     * 删除手术名称（住院）
+     * @param ids
+     * @return
+     */
+    @Override
+    public String deleteOperationHos(String ids) {
+        String  num = operationHosBo.deleteHos(ids);
+        return num;
+    }
+
+    @Override
+    public String deleteScheduledOperationName(String id) {
+        String num = operationBo.deleteScheduledOperationName(id);
+        return num;
     }
 
 

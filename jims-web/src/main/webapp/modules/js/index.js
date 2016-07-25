@@ -137,6 +137,7 @@ $(function () {
         config.org_Id=loginInfo.orgId ;
         config.persion_Id = loginInfo.persionId;
         config.staffId =loginInfo.staffId;
+        config.userName =loginInfo.userName;
     }) ;
 
     var init=function(){

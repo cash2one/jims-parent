@@ -14,6 +14,7 @@ create table OUTP_TREAT_REC
   ITEM_CODE        VARCHAR2(20),
   ITEM_NAME        VARCHAR2(100),
   ITEM_SPEC        VARCHAR2(50),
+  APPOINT         VARCHAR2(60),
   UNITS            VARCHAR2(8),
   AMOUNT           NUMBER(8,2),
   FREQUENCY        VARCHAR2(16),

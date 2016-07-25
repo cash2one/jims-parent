@@ -27,6 +27,7 @@ public class OutpTreatRec extends DataEntity<OutpTreatRec> {
 	private String itemCode;		// 项目编码
 	private String itemName;		// 项目名称
 	private String itemSpec;		// 项目规格
+	private String appoint;		//申请序号
 	private String units;		// 单位
 	private Double amount;		// 数量
 	private String frequency;		// 频次
@@ -53,7 +54,15 @@ public class OutpTreatRec extends DataEntity<OutpTreatRec> {
 		super(id);
 	}
 
-    public String getClinicId() {
+	public String getAppoint() {
+		return appoint;
+	}
+
+	public void setAppoint(String appoint) {
+		this.appoint = appoint;
+	}
+
+	public String getClinicId() {
         return clinicId;
     }
 

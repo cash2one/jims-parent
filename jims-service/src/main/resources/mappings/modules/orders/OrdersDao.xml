@@ -695,8 +695,8 @@
 	<update id="delOrders">
 		UPDATE orders SET order_status ='8',billing_attr='3',drug_billing_attr='3',del_flag='1'
 		WHERE
-		<if test="visitId !=null and visitId !=''">
-			visit_id=#{visitId}
+		<if test="appNo !=null and appNo !=''">
+			app_no=#{appNo}
 		</if>
 		<if test="clinicId !=null and clinicId !=''">
 			AND current_presc_no=#{currentPrescNo}

@@ -8,8 +8,8 @@ $(function() {
 var orgId = config.org_Id;
 var editIndex = undefined;
 var currentStorage = config.currentStorage  // 当前登录人所属管理单位
-    currentStorage = '150103'  // 当前登录人所属管理单位
-    orgId = 1;
+    //currentStorage = '150103'  // 当前登录人所属管理单位
+    //orgId = 1;
 function endEditing(){
     if (editIndex == undefined){return true}
     if ($('#list_data').datagrid('validateRow', editIndex)){

@@ -30,6 +30,13 @@
 		<include refid="clinicScheduleJoins"/>
 		WHERE a.id = #{id}
 	</select>
+	<select id="getClinicSchedules" resultType="ClinicSchedule">
+		SELECT
+		<include refid="clinicScheduleColumns"/>
+		FROM clinic_schedule a
+		<include refid="clinicScheduleJoins"/>
+		WHERE  a.del_flag='0' AND  a.clinic_label = #{clinicIndexId}
+	</select>
 	<select id="findListTable" resultType="com.jims.common.web.impl.BaseDto">
         select c.id,c.clinic_label AS clinicLabel,nvl(c.appointment_limits,'0')  AS "appointmentLimits",nvl(c.registration_limits,'0') AS "registrationLimits",f.day_number as xx,f.TIME_INTERVAL_CODE sj,f.time_interval_name from
       ( select * from CLINIC_SCHEDULE c

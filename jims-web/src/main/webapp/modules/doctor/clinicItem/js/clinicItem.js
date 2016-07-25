@@ -97,7 +97,7 @@ $(function () {
                     options: {
                         data: clinicDeptCode,
                         valueField: 'id',
-                        textField: 'dept_name',
+                        textField: 'dept_name'
                     }
                 }
             },

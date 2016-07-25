@@ -177,6 +177,20 @@ public class DictRest {
     }
 
     /**
+     * 根据类型和输入的拼音码检索字典
+     * @param type  类型
+     * @param inputCode  拼音码
+     * @return
+     * @author fengyuguang
+     */
+    @Path("find-list-by-type")
+    @GET
+    public List<Dict> listByType(@QueryParam("type")String type,@QueryParam("q")String inputCode){
+        return dictService.listByType(type,inputCode);
+    }
+
+
+    /**
      * 获得字典label值
      *
      * @param type

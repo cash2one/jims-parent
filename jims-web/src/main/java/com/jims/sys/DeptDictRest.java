@@ -187,4 +187,16 @@ public class DeptDictRest {
         List<DeptDict> operationList=deptDictApi.getOperation(loginInfo.getOrgId());
         return operationList;
     }
+    /**
+     * 获取医生所在科室
+     * @return
+     */
+    @Path("getDoctorDept")
+    @GET
+    public List<DeptDict> getDoctorDept(@QueryParam("doctorGroup")String doctorGroup,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        List<DeptDict> operationList=deptDictApi.getDoctorDept(loginInfo.getOrgId(), loginInfo.getPersionId(),doctorGroup);
+        return operationList;
+    }
+
 }

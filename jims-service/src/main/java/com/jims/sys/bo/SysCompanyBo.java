@@ -55,6 +55,35 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
     private SysServiceParamBo sysServiceParamBo ;
 
     /**
+     * 查询orgId和其子机构对应的机构信息
+     * @param orgId
+     * @return 组织机构list集合
+     * @author zhuqi
+     */
+    public List<SysCompany> findListByParentId(String orgId){
+        return dao.findListByParentId(orgId);
+    }
+
+    /**
+     * 查询用户注册的DEL_FLAG='0'的所有机构List
+     * @param owner
+     * @return 组织机构list集合
+     * @author 娄会丽
+     */
+    public List<SysCompany> findAllByOwner(String owner){
+        return dao.findAllByOwner(owner);
+    }
+    /**
+     * 根据机构所属者和组织机构名称查询信息
+     * @param sysCompany
+     * @author 娄会丽
+     * @return
+     */
+    public SysCompany findIsNoByOwner(SysCompany sysCompany){
+        return dao.findIsNoByOwner(sysCompany);
+    }
+
+    /**
      * 保存注册信息以及选择的服务
      *
      * @param company
@@ -91,16 +120,6 @@ public class SysCompanyBo extends CrudImplService<SysCompanyDao, SysCompany> {
         orgStaff.setOrgId(id);
         orgStaffDao.insert(orgStaff);
 
-    }
-
-    /**
-     * 查询orgId和其子机构对应的机构信息
-     * @param orgId
-     * @return 组织机构list集合
-     * @author zhuqi
-     */
-    public List<SysCompany> findListByParentId(String orgId){
-        return dao.findListByParentId(orgId);
     }
 
     /**

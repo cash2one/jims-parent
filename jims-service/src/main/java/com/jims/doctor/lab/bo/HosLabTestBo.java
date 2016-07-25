@@ -1,6 +1,7 @@
 package com.jims.doctor.lab.bo;
 
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.orders.dao.OrdersDao;
 import com.jims.orders.entity.Orders;
 import com.jims.doctor.lab.dao.LabTestItemsDao;
@@ -40,22 +41,19 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
      * @version 2016/5/06
      */
 
-    public String saveAllIn(LabTestMaster labTestMaster) {
+    public String saveAllIn(LabTestMaster labTestMaster,LoginInfo loginInfo) {
         int num;
         //本次住院标识对门诊病人为空
         //patientId病人标识号页面有公共值
         //labTestMaster.setPatientId("");
-        labTestMaster.preInsert();
-        //todo(userid)申请医生
-        labTestMaster.setOrderingProvider("");
-        //todo(clinicId)申请科室
-        labTestMaster.setOrderingDept("");
         //结果状态
         labTestMaster.setResultStatus("0");
         //申请序号
         labTestMaster.setTestNo(creatTestNo());
         labTestMaster.setBillingIndicator(0);//计价标志
         labTestMaster.setPrintIndicator(0);///打印标志
+        labTestMaster.setOrderingDept(loginInfo.getDeptId());//申请科室
+        labTestMaster.setOrderingProvider(loginInfo.getPersionId());//送检医生
         labTestMaster.setRequestedDateTime(new Date());
         num = labTestMasterDao.insert(labTestMaster);
         List<LabTestItems> list = labTestMaster.getList();
@@ -87,15 +85,11 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
             orders.setOrderStatus("6");//医嘱状态
             orders.setFreqDetail("1");//执行时间详细描述
             orders.setPerformSchedule(newDate());
-            orders.setOrderingDept(labTestMaster.getOrderingDept());
-            orders.setDoctor(labTestMaster.getOrderingProvider());
-            //todo(userid)申请医生 ?
-//                orders.setDoctorUser(Long.valueOf(1));
-            //doctor_user:11=['000LJS']
-            orders.setEnterDateTime(labTestMaster.getRequestedDateTime());
-            //billing_attr:13=[3]
-            //drug_billing_attr:14=[3]
-            orders.setAppNo(labTestMaster.getTestNo());
+            orders.setAppNo(labTestMaster.getId());
+            orders.setOrgId(labTestMaster.getOrgId());
+            orders.setDoctor(labTestMaster.getOrderingProvider());//开医嘱医生
+            orders.setOrderingDept(labTestMaster.getOrderingDept());//开医嘱科室
+            orders.setEnterDateTime(labTestMaster.getRequestedDateTime());//开医嘱录入日期及时间
             orders.preInsert();
             ordersDao.insert(orders);
         }
@@ -107,11 +101,9 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++) {
-                LabTestMaster labTestMaster = labTestMasterDao.get(id[j]);
                 num = labTestMasterDao.deleteLabTestMaster(id[j]);
                 labTestItemsDao.deleteItmes(id[j]);
-                String visitId = labTestMaster.getVisitId();
-                ordersDao.delOrders(visitId);
+                ordersDao.delOrders(id[j]);
             }
         } catch (Exception e) {
             return num + "";

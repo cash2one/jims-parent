@@ -70,5 +70,13 @@ public interface DeptDictDao extends CrudDao<DeptDict> {
     public List<DeptDict> getList();
 
     public List<DeptDict> getOperation(@Param("orgId")String orgId);
+
+    /**
+     * 获取医生的科室
+     * @param orgId
+     * @param persionId
+     * @return
+     */
+    public List<DeptDict> getDoctorDept(@Param("orgId")String orgId,@Param("persionId")String persionId,@Param("doctorGroup")String doctorGroup);
 	
 }

@@ -254,6 +254,11 @@
 	
 	<update id="update">
 		UPDATE operation_schedule SET
+			in_or_out = #{inOrOut},
+			patient_id =#{patientId},
+			visit_id =#{visitId},
+			clinic_id =#{clinicId},
+			org_id =#{orgId},
 			dept_stayed = #{deptStayed},
 			bed_no = #{bedNo},
 			scheduled_date_time = #{scheduledDateTime},

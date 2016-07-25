@@ -19,6 +19,13 @@ import java.util.List;
  */
 @MyBatisDao
 public interface ClinicScheduleDao extends CrudDao<ClinicSchedule> {
+    /**
+     * 根据 号别ID 查询 安排信息
+     * @param clinicIndexId
+     * @return
+     * @author zhaoning
+     */
+    public List<ClinicSchedule> getClinicSchedules(@Param("clinicIndexId")String clinicIndexId);
     public List<BaseDto> findListTable(ClinicSchedule clinicSchedule);
 
     public  int batchDel(@Param("list")List<ClinicSchedule> list,@Param("clinicTypeId")String clinicTypeId);

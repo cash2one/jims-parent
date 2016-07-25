@@ -10,133 +10,129 @@ $(function () {
     }) ;
     promise.done(function() {
         var persion_id = loginInfo.persionId;
-
         var persionServiceList = {};
 
-        /**
-         * 展示我的服务
-         */
-        var myDataArr
-        $.get('/service/persion-service-list/findListByPersionId', {
-            serviceClass: '1',
-            serviceType: '1',
-            persionId: persion_id,
-            state: '0'
+        var myOrgDataArr
+        $.get('/service/sys-sompany/findAllByOwner', {
+            owner: persion_id
         }, function (res) {
-            myDataArr = res
+            myOrgDataArr = res
             var liArr = $('#myServiceModel div')
             if (liArr.length < 1) {
-				if(myDataArr.length<=0){
-					$('#myServiceModel').append('<p align="center" style="padding-top: 30px;">尚未定制任何个人服务，请尝试定制下面的推荐服务。</p>');
-					return false;
-				}
-                var now = new Date();
-                var year = now.getFullYear(); //getFullYear getYear
-                var month = now.getMonth() + 1;
-                var date = now.getDate();
-                if (month < 10) month = "0" + month;
-                if (date < 10) date = "0" + date;
-                var nowTime = new Date(year + "-" + month + "-" + date).getTime();
-                for (var i = 0; i < myDataArr.length; i++) {
-                    var li = '<div class="doctortesebox">';
-                    li += '<div class="doctorteseboxL">';
-                    li += '<a href="#">';
-                    if (myDataArr[i].serviceImage == null) {
-                        li += '<img src="/static/bookstrap/images/service/normal.jpg" height="100" width="100" />'
-                    } else {
-                        li += '<img src="' + myDataArr[i].serviceImage + '" height="100" width="100" />'
-                    }
-                    li += '</a></div>'
-                    li += '<div class="doctorteseboxR">';
-                    li += '<div class="doctorteseboxR_name" data-target="#serviceDialog" data-toggle="modal"><a href="#" id="desid_' + myDataArr[i].serviceId + '">' + myDataArr[i].serviceName;
-                    var startDate = myDataArr[i].startDate;
-                    var endDate = myDataArr[i].endDate;
-                    if (endDate == null) {
-                        li += '(长期)';
-                    } else {
-                        if (Number(endDate.substr(0, 4)) > Number(startDate.substr(0, 4))) {
-                            if (Number(endDate.substr(5, 2)) > Number(startDate.substr(5, 2))) {
-                                li += '(' + (Number(endDate.substr(0, 4)) - Number(startDate.substr(0, 4))) + '年' + (Number(endDate.substr(5, 2)) - Number(startDate.substr(5, 2))) + '月)';
-                            } else if (Number(endDate.substr(5, 2)) == Number(startDate.substr(5, 2))) {
-                                li += '(' + (Number(endDate.substr(0, 4)) - Number(startDate.substr(0, 4))) + '年)';
-                            } else {
-                                if (Number(endDate.substr(0, 4)) - Number(startDate.substr(0, 4)) > 1) {
-                                    li += '(' + (Number(endDate.substr(0, 4)) - Number(startDate.substr(0, 4)) - 1) + '年' + (Number(endDate.substr(5, 2)) + 12 - Number(startDate.substr(5, 2))) + '月)';
+                if(myOrgDataArr.length<=0){
+                    $('#myServiceModel').append('<p align="center" style="padding-top: 30px;">尚未注册任何机构，请尝试注册机构。</p>');
+                    return false;
+                }
+                var fi = 0;
+                for (var a = 0; a < myOrgDataArr.length; a++) {
+                    var li = '<div class="doctortese clearfix" id="ms_'+myOrgDataArr[a].zipCode+'"><h3><a href="#">' + myOrgDataArr[a].orgName+'</a></h3>'
+                    var myDataArr = myOrgDataArr[a].sysServiceList;
+
+                    var now = new Date();
+                    var year = now.getFullYear(); //getFullYear getYear
+                    var month = now.getMonth() + 1;
+                    var date = now.getDate();
+                    if (month < 10) month = "0" + month;
+                    if (date < 10) date = "0" + date;
+                    var nowTime = new Date(year + "-" + month + "-" + date).getTime();
+                    for (var i = 0; i < myDataArr.length; i++) {
+                        li += '<div class="doctortesebox">';
+                        li += '<div class="doctorteseboxL">';
+                        li += '<a href="#">';
+                        li += '<img src="'+(myDataArr[i].serviceImage!=null&&myDataArr[i].serviceImage!=""?myDataArr[i].serviceImage:"/static/bookstrap/images/service/normal.jpg")+'" height="100" width="100"/>'
+                        li += '</a></div>'
+                        li += '<div class="doctorteseboxR">';
+                        li += '<div class="doctorteseboxR_name" data-target="#serviceDialog" data-toggle="modal"><a href="#" id="desid_' + myDataArr[i].id + '">' + myDataArr[i].serviceName;
+                        var startDate = myDataArr[i].startDate;
+                        var endDate = myDataArr[i].endDate;
+                        if (endDate == null) {
+                            li += '(长期)';
+                        } else {
+                            if (Number(endDate.substr(0, 4)) > Number(startDate.substr(0, 4))) {
+                                if (Number(endDate.substr(5, 2)) > Number(startDate.substr(5, 2))) {
+                                    li += '(' + (Number(endDate.substr(0, 4)) - Number(startDate.substr(0, 4))) + '年' + (Number(endDate.substr(5, 2)) - Number(startDate.substr(5, 2))) + '月)';
+                                } else if (Number(endDate.substr(5, 2)) == Number(startDate.substr(5, 2))) {
+                                    li += '(' + (Number(endDate.substr(0, 4)) - Number(startDate.substr(0, 4))) + '年)';
                                 } else {
-                                    li += '(' + (Number(endDate.substr(5, 2)) + 12 - Number(startDate.substr(5, 2))) + '月)';
+                                    if (Number(endDate.substr(0, 4)) - Number(startDate.substr(0, 4)) > 1) {
+                                        li += '(' + (Number(endDate.substr(0, 4)) - Number(startDate.substr(0, 4)) - 1) + '年' + (Number(endDate.substr(5, 2)) + 12 - Number(startDate.substr(5, 2))) + '月)';
+                                    } else {
+                                        li += '(' + (Number(endDate.substr(5, 2)) + 12 - Number(startDate.substr(5, 2))) + '月)';
+                                    }
                                 }
-                            }
-                        } else if (Number(endDate.substr(0, 4)) == Number(startDate.substr(0, 4))) {
-                            if (Number(endDate.substr(5, 2)) > Number(startDate.substr(5, 2))) {
-                                li += '(' + (Number(endDate.substr(5, 2)) - Number(startDate.substr(5, 2))) + '月)';
+                            } else if (Number(endDate.substr(0, 4)) == Number(startDate.substr(0, 4))) {
+                                if (Number(endDate.substr(5, 2)) > Number(startDate.substr(5, 2))) {
+                                    li += '(' + (Number(endDate.substr(5, 2)) - Number(startDate.substr(5, 2))) + '月)';
+                                } else {
+                                    li += '(0月)';
+                                }
                             } else {
                                 li += '(0月)';
                             }
-                        } else {
-                            li += '(0月)';
                         }
-                    }
-                    li += '</a>'
-                    li += '</div>'
-                    if (endDate == null) {
-                        li += '<div class="teseprice"><span>服务状态：</span>正常</div>';
-                    } else {
-                        var endTime = new Date(endDate).getTime();
-                        if (nowTime > endTime) {
-                            li += '<div class="teseprice font-red"><span>服务状态：</span>已过期</div>';
+                        li += '</a>'
+                        li += '</div>'
+                        if (endDate == null) {
+                            li += '<div class="teseprice"><span>服务状态：</span>正常</div>';
                         } else {
-                            var cha = ((Date.parse(month + '/' + date + '/' + year) - Date.parse(endDate.substr(5, 2) + '/' + endDate.substr(8, 2) + '/' + endDate.substr(0, 4))) / 86400000);
-                            if (Math.abs(cha) > 30) {
-                                li += '<div class="teseprice font-green"><span>服务状态：</span>正常</div>';
+                            var endTime = new Date(endDate).getTime();
+                            if (nowTime > endTime) {
+                                li += '<div class="teseprice font-red"><span>服务状态：</span>已过期</div>';
                             } else {
-                                li += '<div class="teseprice"><span>服务状态：</span>即将到期</div>';
+                                var cha = ((Date.parse(month + '/' + date + '/' + year) - Date.parse(endDate.substr(5, 2) + '/' + endDate.substr(8, 2) + '/' + endDate.substr(0, 4))) / 86400000);
+                                if (Math.abs(cha) > 30) {
+                                    li += '<div class="teseprice font-green"><span>服务状态：</span>正常</div>';
+                                } else {
+                                    li += '<div class="teseprice"><span>服务状态：</span>即将到期</div>';
+                                }
                             }
                         }
-                    }
-                    li += '<div class="teseCont">有效期：'
-                    if (endDate == null) {
-                        li += '长期';
-                    } else {
-                        li += startDate + '至' + endDate
-                    }
-                    li += '</div>'
-                    if (endDate == null) {
-                        li += '<div><button class="btn btn-default btn-small">免费服务</button></div>';
-                    } else {
-                        var endTime = new Date(endDate).getTime();
-                        if (nowTime > endTime) {
-                            li += '<div><button class="btn btn-success btn-small" id="next' + myDataArr[i].serviceId + '" data-target="#goServiceModel" data-toggle="modal">继续定制</button></div>';
+                        li += '<div class="teseCont">有效期：'
+                        if (endDate == null) {
+                            li += '长期';
                         } else {
-                            li += '<div><button class="btn btn-success btn-small" id="next' + myDataArr[i].serviceId + '" data-target="#goServiceModel" data-toggle="modal">续费</button></div>';
+                            li += startDate + '至' + endDate
                         }
-                    }
-                    li += '</div>'
-                    li += '</div>'
-                    li += '<div id="des_'+myDataArr[i].serviceId+'" style="display:none;">'+(myDataArr[i].tranServiceDescription==null?"":myDataArr[i].tranServiceDescription)+'</div>'
-                    $('#myServiceModel').append(li);
-                }
-                var fi = 0;
-                //alert($('#myServiceModel').html());
-
-                $('#myServiceModel .doctorteseboxR_name').each(function () {
-                    var liDesObj = $(this)
-                    $('a', this).click(function () {
-                        var liDesId = ($(this).attr('id')).substring(6, $(this).attr('id').length);
-                        if($("#des_"+liDesId).html()==null||$("#des_"+liDesId).html()==""){
-                            $("#serviceDialogDes").html('尚未添加描述');
+                        li += '</div>'
+                        if (endDate == null) {
+                            li += '<div><button class="btn btn-default btn-small">免费服务</button></div>';
+                        } else {
+                            var endTime = new Date(endDate).getTime();
+                            li += '<div><button class="btn btn-success btn-small" id="next' + myDataArr[i].id + '" data-target="#goServiceModel" data-toggle="modal">'+(nowTime > endTime?"继续定制":"续费")+'</button></div>';
+                        }
+                        li += '</div>';
+                        li += '<div id="des_'+myDataArr[i].id+'" style="display:none; color:white">'
+                        if(myDataArr[i].tranServiceDescription==null){
                         }else{
-                            $("#serviceDialogDes").html($("#des_"+liDesId).html());
+                            li += myDataArr[i].tranServiceDescription;
                         }
-                    })
-                })
-                $('#myServiceModel div').each(function () {
-                    var liObj = $(this)
-                    $(this).children('div').slideDown('normal')
+                        li += '</div>';
+                        li += '</div>';
+                    }
+                    li+='</div>'
+                    $('#myServiceModel').append(li);
 
-                    $('.btn-success', this).click(function () {
-                        var liSubId = ($(this).attr('id')).substring(4, $(this).attr('id').length);
-                        var liSubArr = $('#goServiceModel ul li')
-                        if (liSubArr.length < 1 && fi == 0) {
+                    $('#myServiceModel .doctorteseboxR_name').each(function () {
+                        var liDesObj = $(this)
+                        $('a', this).click(function () {
+                            var liDesId = ($(this).attr('id')).substring(6, $(this).attr('id').length);
+                            alert(liDesId);
+                            if($("#des_"+liDesId).html()==null||$("#des_"+liDesId).html()==""){
+                                $("#serviceDialogDes").html('尚未添加描述');
+                            }else{
+                                $("#serviceDialogDes").html($("#des_"+liDesId).html());
+                            }
+                        })
+                    })
+                    $('#myServiceModel div').each(function () {
+                        var liObj = $(this)
+                        $(this).children('div').slideDown('normal')
+
+                        fi = 0;
+                        $('.btn-success', this).click(function () {
+                            var liSubId = ($(this).attr('id')).substring(4, $(this).attr('id').length);
+                            $('#goServiceModel ul').html("");
+                            var liSubArr = $('#goServiceModel ul li')
                             fi = 1;
                             var goDataArr;
                             $.get('/service/sys-service/findServiceWithPrice?id=' + liSubId, function (res) {
@@ -177,7 +173,7 @@ $(function () {
                                     liSub += '</table></div>';
                                     liSub += '<div class="curr-btn" style="margin-left: 140px;"><button>定制</button></div>'
                                     liSub += '</li>'
-                                    $('#goServiceModel ul').append(liSub);
+                                    $('#goServiceModel ul').html(liSub);
                                 }
                                 $('#goServiceModel ul li').each(function () {
                                     var liObj = $(this)
@@ -241,9 +237,9 @@ $(function () {
                                     }
                                 }
                             })
-                        }
+                        })
                     })
-                })
+                }
             }
 
         })
@@ -288,11 +284,12 @@ $(function () {
 
 
             alert('支付界面，金额'+total+'元！！')
-
+            window.location.href = "/modules/sys/self-company-service-list.html";
+            return;
             persionServiceList.serviceList = saveData
             jQuery.ajax({
                 'type': 'POST',
-                'url': "/service/persion-service-list/saveService",
+                'url': "/service/org-service-list/saveService",
                 'contentType': 'application/json',
                 'data': JSON.stringify(persionServiceList),
                 'dataType': 'json',
@@ -310,10 +307,6 @@ $(function () {
             });
         }
 
-        $('#saveService').click(function () {
-            datas = $('#addServiceModel .curr-btn-save')
-            saveService('0');//新增
-        });
         $('#saveGoService').click(function () {
             datas = $('#goServiceModel .curr-btn-save')
             saveService('1');//修改
@@ -321,10 +314,13 @@ $(function () {
 
 
         /**
-         * 展示可定制的有偿的个人服务
+         * 展示无偿机构管理服务
          */
         var dataArr
-        $.get('/service/sys-service/findServiceWithPrice', { serviceClass: '1', serviceType: '1', persionId: persion_id, state: '1' }, function (res) {
+        $.get('/service/sys-service/findServiceWithPrice', {
+            serviceClass: '3',
+            serviceType: '0'
+        }, function (res) {
             dataArr = res
             var liArr = $('#addServiceModel ul li')
             if (liArr.length < 1) {
@@ -460,10 +456,6 @@ $(function () {
     //我的服务
     $("#myServices").on('click', function () {
         window.location.href = "/modules/sys/service-list.html";
-    });
-    //我的机构服务
-    $("#myOrgServices").on('click', function () {
-        window.location.href = "/modules/sys/self-company-service-list.html";
     });
     //定制更多个人服务
     $("#moreServices").click(function () {

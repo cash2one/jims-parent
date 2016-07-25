@@ -1,6 +1,6 @@
 
 $(function() {
-    var orgId = 1;
+    var orgId = config.org_Id;
     var editIndex;
 
 //获取所属科室

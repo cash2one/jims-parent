@@ -25,6 +25,21 @@ public interface SysCompanyApi {
      * @author zhuqi
      */
     public List<SysCompany> findListByParentId(String orgId);
+
+    /**
+     * 查询用户注册的DEL_FLAG='0'的所有机构List
+     * @param owner
+     * @return 组织机构list集合
+     * @author 娄会丽
+     */
+    public List<SysCompany> findAllByOwner(String owner);
+    /**
+     * 根据机构所属者和组织机构名称查询信息
+     * @param sysCompany
+     * @author 娄会丽
+     * @return
+     */
+    public SysCompany findIsNoByOwner(SysCompany sysCompany);
     /**
      * 获取单条数据
      * @param id

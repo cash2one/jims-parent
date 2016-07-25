@@ -98,6 +98,6 @@ public interface OutpTreatRecDao extends CrudDao<OutpTreatRec> {
      * @param appointNo
      * @return
      */
-    public OutpTreatRec getSerialNo(@Param("appointNo")String appointNo);
+    public List<OutpTreatRec> getSerialNo(@Param("appointNo")String appointNo);
 
 }

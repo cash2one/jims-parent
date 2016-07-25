@@ -213,7 +213,8 @@ function init(){
                 title: "执行科室",
                 field: "performed_by",
                 width: '10%',
-                align: 'center'
+                align: 'center',
+                formatter:clinicDeptCodeFormatter
             }, {
                 title: "医师",
                 field: "doctor",
@@ -223,7 +224,8 @@ function init(){
                 title: "开单科室",
                 field: "ordered_by",
                 width: '10%',
-                align: 'center'
+                align: 'center',
+                ormatter:clinicDeptCodeFormatter
             }, {
                 title: "申请号",
                 field: "appoint_no",
@@ -231,10 +233,10 @@ function init(){
                 align: 'center'
             },{
                 title: "申请单",
-                field: "appoint_item_no",
+                field: "id",
                 width: '7%',
                 align: 'center',formatter:function(value, row, index){
-                    if(value=='0'){
+                    if(row.appoint_no==''||  row.presc_no==''){
                         return "否";
                     }else{
                         return "是";
@@ -250,7 +252,7 @@ function init(){
                     var data=row[i];
                     var appoint_no="";
                     var data_appoint_no="";
-                    if(data.item_class='A' || data.item_class == 'B'){
+                    if(data.item_class=='A' || data.item_class == 'B'){
                         appoint_no=data.presc_no;
                         data_appoint_no=rowData.presc_no;
                     }else{
@@ -283,7 +285,7 @@ function init(){
                 $.each($('#list-zhu').datagrid('getChecked'),function(j,val){
                     var appoint_no="";
                     var data_appoint_no="";
-                    if(val.item_class='A' || val.item_class == 'B'){
+                    if(val.item_class=='A' || val.item_class == 'B'){
                         appoint_no=val.presc_no;
                         data_appoint_no=rowData.presc_no;
                     }else{

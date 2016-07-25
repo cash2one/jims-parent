@@ -1,5 +1,6 @@
 package com.jims.doctor.cliniIcnspect.bo;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.clinic.dao.PatVisitDao;
@@ -35,7 +36,12 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
     @Autowired
     private PatVisitDao patVisitDao;
 
-    public int saveHospitalInspect(ExamAppoints examAppoints) {
+    /**
+     * 保存住院检查记录
+     * @param examAppoints
+     * @return
+     */
+    public int saveHospitalInspect(ExamAppoints examAppoints,LoginInfo loginInfo) {
         int num = 0;
         PatVisit patVisit = patVisitDao.selectPatVisit(examAppoints.getPatientId(),examAppoints.getVisitId());
         examAppoints.setCnsltState(0);
@@ -47,6 +53,10 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
         //申请序号
         String examNo="JC"+patVisit.getVisitNo()+(int)(Math.random()*9000);
         examAppoints.setExamNo(examNo);
+        examAppoints.setReqPhysician(loginInfo.getPersionId());
+        examAppoints.setReqDept(loginInfo.getDeptId());
+        examAppoints.setDoctorUser(loginInfo.getUserName());
+        examAppoints.setOrgId(loginInfo.getOrgId());
         List<ExamItems> examItemsList = examAppoints.getExamItemsList();
         for (int i = 0; i < examItemsList.size(); i++) {
             ExamItems examItems = examItemsList.get(i);
@@ -57,9 +67,11 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
             examItemsDao.saveExamItems(examItems);
             Orders orders = new Orders();
             orders.preInsert();
+            orders.setOrgId(examAppoints.getOrgId());
             orders.setPatientId(examAppoints.getPatientId());
             orders.setVisitId(examAppoints.getVisitId());
             orders.setAppNo(examAppoints.getId());
+            orders.setDoctor(examAppoints.getReqPhysician());
             Integer orderNo = ordersDao.getOrderNo(examAppoints.getPatientId(),examAppoints.getVisitId(),"");
             if(orderNo !=null){
                 orders.setOrderNo(orderNo+1);
@@ -74,6 +86,8 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
             orders.setOrderStatus("6");
             orders.setFreqDetail("1");
             orders.setPerformSchedule(newDate());
+            orders.setOrderingDept(examAppoints.getReqDept());//开医嘱科室
+            orders.setEnterDateTime(examAppoints.getReqDateTime());//开医嘱录入日期及时间
             orders.setOrderText(examItems.getExamItem());
             orders.setOrderCode(examItems.getExamItemCode());
             ordersDao.insert(orders);
@@ -100,11 +114,9 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                ExamAppoints examAppoints=examAppointsDao.get(id[j]);
                 num = examAppointsDao.deleteExamAppionts(id[j]);
                 examItemsDao.deleteItems(id[j]);
-                String visitId=examAppoints.getVisitId();
-                ordersDao.delOrders(visitId);
+                ordersDao.delOrders(id[j]);
 
 
             }

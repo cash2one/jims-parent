@@ -27,13 +27,8 @@
         <form id="useBloodForm" method="post">
             <!--<input type="hidden" id="inpNo" name="inpNo" value="">-->
             <div class="fitem fitem_pop" style="height: 50px;">
-
             </div>
             <input type="hidden" name="id">
-            <!--<div class="fitem fitem_pop">-->
-
-            <!--</div>-->
-
             <div class="fitem fitem_pop">
                 <label style="width:120px">
                     费别：
@@ -61,11 +56,6 @@
                 <input type="hidden" id="preBloodGroupId" name="preBloodGroup" value="">
                 <input id="preBloodGroup" class="easyui-validatebox validatebox-text validatebox-invalid"
                        style="width:25%;"/>
-                <!--<label style="width:120px">-->
-                <!--血库收到日期：-->
-                <!--</label>-->
-                <!--<input name="gatherDate" class="easyui-datetimebox"-->
-                <!--style="width:25%;"/>-->
             </div>
             <div class="fitem fitem_pop">
                 <label style="width:120px">
@@ -84,7 +74,7 @@
                 <label style="width:120px">
                     申请时间：
                 </label>
-                <input name="applyDate" class="easyui-datetimebox" style="width:25%;"/>
+                <input name="applyDate" id="applyDate" class="easyui-datetimebox" style="width:25%;"/>
 
                 <label style="width:120px">
                     反应及禁忌症：
@@ -177,13 +167,13 @@
                 <!--<input name="physician" class="easyui-validatebox validatebox-text validatebox-invalid"-->
                        <!--style="width:25%;"/>-->
             <!--</div>-->
-            <div class="fitem fitem_pop">
-                <label>
-                    医生：
-                </label>
-                <input name="doctor" class="easyui-validatebox validatebox-text validatebox-invalid"
-                       style="width:25%;"/>
-            </div>
+            <!--<div class="fitem fitem_pop">-->
+                <!--<label>-->
+                    <!--医生：-->
+                <!--</label>-->
+                <!--<input name="doctor" class="easyui-validatebox validatebox-text validatebox-invalid"-->
+                       <!--style="width:25%;"/>-->
+            <!--</div>-->
 
             <input type="hidden"  id="visitId" name="visitId" value="">
             <input type="hidden"  id="patientId" name="patientId" value="">

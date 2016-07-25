@@ -1,6 +1,7 @@
 package com.jims.medical.exam.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.exam.api.ExamConfirmServiceApi;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.medical.exam.bo.ExamConfirmBo;
@@ -24,8 +25,8 @@ public class ExamConfirmServiceImpl implements ExamConfirmServiceApi {
      * @author zhaoning
      */
     @Override
-    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName) {
-        return examConfirmBo.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName);
+    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName,LoginInfo loginInfo) {
+        return examConfirmBo.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName,loginInfo);
     }
 
     /**

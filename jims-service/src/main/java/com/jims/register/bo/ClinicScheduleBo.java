@@ -7,6 +7,7 @@ import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.register.dao.ClinicScheduleDao;
 import com.jims.register.entity.ClinicSchedule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,18 @@ import java.util.List;
 @Service
 @Transactional(readOnly = false)
 public class ClinicScheduleBo extends CrudImplService<ClinicScheduleDao, ClinicSchedule> {
+    @Autowired
+    private ClinicScheduleDao clinicScheduleDao;
 
+    /**
+     * 根据 号别ID 查询 安排信息
+     * @param clinicIndexId
+     * @return
+     * @author zhaoning
+     */
+    public List<ClinicSchedule> getClinicSchedules(String clinicIndexId){
+       return  clinicScheduleDao.getClinicSchedules(clinicIndexId);
+    }
     public List<BaseDto> findListTable(ClinicSchedule clinicSchedule) {
         return dao.findListTable(clinicSchedule);
     }

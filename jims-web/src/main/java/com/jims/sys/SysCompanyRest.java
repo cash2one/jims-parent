@@ -13,13 +13,17 @@ import com.jims.sys.api.SysCompanyApi;
 import com.jims.sys.entity.DeptDict;
 import com.jims.sys.entity.OrgStaff;
 import com.jims.sys.entity.SysCompany;
+import com.jims.sys.entity.SysService;
 import org.apache.commons.fileupload.util.LimitedInputStream;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -64,6 +68,52 @@ public class SysCompanyRest {
     }
 
     /**
+     * 查询用户注册的DEL_FLAG='0'的所有机构List
+     * @param owner
+     * @return 组织机构list集合
+     * @author 娄会丽
+     */
+    @GET
+    @Path("findAllByOwner")
+    public List<SysCompany> findAllByOwner(@QueryParam("owner") String owner) {
+//        return sysCompanyApi.findAllByOwner(owner);
+        List<SysCompany> list=sysCompanyApi.findAllByOwner(owner);
+        if(list!=null&&!list.isEmpty()){
+            for(SysCompany sysCompany:list){
+                List<SysService> ls = sysCompany.getSysServiceList();
+                if(list!=null&&!list.isEmpty()){
+                    for(SysService sysService:ls){
+                        try {
+                            if(sysService.getServiceDescription()!=null){
+                                sysService.setTranServiceDescription(new String(sysService.getServiceDescription(), "utf-8"));
+                            }
+                        } catch (Exception e) { e.printStackTrace(); }
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 根据机构所属者和组织机构名称查询信息
+     * @param owner
+     * @param orgName
+     * @author 娄会丽
+     * @return
+     */
+    @GET
+    @Path("findIsNoByOwner")
+    public SysCompany findIsNoByOwner(@QueryParam("owner") String owner,@QueryParam("orgName") String orgName,@QueryParam("orgCode") String orgCode) {
+
+        SysCompany sysCompany = new SysCompany();
+        sysCompany.setOwner(owner);
+        sysCompany.setOrgCode(orgCode);
+        sysCompany.setOrgName(orgName);
+        sysCompany = sysCompanyApi.findIsNoByOwner(sysCompany);
+        return sysCompany;
+    }
+    /**
      * 根据ID获取组织机构信息
      *
      * @return 组织机构
@@ -71,9 +121,10 @@ public class SysCompanyRest {
      */
     @GET
     @Path("get-sysCompany-by-id")
-    public SysCompany getSysCompanyById(@QueryParam("id") String id, @Context HttpServletRequest request) {
+    public SysCompany getSysCompanyById(@QueryParam("id") String id, @Context HttpServletRequest request){
         HttpSession session = request.getSession();
         Cache cache = CacheManager.getCacheInfo(session.getId());
+        if(cache==null) return null;
         LoginInfo loginInfo = (LoginInfo) cache.getValue();
         loginInfo.setOrgId(id);
         OrgStaff orgStaff = orgStaffApi.findStaffByPersonIdOrgId(loginInfo.getPersionId(), id);
