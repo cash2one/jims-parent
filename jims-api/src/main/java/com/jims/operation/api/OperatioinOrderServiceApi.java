@@ -2,6 +2,7 @@ package com.jims.operation.api;
 
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.CrudService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.operation.entity.OperationSchedule;
 import com.jims.operation.entity.ScheduledOperationName;
@@ -28,14 +29,14 @@ public interface OperatioinOrderServiceApi{
      * @param operationSchedule
      * @return
      */
-    public String saveOperationIn(OperationSchedule operationSchedule);
+    public String saveOperationIn(OperationSchedule operationSchedule,LoginInfo loginInfo);
 
     /**
      * 保存手术安排（门诊）
      * @param operationSchedule
      * @return
      */
-    public String saveOperationOut(OperationSchedule operationSchedule);
+    public String saveOperationOut(OperationSchedule operationSchedule,LoginInfo loginInfo);
     /**
      * 通过病人ID，住院ID拿到病人本次住院的手术最大的申请号
      * @param patientId

@@ -2,6 +2,7 @@ package com.jims.doctor.operation.bo;
 
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.operation.dao.OperationScheduleDao;
 import com.jims.doctor.operation.dao.ScheduledOperationNameDao;
 import com.jims.operation.entity.OperationSchedule;
@@ -32,7 +33,7 @@ public class OperationHosBo {
     @Autowired
     private OrdersDao ordersDao;
 
-    public String saveOperationIn(OperationSchedule operationSchedule) {
+    public String saveOperationIn(OperationSchedule operationSchedule,LoginInfo loginInfo) {
         int  num=0;
         if (operationSchedule.getIsNewRecord()) {
             int scheduleId = getScheduleId(operationSchedule.getPatientId(), operationSchedule.getVisitId(), "");
@@ -40,7 +41,10 @@ public class OperationHosBo {
             operationSchedule.setScheduleId(sId);
             operationSchedule.preInsert();
             operationSchedule.setAckIndicator(0);
-
+            operationSchedule.setEnteredBy(loginInfo.getPersionId());
+            operationSchedule.setDoctorUser(loginInfo.getUserName());
+            operationSchedule.setOperatingDept(loginInfo.getDeptCode());
+            operationSchedule.setOrgId(loginInfo.getOrgId());
 
             Orders orders = new Orders();
             orders.setPatientId(operationSchedule.getPatientId());
