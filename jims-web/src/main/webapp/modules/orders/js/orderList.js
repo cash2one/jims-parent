@@ -45,7 +45,7 @@ $(function(){
         border: true,
         collapsible:false,//是否可折叠的
         method:'GET',
-        //url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize(),
+        url:basePath+'/inOrders/getOrders?'+$('#searchform').serialize(),
         remoteSort:false,
         singleSelect:true,//是否单选
         pagination:true,//分页控件
@@ -142,9 +142,15 @@ $(function(){
                             if(value=='1'){//药品
                                 ordersDrugCom(q,'orderText');
                                 $(ed.target).combogrid("grid").datagrid("loadData", drugData);
+                                $(ed.target).combogrid("setText",q);
+                                var drugNameNew = $("#orderList").datagrid('getEditor', {index: rowNum, field: 'orderText'});
+                                $(drugNameNew.target).textbox("setText",q);
                             }else if(value=='2'){//非药品
                                 clinicCompleting(q,'orderText');
                                 $(ed.target).combogrid("grid").datagrid("loadData", clinicCompleteAuto);
+                                $(ed.target).combogrid("setText",q);
+                                var clinicName = $("#orderList").datagrid('getEditor', {index: rowNum, field: 'orderText'});
+                                $(clinicName.target).textbox("setText",q);
                             }
 
                         }
@@ -318,11 +324,11 @@ $(function(){
             {field:'orderSubNo',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'orderStatus',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'orderCode',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'patientId',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'visitId',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
             {field:'execDateTime',hidden:'true'},
             {field:'verifyDataTime',hidden:'true'},
             {field:'lastPerformDateTime',hidden:'true'}
-            /*{field:'freqIntervalUnit',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},
-             {field:'freqInterval',hidden:'true',editor:{type:'textbox',options:{editable:false,disable:false}}},*/
         ]],
         toolbar: [{
             text: '新增',
@@ -340,8 +346,11 @@ $(function(){
                 orderNo++;
                 var startDate=formatDateBoxFull(new Date());
                 var idx = $("#orderList").datagrid('appendRow', {
+                        startDateTime:startDate,
                         orderNo:orderNo,
-                        orderSubNo:orderNo
+                        orderSubNo:orderNo,
+                        patientId:patId,
+                        visitId:visitId
                     }).datagrid('getRows').length-1;
                 rowNum=idx;
                 $('#orderList').datagrid('beginEdit', idx);
@@ -354,10 +363,10 @@ $(function(){
                     $.messager.alert('提示',"请填写完本行数据后，再进行保存", "error");
                     return false
                 }else{
-                    $("#orderList").datagrid('endEdit', editRow);
-                    if (editRow != undefined) {
+                    $("#orderList").datagrid('endEdit', rowNum);
+                    if (rowNum != undefined) {
 
-                        $("#orderList").datagrid("endEdit", editRow);
+                        $("#orderList").datagrid("endEdit", rowNum);
                     }
                     save();
                 }
@@ -431,7 +440,7 @@ $(function(){
                         if(orderCostsArray[rowData.orderNo]=='null'||orderCostsArray[rowData.orderNo]=='undefined'){
                             $('#orderCostList').datagrid('loadData',  { total: 0, rows: [] });
                         }else{
-                            $('#orderCostList').datagrid('loadData', orderCostsArray[rowData.orderNo]);
+                            $('#orderCostList').datagrid('loadData', { total: orderCostsArray[rowData.orderNo].length, rows: orderCostsArray[rowData.orderNo] });
                         }
 
                     }
@@ -527,7 +536,7 @@ function save(){
     tableJson=tableJson.substring(0, tableJson.length - 1);
     tableJson=tableJson.substring(0, tableJson.length - 1);
     var costJson = JSON.stringify(costRows);
-    var submitJson=tableJson+",\"patientId\":\""+patId+"\",\"visitId\":\""+visitId+"\",\"ordersCostses\":"+costJson+"}]";
+    var submitJson=tableJson+",\"ordersCostses\":"+costJson+"}]";
     if (!$("#orderList").datagrid('validateRow', rowNum)) {
         $.messager.alert("提示消息","请把医嘱信息输入完整再进行保存！");
     }else{
@@ -765,12 +774,7 @@ function docCancelOrders(){
     }else{
         if(row.execDateTime!=null){
             $.messager.alert("提示消息","该医嘱已经执行,不能作废");
-        }else if(row.verifyDataTime==null){
-            $.messager.alert("提示消息","该医嘱未进行校验,不能作废");
-        }else if(row.lastPerformDateTime!=null){
-            $.messager.alert("提示消息","该医嘱已经收费,不能作废");
-        }
-        else {
+        } else {
             $.postJSON(basePath+'/inOrders/docCancelOrders',tableJson,function(data){
                 if(data.data=='success'){
                     $.messager.alert("提示消息","该医嘱已经作废");

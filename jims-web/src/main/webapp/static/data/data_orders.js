@@ -129,8 +129,6 @@ function clinicCompleting(q,id){
         InputParamVo.colValue=q;
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
-    }else{
-        $("#"+id).combogrid('setValue','');
     }
     clinicNameData.inputParamVos=inputParamVos;
     $.ajax({
