@@ -105,7 +105,7 @@ function onloadMethod() {
     });
 }
 
-//新增检验
+//新增检查
 function add() {
     $("#saveBut").hide();
     $('#examClassNameId').removeAttr("disabled");
@@ -184,7 +184,7 @@ function add() {
         'data':JSON.stringify({"clinicId": clinicId}),
         success:function(data){
             if(data != "" && data != null){
-                $("#clinSymp").val(data.xianbingshi);
+                $("#clinSymp").val(unescape(data.xianbingshi));
             }
         }
     })
