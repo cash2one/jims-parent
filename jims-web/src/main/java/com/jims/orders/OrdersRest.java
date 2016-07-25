@@ -61,7 +61,7 @@ public class OrdersRest {
     @POST
     public  StringData saveOrders(List<Orders> ordersList,@Context HttpServletRequest request){
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
-        String num = ordersServiceApi.saveOrdersNew(ordersList);
+        String num = ordersServiceApi.saveOrdersNew(ordersList,loginInfo);
         StringData stringData = new StringData();
         stringData.setCode(num);
         if (Integer.parseInt(num) > 0) {
