@@ -75,4 +75,12 @@ public interface DeptDictApi {
     public List<DeptDict> getOperation(String orgId);
 
     public DeptDict get(String id) ;
+
+    /**
+     * 获取医生科室
+     * @param orgId
+     * @param persionId
+     * @return
+     */
+    public List<DeptDict> getDoctorDept(String orgId,String persionId,String doctorGroup);
 }
