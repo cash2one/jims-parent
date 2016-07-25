@@ -91,6 +91,7 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers: true,
+        fit: true,
         url: basePath + "/orgStaff/list?orgId=" + orgId + "&deptId=" + deptId,
         loadMsg: '数据正在加载中，请稍后.....',
         pagination: true,//分页控件
@@ -103,51 +104,87 @@ $(function () {
         }, {
             title: "姓名",
             field: "name",
-            width: '15%'
+            align: 'center',
+            width: '10%'
 
         }, {
             title: '性别',
             field: 'sex',
-            width: '15%'
+            align: 'center',
+            width: '8%',
+            formatter: function(value,row,index){
+                var sex = value;
+                $.each(sexList, function (index, item) {
+                    if (item.value == value) {
+                        sex = item.label;
+                    }
+                });
+                return sex;
+            }
         }, {
             title: '身份证号',
             field: 'cardNo',
-            width: '15%'
+            align: 'center',
+            width: '12%'
         }, {
             title: '联系电话',
             field: 'phoneNum',
-            width: '15%'
+            align: 'center',
+            width: '10%'
         }, {
             title: '邮箱',
             field: 'email',
-            width: '15%'
+            align: 'center',
+            width: '10%'
         }, {
             title: '职称',
             field: 'title',
-            width: '15%'
+            align: 'center',
+            width: '10%'
         }, {
             title: '昵称',
             field: 'nickName',
-            width: '15%'
+            align: 'center',
+            width: '10%'
         }, {
             title: '民族',
             field: 'nation',
-            width: '15%'
+            align: 'center',
+            width: '10%',
+            formatter: function(value,row,index){
+                var nation = value;
+                $.each(nationList, function (index, item) {
+                    if (item.value == value) {
+                        nation = item.label;
+                    }
+                });
+                return nation;
+            }
         }, {
             title: '人员id',
             field: 'staffId',
-            width: '15%',
             hidden: 'true'
         }
         ]]
     });
-    $('#sex').combobox({
+
+    var sexList = [];   //性别
+    $.get(basePath + '/dict/findListByType?type=SEX_DICT',function(data){
+        sexList = data;
+    });
+
+    var nationList = [];    //民族
+    $.get(basePath + '/dict/findListByType?type=NATION_DICT',function(data){
+        nationList = data;
+    });
+
+    $('#sex').combobox({    //性别
         url: basePath + '/dict/findListByType?type=SEX_DICT',
         valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
-    $('#nation').combobox({
+    $('#nation').combobox({     //民族
         data: 'type:NATION_DICT',
         url: basePath + '/dict/findListByType?type=NATION_DICT',
         valueField: 'value',
