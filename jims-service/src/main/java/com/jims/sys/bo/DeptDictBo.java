@@ -123,4 +123,14 @@ public class DeptDictBo extends CrudImplService<DeptDictDao, DeptDict> {
     public List<DeptDict> getOperation(String orgId){
         return deptDictDao.getOperation(orgId);
     }
+
+    /**
+     * 获取医生科室
+     * @param orgId
+     * @param persionId
+     * @return
+     */
+    public List<DeptDict> getDoctorDept(String orgId,String persionId,String doctorGroup) {
+        return deptDictDao.getDoctorDept(orgId,persionId,doctorGroup);
+    }
 }

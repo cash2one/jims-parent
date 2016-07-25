@@ -107,11 +107,7 @@ public class ClinicInspectRest {
     public StringData saveExamAppoints(ExamAppoints examAppoints,@Context HttpServletRequest request, @Context HttpServletResponse response){
         StringData stringData=new StringData();
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
-        examAppoints.setReqPhysician(loginInfo.getPersionId());
-        examAppoints.setReqDept(loginInfo.getDeptId());
-        examAppoints.setDoctorUser(loginInfo.getUserName());
-        examAppoints.setOrgId(loginInfo.getOrgId());
-        int num= examAppointsServiceApi.batchSave(examAppoints);
+        int num= examAppointsServiceApi.batchSave(examAppoints,loginInfo);
         stringData.setCode(num+"");
         return stringData;
     }
@@ -126,11 +122,7 @@ public class ClinicInspectRest {
     public StringData saveHospitalInspect(@Context HttpServletRequest request,ExamAppoints examAppoints){
         StringData stringData=new StringData();
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
-        examAppoints.setReqPhysician(loginInfo.getPersionId());
-        examAppoints.setReqDept(loginInfo.getDeptId());
-        examAppoints.setDoctorUser(loginInfo.getUserName());
-        examAppoints.setOrgId(loginInfo.getOrgId());
-        int num = examAppointsServiceApi.saveHospitalInspect(examAppoints);
+        int num = examAppointsServiceApi.saveHospitalInspect(examAppoints,loginInfo);
         stringData.setCode(num+"");
         return stringData;
     }

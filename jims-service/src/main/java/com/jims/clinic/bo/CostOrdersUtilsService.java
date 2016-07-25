@@ -5,6 +5,7 @@ package com.jims.clinic.bo;
 import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.*;
 import com.jims.common.utils.IdGen;
+import com.jims.common.vo.LoginInfo;
 import com.jims.sys.dao.PriceListDao;
 import com.jims.sys.entity.OrgStaff;
 import com.jims.sys.vo.PriceListVo;
@@ -55,7 +56,7 @@ public class CostOrdersUtilsService {
      * @param itemDictList 诊疗项目list
      * @return
      */
-    public String save(String clinicId ,List<ClinicItemDict> itemDictList,String appointsId,String performedBy,Double amount) {
+    public String save(String clinicId ,List<ClinicItemDict> itemDictList,LoginInfo loginInfo,String appointsId,String performedBy,Double amount,String appoint) {
         ClinicMaster clinicMaster=clinicMasterDao.get(clinicId);
         OrgStaff orgStaff=new OrgStaff();
        // SysUser user=new SysUser();
@@ -66,7 +67,7 @@ public class CostOrdersUtilsService {
         outpOrders.setClinicId(clinicId);
         outpOrders.setPatientId(patientId);
         outpOrders.setOrgId(orgId);
-        outpOrders.setDoctor(orgStaff.getPersionId());
+        outpOrders.setDoctor(loginInfo.getPersionId());
         outpOrders.setVisitDate(clinicMaster.getVisitDate());
         outpOrders.setSerialNo(serialNo);
         outpOrders.preInsert();
@@ -95,6 +96,7 @@ public class CostOrdersUtilsService {
             outpTreatRec.setSerialNo(serialNo);
             outpTreatRec.setAppointNo(appointsId);
             outpTreatRec.setAppointItemNo(i+1);
+            outpTreatRec.setAppoint(appoint);
             outpTreatRec.setItemClass(clinicItemDict.getItemClass());
             outpTreatRec.setItemCode(clinicItemDict.getItemCode());
             outpTreatRec.setItemName(clinicItemDict.getItemName());
@@ -116,13 +118,14 @@ public class CostOrdersUtilsService {
                 OutpOrdersCosts outpOrdersCosts=new OutpOrdersCosts();
                 outpOrdersCosts.setOrgId(orgId);
                 outpOrdersCosts.setClinicId(clinicId);
+                outpOrdersCosts.setVisitNo(clinicMaster.getVisitNo());
                 outpOrdersCosts.setSubjCode(priceListVo.getSubjCode());//会计科目
                 outpOrdersCosts.setClassOnReckoning(priceListVo.getClassOnReckoning());//核算项目分类
                 outpOrdersCosts.setOrderClass(priceListVo.getItemClass());
                 outpOrdersCosts.setPatientId(patientId);
                 outpOrdersCosts.setVisitDate(clinicMaster.getVisitDate());
                 outpOrdersCosts.setSerialNo(serialNo);
-                outpOrdersCosts.setItemNo(j+1);
+                outpOrdersCosts.setItemNo(j + 1);
                 outpOrdersCosts.setItemCode(priceListVo.getItemCode());
                 outpOrdersCosts.setItemName(priceListVo.getItemName());
                 outpOrdersCosts.setItemClass(priceListVo.getItemClass());
@@ -132,8 +135,11 @@ public class CostOrdersUtilsService {
                 outpOrdersCosts.setUnits(priceListVo.getUnits());
                 outpOrdersCosts.setAmount(amount);//数量
                 outpOrdersCosts.setRepetition(1);//付数
+                outpOrdersCosts.setPerformedBy(performedBy);//执行科室
+                outpOrdersCosts.setOrderedByDept(loginInfo.getDeptId());//开单科室
+                outpOrdersCosts.setOrderedByDoctor(loginInfo.getUserName());//开单医生id
                 outpOrdersCosts.setOrderedByDept(orgStaff.getDeptId());
-                outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());
+                outpOrdersCosts.setOrderedByDoctor(orgStaff.getPersionId());//开单医生
                 outpOrdersCosts.setPerformedBy(clinicItemDict.getExpand3());
                 outpOrdersCosts.setCosts(priceListVo.getPrice());
                 price+=priceListVo.getPrice();
