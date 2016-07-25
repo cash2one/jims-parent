@@ -8,11 +8,11 @@
 -- Create table
 create table BED_REC
 (
-  WARD_CODE          VARCHAR2(8) not null,
+  WARD_CODE          VARCHAR2(64) not null,
   BED_NO             NUMBER(8) not null,
   BED_LABEL          VARCHAR2(8),
   ROOM_NO            VARCHAR2(4),
-  DEPT_CODE          VARCHAR2(8),
+  DEPT_CODE          VARCHAR2(64),
   BED_APPROVED_TYPE  VARCHAR2(1),
   BED_SEX_TYPE       VARCHAR2(1),
   BED_CLASS          VARCHAR2(20),
@@ -32,7 +32,8 @@ create table BED_REC
   CREATE_BY          VARCHAR2(64),
   UPDATE_DATE        DATE,
   DEL_FLAG           VARCHAR2(100),
-  CREATE_DATE        DATE
+  CREATE_DATE        DATE,
+  ORG_ID             VARCHAR2(64)
 );
 -- Add comments to the table
 comment on table BED_REC
@@ -70,6 +71,8 @@ comment on column BED_REC.DEPT_ID
   is '护理单元ID';
 comment on column BED_REC.ID
   is '主键';
+  comment on column BED_REC.ORG_ID
+  is '机构代码';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table BED_REC
   add constraint BED_REC_PK primary key (ID);

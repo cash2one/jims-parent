@@ -25,12 +25,15 @@
             <input type="hidden" name="visitId"  id="visitId" value="">
             <input type="hidden" name="id" id="id" value="">
             <input type="hidden" id="patientId" name="patientId" value="">
+            <input type="hidden"  id="name" name="name" value="">
+            <input type="hidden"  id="sex" name="sex" value="">
+            <input type="hidden"  id="chargeType" name="chargeType" value="">
             <div class="fitem fitem_pop">
                 <div class="fitem">
                     <label>
                         临床诊断：
                     </label>
-                    <textarea id="relevantClinicDiag" class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
+                    <textarea id="relevantClinicDiag" readonly class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
                 </div>
                 <div class="fitem">
                     <label>
@@ -43,7 +46,7 @@
                         检验科室：
                     </label>
                     <input type="hidden" name="performedBy" value="" id="performedByCode"  >
-                    <input placeholder="科室"   id="performedBy"   style="width: 145px;">
+                    <input placeholder="科室"   id="performedBy" class="easyui-validatebox validatebox-text validatebox-invalid"  style="width: 145px;" disabled="disabled">
                 </div>
                 <div class="fitem">
                     <label>
@@ -55,14 +58,14 @@
                     <label>
                         标本说明：
                     </label>
-                    <textarea id="notesForSpcm" class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
+                    <textarea id="notesForSpcm" readonly class="easyui-validatebox validatebox-text validatebox-textarea"></textarea>
                 </div>
-                <div class="fitem">
-                    <label>
-                        送检医师：
-                    </label>
-                    <input title="" name="orderingProvider" class="easyui-validatebox validatebox-text validatebox-invalid">
-                </div>
+                <!--<div class="fitem">-->
+                    <!--<label>-->
+                        <!--送检医师：-->
+                    <!--</label>-->
+                    <!--<input title="" name="orderingProvider" class="easyui-validatebox validatebox-text validatebox-invalid">-->
+                <!--</div>-->
                 <!--<div class="fitem">-->
                     <!--<label>-->
                         <!--申请时间：-->
@@ -76,7 +79,6 @@
                 </div>
                 <div class="fitem">
                     <div id="SendProduct" class="easyui-window"  title="检验项目"  style="width:1000px;height:400px;" closed="true">
-                        aasdasdsa
                     </div>
                 </div>
             </div>

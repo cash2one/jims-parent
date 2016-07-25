@@ -40,4 +40,11 @@ public interface ScheduledOperationNameDao extends CrudDao<ScheduledOperationNam
     * @return
     */
    public int deleteSchedule(@Param("scheduleId")String scheduleId);
+
+   /**
+    * 删除手术名称（子表）
+    * @param id
+    * @return
+    */
+   public int deleteScheduledOperationName(@Param("id")String id);
 }

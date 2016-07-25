@@ -22,7 +22,7 @@ public class LabTestItems extends DataEntity<LabTestItems> {
 	private String testBy;		// test_by
 	private String rcptNo;		// rcpt_no
 	private String explanation;		// 退费说明
-	private Double price;		// 退费说明
+	private Double price;		// 费用
 	private String parentId;
 	private String labMaster; //主表id
 	public LabTestItems() {

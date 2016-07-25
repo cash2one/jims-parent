@@ -119,11 +119,9 @@ public class BloodApplyRest {
     public StringData save(BloodApply bloodApply,@Context HttpServletRequest request, @Context HttpServletResponse response) {
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data = new StringData();
-        bloodApply.setOrgId(loginInfo.getOrgId());
-        bloodApply.setPhysician(loginInfo.getPersionId());
         String num = data.getCode();
         if (bloodApply != null) {
-            num = bloodApplyServiceApi.saveBloodApply(bloodApply);
+            num = bloodApplyServiceApi.saveBloodApply(bloodApply,loginInfo);
         }
         data.setCode(num);
         data.setData("success");
@@ -137,12 +135,9 @@ public class BloodApplyRest {
     public StringData saveHos(BloodApply bloodApply,@Context HttpServletRequest request) {
         LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         StringData data = new StringData();
-        bloodApply.setOrgId(loginInfo.getOrgId());
-        bloodApply.setPhysician(loginInfo.getPersionId());
-        bloodApply.setDeptCode(loginInfo.getDeptCode());
         String num = data.getCode();
         if (bloodApply != null) {
-            num = bloodApplyServiceApi.saveHosBloodApply(bloodApply);
+            num = bloodApplyServiceApi.saveHosBloodApply(bloodApply,loginInfo);
         }
         data.setCode(num);
         data.setData("success");
@@ -155,6 +150,18 @@ public class BloodApplyRest {
     @Path("del")
     @POST
     public StringData del(String ids) {
+        StringData stringData = new StringData();
+        String num = bloodApplyServiceApi.deleteBloodApply(ids);
+        stringData.setCode(num);
+        stringData.setData("success");
+        return stringData;
+    }
+    /**
+     * 门诊用血申请记录删除
+     */
+    @Path("delHos")
+    @POST
+    public StringData delHos(String ids) {
         StringData stringData = new StringData();
         String num = bloodApplyServiceApi.deleteBloodApply(ids);
         stringData.setCode(num);

@@ -4,6 +4,7 @@
 package com.jims.doctor.cliniIcnspect.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.cliniIcnspect.bo.ExamAppointsBo;
 import com.jims.common.persistence.Page;
 import com.jims.exam.api.ExamAppointsServiceApi;
@@ -81,8 +82,8 @@ public class ExamAppointsServiceImpl  implements ExamAppointsServiceApi {
     }
 
     @Override
-    public int batchSave(ExamAppoints examAppoints) {
-        return examAppointsBo.batchSave(examAppoints);
+    public int batchSave(ExamAppoints examAppoints,LoginInfo loginInfo) {
+        return examAppointsBo.batchSave(examAppoints,loginInfo);
     }
 
     /**
@@ -91,8 +92,8 @@ public class ExamAppointsServiceImpl  implements ExamAppointsServiceApi {
      * @return
      */
     @Override
-    public int saveHospitalInspect(ExamAppoints examAppoints) {
-        int num =hospitalInspectBo.saveHospitalInspect(examAppoints);
+    public int saveHospitalInspect(ExamAppoints examAppoints,LoginInfo loginInfo) {
+        int num =hospitalInspectBo.saveHospitalInspect(examAppoints,loginInfo);
         return num;
     }
 }

@@ -79,7 +79,7 @@ $.ajax({
  * @returns {string|string|string}
  */
 function bedFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
+    if (value == null) {
         return;
     }
     for (var i = 0; i < bedApprovedType.length; i++) {

@@ -106,6 +106,17 @@ public class DictServiceApiImpl implements DictServiceApi {
         return dictBo.findListType(type);
     }
 
+    /**
+     * 根据类型和输入的拼音码检索字典
+     * @param type  类型
+     * @param inputCode 拼音码
+     * @return
+     * @author fengyuguang
+     */
+    public List<Dict> listByType(String type, String inputCode){
+        return dictBo.listByType(type,inputCode);
+    }
+
     public String getLabel(String type, String value) {
         return dictBo.getLabel(type, value);
     }

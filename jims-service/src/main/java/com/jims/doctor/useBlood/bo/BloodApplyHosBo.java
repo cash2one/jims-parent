@@ -1,5 +1,6 @@
 package com.jims.doctor.useBlood.bo;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.useBlood.dao.BloodApplylDao;
 import com.jims.doctor.useBlood.dao.BloodCapacityDao;
 import com.jims.blood.entity.BloodApply;
@@ -29,12 +30,14 @@ public class BloodApplyHosBo {
     @Autowired
     private OrdersDao ordersDao;
 
-    public String saveHosBloodApply(BloodApply bloodApply) {
+    public String saveHosBloodApply(BloodApply bloodApply,LoginInfo loginInfo) {
         int strState = 0;
         if (bloodApply.getIsNewRecord()) {
             bloodApply.preInsert();
             bloodApply.setApplyNum(IdGen.uuid());
-
+            bloodApply.setOrgId(loginInfo.getOrgId());
+            bloodApply.setPhysician(loginInfo.getPersionId());
+            bloodApply.setDeptCode(loginInfo.getDeptCode());
             Orders orders = new Orders();
             orders.setPatientId(bloodApply.getPatientId());
             orders.setVisitId(bloodApply.getVisitId());
@@ -173,5 +176,25 @@ public class BloodApplyHosBo {
             }
         }
         return num1 + "";
+    }
+
+    /**
+     * 删除住院用血记录
+     * @param ids
+     * @return
+     */
+    public String delHos(String ids){
+        int num = 0;
+        try {
+            String[] id =ids.split(",");
+            for(int i=0;i<id.length;i++){
+                num = bloodApplylDao.deleteBloodApply(id[i]);
+                bloodCapacityDao.deleteBloodCapacity(id[i]);
+                ordersDao.delOrders(id[i]);
+            }
+        }catch (Exception e){
+            return "0";
+        }
+        return num+"";
     }
 }

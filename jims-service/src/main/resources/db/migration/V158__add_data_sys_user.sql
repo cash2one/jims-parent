@@ -443,7 +443,6 @@ insert into sys_user(id,login_name,password,persion_id,del_flag) values(sys_guid
 insert into sys_user(id,login_name,password,persion_id,del_flag) values(sys_guid(),'15031303890','123','11ABEC501860466380BEC3C7D0BCBEB1','0');
 insert into sys_user(id,login_name,password,persion_id,del_flag) values(sys_guid(),'13403340640','123','B0A6D69C9D774B60BB9CA58DD1719B65','0');
 insert into sys_user(id,login_name,password,persion_id,del_flag) values(sys_guid(),'13633246381','123','E783D22867A147C0BB5898241F6F64EE','0');
-insert into sys_user(id,login_name,password,persion_id,del_flag) values(sys_guid(),'15031303890','123','BFD3EAC6462644EC8E0100A1427F52A6','0');
 insert into sys_user(id,login_name,password,persion_id,del_flag) values(sys_guid(),'15803242085','123','5EDA476BE56B45A39D2ED8D1A07BC48B','0');
 insert into sys_user(id,login_name,password,persion_id,del_flag) values(sys_guid(),'18903148237','123','0B843D3E4CEC40369CC698A6BB52CB23','0');
 insert into sys_user(id,login_name,password,persion_id,del_flag) values(sys_guid(),'15003146101','123','058CA8E3FCA44644AC4A04AF274A4032','0');

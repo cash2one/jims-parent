@@ -268,7 +268,7 @@ function saveUseBloodApply() {
                         $.messager.alert("提示信息", "保存失败", "error");
                     }
                 } else {
-                    alert("请添加用血方式");
+                    $.messager.alert("提示信息","请添加用血方式");
                 }
 
             } else {

@@ -4,6 +4,7 @@ import com.jims.clinic.bo.CostOrdersUtilsService;
 import com.jims.clinic.dao.*;
 import com.jims.clinic.entity.*;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +46,7 @@ public class TreatmentBo extends CrudImplService<OutpTreatRecDao, OutpTreatRec> 
      * @param outpTreatRecs OutpTreatRec OutpOrders
      * @return
      */
-    public String saveClinicItem(List<OutpTreatRec> outpTreatRecs) {
+    public String saveClinicItem(List<OutpTreatRec> outpTreatRecs,LoginInfo loginInfo) {
         String num = "";
         List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
         String clinicId = outpTreatRecs.get(0).getClinicId();
@@ -58,7 +59,7 @@ public class TreatmentBo extends CrudImplService<OutpTreatRecDao, OutpTreatRec> 
             clinicItemDictList.add(clinicItemDict);
             if (outpTreatRec.getId() == null || outpTreatRec.getId() == "") {
                 Double amount = outpTreatRec.getAmount();
-                num = costOrdersUtilsService.save(clinicId, clinicItemDictList, "",outpTreatRec.getPerformedBy(),amount);
+                num = costOrdersUtilsService.save(clinicId, clinicItemDictList, loginInfo,"",outpTreatRec.getPerformedBy(),amount,"");
             }
         }
         return num;

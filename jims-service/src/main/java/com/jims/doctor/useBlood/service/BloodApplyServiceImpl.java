@@ -10,6 +10,7 @@ package com.jims.doctor.useBlood.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.blood.api.BloodApplyServiceApi;
 import com.jims.common.data.StringData;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.useBlood.bo.BloodApplyBo;
 import com.jims.doctor.useBlood.bo.BloodApplyHosBo;
 import com.jims.doctor.useBlood.dao.BloodApplylDao;
@@ -41,8 +42,8 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
      * @version 2016-6-28
      */
 
-    public String saveBloodApply(BloodApply bloodApply) {
-        return bloodApplyBo.saveBloodApply(bloodApply);
+    public String saveBloodApply(BloodApply bloodApply,LoginInfo loginInfo) {
+        return bloodApplyBo.saveBloodApply(bloodApply,loginInfo);
     }
 
     /**
@@ -51,8 +52,8 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
      * @return
      */
     @Override
-    public String saveHosBloodApply(BloodApply bloodApply) {
-        String num = bloodApplyHosBo.saveHosBloodApply(bloodApply);
+    public String saveHosBloodApply(BloodApply bloodApply,LoginInfo loginInfo) {
+        String num = bloodApplyHosBo.saveHosBloodApply(bloodApply,loginInfo);
         return num;
 
     }
@@ -65,6 +66,16 @@ public class BloodApplyServiceImpl extends CrudImplService<BloodApplylDao, Blood
     @Override
     public String deleteBloodApply(String ids) {
         return bloodApplyBo.delete(ids);
+    }
+
+    /**
+     * 删除住院用血记录
+     * @param ids
+     * @return
+     */
+    @Override
+    public String delHos(String ids) {
+        return bloodApplyHosBo.delHos(ids);
     }
 
 

@@ -308,18 +308,10 @@
 		update emr_diagnosis set del_flag='1'
 		<where>
 			 del_flag='0'
-			<if test="patientId!=null and patientId!=''">
-				and patient_id=#{patientId}
+			<if test="parentId!=null and parentId!=''">
+				and parent_id=#{parentId}
 			</if>
-			<if test="type!=null and type!=''">
-				and type=#{type}
-			</if>
-			<if test="itemNo!=null">
-				and item_no=#{itemNo}
-			</if>
-			<if test="diagnosisDate!=null">
-				and to_char(diagnosis_date,'yyyy-MM-dd')=to_char(#{diagnosisDate},'yyyy-MM-dd')
-			</if>
+
 		</where>
 	</update>
 	<select id="getDescription" resultType="EmrDiagnosis">

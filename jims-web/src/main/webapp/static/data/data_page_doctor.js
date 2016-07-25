@@ -25,7 +25,7 @@ $.ajax({
  * @returns {string|string|string|string|string}
  */
 function doctorNameFormatter(value, rowData, rowIndex) {
-    if (value == 0 || value==undefined) {
+    if (value == 0 || value==undefined || value=='') {
         return;
     }
     var ident='';

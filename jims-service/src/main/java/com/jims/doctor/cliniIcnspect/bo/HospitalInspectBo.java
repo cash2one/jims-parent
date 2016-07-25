@@ -1,5 +1,6 @@
 package com.jims.doctor.cliniIcnspect.bo;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.clinic.dao.PatVisitDao;
@@ -40,7 +41,7 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
      * @param examAppoints
      * @return
      */
-    public int saveHospitalInspect(ExamAppoints examAppoints) {
+    public int saveHospitalInspect(ExamAppoints examAppoints,LoginInfo loginInfo) {
         int num = 0;
         PatVisit patVisit = patVisitDao.selectPatVisit(examAppoints.getPatientId(),examAppoints.getVisitId());
         examAppoints.setCnsltState(0);
@@ -52,6 +53,10 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
         //申请序号
         String examNo="JC"+patVisit.getVisitNo()+(int)(Math.random()*9000);
         examAppoints.setExamNo(examNo);
+        examAppoints.setReqPhysician(loginInfo.getPersionId());
+        examAppoints.setReqDept(loginInfo.getDeptId());
+        examAppoints.setDoctorUser(loginInfo.getUserName());
+        examAppoints.setOrgId(loginInfo.getOrgId());
         List<ExamItems> examItemsList = examAppoints.getExamItemsList();
         for (int i = 0; i < examItemsList.size(); i++) {
             ExamItems examItems = examItemsList.get(i);
@@ -109,7 +114,6 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
         try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                ExamAppoints examAppoints=examAppointsDao.get(id[j]);
                 num = examAppointsDao.deleteExamAppionts(id[j]);
                 examItemsDao.deleteItems(id[j]);
                 ordersDao.delOrders(id[j]);

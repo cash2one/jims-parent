@@ -127,4 +127,8 @@
 		DELETE FROM scheduled_operation_name
 		WHERE schedule_id = #{scheduleId}
 	</update>
+	<update id="deleteScheduledOperationName">
+		DELETE from scheduled_operation_name
+		where id=#{id}
+	</update>
 </mapper>

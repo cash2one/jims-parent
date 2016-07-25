@@ -561,6 +561,7 @@ function del(id){
 }
 //删除手术名称
 function doDelete() {
+    //把你选中的 数据查询出来。
     var selectRows = $('#operationName').datagrid("getSelections");
     if (selectRows.length < 1) {
         $.messager.alert("提示消息", "请选中要删的数据!");
@@ -582,20 +583,19 @@ function doDelete() {
                 var index1 = $('#operationName').datagrid('getRowIndex', $("#operationName").datagrid('getSelected'))
                 $('#operationName').datagrid('deleteRow', index1);
             } else {
-
                 //真删除数据
                 $.ajax({
-                    'type': 'POST',
-                    'url': basePath + '/operatioinOrder/delete',
+                    'type': 'GET',
+                    'url': basePath + '/operatioinOrder/deleteScheduledOperationName',
                     'contentType': 'application/json',
-                    'data': id = strIds,
+                    'data': {"id" : strIds},
                     'dataType': 'json',
                     'success': function (data) {
                         if (data == 1) {
                             $('#operation').form('clear');
                             $.messager.alert("提示消息", data + "条记录删除成功！");
-                            //$('#operationName').datagrid('load');
-                            $('#operationName').datagrid('loadData', { total: 0, rows: [] });
+                            $('#operationName').datagrid('load');
+                            //$('#operationName').datagrid('loadData', { total: 0, rows: [] });
                         } else {
                             $.messager.alert('提示', "删除失败", "error");
                         }

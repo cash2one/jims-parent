@@ -2,6 +2,7 @@ package com.jims.nurse.api;
 
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.persistence.Page;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.entity.BedRec;
 
@@ -29,7 +30,7 @@ public interface BedRecServiceApi {
      * @author pq
      * @return
      */
-    public String saveBed(List<BedRec> bedRecList);
+    public String saveBed(List<BedRec> bedRecList,LoginInfo loginInfo);
 
     /**
      * 判断 病区 下的床位号的唯一性

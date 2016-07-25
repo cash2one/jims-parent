@@ -2,12 +2,18 @@ package com.jims.medical;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.DateUtils;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.operation.api.OperatioinOrderServiceApi;
 import com.jims.operation.entity.OperationSchedule;
+import org.eclipse.persistence.sessions.Login;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -31,9 +37,13 @@ public class OperationConfirmRest {
      */
     @GET
     @Path("findOperation")
-    public List<BaseDto> findOperation(@QueryParam("scheduledDateTime")String scheduledDateTime,@QueryParam("operatingRoom")String operatingRoom){
-         operatingRoom = "1613";
-       return operatioinOrderServiceApi.findOperation(scheduledDateTime,operatingRoom);
+    public List<BaseDto> findOperation(@Context HttpServletRequest request, @QueryParam("scheduledDateTime")String scheduledDateTime,@QueryParam("operatingRoom")String operatingRoom){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        OperationSchedule operationSchedule = new OperationSchedule();
+        operationSchedule.setOperatingRoom("1613");
+        operationSchedule.setScheduledDateTime(DateUtils.parseDate(scheduledDateTime));
+        operationSchedule.setOrgId(loginInfo.getOrgId());
+       return operatioinOrderServiceApi.findOperation(operationSchedule);
     }
 
     /**

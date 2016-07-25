@@ -3,7 +3,6 @@ var patId;
 var editRow = undefined;
 var rowNum=-1;
 var wardCode='160101';
-
 $(function(){
     $('#bedRec').datagrid({
      /*   view: myview,
@@ -156,8 +155,11 @@ $(function(){
         },
             onLoadSuccess: function (data) {
             if (data.total == 0) {
+                flag=0;
                 var body = $(this).data().datagrid.dc.body2;
                 body.find('table tbody').append('<tr><td colspan="8" width="' + body.width() + '" style="height: 5px; text-align: center;">暂无数据</td></tr>');
+            }else{
+                flag=1;
             }
         }
 });
@@ -350,36 +352,33 @@ $(function(){
 
 
 function save(){
-    var flag=0;
    var bedRows =  $("#bedRec").datagrid("getChanges");
     var tableJson=JSON.stringify(bedRows);
-    var arry = new Array();
     arry = tableJson;
     var ary=arry;
-    for(var i=0;i<ary.length-1;i++){
 
-        if(ary[i].bedNo==ary[i+1].bedNo){
-
-            flag =flag +1;
-
-        }
-    }
-    if(flag>0){
-        $.messager.alert('提示',"检测到存在相同的床位号,请检查!", "error");
-    }else{
     $.postJSON(basePath+'/bedRec/save',tableJson,function(data){
         if(data.data=='success'){
-            $.messager.alert("提示消息",data.code+"条记录，保存成功");
+            $.messager.alert("提示消息","保存成功");
             //  window.parent.document.getElementById("centerIframe").window.location.reload();
             $('#bedRec').datagrid('load');
             $('#bedRec').datagrid('clearChecked');
+        }else if(data.code=="error"){
+            $.messager.alert('提示',data.data, "error");
+            $('#bedRec').datagrid('load');
+            $('#bedRec').datagrid('clearChecked');
+
         }else{
             $.messager.alert('提示',"保存失败", "error");
+            $('#bedRec').datagrid('load');
+            $('#bedRec').datagrid('clearChecked');
         }
     },function(data){
-        $.messager.alert('提示',"保存失败", "error");
+        if(data.code=="error"){
+            $.messager.alert('提示',data.data, "error");
+        }
     })
-    }
+
 
 }
 

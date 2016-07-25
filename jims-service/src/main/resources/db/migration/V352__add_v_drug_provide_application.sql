@@ -6,7 +6,7 @@
 
 -- Create view
 CREATE OR REPLACE VIEW V_DRUG_PROVIDE_APPLICATION AS
-SELECT distinct A.DRUG_CODE,
+SELECT distinct  A.DRUG_CODE,
        A.DRUG_SPEC,
        B.DRUG_NAME,
        A.UNITS,
@@ -16,7 +16,8 @@ SELECT distinct A.DRUG_CODE,
        b.input_code,
        c.supplier_id,
        s.label,
-       A.org_id
+       A.org_id,
+       a.min_spec
   FROM DRUG_PRICE_LIST A, DRUG_DICT B,
   DRUG_SUPPLIER_CATALOG  C,
   (SELECT VALUE,LABEL FROM SYS_DICT WHERE  TYPE = 'spec_unit')  S
