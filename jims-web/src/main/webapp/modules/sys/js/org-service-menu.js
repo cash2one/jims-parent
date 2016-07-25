@@ -25,6 +25,7 @@ $(function () {
                 rownumbers: true,
                 fitColumns: true, //列自适应宽度
                 singleSelect: true,
+                mode:'remote',
                 columns: [[//显示的列
                     {
                         field: 'serviceId', title: '服务ID', hidden: true
@@ -35,7 +36,6 @@ $(function () {
                                 panelHeight: '150',
                                 valueField: 'id',
                                 textField: 'serviceName',
-                                editable: false,
                                 data: styleArr
                             }
                         },
@@ -291,18 +291,21 @@ $(function () {
         var node = $('#serviceId').datagrid('getSelected');
         var row = $('#roleId').datagrid('getSelected');
         var roots = $('#tt').treegrid('getRoots');
-        var saveData = []
         var changes=$("#tt").treegrid("getChanges");
 
-        var ids='';
+        var ids="";
         for(var i=0;i<changes.length;i++){
             if(changes[i].menuOperate== '2'){
                 ids=ids+changes[i].id+","
-                $.postJSON(basePath + '/roleVs/delete-orgRole', ids, function (res) {
-                    menuDict();
-                });
             }
         }
+        if(ids !=''){
+            $.postJSON(basePath + '/roleVs/delete-orgRole',ids, function (res) {
+                $.messager.alert("提示消息", "保存成功", "success");
+                $('#tt').treegrid('reload');
+            });
+        }
+
         var handleData = function (datas) {
             var ds = []
             if (datas && datas.length > 0) {
@@ -340,11 +343,11 @@ $(function () {
         saveData.unshift({id: node.id})
 
         $.postJSON(basePath + '/roleVs/save', JSON.stringify(saveData), function (res) {
-                if (parseInt(res) > 0) {
+                if (res!= null) {
                     $.messager.alert("提示消息", "保存成功", "success");
                     $('#tt').treegrid('reload');
-                } else {
-                    $.messager.alert('提示消息', "保存失败", "error");
+                }else{
+                    $.messager.alert('保存','保存失败','error');
                 }
             }
         )
