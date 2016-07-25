@@ -1,18 +1,56 @@
 var clinicMaster={};
+var doctorDept=[];
 $(function(){
-    patientList('0','');
+    $.ajax({
+        type: "GET",
+        url:basePath +"/dept-dict/getDoctorDept",
+        data: "doctorGroup=门诊医生组",
+        dataType: "json",
+        async: false,
+        success: function(data){
+            doctorDept=data;
+            if(data.length>1){
+                var deptHtml='<ul>';
+                for(var i=0; i<data.length; i++){
+                    deptHtml+='<li style="text-align: center" onclick="getDoctorDept(\''+data[i].id+'\')">'+data[i].deptName+'</li>';
+                }
+                deptHtml+='</ul>';
+                $("#doctorDept").html(deptHtml);
+                $('#doctorDept').dialog({
+                    title: '出诊科室选择',
+                    iconCls: "icon-edit",
+                    closable: false,
+                    width: "13%",
+                    height: "50%",
+                    modal: true
+                });
+            }else{
+                parent.config.deptCode=data[0].deptCode;
+                parent.config.deptName=data[0].deptName;
+                parent.config.deptId=data[0].id;
+            }
+
+        }
+    });
+
+
+
+
     ///**
     // * 科室下拉框
     $('#deptNameId').combobox({
-        data: clinicDeptCode,
+        data: doctorDept,
         valueField: 'id',
-        textField: 'dept_name',
+        textField: 'deptName',
         onChange: function () {
             var status=$('#wrap input[name="rad05"]:checked ').val();
             var dept=$('#deptNameId').combobox('getValue');
             patientList(status,dept);
         }
     })
+    if(doctorDept.length==1){
+        $('#deptNameId').combobox('select', parent.config.deptId);
+    }
     //添加Tabs
     $(".tabs-header").bind('contextmenu',function(e){
         e.preventDefault();
@@ -76,6 +114,16 @@ $(function(){
         }
     });
 });
+
+/**
+ * 获取医生科室
+ */
+function getDoctorDept(id){
+    parent.config.deptId=id;
+    $('#deptNameId').combobox('select', id);
+    $("#doctorDept").dialog("close");
+}
+
 function closeTabs(){
     var tablist = $('#tabs-header').tabs('tabs');
     for(var i=tablist.length-1;i>=0;i--){
@@ -142,9 +190,9 @@ function patientList(status,dept){
     var liHtml='';
     var url='';
     if(status=='0'){
-        url=basePath + '/clinicMaster/clinicMasterList?deptName='+dept;
+        url=basePath + '/clinicMaster/clinicMasterList?deptId='+dept;
     }else{
-        url=basePath + '/clinicMaster/clinicMasterDiagnosed?deptName='+dept;
+        url=basePath + '/clinicMaster/clinicMasterDiagnosed?deptId='+dept;
     }
     $.get(url, function (data) {
         for (var i = 0; i < data.length; i++) {
