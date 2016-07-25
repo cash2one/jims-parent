@@ -261,7 +261,7 @@ $(function(){
                         var performSchedule = $("#orderList").datagrid('getEditor',{index:rowNum,field:'performSchedule'});
                         var frequency = $("#orderList").datagrid('getEditor',{index:rowNum,field:'frequency'});
                         var frequencyValue = $(frequency.target).combobox('getValue');
-                        // var freqCounter = $("#orderList").datagrid('getEditor',{index:rowNum,field:'freqCounter'});
+                         var freqCounter = $("#orderList").datagrid('getEditor',{index:rowNum,field:'freqCounter'});
                         //var freqIntervalUnit = $("#orderList").datagrid('getEditor',{index:rowNum,field:'freqIntervalUnit'});
 
                         var repeatIndicatorValue = $("#orderList").datagrid('getEditor',{index:rowNum,field:'repeatIndicator'});
@@ -285,6 +285,7 @@ $(function(){
                                     'success': function(data){
                                         perSchedule=data;
                                         var defaultSchedule ;
+                                        var freqCounterValue ;
                                         for (var i = 0; i < perSchedule.length; i++) {
                                             if (perSchedule[i].freqDesc == frequencyValue && perSchedule[i].administration == administrationValue) {
                                                 defaultSchedule = perSchedule[i].defaultSchedule;
@@ -304,11 +305,7 @@ $(function(){
             {field:'performResult',title:'阴阳',width:'5%',align:'center'},
             {field:'stopDateTime',title:'结束时间',width:'10%',align:'center',formatter:formatDateBoxFull},
             {field:'freqDetail',title:'医生说明',width:'10%',align:'center',editor:'text'},
-            {field:'doctor',title:'医生',width:'5%',align:'center',
-                formatter:function(value, row, index){
-                    return "李俊山";
-                }},
-            {field:'freqCounter',title:'次数',width:'5%',align:'center',editor:{type:'textbox',options:{editable:false,disable:false}}},
+            {field:'freqCounter',title:'次数',width:'5%',align:'center'},
             {field:'stopDoctor',title:'停止医生',width:'10%',align:'center'},
             {field:'stopNurse',title:'停止校対护士',width:'5%',align:'center'},
             {field:'orderNo',hidden:'false',editor:{type:'textbox',options:{editable:false,disable:false}},
@@ -551,6 +548,7 @@ function save(){
 //刷新
 function reload(){
     $("#orderList").datagrid("reload");
+    $('#orderCostList').datagrid('reload');
 }
 
 //删除
@@ -584,8 +582,7 @@ function deleteOrders(){
                         'success': function (data) {
                             if (data.data == "success") {
                                 $.messager.alert("提示消息", data.code + "条记录删除成功！");
-                                $('#orderList').datagrid('load');
-                                $('#orderList').datagrid('clearChecked');
+                                $('#orderList').datagrid('reload');
                                 $('#orderCostList').datagrid('loadData', { total: 0, rows: [] });
                             } else {
                                 $.messager.alert('提示', "删除失败", "error");
