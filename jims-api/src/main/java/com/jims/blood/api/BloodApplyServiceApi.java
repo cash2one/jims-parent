@@ -3,6 +3,7 @@ package com.jims.blood.api;
 import com.jims.blood.entity.BloodApply;
 import com.jims.common.data.StringData;
 import com.jims.common.persistence.Page;
+import com.jims.common.vo.LoginInfo;
 
 import java.util.List;
 
@@ -35,14 +36,14 @@ public interface BloodApplyServiceApi {
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public String saveBloodApply(BloodApply bloodApply);
+    public String saveBloodApply(BloodApply bloodApply,LoginInfo loginInfo);
 
     /**
      * 保存或编辑(住院)
      * @author qinlongxin
      * @version 2016/4/20
      */
-    public String saveHosBloodApply(BloodApply bloodApply);
+    public String saveHosBloodApply(BloodApply bloodApply,LoginInfo loginInfo);
 
     /**
      * 删除门诊用血记录

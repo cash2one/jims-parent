@@ -57,7 +57,8 @@ $(function () {
                         staffFrom.push({
                             value: data[i].dept_code,
                             text: data[i].dept_name,
-                            inputcode: data[i].input_code
+                            inputcode: data[i].input_code ,
+                            id:data[i].id
                         });
                     }
                 })
@@ -231,17 +232,20 @@ $(function () {
 
                 type: 'combogrid',
                 options: {
-                    panelWidth: 320,
+                    panelWidth: 420,
                     idField: 'value',
                     textField: 'value',
                     columns: [[
                         {field: 'value', title: '科室代码', width: 100},
                         {field: 'text', title: '科室名称', width: 100},
-                        {field: 'inputcode', title: '拼音码', width: 100}
+                        {field: 'inputcode', title: '拼音码', width: 100}  ,
+                        {field: 'id', title: '科室ID', width: 100}
                     ]],
                     onSelect: function (index, data) {
                         var row = $('#groupDict').datagrid('getSelected');
                         row.groupName = data.text;
+                        row.deptId= data.id;
+                        row.inputCode=data.inputcode;
                         $('#groupDict').datagrid('endEdit', editIndex1);
                     },
                     filter: function (field, row) {

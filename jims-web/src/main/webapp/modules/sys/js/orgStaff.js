@@ -91,6 +91,7 @@ $(function () {
         toolbar: '#ft',
         method: 'GET',
         rownumbers: true,
+        fit: true,
         url: basePath + "/orgStaff/list?orgId=" + orgId + "&deptId=" + deptId,
         loadMsg: '数据正在加载中，请稍后.....',
         pagination: true,//分页控件
@@ -103,56 +104,114 @@ $(function () {
         }, {
             title: "姓名",
             field: "name",
-            width: '15%'
+            align: 'center',
+            width: '10%'
 
         }, {
             title: '性别',
             field: 'sex',
-            width: '15%'
+            align: 'center',
+            width: '8%',
+            formatter: function(value,row,index){
+                var sex = value;
+                $.each(sexList, function (index, item) {
+                    if (item.value == value) {
+                        sex = item.label;
+                    }
+                });
+                return sex;
+            }
         }, {
             title: '身份证号',
             field: 'cardNo',
-            width: '15%'
+            align: 'center',
+            width: '12%'
         }, {
             title: '联系电话',
             field: 'phoneNum',
-            width: '15%'
+            align: 'center',
+            width: '10%'
         }, {
             title: '邮箱',
             field: 'email',
-            width: '15%'
+            align: 'center',
+            width: '10%'
         }, {
             title: '职称',
             field: 'title',
-            width: '15%'
+            align: 'center',
+            width: '10%',
+            formatter: function(value,row,index){
+                var title = value;
+                $.each(titleList, function (index, item) {
+                    if (item.label == value) {
+                        title = item.value;
+                    }
+                });
+                return title;
+            }
         }, {
             title: '昵称',
             field: 'nickName',
-            width: '15%'
+            align: 'center',
+            width: '10%'
         }, {
             title: '民族',
             field: 'nation',
-            width: '15%'
+            align: 'center',
+            width: '10%',
+            formatter: function(value,row,index){
+                var nation = value;
+                $.each(nationList, function (index, item) {
+                    if (item.value == value) {
+                        nation = item.label;
+                    }
+                });
+                return nation;
+            }
         }, {
             title: '人员id',
             field: 'staffId',
-            width: '15%',
             hidden: 'true'
         }
         ]]
     });
-    $('#sex').combobox({
+
+    var sexList = [];   //性别
+    $.get(basePath + '/dict/findListByType?type=SEX_DICT',function(data){
+        sexList = data;
+    });
+
+    var nationList = [];    //民族
+    $.get(basePath + '/dict/find-list-by-type?type=NATION_DICT',function(data){
+        nationList = data;
+    });
+
+    var titleList = [];     //职称
+    $.get(basePath + '/dict/find-list-by-type?type=' + 'TITLE_DICT',function(data){
+        titleList = data
+    });
+
+    $('#sex').combobox({    //性别
         url: basePath + '/dict/findListByType?type=SEX_DICT',
         valueField: 'value',
         textField: 'label',
         method: 'GET'
     });
-    $('#nation').combobox({
-        data: 'type:NATION_DICT',
-        url: basePath + '/dict/findListByType?type=NATION_DICT',
-        valueField: 'value',
+    $('#nation').combogrid({     //民族
+        panelWidth: 320,
+        idField: 'value',
         textField: 'label',
-        method: 'GET'
+        loadMsg: '数据正在加载',
+        url: basePath + '/dict/find-list-by-type?type=' + 'NATION_DICT',
+        mode: 'remote',
+        method: 'GET',
+        fitColumns: true,
+        columns: [[
+            {field: 'label', title: '民族', align: 'center', width: 120},
+            {field: 'value', title: '标签', align: 'center', width: 50},
+            {field: 'inputCode', title: '拼音码', align: 'center', width: 50}
+        ]]
     });
 
     $('#deptName').combobox({
@@ -168,6 +227,22 @@ $(function () {
         textField: 'roleName',
         method: 'GET',
         multiple: true
+    });
+
+    $("#title").combogrid({     //加载职称
+        panelWidth: 320,
+        idField: 'label',
+        textField: 'value',
+        loadMsg: '数据正在加载',
+        url: basePath + '/dict/find-list-by-type?type=' + 'TITLE_DICT',
+        mode: 'remote',
+        method: 'GET',
+        fitColumns: true,
+        columns: [[
+            {field: 'label', title: '标签',align: 'center', width: 50},
+            {field: 'value', title: '键值',align: 'center', width: 120},
+            {field: 'inputCode', title: '拼音码',align: 'center', width: 50}
+        ]]
     });
 
     //检查子类别模态框
@@ -233,9 +308,9 @@ $(function () {
             $("#name").val(node.name);
             $("#email").val(node.email);
             $("#nickName").val(node.nickName);
-            $("#title").val(node.title);
+            $("#title").combogrid('setValue',node.title);
             $("#sex").combobox('setValue', node.sex);
-            $("#nation").combobox('setValue', node.nation);
+            $("#nation").combogrid('setValue', node.nation);
             $("#id").val(node.id);
 
             var staffId = node.staffId;
@@ -277,7 +352,7 @@ $(function () {
                     $("#email").val(data.email);
                     $("#nickName").val(data.nickName);
                     $("#sex").combobox('setValue', data.sex);
-                    $("#nation").combobox('setValue', data.nation);
+                    $("#nation").combogrid('setValue', data.nation);
                     $("#id").val(data.id);
                     $.get("/service/orgStaff/findTitleByPersionId?persionId=" + data.id + "&orgId=" + orgId, function (data) {
 
@@ -327,7 +402,7 @@ $(function () {
         orgStaffVo.selectCardNo = $("#selectCardNo").val();
         orgStaffVo.sex = $("#sex").combobox('getValue');
         orgStaffVo.name = $("#name").val();
-        orgStaffVo.title = $("#title").val();
+        orgStaffVo.title = $("#title").combogrid('getValue');
         orgStaffVo.cardNo = $("#cardNo").val();
         orgStaffVo.phoneNum = $("#phoneNum").val();
         orgStaffVo.email = $("#email").val();
@@ -349,7 +424,7 @@ $(function () {
         }
         // orgStaffVo.orgId = parent.config.org_id;
         orgStaffVo.orgId = orgId;
-        orgStaffVo.nation = $("#nation").combobox('getValue');
+        orgStaffVo.nation = $("#nation").combogrid('getValue');
         if (orgStaffVo.cardNo != "" && orgStaffVo.email != "" && orgStaffVo.nickName != "" && orgStaffVo.phoneNum != "") {
             $.postJSON(basePath + "/orgStaff/save", JSON.stringify(orgStaffVo), function (data) {
                 if (data.data == "success") {

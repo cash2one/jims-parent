@@ -1,7 +1,7 @@
 var ordersDrugData={};
 ordersDrugData.dictType="v_clinic_item_price";
 ordersDrugData.inputParamVos =inputParamVos;
-
+ordersDrugData.isOrgId=false;
 
 var drugData = [];
 

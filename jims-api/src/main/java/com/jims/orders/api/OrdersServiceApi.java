@@ -1,5 +1,6 @@
 package com.jims.orders.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.exam.entity.ExamAppoints;
@@ -53,7 +54,7 @@ public interface OrdersServiceApi {
      * @author pq
      * @return
      */
-    public String saveOrdersNew(List<Orders> ordersList);
+    public String saveOrdersNew(List<Orders> ordersList,LoginInfo loginInfo);
 
     /**
      * 保存子医嘱

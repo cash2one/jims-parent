@@ -1,6 +1,7 @@
 package com.jims.doctor.clinicItem.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.clinicItem.api.TreatmentServiceApi;
 import com.jims.clinic.dao.OutpTreatRecDao;
 import com.jims.clinic.entity.OutpTreatRec;
@@ -30,8 +31,8 @@ public class TreatmentServiceImpl  implements TreatmentServiceApi {
     }
 
     @Override
-    public String saveClinicItem(List<OutpTreatRec> outpTreatRecs) {
-        return treatmentBo.saveClinicItem(outpTreatRecs);
+    public String saveClinicItem(List<OutpTreatRec> outpTreatRecs,LoginInfo loginInfo) {
+        return treatmentBo.saveClinicItem(outpTreatRecs,loginInfo);
     }
 
     @Override

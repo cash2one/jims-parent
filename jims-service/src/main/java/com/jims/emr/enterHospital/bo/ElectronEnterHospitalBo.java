@@ -61,9 +61,7 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
                                 diagnosis.preUpdate();
                                 num = emrDiagnosisDao.update(diagnosis);
                             }
-                        return num + "";
                     }
-                    return num + "";
                 }
             }
         }

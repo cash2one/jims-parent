@@ -39,7 +39,7 @@ public class OutpOrdersCosts extends DataEntity<OutpOrdersCosts> {
 	private Double amount;		// 数量
 	private String orderedByDept;		// 录入科室
 	private String orderedByDoctor;		// 录入医生
-	private String performedBy;		// 执行诊室
+	private String performedBy;		// 执行诊室-开药的话是药房，检查检验则是检查检验科室
 	private String classOnRcpt;		// 收费项目分类
 	private Double costs;		// 计价金额
 	private Double charges;		// 实收费用

@@ -20,6 +20,7 @@ public class StaffGroupDict extends DataEntity<StaffGroupDict> {
     private String deptName;
     private String groupClassId;   //工作组类的id   外键
     private String groupManager;
+    private String deptId;
     public StaffGroupDict(){}
 
     public StaffGroupDict(String groupCode, String groupName, String inputCode, String deptCode, String deptName, String groupClassId, String groupManager) {
@@ -30,6 +31,14 @@ public class StaffGroupDict extends DataEntity<StaffGroupDict> {
         this.deptName = deptName;
         this.groupClassId = groupClassId;
         this.groupManager = groupManager;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
     }
 
     public StaffGroupDict(String id, String groupCode, String groupName, String inputCode, String deptCode, String deptName, String groupClassId, String groupManager) {
