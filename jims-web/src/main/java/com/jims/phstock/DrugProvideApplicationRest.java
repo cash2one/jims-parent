@@ -92,6 +92,8 @@ public class DrugProvideApplicationRest {
         entity.setApplicantStorageSub(applicantStorageSub);
         entity.setDocumentNo(documentNo);
         entity.setFlag(flag);
+        entity.setProvideStorage(storage);
+        entity.setSubStorage(subStorage);
         return api.findListWithPrice(entity,storage,subStorage);
     }
 
