@@ -83,7 +83,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc> {
                     op.setGetdrugFlag(1);//未取药
                     op.setAbidance(1);
                     op.setOrgId(loginInfo.getOrgId());
-                    op.setPerformedBy(op.getItemClass());
+                    op.setPerformedBy(outpPresc.getItemClass());//执行诊室
                     op.setPatientId(clinicMaster.getPatientId());
                     if (op.getItemClass() != null && "B".equals(op.getItemClass())) {//中药
                         if (op.getAmount() != null && !"".equals(op.getAmount()) && op.getAmount() != 0) {//中药数量>0
@@ -140,7 +140,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc> {
                                 outpOrdersCosts.setAmount(outpPresc.getAmount());
                                 outpOrdersCosts.setOrderedByDept(loginInfo.getDeptId()); // 当前医师坐诊科室
                                 outpOrdersCosts.setOrderedByDoctor(loginInfo.getPersionId());
-                                outpOrdersCosts.setPerformedBy(outpPresc.getItemClass());
+                                outpOrdersCosts.setPerformedBy(outpPresc.getItemClass());//执行诊室,开药的话是药房，检查检验则是检查检验科室
                                 outpOrdersCosts.setCosts(outpPresc.getCosts() * outpPresc.getAmount());
                                 outpOrdersCosts.setCharges(outpPresc.getCharges() * outpPresc.getAmount());
                                 outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
@@ -160,10 +160,10 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc> {
             oo.setPatientId(clinicMaster.getPatientId());
             oo.setVisitNo(clinicMaster.getVisitNo());
             oo.setSerialNo(serialNo);
-            oo.setOrderedBy(clinicMaster.getVisitDept());
-            oo.setDoctor(loginInfo.getUserName());
+            oo.setOrderedBy(loginInfo.getDeptId());//开单科室
+            oo.setDoctor(loginInfo.getUserName());//开单医生
             oo.setClinicNo(DateFormatUtils.format(clinicMaster.getVisitDate(), "yyyyMMdd") + oo.getVisitNo());
-            oo.setDoctorNo(loginInfo.getPersionId());
+            oo.setDoctorNo(loginInfo.getPersionId());//医生编号
             oo.setOrgId(loginInfo.getOrgId());
             oo.preInsert();
             outpOrdersDao.insert(oo);
@@ -198,7 +198,9 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc> {
     public void saveOutpOrdersCosts(List<OutpOrdersCosts> ordersCostsesList) {
         try {
             if (ordersCostsesList != null && ordersCostsesList.size() > 0) {
-                for (OutpOrdersCosts outpOrdersCosts : ordersCostsesList) {
+                for(int i = 0;i< ordersCostsesList.size();i++){
+                    OutpOrdersCosts outpOrdersCosts = new OutpOrdersCosts();
+                    outpOrdersCosts.setItemNo(i+1);
                     outpOrdersCosts.preInsert();
                     outpOrdersCostsDao.insert(outpOrdersCosts);
                 }
@@ -240,7 +242,7 @@ public class OutpPrescBo extends CrudImplService<OutpPrescDao, OutpPresc> {
         outpOrdersCosts.setAmount(outpPresc.getAmount());
         outpOrdersCosts.setOrderedByDept(loginInfo.getDeptId()); // 当前医师坐诊科室
         outpOrdersCosts.setOrderedByDoctor(loginInfo.getPersionId());
-        outpOrdersCosts.setPerformedBy(outpPresc.getItemClass());
+        outpOrdersCosts.setPerformedBy(outpPresc.getItemClass());//执行诊室，开药的话是药房，检查检验则是检查检验科室
         outpOrdersCosts.setCosts(outpPresc.getCosts());
         outpOrdersCosts.setCharges(outpPresc.getCharges());
         outpOrdersCosts.setSubjCode(outpPresc.getSubjCode());
