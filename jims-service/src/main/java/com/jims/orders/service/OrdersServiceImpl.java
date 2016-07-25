@@ -6,6 +6,7 @@ package com.jims.orders.service;
 import java.util.List;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jims.common.persistence.Page;
 import com.jims.common.vo.LoginInfo;
 import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.web.impl.BaseDto;
@@ -50,8 +51,8 @@ public class OrdersServiceImpl implements OrdersServiceApi{
     }
 
     @Override
-    public List<Orders> getPatientOrders(Orders orders) {
-        return ordersServiceBo.getPatientOrders(orders);
+    public Page<Orders> getPatientOrders(Page<Orders> page,Orders orders) {
+        return ordersServiceBo.getPatientOrders(page,orders);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.jims.orders.api;
 
+import com.jims.common.persistence.Page;
 import com.jims.common.vo.LoginInfo;
+import com.jims.lab.entity.LabTestMaster;
 import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.exam.entity.ExamAppoints;
@@ -46,7 +48,7 @@ public interface OrdersServiceApi {
      * @author pq
      * @return
      */
-    public List<Orders> getPatientOrders(Orders orders);
+    public Page<Orders> getPatientOrders(Page<Orders> page, Orders orders);
 
     /**
      * 保存住院医嘱
