@@ -2,9 +2,8 @@ package com.jims.phstock;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jims.common.data.StringData;
-import com.jims.phstock.api.DrugInfoApi;
-import com.jims.phstock.entity.DrugProvideApplication;
 import com.jims.phstock.api.DrugProvideApplicationApi;
+import com.jims.phstock.entity.DrugProvideApplication;
 import com.jims.phstock.vo.DrugProvideApplicationVo;
 import org.springframework.stereotype.Component;
 
@@ -51,6 +50,8 @@ public class DrugProvideApplicationRest {
         entity.setDocumentNo(documentNo);
         entity.setFlag(flag);
         entity.setEnterDateTime(enterDateTime);
+        entity.setProvideStorage(provideStorage);
+        entity.setSubStorage(subStorage);
         return api.findList(entity);
     }
     /**
@@ -105,12 +106,16 @@ public class DrugProvideApplicationRest {
     public List<DrugProvideApplication> findDocument(@QueryParam("orgId") String orgId,
                                                      @QueryParam("applicantStorage") String applicantStorage,
                                                      @QueryParam("applicantStorageSub") String applicantStorageSub,
+                                                     @QueryParam("provideStorage") String provideStorage,
+                                                     @QueryParam("subStorage") String subStorage,
                                                      @QueryParam("flag") String flag) {
         DrugProvideApplication entity = new DrugProvideApplication();
         entity.setOrgId(orgId);
         entity.setApplicantStorage(applicantStorage);
         entity.setApplicantStorageSub(applicantStorageSub);
         entity.setFlag(flag);
+        entity.setProvideStorage(provideStorage);
+        entity.setSubStorage(subStorage);
         return api.findDocumentByDistinct(entity);
     }
 
