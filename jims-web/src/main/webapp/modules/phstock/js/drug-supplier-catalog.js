@@ -141,37 +141,37 @@ $(function () {
         }
     });
 
-    $('#supplierType').combogrid({
-        delay: 150,
-        width: '150px',
-        mode: 'remote',
-        method: 'GET',
-        url: basePath + '/drug-supplier-catalog/list-type?orgId=' + parent.config.org_Id,
-        idField: 'supplierClass',
-        textField: 'supplierClass',
-        columns: [[
-            {field: 'supplierClass', title: '类别', width: "150px", sortable: true}
-        ]]
+    $('#supplierType').combobox({
+        editable: false,
+        width: 160,
+        panelHeight:'auto',
+        idField: 'value',
+        valueField: 'value',
+        textField: 'text',
+        data: [
+            {'value': '生产商', 'text': '生产商', width: "100px"},
+            {'value': '批发商', 'text': '批发商', width: "100px"}
+        ]
     });
 
     var reset = function () {
         $('#chk1').click();
         $("#inputCode").textbox('setValue', '');
         $("#inputCode").textbox('disable');
-        $("#supplierType").combogrid('enable');
+        $("#supplierType").combobox('enable');
     }
     reset();
 
     $('#chk2').click(function () {
-        $("#supplierType").combogrid('setValue', '');
+        $("#supplierType").combobox('setValue', '');
         $("#inputCode").textbox('enable');
-        $("#supplierType").combogrid('disable');
+        $("#supplierType").combobox('disable');
     });
 
     $('#chk1').click(function () {
         $("#inputCode").textbox('setValue', '');
         $("#inputCode").textbox('disable');
-        $("#supplierType").combogrid('enable');
+        $("#supplierType").combobox('enable');
 
     });
 
@@ -191,7 +191,7 @@ $(function () {
 
     $("#addBtn").on('click', function () {
         stopEdit();
-        $("#dg").datagrid('appendRow', {foreignx: "1", usedFlag: "0"});
+        $("#dg").datagrid('appendRow', {supplierClass:"批发商",foreignx: "1", usedFlag: "0"});
         var rows = $("#dg").datagrid('getRows');
         var addRowIndex = $("#dg").datagrid('getRowIndex', rows[rows.length - 1]);
         editIndex = addRowIndex;
@@ -290,7 +290,7 @@ $(function () {
             $.postJSON(basePath + "/drug-supplier-catalog/merge", JSON.stringify(examRptPatternVo), function (data) {
                 $.messager.alert('系统提示', '保存成功', 'info');
                 loadDict();
-                $('#supplierType').combogrid();
+                $('#supplierType').combobox();
             })
         }
 
