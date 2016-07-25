@@ -1,5 +1,6 @@
 package com.jims.exam.api;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.exam.entity.ExamAppoints;
 import com.jims.common.persistence.Page;
 
@@ -74,13 +75,13 @@ public interface ExamAppointsServiceApi {
      * @param
      * @return
      */
-    public int batchSave(ExamAppoints examAppoints);
+    public int batchSave(ExamAppoints examAppoints,LoginInfo loginInfo);
 
     /**
      * 住院检查申请保存
      * @param examAppoints
      * @return
      */
-    public int saveHospitalInspect(ExamAppoints examAppoints);
+    public int saveHospitalInspect(ExamAppoints examAppoints,LoginInfo loginInfo);
 }
 

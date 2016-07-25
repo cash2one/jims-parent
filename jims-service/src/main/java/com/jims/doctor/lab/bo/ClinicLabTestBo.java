@@ -10,6 +10,7 @@ import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.NumberUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.lab.dao.LabTestItemsDao;
 import com.jims.doctor.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestItems;
@@ -51,7 +52,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
      * @param labTestMaster
      * @return
      */
-    public String saveAll(LabTestMaster labTestMaster) {
+    public String saveAll(LabTestMaster labTestMaster,LoginInfo loginInfo) {
         int num=0;
         ClinicMaster clinicMaster=clinicMasterDao.get(labTestMaster.getClinicId());
         labTestMaster.preInsert();
@@ -68,6 +69,8 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
         labTestMaster.setPrintIndicator(labTestMaster.PRINTINDICATOR_NOT);
         //申请时间
         labTestMaster.setRequestedDateTime(new Date());
+        labTestMaster.setOrderingDept(loginInfo.getDeptId());//申请科室
+        labTestMaster.setOrderingProvider(loginInfo.getPersionId());//送检医生
 //        OutpTreatRec outpTreatRec = new OutpTreatRec();
 //        outpTreatRec.setPerformedBy(labTestMaster.getPerformedBy());
         List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
@@ -86,7 +89,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
                 labTestItemsDao.insert(labTestItems);
                 clinicItemDictList.add(clinicItemDict);
             }
-            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList, labTestMaster.getId(),labTestMaster.getPerformedBy(),1.00);
+            costOrdersUtilsService.save(labTestMaster.getClinicId(), clinicItemDictList,loginInfo, labTestMaster.getId(),labTestMaster.getPerformedBy(),1.00,labTestMaster.getTestNo());
             num = labTestMasterDao.insert(labTestMaster);
             return num + "";
         }

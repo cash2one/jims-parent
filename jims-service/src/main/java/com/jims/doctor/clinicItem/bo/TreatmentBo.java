@@ -58,7 +58,7 @@ public class TreatmentBo extends CrudImplService<OutpTreatRecDao, OutpTreatRec> 
             clinicItemDictList.add(clinicItemDict);
             if (outpTreatRec.getId() == null || outpTreatRec.getId() == "") {
                 Double amount = outpTreatRec.getAmount();
-                num = costOrdersUtilsService.save(clinicId, clinicItemDictList, "",outpTreatRec.getPerformedBy(),amount);
+                num = costOrdersUtilsService.save(clinicId, clinicItemDictList, null,"",outpTreatRec.getPerformedBy(),amount,"");
             }
         }
         return num;

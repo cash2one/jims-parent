@@ -9,6 +9,7 @@ import com.jims.clinic.entity.ClinicItemDict;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.entity.OutpTreatRec;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.exam.entity.ExamAppoints;
@@ -95,7 +96,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
      * @param examAppoints
      * @return
      */
-    public int batchSave(ExamAppoints examAppoints) {
+    public int batchSave(ExamAppoints examAppoints,LoginInfo loginInfo) {
         int  num=0;
         ClinicMaster clinicMaster=clinicMasterDao.get(examAppoints.getClinicId());
         //添加EXAM_APPOINTS 相应字段
@@ -108,6 +109,10 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
         //申请序号
         String examNo="JC"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
         examAppoints.setExamNo(examNo);
+        examAppoints.setReqPhysician(loginInfo.getPersionId());
+        examAppoints.setReqDept(loginInfo.getDeptId());
+        examAppoints.setDoctorUser(loginInfo.getUserName());
+        examAppoints.setOrgId(loginInfo.getOrgId());
         examAppoints.setChargeType(clinicMaster.getChargeType());
         num = examAppointsDao.insert(examAppoints);
 //        OutpTreatRec outpTreatRec = new OutpTreatRec();
@@ -128,7 +133,7 @@ public class ExamAppointsBo extends CrudImplService<ExamAppointsDao, ExamAppoint
             clinicItemDictList.add(clinicItemDict);
         }
 
-        costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,examAppoints.getId(),examAppoints.getPerformedBy(),1.00);
+        costOrdersUtilsService.save(examAppoints.getClinicId(),clinicItemDictList,loginInfo,examAppoints.getId(),examAppoints.getPerformedBy(),1.00,examAppoints.getExamNo());
         return  num;
     }
 }

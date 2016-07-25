@@ -1,6 +1,7 @@
 package com.jims.lab.api;
 
 import com.jims.common.persistence.Page;
+import com.jims.common.vo.LoginInfo;
 import com.jims.lab.entity.LabTestMaster;
 
 
@@ -20,7 +21,7 @@ public interface LabTestMasterServiceApi {
      * @author xueyx
      * @version 2016/5/06
      */
-    public String saveAll(LabTestMaster labTestMaster);
+    public String saveAll(LabTestMaster labTestMaster,LoginInfo loginInfo);
 
     /**
      * 住院保存
@@ -29,7 +30,7 @@ public interface LabTestMasterServiceApi {
      * @param子表List
      */
 
-    public String saveAllIn(LabTestMaster labTestMaster);
+    public String saveAllIn(LabTestMaster labTestMaster,LoginInfo loginInfo);
 
 
     /**
