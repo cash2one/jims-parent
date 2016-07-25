@@ -17,8 +17,7 @@ $("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"})
 var basePath = "/service";
 $(function () {
 
-    //var orgId=config.org_Id;
-    var orgId = 1;
+    var orgId = config.org_Id;
 
     $("#asepsis-anti-rec").datagrid({
         fit: true,

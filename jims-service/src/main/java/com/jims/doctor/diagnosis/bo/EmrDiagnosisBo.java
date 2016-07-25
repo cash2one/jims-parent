@@ -29,12 +29,18 @@ public class EmrDiagnosisBo extends CrudImplService<EmrDiagnosisDao, EmrDiagnosi
 	public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis,LoginInfo loginInfo){
 		String num = "";
 		if(emrDiagnosis.size()>0){
+
 			for(int i=0;i<emrDiagnosis.size();i++){
 				EmrDiagnosis diagnosis=emrDiagnosis.get(i);
                 diagnosis.setParentId("0");
 				diagnosis.setInOrOutFlag("0");//门诊
 				diagnosis.setDiagnosisDoc(loginInfo.getPersionId());
 				diagnosis.setOrgId(loginInfo.getOrgId());
+				if(diagnosis.getId()!=null && diagnosis.getId()!=""){
+                     delete(diagnosis.getId());
+					 diagnosis.setId("");
+				}
+				diagnosis.setItemNo(i+1);
 				num =	save(diagnosis);
 			}
 			return num;
@@ -106,6 +112,22 @@ public class EmrDiagnosisBo extends CrudImplService<EmrDiagnosisDao, EmrDiagnosi
 	 */
 	public EmrDiagnosis getDescription(String clinicId,String visitId) {
 		return getDescription(clinicId, visitId);
+	}
+
+
+	/**
+	 * 查询最大的序号
+	 * @param emrDiagnosis
+	 * @return
+	 */
+	public int getMaxItemNo(EmrDiagnosis emrDiagnosis){
+		Integer i =  dao.getMaxItemNo(emrDiagnosis);
+		if(i!=null&&i!=0){
+           i=i+1;
+		}else{
+			i=1;
+		}
+		return i;
 	}
 
 

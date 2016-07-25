@@ -25,9 +25,4 @@ comment on column MENU_UPDATE_EXPLAIN.EXPLAIN
   is '说明';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table MENU_UPDATE_EXPLAIN
-  add constraint PK_MENU_UPDATE_EXPLAIN primary key (ID)
-  using index
-  tablespace USERS
-  pctfree 10
-  initrans 2
-  maxtrans 255;
+  add constraint PK_MENU_UPDATE_EXPLAIN primary key (ID);

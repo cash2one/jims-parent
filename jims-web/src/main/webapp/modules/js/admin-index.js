@@ -4,45 +4,71 @@ function centerRefresh(id, name, url) {
 
 $(function () {
     /**
-     * 服务管理
-     */
-    $("#serviceMgr").on("click", function () {
-        $(this).parent().siblings().removeClass('active');
-        $('#centerIframe').attr('src','/modules/sys/sys-service.html');
-        $(this).parent().addClass('active')
-    });
-    /**
      * 菜单管理
      */
     $("#menuMgr").on("click", function () {
-        $(this).parent().siblings().removeClass('active');
         $('#centerIframe').attr('src','/modules/sys/menuDict.html');
-        $(this).parent().addClass('active')
+    });
+    /**
+     * 基础服务维护
+     */
+    $("#serviceMgr").on("click", function () {
+        $('#centerIframe').attr('src','/modules/sys/sys-service.html');
     });
     /**
      * 机构审核
      */
     $("#companyCheckMgr").on("click", function () {
-        $(this).parent().siblings().removeClass('active');
         $('#centerIframe').attr('src','/modules/sys/sys-company.html');
-        $(this).parent().addClass('active')
     });
     /**
      * 字典管理
      */
     $("#dictMgr").on("click", function () {
-        $(this).parent().siblings().removeClass('active');
         $('#centerIframe').attr('src','/modules/sys/public-dict.html');
-        $(this).parent().addClass('active')
+    });
+    /**
+     * 输入法字典维护
+     */
+    $("#dictInputMgr").on("click", function () {
+        $('#centerIframe').attr('src','/modules/sys/input-setting.html');
+    });
+    /**
+     * 药品字典维护
+     */
+    $("#dictDrugMgr").on("click", function () {
+        $('#centerIframe').attr('src','/modules/phstock/drug_class_dict.html');
+    });
+    /**
+     * 药理信息维护
+     */
+    $("#drugTheoryMgr").on("click", function () {
+        $('#centerIframe').attr('src','/modules/phstock/drug-theory-manager.html');
+    });
+    /**
+     * 药品限制等级维护
+     */
+    $("#drugLimitMgr").on("click", function () {
+        $('#centerIframe').attr('src','/modules/phstock/drug-limit-grade-manager.html');
+    });
+    /**
+     * 药品类别维护
+     */
+    $("#drugClassMgr").on("click", function () {
+        $('#centerIframe').attr('src','/modules/phstock/drug-class-dict.html');
+    });
+    /**
+     * 药品目录维护
+     */
+    $("#drugCatalogMgr").on("click", function () {
+        $('#centerIframe').attr('src','/modules/phstock/drug-catalog-manager.html');
     });
 
     /**
      * 医嘱执行缺省时间维护
      */
     $("#defaultSchedule").on("click", function () {
-        $(this).parent().siblings().removeClass('active');
         $('#centerIframe').attr('src','/modules/sys/perform-default_schedule.html');
-        $(this).parent().addClass('active')
     });
     /**
      * 退出

@@ -78,8 +78,20 @@ public class DrugBuyPlanRest {
     @Path("getBuyId")
     public List<String[]> getBuyId(@QueryParam("flag")String flag
             ,@QueryParam("buyer")String buyer
-            ,@QueryParam("orgId")String orgId){
-        return drugBuyPlanApi.getBuyId(flag,orgId,buyer);
+            ,@QueryParam("orgId")String orgId
+            ,@QueryParam("storage")String storage){
+        return drugBuyPlanApi.getBuyId(flag,orgId,buyer,storage);
+    }
+
+    /**
+     * 药品入库
+     * @param plan
+     * @return 0失败，1成功
+     */
+    @Path("drugInStock")
+    @POST
+    public String drugInStock(List<DrugBuyPlan> plan){
+        return drugBuyPlanApi.drugInStock(plan);
     }
 
     /**

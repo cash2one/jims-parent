@@ -71,6 +71,7 @@ function accFun(){
 }
 
 function confirmFun(){
+    if($("#regiForm").form("validate")){
     var  crows=$('#centerList').datagrid('getRows');
     var ctableJson=JSON.stringify(crows);
     var  drows=$('#dataList').datagrid('getRows');
@@ -95,6 +96,9 @@ function confirmFun(){
     },function(data){
         $.messager.alert('提示',"挂号结账保存失败", "error");
     })
+    }else{
+        $.messager.alert('提示',"挂号结账没有未结账数据", "warning");
+    }
 }
 
 function clearForm(){

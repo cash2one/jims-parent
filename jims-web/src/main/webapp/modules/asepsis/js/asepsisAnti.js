@@ -1,6 +1,6 @@
 
 $(function() {
-    var orgId = 1;
+    var orgId = config.org_Id;
     var fp = 2;
     var currentSelectIndex = undefined;
     var orgSysDictData = [];//全部字典表数据

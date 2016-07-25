@@ -3,6 +3,7 @@ package com.jims.nurse.bo;
 import com.jims.clinic.dao.PatsInHospitalDao;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.service.impl.CrudImplService;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.dao.BedRecDao;
 import com.jims.nurse.entity.BedRec;
@@ -32,17 +33,24 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
      * @author pq
      * @return
      */
-    public String saveBed(List<BedRec> bedRecList){
+    public String saveBed(List<BedRec> bedRecList,LoginInfo loginInfo){
         String str="";
         int num=0;
       if(bedRecList !=null){
             for(int i=0;i<bedRecList.size();i++){
                 BedRec bedRec = new BedRec();
                 bedRec = bedRecList.get(i);
+                bedRec.setDeptCode(loginInfo.getDeptId());
+                bedRec.setOrgId(loginInfo.getOrgId());
                 if(bedRec.getId()==null){
                     bedRec.setBedStatus("0");
                 }
-                str = save(bedRec);
+                if(judgeBedNo(bedRec.getBedNo(),bedRec.getWardCode())){
+                    str="error";
+                }else{
+                    str = save(bedRec);
+                }
+
             }
       }else{
        return str;

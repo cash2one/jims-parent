@@ -80,13 +80,20 @@ function onloadMethod(){
             text: '新增',
             iconCls: 'icon-add',
             handler: function() {
-                if(rowNum>=0){
-                    rowNum++;
+                if (!$('#list_data').datagrid('validateRow', rowNum)) {
+                    $.messager.alert('提示', "请填写完本行数据后，再添加下一行", "Warning");
+                    return false;
                 }
+                if(rowNum==-1){
+                    $("#list_data").datagrid('endEdit', rowNum);
+                }
+
                 $("#list_data").datagrid('insertRow', {
                     index: 0,
                     row: {}
                 });
+                rowNum=0;
+                $("#list_data").datagrid('beginEdit', rowNum);
             }
         },
             '-',{
@@ -130,10 +137,14 @@ function onloadMethod(){
 }
 function save(){
     if (!$('#list_data').datagrid('validateRow', rowNum)) {
-        $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
-        return false
+        $.messager.alert('提示', "请填写完本行数据后，再保存", "Warning");
+        return false;
     }
     var  rows=$('#list_data').datagrid('getRows');
+    if(rows==null || rows==''){
+        $.messager.alert('提示', "请添加号别数据后，再保存", "Warning");
+        return false;
+    }
     var tableJson=JSON.stringify(rows);
     //alert(tableJson);
     $.postJSON(basePath+'/clinicIndex/saveClinicIndex',tableJson,function(data){
@@ -175,8 +186,8 @@ function deleteClinicIndex(){
                         $.messager.alert("提示消息",data.code+"条记录删除成功！");
                         $('#list_data').datagrid('load');
                         $('#list_data').datagrid('clearChecked');
-                    }else{
-                        $.messager.alert('提示',"删除失败", "error");
+                    }else if(data.code=='0'){
+                        $.messager.alert('提示',"请先删除改号别下的所有安排记录");
                     }
                 },
                 'error': function(data){

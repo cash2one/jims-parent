@@ -20,13 +20,32 @@ public class SysService extends DataEntity<SysService> {
 	private String serviceName;		// 系统服务名称
 //	private String serviceDescription;		// 服务描述
     private byte[] serviceDescription;		// 服务描述
+	private String tranServiceDescription;// 服务描述转化为String
 
     private String serviceType;		// 1,有偿服务,0无偿服务
 	private String serviceClass;		// 2,所有服务，1,个人服务，0机构服务
 	private String serviceImage;		// 服务图片
-    private String tranServiceDescription;
+	private String startDate;		// 服务开始时间（从persion_service_list/org_service_list中查询to_char(service_start_date,'yyyy-mm-dd')得来）
+	private String endDate;		// 服务结束时间（从persion_service_list/org_service_list中查询to_char(service_end_date,'yyyy-mm-dd')得来）
 
-    private List<MenuDict> menuDictList;
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	private List<MenuDict> menuDictList;
     private List<SysServicePrice> sysServicePriceList;
 
     public List<MenuDict> getMenuDictList() {

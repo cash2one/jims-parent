@@ -46,6 +46,10 @@ public class DrugBuyPlan extends DataEntity<DrugBuyPlan> {
 	private String orgId;		// 所属结构
 
     private String supplier; // 厂商名
+    private String subStorage;
+    private String batchNo;
+    private Date expireDate;
+    private Double discount;
 
     public String getSupplier() {
         return supplier;
@@ -361,4 +365,35 @@ public class DrugBuyPlan extends DataEntity<DrugBuyPlan> {
 		this.orgId = orgId;
 	}
 
+    public String getSubStorage() {
+        return subStorage;
+    }
+
+    public void setSubStorage(String subStorage) {
+        this.subStorage = subStorage;
+    }
+
+    public String getBatchNo() {
+        return batchNo;
+    }
+
+    public void setBatchNo(String batchNo) {
+        this.batchNo = batchNo;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
 }

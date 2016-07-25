@@ -1,7 +1,7 @@
 
 //页面加载
 $(function() {
-    var patientId = '1';
+
     $('#leftList').datagrid({
         singleSelect: true,
         fit: true,
@@ -9,7 +9,7 @@ $(function() {
         /*title:'与当前登记病人重名记录',*/
         toolbar: '#searchDiv',
         method: 'GET',
-        url: basePath + '/patMasterIndex/list?patientId=' + patientId,
+        url: basePath + '/patMasterIndex/list',
         pagination: true,//分页控件
         pageSize: 15,
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
@@ -17,7 +17,7 @@ $(function() {
             {field: 'id', title: 'ID', hidden: 'true'},
             {field: 'name', title: '姓名', width: '15%', align: 'center'},
             {field: 'idNo', title: '身份证号', width: '25%', align: 'center'},
-            {field: 'sex', title: '性别', width: '10%', align: 'center',formatter:sexFormatter},
+            {field: 'sex', title: '性别', width: '10%', align: 'center',formatter:setDataFormatter},
             {field: 'inpNo', title: '住院号', width: '10%', align: 'center'},
             {field: 'birthPlace', title: '出生地', width: '20%', align: 'center'},
             {field: 'mailingAddress', title: '通信地址', width: '20%', align: 'center'}
@@ -35,17 +35,42 @@ $(function() {
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
 
-
+    function ages(d) {
+        var str  = d.format("yyyy-MM-dd");
+        var   r   =   str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+        if(r==null)return   false;
+        var   d=   new   Date(r[1],   r[3]-1,   r[4]);
+        if   (d.getFullYear()==r[1]&&(d.getMonth()+1)==r[3]&&d.getDate()==r[4]){
+            var   Y   =   new   Date().getFullYear();
+            $("#age").numberbox("setValue",(Y-r[1]));
+        }
+        //return("输入的日期格式错误！");
+    }
     //性别
     $('#sexId').combobox({
-        data: sexData,
+        data: setData,
         valueField: 'value',
         textField: 'label',
         onSelect: function (n, o) {
             $("#sex").val(n.value);
         }
     });
-    //$("#sexId ").combobox('select',setData[0].value);
+    if(setData.length>0) {
+        $("#setId").combobox('select', setData[0].value);
+    }
+    $("#dateOfBirth").datebox({
+        onSelect:function(date){
+            var nowDate = new Date();
+            if(date>nowDate){
+                $("#dateOfBirth").datebox("setValue","");
+                message:"出生日期不能大于当前日期！";
+            }else{
+                ages(date);
+            }
+        }
+    });
+
+
     //婚姻状况
     $('#maritalStatusId').combobox({
         data: marriageDict,
@@ -56,7 +81,9 @@ $(function() {
         }
 
     });
-    //$("#maritalStatusId ").combobox('select',marriageDict[0].value);
+    if(marriageDict.length>0) {
+        $("#maritalStatusId").combobox('select',marriageDict[0].value);
+    }
     //国籍
     $('#citizenshipId').combobox({
         data: nationalityDict,
@@ -66,7 +93,9 @@ $(function() {
             $("#citizenship").val(n.value);
         }
     });
-    //$("#citizenshipId ").combobox('select',nationalityDict[0].value);
+    if(nationalityDict.length>0) {
+        $("#citizenshipId").combobox('select', nationalityDict[0].value);
+    }
     //民族
     $('#nationId').combobox({
         data: nationDict,
@@ -76,7 +105,9 @@ $(function() {
             $("#nation").val(n.value);
         }
     });
-    //$("#nationId").combobox('select',nationDict[0].value);
+    if(nationDict.length>0) {
+        $("#nationId").combobox('select', nationDict[0].value);
+    }
     //费别
     $('#chargeTypeId').combobox({
         data: chargeType,
@@ -86,8 +117,10 @@ $(function() {
             $("#chargeType").val(n.id);
         }
     });
-    //$("#chargeTypeId ").combobox('select',chargeType[0].value);
- /*   //身份
+    if(chargeType.length>0) {
+        $("#chargeTypeId").combobox('select', chargeType[0].value);
+    }
+    //身份
     $('#identityId').combobox({
         data: identityDict,
         valueField: 'id',
@@ -96,8 +129,9 @@ $(function() {
             $("#identityId").val(n.id);
         }
     });
-    //$("#identityId ").combobox('select',identityDict[0].id);
-*/
+    if(identityDict.length>0) {
+        $("#identityDict").combobox('select', identityDict[0].id);
+    }
     //职业
     $('#occupationId').combobox({
         data: professionDict,
@@ -107,7 +141,9 @@ $(function() {
             $("#occupation").val(n.value);
         }
     });
-    //$("#occupationId ").combobox('select',professionDict[0].value);
+    if(professionDict.length>0) {
+        $("#occupationId").combobox('select', professionDict[0].value);
+    }
 
     //关系
     $('#relationshipId').combobox({
@@ -118,7 +154,9 @@ $(function() {
             $("#relationship").val(n.value);
         }
     });
-    //$("#relationshipId ").combobox('select',relationshipDict[0].value);
+    if(relationshipDict.length>0) {
+        $("#relationshipId").combobox('select', relationshipDict[0].value);
+    }
     //入院来源
     $('#fromOtherPlaceIndicatorId').combobox({
         data: resourceDict,
@@ -128,17 +166,22 @@ $(function() {
             $("#fromOtherPlaceIndicator").val(n.value);
         }
     });
-    //$("#fromOtherPlaceIndicatorId ").combobox('select',resourceDict[0].value);
+    if(resourceDict.length>0) {
+        $("#fromOtherPlaceIndicatorId").combobox('select',resourceDict[0].value);
+    }
+
     //入院方式
     $('#patientClassId').combobox({
-        data: methodDict,
+        data: patientClass,
         valueField: 'value',
         textField: 'label',
         onSelect: function (n, o) {
             $("#patientClass").val(n.value);
         }
     });
-    //$("#patientClassId ").combobox('select',methodDict[0].value);
+    if(patientClass.length>0) {
+        $("#patientClassId").combobox('select', patientClass[0].value);
+    }
     //住院目的
     $('#admissionCauseId').combobox({
         data: objectiveDict,
@@ -148,7 +191,9 @@ $(function() {
             $("#admissionCause").val(n.value);
         }
     });
-    //$("#admissionCauseId").combobox('select',objectiveDict[0].value);
+    if(objectiveDict.length>0) {
+        $("#admissionCauseId").combobox('select', objectiveDict[0].value);
+    }
     //病情
     $('#patAdmConditionId').combobox({
         data: admissionDict,
@@ -158,21 +203,25 @@ $(function() {
             $("#patAdmCondition").val(n.value);
         }
     });
-    //$("#patAdmConditionId").combobox('select',admissionDict[0].value);
-
+    if(admissionDict.length>0) {
+        $("#patAdmConditionId").combobox('select', admissionDict[0].value);
+    }
 
     //入院科室
-    $('#deptAdmissionTo').combobox({
+    $('#deptAdmissionToId').combobox({
         data: clinicDeptCode,
         valueField: 'value',
-        textField: 'label'
+        textField: 'label',
+        onSelect: function (n, o) {
+            $("#deptAdmissionTo").val(n.value);
+        }
     });
-    //$("#deptAdmissionTo ").combobox('select',clinicDeptCode[0].value);
-    //
+    if(clinicDeptCode.length>0) {
+        $("#deptAdmissionTo").combobox('select', clinicDeptCode[0].value);
+    }
+
     //诊断
     $('#diagnosis').combogrid({
-        width: '300',
-        height: 'auto',
         data: icdAllData,
         idField: 'zhongwen_mingcheng',
         textField: 'zhongwen_mingcheng',
@@ -181,17 +230,18 @@ $(function() {
             {field: 'zhongwen_mingcheng', title: '中文名称', width: '30%', align: 'left'},
             {field: 'code', title: 'ICD-10编码', width: '20%', align: 'left'},
             {field: 'keyword_shuoming', title: '关键词', width: '50%', align: 'left'},
-        ]], keyHandler: {
+        ]],onClickRow:function(rowIndex,rowData) {
+            $("#diagnosisNo").textbox("setValue",rowData.code);
+        }, keyHandler: {
             query: function (q) {
                 comboGridCompleting(q, 'diagnosis');
                 $('#diagnosis').combogrid("grid").datagrid("loadData", comboGridComplete);
             }
         }
-    })
+    });
     //接诊医生
     $('#consultingDoctor').combogrid({
-        width: '300',
-        height: 'auto',
+
         data: doctorName,
         idField: 'id',
         textField: 'name',
@@ -214,33 +264,40 @@ $(function() {
 
     });
 
-})
+});
 
 //列表条件查询
 function searchByCondition(){
-
+    var name=$("#name").textbox('getValue');
+    var idNo=$("#idNo").textbox('getValue');
+    var hospNo=$("#hospNo").textbox('getValue');
+   /* var ybType=$("#ybType").textbox('getValue');
+    var ybNo=$("#ybNo").textbox('getValue');*/
+    $("#orderList").datagrid({url:basePath+'/patMasterIndex/list',queryParams:{"name":name,"idNo":idNo,"hospNo":hospNo}});
 }
 
 //保存
 function saveMaster() {
-    $.postForm(basePath + '/patMasterIndex/save', 'masterForm', function (data) {
-        if (data.data == 'success') {
+    if($("#masterForm").form('validate')) {
+        $.postForm(basePath + '/patMasterIndex/save', 'masterForm', function (data) {
+            if (data.data == 'success') {
 
-            //$.messager.alert("提示消息", data.code + "条记录，保存成功");
+                //$.messager.alert("提示消息", data.code + "条记录，保存成功");
 
-            $.messager.confirm("操作提示", "是否交预交金？", function (data) {
-                $('#centerList').datagrid('load');
-                $('#centerList').datagrid('clearChecked');
-                if (data) {
-                    window.parent.document.getElementById("centerIframe").src = "/modules/finance/prepaymentList.html";
-                }
-            });
-        } else {
+                $.messager.confirm("操作提示", "是否交预交金？", function (data) {
+                    $('#centerList').datagrid('load');
+                    $('#centerList').datagrid('clearChecked');
+                    if (data) {
+                        window.parent.document.getElementById("centerIframe").src = "/modules/finance/prepaymentList.html";
+                    }
+                });
+            } else {
+                $.messager.alert('提示', "保存失败", "error");
+            }
+        }, function (data) {
             $.messager.alert('提示', "保存失败", "error");
-        }
-    }, function (data) {
-        $.messager.alert('提示', "保存失败", "error");
-    });
+        });
+    }
 }
 //取消登记
 function removeMaster(){
@@ -280,6 +337,8 @@ function removeMaster(){
 function clearForm(){
     $("#masterForm").form('clear');
 }
+
+
 
 
 

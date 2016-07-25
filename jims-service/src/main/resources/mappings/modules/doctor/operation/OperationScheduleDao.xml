@@ -358,6 +358,9 @@
 				   and ((TO_CHAR("os"."SCHEDULED_DATE_TIME", 'YYYY-MM-DD') =
 				   TO_CHAR(#{scheduledDateTime}, 'YYYY-MM-DD')))
 			   </if>
+		<if test="orgId!=null and orgId !=''">
+			and "os"."ORG_ID" = #{orgId}
+		</if>
 		      <!--  <if test="operatingRoom!=null and operatingRoom !=''">
 					AND  ("os"."OPERATING_ROOM" in (#{operatingRoom})))
 		         </if>-->

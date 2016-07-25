@@ -112,9 +112,12 @@
             <if test="flag != null and flag != ''">
                 AND a.flag = #{flag}
             </if>
-            AND a.org_id = #{1}
+            AND a.org_id = #{orgId}
             <if test="buyer != null and buyer != ''">
                 AND a.buyer = #{buyer}
+            </if>
+            <if test="storage != null and storage != ''">
+                AND a.storage = #{storage}
             </if>
             order by a.buy_id desc
     </select>

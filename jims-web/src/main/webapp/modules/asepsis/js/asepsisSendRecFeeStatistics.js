@@ -1,6 +1,6 @@
 
 $(function() {
-    var orgId = 1;
+    var orgId = config.org_Id;
     var fp = 0;
     $('#exchangeStart').datebox({
         height:'25',

@@ -31,5 +31,5 @@ public interface ExamMasterDao extends CrudDao<ExamMaster> {
      */
 	public List<ExamAppoints> getExamAppointses(@Param("performedBy")String performedBy,@Param("outOrIn")String outOrIn,
                                                 @Param("startTime")String startTime,@Param("endTime")String endTime,@Param("appointsDept")String appointsDept,
-                                                @Param("patientName")String patientName);
+                                                @Param("patientName")String patientName,@Param("orgId")String orgId);
 }

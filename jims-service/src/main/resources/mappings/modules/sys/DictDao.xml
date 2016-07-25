@@ -26,8 +26,12 @@
 		AND a.del_flag='0'
 	</select>
 
-
-
+    <select id="listByType" resultType="Dict">
+      SELECT *
+      FROM sys_dict a
+      WHERE a.type = #{0}
+      AND a.input_code  like UPPER(#{1}) || '%'
+    </select>
 
     <select id="leftList" resultType="Dict">
       SELECT

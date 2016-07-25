@@ -44,7 +44,7 @@ create table OUTP_PRESC
    DISPENSARY_SUB       VARCHAR2(64 CHAR),
    DECOCTION            NUMBER(1),
    DRUG_PRESC_DATE      TIMESTAMP,
-   DRUG_PRESC_NO        NUMBER(5),
+   DRUG_PRESC_NO        varchar2(64 CHAR),
    NEWVISIT_DATE        TIMESTAMP,
    NEWVISIT_NO          NUMBER(5),
    CREATE_DATE          TIMESTAMP,

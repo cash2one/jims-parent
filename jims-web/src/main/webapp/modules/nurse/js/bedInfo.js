@@ -1,6 +1,6 @@
 var wardCode='160101';
 $(function(){
-    $("#spanId").click();
+
     var html = '<ul>';
     $.ajax({
         method:"POST",
@@ -9,7 +9,7 @@ $(function(){
         data:wardCode=wardCode,
         url: basePath + '/bedRec/getAllBed',
         success: function (data) {
-            if(data!=null){
+            if(data!=null||data!=""){
             $.each(data,function(id,item){ //循环对象取值
                 html = html+'<li class="bgcolor-green"  onmouseup="showMenu(event);" style="background: #CDCDB4">  ' ;
                 html = html+'<div class="bednum-cusinf"> <span class="bednum-val">'+item.bed_no1+'</span> <span class="bednum-name">'+(item.name==null?"":item.name)+'</span>  <span class="bednum-age">'+(item.age==null?"":item.name)+'岁</span></div>';
@@ -28,7 +28,8 @@ $(function(){
                 html= html+" </ul>";
                 $(".bednum-main").append(html);
             }else{
-                $(".easyui-layout").append('<div ><div >该病区下暂无床位信息!</div></div>')
+                $(".easyui-layout").empty();
+                $(".easyui-layout").append("<div class='nodata-wrap'><div  class='nodata-text'>该病区下暂无床位信息!</div></div>");
             }
 
         }

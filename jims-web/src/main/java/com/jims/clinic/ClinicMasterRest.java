@@ -124,9 +124,10 @@ public class ClinicMasterRest {
      */
     @Path("registerFeeFrom")
     @POST
-    public ClinicMaster registerFeeForm(String date){
+    public ClinicMaster registerFeeForm(@Context HttpServletRequest request,String date){
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         ClinicMaster clinicMaster = new ClinicMaster();
-        clinicMaster = clinicMasterServiceApi.findFeeForm("1", !"".equals(date)?date:DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        clinicMaster = clinicMasterServiceApi.findFeeForm(loginInfo.getPersionId(), !"".equals(date)?date:DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
         return clinicMaster;
     }
     /**
@@ -140,10 +141,10 @@ public class ClinicMasterRest {
      */
     @Path("feeItemList")
     @GET
-    public List<RegistAcctDetail> feeItemList(@QueryParam("date") String date){
-
+    public List<RegistAcctDetail> feeItemList(@Context HttpServletRequest request,@QueryParam("date") String date){
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         List<RegistAcctDetail> list = Lists.newArrayList();
-        ClinicMaster clinic = clinicMasterServiceApi.getCheckItem("1", !"".equals(date) ? date : DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        ClinicMaster clinic = clinicMasterServiceApi.getCheckItem(loginInfo.getPersionId(), !"".equals(date) ? date : DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
         RegistAcctDetail master = new RegistAcctDetail();
         if(clinic!=null){
             if (clinic.getRegistFee()!=null && clinic.getRegistFee()>0){
@@ -184,11 +185,11 @@ public class ClinicMasterRest {
      */
     @Path("payWayList")
     @GET
-    public List<RegistAcctMoney> payWayList(@QueryParam("date") String date){
-
+    public List<RegistAcctMoney> payWayList(@Context HttpServletRequest request,@QueryParam("date") String date){
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         List<RegistAcctMoney> moneyList = Lists.newArrayList();
         List<ClinicMaster> list = Lists.newArrayList();
-        list = clinicMasterServiceApi.getGroupData("1", !"".equals(date)?date:DateUtils.formatDate(new Date(),"yyyy-MM-dd hh:mm:ss"));
+        list = clinicMasterServiceApi.getGroupData(loginInfo.getPersionId(), !"".equals(date)?date:DateUtils.formatDate(new Date(),"yyyy-MM-dd hh:mm:ss"));
         RegistAcctMoney money = new RegistAcctMoney();
         if(list!=null&&list.size()>0){
             for (ClinicMaster mo : list){

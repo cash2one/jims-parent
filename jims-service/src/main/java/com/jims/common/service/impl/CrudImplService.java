@@ -88,28 +88,20 @@ public abstract class CrudImplService<D extends CrudDao<T>, T extends DataEntity
 
 	public String delete(T entity) {
         int i=0;
-        try{
-            dao.delete(entity);
-        }catch(Exception e){
-            return i+"";
-        }
+        dao.delete(entity);
         return i+"";
 	}
     /**
      * 删除数据
-     * @param entity
+     * @param
      */
 
     public String delete(String ids) {
         int i=0;
-        try {
-            String[] id = ids.split(",");
-            for (int j = 0; j < id.length; j++){
-                dao.delete(id[j]);
-                i++;
-            }
-        }catch(Exception e){
-            return i+"";
+        String[] id = ids.split(",");
+        for (int j = 0; j < id.length; j++){
+            dao.delete(id[j]);
+            i++;
         }
         return i+"";
     }

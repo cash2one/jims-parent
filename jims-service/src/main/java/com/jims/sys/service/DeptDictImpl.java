@@ -108,4 +108,17 @@ public class DeptDictImpl implements DeptDictApi {
     public DeptDict get(String id) {
         return deptDictBo.get(id);
     }
+
+    /**
+     * 获取医生科室
+     * @param orgId
+     * @param persionId
+     * @return
+     */
+
+    @Override
+    public List<DeptDict> getDoctorDept(String orgId,String persionId,String doctorGroup) {
+        return deptDictBo.getDoctorDept(orgId,persionId,doctorGroup);
+    }
+
 }

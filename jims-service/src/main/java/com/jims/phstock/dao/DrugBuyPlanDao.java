@@ -44,9 +44,12 @@ public interface DrugBuyPlanDao extends CrudDao<DrugBuyPlan> {
      * @param flag
      * @param orgId 所属机构ID
      * @param buyer 采购员
+     * @param storage
      * @return 只返回对象buyId,flag值
      */
-    public List<DrugBuyPlan> getBuyId(@Param("flag")String flag,String orgId,@Param("buyer") String buyer);
+    public List<DrugBuyPlan> getBuyId(@Param("flag")String flag,@Param("orgId")String orgId,
+                                      @Param("buyer") String buyer,@Param("storage")String storage);
+
 
     /**
      * 根据主键直接删除数据，而非修改数据中的删除标志

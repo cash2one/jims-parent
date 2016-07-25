@@ -9,7 +9,7 @@ $(function () {
     var inserted = [];
     var updated = [];
     var deleted = [];
-
+    var editorRow = undefined;
     var storage =[];
     $.ajax({
         url: parent.basePath + '/dict/findListByType',
@@ -106,24 +106,31 @@ $(function () {
                         idField: 'deptName',
                         textField: "storageName",
                         mode: 'remote',
-                        url: basePath + '/dept-dict/list?orgId=' + orgId,
+                        url: basePath + '/dept-dict/findListWithFilter?orgId=' + orgId,
                         method: 'get',
                         columns: [[
                             {title: '科室名称', field: 'deptName', align: 'center', width: '30%'},
                             {title: '科室编码', field: 'deptCode', align: 'center', width: '30%'},
                             {title: '拼音码', field: 'inputCode', align: 'center', width: '30%'}
                         ]],
-                        onSelect: function(index,row){
+                        onSelect: function(rowIndex,rowData){
                             var rows = [];
                             rows = $("#drug-storage").datagrid('getRows');
+                            var row = $("#drug-storage").datagrid("getSelected");
+                            var rowIndex = $("#drug-storage").datagrid('getRowIndex', row);
+                            var flag = 0;
                             $.each(rows,function(index,item){
-                                if(row.deptName == item.storageName){
+                                if(rowData.deptName == item.storageName){
                                     $.messager.alert('系统提示', '该库存单位已经存在,请选择其他单位!', 'info');
-                                    //var thisRow = $("#drug-storage").datagrid('getSelected');
-                                    //var thisIndex = $("#drug-storage").datagrid('getRowIndex',thisRow);
-                                    //$('#drug-storage').datagrid('updateRow', {index: thisIndex, row: {storageName: ''}});
-                                    //$('#drug-storage').datagrid('endEdit', thisIndex);
-                                    //$('#drug-storage').datagrid('beginEdit', thisIndex);
+                                    var objOne = $("#drug-storage").datagrid("getEditors", rowIndex);
+                                    $(objOne[0].target).combogrid("setValue","");
+                                    $(objOne[1].target).textbox("setValue","");
+                                    flag=1;
+                                }
+                                if(flag == 0){
+                                    var obj = $("#drug-storage").datagrid("getEditor", {index:rowIndex,field:'storageName'});
+                                    $(obj.target).textbox("setValue",rowData.deptName);
+                                    $("#drug-storage").datagrid('endEdit', editorRow);
                                 }
                             });
                         }
@@ -417,3 +424,4 @@ $(function () {
         });
     }
 });
+

@@ -52,13 +52,12 @@ public class LoginRest {
 
             //与数据库中的用户名进行比对，查看是否正确，并响应给用户
             SysUser sysUser = sysUserApi.selectLoginName(loginName);
-            String name = sysUser.getLoginName();
-            String pwd = sysUser.getPassword();
-            if (name == null) {
+            if (sysUser == null) {
                 StringData stringData = new StringData();
                 stringData.setData("nameNull");
                 return stringData;
             }
+            String pwd = sysUser.getPassword();
             //与数据库中的密码进行比对，查看是否正确，并响应给用户
             if (password.equals(pwd)) {
                 StringData stringData = new StringData();

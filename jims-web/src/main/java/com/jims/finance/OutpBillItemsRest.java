@@ -1,15 +1,19 @@
 package com.jims.finance;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.api.OutpBillItemsServiceApi;
 import com.jims.finance.entity.OutpBillItems;
 import com.jims.finance.entity.OutpRcptMaster;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import java.util.List;
 
 /**
@@ -36,9 +40,10 @@ public class OutpBillItemsRest {
      */
     @Path("findItems")
     @GET
-    public List<OutpBillItems> findItems(@QueryParam("visitDate")String visitDate, @QueryParam("operatorNo")String operatorNo){
+    public List<OutpBillItems> findItems(@QueryParam("visitDate")String visitDate,@Context HttpServletRequest request){
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
         OutpRcptMaster outpRcptMaster=new OutpRcptMaster();
-        outpRcptMaster.setOperatorNo(operatorNo);
+        outpRcptMaster.setOperatorNo(loginInfo.getPersionId());
        return outpBillItemsServiceApi.findItems(outpRcptMaster);
     }
 }

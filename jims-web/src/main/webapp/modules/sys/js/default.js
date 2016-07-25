@@ -14,20 +14,16 @@ $(function () {
 
             if (data != null) {
                 for (var i = 0; i < data.length; i++) {
-                    dataArr.push({id:data[i].id,serviceName: data[i].serviceName,serviceImage:data[i].serviceImage,tranServiceDescription:data[i].tranServiceDescription});
+                    dataArr.push({id:data[i].id,serviceName: data[i].serviceName,serviceImage:data[i].serviceImage,
+                        tranServiceDescription:data[i].tranServiceDescription,serviceClass:data[i].serviceClass});
                 }
 
                 //向页面添加服务
                 var liArr = $('#addServiceModel ul li')
                 for (var i = 0; i < dataArr.length; i++) {
-                    var li = '<li id="service_' + dataArr[i].id + '" data-target="#serviceDialog" data-toggle="modal">';
+                    var li = '<li id="service_' + dataArr[i].id + '_'+(dataArr[i].serviceClass!=null&&dataArr[i].serviceClass!=""?dataArr[i].serviceClass:"a")+'" data-target="'+(dataArr[i].serviceClass!=null&&dataArr[i].serviceClass=="1"?"#serviceDialog":"")+'" data-toggle="modal">';
                     li += '<a ><span class="service-name">' + dataArr[i].serviceName + '</span></a>'
-                    if(dataArr[i].serviceImage==null)
-                    {
-                        li += '<img src="/static/bookstrap/images/service/normal.jpg"/>'
-                    }  else{
-                        li += '<img src="'+dataArr[i].serviceImage+'"/>'
-                    }
+                    li += '<img src="'+(dataArr[i].serviceImage!=null&&dataArr[i].serviceImage!=""?dataArr[i].serviceImage:"/static/bookstrap/images/service/normal.jpg")+'"/>'
                     li += '<div id="des_'+dataArr[i].id+'" style=" display:none; ">'+(dataArr[i].tranServiceDescription==null?"":dataArr[i].tranServiceDescription)+'</div>'
                     li += '</li>'
                     $('#addServiceModel ul').append(li);
@@ -36,25 +32,24 @@ $(function () {
                 //点击服务跳转到首页
                 $('#addServiceModel ul li').each(function () {
                     $(this).click(function () {
-                        var id=this.id.substring(8)
-                        $.get('/service/sys-sompany/get-sysCompany-by-id?id=' + id, function (data) {
-                            if(data == undefined){
-                                if($("#des_"+id).html()==null||$("#des_"+id).html()==""){
-                                    $("#serviceDialogDes").html('尚未添加描述');
-                                }else{
-                                    $("#serviceDialogDes").html($("#des_"+id).html());
-                                }
+                        var id=this.id.substring(8,this.id.length-2);
+                        var sclass=this.id.substring(this.id.length-1);
+                        if(sclass == "1"){
+                            $("#serviceDialog").dialog("close");
+                            if($("#des_"+id).html()==null||$("#des_"+id).html()==""){
+                                $("#serviceDialogDes").html('尚未添加描述');
                             }else{
-                                if(data.applyStatus=="2")
-                                {
+                                $("#serviceDialogDes").html($("#des_"+id).html());
+                            }
+                        }else{
+                            $.get('/service/sys-sompany/get-sysCompany-by-id?id=' + id, function (res) {
+                                if(res.applyStatus=="2"){
                                     window.location.href="/modules/index.html";
                                 }else{
                                     window.location.href="/modules/sys/company.html?flag=1";
                                 }
-                            }
-                        });
-
-
+                            });
+                        }
                     });
                 });
 
@@ -98,6 +93,10 @@ $(function () {
     //我的服务
     $("#myServices").on('click', function () {
         window.location.href = "/modules/sys/service-list.html";
+    });
+    //我的机构服务
+    $("#myOrgServices").on('click', function () {
+        window.location.href = "/modules/sys/self-company-service-list.html";
     });
     //定制更多个人服务
     $("#moreServices").click(function () {

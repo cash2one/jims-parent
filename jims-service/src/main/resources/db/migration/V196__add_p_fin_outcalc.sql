@@ -40,31 +40,35 @@ procedure p(v varchar2) as begin dbms_output.put_line(null);dbms_output.put_line
     BEGIN
     /*循环 costsList*/
     for t_costs in  costs loop
-      /*更新 outp_treat_rec */
-    update outp_treat_rec  set charge_indicator =1 ,BILL_VISIT_DATE  =v_bill_date,rcpt_no=i_rcpt_no where serial_no=t_costs.serial_no;
-     /*查询 申请id */
-    select APPOINT_NO into v_appoints_Id from outp_treat_rec where serial_no=t_costs.serial_no;
+    
 
     /*开始判断 是否是药品(AorB)，检查(D)，检验(C)*/
     if t_costs.order_class ='D' then
-
+  /*更新 outp_treat_rec */
+    update outp_treat_rec  set charge_indicator =1 ,BILL_VISIT_DATE  =v_bill_date,rcpt_no=i_rcpt_no where serial_no=t_costs.serial_no;
+     /*查询 申请id */
+    select APPOINT_NO into v_appoints_Id from outp_treat_rec where serial_no=t_costs.serial_no;
    /*更新 exam_items */
     update exam_items set BILLING_INDICATOR  =1 , rcpt_no=i_rcpt_no where APPOINTS_ID=v_appoints_Id ;
      /*更新 exam_appoints 预约记录*/
     update exam_appoints set costs=v_costs,charges=v_charges where id=v_appoints_Id ;
 
      else if t_costs.order_class  ='C' then
-
+  /*更新 outp_treat_rec */
+    update outp_treat_rec  set charge_indicator =1 ,BILL_VISIT_DATE  =v_bill_date,rcpt_no=i_rcpt_no where serial_no=t_costs.serial_no;
+     /*查询 申请id */
+    select APPOINT_NO into v_appoints_Id from outp_treat_rec where serial_no=t_costs.serial_no;
     /*更新 lab_test_items*/
     update lab_test_items set BILLING_INDICATOR =1 ,rcpt_no=i_rcpt_no where LAB_MASTER=v_appoints_Id;
     /*更新 lab_test_master*/
     update lab_test_master set costs=v_costs,charges=v_charges ,BILLING_INDICATOR =1 where id=v_appoints_Id;
 
-    else if t_costs.order_class ='A' then /*处方*/
+    else if t_costs.order_class ='A' or t_costs.order_class ='B' then /*处方*/
 
-       select * into v_outp_presc from outp_presc where serial_no=t_costs.serial_no;
-       update outp_presc set drug_presc_date=v_bill_date ,drug_presc_no=v_outp_presc.presc_no where serial_no=t_costs.serial_no;
+       select * into v_outp_presc from outp_presc where serial_no=t_costs.serial_no and order_no=t_costs.order_no and sub_order_no=t_costs.order_sub_no ;
+       update outp_presc set drug_presc_date=v_bill_date ,drug_presc_no=v_outp_presc.presc_no,charge_indicator=1 where serial_no=t_costs.serial_no and order_no=t_costs.order_no and sub_order_no=t_costs.order_sub_no ;
        INSERT INTO drug_presc_detail_temp (
+       id,
        presc_date ,
        presc_no ,
        item_no ,
@@ -80,8 +84,14 @@ procedure p(v varchar2) as begin dbms_output.put_line(null);dbms_output.put_line
        administration ,
        ORDER_NO ,
        ORDER_SUB_NO ,
-       DOSAGE_EACH ) VALUES
+       DOSAGE_EACH,
+       create_date,
+       create_by,
+       update_by,
+       update_date,
+       remarks) VALUES
        (
+       sys_guid() ,
        v_bill_date,
        v_outp_presc.presc_no,
        v_outp_presc.item_no,
@@ -97,8 +107,12 @@ procedure p(v varchar2) as begin dbms_output.put_line(null);dbms_output.put_line
        v_outp_presc.administration,
        t_costs.order_no,
        t_costs.order_sub_no,
-       v_outp_presc.dosage
-        );
+       v_outp_presc.dosage,
+       v_bill_date,/*当前日期*/
+       '当前登录人',
+       '当前登录人',
+       v_bill_date,/*当前日期*/
+       '');
       end if;
     end if;
     end if;
@@ -187,7 +201,13 @@ procedure p(v varchar2) as begin dbms_output.put_line(null);dbms_output.put_line
       charge_indicator,
       refunded_rcpt_no,
       acct_no,
-      printed_rcpt_no
+      printed_rcpt_no,
+      create_date,
+      create_by,
+      update_date,
+      update_by,
+      remarks,
+      del_flag
     ) VALUES (
       sys_guid() ,
       i_rcpt_no,
@@ -206,11 +226,17 @@ procedure p(v varchar2) as begin dbms_output.put_line(null);dbms_output.put_line
       0,
       null,
       null,
-      '');
+      '',
+      v_bill_date,
+      '当前登录人',
+      v_bill_date,
+      '当前登录人',
+      '',
+      0);
       /*更新 clinic_master*/
       update clinic_master set REGISTRATION_STATUS =1 where id=v_outp_orders.clinic_id;
       
-    if v_order_class='A' then /*只有是药品时执行该语句*/
+    if v_order_class='A' or v_order_class='B' then /*只有是药品时执行该语句*/
    /*处方代发药主表  drug_presc_master_temp  插入数据*/
    INSERT INTO drug_presc_master_temp (
      presc_date ,
@@ -230,26 +256,38 @@ procedure p(v varchar2) as begin dbms_output.put_line(null);dbms_output.put_line
      entered_by ,
      presc_attr ,
      clinic_no ,
-     DOCTOR_USER ) values(
+     doctor_user,
+     create_date,
+     create_by,
+     update_date,
+     update_by,
+     remarks,
+     del_flag ) values(
      v_bill_date,
-     '1403',/*发药 处方号，生成规则？*/
-     '',
+     v_outp_presc.presc_no,/*发药 处方号，生成规则？*/
+     v_clinic_master.patient_id,
      v_clinic_master.name,
      v_clinic_master.name_phonetic,
      v_clinic_master.identity,
      v_clinic_master.charge_type,
      v_clinic_master.unit_in_contract,
-     0,/*0:西药，1：中药*/
+     v_outp_presc.item_class,/*A:西药，B：中药*/
      0,/*0:门诊，1：住院，2：其他*/
-     1,/*剂数：从处方数据中取，还未定义变量*/
+     v_outp_presc.repetition,/*剂数：从处方数据中取*/
      v_outp_orders.ordered_by,/*开单科室 --数据未知*/
      v_outp_orders.doctor,/*开单医生，*/
      i_rcpt_no,
      '00XX',/*当前登录人*/
-     '',/*处方属性，从处方明细中取出*/
+     v_outp_presc.presc_attr,/*处方属性，从处方明细中取出*/
      v_clinic_master.clinic_no,
-     '00XX'/*当前登录人*/
-      );
+     '00XX',/*当前登录人*/
+     v_bill_date,/*当前日期*/
+     '当前登录人',
+      v_bill_date,/*当前日期*/
+      '当前登录人',
+      '',
+      0
+        );
       end if;
    /*insert outp_payments_money 支付方式*/
    INSERT INTO outp_payments_money(
@@ -258,22 +296,36 @@ procedure p(v varchar2) as begin dbms_output.put_line(null);dbms_output.put_line
       payment_no,
       money_type,
       payment_amount,
-      refunded_amount
+      refunded_amount,
+      create_date,
+      create_by,
+      update_date,
+      update_by,
+      remarks,
+      del_flag
     ) VALUES (
     sys_guid() ,
-    i_rcpt_no,
-    '',
-    '现金',
-    v_costs,
-    0.0
+      i_rcpt_no,
+      '',
+      '现金',
+      v_costs,
+      0.0,
+      v_bill_date,/*当前日期*/
+      '当前登录人',
+      v_bill_date,/*当前日期*/
+      '当前登录人',
+      '',
+      0
     );
     end loop;/*循环 json 对象结束 循环结束*/
 
 
   O_SCCE_FLAG :='1';
-
-  EXCEPTION
+ EXCEPTION
   WHEN OTHERS THEN
+    rollback;
             O_SCCE_FLAG :='-1';
+
+  
 
 end;

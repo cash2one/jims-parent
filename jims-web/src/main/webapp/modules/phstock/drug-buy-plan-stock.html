@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>采购药品入库</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/icon.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/easyui/js/jquery.easyui.min.js"></script>
+
+</head>
+<body>
+<table id="buyPlanTable" class="easyui-datagrid"></table>
+<div id="tbn" style="padding: 5px;">
+    <label for="temporaryNo">采购单据号:</label>
+    <input id="temporaryNo">
+    <label for="subStorage">入库子库房:</label>
+    <input id="subStorage"/>
+    <label for="importDocument">入库单据号:</label>
+    <input id="importDocument" class="easyui-textbox" data-options="disabled:true,width:140">
+    <a  id="inStockButton"></a>
+    <a  id="flushButton"></a>
+</div>
+<div id="drugPriceWindow">
+    <table id="drugPriceTable"></table>
+</div>
+<script src="js/drug-buy-plan-stock.js"></script>
+</body>
+</html>

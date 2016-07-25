@@ -3,6 +3,7 @@ package com.jims.nurse.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.jims.clinic.entity.PatsInHospital;
 import com.jims.common.persistence.Page;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.nurse.api.BedRecServiceApi;
 import com.jims.nurse.bo.BedRecBo;
@@ -38,8 +39,8 @@ public class BedRecServiceImpl implements BedRecServiceApi {
      * @author pq
      * @return
      */
-    public String saveBed(List<BedRec> bedRecList){
-    return  bedRecBo.saveBed(bedRecList);
+    public String saveBed(List<BedRec> bedRecList,LoginInfo loginInfo){
+    return  bedRecBo.saveBed(bedRecList,loginInfo);
     }
 
     /**

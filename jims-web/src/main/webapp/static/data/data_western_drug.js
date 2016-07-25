@@ -32,9 +32,8 @@ function comboGridCompleting(q,id){
     drugNameData.isOrgId=false;
     drugNameData.dictType="v_clinic_item_price"
     var inputParamVos=new Array();
-    var InputParamVo1={};
     var InputParamVo2={};
-
+    var InputParamVo1={};
     InputParamVo1.colName='rownum';
     InputParamVo1.colValue='20';
     InputParamVo1.operateMethod='<';
@@ -48,8 +47,6 @@ function comboGridCompleting(q,id){
         InputParamVo.colValue=q;
         InputParamVo.operateMethod='like';
         inputParamVos.push(InputParamVo);
-    }else{
-        $("#"+id).combogrid('setValue','');
     }
     drugNameData.inputParamVos=inputParamVos;
     $.ajax({

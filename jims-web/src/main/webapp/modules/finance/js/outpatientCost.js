@@ -213,7 +213,8 @@ function init(){
                 title: "执行科室",
                 field: "performed_by",
                 width: '10%',
-                align: 'center'
+                align: 'center',
+                formatter:clinicDeptCodeFormatter
             }, {
                 title: "医师",
                 field: "doctor",
@@ -223,7 +224,8 @@ function init(){
                 title: "开单科室",
                 field: "ordered_by",
                 width: '10%',
-                align: 'center'
+                align: 'center',
+                ormatter:clinicDeptCodeFormatter
             }, {
                 title: "申请号",
                 field: "appoint_no",
@@ -231,10 +233,10 @@ function init(){
                 align: 'center'
             },{
                 title: "申请单",
-                field: "appoint_item_no",
+                field: "id",
                 width: '7%',
                 align: 'center',formatter:function(value, row, index){
-                    if(value=='0'){
+                    if(row.appoint_no==''||  row.presc_no==''){
                         return "否";
                     }else{
                         return "是";
@@ -248,7 +250,17 @@ function init(){
                 var row=$('#list-zhu').datagrid('getRows');
                 for(var i=0;i<row.length;i++){
                     var data=row[i];
-                    if(rowData.appoint_no==data.appoint_no){
+                    var appoint_no="";
+                    var data_appoint_no="";
+                    if(data.item_class=='A' || data.item_class == 'B'){
+                        appoint_no=data.presc_no;
+                        data_appoint_no=rowData.presc_no;
+                    }else{
+                        appoint_no=data.appoint_no;
+                        data_appoint_no=rowData.appoint_no;
+                    }
+
+                    if(data_appoint_no==appoint_no){
                         var index = $('#list-zhu').datagrid('getRowIndex', data);
                         if(index!=rowIndex){
                             $("#list-zhu").datagrid('selectRow',index);
@@ -271,7 +283,16 @@ function init(){
             if(flag){
                 flag = false;
                 $.each($('#list-zhu').datagrid('getChecked'),function(j,val){
-                    if(rowData.appoint_no==val.appoint_no){
+                    var appoint_no="";
+                    var data_appoint_no="";
+                    if(val.item_class=='A' || val.item_class == 'B'){
+                        appoint_no=val.presc_no;
+                        data_appoint_no=rowData.presc_no;
+                    }else{
+                        appoint_no=val.appoint_no;
+                        data_appoint_no=rowData.appoint_no
+                    }
+                    if(data_appoint_no==appoint_no){
                         var index = $('#list-zhu').datagrid('getRowIndex', val);
                         if(index!=rowIndex){
                             $("#list-zhu").datagrid('uncheckRow',index);
@@ -535,7 +556,8 @@ function confirmBackCharge(){
         'data': rcptNO=rcptNo,
         'dataType': 'json',
         'success': function(data){
-           //alert(data.code);
+            /*alert("111");
+           alert(data.code);*/
             if(data.code=='1'){
                 $.messager.alert("提示消息", "退费成功");
                 $('#list-zhu-t').datagrid('load');
@@ -603,22 +625,22 @@ function rowCount(){
                 class_type="1";
             }else{
                 class_type="2";
-                if(i>0){
-                    if(class_type_zl!=data.performed_by){
-                        var dataCount={};
-                        var date=new Date();
-                        var rcptNo=date.format("yyyyMMddhhmmss")+Math.floor(Math.random()*10000);
-                        dataCount.item_price="处方号："
-                        dataCount.dosage=rcptNo;
-                        dataCount.performed_by="小计";
-                        dataCount.costs=price;
-                        dataCount.charges=price;
-                        price=0;
-                        datazl.push(dataCount);
-                    }
-                }
-                class_type_zl=data.performed_by;
             }
+            if(i>0){
+                if(class_type_zl!=data.performed_by){
+                    var dataCount={};
+                    var date=new Date();
+                    var rcptNo=date.format("yyyyMMddhhmmss")+Math.floor(Math.random()*10000);
+                    dataCount.item_price="处方号："
+                    dataCount.dosage=rcptNo;
+                    dataCount.performed_by="小计";
+                    dataCount.costs=price;
+                    dataCount.charges=price;
+                    price=0;
+                    datazl.push(dataCount);
+                }
+            }
+            class_type_zl=data.performed_by;
             price=Number(price)+Number(data.costs);
             priceCount=Number(priceCount)+Number(data.costs);
             if(i==0){
@@ -645,8 +667,8 @@ function rowCount(){
         dataCountAll.performed_by="总计";
         dataCountAll.costs=priceCount;
         if(class_type=="1"){
-            rows.push(dataCountAll);
-            $("#list").datagrid("loadData",rows);
+            datazl.push(dataCountAll);
+            $("#list").datagrid("loadData",datazl);
         }else{
             datazl.push(dataCountAll);
             $('#addDrug').linkbutton('disable');

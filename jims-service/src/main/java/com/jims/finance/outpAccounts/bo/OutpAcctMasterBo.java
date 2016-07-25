@@ -2,6 +2,7 @@ package com.jims.finance.outpAccounts.bo;
 
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.finance.dao.OutpAcctMasterDao;
 import com.jims.finance.dao.OutpRcptMasterDao;
 import com.jims.finance.entity.OutpAcctMaster;
@@ -65,15 +66,15 @@ public class OutpAcctMasterBo extends CrudImplService<OutpAcctMasterDao, OutpAcc
      * @author pq
      * @date 2016/6/1 0001
      */
-    public String saveOutpAcct(OutpRcptMaster outpRcptMaster){
+    public String saveOutpAcct(OutpRcptMaster outpRcptMaster,LoginInfo loginInfo){
         int num=0;
        if(outpRcptMaster !=null){
            OutpAcctMaster  outpAcctMaster = new OutpAcctMaster();
            if (outpAcctMaster.getIsNewRecord()) {
                outpAcctMaster.preInsert();
                outpAcctMaster.setAcctNo(outpRcptMaster.getAcctNo());
-               outpAcctMaster.setOrgId("双滦区医院");
-               outpAcctMaster.setOperatorNo(outpRcptMaster.getOperatorNo());
+               outpAcctMaster.setOrgId(loginInfo.getOrgId());
+               outpAcctMaster.setOperatorNo(loginInfo.getPersionId());
                outpAcctMaster.setAcctDate(new Date());
                outpAcctMaster.setMinRcptNo(outpRcptMaster.getMinRcptNo());
                outpAcctMaster.setMaxRcptNo(outpRcptMaster.getMaxRcptNo());

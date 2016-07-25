@@ -55,9 +55,9 @@ $(function () {
     });
     var base_url = '/service/drug-buy-plan/'
     var username = '采购员'
-        , orgId = parent.config.org_Id
+        , orgId = config.org_Id
         , currentBuyId = '' // 当前采购单据号
-        , currentStorage = parent.config.currentStorage
+        , currentStorage = config.currentStorage
         , suppliers = []  // 供应商数据
 
     var planSelectIndex = 0;   // 购买计划表当前选择行索引
@@ -357,7 +357,7 @@ $(function () {
             valueField: '0',
             textField: '0',
             editable: false,
-            url:base_url+'getBuyId?flag=2&orgId='+orgId,
+            url:base_url+'getBuyId?flag=2&orgId='+orgId+'&storage='+currentStorage,
             method:'get',
             mode:'remote',
             onSelect: function (record) {

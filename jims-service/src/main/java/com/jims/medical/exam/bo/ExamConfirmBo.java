@@ -2,6 +2,7 @@ package com.jims.medical.exam.bo;
 
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.utils.DateUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.drugPresc.dao.InpBillDetailDao;
@@ -45,8 +46,9 @@ public class ExamConfirmBo extends CrudImplService<ExamMasterDao,ExamMaster> {
      * @return
      * @author zhaoning
      */
-    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName){
-     return examMasterDao.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName);
+    public List<ExamAppoints> getExamAppointses(String performedBy,String outOrIn,String startTime,String endTime,String appointsDept,String patientName,LoginInfo loginInfo){
+     String orgId=loginInfo.getOrgId();
+     return examMasterDao.getExamAppointses(performedBy,outOrIn,startTime,endTime,appointsDept,patientName,orgId);
     }
 
     /**
