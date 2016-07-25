@@ -273,6 +273,7 @@ $(function(){
             text: '添加',
             iconCls: 'icon-add',
             handler: function() {
+                var selRow = $('#leftList').datagrid('getChecked');
                 var dataGrid=$('#list_data');
                 if(!dataGrid.datagrid('validateRow', rowNum)){
                     $.messager.alert('提示',"请填写完本行数据后，再添加下一条处方", "error");
@@ -314,17 +315,23 @@ $(function(){
             if(rowData.id!=null&&rowData.id!=''){
                 //$.messager.alert("提示消息", "该药品不可编辑","warning");
             }else {
-                var dataGrid=$('#list_data');
-                if(!dataGrid.datagrid('validateRow', rowNum)){
-                    $.messager.alert('提示',"数据填写不完整，请填写完整后再对其他行进行编辑", "error");
-                    return false
-                }else{
-                    if(rowNum!=rowIndex){
-                        if(rowNum>=0){
-                            dataGrid.datagrid('endEdit', rowNum);
+                var selRow = $('#list_data').datagrid('getChecked');
+                if(selRow!=undefined){
+                    var index= $('#list_data').datagrid('getRowIndex',selRow[0]);
+                    if(index!=rowNum){
+                        var dataGrid=$('#list_data');
+                        if(!dataGrid.datagrid('validateRow', rowNum)){
+                            $.messager.alert('提示',"数据填写不完整，请填写完整后再对其他行进行编辑", "error");
+                            return false
+                        }else{
+                            if(rowNum!=rowIndex){
+                                if(rowNum>=0){
+                                    dataGrid.datagrid('endEdit', rowNum);
+                                }
+                                rowNum=rowIndex;
+                                dataGrid.datagrid('beginEdit', rowIndex);
+                            }
                         }
-                        rowNum=rowIndex;
-                        dataGrid.datagrid('beginEdit', rowIndex);
                     }
                 }
             }
@@ -629,6 +636,7 @@ function savePre(){
                     return;
                 }
             } else {
+
                 var dataGrid = $('#list_data');
                 if (!dataGrid.datagrid('validateRow', rowNum)) {
                     $.messager.alert('提示', "请填写完本行数据后，再保存", "error");
@@ -763,13 +771,13 @@ function changeSubPresc(row){
         afterrow=rows[index+1];
         //判断本身是否是子处方
         if(afterrow!=undefined){
-            //判断是否是子医嘱
+            //判断是否是子处方
             if(nowrow.orderNo!=nowrow.subOrderNo){
-                //判断是否有子医嘱
+                //判断是否有子处方
                 if(afterrow.subOrderNo == nowrow.subOrderNo){
                     return false;
                 }else{
-                    //删除子医嘱
+                    //删除子处方
                     nowrow.subOrderNo = nowrow.orderNo;
                     rowNum=index;
                     $('#list_data').datagrid('endEdit', index);
@@ -806,7 +814,7 @@ function changeSubPresc(row){
         $('#list_data').datagrid('endEdit', index);
         $('#list_data').datagrid('beginEdit', index);
     }else{
-        $.messager.alert('提示',"第一条处方不能设置子医嘱", "warning");
+        $.messager.alert('提示',"第一条处方不能设置子处方", "warning");
     }
 }
 
