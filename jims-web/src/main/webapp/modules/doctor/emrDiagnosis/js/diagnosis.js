@@ -63,7 +63,7 @@ $(function(){
                             var ed = $('#zhenduan').datagrid('getEditor', {index:rowNum1,field:'diagnosisId'});
                                 icdCompleting(q,'diagnosisId');
                                 $(ed.target).combogrid("grid").datagrid("loadData", icdAllData);
-                                $(ed.target).combogrid("setText",q);
+                            $(ed.target).combogrid("setText",q);
                                 var icdMingcheng = $("#zhenduan").datagrid('getEditor', {index: rowNum1, field: 'icdName'});
                                 $(icdMingcheng.target).textbox("setText",q);
                         }

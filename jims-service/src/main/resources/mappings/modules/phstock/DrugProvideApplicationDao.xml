@@ -122,6 +122,7 @@
             ,PACKAGE_SPEC
             ,QUANTITY
             ,PACKAGE_UNITS
+            ,UNITS
             ,ENTER_DATE_TIME
             ,FIRM_ID
             ,BATCH_NO
@@ -141,6 +142,7 @@
             ,#{packageSpec}
             ,#{quantity}
             ,#{packageUnits}
+            ,#{units}
             ,#{enterDateTime}
             ,#{firmId}
             ,#{batchNo}
@@ -164,6 +166,7 @@
             ,PACKAGE_SPEC = #{packageSpec}
             ,QUANTITY = #{quantity}
             ,PACKAGE_UNITS = #{packageUnits}
+            ,UNITS=#{units}
             ,ENTER_DATE_TIME = #{enterDateTime}
             ,FIRM_ID = #{firmId}
             ,BATCH_NO = #{batchNo}

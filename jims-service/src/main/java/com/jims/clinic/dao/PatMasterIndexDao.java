@@ -59,5 +59,13 @@ public interface PatMasterIndexDao extends CrudDao<PatMasterIndex> {
      */
     public void updatePatINfoByInhos(PatMasterIndex patMasterIndex);
 
+    /**
+     * 根据身份证号查询是否在主记录中
+     * @param patMasterIndex
+     * @author CTQ
+     * @return
+     */
+    public List<PatMasterIndex> searchByIdCard(PatMasterIndex patMasterIndex);
+
 	
 }

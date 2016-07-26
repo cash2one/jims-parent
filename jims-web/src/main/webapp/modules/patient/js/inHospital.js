@@ -118,7 +118,7 @@ $(function() {
         }
     });
     if(chargeType.length>0) {
-        $("#chargeTypeId").combobox('select', chargeType[0].value);
+        $("#chargeTypeId").combobox('select', chargeType[0].id);
     }
     //身份
     $('#identityId').combobox({
@@ -241,7 +241,6 @@ $(function() {
     });
     //接诊医生
     $('#consultingDoctor').combogrid({
-
         data: doctorName,
         idField: 'id',
         textField: 'name',
@@ -276,14 +275,33 @@ function searchByCondition(){
     $("#orderList").datagrid({url:basePath+'/patMasterIndex/list',queryParams:{"name":name,"idNo":idNo,"hospNo":hospNo}});
 }
 
+function validIdNo(idNo){
+    $.ajax({
+        'type': 'POST',
+        'url': basePath + '/patMasterIndex/validateIdCard',
+        'contentType': 'application/json',
+        'data': idNo = idNo,
+        'dataType': 'json',
+        'success': function (data) {
+            if (data.data == '1') {
+                $.messager.alert("提示消息", "非该院登记病人，请进行登记！");
+            } else {
+                $.messager.alert('提示', "删除失败", "error");
+            }
+        },
+        'error': function (data) {
+            $.messager.alert('提示', "删除失败", "error");
+        }
+    });
+}
+
 //保存
 function saveMaster() {
     if($("#masterForm").form('validate')) {
+        //根据身份证号去patmasterindex查询是否有该人，如果有，在根据id去pat_in_hospital查询patient_id是否已住院，若未住院，则回填，若已住院则提示，否则新增
+
         $.postForm(basePath + '/patMasterIndex/save', 'masterForm', function (data) {
             if (data.data == 'success') {
-
-                //$.messager.alert("提示消息", data.code + "条记录，保存成功");
-
                 $.messager.confirm("操作提示", "是否交预交金？", function (data) {
                     $('#centerList').datagrid('load');
                     $('#centerList').datagrid('clearChecked');

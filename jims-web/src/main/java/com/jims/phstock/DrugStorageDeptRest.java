@@ -99,4 +99,19 @@ public class DrugStorageDeptRest {
                                                  @QueryParam("q") String q){
         return drugStorageDeptService.findListByLevel(condition,orgId,q);
     }
+    /**
+     * @param        drugStorageDept   传递参数
+     * @return  List<DrugStorageDept>     返回类型
+     * @throws
+     * @Title: listByParams
+     * @Description: (根据参数查询药房信息)
+     * @author CTQ
+     * @date 2016-7-25 15:37:10
+     */
+    @POST
+    @Path("listByParams")
+    public List<DrugStorageDept> listByParams(DrugStorageDept drugStorageDept){
+        return drugStorageDeptService.findList(drugStorageDept);
+    }
+
 }
