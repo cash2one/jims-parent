@@ -1,5 +1,6 @@
 package com.jims.common.filter;
 
+import com.jims.oauth2.integration.utils.Cache;
 import com.jims.util.JedisUtils;
 import com.jims.oauth2.integration.utils.CacheManager;
 
@@ -67,13 +68,22 @@ public class OauthFilter implements Filter {
         //        return;
         //    }
         //}
+        HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         HttpServletRequest httpServletRequest = (HttpServletRequest)request ;
         HttpSession session =httpServletRequest.getSession();
         String orgId=httpServletRequest.getParameter("orgId");
+        StringBuffer requestURL = req.getRequestURL();
 
+        if (!(requestURL.indexOf("/login")>0 || requestURL.indexOf("modules/sys/register.html")>0 || requestURL.indexOf("modules/sys/login.html")>0 || requestURL.indexOf(".js")>0 || requestURL.indexOf(".css")>0)){
+            Cache cache =CacheManager.getCacheInfo(session.getId());
+            if(cache==null){
+                res.sendRedirect("/modules/sys/login.html");
+                return;
+            }
+        }
         chain.doFilter(request,response);
-        //res.sendRedirect("/index.html");
+
     }
 
     @Override
