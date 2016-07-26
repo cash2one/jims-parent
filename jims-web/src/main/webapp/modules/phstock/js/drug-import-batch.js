@@ -11,6 +11,12 @@ $(function () {
     var currentSubStorageDeptId  ;
     var currentSelectIndex;
 
+
+    var specUnits = [];//规格单位字典
+    $.get("/service/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
+    });
+
     $.extend($.fn.datagrid.methods, {
         editCell: function(jq,param){
             return jq.each(function(){
@@ -199,6 +205,15 @@ $(function () {
             field: "units",
             width: '60',
             align: 'center'
+            ,formatter:function(value,row){
+                var unitName=value;
+                for(var i=0;i<specUnits.length;i++){
+                    if(specUnits[i].value==value){
+                        unitName=specUnits[i].label;
+                    }
+                }
+                return unitName;
+            }
         }, {
             title: "批号",
             field: "batchNo",
