@@ -6,14 +6,15 @@ DECLARE
   V_DRUG_INDICATOR NUMBER(1);
   V_DRUG_NAME      VARCHAR2(100);
   V_DRUG_CLASS     VARCHAR2(1);
+  V_INPUT_CODE     VARCHAR2(50);
 BEGIN
   SELECT DISTINCT DRUG_INDICATOR
     INTO V_DRUG_INDICATOR
     FROM DRUG_DICT
    WHERE DRUG_CODE = :NEW.DRUG_CODE;
 
-  SELECT DRUG_NAME
-    INTO V_DRUG_NAME
+  SELECT DRUG_NAME, INPUT_CODE
+    INTO V_DRUG_NAME, V_INPUT_CODE
     FROM DRUG_NAME_DICT
    WHERE STD_INDICATOR = 1
      AND DRUG_CODE = :NEW.DRUG_CODE;
@@ -27,9 +28,81 @@ BEGIN
     ELSE
       V_DRUG_CLASS := 'B';
     END IF;
-
+    --1,诊疗项目名称表
+    INSERT INTO CLINIC_ITEM_NAME_DICT
+      (ITEM_CLASS,
+       ITEM_NAME,
+       ITEM_CODE,
+       STD_INDICATOR,
+       INPUT_CODE,
+       ITEM_STATUS,
+       ID,
+       ORG_ID,
+       UPDATE_DATE,
+       DEL_FLAG,
+       CREATE_DATE)
+    VALUES
+      (V_DRUG_CLASS,
+       V_DRUG_NAME,
+       :NEW.DRUG_CODE,
+       V_DRUG_INDICATOR,
+       V_INPUT_CODE,
+       '0',
+       SYS_GUID(),
+       :NEW.ORG_ID,
+       SYSDATE,
+       '1',
+       SYSDATE);
+    --2,诊疗项目表
+    INSERT INTO CLINIC_ITEM_DICT
+      (ID,
+       ITEM_CLASS,
+       ITEM_CODE,
+       ITEM_NAME,
+       INPUT_CODE,
+       ITEM_STATUS,
+       UPDATE_DATE,
+       DEL_FLAG,
+       CREATE_DATE,
+       ORG_ID)
+    VALUES
+      (SYS_GUID(),
+       V_DRUG_CLASS,
+       :NEW.DRUG_CODE,
+       V_DRUG_NAME,
+       V_INPUT_CODE,
+       '0',
+       SYSDATE,
+       '0',
+       SYSDATE,
+       :NEW.ORG_ID);
+    --3,价表名称表
+    INSERT INTO PRICE_ITEM_NAME_DICT
+      (ITEM_CLASS,
+       ITEM_NAME,
+       ITEM_CODE,
+       STD_INDICATOR,
+       INPUT_CODE,
+       STOP_FLAG,
+       ID,
+       UPDATE_DATE,
+       DEL_FLAG,
+       ORG_ID)
+    VALUES
+      (V_DRUG_CLASS,
+       V_DRUG_NAME,
+       :NEW.DRUG_CODE,
+       '1',
+       V_INPUT_CODE,
+       '0',
+       SYS_GUID(),
+       SYSDATE,
+       '0',
+       :NEW.ORG_ID);
+    --4,价表
     INSERT INTO PRICE_LIST
-      (ID,ITEM_CLASS,
+      (ID,
+       ITEM_CLASS,
        ITEM_CODE,
        ITEM_NAME,
        ITEM_SPEC,
@@ -47,10 +120,11 @@ BEGIN
        START_DATE,
        ENTER_DATE)
     VALUES
-      (sys_guid(),V_DRUG_CLASS,
+      (SYS_GUID(),
+       V_DRUG_CLASS,
        :NEW.DRUG_CODE,
        V_DRUG_NAME,
-       :NEW.DRUG_SPEC || GET_DRUG_SUPPLIER_ID(:NEW.FIRM_ID,:NEW.org_id),
+       :NEW.DRUG_SPEC || GET_DRUG_SUPPLIER_ID(:NEW.FIRM_ID, :NEW.ORG_ID),
        :NEW.UNITS,
        :NEW.RETAIL_PRICE,
        :NEW.RETAIL_PRICE,
@@ -64,7 +138,30 @@ BEGIN
        :NEW.MEMOS,
        :NEW.START_DATE,
        SYSDATE);
-
+    --价表与诊疗项目对照
+    INSERT INTO CLINIC_VS_CHARGE
+      (ID,
+       CLINIC_ITEM_CLASS,
+       CLINIC_ITEM_CODE,
+       CHARGE_ITEM_NO,
+       CHARGE_ITEM_CLASS,
+       CHARGE_ITEM_CODE,
+       ORG_ID,
+       UPDATE_DATE,
+       DEL_FLAG,
+       CREATE_DATE)
+    VALUES
+      (SYS_GUID(),
+       V_DRUG_CLASS,
+       :NEW.DRUG_CODE,
+       1,
+       V_DRUG_CLASS,
+       :NEW.DRUG_CODE,
+       :NEW.ORG_ID,
+       SYSDATE,
+       0,
+       SYSDATE);
+  
   END IF;
 
 END;
