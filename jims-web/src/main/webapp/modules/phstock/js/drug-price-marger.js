@@ -601,7 +601,9 @@ $(function () {
                     }else{
                         $.postJSON(basePath + "/drug-price/stop",row.id, function (data) {
                             $.messager.alert("系统提示", "停价成功", "info");
-                            $('#datagridRight').datagrid('loadData', { total: 0, rows: [] });
+                            var selectDrug = $("#datagridLeft").datagrid('getSelected');
+                            if(selectDrug)loadPriceList(selectDrug.drugCode)
+                            else $('#datagridRight').datagrid('loadData', []);
                         });
                     }
                 })
