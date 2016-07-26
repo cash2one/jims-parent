@@ -1,10 +1,5 @@
 var westernDrugData = [];
 var westernDrug={};
-/*$(function(){
-    comboGridCompleting('','');
-});*/
-
-
 
 westernDrug.orgId=orgId;
 westernDrug.dictType="v_clinic_item_price"
@@ -79,7 +74,7 @@ function comboGridCompleting(q,id){
         'dataType': 'json',
         'async': false,
         'success': function(data){
-            comboGridComplete = data;
+            westernDrugData = data;
 
         }
     });
