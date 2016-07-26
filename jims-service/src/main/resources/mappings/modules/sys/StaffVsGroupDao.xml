@@ -48,11 +48,12 @@
 
     <select id="findStaffByGroupId" resultType="StaffVsGroupVo">
         SELECT
-        v.id as id, o.id as staffId,p.name,d.dept_name ,v.group_class
-        FROM persion_info p,dept_dict d ,org_staff o,staff_vs_group v
+        v.id as id, o.id as staffId,p.name,d.dept_name ,v.group_class ,s.group_name
+        FROM persion_info p,dept_dict d ,org_staff o,staff_vs_group v,staff_group_dict s
         WHERE o.persion_id=p.id
         AND o.dept_id=d.id
         AND o.id=v.staff_id
+        AND s.group_class_id=v.group_class
         AND v.group_id=#{groupId} AND o.org_id=#{orgId}  AND v.del_flag='0'
     </select>
 

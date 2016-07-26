@@ -1,3 +1,12 @@
+$("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/easyui/css/icon.css"}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
+$("<script>").attr({
+    type: "application/javascript",
+    src: "/static/easyui/locale/easyui-lang-zh_CN.js"
+}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"}).appendTo("head");
 $(function () {
 
     var registerVo = {};
@@ -28,7 +37,16 @@ $(function () {
         })
         if(flag) return
         registerVo.name = $("#name").val();
-        registerVo.cardNo = $("#cardNo").val();
+        var cardNo= $("#cardNo").val();
+
+        if(cardNo.charAt(cardNo.length-1)=='x'){
+            var newCard=cardNo.substr(0,cardNo.length-1)+"X";
+            registerVo.cardNo = newCard;
+        } else{
+            registerVo.cardNo = $("#cardNo").val();
+        }
+        var name=$("#name").val();
+        registerVo.inputCode=makePy(name)[0];
         registerVo.nickName = $("#nickName").val();
         registerVo.email = $("#email").val();
         registerVo.phoneNum = $("#phoneNum").val();
@@ -43,7 +61,6 @@ $(function () {
                 'dataType': 'json',
                 'success': function (data) {
                     if (data.data == "success") {
-
                         if (confirm("注册成功，是否跳转到登录页面，进行登录")) {
                             window.location.href = "/modules/sys/login.html";
                         }
@@ -74,7 +91,7 @@ $(function () {
 
     //检验身份证号是否已存在
     $("#cardNo").blur(function () {
-        registerVo.cardNo = $("#cardNo").val();
+        var cardNo = $("#cardNo").val();
         if ($("#cardNo").val() == "") {
             $("#res-card").text("*身份证号不能为空");
             $("#res-card").css("color", "red");
@@ -92,15 +109,12 @@ $(function () {
             return false;
         }
 
-        registerVo.cardNo = $("#cardNo").val();
         jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/getCard",
-            'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
-            'dataType': 'json',
+            'type': 'GET',
+            'url': "/service/register/getCard?cardNo="+cardNo,
             'success': function (data) {
-                if (data && data.data == "success") {
+
+                if (data && data.cardNo !="") {
                     $("#res-card").text("*身份证号已经存在");
                     $("#res-card").css("color", "red");
                     return false;
@@ -122,7 +136,7 @@ $(function () {
 
     //校验用户名是否已经存在
     $("#nickName").blur(function () {
-        registerVo.nickName = $("#nickName").val();
+        var nickName = $("#nickName").val();
         var name = $("#nickName").val();
         if ($("#nickName").val() == "") {
             $("#res-nick").text("*用户名不能为空");
@@ -141,13 +155,10 @@ $(function () {
         }
 
         jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/getNick",
-            'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
-            'dataType': 'json',
+            'type': 'GET',
+            'url': "/service/register/getNick?nickName="+nickName,
             'success': function (data) {
-                if (data && data.data == "success") {
+                if (data && data.nickName !="") {
                     $("#res-nick").text("*用户名已经存在");
                     $("#res-nick").css("color", "red");
                     return false;
@@ -167,7 +178,7 @@ $(function () {
     });
     //校验邮箱是否合法，是否已被注册
     $("#email").blur(function () {
-        registerVo.email = $("#email").val();
+        var email = $("#email").val();
 
         if ($("#email").val() == "") {
             $("#res-email").text("*邮箱不能为空");
@@ -186,14 +197,10 @@ $(function () {
             return false;
         }
         jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/getEmail",
-            'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
-            'dataType': 'json',
+            'type': 'GET',
+            'url': "/service/register/getEmail?email="+email,
             'success': function (data) {
-
-                if (data && data.data == "success") {
+                if (data && data.email !="") {
                     $("#res-email").text("*邮箱已注册");
                     $("#res-email").css("color", "red");
                     return false;
@@ -214,7 +221,6 @@ $(function () {
     //文本框获取焦点的时候，显示
     $("#phoneNum").blur(function () {
         var phone = $("#phoneNum").val();
-        registerVo.phoneNum = phone;
         if ($("#phoneNum").val() == "") {
             $("#res-phone").text("*手机号不能为空");
             return false;
@@ -229,14 +235,10 @@ $(function () {
             return false;
         }
         jQuery.ajax({
-            'type': 'POST',
-            'url': "/service/register/getPhone",
-            'contentType': 'application/json',
-            'data': JSON.stringify(registerVo),
-            'dataType': 'json',
+            'type': 'GET',
+            'url': "/service/register/getPhone?phoneNum="+phone,
             'success': function (data) {
-
-                if (data && data.data == "success") {
+                if (data && data.phoneNum!="") {
                     $("#res-phone").text("*手机号已经注册");
                     $("#res-phone").css("color", "red");
                     return false;

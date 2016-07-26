@@ -24,6 +24,15 @@ public class OrgStaffVo extends DataEntity<OrgStaffVo> {
     private String role[];      //角色id
     private String roleName;    //角色名称
     private String staffId;    //人员id
+    private String inputCode;
+
+    public String getInputCode() {
+        return inputCode;
+    }
+
+    public void setInputCode(String inputCode) {
+        this.inputCode = inputCode;
+    }
 
     public String getStaffId() {
         return staffId;

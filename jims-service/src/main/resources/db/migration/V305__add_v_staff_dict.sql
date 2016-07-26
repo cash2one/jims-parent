@@ -7,7 +7,8 @@ select a.org_id,
        b.id,
        b.input_code,
        a.dept_id,
-       c.dept_name
+       c.dept_name ,
+       a.id as staff_id
   from org_staff a, persion_info b, dept_dict c
  where a.persion_id = b.id
    and a.dept_id = c.id

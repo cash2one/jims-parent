@@ -1,7 +1,7 @@
 -- Create table
 create table STAFF_VS_GROUP
 (
-  GROUP_CLASS VARCHAR2(16) not null,
+  GROUP_CLASS VARCHAR2(64) not null,
   GROUP_CODE  VARCHAR2(8) not null,
   STAFF_ID    VARCHAR2(64) not null,
   GROUP_ID    VARCHAR2(64),
