@@ -601,7 +601,7 @@ $(function () {
             'url': "/service/register/getNick?nickName=" + nickName + "&persionId=" + persion_id,
             'contentType': 'application/json',
             'success': function (data) {
-                if (data.id != persion_id) {
+                if (data && data.id != persion_id) {
                     $("#res-nick").text("*用户名已经存在");
                     $("#res-nick").css("color", "red");
                     return false;
@@ -690,7 +690,7 @@ $(function () {
             'url': "/service/register/getPhone?phoneNum=" + phone + "&persionId=" + persion_id,
             'success': function (data) {
 
-                if (data.id != persion_id) {
+                if (data && data.id != persion_id) {
                     $("#res-phone").text("*手机号已经注册");
                     $("#res-phone").css("color", "red");
                     return false;

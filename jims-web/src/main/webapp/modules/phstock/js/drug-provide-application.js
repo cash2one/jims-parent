@@ -78,7 +78,9 @@ $(function () {
                         row.label = data.label;
                         row.firmId = data.firm_id;
                         row.supplierId = data.supplier_id;
-                        $('#drug-provide-application').datagrid('endEdit', editIndex);
+                        $('#drug-provide-application').datagrid('endEdit', editIndex1);
+                        var rows = $("#drug-provide-application").datagrid('getRows');
+                        onClickCell(rows.length - 1, 'quantity');
                     }
                 }
             }
@@ -146,15 +148,15 @@ $(function () {
         }
     });
 
-    var editIndex = undefined;
+    var editIndex1 = undefined;
 
-    function endEditing1() {
-        if (editIndex == undefined) {
+    function endEditing2() {
+        if (editIndex1 == undefined) {
             return true
         }
-        if ($('#drug-provide-application').datagrid('validateRow', editIndex)) {
-            $('#drug-provide-application').datagrid('endEdit', editIndex);
-            editIndex = undefined;
+        if ($('#drug-provide-application').datagrid('validateRow', editIndex1)) {
+            $('#drug-provide-application').datagrid('endEdit', editIndex1);
+            editIndex1 = undefined;
             return true;
         } else {
             return false;
@@ -162,15 +164,10 @@ $(function () {
     }
 
     function onClickCell(index, field) {
-        if (endEditing1()) {
-
+        if (endEditing2()) {
             $('#drug-provide-application').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
-            editIndex = index;
-            if (field == 'drugName') {
-                var editor = $("#drug-provide-application").datagrid('getEditor', {index: index, field: 'drugName'});
-                $(editor.target).combogrid('grid').datagrid('loadData', staffFrom);
-            }
+            editIndex1 = index;
         }
     }
 
@@ -303,7 +300,6 @@ $(function () {
             $.messager.alert("系统提示", "请先选择来源", "info");
             return;
         }
-
         if (!subStorageCode) {
             $.messager.alert("系统提示", "请选择子库，在维护数据", "info");
             return;
@@ -320,14 +316,12 @@ $(function () {
         } else {
             itemNo = 1;
         }
-        var storageCode = $('#storage').combobox('getValue');
-
         $("#drug-provide-application").datagrid('appendRow', {
             orgId: orgId, flag: 0, itemNo: itemNo, quantity: 0, batchNo: 'X',
             applicantStorage: currentStorage, applicantStorageSub: subStorage1 ,provideStorage : StorageCode,subStorage:subStorageCode
         });
         var rows = $("#drug-provide-application").datagrid('getRows');
-        onClickCell(rows.length - 1, 'drug-provide-application');
+        onClickCell(rows.length - 1, 'drugName');
     });
 
 
@@ -353,8 +347,8 @@ $(function () {
 
     //包名称保存
     $("#saveBtn").on("click", function () {
-        if (editIndex || editIndex == 0) {
-            $("#drug-provide-application").datagrid("endEdit", editIndex);
+        if (editIndex1 || editIndex1 == 0) {
+            $("#drug-provide-application").datagrid("endEdit", editIndex1);
         }
 
         var insertData = $("#drug-provide-application").datagrid("getChanges", "inserted");
@@ -378,6 +372,8 @@ $(function () {
             //数量必须大于0
             if (insertData[i].quantity == "0") {
                 $.messager.alert("系统提示", "数量不能为空,必须大于0", "info");
+                var rows = $("#drug-provide-application").datagrid('getRows');
+                onClickCell(rows.length - 1, 'quantity');
                 return;
             }
         }

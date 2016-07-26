@@ -158,8 +158,14 @@ public class InputSettingRest {
 
     @Path("listParamByGET")
     @GET
-    public List<BaseDto> listParamByGET(@Context UriInfo info) {
+    public List<BaseDto> listParamByGET(@Context UriInfo info,@Context HttpServletRequest request) {
         InputInfoVo inputInfoVo = new InputInfoVo();
+        LoginInfo loginInfo= LoginInfoUtils.getPersionInfo(request);
+        if(inputInfoVo.getIsOrgId()){
+            inputInfoVo.setOrgId(loginInfo.getOrgId());
+        }else{
+            inputInfoVo.setOrgId("");
+        }
         inputInfoVo.setInputParamVos(new ArrayList<InputParamVo>());
         Class c = InputInfoVo.class;
         MultivaluedMap<String, String> params = info.getQueryParameters();
