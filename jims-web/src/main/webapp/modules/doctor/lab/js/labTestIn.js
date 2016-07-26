@@ -78,7 +78,7 @@ function onloadMethod() {
                 dataType: 'json',
                 success: function (data) {
                     $.each(data, function (i, list) {
-                        detailHtml += "<tr><td width='50%'>"+list.itemName+"</td><td>"+list.price+"&nbsp;元</td></tr>";
+                        detailHtml += "<tr><td width='50%'>" + list.itemName + "</td><td>" + list.price + "&nbsp;元</td></tr>";
                     });
                 }
             })
@@ -153,7 +153,7 @@ function add() {
         data: {"patientId": patientId, "visitId": visitId},//住院visitId不为null
         success: function (data) {
             if (data != "" && data != null) {
-                var d;
+                var d = "";
                 $.each(data, function (index, item) {
                     d = d + diagnosisTypeClinicFormatter(item.type) + "：" + item.icdName + "\r\n";
                 });
@@ -167,11 +167,11 @@ function add() {
         valueField: 'id',
         textField: 'class_name',
         required: true,
-        onChange: function (n, o) {
+        onSelect: function (data) {
             $("#specimen").val("");
-            SendProduct(n.class_name);
-            $("#performedBy").val(n.dept_name);
-            $("#performedByCode").val(n.dept_code);
+            SendProduct(data.class_name);
+            $("#performedBy").val(data.dept_name);
+            $("#performedByCode").val(data.dept_code);
         }
     })
 }
@@ -225,7 +225,7 @@ function save() {
                 var formJson = fromJson('form');
                 formJson = formJson.substring(0, formJson.length - 1);
                 var tableJson = JSON.stringify(rows);
-                if(rows != "" && rows != null){
+                if (rows != "" && rows != null) {
                     var submitJson = formJson + ",\"list\":" + tableJson + "}";
                     $.postJSON(basePath + '/labtest/saveHos', submitJson, function (data) {
                         if (data.data == 'success') {
@@ -242,7 +242,7 @@ function save() {
                         $.messager.alert('提示', "保存失败", "error");
                         clearForm();
                     })
-                }else {
+                } else {
                     $.messager.alert("提示信息", "请选择需要的检验项目");
                 }
 
@@ -258,10 +258,9 @@ function look() {
     $("#treeGrid").dialog("open");
 }
 function SendProduct(name) {
-    var item = {};
-    item.orgId = "";
-    item.dictType = "lab_item_view";
-    var inputParamVos= new Array();
+    var item={};
+    item.dictType="lab_item_view";
+    var inputParamVos=new Array();
     var InputParamVo={};
     InputParamVo.colName='expand2';
     InputParamVo.colValue=name;
@@ -279,20 +278,25 @@ function SendProduct(name) {
         'dataType': 'json',
         'async': false,
         'success': function (data) {
+            if (data.length == 0) {
+                $.messager.alert("提示消息", "没有检查项目");
+                return false;
+            }
             var divstr = "<table>";
-            for(var i=0; i<data.length; i++)
-            {   if(i==0){
-                divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/><input type='hidden' name='price' value='"+data[i].price+"'></div></td>";
-            }
-            else if(i%3==0){
-                divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/><input type='hidden' name='price' value='"+data[i].price+"'></div></td>";
-            }
-            else if(i%3==2){
-                divstr =divstr+"<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/><input type='hidden' name='price' value='"+data[i].price+"'></div></td></tr>";
-            }
-            else{
-                divstr =divstr+"<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/><input type='hidden' name='price' value='"+data[i].price+"'></div></td>";
-            }
+            for (var i = 0; i < data.length; i++) {
+                if (i == 0) {
+                    divstr = divstr + "<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='" + data[i].item_code + "'><span>" + data[i].item_name + "</span><input type='hidden' name='expand2' value='" + data[i].expand1 + "'/><input type='hidden' name='price' value='11'></div></td>";
+                    //" + data[i].price + "
+                }
+                else if (i % 3 == 0) {
+                    divstr = divstr + "<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='" + data[i].item_code + "'><span>" + data[i].item_name + "</span><input type='hidden' name='expand2' value='" + data[i].expand1 + "'/><input type='hidden' name='price' value='11'></div></td>";
+                }
+                else if (i % 3 == 2) {
+                    divstr = divstr + "<td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='" + data[i].item_code + "'><span>" + data[i].item_name + "</span><input type='hidden' name='expand2' value='" + data[i].expand1 + "'/><input type='hidden' name='price' value='11'></div></td></tr>";
+                }
+                else {
+                    divstr = divstr + "<td ><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='" + data[i].item_code + "'><span>" + data[i].item_name + "</span><input type='hidden' name='expand2' value='" + data[i].expand1 + "'/><input type='hidden' name='price' value='11'></div></td>";
+                }
                 //alert(data[i].expand1);
             }
             divstr = divstr + "</table>";
@@ -326,9 +330,9 @@ function doSelect() {
                 var row = {};
                 row.itemName = $(this).next().html();
                 row.itemCode = $(this).val();//增
-                if($(this).next().next().next(":hidden").val() == "null"){
-                    $.messager.alert('提示消息',"此项目没有价格，不能选择");
-                }else{
+                if ($(this).next().next().next(":hidden").val() == "null") {
+                    $.messager.alert('提示消息', "此项目没有价格，不能选择");
+                } else {
                     var a = $(this).next().next(":hidden").val();
                     row.price = $(this).next().next().next(":hidden").val();
                     $("#specimen").val(a);

@@ -25,12 +25,21 @@ public class LabTestItems extends DataEntity<LabTestItems> {
 	private Double price;		// 费用
 	private String parentId;
 	private String labMaster; //主表id
+	private String orgId;
 	public LabTestItems() {
 		super();
 	}
 
 	public LabTestItems(String id){
 		super(id);
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
 	}
 
 	public String getLabMaster() {

@@ -1,8 +1,8 @@
 -- Create table
 create table BLOOD_CAPACITY
 (
-  APPLY_NUM      VARCHAR2(64) not null,
-  MATCH_SUB_NUM  VARCHAR2(10) not null,
+  APPLY_NUM      VARCHAR2(64),
+  MATCH_SUB_NUM  VARCHAR2(10) ,
   FAST_SLOW      VARCHAR2(10),
   TRANS_DATE     TIMESTAMP ,
   TRANS_CAPACITY NUMBER(7,2),
@@ -47,4 +47,4 @@ comment on column BLOOD_CAPACITY.ORG_ID
   is '主表ID';
 -- Create/Recreate primary, unique and foreign key constraints
 alter table BLOOD_CAPACITY
-  add constraint BLOOD_CAPACITY_UK unique (APPLY_NUM, MATCH_SUB_NUM);
+  add constraint BLOOD_CAPACITY_UK unique (APPLY_NUM);

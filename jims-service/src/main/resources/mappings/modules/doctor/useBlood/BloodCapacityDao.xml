@@ -22,7 +22,8 @@
 		a.create_date AS "createDate",
 		a.visit_id AS "visitId",
 		a.clinic_id AS "clinicId",
-		a.patient_id AS "patientId"
+		a.patient_id AS "patientId",
+		a.apply_id AS "applyId"
 	</sql>
 	
 	<sql id="bloodCapacityJoins">
@@ -58,7 +59,7 @@
 		<include refid="bloodCapacityColumns"/>
 		FROM blood_capacity a
 		<include refid="bloodCapacityJoins"/>
-		WHERE a.apply_num = #{applyNum} AND
+		WHERE a.apply_id = #{applyId} AND
 		a.del_flag ='0'
 	</select>
 	<select id="findAllList" resultType="BloodCapacity">
@@ -91,7 +92,6 @@
 			id,
 			org_id,
 			remarks,
-			apply_id,
 			update_by,
 			create_by,
 			update_date,
@@ -99,7 +99,8 @@
 			create_date,
 			visit_id,
 			clinic_id,
-			patient_id
+			patient_id,
+			apply_id
 		) VALUES (
 			#{applyNum},
 			#{matchSubNum},
@@ -111,7 +112,6 @@
 			#{unit},
 			#{id},
 			#{orgId},
-			#{applyId},
 			#{remarks},
 			#{updateBy.id},
 			#{createBy.id},
@@ -120,7 +120,8 @@
 			#{createDate},
 			#{visitId},
 			#{clinicId},
-			#{patientId}
+			#{patientId},
+			#{applyId}
 		)
 	</insert>
 	
@@ -162,5 +163,10 @@
 	<update id="deleteBloodCapacity">
 		DELETE FROM blood_capacity
 		WHERE apply_id = #{applyId}
+	</update>
+
+	<update id="deleteCapacity">
+		DELETE FROM blood_capacity
+		WHERE id = #{id}
 	</update>
 </mapper>

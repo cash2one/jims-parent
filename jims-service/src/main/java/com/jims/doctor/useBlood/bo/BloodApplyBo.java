@@ -54,8 +54,8 @@ public class BloodApplyBo {
             bloodApply.preInsert();
             bloodApply.setApplyNum(IdGen.uuid());
             bloodApply.setOrgId(loginInfo.getOrgId());
-            bloodApply.setPhysician(loginInfo.getPersionId());
-            bloodApply.setDeptCode(loginInfo.getDeptCode());
+            bloodApply.setPhysician(loginInfo.getPersionId());//登陆医生id
+            bloodApply.setDeptCode(loginInfo.getDeptId());//病人科室
             strState = bloodApplylDao.insert(bloodApply);
 //            bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
             List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
@@ -70,16 +70,16 @@ public class BloodApplyBo {
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setApplyNum(bloodApply.getApplyNum());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
-                    bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
                 }else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setApplyNum(bloodApply.getApplyNum());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
-                    bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
                 }
 
@@ -89,7 +89,6 @@ public class BloodApplyBo {
 
         }else {
             bloodApply.preUpdate();
-            bloodApply.setApplyNum(IdGen.uuid());
 //            BloodApply bloodApply1 = bloodApplylDao.get(bloodApply.getId());
 //            bloodApply.setApplyNum(bloodApply1.getApplyNum());
             strState = bloodApplylDao.update(bloodApply);
@@ -106,16 +105,16 @@ public class BloodApplyBo {
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setApplyNum(bloodApply.getApplyNum());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
-                    bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
                 }else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setApplyNum(bloodApply.getApplyNum());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
-                    bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
                 }
                 clinicItemDictList.add(clinicItemDict);
@@ -131,22 +130,16 @@ public class BloodApplyBo {
 //    }
     public String delete(String ids){
         int num =0;
-        try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                List<OutpTreatRec> outpTreatRecList = outpTreatRecDao.getSerialNo(id[j]);
-                String serialNo = outpTreatRecList.get(0).getSerialNo();
+//                List<OutpTreatRec> outpTreatRecList = outpTreatRecDao.getSerialNo(id[j]);
+//                String serialNo = outpTreatRecList.get(0).getSerialNo();
                 num = bloodApplylDao.deleteBloodApply(id[j]);
                 bloodCapacityDao.deleteBloodCapacity(id[j]);
 //                outpTreatRecDao.deleteTreat(outpTreatRec.getSerialNo());
 //                outpOrdersDao.deleteOutpOrders(outpTreatRec.getSerialNo());
 //                outpOrdersCostsDao.deleteOutpOrdersCosts(outpTreatRec.getSerialNo());
-
-
             }
-        }catch(Exception e){
-            return num+"";
-        }
         return num+"";
     }
 }

@@ -75,7 +75,7 @@
 				and clinic_id = #{clinicId}
 			</if>
 			<if test="visitId!=null and visitId!=''">
-				and visitId = #{visitId}
+				and visit_Id = #{visitId}
 			</if>
 		</where>
 		<choose>

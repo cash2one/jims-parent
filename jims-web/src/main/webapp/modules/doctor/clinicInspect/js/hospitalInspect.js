@@ -199,16 +199,16 @@ function add() {
         'data': JSON.stringify({"visitId": visitId,"patientId":patientId}),
         success: function (data) {
             if (data != "" && data != null) {
-                $("#clinSymp").val(data.xianbingshi);
+                $("#clinSymp").val(unescape(data.xianbingshi));
             }
         }
     })
     $.ajax({
         //添加
-        url: basePath + "/diagnosis/findListOfOut",
+        url: basePath + "/diagnosis/findListOfIn",
         type: "GET",
         dataType: "json",
-        data: {"clinicId": clinicId},
+        data: {"visitId": visitId,"patientId":patientId},
         success: function (data) {
             if (data != "" && data != null) {
                 var d = "";

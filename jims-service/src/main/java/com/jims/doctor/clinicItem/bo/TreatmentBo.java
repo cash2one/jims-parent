@@ -50,17 +50,18 @@ public class TreatmentBo extends CrudImplService<OutpTreatRecDao, OutpTreatRec> 
         String num = "";
         List<ClinicItemDict> clinicItemDictList = new ArrayList<ClinicItemDict>();
         String clinicId = outpTreatRecs.get(0).getClinicId();
+        OutpTreatRec outpTreatRec = new OutpTreatRec();
         for (int i = 0; i < outpTreatRecs.size(); i++) {
-            OutpTreatRec outpTreatRec = outpTreatRecs.get(i);
+             outpTreatRec = outpTreatRecs.get(i);
             ClinicItemDict clinicItemDict = new ClinicItemDict();
             clinicItemDict.setItemCode(outpTreatRec.getItemCode());
 //            clinicItemDict.setExpand3(outpTreatRec.getPerformedBy());
             clinicItemDict.setExpand4(outpTreatRec.getWardCode());
             clinicItemDictList.add(clinicItemDict);
-            if (outpTreatRec.getId() == null || outpTreatRec.getId() == "") {
-                Double amount = outpTreatRec.getAmount();
-                num = costOrdersUtilsService.save(clinicId, clinicItemDictList, loginInfo,"",outpTreatRec.getPerformedBy(),amount,"");
-            }
+        }
+        if (outpTreatRec.getId() == null || outpTreatRec.getId() == "") {
+            Double amount = outpTreatRec.getAmount();
+            num = costOrdersUtilsService.save(clinicId, clinicItemDictList, loginInfo,"",outpTreatRec.getPerformedBy(),amount,"");
         }
         return num;
     }

@@ -1,5 +1,6 @@
 package com.jims.doctor.useBlood.bo;
 
+import com.jims.clinic.dao.PatVisitDao;
 import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.useBlood.dao.BloodApplylDao;
 import com.jims.doctor.useBlood.dao.BloodCapacityDao;
@@ -8,6 +9,7 @@ import com.jims.blood.entity.BloodCapacity;
 import com.jims.common.utils.IdGen;
 import com.jims.orders.dao.OrdersDao;
 import com.jims.orders.entity.Orders;
+import com.jims.patient.entity.PatVisit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,15 +31,19 @@ public class BloodApplyHosBo {
     private BloodCapacityDao bloodCapacityDao;
     @Autowired
     private OrdersDao ordersDao;
+    @Autowired
+    private PatVisitDao patVisitDao;
 
     public String saveHosBloodApply(BloodApply bloodApply,LoginInfo loginInfo) {
         int strState = 0;
+        PatVisit patVisit = patVisitDao.selectPatVisit(bloodApply.getVisitId(),bloodApply.getPatientId());
         if (bloodApply.getIsNewRecord()) {
             bloodApply.preInsert();
-            bloodApply.setApplyNum(IdGen.uuid());
+//            String applyNum = "IYX"+patVisit.getVisitNo()+(int)(Math.random()*9000);
+//            bloodApply.setApplyNum(applyNum);
             bloodApply.setOrgId(loginInfo.getOrgId());
-            bloodApply.setPhysician(loginInfo.getPersionId());
-            bloodApply.setDeptCode(loginInfo.getDeptCode());
+            bloodApply.setPhysician(loginInfo.getPersionId());//开单医生id
+            bloodApply.setDeptCode(loginInfo.getDeptId());//病人科室
             Orders orders = new Orders();
             orders.setPatientId(bloodApply.getPatientId());
             orders.setVisitId(bloodApply.getVisitId());
@@ -50,7 +56,6 @@ public class BloodApplyHosBo {
                 orders.setOrderSubNo(1);
             }
             orders.setStartDateTime(bloodApply.getApplyDate());
-            orders.setAppNo(bloodApply.getId());
 //                orders.setOrderClass("C");
             orders.setRepeatIndicator("0"); // 临时医嘱标志
             orders.setOrderStatus("6");//医嘱状态
@@ -59,9 +64,7 @@ public class BloodApplyHosBo {
             orders.setOrderingDept(bloodApply.getDeptCode());//开医嘱科室
             orders.setDoctor(bloodApply.getPhysician());//开医嘱医生
             orders.setEnterDateTime(bloodApply.getApplyDate());//开医嘱时间
-
-            //billing_attr:13=[3]
-            //drug_billing_attr:14=[3]
+            orders.setOrgId(loginInfo.getOrgId());//orgId
             orders.setAppNo(bloodApply.getId());
             List<BloodCapacity> bloodCapacityList = bloodApply.getBloodCapacityList();
             for (int i = 0; i < bloodApply.getBloodCapacityList().size(); i++) {
@@ -70,6 +73,8 @@ public class BloodApplyHosBo {
                 if (bloodCapacity.getIsNewRecord()) {
                     bloodCapacity.preInsert();
                     bloodCapacity.setMatchSubNum(i + "");
+                    bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setApplyNum(bloodCapacity.getApplyNum());
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.insert(bloodCapacity);
@@ -81,6 +86,8 @@ public class BloodApplyHosBo {
                 } else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
+                    bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setApplyNum(bloodCapacity.getApplyNum());
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
@@ -117,8 +124,7 @@ public class BloodApplyHosBo {
             orders.setOrderingDept(bloodApply.getDeptCode());//开医嘱科室
             orders.setDoctor(bloodApply.getPhysician());//开医嘱医生
             orders.setEnterDateTime(bloodApply.getApplyDate());//录入医嘱时间
-
-            orders.setAppNo(bloodApply.getId());
+            orders.setOrgId(loginInfo.getOrgId());//orgId
             bloodCapacityDao.delBloodCapacity(bloodApply.getApplyNum());
             List<BloodCapacity> bloodCapacityList = bloodApply.getBloodCapacityList();
             for (int i = 0; i < bloodApply.getBloodCapacityList().size(); i++) {
@@ -126,6 +132,8 @@ public class BloodApplyHosBo {
                 bloodCapacity.setApplyNum(bloodApply.getApplyNum());
                 if (bloodCapacity.getIsNewRecord()) {
                     bloodCapacity.preInsert();
+                    bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setApplyNum(bloodCapacity.getApplyNum());
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
@@ -138,6 +146,8 @@ public class BloodApplyHosBo {
                 } else {
                     bloodCapacity.preUpdate();
                     bloodCapacity.setMatchSubNum(i + "");
+                    bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setApplyNum(bloodCapacity.getApplyNum());
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());
                     bloodCapacityDao.update(bloodCapacity);
@@ -185,16 +195,12 @@ public class BloodApplyHosBo {
      */
     public String delHos(String ids){
         int num = 0;
-        try {
             String[] id =ids.split(",");
             for(int i=0;i<id.length;i++){
-                num = bloodApplylDao.deleteBloodApply(id[i]);
                 bloodCapacityDao.deleteBloodCapacity(id[i]);
-                ordersDao.delOrders(id[i]);
+                ordersDao.delOrders(id[i],"");
+                num = bloodApplylDao.deleteBloodApply(id[i]);
             }
-        }catch (Exception e){
-            return "0";
-        }
         return num+"";
     }
 }

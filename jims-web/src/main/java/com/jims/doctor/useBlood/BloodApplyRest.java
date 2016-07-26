@@ -157,13 +157,13 @@ public class BloodApplyRest {
         return stringData;
     }
     /**
-     * 门诊用血申请记录删除
+     * 住院用血申请记录删除
      */
     @Path("delHos")
     @POST
     public StringData delHos(String ids) {
         StringData stringData = new StringData();
-        String num = bloodApplyServiceApi.deleteBloodApply(ids);
+        String num = bloodApplyServiceApi.delHos(ids);
         stringData.setCode(num);
         stringData.setData("success");
         return stringData;
@@ -184,10 +184,10 @@ public class BloodApplyRest {
      */
     @Path("getBloodCapacityList")
     @GET
-    public List<BloodCapacity> getBloodCapacityList(@QueryParam("applyNum")String applyNum) {
+    public List<BloodCapacity> getBloodCapacityList(@QueryParam("applyId")String applyId) {
         BloodCapacity bloodCapacity = new BloodCapacity();
-        if (StringUtils.isNotBlank(applyNum)) {
-            bloodCapacity.setApplyNum(applyNum);
+        if (StringUtils.isNotBlank(applyId)) {
+            bloodCapacity.setApplyId(applyId);
             List<BloodCapacity> bloodCapacityList = bloodCapacityServiceApi.getBloodCapacityList(bloodCapacity);
             return bloodCapacityList;
         }

@@ -212,7 +212,7 @@ $(function () {
         fit: true,
         method: 'GET',
         url: basePath + '/price-list/list-by-clinic-code',
-        queryParams: {"orgId": 1, "clinicItemCode": itemCode},
+        queryParams: { "clinicItemCode": itemCode},
         idField: 'id',
         columns: [[      //每个列具体内容
             {field: 'itemClass', title: '类别', width: '15%', align: 'center', editor: 'text'},
