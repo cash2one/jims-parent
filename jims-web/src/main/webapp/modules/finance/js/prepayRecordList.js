@@ -22,7 +22,7 @@ $(function(){
             {field:'rcpt_no',title:'编号',width:'15%',align:'center'},
             {field:'name',title:'姓名',width:'15%',align:'center'},
             {field:'amount',title:'金额',width:'15%',align:'center'},
-            {field:'pay_way',title:'支付方式',width:'15%',align:'center'},
+            {field:'pay_way',title:'支付方式',width:'15%',align:'center',formatter:payWayFormatter},
             {field:'transact_type',title:'类型',width:'15%',align:'center'},
             {field:'transact_date',title:'时间',width:'15%',align:'center'}
         ]],

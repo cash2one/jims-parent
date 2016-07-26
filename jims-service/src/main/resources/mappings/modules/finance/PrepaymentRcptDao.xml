@@ -36,6 +36,7 @@
 	</sql>
 	
 	<sql id="prepaymentRcptJoins">
+
 	</sql>
     
 	<select id="get" resultType="PrepaymentRcpt">
@@ -47,12 +48,52 @@
 	</select>
 	
 	<select id="findList" resultType="PrepaymentRcpt">
-		SELECT 
-			<include refid="prepaymentRcptColumns"/>
+		SELECT
+		a.id AS "id",
+		a.patient_id AS "patientId",
+		m.name as "name",
+		m.id_no as "idNo",
+		a.rcpt_no AS "rcptNo",
+		a.amount AS "amount",
+		a.pay_way AS "payWay",
+		a.bank AS "bank",
+		a.check_no AS "checkNo",
+		a.transact_type AS "transactType",
+		a.transact_date AS "transactDate",
+		a.operator_no AS "operatorNo",
+		a.refunded_rcpt_no AS "refundedRcptNo",
+		a.acct_no AS "acctNo",
+		a.addr AS "addr",
+		a.check_div AS "checkDiv",
+		a.bank_code AS "bankCode",
+		a.visit_id AS "visitId",
+		a.settled_no AS "settledNo",
+		a.used_rcpt_no AS "usedRcptNo",
+		a.used_flag AS "usedFlag",
+		a.bank_auount_no AS "bankAuountNo",
+		a.invoice_no AS "invoiceNo",
+		a.serial_no AS "serialNo",
+		a.settled_pre_no AS "settledPreNo",
+		a.settle_balance AS "settleBalance",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
 		FROM prepayment_rcpt a
-		<include refid="prepaymentRcptJoins"/>
+		left join pats_in_hospital h
+		on a.patient_id=h.patient_id
+		left join pat_master_index m
+		on h.patient_id=m.id
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name!=null and name!=''">
+				and m.name=#{name}
+			</if>
+			<if test="idNo!=null and idNo!=''">
+				and m.id_no=#{idNo}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

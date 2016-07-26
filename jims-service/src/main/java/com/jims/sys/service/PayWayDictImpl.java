@@ -22,6 +22,17 @@ public class PayWayDictImpl implements PayWayDictApi {
     private PayWayDictBo payWayDictBo;
 
     /**
+     * 根据组织机构ID和住院病人适用标志查询数据
+     * @param orgId  组织机构ID
+     * @param inpIndicator 住院病人适用标志
+     * @return
+     * @author fengyuguang
+     */
+    public List<PayWayDict> getByInpIndicator(String orgId, String inpIndicator){
+        return payWayDictBo.getByInpIndicator(orgId,inpIndicator);
+    }
+
+    /**
      * 查询所有支付方式
      * @param orgId 所属组织机构
      * @return

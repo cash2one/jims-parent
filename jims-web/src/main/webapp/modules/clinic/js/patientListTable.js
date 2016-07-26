@@ -1,10 +1,54 @@
+var doctorDept=[];
 function onloadMethod(status){
+    $.ajax({
+        type: "GET",
+        url:basePath +"/dept-dict/getDoctorDept",
+        data: "doctorGroup=门诊医生组",
+        dataType: "json",
+        async: false,
+        success: function(data){
+            doctorDept=data;
+            if(data.length>1){
+                var deptHtml='<ul>';
+                for(var i=0; i<data.length; i++){
+                    deptHtml+='<li style="text-align: center" onclick="getDoctorDept(\''+data[i].id+'\')">'+data[i].deptName+'</li>';
+                }
+                deptHtml+='</ul>';
+                $("#doctorDeptDiv").html(deptHtml);
+                $('#doctorDept').dialog({
+                    title: '权限科室选择',
+                    iconCls: "icon-edit",
+                    closable: false,
+                    width: "40%",
+                    height: "30%",
+                    modal: true
+                });
+            }else{
+                parent.config.deptCode=data[0].deptCode;
+                parent.config.deptName=data[0].deptName;
+                parent.config.deptId=data[0].id;
+            }
+
+        }
+    });
+    // * 科室下拉框
+    $('#deptNameId').combobox({
+        data: doctorDept,
+        valueField: 'id',
+        textField: 'deptName',
+        onChange: function () {
+            searchPatList()
+        }
+    })
+    if(doctorDept.length==1){
+        $('#deptNameId').combobox('select', parent.config.deptId);
+    }
     var listView=$("#listView").val();
     if(listView!='1'){
         $('#list_data').datagrid({
             iconCls:'icon-edit',//图标
             width: 'auto',
-            height: '86%',
+            height: '94%',
             nowrap: false,
             striped: true,
             border: true,
@@ -123,16 +167,25 @@ function onloadMethod(status){
 
 }
 /**
+ * 获取医生科室
+ */
+function getDoctorDept(id){
+    parent.config.deptId=id;
+    $('#deptNameId').combobox('select', id);
+    $("#doctorDept").dialog("close");
+}
+/**
  * 条件查询
  */
 function searchPatList(){
      var patName=$("#patName").val();
      var startTime=$("#startTime").datebox('getValue');
      var endTime=$("#endTime").datebox('getValue');
+    var dept=$('#deptNameId').combobox('getValue');
      var status=$('#wrap input[name="status"]:checked ').val();
      var listView=$("#listView").val();
      if(listView!='1'){
-         $("#list_data").datagrid({queryParams:{"status":status,"patName":patName,"startTime":startTime,"endTime":endTime}});
+         $("#list_data").datagrid({queryParams:{"deptId":dept,"status":status,"patName":patName,"startTime":startTime,"endTime":endTime}});
      }else if(listView=='1'){
 
          $(".datagrid").hide();
