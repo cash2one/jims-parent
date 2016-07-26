@@ -1,11 +1,13 @@
 var westernDrugData = [];
 var westernDrug={};
-westernDrug.isOrgId=false;
-westernDrug.dictType="v_clinic_item_price";
-var stg;
-$(function(){
-    stg = $("#storage").combobox("getValue");
-});
+/*$(function(){
+    comboGridCompleting('','');
+});*/
+
+
+
+westernDrug.orgId=orgId;
+westernDrug.dictType="v_clinic_item_price"
 var inputParamVos=new Array();
 var InputParamVo1={};
 InputParamVo1.colName='rownum';
@@ -36,6 +38,7 @@ $.ajax({
     'dataType': 'json',
     'async': false,
     'success': function(data){
+
         westernDrugData = data;
     }
 });
@@ -44,7 +47,7 @@ $.ajax({
 //药品自动补全
 function comboGridCompleting(q,id){
     var drugNameData={};
-    drugNameData.isOrgId=false;
+    drugNameData.orgId=orgId;
     drugNameData.dictType="v_clinic_item_price"
     var inputParamVos=new Array();
     var InputParamVo1={};
@@ -53,7 +56,7 @@ function comboGridCompleting(q,id){
     InputParamVo1.operateMethod='<';
     var InputParamVo2={};
     InputParamVo2.colName="item_class";
-    InputParamVo2.colValue="A";
+    InputParamVo2.colValue='A';
     InputParamVo2.operateMethod='=';
     var InputParamVo3={};
     InputParamVo3.colName="storage";
