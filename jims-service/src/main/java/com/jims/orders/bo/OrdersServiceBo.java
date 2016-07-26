@@ -147,8 +147,10 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
      * @return
      * pq
      */
-    public List<Orders> getPatientOrders(Orders orders){
-      return   ordersDao.getPatientOrders(orders);
+    public Page<Orders> getPatientOrders(Page<Orders> page,Orders orders){
+        orders.setPage(page);
+        page.setList(ordersDao.getPatientOrders(orders));
+      return  page;
     }
 
     /**
@@ -169,9 +171,9 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
                         orders.setOrderingDept(loginInfo.getDeptId());
                         orders.setOrgId(loginInfo.getOrgId());
 
-                        orders.setStartDateTime(new Date());
+                       // orders.setStartDateTime(new Date());
                         orders.setOrderStatus("5");//医生保存
-                        orders.setDrugBillingAttr(3);//药品默认不计价
+                       // orders.setDrugBillingAttr(3);//药品默认不计价
                         orders.setEnterDateTime(new Date());
                         if(orders.getRepeatIndicator()=="0"){//临时医嘱（结束时间是当前时间）
                             orders.setStopDateTime(new Date());
@@ -205,9 +207,9 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
 
                         num = ordersDao.insert(orders);
                     }else{
-                        orders.setStartDateTime(new Date());
+                     //   orders.setStartDateTime(new Date());
                         orders.setOrderStatus("5");//医生保存
-                        orders.setDrugBillingAttr(3);//药品默认不计价
+                      //  orders.setDrugBillingAttr(3);//药品默认不计价
                         orders.setEnterDateTime(new Date());
                         if(orders.getRepeatIndicator()=="0"){//临时医嘱（结束时间是当前时间）
                             orders.setStopDateTime(new Date());

@@ -32,12 +32,14 @@ $(function () {
             field: "roleName",
             align: 'center',
             width: '20%',
-            editor: {type: 'textbox', options: {required: true}}
+            editor: {type: 'validatebox', options: {required: true}}
         }]],
         onClickRow: function (index, row) {
             stopEdit();
             $(this).datagrid('beginEdit', index);
             editIndex = index;
+            var editor = $('#dg').datagrid('getEditor', {index: editIndex, field: 'roleName'});
+            editor.target.focus();
         }
     });
 
@@ -49,6 +51,24 @@ $(function () {
         editIndex = addRowIndex;
         $("#dg").datagrid('selectRow', editIndex);
         $("#dg").datagrid('beginEdit', editIndex);
+        var editor = $('#dg').datagrid('getEditor', {index: editIndex, field: 'roleName'});
+        editor.target.focus();
+
+
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 13) {
+                stopEdit();
+                $("#dg").datagrid('appendRow', {});
+                var rows = $("#dg").datagrid('getRows');
+                var addRowIndex = $("#dg").datagrid('getRowIndex', rows[rows.length - 1]);
+                editIndex = addRowIndex;
+                $("#dg").datagrid('selectRow', editIndex);
+                $("#dg").datagrid('beginEdit', editIndex);
+                var editor = $('#dg').datagrid('getEditor', {index: editIndex, field: 'roleName'});
+                editor.target.focus();
+            }
+        }
     });
 
     $("#delBtn").on("click", function () {
@@ -88,8 +108,10 @@ $(function () {
                 }
             }
         }
+        console.log(beanChangeVo);
         if (beanChangeVo) {
             $.postJSON(basePath + '/org-role/merge', JSON.stringify(beanChangeVo), function (data) {
+                console.log(data);
                 $.messager.alert("系统提示", "保存成功", "info");
                 loadDict();
             }, function (data) {
