@@ -6,6 +6,8 @@ var prescNo;
 var itemClass;
 var clinicId;
 var chargeIndicator='新开';
+var stg = "";
+var orgId=parent.clinicMaster.orgId;
 //页面加载
 $(function(){
     itemClass = $("#itemClass").val();
@@ -402,10 +404,15 @@ $(function(){
         data: drugStorage,
         valueField: 'storageCode',
         textField: 'storageName',
-        required:true
+        required:true,
+        onSelect: function (n, o) {
+            $("#storage").combobox('select', n.storageCode);
+            stg=n.storageCode;
+            comboGridCompleting('','');
+        }
     });
     if(drugStorage.length>0) {
-        $("#storage").combobox('select', drugStorage[0].storageName);
+        $("#storage").combobox('select', drugStorage[0].storageCode);
     }
     //处方属性下拉框
     $('#prescAttr').combobox({
