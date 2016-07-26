@@ -43,6 +43,8 @@ public class PrepaymentRcpt extends DataEntity<PrepaymentRcpt> {
 
 	private String startDate;
 	private String endDate;
+	private String name;
+	private String idNo;
 	
 	public PrepaymentRcpt() {
 		super();
@@ -273,5 +275,21 @@ public class PrepaymentRcpt extends DataEntity<PrepaymentRcpt> {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
 	}
 }

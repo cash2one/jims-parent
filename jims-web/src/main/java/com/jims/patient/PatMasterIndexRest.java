@@ -80,7 +80,7 @@ public class PatMasterIndexRest {
     }
 
     /**
-     * @param         patMasterIndex    传递参数
+     * @param         id    传递参数
      * @return com.jims.common.data.StringData    返回类型
      * @throws
      * @Title: validIfInHosp
@@ -90,14 +90,16 @@ public class PatMasterIndexRest {
      */
     @Path("validIfInHosp")
     @GET
-    public StringData validIfInHosp(PatMasterIndex patMasterIndex){
+    public StringData validIfInHosp(String id){
         StringData stringData=new StringData();
-        if(patMasterIndex.getId()!=null&&!"".equals(patMasterIndex.getId())){
-            PatsInHospital patsInHospital = patsInHospitalServiceApi.findByPatientId(patMasterIndex.getId());
+       /* if(patMasterIndex.getId()!=null&&!"".equals(patMasterIndex.getId())){*/
+            PatsInHospital patsInHospital = patsInHospitalServiceApi.findByPatientId(id);
             if(patsInHospital!=null){
                 stringData.setData("1");//该病人已在院，不能进行入院登记
+            }else{
+                stringData.setData("2");//非在院病人，可进行登记
             }
-        }
+        /*}*/
         return stringData;
     }
 

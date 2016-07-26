@@ -25,14 +25,12 @@ public class PrepaymentRcptRest {
     PrepaymentRcptServiceApi prepaymentRcptServiceApi;
     @Path("list")
     @GET
-    public List<PrepaymentRcpt> getPatientList(@QueryParam(value = "patientId")String patientId){
+    public List<PrepaymentRcpt> getPatientList(@QueryParam(value = "name")String name,@QueryParam(value = "idNo")String idNo){
         PrepaymentRcpt prepaymentRcpt = new PrepaymentRcpt();
         List<PrepaymentRcpt> list = Lists.newArrayList();
-        try {
-            list = prepaymentRcptServiceApi.findList(prepaymentRcpt);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        prepaymentRcpt.setName(name);
+        prepaymentRcpt.setIdNo(idNo);
+        list = prepaymentRcptServiceApi.findList(prepaymentRcpt);
         return list;
     }
     /**
