@@ -36,6 +36,11 @@ public class DrugPriceListBo extends CrudImplService<DrugPriceListDao, DrugPrice
         List<DrugPriceModify> updateDicts = drugPriceModifyVo.getUpdated();
         List<DrugPriceModify> deleteDicts = drugPriceModifyVo.getDeleted();
 
+        if (deleteDicts != null && deleteDicts.size() > 0) {
+            for (DrugPriceModify drugPriceModify : deleteDicts) {
+                drugPriceModifyDao.delete(drugPriceModify);
+            }
+        }
         if (insertDicts != null && insertDicts.size() > 0) {
             for (DrugPriceModify drugPriceModify : insertDicts) {
                 drugPriceModify.preInsert();
@@ -47,11 +52,6 @@ public class DrugPriceListBo extends CrudImplService<DrugPriceListDao, DrugPrice
             for (DrugPriceModify drugPriceModify : updateDicts) {
                 drugPriceModify.preUpdate();
                 drugPriceModifyDao.update(drugPriceModify);
-            }
-        }
-        if (deleteDicts != null && deleteDicts.size() > 0) {
-            for (DrugPriceModify drugPriceModify : deleteDicts) {
-                drugPriceModifyDao.delete(drugPriceModify);
             }
         }
     }
