@@ -36,28 +36,6 @@ $(function () {
             });
         }
     });
-    $.extend($.fn.validatebox.defaults.rules, {
-        maxStock: {
-            validator: function(value){
-                var row = $('#drug-import').datagrid('getSelected')
-                if(isNaN(value) || +value < 1) {
-                    return false
-                }
-                return true
-            },
-            message: '数量必须大于0！'
-        },
-        hasSelected: {
-            validator: function(value){
-                var editor = $('#drug-import').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
-                if(editor && !$(editor.target).combogrid('grid').datagrid('getSelected')){
-                    return false
-                }
-                return true
-            },
-            message: '没有选中项'
-        }
-    });
     $.extend($.fn.combobox.methods, {   //为combobox组件扩展一个方法
         addBlurListener: function(jq,param){    //jq:指的是jQuery对象。param:指传入方法的实际参数。
             jq.next().children(':text').blur(function(){
@@ -223,16 +201,29 @@ $(function () {
      */
     var validateRow = function(row){
         var _index = $('#drug-import').datagrid('getRowIndex',row)
-        if(!row.drugName){
+        if(row.drugName == ''){
+            $.messager.alert('警告','药品名称不能为空！','error')
             onClickCell(_index,'drugName')
             return false
         }
-        if(!row.batchNo){
+        if(row.batchNo == ''){
+            $.messager.alert('警告','药品批号不能为空！','error')
             onClickCell(_index,'batchNo')
             return false
         }
-        if(isNaN(row.quantity) || row.quantity < 1){
+        if(isNaN(row.quantity) || +row.quantity < 1){
+            $.messager.alert('警告','药品入库数量必须大于零！','error')
             onClickCell(_index,'quantity')
+            return false
+        }
+        if(isNaN(row.discount) || +row.discount < 0 || +row.discount > 100){
+            $.messager.alert('警告','药品扣率必须在零到一百之间！','error')
+            onClickCell(_index,'discount')
+            return false
+        }
+        if(isNaN(row.purchasePrice) || +row.purchasePrice < 0){
+            $.messager.alert('警告','药品进价不能小于零！','error')
+            onClickCell(_index,'purchasePrice')
             return false
         }
         return true
@@ -308,6 +299,7 @@ $(function () {
             newRows[newRows.length-1].retailPriceCount = retailPriceCount;
             $('#account').numberbox('setValue', purchasePriceCount);
             $("#drug-import").datagrid('refreshRow',newRows.length-1);
+            mergeLastCells()
         } else {
             $.messager.alert('警告','请选择要删除的药品！','warning')
             return
@@ -594,10 +586,7 @@ $(function () {
                         panelWidth: 463,
                         idField: 'drugName',
                         textField: 'drugName',
-                        required: true,
-                        missingMessage: '药名不能为空',
                         fitColumns: true,
-                        //validType:['hasSelected'],
                         url: '/service/drug-price/findDrugDictWithFilter?limit=50&orgId='+currentOrgId,
                         method:'get',
                         mode:'remote',
@@ -655,13 +644,7 @@ $(function () {
                 field: "batchNo",
                 width: '70px',
                 align: 'center',
-                editor: {
-                    type: 'textbox',
-                    options: {
-                        required: true,
-                        missingMessage: '批号不能为空'
-                    }
-                }
+                editor: 'textbox'
             }, {
                 title: "数量",
                 field: "quantity",
@@ -669,10 +652,7 @@ $(function () {
                 align: 'center',editor:{
                     type : 'numberbox',
                     options:{
-                        required:true,
-                        missingMessage:'数量不能为空',
-                        min : 0,
-                        validType : ['maxStock']
+                        min : 0
                     }
                 }
             }, {
@@ -682,9 +662,7 @@ $(function () {
                 align: 'center',editor:{
                     type : 'numberbox',
                     options:{
-                        required:true,
-                        missingMessage:'扣率不能为空',
-                        min : 1,
+                        min : 0,
                         max : 100,
                         precision : 0
                     }
@@ -696,8 +674,6 @@ $(function () {
                 align: 'center', editor: {
                     type: 'numberbox',
                     options: {
-                        required: true,
-                        missingMessage: '进价不能为空',
                         min: 1,
                         precision: 4
                     }
@@ -815,10 +791,7 @@ $(function () {
                 editor : 'textbox'
             }
             ]],
-            onClickCell: onClickCell,
-            onBeforeSelect: function(index){
-                return $('#drug-import').datagrid('validateRow', currentSelectIndex)
-            }
+            onClickCell: onClickCell
         })
     }
 
@@ -953,6 +926,7 @@ $(function () {
 
     initComponent()
     loadSubDept('importChild',currentOrgId,currentStorage)
+
 });
 
 

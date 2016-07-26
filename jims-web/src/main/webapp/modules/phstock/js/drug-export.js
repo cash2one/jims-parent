@@ -4,28 +4,6 @@
  * @version 2016-05-14
  */
 $(function () {
-    $.extend($.fn.validatebox.defaults.rules, {
-        maxStock: {
-            validator: function(value){
-                var row = $('#dg').datagrid('getSelected')
-                if(isNaN(value) || +value < 1 || +value > +row.currentStock) {
-                    return false
-                }
-                return true
-            },
-            message: '数量必须在1和当前结存之间！'
-        },
-        hasSelected: {
-            validator: function(value){
-                var editor = $('#dg').datagrid('getEditor',{index:currentSelectIndex,field:'drugName'})
-                if(editor && !$(editor.target).combogrid('grid').datagrid('getSelected')){
-                    return false
-                }
-                return true
-            },
-            message: '没有选中项'
-        }
-    });
     $.extend($.fn.datagrid.methods, {
         editCell: function(jq,param){
             return jq.each(function(){
@@ -119,9 +97,12 @@ $(function () {
     var chargeDrugExisted = function (o) {
         var rows = $('#dg').datagrid('getRows')
         for (var i = 0, j = rows.length - 1; i < j; i++) {
-            if (i != currentSelectIndex && rows[i].drugCode == o['drugCode']
-                && rows[i].firmId == o['firmId'] && rows[i].drugSpec == o['drugSpec']
-                && rows[i].units == o['units']) {
+            if (i != currentSelectIndex && rows[i].drugCode == o['drug_code']
+                && rows[i].firmId == o['firm_id'] && rows[i].drugSpec == o['drug_spec']
+                && rows[i].units == o['units']
+                && rows[i].batchNo == o['batch_no']
+                && rows[i].packageSpec == o['package_spec']
+                && rows[i].packageUnits == o['package_units']) {
                 return true
             }
         }
@@ -145,12 +126,19 @@ $(function () {
      */
     var validateRow = function(row){
         var index = $('#dg').datagrid('getRowIndex',row)
-        if(!row.drugName){
+        if(row.drugName == ''){
+            $.messager.alert('警告','药品名称不能为空！','error')
             onClickCell(index,'drugName')
             return false
         }
-        if(isNaN(row.quantity) || row.quantity < 1){
+        if(isNaN(row.quantity) || +row.quantity < 1 || +row.quantity > +row.currentStock){
+            $.messager.alert('警告','药品入库数量必须大于零且小于当前结存！','error')
             onClickCell(index,'quantity')
+            return false
+        }
+        if($('#statisticClass').combobox('getValue') == '退药出库' && (isNaN(row.price) || +row.price < 0)){
+            $.messager.alert('警告','药品单价不能小于零！','error')
+            onClickCell(index,'price')
             return false
         }
         return true
@@ -169,13 +157,7 @@ $(function () {
         }
         var _tempFlag = false   // 当window关闭时是否赋值
         var initData = function (drugStock) {
-            var drugParam = {
-                drugCode: drugStock['drug_code'],
-                firmId: drugStock['firm_id'],
-                drugSpec: drugStock['drug_spec'],
-                units: drugStock['units']
-            }
-            if (chargeDrugExisted(drugParam)) {
+            if (chargeDrugExisted(drugStock)) {
                 $.messager.alert('警告', '该规格的药品已存在，请重新选择！', 'error')
                 rollBack(_oldDrugName)
                 return
@@ -426,8 +408,6 @@ $(function () {
                     panelWidth: 333,
                     idField: 'drugName',
                     textField: 'drugName',
-                    required: true,
-                    missingMessage: '药名不能为空',
                     fitColumns: true,
                     method:'get',
                     mode:'remote',
@@ -468,9 +448,7 @@ $(function () {
             align: 'center',
             editor: {
                 type: 'numberbox', options: {
-                    required: true,
-                    min : 0,
-                    validType : ['maxStock']
+                    min : 0
                 }
             }
         }, {
@@ -480,7 +458,6 @@ $(function () {
             align: 'center',
             editor: {
                 type: 'numberbox', options: {
-                    required: true,
                     min : 0,
                     precision:2
                 }
@@ -698,6 +675,7 @@ $(function () {
         var record = {
             documentNo: $('#documentNo').textbox('getValue'),
             orgId: currentOrgId,
+            quantity : '',
             batchNo: ''
         }
 
@@ -724,6 +702,7 @@ $(function () {
             newRows[newRows.length-1].outPrice = outPrice;
             $("#accountReceivable").numberbox('setValue', newRows[newRows.length - 1].outPrice);
             $("#dg").datagrid('refreshRow',newRows.length-1);
+            mergeLastCells()
         } else {
             $.messager.alert('系统提示', "请选择要删除的行", 'info');
         }
