@@ -23,7 +23,7 @@ $.ajax({
  * @returns {string|string|string}
  */
 function chargeTypeFormatter(value, rowData, rowIndex) {
-    if (value == 0) {
+    if (value == 'undefined') {
         return;
     }
 
