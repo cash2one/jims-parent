@@ -27,11 +27,32 @@
     <script type="text/javascript" src="/static/data/data_orders.js"></script>
     <script type="text/javascript" src="/static/data/data_orders_administration.js"></script>
     <script type="text/javascript" src="/static/data/data_orders_freq.js"></script>
-
+    <style>
+        @media (max-width: 767px) {
+            .customer-list-nstyle ul li {
+                width:100%;
+            }
+        }
+        @media (min-width: 768px) and (max-width:991px ) {
+            .customer-list-nstyle ul li {
+                width:32%;
+            }
+        }
+        @media (min-width: 992px) and (max-width:1199px ) {
+            .customer-list-nstyle ul li {
+                width:32%;
+            }
+        }
+        @media (min-width: 1200px) {
+            .customer-list-nstyle ul li{
+                width:24.2%;
+            }
+        }
+    </style>
 
 
 </head>
-<body >
+<body onload="loadBedInfo();">
 <div class="customer-list-nstyle"  id="content">
 
 </div>

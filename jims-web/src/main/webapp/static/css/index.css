@@ -1413,7 +1413,6 @@ a.dropma-color {
     display:inline-block;
     border:1px solid #B7CEDA;
     border-radius:5px;
-    width:24.2%;
     margin-bottom:10px;
     position:relative;
     background: -moz-linear-gradient(top, #ffffff 0%, #EBF7FF 100%);
@@ -1517,3 +1516,4 @@ a.dropma-color {
     right:10px;
     top:5px;
 }
+

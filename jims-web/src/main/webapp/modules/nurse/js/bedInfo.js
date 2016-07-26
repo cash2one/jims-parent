@@ -1,5 +1,6 @@
-var wardCode='160101';
-$(function(){
+
+function loadBedInfo(){
+    var wardCode=config.deptId;
     $.ajax({
         method:"POST",
         dataType: 'json',
@@ -76,12 +77,11 @@ $(function(){
                 html= html+" </ul>";
                 $(".customer-list-nstyle").append(html);
             }else{
-                $(".customer-list-nstyle").append("<div class='nodata-wrap'><div  class='nodata-text'>该病区下暂无床位信息!</div></div>");
+                window.parent.document.getElementById("nurseIframe").src = "/modules/nurse/nurseNoData.html";
             }
-
         }
     });
-});
+}
 
 function showMenu(e) {
     document.oncontextmenu = function(e){
