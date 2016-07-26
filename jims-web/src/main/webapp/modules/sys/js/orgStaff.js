@@ -525,22 +525,32 @@ $(function () {
 
         var cardNo = $("#cardNo").val();
         var persion_id = $("#id").val();
+
         jQuery.ajax({
             'type': 'GET',
             'url': "/service/register/getCard?cardNo=" + cardNo + "&persionId=" + persion_id,
             'success': function (data) {
-                if (data.id != persion_id) {
-                    $("#res-card").text("*身份证号已经存在");
-                    $("#res-card").css("color", "red");
-                    return false;
+                if(data && data != '' && typeof(data) != 'undefined'){
+                    if (data.id != persion_id) {
+                        $("#res-card").text("*身份证号已经存在");
+                        $("#res-card").css("color", "red");
+                        return false;
+                    }
                 }
             },
             'error': function (data) {
                 console.log("失败");
             }
         });
-        return true;
+        //身份证最后一位如果用户输入小写x直接转换为大写X
+        var lastOne = cardNo.substring(cardNo.length - 1);
+        if (lastOne == 'x') {
+            lastOne = lastOne.toUpperCase();
+            cardNo = cardNo.substring(0, cardNo.length - 2) + lastOne;
+            $("#cardNo").val(cardNo);
+        }
 
+        return true;
     });
 
     //文本框获取焦点的时候，显示
@@ -555,7 +565,7 @@ $(function () {
         var persion_id = $("#id").val();
         var name = $("#nickName").val();
         if ($("#nickName").val() == "") {
-            $("#res-nick").text("*用户名不能为空");
+            $("#res-nick").text("*昵称(用户名)不能为空");
             $("#res-nick").css("color", "red");
             return false;
         }
@@ -618,11 +628,12 @@ $(function () {
             'url': "/service/register/getEmail?email=" + email + "&persionId=" + persion_id,
             'dataType': 'json',
             'success': function (data) {
-
-                if (data.id != persion_id) {
-                    $("#res-email").text("*邮箱已注册");
-                    $("#res-email").css("color", "red");
-                    return false;
+                if (data && data != '' && typeof(data) != 'undefined') {
+                    if (data.id != persion_id) {
+                        $("#res-email").text("*邮箱已注册");
+                        $("#res-email").css("color", "red");
+                        return false;
+                    }
                 }
             },
             'error': function (data) {

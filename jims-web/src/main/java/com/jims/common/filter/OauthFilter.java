@@ -67,11 +67,13 @@ public class OauthFilter implements Filter {
         //        return;
         //    }
         //}
+        HttpServletResponse res = (HttpServletResponse) response;
         HttpServletRequest httpServletRequest = (HttpServletRequest)request ;
         HttpSession session =httpServletRequest.getSession();
         String orgId=httpServletRequest.getParameter("orgId");
 
         chain.doFilter(request,response);
+        //res.sendRedirect("/index.html");
     }
 
     @Override

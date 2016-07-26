@@ -49,8 +49,8 @@ public class OrgRoleVsServiceRest {
 
     @Path("findrole")
     @GET
-    public List<OrgRoleVsService> findRole(@QueryParam("roleId") String roleId) {
-        List<OrgRoleVsService> lists = orgRoleVsServiceApi.findRole(roleId);
+    public List<OrgRoleVsService> findRole(@QueryParam("roleId") String roleId,@QueryParam("q") String q) {
+        List<OrgRoleVsService> lists = orgRoleVsServiceApi.findRole(roleId,q);
         return lists;
     }
 
