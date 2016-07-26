@@ -1,5 +1,6 @@
 package com.jims.emr.enterHospital.bo;
 
+import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.entity.EmrDiagnosis;
@@ -25,6 +26,8 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
     private ElectronEnterHospitalDao electronEnterHospitalDao;
     @Autowired
     private EmrDiagnosisDao emrDiagnosisDao;
+    @Autowired
+    private ClinicMasterDao clinicMasterDao;
 
     /**
      * 保存病历文书
@@ -62,6 +65,7 @@ public  class ElectronEnterHospitalBo extends CrudImplService<ElectronEnterHospi
                                 num = emrDiagnosisDao.update(diagnosis);
                             }
                     }
+                    clinicMasterDao.updateStatus("2",electronEnterHospital.getClinicId());
                 }
             }
         }

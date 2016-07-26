@@ -2,10 +2,12 @@
 package com.jims.doctor.diagnosis.bo;
 
 
+import com.jims.clinic.dao.ClinicMasterDao;
 import com.jims.common.vo.LoginInfo;
 import com.jims.diagnosis.entity.EmrDiagnosis;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.doctor.diagnosis.dao.EmrDiagnosisDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,8 @@ import java.util.List;
 @Service
 @Transactional(readOnly = false)
 public class EmrDiagnosisBo extends CrudImplService<EmrDiagnosisDao, EmrDiagnosis>{
-
+  @Autowired
+  private ClinicMasterDao clinicMasterDao;
 
 	/**
 	 * 保存门诊诊断
@@ -28,10 +31,12 @@ public class EmrDiagnosisBo extends CrudImplService<EmrDiagnosisDao, EmrDiagnosi
 	 */
 	public String saveDiagnosis(List<EmrDiagnosis> emrDiagnosis,LoginInfo loginInfo){
 		String num = "";
+		String clinicId = "";
 		if(emrDiagnosis.size()>0){
 
 			for(int i=0;i<emrDiagnosis.size();i++){
 				EmrDiagnosis diagnosis=emrDiagnosis.get(i);
+				clinicId = diagnosis.getClinicId();
                 diagnosis.setParentId("0");
 				diagnosis.setInOrOutFlag("0");//门诊
 				diagnosis.setDiagnosisDoc(loginInfo.getPersionId());
@@ -43,6 +48,7 @@ public class EmrDiagnosisBo extends CrudImplService<EmrDiagnosisDao, EmrDiagnosi
 				diagnosis.setItemNo(i+1);
 				num =	save(diagnosis);
 			}
+			clinicMasterDao.updateStatus("2",clinicId);
 			return num;
 		}
 		return null;
