@@ -52,6 +52,7 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 	/*手术申请的病人列表*/
 	private String name; //病人姓名
 	private String sex;//性别
+	private String idNo;
 	private Date birthDay;//出生日期
 
 	
@@ -348,5 +349,13 @@ public class PatsInHospital extends DataEntity<PatsInHospital> {
 
 	public void setVisitId(String visitId) {
 		this.visitId = visitId;
+	}
+
+	public String getIdNo() {
+		return idNo;
+	}
+
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
 	}
 }

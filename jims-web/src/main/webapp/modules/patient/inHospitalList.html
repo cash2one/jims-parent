@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>云his工作平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/inhos.css">
+    <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/static/js/head.js"></script>
+    <script type="text/javascript" src="/modules/patient/js/inHospitalList.js"></script>
+
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
+    <script type="text/javascript" src="/static/data/data_diagnosis.js"></script>
+    <script type="text/javascript" src="/static/data/data_dict_sex.js"></script>
+    <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
+    <script type="text/javascript" src="/static/data/data_admission_situation.js"></script>
+    <script type="text/javascript" src="/static/data/data_marriage_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_identity_dict.js"></script>
+    <script type="text/javascript" src="/static/data/data_nation.js"></script>
+    <script type="text/javascript" src="/static/data/data_profession.js"></script>
+    <script type="text/javascript" src="/static/data/data_nationality.js"></script>
+    <script type="text/javascript" src="/static/data/data_charge_type.js"></script>
+    <script type="text/javascript" src="/static/data/data_resource.js"></script>
+    <script type="text/javascript" src="/static/data/data_relationship.js"></script>
+    <script type="text/javascript" src="/static/data/data_patient_class.js"></script>
+    <script type="text/javascript" src="/static/data/data_objective.js"></script>
+    <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
+    <style>
+        .bot-medbtn
+        {
+            float:right;
+            padding:15px 10px 0 0;
+        }
+        .bot-medbtn a
+        {
+            display:inline-block;
+            padding:10px;
+
+        }
+    </style>
+</head>
+
+
+<body class="easyui-layout">
+
+
+        <div id="searchDiv">
+        <form name="searchform" method="post" action="" id ="searchform">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td class="text-right">患者姓名：</td>
+                    <td><input type="text" class="easyui-textbox" id="name" /></td>
+                    <td class="text-right">身份证号：</td>
+                    <td><input type="text" class="easyui-textbox" id="idNo"/></td>
+                    <td class="text-right">住院号：</td>
+                    <td><input type="text" class="easyui-textbox" id="hospNo"/></td>
+                </tr>
+                <tr>
+                    <td class="text-right">医保类别：</td>
+                    <td><input type="text" class="easyui-textbox" id="ybType"/></td>
+                    <td class="text-right">医保账号：</td>
+                    <td><input type="text" class="easyui-textbox" id="ybNo"/></td>
+                    <td align="left" colspan="2">
+                        <button class="easy-nbtn easy-nbtn-info" onclick="searchByCondition();">查询</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </div>
+        <table id="leftList"></table>
+
+
+        <div id="newDialog" class="easyui-dialog" style="width:100%;height:100%;padding:10px 20px"
+             closed="true" buttons="#dlg-buttons" data-options="modal:true">
+             <form id="masterForm" method="post">
+            <input type="hidden" name="id" id="id">
+            <div class="fitem fitem_pop">
+                <label>
+                    患者姓名：
+                </label>
+                <input name="name" class="easyui-textbox" required="true">
+
+                <label>
+                    性别：
+                </label>
+                <input type="hidden" name="sex"  id="sex" >
+                <input id="sexId"  class="easyui-textbox" required="true" style="width: 5%">
+
+                <label>
+                    年龄：
+                </label>
+                <input name="age" id="age" class="easyui-numberbox" required readonly style="width: 5%">
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    出生日期：
+                </label>
+                <input name="dateOfBirth" class="easyui-datebox" id="dateOfBirth"  data-options="required:true,validType:'md[\'yyyy-MM-dd\']'"/>
+                <label>
+                    婚姻状况：
+                </label>
+                <input name="maritalStatus"  id="maritalStatus"  type="hidden"/>
+                <input id="maritalStatusId" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    住院次序：
+                </label>
+                <input name="visitId" class="easyui-textbox" readonly/>
+                <label>
+                    国籍：
+                </label>
+                <input name="citizenship"  id="citizenship"   type="hidden"/>
+                <input id="citizenshipId" class="easyui-textbox"  required/>
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    民族：
+                </label>
+                <input name="nation"  id="nation"   type="hidden"/>
+                <input id="nationId" class="easyui-textbox" required/>
+                <label>
+                    身份证号：
+                </label>
+                <input name="idNo" class="easyui-textbox" />
+
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    出生地：
+                </label>
+                <input name="birthPlace" class="easyui-textbox" />
+                <label>
+                    通信地址：
+                </label>
+                <input name="mailingAddress" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    患者费别：
+                </label>
+                <input name="chargeType"  id="chargeType"  type="hidden"/>
+                <input id="chargeTypeId" class="easyui-textbox" required/>
+                <label>
+                    身份：
+                </label>
+                <input name="identity"  id="identity"  type="hidden"/>
+                <input id="identityId" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    职业：
+                </label>
+                <input name="occupation"  id="occupation"  type="hidden"/>
+                <input id="occupationId" class="easyui-textbox" />
+                <label>
+                    工作单位：
+                </label>
+                <input name="insuranceType" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    合同单位：
+                </label>
+                <input name="unitInContract" class="easyui-textbox" >
+                <label>
+                    所属地区：
+                </label>
+                <input name="insuranceAera" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    联系人：
+                </label>
+                <input name="nextOfKin" class="easyui-textbox" />
+                <label>
+                    关系：
+                </label>
+                <input name="relationship"  id="relationship" type="hidden"/>
+                <input id="relationshipId" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    联系电话：
+                </label>
+                <input name="nextOfKinPhone" class="easyui-textbox" />
+
+                <label>
+                    联系地址：
+                </label>
+                <input name="nextOfKinAddr" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    入院时间：
+                </label>
+                <input name="admissionDateTime" class="easyui-datebox" required  />
+                <label>
+                    接诊时间：
+                </label>
+                <input name="consultingDate" class="easyui-datebox" required/>
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    入院科室：
+                </label>
+                <input name="deptAdmissionTo" id="deptAdmissionTo" type="hidden">
+                <input id="deptAdmissionToId" class="easyui-textbox" />
+
+                <label>
+                    门诊诊断：
+                </label>
+                <input id="diagnosisNo" name="diagnosisNo" type="hidden"/>
+                <input id="diagnosis" name="diagnosis" class="easyui-textbox" required/>
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    入院来源：
+                </label>
+                <input name="fromOtherPlaceIndicator"  id="fromOtherPlaceIndicator"   type="hidden"/>
+                <input id="fromOtherPlaceIndicatorId" class="easyui-textbox" />
+                <label>
+                    入院方式：
+                </label>
+                <input name="patientClass"  id="patientClass"  type="hidden"/>
+                <input id="patientClassId" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    住院目的：
+                </label>
+                <input name="admissionCause"  id="admissionCause"  type="hidden"/>
+                <input id="admissionCauseId" class="easyui-textbox" />
+
+                <label>
+                    病情：
+                </label>
+                <input name="patAdmCondition"  id="patAdmCondition"  type="hidden"/>
+                <input id="patAdmConditionId" class="easyui-textbox" />
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    接诊医生：
+                </label>
+                <input id="consultingDoctor" name="consultingDoctor" class="easyui-textbox"  required/>
+                <label>
+                    经办人：
+                </label>
+                <input name="admittedBy" class="easyui-textbox" >
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    出院科室：
+                </label>
+                <input name="ddtRoomNo" class="easyui-textbox" readonly >
+
+                <label>
+                    发病日期：
+                </label>
+                <input name="onsetDate" class="easyui-textbox"  >
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    医保登记号：
+                </label>
+                <input name="nhSerialNo" class="easyui-textbox" >
+            </div>
+
+            <div class="fitem fitem_pop">
+                <label>
+                    备注：
+                </label>
+                <input name="remarks" class="easyui-validatebox validatebox-text validatebox-textarea"/>
+            </div>
+
+        </form>
+            <div id="dlg-buttons">
+                <a href="javascript:void(0)" id="saveBtn" class="easyui-linkbutton c6" iconCls="icon-ok"
+                   style="width:90px">保存</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+                   id="cancelBtn" style="width:90px">关闭</a>
+            </div>
+        </div>
+
+</body>
+</html>                                                                                                                                                                                                                                                                                                                  

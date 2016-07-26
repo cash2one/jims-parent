@@ -114,5 +114,14 @@ public class PatsInHospitalServiceImpl implements PatsInHospitalServiceApi {
     }
 
 
-
+    /**
+     * 根据参数查询在院病人列表
+     * @param patsInHospital
+     * @author CTQ
+     * @return
+     */
+    @Override
+    public  List<BaseDto>  findAllInHospList(PatsInHospital patsInHospital){
+        return patsInHospitalBo.findAllInHospList(patsInHospital);
+    }
 }

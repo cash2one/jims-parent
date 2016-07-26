@@ -419,4 +419,14 @@ public class PatsInHospitalBo  extends CrudImplService<PatsInHospitalDao, PatsIn
         return "";
     }
 
+    /**
+     * 根据参数查询在院病人列表
+     * @param patsInHospital
+     * @author CTQ
+     * @return
+     */
+    public List<BaseDto> findAllInHospList(PatsInHospital patsInHospital){
+        return patsInHospitalDao.findAllInHospList(patsInHospital);
+    }
+
 }
