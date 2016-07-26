@@ -24,6 +24,19 @@ public class PayWayDictRest {
     private PayWayDictApi payWayDictApi;
 
     /**
+     * 根据组织机构ID和住院病人适用标志查询数据
+     * @param orgId  组织机构ID
+     * @param inpIndicator  住院病人适用标志
+     * @return
+     * @author fengyuguang
+     */
+    @Path("list-by-inpIndicator")
+    @GET
+    public List<PayWayDict> getByInpIndicator(@QueryParam("orgId")String orgId,@QueryParam("inpIndicator")String inpIndicator){
+        return payWayDictApi.getByInpIndicator(orgId,inpIndicator);
+    }
+
+    /**
      * 查询所有支付方式
      * @param orgId 所属组织机构
      * @return

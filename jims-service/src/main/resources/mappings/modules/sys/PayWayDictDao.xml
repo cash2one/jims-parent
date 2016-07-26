@@ -26,6 +26,13 @@
         WHERE a.id = #{id}
     </select>
 
+    <select id="getByInpIndicator" resultType="PayWayDict">
+        SELECT *
+        FROM pay_way_dict a
+        WHERE a.org_id = #{0}
+        AND a.inp_indicator = #{1}
+    </select>
+
     <select id="findList" resultType="PayWayDict">
         SELECT
             <include refid="payWayDictColumns"/>,b.charge_type_name AS "chargeTypeName"
