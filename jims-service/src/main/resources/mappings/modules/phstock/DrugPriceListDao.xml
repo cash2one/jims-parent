@@ -139,6 +139,12 @@
             <if test="units != null and units != ''">
                 AND a.units=#{units}
             </if>
+            <if test="minSpec != null and minSpec != ''">
+                AND a.min_spec=#{minSpec}
+            </if>
+            <if test="minUnits != null and minUnits != ''">
+                AND a.min_units=#{minUnits}
+            </if>
             <if test="stopDate != null">
                 AND a.start_date &lt;= #{stopDate}
                 AND (a.stop_date IS NULL OR a.stop_date &gt;= #{stopDate})

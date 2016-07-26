@@ -19,6 +19,13 @@
     <sql id="orgRoleVsServiceJoins">
     </sql>
 
+    <update id="updateMenuOperate">
+      UPDATE org_role_vs_service SET
+			  menu_operate = #{2}
+		WHERE role_id = #{0}
+		AND service_id = #{1}
+    </update>
+
     <select id="get" resultType="OrgRoleVsService">
         SELECT
         <include refid="orgRoleVsServiceColumns"/>
@@ -32,6 +39,15 @@
         DISTINCT a.service_id AS "serviceId",b.service_name AS "serviceName"
         FROM org_role_vs_service a, org_self_service_list b
         WHERE a.role_id = #{roleId} AND a.del_flag = 0
+        AND a.service_id = b.id
+    </select>
+
+    <select id="findRole" resultType="OrgRoleVsService">
+        SELECT
+        DISTINCT a.service_id AS "serviceId",b.service_name AS "serviceName"
+        FROM org_role_vs_service a, org_self_service_list b
+        WHERE a.role_id = #{0} AND a.del_flag = 0
+        AND b.service_name  like '%'||#{1}||'%'
         AND a.service_id = b.id
     </select>
 

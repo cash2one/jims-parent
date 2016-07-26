@@ -29,6 +29,7 @@ public class DrugProvideApplication extends DataEntity<DrugProvideApplication> {
     private String subStorage;  // 发放库房子单位
     private String applicantStorageSub;  // 请领库房子单位
     private String orgId;     //组织机构ID
+    private String units;   //单位
 
 
     private String drugName;   //名称
@@ -39,6 +40,14 @@ public class DrugProvideApplication extends DataEntity<DrugProvideApplication> {
     private Double retailPrice;		// 市场零售价
     private Double stock;
     private String drugStockId;
+
+    public String getUnits() {
+        return units;
+    }
+
+    public void setUnits(String units) {
+        this.units = units;
+    }
 
     public String getStorageName() {
         return storageName;

@@ -20,7 +20,8 @@
        A."SUB_STORAGE"           as "subStorage",
        A."APPLICANT_STORAGE_SUB" as "applicantStorageSub",
        A."ID"                  as "id",
-       A."ORG_ID"              as "orgId"
+       A."ORG_ID"              as "orgId",
+       a.units                 as units
     </sql>
 
     <select id="get" resultType="DrugProvideApplication">
@@ -39,7 +40,7 @@
         (select DISTINCT drug_name,drug_code from drug_dict ) c,
         (select DISTINCT storage_name,storage_code from drug_storage_dept ) d
         <where>
-            a.org_id =  #{orgId}  and o.VALUE = a.package_units and b.id=a.firm_id and   c.drug_code=a.drug_code  and d.storage_code =a.applicant_storage
+            a.org_id =  #{orgId}  and o.VALUE = a.units and b.id=a.firm_id and   c.drug_code=a.drug_code  and d.storage_code =a.applicant_storage
             <if test="applicantStorage!=null and applicantStorage!=''">
                AND  applicant_storage =#{applicantStorage}
             </if>
@@ -122,6 +123,7 @@
             ,PACKAGE_SPEC
             ,QUANTITY
             ,PACKAGE_UNITS
+            ,UNITS
             ,ENTER_DATE_TIME
             ,FIRM_ID
             ,BATCH_NO
@@ -141,6 +143,7 @@
             ,#{packageSpec}
             ,#{quantity}
             ,#{packageUnits}
+            ,#{units}
             ,#{enterDateTime}
             ,#{firmId}
             ,#{batchNo}
@@ -164,6 +167,7 @@
             ,PACKAGE_SPEC = #{packageSpec}
             ,QUANTITY = #{quantity}
             ,PACKAGE_UNITS = #{packageUnits}
+            ,UNITS=#{units}
             ,ENTER_DATE_TIME = #{enterDateTime}
             ,FIRM_ID = #{firmId}
             ,BATCH_NO = #{batchNo}

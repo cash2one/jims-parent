@@ -22,6 +22,20 @@ public class OrgRoleVsServiceRest {
     @Reference(version = "1.0.0")
     private OrgRoleVsServiceApi orgRoleVsServiceApi;
 
+    /**
+     * 根据角色ID和服务ID更改服务下的菜单状态
+     * @param roleId  角色ID
+     * @param serviceId  服务ID
+     * @return
+     * @author fengyuguang
+     */
+    @Path("update-menu-operate")
+    @GET
+    public String updateMenuOperate(@QueryParam("roleId")String roleId,@QueryParam("serviceId")String serviceId,
+                                    @QueryParam("operate")String operate){
+        return orgRoleVsServiceApi.updateMenuOperate(roleId,serviceId,operate);
+    }
+
     @Path("save")
     @POST
     public String save(List<OrgRoleVsService> orgRoleVsServices){
@@ -49,8 +63,8 @@ public class OrgRoleVsServiceRest {
 
     @Path("findrole")
     @GET
-    public List<OrgRoleVsService> findRole(@QueryParam("roleId") String roleId) {
-        List<OrgRoleVsService> lists = orgRoleVsServiceApi.findRole(roleId);
+    public List<OrgRoleVsService> findRole(@QueryParam("roleId") String roleId,@QueryParam("q") String q) {
+        List<OrgRoleVsService> lists = orgRoleVsServiceApi.findRole(roleId,q);
         return lists;
     }
 

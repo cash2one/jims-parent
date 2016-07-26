@@ -467,12 +467,10 @@ $(function () {
                 }
             }
         },
-        onClickRow: function (index, row) {
-            //stopEdit();
-            //if (row.columnProtect != 1) {
-            //    $(this).datagrid('beginEdit', index);
-            //    editIndex = index;
-            //}
+        onBeforeSelect: function(index){
+            var beforeSelectIndex = $(this).datagrid('getRowIndex',$(this).datagrid('getSelected'));
+            $(this).datagrid('endEdit',beforeSelectIndex);
+            $(this).datagrid('beginEdit',index);
         }
     });
 
@@ -649,10 +647,10 @@ $(function () {
         }
     });
 
-    $("#listPrice").on('click',function(){
-        var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
-        parent.addTab('药品价格维护',https);
-    })
+    //$("#listPrice").on('click',function(){
+    //    var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
+    //    parent.addTab('药品价格维护',https);
+    //})
 
 
 

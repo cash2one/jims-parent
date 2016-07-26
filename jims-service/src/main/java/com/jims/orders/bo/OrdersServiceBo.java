@@ -3,6 +3,7 @@
  */
 package com.jims.orders.bo;
 
+import com.jims.common.vo.LoginInfo;
 import com.jims.doctor.cliniIcnspect.dao.ExamAppointsDao;
 import com.jims.doctor.cliniIcnspect.dao.ExamItemsDao;
 import com.jims.common.persistence.Page;
@@ -14,6 +15,8 @@ import com.jims.exam.entity.ExamAppoints;
 import com.jims.exam.entity.ExamItems;
 import com.jims.orders.dao.OrdersDao;
 import com.jims.orders.entity.Orders;
+import com.jims.sys.dao.PerformFreqDictDao;
+import com.jims.sys.entity.PerformFreqDict;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,8 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
     private OrdersDao ordersDao;
     @Autowired
     private OrdersCostsDao ordersCostsDao;
+    @Autowired
+    private PerformFreqDictDao performFreqDictDao;
 
 
     public String saveOrders(ExamAppoints examAppoints) {
@@ -142,8 +147,10 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
      * @return
      * pq
      */
-    public List<Orders> getPatientOrders(Orders orders){
-      return   ordersDao.getPatientOrders(orders);
+    public Page<Orders> getPatientOrders(Page<Orders> page,Orders orders){
+        orders.setPage(page);
+        page.setList(ordersDao.getPatientOrders(orders));
+      return  page;
     }
 
     /**
@@ -152,20 +159,33 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
      * @return
      * pq
      */
-    public String saveOrdersNew(List<Orders> ordersList){
+    public String saveOrdersNew(List<Orders> ordersList,LoginInfo loginInfo){
         int num = 0;
-        try {
+
             if(ordersList!=null){
                 for(int i=0;i<ordersList.size();i++){
                 Orders orders=ordersList.get(i);
                     if (orders.getIsNewRecord()) {
                         orders.preInsert();
-                        orders.setStartDateTime(new Date());
+                        orders.setDoctor(loginInfo.getPersionId());
+                        orders.setOrderingDept(loginInfo.getDeptId());
+                        orders.setOrgId(loginInfo.getOrgId());
+
+                       // orders.setStartDateTime(new Date());
                         orders.setOrderStatus("5");//医生保存
-                        orders.setDrugBillingAttr(3);//药品默认不计价
+                       // orders.setDrugBillingAttr(3);//药品默认不计价
                         orders.setEnterDateTime(new Date());
-                        if(orders.getRepeatIndicator()=="0"){//临时医嘱
+                        if(orders.getRepeatIndicator()=="0"){//临时医嘱（结束时间是当前时间）
                             orders.setStopDateTime(new Date());
+                        }
+                        if(orders.getRepeatIndicator()=="1"){//长期医嘱
+                            if(orders.getFrequency()!=null){
+                               PerformFreqDict performFreqDict = performFreqDictDao.get(orders.getFrequency());
+                                orders.setFreqCounter(performFreqDict.getFreqCounter());
+                                orders.setFreqDetail(performFreqDict.getFreqDesc());
+                                orders.setFreqInterval(performFreqDict.getFreqInterval());
+                                orders.setFreqIntervalUnit(performFreqDict.getFreqIntervalUnits());
+                            }
                         }
                        if(orders.getOrdersCostses()!=null){
                            List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
@@ -184,8 +204,25 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
                                }
                            }
                        }
+
                         num = ordersDao.insert(orders);
                     }else{
+                     //   orders.setStartDateTime(new Date());
+                        orders.setOrderStatus("5");//医生保存
+                      //  orders.setDrugBillingAttr(3);//药品默认不计价
+                        orders.setEnterDateTime(new Date());
+                        if(orders.getRepeatIndicator()=="0"){//临时医嘱（结束时间是当前时间）
+                            orders.setStopDateTime(new Date());
+                        }
+                        if(orders.getRepeatIndicator()=="1"){//长期医嘱
+                            if(orders.getFrequency()!=null){
+                                PerformFreqDict performFreqDict = performFreqDictDao.get(orders.getFrequency());
+                                orders.setFreqCounter(performFreqDict.getFreqCounter());
+                                orders.setFreqDetail(performFreqDict.getFreqDesc());
+                                orders.setFreqInterval(performFreqDict.getFreqInterval());
+                                orders.setFreqIntervalUnit(performFreqDict.getFreqIntervalUnits());
+                            }
+                        }
                         if(orders.getOrdersCostses()!=null){
                             List<OrdersCosts> ordersCostsList=orders.getOrdersCostses();
                             for(int j=0;j<ordersCostsList.size();j++) {
@@ -207,9 +244,7 @@ public class OrdersServiceBo extends CrudImplService<OrdersDao, Orders>{
                     }
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return String.valueOf(num);
     }
 

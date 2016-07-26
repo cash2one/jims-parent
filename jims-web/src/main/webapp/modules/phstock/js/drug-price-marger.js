@@ -87,31 +87,7 @@ $(function () {
             console.log(rowData);
         },
         onSelect:function(rowIndex, rowData){
-
-       $.ajaxAsync(basePath + "/drug-price/listDrugPriceList?drugCode="+rowData.drugCode +"&orgId=" + parent.config.org_Id, function (data) {
-                $.ajaxAsync(basePath + "/drug-price/listDrugDictByDrugCode?drugCode="+rowData.drugCode , function (data) {
-                    drugNameSpecList = [];
-                    $.each(data, function (index,item) {
-                        var drugDict = {};
-                        drugDict.drugName = item.drugName;
-                        drugDict.drugCode = item.drugCode;
-                        drugDict.drugSpec= item.drugSpec;
-                        drugDict.units = item.units;
-
-                        drugNameSpecList.push(drugDict);
-                    });
-
-                });
-                var priceList=[];
-                for(var i=0;i<data.length;i++){
-                    priceList[i]=data[i];
-                    priceList[i].edic=1;
-                }
-                console.log(priceList);
-                $("#datagridRight").datagrid("loadData",priceList);
-            })  ;
-
-
+            loadPriceList(rowData.drugCode)
         }
 
     });
@@ -625,7 +601,9 @@ $(function () {
                     }else{
                         $.postJSON(basePath + "/drug-price/stop",row.id, function (data) {
                             $.messager.alert("系统提示", "停价成功", "info");
-                            $('#datagridRight').datagrid('loadData', { total: 0, rows: [] });
+                            var selectDrug = $("#datagridLeft").datagrid('getSelected');
+                            if(selectDrug)loadPriceList(selectDrug.drugCode)
+                            else $('#datagridRight').datagrid('loadData', []);
                         });
                     }
                 })
@@ -671,10 +649,11 @@ $(function () {
         if (drugPriceList) {
             $.postJSON(basePath + "/drug-price/save", JSON.stringify(drugPriceList), function (data) {
                 $.messager.alert("系统提示", "保存成功", "info");
-                $('#datagridRight').datagrid('loadData', { total: 0, rows: [] });
+                var selectDrug = $("#datagridLeft").datagrid('getSelected');
+                if(selectDrug)loadPriceList(selectDrug.drugCode)
+                else $('#datagridRight').datagrid('loadData', []);
             }, function (data) {
                 $.messager.alert("系统提示", "保存失败", "error");
-                $('#datagridRight').datagrid('loadData', { total: 0, rows: [] });
             })
         }
     });
@@ -713,4 +692,26 @@ $(function () {
         $(spec.target).combobox("loadData",drugNameSpecList);
 
     })
+
+    function loadPriceList(drugCode){
+        $.ajaxAsync(basePath + "/drug-price/listDrugPriceList?drugCode="+drugCode +"&orgId=" + config.org_Id, function (data) {
+            $.ajaxAsync(basePath + "/drug-price/listDrugDictByDrugCode?drugCode="+drugCode , function (data) {
+                drugNameSpecList = [];
+                $.each(data, function (index,item) {
+                    var drugDict = {};
+                    drugDict.drugName = item.drugName;
+                    drugDict.drugCode = item.drugCode;
+                    drugDict.drugSpec= item.drugSpec;
+                    drugDict.units = item.units;
+                    drugNameSpecList.push(drugDict);
+                });
+            });
+            var priceList=[];
+            for(var i=0;i<data.length;i++){
+                priceList[i]=data[i];
+                priceList[i].edic=1;
+            }
+            $("#datagridRight").datagrid("loadData",priceList);
+        })
+    }
 });

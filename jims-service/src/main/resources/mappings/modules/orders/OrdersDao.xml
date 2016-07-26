@@ -447,8 +447,6 @@
 			freq_detail = #{freqDetail},
 			perform_schedule = #{performSchedule},
 			perform_result = #{performResult},
-			ordering_dept = #{orderingDept},
-			doctor = #{doctor},
 			stop_doctor = #{stopDoctor},
 			nurse = #{nurse},
 			stop_nurse = #{stopNurse},

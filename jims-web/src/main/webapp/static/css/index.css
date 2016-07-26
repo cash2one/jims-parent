@@ -1352,3 +1352,40 @@ a.dropma-color {
 
 }
 /****/
+
+.office-sel-pop
+{
+    padding:5px;
+
+}
+.office-sel-pop ul li
+{
+    display:inline-block;
+    width:30%;
+    border-bottom:1px dashed #ccc;
+    line-height:40px;
+    text-align:center;
+}
+.office-sel-pop ul li span
+{
+    display:none;
+}
+.office-sel-pop ul li:hover
+{
+    border-bottom:1px dashed #029ae5;
+    position:relative;
+    background:rgba(0,0,255,0.05);
+}
+.office-sel-pop ul li:hover span
+{
+    display:block;
+    color:#fff;
+    background:#029ae5;
+    width:30px;
+    height:40px;
+    line-height:40px;
+    position:absolute;
+    bottom:0;
+    left:0;
+    font-size:25px;
+}

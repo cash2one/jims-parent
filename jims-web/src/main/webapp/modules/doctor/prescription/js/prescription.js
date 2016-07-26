@@ -6,6 +6,8 @@ var prescNo;
 var itemClass;
 var clinicId;
 var chargeIndicator='新开';
+var stg = "";
+var orgId=parent.clinicMaster.orgId;
 //页面加载
 $(function(){
     itemClass = $("#itemClass").val();
@@ -397,7 +399,21 @@ $(function(){
             });
         }
     });
-
+    //药房
+    $('#storage').combobox({
+        data: drugStorage,
+        valueField: 'storageCode',
+        textField: 'storageName',
+        required:true,
+        onSelect: function (n, o) {
+            $("#storage").combobox('select', n.storageCode);
+            stg=n.storageCode;
+            comboGridCompleting('','');
+        }
+    });
+    if(drugStorage.length>0) {
+        $("#storage").combobox('select', drugStorage[0].storageCode);
+    }
     //处方属性下拉框
     $('#prescAttr').combobox({
         data: prescAttrDict,
@@ -406,8 +422,9 @@ $(function(){
         required:true
     });
     if(prescAttrDict.length>3) {
-        $("#prescAttr ").combobox('select', prescAttrDict[2].value);
+        $("#prescAttr").combobox('select', prescAttrDict[2].value);
     }
+
 });
 
 //加载数据时加载子项方法

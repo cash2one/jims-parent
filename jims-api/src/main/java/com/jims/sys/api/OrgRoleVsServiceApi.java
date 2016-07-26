@@ -13,6 +13,15 @@ import java.util.List;
 public interface OrgRoleVsServiceApi {
 
     /**
+     * 根据角色ID和服务ID更改服务下的菜单状态
+     * @param roleId 角色ID
+     * @param serviceId 服务ID
+     * @return
+     * @author fengyuguang
+     */
+    public String updateMenuOperate(String roleId,String serviceId,String operate);
+
+    /**
      * 根据角色权限id获取
      * @param id
      * @return
@@ -90,7 +99,7 @@ public interface OrgRoleVsServiceApi {
      * @param roleid
      * @return
      */
-    public List<OrgRoleVsService> findRole(String roleid);
+    public List<OrgRoleVsService> findRole(String roleid,String q);
 
     /**
      * 根据id删除
