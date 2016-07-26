@@ -196,7 +196,7 @@ function add() {
         type: "POST",
         dataType: "json",
         'contentType': 'application/json',
-        'data': JSON.stringify({"clinicId": clinicId}),
+        'data': JSON.stringify({"visitId": visitId,"patientId":patientId}),
         success: function (data) {
             if (data != "" && data != null) {
                 $("#clinSymp").val(data.xianbingshi);

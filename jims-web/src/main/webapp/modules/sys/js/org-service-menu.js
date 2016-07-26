@@ -25,6 +25,7 @@ $(function () {
                 rownumbers: true,
                 fitColumns: true, //列自适应宽度
                 singleSelect: true,
+                mode:'remote',
                 columns: [[//显示的列
                     {
                         field: 'serviceId', title: '服务ID', hidden: true
@@ -35,7 +36,6 @@ $(function () {
                                 panelHeight: '150',
                                 valueField: 'id',
                                 textField: 'serviceName',
-                                editable: false,
                                 data: styleArr
                             }
                         },
@@ -89,6 +89,18 @@ $(function () {
             iconCls: 'icon-save',
             handler: function () {
                 saveMenu();
+            }
+        },{
+            text: '全部可预览',
+            iconCls: 'icon-edit',
+            handler: function(){
+                allMenuOperate('0');
+            }
+        },{
+            text: '全部可编辑',
+            iconCls: 'icon-edit',
+            handler: function(){
+                allMenuOperate('1');
             }
         }],
         singleSelect: true,
@@ -171,7 +183,6 @@ $(function () {
         var row = $('#roleId').datagrid('getSelected');
 
         var menuPromise = $.get(basePath + "/org-service/find-menu",{serviceId:node.serviceId,roleId:row.id,isTree:true}, function (data) {
-
             $("#tt").treegrid('loadData', data);
         });
     }
@@ -291,18 +302,21 @@ $(function () {
         var node = $('#serviceId').datagrid('getSelected');
         var row = $('#roleId').datagrid('getSelected');
         var roots = $('#tt').treegrid('getRoots');
-        var saveData = []
         var changes=$("#tt").treegrid("getChanges");
 
-        var ids='';
+        var ids="";
         for(var i=0;i<changes.length;i++){
             if(changes[i].menuOperate== '2'){
                 ids=ids+changes[i].id+","
-                $.postJSON(basePath + '/roleVs/delete-orgRole', ids, function (res) {
-                    menuDict();
-                });
             }
         }
+        if(ids !=''){
+            $.postJSON(basePath + '/roleVs/delete-orgRole',ids, function (res) {
+                $.messager.alert("提示消息", "保存成功", "success");
+                $('#tt').treegrid('reload');
+            });
+        }
+
         var handleData = function (datas) {
             var ds = []
             if (datas && datas.length > 0) {
@@ -340,14 +354,27 @@ $(function () {
         saveData.unshift({id: node.id})
 
         $.postJSON(basePath + '/roleVs/save', JSON.stringify(saveData), function (res) {
-                if (parseInt(res) > 0) {
+                if (res!= null) {
                     $.messager.alert("提示消息", "保存成功", "success");
                     $('#tt').treegrid('reload');
-                } else {
-                    $.messager.alert('提示消息', "保存失败", "error");
+                }else{
+                    $.messager.alert('保存','保存失败','error');
                 }
             }
         )
+    }
+
+    //全部可预览或可编辑
+    function allMenuOperate(value){
+        var node = $('#serviceId').datagrid('getSelected');
+        var row = $('#roleId').datagrid('getSelected');
+        var roots = $('#tt').treegrid('getRoots');
+        var url = basePath + '/roleVs/update-menu-operate?roleId=' + row.id + '&serviceId=' + node.serviceId + '&operate=' + value
+        $.get(url,function(resp){
+            $.messager.alert('提示消息','保存成功','success');
+            $("#tt").treegrid('loadData',[]);
+            menuDict();
+        });
     }
 
 })

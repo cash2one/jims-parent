@@ -168,7 +168,7 @@
         and sg.staff_id =os.id
         and sgc.org_id = #{orgId}
         and sgc.group_class = #{doctorGroup}
-        and os.persion_id = #{persionId};
+        and os.persion_id = #{persionId}
     </select>
 
 </mapper>

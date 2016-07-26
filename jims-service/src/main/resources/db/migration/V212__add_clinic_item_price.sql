@@ -18,7 +18,8 @@ select a.storage,
       c.dose_units,--剂量单位
       c.dose_per_unit,--最小用量
        b.subj_code,
-       b.performed_by
+       b.performed_by,
+       a.org_id
   from drug_stock            a,
        current_price_list    b,
        drug_dict             c,

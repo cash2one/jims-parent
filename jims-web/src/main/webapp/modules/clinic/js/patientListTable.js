@@ -21,23 +21,23 @@ function onloadMethod(status){
             rownumbers:true,//行号
             columns:[[      //每个列具体内容
                 /*{field:'id',title:'病人ID号',width:'10%',align:'center'},*/
-                {field:'patientId',title:'病人住院号',width:'10%',align:'center'},
-                {field:'inpNo',title:'病人住院号',width:'10%',align:'center'},
-                {field:'bedNo',title:'床号',width:'10%',align:'center'},
-                {field:'name',title:'病人姓名',width:'10%',align:'center'},
-                {field:'sex',title:'性别',width:'10%',align:'center'},
-                {field:'age',title:'年龄',width:'10%',align:'center'},
-                {field:'chargeType',title:'费别',width:'10%',align:'center'},
-                {field:'inpCount',title:'住院天数',width:'10%',align:'center'},
-                {field:'attendingDoctor',title:'管床大夫',width:'10%',align:'center'},
-                {field:'admissionDateTime',title:'入院时间',width:'10%',align:'center'},
+                {field:'patientId',title:'病人住院号',width:'8%',align:'center',hidden:true},
+                {field:'inpNo',title:'病人住院号',width:'8%',align:'center'},
+                {field:'bedNo',title:'床号',width:'5%',align:'center'},
+                {field:'name',title:'病人姓名',width:'8%',align:'center'},
+                {field:'sex',title:'性别',width:'5%',align:'center',formatter:setDataFormatter},
+                {field:'age',title:'年龄',width:'5%',align:'center'},
+                {field:'chargeType',title:'费别',width:'6%',align:'center',formatter:chargeTypeFormatter},
+                {field:'inpCount',title:'住院天数',width:'8%',align:'center'},
+                {field:'attendingDoctor',title:'管床大夫',width:'8%',align:'center'},
+                {field:'admissionDateTime',title:'入院时间',width:'13%',align:'center'},
                 /*{field:'superiorDoctor',title:'上级医师',width:'10%',align:'center'},*/
-                {field:'director',title:'主任医师',width:'10%',align:'center'},
-                {field:'dischargeDateTime',title:'出院时间',width:'10%',align:'center'},
-                {field:'dataOfbith',title:'出生日期',width:'10%',align:'center'},
-                {field:'patIdentity',title:'身份',width:'10%',align:'center'},
-                {field:'prepayments',title:'预交金',width:'10%',align:'center'},
-                {field:'wardCode',title:'护理单元',width:'10%',align:'center'}
+                {field:'director',title:'主任医师',width:'8%',align:'center'},
+                {field:'dischargeDateTime',title:'出院时间',width:'13%',align:'center'},
+                {field:'dataOfbith',title:'出生日期',width:'13%',align:'center'},
+                {field:'patIdentity',title:'身份',width:'5%',align:'center',formatter:itemFormatter},
+                {field:'prepayments',title:'预交金',width:'8%',align:'center'},
+                {field:'wardCode',title:'护理单元',width:'8%',align:'center'}
             ]],
             frozenColumns:[[
                 {field:'ck',checkbox:true}

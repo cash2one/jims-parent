@@ -45,8 +45,7 @@ public class PatMasterIndexRest {
      */
     @Path("list")
     @GET
-    public List<PatMasterIndex> getPatientList(@Context HttpServletRequest request){
-        PatMasterIndex patMasterIndex = new PatMasterIndex();
+    public List<PatMasterIndex> getPatientList(@Context HttpServletRequest request,PatMasterIndex patMasterIndex){
         List<PatMasterIndex> list = Lists.newArrayList();
         LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         try {
@@ -57,6 +56,51 @@ public class PatMasterIndexRest {
         }
         return list;
     }
+    /**
+     * @param         patMasterIndex    传递参数
+     * @return com.jims.common.data.StringData    返回类型
+     * @throws
+     * @Title: validIfInHosp
+     * @Description: (查询该病人是否为在院病人)
+     * @author CTQ
+     * @date 2016-7-25 14:46:40
+     */
+    @Path("validateIdCard")
+    @GET
+    public StringData validateIdCard(@Context HttpServletRequest request,PatMasterIndex patMasterIndex){
+        StringData stringData=new StringData();
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
+        patMasterIndex.setOrgId(loginInfo.getOrgId());
+        List<PatMasterIndex> patMasterIndexes = patMasterIndexServiceApi.searchByIdCard(patMasterIndex);
+        if(patMasterIndexes!=null&&patMasterIndexes.size()>0){
+        }else{
+            stringData.setData("1");//非医院病人，请进行登记
+        }
+        return stringData;
+    }
+
+    /**
+     * @param         patMasterIndex    传递参数
+     * @return com.jims.common.data.StringData    返回类型
+     * @throws
+     * @Title: validIfInHosp
+     * @Description: (查询该病人是否为在院病人)
+     * @author CTQ
+     * @date 2016-7-25 14:46:40
+     */
+    @Path("validIfInHosp")
+    @GET
+    public StringData validIfInHosp(PatMasterIndex patMasterIndex){
+        StringData stringData=new StringData();
+        if(patMasterIndex.getId()!=null&&!"".equals(patMasterIndex.getId())){
+            PatsInHospital patsInHospital = patsInHospitalServiceApi.findByPatientId(patMasterIndex.getId());
+            if(patsInHospital!=null){
+                stringData.setData("1");//该病人已在院，不能进行入院登记
+            }
+        }
+        return stringData;
+    }
+
     /**
      * @param         patMasterIndex    传递参数
      * @return com.jims.common.data.StringData    返回类型

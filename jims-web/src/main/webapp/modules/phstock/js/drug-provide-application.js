@@ -50,7 +50,7 @@ $(function () {
 
                 type: 'combogrid',
                 options: {
-                    panelWidth: 400,
+                    panelWidth: 900,
                     idField: 'drug_name',
                     textField: 'drug_name',
                     mode: 'remote',
@@ -64,14 +64,17 @@ $(function () {
                         {field: 'drug_spec', title: '规格', width: 100, align: 'center'},
                         {field: 'label', title: '单位', width: 100, align: 'center'},
                         {field: 'trade_price', title: '批发价', width: 100, align: 'center'},
-                        {field: 'retail_pricce', title: '零售价', width: 100, align: 'center'}
+                        {field: 'retail_price', title: '零售价', width: 100, align: 'center'},
+                        {field: 'min_spec', title: '最小规格', width: 100, align: 'center'}
                     ]],
                     onSelect: function (index, data) {
                         var row = $('#drug-provide-application').datagrid('getSelected');
                         row.drugCode = data.drug_code;
                         row.drugName = data.drug_name;
-                        row.drugSpec = data.drug_spec;
-                        row.packageUnits = data.units;
+                        row.drugSpec = data.min_spec;
+                        row.packageSpec=data.drug_spec;
+                        row.packageUnits =data.units;
+                        row.units=data.min_units;
                         row.label = data.label;
                         row.firmId = data.firm_id;
                         row.supplierId = data.supplier_id;
@@ -198,8 +201,8 @@ $(function () {
             var storageData = $("#storage").combobox("getValue");
             $.get(basePath + "/drugProvideApplication/findDocument", {
                 orgId: orgId,
-                applicantStorage: storageData,
-                applicantStorageSub: row.subStorageCode,
+                provideStorage: storageData,
+                subStorage: row.subStorageCode,
                 flag: 0
             }, function (data) {
                 $("#documentNo").combobox('loadData', data);
@@ -234,8 +237,8 @@ $(function () {
             currentSelectDeptData = row.documentNo;
             $.get(basePath + "/drugProvideApplication/findList", {
                 orgId: orgId,
-                applicantStorage: storageData,
-                applicantStorageSub: subStorageData,
+                provideStorage: storageData,
+                subStorage: subStorageData,
                 documentNo: currentSelectDeptData
             }, function (data) {
                 $("#drug-provide-application").datagrid('loadData', data);
@@ -295,12 +298,17 @@ $(function () {
         var subStorageCode = $('#subStorage').combobox('getValue');
         var  StorageCode= $('#storage').combobox('getValue');
         //请领子库房
-        var subStorage1 = $('#subStorage').combobox('getValue');
+        var subStorage1 = $('#subStorage1').combobox('getValue');
         if (!currentSelectDeptData) {
             $.messager.alert("系统提示", "请先选择来源", "info");
             return;
         }
+
         if (!subStorageCode) {
+            $.messager.alert("系统提示", "请选择子库，在维护数据", "info");
+            return;
+        }
+        if (!subStorage1) {
             $.messager.alert("系统提示", "请选择请领子库房，在维护数据", "info");
             return;
         }
@@ -329,11 +337,13 @@ $(function () {
         var storage = $("#storage").combobox('getValue');
         var substorage = $("#subStorage").combobox('getValue');
         var documentNo = $("#documentNo").combobox('getValue');
+        var subStorage1 = $('#subStorage1').combobox('getValue');
         //选取科室时重新加载数据
         $.get(basePath + "/drugProvideApplication/findList", {
-            applicantStorage: storage,
+            provideStorage: storage,
             orgId: orgId,
-            applicantStorageSub: substorage,
+            subStorage: substorage,
+            applicantStorageSub:subStorage1,
             documentNo: documentNo
         }, function (data) {
             $("#drug-provide-application").datagrid('loadData', data);
