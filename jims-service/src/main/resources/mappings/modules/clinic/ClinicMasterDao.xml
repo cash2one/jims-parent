@@ -648,4 +648,10 @@
 		from clinic_master
 		where del_flag = '0'
 	</select>
+
+    <update id="updateStatus">
+      update clinic_master set  registration_status=#{status}
+
+    </update>
+
 </mapper>

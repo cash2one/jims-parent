@@ -137,4 +137,12 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @return
      */
     public String getMaxAcctNo();
+
+
+    /**
+     * 修改挂号状态
+     * @param status
+     * @return
+     */
+    public String updateStatus(@Param("status")String status);
 }

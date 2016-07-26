@@ -64,21 +64,22 @@
 
 <div data-options="region:'north'" style="height:60px">
 <div class="search-standard search-new clearfix">
-    <form name="searchform" method="post" id ="searchform">
+
     <ul class="clearfix">
+        <form name="searchform" method="post" id ="searchform">
         <li>
-             <input type="radio" name="repeatIndicator"  checked="checked" value="" />全部
+             <input type="radio" name="repeatIndicator"   value="" />全部
              <input type="radio" name="repeatIndicator" value="1"  />长期
              <input type="radio" name="repeatIndicator" value="0"  />临时
         </li>
         <li style="width:40%;"><input type="text" name="startDateTime" class="easyui-datebox" id="startDateTime"/> 至  <input type="text" name="stopDateTime" class="easyui-datebox" id="stopDateTime"/></li>
-
-
+            <input type="hidden" name="patientId" id="patientId">
+            <input type="hidden" name="visitId" id="visitId">
+        </form>
         <li><button id="submit_search" class="easy-nbtn easy-nbtn-info" onclick="searchOrders();">查询</button></li>
     </ul>
-        <input type="hidden" name="patientId" id="patientId">
-        <input type="hidden" name="visitId" id="visitId">
-        </form>
+
+
 
 </div>
 </div>

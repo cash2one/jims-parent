@@ -649,10 +649,10 @@ $(function () {
         }
     });
 
-    $("#listPrice").on('click',function(){
-        var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
-        parent.addTab('药品价格维护',https);
-    })
+    //$("#listPrice").on('click',function(){
+    //    var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
+    //    parent.addTab('药品价格维护',https);
+    //})
 
 
 

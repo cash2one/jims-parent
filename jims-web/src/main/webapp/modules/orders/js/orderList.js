@@ -51,7 +51,7 @@ $(function(){
         pagination:true,//分页控件
         rownumbers:true,//行号
         columns:[[      //每个列具体内容
-            {field:'remarks'
+            {field:'remarks',editor:{type:'textbox',options:{editable:false,disable:false}}
                 ,formatter:function(value, rowData, rowIndex){
                 if(rowData.orderNo!=rowData.orderSubNo){
                     return "<div style='color:blue;font-weight:bold; '>子</div>";
@@ -107,7 +107,7 @@ $(function(){
                 }
             }},
             //当前时间
-            {field:'startDateTime',title:'下达时间',width:'10%',align:'center',formatter:formatDateBoxFull, editor:{type: 'datebox',options:{editable:true,disable:false}}},
+            {field:'startDateTime',title:'下达时间',width:'10%',align:'center',formatter:formatDateBoxFull, editor:{type: 'datetimebox',options:{editable:true,disable:false}}},
             {field:'orderText',title:'医嘱内容',width:'10%',align:'center',editor:{
                 type:'combogrid',
                 options:{
@@ -437,16 +437,33 @@ $(function(){
                 if (rowNum != rowIndex) {
                     if (rowNum >= 0) {
                         dataGrid.datagrid('endEdit', rowNum);
-                        if(orderCostsArray[rowData.orderNo]=='null'||orderCostsArray[rowData.orderNo]=='undefined'){
+                        if(orderCostsArray[rowData.orderNo]=='null'&& orderCostsArray[rowData.orderNo]=="undefined"){
+
                             $('#orderCostList').datagrid('loadData',  { total: 0, rows: [] });
                         }else{
-                            $('#orderCostList').datagrid('loadData', { total: orderCostsArray[rowData.orderNo].length, rows: orderCostsArray[rowData.orderNo] });
+                            if( orderCostsArray[rowData.orderNo].length>0){
+                                $('#orderCostList').datagrid('loadData', { total: orderCostsArray[rowData.orderNo].length, rows: orderCostsArray[rowData.orderNo] });
+                            }
+
                         }
 
                     }
                     rowNum = rowIndex;
                     if(rowData.orderStatus=='5'||rowData.orderStatus=='') {
+
+                        /*var orderClass=rowData.orderClass;
+                        var ed = $('#orderList').datagrid('getEditor', {index:rowNum,field:'orderText'});
+                        *//*如果类别是药品医嘱内容是药品的内容，如果是非药品显示非药品的医嘱内容*//*
+                            if(orderClass=='A'||orderClass=='B'){//药品
+                            $('#orderCostList').datagrid('loadData', { total: 0, rows: [] });
+                            $(ed.target).combogrid("grid").datagrid("loadData", drugData);
+                        }else{//非药品
+                            $('#orderCostList').datagrid('loadData', { total: 0, rows: [] });
+                            $(ed.target).combogrid("grid").datagrid("loadData", clinicOrderData);
+                        }*/
                         dataGrid.datagrid('beginEdit', rowNum);
+
+
                     }else{
                         dataGrid.datagrid('endEdit', rowNum);
                     }
@@ -520,10 +537,7 @@ $(function(){
 
 
 function searchOrders(){
-    var startTime=$("#startDateTime").datebox('getValue');
-    var endTime=$("#stopDateTime").datebox('getValue');
-    var repeatIndicator=$('input[name="repeatIndicator"]:checked ').val();
-    $("#orderList").datagrid({url:basePath+'/inOrders/getOrders',queryParams:{"startDateTime":startTime,"stopDateTime":endTime,"repeatIndicator":repeatIndicator}});
+    $("#orderList").datagrid("reload");
 }
 
 
@@ -687,19 +701,16 @@ function changeSubNo(row){
                                 return false;
                             }
                         }
-
+                        var dosageUnits = $("#orderList").datagrid('getEditor',{index:rowNum,field:'dosageUnits'});
+                        $(dosageUnits.target).textbox('setValue',row.units);
 
                         //1.判断该条医嘱是否有子处方，如果有，则不允许把当前处方变成其他处方的子处方
                         prerow = rows[index-1];
                         nowrow.orderSubNo = prerow.orderSubNo;
-
-                        var subNo = $("#orderList").datagrid('getEditor',{index:index,field:'orderSubNo'});
-                        $(subNo.target).textbox('setValue',prerow.orderSubNo);
+                        var remarks = $("#orderList").datagrid('getEditor',{index:index,field:'remarks'});
+                        $(remarks.target).textbox('setValue',"<div style='color:blue;font-weight:bold; '>子</div>");
                         $('#orderList').datagrid('endEdit', index);
                         $('#orderList').datagrid('beginEdit', index);
-                        save();
-
-
 
 
                     }else{

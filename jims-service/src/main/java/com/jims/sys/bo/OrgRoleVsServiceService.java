@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by Administrator on 2016/5/31.
@@ -133,9 +134,9 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
         return roleServiceMenuss;
     }
 
-    public List<OrgRoleVsService> findRole(String roleid) {
+    public List<OrgRoleVsService> findRole(String roleid,String q) {
 
-        List<OrgRoleVsService> orgRoleVsServices = dao.findRoleId(roleid);
+        List<OrgRoleVsService> orgRoleVsServices = dao.findRole(roleid,q);
         for (int i = 0, j = (orgRoleVsServices != null ? orgRoleVsServices.size() : 0); i < j; i++) {
             OrgRoleVsService orgRoleVsService = orgRoleVsServices.get(i);
             OrgSelfServiceList orgSelfServiceList = orgSelfServiceListDao.get(orgRoleVsService.getServiceId());
