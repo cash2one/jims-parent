@@ -3,6 +3,8 @@ package com.jims.common.utils;
 import com.jims.clinic.entity.ClinicMaster;
 import com.jims.clinic.service.ClinicMasterServiceImpl;
 
+import java.util.Date;
+
 /**
  * 号码生成规则
  */
@@ -62,4 +64,16 @@ public class NumberUtils {
         String testNo="SS"+clinicMaster.getClinicNo()+(int)(Math.random()*9000);
         return testNo;
     }
+
+    /**
+     * 住院预交金收据号
+     * @return
+     */
+    public static String getPaymentNo() {
+        Date date=new Date();
+        String strDate=DateUtils.formatDate(date,"yyyyMMddhhmmss");
+        String testNo="YJJ"+strDate+(int)(Math.random()*9000);
+        return testNo;
+    }
+
 }
