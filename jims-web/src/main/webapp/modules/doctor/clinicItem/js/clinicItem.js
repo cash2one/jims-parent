@@ -18,7 +18,7 @@ $(function () {
                 options: {
                     panelWidth: 500,
                     data: clinicDictName,
-                    idField: 'item_code',
+                    idField: 'item_name',
                     textField: 'item_name',
                     required: true,
                     columns: [[
@@ -45,6 +45,7 @@ $(function () {
                         var rows = $('#clinicItem').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
                         var columns = $('#clinicItem').datagrid("options").columns;
                         rows[rowNum][columns[0][1].field] = row.item_code;
+                        rows[rowNum][columns[0][2].field] = row.item_class;
                         //rows[rowNum][columns[0][2].field]=clinicId;
                         itemCode = row.item_code;
                         //显示所有处置计价显示
@@ -65,6 +66,7 @@ $(function () {
             }
             },
             {field: 'itemCode', title: '项目代码', width: '15%', align: 'center'},
+            {field: 'itemClass', title: '项目类别', width: '20%', align: 'center', hidden: 'true'},
             {field: 'clinicId', title: '就诊id', width: '20%', align: 'center', hidden: 'true'},
             {field: 'amount', title: '数量', width: '6%', align: 'center', editor:"numberbox"},
             //{ field: 'units', title: '单位', width: '6%', align: 'center', editor: {
@@ -102,17 +104,7 @@ $(function () {
                 }
             },
             {
-                field: 'charges', title: '实收', width: '10%', align: 'center', editor: {
-                options: {
-                    onLoadSuccess: function (index, row) {
-                        $('#itemsTables').datagrid('appendRow', {
-                            subjcode: '合计',
-                            costs: compute("clinicItem", "costs"),
-                            charges: compute("clinicItem", "charges")
-                        });
-                    }
-                }
-            }
+                field: 'charges', title: '实收', width: '10%', align: 'center'
             },
             {
                 field: 'chargeIndicator', title: '收费标识', width: '10%', align: 'center',
@@ -144,8 +136,12 @@ $(function () {
                     index: 0, // index start with 0
                     row: {"clinicId": clinicId,"amount":1}
                 });
-                rowNum=0;
-                $("#clinicItem").datagrid("beginEdit",rowNum);
+                if(rowNum>=0){
+                    $("#clinicItem").datagrid('endEdit', rowNum);
+                }
+                $("#clinicItem").datagrid('endEdit', rowNum);
+                //rowNum=0;
+                //$("#clinicItem").datagrid("beginEdit",rowNum);
             }
         }, '-', {
             text: '删除',
@@ -166,28 +162,46 @@ $(function () {
         }
         ],
         onClickRow: function (rowIndex, rowData) {//单击行事件
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle', '处置计价');
-            $("#clinic").datagrid({
-                url: basePath + '/price-list/list-by-clinic-code',
-                queryParams: {"orgId": 1, "clinicItemCode": rowData.itemCode},
-                method: "get"
-            })
-            if (rowData.id != null) {
-                $('#clinicItem').datagrid("disableEditing")
-            }
-            var dataGrid = $('#clinicItem');
-            if (!dataGrid.datagrid('validateRow', rowNum)) {
-                return false
-            }
-            if (rowNum != rowIndex) {
-                if (rowNum >= 0) {
-                    dataGrid.datagrid('endEdit', rowNum);
+            if(rowData.itemName != "合计"){
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle', '处置计价');
+                $("#clinic").datagrid({
+                    url: basePath + '/price-list/list-by-clinic-code',
+                    queryParams: {"orgId": 1, "clinicItemCode": rowData.itemCode},
+                    method: "get"
+                })
+                if (rowData.id != null ) {
+                    $('#clinicItem').datagrid("disableEditing")
                 }
-                rowNum = rowIndex;
-                dataGrid.datagrid('beginEdit', rowIndex);
+                var dataGrid = $('#clinicItem');
+                if (!dataGrid.datagrid('validateRow', rowNum)) {
+                    return false
+                }
+                if (rowNum != rowIndex) {
+                    if (rowNum >= 0) {
+                        dataGrid.datagrid('endEdit', rowNum);
+                    }
+                    rowNum = rowIndex;
+                    dataGrid.datagrid('beginEdit', rowIndex);
+                }
+            }else{
+                    $(this).datagrid('unselectRow', rowIndex);
             }
-        }
-
+            }
+            ,onLoadSuccess:function(index,row) {
+        $('#clinicItem').datagrid('appendRow', {
+            itemName: '合计',
+            itemCode: '<span></span>',
+            amount: '<span></span>',
+            performedBy: '<span></span>',
+            wardCode: '<span></span>',
+            charges: '<span class="subtotal">' + compute("clinicItem","charges") + '</span>',
+            chargeIndicator: '<span></span>'
+        });
+    }
+        //,onClickRow: function (rowIndex, rowData) {
+        //    //alert(rowData.itemName)
+        //
+        //}
     });
 
 
