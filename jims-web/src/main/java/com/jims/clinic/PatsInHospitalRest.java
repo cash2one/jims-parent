@@ -3,6 +3,7 @@ package com.jims.clinic;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.clinic.api.PatsInHospitalServiceApi;
+import com.jims.clinic.entity.PatsInHospital;
 import com.jims.clinic.vo.ComeDeptVo;
 import com.jims.common.data.StringData;
 import com.jims.common.web.impl.BaseDto;
@@ -11,10 +12,7 @@ import com.jims.patient.api.PatMasterIndexServiceApi;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 /**
@@ -30,7 +28,17 @@ public class PatsInHospitalRest {
     PatMasterIndexServiceApi patMasterIndexServiceApi;
     @Reference(version = "1.0.0")
     PatsInHospitalServiceApi patsInHospitalServiceApi;
-    @Path("patientlist")
+    @GET
+    @Path("inHospitalList")
+    public List<BaseDto> inHospitalList(@QueryParam("name")String name,@QueryParam("idNo")String idNo) {
+        List<BaseDto> list = Lists.newArrayList();
+        PatsInHospital patsInHospital = new PatsInHospital();
+        patsInHospital.setName(name);
+        patsInHospital.setIdNo(idNo);
+        list = patsInHospitalServiceApi.findAllInHospList(patsInHospital);
+        return list;
+    }
+
     /**
      * @return java.util.List<com.jims.clinic.vo.ComeDeptVo>    返回类型
      * @throws
@@ -40,6 +48,7 @@ public class PatsInHospitalRest {
      * @date 2016/6/15
      */
     @GET
+    @Path("patientlist")
     public List<ComeDeptVo> patientlist(){
 
         List<ComeDeptVo> list = Lists.newArrayList();
