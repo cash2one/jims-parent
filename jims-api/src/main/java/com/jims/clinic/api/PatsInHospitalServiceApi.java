@@ -81,4 +81,12 @@ public interface PatsInHospitalServiceApi {
 
 
     public String test(ComeDeptVo comeDeptVo);
+
+    /**
+     * 根据参数查询在院病人列表
+     * @param patsInHospital
+     * @author CTQ
+     * @return
+     */
+    public  List<BaseDto>  findAllInHospList(PatsInHospital patsInHospital);
 }

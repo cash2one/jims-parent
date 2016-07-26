@@ -17,7 +17,7 @@ InputParamVo2.operateMethod='=';
 inputParamVos.push(InputParamVo2);
 var InputParamVo3={};
 InputParamVo3.colName="storage";
-InputParamVo3.colValue=sg;
+InputParamVo3.colValue=stg;
 InputParamVo3.operateMethod='=';
 inputParamVos.push(InputParamVo3);
 herbalDrug.inputParamVos=inputParamVos;

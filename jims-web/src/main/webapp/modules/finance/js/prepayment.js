@@ -1,14 +1,26 @@
 
 //页面加载
 $(function(){
-    var patientId='1';
+    $('#payWayId').combobox({
+        data: payWayDict,
+        valueField: 'id',
+        textField: 'payWayName',
+        required:true,
+        onSelect: function (n, o) {
+            $("#payWay").val(n.value);
+        }
+    });
+    if(payWayDict.length>0) {
+        $("#payWayId").combobox('select', payWayDict[0].id);
+    }
+
     $('#centerList').datagrid({
         singleSelect: true,
         fit: true,
         nowrap: false,
         toolbar:'#searchDiv',
         method:'GET',
-        url:basePath+'/prepaymentRcpt/list?patientId='+patientId,
+        url:basePath+'/prepaymentRcpt/list',
         rownumbers:true,
         pagination:true,//分页控件
         pageSize:15,
@@ -18,7 +30,7 @@ $(function(){
             {field:'rcptNo',title:'编号',width:'5%',align:'center'},
             {field:'transactDate',title:'日期及时间',width:'15%',align:'center'},
             {field:'amount',title:'金额',width:'8%',align:'right'},
-            {field:'payWay',title:'支付方式',width:'10%',align:'center'},
+            {field:'payWay',title:'支付方式',width:'10%',align:'center',formatter:payWayFormatter},
             {field:'transactType',title:'类型',width:'5%',align:'center'},
             {field:'bank',title:'开户银行',width:'15%',align:'center'},
             {field:'checkNo',title:'支票号',width:'10%',align:'center'},
@@ -44,22 +56,27 @@ $(function(){
 
 //列表条件查询
 function searchByCondition(){
+    var name=$("#name").textbox('getValue');
+    var idNo=$("#idNo").textbox('getValue');
+    $("#centerList").datagrid('reload',{"name":name,"idNo":idNo});
 
 }
 
 //保存
 function saveMaster() {
-    $.postForm(basePath + '/prepaymentRcpt/save', 'payForm', function (data) {
-        if (data.data == 'success') {
-            $.messager.alert("提示消息", data.code + "条记录，保存成功");
-            $('#centerList').datagrid('load');
-            $('#centerList').datagrid('clearChecked');
-        } else {
+    if($("#payForm").form("validate")){
+        $.postForm(basePath + '/prepaymentRcpt/save', 'payForm', function (data) {
+            if (data.data == 'success') {
+                $.messager.alert("提示消息", data.code + "条记录，保存成功");
+                $('#centerList').datagrid('load');
+                $('#centerList').datagrid('clearChecked');
+            } else {
+                $.messager.alert('提示', "保存失败", "error");
+            }
+        }, function (data) {
             $.messager.alert('提示', "保存失败", "error");
-        }
-    }, function (data) {
-        $.messager.alert('提示', "保存失败", "error");
-    });
+        });
+    }
 }
 //退款
 function removeMaster(){

@@ -274,7 +274,7 @@ function searchByCondition(){
     var ybNo=$("#ybNo").textbox('getValue');*/
     $("#orderList").datagrid({url:basePath+'/patMasterIndex/list',queryParams:{"name":name,"idNo":idNo,"hospNo":hospNo}});
 }
-
+//根据身份证号查询是否是该院病人
 function validIdNo(idNo){
     $.ajax({
         'type': 'POST',
@@ -294,27 +294,52 @@ function validIdNo(idNo){
         }
     });
 }
+//根据病人主索引查询该病人是否是在院病人
+function validIfInHosp(id){
+    $.ajax({
+        'type': 'POST',
+        'url': basePath + '/patMasterIndex/validIfInHosp',
+        'contentType': 'application/json',
+        'data': id = id,
+        'dataType': 'json',
+        'success': function (data) {
+            if (data.data == '1') {
+                $.messager.alert("提示消息", "该病人是在院病人，不能进行重复登记！");
+                return false
+            } else if(data.data == '2'){
+                return true;
+            }else{
+                $.messager.alert('提示', "删除失败", "error");
+            }
+        },
+        'error': function (data) {
+            $.messager.alert('提示', "删除失败", "error");
+        }
+    });
+}
 
 //保存
 function saveMaster() {
     if($("#masterForm").form('validate')) {
         //根据身份证号去patmasterindex查询是否有该人，如果有，在根据id去pat_in_hospital查询patient_id是否已住院，若未住院，则回填，若已住院则提示，否则新增
-
-        $.postForm(basePath + '/patMasterIndex/save', 'masterForm', function (data) {
-            if (data.data == 'success') {
-                $.messager.confirm("操作提示", "是否交预交金？", function (data) {
-                    $('#centerList').datagrid('load');
-                    $('#centerList').datagrid('clearChecked');
-                    if (data) {
-                        window.parent.document.getElementById("centerIframe").src = "/modules/finance/prepaymentList.html";
-                    }
-                });
-            } else {
+        if(validIfInHosp($("#id").val())){
+            $.postForm(basePath + '/patMasterIndex/save', 'masterForm', function (data) {
+                if (data.data == 'success') {
+                    $.messager.confirm("操作提示", "是否交预交金？", function (data) {
+                        $('#centerList').datagrid('load');
+                        $('#centerList').datagrid('clearChecked');
+                        if (data) {
+                            window.parent.document.getElementById("centerIframe").src = "/modules/finance/prepaymentList.html";
+                        }
+                    });
+                } else {
+                    $.messager.alert('提示', "保存失败", "error");
+                }
+            }, function (data) {
                 $.messager.alert('提示', "保存失败", "error");
-            }
-        }, function (data) {
-            $.messager.alert('提示', "保存失败", "error");
-        });
+            });
+        }
+
     }
 }
 //取消登记

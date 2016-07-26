@@ -92,4 +92,13 @@ public interface PatsInHospitalDao extends CrudDao<PatsInHospital> {
     public String comeDeptVoGet(Map map);
 
 
+    /**
+     * 根据参数查询在院病人列表
+     * @param patsInHospital
+     * @author CTQ
+     * @return
+     */
+    public List<BaseDto> findAllInHospList(PatsInHospital patsInHospital);
+
+
 }

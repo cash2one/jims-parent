@@ -112,12 +112,12 @@ $(function(){
                             {field: 'dose_units', title: '用量单位', width: '15%', align: 'center'},
                             {field: 'subj_code', title: '',hidden:true},
                             {field: 'performed_by', title: '',hidden:true},
-                            {field: 'price', title: '',hidden:true}
+                            {field: 'price', title: '单价',width: '15%', align: 'center'}
                         ]],keyHandler: {
                         query: function(q) {
                             var ed = $('#list_data').datagrid('getEditor', {index:rowNum,field:'drugName'});
                             comboGridCompleting(q,'drugName');
-                            $(ed.target).combogrid("grid").datagrid("loadData", comboGridComplete);
+                            $(ed.target).combogrid("grid").datagrid("loadData", westernDrugData);
                             $(ed.target).combogrid("setText",q);
                         }
                     },onClickRow: function (index, row) {
@@ -221,7 +221,7 @@ $(function(){
                             var quantity = $(qy.target).textbox("getValue");
                             var drugName = $(dn.target).textbox("getValue");
                             if(drugName!='' && drugName!=null){
-                                if(newValue>quantity){
+                                if(parseFloat(newValue)>parseFloat(quantity)){
                                     $.messager.alert("提示消息", "药房药品【"+drugName+"】库存不足（考虑待发药药品,实际余量"+quantity+"）,请确认","warning");
                                     $(a.target).textbox("setValue","");
                                     return false;
@@ -297,6 +297,9 @@ $(function(){
                     rowNum=idx;
                     $('#list_data').datagrid('beginEdit', idx);
                     $("#list_data").datagrid('selectRow',idx);
+                    var ed = $('#list_data').datagrid('getEditor', {index:rowNum,field:'drugName'});
+                    $(ed.target).combogrid("grid").datagrid("loadData", westernDrugData);
+
                 }else{
                     $.messager.alert("提示消息", "请选择处方后再进行添加操作!");
                     return;
@@ -409,6 +412,7 @@ $(function(){
             $("#storage").combobox('select', n.storageCode);
             stg=n.storageCode;
             comboGridCompleting('','');
+            $("#list_data").datagrid('loadData', { total: 0, rows: [] });
         }
     });
     if(drugStorage.length>0) {
