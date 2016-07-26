@@ -1,9 +1,12 @@
 package com.jims.orders;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jims.common.data.PageData;
+import com.jims.common.persistence.Page;
 import com.jims.common.utils.DateUtils;
 import com.jims.common.utils.LoginInfoUtils;
 import com.jims.common.vo.LoginInfo;
+import com.jims.lab.entity.LabTestMaster;
 import com.jims.orders.entity.OrdersCosts;
 import com.jims.common.data.StringData;
 import com.jims.common.web.impl.BaseDto;
@@ -13,6 +16,7 @@ import com.jims.orders.entity.Orders;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 
@@ -39,8 +43,10 @@ public class OrdersRest {
      */
     @Path("getOrders")
     @GET
-    public List<Orders> getOrders(@QueryParam("repeatIndicator")String repeatIndicator,@QueryParam("startDateTime")String startDateTime,@QueryParam("stopDateTime")String stopDateTime
-            ,@QueryParam("orderStatus")String orderStatus,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId){
+    public PageData getOrders(@QueryParam("repeatIndicator")String repeatIndicator,@QueryParam("startDateTime")String startDateTime,@QueryParam("stopDateTime")String stopDateTime
+            ,@QueryParam("orderStatus")String orderStatus,@QueryParam("patientId")String patientId,@QueryParam("visitId")String visitId,
+                                  @Context HttpServletRequest request, @Context HttpServletResponse response){
+
         Orders orders=new Orders();
         orders.setRepeatIndicator(repeatIndicator);
         orders.setOrderStatus(orderStatus);
@@ -48,7 +54,12 @@ public class OrdersRest {
         orders.setVisitId(visitId);
         orders.setStartDateTime(DateUtils.parseDate(startDateTime));
         orders.setStopDateTime(DateUtils.parseDate(stopDateTime));
-        return ordersServiceApi.getPatientOrders(orders);
+        Page<Orders> page = ordersServiceApi.getPatientOrders(new Page<Orders>(request, response), orders);
+        PageData pageData=new PageData();
+        pageData.setRows(page.getList());
+        pageData.setTotal(page.getCount());
+        return pageData;
+
     }
 
     /**
