@@ -171,13 +171,13 @@ $(function(){
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
-        footer: '#searchTb',
+        //footer: '#searchTb',
         nowrap: false,  //如果为true，则在同一行中显示数据
         striped: true,  //显示斑马线效果
         border: true,
         method: 'get',
         collapsible: false,//是否可折叠的
-        fit: true,//自动大小
+        //fit: true,//自动大小
         url: basePath + '/dict/type-description-list',
         remoteSort: false,  //定义从服务器对数据进行排序
         idField: 'fldId',
@@ -269,13 +269,13 @@ $(function(){
         iconCls: 'icon-edit',//图标
         width: 'auto',
         height: 'auto',
-        footer: '#ft',
+        //footer: '#ft',
         nowrap: false,  //如果为true，则在同一行中显示数据
         striped: true,  //显示斑马线效果
         border: true,
         method: 'get',
         collapsible: false,//是否可折叠的
-        fit: true,//自动大小
+        //fit: true,//自动大小
         remoteSort: false,  //定义从服务器对数据进行排序
         idField: 'fldId',
         singleSelect: false,//是否单选
