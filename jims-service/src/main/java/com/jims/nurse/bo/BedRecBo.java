@@ -82,7 +82,8 @@ public class BedRecBo extends CrudImplService<BedRecDao, BedRec> {
      * @return
      */
     public List<BaseDto> getAllBed(BedRec bedRec){
-      return dao.getAllBed(bedRec);
+        List<BaseDto> list=dao.getAllBed(bedRec);
+      return list;
     }
 
 
