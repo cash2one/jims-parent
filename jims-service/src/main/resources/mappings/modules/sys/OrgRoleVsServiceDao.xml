@@ -19,6 +19,13 @@
     <sql id="orgRoleVsServiceJoins">
     </sql>
 
+    <update id="updateMenuOperate">
+      UPDATE org_role_vs_service SET
+			  menu_operate = #{2}
+		WHERE role_id = #{0}
+		AND service_id = #{1}
+    </update>
+
     <select id="get" resultType="OrgRoleVsService">
         SELECT
         <include refid="orgRoleVsServiceColumns"/>

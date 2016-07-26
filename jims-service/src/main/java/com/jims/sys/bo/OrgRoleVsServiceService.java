@@ -37,7 +37,16 @@ public class OrgRoleVsServiceService extends CrudImplService<OrgRoleVsServiceDao
     @Autowired
     private OrgRoleVsServiceDao orgRoleVsServiceDao;
 
-
+    /**
+     * 根据角色ID和服务ID更改服务下的菜单状态
+     * @param roleId 角色ID
+     * @param serviceId 服务ID
+     * @return
+     * @author fengyuguang
+     */
+    public String updateMenuOperate(String roleId, String serviceId, String operate) {
+        return orgRoleVsServiceDao.updateMenuOperate(roleId, serviceId, operate) + "";
+    }
 
     public List<OrgRoleVsService> findAll() {
         return dao.findAll();

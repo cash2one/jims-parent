@@ -90,6 +90,18 @@ $(function () {
             handler: function () {
                 saveMenu();
             }
+        },{
+            text: '全部可预览',
+            iconCls: 'icon-edit',
+            handler: function(){
+                allMenuOperate('0');
+            }
+        },{
+            text: '全部可编辑',
+            iconCls: 'icon-edit',
+            handler: function(){
+                allMenuOperate('1');
+            }
         }],
         singleSelect: true,
         columns: [[
@@ -171,7 +183,6 @@ $(function () {
         var row = $('#roleId').datagrid('getSelected');
 
         var menuPromise = $.get(basePath + "/org-service/find-menu",{serviceId:node.serviceId,roleId:row.id,isTree:true}, function (data) {
-
             $("#tt").treegrid('loadData', data);
         });
     }
@@ -348,6 +359,19 @@ $(function () {
                 }
             }
         )
+    }
+
+    //全部可预览或可编辑
+    function allMenuOperate(value){
+        var node = $('#serviceId').datagrid('getSelected');
+        var row = $('#roleId').datagrid('getSelected');
+        var roots = $('#tt').treegrid('getRoots');
+        var url = basePath + '/roleVs/update-menu-operate?roleId=' + row.id + '&serviceId=' + node.serviceId + '&operate=' + value
+        $.get(url,function(resp){
+            $.messager.alert('提示消息','保存成功','success');
+            $("#tt").treegrid('loadData',[]);
+            menuDict();
+        });
     }
 
 })
