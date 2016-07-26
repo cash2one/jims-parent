@@ -70,6 +70,7 @@ public class BloodApplyBo {
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setOrgId(bloodApply.getOrgId());
                     bloodCapacity.setApplyNum(bloodApply.getApplyNum());
                     bloodCapacity.setClinicId(bloodApply.getClinicId());
                     bloodCapacityDao.insert(bloodCapacity);

@@ -42,7 +42,7 @@ function onloadMethod() {
             {
                 field: 'regPrnFlag',
                 title: '状态',
-                width: '23%',
+                width: '21%',
                 align: 'center',
                 formatter: function (value, rowData, rowIndex) {
                     if (rowData.regPrnFlag == 0) {
@@ -56,7 +56,7 @@ function onloadMethod() {
             {
                 field: 'id',
                 title: '操作',
-                width: '38%',
+                width: '20%',
                 align: 'center',
                 formatter: function (value, row, index) {
                     //= '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +

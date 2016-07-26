@@ -56,7 +56,7 @@ function onloadMethod() {
             {
                 field: 'id',
                 title: '操作',
-                width: '25%',
+                width: '24%',
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';

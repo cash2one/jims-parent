@@ -74,6 +74,7 @@ public class BloodApplyHosBo {
                     bloodCapacity.preInsert();
                     bloodCapacity.setMatchSubNum(i + "");
                     bloodCapacity.setApplyId(bloodApply.getId());
+                    bloodCapacity.setOrgId(bloodApply.getOrgId());
                     bloodCapacity.setApplyNum(bloodCapacity.getApplyNum());
                     bloodCapacity.setPatientId(bloodApply.getPatientId());
                     bloodCapacity.setVisitId(bloodApply.getVisitId());

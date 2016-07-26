@@ -92,9 +92,13 @@ function onloadMethods() {
                     index: 0, // index start with 0
                     row: {}
                 });
-                //rowNum=0;
-                //$("#list_doctor").datagrid("beginEdit",rowNum);
+                if(rowNum>=0){
+                    $("#list_doctor").datagrid('endEdit', rowNum);
+                }
                 $("#list_doctor").datagrid('endEdit', rowNum);
+                rowNum=0;
+                $("#list_doctor").datagrid("beginEdit",rowNum);
+
             }
         }, {
             text: '删除',
@@ -140,15 +144,15 @@ function onloadMethods() {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             //{field: 'deptCode', title: '科室', width: '18%', align: 'center', formatter: clinicDeptCodeFormatter},
-            {field: 'bloodInuse', title: '血源', width: '18%', align: 'center', formatter: bloodInusesFormatter},
+            {field: 'bloodInuse', title: '血源', width: '17%', align: 'center', formatter: bloodInusesFormatter},
             //{field: 'bloodDiagnose', title: '诊断', width: '18%', align: 'center'},
-            {field: 'preBloodType', title: '血型', width: '18%', align: 'center', formatter: bloodTypeFormatter},
+            {field: 'preBloodType', title: '血型', width: '17%', align: 'center', formatter: bloodTypeFormatter},
             //{field: 'bloodInuse', title: '方式', width: '18%', align: 'center',formatter:function(value,rowData,rowIndex){
             //    return "1231231231"
             //}},
             {field: 'applyDate', title: '申请时间', width: '30%', align: 'center', formatter: formatDateBoxFull},
             {
-                field: 'id', title: '操作', width: '40%', align: 'center', formatter: function (value, row, index) {
+                field: 'id', title: '操作', width: '33%', align: 'center', formatter: function (value, row, index) {
                 var state = "1";
                 var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getBloodApply(\'' + row.id + '\',\'' + state + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
                     //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getBloodApply(\'' + row.id + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
