@@ -5,7 +5,7 @@
     <title>住院-手术预约</title>
     <link rel="stylesheet" type="text/css" href="/static/easyui/css/bootstrap/easyui.css">
     <script type="text/javascript" src="/static/jquery/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="/static/js/head.js"></script> 
+    <script type="text/javascript" src="/static/js/head.js"></script>
     <script type="text/javascript" src="/modules/doctor/operation/js/operationOrder.js"></script>
     <script type="text/javascript" src="/static/data/data_operation_patientCondition.js"></script>
     <script type="text/javascript" src="/static/data/data_operation_room.js"></script>
@@ -17,174 +17,161 @@
     <script type="text/javascript" src="/static/data/data_transfusion_dict.js"></script>
     <script type="text/javascript" src="/static/data/data_page_doctor.js"></script>
 </head>
-<body  onload="onloadMethod()">
-<div class="reg-plan-wrap">
-    <form id="operation" method="post">
-    <div class="margin10-bot " style="border: 1px;">
-        科室：<input id="deptCode"  style="width: 145px;">
-        <input type="hidden" id="deptCodeId" name="deptStayed" value="">
-        <!--<select id="deptCode" class="easyui-combobox" />&ndash;&gt;-->
-                    <!--<option value="140102">精神一科房</option>-->
-               <!--</select>-->
+<body onload="onloadMethod()">
+<div class="fitem fitem_pop" style="width:99%;height: 260px;">
+    <div class="fd-left" style="width:49%;height: 260px;">
+        <table id="operationName"></table>
+    </div>
+    <div class="fd-right" style="width:49%;height: 260px;">
+        <table id="operationNameList">
+        </table>
+    </div>
+</div>
+<form id="operation" method="post">
+    <!--<div class="margin10-bot " style="border: 1px;">-->
+    <!--科室：<input id="deptCode"  style="width: 145px;">-->
+    <!--<input type="hidden" id="deptCodeId" name="deptStayed" value="">-->
+    <!--&lt;!&ndash;<select id="deptCode" class="easyui-combobox" />&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<option value="140102">精神一科房</option>&ndash;&gt;-->
+    <!--&lt;!&ndash;</select>&ndash;&gt;-->
+    <!--</div>-->
+
+    <!--<div style="border: 1px;width:200px;height:500px;position: absolute;" >-->
+    <!--<table id="patient" cellspacing="0" cellpadding="0"></table>-->
+    <!--</div>-->
+
+    <!--<div class="reg-plan-main" style="border: 1px;">-->
+    <!--&lt;!&ndash;<div class="margin10-bot">&ndash;&gt;-->
+    <!--&lt;!&ndash;床号：<input type="text" class="validatebox-text validatebox-text-xs" name="bedNo" id="bedNo" readonly/>&ndash;&gt;-->
+    <!--&lt;!&ndash;病人ID：<input type="text" class="validatebox-text validatebox-text-xs" name="patientId"  id="patientId" readonly/>&ndash;&gt;-->
+    <!--&lt;!&ndash;住院号：<input type="text" class="validatebox-text validatebox-text-xs" name="visitId" id="visitId" readonly/>&ndash;&gt;-->
+    <!--&lt;!&ndash;姓名：<input type="text" class="validatebox-text validatebox-text-xs"  id="name" readonly/>&ndash;&gt;-->
+    <!--&lt;!&ndash;性别：<input type="text" class="validatebox-text validatebox-text-xs" id="sex" readonly/>&ndash;&gt;-->
+    <!--&lt;!&ndash;年龄：<input type="text" class="validatebox-text validatebox-text-xs"  id="" readonly/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--<div>-->
+
+    <div class="">
+
+        <table cellpadding="0" cellspacing="0" width="100%" class="apply-tab">
+            <tr>
+                <td>术前诊断：</td>
+                <td colspan="5"><input id="diagnosis" class="easyui-validatebox validatebox-text validatebox-invalid"
+                                       readonly></td>
+            </tr>
+            <tr>
+                <td>手术日期时间：</td>
+                <td colspan="2"><input name="scheduledDateTime" class="easyui-datetimebox"></td>
+                <td>手术室：</td>
+                <td colspan="2">
+                    <input type="hidden" name="operatingRoom" id="operatingRoomCode" value="">
+                    <input id="operatingRoom" style="width: 145px;">
+                </td>
+
+                <td>手术间：</td>
+                <td>
+                    <input type="hidden" name="operatingRoomNo" id="operatingRoomNoCode" value="">
+                    <input id="operatingRoomNo" style="width: 145px;">
+                </td>
+            </tr>
+            <tr>
+                <td>台次：</td>
+                <td>
+                    <select name="sequence" class="easyui-combobox" style="width:40%;height: 30px">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </td>
+                <td>隔离标志：</td>
+                <td>
+                    <input type="hidden" name="isolationIndicator" id="isolationIndicatorId" value="">
+                    <input id="isolationIndicator" style="width:40%;">
+                </td>
+                <td>病情：</td>
+                <td>
+                    <input type="hidden" name="patientCondition" id="patientConditionId" value="">
+                    <input id="patientCondition" style="width:40%;">
+                </td>
+                <td>手术科室：</td>
+                <td>
+                    <input type="hidden" name="operatingDept" id="operatingDeptId" value="">
+                    <input id="operatingDept" style="width:60%;">
+                </td>
+            </tr>
+            <tr>
+                <td>手术医师：</td>
+                <td>
+                    <input id="surgeon" style="width: 70;">
+                    <input type="hidden" id="surgeonId" name="surgeon" value="">
+                    　　</select>
+                </td>
+                <td>助手：</td>
+                <td>
+                    <input id="firstAssistant" style="width: 80%;">
+                    <input type="hidden" id="firstAssistantId" name="firstAssistant" value="">
+                </td>
+                <td>
+                    <input id="secondAssistant" style="width: 80%;">
+                    <input type="hidden" id="secondAssistantId" name="secondAssistant" value="">
+                </td>
+                <td>
+                    <input id="thirdAssistant" style="width: 80%;">
+                    <input type="hidden" id="thirdAssistantId" name="thirdAssistant" value="">
+                </td>
+                <td>
+                    <input id="fourthAssistant" style="width: 80%;">
+                    <input type="hidden" id="fourthAssistantId" name="fourthAssistant" value="">
+                </td>
+            </tr>
+            <tr>
+                <td>输血医师：</td>
+                <td>
+                    <input type="hidden" name="bloodTranDoctor" id="bloodTranDoctorId" value="">
+                    <input id="bloodTranDoctor" style="width: 80%;">
+                </td>
+                <td>输/供血方式：</td>
+                <td colspan="5">
+                    <input type="hidden" name="provideWay" id="provideWayId" value="">
+                    <input id="provideWay" style="width: 40%;">
+                </td>
+
+            </tr>
+            <Tr>
+                <td>麻醉医师：</td>
+                <td>
+                    <input type="hidden" name="anesthesiaDoctor" id="anesthesiaDoctorId" value="">
+                    <input id="anesthesiaDoctor" style="width: 80%;">
+                </td>
+                <td>麻醉方法：</td>
+                <td colspan="3">
+                    <input type="hidden" name="anesthesiaMethod" id="anesthesiaMethodId" value="">
+                    <input id="anesthesiaMethod" style="width: 40%;">
+                </td>
+                <td>申请时间：</td>
+                <td>
+                    <input name="reqDateTime" class="easyui-datetimebox">
+                </td>
+            </tr>
+            <Tr>
+                <td>备注：</td>
+                <td colspan="5">
+                    <input name="remarks" class="easyui-validatebox validatebox-text validatebox-textarea">
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div style="border: 1px;width:200px;height:500px;position: absolute;" >
-        <table id="patient" cellspacing="0" cellpadding="0"></table>
-    </div>
-
-    <div class="reg-plan-main" style="border: 1px;">
-            <!--<div class="margin10-bot">-->
-                <!--床号：<input type="text" class="validatebox-text validatebox-text-xs" name="bedNo" id="bedNo" readonly/>-->
-                <!--病人ID：<input type="text" class="validatebox-text validatebox-text-xs" name="patientId"  id="patientId" readonly/>-->
-                <!--住院号：<input type="text" class="validatebox-text validatebox-text-xs" name="visitId" id="visitId" readonly/>-->
-                <!--姓名：<input type="text" class="validatebox-text validatebox-text-xs"  id="name" readonly/>-->
-                <!--性别：<input type="text" class="validatebox-text validatebox-text-xs" id="sex" readonly/>-->
-                <!--年龄：<input type="text" class="validatebox-text validatebox-text-xs"  id="" readonly/>-->
-            <!--</div>-->
-            <div>
-
-                <div class="margin10-bot" style="height:530px; overflow:auto; background:#fafafa; padding:10px; border:1px solid #eee;">
-                   <!--<table id="operationName" onload="addRow();"></table>-->
-                    <div class="fitem fitem_pop" style="width:100%;height: 260px;">
-                        <div class="fd-left" style="width:49%;height: 260px;">
-                            <table id="operationName"></table>
-                        </div>
-                        <div class="fd-right" style="width:49%;height: 260px;">
-                            <table id="operationNameList">
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="">
-
-                <table cellpadding="0" cellspacing="0" width="100%" class="apply-tab">
-                    <tr>
-                        <td>术前诊断：</td>
-                        <td colspan="5"><input  id="diagnosis" class="easyui-validatebox validatebox-text validatebox-invalid" readonly ></td>
-                        <td>病情：</td>
-                        <td>
-                        <input type="hidden" name="patientCondition" id="patientConditionId" value="">
-                        <input id="patientCondition"style="width:40%;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>手术日期时间：</td>
-                        <td colspan="2"><input  name="scheduledDateTime" class="easyui-datetimebox" ></td>
-                        <td>手术室：</td>
-                        <td colspan="2">
-                            <input type="hidden" name="operatingRoom" id="operatingRoomCode" value="">
-                            <input  id="operatingRoom" style="width: 145px;">
-                        </td>
-
-                        <td>手术间：</td>
-                        <td>
-                            <input type="hidden" name="operatingRoomNo" id="operatingRoomNoCode" value="">
-                            <input  id="operatingRoomNo" style="width: 145px;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>台次：</td>
-                        <td>
-                            <select name="sequence" class="easyui-combobox" style="width:40%;height: 30px">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
-                        </td>
-                        <td>隔离标志：</td>
-                        <td>
-                        <input type="hidden" name="isolationIndicator" id="isolationIndicatorId" value="">
-                        <input id="isolationIndicator"style="width:40%;">
-                        </td>
-                        <td>手术等级：</td>
-                        <td>
-                            <input type="hidden" name="operationScale" id="operationScaleId" value="">
-                            <input id="operationScale"style="width:80%;">
-                        </td>
-                        <td>手术科室：</td>
-                        <td>
-                            <input type="hidden" name="operatingDept" id="operatingDeptId" value="">
-                            <input id="operatingDept"style="width:60%;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>手术医师：</td>
-                        <td>
-                            <input id="surgeon" style="width: 40%;">
-                            <input type="hidden" id="surgeonId" name="surgeon" value="">
-                        　　</select>
-                        </td>
-                        <td>助手：</td>
-                        <td>
-                            <input id="firstAssistant" style="width: 20%;">
-                            <input type="hidden" id="firstAssistantId" name="firstAssistant" value="">
-                        </td>
-                        <td>
-                            <input id="secondAssistant" style="width: 20%;">
-                            <input type="hidden" id="secondAssistantId" name="secondAssistant" value="">
-                        </td>
-                        <td>
-                            <input id="thirdAssistant" style="width: 20%;">
-                            <input type="hidden" id="thirdAssistantId" name="thirdAssistant" value="">
-                        </td>
-                        <td colspan="2">
-                            <input id="fourthAssistant" style="width: 20%;">
-                            <input type="hidden" id="fourthAssistantId" name="fourthAssistant" value="">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>输血医师：</td>
-                        <td>
-                            <input type="hidden" name="bloodTranDoctor" id="bloodTranDoctorId" value="">
-                            <input id="bloodTranDoctor" style="width: 20%;">
-                        </td>
-                        <td>输/供血方式：</td>
-                        <td colspan="5">
-                            <input type="hidden" name="provideWay" id="provideWayId" value="">
-                            <input id="provideWay" style="width: 40%;">
-                        </td>
-
-                    </tr>
-                    <Tr>
-                        <td>麻醉医师：</td>
-                        <td >
-                            <input type="hidden" name="anesthesiaDoctor" id="anesthesiaDoctorId" value="">
-                            <input id="anesthesiaDoctor" style="width: 20%;">
-                        </td>
-                        <td>麻醉方法：</td>
-                        <td  colspan="3">
-                            <input type="hidden" name="anesthesiaMethod" id="anesthesiaMethodId" value="">
-                            <input id="anesthesiaMethod" style="width: 40%;">
-                        </td>
-                        <td>申请时间：</td>
-                        <td>
-                            <input name="reqDateTime" class="easyui-datetimebox">
-                        </td>
-                    </tr>
-                    <Tr>
-                        <td>备注：</td>
-                        <td colspan="5">
-                            <input  name="remarks" class="easyui-validatebox validatebox-text validatebox-textarea" >
-                        </td>
-                        <td>申请医师：</td>
-                        <td>
-                            <input  name="doctorUser" class="easyui-textbox " >
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-        <input name="id" type="hidden">
-        <input type="hidden" id="visitId" name="visitId" value="">
-        <input type="hidden" id="patientId" name="patientId" value="">
-        <input type="hidden" name="inOrOut" value="1">
+    <input name="id" type="hidden">
+    <input type="hidden" id="visitId" name="visitId" value="">
+    <input type="hidden" id="patientId" name="patientId" value="">
+    <input type="hidden" name="inOrOut" value="1">
     </div>
 </form>
 
-    <div id="dlg-buttons" class="btn-save" style="right: 10px;">
-        <a  class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();"  style="width: 70px;">保存</a>
+<!--<div id="dlg-buttons" class="btn-save" style="right: 10px;">-->
+<!--<a  class="easyui-linkbutton"  data-options="iconCls:'icon-save'"  onclick="save();"  style="width: 70px;">保存</a>-->
 
-    </div>
+<!--</div>-->
 
 
 </div>

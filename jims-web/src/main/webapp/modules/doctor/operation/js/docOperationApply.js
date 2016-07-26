@@ -3,7 +3,6 @@ var patientId = parent.clinicMaster.patientId;
 var rowNum = -1; 
 var scheduleId = null;
 function onloadMethod() {
-    var ids = "";
     $("#clinicId").val(clinicId);
     $("#patientId").val(patientId);
 
@@ -377,7 +376,7 @@ function onloadMethod() {
             {
                 field: 'operationScale',
                 title: '等级',
-                width: '50%',
+                width: '49%',
                 align: 'center',
                 editor: {
                     type: 'combobox',
@@ -409,6 +408,10 @@ function onloadMethod() {
                     index: 0, // index start with 0
                     row: {}
                 });
+                if(rowNum>=0){
+                    $("#operationName").datagrid('endEdit', rowNum);
+                }
+                $("#operationName").datagrid('endEdit', rowNum);
                 rowNum=0;
                 $("#operationName").datagrid("beginEdit",rowNum);
             }
