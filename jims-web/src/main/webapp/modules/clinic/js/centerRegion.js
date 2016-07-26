@@ -15,13 +15,13 @@ $(function(){
                     deptHtml+='<li style="text-align: center" onclick="getDoctorDept(\''+data[i].id+'\')">'+data[i].deptName+'</li>';
                 }
                 deptHtml+='</ul>';
-                $("#doctorDept").html(deptHtml);
+                $("#doctorDeptDiv").html(deptHtml);
                 $('#doctorDept').dialog({
                     title: '出诊科室选择',
                     iconCls: "icon-edit",
                     closable: false,
-                    width: "13%",
-                    height: "50%",
+                    width: "40%",
+                    height: "30%",
                     modal: true
                 });
             }else{
