@@ -402,7 +402,7 @@ $(function () {
             formatter:function(value,row,index){
                 var label=value;
                 $.each(limitClassList,function(index,item){
-                    if(item.value=value){
+                    if(item.value==value){
                         label=item.label;
                     }
                 })
