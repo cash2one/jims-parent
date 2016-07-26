@@ -37,11 +37,11 @@
 
 <!--添加组织机构人员模态  start-->
 <div id="addStaff" style="height: 500px;width:700px;" data-options="footer:'#addStaffFt'">
-    <div style="padding-top:10px;" class="fitem">
+    <div style="padding-top:10px;" class="fitem" id="hiddenDiv">
         <label  style="width: 150px;" for="selectCardNo"> 请输入身份证号：      </label>
         <input class="easyui-validatebox" id="selectCardNo" type="text" style="width: 320px"/>
         <a  id="select" class="easyui-linkbutton" icon="icon-search">检索</a>
-        <a  id="saveStaff" class="easyui-linkbutton" icon="icon-ok">添加</a>
+        <!--<a  id="saveStaff" class="easyui-linkbutton" icon="icon-ok">添加</a>-->
     </div>
 
     <form id="staffForm" data-options="fit:true">
@@ -89,10 +89,15 @@
             <input class="easyui-validatebox" id="nickName" style="width:320px" type="text" maxlength="12"/>
             <span id="res-nick"></span>
         </div>
-        <div class="fitem">
+        <div class="fitem" id="hiddenDiv0">
             <label style="width: 150px;" for="password">密码：</label>
             <input class="easyui-validatebox" id="password" style="width:320px" type="password"/>
             <span id="res-password"></span>
+        </div>
+        <div class="fitem" id="hiddenDiv1">
+            <label style="width: 150px;" for="confirm-password">确认密码：</label>
+            <input class="easyui-validatebox" id="confirm-password" style="width:320px" type="password" />
+            <span id="res-confirm-password"></span>
         </div>
         <div  class="fitem">
             <label style="width: 150px;" for="sex">性别：</label>
