@@ -1,5 +1,10 @@
 var patientId = parent.patVisit.patientId;
 $(function(){
+    $("#sexId").combobox({//民族
+        data: setData,
+        valueField: 'value',
+        textField: 'label'
+    })
     $("#nation").combobox({//民族
         data: nationDict,
         valueField: 'value',
@@ -25,10 +30,21 @@ $(function(){
         valueField: 'value',
         textField: 'label'
     })
-    $("#patientClass").combobox({//入院方式
+    /*$("#patientClass").combobox({//入院方式
         data: patientClass,
         valueField: 'value',
         textField: 'label'
+    })*/
+    $("#fromOtherPlaceIndicator").combobox({//入院途径(来源)
+        data:resourceDict,
+        valueField: 'value',
+        textField: 'label'
+    })
+    $("#discharge").combobox({//离院方式
+        data:discharge,
+        valueField: 'value',
+        textField: 'label'
+
     })
     $("#dept").combobox({//科室
         data: clinicDeptCode,

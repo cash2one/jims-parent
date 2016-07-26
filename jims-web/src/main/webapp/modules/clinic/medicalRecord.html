@@ -14,6 +14,9 @@
     <script type="text/javascript" src="/static/data/data_nationality.js"></script>
     <script type="text/javascript" src="/static/data/data_relationship.js"></script>
     <script type="text/javascript" src="/static/data/data_clinic_dept.js"></script>
+    <script type="text/javascript" src="/static/data/data_dict_sex.js"></script>
+    <script type="text/javascript" src="/static/data/data_resource.js"></script>
+    <script type="text/javascript" src="/static/data/data_discharge_disposition.js"></script>
     <style>
 
     </style>
@@ -150,7 +153,7 @@
                 <table cellspacing="0" cellpadding="0" border="0" width="100%" class="baind-tab">
                     <tr>
                         <td class="width_4">入院途径：</td>
-                        <td><span><input  name="patientClass" id="patientClass" class="easyui-combobox inpborder"></span></td>
+                        <td><span><input  name="fromOtherPlaceIndicator" id="fromOtherPlaceIndicator" class="easyui-combobox inpborder"></span></td>
                         <td class="width_4">入院时间：</td>
                         <td><span ><input  name="admissionDateTime" class="easyui-datebox inpborder"></span></td>
                         <td class="width_4">入院科别：</td>
@@ -410,7 +413,7 @@
                     </tr>
                     <tr>
                         <td class="width_5">离院方式：</td>
-                        <td><span ><input   class="easyui-validatebox inpborder" name="dischargeDisposition"></span></td>
+                        <td><span ><input   class="easyui-combobox" name="dischargeDisposition" id="discharge"></span></td>
                         <td class="width_5">是否有出院31天内再住院计划：</td>
                         <td><span ><input   class="easyui-validatebox inpborder" name="plan31Admission"></span></td>
                         <td class="width_5">目的：</td>
