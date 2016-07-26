@@ -1,5 +1,6 @@
+<!DOCTYPE html>
 <html>
-<head>
+<head lang="en">
     <meta charset="UTF-8">
     <title>药品类别字典表</title>
     <link rel="stylesheet" href="/static/easyui/css/color.css">
@@ -34,20 +35,20 @@
      closed="true" buttons="#dlg-buttons" style="width: 500px;height: 500px">
     <form id="fm" method="post" novalidate >
         <div class="fitem" >
-            <label style=" width: 80px;">id:</label>
-            <input name="drugId" id="drugId" class="easyui-textbox" disabled>
+            <label style=" width: 80px;">编号:</label>
+            <input name="drugId" id="drugId" class="easyui-textbox" style="width: 196px" disabled>
         </div>
         <div class="fitem" >
             <label style=" width: 80px;">所属父类:</label>
-            <input id="drugParentId">&nbsp;<span id="drugParentIdChange" style="color:red"></span>
+            <input id="drugParentId" style="width: 196px;">&nbsp;<span id="drugParentIdChange" style="color:red"></span>
         </div>
         <div class="fitem" >
             <label style=" width: 80px;">类别代码:</label>
-            <input id="drugClassCode" name="drugClassCode" class="easyui-textbox">&nbsp;<span id="drugClassCodeChange" style="color: red"></span>
+            <input id="drugClassCode" name="drugClassCode" class="easyui-textbox" style="width: 196px"> &nbsp;<span id="drugClassCodeChange" style="color: red"></span>
         </div>
         <div class="fitem" >
             <label style=" width: 80px;">类别名称:</label>
-            <input id="drugClassName" name="drugClassName" class="easyui-textbox">&nbsp;<span id="drugClassNameChange" style="color:red"></span>
+            <input id="drugClassName" name="drugClassName" class="easyui-textbox" style="width: 196px">&nbsp;<span id="drugClassNameChange" style="color:red"></span>
         </div>
     </form>
 </div>
