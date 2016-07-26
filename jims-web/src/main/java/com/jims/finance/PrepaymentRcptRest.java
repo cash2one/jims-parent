@@ -3,12 +3,16 @@ package com.jims.finance;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.jims.common.data.StringData;
+import com.jims.common.utils.LoginInfoUtils;
+import com.jims.common.vo.LoginInfo;
 import com.jims.common.web.impl.BaseDto;
 import com.jims.finance.api.PrepaymentRcptServiceApi;
 import com.jims.finance.entity.PrepaymentRcpt;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import java.util.Date;
 import java.util.List;
 
@@ -44,15 +48,15 @@ public class PrepaymentRcptRest {
      */
     @Path("save")
     @POST
-    public StringData save(PrepaymentRcpt prepaymentRcpt){
-
+    public StringData save(@Context HttpServletRequest request, PrepaymentRcpt prepaymentRcpt){
+        LoginInfo loginInfo = LoginInfoUtils.getPersionInfo(request);
         StringData stringData=new StringData();
         try {
             prepaymentRcpt.setTransactDate(new Date());
             prepaymentRcpt.setTransactType("交款");
             prepaymentRcpt.setUsedFlag("0");
             prepaymentRcpt.setRcptNo("");//预交金收据号
-            prepaymentRcpt.setOperatorNo("1");//收款员号
+            prepaymentRcpt.setOperatorNo(loginInfo.getPersionId());//收款员号
             String data = prepaymentRcptServiceApi.save(prepaymentRcpt);
             stringData.setCode(data);
             stringData.setData(data.compareTo("0") > 0 ? "success":"error");
