@@ -437,4 +437,60 @@
         #{test,mode=IN,jdbcType=VARCHAR},
         #{oResult,mode=OUT,jdbcType=VARCHAR})}
     </select>
+
+	<select id="findAllInHospList" resultType="com.jims.common.web.impl.BaseDto">
+		select
+		a.id AS "id",
+		a.hosid AS "hosid",
+		a.visit_id AS "visitId",
+		a.ward_code AS "wardCode",
+		a.dept_code AS "deptCode",
+		a.bed_no AS "bedNo",
+		a.admission_date_time AS "admissionDateTime",
+		a.adm_ward_date_time AS "admWardDateTime",
+		a.diagnosis AS "diagnosis",
+		a.patient_condition AS "patientCondition",
+		a.nursing_class AS "nursingClass",
+		a.doctor_in_charge AS "doctorInCharge",
+		a.operating_date AS "operatingDate",
+		a.billing_date_time AS "billingDateTime",
+		a.prepayments AS "prepayments",
+		a.total_costs AS "totalCosts",
+		a.total_charges AS "totalCharges",
+		a.guarantor AS "guarantor",
+		a.guarantor_org AS "guarantorOrg",
+		a.guarantor_phone_num AS "guarantorPhoneNum",
+		a.bill_checked_date_time AS "billCheckedDateTime",
+		a.settled_indicator AS "settledIndicator",
+		a.lend_bed_no AS "lendBedNo",
+		a.bed_dept_code AS "bedDeptCode",
+		a.bed_ward_code AS "bedWardCode",
+		a.dept_code_lend AS "deptCodeLend",
+		a.lend_indicator AS "lendIndicator",
+		a.is_newborn AS "isNewborn",
+		a.org_id AS "orgId",
+		a.clinic_id AS "clinicId",
+		a.patient_id AS "patientId",
+		pm.name,
+		pm.sex,
+		pm.age,
+		pm.id_no as "idNo"
+		from pats_in_hospital a
+		left join pat_master_index pm
+		on a.patient_id=pm.id
+		and a.org_id=pm.org_id
+		and pm.del_flag='0'
+		<where>
+			a.del_flag='0'
+			<if test="orgId!=null and orgId!='">
+			and a.org_id=#{orgId}
+			</if>
+			<if test="name!=null and name!='">
+				and pm.name=#{name}
+			</if>
+			<if test="idNo!=null and idNo!='">
+				and pm.id_no=#{idNo}
+			</if>
+		</where>
+	</select>
 </mapper>
