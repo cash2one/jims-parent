@@ -84,7 +84,6 @@ $(function () {
             width: '100%'
         }]],
         onDblClickRow: function (rowIndex, rowData) {
-            console.log(rowData);
         },
         onSelect:function(rowIndex, rowData){
             loadPriceList(rowData.drugCode)
@@ -139,10 +138,10 @@ $(function () {
                 type: 'textbox',options: {
                 onChange: function (newValue, oldValue) {
                     var row=$('#datagridRight').datagrid('getSelected');
-                    console.log(row);
+
                     if (editIndex != undefined){
                         var spec =  $("#datagridRight").datagrid("getEditor",{index:editIndex,field:"drugSpec"});
-                        console.log(spec)
+
                         if (selectedSpec == undefined){
                             selectedSpec =  $(spec.target).textbox("getValue");
 
@@ -464,7 +463,7 @@ $(function () {
                 $(this).datagrid('beginEdit', index);
                 editIndex = index;
                 var spec =  $("#datagridRight").datagrid("getEditor",{index:editIndex,field:"drugSpec"});
-                $(spec.target).textbox("loadData",drugNameSpecList);
+                $(spec.target).textbox("setValue",drugNameSpecList[0].drugSpec);
             }
         }
     });
@@ -588,14 +587,14 @@ $(function () {
 
     $("#stopBtn").on('click', function () {
         var row = $("#datagridRight").datagrid('getSelected');
-        console.log(row);
+
         var drugPriceList=row;
         $.messager.confirm('Confirm','是否确定停价该药品？',function(r){
             if (r){
                 $.get(basePath + "/drug-price/find-by-price-list-id",
                     {orgId:row.orgId,drugCode:row.drugCode,drugSpec:row.minSpec,firmId:row.firmId,packageSpec:row.drugSpec}
                     ,function(data){
-                        console.log(data);
+
                     if(data[0].quantity>0){
                         $.messager.alert("系统提示", "全院库存量不为0，不允许停价", "error");
                     }else{
@@ -642,8 +641,6 @@ $(function () {
         drugPriceList.deleted = deleteDate;
         drugPriceList.updated = updateDate;
 
-        console.log(drugPriceList);
-       // console.log(JSON.stringify(drugPriceList));
         if (drugPriceList) {
             $.postJSON(basePath + "/drug-price/save", JSON.stringify(drugPriceList), function (data) {
                 $.messager.alert("系统提示", "保存成功", "info");
@@ -669,11 +666,11 @@ $(function () {
             return;
         }
         stopEdit();
-        //var newSpec = row.drugSpec.substring(0,row.drugSpec.length - row.amountPerPackage.length - 1);
+
 
         var tradePrice = parseFloat(row.tradePrice  /  row.amountPerPackage).toFixed(4);
         var retailPrice =parseFloat(row.retailPrice  /  row.amountPerPackage).toFixed(4);
-        $("#datagridRight").datagrid("appendRow",{drugCode:row.drugCode,amountPerPackage:'1',drugSpec:row.minSpec,units:row.units,
+        $("#datagridRight").datagrid("appendRow",{drugCode:row.drugCode,amountPerPackage:'1',drugSpec:row.minSpec,units:row.minUnits,
             firmId:row.firmId,startDate:new Date(),tradePrice:tradePrice,retailPrice:retailPrice,priceClass:row.priceClass,
             passNo:row.passNo,gmp:row.gmp,orgId:parent.config.org_Id,
             minSpec:row.minSpec,minUnits:row.minUnits,classOnInpRcpt:row.classOnInpRcpt ,
@@ -687,7 +684,8 @@ $(function () {
         $("#datagridRight").datagrid('beginEdit', editIndex);
 
         var spec =  $("#datagridRight").datagrid("getEditor",{index:editIndex,field:"drugSpec"});
-        $(spec.target).combobox("loadData",drugNameSpecList);
+
+        $(spec.target).textbox("setValue",drugNameSpecList[0].drugSpec);
 
     })
 
