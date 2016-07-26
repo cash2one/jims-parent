@@ -26,7 +26,7 @@ create table ORDERS
    PERFORM_SCHEDULE     VARCHAR2(16),
    PERFORM_RESULT       VARCHAR2(8),
    ORDERING_DEPT        VARCHAR2(64),
-   DOCTOR               VARCHAR2(20),
+   DOCTOR               VARCHAR2(64),
    STOP_DOCTOR          VARCHAR2(20),
    NURSE                VARCHAR2(20),
    STOP_NURSE           VARCHAR2(20),

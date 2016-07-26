@@ -72,8 +72,9 @@ $(function () {
                         row.drugCode = data.drug_code;
                         row.drugName = data.drug_name;
                         row.drugSpec = data.min_spec;
-                        row.packageSpec=data.drug_spec
+                        row.packageSpec=data.drug_spec;
                         row.packageUnits =data.units;
+                        row.units=data.min_units;
                         row.label = data.label;
                         row.firmId = data.firm_id;
                         row.supplierId = data.supplier_id;
@@ -200,8 +201,8 @@ $(function () {
             var storageData = $("#storage").combobox("getValue");
             $.get(basePath + "/drugProvideApplication/findDocument", {
                 orgId: orgId,
-                applicantStorage: storageData,
-                applicantStorageSub: row.subStorageCode,
+                provideStorage: storageData,
+                subStorage: row.subStorageCode,
                 flag: 0
             }, function (data) {
                 $("#documentNo").combobox('loadData', data);
@@ -302,7 +303,12 @@ $(function () {
             $.messager.alert("系统提示", "请先选择来源", "info");
             return;
         }
+
         if (!subStorageCode) {
+            $.messager.alert("系统提示", "请选择子库，在维护数据", "info");
+            return;
+        }
+        if (!subStorage1) {
             $.messager.alert("系统提示", "请选择请领子库房，在维护数据", "info");
             return;
         }
@@ -331,11 +337,13 @@ $(function () {
         var storage = $("#storage").combobox('getValue');
         var substorage = $("#subStorage").combobox('getValue');
         var documentNo = $("#documentNo").combobox('getValue');
+        var subStorage1 = $('#subStorage1').combobox('getValue');
         //选取科室时重新加载数据
         $.get(basePath + "/drugProvideApplication/findList", {
             provideStorage: storage,
             orgId: orgId,
             subStorage: substorage,
+            applicantStorageSub:subStorage1,
             documentNo: documentNo
         }, function (data) {
             $("#drug-provide-application").datagrid('loadData', data);

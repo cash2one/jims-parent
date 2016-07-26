@@ -111,7 +111,6 @@ $(function () {
                     }
                 }
                 $("#tt").treegrid('loadData', treeDepts);
-                console.log(treeDepts);
             })
         }
         loadDept();
@@ -129,10 +128,15 @@ $(function () {
          * 添加科室信息
          */
         $("#addBtn").on('click', function () {
-
-
+            $('#parentId').combobox('disable');
+            var node = $("#tt").treegrid("getSelected");
+            if (!node) {
+                $("#parentId").combobox('setValue', "");
+            }else{
+                $("#parentId").combobox('setValue', node.parentId);
+            }
             $("#id").val("");
-            $("#parentId").combobox('setValue', "");
+
             $("#deptCode").textbox('setValue', "");
             $("#deptName").textbox('setValue', "");
 
@@ -148,7 +152,6 @@ $(function () {
                     alert("加载json 文件出错！");
                 },
                 success: function (data1) {
-                    console.log(data1);
                     var data2 = eval(data1);
                     deptPropertitys = data2;
                     for (var i = 0; i < data2.length; i++) {
@@ -170,11 +173,11 @@ $(function () {
                 }
             });
 
-            $("#parentId").combobox({
-                'url': '/service/dept-dict/selectParentByOrgId?orgId=' + orgId,
-                valueField: 'id',
-                textField: 'deptName'
-            });
+            //$("#parentId").combobox({
+            //    'url': '/service/dept-dict/selectParentByOrgId?orgId=' + orgId,
+            //    valueField: 'id',
+            //    textField: 'deptName'
+            //});
 
             $("#deptName").textbox({
                 onChange: function () {
@@ -215,7 +218,6 @@ $(function () {
             deptDictVo.parentId = $("#parentId").combobox('getValue');
             for (var i = 0; i < deptPropertitys.length; i++) {
                 var propertyIds = "propertyName" + i;
-                console.log(propertyIds);
                 var deptIds = $("#" + propertyIds).combobox('getValue');
                 deptProperty.push(deptIds);
 
@@ -236,6 +238,7 @@ $(function () {
                             $("#deptPropertity").html("");
                             $("#dlg").dialog('close');
                             $("#tt").datagrid("reload");
+                            $("#parentId").combobox("reload");
                         }
                     },
                     'error': function (data) {
@@ -245,8 +248,70 @@ $(function () {
             } else {
                 $.messager.alert("系统提示", "填写信息不完整，请重新填写！");
             }
+
         });
 
+        //添加下级科室
+        $("#addSubBtn").on('click',function(){
+            $('#parentId').combobox('disable');
+            var node = $("#tt").treegrid("getSelected");
+            if (!node) {
+                $.messager.alert("系统提示", "请选择上级科室");
+                return;
+            }
+            $("#id").val("");
+            $("#parentId").combobox('setValue', node.id);
+            $("#deptCode").textbox('setValue', "");
+            $("#deptName").textbox('setValue', "");
+
+            $("#deptPropertity").html("");
+            $("#dlg").dialog("open").dialog("setTitle", "添加科室");
+            $("#inputCode").attr('readonly', true);
+
+            $.ajax({
+                url: "/service/dept-property/selectProperty?orgId=" + orgId,
+                type: 'get',
+                dataType: 'json',
+                error: function (data) {
+                    alert("加载json 文件出错！");
+                },
+                success: function (data1) {
+                    var data2 = eval(data1);
+                    deptPropertitys = data2;
+                    for (var i = 0; i < data2.length; i++) {
+                        deptPropertity = data2[i].propertyType;
+                        propertyId = "propertyName" + i;
+                        var propertyFitem = "propertyFitem" + i;
+                        $("#deptPropertity").append("<div class='fitem' id='" + propertyFitem + "'>")
+                        $("#" + propertyFitem).append("<label>" + deptPropertity + ": </label>");
+                        $("#" + propertyFitem).append("<select style='width: 173px;' name='propertyName' id='" + propertyId + "'/><br/>");
+
+                        $("#" + propertyId).combobox({
+                            'url': '/service/dept-property/selectName/' + deptPropertity + '/' + orgId,
+                            valueField: 'propertyValue',
+                            textField: 'propertyName'
+                        });
+
+                        $("#deptPropertity").append("</div>")
+                    }
+                }
+            });
+
+            //$("#parentId").combobox({
+            //    'url': '/service/dept-dict/selectParentByOrgId?orgId=' + orgId,
+            //    valueField: 'id',
+            //    textField: 'deptName'
+            //});
+
+            $("#deptName").textbox({
+                onChange: function () {
+                    var dept = $("#deptName").val();
+                    var inputCode = makePy(dept)[0];
+                    $("#inputCode").textbox('setValue', inputCode);
+                }
+            });
+
+        })
 
         /**
          * 修改科室信息
@@ -254,6 +319,7 @@ $(function () {
          */
 
         $("#editBtn").on('click', function () {
+            $('#parentId').combobox('enable');
             $("#deptPropertity").html("");
             $("#deptName").textbox({
                 onChange: function () {

@@ -1,5 +1,5 @@
 $(function(){
-config.orgId
+
     var currentSelectIndex   // datagrid 当前选择的行索引
         ,currentOrgId = config.org_Id  // 当前登录人所属单位ID
         ,currentStorage = config.currentStorage  // 当前登录人所属管理单位
@@ -26,6 +26,11 @@ config.orgId
                 }
             });
         }
+    });
+
+    var specUnits = [];//规格单位字典
+    $.get("/service/dict/findListByType?type=spec_unit", function (data) {
+        specUnits = data;
     });
 
     //合并合计单元格
@@ -371,7 +376,15 @@ config.orgId
             title: "单位",
             field: "units",
             width: 70,
-            align: 'center'
+            align: 'center',
+            formatter: function(value){
+                if(value != undefined && specUnits && specUnits.length > 0){
+                    for(var i=0;i<specUnits.length;i++){
+                        if(specUnits[i].value == value) return specUnits[i].label;
+                    }
+                }
+                return ''
+            }
         }, {
             title: "数量",
             field: "quantity",
@@ -523,7 +536,7 @@ config.orgId
                 documentNo: $('#documentNo').textbox('getValue'),
                 drugCode: select.drugCode,
                 drugSpec: select.drugSpec,
-                units: select.label,
+                units: select.units,
                 batchNo: select.batchNo,
                 //expireDate: new Date(),
                 firmId: select.firmId,
@@ -532,7 +545,7 @@ config.orgId
                 retailPrice: select.retailPrice,
                 packageSpec: select.packageSpec,
                 quantity: select.flag == 0 ? select.quantity : select.noProvideQuantity,
-                packageUnits: select.label,
+                packageUnits: select.packageUnits,
                 tradePrice: select.tradePrice,
                 inventory: '',
                 orgId: currentOrgId,
@@ -541,7 +554,7 @@ config.orgId
                 stock: select.stock,
                 drugStockId: select.drugStockId
             }
-            addRow( row)
+            addRow(row)
         }
         $("#requestWindow").window('close');
     })
@@ -592,7 +605,7 @@ config.orgId
         var details = []
         if(!currentSubStorageDeptId) return
         for(var i=0;i<rows.length - 1 ;i++){
-            if(!rows[i].quantity){
+            if(rows[i].quantity == 0){
                 continue;
             }
             if(+rows[i].quantity > +rows[i].stock){

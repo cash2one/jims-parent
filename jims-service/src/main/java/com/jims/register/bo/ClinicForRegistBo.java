@@ -129,6 +129,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
         patMasterIndex.setAge(DateUtils.getAge(clinicMaster.getBirthDate())+"");
         patMasterIndex.setIdentity(clinicMaster.getIdentity());//身份
         patMasterIndex.setCreateDate(format.parse(DateUtils.getDate()));//记录时间
+        patMasterIndex.setIdNo(clinicMaster.getIdNo());
         patMasterIndex.setVipIndicator(0);//重要任务标志
         patMasterIndex.setOperator("操作人");//操作人 取当前登录的医生
         if (patMasterIndex.getIsNewRecord()){
@@ -152,6 +153,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                 ClinicForRegist clinicForRegist= get(registId);
                 String clinicLabel=clinicForRegist.getClinicLabel();
                 String timeDesc=clinicForRegist.getTimeDesc();
+                ClinicIndex clinicIndex = clinicIndexDao.get(clinicLabel);
                 master.setPatientId(patMasterIndex.getId());  //病人ID
                 master.setName(clinicMaster.getName()); //姓名
                 master.setOrgId(clinicMaster.getOrgId());//机构ID
@@ -162,10 +164,10 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                 master.setUnitInContract(clinicMaster.getUnitInContract());//合同单位
                 master.setInsuranceType(clinicMaster.getInsuranceType());//医保类别
                 master.setInsuranceNo(clinicMaster.getInsuranceNo());//医保号
-                master.setClinicLabel(clinicLabel);//门诊号名称
+                master.setClinicLabel(clinicLabel);//门诊号别
                 master.setVisitTimeDesc(timeDesc);//门诊时间
                 master.setVisitDate(format.parse(DateUtils.getDate()));//就诊日期
-                master.setVisitDept(clinicMaster.getVisitDept()); //就诊科室
+                master.setVisitDept(clinicIndex.getClinicDept()); //就诊科室
                 master.setVisitNo(no);//就诊序号
                 master.setClinicNo(DateUtils.getDate("yyyyMMdd")+master.getVisitNo());//就诊号==就诊日期+就诊序号
                 if("0".equals(clinicMaster.getVisitIndicator())){
@@ -175,7 +177,7 @@ public class ClinicForRegistBo extends CrudImplService<ClinicForRegistDao, Clini
                 master.setRegisteringDate(format.parse(DateUtils.getDate()));//挂号日期
 
                 //获取费用
-                ClinicIndex clinicIndex=clinicIndexDao.get(clinicForRegist.getClinicLabel());
+                //ClinicIndex clinicIndex=clinicIndexDao.get(clinicForRegist.getClinicLabel());
                 ClinicTypeFee clinicTypeFee=new ClinicTypeFee();
                 clinicTypeFee.setTypeId(clinicIndex.getClinicType());
                 List<ClinicTypeFee> clinicTypeFeeList= clinicTypeFeeDao.findList(clinicTypeFee);

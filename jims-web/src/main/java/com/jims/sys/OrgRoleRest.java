@@ -60,7 +60,6 @@ public class OrgRoleRest {
     @POST
     @Path("merge")
     public StringData merge(BeanChangeVo<OrgRole> beanChangeVo) {
-        List<OrgRole> inserted = beanChangeVo.getInserted();
         String num = orgRoleApi.merge(beanChangeVo);
         StringData stringData = new StringData();
         stringData.setCode(num);

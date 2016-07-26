@@ -24,6 +24,7 @@
         FROM org_role a
 
         WHERE a.id = #{id}
+        AND a.del_flag = '0'
 </select>
 
 	<select id="findAllList" resultType="OrgRole">
@@ -32,8 +33,8 @@
 		FROM org_role a
 		<where>
 			a.del_flag ='0'    and org_id=#{orgId}
-		</where>		
-
+		</where>
+        ORDER BY a.create_date
 	</select>
 
     <select id="findByRoleName" resultType="OrgRole">

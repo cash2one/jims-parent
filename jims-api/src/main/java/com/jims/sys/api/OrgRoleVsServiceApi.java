@@ -90,7 +90,7 @@ public interface OrgRoleVsServiceApi {
      * @param roleid
      * @return
      */
-    public List<OrgRoleVsService> findRole(String roleid);
+    public List<OrgRoleVsService> findRole(String roleid,String q);
 
     /**
      * 根据id删除

@@ -37,19 +37,17 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
     /**
      * 根据当前登录人 医生ID查询 门诊病人(待诊病人)
      * 查询的病人列表是  -----我的病人 列表   非  全科病人列表
-     * @param doctorId
      * @return
      * @author zhaoning
      */
-    public List<ClinicMaster>  getClinicBydoctor(@Param("doctorId")String doctorId,@Param("visitDept")String visitDept,@Param("orgId")String orgId);
+    public List<ClinicMaster>  getClinicBydoctor(@Param("visitDept")String visitDept,@Param("orgId")String orgId);
 
     /**
      * 根据当前登录人 医生ID 查询 门诊病人（已诊病人）
-     * @param doctorId
      * @return
      * @author zhaoning
      */
-    public List<ClinicMaster> getClinicMasterDiagnosed(@Param("doctorId")String doctorId,@Param("visitDept")String visitDept,@Param("orgId")String orgId);
+    public List<ClinicMaster> getClinicMasterDiagnosed(@Param("visitDept")String visitDept,@Param("orgId")String orgId);
 
     /**
      * 根据 就诊日期，就诊序号 ，查询 有关退号的基本信息
