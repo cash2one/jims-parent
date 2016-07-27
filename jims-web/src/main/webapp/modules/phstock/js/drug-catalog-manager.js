@@ -142,7 +142,7 @@ $(function () {
     //定义剂型列表
     $("#dosageDatagrid").datagrid({
         singleSelect: true,
-        fit:true,
+        //fit:true,
         method:'get',
         url:basePath  + "/dict/findListByType?type=DRUG_FORM_DICT",
         columns:[[{
