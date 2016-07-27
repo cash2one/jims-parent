@@ -402,7 +402,7 @@ $(function () {
             formatter:function(value,row,index){
                 var label=value;
                 $.each(limitClassList,function(index,item){
-                    if(item.value=value){
+                    if(item.value==value){
                         label=item.label;
                     }
                 })
@@ -527,19 +527,14 @@ $(function () {
         if (drugCatalogBeanVo) {
             $.postJSON(basePath + "/drug-catalog/save", JSON.stringify(drugCatalogBeanVo), function (data) {
                 if("1" == data) {
-                    $.messager.confirm('系统提示, 保存成功','是否进行价格维护？',function(r){
-                        if(r){
-                            var https=parent.getRootPath() + '/modules/phstock/drug-price-marger.html';
-                            parent.addTab('药品价格维护',https);
-                        }
-                    })
+                    $.messager.alert("提示",'系统提示, 保存成功',"info");
                 } else {
                     $.messager.alert('提示', "保存失败，请确认是否唯一", "error");
                 }
-                $("#clear").click();
+                //$("#clear").click();
             }, function (data) {
                 $.messager.alert('提示', "保存失败，请确认是否唯一", "error");
-                $("#clear").click();
+                //$("#clear").click();
             })
         }
     });
