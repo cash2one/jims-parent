@@ -80,7 +80,7 @@ public class BedRecRest {
      */
     @Path("getAllBed")
     @POST
-    public List<BaseDto> getAllBed(@QueryParam("wardCode")String wardCode){
+    public List<BaseDto> getAllBed(String wardCode){
         BedRec bedRec = new BedRec();
         bedRec.setWardCode(wardCode);
         return  bedRecServiceApi.getAllBed(bedRec);

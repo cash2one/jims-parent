@@ -2,7 +2,7 @@ var column={};
 var patId;
 var editRow = undefined;
 var rowNum=-1;
-var wardCode='160101';
+var wardCode=config.deptId;
 $(function(){
     $('#bedRec').datagrid({
      /*   view: myview,

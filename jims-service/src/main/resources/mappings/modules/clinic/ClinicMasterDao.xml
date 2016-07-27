@@ -651,6 +651,10 @@
 
     <update id="updateStatus">
       update clinic_master set  registration_status=#{status}
+		where 1=1
+		<if test="clinicId!=null and clinicId !=''">
+          and id=#{clinicId}
+		</if>
 
     </update>
 

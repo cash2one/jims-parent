@@ -1,7 +1,6 @@
-var wardCode='160101';
-$(function(){
 
-
+function loadBedInfo(){
+    var wardCode=config.deptId;
     $.ajax({
         method:"POST",
         dataType: 'json',
@@ -41,9 +40,27 @@ $(function(){
                 }
                 if(item.sex!=null){
                      if(item.sex=='1'){//女
-                         html = html+'<div class="cus-sex-img"><img src="/static/images/index/female.png" width="40" height="40"/></div></div>';
+                         if(item.age!=null){
+                             if(0<item.age<14){//儿童
+                                 html = html+'<div class="cus-sex-img"><img src="/static/images/index/girl.png" width="40" height="40"/></div></div>';
+                             }else if(item.age>60){//老年人
+                                 html = html+'<div class="cus-sex-img"><img src="/static/images/index/old-female.png" width="40" height="40"/></div></div>';
+                             }else{
+                                 html = html+'<div class="cus-sex-img"><img src="/static/images/index/female.png" width="40" height="40"/></div></div>';
+                             }
+                         }
+
                      }else if(item.sex=='2'){//男
-                         html = html+'<div class="cus-sex-img"><img src="/static/images/index/male.png" width="40" height="40"/></div></div>';
+                         if(item.age!=null){
+                             if(0<item.age<14){//儿童
+                                 html = html+'<div class="cus-sex-img"><img src="/static/images/index/boy.png" width="40" height="40"/></div></div>';
+                             }else if(item.age>60){//老年人
+                                 html = html+'<div class="cus-sex-img"><img src="/static/images/index/old-male.png" width="40" height="40"/></div></div>';
+                             }else{
+                                 html = html+'<div class="cus-sex-img"><img src="/static/images/index/male.png" width="40" height="40"/></div></div>';
+                             }
+                         }
+
                      }
                 }else{
                     html = html+'<div class="cus-sex-img"></div></div>';
@@ -60,12 +77,11 @@ $(function(){
                 html= html+" </ul>";
                 $(".customer-list-nstyle").append(html);
             }else{
-                $(".customer-list-nstyle").append("<div class='nodata-wrap'><div  class='nodata-text'>该病区下暂无床位信息!</div></div>");
+                window.parent.document.getElementById("nurseIframe").src = "/modules/nurse/nurseNoData.html";
             }
-
         }
     });
-});
+}
 
 function showMenu(e) {
     document.oncontextmenu = function(e){

@@ -144,5 +144,5 @@ public interface ClinicMasterDao extends CrudDao<ClinicMaster> {
      * @param status
      * @return
      */
-    public String updateStatus(@Param("status")String status);
+    public int updateStatus(@Param("status")String status,@Param("clinicId")String clinicId);
 }
