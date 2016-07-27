@@ -152,6 +152,7 @@ public class OrgStaffRest {
         persionInfo.setNation(orgStaffVo.getNation());
         persionInfo.setSex(orgStaffVo.getSex());
         persionInfo.setId(orgStaffVo.getId());
+        persionInfo.setInputCode(orgStaffVo.getInputCode());
 
 
 

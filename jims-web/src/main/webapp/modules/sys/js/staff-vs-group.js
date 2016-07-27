@@ -46,30 +46,10 @@ $(function () {
             var node = $("#groupGrid").treegrid("getSelected");
             groupId = node.groupId;     //组id
             groupCode = node.groupCode;    //组代码
-            groupClass = node.groupName;   //组类
+            groupClass=node.pid;
+            groupName = node.groupName;   //组类
             var url = basePath + "/staff-vs-group/listStaff?groupId=" + groupId + "&orgId=" + orgId;
             $("#staffGrid").datagrid("reload", url);
-
-
-            //加载字段名称
-            jQuery.ajax({
-                'type': 'GET',
-                'url': basePath + '/staff-vs-group/listName?orgId=' + orgId,
-                'contentType': 'application/json',
-                'dataType': 'json',
-                'success': function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        staffFrom.push({
-                            id: data[i].id,
-                            staffId: data[i].staffId,
-                            value: data[i].name,
-                            text: data[i].deptName,
-                            inputCode:data[i].inputCode
-                        });
-                    }
-                }
-            });
-
         }
     });
     //加载树形结构的treegrid数据
@@ -137,31 +117,25 @@ $(function () {
                 field: "name",
                 width: '15%',
                 editor: {
-
                     type: 'combogrid',
                     options: {
                         panelWidth: 306,
-                        idField: 'value',
-                        textField: 'value',
+                        idField: 'name',
+                        textField: 'name',
+                        mode: 'remote',
+                        method: 'GET',
+                        url: basePath + '/input-setting/listParamByGET?orgId=' + orgId + '&dictType=v_staff_dict',
                         columns: [[
-                            {field: 'id', title: 'id', hidden: true, width: 100},
-                            {field: 'staffId', title: 'staffId', hidden: true, width: 100},
-                            {field: 'value', title: '姓名', width: 100},
-                            {field: 'text', title: '科室名称', width: 100},
-                            {field: 'inputCode', title: '拼音码', width: 100}
+                            {field: 'staff_id', title: 'staffId',hidden:true,width: 100},
+                            {field: 'name', title: '姓名', width: 100},
+                            {field: 'dept_name', title: '科室名称', width: 100},
+                            {field: 'input_code', title: '拼音码', width: 100}
                         ]],
                         onSelect: function (index, data) {
                             var row = $('#staffGrid').datagrid('getSelected');
-                            row.staffId = data.staffId;
-                            row.deptName = data.text;
+                            row.staffId = data.staff_id;
+                            row.deptName = data.dept_name;
                             $('#staffGrid').datagrid('endEdit', editIndex1);
-                        },
-                        filter: function (field, row) {
-                            if (field && (row['value'] && row['value'].toUpperCase().indexOf(field.toUpperCase()) == 0 )
-                                || (row['text'] && row['text'].toUpperCase().indexOf(field.toUpperCase()) == 0)
-                                || (row['inputCode'] && row['inputCode'].toUpperCase().indexOf(field.toUpperCase()) == 0)) {
-                                return true
-                            }
                         }
                     }
                 }
@@ -171,7 +145,7 @@ $(function () {
                 width: '15%'
             }, {
                 title: '分组名称 ',
-                field: 'groupClass',
+                field: 'groupName',
                 width: '15%'
             }
         ]],
@@ -221,10 +195,6 @@ $(function () {
             $('#staffGrid').datagrid('selectRow', index)
                 .datagrid('editCell', {index: index, field: field});
             editIndex1 = index;
-            if (field == 'name') {
-                var editor = $("#staffGrid").datagrid('getEditor', {index: index, field: 'name'});
-                $(editor.target).combogrid('grid').datagrid('loadData', staffFrom);
-            }
         }
     }
 
@@ -232,7 +202,7 @@ $(function () {
     $("#addBtn").on('click', function () {
         var classRow = $("#groupGrid").datagrid('getSelected');
         if (classRow) {
-            $("#staffGrid").datagrid('appendRow', {groupClass: groupClass});
+            $("#staffGrid").datagrid('appendRow', {groupName: groupName,groupClass:groupClass});
             var rows = $("#staffGrid").datagrid('getRows');
             onClickCell1(rows.length - 1, 'name');
         }
@@ -267,15 +237,18 @@ $(function () {
         var staffVsGroupVo = {};
         for (var i = 0; i < insertData.length; i++) {
             delete insertData[i]["deptName"];
+            delete insertData[i]["groupName"];
             delete insertData[i]["name"];
         }
         for (var i = 0; i < updateData.length; i++) {
             delete updateData[i]["deptName"];
+            delete updateData[i]["groupName"];
             delete updateData[i]["name"];
         }
         for (var i = 0; i < deleteData.length; i++) {
             deleteData[i] = {id: deleteData[i].id};
             delete deleteData[i]["deptName"];
+            delete deleteData[i]["grouoName"];
             delete deleteData[i]["name"];
 
         }

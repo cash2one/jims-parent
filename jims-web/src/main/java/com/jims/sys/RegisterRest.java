@@ -36,23 +36,24 @@ public class RegisterRest {
     @Consumes({MediaType.APPLICATION_JSON})
     public StringData register(RegisterVo registerVo) {
 
-            PersionInfo persionInfo = new PersionInfo();
-            persionInfo.setName(registerVo.getName());
-            persionInfo.setCardNo(registerVo.getCardNo());
-            persionInfo.setPhoneNum(registerVo.getPhoneNum());
-            persionInfo.setNickName(registerVo.getNickName());
-            persionInfo.setEmail(registerVo.getEmail());
-            persionInfo.setCreateDate(new Date());
+        PersionInfo persionInfo = new PersionInfo();
+        persionInfo.setName(registerVo.getName());
+        persionInfo.setCardNo(registerVo.getCardNo());
+        persionInfo.setPhoneNum(registerVo.getPhoneNum());
+        persionInfo.setNickName(registerVo.getNickName());
+        persionInfo.setEmail(registerVo.getEmail());
+        persionInfo.setCreateDate(new Date());
+        persionInfo.setInputCode(registerVo.getInputCode());
 
-            SysUser sysUser = new SysUser();
-            sysUser.setPassword(registerVo.getPassword());
-            String persion=persionInfoApi.register(persionInfo, sysUser);
-            StringData stringData=new StringData();
-            if(persion!=null)
-            {
-                stringData.setData("success");
-                return stringData;
-            }
+        SysUser sysUser = new SysUser();
+        sysUser.setPassword(registerVo.getPassword());
+        String persion=persionInfoApi.register(persionInfo, sysUser);
+        StringData stringData=new StringData();
+        if(persion!=null)
+        {
+            stringData.setData("success");
+            return stringData;
+        }
         return null;
     }
 

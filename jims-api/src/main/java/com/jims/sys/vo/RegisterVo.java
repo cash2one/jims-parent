@@ -15,6 +15,7 @@ public class RegisterVo implements Serializable {
     private String email;
     private String phoneNum;
     private String password;
+    private String inputCode;
 
     public String getName() {
         return name;
@@ -62,6 +63,14 @@ public class RegisterVo implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getInputCode() {
+        return inputCode;
+    }
+
+    public void setInputCode(String inputCode) {
+        this.inputCode = inputCode;
     }
 };
 

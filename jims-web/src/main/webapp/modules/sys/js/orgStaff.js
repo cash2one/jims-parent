@@ -3,7 +3,15 @@
  * @author yangruidong
  * @version 2016-04-29
  */
-
+$("<link>").attr({rel: "stylesheet", type: "text/css", href: "/static/easyui/css/icon.css"}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/easyui/js/jquery.easyui.min.js"}).appendTo("head");
+$("<script>").attr({
+    type: "application/javascript",
+    src: "/static/easyui/locale/easyui-lang-zh_CN.js"
+}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/js/tool.js"}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/js/formSubmit.js"}).appendTo("head");
+$("<script>").attr({type: "application/javascript", src: "/static/js/spell.js"}).appendTo("head");
 $(function () {
 
     var orgId = config.org_Id;
@@ -413,7 +421,8 @@ $(function () {
         orgStaffVo.cardNo = $("#cardNo").val();
         orgStaffVo.phoneNum = $("#phoneNum").val();
         orgStaffVo.email = $("#email").val();
-        //orgStaffVo.password = $("#password").val();
+        var name=$("#name").val();
+        orgStaffVo.inputCode=makePy(name)[0];
         orgStaffVo.nickName = $("#nickName").val();
         orgStaffVo.deptId = $("#deptName").combobox('getValue');
         var array = [];
@@ -592,7 +601,7 @@ $(function () {
             'url': "/service/register/getNick?nickName=" + nickName ,
             'contentType': 'application/json',
             'success': function (data) {
-                if (data.id != persion_id) {
+                if (data && data.id != persion_id) {
                     $("#res-nick").text("*用户名已经存在");
                     $("#res-nick").css("color", "red");
                     return false;
@@ -681,7 +690,7 @@ $(function () {
             'url': "/service/register/getPhone?phoneNum=" + phone ,
             'success': function (data) {
 
-                if (data.id != persion_id) {
+                if (data && data.id != persion_id) {
                     $("#res-phone").text("*手机号已经注册");
                     $("#res-phone").css("color", "red");
                     return false;
