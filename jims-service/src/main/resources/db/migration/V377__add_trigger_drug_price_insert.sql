@@ -7,7 +7,15 @@ DECLARE
   V_DRUG_NAME      VARCHAR2(100);
   V_DRUG_CLASS     VARCHAR2(1);
   V_INPUT_CODE     VARCHAR2(50);
+  V_TEMP_FLAG      NUMBER;
 BEGIN
+
+  --判断诊疗项目是否已经存在
+  SELECT COUNT(*)
+    INTO V_TEMP_FLAG
+    FROM CLINIC_ITEM_DICT
+   WHERE ITEM_CODE = :NEW.DRUG_CODE;
+
   SELECT DISTINCT DRUG_INDICATOR
     INTO V_DRUG_INDICATOR
     FROM DRUG_DICT
@@ -28,77 +36,6 @@ BEGIN
     ELSE
       V_DRUG_CLASS := 'B';
     END IF;
-    --1,诊疗项目名称表
-    INSERT INTO CLINIC_ITEM_NAME_DICT
-      (ITEM_CLASS,
-       ITEM_NAME,
-       ITEM_CODE,
-       STD_INDICATOR,
-       INPUT_CODE,
-       ITEM_STATUS,
-       ID,
-       ORG_ID,
-       UPDATE_DATE,
-       DEL_FLAG,
-       CREATE_DATE)
-    VALUES
-      (V_DRUG_CLASS,
-       V_DRUG_NAME,
-       :NEW.DRUG_CODE,
-       V_DRUG_INDICATOR,
-       V_INPUT_CODE,
-       '0',
-       SYS_GUID(),
-       :NEW.ORG_ID,
-       SYSDATE,
-       '1',
-       SYSDATE);
-    --2,诊疗项目表
-    INSERT INTO CLINIC_ITEM_DICT
-      (ID,
-       ITEM_CLASS,
-       ITEM_CODE,
-       ITEM_NAME,
-       INPUT_CODE,
-       ITEM_STATUS,
-       UPDATE_DATE,
-       DEL_FLAG,
-       CREATE_DATE,
-       ORG_ID)
-    VALUES
-      (SYS_GUID(),
-       V_DRUG_CLASS,
-       :NEW.DRUG_CODE,
-       V_DRUG_NAME,
-       V_INPUT_CODE,
-       '0',
-       SYSDATE,
-       '0',
-       SYSDATE,
-       :NEW.ORG_ID);
-    --3,价表名称表
-    INSERT INTO PRICE_ITEM_NAME_DICT
-      (ITEM_CLASS,
-       ITEM_NAME,
-       ITEM_CODE,
-       STD_INDICATOR,
-       INPUT_CODE,
-       STOP_FLAG,
-       ID,
-       UPDATE_DATE,
-       DEL_FLAG,
-       ORG_ID)
-    VALUES
-      (V_DRUG_CLASS,
-       V_DRUG_NAME,
-       :NEW.DRUG_CODE,
-       '1',
-       V_INPUT_CODE,
-       '0',
-       SYS_GUID(),
-       SYSDATE,
-       '0',
-       :NEW.ORG_ID);
     --4,价表
     INSERT INTO PRICE_LIST
       (ID,
@@ -138,29 +75,103 @@ BEGIN
        :NEW.MEMOS,
        :NEW.START_DATE,
        SYSDATE);
-    --价表与诊疗项目对照
-    INSERT INTO CLINIC_VS_CHARGE
-      (ID,
-       CLINIC_ITEM_CLASS,
-       CLINIC_ITEM_CODE,
-       CHARGE_ITEM_NO,
-       CHARGE_ITEM_CLASS,
-       CHARGE_ITEM_CODE,
-       ORG_ID,
-       UPDATE_DATE,
-       DEL_FLAG,
-       CREATE_DATE)
-    VALUES
-      (SYS_GUID(),
-       V_DRUG_CLASS,
-       :NEW.DRUG_CODE,
-       1,
-       V_DRUG_CLASS,
-       :NEW.DRUG_CODE,
-       :NEW.ORG_ID,
-       SYSDATE,
-       0,
-       SYSDATE);
+    IF V_TEMP_FLAG = 0 THEN
+      --1,诊疗项目名称表
+      INSERT INTO CLINIC_ITEM_NAME_DICT
+        (ITEM_CLASS,
+         ITEM_NAME,
+         ITEM_CODE,
+         STD_INDICATOR,
+         INPUT_CODE,
+         ITEM_STATUS,
+         ID,
+         ORG_ID,
+         UPDATE_DATE,
+         DEL_FLAG,
+         CREATE_DATE)
+      VALUES
+        (V_DRUG_CLASS,
+         V_DRUG_NAME,
+         :NEW.DRUG_CODE,
+         V_DRUG_INDICATOR,
+         V_INPUT_CODE,
+         '0',
+         SYS_GUID(),
+         :NEW.ORG_ID,
+         SYSDATE,
+         '1',
+         SYSDATE);
+      --2,诊疗项目表
+      INSERT INTO CLINIC_ITEM_DICT
+        (ID,
+         ITEM_CLASS,
+         ITEM_CODE,
+         ITEM_NAME,
+         INPUT_CODE,
+         ITEM_STATUS,
+         UPDATE_DATE,
+         DEL_FLAG,
+         CREATE_DATE,
+         ORG_ID)
+      VALUES
+        (SYS_GUID(),
+         V_DRUG_CLASS,
+         :NEW.DRUG_CODE,
+         V_DRUG_NAME,
+         V_INPUT_CODE,
+         '0',
+         SYSDATE,
+         '0',
+         SYSDATE,
+         :NEW.ORG_ID);
+      --3,价表名称表
+      INSERT INTO PRICE_ITEM_NAME_DICT
+        (ITEM_CLASS,
+         ITEM_NAME,
+         ITEM_CODE,
+         STD_INDICATOR,
+         INPUT_CODE,
+         STOP_FLAG,
+         ID,
+         UPDATE_DATE,
+         DEL_FLAG,
+         ORG_ID)
+      VALUES
+        (V_DRUG_CLASS,
+         V_DRUG_NAME,
+         :NEW.DRUG_CODE,
+         '1',
+         V_INPUT_CODE,
+         '0',
+         SYS_GUID(),
+         SYSDATE,
+         '0',
+         :NEW.ORG_ID);
+    
+      --价表与诊疗项目对照
+      INSERT INTO CLINIC_VS_CHARGE
+        (ID,
+         CLINIC_ITEM_CLASS,
+         CLINIC_ITEM_CODE,
+         CHARGE_ITEM_NO,
+         CHARGE_ITEM_CLASS,
+         CHARGE_ITEM_CODE,
+         ORG_ID,
+         UPDATE_DATE,
+         DEL_FLAG,
+         CREATE_DATE)
+      VALUES
+        (SYS_GUID(),
+         V_DRUG_CLASS,
+         :NEW.DRUG_CODE,
+         1,
+         V_DRUG_CLASS,
+         :NEW.DRUG_CODE,
+         :NEW.ORG_ID,
+         SYSDATE,
+         0,
+         SYSDATE);
+    END IF;
   
   END IF;
 
