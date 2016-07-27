@@ -207,7 +207,7 @@ public class OperationHosBo {
             for(int i=0;i<id.length;i++){
                 num = operationScheduleDao.deleteOperation(id[i]);
                 scheduledOperationNameDao.deleteSchedule(id[i]);
-                ordersDao.delOrders(id[i]);
+                ordersDao.delOrders(id[i],"");
             }
         }catch (Exception e){
             return "0";

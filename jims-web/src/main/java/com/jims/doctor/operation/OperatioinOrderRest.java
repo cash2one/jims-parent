@@ -98,7 +98,7 @@ public class OperatioinOrderRest {
      * @return
      */
     @Path("getScheduleOutHos")
-    @POST
+    @GET
     public List<OperationSchedule> getScheduleOutHos(@QueryParam("visitId")String visitId,@QueryParam("patientId")String patientId){
         List<OperationSchedule> operationScheduleList=  operatioinOrderServiceApi.getScheduleHos(patientId, visitId);
         return operationScheduleList;

@@ -33,7 +33,7 @@ public class Main {
         root.setParentLoaderPriority(true);
         server.setHandler(root);
         try {
-         //   migrationDb();
+            migrationDb();
             server.start();
             server.join();
         } catch (Exception e) {

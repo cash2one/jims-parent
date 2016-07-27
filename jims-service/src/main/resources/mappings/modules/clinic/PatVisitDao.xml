@@ -1163,7 +1163,7 @@
 			visit_id=#{visitId}
 		</if>
 		<if test="patientId!=null and patientId!=''">
-			patient_id=#{patientId}
+			and patient_id=#{patientId}
 		</if>
 	</select>
 </mapper>

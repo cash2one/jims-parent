@@ -1,6 +1,6 @@
 var clinicId = parent.clinicMaster.id;
 var patientId = parent.clinicMaster.patientId;
-var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }]; 
+var diagnosisTypeClinic = [{ "value": "1", "text": "中医" }, { "value": "2", "text": "西医" }];
 /**
  * /门诊诊断类型
  * @param value
@@ -52,7 +52,7 @@ function onloadMethod(){
             {
                 field: 'id',
                 title: '操作',
-                width: '25%',
+                width: '24%',
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = '';
@@ -309,8 +309,9 @@ function SendProduct(name) {
                 return false;
             }
             var divstr ="<table>";
-                    for(var i=0; i<data.length; i++)
-                    {   if(i==0){
+                    for(var i=0; i<data.length; i++){
+                        if(i==0){
+                            divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name +"</span><input type='hidden' name='expand2' value='"+ data[i].expand1 +"'/><input type='hidden' name='price' value='"+ data[i].price +"'></div></td>";
                         }
                         else if(i%3==0){
                             divstr =divstr+"<tr><td><div class='fitem'  style='WORD-WRAP: break-word;width: 300px'><input type='checkbox' name='' value='"+data[i].item_code+"'><span>"+data[i].item_name+"</span><input type='hidden' name='expand2' value='"+data[i].expand1+"'/><input type='hidden' name='price' value='"+data[i].price+"'></div></td>";

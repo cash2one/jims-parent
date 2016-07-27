@@ -1,5 +1,6 @@
 package com.jims.doctor.lab.bo;
 
+import com.jims.clinic.dao.PatVisitDao;
 import com.jims.common.service.impl.CrudImplService;
 import com.jims.common.vo.LoginInfo;
 import com.jims.orders.dao.OrdersDao;
@@ -8,6 +9,7 @@ import com.jims.doctor.lab.dao.LabTestItemsDao;
 import com.jims.doctor.lab.dao.LabTestMasterDao;
 import com.jims.lab.entity.LabTestItems;
 import com.jims.lab.entity.LabTestMaster;
+import com.jims.patient.entity.PatVisit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,8 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
     private OrdersDao ordersDao;
     @Autowired
     private LabTestMasterDao labTestMasterDao;
+    @Autowired
+    private PatVisitDao patVisitDao;
 
     /**
      * 住院保存
@@ -43,30 +47,40 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
 
     public String saveAllIn(LabTestMaster labTestMaster,LoginInfo loginInfo) {
         int num;
-        //本次住院标识对门诊病人为空
-        //patientId病人标识号页面有公共值
-        //labTestMaster.setPatientId("");
-        //结果状态
-        labTestMaster.setResultStatus("0");
+        PatVisit patVisit = patVisitDao.selectPatVisit(labTestMaster.getVisitId(),labTestMaster.getPatientId());
         //申请序号
         labTestMaster.setTestNo(creatTestNo());
         labTestMaster.setBillingIndicator(0);//计价标志
         labTestMaster.setPrintIndicator(0);///打印标志
+        labTestMaster.setOrgId(loginInfo.getOrgId());//orgId
+        //申请序号
+//        String textNo="JY"+patVisit.getVisitNo()+(int)(Math.random()*9000);
+//        labTestMaster.setTestNo(textNo);
         labTestMaster.setOrderingDept(loginInfo.getDeptId());//申请科室
         labTestMaster.setOrderingProvider(loginInfo.getPersionId());//送检医生
-        labTestMaster.setRequestedDateTime(new Date());
+        labTestMaster.setRequestedDateTime(new Date());//申请时间
+        labTestMaster.setStatus(labTestMaster.LAB_STATUS_APPLY);//申请状态
+        labTestMaster.setResultStatus(labTestMaster.LAB_RESULTSTATUS_APPLY);//结果状态
+        labTestMaster.setInOrOutFlag(labTestMaster.LAB_STATUS_APPLY);//住院标志
+
+        labTestMaster.preInsert();
         num = labTestMasterDao.insert(labTestMaster);
         List<LabTestItems> list = labTestMaster.getList();
         for (int i = 0; i < list.size(); i++) {
             LabTestItems labTestItems = list.get(i);
                 /*检验项目*/
             labTestItems.setItemNo(i + 1);
-            labTestItems.setTestNo(labTestMaster.getTestNo());
-            labTestItems.preInsert();
+            labTestItems.setBillingIndicator(labTestItems.LAB_BILLINGINDICATOR_APPLY);
             labTestItems.setLabMaster(labTestMaster.getId());
+            labTestItems.setTestNo(labTestMaster.getTestNo());
+            labTestItems.setOrgId(labTestMaster.getOrgId());
+            labTestItems.preInsert();
             labTestItemsDao.insert(labTestItems);
             //Orders
             Orders orders = new Orders();
+            orders.preInsert();
+            orders.setAppNo(labTestMaster.getId());
+            orders.setOrgId(labTestMaster.getOrgId());
             orders.setPatientId(labTestMaster.getPatientId());
             orders.setVisitId(labTestMaster.getVisitId().toString());
             Integer orderNo = ordersDao.getOrderNo(labTestMaster.getPatientId(), labTestMaster.getVisitId(), "");
@@ -85,12 +99,10 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
             orders.setOrderStatus("6");//医嘱状态
             orders.setFreqDetail("1");//执行时间详细描述
             orders.setPerformSchedule(newDate());
-            orders.setAppNo(labTestMaster.getId());
-            orders.setOrgId(labTestMaster.getOrgId());
             orders.setDoctor(labTestMaster.getOrderingProvider());//开医嘱医生
             orders.setOrderingDept(labTestMaster.getOrderingDept());//开医嘱科室
             orders.setEnterDateTime(labTestMaster.getRequestedDateTime());//开医嘱录入日期及时间
-            orders.preInsert();
+
             ordersDao.insert(orders);
         }
         return num + "";
@@ -98,16 +110,12 @@ public class HosLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMaste
 
     public String deleteLabTestMasterHos(String ids) {
         int num = 0;
-        try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++) {
-                num = labTestMasterDao.deleteLabTestMaster(id[j]);
                 labTestItemsDao.deleteItmes(id[j]);
-                ordersDao.delOrders(id[j]);
+                ordersDao.delOrders(id[j],"");
+                num = labTestMasterDao.deleteLabTestMaster(id[j]);
             }
-        } catch (Exception e) {
-            return num + "";
-        }
         return num + "";
 
     }

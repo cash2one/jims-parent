@@ -155,7 +155,7 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @param appNo
      * @return
      */
-    public String delOrders(@Param("appNo")String appNo);
+    public int delOrders(@Param("appNo")String appNo,@Param("currentPrescNo")String currentPrescNo);
 
 
     /**

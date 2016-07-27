@@ -40,7 +40,7 @@ function onloadMethods() {
             {
                 field: 'regPrnFlag',
                 title: '状态',
-                width: '23%',
+                width: '21%',
                 align: 'center',
                 formatter: function (value, rowData, rowIndex) {
                     if (rowData.regPrnFlag == 0) {
@@ -54,7 +54,7 @@ function onloadMethods() {
             {
                 field: 'id',
                 title: '操作',
-                width: '38%',
+                width: '20%',
                 align: 'center',
                 formatter: function (value, row, index) {
                     //var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="look(\'' + value + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
@@ -102,23 +102,7 @@ function onloadMethods() {
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
 
-    $.ajax({
-        //添加
-        url: basePath + "/diagnosis/findListOfIn",
-        type: "GET",
-        dataType: "json",
-        data: {"visitId": visitId, "patientId": patientId},
-        success: function (data) {
-            if (data != "" && data != null) {
-                var d = "";
-                $.each(data, function (index, item) {
-                    formatter:var type = diagnosisTypeClinicformatter(item.type);
-                    d = d + type + ":" + item.icdName + "\r";
-                });
-                $("#clinDiagDiv").val(d);
-            }
-        }
-    })
+
 }
 
 function add() {
@@ -191,6 +175,24 @@ function add() {
             });
         }
     });
+
+    $.ajax({
+        //添加
+        url: basePath + "/diagnosis/findListOfIn",
+        type: "GET",
+        dataType: "json",
+        data: {"visitId": visitId, "patientId": patientId},
+        success: function (data) {
+            if (data != "" && data != null) {
+                var d = "";
+                $.each(data, function (index, item) {
+                    formatter:var type = diagnosisTypeClinicformatter(item.type);
+                    d = d + type + ":" + item.icdName + "\r";
+                });
+                $("#clinDiagDiv").val(d);
+            }
+        }
+    })
     $.ajax({
         url: basePath + "/enter/get",
         type: "POST",
@@ -199,16 +201,16 @@ function add() {
         'data': JSON.stringify({"visitId": visitId,"patientId":patientId}),
         success: function (data) {
             if (data != "" && data != null) {
-                $("#clinSymp").val(data.xianbingshi);
+                $("#clinSymp").val(unescape(data.xianbingshi));
             }
         }
     })
     $.ajax({
         //添加
-        url: basePath + "/diagnosis/findListOfOut",
+        url: basePath + "/diagnosis/findListOfIn",
         type: "GET",
         dataType: "json",
-        data: {"clinicId": clinicId},
+        data: {"visitId": visitId,"patientId":patientId},
         success: function (data) {
             if (data != "" && data != null) {
                 var d = "";

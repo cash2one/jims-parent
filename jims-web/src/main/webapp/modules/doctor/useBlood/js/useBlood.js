@@ -15,7 +15,6 @@ function onloadMethod() {
     $("#feeType").val(chargeTypeFormatter(parent.patVisit.chargeType, '', ''));
     $("#feeTypeId").val(parent.patVisit.chargeType);
     $("#applyDate").datetimebox("setValue", formatDateBoxFull(new Date));
-
     $('#list_doctor').datagrid({
         singleSelect: true,
         fit: true,
@@ -24,7 +23,7 @@ function onloadMethod() {
         columns: [[
             {field: 'id', title: 'id', hidden: true, align: 'center'},
             {
-                field: 'fastSlow', title: '用血方式', width: '20%', align: 'center', editor: {
+                field: 'fastSlow', title: '用血方式', width: '15%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: fastSlo,
@@ -57,7 +56,7 @@ function onloadMethod() {
             }, formatter: unitsFormatter
             },
             {
-                field: 'bloodType', title: '血液要求', width: '20%', align: 'center', editor: {
+                field: 'bloodType', title: '血液要求', width: '23%', align: 'center', editor: {
                 type: 'combobox',
                 options: {
                     data: bloodTypeName,
@@ -86,8 +85,13 @@ function onloadMethod() {
                     index: 0, // index start with 0
                     row: {}
                 });
+                if(rowNum>=0){
+                    $("#list_doctor").datagrid('endEdit', rowNum);
+                }
+                $("#list_doctor").datagrid('endEdit', rowNum);
                 rowNum = 0;
                 $("#list_doctor").datagrid("beginEdit", rowNum);
+
             }
         }, {
             text: '删除',
@@ -121,12 +125,12 @@ function onloadMethod() {
         nowrap: false,
         striped: true,
         border: true,
-        method: 'get',
-        collapsible: false,//是否可折叠的
-        fit: true,//自动大小
+        method: 'GET',
+        //collapsible: false,//是否可折叠的
+        fit:true,
         url: basePath + '/bloodApply/listHos',
-        QueryParams: {'visitId': visitId, 'patientId': patientId},
-        remoteSort: false,
+        queryParams: {'visitId': visitId, 'patientId': patientId},
+        //remoteSort: false,
         idField: 'fldId',
         singleSelect: false,//是否单选
         pagination: true,//分页控件
@@ -134,16 +138,16 @@ function onloadMethod() {
         pageList: [10, 15, 30, 50],//可以设置每页记录条数的列表
         columns: [[      //每个列具体内容
             //{field: 'deptCode', title: '科室', width: '18%', align: 'center', formatter: clinicDeptCodeFormatter},
-            {field: 'bloodInuse', title: '血源', width: '18%', align: 'center', formatter: bloodInusesFormatter},
+            {field: 'bloodInuse', title: '血源', width: '17%', align: 'center', formatter: bloodInusesFormatter},
             //{field: 'bloodDiagnose', title: '诊断', width: '18%', align: 'center'},
-            {field: 'preBloodType', title: '血型', width: '18%', align: 'center'},
+            {field: 'preBloodType', title: '血型', width: '17%', align: 'center',formatter: bloodTypeFormatter},
             //{field: 'bloodInuse', title: '方式', width: '18%', align: 'center'},
             {field: 'applyDate', title: '申请时间', width: '30%', align: 'center', formatter: formatDateBoxFull},
             {
-                field: 'id', title: '操作', width: '40%', align: 'center', formatter: function (value, row, index) {
+                field: 'id', title: '操作', width: '33%', align: 'center', formatter: function (value, row, index) {
                 var state = "1";
                 var html = '<button class="easy-nbtn easy-nbtn-success easy-nbtn-s" onclick="getBloodApply(\'' + row.id + '\',\'' + state + '\')"><img src="/static/images/index/icon1.png" width="12"/>查看</button>' +
-                    '<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getBloodApply(\'' + row.id + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
+                    //'<button class="easy-nbtn easy-nbtn-info easy-nbtn-s" onclick="getBloodApply(\'' + row.id + '\')"><img src="/static/images/index/icon2.png"  width="12" />修改</button>' +
                     '<button class="easy-nbtn easy-nbtn-warning easy-nbtn-s" onclick="deleteRow(\'' + value + '\')"><img src="/static/images/index/icon3.png" width="16"/>删除</button>';
                 return html;
             }
@@ -180,7 +184,9 @@ function onloadMethod() {
         afterPageText: '页    共 {pages} 页',
         displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
     });
-
+    /**
+     * 血型
+     */
     $("#patBloodGroup").combobox({
         data: bloodType,
         valueField: 'value',
@@ -190,10 +196,14 @@ function onloadMethod() {
             $("#patBloodGroupId").val(n.value);
         }
     })
+    /**
+     * 预输血型
+     */
     $("#preBloodType").combobox({
         data: bloodType,
         valueField: 'value',
         textField: 'label',
+        required: true,
         onSelect: function (n) {
             $("#preBloodTypeId").val(n.value);
         }
@@ -217,6 +227,7 @@ function onloadMethod() {
         data: bloodInuses,
         valueField: 'value',
         textField: 'text',
+        required: true,
         onSelect: function (data) {
             $("#bloodInuseId").val(data.value);
         }
@@ -227,6 +238,11 @@ function onloadMethod() {
  * @param id
  */
 function saveUseBloodApply() {
+    $("#list_doctor").datagrid('endEdit', rowNum);
+    if (rowNum != undefined) {
+        $("#list_doctor").datagrid("endEdit", rowNum);
+    }
+    var rows = $('#list_doctor').datagrid('getRows');
     $.ajax({
         //添加
         url: basePath + "/diagnosis/findListOfIn",
@@ -235,8 +251,6 @@ function saveUseBloodApply() {
         data: {"patientId": patientId, "visitId": visitId},//住院visitId不为null
         success: function (data) {
             if (data != "" && data != null) {
-                $("#list_doctor").datagrid("endEdit", rowNum);
-                var rows = $('#list_doctor').datagrid('getRows');
                 var formJson = fromJson('useBloodForm');
                 formJson = formJson.substring(0, formJson.length - 1);
                 var tableJson = JSON.stringify(rows);
@@ -244,10 +258,10 @@ function saveUseBloodApply() {
                 //$("#inpNo").attr("value", "123");
                 if (rows.length > 0) {
                     $.postJSON(basePath + "/bloodApply/saveHos", submitJson, function (data) {
-                        if (data == "1") {
-                            $.messager.alert("提示信息", data + "条记录，保存成功");
+                        if (data.code == "1") {
+                            $.messager.alert("提示信息", "保存成功");
                             $('#list_data').datagrid('load');
-                            $('#list_data').datagrid('clearChecked');
+                            $('#list_doctor').datagrid('loadData', {total: 0, rows: []});
                             $("#useBloodForm").form("clear");
                         } else {
                             $.messager.alert("提示信息", "保存失败", "error");
@@ -348,11 +362,15 @@ function getBloodApply(id, state) {
         'dataType': 'json',
         'success': function (data) {
             $('#useBloodForm').form('load', data);
-            var applyNum = data.applyNum;
+            $("#patSource").combobox("setValue", patSourceFormatter(data.patSource, '', ''));
+            $("#patBloodGroup").combobox("setValue", bloodTypeFormatter(data.patBloodGroup, '', ''));
+            $("#preBloodType").combobox("setValue", bloodTypeFormatter(data.preBloodType, '', ''));
+            $("#bloodInuse").combobox("setValue", bloodInusesFormatter(data.bloodInuse, '', ''));
+            var applyId = data.id;
             $('#list_doctor').datagrid({
                 url: basePath + "/bloodApply/getBloodCapacityList",
-                queryParams: {'applyNum': applyNum},
-                method: "post"
+                queryParams: {'applyId': applyId},
+                method: "get"
             });
         }
     })

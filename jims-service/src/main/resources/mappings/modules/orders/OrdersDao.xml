@@ -693,12 +693,12 @@
 	</update>
 
 	<update id="delOrders">
-		UPDATE orders SET order_status ='8',billing_attr='3',drug_billing_attr='3',del_flag='1'
+		DELETE from orders
 		WHERE
 		<if test="appNo !=null and appNo !=''">
 			app_no=#{appNo}
 		</if>
-		<if test="clinicId !=null and clinicId !=''">
+		<if test="currentPrescNo !=null and currentPrescNo !=''">
 			AND current_presc_no=#{currentPrescNo}
 		</if>
 	</update>

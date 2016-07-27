@@ -43,20 +43,22 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
      */
     public int saveHospitalInspect(ExamAppoints examAppoints,LoginInfo loginInfo) {
         int num = 0;
-        PatVisit patVisit = patVisitDao.selectPatVisit(examAppoints.getPatientId(),examAppoints.getVisitId());
+        PatVisit patVisit = patVisitDao.selectPatVisit(examAppoints.getVisitId(),examAppoints.getPatientId());
         examAppoints.setCnsltState(0);
         examAppoints.preInsert();
-        examAppoints.setInOrOut("1");
+        examAppoints.setInOrOut("1");//住院标示
+        examAppoints.setRegPrnFlag(0);//确认标示
         examAppoints.setChargeType(patVisit.getChargeType());
         examAppoints.setVisitNo(patVisit.getVisitNo());
-        num = examAppointsDao.insert(examAppoints);
         //申请序号
-        String examNo="JC"+patVisit.getVisitNo()+(int)(Math.random()*9000);
-        examAppoints.setExamNo(examNo);
+//        String examNo="JC"+patVisit.getVisitNo()+(int)(Math.random()*9000);
+//        examAppoints.setExamNo(examNo);
         examAppoints.setReqPhysician(loginInfo.getPersionId());
         examAppoints.setReqDept(loginInfo.getDeptId());
         examAppoints.setDoctorUser(loginInfo.getUserName());
+        examAppoints.setReqDateTime(new Date());
         examAppoints.setOrgId(loginInfo.getOrgId());
+        num = examAppointsDao.insert(examAppoints);
         List<ExamItems> examItemsList = examAppoints.getExamItemsList();
         for (int i = 0; i < examItemsList.size(); i++) {
             ExamItems examItems = examItemsList.get(i);
@@ -64,6 +66,8 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
             examItems.preInsert();
             examItems.setPatientId(examAppoints.getPatientId());
             examItems.setVisitId(examAppoints.getVisitId());
+            examItems.setOrgId(examAppoints.getOrgId());
+            examItems.setExamNo(examAppoints.getExamNo());
             examItemsDao.saveExamItems(examItems);
             Orders orders = new Orders();
             orders.preInsert();
@@ -111,18 +115,12 @@ public class HospitalInspectBo extends CrudImplService<ExamAppointsDao, ExamAppo
     public String delectHosExamAppionts(String ids) {
 
         int num =0;
-        try {
             String[] id = ids.split(",");
             for (int j = 0; j < id.length; j++){
-                num = examAppointsDao.deleteExamAppionts(id[j]);
+                ordersDao.delOrders(id[j],"");
                 examItemsDao.deleteItems(id[j]);
-                ordersDao.delOrders(id[j]);
-
-
+                num = examAppointsDao.deleteExamAppionts(id[j]);
             }
-        }catch(Exception e){
-            return num+"";
-        }
         return num+"";
 
     }

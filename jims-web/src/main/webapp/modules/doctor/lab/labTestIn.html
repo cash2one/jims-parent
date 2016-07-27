@@ -52,7 +52,7 @@
                     <label>
                         标本：
                     </label>
-                    <input name="specimen" id="specimen" style="width: 145px;">
+                    <input name="specimen" id="specimen" class="easyui-validatebox validatebox-text validatebox-invalid"  style="width: 145px;" disabled="disabled">
                 </div>
                 <div class="fitem">
                     <label>
@@ -78,7 +78,7 @@
                 <div id="treeGrid" title="检验结果" class="easyui-window" style="top:0px;width: 100%;" >
                 </div>
                 <div class="fitem">
-                    <div id="SendProduct" class="easyui-window"  title="检验项目"  style="width:1000px;height:400px;" closed="true">
+                    <div id="SendProduct" data-options="modal:true" class="easyui-window"  title="检验项目"  style="width:90%;height:80%;" closed="true">
                     </div>
                 </div>
             </div>

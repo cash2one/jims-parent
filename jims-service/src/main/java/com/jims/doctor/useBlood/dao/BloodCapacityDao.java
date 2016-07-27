@@ -21,10 +21,17 @@ public interface BloodCapacityDao extends CrudDao<BloodCapacity> {
 	public List<BloodCapacity> getBloodCapacityList(BloodCapacity bloodCapacity);
 
 	/**
-	 * 删除记录
+	 * 根据主表id删除记录
 	 * @param applyId
 	 * @return
 	 */
 	public int deleteBloodCapacity(@Param("applyId")String applyId);
-//	public String getMatchSubNum(@Param("applyNum")String applyNum);
+
+	/**
+	 * 根据字表删除子表记录
+	 * @param id
+	 * @return
+	 */
+	public int deleteCapacity(@Param("id")String id);
+
 }

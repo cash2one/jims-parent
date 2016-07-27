@@ -85,6 +85,7 @@ public class ClinicLabTestBo extends CrudImplService<LabTestMasterDao, LabTestMa
                 labTestItems.setBillingIndicator(labTestItems.LAB_BILLINGINDICATOR_APPLY);
                 labTestItems.setLabMaster(labTestMaster.getId());
                 labTestItems.setTestNo(labTestMaster.getTestNo());
+                labTestItems.setOrgId(labTestMaster.getOrgId());
                 labTestItems.preInsert();
                 labTestItemsDao.insert(labTestItems);
                 clinicItemDictList.add(clinicItemDict);
