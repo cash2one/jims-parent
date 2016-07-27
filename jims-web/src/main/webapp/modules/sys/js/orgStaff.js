@@ -535,7 +535,7 @@ $(function () {
 
         jQuery.ajax({
             'type': 'GET',
-            'url': "/service/register/getCard?cardNo=" + cardNo + "&persionId=" + persion_id,
+            'url': "/service/register/getCard?cardNo=" + cardNo ,
             'success': function (data) {
                 if(data && data != '' && typeof(data) != 'undefined'){
                     if (data.id != persion_id) {
@@ -589,7 +589,7 @@ $(function () {
 
         jQuery.ajax({
             'type': 'GET',
-            'url': "/service/register/getNick?nickName=" + nickName + "&persionId=" + persion_id,
+            'url': "/service/register/getNick?nickName=" + nickName ,
             'contentType': 'application/json',
             'success': function (data) {
                 if (data.id != persion_id) {
@@ -632,7 +632,7 @@ $(function () {
         }
         jQuery.ajax({
             'type': 'GET',
-            'url': "/service/register/getEmail?email=" + email + "&persionId=" + persion_id,
+            'url': "/service/register/getEmail?email=" + email ,
             'dataType': 'json',
             'success': function (data) {
                 if (data && data != '' && typeof(data) != 'undefined') {
@@ -678,7 +678,7 @@ $(function () {
         }
         jQuery.ajax({
             'type': 'GET',
-            'url': "/service/register/getPhone?phoneNum=" + phone + "&persionId=" + persion_id,
+            'url': "/service/register/getPhone?phoneNum=" + phone ,
             'success': function (data) {
 
                 if (data.id != persion_id) {
