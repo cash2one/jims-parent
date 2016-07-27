@@ -185,10 +185,9 @@
 		WHERE id = #{id}
 	</update>
 	
-	<update id="delete">
-		UPDATE drug_price_modify SET 
-			del_flag = '1'
+	<delete id="delete">
+		delete from drug_price_modify
 		WHERE id = #{id}
-	</update>
+	</delete>
 	
 </mapper>
